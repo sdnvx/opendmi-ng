@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Intel RSD FPGA information decoder #88
 - Add tests for stream handling functions.
 
+### Fixed
+
+- Fixed format-truncation warning on GCC 16 #112
+
 ## [0.3.2] - April 19, 2026
 
 ### Added

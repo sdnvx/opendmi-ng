@@ -574,7 +574,7 @@ static char *dmi_attribute_format_set(
 
     dmi_unused(pretty);
 
-    char fmt[16];
+    char fmt[32];
     char *str = nullptr;
     uintmax_t src = dmi_attribute_get_uint(attribute, value);
 
