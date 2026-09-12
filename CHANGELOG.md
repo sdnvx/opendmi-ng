@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add Intel RSD FPGA information decoder #88
 - Add tests for stream handling functions.
 
 ## [0.3.2] - April 19, 2026
