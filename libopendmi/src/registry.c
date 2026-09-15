@@ -428,7 +428,7 @@ bool dmi_registry_iter_init(
     iter->filter   = filter;
     iter->is_done  = false;
 
-    return false;
+    return true;
 }
 
 bool dmi_registry_iter_has_next(dmi_registry_iter_t *iter)
