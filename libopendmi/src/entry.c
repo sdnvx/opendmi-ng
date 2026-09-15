@@ -300,7 +300,7 @@ static bool dmi_entry_decode_v30(dmi_context_t *context,
     context->entry_revision = dmi_decode(entry->revision);
     context->smbios_version = dmi_version(dmi_decode(entry->version_major),
                                           dmi_decode(entry->version_minor),
-                                          dmi_decode(entry->revision));
+                                          dmi_decode(entry->version_rev));
 
 
     // Set address size
