@@ -242,6 +242,7 @@ target_sources(opendmi-object
             include/opendmi/value.h
             include/opendmi/vendor.h
 
+            include/opendmi/utils/base64.h
             include/opendmi/utils/codec.h
             include/opendmi/utils/datetime.h
             include/opendmi/utils/endian.h
@@ -283,6 +284,7 @@ target_sources(opendmi-object
             include/opendmi/entity/mgmt-device-threshold.h
             include/opendmi/entity/oem-strings.h
             include/opendmi/entity/onboard-device.h
+            include/opendmi/entity/onboard-device-ex.h
             include/opendmi/entity/oob-remote-access.h
             include/opendmi/entity/pointing-device.h
             include/opendmi/entity/port-connector.h

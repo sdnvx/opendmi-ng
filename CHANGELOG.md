@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed SMBIOS 3.x revision number decoding
+- Fixed headers fileset in `libopendmi`
 - Fixed format-truncation warning on GCC 16 #112
 
 ## [0.3.2] - April 19, 2026
