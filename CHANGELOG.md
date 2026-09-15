@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed SMBIOS 3.x revision number decoding
+- Fixed SMBIOS 2.1 maximum entity size decoding
 - Fixed headers fileset in `libopendmi`
 - Fixed `dmi_registry_iter_init()` return value
 - Fixed format-truncation warning on GCC 16 #112

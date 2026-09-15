@@ -260,7 +260,7 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
     context->address_size = sizeof(uint32_t);
 
     // Decode structure parameters
-    context->entity_max_size = entry->entity_max_size;
+    context->entity_max_size = dmi_decode(entry->entity_max_size);
 
     return dmi_entry_decode_legacy(context, (const void *)&entry->ieps, sizeof(entry->ieps));
 }
