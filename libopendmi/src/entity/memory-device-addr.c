@@ -193,7 +193,7 @@ static bool dmi_memory_device_addr_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    registry = entity->context->registry;
+    registry = entity->context->state.registry;
 
     info->device = dmi_registry_get(registry, info->device_handle, DMI_TYPE(MEMORY_DEVICE), false);
     info->array_addr = dmi_registry_get(registry, info->array_addr_handle, DMI_TYPE(MEMORY_ARRAY_ADDR), false);

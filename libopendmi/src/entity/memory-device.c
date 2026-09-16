@@ -858,7 +858,7 @@ static bool dmi_memory_device_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    registry = entity->context->registry;
+    registry = entity->context->state.registry;
 
     if (info->array_handle != DMI_HANDLE_INVALID) {
         info->array = dmi_registry_get(registry, info->array_handle, DMI_TYPE(MEMORY_ARRAY), false);

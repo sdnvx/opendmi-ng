@@ -252,7 +252,7 @@ static bool dmi_memory_array_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = entity->context->registry;
+    dmi_registry_t *registry = entity->context->state.registry;
 
     if ((info->error_info_handle != DMI_HANDLE_INVALID) and
         (info->error_info_handle != DMI_HANDLE_UNSUPPORTED))

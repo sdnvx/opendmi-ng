@@ -254,7 +254,7 @@ static bool dmi_power_supply_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = entity->context->registry;
+    dmi_registry_t *registry = entity->context->state.registry;
 
     if (info->voltage_probe_handle != DMI_HANDLE_INVALID) {
         info->voltage_probe = dmi_registry_get(registry, info->voltage_probe_handle,

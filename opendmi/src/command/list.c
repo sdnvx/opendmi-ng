@@ -71,7 +71,7 @@ static int dmi_list_main(dmi_context_t *context, int argc, char *argv[])
     dmi_unused(argc);
     dmi_unused(argv);
 
-    dmi_registry_iter_init(&iter, context->registry, &dmi_filter_config.filter);
+    dmi_registry_iter_init(&iter, context->state.registry, &dmi_filter_config.filter);
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         if (dmi_list_config.show_raw) {

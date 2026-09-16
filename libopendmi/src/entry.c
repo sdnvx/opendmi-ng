@@ -59,20 +59,20 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .min_length = sizeof(dmi_entry_v30_t),
         .handler    = dmi_entry_decode_v30,
         .attributes = (const dmi_attribute_t[]){
-            DMI_ATTRIBUTE(dmi_context_t, entry_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entry_size, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, entry_revision, INTEGER, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entry_revision, INTEGER, {
                 .code  = "revision",
                 .name  = "Entry point revision",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
-            DMI_ATTRIBUTE(dmi_context_t, table_area_max_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_max_size, SIZE, {
                 .code  = "table-area-max-size",
                 .name  = "Maximum size of table area"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, table_area_addr, ADDRESS, {
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_addr, ADDRESS, {
                 .code  = "table-area-addr",
                 .name  = "Table area address",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
@@ -87,29 +87,29 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .min_length = sizeof(dmi_entry_v21_t),
         .handler    = dmi_entry_decode_v21,
         .attributes = (const dmi_attribute_t[]){
-            DMI_ATTRIBUTE(dmi_context_t, entry_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entry_size, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, entry_revision, INTEGER, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entry_revision, INTEGER, {
                 .code  = "revision",
                 .name  = "Entry point revision",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
-            DMI_ATTRIBUTE(dmi_context_t, table_area_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_size, SIZE, {
                 .code  = "table-area-size",
                 .name  = "Table area size"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, table_area_addr, ADDRESS, {
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_addr, ADDRESS, {
                 .code  = "table-area-addr",
                 .name  = "Table area address",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
-            DMI_ATTRIBUTE(dmi_context_t, entity_max_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entity_max_size, SIZE, {
                 .code  = "entity-max-size",
                 .name  = "Maximum entity size"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, entity_count, INTEGER, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entity_count, INTEGER, {
                 .code  = "entity-count",
                 .name  = "Entity count"
             }),
@@ -123,20 +123,20 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .min_length = sizeof(dmi_entry_legacy_t),
         .handler    = dmi_entry_decode_legacy,
         .attributes = (const dmi_attribute_t[]){
-            DMI_ATTRIBUTE(dmi_context_t, entry_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entry_size, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, table_area_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_size, SIZE, {
                 .code  = "table-area-size",
                 .name  = "Table area size"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, table_area_addr, ADDRESS, {
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_addr, ADDRESS, {
                 .code  = "table-area-addr",
                 .name  = "Table area address",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
-            DMI_ATTRIBUTE(dmi_context_t, entity_count, INTEGER, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entity_count, INTEGER, {
                 .code  = "entity-count",
                 .name  = "Entity count"
             }),
@@ -174,7 +174,7 @@ bool dmi_entry_decode(dmi_context_t *context, const void *data, size_t length)
         return false;
     }
 
-    context->entry_spec = spec;
+    context->state.entry_spec = spec;
 
     return spec->handler(context, data, length);
 }
@@ -198,22 +198,22 @@ static bool dmi_entry_decode_legacy(dmi_context_t *context,
 
     // Decode SMBIOS version
     dmi_byte_t entry_version = dmi_decode(entry->version);
-    if ((entry_version != 0) and (context->smbios_version == 0)) {
+    if ((entry_version != 0) and (context->state.smbios_version == 0)) {
         uint8_t major = (entry_version & 0xF0) >> 4;
         uint8_t minor = (entry_version & 0x0F);
 
-        context->smbios_version = dmi_version(minor, major, 0);
+        context->state.smbios_version = dmi_version(minor, major, 0);
     }
 
     // Set address size
-    if (context->address_size == 0)
-        context->address_size = sizeof(uint32_t);
+    if (context->state.address_size == 0)
+        context->state.address_size = sizeof(uint32_t);
 
     // Decode table area parameters
-    context->entity_count        = dmi_decode(entry->entity_count);
-    context->table_area_addr     = dmi_decode(entry->table_area_addr);
-    context->table_area_max_size = dmi_decode(entry->table_area_size);
-    context->table_area_size     = dmi_decode(entry->table_area_size);
+    context->state.entity_count        = dmi_decode(entry->entity_count);
+    context->state.table_area_addr     = dmi_decode(entry->table_area_addr);
+    context->state.table_area_max_size = dmi_decode(entry->table_area_size);
+    context->state.table_area_size     = dmi_decode(entry->table_area_size);
 
     return true;
 }
@@ -252,15 +252,15 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
     }
 
     // Decode SMBIOS version
-    context->smbios_version = dmi_version(dmi_decode(entry->version_major),
-                                          dmi_decode(entry->version_minor),
-                                          dmi_decode(entry->revision));
+    context->state.smbios_version = dmi_version(dmi_decode(entry->version_major),
+                                                dmi_decode(entry->version_minor),
+                                                dmi_decode(entry->revision));
 
     // Set address size
-    context->address_size = sizeof(uint32_t);
+    context->state.address_size = sizeof(uint32_t);
 
     // Decode structure parameters
-    context->entity_max_size = dmi_decode(entry->entity_max_size);
+    context->state.entity_max_size = dmi_decode(entry->entity_max_size);
 
     return dmi_entry_decode_legacy(context, (const void *)&entry->ieps, sizeof(entry->ieps));
 }
@@ -297,18 +297,18 @@ static bool dmi_entry_decode_v30(dmi_context_t *context,
     }
 
     // Decode SMBIOS version
-    context->entry_revision = dmi_decode(entry->revision);
-    context->smbios_version = dmi_version(dmi_decode(entry->version_major),
-                                          dmi_decode(entry->version_minor),
-                                          dmi_decode(entry->version_rev));
+    context->state.entry_revision = dmi_decode(entry->revision);
+    context->state.smbios_version = dmi_version(dmi_decode(entry->version_major),
+                                                dmi_decode(entry->version_minor),
+                                                dmi_decode(entry->version_rev));
 
 
     // Set address size
-    context->address_size = sizeof(uint64_t);
+    context->state.address_size = sizeof(uint64_t);
 
     // Decode table parameters
-    context->table_area_addr     = dmi_decode(entry->table_area_addr);
-    context->table_area_max_size = dmi_decode(entry->table_area_max_size);
+    context->state.table_area_addr     = dmi_decode(entry->table_area_addr);
+    context->state.table_area_max_size = dmi_decode(entry->table_area_max_size);
 
     return true;
 }

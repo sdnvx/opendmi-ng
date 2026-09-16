@@ -103,7 +103,7 @@ static bool dmi_group_assoc_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = entity->context->registry;
+    dmi_registry_t *registry = entity->context->state.registry;
 
     for (size_t i = 0; i < info->item_count; i++) {
         dmi_group_assoc_item_t *item = &info->items[i];

@@ -69,14 +69,14 @@ static bool dmi_dump_open(dmi_context_t *context, const char *path)
         return false;
     }
 
-    context->session = session;
+    context->state.session = session;
 
     return true;
 }
 
 static dmi_data_t *dmi_dump_read_entry(dmi_context_t *context, size_t *plength)
 {
-    dmi_dump_session_t *session = dmi_cast(session, context->session);
+    dmi_dump_session_t *session = dmi_cast(session, context->state.session);
 
     *plength = DMI_ENTRY_MAX_SIZE;
 
@@ -85,7 +85,7 @@ static dmi_data_t *dmi_dump_read_entry(dmi_context_t *context, size_t *plength)
 
 static dmi_data_t *dmi_dump_read_table(dmi_context_t *context, size_t *plength)
 {
-    dmi_dump_session_t *session = dmi_cast(session, context->session);
+    dmi_dump_session_t *session = dmi_cast(session, context->state.session);
 
     *plength = session->data_size - DMI_ENTRY_MAX_SIZE;
 
@@ -94,7 +94,7 @@ static dmi_data_t *dmi_dump_read_table(dmi_context_t *context, size_t *plength)
 
 static bool dmi_dump_close(dmi_context_t *context)
 {
-    dmi_dump_session_t *session = dmi_cast(session, context->session);
+    dmi_dump_session_t *session = dmi_cast(session, context->state.session);
 
     dmi_free(session->data);
     dmi_free(session);

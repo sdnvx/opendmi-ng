@@ -91,7 +91,7 @@ static bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t *context = entity->context;
-    dmi_registry_t *registry = context->registry;
+    dmi_registry_t *registry = context->state.registry;
 
     bool relaxed = not(context->flags & DMI_CONTEXT_FLAG_STRICT);
 

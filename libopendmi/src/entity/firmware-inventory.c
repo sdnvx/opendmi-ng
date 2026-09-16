@@ -304,8 +304,8 @@ static bool dmi_firmware_inventory_link(dmi_entity_t *entity)
     if (info->component_count == 0)
         return true;
 
-    context = entity->context;
-    registry = context->registry;
+    context  = entity->context;
+    registry = context->state.registry;
 
     for (size_t i = 0; i < info->component_count; i++) {
         dmi_firmware_inventory_component_t *component = &info->components[i];

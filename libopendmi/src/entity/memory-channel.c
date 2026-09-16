@@ -148,7 +148,7 @@ static bool dmi_memory_channel_link(dmi_entity_t *entity)
     if (info->device_count == 0)
         return true;
 
-    registry = entity->context->registry;
+    registry = entity->context->state.registry;
 
     for (size_t i = 0; i < info->device_count; i++) {
         device = dmi_registry_get(registry, info->devices[i].handle, DMI_TYPE(MEMORY_DEVICE), false);

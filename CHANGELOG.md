@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed headers fileset in `libopendmi`
 - Fixed `dmi_registry_iter_init()` return value
 - Fixed signed numbers handling in `dmi_attribute_format_decimal()`
+- Fixed potential use-after-free in `dmi_close()`
 - Fixed format-truncation warning on GCC 16 #112
 
 ## [0.3.2] - April 19, 2026

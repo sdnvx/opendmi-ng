@@ -131,7 +131,7 @@ bool dmi_xml_entry(dmi_xml_session_t *session)
     char *smbios_version = nullptr;
 
     do {
-        smbios_version = dmi_version_format(context->smbios_version);
+        smbios_version = dmi_version_format(context->state.smbios_version);
         if (smbios_version == nullptr) {
             dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
             break;
@@ -152,12 +152,12 @@ bool dmi_xml_entry(dmi_xml_session_t *session)
         if (xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("table-area-address"),
-                    "0x%" PRIx64, context->table_area_addr) < 0)
+                    "0x%" PRIx64, context->state.table_area_addr) < 0)
             break;
         if (xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("table-area-size"),
-                    "%zu", context->table_area_size) < 0)
+                    "%zu", context->state.table_area_size) < 0)
             break;
 
         if (xmlTextWriterEndElement(session->writer) < 0)

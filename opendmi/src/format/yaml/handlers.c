@@ -90,7 +90,7 @@ bool dmi_yaml_entry(dmi_yaml_session_t *session)
 
     assert(session != nullptr);
 
-    smbios_version = dmi_version_format(session->context->smbios_version);
+    smbios_version = dmi_version_format(session->context->state.smbios_version);
     if (smbios_version == nullptr)
         return false;
 

@@ -216,9 +216,9 @@ dmi_context_t *dmi_create(unsigned int flags)
     if (context == nullptr)
         return nullptr;
 
-    context->vendor    = DMI_VENDOR_OTHER;
-    context->flags     = flags;
-    context->log_level = DMI_LOG_INFO;
+    context->state.vendor = DMI_VENDOR_OTHER;
+    context->flags        = flags;
+    context->log_level    = DMI_LOG_INFO;
 
     do {
         // Allocate type map
@@ -357,7 +357,11 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
         dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
         return false;
     }
-    if (context->entry_size > DMI_ENTRY_MAX_SIZE) {
+    if (context->state.table_data == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
+        return false;
+    }
+    if (context->state.entry_size > DMI_ENTRY_MAX_SIZE) {
         dmi_error_raise(context, DMI_ERROR_INVALID_EPS_LENGTH);
         return false;
     }
@@ -375,7 +379,10 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
     success = false;
     do {
         dmi_byte_t entry[DMI_ENTRY_MAX_SIZE] = {};
-        memcpy(entry, context->entry_data, context->entry_size);
+
+        // Entry point data is optional, Windows backend does not provide it
+        if (context->state.entry_data != nullptr)
+            memcpy(entry, context->state.entry_data, context->state.entry_size);
 
     write_entry:
         nwrite = write(fd, entry, sizeof(entry));
@@ -388,7 +395,7 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
         }
 
     write_table:
-        nwrite = write(fd, context->table_data, context->table_area_size);
+        nwrite = write(fd, context->state.table_data, context->state.table_area_size);
         if (nwrite < 0) {
             if (errno == EINTR)
                 goto write_table;
@@ -464,15 +471,13 @@ bool dmi_close(dmi_context_t *context)
     if (context == nullptr)
         return false;
 
-    dmi_registry_destroy(context->registry);
+    dmi_registry_destroy(context->state.registry);
 
-    if (context->backend) {
-        if (context->session != nullptr)
-            context->backend->close(context);
-    }
+    if ((context->state.backend != nullptr) and (context->state.session != nullptr))
+        context->state.backend->close(context);
 
-    context->session  = nullptr;
-    context->registry = nullptr;
+    memset(&context->state, 0, sizeof(context->state));
+    context->state.vendor = DMI_VENDOR_OTHER;
 
     return true;
 }
@@ -503,7 +508,7 @@ static bool dmi_open_ex(
 {
     assert(context != nullptr);
 
-    if ((context->backend != nullptr) or (context->session != nullptr)) {
+    if ((context->state.backend != nullptr) or (context->state.session != nullptr)) {
         dmi_error_raise_ex(context,  DMI_ERROR_INVALID_STATE, "Context already initialized");
         return false;
     }
@@ -514,60 +519,60 @@ static bool dmi_open_ex(
     // Initialize context
     bool success = false;
     do {
-        context->backend = backend;
+        context->state.backend = backend;
 
         // Initialize backend
-        if (not context->backend->open(context, device)) {
+        if (not context->state.backend->open(context, device)) {
             dmi_error_raise_ex(context, DMI_ERROR_BACKEND_INIT, "%s", backend->name);
             break;
         }
 
         // Read entry point
         dmi_log_info(context->logger, "Reading DMI entry point...");
-        context->entry_data = context->backend->read_entry(context, &context->entry_size);
+        context->state.entry_data = context->state.backend->read_entry(context, &context->state.entry_size);
 
         #ifndef _WIN32 // Windows backend does not provide entry point data, skip that
-        if (context->entry_data == nullptr)
+        if (context->state.entry_data == nullptr)
             break;
 
         // Decode entry point
         dmi_log_info(context->logger, "Decoding DMI entry point...");
-        if (not dmi_entry_decode(context, context->entry_data, context->entry_size))
+        if (not dmi_entry_decode(context, context->state.entry_data, context->state.entry_size))
             break;
         #endif
 
         // Fixup SMBIOS version number
         dmi_version_fixup(context);
         dmi_log_info(context->logger, "SMBIOS %u.%u.%u present",
-                     dmi_version_major(context->smbios_version),
-                     dmi_version_minor(context->smbios_version),
-                     dmi_version_revision(context->smbios_version));
+                     dmi_version_major(context->state.smbios_version),
+                     dmi_version_minor(context->state.smbios_version),
+                     dmi_version_revision(context->state.smbios_version));
 
         // Read and decode SMBIOS structures
         // TODO: Use separate variable for size
         dmi_log_info(context->logger, "Reading DMI structures...");
-        context->table_data = context->backend->read_table(context, &context->table_area_size);
-        if (context->table_data == nullptr)
+        context->state.table_data = context->state.backend->read_table(context, &context->state.table_area_size);
+        if (context->state.table_data == nullptr)
             break;
 
         // Create registry
-        context->registry = dmi_registry_create(context, 0);
-        if (context->registry == nullptr)
+        context->state.registry = dmi_registry_create(context, 0);
+        if (context->state.registry == nullptr)
             break;
 
         // Scan for SMBIOS structures
-        if (not dmi_registry_scan(context->registry))
+        if (not dmi_registry_scan(context->state.registry))
             break;
 
         if (not dmi_setup_extensions(context))
             break;
 
         // Decode and link SMBIOS structures
-        if (not dmi_registry_decode(context->registry))
+        if (not dmi_registry_decode(context->state.registry))
             break;
 
         if (context->flags & DMI_CONTEXT_FLAG_LINK) {
-            if (not dmi_registry_link(context->registry))
+            if (not dmi_registry_link(context->state.registry))
                 break;
         }
 
@@ -590,7 +595,7 @@ static bool dmi_setup_extensions(dmi_context_t *context)
 
     dmi_log_debug(context->logger, "Detecting SMBIOS vendor...");
 
-    entity = dmi_registry_get(context->registry, DMI_HANDLE_INVALID, DMI_TYPE(FIRMWARE), true);
+    entity = dmi_registry_get(context->state.registry, DMI_HANDLE_INVALID, DMI_TYPE(FIRMWARE), true);
     if (entity == nullptr) {
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
             dmi_log_notice(context->logger, dmi_error_message(DMI_ERROR_MISSING_FIRMWARE_INFO));
@@ -607,12 +612,12 @@ static bool dmi_setup_extensions(dmi_context_t *context)
     firmware = dmi_cast(firmware, entity->info);
     vendor   = dmi_vendor_detect(firmware->vendor);
 
-    context->vendor_name = firmware->vendor;
+    context->state.vendor_name = firmware->vendor;
     if (vendor != nullptr)
-        context->vendor = vendor->id;
+        context->state.vendor = vendor->id;
 
     dmi_log_info(context->logger, "SMBIOS vendor: %s (%s)",
-                 dmi_vendor_name(context->vendor), firmware->vendor);
+                 dmi_vendor_name(context->state.vendor), firmware->vendor);
 
     //
     // TODO: Implement fully-feature module probing
@@ -627,9 +632,9 @@ static bool dmi_setup_extensions(dmi_context_t *context)
 
 static void dmi_version_fixup(dmi_context_t *context)
 {
-    unsigned int major    = dmi_version_major(context->smbios_version);
-    unsigned int minor    = dmi_version_minor(context->smbios_version);
-    unsigned int revision = dmi_version_revision(context->smbios_version);
+    unsigned int major    = dmi_version_major(context->state.smbios_version);
+    unsigned int minor    = dmi_version_minor(context->state.smbios_version);
+    unsigned int revision = dmi_version_revision(context->state.smbios_version);
 
     if (major != 2)
         return;
@@ -649,5 +654,5 @@ static void dmi_version_fixup(dmi_context_t *context)
         return;
     }
 
-    context->smbios_version = dmi_version(major, minor, revision);
+    context->state.smbios_version = dmi_version(major, minor, revision);
 }

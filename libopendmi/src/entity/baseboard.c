@@ -259,7 +259,7 @@ static bool dmi_baseboard_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t  *context  = entity->context;
-    dmi_registry_t *registry = context->registry;
+    dmi_registry_t *registry = context->state.registry;
 
     if (info->chassis_handle != DMI_HANDLE_INVALID) {
         info->chassis = dmi_registry_get(registry, info->chassis_handle,

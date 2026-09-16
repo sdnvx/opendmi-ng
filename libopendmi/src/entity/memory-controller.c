@@ -316,7 +316,7 @@ static bool dmi_memory_controller_link(dmi_entity_t *entity)
     if (info->modules == nullptr)
         return false;
 
-    registry = entity->context->registry;
+    registry = entity->context->state.registry;
 
     for (size_t i = 0; i < info->slot_count; i++) {
         info->modules[i] = dmi_registry_get(registry, info->module_handles[i], DMI_TYPE(MEMORY_MODULE), false);

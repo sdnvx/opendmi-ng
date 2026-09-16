@@ -53,7 +53,7 @@ static bool dmi_freebsd_open(dmi_context_t *context, const char *path)
     dmi_freebsd_session_t *session = nullptr;
 
     assert(context != nullptr);
-    assert(context->session == nullptr);
+    assert(context->state.session == nullptr);
 
     dmi_unused(path);
 
@@ -61,7 +61,7 @@ static bool dmi_freebsd_open(dmi_context_t *context, const char *path)
     if (session == nullptr)
         return false;
 
-    context->session = session;
+    context->state.session = session;
 
     return true;
 }
@@ -69,10 +69,10 @@ static bool dmi_freebsd_open(dmi_context_t *context, const char *path)
 static dmi_data_t *dmi_freebsd_read_entry(dmi_context_t *context, size_t *plength)
 {
     assert(context != nullptr);
-    assert(context->session != nullptr);
+    assert(context->state.session != nullptr);
     assert(plength != nullptr);
 
-    dmi_freebsd_session_t *session = dmi_cast(session, context->session);
+    dmi_freebsd_session_t *session = dmi_cast(session, context->state.session);
 
     if (session->entry == nullptr) {
         size_t addr  = 0;
@@ -104,18 +104,18 @@ static dmi_data_t *dmi_freebsd_read_entry(dmi_context_t *context, size_t *plengt
 static dmi_data_t *dmi_freebsd_read_table(dmi_context_t *context, size_t *plength)
 {
     assert(context != nullptr);
-    assert(context->session != nullptr);
+    assert(context->state.session != nullptr);
     assert(plength != nullptr);
 
-    dmi_freebsd_session_t *session = dmi_cast(session, context->session);
+    dmi_freebsd_session_t *session = dmi_cast(session, context->state.session);
 
     if (session->table == nullptr) {
         session->table = dmi_memory_get(context, DMI_FREEBSD_DEV_MEMORY,
-                                         context->table_area_addr, context->table_area_max_size);
+                                        context->state.table_area_addr, context->state.table_area_max_size);
         if (session->table == nullptr)
             return nullptr;
 
-        session->table_size = context->table_area_max_size;
+        session->table_size = context->state.table_area_max_size;
     }
 
     *plength = session->table_size;
@@ -126,12 +126,9 @@ static dmi_data_t *dmi_freebsd_read_table(dmi_context_t *context, size_t *plengt
 static bool dmi_freebsd_close(dmi_context_t *context)
 {
     assert(context != nullptr);
-    assert(context->session != nullptr);
+    assert(context->state.session != nullptr);
 
-    dmi_freebsd_session_free(context->session);
-
-    context->session = nullptr;
-    context->backend = nullptr;
+    dmi_freebsd_session_free(context->state.session);
 
     return true;
 }

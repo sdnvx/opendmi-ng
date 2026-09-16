@@ -213,7 +213,7 @@ void dmi_print_all(
     if (format->handlers.table_start != nullptr)
         format->handlers.table_start(session);
 
-    dmi_registry_iter_init(&iter, context->registry, &dmi_filter_config.filter);
+    dmi_registry_iter_init(&iter, context->state.registry, &dmi_filter_config.filter);
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         dmi_print_entity(format, entity, session, dump);
     }

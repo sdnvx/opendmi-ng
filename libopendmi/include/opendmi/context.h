@@ -18,6 +18,8 @@
 #include <opendmi/registry.h>
 #include <opendmi/utils/version.h>
 
+typedef struct dmi_context_state dmi_context_state_t;
+
 #ifndef DMI_ENTRY_SPEC_T
 #   define DMI_ENTRY_SPEC_T
     typedef struct dmi_entry_spec dmi_entry_spec_t;
@@ -34,9 +36,10 @@ enum dmi_context_flags
 };
 
 /**
- * @brief DMI context descriptor.
+ * @brief State of opened DMI context. Populated when the context is opened
+ * and reset to all zeroes when it is closed.
  */
-struct dmi_context
+struct dmi_context_state
 {
     /**
      * @brief SMBIOS version number.
@@ -110,16 +113,6 @@ struct dmi_context
     size_t entity_max_size;
 
     /**
-     * @brief Context logger.
-     */
-    dmi_log_t *logger;
-
-    /**
-     * @brief Logging level.
-     */
-    dmi_log_level_t log_level;
-
-    /**
      * @brief Backend handle.
      */
     const dmi_backend_t *backend;
@@ -128,11 +121,6 @@ struct dmi_context
      * @brief Backend-specific data.
      */
     void *session;
-
-    /**
-     * @brief Entity specifications map.
-     */
-    const dmi_entity_spec_t **type_map;
 
     /**
      * @brief Vendor identifier.
@@ -148,6 +136,27 @@ struct dmi_context
      * @brief Entity registry.
      */
     dmi_registry_t *registry;
+};
+
+/**
+ * @brief DMI context descriptor.
+ */
+struct dmi_context
+{
+    /**
+     * @brief Context logger.
+     */
+    dmi_log_t *logger;
+
+    /**
+     * @brief Logging level.
+     */
+    dmi_log_level_t log_level;
+
+    /**
+     * @brief Entity specifications map.
+     */
+    const dmi_entity_spec_t **type_map;
 
     /**
      * @brief Error state.
@@ -163,6 +172,11 @@ struct dmi_context
      * @brief Flags.
      */
     unsigned int flags;
+
+    /**
+     * @brief State of opened context.
+     */
+    dmi_context_state_t state;
 };
 
 __BEGIN_DECLS

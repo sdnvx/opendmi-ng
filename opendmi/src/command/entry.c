@@ -57,7 +57,7 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
     dmi_unused(argc);
     dmi_unused(argv);
 
-    const dmi_entry_spec_t *spec = context->entry_spec;
+    const dmi_entry_spec_t *spec = context->state.entry_spec;
     dmi_text_session_t *session = nullptr;
     char *smbios_version = nullptr;
     char *entry_version = nullptr;
@@ -67,13 +67,13 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
         if (session == nullptr)
             break;
 
-        smbios_version = dmi_version_format(context->smbios_version);
+        smbios_version = dmi_version_format(context->state.smbios_version);
         if (smbios_version == nullptr) {
             dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
             break;
         }
 
-        entry_version = dmi_version_format(context->entry_version);
+        entry_version = dmi_version_format(context->state.entry_version);
         if (entry_version == nullptr) {
             dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
             break;
@@ -83,7 +83,7 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
 
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "Anchor: %s\n", spec->anchor);
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS version: %s\n", smbios_version);
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "Address size: %zu bits\n", context->address_size << 3);
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "Address size: %zu bits\n", context->state.address_size << 3);
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
 
         for (const dmi_attribute_t *attr = spec->attributes; attr->params.name; attr++) {

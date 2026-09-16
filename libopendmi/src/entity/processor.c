@@ -2060,7 +2060,7 @@ static bool dmi_processor_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = entity->context->registry;
+    dmi_registry_t *registry = entity->context->state.registry;
 
     if (info->l1_cache_handle != DMI_HANDLE_INVALID)
         info->l1_cache = dmi_registry_get(registry, info->l1_cache_handle, DMI_TYPE(CACHE), false);

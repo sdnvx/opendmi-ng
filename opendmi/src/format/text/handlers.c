@@ -48,23 +48,23 @@ bool dmi_text_entry(dmi_text_session_t *session)
 
     dmi_context_t *context = session->context;
 
-    char *version = dmi_version_format(context->smbios_version);
+    char *version = dmi_version_format(context->state.smbios_version);
     if (version == nullptr) {
         dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
         return false;
     }
 
-    size_t entity_count = context->entity_count;
+    size_t entity_count = context->state.entity_count;
     if (entity_count == 0)
-        entity_count = context->registry->count;
+        entity_count = context->state.registry->count;
 
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS %s present\n", version);
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS vendor: %s\n",
-                    context->vendor_name ? context->vendor_name : "unknown");
+                    context->state.vendor_name ? context->state.vendor_name : "unknown");
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%zu structures occupying %zu bytes\n",
-                    entity_count, context->table_area_size);
+                    entity_count, context->state.table_area_size);
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "Table at 0x%" PRIx64 "\n",
-                    context->table_area_addr);
+                    context->state.table_area_addr);
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
 
     dmi_free(version);
@@ -140,7 +140,7 @@ void dmi_text_entity_attr_array(
 
             if (attr->type == DMI_ATTRIBUTE_TYPE_HANDLE) {
                 dmi_handle_t handle = dmi_deref(dmi_handle_t, ptr);
-                const dmi_entity_t *entity = dmi_registry_get(session->context->registry, handle, DMI_TYPE_INVALID, true);
+                const dmi_entity_t *entity = dmi_registry_get(session->context->state.registry, handle, DMI_TYPE_INVALID, true);
 
                 descr = dmi_entity_name(entity);
             }

@@ -219,20 +219,20 @@ bool dmi_registry_scan(dmi_registry_t *registry)
     dmi_log_debug(context->logger, "Scanning SMBIOS structures...");
 
     bool success = false;
-    const dmi_data_t *ptr = context->table_data;
+    const dmi_data_t *ptr = context->state.table_data;
     size_t index = 0;
 
     // Scan table area
-    while ((context->entity_count == 0) or (index < context->entity_count)) {
+    while ((context->state.entity_count == 0) or (index < context->state.entity_count)) {
         dmi_entity_t *entity = nullptr;
 
         // Get remaining table area size
         size_t remaining = 0;
-        size_t offset = (size_t)(ptr - context->table_data);
-        if (context->table_area_size > 0)
-            remaining = context->table_area_size - offset;
-        else if (context->table_area_max_size > 0)
-            remaining = context->table_area_max_size - offset;
+        size_t offset = (size_t)(ptr - context->state.table_data);
+        if (context->state.table_area_size > 0)
+            remaining = context->state.table_area_size - offset;
+        else if (context->state.table_area_max_size > 0)
+            remaining = context->state.table_area_max_size - offset;
         else
             assert(false);
 

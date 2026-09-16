@@ -47,7 +47,7 @@ static bool dmi_darwin_open(dmi_context_t *context, const char *path)
     dmi_darwin_session_t *session = nullptr;
 
     assert(context != nullptr);
-    assert(context->session == nullptr);
+    assert(context->state.session == nullptr);
 
     dmi_unused(path);
 
@@ -74,7 +74,7 @@ static bool dmi_darwin_open(dmi_context_t *context, const char *path)
         return false;
     }
 
-    context->session = session;
+    context->state.session = session;
 
     return true;
 }
@@ -92,21 +92,16 @@ static dmi_data_t *dmi_darwin_read_table(dmi_context_t *context, size_t *plength
 static bool dmi_darwin_close(dmi_context_t *context)
 {
     assert(context != nullptr);
-    assert(context->session != nullptr);
+    assert(context->state.session != nullptr);
 
-    dmi_darwin_session_t *session = dmi_cast(session, context->session);
+    dmi_darwin_session_t *session = dmi_cast(session, context->state.session);
 
     if (session->service != MACH_PORT_NULL)
         IOObjectRelease(session->service);
 
-    dmi_free(context->table_data);
-    dmi_free(context->entry_data);
+    dmi_free(context->state.table_data);
+    dmi_free(context->state.entry_data);
     dmi_free(session);
-
-    context->table_data = nullptr;
-    context->entry_data = nullptr;
-    context->session    = nullptr;
-    context->backend    = nullptr;
 
     return true;
 }
@@ -114,10 +109,10 @@ static bool dmi_darwin_close(dmi_context_t *context)
 static dmi_data_t *dmi_darwin_read_data(dmi_context_t *context, CFStringRef key, size_t *plength)
 {
     assert(context != nullptr);
-    assert(context->session != nullptr);
+    assert(context->state.session != nullptr);
     assert(plength != nullptr);
 
-    dmi_darwin_session_t *session = dmi_cast(session, context->session);
+    dmi_darwin_session_t *session = dmi_cast(session, context->state.session);
 
     bool        success = false;
     CFDataRef   ref     = nullptr;

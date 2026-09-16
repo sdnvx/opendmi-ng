@@ -515,7 +515,7 @@ static char *dmi_attribute_format_address(
     char *str = nullptr;
     uintmax_t addr = dmi_attribute_get_uint(attribute, value);
 
-    if (context->address_size == sizeof(uint32_t))
+    if (context->state.address_size == sizeof(uint32_t))
         rv = dmi_asprintf(&str, "0x%08" PRIXMAX, addr);
     else
         rv = dmi_asprintf(&str, "0x%016" PRIXMAX, addr);

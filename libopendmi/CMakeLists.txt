@@ -433,6 +433,7 @@ macro(opendmi_test TEST_NAME TEST_SOURCES)
     string(APPEND TEST_TARGET "-test")
 
     add_executable(${TEST_TARGET} ${TEST_SOURCES} test/logger.c)
+    target_compile_definitions(${TEST_TARGET} PRIVATE OPENDMI_TEST_DATA="${PROJECT_SOURCE_DIR}/../data")
     target_link_libraries(${TEST_TARGET} opendmi-shared cmocka-static)
 
     if(ENABLE_COVERAGE)
@@ -457,6 +458,7 @@ endmacro()
 
 opendmi_test(attribute test/attribute.c)
 opendmi_test(error test/error.c)
+opendmi_test(context test/context.c)
 opendmi_test(stream test/stream.c)
 
 opendmi_test(utils/endian test/utils/endian.c)

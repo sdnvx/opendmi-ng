@@ -55,7 +55,7 @@ static bool dmi_netbsd_open(dmi_context_t *context, const char *path)
     dmi_netbsd_session_t *session = nullptr;
 
     assert(context != nullptr);
-    assert(context->session == nullptr);
+    assert(context->state.session == nullptr);
 
     dmi_unused(path);
 
@@ -63,7 +63,7 @@ static bool dmi_netbsd_open(dmi_context_t *context, const char *path)
     if (session == nullptr)
         return false;
 
-    context->session = session;
+    context->state.session = session;
 
     return true;
 }
@@ -71,10 +71,10 @@ static bool dmi_netbsd_open(dmi_context_t *context, const char *path)
 static dmi_data_t *dmi_netbsd_read_entry(dmi_context_t *context, size_t *plength)
 {
     assert(context != nullptr);
-    assert(context->session != nullptr);
+    assert(context->state.session != nullptr);
     assert(plength != nullptr);
 
-    dmi_netbsd_session_t *session = dmi_cast(session, context->session);
+    dmi_netbsd_session_t *session = dmi_cast(session, context->state.session);
 
     if (session->entry == nullptr) {
         const char *device = DMI_NETBSD_DEV_SMBIOS;
@@ -110,15 +110,15 @@ static dmi_data_t *dmi_netbsd_read_entry(dmi_context_t *context, size_t *plength
 static dmi_data_t *dmi_netbsd_read_table(dmi_context_t *context, size_t *plength)
 {
     assert(context != nullptr);
-    assert(context->session != nullptr);
+    assert(context->state.session != nullptr);
     assert(plength != nullptr);
 
-    dmi_netbsd_session_t *session = dmi_cast(session, context->session);
+    dmi_netbsd_session_t *session = dmi_cast(session, context->state.session);
 
     if (session->table == nullptr) {
-        session->table_size = context->table_area_max_size;
+        session->table_size = context->state.table_area_max_size;
         session->table = dmi_file_get(context, session->device,
-                                      context->table_area_addr, &session->table_size);
+                                      context->state.table_area_addr, &session->table_size);
         if (session->table == nullptr)
             return nullptr;
 
@@ -132,12 +132,9 @@ static dmi_data_t *dmi_netbsd_read_table(dmi_context_t *context, size_t *plength
 static bool dmi_netbsd_close(dmi_context_t *context)
 {
     assert(context != nullptr);
-    assert(context->session != nullptr);
+    assert(context->state.session != nullptr);
 
-    dmi_netbsd_session_free(context->session);
-
-    context->session = nullptr;
-    context->backend = nullptr;
+    dmi_netbsd_session_free(context->state.session);
 
     return true;
 }
