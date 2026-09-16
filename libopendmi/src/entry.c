@@ -202,7 +202,7 @@ static bool dmi_entry_decode_legacy(dmi_context_t *context,
         uint8_t major = (entry_version & 0xF0) >> 4;
         uint8_t minor = (entry_version & 0x0F);
 
-        context->state.smbios_version = dmi_version(minor, major, 0);
+        context->state.smbios_version = dmi_version(major, minor, 0);
     }
 
     // Set address size

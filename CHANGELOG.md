@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Intel RSD FPGA information decoder #88
 - Add tests for module handling functions
 - Add tests for context handling functions
+- Add tests for entry point handling functions
 - Add tests for stream handling functions
 - Add tests for entity handling functions
 - Add tests for IPMI device information decoder
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix entity length check in `dmi_entity_create()`
 - Fix memory leak in `dmi_entity_decode_strings()`
 - Fix error queue overflow handling in `dmi_error_slot_get()`
+- Fix legacy entry point SMBIOS version decoding
 - Fix cache installed size decoding
 - Fix memory device extended size and rank decoding
 - Fix memory array extended capacity decoding

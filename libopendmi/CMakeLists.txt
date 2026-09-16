@@ -460,6 +460,7 @@ opendmi_test(attribute test/attribute.c)
 opendmi_test(error test/error.c)
 opendmi_test(context test/context.c)
 opendmi_test(entity test/entity.c)
+opendmi_test(entry test/entry.c)
 opendmi_test(module test/module.c)
 opendmi_test(stream test/stream.c)
 
