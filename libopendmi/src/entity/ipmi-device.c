@@ -57,6 +57,11 @@ static const dmi_name_set_t dmi_ipmi_addr_type_names =
             .code = "io",
             .name = "I/O"
         },
+        {
+            .id   = DMI_IPMI_ADDR_TYPE_SMBUS,
+            .code = "smbus",
+            .name = "SMBus"
+        },
         DMI_NAME_NULL
     }
 };
@@ -230,11 +235,6 @@ static bool dmi_ipmi_device_decode(dmi_entity_t *entity)
     if (not dmi_stream_decode(stream, dmi_qword_t, &base_addr))
         return false;
 
-    info->base_addr      = base_addr & 0x7FFFFFFFFFFFFFFFu;
-    info->base_addr_type = (info->base_addr & 0x8000000000000000u)
-                         ? DMI_IPMI_ADDR_TYPE_IO
-                         : DMI_IPMI_ADDR_TYPE_MEMORY;
-
     dmi_ipmi_device_details_t details;
     if (not dmi_stream_decode(stream, dmi_byte_t, &details.__value))
         return false;
@@ -259,6 +259,19 @@ static bool dmi_ipmi_device_decode(dmi_entity_t *entity)
     }
 
     info->base_addr_lsb = details.base_addr_lsb;
+
+    if (info->interface_type == DMI_IPMI_INTERFACE_SSIF) {
+        // SSIF interface uses SMBus target address, shifted left by one bit
+        info->base_addr      = (base_addr & 0xFFu) >> 1;
+        info->base_addr_type = DMI_IPMI_ADDR_TYPE_SMBUS;
+    } else {
+        // Least-significant bit indicates I/O space, and the actual
+        // least-significant bit of the address is stored in the modifier
+        info->base_addr      = (base_addr & ~(dmi_qword_t)1u) | info->base_addr_lsb;
+        info->base_addr_type = (base_addr & 1u)
+                             ? DMI_IPMI_ADDR_TYPE_IO
+                             : DMI_IPMI_ADDR_TYPE_MEMORY;
+    }
 
     return dmi_stream_decode(stream, dmi_byte_t, &info->intr_number);
 }

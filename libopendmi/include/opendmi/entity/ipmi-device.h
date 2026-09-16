@@ -25,8 +25,9 @@ typedef enum dmi_ipmi_interface
 
 typedef enum dmi_ipmi_addr_type
 {
-    DMI_IPMI_ADDR_TYPE_MEMORY = 0x0,
-    DMI_IPMI_ADDR_TYPE_IO     = 0x1
+    DMI_IPMI_ADDR_TYPE_MEMORY = 0x0, ///< Memory-mapped
+    DMI_IPMI_ADDR_TYPE_IO     = 0x1, ///< I/O space
+    DMI_IPMI_ADDR_TYPE_SMBUS  = 0x2  ///< SMBus target address (SSIF interface)
 } dmi_ipmi_addr_type_t;
 
 typedef enum dmi_ipmi_intr_trigger
@@ -94,10 +95,14 @@ struct dmi_ipmi_device
     uint8_t nv_storage_addr;
 
     /**
-     * @brief Base address (either memory-mapped or I/O) of the BMC. If the
-     * least-significant bit of the field is a 1, the address is in I/O space.
-     * Otherwise, the address is memory-mapped. See the IPMI Interface
-     * Specification for usage details.
+     * @brief Base address (either memory-mapped or I/O) of the BMC.
+     *
+     * In the raw structure, the least-significant bit of the field indicates
+     * I/O space, and the actual least-significant bit of the address is stored
+     * in the base address modifier. This field contains the actual address
+     * with both bits applied, and the address space is reported in
+     * @ref base_addr_type. For SSIF interface, the field contains SMBus target
+     * address of the BMC.
      */
     dmi_size_t base_addr;
 
@@ -107,7 +112,8 @@ struct dmi_ipmi_device
     dmi_ipmi_addr_type_t base_addr_type;
 
     /**
-     * @brief Base address LSB state.
+     * @brief Least-significant bit of the base address, as specified in the
+     * base address modifier.
      */
     bool base_addr_lsb;
 

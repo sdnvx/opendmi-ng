@@ -13,24 +13,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add tests for stream handling functions
 - Add tests for context handling functions
 - Add tests for entity handling functions
+- Add tests for IPMI device information decoder
 
 ### Fixed
 
-- Fixed SMBIOS 3.x revision number decoding
-- Fixed SMBIOS 2.1 maximum entity size decoding
-- Fixed headers fileset in `libopendmi`
-- Fixed `dmi_registry_iter_init()` return value
-- Fixed signed numbers handling in `dmi_attribute_format_decimal()`
-- Fixed potential use-after-free in `dmi_close()`
-- Fixed handling of CR/LF in dump files on Windows
-- Fixed entity length check in `dmi_entity_create()`
-- Fixed memory leak in `dmi_entity_decode_strings()`
-- Fixed error queue overflow handling in `dmi_error_slot_get()`
-- Fixed cache installed size decoding
-- Fixed memory device extended size and rank decoding
-- Fixed memory array extended capacity decoding
-- Fixed format-truncation warning on GCC 16 #112
-- Fixed UUID decoding test on big-endian architectures
+- Fix SMBIOS 3.x revision number decoding
+- Fix SMBIOS 2.1 maximum entity size decoding
+- Fix headers fileset in `libopendmi`
+- Fix `dmi_registry_iter_init()` return value
+- Fix signed numbers handling in `dmi_attribute_format_decimal()`
+- Fix potential use-after-free in `dmi_close()`
+- Fix handling of CR/LF in dump files on Windows
+- Fix entity length check in `dmi_entity_create()`
+- Fix memory leak in `dmi_entity_decode_strings()`
+- Fix error queue overflow handling in `dmi_error_slot_get()`
+- Fix cache installed size decoding
+- Fix memory device extended size and rank decoding
+- Fix memory array extended capacity decoding
+- Fix IPMI device address type decoding
+- Fix format-truncation warning on GCC 16 #112
+- Fix UUID decoding test on big-endian architectures
 
 ## [0.3.2] - April 19, 2026
 
