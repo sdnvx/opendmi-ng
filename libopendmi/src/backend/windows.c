@@ -50,7 +50,6 @@ typedef struct _SYSTEM_FIRMWARE_TABLE_INFORMATION
 } SYSTEM_FIRMWARE_TABLE_INFORMATION, *PSYSTEM_FIRMWARE_TABLE_INFORMATION;
 
 static bool dmi_windows_open(dmi_context_t *context, const char *path);
-static dmi_data_t *dmi_windows_read_entry(dmi_context_t *context, size_t *plength);
 static dmi_data_t *dmi_windows_read_table(dmi_context_t *context, size_t *plength);
 static bool dmi_windows_close(dmi_context_t *context);
 
@@ -58,7 +57,7 @@ dmi_backend_t dmi_windows_backend =
 {
     .name       = "Windows SystemFirmwareTableInformation",
     .open       = dmi_windows_open,
-    .read_entry = dmi_windows_read_entry,
+    .read_entry = nullptr, // Windows does not provide entry point data
     .read_table = dmi_windows_read_table,
     .close      = dmi_windows_close
 };
@@ -92,20 +91,12 @@ static bool dmi_windows_open(dmi_context_t *context, const char *path)
         return false;
     }
 
-    context->state.session = session;
-
-    return true;
-}
-
-static dmi_data_t *dmi_windows_read_entry(dmi_context_t *context, size_t *plength)
-{
-    SYSTEM_FIRMWARE_TABLE_INFORMATION *session = dmi_cast(session, context->state.session);
     RAW_SMBIOS_DATA *data = dmi_cast(data, session->TableBuffer);
 
     context->state.smbios_version = dmi_version(data->SMBIOSMajorVersion, data->SMBIOSMinorVersion, data->DmiRevision);
-    *plength = 0; // Windows does not provide individual entry access
+    context->state.session        = session;
 
-    return nullptr;
+    return true;
 }
 
 static dmi_data_t *dmi_windows_read_table(dmi_context_t *context, size_t *plength)

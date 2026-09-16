@@ -367,6 +367,9 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
     }
 
     flags = O_CREAT | O_WRONLY | O_TRUNC;
+#if defined(O_BINARY)
+    flags |= O_BINARY;
+#endif
     if (not overwrite)
         flags |= O_EXCL;
 
@@ -527,19 +530,17 @@ static bool dmi_open_ex(
             break;
         }
 
-        // Read entry point
-        dmi_log_info(context->logger, "Reading DMI entry point...");
-        context->state.entry_data = context->state.backend->read_entry(context, &context->state.entry_size);
+        // Read and decode entry point, if backend provides it
+        if (backend->read_entry != nullptr) {
+            dmi_log_info(context->logger, "Reading DMI entry point...");
+            context->state.entry_data = backend->read_entry(context, &context->state.entry_size);
+            if (context->state.entry_data == nullptr)
+                break;
 
-        #ifndef _WIN32 // Windows backend does not provide entry point data, skip that
-        if (context->state.entry_data == nullptr)
-            break;
-
-        // Decode entry point
-        dmi_log_info(context->logger, "Decoding DMI entry point...");
-        if (not dmi_entry_decode(context, context->state.entry_data, context->state.entry_size))
-            break;
-        #endif
+            dmi_log_info(context->logger, "Decoding DMI entry point...");
+            if (not dmi_entry_decode(context, context->state.entry_data, context->state.entry_size))
+                break;
+        }
 
         // Fixup SMBIOS version number
         dmi_version_fixup(context);

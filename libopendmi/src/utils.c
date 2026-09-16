@@ -130,8 +130,10 @@ dmi_data_t *dmi_file_get(
 
         // Open file
 #if defined(_WIN32)
-        if (_sopen_s(&fd, path, _O_RDONLY, _SH_DENYNO, _S_IREAD) != 0)
+        if (_sopen_s(&fd, path, _O_RDONLY | _O_BINARY, _SH_DENYNO, _S_IREAD) != 0) {
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
             break;
+        }
 #else
         if ((fd = open(path, O_RDONLY)) < 0) {
             dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
