@@ -1,4 +1,3 @@
-#include <opendmi/error.h>
 //
 // OpenDMI: Cross-platform DMI/SMBIOS framework
 // Copyright (c) 2025-2026, The OpenDMI contributors
@@ -216,7 +215,8 @@ static size_t dmi_error_slot_get(dmi_error_queue_t *queue)
 {
     size_t slot;
 
-    if (queue->count == DMI_ERROR_MAX_DEPTH - 1) {
+    if (queue->count == DMI_ERROR_MAX_DEPTH) {
+        // Queue is full, overwrite the oldest error
         slot = queue->first;
         queue->first = (queue->first + 1) % DMI_ERROR_MAX_DEPTH;
     } else {

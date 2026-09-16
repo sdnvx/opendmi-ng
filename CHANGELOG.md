@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed handling of CR/LF in dump files on Windows
 - Fixed entity length check in `dmi_entity_create()`
 - Fixed memory leak in `dmi_entity_decode_strings()`
+- Fixed error queue overflow handling in `dmi_error_slot_get()`
 - Fixed format-truncation warning on GCC 16 #112
 - Fixed UUID decoding test on big-endian architectures
 
