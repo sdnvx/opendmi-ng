@@ -9,7 +9,7 @@
 
 const dmi_entity_spec_t dmi_intel_rsd_processor_cpuid_spec =
 {
-    .type = DMI_TYPE(INTEL_RSD_NETWORK_CARD),
+    .type = DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID),
     .code = "intel-rsd-processor-cpuid",
     .name = "Intel RSD processor CPUID information"
 };

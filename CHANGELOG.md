@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add Intel RSD FPGA information decoder #88
-- Add tests for stream handling functions
+- Add tests for module handling functions
 - Add tests for context handling functions
+- Add tests for stream handling functions
 - Add tests for entity handling functions
 - Add tests for IPMI device information decoder
+- Add entity ID conflicts check to `dmi_add_extension()`
 
 ### Fixed
 
@@ -31,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix memory device extended size and rank decoding
 - Fix memory array extended capacity decoding
 - Fix IPMI device address type decoding
+- Fix Intel RSD processor CPUID entity specification
 - Fix format-truncation warning on GCC 16 #112
 - Fix UUID decoding test on big-endian architectures
 

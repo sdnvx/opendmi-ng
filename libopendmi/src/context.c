@@ -311,10 +311,19 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
     if (module->entities) {
         const dmi_entity_spec_t **pspec;
 
-        // Check type map for conflicts
+        // Check type map and module itself for conflicts
         for (pspec = module->entities; *pspec != nullptr; pspec++) {
-            if (context->type_map[(*pspec)->type] != nullptr) {
-                dmi_error_raise_ex(context, DMI_ERROR_MODULE_CONFLICT, "%s", module->name);
+            dmi_type_t type = (*pspec)->type;
+            bool conflict = (context->type_map[type] != nullptr);
+
+            for (const dmi_entity_spec_t **pprev = module->entities; pprev != pspec; pprev++) {
+                if ((*pprev)->type == type)
+                    conflict = true;
+            }
+
+            if (conflict) {
+                dmi_error_raise_ex(context, DMI_ERROR_MODULE_CONFLICT, "%s: type %d",
+                                   module->name, (int)type);
                 return false;
             }
         }
