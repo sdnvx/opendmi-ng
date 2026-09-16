@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix `dmi_registry_get()` behavior on invalid handles
 - Fix error queue overflow handling in `dmi_error_slot_get()`
 - Fix legacy entry point SMBIOS version decoding
+- Fix buffer overrun errors in chassis information decoder
 - Fix cache installed size decoding
 - Fix memory device extended size and rank decoding
 - Fix memory array extended capacity decoding

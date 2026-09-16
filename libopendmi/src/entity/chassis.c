@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/context.h>
+#include <opendmi/log.h>
 #include <opendmi/value.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
@@ -443,29 +444,46 @@ static bool dmi_chassis_decode(dmi_entity_t *entity)
     // SMBIOS 2.3 features
     //
 
-    if (entity->body_length > 0x0D) {
+    if (entity->body_length > 0x0D)
         entity->level = dmi_version(2, 3, 0);
-        info->oem_defined = dmi_decode(data->oem_defined);
-    }
 
+    if (entity->body_length >= 0x11)
+        info->oem_defined = dmi_decode(data->oem_defined);
     if (entity->body_length > 0x11)
         info->height = dmi_decode(data->height);
     if (entity->body_length > 0x12)
         info->power_cord_count = dmi_decode(data->power_cord_count);
 
-    if (entity->body_length > 0x13) {
-        info->element_count = dmi_decode(data->element_count);
-        info->element_size  = dmi_decode(data->element_size);
+    if (entity->body_length < sizeof(dmi_chassis_data_t))
+        return true;
 
-        info->elements = dmi_alloc_array(entity->context, sizeof(dmi_chassis_element_t), info->element_count);
+    size_t element_count = dmi_decode(data->element_count);
+    size_t element_size  = dmi_decode(data->element_size);
+    size_t base_len      = sizeof(dmi_chassis_data_t) + element_count * element_size;
+
+    // Contained elements and the following fields are skipped if elements do
+    // not fit into the structure, as dmidecode does
+    if (base_len > entity->body_length) {
+        dmi_log_warning(entity->context->logger,
+                        "0x%04x: Contained elements (%zu x %zu bytes) exceed structure length",
+                        entity->handle, element_count, element_size);
+        return true;
+    }
+
+    info->element_size = element_size;
+
+    // Element records shorter than defined by specification are not decoded
+    if ((element_count > 0) and (element_size >= sizeof(dmi_chassis_element_data_t))) {
+        info->elements = dmi_alloc_array(entity->context, sizeof(dmi_chassis_element_t), element_count);
         if (info->elements == nullptr)
             return false;
 
-        const dmi_data_t *element_ptr = entity->data + sizeof(dmi_chassis_data_t);
+        info->element_count = element_count;
 
         for (size_t i = 0; i < info->element_count; i++) {
             dmi_chassis_element_t *element = &info->elements[i];
-            const dmi_chassis_element_data_t *element_data = dmi_cast(element_data, element_ptr);
+            const dmi_chassis_element_data_t *element_data = dmi_cast(element_data,
+                    entity->data + sizeof(dmi_chassis_data_t) + i * element_size);
 
             uint8_t element_type = dmi_decode(element_data->type);
             if (element_type & 0x80u) {
@@ -477,35 +495,31 @@ static bool dmi_chassis_decode(dmi_entity_t *entity)
 
             element->minimum_count = dmi_decode(element_data->minimum_count);
             element->maximum_count = dmi_decode(element_data->maximum_count);
-
-            element_ptr += info->element_size;
         }
+    }
 
-        size_t base_len = (size_t)(element_ptr - entity->data);
+    //
+    // SMBIOS 2.7 features
+    //
+
+    if (entity->body_length > base_len) {
+        entity->level = dmi_version(2, 7, 0);
+
+        size_t extra_len = entity->body_length - base_len;
+        const dmi_chassis_extra_t *extra = dmi_cast(extra, entity->data + base_len);
+
+        info->sku_number = dmi_entity_string(entity, extra->sku_number);
 
         //
-        // SMBIOS 2.7 features
+        // SMBIOS 3.9 features
         //
 
-        if (entity->body_length > base_len) {
-            entity->level = dmi_version(2, 7, 0);
-
-            size_t extra_len = entity->body_length - base_len;
-            dmi_chassis_extra_t *extra = dmi_cast(extra, element_ptr);
-
-            info->sku_number = dmi_entity_string(entity, extra->sku_number);
-
-            //
-            // SMBIOS 3.9 features
-            //
-
-            if (extra_len > 0x01) {
-                entity->level = dmi_version(3, 9, 0);
-                info->rack_type   = dmi_decode(extra->rack_type);
-            }
-            if (extra_len > 0x02)
-                info->rack_height = dmi_decode(extra->rack_height);
+        if (extra_len > 0x01) {
+            entity->level = dmi_version(3, 9, 0);
+            info->rack_type = dmi_decode(extra->rack_type);
         }
+        if (extra_len > 0x02)
+            info->rack_height = dmi_decode(extra->rack_height);
     }
 
     return true;
