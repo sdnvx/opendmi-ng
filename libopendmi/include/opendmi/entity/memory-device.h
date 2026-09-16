@@ -303,10 +303,11 @@ dmi_packed_struct(dmi_memory_device_data)
     dmi_packed_struct()
     {
         /**
-         * @brief Rank. Zero means unknown rank information.
+         * @brief Rank (bits 3-0, bits 7-4 are reserved). Zero means unknown
+         * rank information.
          * @since SMBIOS 2.6
          */
-        uint8_t rank : 3;
+        uint8_t rank : 4;
     };
 
     /**

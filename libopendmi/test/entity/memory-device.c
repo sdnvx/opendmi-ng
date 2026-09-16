@@ -5,8 +5,14 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include <cmocka.h>
+
+#include <opendmi/context.h>
+#include <opendmi/entity.h>
+#include <opendmi/log.h>
+#include <opendmi/test/logger.h>
 
 #include <opendmi/entity/memory-device.h>
 
@@ -15,6 +21,10 @@ static void test_memory_device_form_factor_name(void **pstate);
 static void test_memory_device_tech_name(void **pstate);
 static void test_memory_device_size(void **pstate);
 static void test_memory_device_size_ex(void **pstate);
+static void test_memory_device_decode_size(void **pstate);
+static void test_memory_device_decode_rank(void **pstate);
+
+static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
 
 int main(void)
 {
@@ -23,7 +33,9 @@ int main(void)
         cmocka_unit_test(test_memory_device_form_factor_name),
         cmocka_unit_test(test_memory_device_tech_name),
         cmocka_unit_test(test_memory_device_size),
-        cmocka_unit_test(test_memory_device_size_ex)
+        cmocka_unit_test(test_memory_device_size_ex),
+        cmocka_unit_test(test_memory_device_decode_size),
+        cmocka_unit_test(test_memory_device_decode_rank)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -83,9 +95,118 @@ static void test_memory_device_size_ex(void **pstate)
     dmi_unused(pstate);
 
     for (size_t i = 0; i < 31; i++) {
-        size_t base_size = (dmi_size_t)1u << i;
+        dmi_size_t base_size = (dmi_size_t)1u << i;
 
         assert_uint_equal(dmi_memory_device_size_ex(1u << i), base_size * 1048576);
-        assert_uint_equal(dmi_memory_device_size_ex(0x80000000u | (1u << i)), SIZE_MAX);
+        assert_uint_equal(dmi_memory_device_size_ex(0x80000000u | (1u << i)), UINT64_MAX);
     }
+}
+
+static void decode_memory_device(
+        dmi_context_t       *context,
+        uint16_t             size,
+        uint32_t             size_ex,
+        uint8_t              rank,
+        uint8_t              length,
+        dmi_memory_device_t *result)
+{
+    // SMBIOS 2.7 memory device structure, followed by a single string
+    uint8_t data[] = {
+        17, length, 0x00, 0x10,             // Header
+        0x00, 0x01, 0xFE, 0xFF,             // Array handle, error info handle
+        0x40, 0x00, 0x40, 0x00,             // Total width, data width
+        size & 0xFF, size >> 8,             // Size
+        0x09, 0x00, 0x01, 0x00,             // Form factor, device set, locators
+        0x1A, 0x80, 0x00, 0x40, 0x06,       // Memory type, type detail, speed
+        0x00, 0x00, 0x00, 0x00, rank,       // Strings, rank
+        size_ex & 0xFF, (size_ex >> 8) & 0xFF,
+        (size_ex >> 16) & 0xFF, size_ex >> 24,
+        'D', 'I', 'M', 'M', 0, 0
+    };
+
+    // Move string set right after the structure
+    memmove(data + length, data + 0x20, 6);
+
+    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+    assert_non_null(info);
+
+    // Copy numeric fields only, string pointers are owned by the entity
+    *result = *info;
+    dmi_entity_destroy(entity);
+}
+
+static dmi_size_t decode_memory_device_size(dmi_context_t *context, uint16_t size, uint32_t size_ex, uint8_t length)
+{
+    dmi_memory_device_t info;
+
+    decode_memory_device(context, size, size_ex, 0x02, length, &info);
+
+    return info.size;
+}
+
+static void test_memory_device_decode_size(void **pstate)
+{
+    dmi_unused(pstate);
+
+    const dmi_size_t mib = 1048576;
+
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+    dmi_set_logger(context, &test_logger);
+
+    // Size field only
+    assert_uint_equal(decode_memory_device_size(context, 0x4000, 0, 0x20), 16384 * mib);
+    assert_uint_equal(decode_memory_device_size(context, 0x8100, 0, 0x20), 256 * 1024);
+    assert_uint_equal(decode_memory_device_size(context, 0xFFFF, 0, 0x20), UINT64_MAX);
+
+    // Extended size field is used for 32 GiB and larger devices
+    assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x8000, 0x20), 32768 * mib);
+    assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x10000, 0x20), 65536 * mib);
+    assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x100000, 0x20), 1048576 * mib);
+
+    // Invalid extended size is treated as unknown
+    assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x80010000, 0x20), UINT64_MAX);
+
+    // Extended size field is ignored if size field is not 0x7FFF
+    assert_uint_equal(decode_memory_device_size(context, 0x2000, 0x10000, 0x20), 8192 * mib);
+
+    // Extended size field is not present in shorter structures
+    assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x10000, 0x1C), 32767 * mib);
+    assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x10000, 0x1E), 32767 * mib);
+
+    dmi_destroy(context);
+}
+
+static unsigned short decode_memory_device_rank(dmi_context_t *context, uint8_t rank)
+{
+    dmi_memory_device_t info;
+
+    decode_memory_device(context, 0x4000, 0, rank, 0x20, &info);
+
+    return info.rank;
+}
+
+static void test_memory_device_decode_rank(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+    dmi_set_logger(context, &test_logger);
+
+    assert_int_equal(decode_memory_device_rank(context, 0x00), 0);
+    assert_int_equal(decode_memory_device_rank(context, 0x01), 1);
+    assert_int_equal(decode_memory_device_rank(context, 0x04), 4);
+    assert_int_equal(decode_memory_device_rank(context, 0x08), 8);
+    assert_int_equal(decode_memory_device_rank(context, 0x0F), 15);
+
+    // Reserved bits are ignored
+    assert_int_equal(decode_memory_device_rank(context, 0xF2), 2);
+    assert_int_equal(decode_memory_device_rank(context, 0x18), 8);
+
+    dmi_destroy(context);
 }

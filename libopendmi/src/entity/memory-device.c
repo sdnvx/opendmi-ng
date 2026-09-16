@@ -676,7 +676,7 @@ dmi_size_t dmi_memory_device_size(uint16_t value)
 dmi_size_t dmi_memory_device_size_ex(uint32_t value)
 {
     if (value & 0x80000000u)
-        return SIZE_MAX;
+        return UINT64_MAX;
 
     return (dmi_size_t)(value & 0x7FFFFFFFu) << 20; // Granularity is 1 Mb
 }
@@ -757,8 +757,9 @@ static bool dmi_memory_device_decode(dmi_entity_t *entity)
     if (entity->body_length > 0x1C) {
         entity->level = dmi_version(2, 7, 0);
 
-        if (size == 0x7FFFu)
-            info->size = dmi_memory_device_size_ex(size);
+        // Actual size is stored in extended size field (offset 0x1C)
+        if ((size == 0x7FFFu) and (entity->body_length >= 0x20))
+            info->size = dmi_memory_device_size_ex(dmi_decode(data->size_ex));
     }
 
     if (entity->body_length > 0x20)
