@@ -366,8 +366,8 @@ static bool dmi_cache_decode(dmi_entity_t *entity)
     info->supported_sram.__value = dmi_decode(data->supported_sram);
     info->current_sram.__value   = dmi_decode(data->current_sram);
 
-    // SMBIOS 2.1 features
-    if (entity->body_length > 0x0F) {
+    // SMBIOS 2.1 features (single-byte fields at offsets 0x0F-0x12)
+    if (entity->body_length >= 0x13) {
         entity->level = dmi_version(2, 1, 0);
 
         info->type             = dmi_decode(data->type);
@@ -380,9 +380,10 @@ static bool dmi_cache_decode(dmi_entity_t *entity)
     if (entity->body_length > 0x13) {
         entity->level = dmi_version(3, 1, 0);
 
-        if (data->maximum_size == 0xFFFFU)
+        // Actual sizes are stored in extended fields at offsets 0x13 and 0x17
+        if ((data->maximum_size == 0xFFFFU) and (entity->body_length >= 0x17))
             info->maximum_size = dmi_cache_size_ex(dmi_decode(data->maximum_size_ex));
-        if (data->installed_size == 0xFFFU)
+        if ((data->installed_size == 0xFFFFU) and (entity->body_length >= 0x1B))
             info->installed_size = dmi_cache_size_ex(dmi_decode(data->installed_size_ex));
     }
 
