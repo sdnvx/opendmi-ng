@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/context.h>
+#include <opendmi/log.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -228,7 +229,7 @@ static bool dmi_baseboard_decode(dmi_entity_t *entity)
     if (entity->body_length > 0x0Au)
         info->location = dmi_entity_string(entity, data->location);
 
-    if (entity->body_length > 0x0Bu)
+    if (entity->body_length >= 0x0Du)
         info->chassis_handle = dmi_decode(data->chassis_handle);
     else
         info->chassis_handle = DMI_HANDLE_INVALID;
@@ -236,12 +237,26 @@ static bool dmi_baseboard_decode(dmi_entity_t *entity)
     if (entity->body_length > 0x0Du)
         info->type = dmi_decode(data->type);
 
-    if (entity->body_length > 0x0Eu) {
-        info->object_count  = dmi_decode(data->object_count);
+    if (entity->body_length <= 0x0Eu)
+        return true;
 
-        info->object_handles = dmi_alloc_array(entity->context, sizeof(dmi_handle_t), info->object_count);
+    size_t object_count = dmi_decode(data->object_count);
+
+    // Contained object handles are skipped if they do not fit into the
+    // structure, as dmidecode does
+    if (sizeof(dmi_baseboard_data_t) + object_count * sizeof(dmi_handle_t) > entity->body_length) {
+        dmi_log_warning(entity->context->logger,
+                        "0x%04x: Contained object handles (%zu) exceed structure length",
+                        entity->handle, object_count);
+        return true;
+    }
+
+    if (object_count > 0) {
+        info->object_handles = dmi_alloc_array(entity->context, sizeof(dmi_handle_t), object_count);
         if (info->object_handles == nullptr)
             return false;
+
+        info->object_count = object_count;
 
         for (size_t i = 0; i < info->object_count; i++)
             info->object_handles[i] = dmi_decode(data->object_handles[i]);
