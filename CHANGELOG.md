@@ -10,7 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add Intel RSD FPGA information decoder #88
-- Add tests for stream handling functions.
+- Add tests for stream handling functions
+- Add tests for context handling functions
+- Add tests for entity handling functions
 
 ### Fixed
 
@@ -21,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed signed numbers handling in `dmi_attribute_format_decimal()`
 - Fixed potential use-after-free in `dmi_close()`
 - Fixed handling of CR/LF in dump files on Windows
+- Fixed entity length check in `dmi_entity_create()`
+- Fixed memory leak in `dmi_entity_decode_strings()`
 - Fixed format-truncation warning on GCC 16 #112
 
 ## [0.3.2] - April 19, 2026

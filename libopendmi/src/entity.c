@@ -46,6 +46,13 @@ dmi_entity_t *dmi_entity_create(
         return nullptr;
     }
 
+    // Structure header must be followed by at least two bytes of string set
+    if (max_length < sizeof(dmi_header_t) + 2) {
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TRUNCATED,
+                           "%zu bytes available", max_length);
+        return nullptr;
+    }
+
     dmi_header_t *header = dmi_cast(header, data);
     dmi_type_t    type   = dmi_cast(type, dmi_decode(header->type));
     size_t        length = dmi_decode(header->length);
@@ -69,6 +76,7 @@ dmi_entity_t *dmi_entity_create(
         dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TRUNCATED,
                            "0x%04hx (%s): %zu bytes long, only %zu available",
                            handle, dmi_type_name(context, type), length, max_length);
+        return nullptr;
     }
 
     // Allocate new entity descriptor
@@ -290,40 +298,37 @@ static bool dmi_entity_decode_length(
 {
     assert(entity != nullptr);
     assert(entity->data != nullptr);
-    assert(max_length >= sizeof(dmi_header_t) + 2);
 
-    const char *data      = dmi_cast(data, entity->data);
-    const char *start     = data + entity->body_length;
-    const char *ptr       = start;
-    size_t      count     = 0;
-    size_t      remaining = max_length - (ptr - data);
+    const char *data  = dmi_cast(data, entity->data);
+    size_t      start = entity->body_length;
+    size_t      pos   = start;
+    size_t      count = 0;
 
-    if (--remaining == 0)
+    // String set is terminated by double NUL, so it takes at least two bytes.
+    // Every byte is accessed only after checking that it is within limits.
+    if ((start > max_length) or (max_length - start < 2))
         return false;
 
-    // Calculate structure length and count strings
-    while (true) {
-        if (*ptr != 0) {
+    // String set starting with NUL contains no strings, even if it is not
+    // immediately followed by another NUL (the same as dmidecode does)
+    bool has_strings = (data[start] != 0);
+
+    // Find double NUL terminating the string set, and count strings
+    while ((data[pos] != 0) or (data[pos + 1] != 0)) {
+        if ((data[pos] == 0) and has_strings)
             count++;
 
-            if (--remaining == 0)
-                return false;
-
-            while (*ptr != 0) {
-                ptr++;
-                if (--remaining == 0)
-                    return false;
-            }
-        }
-
-        ptr++;
-        if (*ptr == 0) {
-            ptr++;
-            break;
-        }
+        if (++pos + 1 == max_length)
+            return false;
     }
 
-    entity->extra_length = ptr - start;
+    // The first NUL of the terminator ends the last string
+    if (has_strings)
+        count++;
+
+    pos += 2;
+
+    entity->extra_length = pos - start;
     entity->total_length = entity->body_length + entity->extra_length;
     entity->string_count = count;
 
@@ -335,7 +340,7 @@ static bool dmi_entity_decode_strings(dmi_entity_t *entity)
     assert(entity != nullptr);
     assert(entity->data != nullptr);
 
-    bool success = false;
+    bool success = true;
     dmi_string_entry_t *strings = nullptr;
 
     // Allocate strings index
@@ -343,42 +348,25 @@ static bool dmi_entity_decode_strings(dmi_entity_t *entity)
     if (strings == nullptr)
         return false;
 
-    // Fetch string pointers
-    if (entity->string_count > 0) {
-        const char *data  = dmi_cast(data, entity->data);
-        const char *start = data + entity->body_length;
-        const char *ptr   = start;
-        size_t      index = 0;
+    // Fetch string pointers. String set bounds and number of strings are
+    // already validated by dmi_entity_decode_length().
+    const char *ptr = dmi_cast(ptr, entity->data) + entity->body_length;
 
-        while (true) {
-            dmi_string_entry_t *entry = &strings[index++];
+    for (size_t i = 0; i < entity->string_count; i++) {
+        strings[i].raw    = ptr;
+        strings[i].pretty = dmi_entity_string_trim(entity->context, ptr);
 
-            if (*ptr != 0) {
-                entry->raw    = ptr;
-                entry->pretty = dmi_entity_string_trim(entity->context, ptr);
-
-                if (!entry->pretty) {
-                    dmi_error_raise(entity->context, DMI_ERROR_OUT_OF_MEMORY);
-                    break;
-                }
-
-                while (*ptr != 0) {
-                    ptr++;
-                }
-            }
-
-            ptr++;
-
-            if (*ptr == 0) {
-                success = true;
-                break;
-            }
+        if (strings[i].pretty == nullptr) {
+            success = false;
+            dmi_error_raise(entity->context, DMI_ERROR_OUT_OF_MEMORY);
+            break;
         }
-    } else {
-        success = true;
+
+        ptr += strlen(ptr) + 1;
     }
 
-    if (!success) {
+    if (not success) {
+        // Index is zero-initialized, so unfilled entries are safe to free
         for (size_t i = 0; i < entity->string_count; i++)
             dmi_free(strings[i].pretty);
         dmi_free(strings);

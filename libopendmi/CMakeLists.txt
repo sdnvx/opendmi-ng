@@ -459,6 +459,7 @@ endmacro()
 opendmi_test(attribute test/attribute.c)
 opendmi_test(error test/error.c)
 opendmi_test(context test/context.c)
+opendmi_test(entity test/entity.c)
 opendmi_test(stream test/stream.c)
 
 opendmi_test(utils/endian test/utils/endian.c)
