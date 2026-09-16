@@ -191,17 +191,17 @@ bool dmi_registry_decode(dmi_registry_t *registry);
 bool dmi_registry_link(dmi_registry_t *registry);
 
 /**
- * @brief Get entity from registry.
+ * @brief Get entity from registry by handle.
  *
  * @param[in] registry Registry handle.
  *
- * @param[in] handle   Entity handle. Should be set to `DMI_HANDLE_INVALID` if
- *                     the handle is unknown. In this case `type` is mandatory.
+ * @param[in] handle   Entity handle. Reserved values `DMI_HANDLE_INVALID` and
+ *                     `DMI_HANDLE_UNSUPPORTED` mean that the reference is not
+ *                     set: `nullptr` is returned and no error is raised. Use
+ *                     `dmi_registry_get_first()` to look up entity by type.
  *
  * @param[in] type     Expected structure type. Should be set to
- *                     `DMI_TYPE_INVALID` if the type is unknown. If there is
- *                     more than one entity of the given type and handle is not
- *                     specified, the first one is returned.
+ *                     `DMI_TYPE_INVALID` if the type is unknown.
  *
  * @param[in] optional Set to true if missing entity is not an error.
  *
@@ -218,8 +218,9 @@ dmi_entity_t *dmi_registry_get(
  *
  * @param[in] registry Registry handle.
  *
- * @param[in] handle   Entity handle. In constrast to `dmi_registry_get()`,
- *                     should be always valid.
+ * @param[in] handle   Entity handle. Reserved values `DMI_HANDLE_INVALID` and
+ *                     `DMI_HANDLE_UNSUPPORTED` mean that the reference is not
+ *                     set: `nullptr` is returned and no error is raised.
  *
  * @param[in] types    Array of expected structure types, terminated by
  *                     `DMI_TYPE_INVALID`. May be set to `nullptr` to disable
@@ -234,6 +235,23 @@ dmi_entity_t *dmi_registry_get_any(
         dmi_handle_t      handle,
         const dmi_type_t *type,
         bool              optional);
+
+/**
+ * @brief Get the first entity of the given type from registry.
+ *
+ * @param[in] registry Registry handle.
+ *
+ * @param[in] type     Structure type, must not be `DMI_TYPE_INVALID`.
+ *
+ * @param[in] optional Set to true if missing entity is not an error.
+ *
+ * @returns Non-owning pointer to the first entity of the given type in table
+ *          order, `nullptr` if not found.
+ */
+dmi_entity_t *dmi_registry_get_first(
+        dmi_registry_t *registry,
+        dmi_type_t      type,
+        bool            optional);
 
 /**
  * @brief Get registry status flags.

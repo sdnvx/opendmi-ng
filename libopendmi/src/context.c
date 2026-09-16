@@ -605,7 +605,7 @@ static bool dmi_setup_extensions(dmi_context_t *context)
 
     dmi_log_debug(context->logger, "Detecting SMBIOS vendor...");
 
-    entity = dmi_registry_get(context->state.registry, DMI_HANDLE_INVALID, DMI_TYPE(FIRMWARE), true);
+    entity = dmi_registry_get_first(context->state.registry, DMI_TYPE(FIRMWARE), true);
     if (entity == nullptr) {
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
             dmi_log_notice(context->logger, dmi_error_message(DMI_ERROR_MISSING_FIRMWARE_INFO));

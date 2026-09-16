@@ -323,6 +323,10 @@ static bool dmi_firmware_inventory_link(dmi_entity_t *entity)
     for (size_t i = 0; i < info->component_count; i++) {
         dmi_firmware_inventory_component_t *component = &info->components[i];
 
+        if ((component->handle == DMI_HANDLE_INVALID) or
+            (component->handle == DMI_HANDLE_UNSUPPORTED))
+            continue;
+
         component->entity = dmi_registry_get(registry, component->handle, DMI_TYPE_INVALID, false);
         if (component->entity == nullptr) {
             const dmi_error_t *error = dmi_error_peek_last(context);

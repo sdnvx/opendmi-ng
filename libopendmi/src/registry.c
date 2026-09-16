@@ -64,40 +64,21 @@ dmi_entity_t *dmi_registry_get(
     const dmi_registry_entry_t *entry = nullptr;
     dmi_entity_t *entity = nullptr;
 
-    if (handle == DMI_HANDLE_UNSUPPORTED) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "handle: 0x%04x", handle);
+    // Reserved handle values mean that the reference is not set
+    if ((handle == DMI_HANDLE_INVALID) or (handle == DMI_HANDLE_UNSUPPORTED))
         return nullptr;
-    }
-    if ((handle == DMI_HANDLE_INVALID) and (type == DMI_TYPE_INVALID)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "type: %d", type);
-        return nullptr;
-    }
 
-    if (handle != DMI_HANDLE_INVALID) {
-        entry = registry->index[(size_t)handle % registry->capacity];
+    entry = registry->index[(size_t)handle % registry->capacity];
 
-        while (entry != nullptr) {
-            if (entry->entity->handle == handle)
-                break;
-            entry = entry->next;
-        }
-    } else {
-        entry = registry->head;
-
-        while (entry != nullptr) {
-            if (entry->entity->type == type)
-                break;
-            entry = entry->seq_next;
-        }
+    while (entry != nullptr) {
+        if (entry->entity->handle == handle)
+            break;
+        entry = entry->next;
     }
 
     if (entry == nullptr) {
-        if (not optional) {
-            if (handle != DMI_HANDLE_INVALID)
-                dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND, "handle 0x%04x", handle);
-            else
-                dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND, "type %d", type);
-        }
+        if (not optional)
+            dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND, "handle 0x%04x", handle);
 
         return nullptr;
     }
@@ -136,11 +117,6 @@ dmi_entity_t *dmi_registry_get_any(
 
     context = registry->context;
 
-    if ((handle == DMI_HANDLE_INVALID) or (handle == DMI_HANDLE_UNSUPPORTED)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "handle: 0x%04x", handle);
-        return nullptr;
-    }
-
     entity = dmi_registry_get(registry, handle, DMI_TYPE_INVALID, optional);
     if (entity == nullptr)
         return nullptr;
@@ -168,6 +144,32 @@ dmi_entity_t *dmi_registry_get_any(
     }
 
     return entity;
+}
+
+dmi_entity_t *dmi_registry_get_first(
+        dmi_registry_t *registry,
+        dmi_type_t      type,
+        bool            optional)
+{
+    if (registry == nullptr)
+        return nullptr;
+
+    dmi_context_t *context = registry->context;
+
+    if (type == DMI_TYPE_INVALID) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "type: %d", type);
+        return nullptr;
+    }
+
+    for (const dmi_registry_entry_t *entry = registry->head; entry != nullptr; entry = entry->seq_next) {
+        if (entry->entity->type == type)
+            return entry->entity;
+    }
+
+    if (not optional)
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND, "type %d", type);
+
+    return nullptr;
 }
 
 unsigned dmi_registry_status(const dmi_registry_t *registry)

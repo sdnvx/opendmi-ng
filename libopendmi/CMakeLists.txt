@@ -462,6 +462,7 @@ opendmi_test(context test/context.c)
 opendmi_test(entity test/entity.c)
 opendmi_test(entry test/entry.c)
 opendmi_test(module test/module.c)
+opendmi_test(registry test/registry.c)
 opendmi_test(stream test/stream.c)
 
 opendmi_test(utils/endian test/utils/endian.c)

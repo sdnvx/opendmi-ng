@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add tests for module handling functions
 - Add tests for context handling functions
 - Add tests for entry point handling functions
+- Add tests for registry handling functions
 - Add tests for stream handling functions
 - Add tests for entity handling functions
 - Add tests for IPMI device information decoder
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix handling of CR/LF in dump files on Windows
 - Fix entity length check in `dmi_entity_create()`
 - Fix memory leak in `dmi_entity_decode_strings()`
+- Fix `dmi_registry_get()` behavior on invalid handles
 - Fix error queue overflow handling in `dmi_error_slot_get()`
 - Fix legacy entry point SMBIOS version decoding
 - Fix cache installed size decoding
