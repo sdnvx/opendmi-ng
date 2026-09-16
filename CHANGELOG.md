@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed entity length check in `dmi_entity_create()`
 - Fixed memory leak in `dmi_entity_decode_strings()`
 - Fixed format-truncation warning on GCC 16 #112
+- Fixed UUID decoding test on big-endian architectures
 
 ## [0.3.2] - April 19, 2026
 

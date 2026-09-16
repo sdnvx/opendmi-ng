@@ -61,7 +61,7 @@ static const test_vector_t test_data[] =
             .time_low                  = 0x33221100U,
             .time_mid                  = 0x5544U,
             .time_hi_and_version       = 0x7766U,
-#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN
+#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
             .time_low                  = 0x00112233U,
             .time_mid                  = 0x4455U,
             .time_hi_and_version       = 0x6677U,
