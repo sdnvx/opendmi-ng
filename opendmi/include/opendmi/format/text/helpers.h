@@ -9,10 +9,12 @@
 
 #pragma once
 
+#include <opendmi/utils/tty.h>
 #include <opendmi/format/text/types.h>
 
 __BEGIN_DECLS
 
+__attribute__((format(printf, 3, 4)))
 void dmi_text_printf(
         dmi_text_session_t *session,
         dmi_tty_color_t color,

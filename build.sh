@@ -121,7 +121,6 @@ _usage() {
     echo "        --enable-dbus      Build with D-bus support (opendmi-dbus, default=${ENABLE_DBUS})"
     echo "    Features:"
     echo "        --with-icu         Build with ICU4C support (default=${ENABLE_ICU})"
-    echo "        --with-curses      Build with Curses support (default=${ENABLE_CURSES})"
     echo "        --with-xml         Build with XML support (default=${ENABLE_XML})"
     echo "        --with-yaml        Build with YAML support (default=${ENABLE_YAML})"
     echo "        --with-json        Build with JSON support (default=${ENABLE_JSON})"
@@ -189,9 +188,6 @@ _configure() {
             --with-icu)
                 ENABLE_ICU=ON
                 ;;
-            --with-curses)
-                ENABLE_CURSES=ON
-                ;;
             --with-xml)
                 ENABLE_XML=ON
                 ;;
@@ -213,9 +209,6 @@ _configure() {
     FEATURES=""
     if [ "${ENABLE_ICU}" != "AUTO" ]; then
         FEATURES="${FEATURES} -DENABLE_ICU=${ENABLE_ICU}"
-    fi
-    if [ "${ENABLE_CURSES}" != "AUTO" ]; then
-        FEATURES="${FEATURES} -DENABLE_CURSES=${ENABLE_CURSES}"
     fi
     if [ "${ENABLE_XML}" != "AUTO" ]; then
         FEATURES="${FEATURES} -DENABLE_XML=${ENABLE_XML}"

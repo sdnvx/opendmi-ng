@@ -10,28 +10,14 @@
 #   include <unistd.h>
 #endif
 
+#ifdef _WIN32
+#   define WIN32_LEAN_AND_MEAN
+#   define NOMINMAX
+#   include <windows.h>
+#endif
+
 #include <stdio.h>
 #include <stdarg.h>
-
-#ifdef ENABLE_CURSES
-#   if __has_include(<ncurses/ncurses.h>)
-#       ifdef _WIN32
-#           define NCURSES_STATIC 1 // Required to avoid linking errors on Windows
-#       endif
-#       include <ncurses/ncurses.h>
-#   elif __has_include(<ncurses/curses.h>)
-#       include <ncurses/curses.h>
-#   elif __has_include(<ncurses.h>)
-#       include <ncurses.h>
-#   elif __has_include(<curses.h>)
-#       include <curses.h>
-#   endif
-#   if __has_include(<ncurses/term.h>)
-#       include <ncurses/term.h>
-#   elif __has_include(<term.h>)
-#       include <term.h>
-#   endif
-#endif // ENABLE_CURSES
 
 #include <opendmi/utils/tty.h>
 
@@ -40,15 +26,67 @@ static int  dmi_tty_bg_color = DMI_TTY_COLOR_BLACK;
 static int  dmi_tty_fg_color = DMI_TTY_COLOR_WHITE;
 static int  dmi_tty_attrs = 0;
 
+static int dmi_tty_ansi_fg_color(dmi_tty_color_t color)
+{
+    switch (color) {
+        case DMI_TTY_COLOR_BLACK: return 30;
+        case DMI_TTY_COLOR_MAROON: return 31;
+        case DMI_TTY_COLOR_GREEN: return 32;
+        case DMI_TTY_COLOR_OLIVE: return 33;
+        case DMI_TTY_COLOR_NAVY: return 34;
+        case DMI_TTY_COLOR_PURPLE: return 35;
+        case DMI_TTY_COLOR_TEAL: return 36;
+        case DMI_TTY_COLOR_SILVER: return 37;
+        case DMI_TTY_COLOR_GREY: return 90;
+        case DMI_TTY_COLOR_RED: return 91;
+        case DMI_TTY_COLOR_LIME: return 92;
+        case DMI_TTY_COLOR_YELLOW: return 93;
+        case DMI_TTY_COLOR_BLUE: return 94;
+        case DMI_TTY_COLOR_FUCHSIA: return 95;
+        case DMI_TTY_COLOR_AQUA: return 96;
+        case DMI_TTY_COLOR_WHITE: return 97;
+        case DMI_TTY_COLOR_NONE:
+        default: return 39;
+    }
+}
+
+static int dmi_tty_ansi_bg_color(dmi_tty_color_t color)
+{
+    switch (color) {
+        case DMI_TTY_COLOR_BLACK: return 40;
+        case DMI_TTY_COLOR_MAROON: return 41;
+        case DMI_TTY_COLOR_GREEN: return 42;
+        case DMI_TTY_COLOR_OLIVE: return 43;
+        case DMI_TTY_COLOR_NAVY: return 44;
+        case DMI_TTY_COLOR_PURPLE: return 45;
+        case DMI_TTY_COLOR_TEAL: return 46;
+        case DMI_TTY_COLOR_SILVER: return 47;
+        case DMI_TTY_COLOR_GREY: return 100;
+        case DMI_TTY_COLOR_RED: return 101;
+        case DMI_TTY_COLOR_LIME: return 102;
+        case DMI_TTY_COLOR_YELLOW: return 103;
+        case DMI_TTY_COLOR_BLUE: return 104;
+        case DMI_TTY_COLOR_FUCHSIA: return 105;
+        case DMI_TTY_COLOR_AQUA: return 106;
+        case DMI_TTY_COLOR_WHITE: return 107;
+        case DMI_TTY_COLOR_NONE:
+        default: return 49;
+    }
+}
+
 void dmi_tty_init(void)
 {
-#ifdef ENABLE_CURSES
-    // Initialize terminal
-    if (isatty(STDOUT_FILENO)) {
-        if (setupterm(nullptr, STDOUT_FILENO, nullptr) != ERR)
-            dmi_tty = has_colors() and (start_color() != ERR);
+#ifdef _WIN32
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD mode = 0;
+
+    if (handle != INVALID_HANDLE_VALUE and GetConsoleMode(handle, &mode)) {
+        mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        dmi_tty = SetConsoleMode(handle, mode) != 0;
     }
-#endif // ENABLE_CURSES
+#else
+    dmi_tty = isatty(STDOUT_FILENO) != 0;
+#endif
 }
 
 bool dmi_has_tty(void)
@@ -63,14 +101,12 @@ void dmi_tty_attr_on(int attrs)
 
     dmi_tty_attrs |= attrs;
 
-#   ifdef ENABLE_CURSES
-        if (attrs & DMI_TTY_ATTR_BOLD)
-            tputs(tparm(tigetstr("bold")), 1, putchar);
-        if (attrs & DMI_TTY_ATTR_UNDERLINE)
-            tputs(tparm(tigetstr("smul")), 1, putchar);
-        if (attrs & DMI_TTY_ATTR_BLINK)
-            tputs(tparm(tigetstr("blink")), 1, putchar);
-#   endif
+    if (attrs & DMI_TTY_ATTR_BOLD)
+        fputs("\x1b[1m", stdout);
+    if (attrs & DMI_TTY_ATTR_UNDERLINE)
+        fputs("\x1b[4m", stdout);
+    if (attrs & DMI_TTY_ATTR_BLINK)
+        fputs("\x1b[5m", stdout);
 }
 
 void dmi_tty_attr_off(int attrs)
@@ -80,13 +116,11 @@ void dmi_tty_attr_off(int attrs)
 
     dmi_tty_attrs &= ~attrs;
 
-#   ifdef ENABLE_CURSES
-        dmi_tty_exit_attr_mode();
+    dmi_tty_exit_attr_mode();
 
-        dmi_tty_attr_on(dmi_tty_attrs);
-        dmi_tty_set_bg_color((dmi_tty_color_t)dmi_tty_bg_color);
-        dmi_tty_set_fg_color((dmi_tty_color_t)dmi_tty_fg_color);
-#   endif
+    dmi_tty_attr_on(dmi_tty_attrs);
+    dmi_tty_set_bg_color((dmi_tty_color_t)dmi_tty_bg_color);
+    dmi_tty_set_fg_color((dmi_tty_color_t)dmi_tty_fg_color);
 }
 
 void dmi_tty_set_fg_color(dmi_tty_color_t color)
@@ -96,9 +130,7 @@ void dmi_tty_set_fg_color(dmi_tty_color_t color)
 
     dmi_tty_fg_color = (int)color;
 
-#   ifdef ENABLE_CURSES
-        tputs(tparm(tigetstr("setaf"), color), 1, putchar);
-#   endif
+    printf("\x1b[%dm", dmi_tty_ansi_fg_color(color));
 }
 
 void dmi_tty_set_bg_color(dmi_tty_color_t color)
@@ -108,9 +140,7 @@ void dmi_tty_set_bg_color(dmi_tty_color_t color)
 
     dmi_tty_bg_color = (int)color;
 
-#   ifdef ENABLE_CURSES
-        tputs(tparm(tigetstr("setab"), color), 1, putchar);
-#   endif
+    printf("\x1b[%dm", dmi_tty_ansi_bg_color(color));
 }
 
 void dmi_tty_cprintf(int color, const char *format, ...)
@@ -131,10 +161,8 @@ void dmi_tty_vcprintf(int color, const char *format, va_list args)
 
 void dmi_tty_exit_attr_mode(void)
 {
-#ifdef ENABLE_CURSES
     if (dmi_tty)
-        tputs(tparm(tigetstr("sgr0")), 1, putchar);
-#endif // ENABLE_CURSES
+        fputs("\x1b[m", stdout);
 }
 
 void dmi_tty_header(const char *format, ...)
@@ -147,5 +175,5 @@ void dmi_tty_header(const char *format, ...)
     dmi_tty_exit_attr_mode();
     va_end(args);
 
-    printf("\n\n");
+    fputs("\n\n", stdout);
 }

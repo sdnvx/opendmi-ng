@@ -10,26 +10,6 @@
 #include <stdarg.h>
 #include <assert.h>
 
-#ifdef ENABLE_CURSES
-#   if __has_include(<ncurses/ncurses.h>)
-#       ifdef _WIN32
-#           define NCURSES_STATIC 1 // Required to avoid linking errors on Windows
-#       endif
-#       include <ncurses/ncurses.h>
-#   elif __has_include(<ncurses/curses.h>)
-#       include <ncurses/curses.h>
-#   elif __has_include(<ncurses.h>)
-#       include <ncurses.h>
-#   elif __has_include(<curses.h>)
-#       include <curses.h>
-#   endif
-#   if __has_include(<ncurses/term.h>)
-#       include <ncurses/term.h>
-#   elif __has_include(<term.h>)
-#       include <term.h>
-#   endif
-#endif // ENABLE_CURSES
-
 #include <opendmi/utils/tty.h>
 #include <opendmi/format/text/helpers.h>
 
@@ -41,21 +21,15 @@ void dmi_text_printf(
 {
     va_list args;
 
-#ifdef ENABLE_CURSES
     if (session->is_tty and (color != DMI_TTY_COLOR_NONE))
-        tputs(tparm(tigetstr("setaf"), color), 1, putchar);
-#else
-    dmi_unused(color);
-#endif // ENABLE_CURSES
+        dmi_tty_set_fg_color(color);
 
     va_start(args, format);
     vfprintf(session->stream, format, args);
     va_end(args);
 
-#ifdef ENABLE_CURSES
     if (session->is_tty and (color != DMI_TTY_COLOR_NONE))
-        tputs(tparm(tigetstr("sgr0")), 1, putchar);
-#endif // ENABLE_CURSES
+        dmi_tty_exit_attr_mode();
 }
 
 void dmi_text_hex_data(dmi_text_session_t *session, const void *data, size_t length)
@@ -69,7 +43,7 @@ void dmi_text_hex_data(dmi_text_session_t *session, const void *data, size_t len
         char sp = ' ';
 
         if (i % 0x10 == 0)
-            fprintf(session->stream, "\t\t");
+            fputs("\t\t", session->stream);
         if (i % 0x10 == 0x0f)
             sp = '\n';
 
@@ -77,5 +51,5 @@ void dmi_text_hex_data(dmi_text_session_t *session, const void *data, size_t len
     }
 
     if (length % 0x10 != 0)
-        fprintf(session->stream, "\n");
+        fputc('\n', session->stream);
 }
