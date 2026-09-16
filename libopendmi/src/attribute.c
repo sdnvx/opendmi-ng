@@ -416,33 +416,37 @@ static char *dmi_attribute_format_decimal(
 
     dmi_unused(pretty);
 
-    char  fmt[16];
-    int   rv  = 0;
-    char *str = nullptr;
+    int       rv       = 0;
+    char     *str      = nullptr;
+    bool      negative = false;
+    uintmax_t magnitude;
 
     if (attribute->params.scale == 0)
         return dmi_attribute_format_integer(context, attribute, value, pretty);
 
-    intmax_t src = dmi_attribute_get_int(attribute, value);
+    if (attribute->params.flags & DMI_ATTRIBUTE_FLAG_SIGNED) {
+        intmax_t src = dmi_attribute_get_int(attribute, value);
 
-    unsigned int scale = attribute->params.scale;
-    unsigned int factor = dmi_ipow32(10, scale);
+        negative = src < 0;
+        magnitude = negative ? -(uintmax_t)src : (uintmax_t)src;
+    } else {
+        magnitude = dmi_attribute_get_uint(attribute, value);
+    }
+
+    unsigned int scale  = attribute->params.scale;
+    uintmax_t    factor = dmi_ipow32(10, scale);
 
     // Adjust scale and factor
     while (scale > 1) {
-        if (src % 10 != 0)
+        if (magnitude % 10 != 0)
             break;
-        src /= 10, factor /= 10;
+        magnitude /= 10, factor /= 10;
         scale--;
     }
 
-    if (attribute->params.flags & DMI_ATTRIBUTE_FLAG_SIGNED) {
-        snprintf(fmt, sizeof(fmt), "%%lld.%%0%ullu", scale);
-        rv = dmi_asprintf(&str, fmt, src / factor, llabs(src) % factor);
-    } else {
-        snprintf(fmt, sizeof(fmt), "%%llu.%%0%ullu", scale);
-        rv = dmi_asprintf(&str, fmt, (uint64_t)src / factor, (uint64_t)src % factor);
-    }
+    rv = dmi_asprintf(&str, "%s%" PRIuMAX ".%0*" PRIuMAX,
+                      negative ? "-" : "",
+                      magnitude / factor, (int)scale, magnitude % factor);
 
     if (rv < 0) {
         dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);

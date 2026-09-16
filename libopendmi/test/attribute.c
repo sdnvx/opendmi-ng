@@ -185,7 +185,69 @@ static void test_attribute_format_bool_ex(void **pstate)
 static void test_attribute_format_decimal(void **pstate)
 {
     dmi_unused(pstate);
-    skip();
+
+    const struct {
+        const void *value;
+        size_t size;
+        unsigned int scale;
+        unsigned int flags;
+        const char *expected;
+    } test_data[] = {
+        // Unsigned values
+        { dmi_value_ptr((uint16_t)1234u),       sizeof(uint16_t), 0, 0, "1234"      },
+        { dmi_value_ptr((uint16_t)1234u),       sizeof(uint16_t), 1, 0, "123.4"     },
+        { dmi_value_ptr((uint16_t)1234u),       sizeof(uint16_t), 3, 0, "1.234"     },
+        { dmi_value_ptr((uint16_t)1200u),       sizeof(uint16_t), 3, 0, "1.2"       },
+        { dmi_value_ptr((uint16_t)1000u),       sizeof(uint16_t), 3, 0, "1.0"       },
+        { dmi_value_ptr((uint16_t)5u),          sizeof(uint16_t), 2, 0, "0.05"      },
+        { dmi_value_ptr((uint16_t)0u),          sizeof(uint16_t), 2, 0, "0.0"       },
+        { dmi_value_ptr((uint16_t)0x9000u),     sizeof(uint16_t), 3, 0, "36.864"    },
+        { dmi_value_ptr((uint16_t)0xFFFFu),     sizeof(uint16_t), 1, 0, "6553.5"    },
+        { dmi_value_ptr((uint8_t)0xFFu),        sizeof(uint8_t),  1, 0, "25.5"      },
+        { dmi_value_ptr((uint32_t)0xFFFFFFFFu), sizeof(uint32_t), 2, 0, "42949672.95" },
+        { dmi_value_ptr((uint64_t)UINT64_MAX),  sizeof(uint64_t), 1, 0, "1844674407370955161.5" },
+        // Signed values
+        { dmi_value_ptr((int16_t)255),       sizeof(int16_t), 1, DMI_ATTRIBUTE_FLAG_SIGNED, "25.5"   },
+        { dmi_value_ptr((int16_t)-255),      sizeof(int16_t), 1, DMI_ATTRIBUTE_FLAG_SIGNED, "-25.5"  },
+        { dmi_value_ptr((int16_t)-5),        sizeof(int16_t), 1, DMI_ATTRIBUTE_FLAG_SIGNED, "-0.5"   },
+        { dmi_value_ptr((int16_t)-5),        sizeof(int16_t), 3, DMI_ATTRIBUTE_FLAG_SIGNED, "-0.005" },
+        { dmi_value_ptr((int16_t)-1000),     sizeof(int16_t), 3, DMI_ATTRIBUTE_FLAG_SIGNED, "-1.0"   },
+        { dmi_value_ptr((int16_t)0),         sizeof(int16_t), 1, DMI_ATTRIBUTE_FLAG_SIGNED, "0.0"    },
+        { dmi_value_ptr((int8_t)-128),       sizeof(int8_t),  1, DMI_ATTRIBUTE_FLAG_SIGNED, "-12.8"  },
+        { dmi_value_ptr((int64_t)INT64_MIN), sizeof(int64_t), 1, DMI_ATTRIBUTE_FLAG_SIGNED, "-922337203685477580.8" }
+    };
+
+    *pstate = nullptr;
+
+    for (size_t i = 0; i < countof(test_data); i++) {
+        const void *value    = test_data[i].value;
+        const char *expected = test_data[i].expected;
+        char       *result   = nullptr;
+
+        const dmi_attribute_t attr = {
+            .value   = {
+                .size   = test_data[i].size,
+                .offset = 0
+            },
+            .counter = DMI_MEMBER_NULL,
+            .type    = DMI_ATTRIBUTE_TYPE_DECIMAL,
+            .params  = {
+                .scale = test_data[i].scale,
+                .flags = test_data[i].flags
+            }
+        };
+
+        for (int pretty = 0; pretty <= 1; pretty++) {
+            result = dmi_attribute_format(context, &attr, value, pretty);
+            *pstate = result;
+
+            assert_non_null(result);
+            assert_string_equal(result, expected);
+
+            free(result);
+            *pstate = nullptr;
+        }
+    }
 }
 
 static void test_attribute_format_enum(void **pstate)
