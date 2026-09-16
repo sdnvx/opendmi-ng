@@ -47,9 +47,8 @@ static const dmi_name_set_t dmi_version_format_names =
 
 static const dmi_name_set_t dmi_firmware_ident_format_names =
 {
-    .code  = "firwmare-ident-formats",
+    .code  = "firmware-ident-formats",
     .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_FIRMWARE_IDENT_FORMAT_UNSPEC),
         {
             .id   = DMI_FIRMWARE_IDENT_FORMAT_FREE,
             .code = "free-form",
@@ -61,6 +60,21 @@ static const dmi_name_set_t dmi_firmware_ident_format_names =
             .name = "GUID"
         },
         DMI_NAME_NULL
+    },
+    .ranges = (dmi_name_range_t[]){
+        {
+            .start_id = __DMI_FIRMWARE_IDENT_FORMAT_RESERVED_START,
+            .end_id   = __DMI_FIRMWARE_IDENT_FORMAT_RESERVED_END,
+            .code     = "reserved",
+            .name     = "Reserved"
+        },
+        {
+            .start_id = __DMI_FIRMWARE_IDENT_FORMAT_VENDOR_SPECIFIC_START,
+            .end_id   = __DMI_FIRMWARE_IDENT_FORMAT_VENDOR_SPECIFIC_END,
+            .code     = "vendor-specific",
+            .name     = "Vendor/OEM-specific"
+        },
+        DMI_NAME_RANGE_NULL
     }
 };
 
@@ -167,8 +181,7 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, ident_format, ENUM, {
             .code    = "ident-format",
-            .name    = "identifier format",
-            .unspec  = dmi_value_ptr(DMI_FIRMWARE_IDENT_FORMAT_UNSPEC),
+            .name    = "Identifier format",
             .values  = &dmi_firmware_ident_format_names
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, release_date, STRING, {

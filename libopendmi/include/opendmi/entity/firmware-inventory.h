@@ -55,15 +55,10 @@ typedef enum dmi_version_format
 typedef enum dmi_firmware_ident_format
 {
     /**
-     * @brief Unspecified.
-     */
-    DMI_FIRMWARE_IDENT_FORMAT_UNSPEC = 0x00,
-
-    /**
      * @brief The format is a free-form string that is implementation specific.
      * Example: "35EQP72B".
      */
-    DMI_FIRMWARE_IDENT_FORMAT_FREE = 0x01,
+    DMI_FIRMWARE_IDENT_FORMAT_FREE = 0x00,
 
     /**
      * @brief The format is a string representation of the UEFI ESRT FwClass
@@ -73,7 +68,12 @@ typedef enum dmi_firmware_ident_format
      * RFC4122: `"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"`. Each `x` represents
      * a hexadecimal digit (0-F). Example: `"1624a9df-5e13-47fc-874a-df3aff143089"`.
      */
-    DMI_FIRMWARE_IDENT_FORMAT_GUID = 0x02
+    DMI_FIRMWARE_IDENT_FORMAT_GUID = 0x01,
+
+    __DMI_FIRMWARE_IDENT_FORMAT_RESERVED_START        = 0x02,
+    __DMI_FIRMWARE_IDENT_FORMAT_RESERVED_END          = 0x7F,
+    __DMI_FIRMWARE_IDENT_FORMAT_VENDOR_SPECIFIC_START = 0x80,
+    __DMI_FIRMWARE_IDENT_FORMAT_VENDOR_SPECIFIC_END   = 0xFF
 } dmi_firmware_ident_format_t;
 
 /**
