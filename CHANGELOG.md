@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add tests for entity handling functions
 - Add tests for IPMI device information decoder
 - Add tests for firmware inventory information decoder
+- Add tests for Intel RSD FPGA information decoder
 - Add entity ID conflicts check to `dmi_add_extension()`
 
 ### Fixed

@@ -104,19 +104,19 @@ const dmi_name_set_t dmi_intel_rsd_fpga_hssi_config_names =
     .code  = "intel-rsd-fpga-configs",
     .names = (dmi_name_t[]){
         {
-            .id   = DMI_INTEL_RSD_FPGA_HSS_CONFIG_NETWORKING,
+            .id   = DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING,
             .code = "networking",
             .name = "Networking"
         },
         {
-            .id = DMI_INTEL_RSD_FPGA_HSS_CONFIG_PCIE,
+            .id   = DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE,
             .code = "pcie",
             .name = "PCIe"
         },
         {
-            .id   = DMI_INTEL_RSD_FPGA_HSS_CONFIG_UNAVAILABLE,
+            .id   = DMI_INTEL_RSD_FPGA_HSSI_CONFIG_UNAVAILABLE,
             .code = "unavailable",
-            .name = "Information ot available"
+            .name = "Information not available"
         },
         {}
     }
@@ -287,6 +287,7 @@ static bool dmi_intel_rsd_fpga_decode(dmi_entity_t *entity)
         dmi_stream_decode_str(stream, &info->model) and
         dmi_stream_decode_str(stream, &info->bit_stream_version) and
         dmi_stream_decode(stream, dmi_byte_t, &info->hps_core_count) and
+        dmi_stream_skip(stream, 1) and // Offset 0Dh is not defined by specification
         dmi_stream_decode(stream, dmi_byte_t, &info->hps_isa) and
         dmi_stream_decode(stream, dmi_byte_t, &info->hssi_config) and
         dmi_stream_decode(stream, dmi_byte_t, &info->hssi_port_count) and

@@ -50,11 +50,11 @@ typedef enum dmi_intel_rsd_fpga_hps_isa
 /**
  * @brief FPGA High-Speed Serial Interface (HSSI) configurations.
  */
-typedef enum  dmi_intel_rsd_fpga_hssi_config
+typedef enum dmi_intel_rsd_fpga_hssi_config
 {
-    DMI_INTEL_RSD_FPGA_HSS_CONFIG_NETWORKING  = 0x00, ///< Networking
-    DMI_INTEL_RSD_FPGA_HSS_CONFIG_PCIE        = 0x01, ///< PCIe
-    DMI_INTEL_RSD_FPGA_HSS_CONFIG_UNAVAILABLE = 0xFF, ///< Information ot available
+    DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING  = 0x00, ///< Networking
+    DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE        = 0x01, ///< PCIe
+    DMI_INTEL_RSD_FPGA_HSSI_CONFIG_UNAVAILABLE = 0xFF, ///< Information not available
 } dmi_intel_rsd_fpga_hssi_config_t;
 
 typedef enum dmi_intel_rsd_fpga_memory_tech
