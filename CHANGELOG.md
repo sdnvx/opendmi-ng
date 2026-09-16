@@ -35,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix cache installed size decoding
 - Fix memory device extended size and rank decoding
 - Fix memory array extended capacity decoding
+- Fix templerature probe accuracy decoding
+- Fix voltage probe min/max/nom values, tolerance and resolution decoding
+- Fix current probe min/max/nom values, tolerance and resolution decoding
 - Fix IPMI device address type decoding
 - Fix firmware inventory ID format decoding
 - Fix Intel RSD processor CPUID entity specification

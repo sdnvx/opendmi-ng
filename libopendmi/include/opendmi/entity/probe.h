@@ -83,32 +83,36 @@ struct dmi_probe
     dmi_status_t status;
 
     /**
-     * @brief Maximum value readable by this probe. If the value is unknown,
-     * the field is set to `SHRT_MIN`.
+     * @brief Maximum value readable by this probe, in millivolts, milliamps,
+     * or 1/10th degrees Celsius. If the value is unknown, the field is set to
+     * `SHRT_MIN`.
      */
     short maximum_value;
 
     /**
-     * @brief Minimum value readable by this probe. If the value is unknown,
-     * the field is set to `SHRT_MIN`.
+     * @brief Minimum value readable by this probe, in millivolts, milliamps,
+     * or 1/10th degrees Celsius. If the value is unknown, the field is set to
+     * `SHRT_MIN`.
      */
     short minimum_value;
 
     /**
-     * @brief Resolution for the probe's reading. If the value is unknown,
+     * @brief Resolution for the probe's reading, in 1/10th millivolts,
+     * 1/10th milliamps, or 1/1000th degrees Celsius. If the value is unknown,
      * the field is set to `SHRT_MIN`.
      */
     short resolution;
 
     /**
-     * @brief Tolerance for reading from this probe. If the value is unknown,
-     * the field is set to `SHRT_MIN`.
+     * @brief Tolerance for reading from this probe, in plus or minus
+     * millivolts, milliamps, or 1/10th degrees Celsius. If the value is
+     * unknown, the field is set to `SHRT_MIN`.
      */
     short tolerance;
 
     /**
-     * @brief Accuracy for reading from this probe. If the value is unknown,
-     * the field is set to `SHRT_MIN`.
+     * @brief Accuracy for reading from this probe, in plus or minus 1/100th
+     * of a percent. If the value is unknown, the field is set to `SHRT_MIN`.
      */
     short accuracy;
 
@@ -118,8 +122,9 @@ struct dmi_probe
     uint32_t oem_defined;
 
     /**
-     * @brief Nominal value for the probe’s reading. If the value is unknown,
-     * the field is set to `SHRT_MIN`.
+     * @brief Nominal value for the probe’s reading, in millivolts, milliamps,
+     * or 1/10th degrees Celsius. If the value is unknown, the field is set to
+     * `SHRT_MIN`.
      */
     short nominal_value;
 };

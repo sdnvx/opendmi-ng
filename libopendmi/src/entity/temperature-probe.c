@@ -78,7 +78,7 @@ const dmi_entity_spec_t dmi_temperature_probe_spec =
             .code    = "accuracy",
             .name    = "Accuracy",
             .scale   = 2,
-            .unit    = DMI_UNIT_CELSIUS,
+            .unit    = DMI_UNIT_PERCENT,
             .unknown = dmi_value_ptr(DMI_PROBE_VALUE_UNKNOWN),
             .flags   = DMI_ATTRIBUTE_FLAG_SIGNED
         }),

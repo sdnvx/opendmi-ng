@@ -40,18 +40,16 @@ const dmi_entity_spec_t dmi_voltage_probe_spec =
             .unknown = dmi_value_ptr(DMI_STATUS_UNKNOWN),
             .values  = &dmi_status_names
         }),
-        DMI_ATTRIBUTE(dmi_voltage_probe_t, maximum_value, DECIMAL, {
+        DMI_ATTRIBUTE(dmi_voltage_probe_t, maximum_value, INTEGER, {
             .code    = "maximum-value",
             .name    = "Maximum value",
-            .scale   = 1,
             .unit    = DMI_UNIT_MILLIVOLT,
             .unknown = dmi_value_ptr(DMI_PROBE_VALUE_UNKNOWN),
             .flags   = DMI_ATTRIBUTE_FLAG_SIGNED
         }),
-        DMI_ATTRIBUTE(dmi_voltage_probe_t, minimum_value, DECIMAL, {
+        DMI_ATTRIBUTE(dmi_voltage_probe_t, minimum_value, INTEGER, {
             .code    = "minimum-value",
             .name    = "Minimum value",
-            .scale   = 1,
             .unit    = DMI_UNIT_MILLIVOLT,
             .unknown = dmi_value_ptr(DMI_PROBE_VALUE_UNKNOWN),
             .flags   = DMI_ATTRIBUTE_FLAG_SIGNED
@@ -59,15 +57,14 @@ const dmi_entity_spec_t dmi_voltage_probe_spec =
         DMI_ATTRIBUTE(dmi_voltage_probe_t, resolution, DECIMAL, {
             .code    = "resolution",
             .name    = "Resolution",
-            .scale   = 3,
+            .scale   = 1,
             .unit    = DMI_UNIT_MILLIVOLT,
             .unknown = dmi_value_ptr(DMI_PROBE_VALUE_UNKNOWN),
             .flags   = DMI_ATTRIBUTE_FLAG_SIGNED
         }),
-        DMI_ATTRIBUTE(dmi_voltage_probe_t, tolerance, DECIMAL, {
+        DMI_ATTRIBUTE(dmi_voltage_probe_t, tolerance, INTEGER, {
             .code    = "tolerance",
             .name    = "Tolerance",
-            .scale   = 1,
             .unit    = DMI_UNIT_MILLIVOLT,
             .unknown = dmi_value_ptr(DMI_PROBE_VALUE_UNKNOWN),
             .flags   = DMI_ATTRIBUTE_FLAG_SIGNED
@@ -76,7 +73,7 @@ const dmi_entity_spec_t dmi_voltage_probe_spec =
             .code    = "accuracy",
             .name    = "Accuracy",
             .scale   = 2,
-            .unit    = DMI_UNIT_MILLIVOLT,
+            .unit    = DMI_UNIT_PERCENT,
             .unknown = dmi_value_ptr(DMI_PROBE_VALUE_UNKNOWN),
             .flags   = DMI_ATTRIBUTE_FLAG_SIGNED
         }),
@@ -85,10 +82,9 @@ const dmi_entity_spec_t dmi_voltage_probe_spec =
             .name    = "OEM-defined",
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_voltage_probe_t, nominal_value, DECIMAL, {
+        DMI_ATTRIBUTE(dmi_voltage_probe_t, nominal_value, INTEGER, {
             .code    = "nominal-value",
             .name    = "Nominal value",
-            .scale   = 1,
             .unit    = DMI_UNIT_MILLIVOLT,
             .unknown = dmi_value_ptr(DMI_PROBE_VALUE_UNKNOWN),
             .flags   = DMI_ATTRIBUTE_FLAG_SIGNED
