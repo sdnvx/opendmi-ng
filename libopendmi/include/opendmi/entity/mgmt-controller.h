@@ -109,7 +109,7 @@ struct dmi_mgmt_controller
  */
 struct dmi_mgmt_proto_record
 {
-    dmi_mgmt_if_type_t type;
+    dmi_mgmt_proto_t type;
 
     size_t length;
 

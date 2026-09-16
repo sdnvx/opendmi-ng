@@ -4,8 +4,8 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <memory.h>
-
+#include <opendmi/context.h>
+#include <opendmi/log.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
@@ -183,58 +183,90 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
 static bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
 {
     dmi_mgmt_controller_t *info;
-    const dmi_mgmt_controller_data_t *data;
-    const dmi_mgmt_controller_extra_t *extra;
-
-    data = dmi_entity_data(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
     if (info == nullptr)
         return false;
 
-    const off_t offset = sizeof(*data) + dmi_decode(data->if_data_length);
-    extra = dmi_cast(extra, (const uint8_t *)data + offset);
+    dmi_context_t *context = entity->context;
+    dmi_stream_t  *stream  = &entity->stream;
 
-    info->if_type        = dmi_decode(data->if_type);
-    info->if_data_length = dmi_decode(data->if_data_length);
+    dmi_byte_t if_type        = 0;
+    dmi_byte_t if_data_length = 0;
 
-    info->if_data = dmi_alloc(entity->context, info->if_data_length);
-    if (info->if_data == nullptr) {
-        dmi_mgmt_controller_cleanup(entity);
+    bool status =
+        dmi_stream_decode(stream, dmi_byte_t, &if_type) and
+        dmi_stream_decode(stream, dmi_byte_t, &if_data_length);
+    if (not status)
         return false;
+
+    info->if_type = dmi_cast(info->if_type, if_type);
+
+    // Some implementations use different structure layout (e.g. the one from
+    // SMBIOS versions prior to 3.2), so stop decoding there as dmidecode does
+    if (dmi_stream_remaining(stream) < if_data_length) {
+        dmi_log_warning(context->logger,
+                        "0x%04x: Interface data length %u exceeds structure length",
+                        entity->handle, if_data_length);
+        return true;
     }
-    memcpy(info->if_data, data->if_data, info->if_data_length);
 
-    info->proto_records_count = dmi_decode(extra->proto_records_count);
+    if (if_data_length > 0) {
+        info->if_data = dmi_alloc(context, if_data_length);
+        if (info->if_data == nullptr)
+            return false;
 
-    const size_t memsize = sizeof(*info->proto_records) * info->proto_records_count;
-    info->proto_records = dmi_alloc(entity->context, memsize);
-    if (info->proto_records == nullptr) {
-        dmi_mgmt_controller_cleanup(entity);
+        if (not dmi_stream_read_data(stream, info->if_data, if_data_length))
+            return false;
+
+        info->if_data_length = if_data_length;
+    }
+
+    // Protocol records are present since SMBIOS 3.2
+    if (dmi_stream_is_done(stream))
+        return true;
+
+    dmi_byte_t proto_records_count = 0;
+    if (not dmi_stream_decode(stream, dmi_byte_t, &proto_records_count))
         return false;
-    }
 
-    const dmi_byte_t *cursor = extra->proto_records_data;
-    for (size_t i = 0; i < info->proto_records_count; i++) {
-        dmi_mgmt_proto_record_data_t *rec_data = dmi_cast(rec_data, cursor);
+    if (proto_records_count == 0)
+        return true;
 
-        dmi_mgmt_if_type_t type   = dmi_cast(type, dmi_decode(rec_data->type));
-        size_t             length = dmi_decode(rec_data->length);
+    info->proto_records = dmi_alloc_array(context, sizeof(*info->proto_records),
+                                          proto_records_count);
+    if (info->proto_records == nullptr)
+        return false;
 
-        dmi_mgmt_proto_record_t *rec = dmi_alloc(entity->context, sizeof(*rec) + length);
-        if (rec == nullptr) {
-            dmi_mgmt_controller_cleanup(entity);
+    // Records count is incremented only for completely decoded records
+    for (size_t i = 0; i < proto_records_count; i++) {
+        dmi_byte_t type   = 0;
+        dmi_byte_t length = 0;
+
+        status =
+            dmi_stream_decode(stream, dmi_byte_t, &type) and
+            dmi_stream_decode(stream, dmi_byte_t, &length) and
+            (dmi_stream_remaining(stream) >= length);
+        if (not status) {
+            dmi_log_warning(context->logger,
+                            "0x%04x: Protocol record %zu exceeds structure length",
+                            entity->handle, i + 1);
+            break;
+        }
+
+        dmi_mgmt_proto_record_t *record = dmi_alloc(context, sizeof(*record) + length);
+        if (record == nullptr)
+            return false;
+
+        record->type   = dmi_cast(record->type, type);
+        record->length = length;
+
+        if (not dmi_stream_read_data(stream, record->data, record->length)) {
+            dmi_free(record);
             return false;
         }
-        rec->type   = type;
-        rec->length = length;
-        memcpy(rec->data, rec_data->data, length);
 
-        info->proto_records[i] = rec;
-
-        cursor += sizeof(*rec_data) + rec_data->length;
+        info->proto_records[info->proto_records_count++] = record;
     }
 
     return true;
