@@ -78,7 +78,8 @@ struct dmi_memory_array
     dmi_error_correct_type_t error_correction;
 
     /**
-     * @brief Maximum memory capacity, in bytes, for this array.
+     * @brief Maximum memory capacity, in bytes, for this array. The value
+     * UINT64_MAX means that the capacity is unknown.
      */
     dmi_size_t maximum_capacity;
 

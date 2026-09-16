@@ -164,7 +164,8 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, maximum_capacity, SIZE, {
             .code    = "maximum-capacity",
-            .name    = "Maximum capacity"
+            .name    = "Maximum capacity",
+            .unknown = dmi_value_ptr((dmi_size_t)UINT64_MAX)
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, error_info_handle, HANDLE, {
             .code    = "error-handle",
@@ -214,7 +215,15 @@ static bool dmi_memory_array_decode(dmi_entity_t *entity)
     if (not dmi_stream_decode(stream, dmi_dword_t, &maximum_capacity))
         return false;
 
-    info->maximum_capacity = (dmi_size_t)(maximum_capacity & 0x7FFFFFFFU) << 10;
+    // Maximum capacity is specified in kilobytes. If it is unknown, or 2 TiB
+    // or more, the field value is 0x80000000, and actual capacity is stored
+    // in extended maximum capacity field (in bytes).
+    bool has_capacity_ex = (maximum_capacity == 0x80000000u);
+
+    if (has_capacity_ex)
+        info->maximum_capacity = UINT64_MAX;
+    else
+        info->maximum_capacity = (dmi_size_t)maximum_capacity << 10;
 
     status =
         dmi_stream_decode(stream, dmi_handle_t, &info->error_info_handle) and
@@ -227,12 +236,12 @@ static bool dmi_memory_array_decode(dmi_entity_t *entity)
 
     entity->level = dmi_version(2, 7, 0);
 
-    if (info->maximum_capacity & 0x80000000) {
+    if (has_capacity_ex) {
         dmi_qword_t maximum_capacity_ex = 0;
-        if (not dmi_stream_decode(stream, dmi_qword_t, &maximum_capacity_ex))
-            return false;
 
-        info->maximum_capacity = maximum_capacity_ex;
+        // Capacity remains unknown if extended field is truncated
+        if (dmi_stream_decode(stream, dmi_qword_t, &maximum_capacity_ex))
+            info->maximum_capacity = maximum_capacity_ex;
     }
 
     return true;

@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed memory leak in `dmi_entity_decode_strings()`
 - Fixed error queue overflow handling in `dmi_error_slot_get()`
 - Fixed memory device extended size and rank decoding
+- Fixed memory array extended capacity decoding
 - Fixed format-truncation warning on GCC 16 #112
 - Fixed UUID decoding test on big-endian architectures
 
