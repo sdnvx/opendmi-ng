@@ -103,6 +103,16 @@ endif()
 add_executable(opendmi src/main.c)
 target_link_libraries(opendmi PRIVATE opendmi-cli)
 
+# Windows has no rpath, so the library DLL is copied next to the executable to
+# make it runnable from the build directory
+if(WIN32)
+    add_custom_command(TARGET opendmi POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                $<TARGET_RUNTIME_DLLS:opendmi> $<TARGET_FILE_DIR:opendmi>
+        COMMAND_EXPAND_LISTS
+    )
+endif()
+
 install(TARGETS opendmi RUNTIME DESTINATION bin)
 
 #
@@ -154,6 +164,13 @@ function(opendmi_cli_test TEST_NAME)
     )
 
     set_tests_properties(${TEST_FULL_NAME} PROPERTIES SKIP_RETURN_CODE 69)
+
+    # Windows has no rpath, so the library DLL is looked up via PATH
+    if(WIN32)
+        set_tests_properties(${TEST_FULL_NAME} PROPERTIES
+            ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:opendmi-shared>"
+        )
+    endif()
 
     if(ENABLE_COVERAGE)
         set_tests_properties(${TEST_FULL_NAME} PROPERTIES
