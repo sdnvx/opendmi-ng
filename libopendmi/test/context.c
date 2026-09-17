@@ -102,6 +102,7 @@ static void test_context_close_resets_state(void **pstate)
     assert_null(context->state.vendor_name);
     assert_int_equal(context->state.entry_size, 0);
     assert_int_equal(context->state.table_area_size, 0);
+    assert_int_equal(context->state.table_size, 0);
     assert_int_equal(context->state.smbios_version, 0);
     assert_int_equal(context->state.vendor, DMI_VENDOR_OTHER);
 

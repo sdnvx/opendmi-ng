@@ -118,6 +118,7 @@ static void test_dump_load_valid(void **pstate)
     test_dump_write(state->source, state->source_size);
 
     assert_true(dmi_dump_load(state->context, test_dump_path));
+    assert_int_equal(state->context->state.table_size, state->source_size - DMI_ENTRY_MAX_SIZE);
     assert_int_equal(state->context->state.registry->count, test_source_count);
     assert_false(state->context->state.registry->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_true(dmi_close(state->context));
@@ -194,6 +195,11 @@ static void test_dump_load_truncated(void **pstate)
         test_dump_write(state->source, size);
 
         assert_true(dmi_dump_load(state->context, test_dump_path));
+
+        // Table area size from the entry point is not affected by actual
+        // table data size
+        assert_int_equal(state->context->state.table_area_max_size, state->source_size - DMI_ENTRY_MAX_SIZE);
+        assert_int_equal(state->context->state.table_size, size - DMI_ENTRY_MAX_SIZE);
 
         const dmi_registry_t *registry = state->context->state.registry;
         assert_true(registry->status & DMI_REGISTRY_STATUS_TRUNCATED);

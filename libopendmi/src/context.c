@@ -438,7 +438,7 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
 
         if (not dmi_dump_write(context, fd, path, entry, sizeof(entry)))
             break;
-        if (not dmi_dump_write(context, fd, path, context->state.table_data, context->state.table_area_size))
+        if (not dmi_dump_write(context, fd, path, context->state.table_data, context->state.table_size))
             break;
 
         success = true;
@@ -593,14 +593,13 @@ static bool dmi_open_ex(
                      dmi_version_revision(context->state.smbios_version));
 
         // Read and decode SMBIOS structures
-        // TODO: Use separate variable for size
         dmi_log_info(context->logger, "Reading DMI structures...");
-        context->state.table_data = context->state.backend->read_table(context, &context->state.table_area_size);
+        context->state.table_data = context->state.backend->read_table(context, &context->state.table_size);
         if (context->state.table_data == nullptr)
             break;
 
-        // Table area size is used for bounds checking while scanning
-        if (context->state.table_area_size == 0) {
+        // Table data size is used for bounds checking while scanning
+        if (context->state.table_size == 0) {
             dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TRUNCATED, "SMBIOS table area is empty");
             break;
         }

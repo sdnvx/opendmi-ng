@@ -94,7 +94,7 @@ struct dmi_context_state
     uint64_t table_area_addr;
 
     /**
-     * @brief Actual size of SMBIOS table area.
+     * @brief Size of SMBIOS table area, specified in the entry point.
      */
     size_t table_area_size;
 
@@ -107,6 +107,12 @@ struct dmi_context_state
      * @brief Pointer to SMBIOS table area data.
      */
     dmi_data_t *table_data;
+
+    /**
+     * @brief Actual size of SMBIOS table area data, provided by backend. It
+     * may differ from the size specified in the entry point.
+     */
+    size_t table_size;
 
     /**
      * @brief Maximum size of SMBIOS structure.
