@@ -32,7 +32,7 @@ typedef enum dmi_processor_type
 typedef enum dmi_processor_family
 {
     DMI_PROCESSOR_FAMILY_UNSPEC                  = 0x00, ///< Unspecified
-    DMI_PROCERROR_FAMILY_OTHER                   = 0x01, ///< Other
+    DMI_PROCESSOR_FAMILY_OTHER                   = 0x01, ///< Other
     DMI_PROCESSOR_FAMILY_UNKNOWN                 = 0x02, ///< Unknown
     DMI_PROCESSOR_FAMILY_INTEL_8086              = 0x03, ///< Intel 8086
     DMI_PROCESSOR_FAMILY_INTEL_80286             = 0x04, ///< Intel 80286

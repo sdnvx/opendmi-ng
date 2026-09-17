@@ -51,7 +51,7 @@ static const dmi_name_set_t dmi_processor_family_names =
     .code  = "processor-families",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_PROCESSOR_FAMILY_UNSPEC),
-        DMI_NAME_OTHER(DMI_PROCERROR_FAMILY_OTHER),
+        DMI_NAME_OTHER(DMI_PROCESSOR_FAMILY_OTHER),
         DMI_NAME_UNKNOWN(DMI_PROCESSOR_FAMILY_UNKNOWN),
         {
             .id   = DMI_PROCESSOR_FAMILY_INTEL_8086,
