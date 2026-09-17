@@ -1,4 +1,4 @@
-name: CMake on FreeBSD
+name: FreeBSD
 
 on:
   push:

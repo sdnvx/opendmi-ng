@@ -1,4 +1,4 @@
-name: CMake on NetBSD
+name: NetBSD
 
 on:
   push:
