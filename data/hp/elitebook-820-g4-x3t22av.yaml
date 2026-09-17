@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 3.0.1
+  smbios-version: '3.0'
 table:
 - handle: 0
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -16,7 +16,7 @@ table:
 - handle: 3
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -27,7 +27,7 @@ table:
 - handle: 4
   type: 0
   length: 56
-  level: 3.1
+  level: '3.1'
   description: Platform firmware information
   attributes:
     vendor: HP
@@ -65,7 +65,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -82,17 +82,17 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.47
-    controller-version: 69.82
+    platform-version: '1.47'
+    controller-version: '69.82'
 - handle: 5
   type: 1
   length: 97
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: HP
     product: HP EliteBook 820 G4
-    version: null
+    version: ''
     serial-number: 5CG82511YG
     uuid: FFE1F24C-E4B7-06B2-F966-3A7D51E0DF8A
     wakeup-type: power-switch
@@ -101,36 +101,36 @@ table:
 - handle: 6
   type: 2
   length: 63
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: HP
-    product: 8292
+    product: '8292'
     version: KBC Version 45.52
     serial-number: PGDSB00WBAY04X
-    asset-tag: null
+    asset-tag: ''
     features:
       is-hosting-board: true
       require-daughter-board: false
       is-removable: false
       is-replaceable: false
       is-hot-swappable: false
-    location: null
+    location: ''
     chassis-handle: 0
     type: motherboard
     contained-objects: []
 - handle: 7
   type: 3
   length: 43
-  level: 3.9
+  level: '3.9'
   description: System enclosure or chassis
   attributes:
     vendor: HP
     type: notebook
     is-lock-present: false
-    version: null
+    version: ''
     serial-number: 5CG82511YG
-    asset-tag: null
+    asset-tag: ''
     bootup-state: ok
     power-supply-state: ok
     thermal-state: ok
@@ -147,7 +147,7 @@ table:
 - handle: 8
   type: 11
   length: 104
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 4
@@ -159,7 +159,7 @@ table:
 - handle: 9
   type: 13
   length: 98
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -184,7 +184,7 @@ table:
 - handle: 10
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -218,7 +218,7 @@ table:
 - handle: 11
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -252,7 +252,7 @@ table:
 - handle: 12
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -286,17 +286,20 @@ table:
 - handle: 13
   type: 4
   length: 185
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: U3E1
     type: central
     family: intel-core-i5
     vendor: Intel(R) Corporation
+    version: Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
     voltage: 136
     external-clock: 100
     maximum-speed: 3100
     current-speed: 2400
+    is-populated: true
+    status: enabled
     upgrade: socket-bga1356
     l1-cache-handle: 10
     l2-cache-handle: 11
@@ -321,7 +324,7 @@ table:
 - handle: 14
   type: 8
   length: 37
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Ctrl0Port0
@@ -332,7 +335,7 @@ table:
 - handle: 15
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Ctrl0Port2
@@ -343,7 +346,7 @@ table:
 - handle: 16
   type: 9
   length: 29
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: M2 WLAN/BT
@@ -383,7 +386,7 @@ table:
 - handle: 17
   type: 9
   length: 25
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: M2 SSD
@@ -423,7 +426,7 @@ table:
 - handle: 18
   type: 41
   length: 24
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard IGD
@@ -446,7 +449,7 @@ table:
 - handle: 20
   type: 17
   length: 121
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 0
@@ -479,7 +482,7 @@ table:
     maximum-speed: 2133
     vendor: Unknown - [0x9B85]
     serial-number: 190D95FB
-    asset-tag: null
+    asset-tag: ''
     part-number: CT8G4SFS824A.C8FBD1
     rank: 1
     configured-speed: 2133
@@ -489,7 +492,7 @@ table:
 - handle: 1
   type: 17
   length: 112
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 0
@@ -522,7 +525,7 @@ table:
     maximum-speed: 2133
     vendor: Kingston
     serial-number: 63305CA5
-    asset-tag: null
+    asset-tag: ''
     part-number: KF2666C15S4/16G
     rank: 2
     configured-speed: 2133
@@ -532,7 +535,7 @@ table:
 - handle: 2
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -546,7 +549,7 @@ table:
 - handle: 21
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 8589934592
@@ -560,7 +563,7 @@ table:
 - handle: 22
   type: 22
   length: 66
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: Primary
@@ -571,7 +574,7 @@ table:
     chemistry: unknown
     capacity: 49.08
     voltage: 11.55
-    sbds-version: 1.1
+    sbds-version: '1.1'
     maximum-error: unknown
     sbds-serial-number: 902
     sbds-chemistry: LION
@@ -579,7 +582,7 @@ table:
 - handle: 23
   type: 24
   length: 7
-  level: 2.2
+  level: '2.2'
   description: Hardware security
   attributes:
     front-panel-reset: disabled
@@ -656,7 +659,7 @@ table:
 - handle: 29
   type: 10
   length: 14
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -667,7 +670,7 @@ table:
 - handle: 30
   type: 14
   length: 14
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: $MEI

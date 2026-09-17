@@ -54,7 +54,8 @@ static const char *dmi_error_messages[__DMI_ERROR_COUNT] =
     [DMI_ERROR_SYSTEM]                = "System error",
     [DMI_ERROR_INTERNAL]              = "Internal error",
     [DMI_ERROR_BACKEND_INIT]          = "Unable to initialize backend",
-    [DMI_ERROR_CONTEXT_OPEN]          = "Unable to open context"
+    [DMI_ERROR_CONTEXT_OPEN]          = "Unable to open context",
+    [DMI_ERROR_INVALID_DUMP]          = "Invalid SMBIOS dump"
 };
 
 static const dmi_error_t dmi_error_null =

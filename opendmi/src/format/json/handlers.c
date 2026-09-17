@@ -11,6 +11,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/base64.h>
 
+#include <opendmi/format/iter.h>
 #include <opendmi/format/json/handlers.h>
 #include <opendmi/format/json/helpers.h>
 
@@ -35,7 +36,13 @@ void *dmi_json_initialize(dmi_context_t *context, FILE *stream)
             break;
         }
 
-        if (not yajl_gen_config(session->generator, yajl_gen_beautify, 1)) {
+        // Strings are repaired before output, and validation guarantees that
+        // no invalid UTF-8 is written anyway
+        bool configured =
+            yajl_gen_config(session->generator, yajl_gen_beautify, 1) and
+            yajl_gen_config(session->generator, yajl_gen_validate_utf8, 1);
+
+        if (not configured) {
             dmi_error_raise_ex(context, DMI_ERROR_INTERNAL, "Unable to configure JSON generator");
             break;
         }
@@ -204,14 +211,15 @@ bool dmi_json_entity_attr_array(
     assert(info != nullptr);
     assert(value != nullptr);
 
-    // TODO: Support other types of counters
-    size_t count = dmi_member_value(info, attr->counter, size_t);
-    const dmi_data_t *ptr = *(const dmi_data_t **)value;
+    dmi_format_array_iter_t iter;
+    const dmi_data_t *ptr;
 
     if (not dmi_json_sequence_start(session))
         return false;
 
-    for (size_t i = 0; i < count; i++, ptr += attr->value.size) {
+    dmi_format_array_iter_init(&iter, attr, info, value);
+
+    while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
         bool result;
 
         if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT)
@@ -309,20 +317,18 @@ bool dmi_json_entity_attr_set(
     assert(attr != nullptr);
     assert(value != nullptr);
 
-    uintmax_t mask = dmi_attribute_get_uint(attr, value);
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
 
     if (not dmi_json_mapping_start(session))
         return false;
 
-    for (size_t i = 0; i < attr->value.size * CHAR_BIT; i++) {
-        const char *name = dmi_code_lookup(attr->params.values, i);
-        if (name == nullptr)
-            continue;
+    dmi_format_set_iter_init(&iter, attr, value);
 
-        bool flag = mask & (1 << i);
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         bool result =
-            dmi_json_label(session, name) and
-            dmi_json_scalar(session, flag);
+            dmi_json_label(session, flag->code) and
+            dmi_json_scalar(session, flag->value);
 
         if (not result)
             return false;
@@ -374,8 +380,12 @@ bool dmi_json_entity_strings(dmi_json_session_t *session, const dmi_entity_t *en
     if (not result)
         return false;
 
-    for (dmi_string_t i = 1; i <= entity->string_count; i++) {
-        const char *str = dmi_entity_string_ex(entity, i, true);
+    dmi_format_string_iter_t iter;
+    const char *str;
+
+    dmi_format_string_iter_init(&iter, entity);
+
+    while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
         if (not dmi_json_scalar(session, str))
             return false;
     }

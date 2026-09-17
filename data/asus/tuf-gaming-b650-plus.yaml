@@ -1,14 +1,14 @@
 entry:
-  smbios-version: 3.5.1
+  smbios-version: '3.5'
 table:
 - handle: 0
   type: 0
   length: 68
-  level: 3.1
+  level: '3.1'
   description: Platform firmware information
   attributes:
     vendor: American Megatrends Inc.
-    version: 2412
+    version: '2412'
     bios-segment: 61440
     release-date: '2024-01-26'
     rom-size: 33554432
@@ -42,7 +42,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: true
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 24.12
+    platform-version: '24.12'
     controller-version: null
 - handle: 1
   type: 1
   length: 116
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: ASUS
@@ -78,13 +78,13 @@ table:
 - handle: 2
   type: 2
   length: 114
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: ASUSTeK COMPUTER INC.
     product: TUF GAMING B650-PLUS
     version: Rev 1.xx
-    serial-number: 230621772600756
+    serial-number: '230621772600756'
     asset-tag: Default string
     features:
       is-hosting-board: true
@@ -99,7 +99,7 @@ table:
 - handle: 3
   type: 3
   length: 98
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: Default string
@@ -122,7 +122,7 @@ table:
 - handle: 4
   type: 10
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -133,7 +133,7 @@ table:
 - handle: 5
   type: 11
   length: 89
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 6
@@ -147,7 +147,7 @@ table:
 - handle: 6
   type: 12
   length: 21
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -162,7 +162,7 @@ table:
 - handle: 8
   type: 34
   length: 31
-  level: 2.3
+  level: '2.3'
   description: Management device
   attributes:
     description: Nuvoton NCT6799D-R
@@ -172,7 +172,7 @@ table:
 - handle: 9
   type: 40
   length: 133
-  level: 2.6
+  level: '2.6'
   description: Additional information
   attributes:
     entries:
@@ -197,17 +197,17 @@ table:
 - handle: 10
   type: 44
   length: 11
-  level: 2.0
+  level: '2.0'
   description: Processor additional information
   data: !!binary |
     LAkKAP//AQEA
 - handle: 11
   type: 43
   length: 44
-  level: 2.0
+  level: '2.0'
   description: TPM device
   attributes:
-    specification-version: 2.0
+    specification-version: '2.0'
     firmware-version: 1688983004250118
     description: AMD
     characteristics:
@@ -219,7 +219,7 @@ table:
 - handle: 12
   type: 7
   length: 39
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 - Cache
@@ -253,7 +253,7 @@ table:
 - handle: 13
   type: 7
   length: 39
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 - Cache
@@ -287,7 +287,7 @@ table:
 - handle: 14
   type: 7
   length: 39
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 - Cache
@@ -321,17 +321,20 @@ table:
 - handle: 15
   type: 4
   length: 154
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: AM5
     type: central
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
+    version: AMD Ryzen 9 7900X 12-Core Processor
     voltage: 141
     external-clock: 100
     maximum-speed: 5700
     current-speed: 4700
+    is-populated: true
+    status: enabled
     upgrade: socket-am5
     l1-cache-handle: 12
     l2-cache-handle: 13
@@ -356,14 +359,14 @@ table:
 - handle: 16
   type: 44
   length: 11
-  level: 2.0
+  level: '2.0'
   description: Processor additional information
   data: !!binary |
     LAkQAA8AAQIA
 - handle: 17
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -376,7 +379,7 @@ table:
 - handle: 18
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -388,7 +391,7 @@ table:
 - handle: 19
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -399,7 +402,7 @@ table:
 - handle: 20
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -412,7 +415,7 @@ table:
 - handle: 21
   type: 17
   length: 145
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 18
@@ -466,7 +469,7 @@ table:
 - handle: 22
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -479,14 +482,14 @@ table:
 - handle: 23
   type: 17
   length: 170
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 18
     error-info-handle: 22
     total-width: 64
     data-width: 64
-    size: 34358689792
+    size: 34359738368
     form-factor: dimm
     device-set: 0
     device-locator: DIMM 1
@@ -533,7 +536,7 @@ table:
 - handle: 24
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -547,7 +550,7 @@ table:
 - handle: 25
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -560,7 +563,7 @@ table:
 - handle: 26
   type: 17
   length: 145
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 18
@@ -614,7 +617,7 @@ table:
 - handle: 27
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -627,14 +630,14 @@ table:
 - handle: 28
   type: 17
   length: 170
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 18
     error-info-handle: 27
     total-width: 64
     data-width: 64
-    size: 34358689792
+    size: 34359738368
     form-factor: dimm
     device-set: 0
     device-locator: DIMM 1
@@ -681,7 +684,7 @@ table:
 - handle: 29
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 34359738368
@@ -695,7 +698,7 @@ table:
 - handle: 30
   type: 40
   length: 44
-  level: 2.6
+  level: '2.6'
   description: Additional information
   attributes:
     entries:
@@ -714,7 +717,7 @@ table:
 - handle: 32
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: HDMI
@@ -725,7 +728,7 @@ table:
 - handle: 33
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: DP
@@ -736,7 +739,7 @@ table:
 - handle: 34
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: U32G2_C2
@@ -747,7 +750,7 @@ table:
 - handle: 35
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: U32G2_3
@@ -758,7 +761,7 @@ table:
 - handle: 36
   type: 8
   length: 36
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: USB_1_5_1213
@@ -769,7 +772,7 @@ table:
 - handle: 37
   type: 8
   length: 34
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: LAN_U32G2_4
@@ -780,7 +783,7 @@ table:
 - handle: 38
   type: 8
   length: 32
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: U32G2X2_C6
@@ -791,7 +794,7 @@ table:
 - handle: 39
   type: 8
   length: 18
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: LAN
@@ -802,7 +805,7 @@ table:
 - handle: 40
   type: 8
   length: 27
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: AUDIO
@@ -813,7 +816,7 @@ table:
 - handle: 41
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: SATA6G_1
@@ -824,7 +827,7 @@ table:
 - handle: 42
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: SATA6G_2
@@ -835,7 +838,7 @@ table:
 - handle: 43
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: SATA6G_3
@@ -846,7 +849,7 @@ table:
 - handle: 44
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: SATA6G_4
@@ -857,7 +860,7 @@ table:
 - handle: 45
   type: 8
   length: 15
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: AAFP
@@ -868,7 +871,7 @@ table:
 - handle: 46
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: RGB_HEADER
@@ -879,7 +882,7 @@ table:
 - handle: 47
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: TB_HEADER
@@ -890,7 +893,7 @@ table:
 - handle: 48
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: USB_1415
@@ -901,7 +904,7 @@ table:
 - handle: 49
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: USB_1617
@@ -912,7 +915,7 @@ table:
 - handle: 50
   type: 8
   length: 18
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: U32_C10
@@ -923,7 +926,7 @@ table:
 - handle: 51
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: U32G1_89
@@ -934,7 +937,7 @@ table:
 - handle: 52
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: ADD_GEN2_1
@@ -945,7 +948,7 @@ table:
 - handle: 53
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: ADD_GEN2_2
@@ -956,7 +959,7 @@ table:
 - handle: 54
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: ADD_GEN2_3
@@ -967,7 +970,7 @@ table:
 - handle: 55
   type: 8
   length: 18
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: CPU_FAN
@@ -978,7 +981,7 @@ table:
 - handle: 56
   type: 8
   length: 18
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: CPU_OPT
@@ -989,7 +992,7 @@ table:
 - handle: 57
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: AIO_PUMP
@@ -1000,7 +1003,7 @@ table:
 - handle: 58
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: CHA_FAN1
@@ -1011,7 +1014,7 @@ table:
 - handle: 59
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: CHA_FAN2
@@ -1022,7 +1025,7 @@ table:
 - handle: 60
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: CHA_FAN3
@@ -1033,7 +1036,7 @@ table:
 - handle: 61
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: CHA_FAN4
@@ -1044,7 +1047,7 @@ table:
 - handle: 62
   type: 8
   length: 14
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: COM
@@ -1055,7 +1058,7 @@ table:
 - handle: 63
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: COM_DEBUG
@@ -1066,7 +1069,7 @@ table:
 - handle: 64
   type: 8
   length: 16
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: PANEL
@@ -1077,7 +1080,7 @@ table:
 - handle: 65
   type: 9
   length: 28
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCIEX16_1
@@ -1117,7 +1120,7 @@ table:
 - handle: 66
   type: 9
   length: 28
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCIEX16_2
@@ -1157,7 +1160,7 @@ table:
 - handle: 67
   type: 9
   length: 27
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCIEX1_2
@@ -1197,7 +1200,7 @@ table:
 - handle: 68
   type: 9
   length: 27
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCIEX1_1
@@ -1237,7 +1240,7 @@ table:
 - handle: 69
   type: 9
   length: 33
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: M.2_1(SOCKET3)
@@ -1277,7 +1280,7 @@ table:
 - handle: 70
   type: 9
   length: 33
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: M.2_2(SOCKET3)
@@ -1317,7 +1320,7 @@ table:
 - handle: 71
   type: 9
   length: 33
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: M.2_3(SOCKET3)
@@ -1357,7 +1360,7 @@ table:
 - handle: 72
   type: 41
   length: 34
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Realtek ALC1200 Audio
@@ -1372,7 +1375,7 @@ table:
 - handle: 73
   type: 41
   length: 34
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Realtek RTL8125BG LAN
@@ -1387,7 +1390,7 @@ table:
 - handle: 74
   type: 13
   length: 159
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:

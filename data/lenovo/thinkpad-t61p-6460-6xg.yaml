@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 2.4
+  smbios-version: '2.4'
 table:
 - handle: 0
   type: 0
   length: 60
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: LENOVO
@@ -42,7 +42,7 @@ table:
       serial-support: false
       printer-support: false
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.38
-    controller-version: 1.6
+    platform-version: '1.38'
+    controller-version: '1.6'
 - handle: 1
   type: 1
   length: 65
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: LENOVO
@@ -78,7 +78,7 @@ table:
 - handle: 2
   type: 2
   length: 50
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: LENOVO
@@ -99,7 +99,7 @@ table:
 - handle: 3
   type: 3
   length: 70
-  level: 2.1
+  level: '2.1'
   description: System enclosure or chassis
   attributes:
     vendor: LENOVO
@@ -139,17 +139,20 @@ table:
 - handle: 6
   type: 4
   length: 102
-  level: 2.3
+  level: '2.3'
   description: Processor information
   attributes:
     socket-designation: None
     type: central
     family: other
     vendor: GenuineIntel
+    version: Intel(R) Core(TM)2 Duo CPU     T7500  @ 2.20GHz
     voltage: 142
     external-clock: 200
     maximum-speed: 2200
     current-speed: 2200
+    is-populated: true
+    status: enabled
     upgrade: none
     l1-cache-handle: 10
     l2-cache-handle: 12
@@ -161,14 +164,14 @@ table:
 - handle: 7
   type: 5
   length: 22
-  level: 2.1
+  level: '2.1'
   description: Memory controller information
   attributes:
     error-detection: none
     error-correction:
       other: false
-      unknown: true
-      none: false
+      unknown: false
+      none: true
       single-bit: false
       double-bit: false
       scrubbing: false
@@ -202,10 +205,17 @@ table:
     module-handles:
     - 8
     - 9
+    enabled-error-correction:
+      other: false
+      unknown: true
+      none: false
+      single-bit: false
+      double-bit: false
+      scrubbing: false
 - handle: 8
   type: 6
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Memory module information
   attributes:
     socket: DIMM Slot 1
@@ -239,7 +249,7 @@ table:
 - handle: 9
   type: 6
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Memory module information
   attributes:
     socket: DIMM Slot 2
@@ -273,7 +283,7 @@ table:
 - handle: 10
   type: 7
   length: 38
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Internal L1 Cache
@@ -307,7 +317,7 @@ table:
 - handle: 11
   type: 7
   length: 38
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Internal L1 Cache
@@ -341,7 +351,7 @@ table:
 - handle: 12
   type: 7
   length: 38
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Internal L2 Cache
@@ -375,7 +385,7 @@ table:
 - handle: 13
   type: 8
   length: 41
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -386,7 +396,7 @@ table:
 - handle: 14
   type: 8
   length: 40
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -397,7 +407,7 @@ table:
 - handle: 15
   type: 8
   length: 39
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -428,7 +438,7 @@ table:
 - handle: 18
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -439,7 +449,7 @@ table:
 - handle: 19
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -450,7 +460,7 @@ table:
 - handle: 20
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -461,7 +471,7 @@ table:
 - handle: 21
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -472,7 +482,7 @@ table:
 - handle: 22
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -563,7 +573,7 @@ table:
 - handle: 31
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -574,7 +584,7 @@ table:
 - handle: 32
   type: 9
   length: 33
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: ExpressCard Slot 1
@@ -614,7 +624,7 @@ table:
 - handle: 33
   type: 9
   length: 29
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: CardBus Slot 1
@@ -672,7 +682,7 @@ table:
 - handle: 36
   type: 9
   length: 32
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: Media Card Slot 1
@@ -730,7 +740,7 @@ table:
 - handle: 39
   type: 10
   length: 38
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -741,7 +751,7 @@ table:
 - handle: 40
   type: 11
   length: 61
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 1
@@ -750,7 +760,7 @@ table:
 - handle: 41
   type: 13
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -761,7 +771,7 @@ table:
 - handle: 42
   type: 15
   length: 27
-  level: 2.1
+  level: '2.1'
   description: System event log
   attributes:
     access-method: data-functions
@@ -771,7 +781,7 @@ table:
 - handle: 43
   type: 16
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -783,7 +793,7 @@ table:
 - handle: 44
   type: 17
   length: 44
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 43
@@ -821,7 +831,7 @@ table:
 - handle: 45
   type: 17
   length: 44
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 43
@@ -859,7 +869,7 @@ table:
 - handle: 46
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -872,7 +882,7 @@ table:
 - handle: 47
   type: 19
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -883,7 +893,7 @@ table:
 - handle: 48
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -897,7 +907,7 @@ table:
 - handle: 49
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 1073741824
@@ -911,7 +921,7 @@ table:
 - handle: 50
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: track-point
@@ -920,7 +930,7 @@ table:
 - handle: 51
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -929,7 +939,7 @@ table:
 - handle: 52
   type: 22
   length: 61
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: Rear
@@ -940,7 +950,7 @@ table:
     chemistry: unknown
     capacity: 56.16
     voltage: 10.8
-    sbds-version: 3.01
+    sbds-version: '03.01'
     maximum-error: unknown
     sbds-serial-number: 5964
     sbds-chemistry: LION
@@ -957,7 +967,7 @@ table:
 - handle: 54
   type: 24
   length: 7
-  level: 2.2
+  level: '2.2'
   description: Hardware security
   attributes:
     front-panel-reset: unknown

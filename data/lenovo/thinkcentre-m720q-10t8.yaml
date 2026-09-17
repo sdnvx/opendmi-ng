@@ -4,7 +4,7 @@ table:
 - handle: 0
   type: 0
   length: 54
-  level: 3.1
+  level: '3.1'
   description: Platform firmware information
   attributes:
     vendor: LENOVO
@@ -42,7 +42,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.12
-    controller-version: 1.24
+    platform-version: '1.120'
+    controller-version: '1.24'
 - handle: 1
   type: 1
   length: 136
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: LENOVO
@@ -78,14 +78,14 @@ table:
 - handle: 2
   type: 2
   length: 119
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: LENOVO
     product: 312D
     version: SDK0J40697 WIN 3305281214830
-    serial-number: null
-    asset-tag: null
+    serial-number: ''
+    asset-tag: ''
     features:
       is-hosting-board: true
       require-daughter-board: false
@@ -99,7 +99,7 @@ table:
 - handle: 3
   type: 3
   length: 61
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: LENOVO
@@ -107,7 +107,7 @@ table:
     is-lock-present: false
     version: None
     serial-number: PC1H02A1
-    asset-tag: null
+    asset-tag: ''
     bootup-state: ok
     power-supply-state: ok
     thermal-state: ok
@@ -122,7 +122,7 @@ table:
 - handle: 4
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -133,7 +133,7 @@ table:
 - handle: 5
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -144,7 +144,7 @@ table:
 - handle: 6
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A1
@@ -155,7 +155,7 @@ table:
 - handle: 7
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2A
@@ -166,7 +166,7 @@ table:
 - handle: 8
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2B
@@ -177,7 +177,7 @@ table:
 - handle: 9
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -188,7 +188,7 @@ table:
 - handle: 10
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -199,7 +199,7 @@ table:
 - handle: 11
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -210,7 +210,7 @@ table:
 - handle: 12
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9A1 - TPM HDR
@@ -221,7 +221,7 @@ table:
 - handle: 13
   type: 8
   length: 35
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9C1 - PCIE DOCKING CONN
@@ -232,7 +232,7 @@ table:
 - handle: 14
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2B3 - CPU FAN
@@ -243,7 +243,7 @@ table:
 - handle: 15
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J6C2 - EXT HDMI
@@ -254,7 +254,7 @@ table:
 - handle: 16
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3C1 - GMCH FAN
@@ -265,7 +265,7 @@ table:
 - handle: 17
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1D1 - ITP
@@ -276,7 +276,7 @@ table:
 - handle: 18
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E2 - MDC INTPSR
@@ -287,7 +287,7 @@ table:
 - handle: 19
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E4 - MDC INTPSR
@@ -298,7 +298,7 @@ table:
 - handle: 20
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E3 - LPC HOT DOCKING
@@ -309,7 +309,7 @@ table:
 - handle: 21
   type: 8
   length: 29
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E1 - SCAN MATRIX
@@ -320,7 +320,7 @@ table:
 - handle: 22
   type: 8
   length: 31
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9G1 - LPC SIDE BAND
@@ -331,7 +331,7 @@ table:
 - handle: 23
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J8F1 - UNIFIED
@@ -342,7 +342,7 @@ table:
 - handle: 24
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J6F1 - LVDS
@@ -353,7 +353,7 @@ table:
 - handle: 25
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2F1 - LAI FAN
@@ -364,7 +364,7 @@ table:
 - handle: 26
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2G1 - GFX VID
@@ -375,7 +375,7 @@ table:
 - handle: 27
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1G6 - AC JACK
@@ -386,7 +386,7 @@ table:
 - handle: 28
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6B2
@@ -426,7 +426,7 @@ table:
 - handle: 29
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6B1
@@ -466,7 +466,7 @@ table:
 - handle: 30
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6D1
@@ -506,7 +506,7 @@ table:
 - handle: 31
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J7B1
@@ -546,7 +546,7 @@ table:
 - handle: 32
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J8B4
@@ -586,7 +586,7 @@ table:
 - handle: 33
   type: 10
   length: 78
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 4
@@ -606,7 +606,7 @@ table:
 - handle: 34
   type: 11
   length: 216
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 15
@@ -629,7 +629,7 @@ table:
 - handle: 35
   type: 12
   length: 13
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -637,7 +637,7 @@ table:
 - handle: 36
   type: 24
   length: 7
-  level: 2.2
+  level: '2.2'
   description: Hardware security
   attributes:
     front-panel-reset: not-implemented
@@ -654,7 +654,7 @@ table:
 - handle: 38
   type: 34
   length: 19
-  level: 2.3
+  level: '2.3'
   description: Management device
   attributes:
     description: LM78-1
@@ -664,7 +664,7 @@ table:
 - handle: 39
   type: 26
   length: 29
-  level: 2.2
+  level: '2.2'
   description: Voltage probe
   attributes:
     description: LM78A
@@ -680,7 +680,7 @@ table:
 - handle: 40
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -692,7 +692,7 @@ table:
 - handle: 41
   type: 35
   length: 27
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: Default string
@@ -702,7 +702,7 @@ table:
 - handle: 42
   type: 28
   length: 29
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: LM78A
@@ -718,7 +718,7 @@ table:
 - handle: 43
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -730,7 +730,7 @@ table:
 - handle: 44
   type: 35
   length: 27
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: Default string
@@ -740,7 +740,7 @@ table:
 - handle: 45
   type: 27
   length: 30
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: 42
@@ -753,7 +753,7 @@ table:
 - handle: 46
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -765,7 +765,7 @@ table:
 - handle: 47
   type: 35
   length: 27
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: Default string
@@ -775,7 +775,7 @@ table:
 - handle: 48
   type: 27
   length: 17
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: 42
@@ -788,7 +788,7 @@ table:
 - handle: 49
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -800,7 +800,7 @@ table:
 - handle: 50
   type: 35
   length: 27
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: Default string
@@ -810,7 +810,7 @@ table:
 - handle: 51
   type: 29
   length: 27
-  level: 2.2
+  level: '2.2'
   description: Electrical current probe
   attributes:
     description: ABC
@@ -826,7 +826,7 @@ table:
 - handle: 52
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: unknown
@@ -838,7 +838,7 @@ table:
 - handle: 53
   type: 35
   length: 27
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: Default string
@@ -848,7 +848,7 @@ table:
 - handle: 54
   type: 26
   length: 29
-  level: 2.2
+  level: '2.2'
   description: Voltage probe
   attributes:
     description: LM78A
@@ -864,7 +864,7 @@ table:
 - handle: 55
   type: 28
   length: 29
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: LM78A
@@ -880,7 +880,7 @@ table:
 - handle: 56
   type: 27
   length: 30
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: 55
@@ -893,7 +893,7 @@ table:
 - handle: 57
   type: 29
   length: 27
-  level: 2.2
+  level: '2.2'
   description: Electrical current probe
   attributes:
     description: ABC
@@ -933,7 +933,7 @@ table:
 - handle: 59
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -945,7 +945,7 @@ table:
 - handle: 60
   type: 17
   length: 112
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 59
@@ -978,7 +978,7 @@ table:
     maximum-speed: 2667
     vendor: Samsung
     serial-number: 3A9574BD
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: M471A1K43CB1-CTD
     rank: 1
     configured-speed: 2666
@@ -988,7 +988,7 @@ table:
 - handle: 61
   type: 17
   length: 109
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 59
@@ -1020,9 +1020,9 @@ table:
       lrdimm: false
     maximum-speed: 2667
     vendor: 89F7
-    serial-number: 0
-    asset-tag: 9876543210
-    part-number: null
+    serial-number: '00000000'
+    asset-tag: '9876543210'
+    part-number: ''
     rank: 2
     configured-speed: 2666
     minimum-voltage: 1.2
@@ -1031,7 +1031,7 @@ table:
 - handle: 62
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -1042,7 +1042,7 @@ table:
 - handle: 63
   type: 15
   length: 75
-  level: 2.1
+  level: '2.1'
   description: System event log
   attributes:
     access-method: memory-mapped-32bit-address
@@ -1122,7 +1122,7 @@ table:
 - handle: 69
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -1156,7 +1156,7 @@ table:
 - handle: 70
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -1190,7 +1190,7 @@ table:
 - handle: 71
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -1224,17 +1224,20 @@ table:
 - handle: 72
   type: 4
   length: 185
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: U3E1
     type: central
     family: intel-core-i5
     vendor: Intel(R) Corporation
+    version: Intel(R) Core(TM) i5-8400T CPU @ 1.70GHz
     voltage: 135
     external-clock: 100
     maximum-speed: 3300
     current-speed: 1700
+    is-populated: true
+    status: enabled
     upgrade: socket-lga1151
     l1-cache-handle: 69
     l2-cache-handle: 70
@@ -1259,10 +1262,10 @@ table:
 - handle: 73
   type: 43
   length: 49
-  level: 2.0
+  level: '2.0'
   description: TPM device
   attributes:
-    specification-version: 2.0
+    specification-version: '2.0'
     firmware-version: 1970595420772608
     description: INFINEON
     characteristics:
@@ -1283,7 +1286,7 @@ table:
 - handle: 78
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1297,7 +1300,7 @@ table:
 - handle: 79
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 8589934592
@@ -1326,7 +1329,7 @@ table:
 - handle: 82
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1341,7 +1344,7 @@ table:
 - handle: 83
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Video
@@ -1356,7 +1359,7 @@ table:
 - handle: 84
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1371,7 +1374,7 @@ table:
 - handle: 85
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1386,7 +1389,7 @@ table:
 - handle: 86
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1401,7 +1404,7 @@ table:
 - handle: 87
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1416,7 +1419,7 @@ table:
 - handle: 88
   type: 41
   length: 27
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - SATA
@@ -1431,7 +1434,7 @@ table:
 - handle: 89
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1446,7 +1449,7 @@ table:
 - handle: 90
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Sound
@@ -1461,7 +1464,7 @@ table:
 - handle: 91
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1476,7 +1479,7 @@ table:
 - handle: 92
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1491,7 +1494,7 @@ table:
 - handle: 93
   type: 41
   length: 31
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Ethernet
@@ -1547,7 +1550,7 @@ table:
 - handle: 97
   type: 14
   length: 46
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: Firmware Version Info
@@ -1567,7 +1570,7 @@ table:
 - handle: 98
   type: 13
   length: 69
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -1580,7 +1583,7 @@ table:
 - handle: 99
   type: 14
   length: 14
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: $MEI

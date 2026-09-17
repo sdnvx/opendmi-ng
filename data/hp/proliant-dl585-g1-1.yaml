@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 2.3
+  smbios-version: '2.3'
 table:
 - handle: 0
   type: 0
   length: 39
-  level: 2.1
+  level: '2.1'
   description: Platform firmware information
   attributes:
     vendor: HP
@@ -43,10 +43,26 @@ table:
       printer-support: true
       video-cga-mono-support: true
       nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: false
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
 - handle: 256
   type: 1
   length: 64
-  level: 2.1
+  level: '2.1'
   description: System information
   attributes:
     vendor: HP
@@ -58,7 +74,7 @@ table:
 - handle: 768
   type: 3
   length: 67
-  level: 2.1
+  level: '2.1'
   description: System enclosure or chassis
   attributes:
     vendor: HP
@@ -66,7 +82,7 @@ table:
     is-lock-present: false
     version: null
     serial-number: HXDZPGK16B
-    asset-tag: null
+    asset-tag: ''
     bootup-state: unknown
     power-supply-state: unknown
     thermal-state: unknown
@@ -74,17 +90,20 @@ table:
 - handle: 1028
   type: 4
   length: 44
-  level: 2.1
+  level: '2.1'
   description: Processor information
   attributes:
     socket-designation: Node 1
     type: central
     family: amd-opteron
     vendor: AMD
+    version: null
     voltage: 145
     external-clock: 1000
     maximum-speed: 2800
     current-speed: 2400
+    is-populated: true
+    status: idle
     upgrade: socket-zif
     l1-cache-handle: 1814
     l2-cache-handle: 1830
@@ -93,17 +112,20 @@ table:
 - handle: 1030
   type: 4
   length: 44
-  level: 2.1
+  level: '2.1'
   description: Processor information
   attributes:
     socket-designation: Node 2
     type: central
     family: amd-opteron
     vendor: AMD
+    version: null
     voltage: 145
     external-clock: 1000
     maximum-speed: 2800
     current-speed: 2400
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 1812
     l2-cache-handle: 1828
@@ -112,17 +134,20 @@ table:
 - handle: 1026
   type: 4
   length: 44
-  level: 2.1
+  level: '2.1'
   description: Processor information
   attributes:
     socket-designation: Node 3
     type: central
     family: amd-opteron
     vendor: AMD
+    version: null
     voltage: 145
     external-clock: 1000
     maximum-speed: 2800
     current-speed: 2400
+    is-populated: true
+    status: idle
     upgrade: socket-zif
     l1-cache-handle: 1810
     l2-cache-handle: 1826
@@ -131,17 +156,20 @@ table:
 - handle: 1024
   type: 4
   length: 44
-  level: 2.1
+  level: '2.1'
   description: Processor information
   attributes:
     socket-designation: Node 4
     type: central
     family: amd-opteron
     vendor: AMD
+    version: null
     voltage: 145
     external-clock: 1000
     maximum-speed: 2800
     current-speed: 2400
+    is-populated: true
+    status: idle
     upgrade: socket-zif
     l1-cache-handle: 1808
     l2-cache-handle: 1824
@@ -150,7 +178,7 @@ table:
 - handle: 1814
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 1 Internal L1 Cache
@@ -184,7 +212,7 @@ table:
 - handle: 1812
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 2 Internal L1 Cache
@@ -218,7 +246,7 @@ table:
 - handle: 1810
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 3 Internal L1 Cache
@@ -252,7 +280,7 @@ table:
 - handle: 1808
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 4 Internal L1 Cache
@@ -286,7 +314,7 @@ table:
 - handle: 1830
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 1 Internal L2 Cache
@@ -320,7 +348,7 @@ table:
 - handle: 1828
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 2 Internal L2 Cache
@@ -354,7 +382,7 @@ table:
 - handle: 1826
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 3 Internal L2 Cache
@@ -388,7 +416,7 @@ table:
 - handle: 1824
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 4 Internal L2 Cache
@@ -422,7 +450,7 @@ table:
 - handle: 1846
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 1 Internal L3 Cache
@@ -456,7 +484,7 @@ table:
 - handle: 1844
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 2 Internal L3 Cache
@@ -490,7 +518,7 @@ table:
 - handle: 1842
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 3 Internal L3 Cache
@@ -524,7 +552,7 @@ table:
 - handle: 1840
   type: 7
   length: 45
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Node 4 Internal L3 Cache
@@ -558,7 +586,7 @@ table:
 - handle: 2049
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J58
@@ -569,7 +597,7 @@ table:
 - handle: 2050
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J58
@@ -580,7 +608,7 @@ table:
 - handle: 2305
   type: 9
   length: 25
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI Slot 1
@@ -620,7 +648,7 @@ table:
 - handle: 2306
   type: 9
   length: 25
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI Slot 2
@@ -660,7 +688,7 @@ table:
 - handle: 2307
   type: 9
   length: 25
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI Slot 3
@@ -700,7 +728,7 @@ table:
 - handle: 2308
   type: 9
   length: 25
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI Slot 4
@@ -740,7 +768,7 @@ table:
 - handle: 2309
   type: 9
   length: 25
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI Slot 5
@@ -780,7 +808,7 @@ table:
 - handle: 2310
   type: 9
   length: 25
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI Slot 6
@@ -820,7 +848,7 @@ table:
 - handle: 2311
   type: 9
   length: 25
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI Slot 7
@@ -860,7 +888,7 @@ table:
 - handle: 2312
   type: 9
   length: 25
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI Slot 8
@@ -900,7 +928,7 @@ table:
 - handle: 4096
   type: 16
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Physical memory array
   attributes:
     location: proprietary
@@ -912,7 +940,7 @@ table:
 - handle: 4097
   type: 16
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Physical memory array
   attributes:
     location: proprietary
@@ -924,7 +952,7 @@ table:
 - handle: 4098
   type: 16
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Physical memory array
   attributes:
     location: proprietary
@@ -936,7 +964,7 @@ table:
 - handle: 4099
   type: 16
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Physical memory array
   attributes:
     location: proprietary
@@ -948,7 +976,7 @@ table:
 - handle: 4352
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -986,7 +1014,7 @@ table:
 - handle: 4353
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -1024,7 +1052,7 @@ table:
 - handle: 4354
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -1062,7 +1090,7 @@ table:
 - handle: 4355
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -1100,7 +1128,7 @@ table:
 - handle: 4356
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -1138,7 +1166,7 @@ table:
 - handle: 4357
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -1176,7 +1204,7 @@ table:
 - handle: 4358
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -1214,7 +1242,7 @@ table:
 - handle: 4359
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -1252,7 +1280,7 @@ table:
 - handle: 4360
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4097
@@ -1290,7 +1318,7 @@ table:
 - handle: 4361
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4097
@@ -1328,7 +1356,7 @@ table:
 - handle: 4362
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4097
@@ -1366,7 +1394,7 @@ table:
 - handle: 4363
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4097
@@ -1404,7 +1432,7 @@ table:
 - handle: 4364
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4097
@@ -1442,7 +1470,7 @@ table:
 - handle: 4365
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4097
@@ -1480,7 +1508,7 @@ table:
 - handle: 4366
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4097
@@ -1518,7 +1546,7 @@ table:
 - handle: 4367
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4097
@@ -1556,7 +1584,7 @@ table:
 - handle: 4368
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4098
@@ -1594,7 +1622,7 @@ table:
 - handle: 4369
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4098
@@ -1632,7 +1660,7 @@ table:
 - handle: 4370
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4098
@@ -1670,7 +1698,7 @@ table:
 - handle: 4371
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4098
@@ -1708,7 +1736,7 @@ table:
 - handle: 4372
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4098
@@ -1746,7 +1774,7 @@ table:
 - handle: 4373
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4098
@@ -1784,7 +1812,7 @@ table:
 - handle: 4374
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4098
@@ -1822,7 +1850,7 @@ table:
 - handle: 4375
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4098
@@ -1860,7 +1888,7 @@ table:
 - handle: 4376
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4099
@@ -1898,7 +1926,7 @@ table:
 - handle: 4377
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4099
@@ -1936,7 +1964,7 @@ table:
 - handle: 4378
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4099
@@ -1974,7 +2002,7 @@ table:
 - handle: 4379
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4099
@@ -2012,7 +2040,7 @@ table:
 - handle: 4380
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4099
@@ -2050,7 +2078,7 @@ table:
 - handle: 4381
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4099
@@ -2088,7 +2116,7 @@ table:
 - handle: 4382
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4099
@@ -2126,7 +2154,7 @@ table:
 - handle: 4383
   type: 17
   length: 41
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4099
@@ -2164,7 +2192,7 @@ table:
 - handle: 4864
   type: 19
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -2175,7 +2203,7 @@ table:
 - handle: 4865
   type: 19
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -2186,7 +2214,7 @@ table:
 - handle: 4866
   type: 19
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -2197,7 +2225,7 @@ table:
 - handle: 4867
   type: 19
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -2208,7 +2236,7 @@ table:
 - handle: 5120
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2222,7 +2250,7 @@ table:
 - handle: 5121
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2236,7 +2264,7 @@ table:
 - handle: 5122
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2250,7 +2278,7 @@ table:
 - handle: 5123
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2264,7 +2292,7 @@ table:
 - handle: 5124
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2278,7 +2306,7 @@ table:
 - handle: 5125
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2292,7 +2320,7 @@ table:
 - handle: 5126
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2306,7 +2334,7 @@ table:
 - handle: 5127
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2320,7 +2348,7 @@ table:
 - handle: 5128
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2334,7 +2362,7 @@ table:
 - handle: 5129
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2348,7 +2376,7 @@ table:
 - handle: 5130
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2362,7 +2390,7 @@ table:
 - handle: 5131
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2376,7 +2404,7 @@ table:
 - handle: 5132
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2390,7 +2418,7 @@ table:
 - handle: 5133
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2404,7 +2432,7 @@ table:
 - handle: 5134
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2418,7 +2446,7 @@ table:
 - handle: 5135
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2432,7 +2460,7 @@ table:
 - handle: 5136
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2446,7 +2474,7 @@ table:
 - handle: 5137
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2460,7 +2488,7 @@ table:
 - handle: 5138
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2474,7 +2502,7 @@ table:
 - handle: 5139
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2488,7 +2516,7 @@ table:
 - handle: 5140
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2502,7 +2530,7 @@ table:
 - handle: 5141
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2516,7 +2544,7 @@ table:
 - handle: 5142
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2530,7 +2558,7 @@ table:
 - handle: 5143
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2544,7 +2572,7 @@ table:
 - handle: 5144
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2558,7 +2586,7 @@ table:
 - handle: 5145
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2572,7 +2600,7 @@ table:
 - handle: 5146
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2586,7 +2614,7 @@ table:
 - handle: 5147
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2600,7 +2628,7 @@ table:
 - handle: 5148
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2614,7 +2642,7 @@ table:
 - handle: 5149
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2628,7 +2656,7 @@ table:
 - handle: 5150
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -2642,7 +2670,7 @@ table:
 - handle: 5151
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0

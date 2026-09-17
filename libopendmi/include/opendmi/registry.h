@@ -148,10 +148,14 @@ dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity);
  *
  * Iterates over the raw SMBIOS table data held by the registry's context,
  * creates an entity descriptor for each structure found, and inserts it into
- * the registry. Scanning stops at the end-of-table marker or when the table
- * area is exhausted. If the table area or a structure is truncated,
- * `DMI_REGISTRY_STATUS_TRUNCATED` is set in the registry status but the
- * function still succeeds. Sets `DMI_REGISTRY_STATUS_SCANNED` on success.
+ * the registry.
+ *
+ * Scanning stops at the end-of-table marker or when the table area is exhausted.
+ * If the table area or a structure is truncated, `DMI_REGISTRY_STATUS_TRUNCATED`
+ * is set in the registry status but the function still succeeds. Unless
+ * `DMI_CONTEXT_FLAG_STRICT` is set, a structure with length shorter than its
+ * header is handled the same way, since the following structures cannot be
+ * located. Sets `DMI_REGISTRY_STATUS_SCANNED` on success.
  *
  * @param[in,out] registry Registry handle.
  *
@@ -168,9 +172,13 @@ bool dmi_registry_scan(dmi_registry_t *registry);
  * type-specific decode handler for each one, populating their decoded
  * field data. Sets `DMI_REGISTRY_STATUS_DECODED` on success.
  *
+ * Unless `DMI_CONTEXT_FLAG_STRICT` is set, entities that fail to decode are
+ * left undecoded (without decoded field data) and skipped with a warning.
+ *
  * @param[in,out] registry Registry handle.
  *
- * @return `true` on success, `false` if any entity fails to decode.
+ * @return `true` on success, `false` if any entity fails to decode in strict
+ *         mode.
  */
 bool dmi_registry_decode(dmi_registry_t *registry);
 
@@ -181,8 +189,8 @@ bool dmi_registry_decode(dmi_registry_t *registry);
  * Iterates over all entities registered in @p registry and invokes the
  * type-specific link handler for each entity that has one. Link handlers
  * resolve SMBIOS handle references to the corresponding entity pointers,
- * establishing relationships between structures. Sets
- * `DMI_REGISTRY_STATUS_LINKED` on success.
+ * establishing relationships between structures. Undecoded entities are
+ * skipped. Sets `DMI_REGISTRY_STATUS_LINKED` on success.
  *
  * @param[in,out] registry Registry handle.
  *

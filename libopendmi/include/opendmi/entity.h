@@ -393,14 +393,15 @@ void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type);
  * trailing whitespace.
  *
  * @param[in] entity Entity descriptor.
- * @param[in] num    1-based string index.
+ * @param[in] num    1-based string index. String set may contain more strings
+ *                   than can be referenced by `dmi_string_t` fields.
  * @param[in] raw    If `true`, return the raw (untrimmed) string; if `false`,
  *                   return the trimmed version.
  *
  * @return The requested string, or `NULL` if @p entity is `NULL`, @p num is
  *         zero, or @p num exceeds the number of strings in the entity.
  */
-const char *dmi_entity_string_ex(const dmi_entity_t *entity, dmi_string_t num, bool raw);
+const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool raw);
 
 /**
  * @brief Destroy entity descriptor.

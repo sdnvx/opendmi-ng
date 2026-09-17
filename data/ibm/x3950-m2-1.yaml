@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 2.4
+  smbios-version: '2.4'
 table:
 - handle: 0
   type: 0
   length: 59
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: IBM
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.7
+    platform-version: '1.7'
     controller-version: null
 - handle: 1
   type: 1
   length: 198
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: IBM
@@ -78,7 +78,7 @@ table:
 - handle: 2
   type: 2
   length: 141
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: IBM
@@ -119,7 +119,7 @@ table:
 - handle: 3
   type: 2
   length: 140
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: IBM
@@ -159,7 +159,7 @@ table:
 - handle: 5
   type: 2
   length: 85
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: IBM
@@ -188,7 +188,7 @@ table:
 - handle: 6
   type: 2
   length: 85
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: IBM
@@ -217,7 +217,7 @@ table:
 - handle: 7
   type: 2
   length: 85
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: IBM
@@ -246,7 +246,7 @@ table:
 - handle: 8
   type: 2
   length: 85
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: IBM
@@ -275,7 +275,7 @@ table:
 - handle: 58
   type: 3
   length: 51
-  level: 2.1
+  level: '2.1'
   description: System enclosure or chassis
   attributes:
     vendor: IBM
@@ -283,7 +283,7 @@ table:
     is-lock-present: false
     version: null
     serial-number: null
-    asset-tag: null
+    asset-tag: ''
     bootup-state: ok
     power-supply-state: unknown
     thermal-state: unknown
@@ -291,7 +291,7 @@ table:
 - handle: 67
   type: 7
   length: 38
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Internal L2 Cache
@@ -325,7 +325,7 @@ table:
 - handle: 70
   type: 7
   length: 38
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Internal L2 Cache
@@ -359,7 +359,7 @@ table:
 - handle: 73
   type: 7
   length: 38
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Internal L2 Cache
@@ -393,7 +393,7 @@ table:
 - handle: 76
   type: 7
   length: 38
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Internal L2 Cache
@@ -427,17 +427,20 @@ table:
 - handle: 162
   type: 4
   length: 92
-  level: 2.5
+  level: '2.5'
   description: Processor information
   attributes:
     socket-designation: Node 1 CPU 3
     type: central
     family: intel-xeon-mp
     vendor: GenuineIntel
+    version: Intel Xeon MP
     voltage: 143
     external-clock: 133
     maximum-speed: 4000
     current-speed: 2400
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 66
     l2-cache-handle: 67
@@ -462,17 +465,20 @@ table:
 - handle: 163
   type: 4
   length: 92
-  level: 2.5
+  level: '2.5'
   description: Processor information
   attributes:
     socket-designation: Node 1 CPU 1
     type: central
     family: intel-xeon-mp
     vendor: GenuineIntel
+    version: Intel Xeon MP
     voltage: 143
     external-clock: 133
     maximum-speed: 4000
     current-speed: 2400
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 69
     l2-cache-handle: 70
@@ -497,17 +503,20 @@ table:
 - handle: 164
   type: 4
   length: 92
-  level: 2.5
+  level: '2.5'
   description: Processor information
   attributes:
     socket-designation: Node 1 CPU 2
     type: central
     family: intel-xeon-mp
     vendor: GenuineIntel
+    version: Intel Xeon MP
     voltage: 143
     external-clock: 133
     maximum-speed: 4000
     current-speed: 2400
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 72
     l2-cache-handle: 73
@@ -532,17 +541,20 @@ table:
 - handle: 165
   type: 4
   length: 92
-  level: 2.5
+  level: '2.5'
   description: Processor information
   attributes:
     socket-designation: Node 1 CPU 4
     type: central
     family: intel-xeon-mp
     vendor: GenuineIntel
+    version: Intel Xeon MP
     voltage: 143
     external-clock: 133
     maximum-speed: 4000
     current-speed: 2400
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 75
     l2-cache-handle: 76
@@ -567,7 +579,7 @@ table:
 - handle: 194
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -578,7 +590,7 @@ table:
 - handle: 195
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -589,7 +601,7 @@ table:
 - handle: 196
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -600,7 +612,7 @@ table:
 - handle: 197
   type: 8
   length: 40
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -611,7 +623,7 @@ table:
 - handle: 198
   type: 8
   length: 40
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -622,7 +634,7 @@ table:
 - handle: 199
   type: 8
   length: 16
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -633,7 +645,7 @@ table:
 - handle: 200
   type: 8
   length: 16
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -644,7 +656,7 @@ table:
 - handle: 201
   type: 8
   length: 16
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -655,7 +667,7 @@ table:
 - handle: 202
   type: 8
   length: 16
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -666,7 +678,7 @@ table:
 - handle: 203
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Diskette/CDROM
@@ -677,7 +689,7 @@ table:
 - handle: 204
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Internal SAS SCSI
@@ -688,7 +700,7 @@ table:
 - handle: 205
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: External SAS SCSI
@@ -699,7 +711,7 @@ table:
 - handle: 206
   type: 8
   length: 39
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -710,7 +722,7 @@ table:
 - handle: 207
   type: 8
   length: 23
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -721,7 +733,7 @@ table:
 - handle: 208
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -732,7 +744,7 @@ table:
 - handle: 209
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -743,7 +755,7 @@ table:
 - handle: 210
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: null
@@ -754,7 +766,7 @@ table:
 - handle: 299
   type: 9
   length: 39
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: Node1 PCI-Express Slot 1
@@ -794,7 +806,7 @@ table:
 - handle: 300
   type: 9
   length: 39
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: Node1 PCI-Express Slot 2
@@ -834,7 +846,7 @@ table:
 - handle: 301
   type: 9
   length: 39
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: Node1 PCI-Express Slot 3
@@ -874,7 +886,7 @@ table:
 - handle: 302
   type: 9
   length: 39
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: Node1 PCI-Express Slot 4
@@ -914,7 +926,7 @@ table:
 - handle: 303
   type: 9
   length: 39
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: Node1 PCI-Express Slot 5
@@ -954,7 +966,7 @@ table:
 - handle: 304
   type: 9
   length: 39
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: Node1 PCI-Express Slot 6
@@ -994,7 +1006,7 @@ table:
 - handle: 305
   type: 9
   length: 39
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: Node1 PCI-Express Slot 7
@@ -1034,7 +1046,7 @@ table:
 - handle: 363
   type: 11
   length: 323
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 7
@@ -1049,7 +1061,7 @@ table:
 - handle: 364
   type: 12
   length: 369
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -1064,7 +1076,7 @@ table:
 - handle: 365
   type: 12
   length: 301
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -1078,7 +1090,7 @@ table:
 - handle: 366
   type: 12
   length: 96
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -1088,7 +1100,7 @@ table:
 - handle: 367
   type: 12
   length: 71
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -1098,7 +1110,7 @@ table:
 - handle: 368
   type: 13
   length: 39
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -1109,7 +1121,7 @@ table:
 - handle: 369
   type: 16
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Physical memory array
   attributes:
     location: proprietary
@@ -1121,7 +1133,7 @@ table:
 - handle: 370
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1159,7 +1171,7 @@ table:
 - handle: 371
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1197,7 +1209,7 @@ table:
 - handle: 372
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1235,7 +1247,7 @@ table:
 - handle: 373
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1273,7 +1285,7 @@ table:
 - handle: 374
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1311,7 +1323,7 @@ table:
 - handle: 375
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1349,7 +1361,7 @@ table:
 - handle: 376
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1387,7 +1399,7 @@ table:
 - handle: 377
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1425,7 +1437,7 @@ table:
 - handle: 378
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1463,7 +1475,7 @@ table:
 - handle: 379
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1501,7 +1513,7 @@ table:
 - handle: 380
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1539,7 +1551,7 @@ table:
 - handle: 381
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1577,7 +1589,7 @@ table:
 - handle: 382
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1615,7 +1627,7 @@ table:
 - handle: 383
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1653,7 +1665,7 @@ table:
 - handle: 384
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1691,7 +1703,7 @@ table:
 - handle: 385
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1729,7 +1741,7 @@ table:
 - handle: 386
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1767,7 +1779,7 @@ table:
 - handle: 387
   type: 17
   length: 51
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1805,7 +1817,7 @@ table:
 - handle: 388
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1843,7 +1855,7 @@ table:
 - handle: 389
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1881,7 +1893,7 @@ table:
 - handle: 390
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1919,7 +1931,7 @@ table:
 - handle: 391
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1957,7 +1969,7 @@ table:
 - handle: 392
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -1995,7 +2007,7 @@ table:
 - handle: 393
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2033,7 +2045,7 @@ table:
 - handle: 394
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2071,7 +2083,7 @@ table:
 - handle: 395
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2109,7 +2121,7 @@ table:
 - handle: 396
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2147,7 +2159,7 @@ table:
 - handle: 397
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2185,7 +2197,7 @@ table:
 - handle: 398
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2223,7 +2235,7 @@ table:
 - handle: 399
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2261,7 +2273,7 @@ table:
 - handle: 400
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2299,7 +2311,7 @@ table:
 - handle: 401
   type: 17
   length: 52
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 369
@@ -2337,7 +2349,7 @@ table:
 - handle: 626
   type: 19
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -2355,16 +2367,16 @@ table:
 - handle: 628
   type: 38
   length: 20
-  level: 2.0
+  level: '2.0'
   description: IPMI device information
   attributes:
     interface-type: kcs
-    specification-version: 2.0
+    specification-version: '2.0'
     i2c-target-address: 32
     nv-storage-address: null
-    base-address: 3241
+    base-address: 3240
     base-address-lsb: 0
-    base-address-type: memory
+    base-address-type: io
     interrupt-trigger-mode: null
     interrupt-polarity: null
     interrupt-number: null

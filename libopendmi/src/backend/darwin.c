@@ -130,8 +130,8 @@ static dmi_data_t *dmi_darwin_read_data(dmi_context_t *context, CFStringRef key,
         length = CFDataGetLength(ref);
 
         data = dmi_alloc(context, length);
-		if (data == nullptr)
-			break;
+        if (data == nullptr)
+            break;
 
         CFDataGetBytes(ref, CFRangeMake(0, length), (UInt8 *)data);
 

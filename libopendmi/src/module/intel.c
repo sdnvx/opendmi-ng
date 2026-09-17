@@ -20,7 +20,7 @@
 /**
  * @brief Intel extension module.
  */
-static dmi_module_t dmi_intel_module =
+const dmi_module_t dmi_intel_module =
 {
     .code     = "intel",
     .name     = "Intel extensions",
@@ -38,9 +38,3 @@ static dmi_module_t dmi_intel_module =
         nullptr
     }
 };
-
-__attribute__((constructor))
-static void dmi_intel_module_register(void)
-{
-    dmi_module_register(&dmi_intel_module);
-}

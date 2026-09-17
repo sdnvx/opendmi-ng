@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 3.0.1
+  smbios-version: '3.0'
 table:
 - handle: 0
   type: 0
   length: 55
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: INSYDE Corp.
@@ -59,18 +59,18 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 5.4
+    platform-version: '5.4'
     controller-version: null
 - handle: 1
   type: 1
   length: 75
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: Synology
     product: DS718+
-    version: 1.0
-    serial-number: 123456789
+    version: '1.0'
+    serial-number: '123456789'
     uuid: 12345678-1234-5678-90AB-CDDEEFAABBCC
     wakeup-type: power-switch
     sku-number: SKU0
@@ -78,13 +78,13 @@ table:
 - handle: 2
   type: 2
   length: 103
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: Synology
     product: DS718+
-    version: 1.0
-    serial-number: 123456789
+    version: '1.0'
+    serial-number: '123456789'
     asset-tag: Type2 - Board Asset Tag
     features:
       is-hosting-board: true
@@ -99,14 +99,14 @@ table:
 - handle: 3
   type: 3
   length: 72
-  level: 3.9
+  level: '3.9'
   description: System enclosure or chassis
   attributes:
     vendor: Synology
     type: notebook
     is-lock-present: false
-    version: 1.0
-    serial-number: 123456789
+    version: '1.0'
+    serial-number: '123456789'
     asset-tag: Chassis Asset Tag
     bootup-state: ok
     power-supply-state: ok
@@ -124,17 +124,20 @@ table:
 - handle: 4
   type: 4
   length: 184
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: U3E1
     type: central
     family: intel-celeron
     vendor: Intel(R) Corporation
+    version: Intel(R) Celeron(R) CPU J3455 @ 1.50GHz
     voltage: 138
     external-clock: 100
     maximum-speed: 1500
     current-speed: 1500
+    is-populated: true
+    status: enabled
     upgrade: other
     l1-cache-handle: 6
     l2-cache-handle: 7
@@ -159,7 +162,7 @@ table:
 - handle: 5
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -193,7 +196,7 @@ table:
 - handle: 6
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -227,7 +230,7 @@ table:
 - handle: 7
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -261,7 +264,7 @@ table:
 - handle: 8
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A2
@@ -272,7 +275,7 @@ table:
 - handle: 9
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A2
@@ -283,7 +286,7 @@ table:
 - handle: 10
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2
@@ -294,7 +297,7 @@ table:
 - handle: 11
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9D1
@@ -305,7 +308,7 @@ table:
 - handle: 12
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: CON6A1
@@ -316,7 +319,7 @@ table:
 - handle: 13
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9B1
@@ -327,7 +330,7 @@ table:
 - handle: 14
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9B1
@@ -338,7 +341,7 @@ table:
 - handle: 15
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -349,7 +352,7 @@ table:
 - handle: 16
   type: 8
   length: 23
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -360,7 +363,7 @@ table:
 - handle: 17
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -371,7 +374,7 @@ table:
 - handle: 18
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J7A1
@@ -382,7 +385,7 @@ table:
 - handle: 19
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2
@@ -393,7 +396,7 @@ table:
 - handle: 20
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J4J1
@@ -404,7 +407,7 @@ table:
 - handle: 21
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J4E2
@@ -415,7 +418,7 @@ table:
 - handle: 22
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J4A1
@@ -426,7 +429,7 @@ table:
 - handle: 23
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -437,7 +440,7 @@ table:
 - handle: 24
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -448,7 +451,7 @@ table:
 - handle: 25
   type: 8
   length: 27
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9B4
@@ -459,7 +462,7 @@ table:
 - handle: 26
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A1
@@ -470,7 +473,7 @@ table:
 - handle: 27
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J5C1
@@ -510,7 +513,7 @@ table:
 - handle: 28
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J4B3
@@ -550,7 +553,7 @@ table:
 - handle: 29
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6C1
@@ -590,7 +593,7 @@ table:
 - handle: 30
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6D1
@@ -630,7 +633,7 @@ table:
 - handle: 31
   type: 11
   length: 21
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 1
@@ -639,7 +642,7 @@ table:
 - handle: 32
   type: 12
   length: 174
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -650,7 +653,7 @@ table:
 - handle: 33
   type: 13
   length: 163
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -668,7 +671,7 @@ table:
 - handle: 34
   type: 15
   length: 31
-  level: 2.1
+  level: '2.1'
   description: System event log
   attributes:
     access-method: data-functions
@@ -678,7 +681,7 @@ table:
 - handle: 35
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -690,7 +693,7 @@ table:
 - handle: 36
   type: 17
   length: 107
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 35
@@ -722,8 +725,8 @@ table:
       lrdimm: false
     maximum-speed: 1866
     vendor: 0824
-    serial-number: 25010416
-    asset-tag: 9876543210
+    serial-number: '25010416'
+    asset-tag: '9876543210'
     part-number: D3SS56161XL10AA
     rank: unknown
     configured-speed: 1866
@@ -733,7 +736,7 @@ table:
 - handle: 37
   type: 17
   length: 107
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 35
@@ -765,8 +768,8 @@ table:
       lrdimm: false
     maximum-speed: 1866
     vendor: 0824
-    serial-number: 25033216
-    asset-tag: 9876543210
+    serial-number: '25033216'
+    asset-tag: '9876543210'
     part-number: D3SS56162XL10AA
     rank: unknown
     configured-speed: 1866
@@ -776,7 +779,7 @@ table:
 - handle: 38
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -787,7 +790,7 @@ table:
 - handle: 39
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -801,7 +804,7 @@ table:
 - handle: 40
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -815,7 +818,7 @@ table:
 - handle: 41
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -824,13 +827,13 @@ table:
 - handle: 42
   type: 22
   length: 94
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: I2C2
     vendor: Intel SR 1
     manufacture-date: null
-    serial-number: 123456789
+    serial-number: '123456789'
     name: SR Real Battery
     chemistry: li-ion
     capacity: unknown
@@ -843,7 +846,7 @@ table:
 - handle: 43
   type: 26
   length: 51
-  level: 2.2
+  level: '2.2'
   description: Voltage probe
   attributes:
     description: Voltage Probe Description
@@ -855,11 +858,11 @@ table:
     tolerance: unknown
     accuracy: unknown
     oem-defined: 32768
-    nominal-value: 0.0
+    nominal-value: 0
 - handle: 44
   type: 27
   length: 43
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: 45
@@ -872,7 +875,7 @@ table:
 - handle: 45
   type: 28
   length: 55
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: Temperature Probe Description
@@ -919,7 +922,7 @@ table:
 - handle: 48
   type: 41
   length: 16
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: IGD

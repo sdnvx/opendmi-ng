@@ -226,6 +226,29 @@ uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value)
     return rv;
 }
 
+size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info)
+{
+    assert(attr != nullptr);
+    assert(info != nullptr);
+
+    uintmax_t rv;
+    const void *counter = dmi_member_ptr(info, attr->counter, void);
+
+    // Counter width does not have to match `size_t`
+    if (attr->counter.size == sizeof(uint8_t))
+        rv = dmi_deref(uint8_t, counter);
+    else if (attr->counter.size == sizeof(uint16_t))
+        rv = dmi_deref(uint16_t, counter);
+    else if (attr->counter.size == sizeof(uint32_t))
+        rv = dmi_deref(uint32_t, counter);
+    else if (attr->counter.size == sizeof(uint64_t))
+        rv = dmi_deref(uint64_t, counter);
+    else
+        rv = 0;
+
+    return (rv <= SIZE_MAX) ? (size_t)rv : 0;
+}
+
 char *dmi_attribute_format(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,

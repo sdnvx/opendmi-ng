@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 2.7
+  smbios-version: '2.7'
 table:
 - handle: 0
   type: 0
   length: 59
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: LENOVO
@@ -42,7 +42,7 @@ table:
       serial-support: false
       printer-support: false
       video-cga-mono-support: true
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,18 +59,18 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.34
-    controller-version: 2.34
+    platform-version: '1.34'
+    controller-version: '2.34'
 - handle: 1
   type: 1
   length: 118
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: LENOVO
-    product: 20384
+    product: '20384'
     version: Lenovo B50-70
-    serial-number: 3532766500848
+    serial-number: '3532766500848'
     uuid: C394B253-5741-E411-B2A0-F0761C1491C8
     wakeup-type: power-switch
     sku-number: LENOVO_MT_20384_BU_idea_FM_Lenovo B50-70
@@ -78,7 +78,7 @@ table:
 - handle: 2
   type: 2
   length: 104
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: LENOVO
@@ -99,7 +99,7 @@ table:
 - handle: 3
   type: 3
   length: 81
-  level: 3.9
+  level: '3.9'
   description: System enclosure or chassis
   attributes:
     vendor: LENOVO
@@ -119,22 +119,25 @@ table:
     element-size: 0
     elements: []
     sku-number: null
-    rack-type: 5
+    rack-type: '0x5'
     rack-height: 0
 - handle: 4
   type: 4
   length: 179
-  level: 2.6
+  level: '2.6'
   description: Processor information
   attributes:
     socket-designation: U3E1
     type: central
     family: intel-core-i5
     vendor: Intel(R) Corporation
+    version: Intel(R) Core(TM) i5-4210U CPU @ 1.70GHz
     voltage: 135
     external-clock: 100
     maximum-speed: 2400
     current-speed: 1600
+    is-populated: true
+    status: enabled
     upgrade: socket-bga1168
     l1-cache-handle: 11
     l2-cache-handle: 12
@@ -159,7 +162,7 @@ table:
 - handle: 5
   type: 5
   length: 26
-  level: 2.1
+  level: '2.1'
   description: Memory controller information
   attributes:
     error-detection: none
@@ -202,10 +205,17 @@ table:
     - 7
     - 8
     - 9
+    enabled-error-correction:
+      other: false
+      unknown: false
+      none: true
+      single-bit: false
+      double-bit: false
+      scrubbing: false
 - handle: 6
   type: 6
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Memory module information
   attributes:
     socket: DIMM0
@@ -239,7 +249,7 @@ table:
 - handle: 7
   type: 6
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Memory module information
   attributes:
     socket: DIMM1
@@ -273,7 +283,7 @@ table:
 - handle: 8
   type: 6
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Memory module information
   attributes:
     socket: DIMM2
@@ -307,7 +317,7 @@ table:
 - handle: 9
   type: 6
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Memory module information
   attributes:
     socket: DIMM3
@@ -341,7 +351,7 @@ table:
 - handle: 10
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -375,7 +385,7 @@ table:
 - handle: 11
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -409,7 +419,7 @@ table:
 - handle: 12
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -443,7 +453,7 @@ table:
 - handle: 13
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -477,7 +487,7 @@ table:
 - handle: 14
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -488,7 +498,7 @@ table:
 - handle: 15
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -499,7 +509,7 @@ table:
 - handle: 16
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2
@@ -510,7 +520,7 @@ table:
 - handle: 17
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -521,7 +531,7 @@ table:
 - handle: 18
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -532,7 +542,7 @@ table:
 - handle: 19
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -543,7 +553,7 @@ table:
 - handle: 20
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -554,7 +564,7 @@ table:
 - handle: 21
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -565,7 +575,7 @@ table:
 - handle: 22
   type: 8
   length: 23
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -576,7 +586,7 @@ table:
 - handle: 23
   type: 8
   length: 35
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9G2
@@ -587,7 +597,7 @@ table:
 - handle: 24
   type: 8
   length: 35
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J7J1
@@ -598,7 +608,7 @@ table:
 - handle: 25
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A1
@@ -609,7 +619,7 @@ table:
 - handle: 26
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2
@@ -620,7 +630,7 @@ table:
 - handle: 27
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J30
@@ -631,7 +641,7 @@ table:
 - handle: 28
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J30
@@ -642,7 +652,7 @@ table:
 - handle: 29
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J30
@@ -653,7 +663,7 @@ table:
 - handle: 30
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J5C1
@@ -693,7 +703,7 @@ table:
 - handle: 31
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6C1
@@ -733,7 +743,7 @@ table:
 - handle: 32
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6C2
@@ -773,7 +783,7 @@ table:
 - handle: 33
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6D2
@@ -813,7 +823,7 @@ table:
 - handle: 34
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J7C1
@@ -853,7 +863,7 @@ table:
 - handle: 35
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J7D2
@@ -893,7 +903,7 @@ table:
 - handle: 36
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J8C1
@@ -933,7 +943,7 @@ table:
 - handle: 37
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J8C2
@@ -973,7 +983,7 @@ table:
 - handle: 38
   type: 11
   length: 226
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 5
@@ -986,7 +996,7 @@ table:
 - handle: 39
   type: 12
   length: 174
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -997,7 +1007,7 @@ table:
 - handle: 40
   type: 13
   length: 83
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -1011,7 +1021,7 @@ table:
 - handle: 41
   type: 15
   length: 31
-  level: 2.1
+  level: '2.1'
   description: System event log
   attributes:
     access-method: data-functions
@@ -1021,7 +1031,7 @@ table:
 - handle: 42
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -1033,7 +1043,7 @@ table:
 - handle: 43
   type: 17
   length: 91
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 42
@@ -1065,7 +1075,7 @@ table:
       lrdimm: false
     maximum-speed: 1600
     vendor: Unknown
-    serial-number: 11502785
+    serial-number: '11502785'
     asset-tag: Unknown
     part-number: HKED3082BAB2H3HA1
     rank: 2
@@ -1073,7 +1083,7 @@ table:
 - handle: 44
   type: 17
   length: 74
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 42
@@ -1113,7 +1123,7 @@ table:
 - handle: 45
   type: 17
   length: 91
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 42
@@ -1145,7 +1155,7 @@ table:
       lrdimm: false
     maximum-speed: 1600
     vendor: Unknown
-    serial-number: 11502785
+    serial-number: '11502785'
     asset-tag: Unknown
     part-number: HKED3082BAB2H3HA1
     rank: 2
@@ -1153,7 +1163,7 @@ table:
 - handle: 46
   type: 17
   length: 74
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 42
@@ -1193,7 +1203,7 @@ table:
 - handle: 47
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -1206,7 +1216,7 @@ table:
 - handle: 48
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -1219,7 +1229,7 @@ table:
 - handle: 49
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -1232,7 +1242,7 @@ table:
 - handle: 50
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -1243,7 +1253,7 @@ table:
 - handle: 51
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1257,7 +1267,7 @@ table:
 - handle: 52
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1271,7 +1281,7 @@ table:
 - handle: 53
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -1280,7 +1290,7 @@ table:
 - handle: 54
   type: 22
   length: 87
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: Fake
@@ -1299,7 +1309,7 @@ table:
 - handle: 55
   type: 24
   length: 7
-  level: 2.2
+  level: '2.2'
   description: Hardware security
   attributes:
     front-panel-reset: disabled
@@ -1309,7 +1319,7 @@ table:
 - handle: 56
   type: 26
   length: 50
-  level: 2.2
+  level: '2.2'
   description: Voltage probe
   attributes:
     description: Voltage Probe Description.
@@ -1325,7 +1335,7 @@ table:
 - handle: 57
   type: 27
   length: 44
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: null
@@ -1369,7 +1379,7 @@ table:
 - handle: 60
   type: 40
   length: 33
-  level: 2.6
+  level: '2.6'
   description: Additional information
   attributes:
     entries:
@@ -1382,7 +1392,7 @@ table:
 - handle: 61
   type: 41
   length: 42
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Hanksville Gbe Lan Connection

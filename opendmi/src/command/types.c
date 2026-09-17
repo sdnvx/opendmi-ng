@@ -138,7 +138,7 @@ static bool dmi_types_add_all_modules(dmi_context_t *context, const char *value)
     dmi_unused(context);
     dmi_unused(value);
 
-    for (const dmi_module_t *module = dmi_modules; module != nullptr; module = module->next) {
+    for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
         if (not dmi_types_show_module_types(module))
             return false;
     }
@@ -171,7 +171,7 @@ static bool dmi_types_match_module(uintptr_t entry, uintptr_t key)
 
 static int dmi_types_main(dmi_context_t *context, int argc, char *argv[])
 {
-    dmi_module_t *module = nullptr;
+    const dmi_module_t *module = nullptr;
 
     assert(context != nullptr);
     dmi_unused(argc);
@@ -186,7 +186,7 @@ static int dmi_types_main(dmi_context_t *context, int argc, char *argv[])
         dmi_types_show_core(context);
 
     if (dmi_types_config.show_all) {
-        for (module = dmi_modules; module != nullptr; module = module->next) {
+        for (module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
             dmi_types_show_module(context, module);
         }
     } else if (not dmi_vector_is_empty(&dmi_types_config.show_modules)) {

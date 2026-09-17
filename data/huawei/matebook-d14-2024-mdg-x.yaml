@@ -1,14 +1,14 @@
 entry:
-  smbios-version: 3.4
+  smbios-version: '3.4'
 table:
 - handle: 0
   type: 0
   length: 50
-  level: 3.1
+  level: '3.1'
   description: Platform firmware information
   attributes:
     vendor: HUAWEI
-    version: 1.25
+    version: '1.25'
     bios-segment: 57344
     release-date: '2024-08-22'
     rom-size: 8388608
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.25
-    controller-version: 1.25
+    platform-version: '1.25'
+    controller-version: '1.25'
 - handle: 1
   type: 1
   length: 81
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: HUAWEI
@@ -78,7 +78,7 @@ table:
 - handle: 2
   type: 2
   length: 61
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: HUAWEI
@@ -99,7 +99,7 @@ table:
 - handle: 3
   type: 3
   length: 72
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: HUAWEI
@@ -122,17 +122,20 @@ table:
 - handle: 4
   type: 4
   length: 112
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU0
     type: central
     family: intel-core-i5
     vendor: Intel(R) Corporation
+    version: 13th Gen Intel(R) Core(TM) i5-13420H
     voltage: 139
     external-clock: 100
     maximum-speed: 4600
     current-speed: 4455
+    is-populated: true
+    status: enabled
     upgrade: socket-bga1744
     l1-cache-handle: 13
     l2-cache-handle: 11
@@ -157,7 +160,7 @@ table:
 - handle: 5
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -191,7 +194,7 @@ table:
 - handle: 6
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -225,7 +228,7 @@ table:
 - handle: 7
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -259,7 +262,7 @@ table:
 - handle: 8
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -293,7 +296,7 @@ table:
 - handle: 9
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -327,7 +330,7 @@ table:
 - handle: 13
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -361,7 +364,7 @@ table:
 - handle: 11
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -395,7 +398,7 @@ table:
 - handle: 12
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -429,7 +432,7 @@ table:
 - handle: 13
   type: 9
   length: 26
-  level: 3.2
+  level: '3.2'
   description: System slots
   attributes:
     designator: PCI-4
@@ -469,7 +472,7 @@ table:
 - handle: 14
   type: 11
   length: 107
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 13
@@ -483,14 +486,14 @@ table:
     - MendelG
     - $HUAFFFFFFFFFF
     - $HDSFFFFFFFFFF
-    - 0
+    - '0000000000000000'
     - null
     - null
     - null
 - handle: 15
   type: 13
   length: 57
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -502,7 +505,7 @@ table:
 - handle: 16
   type: 14
   length: 14
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: $MEI
@@ -512,7 +515,7 @@ table:
 - handle: 46
   type: 14
   length: 46
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: Firmware Version Info
@@ -532,7 +535,7 @@ table:
 - handle: 17
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -544,7 +547,7 @@ table:
 - handle: 18
   type: 17
   length: 167
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 17
@@ -575,8 +578,8 @@ table:
       unbuffered: false
       lrdimm: false
     maximum-speed: 4267
-    vendor: null
-    serial-number: 0
+    vendor: 'NULL'
+    serial-number: '00000000'
     asset-tag: 0123456789
     part-number: MT53E1G32D2NP-046
     rank: 1
@@ -598,7 +601,7 @@ table:
 - handle: 19
   type: 17
   length: 167
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 17
@@ -629,8 +632,8 @@ table:
       unbuffered: false
       lrdimm: false
     maximum-speed: 4267
-    vendor: null
-    serial-number: 0
+    vendor: 'NULL'
+    serial-number: '00000000'
     asset-tag: 0123456789
     part-number: MT53E1G32D2NP-046
     rank: 1
@@ -652,7 +655,7 @@ table:
 - handle: 20
   type: 17
   length: 167
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 17
@@ -683,8 +686,8 @@ table:
       unbuffered: false
       lrdimm: false
     maximum-speed: 4267
-    vendor: null
-    serial-number: 0
+    vendor: 'NULL'
+    serial-number: '00000000'
     asset-tag: 0123456789
     part-number: MT53E1G32D2NP-046
     rank: 1
@@ -706,7 +709,7 @@ table:
 - handle: 21
   type: 17
   length: 167
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 17
@@ -737,8 +740,8 @@ table:
       unbuffered: false
       lrdimm: false
     maximum-speed: 4267
-    vendor: null
-    serial-number: 0
+    vendor: 'NULL'
+    serial-number: '00000000'
     asset-tag: 0123456789
     part-number: MT53E1G32D2NP-046
     rank: 1
@@ -760,7 +763,7 @@ table:
 - handle: 22
   type: 17
   length: 167
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 17
@@ -791,8 +794,8 @@ table:
       unbuffered: false
       lrdimm: false
     maximum-speed: 4267
-    vendor: null
-    serial-number: 0
+    vendor: 'NULL'
+    serial-number: '00000000'
     asset-tag: 0123456789
     part-number: MT53E1G32D2NP-046
     rank: 1
@@ -814,7 +817,7 @@ table:
 - handle: 23
   type: 17
   length: 167
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 17
@@ -845,8 +848,8 @@ table:
       unbuffered: false
       lrdimm: false
     maximum-speed: 4267
-    vendor: null
-    serial-number: 0
+    vendor: 'NULL'
+    serial-number: '00000000'
     asset-tag: 0123456789
     part-number: MT53E1G32D2NP-046
     rank: 1
@@ -868,7 +871,7 @@ table:
 - handle: 24
   type: 17
   length: 167
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 17
@@ -899,8 +902,8 @@ table:
       unbuffered: false
       lrdimm: false
     maximum-speed: 4267
-    vendor: null
-    serial-number: 0
+    vendor: 'NULL'
+    serial-number: '00000000'
     asset-tag: 0123456789
     part-number: MT53E1G32D2NP-046
     rank: 1
@@ -922,7 +925,7 @@ table:
 - handle: 25
   type: 17
   length: 167
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 17
@@ -953,8 +956,8 @@ table:
       unbuffered: false
       lrdimm: false
     maximum-speed: 4267
-    vendor: null
-    serial-number: 0
+    vendor: 'NULL'
+    serial-number: '00000000'
     asset-tag: 0123456789
     part-number: MT53E1G32D2NP-046
     rank: 1
@@ -976,7 +979,7 @@ table:
 - handle: 26
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -987,7 +990,7 @@ table:
 - handle: 27
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1001,7 +1004,7 @@ table:
 - handle: 28
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1015,7 +1018,7 @@ table:
 - handle: 29
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1029,7 +1032,7 @@ table:
 - handle: 30
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1043,7 +1046,7 @@ table:
 - handle: 31
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1057,7 +1060,7 @@ table:
 - handle: 32
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1071,7 +1074,7 @@ table:
 - handle: 33
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1085,7 +1088,7 @@ table:
 - handle: 34
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1099,7 +1102,7 @@ table:
 - handle: 35
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -1108,21 +1111,21 @@ table:
 - handle: 36
   type: 22
   length: 122
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: in the back, on the left-hand side
     vendor: Sunwoda-H
     manufacture-date: '2025-03-20'
-    serial-number: 9874
+    serial-number: '9874'
     name: HB4692Z9ECW-22T0
     chemistry: li-ion
     capacity: unknown
     voltage: 7.64
-    sbds-version: null
+    sbds-version: 'Null'
     maximum-error: 5
     sbds-serial-number: 0
-    sbds-chemistry: null
+    sbds-chemistry: 'Null'
     oem-defined: 3
 - handle: 37
   type: 131

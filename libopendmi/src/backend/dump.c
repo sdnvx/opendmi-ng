@@ -22,6 +22,7 @@ struct dmi_dump_session
 };
 
 static bool dmi_dump_open(dmi_context_t *context, const char *path);
+static bool dmi_dump_check(dmi_context_t *context, const char *path, const dmi_data_t *data, size_t size);
 static dmi_data_t *dmi_dump_read_entry(dmi_context_t *context, size_t *plength);
 static dmi_data_t *dmi_dump_read_table(dmi_context_t *context, size_t *plength);
 static bool dmi_dump_close(dmi_context_t *context);
@@ -56,7 +57,7 @@ static bool dmi_dump_open(dmi_context_t *context, const char *path)
         session->data = dmi_file_get(context, (const char *)path, -1, &session->data_size);
         if (session->data == nullptr)
             break;
-        if (session->data_size < DMI_ENTRY_MAX_SIZE + sizeof(dmi_header_t))
+        if (not dmi_dump_check(context, path, session->data, session->data_size))
             break;
 
         success = true;
@@ -100,4 +101,34 @@ static bool dmi_dump_close(dmi_context_t *context)
     dmi_free(session);
 
     return true;
+}
+
+/**
+ * @internal
+ * @brief Dump file starts with entry point structure padded to its maximum
+ * size, and is followed by the structure table.
+ */
+static bool dmi_dump_check(dmi_context_t *context, const char *path, const dmi_data_t *data, size_t size)
+{
+    static const char *anchors[] = {
+        DMI_ANCHOR_V30,
+        DMI_ANCHOR_V21,
+        DMI_ANCHOR_LEGACY
+    };
+
+    if (size < DMI_ENTRY_MAX_SIZE + sizeof(dmi_header_t)) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_DUMP,
+                           "%s: File is too small (%zu bytes)", path, size);
+        return false;
+    }
+
+    for (size_t i = 0; i < countof(anchors); i++) {
+        if (memcmp(data, anchors[i], strlen(anchors[i])) == 0)
+            return true;
+    }
+
+    dmi_error_raise_ex(context, DMI_ERROR_INVALID_DUMP,
+                       "%s: No entry point structure found at the beginning of file", path);
+
+    return false;
 }

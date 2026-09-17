@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <stdlib.h>
+#include <stdint.h>
+#include <limits.h>
 #include <stdbool.h>
 #include <cmocka.h>
 
@@ -28,6 +30,7 @@ static void test_attribute_format_size(void **pstate);
 static void test_attribute_format_string(void **pstate);
 static void test_attribute_format_uuid(void **pstate);
 static void test_attribute_format_version(void **pstate);
+static void test_attribute_get_count(void **pstate);
 static int free_attribute_value(void **pstate);
 
 static dmi_context_t *context = nullptr;
@@ -46,7 +49,8 @@ int main(void)
         cmocka_unit_test_teardown(test_attribute_format_size, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_string, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_uuid, free_attribute_value),
-        cmocka_unit_test_teardown(test_attribute_format_version, free_attribute_value)
+        cmocka_unit_test_teardown(test_attribute_format_version, free_attribute_value),
+        cmocka_unit_test(test_attribute_get_count)
     };
 
     return cmocka_run_group_tests(tests, test_attribute_setup, test_attribute_teardown);
@@ -480,4 +484,50 @@ static int free_attribute_value(void **pstate)
     *pstate = nullptr;
 
     return 0;
+}
+
+static void test_attribute_get_count(void **pstate)
+{
+    dmi_unused(pstate);
+
+    // Counters are followed by non-zero bytes, which must not be read
+    typedef struct test_counters
+    {
+        uint8_t  count_8;
+        uint8_t  guard_8;
+        uint16_t count_16;
+        uint16_t guard_16;
+        unsigned count_32;
+        unsigned guard_32;
+        size_t   count_size;
+        size_t   guard_size;
+        char   **items;
+    } test_counters_t;
+
+    const test_counters_t info = {
+        .count_8    = 3,
+        .guard_8    = 0xFF,
+        .count_16   = 300,
+        .guard_16   = 0xFFFF,
+        .count_32   = 70000,
+        .guard_32   = UINT_MAX,
+        .count_size = 5,
+        .guard_size = SIZE_MAX
+    };
+
+    const dmi_attribute_t attrs[] = {
+        DMI_ATTRIBUTE_ARRAY(test_counters_t, items, count_8, STRING, { .code = "a", .name = "A" }),
+        DMI_ATTRIBUTE_ARRAY(test_counters_t, items, count_16, STRING, { .code = "b", .name = "B" }),
+        DMI_ATTRIBUTE_ARRAY(test_counters_t, items, count_32, STRING, { .code = "c", .name = "C" }),
+        DMI_ATTRIBUTE_ARRAY(test_counters_t, items, count_size, STRING, { .code = "d", .name = "D" }),
+        DMI_ATTRIBUTE(test_counters_t, items, STRING, { .code = "e", .name = "E" })
+    };
+
+    assert_int_equal(dmi_attribute_get_count(&attrs[0], &info), 3);
+    assert_int_equal(dmi_attribute_get_count(&attrs[1], &info), 300);
+    assert_int_equal(dmi_attribute_get_count(&attrs[2], &info), 70000);
+    assert_int_equal(dmi_attribute_get_count(&attrs[3], &info), 5);
+
+    // Attribute without counter
+    assert_int_equal(dmi_attribute_get_count(&attrs[4], &info), 0);
 }

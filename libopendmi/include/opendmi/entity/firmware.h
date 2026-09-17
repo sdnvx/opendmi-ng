@@ -160,11 +160,15 @@ dmi_packed_struct(dmi_firmware_data)
      * @brief Optional space reserved for future supported functions.
      *
      * The number of extension bytes that is present is indicated by the length
-     * in offset 1 minus 0x12.  For version 2.4 and later implementations, two
-     * firmware characteristics extension Bytes are defined (0x12-0x13) and
-     * bytes 0x14-0x17 are also defined.
+     * in offset 1 minus 0x12. Extension byte 1 is defined for version 2.1 and
+     * later implementations, extension byte 2 is defined for version 2.3 and
+     * later implementations.
      *
-     * @since SMBIOS 2.4
+     * @note Structure table of the specification states version 2.4 for this
+     * field, but extension bytes descriptions and version history define it
+     * since version 2.1.
+     *
+     * @since SMBIOS 2.1
      */
     dmi_byte_t features_ex[2];
 
@@ -270,6 +274,8 @@ struct dmi_firmware
 
     /**
      * @brief Extended firmware features.
+     *
+     * @since SMBIOS 2.1
      */
     dmi_firmware_features_ex_t features_ex;
 

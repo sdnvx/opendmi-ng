@@ -1,5 +1,5 @@
 entry:
-  smbios-version: 3.2
+  smbios-version: '3.2'
 table:
 - handle: 55808
   type: 218
@@ -151,7 +151,7 @@ table:
 - handle: 1
   type: 0
   length: 54
-  level: 3.1
+  level: '3.1'
   description: Platform firmware information
   attributes:
     vendor: Dell Inc.
@@ -189,7 +189,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -206,12 +206,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.5
+    platform-version: '1.5'
     controller-version: null
 - handle: 256
   type: 1
   length: 73
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: Dell Inc.
@@ -225,7 +225,7 @@ table:
 - handle: 512
   type: 2
   length: 64
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: Dell Inc.
@@ -246,7 +246,7 @@ table:
 - handle: 768
   type: 3
   length: 52
-  level: 3.9
+  level: '3.9'
   description: System enclosure or chassis
   attributes:
     vendor: Dell Inc.
@@ -271,24 +271,27 @@ table:
 - handle: 1024
   type: 4
   length: 124
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 1
     type: central
     family: intel-core-i5
     vendor: Intel(R) Corporation
+    version: Intel(R) Core(TM) i5-10500H CPU @ 2.50GHz
     voltage: 136
     external-clock: 100
     maximum-speed: 2500
     current-speed: 2772
+    is-populated: true
+    status: enabled
     upgrade: other
     l1-cache-handle: 1792
     l2-cache-handle: 1793
     l3-cache-handle: 1794
-    serial-number: null
-    asset-tag: null
-    part-number: null
+    serial-number: ''
+    asset-tag: ''
+    part-number: ''
     features:
       unknown: false
       capable-64bit: true
@@ -306,7 +309,7 @@ table:
 - handle: 1792
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -340,7 +343,7 @@ table:
 - handle: 1793
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -374,7 +377,7 @@ table:
 - handle: 1794
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -408,7 +411,7 @@ table:
 - handle: 2304
   type: 9
   length: 39
-  level: 3.5
+  level: '3.5'
   description: System slots
   attributes:
     designator: PCI-Express 0
@@ -448,7 +451,7 @@ table:
 - handle: 2305
   type: 9
   length: 39
-  level: 3.5
+  level: '3.5'
   description: System slots
   attributes:
     designator: PCI-Express 1
@@ -488,7 +491,7 @@ table:
 - handle: 2306
   type: 9
   length: 39
-  level: 3.5
+  level: '3.5'
   description: System slots
   attributes:
     designator: PCI-Express 2
@@ -528,7 +531,7 @@ table:
 - handle: 2307
   type: 9
   length: 39
-  level: 3.5
+  level: '3.5'
   description: System slots
   attributes:
     designator: PCI-Express 3
@@ -568,7 +571,7 @@ table:
 - handle: 2308
   type: 9
   length: 39
-  level: 3.5
+  level: '3.5'
   description: System slots
   attributes:
     designator: PCI-Express 4
@@ -608,7 +611,7 @@ table:
 - handle: 2309
   type: 9
   length: 39
-  level: 3.5
+  level: '3.5'
   description: System slots
   attributes:
     designator: PCI-Express 5
@@ -648,7 +651,7 @@ table:
 - handle: 2310
   type: 9
   length: 39
-  level: 3.5
+  level: '3.5'
   description: System slots
   attributes:
     designator: PCI-Express 6
@@ -688,7 +691,7 @@ table:
 - handle: 2816
   type: 11
   length: 78
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 7
@@ -703,7 +706,7 @@ table:
 - handle: 3072
   type: 12
   length: 57
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -711,7 +714,7 @@ table:
 - handle: 3328
   type: 13
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -722,7 +725,7 @@ table:
 - handle: 3584
   type: 14
   length: 42
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: Intel(R) Silicon View Technology
@@ -732,7 +735,7 @@ table:
 - handle: 3585
   type: 14
   length: 14
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: $MEI
@@ -742,7 +745,7 @@ table:
 - handle: 3586
   type: 14
   length: 46
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: Firmware Version Info
@@ -762,7 +765,7 @@ table:
 - handle: 4096
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -774,7 +777,7 @@ table:
 - handle: 4352
   type: 17
   length: 151
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -807,7 +810,7 @@ table:
     maximum-speed: 3200
     vendor: 80AD00000000
     serial-number: 2530A096
-    asset-tag: 596032
+    asset-tag: '02214100'
     part-number: HMAA1GS6CJR6N-XN
     rank: 1
     configured-speed: 2667
@@ -828,7 +831,7 @@ table:
 - handle: 4353
   type: 17
   length: 151
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -860,9 +863,9 @@ table:
       lrdimm: false
     maximum-speed: 2667
     vendor: 89F700000000
-    serial-number: 0
-    asset-tag: 340032
-    part-number: null
+    serial-number: '00000000'
+    asset-tag: '01230100'
+    part-number: ''
     rank: 1
     configured-speed: 2667
     minimum-voltage: unknown
@@ -882,7 +885,7 @@ table:
 - handle: 4864
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -893,7 +896,7 @@ table:
 - handle: 5376
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -902,7 +905,7 @@ table:
 - handle: 5632
   type: 22
   length: 121
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: Sys. Battery Bay
@@ -913,7 +916,7 @@ table:
     chemistry: unknown
     capacity: 54.89
     voltage: 11.4
-    sbds-version: 1.0
+    sbds-version: '1.0'
     maximum-error: 8
     sbds-serial-number: 2040
     sbds-chemistry: LiP
@@ -921,7 +924,7 @@ table:
 - handle: 6144
   type: 24
   length: 7
-  level: 2.2
+  level: '2.2'
   description: Hardware security
   attributes:
     front-panel-reset: not-implemented
@@ -931,7 +934,7 @@ table:
 - handle: 6912
   type: 27
   length: 30
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: null
@@ -944,7 +947,7 @@ table:
 - handle: 6913
   type: 27
   length: 26
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: null
@@ -957,7 +960,7 @@ table:
 - handle: 7168
   type: 28
   length: 30
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: CPU
@@ -973,7 +976,7 @@ table:
 - handle: 7169
   type: 28
   length: 30
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: SKIN
@@ -989,7 +992,7 @@ table:
 - handle: 7170
   type: 28
   length: 30
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: SKIN
@@ -1005,7 +1008,7 @@ table:
 - handle: 7171
   type: 28
   length: 30
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: SKIN
@@ -1021,7 +1024,7 @@ table:
 - handle: 7172
   type: 28
   length: 30
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: OTHER
@@ -1037,7 +1040,7 @@ table:
 - handle: 7173
   type: 28
   length: 30
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: VIDEO
@@ -1064,13 +1067,13 @@ table:
   description: System power supply
   attributes:
     group: 1
-    location: null
-    name: null
-    vendor: null
-    serial-number: null
-    asset-tag: null
-    part-number: null
-    revision: null
+    location: ''
+    name: ''
+    vendor: ''
+    serial-number: ''
+    asset-tag: ''
+    part-number: ''
+    revision: ''
     maximum-capacity: unknown
     hot-swappable: false
     present: true
@@ -1084,7 +1087,7 @@ table:
 - handle: 10496
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Video
@@ -1099,7 +1102,7 @@ table:
 - handle: 10497
   type: 41
   length: 31
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Ethernet
@@ -1114,7 +1117,7 @@ table:
 - handle: 10498
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Sound
@@ -1129,7 +1132,7 @@ table:
 - handle: 10499
   type: 41
   length: 27
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - SATA
@@ -1302,8 +1305,8 @@ table:
   data: !!binary |
     0BAA0AMR/gBkCgECAAAAAA==
   strings:
-  - 20211129
-  - 20230523
+  - '20211129'
+  - '20230523'
 - handle: 55296
   type: 216
   length: 31

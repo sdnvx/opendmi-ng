@@ -249,7 +249,7 @@ void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type)
     return entity->info;
 }
 
-const char *dmi_entity_string_ex(const dmi_entity_t *entity, dmi_string_t num, bool raw)
+const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool raw)
 {
     dmi_string_entry_t *entry;
 
@@ -258,7 +258,7 @@ const char *dmi_entity_string_ex(const dmi_entity_t *entity, dmi_string_t num, b
 
     if (num > entity->string_count) {
         dmi_error_raise_ex(entity->context, DMI_ERROR_STRING_NOT_FOUND,
-                           "Handle 0x%04x, index %u", entity->handle, num);
+                           "Handle 0x%04x, index %zu", entity->handle, num);
         return nullptr;
     }
 

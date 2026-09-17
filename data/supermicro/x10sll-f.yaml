@@ -1,14 +1,14 @@
 entry:
-  smbios-version: 2.7
+  smbios-version: '2.7'
 table:
 - handle: 0
   type: 0
   length: 65
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: American Megatrends Inc.
-    version: 3.2
+    version: '3.2'
     bios-segment: 61440
     release-date: '2018-05-14'
     rom-size: 16777216
@@ -42,7 +42,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 4.6
+    platform-version: '4.6'
     controller-version: null
 - handle: 1
   type: 1
   length: 125
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: Supermicro
@@ -78,12 +78,12 @@ table:
 - handle: 2
   type: 2
   length: 101
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: Supermicro
     product: X10SLL-F
-    version: 1.02
+    version: '1.02'
     serial-number: TM15AS007439
     asset-tag: To be filled by O.E.M.
     features:
@@ -99,7 +99,7 @@ table:
 - handle: 3
   type: 3
   length: 107
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: Supermicro
@@ -122,7 +122,7 @@ table:
 - handle: 4
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -133,7 +133,7 @@ table:
 - handle: 5
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -144,7 +144,7 @@ table:
 - handle: 6
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A1
@@ -155,7 +155,7 @@ table:
 - handle: 7
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2A
@@ -166,7 +166,7 @@ table:
 - handle: 8
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2B
@@ -177,7 +177,7 @@ table:
 - handle: 9
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -188,7 +188,7 @@ table:
 - handle: 10
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -199,7 +199,7 @@ table:
 - handle: 11
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -210,7 +210,7 @@ table:
 - handle: 12
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9A1 - TPM HDR
@@ -221,7 +221,7 @@ table:
 - handle: 13
   type: 8
   length: 35
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9C1 - PCIE DOCKING CONN
@@ -232,7 +232,7 @@ table:
 - handle: 14
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2B3 - CPU FAN
@@ -243,7 +243,7 @@ table:
 - handle: 15
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J6C2 - EXT HDMI
@@ -254,7 +254,7 @@ table:
 - handle: 16
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3C1 - GMCH FAN
@@ -265,7 +265,7 @@ table:
 - handle: 17
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1D1 - ITP
@@ -276,7 +276,7 @@ table:
 - handle: 18
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E2 - MDC INTPSR
@@ -287,7 +287,7 @@ table:
 - handle: 19
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E4 - MDC INTPSR
@@ -298,7 +298,7 @@ table:
 - handle: 20
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E3 - LPC HOT DOCKING
@@ -309,7 +309,7 @@ table:
 - handle: 21
   type: 8
   length: 29
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E1 - SCAN MATRIX
@@ -320,7 +320,7 @@ table:
 - handle: 22
   type: 8
   length: 31
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9G1 - LPC SIDE BAND
@@ -331,7 +331,7 @@ table:
 - handle: 23
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J8F1 - UNIFIED
@@ -342,7 +342,7 @@ table:
 - handle: 24
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J6F1 - LVDS
@@ -353,7 +353,7 @@ table:
 - handle: 25
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2F1 - LAI FAN
@@ -364,7 +364,7 @@ table:
 - handle: 26
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2G1 - GFX VID
@@ -375,7 +375,7 @@ table:
 - handle: 27
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1G6 - AC JACK
@@ -386,7 +386,7 @@ table:
 - handle: 28
   type: 9
   length: 48
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCH SLOT4 PCI-E 2.0 X4(IN X8)
@@ -426,7 +426,7 @@ table:
 - handle: 29
   type: 9
   length: 41
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: CPU SLOT5 PCI-E 3.0 X8
@@ -466,7 +466,7 @@ table:
 - handle: 30
   type: 9
   length: 49
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: CPU SLOT6 PCI-E 3.0 X8(IN X16)
@@ -506,7 +506,7 @@ table:
 - handle: 31
   type: 11
   length: 75
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 2
@@ -516,7 +516,7 @@ table:
 - handle: 32
   type: 12
   length: 29
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -531,7 +531,7 @@ table:
 - handle: 44
   type: 34
   length: 19
-  level: 2.3
+  level: '2.3'
   description: Management device
   attributes:
     description: LM78-1
@@ -541,7 +541,7 @@ table:
 - handle: 45
   type: 26
   length: 29
-  level: 2.2
+  level: '2.2'
   description: Voltage probe
   attributes:
     description: LM78A
@@ -557,7 +557,7 @@ table:
 - handle: 46
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -569,7 +569,7 @@ table:
 - handle: 47
   type: 35
   length: 35
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -579,7 +579,7 @@ table:
 - handle: 48
   type: 28
   length: 29
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: LM78A
@@ -595,7 +595,7 @@ table:
 - handle: 49
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -607,7 +607,7 @@ table:
 - handle: 50
   type: 35
   length: 35
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -617,11 +617,11 @@ table:
 - handle: 51
   type: 27
   length: 30
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: 48
-    type: 18
+    type: '0x12'
     status: null
     group: 1
     oem-defined: 0
@@ -630,7 +630,7 @@ table:
 - handle: 52
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -642,7 +642,7 @@ table:
 - handle: 53
   type: 35
   length: 35
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -652,11 +652,11 @@ table:
 - handle: 54
   type: 27
   length: 17
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: 48
-    type: 18
+    type: '0x12'
     status: null
     group: 1
     oem-defined: 0
@@ -665,7 +665,7 @@ table:
 - handle: 55
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -677,7 +677,7 @@ table:
 - handle: 56
   type: 35
   length: 35
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -687,7 +687,7 @@ table:
 - handle: 57
   type: 29
   length: 27
-  level: 2.2
+  level: '2.2'
   description: Electrical current probe
   attributes:
     description: ABC
@@ -703,7 +703,7 @@ table:
 - handle: 58
   type: 36
   length: 18
-  level: 2.3
+  level: '2.3'
   description: Management device threshold data
   attributes:
     lower-non-critical: unknown
@@ -715,7 +715,7 @@ table:
 - handle: 59
   type: 35
   length: 35
-  level: 2.3
+  level: '2.3'
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -725,7 +725,7 @@ table:
 - handle: 60
   type: 26
   length: 29
-  level: 2.2
+  level: '2.2'
   description: Voltage probe
   attributes:
     description: LM78A
@@ -741,7 +741,7 @@ table:
 - handle: 61
   type: 28
   length: 29
-  level: 2.2
+  level: '2.2'
   description: Temperature probe
   attributes:
     description: LM78A
@@ -757,7 +757,7 @@ table:
 - handle: 62
   type: 27
   length: 30
-  level: 2.7
+  level: '2.7'
   description: Cooling device
   attributes:
     probe-handle: 61
@@ -770,7 +770,7 @@ table:
 - handle: 63
   type: 29
   length: 27
-  level: 2.2
+  level: '2.2'
   description: Electrical current probe
   attributes:
     description: ABC
@@ -810,7 +810,7 @@ table:
 - handle: 65
   type: 41
   length: 34
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: ASPEED Video AST2400
@@ -825,7 +825,7 @@ table:
 - handle: 66
   type: 41
   length: 38
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: 'Intel Ethernet i210AT #1'
@@ -840,7 +840,7 @@ table:
 - handle: 67
   type: 41
   length: 38
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: 'Intel Ethernet i217LM #2'
@@ -855,16 +855,16 @@ table:
 - handle: 68
   type: 38
   length: 20
-  level: 2.0
+  level: '2.0'
   description: IPMI device information
   attributes:
     interface-type: kcs
-    specification-version: 2.0
+    specification-version: '2.0'
     i2c-target-address: 0
     nv-storage-address: null
-    base-address: 3235
+    base-address: 3234
     base-address-lsb: 0
-    base-address-type: memory
+    base-address-type: io
     interrupt-trigger-mode: null
     interrupt-polarity: null
     interrupt-number: null
@@ -872,17 +872,20 @@ table:
 - handle: 69
   type: 4
   length: 124
-  level: 2.6
+  level: '2.6'
   description: Processor information
   attributes:
     socket-designation: SOCKET 0
     type: central
     family: intel-xeon
     vendor: Intel
+    version: Intel(R) Xeon(R) CPU E3-1271 v3 @ 3.60GHz
     voltage: 140
     external-clock: 100
     maximum-speed: 3800
     current-speed: 3600
+    is-populated: true
+    status: enabled
     upgrade: socket-lga1155
     l1-cache-handle: 70
     l2-cache-handle: 71
@@ -907,7 +910,7 @@ table:
 - handle: 70
   type: 7
   length: 36
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: CPU Internal L1
@@ -941,7 +944,7 @@ table:
 - handle: 71
   type: 7
   length: 36
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: CPU Internal L2
@@ -975,7 +978,7 @@ table:
 - handle: 72
   type: 7
   length: 36
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: CPU Internal L3
@@ -1009,7 +1012,7 @@ table:
 - handle: 74
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -1021,7 +1024,7 @@ table:
 - handle: 75
   type: 17
   length: 117
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 74
@@ -1054,14 +1057,14 @@ table:
     maximum-speed: 1600
     vendor: Kingston
     serial-number: DE13A51E
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: 9965525-138.A00LF
     rank: 2
     configured-speed: 1600
 - handle: 76
   type: 17
   length: 117
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 74
@@ -1094,14 +1097,14 @@ table:
     maximum-speed: 1600
     vendor: Kingston
     serial-number: E213941E
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: 9965525-138.A00LF
     rank: 2
     configured-speed: 1600
 - handle: 77
   type: 17
   length: 117
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 74
@@ -1134,14 +1137,14 @@ table:
     maximum-speed: 1600
     vendor: Kingston
     serial-number: E413951E
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: 9965525-138.A00LF
     rank: 2
     configured-speed: 1600
 - handle: 78
   type: 17
   length: 117
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 74
@@ -1174,14 +1177,14 @@ table:
     maximum-speed: 1600
     vendor: Kingston
     serial-number: DD13971E
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: 9965525-138.A00LF
     rank: 2
     configured-speed: 1600
 - handle: 79
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -1192,7 +1195,7 @@ table:
 - handle: 80
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1206,7 +1209,7 @@ table:
 - handle: 81
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 8589934592
@@ -1220,7 +1223,7 @@ table:
 - handle: 82
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 17179869184
@@ -1234,7 +1237,7 @@ table:
 - handle: 83
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 25769803776
@@ -1248,7 +1251,7 @@ table:
 - handle: 84
   type: 15
   length: 75
-  level: 2.1
+  level: '2.1'
   description: System event log
   attributes:
     access-method: memory-mapped-32bit-address
@@ -1265,7 +1268,7 @@ table:
 - handle: 97
   type: 13
   length: 39
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:

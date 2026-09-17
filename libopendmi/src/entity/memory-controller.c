@@ -225,8 +225,8 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
             .name   = "Module handles"
         }),
         DMI_ATTRIBUTE(dmi_memory_controller_t, enabled_error_correction, SET, {
-            .code   = "error-correction",
-            .name   = "Error correcting capabilities",
+            .code   = "enabled-error-correction",
+            .name   = "Enabled error correcting capabilities",
             .values = &dmi_error_correct_caps_names,
             .level  = DMI_VERSION(2, 1, 0)
         }),

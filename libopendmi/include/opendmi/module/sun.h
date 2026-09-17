@@ -23,4 +23,10 @@ typedef enum dmi_sun_type
     DMI_TYPE_SUN_MEMORY_DEVICE_EX  = 145, ///< Sun memory device extended information
 } dmi_sun_type_t;
 
+__BEGIN_DECLS
+
+extern const dmi_module_t dmi_sun_module;
+
+__END_DECLS
+
 #endif // !OPENDMI_MODULE_SUN_H

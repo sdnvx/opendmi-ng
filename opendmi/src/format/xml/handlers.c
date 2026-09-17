@@ -12,6 +12,7 @@
 #include <opendmi/error.h>
 #include <opendmi/utils.h>
 
+#include <opendmi/format/iter.h>
 #include <opendmi/format/xml/handlers.h>
 #include <opendmi/format/xml/helpers.h>
 
@@ -274,11 +275,12 @@ bool dmi_xml_entity_attr_array(
     assert(info != nullptr);
     assert(value != nullptr);
 
-    // TODO: Support counters of different types
-    size_t count = dmi_member_value(info, attr->counter, size_t);
-    const dmi_data_t *ptr = dmi_deref(dmi_data_t *, value);
+    dmi_format_array_iter_t iter;
+    const dmi_data_t *ptr;
 
-    for (size_t i = 0; i < count; i++, ptr += attr->value.size) {
+    dmi_format_array_iter_init(&iter, attr, info, value);
+
+    while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
         if (xmlTextWriterStartElement(session->writer, dmi_xml_string("item")) < 0)
             return false;
 
@@ -364,7 +366,7 @@ bool dmi_xml_entity_attr_value(
                 break;
         }
 
-        if (xmlTextWriterWriteString(session->writer, dmi_xml_string(text)) < 0)
+        if (not dmi_xml_text(session, text))
             break;
 
         success = true;
@@ -385,25 +387,29 @@ bool dmi_xml_entity_attr_set(
     assert(attr != nullptr);
     assert(value != nullptr);
 
-    uintmax_t mask = dmi_attribute_get_uint(attr, value);
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
+
+    dmi_format_set_iter_init(&iter, attr, value);
 
     if (xmlTextWriterWriteFormatAttribute(
                 session->writer,
                 dmi_xml_string("value"),
-                "0x%" PRIxMAX, mask) < 0)
+                "0x%" PRIxMAX, iter.mask) < 0)
         return false;
 
-    for (size_t i = 0; i < attr->value.size * CHAR_BIT; i++) {
-        const char *name = dmi_code_lookup(attr->params.values, i);
-        if (name == nullptr)
-            continue;
+    // Flag codes are not always valid element names (e.g. "5v"), so they are
+    // written as attributes
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        bool result =
+            (xmlTextWriterStartElement(session->writer, dmi_xml_string("flag")) >= 0) and
+            (xmlTextWriterWriteAttribute(session->writer, dmi_xml_string("name"),
+                                         dmi_xml_string(flag->code)) >= 0) and
+            (xmlTextWriterWriteString(session->writer,
+                                      dmi_xml_string(flag->value ? "true" : "false")) >= 0) and
+            (xmlTextWriterEndElement(session->writer) >= 0);
 
-        bool flag = mask & (1 << i);
-
-        if (xmlTextWriterWriteElement(
-                    session->writer,
-                    dmi_xml_string(name),
-                    dmi_xml_string(flag ? "true" : "false")) < 0)
+        if (not result)
             return false;
     }
 
@@ -468,7 +474,12 @@ bool dmi_xml_entity_strings(dmi_xml_session_t *session, const dmi_entity_t *enti
                     nullptr) < 0)
             break;
 
-        for (size_t i = 1; i <= entity->string_count; i++) {
+        dmi_format_string_iter_t iter;
+        const char *str;
+
+        dmi_format_string_iter_init(&iter, entity);
+
+        while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
             if (xmlTextWriterStartElementNS(
                         session->writer,
                         dmi_xml_string(DMI_XML_PREFIX),
@@ -478,17 +489,19 @@ bool dmi_xml_entity_strings(dmi_xml_session_t *session, const dmi_entity_t *enti
             if (xmlTextWriterWriteFormatAttribute(
                         session->writer,
                         dmi_xml_string("index"),
-                        "%zu", i) < 0)
+                        "%zu", iter.index) < 0)
                 break;
 
-            if (xmlTextWriterWriteString(
-                        session->writer,
-                        dmi_xml_string(dmi_entity_string_ex(entity, i, true))) < 0)
+            if (not dmi_xml_text(session, str))
                 break;
 
             if (xmlTextWriterFullEndElement(session->writer) < 0)
                 break;
         }
+
+        // Loop is interrupted on errors
+        if (str != nullptr)
+            break;
 
         if (xmlTextWriterFullEndElement(session->writer) < 0)
             break;

@@ -10,7 +10,7 @@
 /**
  * @brief AMI extension module.
  */
-static dmi_module_t dmi_ami_module =
+const dmi_module_t dmi_ami_module =
 {
     .code     = "ami",
     .name     = "AMI extensions",
@@ -19,9 +19,3 @@ static dmi_module_t dmi_ami_module =
         nullptr
     }
 };
-
-__attribute__((constructor))
-static void dmi_ami_module_register(void)
-{
-    dmi_module_register(&dmi_ami_module);
-}

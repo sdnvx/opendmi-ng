@@ -656,8 +656,14 @@ static bool dmi_setup_extensions(dmi_context_t *context)
         return false;
     }
 
-    if (not dmi_entity_decode(entity))
+    if (not dmi_entity_decode(entity)) {
+        if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
+            dmi_log_notice(context->logger, "Unable to decode firmware information, vendor is unknown");
+            return true;
+        }
+
         return false;
+    }
 
     firmware = dmi_cast(firmware, entity->info);
     vendor   = dmi_vendor_detect(firmware->vendor);

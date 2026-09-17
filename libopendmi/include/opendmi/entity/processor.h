@@ -11,9 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_processor_data     dmi_processor_data_t;
-typedef struct dmi_processor          dmi_processor_t;
-typedef union  dmi_processor_features dmi_processor_features_t;
+typedef struct dmi_processor_data        dmi_processor_data_t;
+typedef struct dmi_processor             dmi_processor_t;
+typedef union  dmi_processor_features    dmi_processor_features_t;
+typedef union  dmi_processor_status_data dmi_processor_status_data_t;
 
 typedef enum dmi_processor_type
 {
@@ -400,7 +401,33 @@ typedef enum dmi_processor_status
     DMI_PROCESSOR_STATUS_IDLE             = 0x04, ///< CPU is idle, waiting to be enabled
     // Reserved: 0x05 .. 0x06
     DMI_PROCESSOR_STATUS_OTHER            = 0x07, ///< Other
+    __DMI_PROCESSOR_STATUS_COUNT
 } dmi_processor_status_t;
+
+dmi_packed_union(dmi_processor_status_data)
+{
+    /**
+     * @brief Raw value.
+     */
+    dmi_byte_t __value;
+
+    dmi_packed_struct()
+    {
+        /**
+         * @brief CPU status.
+         */
+        dmi_byte_t status : 3;
+
+        dmi_byte_t __reserved_1 : 3;
+
+        /**
+         * @brief Is CPU socket populated.
+         */
+        bool is_populated : 1;
+
+        dmi_byte_t __reserved_2 : 1;
+    };
+};
 
 dmi_packed_struct(dmi_processor_data)
 {
@@ -563,6 +590,8 @@ struct dmi_processor
 
     const char *vendor;
 
+    const char *version;
+
     uint8_t voltage;
 
     uint16_t external_clock;
@@ -571,17 +600,15 @@ struct dmi_processor
 
     uint16_t current_speed;
 
-    struct {
-        /**
-         * @brief Is CPU Socket populated.
-         */
-        bool populated;
+    /**
+     * @brief Is CPU socket populated.
+     */
+    bool is_populated;
 
-        /**
-         * @brief CPU status.
-         */
-        dmi_processor_status_t status;
-    } status;
+    /**
+     * @brief CPU status.
+     */
+    dmi_processor_status_t status;
 
     dmi_processor_upgrade_t upgrade;
 
@@ -623,6 +650,7 @@ __BEGIN_DECLS
 const char *dmi_processor_type_name(dmi_processor_type_t value);
 const char *dmi_processor_family_name(dmi_processor_family_t value);
 const char *dmi_processor_upgrade_name(dmi_processor_upgrade_t value);
+const char *dmi_processor_status_name(dmi_processor_status_t value);
 
 __END_DECLS
 

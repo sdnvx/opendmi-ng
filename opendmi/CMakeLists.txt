@@ -42,10 +42,12 @@ add_library(opendmi-cli OBJECT
     src/command/import.c
     src/command/types.c
     src/format.c
+    src/format/iter.c
     src/format/text.c
     src/format/text/handlers.c
     src/format/text/helpers.c
     src/utils/tty.c
+    src/utils/utf8.c
 )
 
 if(WIN32)
@@ -181,4 +183,7 @@ endfunction()
 
 # Option parser test uses its own stub of `dmi_command_message()`
 opendmi_cli_test(option SOURCES test/option.c src/option.c src/utils/tty.c)
+opendmi_cli_test(utf8 SOURCES test/utf8.c src/utils/utf8.c)
 opendmi_cli_test(command SOURCES test/command.c LINK_CLI)
+opendmi_cli_test(format SOURCES test/format.c LINK_CLI)
+opendmi_cli_test(iter SOURCES test/iter.c src/format/iter.c)

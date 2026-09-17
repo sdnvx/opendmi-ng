@@ -223,6 +223,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
     bool success = false;
     const dmi_data_t *ptr = context->state.table_data;
     size_t index = 0;
+    size_t count = 0;
 
     // Scan table area
     while ((context->state.entity_count == 0) or (index < context->state.entity_count)) {
@@ -252,6 +253,17 @@ bool dmi_registry_scan(dmi_registry_t *registry)
                 break;
             }
 
+            // Next structure cannot be located after a structure with invalid
+            // length, so the rest of the table is treated as truncated in
+            // relaxed mode
+            if ((error->reason == DMI_ERROR_INVALID_ENTITY_LENGTH) and
+                ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0))
+            {
+                dmi_log_warning(context->logger, "Invalid structure length, stopping before end-of-table");
+                registry->status |= DMI_REGISTRY_STATUS_TRUNCATED;
+                break;
+            }
+
             dmi_error_raise(context, DMI_ERROR_ENTITY_DECODE);
             goto exit;
         }
@@ -264,6 +276,8 @@ bool dmi_registry_scan(dmi_registry_t *registry)
             goto exit;
         }
 
+        count++;
+
         // Stop at the end of table
         if (entity->type == DMI_TYPE(END_OF_TABLE))
             break;
@@ -274,7 +288,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
     }
 
     // Set entity count and status
-    registry->count   = index + 1;
+    registry->count   = count;
     registry->status |= DMI_REGISTRY_STATUS_SCANNED;
 
     dmi_log_debug(context->logger, "Found %zu structures", registry->count);
@@ -306,10 +320,19 @@ bool dmi_registry_decode(dmi_registry_t *registry)
                       entity->type,
                       dmi_type_name(context, entity->type));
 
-        if (not dmi_entity_decode(entity)) {
-            dmi_error_raise_ex(context, DMI_ERROR_ENTITY_DECODE, "0x%04hx", entity->handle);
-            return false;
+        if (dmi_entity_decode(entity))
+            continue;
+
+        // Malformed structure is left undecoded in relaxed mode, so the rest
+        // of the table remains available
+        if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
+            dmi_log_warning(context->logger, "Unable to decode structure 0x%04hx (%s), skipping",
+                            entity->handle, dmi_type_name(context, entity->type));
+            continue;
         }
+
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_DECODE, "0x%04hx", entity->handle);
+        return false;
     }
 
     registry->status |= DMI_REGISTRY_STATUS_DECODED;
@@ -333,6 +356,10 @@ bool dmi_registry_link(dmi_registry_t *registry)
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         if ((entity->spec == nullptr) or (entity->spec->handlers.link == nullptr))
+            continue;
+
+        // Undecoded entities have no data to link
+        if ((entity->state & DMI_ENTITY_STATE_DECODED) == 0)
             continue;
 
         dmi_log_debug(context->logger, "%p: Handle 0x%04hx, length %zu, type %d (%s)",

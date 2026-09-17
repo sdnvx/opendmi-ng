@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 2.3
+  smbios-version: '2.3'
 table:
 - handle: 0
   type: 0
   length: 39
-  level: 2.1
+  level: '2.1'
   description: Platform firmware information
   attributes:
     vendor: HP
@@ -43,10 +43,26 @@ table:
       printer-support: true
       video-cga-mono-support: true
       nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: false
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
 - handle: 256
   type: 1
   length: 81
-  level: 2.1
+  level: '2.1'
   description: System information
   attributes:
     vendor: HP
@@ -58,7 +74,7 @@ table:
 - handle: 768
   type: 3
   length: 71
-  level: 2.3
+  level: '2.3'
   description: System enclosure or chassis
   attributes:
     vendor: HP
@@ -66,7 +82,7 @@ table:
     is-lock-present: false
     version: null
     serial-number: AUB72001CY
-    asset-tag: null
+    asset-tag: ''
     bootup-state: unknown
     power-supply-state: unknown
     thermal-state: unknown
@@ -80,17 +96,20 @@ table:
 - handle: 1024
   type: 4
   length: 52
-  level: 2.5
+  level: '2.5'
   description: Processor information
   attributes:
     socket-designation: Proc 1
     type: central
     family: amd-opteron
     vendor: AMD
+    version: null
     voltage: 142
     external-clock: unknown
     maximum-speed: 2800
     current-speed: 2600
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 1808
     l2-cache-handle: 1824
@@ -115,17 +134,20 @@ table:
 - handle: 1025
   type: 4
   length: 52
-  level: 2.5
+  level: '2.5'
   description: Processor information
   attributes:
     socket-designation: Proc 2
     type: central
     family: amd-opteron
     vendor: AMD
+    version: null
     voltage: 142
     external-clock: unknown
     maximum-speed: 2800
     current-speed: 2600
+    is-populated: true
+    status: idle
     upgrade: socket-zif
     l1-cache-handle: 1809
     l2-cache-handle: 1825
@@ -150,7 +172,7 @@ table:
 - handle: 1808
   type: 7
   length: 50
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Processor 1 Internal L1 Cache
@@ -184,7 +206,7 @@ table:
 - handle: 1809
   type: 7
   length: 50
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Processor 2 Internal L1 Cache
@@ -218,7 +240,7 @@ table:
 - handle: 1824
   type: 7
   length: 50
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Processor 1 Internal L2 Cache
@@ -252,7 +274,7 @@ table:
 - handle: 1825
   type: 7
   length: 50
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: Processor 2 Internal L2 Cache
@@ -286,7 +308,7 @@ table:
 - handle: 2049
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2
@@ -297,7 +319,7 @@ table:
 - handle: 2050
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2
@@ -308,7 +330,7 @@ table:
 - handle: 2051
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1
@@ -319,7 +341,7 @@ table:
 - handle: 2305
   type: 9
   length: 27
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI-E Slot 1
@@ -359,7 +381,7 @@ table:
 - handle: 2306
   type: 9
   length: 27
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI-E Slot 2
@@ -399,7 +421,7 @@ table:
 - handle: 2307
   type: 9
   length: 27
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI-E Slot 3
@@ -439,7 +461,7 @@ table:
 - handle: 2308
   type: 9
   length: 27
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI-E Slot 4
@@ -479,7 +501,7 @@ table:
 - handle: 2309
   type: 9
   length: 27
-  level: 2.1
+  level: '2.1'
   description: System slots
   attributes:
     designator: PCI-E Slot 5
@@ -519,7 +541,7 @@ table:
 - handle: 2816
   type: 11
   length: 35
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 1
@@ -528,7 +550,7 @@ table:
 - handle: 4096
   type: 16
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -540,7 +562,7 @@ table:
 - handle: 4352
   type: 17
   length: 32
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -578,7 +600,7 @@ table:
 - handle: 4353
   type: 17
   length: 32
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -616,7 +638,7 @@ table:
 - handle: 4354
   type: 17
   length: 32
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -654,7 +676,7 @@ table:
 - handle: 4355
   type: 17
   length: 32
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -692,7 +714,7 @@ table:
 - handle: 4356
   type: 17
   length: 32
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -730,7 +752,7 @@ table:
 - handle: 4357
   type: 17
   length: 32
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -768,7 +790,7 @@ table:
 - handle: 4358
   type: 17
   length: 32
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -806,7 +828,7 @@ table:
 - handle: 4359
   type: 17
   length: 32
-  level: 2.3
+  level: '2.3'
   description: Memory device
   attributes:
     array-handle: 4096
@@ -844,7 +866,7 @@ table:
 - handle: 4864
   type: 19
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -855,7 +877,7 @@ table:
 - handle: 4865
   type: 19
   length: 17
-  level: 2.1
+  level: '2.1'
   description: Memory array mapped address
   attributes:
     start-addr: 2147483648
@@ -866,7 +888,7 @@ table:
 - handle: 5120
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -880,7 +902,7 @@ table:
 - handle: 5121
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -894,7 +916,7 @@ table:
 - handle: 5122
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -908,7 +930,7 @@ table:
 - handle: 5123
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -922,7 +944,7 @@ table:
 - handle: 5124
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -936,7 +958,7 @@ table:
 - handle: 5125
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -950,7 +972,7 @@ table:
 - handle: 5126
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
@@ -964,7 +986,7 @@ table:
 - handle: 5127
   type: 20
   length: 21
-  level: 2.1
+  level: '2.1'
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
@@ -985,16 +1007,16 @@ table:
 - handle: 9728
   type: 38
   length: 20
-  level: 2.0
+  level: '2.0'
   description: IPMI device information
   attributes:
     interface-type: kcs
-    specification-version: 2.0
+    specification-version: '2.0'
     i2c-target-address: 32
     nv-storage-address: null
-    base-address: 3235
+    base-address: 3234
     base-address-lsb: 0
-    base-address-type: memory
+    base-address-type: io
     interrupt-trigger-mode: null
     interrupt-polarity: null
     interrupt-number: null

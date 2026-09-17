@@ -7,6 +7,9 @@
 #include <string.h>
 #include <assert.h>
 
+#include <opendmi/utils.h>
+#include <opendmi/utils/utf8.h>
+
 #include <opendmi/format/json/helpers.h>
 
 bool dmi_json_label(dmi_json_session_t *session, const char *value)
@@ -17,11 +20,23 @@ bool dmi_json_label(dmi_json_session_t *session, const char *value)
 bool dmi_json_scalar_str(dmi_json_session_t *session, const char *value)
 {
     int rv;
+    char *repaired = nullptr;
 
     assert(session != nullptr);
     assert(value != nullptr);
 
+    // JSON has no binary strings, so invalid bytes are replaced
+    if (not dmi_utf8_is_valid(value)) {
+        repaired = dmi_utf8_repair(session->context, value);
+        if (repaired == nullptr)
+            return false;
+
+        value = repaired;
+    }
+
     rv = yajl_gen_string(session->generator, (const unsigned char *)value, strlen(value));
+    dmi_free(repaired);
+
     if (rv != yajl_gen_status_ok)
         return false;
 

@@ -28,4 +28,10 @@ typedef enum dmi_intel_type
     DMI_TYPE_INTEL_RSD_PHYS_DEVICE_MAPPING = 200  ///< Intel RSD SMBIOS physical device mapping
 } dmi_intel_type_t;
 
+__BEGIN_DECLS
+
+extern const dmi_module_t dmi_intel_module;
+
+__END_DECLS
+
 #endif // !OPENDMI_MODULE_INTEL_H

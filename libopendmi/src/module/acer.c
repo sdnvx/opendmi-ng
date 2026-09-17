@@ -9,15 +9,9 @@
 /**
  * @brief Acer extension module.
  */
-static dmi_module_t dmi_acer_module =
+const dmi_module_t dmi_acer_module =
 {
     .code     = "acer",
     .name     = "Acer extensions",
     .entities = nullptr
 };
-
-__attribute__((constructor))
-static void dmi_acer_module_register(void)
-{
-    dmi_module_register(&dmi_acer_module);
-}

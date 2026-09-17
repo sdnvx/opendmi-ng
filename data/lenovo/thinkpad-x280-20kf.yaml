@@ -1,5 +1,5 @@
 entry:
-  smbios-version: 3.0.1
+  smbios-version: '3.0'
 table:
 - handle: 0
   type: 222
@@ -15,7 +15,7 @@ table:
 - handle: 1
   type: 14
   length: 42
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: Intel(R) Silicon View Technology
@@ -32,7 +32,7 @@ table:
 - handle: 3
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -44,7 +44,7 @@ table:
 - handle: 4
   type: 17
   length: 103
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 3
@@ -75,10 +75,10 @@ table:
       unbuffered: true
       lrdimm: false
     maximum-speed: 2400
-    vendor: 0
-    serial-number: 0
+    vendor: '0000'
+    serial-number: '00000000'
     asset-tag: None
-    part-number: null
+    part-number: ''
     rank: 1
     configured-speed: 2400
     minimum-voltage: unknown
@@ -87,7 +87,7 @@ table:
 - handle: 5
   type: 17
   length: 103
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 3
@@ -118,10 +118,10 @@ table:
       unbuffered: true
       lrdimm: false
     maximum-speed: 2400
-    vendor: 0
-    serial-number: 0
+    vendor: '0000'
+    serial-number: '00000000'
     asset-tag: None
-    part-number: null
+    part-number: ''
     rank: 1
     configured-speed: 2400
     minimum-voltage: unknown
@@ -130,7 +130,7 @@ table:
 - handle: 6
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -141,7 +141,7 @@ table:
 - handle: 7
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -175,7 +175,7 @@ table:
 - handle: 8
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -209,7 +209,7 @@ table:
 - handle: 9
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -243,17 +243,20 @@ table:
 - handle: 10
   type: 4
   length: 131
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: U3E1
     type: central
     family: intel-core-i5
     vendor: Intel(R) Corporation
+    version: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
     voltage: 138
     external-clock: 100
     maximum-speed: 1800
     current-speed: 1600
+    is-populated: true
+    status: enabled
     upgrade: socket-bga1356
     l1-cache-handle: 7
     l2-cache-handle: 8
@@ -278,7 +281,7 @@ table:
 - handle: 11
   type: 0
   length: 60
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: LENOVO
@@ -316,7 +319,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: true
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -333,12 +336,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.41
-    controller-version: 1.15
+    platform-version: '1.41'
+    controller-version: '1.15'
 - handle: 12
   type: 1
   length: 124
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: LENOVO
@@ -352,7 +355,7 @@ table:
 - handle: 13
   type: 2
   length: 89
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: LENOVO
@@ -373,7 +376,7 @@ table:
 - handle: 14
   type: 3
   length: 106
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: LENOVO
@@ -396,7 +399,7 @@ table:
 - handle: 15
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -407,7 +410,7 @@ table:
 - handle: 16
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -418,7 +421,7 @@ table:
 - handle: 17
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -429,7 +432,7 @@ table:
 - handle: 18
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -490,7 +493,7 @@ table:
 - handle: 24
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -511,7 +514,7 @@ table:
 - handle: 26
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -552,7 +555,7 @@ table:
 - handle: 30
   type: 8
   length: 57
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -573,7 +576,7 @@ table:
 - handle: 32
   type: 9
   length: 34
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: Media Card Slot
@@ -613,7 +616,7 @@ table:
 - handle: 33
   type: 9
   length: 31
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: SimCard Slot
@@ -653,14 +656,14 @@ table:
 - handle: 34
   type: 12
   length: 7
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options: []
 - handle: 35
   type: 13
   length: 29
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -671,7 +674,7 @@ table:
 - handle: 36
   type: 22
   length: 55
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: Front
@@ -682,7 +685,7 @@ table:
     chemistry: unknown
     capacity: 48.01
     voltage: 11.46
-    sbds-version: 3.01
+    sbds-version: '03.01'
     maximum-error: unknown
     sbds-serial-number: 96
     sbds-chemistry: LiP
@@ -788,7 +791,7 @@ table:
 - handle: 46
   type: 15
   length: 33
-  level: 2.1
+  level: '2.1'
   description: System event log
   attributes:
     access-method: data-functions
@@ -798,7 +801,7 @@ table:
 - handle: 47
   type: 24
   length: 7
-  level: 2.2
+  level: '2.2'
   description: Hardware security
   attributes:
     front-panel-reset: not-implemented
@@ -815,7 +818,7 @@ table:
 - handle: 49
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -828,7 +831,7 @@ table:
 - handle: 50
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: track-point
@@ -837,7 +840,7 @@ table:
 - handle: 51
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -883,7 +886,7 @@ table:
 - handle: 57
   type: 14
   length: 14
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: $MEI

@@ -21,30 +21,57 @@ struct dmi_module
     const char *code;
     const char *name;
     const dmi_entity_spec_t **entities;
+
+    /**
+     * @brief Next registered module. Used for modules registered with
+     * `dmi_module_register()` only.
+     */
     dmi_module_t *next;
 };
 
-extern dmi_module_t *dmi_modules;
+/**
+ * @brief Built-in extension modules, terminated by `nullptr`.
+ *
+ * Built-in modules are listed statically rather than registered at startup,
+ * so that they are always linked in, including static builds.
+ */
+extern const dmi_module_t *const dmi_builtin_modules[];
 
 __BEGIN_DECLS
 
 /**
- * @brief Registers an extension module in the global module registry.
+ * @brief Registers an external extension module.
  *
- * Prepends @p module to the global `dmi_modules` linked list via its `next`
- * field. The module must remain valid for the lifetime of the program; it is
- * not copied. Modules are typically statically allocated and registered from a
- * constructor function.
+ * Appends @p module to the list of registered modules, which follow built-in
+ * modules. The module must remain valid for the lifetime of the program; it
+ * is not copied. Registration is not thread-safe, so modules should be
+ * registered before they are used.
  *
  * @param module Extension module to register; must not be @c NULL.
+ *
+ * @return `true` on success, `false` if a module with the same code is
+ *         already available.
  */
-void dmi_module_register(dmi_module_t *module);
+bool dmi_module_register(dmi_module_t *module);
+
+/**
+ * @brief Iterates over available extension modules.
+ *
+ * Built-in modules are returned first, followed by registered modules in
+ * the order of registration.
+ *
+ * @param module Module returned by the previous call, or @c NULL to get the
+ *               first module.
+ * @return Pointer to the next module, or @c NULL if there are no more
+ *         modules.
+ */
+const dmi_module_t *dmi_module_next(const dmi_module_t *module);
 
 /**
  * @brief Looks up a registered extension module by its code.
  *
- * Searches the global `dmi_modules` list for the first module whose `code`
- * field equals @p code.
+ * Searches built-in and registered modules for the module whose `code` field
+ * equals @p code.
  *
  * @param code Null-terminated module identifier string; must not be @c NULL.
  * @return Pointer to the matching module, or @c NULL if no module with the

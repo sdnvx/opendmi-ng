@@ -15,7 +15,7 @@
 /**
  * @brief Sun extension module.
  */
-static dmi_module_t dmi_sun_module =
+const dmi_module_t dmi_sun_module =
 {
     .code     = "sun",
     .name     = "Sun extensions",
@@ -28,9 +28,3 @@ static dmi_module_t dmi_sun_module =
         nullptr
     }
 };
-
-__attribute__((constructor))
-static void dmi_sun_module_register(void)
-{
-    dmi_module_register(&dmi_sun_module);
-}

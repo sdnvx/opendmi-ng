@@ -9,7 +9,7 @@
 /**
  * @brief HPE module extension.
  */
-static dmi_module_t dmi_hpe_module =
+const dmi_module_t dmi_hpe_module =
 {
     .code     = "hpe",
     .name     = "HP/HPE extensions",
@@ -17,9 +17,3 @@ static dmi_module_t dmi_hpe_module =
         nullptr
     }
 };
-
-__attribute__((constructor))
-static void dmi_hpe_module_register(void)
-{
-    dmi_module_register(&dmi_hpe_module);
-}

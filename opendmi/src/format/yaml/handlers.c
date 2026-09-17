@@ -11,6 +11,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/base64.h>
 
+#include <opendmi/format/iter.h>
 #include <opendmi/format/yaml/handlers.h>
 #include <opendmi/format/yaml/helpers.h>
 
@@ -220,14 +221,15 @@ bool dmi_yaml_entity_attr_array(
     assert(info != nullptr);
     assert(value != nullptr);
 
-    // TODO: Support other types of counters
-    size_t count = dmi_member_value(info, attr->counter, size_t);
-    const dmi_data_t *ptr = dmi_deref(dmi_data_t *, value);
+    dmi_format_array_iter_t iter;
+    const dmi_data_t *ptr;
 
     if (not dmi_yaml_sequence_start(session, YAML_BLOCK_SEQUENCE_STYLE))
         return false;
 
-    for (size_t i = 0; i < count; i++, ptr += attr->value.size) {
+    dmi_format_array_iter_init(&iter, attr, info, value);
+
+    while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
         bool result;
 
         if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT)
@@ -302,12 +304,24 @@ bool dmi_yaml_entity_attr_value(
         if (text == nullptr)
             break;
 
-        if (attr->type == DMI_ATTRIBUTE_TYPE_STRING) {
-            tag = YAML_STR_TAG;
-            style = YAML_DOUBLE_QUOTED_SCALAR_STYLE;
-        } else {
-            tag = nullptr;
+        // Only numbers and booleans are written as plain scalars, since
+        // other values (e.g. dates, versions or enumeration codes) could be
+        // resolved by readers as values of different types
+        switch (attr->type) {
+        case DMI_ATTRIBUTE_TYPE_HANDLE:
+        case DMI_ATTRIBUTE_TYPE_BOOL:
+        case DMI_ATTRIBUTE_TYPE_INTEGER:
+        case DMI_ATTRIBUTE_TYPE_DECIMAL:
+        case DMI_ATTRIBUTE_TYPE_SIZE:
+        case DMI_ATTRIBUTE_TYPE_ADDRESS:
+            tag   = nullptr;
             style = YAML_PLAIN_SCALAR_STYLE;
+            break;
+
+        default:
+            tag   = YAML_STR_TAG;
+            style = YAML_DOUBLE_QUOTED_SCALAR_STYLE;
+            break;
         }
 
         if (not dmi_yaml_scalar(session, text, tag, style))
@@ -330,20 +344,18 @@ bool dmi_yaml_entity_attr_set(
     assert(attr != nullptr);
     assert(value != nullptr);
 
-    uintmax_t mask = dmi_attribute_get_uint(attr, value);
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
 
     if (not dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE))
         return false;
 
-    for (size_t i = 0; i < attr->value.size * CHAR_BIT; i++) {
-        const char *name = dmi_code_lookup(attr->params.values, i);
-        if (name == nullptr)
-            continue;
+    dmi_format_set_iter_init(&iter, attr, value);
 
-        bool flag = mask & (1 << i);
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         bool result =
-            dmi_yaml_label(session, name) and
-            dmi_yaml_scalar(session, flag ? "true" : "false", YAML_BOOL_TAG, YAML_PLAIN_SCALAR_STYLE);
+            dmi_yaml_label(session, flag->code) and
+            dmi_yaml_scalar(session, flag->value ? "true" : "false", YAML_BOOL_TAG, YAML_PLAIN_SCALAR_STYLE);
 
         if (not result)
             return false;
@@ -392,9 +404,12 @@ bool dmi_yaml_entity_strings(dmi_yaml_session_t *session, const dmi_entity_t *en
     if (not result)
         return false;
 
-    for (dmi_string_t i = 1; i <= entity->string_count; i++) {
-        const char *str = dmi_entity_string_ex(entity, i, true);
+    dmi_format_string_iter_t iter;
+    const char *str;
 
+    dmi_format_string_iter_init(&iter, entity);
+
+    while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
         if (not dmi_yaml_scalar(session, str, YAML_STR_TAG, YAML_DOUBLE_QUOTED_SCALAR_STYLE))
             return false;
     }

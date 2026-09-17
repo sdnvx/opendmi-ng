@@ -283,14 +283,13 @@ const dmi_entity_spec_t dmi_firmware_spec =
         DMI_ATTRIBUTE(dmi_firmware_t, features, SET, {
             .code   = "features",
             .name   = "Features",
-            .values = &dmi_firmware_feature_names,
-            .level  = DMI_VERSION(2, 1, 0)
+            .values = &dmi_firmware_feature_names
         }),
         DMI_ATTRIBUTE(dmi_firmware_t, features_ex, SET, {
             .code   = "features-ex",
             .name   = "Extra features",
             .values = &dmi_firmware_feature_ex_names,
-            .level  = DMI_VERSION(2, 4, 0)
+            .level  = DMI_VERSION(2, 1, 0)
         }),
         DMI_ATTRIBUTE(dmi_firmware_t, platform_version, VERSION, {
             .code   = "platform-version",

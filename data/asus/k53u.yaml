@@ -1,14 +1,14 @@
 entry:
-  smbios-version: 2.7
+  smbios-version: '2.7'
 table:
 - handle: 0
   type: 0
   length: 65
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: American Megatrends Inc.
-    version: 223
+    version: '223'
     bios-segment: 61440
     release-date: '2012-04-10'
     rom-size: 1048576
@@ -42,7 +42,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,31 +59,31 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 4.6
+    platform-version: '4.6'
     controller-version: null
 - handle: 1
   type: 1
   length: 127
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: ASUSTeK Computer Inc.
     product: K53U
-    version: 1.0
+    version: '1.0'
     serial-number: C5N0CJ91307520D
     uuid: 2D73A7E3-CE8D-E111-B2D3-10BF48578438
     wakeup-type: power-switch
-    sku-number: null
-    family: null
+    sku-number: ''
+    family: ''
 - handle: 2
   type: 2
   length: 115
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: ASUSTeK Computer Inc.
     product: K53U
-    version: 1.0
+    version: '1.0'
     serial-number: BSN12345678901234567
     asset-tag: To be filled by O.E.M.
     features:
@@ -99,13 +99,13 @@ table:
 - handle: 3
   type: 3
   length: 106
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: ASUSTeK Computer Inc.
     type: notebook
     is-lock-present: false
-    version: 1.0
+    version: '1.0'
     serial-number: CSN12345678901234567
     asset-tag: No Asset Tag
     bootup-state: ok
@@ -122,7 +122,7 @@ table:
 - handle: 4
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -133,7 +133,7 @@ table:
 - handle: 5
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -144,7 +144,7 @@ table:
 - handle: 6
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A1
@@ -155,7 +155,7 @@ table:
 - handle: 7
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2A
@@ -166,7 +166,7 @@ table:
 - handle: 8
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2B
@@ -177,7 +177,7 @@ table:
 - handle: 9
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -188,7 +188,7 @@ table:
 - handle: 10
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -199,7 +199,7 @@ table:
 - handle: 11
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -210,7 +210,7 @@ table:
 - handle: 12
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9A1 - TPM HDR
@@ -221,7 +221,7 @@ table:
 - handle: 13
   type: 8
   length: 35
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9C1 - PCIE DOCKING CONN
@@ -232,7 +232,7 @@ table:
 - handle: 14
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2B3 - CPU FAN
@@ -243,7 +243,7 @@ table:
 - handle: 15
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J6C2 - EXT HDMI
@@ -254,7 +254,7 @@ table:
 - handle: 16
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3C1 - GMCH FAN
@@ -265,7 +265,7 @@ table:
 - handle: 17
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1D1 - ITP
@@ -276,7 +276,7 @@ table:
 - handle: 18
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E2 - MDC INTPSR
@@ -287,7 +287,7 @@ table:
 - handle: 19
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E4 - MDC INTPSR
@@ -298,7 +298,7 @@ table:
 - handle: 20
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E3 - LPC HOT DOCKING
@@ -309,7 +309,7 @@ table:
 - handle: 21
   type: 8
   length: 29
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E1 - SCAN MATRIX
@@ -320,7 +320,7 @@ table:
 - handle: 22
   type: 8
   length: 31
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9G1 - LPC SIDE BAND
@@ -331,7 +331,7 @@ table:
 - handle: 23
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J8F1 - UNIFIED
@@ -342,7 +342,7 @@ table:
 - handle: 24
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J6F1 - LVDS
@@ -353,7 +353,7 @@ table:
 - handle: 25
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2F1 - LAI FAN
@@ -364,7 +364,7 @@ table:
 - handle: 26
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2G1 - GFX VID
@@ -375,7 +375,7 @@ table:
 - handle: 27
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1G6 - AC JACK
@@ -386,7 +386,7 @@ table:
 - handle: 28
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6B2
@@ -426,7 +426,7 @@ table:
 - handle: 29
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6B1
@@ -466,7 +466,7 @@ table:
 - handle: 30
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6D1
@@ -506,7 +506,7 @@ table:
 - handle: 31
   type: 10
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -517,7 +517,7 @@ table:
 - handle: 32
   type: 11
   length: 29
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 1
@@ -526,7 +526,7 @@ table:
 - handle: 33
   type: 12
   length: 29
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -534,19 +534,19 @@ table:
 - handle: 34
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
     use: system
     error-correction: none
-    maximum-capacity: 2251799813685698
+    maximum-capacity: 6442450944
     error-handle: 65534
     device-count: 2
 - handle: 35
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -557,7 +557,7 @@ table:
 - handle: 36
   type: 17
   length: 116
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 34
@@ -597,7 +597,7 @@ table:
 - handle: 37
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -611,7 +611,7 @@ table:
 - handle: 38
   type: 17
   length: 116
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 34
@@ -643,7 +643,7 @@ table:
       lrdimm: false
     maximum-speed: 533
     vendor: Kingston
-    serial-number: 60260859
+    serial-number: '60260859'
     asset-tag: A1_AssetTagNum1
     part-number: 99U5428-047.A00LF
     rank: 2
@@ -651,7 +651,7 @@ table:
 - handle: 39
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
@@ -672,7 +672,7 @@ table:
 - handle: 41
   type: 41
   length: 25
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard IGD
@@ -687,7 +687,7 @@ table:
 - handle: 42
   type: 41
   length: 25
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard LAN
@@ -702,7 +702,7 @@ table:
 - handle: 43
   type: 41
   length: 26
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard 1394
@@ -717,7 +717,7 @@ table:
 - handle: 44
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -751,7 +751,7 @@ table:
 - handle: 45
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -785,17 +785,20 @@ table:
 - handle: 54
   type: 4
   length: 101
-  level: 2.6
+  level: '2.6'
   description: Processor information
   attributes:
     socket-designation: P0
     type: central
     family: amd-e
     vendor: AuthenticAMD
+    version: AMD E-450 APU with Radeon(tm) HD Graphics
     voltage: 141
     external-clock: 100
     maximum-speed: 1650
     current-speed: 1650
+    is-populated: true
+    status: enabled
     upgrade: none
     l1-cache-handle: 44
     l2-cache-handle: 45
@@ -820,7 +823,7 @@ table:
 - handle: 55
   type: 13
   length: 39
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:

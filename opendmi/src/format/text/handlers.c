@@ -19,6 +19,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/tty.h>
 
+#include <opendmi/format/iter.h>
 #include <opendmi/format/text/handlers.h>
 #include <opendmi/format/text/helpers.h>
 
@@ -126,14 +127,14 @@ void dmi_text_entity_attr_array(
     assert(info != nullptr);
     assert(value != nullptr);
 
-    // TODO: Support counters of different sizes
-    size_t count = dmi_member_value(info, attr->counter, size_t);
-    const dmi_data_t *ptr = dmi_deref(dmi_data_t *, value);
+    dmi_format_array_iter_t iter;
+    const dmi_data_t *ptr;
 
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%zu items\n", count);
+    dmi_format_array_iter_init(&iter, attr, info, value);
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%zu items\n", iter.count);
 
-    for (size_t i = 0; i < count; i++, ptr += attr->value.size) {
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%zu: ", i);
+    while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%zu: ", iter.index);
 
         if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
             dmi_text_entity_attr_struct(session, attr, ptr);
@@ -233,18 +234,16 @@ void dmi_text_entity_attr_set(
     assert(attr != nullptr);
     assert(value != nullptr);
 
-    uintmax_t mask = dmi_attribute_get_uint(attr, value);
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
 
-    for (size_t i = 0; i < attr->value.size * CHAR_BIT; i++) {
-        const char *name = dmi_name_lookup(attr->params.values, i);
-        if (name == nullptr)
-            continue;
+    dmi_format_set_iter_init(&iter, attr, value);
 
-        bool flag = mask & (1 << i);
-        dmi_tty_color_t color = flag ? DMI_TTY_COLOR_LIME : DMI_TTY_COLOR_RED;
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        dmi_tty_color_t color = flag->value ? DMI_TTY_COLOR_LIME : DMI_TTY_COLOR_RED;
 
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s: ", name);
-        dmi_text_printf(session, color, "%s\n", flag ? "yes" : "no");
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s: ", flag->name);
+        dmi_text_printf(session, color, "%s\n", flag->value ? "yes" : "no");
     }
 }
 
@@ -269,10 +268,13 @@ bool dmi_text_entity_strings(dmi_text_session_t *session, const dmi_entity_t *en
 
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tStrings:\n");
 
-    for (dmi_string_t i = 1; i <= entity->string_count; i++) {
-        const char *str = dmi_entity_string_ex(entity, i, true);
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%u: \"%s\"\n", i, str);
-    }
+    dmi_format_string_iter_t iter;
+    const char *str;
+
+    dmi_format_string_iter_init(&iter, entity);
+
+    while ((str = dmi_format_string_iter_next(&iter)) != nullptr)
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%zu: \"%s\"\n", iter.index, str);
 
     return true;
 }

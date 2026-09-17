@@ -23,7 +23,7 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 const char *dmi_entity_string_ex(
         const dmi_entity_t *entity,
-        dmi_string_t        num,
+        size_t              num,
         bool                raw);
 
 static inline const char *dmi_entity_string(
@@ -50,7 +50,9 @@ The `dmi_entity_string` function is a convenience wrapper that calls
 Entity descriptor.
 
 `num`::
-1-based string index.
+1-based string index. The string section may contain more strings than can
+be referenced by `dmi_string_t` fields of the structure, so the index of
+`dmi_entity_string_ex` is not limited to 255.
 
 `raw`::
 If `true`, return the raw (untrimmed) string. If `false`, return the trimmed

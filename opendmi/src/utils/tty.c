@@ -52,8 +52,14 @@ void dmi_tty_init(void)
     if (dmi_tty_stdout) {
         int error;
 
-        if (setupterm(nullptr, STDOUT_FILENO, &error) != ERR)
-            dmi_tty = has_colors() and (start_color() != ERR);
+        // Curses screen is not initialized, so has_colors() is not usable
+        // here, and terminal capabilities are checked directly instead
+        if (setupterm(nullptr, STDOUT_FILENO, &error) != ERR) {
+            const char *setaf = tigetstr("setaf");
+
+            dmi_tty = (tigetnum("colors") > 0) and
+                      (setaf != nullptr) and (setaf != (char *)-1);
+        }
     }
 #endif // ENABLE_CURSES
 }

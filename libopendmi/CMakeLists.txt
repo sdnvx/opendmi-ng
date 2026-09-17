@@ -417,13 +417,26 @@ install(TARGETS opendmi-object PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDE
 install(TARGETS opendmi-static ARCHIVE DESTINATION lib)
 install(TARGETS opendmi-shared LIBRARY DESTINATION lib)
 
+#
+# Add library test.
+#
+#   opendmi_test(<name> <sources> [<library>])
+#
+# The test is linked with the shared library by default, or with the given
+# library target (e.g. `opendmi-static`).
+#
 macro(opendmi_test TEST_NAME TEST_SOURCES)
     string(REPLACE "/" "-" TEST_TARGET "${TEST_NAME}")
     string(APPEND TEST_TARGET "-test")
 
+    set(TEST_LIBRARY opendmi-shared)
+    if(${ARGC} GREATER 2)
+        set(TEST_LIBRARY ${ARGV2})
+    endif()
+
     add_executable(${TEST_TARGET} ${TEST_SOURCES} test/logger.c)
     target_compile_definitions(${TEST_TARGET} PRIVATE OPENDMI_TEST_DATA="${PROJECT_SOURCE_DIR}/../data")
-    target_link_libraries(${TEST_TARGET} opendmi-shared cmocka-static)
+    target_link_libraries(${TEST_TARGET} ${TEST_LIBRARY} cmocka-static)
 
     if(ENABLE_COVERAGE)
         target_compile_options(${TEST_TARGET} PUBLIC ${COVERAGE_OPTIONS})
@@ -451,7 +464,10 @@ opendmi_test(context test/context.c)
 opendmi_test(entity test/entity.c)
 opendmi_test(entry test/entry.c)
 opendmi_test(module test/module.c)
+# Modules must be available with static linking as well
+opendmi_test(module/static test/module.c opendmi-static)
 opendmi_test(registry test/registry.c)
+opendmi_test(dump test/dump.c)
 opendmi_test(stream test/stream.c)
 
 opendmi_test(utils/endian test/utils/endian.c)
@@ -462,12 +478,15 @@ opendmi_test(utils/version test/utils/version.c)
 opendmi_test(utils/datetime test/utils/datetime.c)
 opendmi_test(utils/uuid test/utils/uuid.c)
 opendmi_test(utils/misc test/utils/misc.c)
+opendmi_test(utils/file test/utils/file.c)
 
 opendmi_test(entity/common test/entity/common.c)
 opendmi_test(entity/baseboard test/entity/baseboard.c)
 opendmi_test(entity/chassis test/entity/chassis.c)
 opendmi_test(entity/memory-controller test/entity/memory-controller.c)
+opendmi_test(entity/firmware test/entity/firmware.c)
 opendmi_test(entity/cache test/entity/cache.c)
+opendmi_test(entity/processor test/entity/processor.c)
 opendmi_test(entity/slot test/entity/slot.c)
 opendmi_test(entity/onboard-device test/entity/onboard-device.c)
 opendmi_test(entity/memory-array test/entity/memory-array.c)

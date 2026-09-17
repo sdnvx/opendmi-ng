@@ -24,7 +24,7 @@
 extern char **environ;
 #endif
 
-static pid_t pid = -1;
+static pid_t dmi_pager_pid = -1;
 
 /**
  * @brief Signals, on which the process waits for pager before exiting.
@@ -33,12 +33,12 @@ static const int dmi_pager_signals[] = { SIGINT, SIGQUIT, SIGTERM, SIGHUP };
 
 static void dmi_wait_pager(void)
 {
-    if (pid > 0) {
+    if (dmi_pager_pid > 0) {
         int ret;
         do {
-            ret = waitpid(pid, NULL, 0);
+            ret = waitpid(dmi_pager_pid, NULL, 0);
         } while (ret == -1 && errno == EINTR);
-        pid = -1;
+        dmi_pager_pid = -1;
     }
 }
 
@@ -64,7 +64,7 @@ static void dmi_wait_pager_signal(int signo)
 
 bool dmi_pager_start(dmi_context_t *context)
 {
-    if (pid > 0)
+    if (dmi_pager_pid > 0)
         return true;
 
     bool success = false;
@@ -132,7 +132,7 @@ bool dmi_pager_start(dmi_context_t *context)
             break;
         }
 
-        int spawn_rv = posix_spawnp(&pid, we.we_wordv[0], &actions, NULL, we.we_wordv, environ);
+        int spawn_rv = posix_spawnp(&dmi_pager_pid, we.we_wordv[0], &actions, NULL, we.we_wordv, environ);
         posix_spawn_file_actions_destroy(&actions);
 
         if (spawn_rv != 0) {
@@ -150,9 +150,9 @@ bool dmi_pager_start(dmi_context_t *context)
             dmi_error_raise_ex(context, DMI_ERROR_FILE_DUP, "%s", strerror(errno));
             dmi_file_close(fds[STDIN_FILENO]);
             dmi_file_close(fds[STDOUT_FILENO]);
-            kill(pid, SIGKILL);
-            waitpid(pid, NULL, 0);
-            pid = -1;
+            kill(dmi_pager_pid, SIGKILL);
+            waitpid(dmi_pager_pid, NULL, 0);
+            dmi_pager_pid = -1;
             break;
         }
 

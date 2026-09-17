@@ -1277,6 +1277,36 @@ static const dmi_name_set_t dmi_processor_family_names =
     }
 };
 
+static const dmi_name_set_t dmi_processor_status_names =
+{
+    .code  = "processor-statuses",
+    .names = (dmi_name_t[]){
+        DMI_NAME_UNKNOWN(DMI_PROCESSOR_STATUS_UNKNOWN),
+        {
+            .id   = DMI_PROCESSOR_STATUS_ENABLED,
+            .code = "enabled",
+            .name = "Enabled"
+        },
+        {
+            .id   = DMI_PROCESSOR_STATUS_DISABLED_BY_USER,
+            .code = "disabled-by-user",
+            .name = "Disabled by user"
+        },
+        {
+            .id   = DMI_PROCESSOR_STATUS_DISABLED_BY_FW,
+            .code = "disabled-by-firmware",
+            .name = "Disabled by firmware"
+        },
+        {
+            .id   = DMI_PROCESSOR_STATUS_IDLE,
+            .code = "idle",
+            .name = "Idle"
+        },
+        DMI_NAME_OTHER(DMI_PROCESSOR_STATUS_OTHER),
+        DMI_NAME_NULL
+    }
+};
+
 static const dmi_name_set_t dmi_processor_upgrade_names =
 {
     .code  = "processor-upgrades",
@@ -1808,6 +1838,10 @@ const dmi_entity_spec_t dmi_processor_spec =
             .code    = "vendor",
             .name    = "Vendor"
         }),
+        DMI_ATTRIBUTE(dmi_processor_t, version, STRING, {
+            .code    = "version",
+            .name    = "Version"
+        }),
         DMI_ATTRIBUTE(dmi_processor_t, voltage, INTEGER, {
             .code    = "voltage",
             .name    = "Voltage",
@@ -1830,6 +1864,16 @@ const dmi_entity_spec_t dmi_processor_spec =
             .name    = "Current Speed",
             .unit    = DMI_UNIT_MHZ,
             .unknown = dmi_value_ptr((uint16_t)0)
+        }),
+        DMI_ATTRIBUTE(dmi_processor_t, is_populated, BOOL, {
+            .code    = "is-populated",
+            .name    = "Socket populated"
+        }),
+        DMI_ATTRIBUTE(dmi_processor_t, status, ENUM, {
+            .code    = "status",
+            .name    = "Status",
+            .unknown = dmi_value_ptr(DMI_PROCESSOR_STATUS_UNKNOWN),
+            .values  = &dmi_processor_status_names
         }),
         DMI_ATTRIBUTE(dmi_processor_t, upgrade, ENUM, {
             .code    = "upgrade",
@@ -1925,6 +1969,11 @@ const char *dmi_processor_upgrade_name(dmi_processor_upgrade_t value)
     return dmi_name_lookup(&dmi_processor_upgrade_names, (int)value);
 }
 
+const char *dmi_processor_status_name(dmi_processor_status_t value)
+{
+    return dmi_name_lookup(&dmi_processor_status_names, (int)value);
+}
+
 static bool dmi_processor_decode(dmi_entity_t *entity)
 {
     dmi_processor_t *info;
@@ -1942,6 +1991,7 @@ static bool dmi_processor_decode(dmi_entity_t *entity)
     info->type               = dmi_decode(data->type);
     info->family             = dmi_decode(data->family);
     info->vendor             = dmi_entity_string(entity, data->vendor);
+    info->version            = dmi_entity_string(entity, data->version);
 
     info->voltage = dmi_decode(data->voltage);
     // TODO:
@@ -1959,6 +2009,13 @@ static bool dmi_processor_decode(dmi_entity_t *entity)
     info->maximum_speed  = dmi_decode(data->maximum_speed);
     info->current_speed  = dmi_decode(data->current_speed);
     info->upgrade        = dmi_decode(data->upgrade);
+
+    dmi_processor_status_data_t status = {
+        .__value = dmi_decode(data->status)
+    };
+
+    info->is_populated = status.is_populated;
+    info->status       = status.status;
 
     //
     // SMBIOS 2.1 features

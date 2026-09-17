@@ -28,6 +28,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `-M`/`--all-modules` option to `types` command and entity filter
 - Add test coverage support for CLI
 - Add CI workflows for FreeBSD and NetBSD
+- Add tests for output formats
+- Add tests for processor information decoder
+- Add tests for firmware information decoder
+- Add check for duplicate attribute codes to module tests
+- Add `dmi_processor_status_name()` function
+- Add `dmi_attribute_get_count()` function
+- Add UTF-8 validation to JSON output
+- Add `DMI_ERROR_INVALID_DUMP` error code
+- Add tests for file utilities
+- Add tests for loading of corrupted dumps
+- Add tests for output format iterators
+- Add module tests for static library
+- Add `dmi_module_next()` function for iteration over built-in and registered modules
 
 ### Changed
 
@@ -41,6 +54,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fetch CMocka from release tarball instead of Git repository
 - Copy library DLL next to CLI executable on Windows
 - Split CI workflow for Linux and macOS into separate workflows
+- Change type of string index argument of `dmi_entity_string_ex()` to `size_t`
+- Replace nested `status` structure in `dmi_processor_t` with `is_populated` and `status` fields
+- Write YAML strings, dates, versions and enumeration values as quoted scalars without tags
+- Report files, which are not SMBIOS dumps, with a descriptive error message
+- Share iteration over arrays, flags and strings between output formats
+- Replace `dmi_modules` list with static `dmi_builtin_modules` array, built-in modules are no longer registered by constructors
+- Make `dmi_module_register()` return `bool` and reject modules with duplicate codes
+- Write flags of value sets in XML output as `flag` elements with `name` attribute
 
 ### Fixed
 
@@ -90,6 +111,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix stack overflow on long date strings in `dmi_date_parse()`
 - Fix address type and logging target in FreeBSD and NetBSD backends
 - Fix session memory leaks in JSON, YAML and XML output formats
+- Fix whole SMBIOS table rejection on a single malformed structure in non-strict mode
+- Fix hang and crashes in output formats on structures with more than 255 strings
+- Fix unclosed tags in XML output on string output errors
+- Fix missing socket status and version in processor information
+- Fix duplicate `error-correction` attribute code in memory controller information
+- Fix terminal color detection, which never enabled colored log messages and disabled colored output
+- Fix reading of array counters narrower than `size_t` in output formats
+- Fix false flags in output of sets with 32 or more bits
+- Fix invalid UTF-8 in JSON output, invalid bytes are now replaced with U+FFFD #94
+- Fix missing firmware features in SMBIOS 2.0 firmware information
+- Fix missing extended firmware features in SMBIOS 2.1 to 2.3 firmware information
+- Fix invalid UTF-8 and control characters in XML output #94
+- Fix YAML values being read as numbers, booleans or dates (e.g. serial number `00000000` or version `2.10`)
+- Fix reading of empty files on platforms, where zero-sized allocation fails
+- Fix whole SMBIOS table rejection on a structure with invalid length in non-strict mode
+- Fix structure count of truncated SMBIOS tables
+- Fix missing extension modules when linking with static library
+- Fix invalid element names in XML output for flags with codes starting with a digit (e.g. `5v`)
+- Fix name of Intel RSD cabled PCIe port information structure
 
 ## [0.3.2] - April 19, 2026
 

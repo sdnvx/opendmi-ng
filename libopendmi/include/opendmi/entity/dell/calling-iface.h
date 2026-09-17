@@ -53,17 +53,17 @@ dmi_packed_struct(dmi_dell_calling_iface_data)
     /**
      * @brief Command code.
      */
-	uint8_t command_code;
+    uint8_t command_code;
 
     /**
      * @brief Supported commands.
      */
-	uint32_t supported_commands;
+    uint32_t supported_commands;
 
     /**
      * @brief Tokens.
      */
-	dmi_dell_calling_iface_token_t tokens[];
+    dmi_dell_calling_iface_token_t tokens[];
 };
 
 /**

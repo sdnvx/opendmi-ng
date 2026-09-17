@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 2.7
+  smbios-version: '2.7'
 table:
 - handle: 0
   type: 0
   length: 86
-  level: 3.1
+  level: '3.1'
   description: Platform firmware information
   attributes:
     vendor: VMware, Inc.
@@ -64,7 +64,7 @@ table:
 - handle: 1
   type: 1
   length: 112
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: VMware, Inc.
@@ -78,7 +78,7 @@ table:
 - handle: 2
   type: 2
   length: 77
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: Intel Corporation
@@ -99,7 +99,7 @@ table:
 - handle: 3
   type: 3
   length: 57
-  level: 2.3
+  level: '2.3'
   description: System enclosure or chassis
   attributes:
     vendor: No Enclosure
@@ -121,7 +121,7 @@ table:
 - handle: 4
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -155,7 +155,7 @@ table:
 - handle: 5
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -189,7 +189,7 @@ table:
 - handle: 6
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -223,17 +223,20 @@ table:
 - handle: 7
   type: 4
   length: 105
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 0
     type: central
     family: unknown
     vendor: GenuineIntel
+    version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: 2783
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 4
     l2-cache-handle: 5
@@ -258,7 +261,7 @@ table:
 - handle: 8
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -292,7 +295,7 @@ table:
 - handle: 9
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -326,7 +329,7 @@ table:
 - handle: 10
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -360,17 +363,20 @@ table:
 - handle: 11
   type: 4
   length: 105
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 1
     type: central
     family: unknown
     vendor: GenuineIntel
+    version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: 2783
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 8
     l2-cache-handle: 9
@@ -395,7 +401,7 @@ table:
 - handle: 12
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -429,7 +435,7 @@ table:
 - handle: 13
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -463,7 +469,7 @@ table:
 - handle: 14
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -497,17 +503,20 @@ table:
 - handle: 15
   type: 4
   length: 105
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 2
     type: central
     family: unknown
     vendor: GenuineIntel
+    version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: 2783
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 12
     l2-cache-handle: 13
@@ -532,7 +541,7 @@ table:
 - handle: 16
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -566,7 +575,7 @@ table:
 - handle: 17
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -600,7 +609,7 @@ table:
 - handle: 18
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -634,17 +643,20 @@ table:
 - handle: 19
   type: 4
   length: 105
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 3
     type: central
     family: unknown
     vendor: GenuineIntel
+    version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: 2783
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 16
     l2-cache-handle: 17
@@ -669,7 +681,7 @@ table:
 - handle: 20
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -703,7 +715,7 @@ table:
 - handle: 21
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -737,7 +749,7 @@ table:
 - handle: 22
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -771,17 +783,20 @@ table:
 - handle: 23
   type: 4
   length: 105
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 4
     type: central
     family: unknown
     vendor: GenuineIntel
+    version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: 2783
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 20
     l2-cache-handle: 21
@@ -806,7 +821,7 @@ table:
 - handle: 24
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -840,7 +855,7 @@ table:
 - handle: 25
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -874,7 +889,7 @@ table:
 - handle: 26
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -908,17 +923,20 @@ table:
 - handle: 27
   type: 4
   length: 105
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 5
     type: central
     family: unknown
     vendor: GenuineIntel
+    version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: 2783
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 24
     l2-cache-handle: 25
@@ -943,7 +961,7 @@ table:
 - handle: 28
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -977,7 +995,7 @@ table:
 - handle: 29
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -1011,7 +1029,7 @@ table:
 - handle: 30
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -1045,17 +1063,20 @@ table:
 - handle: 31
   type: 4
   length: 105
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 6
     type: central
     family: unknown
     vendor: GenuineIntel
+    version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: 2783
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 28
     l2-cache-handle: 29
@@ -1080,7 +1101,7 @@ table:
 - handle: 32
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -1114,7 +1135,7 @@ table:
 - handle: 33
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -1148,7 +1169,7 @@ table:
 - handle: 34
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -1182,17 +1203,20 @@ table:
 - handle: 35
   type: 4
   length: 105
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 7
     type: central
     family: unknown
     vendor: GenuineIntel
+    version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: 2783
+    is-populated: true
+    status: enabled
     upgrade: socket-zif
     l1-cache-handle: 32
     l2-cache-handle: 33
@@ -1217,17 +1241,20 @@ table:
 - handle: 36
   type: 4
   length: 73
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 8
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1252,17 +1279,20 @@ table:
 - handle: 37
   type: 4
   length: 73
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 9
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1287,17 +1317,20 @@ table:
 - handle: 38
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 10
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1322,17 +1355,20 @@ table:
 - handle: 39
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 11
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1357,17 +1393,20 @@ table:
 - handle: 40
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 12
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1392,17 +1431,20 @@ table:
 - handle: 41
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 13
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1427,17 +1469,20 @@ table:
 - handle: 42
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 14
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1462,17 +1507,20 @@ table:
 - handle: 43
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 15
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1497,17 +1545,20 @@ table:
 - handle: 44
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 16
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1532,17 +1583,20 @@ table:
 - handle: 45
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 17
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1567,17 +1621,20 @@ table:
 - handle: 46
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 18
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1602,17 +1659,20 @@ table:
 - handle: 47
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 19
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1637,17 +1697,20 @@ table:
 - handle: 48
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 20
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1672,17 +1735,20 @@ table:
 - handle: 49
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 21
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1707,17 +1773,20 @@ table:
 - handle: 50
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 22
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1742,17 +1811,20 @@ table:
 - handle: 51
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 23
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1777,17 +1849,20 @@ table:
 - handle: 52
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 24
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1812,17 +1887,20 @@ table:
 - handle: 53
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 25
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1847,17 +1925,20 @@ table:
 - handle: 54
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 26
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1882,17 +1963,20 @@ table:
 - handle: 55
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 27
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1917,17 +2001,20 @@ table:
 - handle: 56
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 28
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1952,17 +2039,20 @@ table:
 - handle: 57
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 29
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -1987,17 +2077,20 @@ table:
 - handle: 58
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 30
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2022,17 +2115,20 @@ table:
 - handle: 59
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 31
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2057,17 +2153,20 @@ table:
 - handle: 60
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 32
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2092,17 +2191,20 @@ table:
 - handle: 61
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 33
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2127,17 +2229,20 @@ table:
 - handle: 62
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 34
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2162,17 +2267,20 @@ table:
 - handle: 63
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 35
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2197,17 +2305,20 @@ table:
 - handle: 64
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 36
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2232,17 +2343,20 @@ table:
 - handle: 65
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 37
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2267,17 +2381,20 @@ table:
 - handle: 66
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 38
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2302,17 +2419,20 @@ table:
 - handle: 67
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 39
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2337,17 +2457,20 @@ table:
 - handle: 68
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 40
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2372,17 +2495,20 @@ table:
 - handle: 69
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 41
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2407,17 +2533,20 @@ table:
 - handle: 70
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 42
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2442,17 +2571,20 @@ table:
 - handle: 71
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 43
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2477,17 +2609,20 @@ table:
 - handle: 72
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 44
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2512,17 +2647,20 @@ table:
 - handle: 73
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 45
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2547,17 +2685,20 @@ table:
 - handle: 74
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 46
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2582,17 +2723,20 @@ table:
 - handle: 75
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 47
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2617,17 +2761,20 @@ table:
 - handle: 76
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 48
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2652,17 +2799,20 @@ table:
 - handle: 77
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 49
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2687,17 +2837,20 @@ table:
 - handle: 78
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 50
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2722,17 +2875,20 @@ table:
 - handle: 79
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 51
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2757,17 +2913,20 @@ table:
 - handle: 80
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 52
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2792,17 +2951,20 @@ table:
 - handle: 81
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 53
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2827,17 +2989,20 @@ table:
 - handle: 82
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 54
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2862,17 +3027,20 @@ table:
 - handle: 83
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 55
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2897,17 +3065,20 @@ table:
 - handle: 84
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 56
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2932,17 +3103,20 @@ table:
 - handle: 85
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 57
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -2967,17 +3141,20 @@ table:
 - handle: 86
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 58
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3002,17 +3179,20 @@ table:
 - handle: 87
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 59
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3037,17 +3217,20 @@ table:
 - handle: 88
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 60
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3072,17 +3255,20 @@ table:
 - handle: 89
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 61
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3107,17 +3293,20 @@ table:
 - handle: 90
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 62
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3142,17 +3331,20 @@ table:
 - handle: 91
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 63
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3177,17 +3369,20 @@ table:
 - handle: 92
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 64
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3212,17 +3407,20 @@ table:
 - handle: 93
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 65
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3247,17 +3445,20 @@ table:
 - handle: 94
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 66
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3282,17 +3483,20 @@ table:
 - handle: 95
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 67
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3317,17 +3521,20 @@ table:
 - handle: 96
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 68
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3352,17 +3559,20 @@ table:
 - handle: 97
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 69
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3387,17 +3597,20 @@ table:
 - handle: 98
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 70
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3422,17 +3635,20 @@ table:
 - handle: 99
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 71
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3457,17 +3673,20 @@ table:
 - handle: 100
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 72
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3492,17 +3711,20 @@ table:
 - handle: 101
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 73
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3527,17 +3749,20 @@ table:
 - handle: 102
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 74
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3562,17 +3787,20 @@ table:
 - handle: 103
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 75
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3597,17 +3825,20 @@ table:
 - handle: 104
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 76
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3632,17 +3863,20 @@ table:
 - handle: 105
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 77
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3667,17 +3901,20 @@ table:
 - handle: 106
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 78
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3702,17 +3939,20 @@ table:
 - handle: 107
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 79
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3737,17 +3977,20 @@ table:
 - handle: 108
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 80
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3772,17 +4015,20 @@ table:
 - handle: 109
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 81
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3807,17 +4053,20 @@ table:
 - handle: 110
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 82
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3842,17 +4091,20 @@ table:
 - handle: 111
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 83
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3877,17 +4129,20 @@ table:
 - handle: 112
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 84
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3912,17 +4167,20 @@ table:
 - handle: 113
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 85
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3947,17 +4205,20 @@ table:
 - handle: 114
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 86
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -3982,17 +4243,20 @@ table:
 - handle: 115
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 87
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4017,17 +4281,20 @@ table:
 - handle: 116
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 88
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4052,17 +4319,20 @@ table:
 - handle: 117
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 89
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4087,17 +4357,20 @@ table:
 - handle: 118
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 90
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4122,17 +4395,20 @@ table:
 - handle: 119
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 91
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4157,17 +4433,20 @@ table:
 - handle: 120
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 92
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4192,17 +4471,20 @@ table:
 - handle: 121
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 93
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4227,17 +4509,20 @@ table:
 - handle: 122
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 94
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4262,17 +4547,20 @@ table:
 - handle: 123
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 95
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4297,17 +4585,20 @@ table:
 - handle: 124
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 96
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4332,17 +4623,20 @@ table:
 - handle: 125
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 97
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4367,17 +4661,20 @@ table:
 - handle: 126
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 98
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4402,17 +4699,20 @@ table:
 - handle: 127
   type: 4
   length: 74
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 99
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4437,17 +4737,20 @@ table:
 - handle: 128
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 100
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4472,17 +4775,20 @@ table:
 - handle: 129
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 101
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4507,17 +4813,20 @@ table:
 - handle: 130
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 102
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4542,17 +4851,20 @@ table:
 - handle: 131
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 103
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4577,17 +4889,20 @@ table:
 - handle: 132
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 104
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4612,17 +4927,20 @@ table:
 - handle: 133
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 105
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4647,17 +4965,20 @@ table:
 - handle: 134
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 106
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4682,17 +5003,20 @@ table:
 - handle: 135
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 107
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4717,17 +5041,20 @@ table:
 - handle: 136
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 108
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4752,17 +5079,20 @@ table:
 - handle: 137
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 109
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4787,17 +5117,20 @@ table:
 - handle: 138
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 110
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4822,17 +5155,20 @@ table:
 - handle: 139
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 111
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4857,17 +5193,20 @@ table:
 - handle: 140
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 112
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4892,17 +5231,20 @@ table:
 - handle: 141
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 113
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4927,17 +5269,20 @@ table:
 - handle: 142
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 114
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4962,17 +5307,20 @@ table:
 - handle: 143
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 115
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -4997,17 +5345,20 @@ table:
 - handle: 144
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 116
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5032,17 +5383,20 @@ table:
 - handle: 145
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 117
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5067,17 +5421,20 @@ table:
 - handle: 146
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 118
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5102,17 +5459,20 @@ table:
 - handle: 147
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 119
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5137,17 +5497,20 @@ table:
 - handle: 148
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 120
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5172,17 +5535,20 @@ table:
 - handle: 149
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 121
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5207,17 +5573,20 @@ table:
 - handle: 150
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 122
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5242,17 +5611,20 @@ table:
 - handle: 151
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 123
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5277,17 +5649,20 @@ table:
 - handle: 152
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 124
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5312,17 +5687,20 @@ table:
 - handle: 153
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 125
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5347,17 +5725,20 @@ table:
 - handle: 154
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 126
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5382,17 +5763,20 @@ table:
 - handle: 155
   type: 4
   length: 75
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPU 127
     type: central
     family: unknown
     vendor: null
+    version: Unknown Processor
     voltage: 2
     external-clock: unknown
     maximum-speed: 2783
     current-speed: unknown
+    is-populated: false
+    status: unknown
     upgrade: socket-zif
     l1-cache-handle: null
     l2-cache-handle: null
@@ -5417,7 +5801,7 @@ table:
 - handle: 156
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J19
@@ -5428,7 +5812,7 @@ table:
 - handle: 157
   type: 8
   length: 23
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J23
@@ -5439,7 +5823,7 @@ table:
 - handle: 158
   type: 8
   length: 23
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J11
@@ -5450,7 +5834,7 @@ table:
 - handle: 159
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J12
@@ -5461,7 +5845,7 @@ table:
 - handle: 160
   type: 9
   length: 31
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCI Slot J11
@@ -5501,7 +5885,7 @@ table:
 - handle: 161
   type: 9
   length: 31
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCI Slot J12
@@ -5541,7 +5925,7 @@ table:
 - handle: 162
   type: 9
   length: 31
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCI Slot J13
@@ -5581,7 +5965,7 @@ table:
 - handle: 163
   type: 9
   length: 31
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCI Slot J14
@@ -5621,7 +6005,7 @@ table:
 - handle: 164
   type: 9
   length: 31
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCI Slot J15
@@ -5661,7 +6045,7 @@ table:
 - handle: 165
   type: 9
   length: 31
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCI Slot J16
@@ -5701,7 +6085,7 @@ table:
 - handle: 166
   type: 10
   length: 31
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 2
@@ -5715,7 +6099,7 @@ table:
 - handle: 167
   type: 11
   length: 96
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 2
@@ -5725,7 +6109,7 @@ table:
 - handle: 168
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -5737,7 +6121,7 @@ table:
 - handle: 169
   type: 17
   length: 104
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -5769,7 +6153,7 @@ table:
       lrdimm: false
     maximum-speed: unknown
     vendor: VMware Virtual RAM
-    serial-number: 1
+    serial-number: '00000001'
     asset-tag: null
     part-number: VMW-8192MB
     rank: unknown
@@ -5780,7 +6164,7 @@ table:
 - handle: 170
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -5823,7 +6207,7 @@ table:
 - handle: 171
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -5866,7 +6250,7 @@ table:
 - handle: 172
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -5909,7 +6293,7 @@ table:
 - handle: 173
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -5952,7 +6336,7 @@ table:
 - handle: 174
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -5995,7 +6379,7 @@ table:
 - handle: 175
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6038,7 +6422,7 @@ table:
 - handle: 176
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6081,7 +6465,7 @@ table:
 - handle: 177
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6124,7 +6508,7 @@ table:
 - handle: 178
   type: 17
   length: 65
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6167,7 +6551,7 @@ table:
 - handle: 179
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6210,7 +6594,7 @@ table:
 - handle: 180
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6253,7 +6637,7 @@ table:
 - handle: 181
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6296,7 +6680,7 @@ table:
 - handle: 182
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6339,7 +6723,7 @@ table:
 - handle: 183
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6382,7 +6766,7 @@ table:
 - handle: 184
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6425,7 +6809,7 @@ table:
 - handle: 185
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6468,7 +6852,7 @@ table:
 - handle: 186
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6511,7 +6895,7 @@ table:
 - handle: 187
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6554,7 +6938,7 @@ table:
 - handle: 188
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6597,7 +6981,7 @@ table:
 - handle: 189
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6640,7 +7024,7 @@ table:
 - handle: 190
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6683,7 +7067,7 @@ table:
 - handle: 191
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6726,7 +7110,7 @@ table:
 - handle: 192
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6769,7 +7153,7 @@ table:
 - handle: 193
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6812,7 +7196,7 @@ table:
 - handle: 194
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6855,7 +7239,7 @@ table:
 - handle: 195
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6898,7 +7282,7 @@ table:
 - handle: 196
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6941,7 +7325,7 @@ table:
 - handle: 197
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -6984,7 +7368,7 @@ table:
 - handle: 198
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7027,7 +7411,7 @@ table:
 - handle: 199
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7070,7 +7454,7 @@ table:
 - handle: 200
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7113,7 +7497,7 @@ table:
 - handle: 201
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7156,7 +7540,7 @@ table:
 - handle: 202
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7199,7 +7583,7 @@ table:
 - handle: 203
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7242,7 +7626,7 @@ table:
 - handle: 204
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7285,7 +7669,7 @@ table:
 - handle: 205
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7328,7 +7712,7 @@ table:
 - handle: 206
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7371,7 +7755,7 @@ table:
 - handle: 207
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7414,7 +7798,7 @@ table:
 - handle: 208
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7457,7 +7841,7 @@ table:
 - handle: 209
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7500,7 +7884,7 @@ table:
 - handle: 210
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7543,7 +7927,7 @@ table:
 - handle: 211
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7586,7 +7970,7 @@ table:
 - handle: 212
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7629,7 +8013,7 @@ table:
 - handle: 213
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7672,7 +8056,7 @@ table:
 - handle: 214
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7715,7 +8099,7 @@ table:
 - handle: 215
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7758,7 +8142,7 @@ table:
 - handle: 216
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7801,7 +8185,7 @@ table:
 - handle: 217
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7844,7 +8228,7 @@ table:
 - handle: 218
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7887,7 +8271,7 @@ table:
 - handle: 219
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7930,7 +8314,7 @@ table:
 - handle: 220
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -7973,7 +8357,7 @@ table:
 - handle: 221
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8016,7 +8400,7 @@ table:
 - handle: 222
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8059,7 +8443,7 @@ table:
 - handle: 223
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8102,7 +8486,7 @@ table:
 - handle: 224
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8145,7 +8529,7 @@ table:
 - handle: 225
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8188,7 +8572,7 @@ table:
 - handle: 226
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8231,7 +8615,7 @@ table:
 - handle: 227
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8274,7 +8658,7 @@ table:
 - handle: 228
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8317,7 +8701,7 @@ table:
 - handle: 229
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8360,7 +8744,7 @@ table:
 - handle: 230
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8403,7 +8787,7 @@ table:
 - handle: 231
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8446,7 +8830,7 @@ table:
 - handle: 232
   type: 17
   length: 67
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 168
@@ -8489,7 +8873,7 @@ table:
 - handle: 233
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8543,7 +8927,7 @@ table:
 - handle: 234
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8597,7 +8981,7 @@ table:
 - handle: 235
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8651,7 +9035,7 @@ table:
 - handle: 236
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8705,7 +9089,7 @@ table:
 - handle: 237
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8759,7 +9143,7 @@ table:
 - handle: 238
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8813,7 +9197,7 @@ table:
 - handle: 239
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8867,7 +9251,7 @@ table:
 - handle: 240
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8921,7 +9305,7 @@ table:
 - handle: 241
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -8975,7 +9359,7 @@ table:
 - handle: 242
   type: 17
   length: 109
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9029,7 +9413,7 @@ table:
 - handle: 243
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9083,7 +9467,7 @@ table:
 - handle: 244
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9137,7 +9521,7 @@ table:
 - handle: 245
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9191,7 +9575,7 @@ table:
 - handle: 246
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9245,7 +9629,7 @@ table:
 - handle: 247
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9299,7 +9683,7 @@ table:
 - handle: 248
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9353,7 +9737,7 @@ table:
 - handle: 249
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9407,7 +9791,7 @@ table:
 - handle: 250
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9461,7 +9845,7 @@ table:
 - handle: 251
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9515,7 +9899,7 @@ table:
 - handle: 252
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9569,7 +9953,7 @@ table:
 - handle: 253
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9623,7 +10007,7 @@ table:
 - handle: 254
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9677,7 +10061,7 @@ table:
 - handle: 255
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9731,7 +10115,7 @@ table:
 - handle: 256
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9785,7 +10169,7 @@ table:
 - handle: 257
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9839,7 +10223,7 @@ table:
 - handle: 258
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9893,7 +10277,7 @@ table:
 - handle: 259
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -9947,7 +10331,7 @@ table:
 - handle: 260
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10001,7 +10385,7 @@ table:
 - handle: 261
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10055,7 +10439,7 @@ table:
 - handle: 262
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10109,7 +10493,7 @@ table:
 - handle: 263
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10163,7 +10547,7 @@ table:
 - handle: 264
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10217,7 +10601,7 @@ table:
 - handle: 265
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10271,7 +10655,7 @@ table:
 - handle: 266
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10325,7 +10709,7 @@ table:
 - handle: 267
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10379,7 +10763,7 @@ table:
 - handle: 268
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10433,7 +10817,7 @@ table:
 - handle: 269
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10487,7 +10871,7 @@ table:
 - handle: 270
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10541,7 +10925,7 @@ table:
 - handle: 271
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10595,7 +10979,7 @@ table:
 - handle: 272
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10649,7 +11033,7 @@ table:
 - handle: 273
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10703,7 +11087,7 @@ table:
 - handle: 274
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10757,7 +11141,7 @@ table:
 - handle: 275
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10811,7 +11195,7 @@ table:
 - handle: 276
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10865,7 +11249,7 @@ table:
 - handle: 277
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10919,7 +11303,7 @@ table:
 - handle: 278
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -10973,7 +11357,7 @@ table:
 - handle: 279
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11027,7 +11411,7 @@ table:
 - handle: 280
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11081,7 +11465,7 @@ table:
 - handle: 281
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11135,7 +11519,7 @@ table:
 - handle: 282
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11189,7 +11573,7 @@ table:
 - handle: 283
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11243,7 +11627,7 @@ table:
 - handle: 284
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11297,7 +11681,7 @@ table:
 - handle: 285
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11351,7 +11735,7 @@ table:
 - handle: 286
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11405,7 +11789,7 @@ table:
 - handle: 287
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11459,7 +11843,7 @@ table:
 - handle: 288
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11513,7 +11897,7 @@ table:
 - handle: 289
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11567,7 +11951,7 @@ table:
 - handle: 290
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11621,7 +12005,7 @@ table:
 - handle: 291
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11675,7 +12059,7 @@ table:
 - handle: 292
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11729,7 +12113,7 @@ table:
 - handle: 293
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11783,7 +12167,7 @@ table:
 - handle: 294
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11837,7 +12221,7 @@ table:
 - handle: 295
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11891,7 +12275,7 @@ table:
 - handle: 296
   type: 17
   length: 111
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 0
@@ -11945,7 +12329,7 @@ table:
 - handle: 297
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -11958,7 +12342,7 @@ table:
 - handle: 298
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -11969,7 +12353,7 @@ table:
 - handle: 299
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 1048576
@@ -11980,7 +12364,7 @@ table:
 - handle: 300
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -11994,7 +12378,7 @@ table:
 - handle: 301
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 1048576
@@ -12008,7 +12392,7 @@ table:
 - handle: 302
   type: 23
   length: 15
-  level: 2.2
+  level: '2.2'
   description: System reset
   attributes:
     is-enabled: true
@@ -12022,7 +12406,7 @@ table:
 - handle: 303
   type: 24
   length: 7
-  level: 2.2
+  level: '2.2'
   description: Hardware security
   attributes:
     front-panel-reset: unknown
@@ -12032,7 +12416,7 @@ table:
 - handle: 304
   type: 30
   length: 13
-  level: 2.2
+  level: '2.2'
   description: Out-of-band remote access
   attributes:
     vendor: Intel
@@ -12049,7 +12433,7 @@ table:
 - handle: 306
   type: 33
   length: 33
-  level: 2.3
+  level: '2.3'
   description: 64-bit memory error information
   attributes:
     type: ok

@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 3.2.1
+  smbios-version: '3.2'
 table:
 - handle: 0
   type: 0
   length: 69
-  level: 3.1
+  level: '3.1'
   description: Platform firmware information
   attributes:
     vendor: American Megatrends Inc.
@@ -42,7 +42,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 5.17
+    platform-version: '5.17'
     controller-version: null
 - handle: 1
   type: 1
   length: 166
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: To Be Filled By O.E.M.
@@ -78,28 +78,28 @@ table:
 - handle: 2
   type: 2
   length: 118
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: ASRock
     product: B460 Pro4
-    version: null
+    version: ''
     serial-number: M80-DB020000819
-    asset-tag: null
+    asset-tag: ''
     features:
       is-hosting-board: true
       require-daughter-board: false
       is-removable: false
       is-replaceable: true
       is-hot-swappable: false
-    location: null
+    location: ''
     chassis-handle: 3
     type: motherboard
     contained-objects: []
 - handle: 3
   type: 3
   length: 138
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: To Be Filled By O.E.M.
@@ -122,7 +122,7 @@ table:
 - handle: 4
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: Slot1
@@ -162,7 +162,7 @@ table:
 - handle: 5
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: Slot2
@@ -202,7 +202,7 @@ table:
 - handle: 6
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: Slot3
@@ -242,7 +242,7 @@ table:
 - handle: 7
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: Slot4
@@ -282,7 +282,7 @@ table:
 - handle: 8
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: M2_1
@@ -322,7 +322,7 @@ table:
 - handle: 9
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: M2_2
@@ -362,7 +362,7 @@ table:
 - handle: 10
   type: 9
   length: 26
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: M2_Wifi
@@ -402,7 +402,7 @@ table:
 - handle: 11
   type: 11
   length: 29
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 1
@@ -418,7 +418,7 @@ table:
 - handle: 13
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -430,7 +430,7 @@ table:
 - handle: 14
   type: 17
   length: 153
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 13
@@ -462,8 +462,8 @@ table:
       lrdimm: false
     maximum-speed: 2133
     vendor: 029E
-    serial-number: 0
-    asset-tag: 9876543210
+    serial-number: '00000000'
+    asset-tag: '9876543210'
     part-number: CMK16GX4M2A2666C16
     rank: 1
     configured-speed: 2133
@@ -484,7 +484,7 @@ table:
 - handle: 15
   type: 17
   length: 118
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 13
@@ -538,7 +538,7 @@ table:
 - handle: 16
   type: 17
   length: 153
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 13
@@ -570,8 +570,8 @@ table:
       lrdimm: false
     maximum-speed: 2133
     vendor: 029E
-    serial-number: 0
-    asset-tag: 9876543210
+    serial-number: '00000000'
+    asset-tag: '9876543210'
     part-number: CMK16GX4M2A2666C16
     rank: 1
     configured-speed: 2133
@@ -592,7 +592,7 @@ table:
 - handle: 17
   type: 17
   length: 118
-  level: 3.2
+  level: '3.2'
   description: Memory device
   attributes:
     array-handle: 13
@@ -646,7 +646,7 @@ table:
 - handle: 18
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -657,7 +657,7 @@ table:
 - handle: 19
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -671,7 +671,7 @@ table:
 - handle: 20
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 8589934592
@@ -748,7 +748,7 @@ table:
 - handle: 26
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -782,7 +782,7 @@ table:
 - handle: 27
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -816,7 +816,7 @@ table:
 - handle: 28
   type: 7
   length: 37
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -850,17 +850,20 @@ table:
 - handle: 29
   type: 4
   length: 190
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: CPUSocket
     type: central
     family: intel-core-i5
     vendor: Intel(R) Corporation
+    version: Intel(R) Core(TM) i5-10600 CPU @ 3.30GHz
     voltage: 137
     external-clock: 100
     maximum-speed: 8300
     current-speed: 3300
+    is-populated: true
+    status: enabled
     upgrade: other
     l1-cache-handle: 26
     l2-cache-handle: 27
@@ -900,7 +903,7 @@ table:
 - handle: 32
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -915,7 +918,7 @@ table:
 - handle: 33
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -930,7 +933,7 @@ table:
 - handle: 34
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -945,7 +948,7 @@ table:
 - handle: 35
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -960,7 +963,7 @@ table:
 - handle: 36
   type: 41
   length: 27
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - SATA
@@ -975,7 +978,7 @@ table:
 - handle: 37
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -990,7 +993,7 @@ table:
 - handle: 38
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1005,7 +1008,7 @@ table:
 - handle: 39
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Sound
@@ -1020,7 +1023,7 @@ table:
 - handle: 40
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Other
@@ -1035,7 +1038,7 @@ table:
 - handle: 41
   type: 41
   length: 31
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard - Ethernet
@@ -1074,7 +1077,7 @@ table:
 - handle: 43
   type: 14
   length: 14
-  level: 2.0
+  level: '2.0'
   description: Group associations
   attributes:
     group-name: $MEI

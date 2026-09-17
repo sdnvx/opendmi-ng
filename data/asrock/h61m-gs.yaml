@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 2.7
+  smbios-version: '2.7'
 table:
 - handle: 0
   type: 0
   length: 67
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: American Megatrends Inc.
@@ -42,7 +42,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 4.6
+    platform-version: '4.6'
     controller-version: null
 - handle: 1
   type: 1
   length: 166
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: To Be Filled By O.E.M.
@@ -78,28 +78,28 @@ table:
 - handle: 2
   type: 2
   length: 116
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: ASRock
     product: H61M-GS
-    version: null
+    version: ''
     serial-number: M80-31003800370
-    asset-tag: null
+    asset-tag: ''
     features:
       is-hosting-board: true
       require-daughter-board: false
       is-removable: false
       is-replaceable: true
       is-hot-swappable: false
-    location: null
+    location: ''
     chassis-handle: 3
     type: motherboard
     contained-objects: []
 - handle: 3
   type: 3
   length: 138
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: To Be Filled By O.E.M.
@@ -122,7 +122,7 @@ table:
 - handle: 4
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCIE1
@@ -162,7 +162,7 @@ table:
 - handle: 5
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCIE2
@@ -202,7 +202,7 @@ table:
 - handle: 6
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: PCIE3
@@ -242,7 +242,7 @@ table:
 - handle: 7
   type: 11
   length: 29
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 1
@@ -258,7 +258,7 @@ table:
 - handle: 9
   type: 7
   length: 36
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: CPU Internal L2
@@ -292,7 +292,7 @@ table:
 - handle: 10
   type: 7
   length: 36
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: CPU Internal L1
@@ -326,7 +326,7 @@ table:
 - handle: 11
   type: 7
   length: 36
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: CPU Internal L3
@@ -360,7 +360,7 @@ table:
 - handle: 12
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -372,17 +372,20 @@ table:
 - handle: 13
   type: 4
   length: 138
-  level: 2.6
+  level: '2.6'
   description: Processor information
   attributes:
     socket-designation: CPUSocket
     type: central
     family: intel-core-i7
     vendor: Intel(R) Corporation
+    version: Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz
     voltage: 179
     external-clock: 100
     maximum-speed: 3800
     current-speed: 3400
+    is-populated: true
+    status: enabled
     upgrade: socket-lga1155
     l1-cache-handle: 10
     l2-cache-handle: 9
@@ -407,7 +410,7 @@ table:
 - handle: 14
   type: 17
   length: 101
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 12
@@ -440,14 +443,14 @@ table:
     maximum-speed: 1600
     vendor: 0080
     serial-number: D4C07675
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: DGMAD31600008D
     rank: 2
     configured-speed: 1600
 - handle: 15
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -461,7 +464,7 @@ table:
 - handle: 16
   type: 17
   length: 101
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 12
@@ -494,14 +497,14 @@ table:
     maximum-speed: 1600
     vendor: 0080
     serial-number: D4C07615
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: DGMAD31600008D
     rank: 2
     configured-speed: 1600
 - handle: 17
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 8589934592
@@ -515,7 +518,7 @@ table:
 - handle: 18
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0

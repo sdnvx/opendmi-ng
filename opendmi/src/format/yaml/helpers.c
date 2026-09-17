@@ -32,10 +32,9 @@
 #include <opendmi/error.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/base64.h>
+#include <opendmi/utils/utf8.h>
 
 #include <opendmi/format/yaml/helpers.h>
-
-static bool dmi_yaml_check_utf8(const char *str);
 
 bool dmi_yaml_emit(dmi_yaml_session_t *session, yaml_event_t *event)
 {
@@ -72,7 +71,7 @@ bool dmi_yaml_scalar(
     do {
         // Encode incorrect UTF-8 strings as binary data
         if ((style == YAML_DOUBLE_QUOTED_SCALAR_STYLE) and
-            (not dmi_yaml_check_utf8(value)))
+            (not dmi_utf8_is_valid(value)))
         {
             tag   = YAML_BINARY_TAG;
             style = YAML_LITERAL_SCALAR_STYLE;
@@ -88,16 +87,16 @@ bool dmi_yaml_scalar(
             length = strlen(value);
         }
 
-        // Write explicit tags for literal scalars
-        bool plain_implicit = true;
-        if (style == YAML_LITERAL_SCALAR_STYLE)
-            plain_implicit = false;
+        // Write explicit tags for literal scalars only. Quoted scalars are
+        // always strings, and a non-specific tag would make readers resolve
+        // them as other types (e.g. "yes" as boolean).
+        bool implicit = (style != YAML_LITERAL_SCALAR_STYLE);
 
         bool result = yaml_scalar_event_initialize(&event, nullptr,
                                                    (const yaml_char_t *)tag,
                                                    (const yaml_char_t *)value,
                                                    length,
-                                                   plain_implicit, false, style);
+                                                   implicit, implicit, style);
 
         if (not result) {
             dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL,
@@ -198,54 +197,4 @@ bool dmi_yaml_mapping_end(dmi_yaml_session_t *session)
     } while (false);
 
     return success;
-}
-
-static bool dmi_yaml_check_utf8(const char *str)
-{
-    size_t length = strlen(str);
-
-    const dmi_data_t *pos = dmi_cast(pos, str);
-    const dmi_data_t *end = pos + length;
-
-    while (pos < end) {
-        dmi_data_t octet;
-        unsigned int width;
-        unsigned int value;
-
-        octet = pos[0];
-        width = (octet & 0x80) == 0x00 ? 1 :
-                (octet & 0xE0) == 0xC0 ? 2 :
-                (octet & 0xF0) == 0xE0 ? 3 :
-                (octet & 0xF8) == 0xF0 ? 4 : 0;
-
-        if (!width)
-            return false;
-
-        value = (octet & 0x80) == 0x00 ? octet & 0x7F :
-                (octet & 0xE0) == 0xC0 ? octet & 0x1F :
-                (octet & 0xF0) == 0xE0 ? octet & 0x0F :
-                (octet & 0xF8) == 0xF0 ? octet & 0x07 : 0;
-
-        if (pos + width > end)
-            return false;
-
-        for (size_t k = 1; k < width; k ++) {
-            octet = pos[k];
-
-            if ((octet & 0xC0) != 0x80)
-                return false;
-
-            value = (value << 6) + (octet & 0x3F);
-        }
-
-        if (!((width == 1) ||
-            (width == 2 && value >= 0x80) ||
-            (width == 3 && value >= 0x800) ||
-            (width == 4 && value >= 0x10000)))
-            return false;
-
-        pos += width;
-    }
-
-    return true;
 }

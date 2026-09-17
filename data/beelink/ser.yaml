@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 3.3.1
+  smbios-version: '3.3'
 table:
 - handle: 0
   type: 0
   length: 87
-  level: 3.1
+  level: '3.1'
   description: Platform firmware information
   attributes:
     vendor: American Megatrends International, LLC.
@@ -42,7 +42,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: true
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,12 +59,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 5.19
+    platform-version: '5.19'
     controller-version: null
 - handle: 1
   type: 1
   length: 95
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: AZW
@@ -78,7 +78,7 @@ table:
 - handle: 2
   type: 2
   length: 74
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: AZW
@@ -99,7 +99,7 @@ table:
 - handle: 3
   type: 3
   length: 98
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: Default string
@@ -122,7 +122,7 @@ table:
 - handle: 4
   type: 10
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -133,7 +133,7 @@ table:
 - handle: 5
   type: 11
   length: 21
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 1
@@ -142,7 +142,7 @@ table:
 - handle: 6
   type: 12
   length: 21
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -157,17 +157,17 @@ table:
 - handle: 8
   type: 44
   length: 11
-  level: 2.0
+  level: '2.0'
   description: Processor additional information
   data: !!binary |
     LAkIAP//AQEA
 - handle: 9
   type: 43
   length: 44
-  level: 2.0
+  level: '2.0'
   description: TPM device
   attributes:
-    specification-version: 2.0
+    specification-version: '2.0'
     firmware-version: 844820067123205
     description: AMD
     characteristics:
@@ -179,7 +179,7 @@ table:
 - handle: 10
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -192,7 +192,7 @@ table:
 - handle: 11
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -204,7 +204,7 @@ table:
 - handle: 12
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -215,7 +215,7 @@ table:
 - handle: 13
   type: 7
   length: 39
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L1 - Cache
@@ -249,7 +249,7 @@ table:
 - handle: 14
   type: 7
   length: 39
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L2 - Cache
@@ -283,7 +283,7 @@ table:
 - handle: 15
   type: 7
   length: 39
-  level: 3.1
+  level: '3.1'
   description: Cache information
   attributes:
     socket-designator: L3 - Cache
@@ -317,17 +317,20 @@ table:
 - handle: 16
   type: 4
   length: 154
-  level: 3.0
+  level: '3.0'
   description: Processor information
   attributes:
     socket-designation: FP6
     type: central
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
+    version: AMD Ryzen 7 PRO 5850U with Radeon Graphics
     voltage: 140
     external-clock: 100
     maximum-speed: 4450
     current-speed: 1900
+    is-populated: true
+    status: enabled
     upgrade: none
     l1-cache-handle: 13
     l2-cache-handle: 14
@@ -352,7 +355,7 @@ table:
 - handle: 17
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -365,7 +368,7 @@ table:
 - handle: 18
   type: 17
   length: 159
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 11
@@ -397,7 +400,7 @@ table:
       lrdimm: false
     maximum-speed: 3200
     vendor: Unknown
-    serial-number: 0
+    serial-number: '00000000'
     asset-tag: null
     part-number: DDR4 NB 16G 3200
     rank: 2
@@ -419,7 +422,7 @@ table:
 - handle: 19
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -433,7 +436,7 @@ table:
 - handle: 20
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -446,7 +449,7 @@ table:
 - handle: 21
   type: 17
   length: 159
-  level: 3.3
+  level: '3.3'
   description: Memory device
   attributes:
     array-handle: 11
@@ -478,7 +481,7 @@ table:
       lrdimm: false
     maximum-speed: 3200
     vendor: Unknown
-    serial-number: 0
+    serial-number: '00000000'
     asset-tag: null
     part-number: DDR4 NB 16G 3200
     rank: 2
@@ -500,7 +503,7 @@ table:
 - handle: 22
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -514,7 +517,7 @@ table:
 - handle: 23
   type: 8
   length: 31
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2304/J2300
@@ -525,7 +528,7 @@ table:
 - handle: 24
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3811
@@ -536,7 +539,7 @@ table:
 - handle: 25
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1504
@@ -547,7 +550,7 @@ table:
 - handle: 26
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1500
@@ -558,7 +561,7 @@ table:
 - handle: 27
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1502
@@ -569,7 +572,7 @@ table:
 - handle: 28
   type: 8
   length: 31
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1501
@@ -580,7 +583,7 @@ table:
 - handle: 29
   type: 8
   length: 31
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1503
@@ -591,7 +594,7 @@ table:
 - handle: 30
   type: 8
   length: 24
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1300
@@ -602,7 +605,7 @@ table:
 - handle: 31
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1701
@@ -613,7 +616,7 @@ table:
 - handle: 32
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1703
@@ -624,7 +627,7 @@ table:
 - handle: 33
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1101
@@ -635,7 +638,7 @@ table:
 - handle: 34
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1100
@@ -646,7 +649,7 @@ table:
 - handle: 35
   type: 8
   length: 27
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2103
@@ -657,7 +660,7 @@ table:
 - handle: 36
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2105
@@ -668,7 +671,7 @@ table:
 - handle: 37
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J3604
@@ -708,7 +711,7 @@ table:
 - handle: 38
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J3711
@@ -748,7 +751,7 @@ table:
 - handle: 39
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J3704
@@ -788,7 +791,7 @@ table:
 - handle: 40
   type: 9
   length: 24
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J3709
@@ -828,7 +831,7 @@ table:
 - handle: 41
   type: 41
   length: 32
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Onboard LAN Brodcom
@@ -843,7 +846,7 @@ table:
 - handle: 42
   type: 41
   length: 32
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: HD Audio Controller
@@ -858,7 +861,7 @@ table:
 - handle: 43
   type: 13
   length: 39
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:

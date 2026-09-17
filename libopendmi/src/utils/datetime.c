@@ -51,7 +51,7 @@ dmi_date_t dmi_date_parse(const char *str)
         value = strtoul(token, &ep, 10);
 
         if ((*token == 0) or (*ep != 0))
-	        return DMI_DATE_NONE;
+            return DMI_DATE_NONE;
         if ((errno == ERANGE) and (value == ULONG_MAX))
             return DMI_DATE_NONE;
 

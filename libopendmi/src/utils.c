@@ -151,8 +151,9 @@ dmi_data_t *dmi_file_get(
             length = st.st_size;
         }
 
-        // Allocate output buffer
-        if ((data = dmi_alloc(context, length)) == nullptr)
+        // Allocate output buffer. Zero-sized allocation may fail on some
+        // platforms, so at least one byte is allocated for empty files.
+        if ((data = dmi_alloc(context, length > 0 ? length : 1)) == nullptr)
             break;
 
         // Read data into buffer

@@ -9,15 +9,9 @@
 /**
  * @brief Apple extension module.
  */
-static dmi_module_t dmi_apple_module =
+const dmi_module_t dmi_apple_module =
 {
     .code     = "apple",
     .name     = "Apple extensions",
     .entities = nullptr
 };
-
-__attribute__((constructor))
-static void dmi_apple_module_register(void)
-{
-    dmi_module_register(&dmi_apple_module);
-}

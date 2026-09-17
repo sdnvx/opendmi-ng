@@ -90,7 +90,7 @@ static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[])
     char *format = nullptr;
     const dmi_module_t **modules = nullptr;
 
-    for (const dmi_module_t *module = dmi_modules; module != nullptr; module = module->next) {
+    for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
         size_t name_width = strlen(module->code);
         if (width < name_width)
             width = name_width;
@@ -107,8 +107,8 @@ static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[])
         if (modules == nullptr)
             break;
 
-        for (const dmi_module_t *module = dmi_modules; module != nullptr; module = module->next, index++) {
-            modules[index] = module;
+        for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
+            modules[index++] = module;
         }
 
         qsort(modules, count, sizeof(dmi_module_t *), dmi_modules_comparator);

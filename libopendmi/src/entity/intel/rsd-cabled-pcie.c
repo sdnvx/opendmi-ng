@@ -15,7 +15,7 @@ const dmi_entity_spec_t dmi_intel_rsd_cabled_pcie_spec =
 {
     .type            = DMI_TYPE(INTEL_RSD_CABLED_PCIE),
     .code            = "intel-rsd-cabled-pcie",
-    .name            = "Intel RST cabled PCIe port information",
+    .name            = "Intel RSD cabled PCIe port information",
     .minimum_version = DMI_VERSION(2, 0, 0),
     .minimum_length  = 0x0A,
     .decoded_length  = sizeof(dmi_intel_rsd_cabled_pcie_t),

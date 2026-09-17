@@ -155,10 +155,12 @@ static bool dmi_memory_channel_link(dmi_entity_t *entity)
         if (device == nullptr)
             continue;
 
-        dmi_memory_device_t *device_info = dmi_cast(device_info, device->info);
-
         info->devices[i].device = device;
-        device_info->channel    = entity;
+
+        // Memory device may be left undecoded
+        dmi_memory_device_t *device_info = dmi_entity_info(device, DMI_TYPE(MEMORY_DEVICE));
+        if (device_info != nullptr)
+            device_info->channel = entity;
     }
 
     return true;

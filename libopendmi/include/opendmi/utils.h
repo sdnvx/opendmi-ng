@@ -75,17 +75,22 @@ uint32_t dmi_ipow32(uint32_t value, unsigned int factor);
 uint64_t dmi_ipow64(uint64_t value, unsigned int factor);
 
 /**
- * @brief Reads the entire contents of a file into a newly allocated buffer.
+ * @brief Reads the contents of a file into a newly allocated buffer.
  *
- * Opens the file at @p path, allocates a buffer sized to the file, reads the
- * contents, and stores the number of bytes read in @p plength. The caller is
- * responsible for freeing the returned buffer with `dmi_free`(3).
+ * Opens the file at @p path, allocates a buffer of the requested size (or
+ * sized to the file), reads the contents, and stores the number of bytes read
+ * in @p plength. The caller is responsible for freeing the returned buffer
+ * with `dmi_free`(3).
  *
  * On any failure an error is raised on @p context.
  *
  * @param context  DMI context.
  * @param path     Path to the file to read.
- * @param plength  Receives the number of bytes read on success.
+ * @param offset   Offset to read from, or a negative value to read from the
+ *                 beginning of the file.
+ * @param plength  On input, the maximum number of bytes to read, or zero to
+ *                 read the whole file. On success, receives the number of
+ *                 bytes read, which may be less than requested.
  * @return Pointer to a newly allocated buffer containing the file data, or
  *         @c NULL on failure. @p plength is not modified on failure.
  */

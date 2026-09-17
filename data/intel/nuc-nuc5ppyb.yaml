@@ -1,10 +1,10 @@
 entry:
-  smbios-version: 2.8
+  smbios-version: '2.8'
 table:
 - handle: 0
   type: 0
   length: 81
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: Intel Corp.
@@ -42,7 +42,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: false
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -59,33 +59,33 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 5.6
+    platform-version: '5.6'
     controller-version: null
 - handle: 1
   type: 1
   length: 232
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
-    vendor: null
-    product: null
-    version: null
-    serial-number: null
+    vendor: ''
+    product: ''
+    version: ''
+    serial-number: ''
     uuid: A510B300-72BC-11E3-8E33-B8AEED77E551
     wakeup-type: power-switch
-    sku-number: null
-    family: null
+    sku-number: ''
+    family: ''
 - handle: 2
   type: 2
   length: 124
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: Intel Corporation
     product: NUC5PPYB
     version: H76558-102
     serial-number: GEPY52800TGT
-    asset-tag: null
+    asset-tag: ''
     features:
       is-hosting-board: true
       require-daughter-board: false
@@ -99,15 +99,15 @@ table:
 - handle: 3
   type: 3
   length: 182
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
-    vendor: null
+    vendor: ''
     type: desktop
     is-lock-present: false
-    version: null
-    serial-number: null
-    asset-tag: null
+    version: ''
+    serial-number: ''
+    asset-tag: ''
     bootup-state: ok
     power-supply-state: ok
     thermal-state: ok
@@ -131,7 +131,7 @@ table:
 - handle: 8
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -142,7 +142,7 @@ table:
 - handle: 9
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -153,7 +153,7 @@ table:
 - handle: 10
   type: 8
   length: 19
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A1
@@ -164,7 +164,7 @@ table:
 - handle: 11
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2A
@@ -175,7 +175,7 @@ table:
 - handle: 12
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2A2B
@@ -186,7 +186,7 @@ table:
 - handle: 13
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -197,7 +197,7 @@ table:
 - handle: 14
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -208,7 +208,7 @@ table:
 - handle: 15
   type: 8
   length: 20
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -219,7 +219,7 @@ table:
 - handle: 16
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9A1 - TPM HDR
@@ -230,7 +230,7 @@ table:
 - handle: 17
   type: 8
   length: 35
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9C1 - PCIE DOCKING CONN
@@ -241,7 +241,7 @@ table:
 - handle: 18
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2B3 - CPU FAN
@@ -252,7 +252,7 @@ table:
 - handle: 19
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J6C2 - EXT HDMI
@@ -263,7 +263,7 @@ table:
 - handle: 20
   type: 8
   length: 26
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J3C1 - GMCH FAN
@@ -274,7 +274,7 @@ table:
 - handle: 21
   type: 8
   length: 21
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1D1 - ITP
@@ -285,7 +285,7 @@ table:
 - handle: 22
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E2 - MDC INTPSR
@@ -296,7 +296,7 @@ table:
 - handle: 23
   type: 8
   length: 28
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E4 - MDC INTPSR
@@ -307,7 +307,7 @@ table:
 - handle: 24
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E3 - LPC HOT DOCKING
@@ -318,7 +318,7 @@ table:
 - handle: 25
   type: 8
   length: 29
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9E1 - SCAN MATRIX
@@ -329,7 +329,7 @@ table:
 - handle: 26
   type: 8
   length: 31
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J9G1 - LPC SIDE BAND
@@ -340,7 +340,7 @@ table:
 - handle: 27
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J8F1 - UNIFIED
@@ -351,7 +351,7 @@ table:
 - handle: 28
   type: 8
   length: 22
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J6F1 - LVDS
@@ -362,7 +362,7 @@ table:
 - handle: 29
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2F1 - LAI FAN
@@ -373,7 +373,7 @@ table:
 - handle: 30
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J2G1 - GFX VID
@@ -384,7 +384,7 @@ table:
 - handle: 31
   type: 8
   length: 25
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: J1G6 - AC JACK
@@ -395,7 +395,7 @@ table:
 - handle: 32
   type: 9
   length: 23
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: J6B1
@@ -435,7 +435,7 @@ table:
 - handle: 33
   type: 10
   length: 136
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 6
@@ -461,7 +461,7 @@ table:
 - handle: 34
   type: 11
   length: 29
-  level: 2.0
+  level: '2.0'
   description: OEM strings
   attributes:
     string-count: 1
@@ -470,7 +470,7 @@ table:
 - handle: 35
   type: 12
   length: 29
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options:
@@ -478,7 +478,7 @@ table:
 - handle: 36
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -490,7 +490,7 @@ table:
 - handle: 37
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -501,7 +501,7 @@ table:
 - handle: 38
   type: 17
   length: 130
-  level: 2.8
+  level: '2.8'
   description: Memory device
   attributes:
     array-handle: 36
@@ -544,7 +544,7 @@ table:
 - handle: 39
   type: 20
   length: 37
-  level: 2.7
+  level: '2.7'
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -565,7 +565,7 @@ table:
 - handle: 41
   type: 41
   length: 17
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: CPU
@@ -580,7 +580,7 @@ table:
 - handle: 42
   type: 41
   length: 28
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: Realtek ALC283
@@ -595,7 +595,7 @@ table:
 - handle: 43
   type: 41
   length: 19
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: AUDIO
@@ -610,7 +610,7 @@ table:
 - handle: 44
   type: 41
   length: 24
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: CIR Device
@@ -625,7 +625,7 @@ table:
 - handle: 45
   type: 41
   length: 16
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: SD
@@ -640,7 +640,7 @@ table:
 - handle: 46
   type: 41
   length: 22
-  level: 2.6
+  level: '2.6'
   description: Onboard devices extended information
   attributes:
     designator: WIFI3165
@@ -655,7 +655,7 @@ table:
 - handle: 47
   type: 7
   length: 36
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: CPU Internal L1
@@ -689,7 +689,7 @@ table:
 - handle: 48
   type: 7
   length: 36
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: CPU Internal L2
@@ -723,17 +723,20 @@ table:
 - handle: 49
   type: 4
   length: 122
-  level: 2.6
+  level: '2.6'
   description: Processor information
   attributes:
     socket-designation: SOCKET 0
     type: central
     family: intel-pentium
     vendor: Intel
+    version: Intel(R) Pentium(R) CPU N3700 @ 1.60GHz
     voltage: 140
     external-clock: 80
     maximum-speed: 2400
     current-speed: 1600
+    is-populated: true
+    status: enabled
     upgrade: socket-lga1155
     l1-cache-handle: 47
     l2-cache-handle: 48
@@ -758,7 +761,7 @@ table:
 - handle: 50
   type: 13
   length: 55
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:

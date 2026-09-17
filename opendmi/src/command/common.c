@@ -456,7 +456,7 @@ static bool dmi_filter_config_add_all_modules(dmi_context_t *context, const char
     assert(context != nullptr);
     dmi_unused(value);
 
-    for (const dmi_module_t *module = dmi_modules; module != nullptr; module = module->next) {
+    for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
         if ((module->entities == nullptr) or (*module->entities == nullptr))
             continue;
         if (not dmi_has_extension(context, module))

@@ -24,4 +24,10 @@ typedef enum dmi_apple_type
     DMI_TYPE_APPLE_SMC_VERSION         = 134  ///< Apple: SMC version information
 } dmi_apple_type_t;
 
+__BEGIN_DECLS
+
+extern const dmi_module_t dmi_apple_module;
+
+__END_DECLS
+
 #endif // !OPENDMI_MODULE_APPLE_H

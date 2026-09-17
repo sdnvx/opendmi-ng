@@ -1,5 +1,5 @@
 entry:
-  smbios-version: 2.7
+  smbios-version: '2.7'
 table:
 - handle: 4
   type: 134
@@ -14,17 +14,20 @@ table:
 - handle: 5
   type: 4
   length: 193
-  level: 2.6
+  level: '2.6'
   description: Processor information
   attributes:
     socket-designation: CPU Socket - U3E1
     type: central
     family: intel-core-i7
     vendor: Intel(R) Corporation
+    version: Intel(R) Core(TM) i7-3632QM CPU @ 2.20GHz
     voltage: 137
     external-clock: 100
     maximum-speed: 2200
     current-speed: 2200
+    is-populated: true
+    status: enabled
     upgrade: socket-rpga988b
     l1-cache-handle: 7
     l2-cache-handle: 8
@@ -49,7 +52,7 @@ table:
 - handle: 6
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L1-Cache
@@ -83,7 +86,7 @@ table:
 - handle: 7
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L1-Cache
@@ -117,7 +120,7 @@ table:
 - handle: 8
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L2-Cache
@@ -151,7 +154,7 @@ table:
 - handle: 9
   type: 7
   length: 29
-  level: 2.1
+  level: '2.1'
   description: Cache information
   attributes:
     socket-designator: L3-Cache
@@ -203,7 +206,7 @@ table:
 - handle: 12
   type: 16
   length: 25
-  level: 2.7
+  level: '2.7'
   description: Physical memory array
   attributes:
     location: motherboard
@@ -215,7 +218,7 @@ table:
 - handle: 13
   type: 17
   length: 101
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 12
@@ -248,14 +251,14 @@ table:
     maximum-speed: 1600
     vendor: 8FB3
     serial-number: 38A7A392
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: Xllbyte 1600 8GB
     rank: unknown
     configured-speed: 1600
 - handle: 14
   type: 17
   length: 101
-  level: 2.7
+  level: '2.7'
   description: Memory device
   attributes:
     array-handle: 12
@@ -288,14 +291,14 @@ table:
     maximum-speed: 1600
     vendor: 8FB3
     serial-number: 31A7A392
-    asset-tag: 9876543210
+    asset-tag: '9876543210'
     part-number: Xllbyte 1600 8GB
     rank: unknown
     configured-speed: 1600
 - handle: 15
   type: 19
   length: 33
-  level: 2.7
+  level: '2.7'
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -306,7 +309,7 @@ table:
 - handle: 0
   type: 0
   length: 58
-  level: 2.4
+  level: '2.4'
   description: Platform firmware information
   attributes:
     vendor: LENOVO
@@ -344,7 +347,7 @@ table:
       serial-support: true
       printer-support: true
       video-cga-mono-support: true
-      nec-pc-98: true
+      nec-pc-98: false
     features-ex:
       acpi-support: true
       usb-legacy-support: true
@@ -361,12 +364,12 @@ table:
       virtual-machine: false
       mfg-mode-support: false
       mfg-mode-enabled: false
-    platform-version: 1.23
+    platform-version: '1.23'
     controller-version: null
 - handle: 1
   type: 1
   length: 79
-  level: 2.4
+  level: '2.4'
   description: System information
   attributes:
     vendor: LENOVO
@@ -380,7 +383,7 @@ table:
 - handle: 2
   type: 2
   length: 82
-  level: 2.0
+  level: '2.0'
   description: Baseboard or module information
   attributes:
     vendor: LENOVO
@@ -401,7 +404,7 @@ table:
 - handle: 3
   type: 3
   length: 86
-  level: 2.7
+  level: '2.7'
   description: System enclosure or chassis
   attributes:
     vendor: LENOVO
@@ -424,7 +427,7 @@ table:
 - handle: 16
   type: 8
   length: 41
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -435,7 +438,7 @@ table:
 - handle: 17
   type: 8
   length: 41
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -466,7 +469,7 @@ table:
 - handle: 20
   type: 8
   length: 39
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -497,7 +500,7 @@ table:
 - handle: 23
   type: 8
   length: 33
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -518,7 +521,7 @@ table:
 - handle: 25
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -529,7 +532,7 @@ table:
 - handle: 26
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -540,7 +543,7 @@ table:
 - handle: 27
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -551,7 +554,7 @@ table:
 - handle: 28
   type: 8
   length: 30
-  level: 2.0
+  level: '2.0'
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -652,7 +655,7 @@ table:
 - handle: 38
   type: 9
   length: 35
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: ExpressCard Slot
@@ -692,7 +695,7 @@ table:
 - handle: 39
   type: 9
   length: 34
-  level: 2.6
+  level: '2.6'
   description: System slots
   attributes:
     designator: Media Card Slot
@@ -741,7 +744,7 @@ table:
 - handle: 41
   type: 10
   length: 38
-  level: 2.0
+  level: '2.0'
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -752,14 +755,14 @@ table:
 - handle: 42
   type: 12
   length: 7
-  level: 2.0
+  level: '2.0'
   description: System configuration options
   attributes:
     options: []
 - handle: 43
   type: 13
   length: 58
-  level: 2.0
+  level: '2.0'
   description: Firmware language information
   attributes:
     languages:
@@ -776,7 +779,7 @@ table:
 - handle: 44
   type: 22
   length: 55
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: Rear
@@ -787,7 +790,7 @@ table:
     chemistry: unknown
     capacity: 40.4
     voltage: 10.8
-    sbds-version: 1.08
+    sbds-version: '01.08'
     maximum-error: unknown
     sbds-serial-number: 46334
     sbds-chemistry: LION
@@ -795,7 +798,7 @@ table:
 - handle: 45
   type: 22
   length: 57
-  level: 2.2
+  level: '2.2'
   description: Portable battery
   attributes:
     location: Bottom
@@ -806,7 +809,7 @@ table:
     chemistry: unknown
     capacity: unknown
     voltage: unknown
-    sbds-version: 0.0
+    sbds-version: '00.00'
     maximum-error: unknown
     sbds-serial-number: 0
     sbds-chemistry: LION
@@ -814,7 +817,7 @@ table:
 - handle: 46
   type: 18
   length: 25
-  level: 2.1
+  level: '2.1'
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -827,7 +830,7 @@ table:
 - handle: 47
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: track-point
@@ -836,7 +839,7 @@ table:
 - handle: 48
   type: 21
   length: 9
-  level: 2.1
+  level: '2.1'
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -878,7 +881,7 @@ table:
 - handle: 53
   type: 15
   length: 83
-  level: 2.1
+  level: '2.1'
   description: System event log
   attributes:
     access-method: data-functions
@@ -888,7 +891,7 @@ table:
 - handle: 54
   type: 24
   length: 7
-  level: 2.2
+  level: '2.2'
   description: Hardware security
   attributes:
     front-panel-reset: not-implemented

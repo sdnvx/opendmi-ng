@@ -217,6 +217,20 @@ intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void *value);
 uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value);
 
 /**
+ * @brief Reads the number of elements of an array attribute.
+ *
+ * Interprets the counter member referenced by `attr->counter` as an unsigned
+ * integer whose width is determined by `attr->counter.size` (1, 2, 4, or 8
+ * bytes).
+ *
+ * @param attr Attribute descriptor; must not be @c NULL.
+ * @param info Pointer to the decoded entity data; must not be @c NULL.
+ * @return The number of array elements, or zero if the attribute has no
+ *         counter or its width is not supported.
+ */
+size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
+
+/**
  * @brief Formats an attribute value as a newly allocated string.
  *
  * Dispatches to a type-specific formatter based on `attribute->type`. The

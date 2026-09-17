@@ -19,7 +19,7 @@
 /**
  * @brief Dell extension module.
  */
-static dmi_module_t dmi_dell_module =
+const dmi_module_t dmi_dell_module =
 {
     .code     = "dell",
     .name     = "Dell extensions",
@@ -36,9 +36,3 @@ static dmi_module_t dmi_dell_module =
         nullptr
     }
 };
-
-__attribute__((constructor))
-static void dmi_dell_module_register(void)
-{
-    dmi_module_register(&dmi_dell_module);
-}

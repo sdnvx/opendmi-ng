@@ -153,14 +153,14 @@ static bool dmi_freebsd_get_entry_addr(dmi_context_t *context, size_t *paddr)
 
     dmi_log_debug(context->logger, "Getting SMBIOS address from EFI...");
 
-	if (kenv(KENV_GET, DMI_FREEBSD_KENV_SMBIOS, str, sizeof(str)) < 0) {
-		if (errno != ENOENT)
-		    dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "kenv() failed: %s", strerror(errno));
+    if (kenv(KENV_GET, DMI_FREEBSD_KENV_SMBIOS, str, sizeof(str)) < 0) {
+        if (errno != ENOENT)
+            dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "kenv() failed: %s", strerror(errno));
         else
             dmi_log_debug(context->logger, "No SMBIOS address found");
 
-		return false;
-	}
+        return false;
+    }
 
     return dmi_generic_parse_entry_addr(context, str, paddr);
 }

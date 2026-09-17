@@ -14,7 +14,7 @@
 typedef struct dmi_intel_rsd_memory_device dmi_intel_rsd_memory_device_t;
 
 /**
- * @brief Intel RST memory types.
+ * @brief Intel RSD memory types.
  */
 typedef enum dmi_intel_rsd_memory_type
 {
