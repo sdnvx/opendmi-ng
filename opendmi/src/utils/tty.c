@@ -36,16 +36,23 @@
 #include <opendmi/utils/tty.h>
 
 static bool dmi_tty = false;
+static bool dmi_tty_stdout = false;
 static int  dmi_tty_bg_color = DMI_TTY_COLOR_BLACK;
 static int  dmi_tty_fg_color = DMI_TTY_COLOR_WHITE;
 static int  dmi_tty_attrs = 0;
 
 void dmi_tty_init(void)
 {
+    // Standard output may be redirected to pager later
+    dmi_tty_stdout = isatty(STDOUT_FILENO);
+
 #ifdef ENABLE_CURSES
-    // Initialize terminal
-    if (isatty(STDOUT_FILENO)) {
-        if (setupterm(nullptr, STDOUT_FILENO, nullptr) != ERR)
+    // Initialize terminal. Unknown terminal type is not an error, colors are
+    // just not used in this case.
+    if (dmi_tty_stdout) {
+        int error;
+
+        if (setupterm(nullptr, STDOUT_FILENO, &error) != ERR)
             dmi_tty = has_colors() and (start_color() != ERR);
     }
 #endif // ENABLE_CURSES
@@ -54,6 +61,11 @@ void dmi_tty_init(void)
 bool dmi_has_tty(void)
 {
     return dmi_tty;
+}
+
+bool dmi_tty_is_stdout(void)
+{
+    return dmi_tty_stdout;
 }
 
 void dmi_tty_attr_on(int attrs)

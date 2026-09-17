@@ -71,11 +71,13 @@ static void dmi_show_usage(void)
 
 static int dmi_show_main(dmi_context_t *context, int argc, char *argv[])
 {
-    dmi_unused(context);
     dmi_unused(argc);
     dmi_unused(argv);
 
-    dmi_print_all(context, stdout, &dmi_text_format, dmi_show_config.show_dump);
+    if (not dmi_print_all(context, stdout, &dmi_text_format, dmi_show_config.show_dump)) {
+        dmi_command_trace(context);
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

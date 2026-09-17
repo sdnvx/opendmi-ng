@@ -108,7 +108,7 @@ ssize_t dmi_file_read(int fd, dmi_data_t *data, off_t offset, size_t size)
             return -1;
     }
 
-    while (size > 0) {
+    while (nread < size) {
         ssize_t rv = read(fd, data + nread, size - nread);
 
         if (rv < 0) {
@@ -133,7 +133,7 @@ ssize_t dmi_file_write(int fd, const dmi_data_t *data, size_t size)
     assert(fd >= 0);
     assert(data != nullptr);
 
-    while (size > 0) {
+    while (nwritten < size) {
         ssize_t rv = write(fd, data + nwritten, size - nwritten);
 
         if (rv < 0) {

@@ -18,6 +18,11 @@ typedef struct _stat dmi_file_stat_t;
 typedef struct stat dmi_file_stat_t;
 #endif
 
+// Not all platforms (e.g. MSVC) provide file type test macros
+#if !defined(S_ISREG)
+#   define S_ISREG(mode) (((mode) & S_IFMT) == S_IFREG)
+#endif
+
 __BEGIN_DECLS
 
 /**

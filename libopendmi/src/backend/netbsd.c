@@ -157,14 +157,14 @@ static bool dmi_netbsd_get_entry_addr(dmi_context_t *context, size_t *paddr)
     assert(context != nullptr);
     assert(paddr   != nullptr);
 
-    dmi_log_debug(context, "Getting SMBIOS address from EFI...");
+    dmi_log_debug(context->logger, "Getting SMBIOS address from EFI...");
 
     size_t length = sizeof(addr);
 	if (sysctlbyname(DMI_NETBSD_SYSCTL_SMBIOS, &addr, &length, nullptr, 0) < 0) {
 		if (errno != ENOENT)
 		    dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "sysctlbyname() failed: %s", strerror(errno));
         else
-            dmi_log_debug(context, "No SMBIOS address found");
+            dmi_log_debug(context->logger, "No SMBIOS address found");
 
 		return false;
 	}

@@ -74,6 +74,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix unterminated long option names in `lint` command
 - Fix missing error message on unknown type in `-t`/`--type` option
 - Fix log file opening error handling
+- Fix exit codes of command line tool on output errors
+- Fix incomplete writes handling in `dmi_dump_save()` and `export` command
+- Fix redundant zero-length calls in `dmi_file_read()` and `dmi_file_write()`
+- Fix crash of `entry` command on missing entry point data
+- Fix raw output of `types` and `modules` commands when pager is used
+- Fix terminal state after interrupting pager with Ctrl-C
+- Fix double handle close on pager start errors on Windows
+- Fix termination on unknown terminal type
+- Fix out-of-bounds read on empty SMBIOS table area
+- Fix stack overflow on long date strings in `dmi_date_parse()`
+- Fix address type and logging target in FreeBSD and NetBSD backends
+- Fix session memory leaks in JSON, YAML and XML output formats
 
 ## [0.3.2] - April 19, 2026
 

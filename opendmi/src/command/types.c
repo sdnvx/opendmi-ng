@@ -177,7 +177,7 @@ static int dmi_types_main(dmi_context_t *context, int argc, char *argv[])
     dmi_unused(argc);
     dmi_unused(argv);
 
-    if (isatty(STDOUT_FILENO))
+    if (dmi_tty_is_stdout())
         dmi_command_banner();
     else
         dmi_types_config.show_raw = true;

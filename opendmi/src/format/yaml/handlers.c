@@ -58,6 +58,8 @@ void *dmi_yaml_initialize(dmi_context_t *context, FILE *stream)
         if (initialized)
             yaml_emitter_delete(session->emitter);
         dmi_free(session->emitter);
+        dmi_free(session);
+
         return nullptr;
     }
 
@@ -443,4 +445,5 @@ void dmi_yaml_finalize(dmi_yaml_session_t *session)
     yaml_emitter_delete(session->emitter);
 
     dmi_free(session->emitter);
+    dmi_free(session);
 }

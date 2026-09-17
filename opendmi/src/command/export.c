@@ -11,6 +11,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/format.h>
+#include <opendmi/utils/file.h>
 #include <opendmi/utils/tty.h>
 
 #include <opendmi/command/common.h>
@@ -163,10 +164,27 @@ static int dmi_export_main(dmi_context_t *context, int argc, char *argv[])
         out = stdout;
     }
 
-    dmi_print_all(context, out, dmi_export_config.output_format, dmi_export_config.export_dump);
+    bool success = dmi_print_all(context, out, dmi_export_config.output_format,
+                                 dmi_export_config.export_dump);
+    if (not success)
+        dmi_command_trace(context);
 
-    if (dmi_export_config.output_path != nullptr)
-        fclose(out);
+    if (dmi_export_config.output_path != nullptr) {
+        // Only regular files are removed on errors, not devices or pipes
+        dmi_file_stat_t st;
+        bool is_regular = (dmi_file_stat(fileno(out), &st) == 0) and S_ISREG(st.st_mode);
 
-    return EXIT_SUCCESS;
+        if ((fclose(out) != 0) and success) {
+            dmi_command_message_ex(
+                    &dmi_export_command, "Unable to write output file: %s: %s",
+                    dmi_export_config.output_path, strerror(errno));
+            success = false;
+        }
+
+        // Do not leave incomplete output file behind
+        if ((not success) and is_regular)
+            remove(dmi_export_config.output_path);
+    }
+
+    return success ? EXIT_SUCCESS : EXIT_FAILURE;
 }

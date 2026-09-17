@@ -31,13 +31,29 @@ __BEGIN_DECLS
 dmi_handle_t dmi_parse_handle(const char *str);
 dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str);
 
-void dmi_print_all(
+/**
+ * @brief Print all entities matching the entity filter.
+ *
+ * @param[in] context DMI context handle.
+ * @param[in] stream  Output stream.
+ * @param[in] format  Output format.
+ * @param[in] dump    Print raw entity data instead of decoded attributes.
+ *
+ * @return `true` on success, `false` if output fails. Error details are
+ *         raised in the context.
+ */
+bool dmi_print_all(
         dmi_context_t      *context,
         FILE               *stream,
         const dmi_format_t *format,
         bool                dump);
 
-void dmi_print_entity(
+/**
+ * @brief Print single entity.
+ *
+ * @return `true` on success, `false` if any format handler fails.
+ */
+bool dmi_print_entity(
         const dmi_format_t *format,
         const dmi_entity_t *entity,
         void               *session,

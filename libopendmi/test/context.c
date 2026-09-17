@@ -27,6 +27,7 @@ static void test_context_reopen(void **pstate);
 static void test_context_reopen_after_failure(void **pstate);
 static void test_context_dump_save_after_close(void **pstate);
 static void test_context_dump_save_roundtrip(void **pstate);
+static void test_context_dump_save_errors(void **pstate);
 static void test_context_add_extension(void **pstate);
 static void test_context_add_extension_duplicate(void **pstate);
 
@@ -45,6 +46,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_context_reopen_after_failure, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_dump_save_after_close, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_dump_save_roundtrip, test_context_setup, test_context_teardown),
+        cmocka_unit_test_setup_teardown(test_context_dump_save_errors, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_add_extension, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_add_extension_duplicate, test_context_setup, test_context_teardown)
     };
@@ -165,6 +167,39 @@ static void test_context_dump_save_roundtrip(void **pstate)
     assert_non_null(context->state.registry);
 
     remove(test_save_path);
+}
+
+static void test_context_dump_save_errors(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_dump_load(context, test_dump_path));
+
+    // Existing file is not overwritten
+    assert_true(dmi_dump_save(context, test_save_path, false));
+
+    dmi_error_clear(context);
+    assert_false(dmi_dump_save(context, test_save_path, false));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN);
+
+    remove(test_save_path);
+
+    // Write errors are reported, and special files are not removed
+    FILE *device = fopen("/dev/full", "r");
+    if (device == nullptr)
+        return;
+
+    fclose(device);
+
+    dmi_error_clear(context);
+    assert_false(dmi_dump_save(context, "/dev/full", true));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_WRITE);
+
+    device = fopen("/dev/full", "r");
+    if (device != nullptr)
+        fclose(device);
+    else
+        fail_msg("Device /dev/full has been removed");
 }
 
 static void test_context_add_extension(void **pstate)

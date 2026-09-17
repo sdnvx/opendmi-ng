@@ -117,6 +117,10 @@ bool dmi_pager_start(dmi_context_t *context)
             dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Unable to open pipe handle: %s", strerror(errno));
             break;
         }
+
+        // Pipe handle is owned by the file descriptor now
+        hChildPipeWrite = INVALID_HANDLE_VALUE;
+
         if (_dup2(newStdout, STDOUT_FILENO) < 0) {
             dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Unable to dup pipe handle: %s", strerror(errno));
             _close(newStdout);
@@ -129,7 +133,8 @@ bool dmi_pager_start(dmi_context_t *context)
         return true;
     } while (false);
 
-    CloseHandle(hChildPipeWrite);
+    if (hChildPipeWrite != INVALID_HANDLE_VALUE)
+        CloseHandle(hChildPipeWrite);
     CloseHandle(piProcInfo.hProcess);
 
     return false;

@@ -37,7 +37,9 @@ void *dmi_text_initialize(dmi_context_t *context, FILE *stream)
 
     session->context = context;
     session->stream  = stream;
-    session->is_tty  = isatty(fileno(session->stream));
+
+    // Colors are available only if terminal has been initialized
+    session->is_tty = dmi_has_tty() and isatty(fileno(session->stream));
 
     return session;
 }

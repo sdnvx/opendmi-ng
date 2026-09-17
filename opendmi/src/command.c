@@ -11,6 +11,7 @@
 #endif
 
 #include <string.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -360,7 +361,7 @@ int dmi_command_run(
         }
 
         // Start pager
-        if (isatty(STDOUT_FILENO) and (command->flags & DMI_COMMAND_FLAG_PAGER)) {
+        if (dmi_tty_is_stdout() and (command->flags & DMI_COMMAND_FLAG_PAGER)) {
             if (not dmi_pager_start(context)) {
                 dmi_command_trace(context);
                 break;
@@ -368,6 +369,12 @@ int dmi_command_run(
         }
 
         rv = command->handlers.main(context, argc, argv);
+
+        // Commands may write to standard output directly, so check it here
+        if ((rv == EXIT_SUCCESS) and ((fflush(stdout) != 0) or ferror(stdout))) {
+            dmi_command_message_ex(command, "Unable to write output: %s", strerror(errno));
+            rv = EXIT_FAILURE;
+        }
     } while (false);
 
     // Cleanup

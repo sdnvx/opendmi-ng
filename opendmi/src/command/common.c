@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <stdlib.h>
+#include <string.h>
 #include <limits.h>
 #include <errno.h>
 #include <assert.h>
@@ -199,7 +200,7 @@ dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str)
     return (dmi_type_t)value;
 }
 
-void dmi_print_all(
+bool dmi_print_all(
         dmi_context_t      *context,
         FILE               *stream,
         const dmi_format_t *format,
@@ -214,32 +215,51 @@ void dmi_print_all(
     assert(format != nullptr);
 
     session = format->handlers.initialize(context, stream);
-    if (not session)
-        return;
+    if (session == nullptr)
+        return false;
 
-    if (format->handlers.dump_start != nullptr)
-        format->handlers.dump_start(session);
+    bool success = false;
+    do {
+        if ((format->handlers.dump_start != nullptr) and not format->handlers.dump_start(session))
+            break;
+        if (not format->handlers.entry(session))
+            break;
+        if ((format->handlers.table_start != nullptr) and not format->handlers.table_start(session))
+            break;
 
-    format->handlers.entry(session);
+        bool status = true;
 
-    if (format->handlers.table_start != nullptr)
-        format->handlers.table_start(session);
+        dmi_registry_iter_init(&iter, context->state.registry, &dmi_filter_config.filter);
+        while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+            status = dmi_print_entity(format, entity, session, dump);
+            if (not status)
+                break;
+        }
 
-    dmi_registry_iter_init(&iter, context->state.registry, &dmi_filter_config.filter);
-    while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        dmi_print_entity(format, entity, session, dump);
+        if (not status)
+            break;
+
+        if ((format->handlers.table_end != nullptr) and not format->handlers.table_end(session))
+            break;
+        if ((format->handlers.dump_end != nullptr) and not format->handlers.dump_end(session))
+            break;
+
+        success = true;
+    } while (false);
+
+    // Finalization flushes buffered output of some formats
+    format->handlers.finalize(session);
+
+    if ((fflush(stream) != 0) or ferror(stream)) {
+        if (success)
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s", strerror(errno));
+        success = false;
     }
 
-    if (format->handlers.table_end != nullptr)
-        format->handlers.table_end(session);
-
-    if (format->handlers.dump_end != nullptr)
-        format->handlers.dump_end(session);
-
-    format->handlers.finalize(session);
+    return success;
 }
 
-void dmi_print_entity(
+bool dmi_print_entity(
         const dmi_format_t *format,
         const dmi_entity_t *entity,
         void               *session,
@@ -252,11 +272,13 @@ void dmi_print_entity(
     const dmi_entity_spec_t *spec = entity->spec;
     const dmi_attribute_t   *attr = nullptr;
 
-    format->handlers.entity_start(session, entity);
+    if (not format->handlers.entity_start(session, entity))
+        return false;
 
     if (entity->info and not dump) {
-        if (format->handlers.entity_attrs_start != nullptr)
-            format->handlers.entity_attrs_start(session, entity);
+        if ((format->handlers.entity_attrs_start != nullptr) and
+            not format->handlers.entity_attrs_start(session, entity))
+            return false;
 
         for (attr = spec->attributes; attr->params.name; attr++) {
             const dmi_data_t *value = dmi_member_ptr(entity->info, attr->value, dmi_data_t);
@@ -267,17 +289,21 @@ void dmi_print_entity(
                     continue;
             }
 
-            format->handlers.entity_attr(session, entity, attr, value);
+            if (not format->handlers.entity_attr(session, entity, attr, value))
+                return false;
         }
 
-        if (format->handlers.entity_attrs_end != nullptr)
-            format->handlers.entity_attrs_end(session, entity);
+        if ((format->handlers.entity_attrs_end != nullptr) and
+            not format->handlers.entity_attrs_end(session, entity))
+            return false;
     } else if (entity->type != DMI_TYPE(END_OF_TABLE)) {
-        format->handlers.entity_data(session, entity);
-        format->handlers.entity_strings(session, entity);
+        if (not format->handlers.entity_data(session, entity))
+            return false;
+        if (not format->handlers.entity_strings(session, entity))
+            return false;
     }
 
-    format->handlers.entity_end(session, entity);
+    return format->handlers.entity_end(session, entity);
 }
 
 static bool dmi_filter_config_add_handle(dmi_context_t *context, const char *value)

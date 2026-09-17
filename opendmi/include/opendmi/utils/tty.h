@@ -47,6 +47,12 @@ __BEGIN_DECLS
 void dmi_tty_init(void);
 bool dmi_has_tty(void);
 
+/**
+ * @brief Check whether standard output was a terminal on initialization, i.e.
+ * before it was possibly redirected to pager.
+ */
+bool dmi_tty_is_stdout(void);
+
 void dmi_tty_attr_on(int attrs);
 void dmi_tty_attr_off(int attrs);
 void dmi_tty_set_fg_color(dmi_tty_color_t color);

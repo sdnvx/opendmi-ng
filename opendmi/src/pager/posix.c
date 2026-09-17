@@ -26,10 +26,13 @@ extern char **environ;
 
 static pid_t pid = -1;
 
-static void dmi_wait_pager_exit(void)
-{
-    fclose(stdout); // Ensure the pager process receives EOF
+/**
+ * @brief Signals, on which the process waits for pager before exiting.
+ */
+static const int dmi_pager_signals[] = { SIGINT, SIGQUIT, SIGTERM, SIGHUP };
 
+static void dmi_wait_pager(void)
+{
     if (pid > 0) {
         int ret;
         do {
@@ -37,6 +40,26 @@ static void dmi_wait_pager_exit(void)
         } while (ret == -1 && errno == EINTR);
         pid = -1;
     }
+}
+
+static void dmi_wait_pager_exit(void)
+{
+    fclose(stdout); // Ensure the pager process receives EOF
+    dmi_wait_pager();
+}
+
+static void dmi_wait_pager_signal(int signo)
+{
+    //
+    // Pager shares the terminal and usually ignores signals like SIGINT, so
+    // the shell must not get the terminal back before the pager exits. Only
+    // async-signal-safe functions are used here.
+    //
+    close(STDOUT_FILENO);
+    dmi_wait_pager();
+
+    signal(signo, SIG_DFL);
+    raise(signo);
 }
 
 bool dmi_pager_start(dmi_context_t *context)
@@ -137,6 +160,14 @@ bool dmi_pager_start(dmi_context_t *context)
         dmi_file_close(fds[STDOUT_FILENO]);
 
         atexit(dmi_wait_pager_exit);
+
+        for (size_t i = 0; i < countof(dmi_pager_signals); i++) {
+            struct sigaction action = {};
+
+            action.sa_handler = dmi_wait_pager_signal;
+            sigemptyset(&action.sa_mask);
+            sigaction(dmi_pager_signals[i], &action, nullptr);
+        }
 
         success = true;
     } while (false);

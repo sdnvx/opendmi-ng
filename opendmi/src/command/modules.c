@@ -76,7 +76,7 @@ static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[])
     dmi_unused(argc);
     dmi_unused(argv);
 
-    if (isatty(STDOUT_FILENO)) {
+    if (dmi_tty_is_stdout()) {
         dmi_command_banner();
         dmi_tty_header("Available modules:");
     } else {

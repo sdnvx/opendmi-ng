@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 #include <inttypes.h>
 #include <stdio.h>
 #include <assert.h>
@@ -61,6 +63,13 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
     dmi_text_session_t *session = nullptr;
     char *smbios_version = nullptr;
     char *entry_version = nullptr;
+    bool success = false;
+
+    // Some backends (e.g. Windows) do not provide entry point data
+    if (spec == nullptr) {
+        dmi_command_message_ex(&dmi_entry_command, "Entry point data is not available");
+        return EXIT_FAILURE;
+    }
 
     do {
         session = dmi_text_initialize(context, stdout);
@@ -92,11 +101,24 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
             dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s: ", attr->params.name);
             dmi_text_entity_attr_value(session, attr, value, nullptr);
         }
+
+        if ((fflush(stdout) != 0) or ferror(stdout)) {
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s", strerror(errno));
+            break;
+        }
+
+        success = true;
     } while (false);
 
-    dmi_text_finalize(session);
+    if (session != nullptr)
+        dmi_text_finalize(session);
     dmi_free(smbios_version);
     dmi_free(entry_version);
+
+    if (not success) {
+        dmi_command_trace(context);
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

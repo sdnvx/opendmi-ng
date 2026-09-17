@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <string.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <assert.h>
@@ -20,10 +21,15 @@ dmi_date_t dmi_date_parse(const char *str)
     char *ep;
     unsigned year, month, day;
 
-    size_t len  = strlen(str) + 1;
+    // Date is specified either as `MM/DD/YY` or `MM/DD/YYYY`, so longer
+    // strings from firmware are rejected before copying
+    char date[sizeof("MM/DD/YYYY")];
 
-    char date[len];
-    memcpy(date, str, len);
+    size_t len = strlen(str);
+    if (len >= sizeof(date))
+        return DMI_DATE_NONE;
+
+    memcpy(date, str, len + 1);
 
     char *pos = date;
     while (true) {
@@ -34,7 +40,8 @@ dmi_date_t dmi_date_parse(const char *str)
         if (token == nullptr)
             break;
 
-        if (*token == '+' or *token == '-')
+        // Leading spaces and signs are accepted by strtoul(), but not here
+        if (not isdigit((unsigned char)*token))
             return DMI_DATE_NONE;
 
         if (++i > 3)

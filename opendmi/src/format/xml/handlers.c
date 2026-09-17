@@ -67,9 +67,10 @@ void *dmi_xml_initialize(dmi_context_t *context, FILE *stream)
     if (not success) {
         if (session->writer != nullptr)
             xmlFreeTextWriter(session->writer);
-        else
+        else if (session->buffer != nullptr)
             xmlOutputBufferClose(session->buffer);
 
+        dmi_free(session);
         return nullptr;
     }
 

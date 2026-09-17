@@ -46,6 +46,7 @@ void *dmi_json_initialize(dmi_context_t *context, FILE *stream)
     if (not success) {
         if (session->generator != nullptr)
             yajl_gen_free(session->generator);
+        dmi_free(session);
         return nullptr;
     }
 
@@ -429,4 +430,5 @@ void dmi_json_finalize(dmi_json_session_t *session)
     assert(session != nullptr);
 
     yajl_gen_free(session->generator);
+    dmi_free(session);
 }

@@ -98,6 +98,17 @@ static bool dmi_setup_extensions(dmi_context_t *context);
  */
 static void dmi_version_fixup(dmi_context_t *context);
 
+/**
+ * @internal
+ * @brief Write dump data completely, raising an error on failures.
+ */
+static bool dmi_dump_write(
+        dmi_context_t    *context,
+        int               fd,
+        const char       *path,
+        const dmi_data_t *data,
+        size_t            size);
+
 static const dmi_entity_spec_t dmi_inactive_spec =
 {
     .code        = "inactive",
@@ -383,7 +394,6 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
     int flags;
     int fd;
     bool success;
-    ssize_t nwrite;
 
     if (context == nullptr)
         return false;
@@ -414,6 +424,10 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
         return false;
     }
 
+    // Only regular files are removed on errors, not devices or pipes
+    dmi_file_stat_t st;
+    bool is_regular = (dmi_file_stat(fd, &st) == 0) and S_ISREG(st.st_mode);
+
     success = false;
     do {
         dmi_byte_t entry[DMI_ENTRY_MAX_SIZE] = {};
@@ -422,30 +436,23 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
         if (context->state.entry_data != nullptr)
             memcpy(entry, context->state.entry_data, context->state.entry_size);
 
-    write_entry:
-        nwrite = write(fd, entry, sizeof(entry));
-        if (nwrite < 0) {
-            if (errno == EINTR)
-                goto write_entry;
-
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: %s", path, strerror(errno));
+        if (not dmi_dump_write(context, fd, path, entry, sizeof(entry)))
             break;
-        }
-
-    write_table:
-        nwrite = write(fd, context->state.table_data, context->state.table_area_size);
-        if (nwrite < 0) {
-            if (errno == EINTR)
-                goto write_table;
-
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: %s", path, strerror(errno));
+        if (not dmi_dump_write(context, fd, path, context->state.table_data, context->state.table_area_size))
             break;
-        }
 
         success = true;
     } while (false);
 
-    dmi_file_close(fd);
+    if (dmi_file_close(fd) < 0) {
+        if (success)
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: %s", path, strerror(errno));
+        success = false;
+    }
+
+    // Do not leave incomplete dump behind
+    if ((not success) and is_regular)
+        remove(path);
 
     return success;
 }
@@ -592,6 +599,12 @@ static bool dmi_open_ex(
         if (context->state.table_data == nullptr)
             break;
 
+        // Table area size is used for bounds checking while scanning
+        if (context->state.table_area_size == 0) {
+            dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TRUNCATED, "SMBIOS table area is empty");
+            break;
+        }
+
         // Create registry
         context->state.registry = dmi_registry_create(context, 0);
         if (context->state.registry == nullptr)
@@ -692,4 +705,25 @@ static void dmi_version_fixup(dmi_context_t *context)
     }
 
     context->state.smbios_version = dmi_version(major, minor, revision);
+}
+
+static bool dmi_dump_write(
+        dmi_context_t    *context,
+        int               fd,
+        const char       *path,
+        const dmi_data_t *data,
+        size_t            size)
+{
+    ssize_t nwritten = dmi_file_write(fd, data, size);
+
+    if (nwritten < 0) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: %s", path, strerror(errno));
+        return false;
+    }
+    if ((size_t)nwritten < size) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: Incomplete write", path);
+        return false;
+    }
+
+    return true;
 }
