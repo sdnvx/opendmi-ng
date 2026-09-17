@@ -659,7 +659,8 @@ table:
     family: amd-phenon-2
     vendor: AMD processor
     version: AMD Phenom(tm) II N930 Quad-Core Processor
-    voltage: 139
+    voltage: 1.1
+    supported-voltages: null
     external-clock: 200
     maximum-speed: 2000
     current-speed: 2000

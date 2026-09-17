@@ -27,7 +27,8 @@ table:
     family: intel-core-i7
     vendor: Intel(R) Corporation
     version: Intel(R) Core(TM) i7-3632QM CPU @ 2.20GHz
-    voltage: 137
+    voltage: 0.9
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 2200
     current-speed: 2200

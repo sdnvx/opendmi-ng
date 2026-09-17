@@ -306,7 +306,8 @@ table:
     family: intel-core-i5
     vendor: Intel(R) Corporation
     version: Intel(R) Core(TM) i5-10500H CPU @ 2.50GHz
-    voltage: 136
+    voltage: 0.8
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 2500
     current-speed: 2772

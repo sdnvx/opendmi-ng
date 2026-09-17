@@ -364,7 +364,8 @@ table:
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
     version: AMD Ryzen 7 PRO 5850U with Radeon Graphics
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4450
     current-speed: 1900

@@ -837,7 +837,8 @@ table:
     family: intel-pentium
     vendor: Intel
     version: Intel(R) Pentium(R) CPU N3700 @ 1.60GHz
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 80
     maximum-speed: 2400
     current-speed: 1600

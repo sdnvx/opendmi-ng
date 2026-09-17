@@ -147,7 +147,8 @@ table:
     family: intel-core-i5
     vendor: Intel(R) Corporation
     version: Intel(R) Core(TM) i5-4210U CPU @ 1.70GHz
-    voltage: 135
+    voltage: 0.7
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 2400
     current-speed: 1600

@@ -836,7 +836,8 @@ table:
     family: amd-c
     vendor: AuthenticAMD
     version: AMD C-60 APU with Radeon(tm) HD Graphics
-    voltage: 139
+    voltage: 1.1
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 1000
     current-speed: 1000

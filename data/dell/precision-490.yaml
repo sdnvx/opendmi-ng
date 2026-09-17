@@ -176,7 +176,8 @@ table:
     family: intel-xeon
     vendor: Intel
     version: null
-    voltage: 146
+    voltage: 1.8
+    supported-voltages: null
     external-clock: 1066
     maximum-speed: 3800
     current-speed: 1600
@@ -218,7 +219,8 @@ table:
     family: intel-xeon
     vendor: Intel
     version: null
-    voltage: 146
+    voltage: 1.8
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 3800
     current-speed: unknown

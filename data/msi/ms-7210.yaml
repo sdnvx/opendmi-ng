@@ -144,7 +144,8 @@ table:
     family: unknown
     vendor: Intel
     version: Intel(R) Pentium(R) D CPU 2.80GHz
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 200
     maximum-speed: 2800
     current-speed: 2800

@@ -1017,7 +1017,8 @@ table:
     family: intel-xeon
     vendor: Intel
     version: Intel(R) Xeon(R) CPU E3-1271 v3 @ 3.60GHz
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 3800
     current-speed: 3600

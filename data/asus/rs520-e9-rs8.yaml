@@ -1760,7 +1760,8 @@ table:
     family: intel-xeon
     vendor: Intel(R) Corporation
     version: Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
-    voltage: 144
+    voltage: 1.6
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4000
     current-speed: 2100
@@ -1910,7 +1911,8 @@ table:
     family: intel-xeon
     vendor: Intel(R) Corporation
     version: Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
-    voltage: 144
+    voltage: 1.6
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4000
     current-speed: 2100

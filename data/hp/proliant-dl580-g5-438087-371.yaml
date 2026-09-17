@@ -120,7 +120,8 @@ table:
     family: intel-xeon-mp
     vendor: Intel
     version: null
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 1066
     maximum-speed: 4800
     current-speed: 2400
@@ -162,7 +163,8 @@ table:
     family: intel-xeon-mp
     vendor: Intel
     version: null
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 1066
     maximum-speed: 4800
     current-speed: 2400
@@ -204,7 +206,8 @@ table:
     family: intel-xeon-mp
     vendor: Intel
     version: null
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 1066
     maximum-speed: 4800
     current-speed: 2400
@@ -246,7 +249,8 @@ table:
     family: intel-xeon-mp
     vendor: Intel
     version: null
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 1066
     maximum-speed: 4800
     current-speed: 2400

@@ -2684,7 +2684,8 @@ table:
     family: intel-xeon
     vendor: Intel
     version: Intel(R) Xeon(R) CPU E5-2680 v3 @ 2.50GHz
-    voltage: 146
+    voltage: 1.8
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 3600
     current-speed: 2500
@@ -2837,7 +2838,8 @@ table:
     family: intel-xeon
     vendor: Intel
     version: Intel(R) Xeon(R) CPU E5-2680 v3 @ 2.50GHz
-    voltage: 146
+    voltage: 1.8
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 3600
     current-speed: 2500

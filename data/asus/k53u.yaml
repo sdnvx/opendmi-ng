@@ -905,7 +905,8 @@ table:
     family: amd-e
     vendor: AuthenticAMD
     version: AMD E-450 APU with Radeon(tm) HD Graphics
-    voltage: 141
+    voltage: 1.3
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 1650
     current-speed: 1650

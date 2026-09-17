@@ -1708,7 +1708,8 @@ table:
     family: intel-core-i7
     vendor: Intel(R) Corporation
     version: Intel(R) Core(TM) i7-14700F
-    voltage: 136
+    voltage: 0.8
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 5400
     current-speed: 2079

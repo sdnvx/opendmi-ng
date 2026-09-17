@@ -145,7 +145,8 @@ table:
     family: apple-m2
     vendor: AMD
     version: AMD Athlon(tm) 64 X2 Dual Core Processor 4200+
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 201
     maximum-speed: 3000
     current-speed: 2211

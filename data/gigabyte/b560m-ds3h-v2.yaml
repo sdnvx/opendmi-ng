@@ -1615,7 +1615,8 @@ table:
     family: intel-core-i5
     vendor: Intel(R) Corporation
     version: 11th Gen Intel(R) Core(TM) i5-11600K @ 3.90GHz
-    voltage: 138
+    voltage: 1.0
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4900
     current-speed: 3762

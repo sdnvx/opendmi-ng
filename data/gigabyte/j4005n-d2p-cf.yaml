@@ -713,7 +713,8 @@ table:
     family: intel-celeron
     vendor: Intel
     version: Intel(R) Celeron(R) J4005 CPU @ 2.00GHz
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 2700
     current-speed: 2000

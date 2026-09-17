@@ -1229,7 +1229,8 @@ table:
     family: intel-xeon
     vendor: Intel(R) Corporation
     version: Intel(R) Xeon(R) E-2386G CPU @ 3.50GHz
-    voltage: 137
+    voltage: 0.9
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 5100
     current-speed: 3465

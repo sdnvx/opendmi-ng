@@ -144,7 +144,11 @@ table:
     family: intel-pentium-m
     vendor: Intel
     version: Intel(R) Atom(TM) CPU N270   @ 1.60GH
-    voltage: 6
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: true
+      2v9: true
     external-clock: 533
     maximum-speed: 4000
     current-speed: 1599

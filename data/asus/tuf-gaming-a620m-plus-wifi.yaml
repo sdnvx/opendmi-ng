@@ -364,7 +364,8 @@ table:
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
     version: AMD Ryzen 5 7500F 6-Core Processor
-    voltage: 141
+    voltage: 1.3
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 5050
     current-speed: 3700
