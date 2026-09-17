@@ -1,0 +1,40 @@
+name: CMake on FreeBSD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: freebsd-${{ matrix.release }}
+    runs-on: ubuntu-latest
+    # VM boot hangs should not hold the runner for the default 6 hours
+    timeout-minutes: 60
+
+    strategy:
+      fail-fast: false
+      matrix:
+        release: [ "14.3", "15.0" ]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build and test
+      uses: vmactions/freebsd-vm@v1
+      with:
+        release: ${{ matrix.release }}
+        prepare: |
+          pkg install -y cmake pkgconf ncurses libxml2 libyaml yajl
+        # System compiler (clang) is used
+        run: |
+          set -e
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --parallel 2
+          cd build
+          ctest --output-on-failure

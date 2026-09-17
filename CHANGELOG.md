@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for filtering entities by module
 - Add `-M`/`--all-modules` option to `types` command and entity filter
 - Add test coverage support for CLI
-- Add CI workflow for FreeBSD and NetBSD
+- Add CI workflows for FreeBSD and NetBSD
 
 ### Changed
 
