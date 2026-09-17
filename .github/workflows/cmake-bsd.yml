@@ -48,7 +48,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "10.2", "11.0" ]
+        release: [ "10.1", "11.0" ]
 
     steps:
     - uses: actions/checkout@v4
