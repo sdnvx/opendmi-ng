@@ -164,7 +164,7 @@ bool dmi_xml_entry(dmi_xml_session_t *session)
         if (xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("table-area-size"),
-                    "%zu", context->state.table_area_size) < 0)
+                    "%zu", context->state.table_size) < 0)
             break;
 
         if (xmlTextWriterEndElement(session->writer) < 0)

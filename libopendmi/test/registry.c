@@ -336,9 +336,9 @@ static dmi_context_t *test_registry_open(unsigned int flags, dmi_data_t *table, 
 
     dmi_set_logger(context, &test_logger);
 
-    context->state.smbios_version  = DMI_VERSION(2, 7, 0);
-    context->state.table_data      = table;
-    context->state.table_area_size = size;
+    context->state.smbios_version = DMI_VERSION(2, 7, 0);
+    context->state.table_data     = table;
+    context->state.table_size     = size;
 
     context->state.registry = dmi_registry_create(context, 0);
 

@@ -85,7 +85,7 @@ bool dmi_text_entry(dmi_text_session_t *session)
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS vendor: %s\n",
                     context->state.vendor_name ? context->state.vendor_name : "unknown");
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%zu structures occupying %zu bytes\n",
-                    entity_count, context->state.table_area_size);
+                    entity_count, context->state.table_size);
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "Table at 0x%" PRIx64 "\n",
                     context->state.table_area_addr);
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");

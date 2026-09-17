@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Represent reserved minimum and maximum counts of chassis elements as unknown values
 - Show unknown firmware image size in firmware inventory information as unknown
 - Fix handle attribute code of group associations items
+- Keep table area size specified in the entry point instead of overwriting it with the size of data provided by backend
 
 ## [0.4.0] - September 17, 2026
 

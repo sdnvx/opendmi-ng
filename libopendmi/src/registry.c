@@ -229,11 +229,11 @@ bool dmi_registry_scan(dmi_registry_t *registry)
     while ((context->state.entity_count == 0) or (index < context->state.entity_count)) {
         dmi_entity_t *entity = nullptr;
 
-        // Get remaining table area size. Actual table area size is always
+        // Get remaining table data size. Actual table data size is always
         // known here, since table data may be shorter than the maximum size
         // specified in the entry point.
         size_t offset    = (size_t)(ptr - context->state.table_data);
-        size_t remaining = context->state.table_area_size - offset;
+        size_t remaining = context->state.table_size - offset;
 
         // Check for the end of table area
         if (remaining < sizeof(dmi_header_t) + 2) {
