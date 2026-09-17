@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for filtering entities by module
 - Add `-M`/`--all-modules` option to `types` command and entity filter
 - Add test coverage support for CLI
+- Add CI workflow for FreeBSD and NetBSD
 
 ### Changed
 
@@ -37,6 +38,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Accept option arguments starting with dash, as `getopt()` does
 - Reject unexpected arguments of commands
 - Migrate management controller information decoder to stream API
+- Fetch CMocka from release tarball instead of Git repository
+- Copy library DLL next to CLI executable on Windows
+- Split CI workflow for Linux and macOS into separate workflows
 
 ### Fixed
 

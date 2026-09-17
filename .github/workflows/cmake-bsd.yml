@@ -1,4 +1,4 @@
-name: CMake on BSD
+name: BSD
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
       with:
         release: ${{ matrix.release }}
         prepare: |
-          pkg install -y cmake git pkgconf ncurses libxml2 libyaml yajl
+          pkg install -y cmake pkgconf ncurses libxml2 libyaml yajl
         # System compiler (clang) is used
         run: |
           set -e
@@ -60,7 +60,7 @@ jobs:
         prepare: |
           export PKG_PATH="https://cdn.NetBSD.org/pub/pkgsrc/packages/NetBSD/$(uname -p)/$(uname -r | cut -d_ -f1)/All"
           /usr/sbin/pkg_add pkgin
-          pkgin -y install cmake git pkgconf ncurses libxml2 libyaml yajl gcc14
+          pkgin -y install cmake pkgconf ncurses libxml2 libyaml yajl gcc14
         # System compiler (GCC 10) does not support C23, so GCC 14 from pkgsrc is used
         run: |
           set -e

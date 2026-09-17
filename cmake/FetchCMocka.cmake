@@ -1,10 +1,12 @@
 include(FetchContent)
 
+# Release tarball is used instead of the Git repository: it does not depend on
+# availability of the Git server, and its integrity is verified by the hash
 FetchContent_Declare(
   cmocka
-  GIT_REPOSITORY https://git.cryptomilk.org/projects/cmocka.git
-  GIT_TAG        cmocka-2.0.2
-  GIT_SHALLOW    1
+  URL      https://cmocka.org/files/2.0/cmocka-2.0.2.tar.xz
+  URL_HASH SHA256=39f92f366bdf3f1a02af4da75b4a5c52df6c9f7e736c7d65de13283f9f0ef416
+  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 
 set(WITH_STATIC_LIB ON CACHE BOOL "CMocka: Build with a static library" FORCE)

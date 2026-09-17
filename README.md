@@ -1,5 +1,7 @@
 # OpenDMI
 
+[![Linux](https://github.com/sdnvx/opendmi-ng/actions/workflows/cmake-linux.yml/badge.svg)](https://github.com/sdnvx/opendmi-ng/actions/workflows/cmake-linux.yml) [![macOS](https://github.com/sdnvx/opendmi-ng/actions/workflows/cmake-macos.yml/badge.svg)](https://github.com/sdnvx/opendmi-ng/actions/workflows/cmake-macos.yml) [![Windows](https://github.com/sdnvx/opendmi-ng/actions/workflows/cmake-windows.yml/badge.svg)](https://github.com/sdnvx/opendmi-ng/actions/workflows/cmake-windows.yml) [![BSD](https://github.com/sdnvx/opendmi-ng/actions/workflows/cmake-bsd.yml/badge.svg)](https://github.com/sdnvx/opendmi-ng/actions/workflows/cmake-bsd.yml)
+
 OpenDMI is a cross-platform, commercial-grade DMI/SMBIOS framework, focused on functionality and ease of use. It provides direct access to all of the DMI/SMBIOS data, command line tools, bindings for major programming languages and even more.
 
 The project is under active development, see [ROADMAP](ROADMAP.md) and [CHANGELOG](CHANGELOG.md) for details.
