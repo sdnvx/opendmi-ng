@@ -114,8 +114,8 @@ static void test_memory_array_decode_capacity(void **pstate)
     assert_uint_equal(decode_memory_array_capacity(context, 0x00400000, 4096 * gib, 0x17), 4 * gib);
 
     // Capacity is unknown if extended field is not present
-    assert_uint_equal(decode_memory_array_capacity(context, 0x80000000, 4096 * gib, 0x0F), UINT64_MAX);
-    assert_uint_equal(decode_memory_array_capacity(context, 0x80000000, 4096 * gib, 0x13), UINT64_MAX);
+    assert_uint_equal(decode_memory_array_capacity(context, 0x80000000, 4096 * gib, 0x0F), DMI_SIZE_MAX);
+    assert_uint_equal(decode_memory_array_capacity(context, 0x80000000, 4096 * gib, 0x13), DMI_SIZE_MAX);
     assert_uint_equal(decode_memory_array_capacity(context, 0x00400000, 4096 * gib, 0x0F), 4 * gib);
 
     dmi_destroy(context);

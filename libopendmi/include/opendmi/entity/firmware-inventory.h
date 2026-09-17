@@ -230,7 +230,7 @@ struct dmi_firmware_inventory
     /**
      * @brief Size of the firmware image that is currently programmed in the
      * device, in bytes. If the firmware image size is unknown, the field is
-     * set to `0xFFFFFFFFFFFFFFFF`.
+     * set to `DMI_SIZE_MAX`.
      */
     dmi_size_t image_size;
 

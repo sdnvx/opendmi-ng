@@ -214,27 +214,27 @@ struct dmi_memory_device
     /**
      * @brief Size of the non-volatile portion of the memory device in bytes,
      * if any. If the value is 0, there is no non-volatile portion. If the
-     * non-volatile Size is unknown, the field is set to `UINT64_MAX`.
+     * non-volatile Size is unknown, the field is set to `DMI_SIZE_MAX`.
      */
     dmi_size_t non_volatile_size;
 
     /**
      * @brief Size of the volatile portion of the memory device in bytes, if
      * any. If the value is 0, there is no volatile portion. If the volatile
-     * size is unknown, the field is set to `UINT64_MAX`.
+     * size is unknown, the field is set to `DMI_SIZE_MAX`.
      */
     dmi_size_t volatile_size;
 
     /**
      * @brief Size of the cache portion of the memory device in bytes, if any.
      * If the value is 0, there is no cache portion. If the cache size is
-     * unknown, the field is set to `UINT64_MAX`.
+     * unknown, the field is set to `DMI_SIZE_MAX`.
      */
     dmi_size_t cache_size;
 
     /**
      * @brief Size of the logical memory device in bytes. If the size is
-     * unknown, the field is set to `UINT64_MAX`.
+     * unknown, the field is set to `DMI_SIZE_MAX`.
      */
     dmi_size_t logical_size;
 

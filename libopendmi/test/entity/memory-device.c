@@ -100,7 +100,7 @@ static void test_memory_device_size_ex(void **pstate)
         dmi_size_t base_size = (dmi_size_t)1u << i;
 
         assert_uint_equal(dmi_memory_device_size_ex(1u << i), base_size * 1048576);
-        assert_uint_equal(dmi_memory_device_size_ex(0x80000000u | (1u << i)), UINT64_MAX);
+        assert_uint_equal(dmi_memory_device_size_ex(0x80000000u | (1u << i)), DMI_SIZE_MAX);
     }
 }
 
@@ -163,7 +163,7 @@ static void test_memory_device_decode_size(void **pstate)
     // Size field only
     assert_uint_equal(decode_memory_device_size(context, 0x4000, 0, 0x20), 16384 * mib);
     assert_uint_equal(decode_memory_device_size(context, 0x8100, 0, 0x20), 256 * 1024);
-    assert_uint_equal(decode_memory_device_size(context, 0xFFFF, 0, 0x20), UINT64_MAX);
+    assert_uint_equal(decode_memory_device_size(context, 0xFFFF, 0, 0x20), DMI_SIZE_MAX);
 
     // Extended size field is used for 32 GiB and larger devices
     assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x8000, 0x20), 32768 * mib);
@@ -171,7 +171,7 @@ static void test_memory_device_decode_size(void **pstate)
     assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x100000, 0x20), 1048576 * mib);
 
     // Invalid extended size is treated as unknown
-    assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x80010000, 0x20), UINT64_MAX);
+    assert_uint_equal(decode_memory_device_size(context, 0x7FFF, 0x80010000, 0x20), DMI_SIZE_MAX);
 
     // Extended size field is ignored if size field is not 0x7FFF
     assert_uint_equal(decode_memory_device_size(context, 0x2000, 0x10000, 0x20), 8192 * mib);

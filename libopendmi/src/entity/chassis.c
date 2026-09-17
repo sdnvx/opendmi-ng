@@ -356,12 +356,14 @@ const dmi_entity_spec_t dmi_chassis_spec =
                     .values = &dmi_baseboard_type_names,
                 }),
                 DMI_ATTRIBUTE(dmi_chassis_element_t, minimum_count, INTEGER, {
-                    .code = "minimum-count",
-                    .name = "Minimum count"
+                    .code    = "minimum-count",
+                    .name    = "Minimum count",
+                    .unknown = dmi_value_ptr((size_t)SIZE_MAX)
                 }),
                 DMI_ATTRIBUTE(dmi_chassis_element_t, maximum_count, INTEGER, {
-                    .code = "maximum-count",
-                    .name = "Maximum count"
+                    .code    = "maximum-count",
+                    .name    = "Maximum count",
+                    .unknown = dmi_value_ptr((size_t)SIZE_MAX)
                 }),
                 DMI_ATTRIBUTE_NULL
             }
@@ -510,6 +512,12 @@ static bool dmi_chassis_decode(dmi_entity_t *entity)
             dmi_stream_skip(stream, element_size - element_data_size);
         if (not status)
             return false;
+
+        // Reserved values
+        if (element->minimum_count == 0xFFu)
+            element->minimum_count = SIZE_MAX;
+        if (element->maximum_count == 0x00u)
+            element->maximum_count = SIZE_MAX;
 
         if (element_type & 0x80u) {
             element->type = element_type & 0x7Fu;
