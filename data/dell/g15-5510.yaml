@@ -787,7 +787,7 @@ table:
     group-name: Intel(R) Silicon View Technology
     items:
     - type: 206
-      Handle: 52736
+      handle: 52736
 - handle: 3585
   type: 14
   length: 14
@@ -800,7 +800,7 @@ table:
     group-name: $MEI
     items:
     - type: 203
-      Handle: 0
+      handle: 0
 - handle: 3586
   type: 14
   length: 46
@@ -813,17 +813,17 @@ table:
     group-name: Firmware Version Info
     items:
     - type: 205
-      Handle: 52480
+      handle: 52480
     - type: 205
-      Handle: 52481
+      handle: 52481
     - type: 205
-      Handle: 52482
+      handle: 52482
     - type: 205
-      Handle: 52483
+      handle: 52483
     - type: 205
-      Handle: 52484
+      handle: 52484
     - type: 205
-      Handle: 52485
+      handle: 52485
 - handle: 4096
   type: 16
   length: 25

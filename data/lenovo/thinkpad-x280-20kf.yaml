@@ -25,7 +25,7 @@ table:
     group-name: Intel(R) Silicon View Technology
     items:
     - type: 222
-      Handle: 0
+      handle: 0
 - handle: 2
   type: 134
   length: 15
@@ -999,7 +999,7 @@ table:
     group-name: $MEI
     items:
     - type: 219
-      Handle: 0
+      handle: 0
 - handle: 58
   type: 219
   length: 97

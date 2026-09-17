@@ -349,11 +349,18 @@ const dmi_entity_spec_t dmi_chassis_spec =
             .name    = "Contained elements",
             .level   = DMI_VERSION(2, 3, 0),
             .attrs   = (const dmi_attribute_t[]){
-                // TODO: Add support for type attribute
+                DMI_ATTRIBUTE(dmi_chassis_element_t, type, INTEGER, {
+                    .code    = "type",
+                    .name    = "Structure type",
+                    .unspec  = dmi_value_ptr((dmi_type_t)DMI_TYPE_INVALID),
+                    .flags   = DMI_ATTRIBUTE_FLAG_HEX
+                }),
                 DMI_ATTRIBUTE(dmi_chassis_element_t, board_type, ENUM, {
-                    .code   = "board-type",
-                    .name   = "Board type",
-                    .values = &dmi_baseboard_type_names,
+                    .code    = "board-type",
+                    .name    = "Board type",
+                    .unspec  = dmi_value_ptr(DMI_BASEBOARD_TYPE_UNSPEC),
+                    .unknown = dmi_value_ptr(DMI_BASEBOARD_TYPE_UNKNOWN),
+                    .values  = &dmi_baseboard_type_names
                 }),
                 DMI_ATTRIBUTE(dmi_chassis_element_t, minimum_count, INTEGER, {
                     .code    = "minimum-count",
@@ -519,8 +526,10 @@ static bool dmi_chassis_decode(dmi_entity_t *entity)
         if (element->maximum_count == 0x00u)
             element->maximum_count = SIZE_MAX;
 
+        // Element type is either SMBIOS structure type or baseboard type
         if (element_type & 0x80u) {
-            element->type = element_type & 0x7Fu;
+            element->type       = element_type & 0x7Fu;
+            element->board_type = DMI_BASEBOARD_TYPE_UNSPEC;
         } else {
             element->type       = DMI_TYPE_INVALID;
             element->board_type = element_type;

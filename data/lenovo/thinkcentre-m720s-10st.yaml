@@ -1873,17 +1873,17 @@ table:
     group-name: Firmware Version Info
     items:
     - type: 221
-      Handle: 66
+      handle: 66
     - type: 221
-      Handle: 67
+      handle: 67
     - type: 221
-      Handle: 68
+      handle: 68
     - type: 221
-      Handle: 69
+      handle: 69
     - type: 221
-      Handle: 70
+      handle: 70
     - type: 221
-      Handle: 98
+      handle: 98
 - handle: 102
   type: 13
   length: 69
@@ -1911,7 +1911,7 @@ table:
     group-name: $MEI
     items:
     - type: 219
-      Handle: 0
+      handle: 0
 - handle: 104
   type: 219
   length: 127

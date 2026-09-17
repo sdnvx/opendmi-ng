@@ -747,7 +747,7 @@ table:
     group-name: $MEI
     items:
     - type: 219
-      Handle: 0
+      handle: 0
 - handle: 31
   type: 219
   length: 97

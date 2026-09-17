@@ -190,6 +190,7 @@ static void test_chassis_decode_elements(void **pstate)
     assert_int_equal(info->elements[0].maximum_count, 2);
 
     assert_int_equal(info->elements[1].type, DMI_TYPE(MEMORY_DEVICE));
+    assert_int_equal(info->elements[1].board_type, DMI_BASEBOARD_TYPE_UNSPEC);
     assert_int_equal(info->elements[1].minimum_count, 0);
     assert_int_equal(info->elements[1].maximum_count, 4);
 

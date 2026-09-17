@@ -46,7 +46,7 @@ const dmi_entity_spec_t dmi_group_assoc_spec =
                     .flags = DMI_ATTRIBUTE_FLAG_HEX
                 }),
                 DMI_ATTRIBUTE(dmi_group_assoc_item_t, handle, HANDLE, {
-                    .code = "Handle",
+                    .code = "handle",
                     .name = "Handle"
                 }),
                 DMI_ATTRIBUTE_NULL
