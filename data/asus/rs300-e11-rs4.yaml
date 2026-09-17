@@ -1521,15 +1521,15 @@ table:
     group-name: Firmware Version Info
     items:
     - type: 221
-      Handle: 69
+      handle: 69
     - type: 221
-      Handle: 70
+      handle: 70
     - type: 221
-      Handle: 71
+      handle: 71
     - type: 221
-      Handle: 72
+      handle: 72
     - type: 221
-      Handle: 79
+      handle: 79
 - handle: 90
   type: 127
   length: 6

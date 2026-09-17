@@ -223,7 +223,7 @@ table:
     release-date: '2021-05-15T00:00:00Z'
     vendor: null
     lowest-version: null
-    image-size: 18446744073709551615
+    image-size: unknown
     characteristics:
       is-updatable: false
       is-write-protected: false

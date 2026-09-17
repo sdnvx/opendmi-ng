@@ -10,11 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add `DMI_SIZE_MAX` constant for unknown `dmi_size_t` values
+- Add structure type attribute to chassis contained elements
 
 ### Fixed
 
 - Represent reserved minimum and maximum counts of chassis elements as unknown values
 - Show unknown firmware image size in firmware inventory information as unknown
+- Fix handle attribute code of group associations items
 
 ## [0.4.0] - September 17, 2026
 

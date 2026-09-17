@@ -198,12 +198,14 @@ struct dmi_chassis
 struct dmi_chassis_element
 {
     /**
-     * @brief SMBIOS structure type.
+     * @brief SMBIOS structure type, or `DMI_TYPE_INVALID` if the element is
+     * identified by baseboard type.
      */
     dmi_type_t type;
 
     /**
-     * @brief Baseboard type.
+     * @brief Baseboard type, or `DMI_BASEBOARD_TYPE_UNSPEC` if the element is
+     * identified by SMBIOS structure type.
      */
     dmi_baseboard_type_t board_type;
 

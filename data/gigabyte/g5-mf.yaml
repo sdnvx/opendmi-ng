@@ -793,7 +793,7 @@ table:
     group-name: $MEI
     items:
     - type: 219
-      Handle: 44
+      handle: 44
 - handle: 52
   type: 14
   length: 49
@@ -806,19 +806,19 @@ table:
     group-name: Firmware Version Info
     items:
     - type: 221
-      Handle: 45
+      handle: 45
     - type: 221
-      Handle: 46
+      handle: 46
     - type: 221
-      Handle: 47
+      handle: 47
     - type: 221
-      Handle: 48
+      handle: 48
     - type: 221
-      Handle: 49
+      handle: 49
     - type: 221
-      Handle: 50
+      handle: 50
     - type: 221
-      Handle: 51
+      handle: 51
 - handle: 31
   type: 15
   length: 31

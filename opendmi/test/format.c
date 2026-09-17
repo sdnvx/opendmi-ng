@@ -137,7 +137,7 @@ static int test_format_teardown(void **pstate)
 
 static void test_format_many_strings(void **pstate)
 {
-    test_format_state_t *state = *pstate;
+    const test_format_state_t *state = *pstate;
 
     assert_int_equal(state->entity->string_count, test_string_count);
     assert_string_equal(dmi_entity_string_ex(state->entity, test_string_count, true), "S300");
@@ -164,7 +164,7 @@ static void test_format_many_strings(void **pstate)
 
 static void test_format_set_high_bits(void **pstate)
 {
-    test_format_state_t *state = *pstate;
+    const test_format_state_t *state = *pstate;
 
     dmi_entity_t *entity = dmi_entity_create(state->context, test_firmware_data, sizeof(test_firmware_data));
     assert_non_null(entity);
@@ -199,7 +199,7 @@ static void test_format_set_high_bits(void **pstate)
 
 static void test_format_invalid_utf8(void **pstate)
 {
-    test_format_state_t *state = *pstate;
+    const test_format_state_t *state = *pstate;
 
     // Inactive structure with a string containing invalid UTF-8 and control
     // character
@@ -242,7 +242,7 @@ static void test_format_invalid_utf8(void **pstate)
 
 static void test_format_yaml_quoting(void **pstate)
 {
-    test_format_state_t *state = *pstate;
+    const test_format_state_t *state = *pstate;
 
     const dmi_format_t *format = dmi_format_get("yaml");
 
@@ -300,7 +300,7 @@ static void test_format_yaml_quoting(void **pstate)
 static void test_format_xml_flag_names(void **pstate)
 {
 #ifdef ENABLE_XML
-    test_format_state_t *state = *pstate;
+    const test_format_state_t *state = *pstate;
 
     const dmi_format_t *format = dmi_format_get("xml");
     assert_non_null(format);
@@ -341,7 +341,7 @@ static void test_format_xml_flag_names(void **pstate)
 
 static void test_format_state(void **pstate)
 {
-    test_format_state_t *state = *pstate;
+    const test_format_state_t *state = *pstate;
 
     static const struct {
         const char        *code;
@@ -389,7 +389,7 @@ static void test_format_state(void **pstate)
 
 static void test_format_text_quiet(void **pstate)
 {
-    test_format_state_t *state = *pstate;
+    const test_format_state_t *state = *pstate;
 
     // Physical memory array with memory error information handle
     static const dmi_data_t data[] = {
