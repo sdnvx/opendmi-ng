@@ -27,6 +27,7 @@ struct test_vector_64
     uint64_t result;
 };
 
+static void test_checksum(void **pstate);
 static void test_ipow32(void **pstate);
 static void test_ipow64(void **pstate);
 
@@ -111,11 +112,35 @@ static const test_vector_64_t test_data_64[] =
 int main(void)
 {
     const struct CMUnitTest tests[] = {
+        cmocka_unit_test(test_checksum),
         cmocka_unit_test(test_ipow32),
         cmocka_unit_test(test_ipow64)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
+}
+
+static void test_checksum(void **pstate)
+{
+    dmi_unused(pstate);
+
+    uint8_t data[] = { 0x5F, 0x44, 0x4D, 0x49, 0x5F, 0x00, 0xFF, 0x01 };
+
+    // Checksum makes the sum of all bytes zero
+    data[5] = dmi_checksum_calc(data, sizeof(data));
+    assert_uint_equal(data[5], 0x68);
+    assert_true(dmi_checksum_check(data, sizeof(data)));
+
+    data[6]++;
+    assert_false(dmi_checksum_check(data, sizeof(data)));
+
+    // Empty data has zero checksum
+    assert_uint_equal(dmi_checksum_calc(data, 0), 0);
+    assert_true(dmi_checksum_check(data, 0));
+
+    // Null data is rejected
+    assert_uint_equal(dmi_checksum_calc(nullptr, 1), 0);
+    assert_false(dmi_checksum_check(nullptr, 1));
 }
 
 static void test_ipow32(void **pstate)

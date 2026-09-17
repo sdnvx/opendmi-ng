@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `DMI_SIZE_MAX` constant for unknown `dmi_size_t` values
 - Add structure type attribute to chassis contained elements
 - Add decoding of processor voltage and supported voltages
+- Add `dmi_checksum_calc()` function
+
+### Changed
+
+- Rename `dmi_checksum()` function to `dmi_checksum_check()`
+- Rename `entry_size` field of context state to `entry_data_size`
 
 ### Fixed
 
@@ -19,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show unknown firmware image size in firmware inventory information as unknown
 - Fix handle attribute code of group associations items
 - Keep table area size specified in the entry point instead of overwriting it with the size of data provided by backend
+- Fix compatibility with dmidecode dump files
+- Fix entry point version, revision and length decoding
 
 ## [0.4.0] - September 17, 2026
 

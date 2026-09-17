@@ -20,6 +20,8 @@ static int test_entry_teardown(void **pstate);
 static void test_entry_decode_legacy(void **pstate);
 static void test_entry_decode_legacy_checksum(void **pstate);
 static void test_entry_decode_v21(void **pstate);
+static void test_entry_decode_v30(void **pstate);
+static void test_entry_decode_v30_length(void **pstate);
 
 static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
 
@@ -28,7 +30,9 @@ int main(void)
     const struct CMUnitTest tests[] = {
         cmocka_unit_test_setup_teardown(test_entry_decode_legacy, test_entry_setup, test_entry_teardown),
         cmocka_unit_test_setup_teardown(test_entry_decode_legacy_checksum, test_entry_setup, test_entry_teardown),
-        cmocka_unit_test_setup_teardown(test_entry_decode_v21, test_entry_setup, test_entry_teardown)
+        cmocka_unit_test_setup_teardown(test_entry_decode_v21, test_entry_setup, test_entry_teardown),
+        cmocka_unit_test_setup_teardown(test_entry_decode_v30, test_entry_setup, test_entry_teardown),
+        cmocka_unit_test_setup_teardown(test_entry_decode_v30_length, test_entry_setup, test_entry_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -107,6 +111,8 @@ static void test_entry_decode_legacy(void **pstate)
         assert_true(dmi_entry_decode(context, data, sizeof(data)));
 
         assert_int_equal(context->state.smbios_version, test_data[i].expected);
+        assert_int_equal(context->state.entry_version, DMI_VERSION(2, 0, 0));
+        assert_int_equal(context->state.entry_length, 0x0F);
         assert_int_equal(context->state.address_size, sizeof(uint32_t));
         assert_int_equal(context->state.table_area_size, 0x1234);
         assert_int_equal(context->state.table_area_addr, 0x000F0000);
@@ -146,7 +152,73 @@ static void test_entry_decode_v21(void **pstate)
     assert_true(dmi_entry_decode(context, data, sizeof(data)));
 
     assert_int_equal(context->state.smbios_version, DMI_VERSION(2, 7, 0));
+    assert_int_equal(context->state.entry_version, DMI_VERSION(2, 1, 0));
+    assert_int_equal(context->state.entry_length, 0x1F);
+    assert_int_equal(context->state.entry_revision, 0);
     assert_int_equal(context->state.entity_max_size, 0x100);
     assert_int_equal(context->state.table_area_size, 0x1234);
     assert_int_equal(context->state.entity_count, 42);
+
+    // Entry point revision is not a part of SMBIOS version
+    data[0x0A] = 0x01;
+    set_checksum(data, 0x04, sizeof(data));
+
+    assert_true(dmi_entry_decode(context, data, sizeof(data)));
+
+    assert_int_equal(context->state.smbios_version, DMI_VERSION(2, 7, 0));
+    assert_int_equal(context->state.entry_revision, 0x01);
+}
+
+static void test_entry_decode_v30(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    uint8_t data[0x18] = {
+        '_', 'S', 'M', '3', '_',        // Anchor
+        0x00,                           // Checksum
+        0x18,                           // Entry point length
+        0x03, 0x04, 0x01,               // SMBIOS version
+        0x01,                           // Entry point revision
+        0x00,                           // Reserved
+        0x45, 0x11, 0x00, 0x00,         // Maximum table size
+        0x00, 0x20, 0xEB, 0x7A,         // Table address
+        0x00, 0x00, 0x00, 0x00
+    };
+
+    set_checksum(data, 0x05, sizeof(data));
+
+    assert_true(dmi_entry_decode(context, data, sizeof(data)));
+
+    assert_int_equal(context->state.smbios_version, DMI_VERSION(3, 4, 1));
+    assert_int_equal(context->state.entry_version, DMI_VERSION(3, 0, 0));
+    assert_int_equal(context->state.entry_length, 0x18);
+    assert_int_equal(context->state.entry_revision, 0x01);
+    assert_int_equal(context->state.address_size, sizeof(uint64_t));
+    assert_int_equal(context->state.table_area_max_size, 0x1145);
+    assert_int_equal(context->state.table_area_addr, 0x7AEB2000);
+}
+
+static void test_entry_decode_v30_length(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    uint8_t data[0x20] = {
+        '_', 'S', 'M', '3', '_',        // Anchor
+        0x00,                           // Checksum
+        0x18,                           // Entry point length
+        0x03, 0x00, 0x00,               // SMBIOS version
+        0x01                            // Entry point revision
+    };
+
+    // Entry point length is accepted up to the size of data, as dmidecode does
+    data[0x06] = sizeof(data);
+    set_checksum(data, 0x05, sizeof(data));
+    assert_true(dmi_entry_decode(context, data, sizeof(data)));
+    assert_int_equal(context->state.entry_length, sizeof(data));
+
+    data[0x06] = sizeof(data) + 1;
+    set_checksum(data, 0x05, sizeof(data));
+    assert_false(dmi_entry_decode(context, data, sizeof(data)));
+
+    data[0x06] = 0x17;
+    set_checksum(data, 0x05, sizeof(data));
+    assert_false(dmi_entry_decode(context, data, sizeof(data)));
 }

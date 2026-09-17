@@ -88,6 +88,13 @@ static dmi_data_t *dmi_dump_read_table(dmi_context_t *context, size_t *plength)
 {
     dmi_dump_session_t *session = dmi_cast(session, context->state.session);
 
+    // Table always follows the entry point, but dmidecode reads it at the
+    // address specified in the entry point
+    if (context->state.table_area_addr != DMI_ENTRY_MAX_SIZE) {
+        dmi_log_warning(context->logger, "Unexpected table address in dump entry point: 0x%llX",
+                        (unsigned long long)context->state.table_area_addr);
+    }
+
     *plength = session->data_size - DMI_ENTRY_MAX_SIZE;
 
     return session->data + DMI_ENTRY_MAX_SIZE;

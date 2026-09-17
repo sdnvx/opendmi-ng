@@ -59,12 +59,18 @@ struct dmi_context_state
     uint64_t entry_address;
 
     /**
-     * @brief Actual size of entry point data.
+     * @brief Size of entry point data, provided by backend. It may differ
+     * from the entry point length.
      */
-    size_t entry_size;
+    size_t entry_data_size;
 
     /**
-     * @brief SMBIOS entry point revision.
+     * @brief Entry point length, as specified in the entry point.
+     */
+    size_t entry_length;
+
+    /**
+     * @brief SMBIOS entry point format version.
      */
     dmi_version_t entry_version;
 
@@ -262,6 +268,13 @@ bool dmi_dump_load(dmi_context_t *context, const char *path);
 
 /**
  * @brief Save DMI context to dump file.
+ *
+ * @details
+ * The dump file format is compatible with `dmidecode --dump-bin`: the entry
+ * point structure, padded with zeroes to #DMI_ENTRY_MAX_SIZE bytes, followed
+ * by the structure table. The table address in the entry point is set to the
+ * table offset in the file. If the context has no entry point data, a 64-bit
+ * entry point is generated.
  *
  * @param[in] context   DMI context handle.
  * @param[in] path      Path to dump file.
