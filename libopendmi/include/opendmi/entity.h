@@ -52,7 +52,7 @@ typedef enum dmi_entity_state
 /**
  * @brief Entity state flag names, identified by bit numbers.
  */
-extern const dmi_name_set_t dmi_entity_state_names;
+extern __dmi_api const dmi_name_set_t dmi_entity_state_names;
 
 /**
  * @brief Entity operations.
@@ -309,7 +309,7 @@ __BEGIN_DECLS
  *         failure (e.g., invalid arguments, invalid structure length, or
  *         allocation error).
  */
-dmi_entity_t *dmi_entity_create(
+__dmi_api dmi_entity_t *dmi_entity_create(
         dmi_context_t *context,
         const void    *data,
         size_t         max_length);
@@ -328,7 +328,7 @@ dmi_entity_t *dmi_entity_create(
  * @return `true` on success (including when already decoded or no decoder is
  *         registered), `false` on failure.
  */
-bool dmi_entity_decode(dmi_entity_t *entity);
+__dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
 
 /**
  * @internal
@@ -343,7 +343,7 @@ bool dmi_entity_decode(dmi_entity_t *entity);
  * @return `true` on success, `false` if linking failed or the entity has no
  *         specification or link handler.
  */
-bool dmi_entity_link(dmi_entity_t *entity);
+__dmi_api bool dmi_entity_link(dmi_entity_t *entity);
 
 /**
  * @brief Get entity handle.
@@ -353,7 +353,7 @@ bool dmi_entity_link(dmi_entity_t *entity);
  * @return The handle associated with the entity, or `DMI_HANDLE_INVALID` if
  *         @p entity is @c nullptr.
  */
-dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity);
+__dmi_api dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity);
 
 /**
  * @brief Get entity type.
@@ -363,7 +363,7 @@ dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity);
  * @return The SMBIOS type of the entity, or `DMI_TYPE_INVALID` if @p entity
  *         is @c nullptr.
  */
-dmi_type_t dmi_entity_type(const dmi_entity_t *entity);
+__dmi_api dmi_type_t dmi_entity_type(const dmi_entity_t *entity);
 
 /**
  * @brief Get entity type name.
@@ -374,7 +374,7 @@ dmi_type_t dmi_entity_type(const dmi_entity_t *entity);
  *
  * @return The type name string, or @c nullptr if @p entity is @c nullptr.
  */
-const char *dmi_entity_name(const dmi_entity_t *entity);
+__dmi_api const char *dmi_entity_name(const dmi_entity_t *entity);
 
 /**
  * @brief Get pointer to raw SMBIOS data area of entity of the specified type.
@@ -389,7 +389,7 @@ const char *dmi_entity_name(const dmi_entity_t *entity);
  * @return Pointer to the raw SMBIOS data, or @c nullptr if @p entity is @c nullptr
  *         or the entity type does not match @p type.
  */
-const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type);
+__dmi_api const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type);
 
 /**
  * @brief Get pointer to decoded data of entity of the specified type.
@@ -406,7 +406,7 @@ const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type);
  *         the entity has not been decoded, or the entity type does not match
  *         @p type.
  */
-void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type);
+__dmi_api void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type);
 
 /**
  * @brief Get entity string.
@@ -424,7 +424,7 @@ void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type);
  * @return The requested string, or @c nullptr if @p entity is @c nullptr, @p num is
  *         zero, or @p num exceeds the number of strings in the entity.
  */
-const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool raw);
+__dmi_api const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool raw);
 
 /**
  * @internal
@@ -442,7 +442,7 @@ const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool ra
  *
  * @return Always `true`, so that it can be returned by the decoder.
  */
-bool dmi_entity_stop(dmi_entity_t *entity);
+__dmi_api bool dmi_entity_stop(dmi_entity_t *entity);
 
 /**
  * @internal
@@ -459,7 +459,7 @@ bool dmi_entity_stop(dmi_entity_t *entity);
  *
  * @return Always `true`, so that it can be returned by the decoder.
  */
-bool dmi_entity_incomplete(dmi_entity_t *entity);
+__dmi_api bool dmi_entity_incomplete(dmi_entity_t *entity);
 
 /**
  * @brief Destroy entity descriptor.
@@ -470,7 +470,7 @@ bool dmi_entity_incomplete(dmi_entity_t *entity);
  *
  * @param[in] entity Entity descriptor to destroy.
  */
-void dmi_entity_destroy(dmi_entity_t *entity);
+__dmi_api void dmi_entity_destroy(dmi_entity_t *entity);
 
 __END_DECLS
 

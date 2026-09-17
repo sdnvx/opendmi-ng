@@ -15,6 +15,6 @@
 #define DMI_NETBSD_DEV_SMBIOS    "/dev/smbios"
 #define DMI_NETBSD_SYSCTL_SMBIOS "machdep.smbios"
 
-extern dmi_backend_t dmi_netbsd_backend;
+extern __dmi_api dmi_backend_t dmi_netbsd_backend;
 
 #endif // !OPENDMI_BACKEND_NETBSD_H

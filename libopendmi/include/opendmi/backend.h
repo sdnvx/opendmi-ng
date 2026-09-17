@@ -39,6 +39,6 @@ struct dmi_backend
 /**
  * @brief Backend handle.
  */
-extern dmi_backend_t *dmi_backend;
+extern __dmi_api dmi_backend_t *dmi_backend;
 
 #endif // !OPENDMI_BACKEND_H

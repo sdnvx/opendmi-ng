@@ -207,6 +207,6 @@ struct dmi_intel_rsd_fpga
 /**
  * @brief Intel RSD FPGA information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_fpga_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_fpga_spec;
 
 #endif // !DMI_ENTITY_INTEL_RSD_FPGA_H

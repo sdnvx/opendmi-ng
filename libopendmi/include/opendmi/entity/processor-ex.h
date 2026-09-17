@@ -330,6 +330,6 @@ dmi_packed_struct(dmi_processor_rv64_data)
 /**
  * @brief Processor additional information entity specification.
  */
-extern const dmi_entity_spec_t dmi_processor_ex_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_processor_ex_spec;
 
 #endif // !OPENDMI_ENTITY_PROCESSOR_EX_H

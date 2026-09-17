@@ -84,11 +84,11 @@ struct dmi_hardware_security
 /**
  * @brief Hardware security entity specification.
  */
-extern const dmi_entity_spec_t dmi_hardware_security_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_hardware_security_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_hardware_security_status_name(dmi_hardware_security_status_t value);
+__dmi_api const char *dmi_hardware_security_status_name(dmi_hardware_security_status_t value);
 
 __END_DECLS
 

@@ -17,7 +17,7 @@
  * @param[in] value The 8-bit value to swap (no effect).
  * @return The unchanged input value.
  */
-static inline uint8_t dmi_bswap8(uint8_t value) { return value; };
+static inline uint8_t dmi_bswap8(uint8_t value) { return value; }
 
 __BEGIN_DECLS
 
@@ -28,8 +28,8 @@ __BEGIN_DECLS
  * @param[in] value The 16-bit value to swap.
  * @return The byte-swapped value.
  */
-[[gnu::const]]
-uint16_t __dmi_bswap16_compat(uint16_t value);
+__dmi_const
+__dmi_api uint16_t __dmi_bswap16_compat(uint16_t value);
 
 /**
  * @internal
@@ -38,8 +38,8 @@ uint16_t __dmi_bswap16_compat(uint16_t value);
  * @param[in] value The 32-bit value to swap.
  * @return The byte-swapped value.
  */
-[[gnu::const]]
-uint32_t __dmi_bswap32_compat(uint32_t value);
+__dmi_const
+__dmi_api uint32_t __dmi_bswap32_compat(uint32_t value);
 
 /**
  * @internal
@@ -48,8 +48,8 @@ uint32_t __dmi_bswap32_compat(uint32_t value);
  * @param[in] value The 64-bit value to swap.
  * @return The byte-swapped value.
  */
-[[gnu::const]]
-uint64_t __dmi_bswap64_compat(uint64_t value);
+__dmi_const
+__dmi_api uint64_t __dmi_bswap64_compat(uint64_t value);
 
 __END_DECLS
 
@@ -64,7 +64,7 @@ __END_DECLS
  *
  * @return The byte-swapped value.
  */
-[[gnu::const]]
+__dmi_const
 static inline uint16_t dmi_bswap16(uint16_t value)
 {
 #   if defined(_MSC_VER)
@@ -87,7 +87,7 @@ static inline uint16_t dmi_bswap16(uint16_t value)
  *
  * @return The byte-swapped value.
  */
-[[gnu::const]]
+__dmi_const
 static inline uint32_t dmi_bswap32(uint32_t value)
 {
 #   if defined(_MSC_VER)
@@ -110,7 +110,7 @@ static inline uint32_t dmi_bswap32(uint32_t value)
  *
  * @return The byte-swapped value.
  */
-[[gnu::const]]
+__dmi_const
 static inline uint64_t dmi_bswap64(uint64_t value)
 {
 #   if defined(_MSC_VER)
@@ -151,7 +151,7 @@ static inline uint64_t dmi_bswap64(uint64_t value)
  *
  * @return The value in network byte order.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint16_t dmi_hton16(uint16_t value) { return dmi_bswap16(value); }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -169,7 +169,7 @@ static inline uint64_t dmi_bswap64(uint64_t value)
  *
  * @return The value in network byte order.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint32_t dmi_hton32(uint32_t value) { return dmi_bswap32(value); }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -187,7 +187,7 @@ static inline uint64_t dmi_bswap64(uint64_t value)
  *
  * @return The value in network byte order.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint64_t dmi_hton64(uint64_t value) { return dmi_bswap64(value); }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -205,7 +205,7 @@ static inline uint64_t dmi_bswap64(uint64_t value)
  *
  * @return The value in host byte order.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint16_t dmi_ntoh16(uint16_t value) { return dmi_bswap16(value); }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -223,7 +223,7 @@ static inline uint64_t dmi_bswap64(uint64_t value)
  *
  * @return The value in host byte order.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint32_t dmi_ntoh32(uint32_t value) { return dmi_bswap32(value); }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -241,7 +241,7 @@ static inline uint64_t dmi_bswap64(uint64_t value)
  *
  * @return The value in host byte order.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint64_t dmi_ntoh64(uint64_t value) { return dmi_bswap64(value); }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__

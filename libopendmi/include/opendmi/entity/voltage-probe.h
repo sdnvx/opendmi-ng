@@ -16,6 +16,6 @@ typedef struct dmi_probe dmi_voltage_probe_t;
 /**
  * @brief Voltage probe entity specification.
  */
-extern const dmi_entity_spec_t dmi_voltage_probe_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_voltage_probe_spec;
 
 #endif // !OPENDMI_ENTITY_VOLTAGE_PROBE_H

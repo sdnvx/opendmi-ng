@@ -64,7 +64,7 @@ __BEGIN_DECLS
  *
  * @return true on success, false if @p vector is @c nullptr.
  */
-bool dmi_vector_init(dmi_vector_t *vector, dmi_vector_match_fn *matcher);
+__dmi_api bool dmi_vector_init(dmi_vector_t *vector, dmi_vector_match_fn *matcher);
 
 /**
  * @brief Retrieve an element by index.
@@ -76,7 +76,7 @@ bool dmi_vector_init(dmi_vector_t *vector, dmi_vector_match_fn *matcher);
  * @return true on success, false if @p vector or @p value is @c nullptr or @p index is
  *         out of range.
  */
-bool dmi_vector_get(const dmi_vector_t *vector, size_t index, uintptr_t *value);
+__dmi_api bool dmi_vector_get(const dmi_vector_t *vector, size_t index, uintptr_t *value);
 
 /**
  * @brief Find the first element matching a key.
@@ -92,7 +92,7 @@ bool dmi_vector_get(const dmi_vector_t *vector, size_t index, uintptr_t *value);
  *
  * @return true if a matching element was found, false otherwise or on error.
  */
-bool dmi_vector_find(const dmi_vector_t *vector, uintptr_t key, uintptr_t *value);
+__dmi_api bool dmi_vector_find(const dmi_vector_t *vector, uintptr_t key, uintptr_t *value);
 
 /**
  * @brief Check whether any element matches a key.
@@ -105,7 +105,7 @@ bool dmi_vector_find(const dmi_vector_t *vector, uintptr_t key, uintptr_t *value
  *
  * @return true if a matching element exists, false otherwise or on error.
  */
-bool dmi_vector_exists(const dmi_vector_t *vector, uintptr_t key);
+__dmi_api bool dmi_vector_exists(const dmi_vector_t *vector, uintptr_t key);
 
 /**
  * @brief Append an element to the end of the vector.
@@ -117,7 +117,7 @@ bool dmi_vector_exists(const dmi_vector_t *vector, uintptr_t key);
  *
  * @return true on success, false if @p vector is @c nullptr or memory allocation fails.
  */
-bool dmi_vector_push(dmi_vector_t *vector, uintptr_t value);
+__dmi_api bool dmi_vector_push(dmi_vector_t *vector, uintptr_t value);
 
 /**
  * @brief Remove and return the last element.
@@ -129,7 +129,7 @@ bool dmi_vector_push(dmi_vector_t *vector, uintptr_t value);
  * @return true on success, false if @p vector or @p value is @c nullptr or the vector
  * is empty.
  */
-bool dmi_vector_pop(dmi_vector_t *vector, uintptr_t *value);
+__dmi_api bool dmi_vector_pop(dmi_vector_t *vector, uintptr_t *value);
 
 /**
  * @brief Remove all elements and release allocated memory.
@@ -139,7 +139,7 @@ bool dmi_vector_pop(dmi_vector_t *vector, uintptr_t *value);
  * @param vector The vector to clear. Must not be @c nullptr.
  * @return true on success, false if @p vector is @c nullptr.
  */
-bool dmi_vector_clear(dmi_vector_t *vector);
+__dmi_api bool dmi_vector_clear(dmi_vector_t *vector);
 
 __END_DECLS
 

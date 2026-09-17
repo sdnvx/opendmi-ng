@@ -115,7 +115,9 @@ if(WIN32)
     )
 endif()
 
-install(TARGETS opendmi RUNTIME DESTINATION bin)
+install(TARGETS opendmi RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+add_manpages(opendmi-cli-manuals ${CMAKE_CURRENT_SOURCE_DIR}/man)
 
 #
 # Add test for command line tool.

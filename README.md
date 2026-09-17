@@ -137,6 +137,26 @@ Use the following command to install OpenDMI to the configured prefix:
 $ ./build.sh install
 ```
 
+### Using the library
+
+The installed library can be found with CMake:
+
+```cmake
+find_package(OpenDMI 0.5 REQUIRED)
+target_link_libraries(example PRIVATE OpenDMI::opendmi)
+```
+
+`OpenDMI::opendmi` and `OpenDMI::shared` refer to the shared library, and
+`OpenDMI::static` refers to the static one. Binary compatibility is not
+guaranteed between minor versions before 1.0, so the package is only
+compatible with the same minor version.
+
+The library can also be found with `pkg-config`:
+
+```sh
+$ cc example.c $(pkg-config --cflags --libs opendmi)
+```
+
 ### Packaging
 
 Use the following command to build distributable packages using CPack:

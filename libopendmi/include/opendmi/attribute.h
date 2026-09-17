@@ -165,7 +165,7 @@ __BEGIN_DECLS
  * @return @c true if the value represents an unspecified state, @c false
  *         otherwise.
  */
-bool dmi_attribute_is_unspecified(const dmi_attribute_t *attr, const void *value);
+__dmi_api bool dmi_attribute_is_unspecified(const dmi_attribute_t *attr, const void *value);
 
 /**
  * @brief Checks whether an attribute value represents an unknown state.
@@ -179,7 +179,7 @@ bool dmi_attribute_is_unspecified(const dmi_attribute_t *attr, const void *value
  * @return @c true if the value matches the unknown sentinel, @c false
  *         otherwise.
  */
-bool dmi_attribute_is_unknown(const dmi_attribute_t *attr, const void *value);
+__dmi_api bool dmi_attribute_is_unknown(const dmi_attribute_t *attr, const void *value);
 
 /**
  * @brief Reads a boolean attribute value.
@@ -188,7 +188,7 @@ bool dmi_attribute_is_unknown(const dmi_attribute_t *attr, const void *value);
  * @param value Pointer to the value to read; must not be @c nullptr.
  * @return The boolean value at @p value.
  */
-bool dmi_attribute_get_bool(const dmi_attribute_t *attr, const void *value);
+__dmi_api bool dmi_attribute_get_bool(const dmi_attribute_t *attr, const void *value);
 
 /**
  * @brief Reads a signed integer attribute value of any supported width.
@@ -201,7 +201,7 @@ bool dmi_attribute_get_bool(const dmi_attribute_t *attr, const void *value);
  * @return The signed integer value widened to `intmax_t`, or `INTMAX_MAX` if
  *         `attr->value.size` does not match any supported width.
  */
-intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void *value);
+__dmi_api intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void *value);
 
 /**
  * @brief Reads an unsigned integer attribute value of any supported width.
@@ -214,7 +214,7 @@ intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void *value);
  * @return The unsigned integer value widened to `uintmax_t`, or `UINTMAX_MAX`
  *         if `attr->value.size` does not match any supported width.
  */
-uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value);
+__dmi_api uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value);
 
 /**
  * @brief Reads the number of elements of an array attribute.
@@ -228,7 +228,7 @@ uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value)
  * @return The number of array elements, or zero if the attribute has no
  *         counter or its width is not supported.
  */
-size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
+__dmi_api size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
 
 /**
  * @brief Formats an attribute value as a newly allocated string.
@@ -249,7 +249,7 @@ size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
  * @return A newly allocated null-terminated string, or @c nullptr if the
  *         attribute type has no formatter or memory allocation fails.
  */
-char *dmi_attribute_format(
+__dmi_api char *dmi_attribute_format(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,

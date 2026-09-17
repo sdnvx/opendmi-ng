@@ -60,6 +60,6 @@ struct dmi_power_controls
 /**
  * @brief System power controls entity specification.
  */
-extern const dmi_entity_spec_t dmi_power_controls_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_power_controls_spec;
 
 #endif // !OPENDMI_ENTITY_POWER_CONTROLS_H

@@ -582,14 +582,14 @@ struct dmi_processor
 /**
  * @brief Processor information entity specification.
  */
-extern const dmi_entity_spec_t dmi_processor_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_processor_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_processor_type_name(dmi_processor_type_t value);
-const char *dmi_processor_family_name(dmi_processor_family_t value);
-const char *dmi_processor_upgrade_name(dmi_processor_upgrade_t value);
-const char *dmi_processor_status_name(dmi_processor_status_t value);
+__dmi_api const char *dmi_processor_type_name(dmi_processor_type_t value);
+__dmi_api const char *dmi_processor_family_name(dmi_processor_family_t value);
+__dmi_api const char *dmi_processor_upgrade_name(dmi_processor_upgrade_t value);
+__dmi_api const char *dmi_processor_status_name(dmi_processor_status_t value);
 
 __END_DECLS
 

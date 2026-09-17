@@ -11,6 +11,6 @@
 
 #include <opendmi/backend.h>
 
-extern dmi_backend_t dmi_darwin_backend;
+extern __dmi_api dmi_backend_t dmi_darwin_backend;
 
 #endif // !OPENDMI_BACKEND_DARWIN_H

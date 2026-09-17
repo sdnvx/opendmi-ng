@@ -75,11 +75,11 @@ struct dmi_dell_infrared_port
 /**
  * @brief Dell infrared port entity specification.
  */
-extern const dmi_entity_spec_t dmi_dell_infrared_port_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_dell_infrared_port_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_dell_infrared_proto_name(dmi_dell_infrared_proto_t value);
+__dmi_api const char *dmi_dell_infrared_proto_name(dmi_dell_infrared_proto_t value);
 
 __END_DECLS
 

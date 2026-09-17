@@ -109,8 +109,8 @@ dmi_entity_t *dmi_registry_get_any(
         const dmi_type_t *type,
         bool              optional)
 {
-    dmi_context_t *context = nullptr;
-    dmi_entity_t  *entity  = nullptr;
+    const dmi_context_t *context = nullptr;
+    dmi_entity_t        *entity  = nullptr;
 
     if (registry == nullptr)
         return nullptr;

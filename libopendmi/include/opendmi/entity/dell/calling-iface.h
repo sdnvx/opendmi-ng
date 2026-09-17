@@ -69,6 +69,6 @@ dmi_packed_struct(dmi_dell_calling_iface_data)
 /**
  * @brief Dell calling interface entity specification.
  */
-extern const dmi_entity_spec_t dmi_dell_calling_iface_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_dell_calling_iface_spec;
 
 #endif // !OPENDMI_ENTITY_DELL_CALLING_IFACE_H

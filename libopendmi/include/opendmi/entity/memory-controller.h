@@ -204,12 +204,12 @@ struct dmi_memory_controller
 /**
  * @brief Memory controller information entity specification.
  */
-extern const dmi_entity_spec_t dmi_memory_controller_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_memory_controller_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_error_detect_method_name(dmi_error_detect_method_t value);
-const char *dmi_memory_interleave_name(dmi_memory_interleave_t value);
+__dmi_api const char *dmi_error_detect_method_name(dmi_error_detect_method_t value);
+__dmi_api const char *dmi_memory_interleave_name(dmi_memory_interleave_t value);
 
 __END_DECLS
 

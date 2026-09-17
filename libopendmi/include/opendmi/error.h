@@ -135,7 +135,7 @@ __BEGIN_DECLS
  * @return A pointer to a static string describing the error.  Returns
  *         @c "Unknown error" if @p reason is out of range or has no message.
  */
-const char *dmi_error_message(dmi_error_code_t reason);
+__dmi_api const char *dmi_error_message(dmi_error_code_t reason);
 
 /**
  * @internal
@@ -155,7 +155,7 @@ const char *dmi_error_message(dmi_error_code_t reason);
  * @return @c true on success, @c false if @p context is @c nullptr or memory
  *         allocation for the message fails.
  */
-bool __dmi_error_raise(
+__dmi_api bool __dmi_error_raise(
         dmi_context_t    *context,
         const char       *file,
         const char       *function,
@@ -179,7 +179,7 @@ bool __dmi_error_raise(
  * @return @c true on success, @c false if @p context is @c nullptr or memory
  *         allocation for the message fails.
  */
-bool __dmi_error_vraise(
+__dmi_api bool __dmi_error_vraise(
         dmi_context_t    *context,
         const char       *file,
         const char       *function,
@@ -196,7 +196,7 @@ bool __dmi_error_vraise(
  * @return Pointer to the oldest error descriptor, or @c nullptr if @p context is
  *         @c nullptr or the error queue is empty.
  */
-dmi_error_t *dmi_error_peek_first(dmi_context_t *context);
+__dmi_api dmi_error_t *dmi_error_peek_first(dmi_context_t *context);
 
 /**
  * @brief Returns the newest error descriptor from the error queue without
@@ -206,7 +206,7 @@ dmi_error_t *dmi_error_peek_first(dmi_context_t *context);
  * @return Pointer to the newest error descriptor, or @c nullptr if @p context is
  *         @c nullptr or the error queue is empty.
  */
-dmi_error_t *dmi_error_peek_last(dmi_context_t *context);
+__dmi_api dmi_error_t *dmi_error_peek_last(dmi_context_t *context);
 
 /**
  * @brief Removes and returns the oldest error descriptor from the error queue.
@@ -222,7 +222,7 @@ dmi_error_t *dmi_error_peek_last(dmi_context_t *context);
  *       @c dmi_error_get_first(), @c dmi_error_get_last(), or
  *       @c dmi_error_clear().
  */
-dmi_error_t *dmi_error_get_first(dmi_context_t *context);
+__dmi_api dmi_error_t *dmi_error_get_first(dmi_context_t *context);
 
 /**
  * @brief Removes and returns the newest error descriptor from the error queue.
@@ -238,14 +238,14 @@ dmi_error_t *dmi_error_get_first(dmi_context_t *context);
  *       @c dmi_error_get_first(), @c dmi_error_get_last(), or
  *       @c dmi_error_clear().
  */
-dmi_error_t *dmi_error_get_last(dmi_context_t *context);
+__dmi_api dmi_error_t *dmi_error_get_last(dmi_context_t *context);
 
 /**
  * @brief Removes all error descriptors from the error queue.
  *
  * @param context DMI context.
  */
-void dmi_error_clear(dmi_context_t *context);
+__dmi_api void dmi_error_clear(dmi_context_t *context);
 
 __END_DECLS
 

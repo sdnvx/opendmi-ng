@@ -363,7 +363,7 @@ static bool test_dump_has_error(dmi_context_t *context, dmi_error_code_t reason)
 static size_t test_dump_decode_all(dmi_context_t *context)
 {
     dmi_registry_iter_t iter;
-    dmi_entity_t *entity;
+    const dmi_entity_t *entity;
     size_t decoded = 0;
 
     assert_true(dmi_registry_iter_init(&iter, context->state.registry, nullptr));

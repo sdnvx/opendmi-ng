@@ -30,7 +30,7 @@ __BEGIN_DECLS
  *
  * @return Decoded unsigned integer value.
  */
-uintmax_t __dmi_decode_bcd(const dmi_byte_t *value, size_t length);
+__dmi_api uintmax_t __dmi_decode_bcd(const dmi_byte_t *value, size_t length);
 
 __END_DECLS
 
@@ -41,7 +41,7 @@ __END_DECLS
  *
  * @return Host byte order value.
  */
-[[gnu::const]]
+__dmi_const
 static inline uint8_t dmi_decode_byte(dmi_byte_t value) { return value; }
 
 /**
@@ -51,7 +51,7 @@ static inline uint8_t dmi_decode_byte(dmi_byte_t value) { return value; }
  *
  * @return SMBIOS wire format byte value.
  */
-[[gnu::const]]
+__dmi_const
 static inline dmi_byte_t dmi_encode_byte(uint8_t value) { return value; }
 
 /**
@@ -65,7 +65,7 @@ static inline dmi_byte_t dmi_encode_byte(uint8_t value) { return value; }
  *
  * @return SMBIOS wire format (little-endian) 16-bit value.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline dmi_word_t dmi_encode_word(uint16_t value) { return value; }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -83,7 +83,7 @@ static inline dmi_byte_t dmi_encode_byte(uint8_t value) { return value; }
  *
  * @return SMBIOS wire format (little-endian) 32-bit value.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline dmi_dword_t dmi_encode_dword(uint32_t value) { return value; }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -101,7 +101,7 @@ static inline dmi_byte_t dmi_encode_byte(uint8_t value) { return value; }
  *
  * @return SMBIOS wire format (little-endian) 64-bit value.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline dmi_qword_t dmi_encode_qword(uint64_t value) { return value; }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -119,7 +119,7 @@ static inline dmi_byte_t dmi_encode_byte(uint8_t value) { return value; }
  *
  * @return Host byte order 16-bit value.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint16_t dmi_decode_word(dmi_word_t value) { return value; }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -137,7 +137,7 @@ static inline dmi_byte_t dmi_encode_byte(uint8_t value) { return value; }
  *
  * @return Host byte order 32-bit value.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint32_t dmi_decode_dword(dmi_dword_t value) { return value; }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -155,7 +155,7 @@ static inline dmi_byte_t dmi_encode_byte(uint8_t value) { return value; }
  *
  * @return Host byte order 64-bit value.
  */
-[[gnu::const]]
+__dmi_const
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     static inline uint64_t dmi_decode_qword(dmi_qword_t value) { return value; }
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__

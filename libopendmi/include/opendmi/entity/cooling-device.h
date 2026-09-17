@@ -124,11 +124,11 @@ struct dmi_cooling_device
 /**
  * @brief Cooling device entity specification.
  */
-extern const dmi_entity_spec_t dmi_cooling_device_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_cooling_device_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_cooling_device_type_name(dmi_cooling_device_type_t value);
+__dmi_api const char *dmi_cooling_device_type_name(dmi_cooling_device_type_t value);
 
 __END_DECLS
 

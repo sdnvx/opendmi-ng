@@ -28,7 +28,7 @@ __BEGIN_DECLS
  * @return A newly allocated null-terminated Base64 string on success,
  *         or @c nullptr on failure (e.g., allocation error or invalid arguments).
  */
-char *dmi_base64_encode(
+__dmi_api char *dmi_base64_encode(
         const dmi_data_t *data,
         size_t            data_length,
         size_t           *poutput_length);
@@ -50,7 +50,7 @@ char *dmi_base64_encode(
  *         success, or @c nullptr on failure (e.g., allocation error, invalid
  *         Base64 input, or invalid arguments).
  */
-dmi_data_t *dmi_base64_decode(
+__dmi_api dmi_data_t *dmi_base64_decode(
         const char *data,
         size_t      data_length,
         size_t     *poutput_length);

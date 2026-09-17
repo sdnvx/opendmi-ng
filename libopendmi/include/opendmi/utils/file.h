@@ -36,7 +36,7 @@ __BEGIN_DECLS
  *
  * @return `0` on success, or `-1` on error with `errno` set accordingly.
  */
-int dmi_file_stat(int fd, dmi_file_stat_t *st);
+__dmi_api int dmi_file_stat(int fd, dmi_file_stat_t *st);
 
 /**
  * @brief Returns the current file offset for an open file descriptor.
@@ -48,7 +48,7 @@ int dmi_file_stat(int fd, dmi_file_stat_t *st);
  * @return The current byte offset from the beginning of the file,
  *         or `-1` on error with `errno` set accordingly.
  */
-off_t dmi_file_tell(int fd);
+__dmi_api off_t dmi_file_tell(int fd);
 
 /**
  * @brief Repositions the file offset of an open file descriptor.
@@ -63,7 +63,7 @@ off_t dmi_file_tell(int fd);
  * @return The resulting byte offset from the beginning of the file,
  *         or `-1` on error with `errno` set accordingly.
  */
-off_t dmi_file_seek(int fd, off_t offset, int whence);
+__dmi_api off_t dmi_file_seek(int fd, off_t offset, int whence);
 
 /**
  * @brief Acquires an advisory lock on a region of a file.
@@ -78,7 +78,7 @@ off_t dmi_file_seek(int fd, off_t offset, int whence);
  *
  * @return `true` if the lock was acquired, `false` on error.
  */
-bool dmi_file_lock(int fd, off_t size);
+__dmi_api bool dmi_file_lock(int fd, off_t size);
 
 /**
  * @brief Releases an advisory lock on a region of a file.
@@ -93,7 +93,7 @@ bool dmi_file_lock(int fd, off_t size);
  *
  * @return `true` if the lock was released, `false` on error.
  */
-bool dmi_file_unlock(int fd, off_t size);
+__dmi_api bool dmi_file_unlock(int fd, off_t size);
 
 /**
  * @brief Reads exactly @p size bytes from an open file descriptor.
@@ -113,7 +113,7 @@ bool dmi_file_unlock(int fd, off_t size);
  * @return The total number of bytes read (may be less than @p size at EOF),
  *         or `-1` on error with `errno` set accordingly.
  */
-ssize_t dmi_file_read(int fd, dmi_data_t *data, off_t offset, size_t size);
+__dmi_api ssize_t dmi_file_read(int fd, dmi_data_t *data, off_t offset, size_t size);
 
 /**
  * @brief Writes exactly @p size bytes to an open file descriptor.
@@ -132,7 +132,7 @@ ssize_t dmi_file_read(int fd, dmi_data_t *data, off_t offset, size_t size);
  *         zero-length write occurs), or `-1` on error with `errno` set
  *         accordingly.
  */
-ssize_t dmi_file_write(int fd, const dmi_data_t *data, size_t size);
+__dmi_api ssize_t dmi_file_write(int fd, const dmi_data_t *data, size_t size);
 
 /**
  * @brief Closes an open file descriptor.
@@ -143,7 +143,7 @@ ssize_t dmi_file_write(int fd, const dmi_data_t *data, size_t size);
  *
  * @return `0` on success, or `-1` on error with `errno` set accordingly.
  */
-int dmi_file_close(int fd);
+__dmi_api int dmi_file_close(int fd);
 
 __END_DECLS
 

@@ -16,6 +16,6 @@ typedef struct dmi_probe dmi_temperature_probe_t;
 /**
  * @brief Temperature probe entity specification.
  */
-extern const dmi_entity_spec_t dmi_temperature_probe_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_temperature_probe_spec;
 
 #endif // !OPENDMI_ENTITY_TEMPERATURE_PROBE_H

@@ -29,7 +29,7 @@ typedef enum dmi_dell_type
 
 __BEGIN_DECLS
 
-extern const dmi_module_t dmi_dell_module;
+extern __dmi_api const dmi_module_t dmi_dell_module;
 
 __END_DECLS
 

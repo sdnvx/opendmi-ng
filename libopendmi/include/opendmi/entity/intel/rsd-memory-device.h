@@ -89,12 +89,12 @@ struct dmi_intel_rsd_memory_device
 /**
  * @brief Intel RSD memory device extended information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_memory_device_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_memory_device_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_intel_rsd_memory_type_name(dmi_intel_rsd_memory_type_t value);
-const char *dmi_intel_rsd_memory_media_name(dmi_intel_rsd_memory_media_t value);
+__dmi_api const char *dmi_intel_rsd_memory_type_name(dmi_intel_rsd_memory_type_t value);
+__dmi_api const char *dmi_intel_rsd_memory_media_name(dmi_intel_rsd_memory_media_t value);
 
 __END_DECLS
 

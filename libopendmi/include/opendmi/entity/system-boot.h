@@ -55,6 +55,6 @@ struct dmi_system_boot
 /**
  * @brief System boot information entity specification.
  */
-extern const dmi_entity_spec_t dmi_system_boot_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_system_boot_spec;
 
 #endif // !OPENDMI_ENTITY_SYSTEM_BOOT_H

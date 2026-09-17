@@ -170,7 +170,7 @@ dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str)
     long value;
 
     if (*str == 0) {
-        dmi_command_message("Empty type value: %s", str);
+        dmi_command_message("Empty type value");
         return DMI_TYPE_INVALID;
     }
 
@@ -208,7 +208,6 @@ bool dmi_print_all(
 {
     void *session;
     dmi_registry_iter_t iter;
-    const dmi_entity_t *entity;
 
     assert(context != nullptr);
     assert(stream != nullptr);
@@ -228,6 +227,7 @@ bool dmi_print_all(
             break;
 
         bool status = true;
+        const dmi_entity_t *entity;
 
         dmi_registry_iter_init(&iter, context->state.registry, &dmi_filter_config.filter);
         while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
@@ -333,7 +333,7 @@ static bool dmi_filter_config_add_type(dmi_context_t *context, const char *value
 
     type = dmi_parse_type(context, value);
     if (type == DMI_TYPE_INVALID)
-                return false;
+        return false;
 
     if (not dmi_filter_add_type(&dmi_filter_config.filter, type))
         return false;

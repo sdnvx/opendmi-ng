@@ -92,12 +92,12 @@ struct dmi_dell_serial_port
 /**
  * @brief Dell serial port entity specification.
  */
-extern const dmi_entity_spec_t dmi_dell_serial_port_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_dell_serial_port_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_dell_serial_port_connector_type_name(dmi_dell_serial_port_connector_type_t value);
-const char *dmi_dell_serial_port_caps_name(dmi_dell_serial_port_caps_t value);
+__dmi_api const char *dmi_dell_serial_port_connector_type_name(dmi_dell_serial_port_connector_type_t value);
+__dmi_api const char *dmi_dell_serial_port_caps_name(dmi_dell_serial_port_caps_t value);
 
 __END_DECLS
 

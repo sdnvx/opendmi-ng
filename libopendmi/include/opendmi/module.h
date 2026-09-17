@@ -35,7 +35,7 @@ struct dmi_module
  * Built-in modules are listed statically rather than registered at startup,
  * so that they are always linked in, including static builds.
  */
-extern const dmi_module_t *const dmi_builtin_modules[];
+extern __dmi_api const dmi_module_t *const dmi_builtin_modules[];
 
 __BEGIN_DECLS
 
@@ -52,7 +52,7 @@ __BEGIN_DECLS
  * @return `true` on success, `false` if a module with the same code is
  *         already available.
  */
-bool dmi_module_register(dmi_module_t *module);
+__dmi_api bool dmi_module_register(dmi_module_t *module);
 
 /**
  * @brief Iterates over available extension modules.
@@ -65,7 +65,7 @@ bool dmi_module_register(dmi_module_t *module);
  * @return Pointer to the next module, or @c nullptr if there are no more
  *         modules.
  */
-const dmi_module_t *dmi_module_next(const dmi_module_t *module);
+__dmi_api const dmi_module_t *dmi_module_next(const dmi_module_t *module);
 
 /**
  * @brief Looks up a registered extension module by its code.
@@ -77,7 +77,7 @@ const dmi_module_t *dmi_module_next(const dmi_module_t *module);
  * @return Pointer to the matching module, or @c nullptr if no module with the
  *         given code is registered.
  */
-const dmi_module_t *dmi_module_find(const char *code);
+__dmi_api const dmi_module_t *dmi_module_find(const char *code);
 
 __END_DECLS
 

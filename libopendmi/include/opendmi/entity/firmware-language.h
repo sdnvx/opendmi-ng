@@ -70,6 +70,6 @@ struct dmi_firmware_language
 /**
  * @brief Firmware language information entity specification.
  */
-extern const dmi_entity_spec_t dmi_firmware_language_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_firmware_language_spec;
 
 #endif // !OPENDMI_ENTITY_FIRMWARE_LANGUAGE_H

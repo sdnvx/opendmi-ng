@@ -38,13 +38,13 @@ typedef enum dmi_dell_port_security
     DMI_DELL_PORT_SECURITY_BOOT_BYPASS       = 0x06, ///< Boot-bypass
 } dmi_dell_port_security_t;
 
-extern const dmi_name_set_t dmi_dell_enable_state_names;
-extern const dmi_name_set_t dmi_dell_port_security_names;
+extern __dmi_api const dmi_name_set_t dmi_dell_enable_state_names;
+extern __dmi_api const dmi_name_set_t dmi_dell_port_security_names;
 
 __BEGIN_DECLS
 
-const char *dmi_dell_enable_state_name(dmi_dell_enable_state_t value);
-const char *dmi_dell_port_security_name(dmi_dell_port_security_t value);
+__dmi_api const char *dmi_dell_enable_state_name(dmi_dell_enable_state_t value);
+__dmi_api const char *dmi_dell_port_security_name(dmi_dell_port_security_t value);
 
 __END_DECLS
 

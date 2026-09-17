@@ -92,20 +92,20 @@ struct dmi_pci_addr
     uint8_t function_number;
 };
 
-extern const dmi_name_set_t dmi_status_names;
-extern const dmi_name_set_t dmi_error_correct_type_names;
+extern __dmi_api const dmi_name_set_t dmi_status_names;
+extern __dmi_api const dmi_name_set_t dmi_error_correct_type_names;
 
-extern const dmi_attribute_t dmi_pci_addr_attrs[];
+extern __dmi_api const dmi_attribute_t dmi_pci_addr_attrs[];
 
 __BEGIN_DECLS
 
-const char *dmi_status_name(dmi_status_t value);
-const char *dmi_error_correct_type_name(dmi_error_correct_type_t value);
+__dmi_api const char *dmi_status_name(dmi_status_t value);
+__dmi_api const char *dmi_error_correct_type_name(dmi_error_correct_type_t value);
 
 /**
  * @internal
  */
-bool dmi_pci_addr_decode(dmi_stream_t *stream, dmi_pci_addr_t *addr);
+__dmi_api bool dmi_pci_addr_decode(dmi_stream_t *stream, dmi_pci_addr_t *addr);
 
 __END_DECLS
 

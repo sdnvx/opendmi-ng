@@ -16,6 +16,6 @@ typedef struct dmi_probe dmi_current_probe_t;
 /**
  * @brief Electrical current probe entity specification.
  */
-extern const dmi_entity_spec_t dmi_current_probe_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_current_probe_spec;
 
 #endif // !OPENDMI_ENTITY_CURRENT_PROBE_H

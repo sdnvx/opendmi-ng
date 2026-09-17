@@ -14,6 +14,6 @@
 /**
  * @brief Intel RSD physical device mapping information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_phys_device_mapping_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_phys_device_mapping_spec;
 
 #endif // !DMI_ENTITY_INTEL_RSD_PHYS_DEVICE_MAPPING_H

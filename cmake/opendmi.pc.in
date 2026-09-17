@@ -1,0 +1,13 @@
+prefix=@LIBOPENDMI_PC_PREFIX@
+libdir=@LIBOPENDMI_PC_LIBDIR@
+includedir=@LIBOPENDMI_PC_INCLUDEDIR@
+
+Name: opendmi
+Description: @CMAKE_PROJECT_DESCRIPTION@
+URL: @CMAKE_PROJECT_HOMEPAGE_URL@
+Version: @OPENDMI_VERSION@
+Requires.private: @LIBOPENDMI_PC_REQUIRES@
+Cflags: -I${includedir}
+Cflags.private: @LIBOPENDMI_PC_CFLAGS@
+Libs: -L${libdir} -lopendmi
+Libs.private: @LIBOPENDMI_PC_LIBS@

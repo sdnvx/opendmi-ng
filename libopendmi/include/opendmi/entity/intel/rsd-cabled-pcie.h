@@ -96,6 +96,6 @@ struct dmi_intel_rsd_cabled_pcie_port
 /**
  * @brief Intel RSD cabled PCIe port information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_cabled_pcie_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_cabled_pcie_spec;
 
 #endif // !DMI_ENTITY_INTEL_RSD_CABLED_PCIE_PORT_H

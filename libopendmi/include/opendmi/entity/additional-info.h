@@ -74,6 +74,6 @@ struct dmi_additional_info
 /**
  * @brief Additional information entity specification.
  */
-extern const dmi_entity_spec_t dmi_additional_info_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_additional_info_spec;
 
 #endif // !OPENDMI_ENTITY_ADDITIONAL_INFO_H

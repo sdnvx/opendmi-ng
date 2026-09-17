@@ -79,7 +79,7 @@ __BEGIN_DECLS
  *
  * @return A `dmi_uuid_t` with fields in RFC 4122 (big-endian) byte order.
  */
-dmi_uuid_t dmi_uuid_decode(const dmi_byte_t value[16]);
+__dmi_api dmi_uuid_t dmi_uuid_decode(const dmi_byte_t value[16]);
 
 /**
  * @brief Encodes a UUID from RFC 4122 representation into SMBIOS byte order.
@@ -94,7 +94,7 @@ dmi_uuid_t dmi_uuid_decode(const dmi_byte_t value[16]);
  * @param[out] out    Buffer of exactly 16 bytes that receives the UUID in
  *                    SMBIOS (little-endian) byte order.
  */
-void dmi_uuid_encode(dmi_uuid_t value, uint8_t out[16]);
+__dmi_api void dmi_uuid_encode(dmi_uuid_t value, uint8_t out[16]);
 
 __END_DECLS
 

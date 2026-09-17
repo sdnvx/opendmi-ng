@@ -140,7 +140,7 @@ __BEGIN_DECLS
  * @param[in] capacity Registry hash-table capacity. Zero means default value
  *                     of `DMI_REGISTRY_CAPACITY`.
  */
-dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity);
+__dmi_api dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity);
 
 /**
  * @internal
@@ -162,7 +162,7 @@ dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity);
  * @return `true` on success, `false` if any entity could not be created or
  *         registered.
  */
-bool dmi_registry_scan(dmi_registry_t *registry);
+__dmi_api bool dmi_registry_scan(dmi_registry_t *registry);
 
 /**
  * @internal
@@ -180,7 +180,7 @@ bool dmi_registry_scan(dmi_registry_t *registry);
  * @return `true` on success, `false` if any entity fails to decode in strict
  *         mode.
  */
-bool dmi_registry_decode(dmi_registry_t *registry);
+__dmi_api bool dmi_registry_decode(dmi_registry_t *registry);
 
 /**
  * @internal
@@ -196,7 +196,7 @@ bool dmi_registry_decode(dmi_registry_t *registry);
  *
  * @return `true` on success, `false` if any entity fails to link.
  */
-bool dmi_registry_link(dmi_registry_t *registry);
+__dmi_api bool dmi_registry_link(dmi_registry_t *registry);
 
 /**
  * @brief Get entity from registry by handle.
@@ -215,7 +215,7 @@ bool dmi_registry_link(dmi_registry_t *registry);
  *
  * @returns Non-owning pointer to the entity, @c nullptr if not found.
  */
-dmi_entity_t *dmi_registry_get(
+__dmi_api dmi_entity_t *dmi_registry_get(
         dmi_registry_t *registry,
         dmi_handle_t    handle,
         dmi_type_t      type,
@@ -238,7 +238,7 @@ dmi_entity_t *dmi_registry_get(
  *
  * @returns Non-owning pointer to the entity, @c nullptr if not found.
  */
-dmi_entity_t *dmi_registry_get_any(
+__dmi_api dmi_entity_t *dmi_registry_get_any(
         dmi_registry_t   *registry,
         dmi_handle_t      handle,
         const dmi_type_t *type,
@@ -256,7 +256,7 @@ dmi_entity_t *dmi_registry_get_any(
  * @returns Non-owning pointer to the first entity of the given type in table
  *          order, @c nullptr if not found.
  */
-dmi_entity_t *dmi_registry_get_first(
+__dmi_api dmi_entity_t *dmi_registry_get_first(
         dmi_registry_t *registry,
         dmi_type_t      type,
         bool            optional);
@@ -267,14 +267,14 @@ dmi_entity_t *dmi_registry_get_first(
  * @param[in] registry Registry handle.
  * @return Status flags
  */
-unsigned dmi_registry_status(const dmi_registry_t *registry);
+__dmi_api unsigned dmi_registry_status(const dmi_registry_t *registry);
 
 /**
  * @brief Destroy registry.
  *
  * @param[in] registry Registry handle.
  */
-void dmi_registry_destroy(dmi_registry_t *registry);
+__dmi_api void dmi_registry_destroy(dmi_registry_t *registry);
 
 /**
  * @brief Initialize a registry iterator.
@@ -289,7 +289,7 @@ void dmi_registry_destroy(dmi_registry_t *registry);
  *
  * @return `true` on success, `false` if @p iter or @p registry is @c nullptr.
  */
-bool dmi_registry_iter_init(
+__dmi_api bool dmi_registry_iter_init(
         dmi_registry_iter_t *iter,
         dmi_registry_t *registry,
         dmi_filter_t *filter);
@@ -306,7 +306,7 @@ bool dmi_registry_iter_init(
  * @return `true` if at least one more entity is available, `false` otherwise or
  *         if @p iter is @c nullptr.
  */
-bool dmi_registry_iter_has_next(dmi_registry_iter_t *iter);
+__dmi_api bool dmi_registry_iter_has_next(dmi_registry_iter_t *iter);
 
 /**
  * @brief Advance the iterator and return the next entity.
@@ -319,7 +319,7 @@ bool dmi_registry_iter_has_next(dmi_registry_iter_t *iter);
  * @return Non-owning pointer to the next entity, or @c nullptr if there are no
  *         more entities or @p iter is @c nullptr.
  */
-dmi_entity_t *dmi_registry_iter_next(dmi_registry_iter_t *iter);
+__dmi_api dmi_entity_t *dmi_registry_iter_next(dmi_registry_iter_t *iter);
 
 __END_DECLS
 

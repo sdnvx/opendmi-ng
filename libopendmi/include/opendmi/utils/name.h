@@ -75,7 +75,7 @@ __BEGIN_DECLS
  * @return The code string for @p id, or @c nullptr if @p dict is @c nullptr,
  *         @p id is negative, or no matching entry is found.
  */
-const char *dmi_code_lookup(const dmi_name_set_t *dict, int id);
+__dmi_api const char *dmi_code_lookup(const dmi_name_set_t *dict, int id);
 
 /**
  * @brief Reverse look up the integer identifier for a machine-readable code
@@ -91,7 +91,7 @@ const char *dmi_code_lookup(const dmi_name_set_t *dict, int id);
  * @return The integer identifier for @p code, or @c -1 if @p dict is @c nullptr,
  *         @p dict has no `names` entries, or no matching entry is found.
  */
-int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code);
+__dmi_api int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code);
 
 /**
  * @brief Look up the human-readable name string for an integer identifier.
@@ -104,7 +104,7 @@ int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code);
  * @return The name string for @p id, or @c nullptr if @p dict is @c nullptr,
  *         @p id is negative, or no matching entry is found.
  */
-const char *dmi_name_lookup(const dmi_name_set_t *dict, int id);
+__dmi_api const char *dmi_name_lookup(const dmi_name_set_t *dict, int id);
 
 __END_DECLS
 

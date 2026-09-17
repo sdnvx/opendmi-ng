@@ -67,6 +67,6 @@ struct dmi_memory_error_32
 /**
  * @brief 32-bit memory error information entity specification.
  */
-extern const dmi_entity_spec_t dmi_memory_error_32_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_memory_error_32_spec;
 
 #endif // !OPENDMI_ENTITY_MEMORY_ERROR_32_H

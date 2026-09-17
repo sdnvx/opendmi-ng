@@ -13,11 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add structure type attribute to chassis contained elements
 - Add decoding of processor voltage and supported voltages
 - Add `dmi_checksum_calc()` function
+- Add shared library versioning (SOVERSION)
+- Add CMake package configuration and `pkg-config` file for `libopendmi`
 
 ### Changed
 
-- Rename `dmi_checksum()` function to `dmi_checksum_check()`
+- Rename `dmi_checksum()` function to `dmi_checksum_test()`
 - Rename `entry_size` field of context state to `entry_data_size`
+- Export only public API symbols from shared library
 
 ### Fixed
 
@@ -27,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keep table area size specified in the entry point instead of overwriting it with the size of data provided by backend
 - Fix compatibility with dmidecode dump files
 - Fix entry point version, revision and length decoding
+- Fix installation of `libopendmi` headers and manual pages
+- Fix missing `opendmi` manual pages
+- Fix conflicting names of static and DLL import libraries with MSVC
+- Fix compatibility of public headers with C11 and C17
+- Do not install CMocka along with OpenDMI
 
 ## [0.4.0] - September 17, 2026
 

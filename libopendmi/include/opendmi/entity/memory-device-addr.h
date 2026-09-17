@@ -97,6 +97,6 @@ struct dmi_memory_device_addr
 /**
  * @brief Memory device mapped address entity specification.
  */
-extern const dmi_entity_spec_t dmi_memory_device_addr_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_memory_device_addr_spec;
 
 #endif // !OPENDMI_ENTITY_MEMORY_DEVICE_ADDR_H

@@ -61,9 +61,9 @@ typedef enum dmi_memory_error_operation
     __DMI_MEMORY_ERROR_OPERATION_COUNT
 } dmi_memory_error_operation_t;
 
-extern const dmi_name_set_t dmi_memory_error_type_names;
-extern const dmi_name_set_t dmi_memory_error_granularity_names;
-extern const dmi_name_set_t dmi_memory_error_operation_names;
+extern __dmi_api const dmi_name_set_t dmi_memory_error_type_names;
+extern __dmi_api const dmi_name_set_t dmi_memory_error_granularity_names;
+extern __dmi_api const dmi_name_set_t dmi_memory_error_operation_names;
 
 __BEGIN_DECLS
 
@@ -77,7 +77,7 @@ __BEGIN_DECLS
  * @return The memory error type name string, or @c nullptr if @p value is out of
  * range.
  */
-const char *dmi_memory_error_type_name(dmi_memory_error_type_t value);
+__dmi_api const char *dmi_memory_error_type_name(dmi_memory_error_type_t value);
 
 /**
  * @brief Get memory error granularity name.
@@ -89,7 +89,7 @@ const char *dmi_memory_error_type_name(dmi_memory_error_type_t value);
  * @return The memory error granularity name string, or @c nullptr if @p value is
  * out of range.
  */
-const char *dmi_memory_error_granularity_name(dmi_memory_error_granularity_t value);
+__dmi_api const char *dmi_memory_error_granularity_name(dmi_memory_error_granularity_t value);
 
 /**
  * @brief Get memory error operation name.
@@ -101,7 +101,7 @@ const char *dmi_memory_error_granularity_name(dmi_memory_error_granularity_t val
  * @return The memory error operation name string, or @c nullptr if @p value is out
  * of range.
  */
-const char *dmi_memory_error_operation_name(dmi_memory_error_operation_t value);
+__dmi_api const char *dmi_memory_error_operation_name(dmi_memory_error_operation_t value);
 
 __END_DECLS
 

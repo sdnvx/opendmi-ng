@@ -77,10 +77,11 @@ if(ICU_FOUND)
     add_dependencies(opendmi-object opendmi-resources)
 
     target_include_directories(opendmi-object PRIVATE ${ICU_INCLUDE_DIRS})
-    target_sources(opendmi-static PUBLIC ${LIBOPENDMI_BUNDLE_DATA})
-    target_sources(opendmi-shared PUBLIC ${LIBOPENDMI_BUNDLE_DATA})
+    target_sources(opendmi-static PRIVATE ${LIBOPENDMI_BUNDLE_DATA})
+    target_sources(opendmi-shared PRIVATE ${LIBOPENDMI_BUNDLE_DATA})
 
     list(APPEND LIBOPENDMI_LIBRARIES ICU::uc)
+    list(APPEND LIBOPENDMI_PC_REQUIRES icu-uc)
 endif()
 
 configure_file(
@@ -89,6 +90,132 @@ configure_file(
     USE_SOURCE_PERMISSIONS)
 
 target_include_directories(opendmi-object PUBLIC include)
+set(LIBOPENDMI_HEADERS
+    include/opendmi/attribute.h
+    include/opendmi/backend.h
+    include/opendmi/context.h
+    include/opendmi/defs.h
+    include/opendmi/entry.h
+    include/opendmi/error.h
+    include/opendmi/filter.h
+    include/opendmi/keyword.h
+    include/opendmi/log.h
+    include/opendmi/module.h
+    include/opendmi/registry.h
+    include/opendmi/entity.h
+    include/opendmi/types.h
+    include/opendmi/stream.h
+    include/opendmi/utils.h
+    include/opendmi/value.h
+    include/opendmi/vendor.h
+
+    include/opendmi/utils/base64.h
+    include/opendmi/utils/codec.h
+    include/opendmi/utils/datetime.h
+    include/opendmi/utils/endian.h
+    include/opendmi/utils/file.h
+    include/opendmi/utils/name.h
+    include/opendmi/utils/string.h
+    include/opendmi/utils/uuid.h
+    include/opendmi/utils/vector.h
+    include/opendmi/utils/version.h
+
+    include/opendmi/entity/additional-info.h
+    include/opendmi/entity/baseboard.h
+    include/opendmi/entity/battery.h
+    include/opendmi/entity/bis-entry-point.h
+    include/opendmi/entity/cache.h
+    include/opendmi/entity/chassis.h
+    include/opendmi/entity/common.h
+    include/opendmi/entity/cooling-device.h
+    include/opendmi/entity/current-probe.h
+    include/opendmi/entity/firmware-inventory.h
+    include/opendmi/entity/firmware-language.h
+    include/opendmi/entity/firmware.h
+    include/opendmi/entity/group-assoc.h
+    include/opendmi/entity/hardware-security.h
+    include/opendmi/entity/ipmi-device.h
+    include/opendmi/entity/memory-array-addr.h
+    include/opendmi/entity/memory-array.h
+    include/opendmi/entity/memory-channel.h
+    include/opendmi/entity/memory-controller.h
+    include/opendmi/entity/memory-device-addr.h
+    include/opendmi/entity/memory-device.h
+    include/opendmi/entity/memory-error.h
+    include/opendmi/entity/memory-error-32.h
+    include/opendmi/entity/memory-error-64.h
+    include/opendmi/entity/memory-module.h
+    include/opendmi/entity/mgmt-controller.h
+    include/opendmi/entity/mgmt-device.h
+    include/opendmi/entity/mgmt-device-component.h
+    include/opendmi/entity/mgmt-device-threshold.h
+    include/opendmi/entity/oem-strings.h
+    include/opendmi/entity/onboard-device.h
+    include/opendmi/entity/onboard-device-ex.h
+    include/opendmi/entity/oob-remote-access.h
+    include/opendmi/entity/pointing-device.h
+    include/opendmi/entity/port-connector.h
+    include/opendmi/entity/power-controls.h
+    include/opendmi/entity/power-supply.h
+    include/opendmi/entity/probe.h
+    include/opendmi/entity/processor.h
+    include/opendmi/entity/processor-ex.h
+    include/opendmi/entity/slot.h
+    include/opendmi/entity/string-property.h
+    include/opendmi/entity/system.h
+    include/opendmi/entity/system-boot.h
+    include/opendmi/entity/system-config.h
+    include/opendmi/entity/system-event-log.h
+    include/opendmi/entity/system-reset.h
+    include/opendmi/entity/temperature-probe.h
+    include/opendmi/entity/tpm-device.h
+    include/opendmi/entity/voltage-probe.h
+
+    include/opendmi/module/acer.h
+
+    include/opendmi/module/ami.h
+    include/opendmi/entity/ami/type-221.h
+
+    include/opendmi/module/apple.h
+
+    include/opendmi/module/dell.h
+    include/opendmi/entity/dell/common.h
+    include/opendmi/entity/dell/bios-flags.h
+    include/opendmi/entity/dell/calling-iface.h
+    include/opendmi/entity/dell/indexed-io.h
+    include/opendmi/entity/dell/infrared-port.h
+    include/opendmi/entity/dell/parallel-port.h
+    include/opendmi/entity/dell/protected-area-1.h
+    include/opendmi/entity/dell/protected-area-2.h
+    include/opendmi/entity/dell/revisions.h
+    include/opendmi/entity/dell/serial-port.h
+
+    include/opendmi/module/hpe.h
+
+    include/opendmi/module/intel.h
+    include/opendmi/entity/intel/rsd-cabled-pcie.h
+    include/opendmi/entity/intel/rsd-fpga.h
+    include/opendmi/entity/intel/rsd-memory-device.h
+    include/opendmi/entity/intel/rsd-network-card.h
+    include/opendmi/entity/intel/rsd-pcie.h
+    include/opendmi/entity/intel/rsd-phys-device-mapping.h
+    include/opendmi/entity/intel/rsd-processor-cpuid.h
+    include/opendmi/entity/intel/rsd-storage-device.h
+    include/opendmi/entity/intel/rsd-tpm.h
+    include/opendmi/entity/intel/rsd-txt.h
+
+    include/opendmi/module/lenovo.h
+
+    include/opendmi/module/sun.h
+    include/opendmi/entity/sun/memory-array-ex.h
+    include/opendmi/entity/sun/memory-device-ex.h
+    include/opendmi/entity/sun/pcie-root-complex.h
+    include/opendmi/entity/sun/port-ex.h
+    include/opendmi/entity/sun/processor-ex.h
+
+    include/opendmi/backend/dump.h
+)
+
 target_sources(opendmi-object
     PRIVATE
         src/attribute.c
@@ -210,187 +337,67 @@ target_sources(opendmi-object
         src/entity/sun/processor-ex.c
 
         src/backend/dump.c
-    PUBLIC FILE_SET HEADERS
-        BASE_DIRS include
-        FILES
-            include/opendmi/attribute.h
-            include/opendmi/backend.h
-            include/opendmi/context.h
-            include/opendmi/defs.h
-            include/opendmi/entry.h
-            include/opendmi/error.h
-            include/opendmi/filter.h
-            include/opendmi/keyword.h
-            include/opendmi/log.h
-            include/opendmi/module.h
-            include/opendmi/registry.h
-            include/opendmi/entity.h
-            include/opendmi/types.h
-            include/opendmi/stream.h
-            include/opendmi/utils.h
-            include/opendmi/value.h
-            include/opendmi/vendor.h
-
-            include/opendmi/utils/base64.h
-            include/opendmi/utils/codec.h
-            include/opendmi/utils/datetime.h
-            include/opendmi/utils/endian.h
-            include/opendmi/utils/file.h
-            include/opendmi/utils/name.h
-            include/opendmi/utils/string.h
-            include/opendmi/utils/uuid.h
-            include/opendmi/utils/vector.h
-            include/opendmi/utils/version.h
-
-            include/opendmi/entity/additional-info.h
-            include/opendmi/entity/baseboard.h
-            include/opendmi/entity/battery.h
-            include/opendmi/entity/bis-entry-point.h
-            include/opendmi/entity/cache.h
-            include/opendmi/entity/chassis.h
-            include/opendmi/entity/common.h
-            include/opendmi/entity/cooling-device.h
-            include/opendmi/entity/current-probe.h
-            include/opendmi/entity/firmware-inventory.h
-            include/opendmi/entity/firmware-language.h
-            include/opendmi/entity/firmware.h
-            include/opendmi/entity/group-assoc.h
-            include/opendmi/entity/hardware-security.h
-            include/opendmi/entity/ipmi-device.h
-            include/opendmi/entity/memory-array-addr.h
-            include/opendmi/entity/memory-array.h
-            include/opendmi/entity/memory-channel.h
-            include/opendmi/entity/memory-controller.h
-            include/opendmi/entity/memory-device-addr.h
-            include/opendmi/entity/memory-device.h
-            include/opendmi/entity/memory-error.h
-            include/opendmi/entity/memory-error-32.h
-            include/opendmi/entity/memory-error-64.h
-            include/opendmi/entity/memory-module.h
-            include/opendmi/entity/mgmt-controller.h
-            include/opendmi/entity/mgmt-device.h
-            include/opendmi/entity/mgmt-device-component.h
-            include/opendmi/entity/mgmt-device-threshold.h
-            include/opendmi/entity/oem-strings.h
-            include/opendmi/entity/onboard-device.h
-            include/opendmi/entity/onboard-device-ex.h
-            include/opendmi/entity/oob-remote-access.h
-            include/opendmi/entity/pointing-device.h
-            include/opendmi/entity/port-connector.h
-            include/opendmi/entity/power-controls.h
-            include/opendmi/entity/power-supply.h
-            include/opendmi/entity/probe.h
-            include/opendmi/entity/processor.h
-            include/opendmi/entity/processor-ex.h
-            include/opendmi/entity/slot.h
-            include/opendmi/entity/string-property.h
-            include/opendmi/entity/system.h
-            include/opendmi/entity/system-boot.h
-            include/opendmi/entity/system-config.h
-            include/opendmi/entity/system-event-log.h
-            include/opendmi/entity/system-reset.h
-            include/opendmi/entity/temperature-probe.h
-            include/opendmi/entity/tpm-device.h
-            include/opendmi/entity/voltage-probe.h
-
-            include/opendmi/module/acer.h
-
-            include/opendmi/module/ami.h
-            include/opendmi/entity/ami/type-221.h
-
-            include/opendmi/module/apple.h
-
-            include/opendmi/module/dell.h
-            include/opendmi/entity/dell/common.h
-            include/opendmi/entity/dell/bios-flags.h
-            include/opendmi/entity/dell/calling-iface.h
-            include/opendmi/entity/dell/indexed-io.h
-            include/opendmi/entity/dell/infrared-port.h
-            include/opendmi/entity/dell/parallel-port.h
-            include/opendmi/entity/dell/protected-area-1.h
-            include/opendmi/entity/dell/protected-area-2.h
-            include/opendmi/entity/dell/revisions.h
-            include/opendmi/entity/dell/serial-port.h
-
-            include/opendmi/module/hpe.h
-
-            include/opendmi/module/intel.h
-            include/opendmi/entity/intel/rsd-cabled-pcie.h
-            include/opendmi/entity/intel/rsd-fpga.h
-            include/opendmi/entity/intel/rsd-memory-device.h
-            include/opendmi/entity/intel/rsd-network-card.h
-            include/opendmi/entity/intel/rsd-pcie.h
-            include/opendmi/entity/intel/rsd-phys-device-mapping.h
-            include/opendmi/entity/intel/rsd-processor-cpuid.h
-            include/opendmi/entity/intel/rsd-storage-device.h
-            include/opendmi/entity/intel/rsd-tpm.h
-            include/opendmi/entity/intel/rsd-txt.h
-
-            include/opendmi/module/lenovo.h
-
-            include/opendmi/module/sun.h
-            include/opendmi/entity/sun/memory-array-ex.h
-            include/opendmi/entity/sun/memory-device-ex.h
-            include/opendmi/entity/sun/pcie-root-complex.h
-            include/opendmi/entity/sun/port-ex.h
-            include/opendmi/entity/sun/processor-ex.h
-
-            include/opendmi/backend/dump.h
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_sources(opendmi-object
         PRIVATE
             src/backend/linux.c
-        PUBLIC FILE_SET HEADERS
-            BASE_DIRS include
-            FILES include/opendmi/backend/linux.h
     )
+
+    list(APPEND LIBOPENDMI_HEADERS include/opendmi/backend/linux.h)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    find_library(COREFOUNDATION_LIB CoreFoundation)
-    find_library(IOKIT_LIB IOKit)
-    list(APPEND LIBOPENDMI_LIBRARIES ${COREFOUNDATION_LIB} ${IOKIT_LIB})
+    find_library(COREFOUNDATION_LIB CoreFoundation REQUIRED)
+    find_library(IOKIT_LIB IOKit REQUIRED)
+
+    # Frameworks are located in SDK, which path may differ on target systems
+    list(APPEND LIBOPENDMI_LIBRARIES
+        $<BUILD_INTERFACE:${COREFOUNDATION_LIB}>
+        "$<INSTALL_INTERFACE:-framework CoreFoundation>"
+        $<BUILD_INTERFACE:${IOKIT_LIB}>
+        "$<INSTALL_INTERFACE:-framework IOKit>"
+    )
+    list(APPEND LIBOPENDMI_PC_LIBS "-framework CoreFoundation" "-framework IOKit")
 
     target_sources(opendmi-object
         PRIVATE
             src/backend/darwin.c
-        PUBLIC FILE_SET HEADERS
-            BASE_DIRS include
-            FILES include/opendmi/backend/darwin.h
     )
+
+    list(APPEND LIBOPENDMI_HEADERS include/opendmi/backend/darwin.h)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     target_sources(opendmi-object
         PRIVATE
             src/backend/generic.c
             src/backend/freebsd.c
-        PUBLIC FILE_SET HEADERS
-            BASE_DIRS include
-            FILES
-                include/opendmi/backend/generic.h
-                include/opendmi/backend/freebsd.h
+    )
+
+    list(APPEND LIBOPENDMI_HEADERS
+        include/opendmi/backend/generic.h
+        include/opendmi/backend/freebsd.h
     )
 elseif(CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
     target_sources(opendmi-object
         PRIVATE
             src/backend/generic.c
             src/backend/netbsd.c
-        PUBLIC FILE_SET HEADERS
-            BASE_DIRS include
-            FILES
-                include/opendmi/backend/generic.h
-                include/opendmi/backend/netbsd.h
+    )
+
+    list(APPEND LIBOPENDMI_HEADERS
+        include/opendmi/backend/generic.h
+        include/opendmi/backend/netbsd.h
     )
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list(APPEND LIBOPENDMI_LIBRARIES ntdll)
+    list(APPEND LIBOPENDMI_PC_CFLAGS -DDMI_STATIC)
 
     target_sources(opendmi-object
         PRIVATE
             src/backend/windows.c
             src/utils/win32.c
-        PUBLIC FILE_SET HEADERS
-            BASE_DIRS include
-            FILES include/opendmi/backend/windows.h
     )
+
+    list(APPEND LIBOPENDMI_HEADERS include/opendmi/backend/windows.h)
 endif()
 
 if(NOT MSVC)
@@ -400,38 +407,167 @@ if(ENABLE_COVERAGE)
     target_compile_options(opendmi-object PUBLIC ${COVERAGE_OPTIONS})
 endif()
 
-target_include_directories(opendmi-static INTERFACE include)
+# Only public API symbols, marked with __dmi_api, are exported
+target_compile_definitions(opendmi-object PRIVATE DMI_BUILD)
+set_target_properties(opendmi-object PROPERTIES C_VISIBILITY_PRESET hidden)
+
+# Binary compatibility is not guaranteed between minor versions before 1.0
+if(OPENDMI_VERSION_MAJOR EQUAL 0)
+    set(LIBOPENDMI_SOVERSION ${OPENDMI_VERSION_MAJOR}.${OPENDMI_VERSION_MINOR})
+    set(LIBOPENDMI_COMPATIBILITY SameMinorVersion)
+else()
+    set(LIBOPENDMI_SOVERSION ${OPENDMI_VERSION_MAJOR})
+    set(LIBOPENDMI_COMPATIBILITY SameMajorVersion)
+endif()
+
+target_sources(opendmi-static
+    PUBLIC FILE_SET HEADERS
+        BASE_DIRS include
+        FILES ${LIBOPENDMI_HEADERS}
+)
+target_compile_definitions(opendmi-static INTERFACE DMI_STATIC)
 target_sources(opendmi-static PRIVATE $<TARGET_OBJECTS:opendmi-object>)
 target_link_libraries(opendmi-static PUBLIC ${LIBOPENDMI_LIBRARIES})
-set_target_properties(opendmi-static PROPERTIES OUTPUT_NAME opendmi)
+set_target_properties(opendmi-static PROPERTIES
+    OUTPUT_NAME opendmi
+    EXPORT_NAME static
+)
 
-target_include_directories(opendmi-shared INTERFACE include)
+# MSVC names both static and DLL import libraries `opendmi.lib`
+if(MSVC)
+    set_target_properties(opendmi-static PROPERTIES OUTPUT_NAME opendmi-static)
+endif()
+
+target_sources(opendmi-shared
+    PUBLIC FILE_SET HEADERS
+        BASE_DIRS include
+        FILES ${LIBOPENDMI_HEADERS}
+)
 target_sources(opendmi-shared PRIVATE $<TARGET_OBJECTS:opendmi-object>)
 target_link_libraries(opendmi-shared PUBLIC ${LIBOPENDMI_LIBRARIES})
 if(ENABLE_COVERAGE)
-    target_link_options(opendmi-shared PUBLIC ${COVERAGE_OPTIONS})
+    target_link_options(opendmi-shared PUBLIC $<BUILD_INTERFACE:${COVERAGE_OPTIONS}>)
 endif()
-set_target_properties(opendmi-shared PROPERTIES OUTPUT_NAME opendmi)
+set_target_properties(opendmi-shared PROPERTIES
+    OUTPUT_NAME opendmi
+    EXPORT_NAME shared
+    VERSION ${OPENDMI_VERSION}
+    SOVERSION ${LIBOPENDMI_SOVERSION}
+)
 
-install(TARGETS opendmi-object PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(TARGETS opendmi-static ARCHIVE DESTINATION lib)
-install(TARGETS opendmi-shared LIBRARY DESTINATION lib)
+# The same target names are available when the project is used as a
+# subdirectory and when it is installed
+add_library(OpenDMI::static ALIAS opendmi-static)
+add_library(OpenDMI::shared ALIAS opendmi-shared)
+
+install(TARGETS opendmi-static opendmi-shared
+    EXPORT OpenDMITargets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+#
+# CMake package configuration: find_package(OpenDMI)
+#
+include(CMakePackageConfigHelpers)
+
+set(LIBOPENDMI_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/OpenDMI)
+
+install(EXPORT OpenDMITargets
+    NAMESPACE OpenDMI::
+    DESTINATION ${LIBOPENDMI_CMAKE_DIR}
+)
+
+if(ICU_FOUND)
+    set(LIBOPENDMI_WITH_ICU ON)
+else()
+    set(LIBOPENDMI_WITH_ICU OFF)
+endif()
+
+configure_package_config_file(
+    ${PROJECT_SOURCE_DIR}/../cmake/OpenDMIConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/OpenDMIConfig.cmake
+    INSTALL_DESTINATION ${LIBOPENDMI_CMAKE_DIR}
+)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/OpenDMIConfigVersion.cmake
+    VERSION ${OPENDMI_VERSION}
+    COMPATIBILITY ${LIBOPENDMI_COMPATIBILITY}
+)
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/OpenDMIConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/OpenDMIConfigVersion.cmake
+    DESTINATION ${LIBOPENDMI_CMAKE_DIR}
+)
+
+#
+# pkg-config file: pkg-config opendmi
+#
+# Installation prefix is determined relative to the file location, so the
+# prefix can be changed at install time
+if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
+    set(LIBOPENDMI_PC_PREFIX "${CMAKE_INSTALL_PREFIX}")
+    set(LIBOPENDMI_PC_LIBDIR "${CMAKE_INSTALL_LIBDIR}")
+else()
+    file(RELATIVE_PATH LIBOPENDMI_PC_RELATIVE "/${CMAKE_INSTALL_LIBDIR}/pkgconfig" "/")
+    string(REGEX REPLACE "/$" "" LIBOPENDMI_PC_RELATIVE "${LIBOPENDMI_PC_RELATIVE}")
+    set(LIBOPENDMI_PC_PREFIX "\${pcfiledir}/${LIBOPENDMI_PC_RELATIVE}")
+    set(LIBOPENDMI_PC_LIBDIR "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
+endif()
+
+if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
+    set(LIBOPENDMI_PC_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
+else()
+    set(LIBOPENDMI_PC_INCLUDEDIR "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
+endif()
+
+# Imported targets are provided by packages listed in LIBOPENDMI_PC_REQUIRES,
+# and libraries specified with generator expressions are added explicitly
+foreach(LIBRARY ${LIBOPENDMI_LIBRARIES})
+    if((LIBRARY MATCHES "::") OR (LIBRARY MATCHES "^\\$<"))
+        continue()
+    elseif(LIBRARY MATCHES "^-")
+        list(APPEND LIBOPENDMI_PC_LIBS "${LIBRARY}")
+    else()
+        list(APPEND LIBOPENDMI_PC_LIBS "-l${LIBRARY}")
+    endif()
+endforeach()
+
+list(JOIN LIBOPENDMI_PC_REQUIRES ", " LIBOPENDMI_PC_REQUIRES)
+list(JOIN LIBOPENDMI_PC_CFLAGS " " LIBOPENDMI_PC_CFLAGS)
+list(JOIN LIBOPENDMI_PC_LIBS " " LIBOPENDMI_PC_LIBS)
+
+configure_file(
+    ${PROJECT_SOURCE_DIR}/../cmake/opendmi.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/opendmi.pc
+    @ONLY
+)
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/opendmi.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+)
 
 #
 # Add library test.
 #
-#   opendmi_test(<name> <sources> [<library>])
+#   opendmi_test(<name> SOURCES <sources>... [LIBRARY <target>])
 #
-# The test is linked with the shared library by default, or with the given
-# library target (e.g. `opendmi-static`).
+# The test is registered as `<name>`, and its executable target is named
+# `<name>-test` with slashes replaced by dashes. The test is linked with the
+# shared library by default, or with the library target given in LIBRARY
+# (e.g. `opendmi-static`).
 #
-macro(opendmi_test TEST_NAME TEST_SOURCES)
+function(opendmi_test TEST_NAME)
+    cmake_parse_arguments(PARSE_ARGV 1 TEST "" "LIBRARY" "SOURCES")
+
     string(REPLACE "/" "-" TEST_TARGET "${TEST_NAME}")
     string(APPEND TEST_TARGET "-test")
 
-    set(TEST_LIBRARY opendmi-shared)
-    if(${ARGC} GREATER 2)
-        set(TEST_LIBRARY ${ARGV2})
+    if(NOT TEST_LIBRARY)
+        set(TEST_LIBRARY opendmi-shared)
     endif()
 
     add_executable(${TEST_TARGET} ${TEST_SOURCES} test/logger.c)
@@ -456,86 +592,48 @@ macro(opendmi_test TEST_NAME TEST_SOURCES)
             ENVIRONMENT "LLVM_PROFILE_FILE=${CMAKE_CURRENT_BINARY_DIR}/bin/${TEST_TARGET}.profraw"
         )
     endif()
-endmacro()
+endfunction()
 
-opendmi_test(attribute test/attribute.c)
-opendmi_test(error test/error.c)
-opendmi_test(context test/context.c)
-opendmi_test(entity test/entity.c)
-opendmi_test(entry test/entry.c)
-opendmi_test(module test/module.c)
-# Modules must be available with static linking as well
-opendmi_test(module/static test/module.c opendmi-static)
-opendmi_test(registry test/registry.c)
-opendmi_test(dump test/dump.c)
-opendmi_test(stream test/stream.c)
+opendmi_test(attribute SOURCES test/attribute.c)
+opendmi_test(error SOURCES test/error.c)
+opendmi_test(context SOURCES test/context.c)
+opendmi_test(entity SOURCES test/entity.c)
+opendmi_test(entry SOURCES test/entry.c)
+opendmi_test(module SOURCES test/module.c)
+opendmi_test(module/static SOURCES test/module.c LIBRARY opendmi-static)
+opendmi_test(registry SOURCES test/registry.c)
+opendmi_test(dump SOURCES test/dump.c)
+opendmi_test(stream SOURCES test/stream.c)
 
-opendmi_test(utils/endian test/utils/endian.c)
-opendmi_test(utils/codec test/utils/codec.c)
-opendmi_test(utils/string test/utils/string.c)
-opendmi_test(utils/vector test/utils/vector.c)
-opendmi_test(utils/version test/utils/version.c)
-opendmi_test(utils/datetime test/utils/datetime.c)
-opendmi_test(utils/uuid test/utils/uuid.c)
-opendmi_test(utils/misc test/utils/misc.c)
-opendmi_test(utils/file test/utils/file.c)
+opendmi_test(utils/endian SOURCES test/utils/endian.c)
+opendmi_test(utils/codec SOURCES test/utils/codec.c)
+opendmi_test(utils/string SOURCES test/utils/string.c)
+opendmi_test(utils/vector SOURCES test/utils/vector.c)
+opendmi_test(utils/version SOURCES test/utils/version.c)
+opendmi_test(utils/datetime SOURCES test/utils/datetime.c)
+opendmi_test(utils/uuid SOURCES test/utils/uuid.c)
+opendmi_test(utils/misc SOURCES test/utils/misc.c)
+opendmi_test(utils/file SOURCES test/utils/file.c)
 
-opendmi_test(entity/common test/entity/common.c)
-opendmi_test(entity/baseboard test/entity/baseboard.c)
-opendmi_test(entity/chassis test/entity/chassis.c)
-opendmi_test(entity/memory-controller test/entity/memory-controller.c)
-opendmi_test(entity/firmware test/entity/firmware.c)
-opendmi_test(entity/cache test/entity/cache.c)
-opendmi_test(entity/processor test/entity/processor.c)
-opendmi_test(entity/slot test/entity/slot.c)
-opendmi_test(entity/onboard-device test/entity/onboard-device.c)
-opendmi_test(entity/memory-array test/entity/memory-array.c)
-opendmi_test(entity/memory-device test/entity/memory-device.c)
-opendmi_test(entity/memory-error test/entity/memory-error.c)
-opendmi_test(entity/memory-channel test/entity/memory-channel.c)
-opendmi_test(entity/ipmi-device test/entity/ipmi-device.c)
-opendmi_test(entity/firmware-inventory test/entity/firmware-inventory.c)
-opendmi_test(entity/mgmt-controller test/entity/mgmt-controller.c)
-opendmi_test(entity/intel/rsd-fpga test/entity/intel/rsd-fpga.c)
-opendmi_test(entity/battery test/entity/battery.c)
-opendmi_test(entity/pointing-device test/entity/pointing-device.c)
-opendmi_test(entity/probe test/entity/probe.c)
+opendmi_test(entity/common SOURCES test/entity/common.c)
+opendmi_test(entity/baseboard SOURCES test/entity/baseboard.c)
+opendmi_test(entity/chassis SOURCES test/entity/chassis.c)
+opendmi_test(entity/memory-controller SOURCES test/entity/memory-controller.c)
+opendmi_test(entity/firmware SOURCES test/entity/firmware.c)
+opendmi_test(entity/cache SOURCES test/entity/cache.c)
+opendmi_test(entity/processor SOURCES test/entity/processor.c)
+opendmi_test(entity/slot SOURCES test/entity/slot.c)
+opendmi_test(entity/onboard-device SOURCES test/entity/onboard-device.c)
+opendmi_test(entity/memory-array SOURCES test/entity/memory-array.c)
+opendmi_test(entity/memory-device SOURCES test/entity/memory-device.c)
+opendmi_test(entity/memory-error SOURCES test/entity/memory-error.c)
+opendmi_test(entity/memory-channel SOURCES test/entity/memory-channel.c)
+opendmi_test(entity/ipmi-device SOURCES test/entity/ipmi-device.c)
+opendmi_test(entity/firmware-inventory SOURCES test/entity/firmware-inventory.c)
+opendmi_test(entity/mgmt-controller SOURCES test/entity/mgmt-controller.c)
+opendmi_test(entity/intel/rsd-fpga SOURCES test/entity/intel/rsd-fpga.c)
+opendmi_test(entity/battery SOURCES test/entity/battery.c)
+opendmi_test(entity/pointing-device SOURCES test/entity/pointing-device.c)
+opendmi_test(entity/probe SOURCES test/entity/probe.c)
 
-if(ASCIIDOCTOR_FOUND)
-    file(GLOB_RECURSE LIBOPENDMI_MANPAGE_SOURCES
-        RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/man
-        *.adoc)
-
-    foreach(src ${LIBOPENDMI_MANPAGE_SOURCES})
-        cmake_path(REMOVE_EXTENSION src LAST_ONLY OUTPUT_VARIABLE dst)
-
-        set(src_path "${CMAKE_CURRENT_SOURCE_DIR}/man/${src}")
-        set(dst_path "${CMAKE_CURRENT_BINARY_DIR}/man/${dst}")
-
-        cmake_path(REMOVE_FILENAME dst_path OUTPUT_VARIABLE dst_dir)
-        make_directory(${dst_dir})
-
-        add_custom_command(
-            OUTPUT ${dst_path}
-            COMMAND ${ASCIIDOCTOR_EXECUTABLE} --backend manpage --out-file ${dst_path} ${src_path}
-            DEPENDS ${src_path}
-        )
-
-        if (GZIP_EXECUTABLE)
-            add_custom_command(
-                OUTPUT ${dst_path}.gz
-                COMMAND ${GZIP_EXECUTABLE} --force ${dst_path}
-                DEPENDS ${dst_path}
-            )
-
-            list(APPEND LIBOPENDMI_MANPAGES ${dst_path}.gz)
-        else()
-            list(APPEND LIBOPENDMI_MANPAGES ${dst_path})
-        endif()
-    endforeach()
-
-    add_custom_target(opendmi-manuals DEPENDS ${LIBOPENDMI_MANPAGES})
-    add_dependencies(opendmi-object opendmi-manuals)
-
-    install(FILES ${LIBOPENDMI_MANPAGES} TYPE MAN)
-endif()
+add_manpages(opendmi-manuals ${CMAKE_CURRENT_SOURCE_DIR}/man)

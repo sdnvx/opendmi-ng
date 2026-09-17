@@ -223,12 +223,12 @@ typedef struct dmi_power_supply dmi_power_supply_t;
 /**
  * @brief System power supply entity specification.
  */
-extern const dmi_entity_spec_t dmi_power_supply_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_power_supply_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_power_supply_type_name(dmi_power_supply_type_t value);
-const char *dmi_range_switching_type_name(dmi_range_switching_type_t value);
+__dmi_api const char *dmi_power_supply_type_name(dmi_power_supply_type_t value);
+__dmi_api const char *dmi_range_switching_type_name(dmi_range_switching_type_t value);
 
 __END_DECLS
 

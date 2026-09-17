@@ -36,11 +36,11 @@ struct dmi_intel_rsd_txt
 /**
  * @brief Intel RSD TXT information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_txt_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_txt_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_intel_rsd_txt_status_name(dmi_intel_rsd_txt_status_t value);
+__dmi_api const char *dmi_intel_rsd_txt_status_name(dmi_intel_rsd_txt_status_t value);
 
 __END_DECLS
 

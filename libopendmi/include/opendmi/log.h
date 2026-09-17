@@ -42,16 +42,16 @@ struct dmi_log
 
 __BEGIN_DECLS
 
-bool dmi_log_set_level(dmi_log_t *target, dmi_log_level_t level);
+__dmi_api bool dmi_log_set_level(dmi_log_t *target, dmi_log_level_t level);
 
-bool dmi_log_message(
+__dmi_api bool dmi_log_message(
         dmi_log_t       *target,
         dmi_log_level_t  level,
         const char      *format,
         ...);
 
-const char *dmi_log_level_name(dmi_log_level_t value);
-dmi_log_level_t dmi_log_level_find(const char *code);
+__dmi_api const char *dmi_log_level_name(dmi_log_level_t value);
+__dmi_api dmi_log_level_t dmi_log_level_find(const char *code);
 
 __END_DECLS
 

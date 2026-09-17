@@ -32,6 +32,6 @@ struct dmi_system_config_opts
 /**
  * @brief System configuration options entity specification.
  */
-extern const dmi_entity_spec_t dmi_system_config_opts_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_system_config_opts_spec;
 
 #endif // !OPENDMI_ENTITY_SYSTEM_CONFIG_H

@@ -14,14 +14,15 @@
 
 typedef struct dmi_filter dmi_filter_t;
 
-typedef enum dmi_filter_mask : unsigned
+typedef enum dmi_filter_mask
 {
     DMI_FILTER_MASK_COMMON   = 1 << 0,
     DMI_FILTER_MASK_OEM      = 1 << 1,
     DMI_FILTER_MASK_INACTIVE = 1 << 2,
     DMI_FILTER_MASK_UNKNOWN  = 1 << 3,
     DMI_FILTER_MASK_DEFAULT  = DMI_FILTER_MASK_COMMON | DMI_FILTER_MASK_OEM,
-    DMI_FILTER_MASK_ALL      = ~0u
+    DMI_FILTER_MASK_ALL      = DMI_FILTER_MASK_COMMON | DMI_FILTER_MASK_OEM |
+                               DMI_FILTER_MASK_INACTIVE | DMI_FILTER_MASK_UNKNOWN
 } dmi_filter_mask_t;
 
 struct dmi_filter
@@ -46,7 +47,7 @@ __BEGIN_DECLS
  *
  * @return Pointer to the new filter, or @c nullptr on allocation failure.
  */
-dmi_filter_t *dmi_filter_create(dmi_context_t *context);
+__dmi_api dmi_filter_t *dmi_filter_create(dmi_context_t *context);
 
 /**
  * @brief Add a handle constraint to the filter.
@@ -61,7 +62,7 @@ dmi_filter_t *dmi_filter_create(dmi_context_t *context);
  * @return `true` on success, `false` if @p filter is @c nullptr or the handle
  *         could not be stored.
  */
-bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
+__dmi_api bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
 
 /**
  * @brief Add a type constraint to the filter.
@@ -76,7 +77,7 @@ bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
  * @return `true` on success, `false` if @p filter is @c nullptr or the type could
  *         not be stored.
  */
-bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type);
+__dmi_api bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type);
 
 /**
  * @brief Check whether the filter has no handle or type constraints.
@@ -89,7 +90,7 @@ bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type);
  * @return `true` if both the handle and type lists are empty, or if @p filter
  *         is @c nullptr; `false` otherwise.
  */
-bool dmi_filter_is_empty(const dmi_filter_t *filter);
+__dmi_api bool dmi_filter_is_empty(const dmi_filter_t *filter);
 
 /**
  * @brief Test whether an entity satisfies the filter.
@@ -111,7 +112,7 @@ bool dmi_filter_is_empty(const dmi_filter_t *filter);
  * @return `true` if @p entity satisfies all filter constraints, `false`
  *         otherwise or if either argument is @c nullptr.
  */
-bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity);
+__dmi_api bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity);
 
 /**
  * @brief Destroy a filter.
@@ -121,7 +122,7 @@ bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity);
  *
  * @param[in] filter Filter to destroy.
  */
-void dmi_filter_destroy(dmi_filter_t *filter);
+__dmi_api void dmi_filter_destroy(dmi_filter_t *filter);
 
 __END_DECLS
 

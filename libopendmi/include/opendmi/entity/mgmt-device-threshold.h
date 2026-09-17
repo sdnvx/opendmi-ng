@@ -49,6 +49,6 @@ struct dmi_mgmt_device_threshold
 /**
  * @brief Management device threshold data entity specification.
  */
-extern const dmi_entity_spec_t dmi_mgmt_device_threshold_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_mgmt_device_threshold_spec;
 
 #endif // !OPENDMI_ENTITY_MGMT_DEVICE_THRESHOLD_H

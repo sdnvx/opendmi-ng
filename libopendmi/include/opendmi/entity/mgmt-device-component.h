@@ -59,6 +59,6 @@ struct dmi_mgmt_device_component
 /**
  * @brief Manangement device component entity specification.
  */
-extern const dmi_entity_spec_t dmi_mgmt_device_component_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_mgmt_device_component_spec;
 
 #endif // !OPENDMI_ENTITY_MGMT_DEVICE_COMPONENT_H

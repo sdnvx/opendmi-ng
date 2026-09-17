@@ -144,14 +144,14 @@ struct dmi_ipmi_device
 /**
  * @brief IPMI device information entity specification.
  */
-extern const dmi_entity_spec_t dmi_ipmi_device_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_ipmi_device_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_ipmi_interface_name(dmi_ipmi_interface_t value);
-const char *dmi_ipmi_addr_type_name(dmi_ipmi_addr_type_t value);
-const char *dmi_ipmi_intr_trigger_name(dmi_ipmi_intr_trigger_t value);
-const char *dmi_ipmi_intr_polarity_name(dmi_ipmi_intr_polarity_t value);
+__dmi_api const char *dmi_ipmi_interface_name(dmi_ipmi_interface_t value);
+__dmi_api const char *dmi_ipmi_addr_type_name(dmi_ipmi_addr_type_t value);
+__dmi_api const char *dmi_ipmi_intr_trigger_name(dmi_ipmi_intr_trigger_t value);
+__dmi_api const char *dmi_ipmi_intr_polarity_name(dmi_ipmi_intr_polarity_t value);
 
 __END_DECLS
 

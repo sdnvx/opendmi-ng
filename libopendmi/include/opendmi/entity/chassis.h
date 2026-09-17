@@ -229,7 +229,7 @@ struct dmi_chassis_element
 /**
  * @brief System enclosure or chasis entity specification.
  */
-extern const dmi_entity_spec_t dmi_chassis_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_chassis_spec;
 
 __BEGIN_DECLS
 
@@ -242,7 +242,7 @@ __BEGIN_DECLS
  *
  * @return The chassis type name string, or @c nullptr if @p value is out of range.
  */
-const char *dmi_chassis_type_name(dmi_chassis_type_t value);
+__dmi_api const char *dmi_chassis_type_name(dmi_chassis_type_t value);
 
 /**
  * @brief Get chassis security status name.
@@ -254,7 +254,7 @@ const char *dmi_chassis_type_name(dmi_chassis_type_t value);
  * @return The chassis security status name string, or @c nullptr if @p value is
  * out of range.
  */
-const char *dmi_chassis_security_status_name(dmi_chassis_security_status_t value);
+__dmi_api const char *dmi_chassis_security_status_name(dmi_chassis_security_status_t value);
 
 __END_DECLS
 

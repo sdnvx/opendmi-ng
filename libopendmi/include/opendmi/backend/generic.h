@@ -13,15 +13,15 @@
 
 __BEGIN_DECLS
 
-bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, size_t *paddr);
+__dmi_api bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, size_t *paddr);
 
 #if defined(__i386__) or defined(__x86_64__)
-    bool dmi_generic_find_entry_addr(
+    __dmi_api bool dmi_generic_find_entry_addr(
             dmi_context_t *context,
             const char    *device,
             size_t        *paddr);
 
-    bool dmi_generic_find_anchor(
+    __dmi_api bool dmi_generic_find_anchor(
             dmi_context_t *context,
             dmi_data_t    *buffer,
             size_t         base_addr,

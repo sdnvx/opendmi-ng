@@ -7,6 +7,7 @@ CMakeFiles
 CMakeCache.txt
 Testing
 *.cmake
+!/cmake/*.cmake
 *.tcl
 *.res
 *.a

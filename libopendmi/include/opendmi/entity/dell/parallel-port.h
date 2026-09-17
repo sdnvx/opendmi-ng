@@ -111,14 +111,14 @@ struct dmi_dell_parallel_port
 /**
  * @brief Dell parallel port entity specification.
  */
-extern const dmi_entity_spec_t dmi_dell_parallel_port_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_dell_parallel_port_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_dell_parallel_port_connector_type_name(
+__dmi_api const char *dmi_dell_parallel_port_connector_type_name(
         dmi_dell_parallel_port_connector_type_t value);
 
-const char *dmi_dell_parallel_port_connector_pinout_name(
+__dmi_api const char *dmi_dell_parallel_port_connector_pinout_name(
         dmi_dell_parallel_port_connector_pinout_t value);
 
 __END_DECLS

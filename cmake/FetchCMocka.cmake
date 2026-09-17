@@ -16,3 +16,7 @@ set(UNIT_TESTING ON CACHE BOOL "CMocka: Build with unit testing" FORCE)
 set(PICKY_DEVELOPER OFF CACHE BOOL "CMocka: Build with picky developer flags" FORCE)
 
 FetchContent_MakeAvailable(cmocka)
+
+# CMocka is only used for testing, so it is neither built by default nor
+# installed
+set_property(DIRECTORY ${cmocka_SOURCE_DIR} PROPERTY EXCLUDE_FROM_ALL TRUE)

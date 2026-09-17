@@ -78,6 +78,6 @@ struct dmi_system_event_log
 /**
  * @brief System event log entity specification.
  */
-extern const dmi_entity_spec_t dmi_system_event_log_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_system_event_log_spec;
 
 #endif // !OPENDMI_ENTITY_SYSTEM_EVENT_LOG_H

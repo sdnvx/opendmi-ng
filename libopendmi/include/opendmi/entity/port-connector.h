@@ -141,12 +141,12 @@ struct dmi_port_connector
 /**
  * @brief Port connector information entity specification.
  */
-extern const dmi_entity_spec_t dmi_port_connector_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_port_connector_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_connector_type_name(dmi_connector_type_t value);
-const char *dmi_port_type_name(dmi_port_type_t value);
+__dmi_api const char *dmi_connector_type_name(dmi_connector_type_t value);
+__dmi_api const char *dmi_port_type_name(dmi_port_type_t value);
 
 __END_DECLS
 

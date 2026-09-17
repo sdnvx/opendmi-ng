@@ -11,6 +11,6 @@
 
 #include <opendmi/backend.h>
 
-extern dmi_backend_t dmi_windows_backend;
+extern __dmi_api dmi_backend_t dmi_windows_backend;
 
 #endif // !OPENDMI_BACKEND_WINDOWS_H

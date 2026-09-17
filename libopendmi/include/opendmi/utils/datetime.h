@@ -94,7 +94,7 @@ __BEGIN_DECLS
  * @return A `dmi_date_t` encoding the parsed date, or `DMI_DATE_NONE` if the
  *         string could not be parsed.
  */
-dmi_date_t dmi_date_parse(const char *str);
+__dmi_api dmi_date_t dmi_date_parse(const char *str);
 
 /**
  * @brief Formats a `dmi_date_t` value as an ISO 8601 date string.
@@ -108,7 +108,7 @@ dmi_date_t dmi_date_parse(const char *str);
  * @return A newly allocated `"YYYY-MM-DD"` string on success,
  *         or @c nullptr on allocation failure.
  */
-char *dmi_date_format(dmi_date_t date);
+__dmi_api char *dmi_date_format(dmi_date_t date);
 
 __END_DECLS
 
