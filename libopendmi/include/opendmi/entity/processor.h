@@ -11,9 +11,11 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_processor             dmi_processor_t;
-typedef union  dmi_processor_features    dmi_processor_features_t;
-typedef union  dmi_processor_status_data dmi_processor_status_data_t;
+typedef struct dmi_processor              dmi_processor_t;
+typedef union  dmi_processor_features     dmi_processor_features_t;
+typedef union  dmi_processor_status_data  dmi_processor_status_data_t;
+typedef union  dmi_processor_voltage_data dmi_processor_voltage_data_t;
+typedef union  dmi_processor_voltages     dmi_processor_voltages_t;
 
 typedef enum dmi_processor_type
 {
@@ -430,6 +432,58 @@ dmi_packed_union(dmi_processor_status_data)
 
 dmi_static_assert_value_union(dmi_processor_status_data);
 
+/**
+ * @brief Processor voltage field.
+ */
+dmi_packed_union(dmi_processor_voltage_data)
+{
+    /**
+     * @brief Raw value.
+     */
+    dmi_byte_t __value;
+
+    dmi_packed_struct()
+    {
+        /**
+         * @brief Current voltage multiplied by 10 if `is_current` is set,
+         * otherwise supported voltages in legacy mode.
+         */
+        dmi_byte_t value : 7;
+
+        /**
+         * @brief Is current voltage specified instead of supported voltages.
+         */
+        dmi_byte_t is_current : 1;
+    };
+};
+
+dmi_static_assert_value_union(dmi_processor_voltage_data);
+
+/**
+ * @brief Voltages supported by the processor socket in legacy mode.
+ */
+dmi_packed_union(dmi_processor_voltages)
+{
+    /**
+     * @brief Raw value.
+     */
+    dmi_byte_t __value;
+
+    dmi_packed_struct()
+    {
+        dmi_byte_t is_5v  : 1;
+        dmi_byte_t is_3v3 : 1;
+        dmi_byte_t is_2v9 : 1;
+
+        /**
+         * @brief Reserved for future use.
+         */
+        dmi_byte_t __reserved : 5;
+    };
+};
+
+dmi_static_assert_value_union(dmi_processor_voltages);
+
 dmi_packed_union(dmi_processor_features)
 {
     uint16_t __value;
@@ -466,7 +520,18 @@ struct dmi_processor
 
     const char *version;
 
+    /**
+     * @brief Current processor voltage, in tenths of volt. A value of zero
+     * indicates that the voltage is unspecified, for example, if supported
+     * voltages are specified instead.
+     */
     uint8_t voltage;
+
+    /**
+     * @brief Voltages supported by the processor socket, specified in legacy
+     * mode only.
+     */
+    dmi_processor_voltages_t supported_voltages;
 
     uint16_t external_clock;
 

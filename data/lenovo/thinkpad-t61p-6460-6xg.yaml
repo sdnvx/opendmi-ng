@@ -165,7 +165,8 @@ table:
     family: other
     vendor: GenuineIntel
     version: Intel(R) Core(TM)2 Duo CPU     T7500  @ 2.20GHz
-    voltage: 142
+    voltage: 1.4
+    supported-voltages: null
     external-clock: 200
     maximum-speed: 2200
     current-speed: 2200

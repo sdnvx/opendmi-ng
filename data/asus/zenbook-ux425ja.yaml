@@ -1471,7 +1471,8 @@ table:
     family: intel-core-i7
     vendor: Intel(R) Corporation
     version: Intel(R) Core(TM) i7-1065G7 CPU @ 1.30GHz
-    voltage: 135
+    voltage: 0.7
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 8300
     current-speed: 1300

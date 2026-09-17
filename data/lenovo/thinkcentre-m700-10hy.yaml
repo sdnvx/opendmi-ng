@@ -1215,7 +1215,8 @@ table:
     family: intel-core-i5
     vendor: Intel(R) Corporation
     version: Intel(R) Core(TM) i5-6400T CPU @ 2.20GHz
-    voltage: 137
+    voltage: 0.9
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4200
     current-speed: 2200

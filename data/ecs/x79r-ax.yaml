@@ -145,7 +145,8 @@ table:
     family: intel-xeon
     vendor: Intel
     version: Intel(R) Xeon(R) CPU E5-2687W 0 @ 3.10GHz
-    voltage: 128
+    voltage: null
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4000
     current-speed: 3100

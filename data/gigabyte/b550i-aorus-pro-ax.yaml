@@ -364,7 +364,8 @@ table:
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
     version: AMD Ryzen 7 5700G with Radeon Graphics
-    voltage: 142
+    voltage: 1.4
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4650
     current-speed: 3800

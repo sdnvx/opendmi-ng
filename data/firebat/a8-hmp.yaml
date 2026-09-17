@@ -354,7 +354,8 @@ table:
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
     version: AMD Ryzen AI 9 365 w/ Radeon 880M
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 5050
     current-speed: 2000

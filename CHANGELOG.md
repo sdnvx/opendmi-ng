@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `DMI_SIZE_MAX` constant for unknown `dmi_size_t` values
 - Add structure type attribute to chassis contained elements
+- Add decoding of processor voltage and supported voltages
 
 ### Fixed
 

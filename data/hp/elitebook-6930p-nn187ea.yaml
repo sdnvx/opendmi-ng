@@ -144,7 +144,8 @@ table:
     family: other
     vendor: Intel(R) Corporation
     version: Intel(R) Core(TM)2 Duo CPU     T9600  @ 2.80GHz
-    voltage: 144
+    voltage: 1.6
+    supported-voltages: null
     external-clock: 266
     maximum-speed: 2800
     current-speed: 1733

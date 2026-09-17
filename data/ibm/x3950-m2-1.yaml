@@ -477,7 +477,8 @@ table:
     family: intel-xeon-mp
     vendor: GenuineIntel
     version: Intel Xeon MP
-    voltage: 143
+    voltage: 1.5
+    supported-voltages: null
     external-clock: 133
     maximum-speed: 4000
     current-speed: 2400
@@ -519,7 +520,8 @@ table:
     family: intel-xeon-mp
     vendor: GenuineIntel
     version: Intel Xeon MP
-    voltage: 143
+    voltage: 1.5
+    supported-voltages: null
     external-clock: 133
     maximum-speed: 4000
     current-speed: 2400
@@ -561,7 +563,8 @@ table:
     family: intel-xeon-mp
     vendor: GenuineIntel
     version: Intel Xeon MP
-    voltage: 143
+    voltage: 1.5
+    supported-voltages: null
     external-clock: 133
     maximum-speed: 4000
     current-speed: 2400
@@ -603,7 +606,8 @@ table:
     family: intel-xeon-mp
     vendor: GenuineIntel
     version: Intel Xeon MP
-    voltage: 143
+    voltage: 1.5
+    supported-voltages: null
     external-clock: 133
     maximum-speed: 4000
     current-speed: 2400

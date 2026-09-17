@@ -145,7 +145,8 @@ table:
     family: amd-fx
     vendor: AMD
     version: AMD FX(tm)-8300 Eight-Core Processor
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 200
     maximum-speed: 3300
     current-speed: 3300

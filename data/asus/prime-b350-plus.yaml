@@ -732,7 +732,8 @@ table:
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
     version: AMD Ryzen 5 2600X Six-Core Processor
-    voltage: 140
+    voltage: 1.2
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4250
     current-speed: 3600

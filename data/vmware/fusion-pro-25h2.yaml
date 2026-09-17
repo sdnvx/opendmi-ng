@@ -215,7 +215,11 @@ table:
     family: arm-v8
     vendor: Apple
     version: Apple silicon
-    voltage: 7
+    voltage: null
+    supported-voltages:
+      5v: true
+      3v3: true
+      2v9: true
     external-clock: unknown
     maximum-speed: unknown
     current-speed: unknown

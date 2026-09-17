@@ -111,7 +111,8 @@ table:
     family: amd-opteron
     vendor: AMD
     version: null
-    voltage: 145
+    voltage: 1.7
+    supported-voltages: null
     external-clock: 1000
     maximum-speed: 2800
     current-speed: 2400
@@ -137,7 +138,8 @@ table:
     family: amd-opteron
     vendor: AMD
     version: null
-    voltage: 145
+    voltage: 1.7
+    supported-voltages: null
     external-clock: 1000
     maximum-speed: 2800
     current-speed: 2400
@@ -163,7 +165,8 @@ table:
     family: amd-opteron
     vendor: AMD
     version: null
-    voltage: 145
+    voltage: 1.7
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 2800
     current-speed: unknown
@@ -189,7 +192,8 @@ table:
     family: amd-opteron
     vendor: AMD
     version: null
-    voltage: 145
+    voltage: 1.7
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 2800
     current-speed: unknown

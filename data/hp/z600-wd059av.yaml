@@ -144,7 +144,8 @@ table:
     family: intel-xeon-mc
     vendor: Intel
     version: Intel(R) Xeon(R) CPU X5650 @ 2.67GHz
-    voltage: 138
+    voltage: 1.0
+    supported-voltages: null
     external-clock: 6400
     maximum-speed: 6000
     current-speed: 2666
@@ -186,7 +187,8 @@ table:
     family: intel-xeon-mc
     vendor: Intel
     version: Intel(R) Xeon(R) CPU X5650 @ 2.67GHz
-    voltage: 138
+    voltage: 1.0
+    supported-voltages: null
     external-clock: 6400
     maximum-speed: 6000
     current-speed: 2666

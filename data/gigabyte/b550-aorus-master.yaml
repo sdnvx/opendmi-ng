@@ -361,7 +361,8 @@ table:
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
     version: AMD Ryzen 9 5900X 12-Core Processor
-    voltage: 139
+    voltage: 1.1
+    supported-voltages: null
     external-clock: 100
     maximum-speed: 4950
     current-speed: 3700

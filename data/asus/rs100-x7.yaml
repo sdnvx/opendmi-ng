@@ -1009,7 +1009,11 @@ table:
     family: intel-xeon
     vendor: Intel(R) Corporation
     version: Intel(R) Xeon(R) CPU E3-1230 V2 @ 3.30GHz
-    voltage: 124
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
     external-clock: 100
     maximum-speed: 3800
     current-speed: 3300

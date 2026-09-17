@@ -18,6 +18,7 @@
 
 static void test_processor_status_name(void **pstate);
 static void test_processor_decode_status(void **pstate);
+static void test_processor_decode_voltage(void **pstate);
 static void test_processor_decode_version(void **pstate);
 static void test_processor_decode_incomplete(void **pstate);
 
@@ -37,14 +38,16 @@ static const uint8_t test_processor_data[] = {
     0
 };
 
-// Offset of the status field
-static const size_t test_status_offset = 0x18;
+// Offsets of the voltage and status fields
+static const size_t test_voltage_offset = 0x11;
+static const size_t test_status_offset  = 0x18;
 
 int main(void)
 {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_processor_status_name),
         cmocka_unit_test(test_processor_decode_status),
+        cmocka_unit_test(test_processor_decode_voltage),
         cmocka_unit_test(test_processor_decode_version),
         cmocka_unit_test(test_processor_decode_incomplete)
     };
@@ -106,6 +109,52 @@ static void test_processor_decode_status(void **pstate)
         assert_non_null(info);
         assert_int_equal(info->is_populated, cases[i].is_populated);
         assert_int_equal(info->status, cases[i].status);
+
+        dmi_entity_destroy(entity);
+    }
+
+    dmi_destroy(context);
+}
+
+static void test_processor_decode_voltage(void **pstate)
+{
+    dmi_unused(pstate);
+
+    static const struct {
+        uint8_t value;
+        uint8_t voltage;
+        uint8_t supported_voltages;
+    } cases[] = {
+        // Current voltage
+        { 0x8C, 12, 0x00 },
+        { 0xFF, 127, 0x00 },
+        { 0x80, 0, 0x00 },
+        // Supported voltages in legacy mode
+        { 0x00, 0, 0x00 },
+        { 0x01, 0, 0x01 },
+        { 0x06, 0, 0x06 },
+        // Reserved bits are ignored
+        { 0x7A, 0, 0x02 }
+    };
+
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+    dmi_set_logger(context, &test_logger);
+
+    for (size_t i = 0; i < countof(cases); i++) {
+        uint8_t data[sizeof(test_processor_data)];
+
+        memcpy(data, test_processor_data, sizeof(data));
+        data[test_voltage_offset] = cases[i].value;
+
+        dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+        assert_non_null(entity);
+        assert_true(dmi_entity_decode(entity));
+
+        const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+        assert_non_null(info);
+        assert_int_equal(info->voltage, cases[i].voltage);
+        assert_int_equal(info->supported_voltages.__value, cases[i].supported_voltages);
 
         dmi_entity_destroy(entity);
     }

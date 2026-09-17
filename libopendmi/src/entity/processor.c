@@ -1307,6 +1307,29 @@ static const dmi_name_set_t dmi_processor_status_names =
     }
 };
 
+static const dmi_name_set_t dmi_processor_voltage_names =
+{
+    .code  = "processor-voltages",
+    .names = (dmi_name_t[]){
+        {
+            .id   = 0,
+            .code = "5v",
+            .name = "5V"
+        },
+        {
+            .id   = 1,
+            .code = "3v3",
+            .name = "3.3V"
+        },
+        {
+            .id   = 2,
+            .code = "2v9",
+            .name = "2.9V"
+        },
+        DMI_NAME_NULL
+    }
+};
+
 static const dmi_name_set_t dmi_processor_upgrade_names =
 {
     .code  = "processor-upgrades",
@@ -1842,10 +1865,18 @@ const dmi_entity_spec_t dmi_processor_spec =
             .code    = "version",
             .name    = "Version"
         }),
-        DMI_ATTRIBUTE(dmi_processor_t, voltage, INTEGER, {
+        DMI_ATTRIBUTE(dmi_processor_t, voltage, DECIMAL, {
             .code    = "voltage",
             .name    = "Voltage",
-            .flags   = DMI_ATTRIBUTE_FLAG_HEX
+            .unit    = DMI_UNIT_VOLT,
+            .scale   = 1,
+            .unspec  = dmi_value_ptr((uint8_t)0)
+        }),
+        DMI_ATTRIBUTE(dmi_processor_t, supported_voltages, SET, {
+            .code    = "supported-voltages",
+            .name    = "Supported voltages",
+            .unspec  = dmi_value_ptr((dmi_byte_t)0),
+            .values  = &dmi_processor_voltage_names
         }),
         DMI_ATTRIBUTE(dmi_processor_t, external_clock, INTEGER, {
             .code    = "external-clock",
@@ -1989,7 +2020,8 @@ static bool dmi_processor_decode(dmi_entity_t *entity)
     info->l3_cache_handle = DMI_HANDLE_INVALID;
 
     // SMBIOS 2.0 fields
-    dmi_byte_t status_value = 0;
+    dmi_byte_t voltage_value = 0;
+    dmi_byte_t status_value  = 0;
 
     bool status =
         dmi_stream_decode_str(stream, &info->socket_designation) and
@@ -1998,7 +2030,7 @@ static bool dmi_processor_decode(dmi_entity_t *entity)
         dmi_stream_decode_str(stream, &info->vendor) and
         dmi_stream_skip(stream, sizeof(dmi_qword_t)) and
         dmi_stream_decode_str(stream, &info->version) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->voltage) and
+        dmi_stream_decode(stream, dmi_byte_t, &voltage_value) and
         dmi_stream_decode(stream, dmi_word_t, &info->external_clock) and
         dmi_stream_decode(stream, dmi_word_t, &info->maximum_speed) and
         dmi_stream_decode(stream, dmi_word_t, &info->current_speed) and
@@ -2007,16 +2039,17 @@ static bool dmi_processor_decode(dmi_entity_t *entity)
     if (not status)
         return false;
 
-    // TODO:
-    // bool legacy = not (bool)(info->voltage & ((uint8_t)1 << 7));
-    // if (legacy) {
-    //     bool supports_5_0v = (bool)(info->voltage & ((uint8_t)1 << 0));
-    //     bool supports_3_3v = (bool)(info->voltage & ((uint8_t)1 << 1));
-    //     bool supports_2_9v = (bool)(info->voltage & ((uint8_t)1 << 2));
-    // } else {
-    //     // DECIMAL * 10
-    //     uint8_t voltage = (info->voltage & ~((uint8_t)1 << 7));
-    // }
+    dmi_processor_voltage_data_t voltage_data = {
+        .__value = voltage_value
+    };
+
+    // Either current voltage or supported voltages are specified
+    if (voltage_data.is_current) {
+        info->voltage = voltage_data.value;
+    } else {
+        info->supported_voltages.__value    = voltage_data.value;
+        info->supported_voltages.__reserved = 0;
+    }
 
     dmi_processor_status_data_t status_data = {
         .__value = status_value
