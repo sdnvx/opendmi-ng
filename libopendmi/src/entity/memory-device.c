@@ -441,7 +441,7 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_ATTRIBUTE(dmi_memory_device_t, size, SIZE, {
             .code    = "size",
             .name    = "Size",
-            .unknown = dmi_value_ptr((dmi_size_t)UINT64_MAX)
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, form_factor, ENUM, {
             .code    = "form-factor",
@@ -589,25 +589,25 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_ATTRIBUTE(dmi_memory_device_t, non_volatile_size, SIZE, {
             .code    = "non-volatile-size",
             .name    = "Non-volatile size",
-            .unknown = dmi_value_ptr((dmi_size_t)UINT64_MAX),
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX),
             .level   = DMI_VERSION(3, 2, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, volatile_size, SIZE, {
             .code    = "volatile-size",
             .name    = "Volatile size",
-            .unknown = dmi_value_ptr((dmi_size_t)UINT64_MAX),
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX),
             .level   = DMI_VERSION(3, 2, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, cache_size, SIZE, {
             .code    = "cache-size",
             .name    = "Cache size",
-            .unknown = dmi_value_ptr((dmi_size_t)UINT64_MAX),
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX),
             .level   = DMI_VERSION(3, 2, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, logical_size, SIZE, {
             .code    = "logical-size",
             .name    = "Logical size",
-            .unknown = dmi_value_ptr((dmi_size_t)UINT64_MAX),
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX),
             .level   = DMI_VERSION(3, 2, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, pmic0_vendor_id, INTEGER, {
@@ -676,7 +676,7 @@ dmi_size_t dmi_memory_device_size(uint16_t value)
 dmi_size_t dmi_memory_device_size_ex(uint32_t value)
 {
     if (value & 0x80000000u)
-        return UINT64_MAX;
+        return DMI_SIZE_MAX;
 
     return (dmi_size_t)(value & 0x7FFFFFFFu) << 20; // Granularity is 1 Mb
 }
@@ -717,7 +717,7 @@ static bool dmi_memory_device_decode(dmi_entity_t *entity)
     if (info->data_width == 0xFFFFu)
         info->data_width = USHRT_MAX;
 
-    info->size       = (size != 0xFFFFu) ? dmi_memory_device_size(size) : UINT64_MAX;
+    info->size       = (size != 0xFFFFu) ? dmi_memory_device_size(size) : DMI_SIZE_MAX;
     info->device_set = (device_set != 0xFFu) ? device_set : USHRT_MAX;
 
     info->memory_type_detail.__value = type_detail;

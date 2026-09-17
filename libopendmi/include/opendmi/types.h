@@ -80,6 +80,11 @@ typedef dmi_byte_t dmi_string_t;
 typedef uint64_t dmi_size_t;
 
 /**
+ * @brief Maximum value of @ref dmi_size_t, used to represent unknown sizes.
+ */
+#define DMI_SIZE_MAX ((dmi_size_t)UINT64_MAX)
+
+/**
  * @brief I2C address (7- or 10-bit).
  */
 typedef uint16_t dmi_i2c_addr_t;

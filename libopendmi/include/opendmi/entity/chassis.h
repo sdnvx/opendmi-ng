@@ -211,16 +211,15 @@ struct dmi_chassis_element
      * @brief Specifies the minimum number of the element type that can be
      * installed in the chassis for the chassis to properly operate, in the
      * range 0 to 254. The value 255 (0xFF) is reserved for future definition
-     * by this specification.
-     *
-     * TODO: Convert reserved value to SIZE_MAX.
+     * by this specification, and is represented as `SIZE_MAX`.
      */
     size_t minimum_count;
 
     /**
      * @brief Specifies the maximum number of the element type that can be
      * installed in the chassis, in the range 1 to 255. The value 0 is reserved
-     * for future definition by this specification.
+     * for future definition by this specification, and is represented as
+     * `SIZE_MAX`.
      */
     size_t maximum_count;
 };

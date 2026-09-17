@@ -165,7 +165,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         DMI_ATTRIBUTE(dmi_memory_array_t, maximum_capacity, SIZE, {
             .code    = "maximum-capacity",
             .name    = "Maximum capacity",
-            .unknown = dmi_value_ptr((dmi_size_t)UINT64_MAX)
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX)
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, error_info_handle, HANDLE, {
             .code    = "error-handle",
@@ -221,7 +221,7 @@ static bool dmi_memory_array_decode(dmi_entity_t *entity)
     bool has_capacity_ex = (maximum_capacity == 0x80000000u);
 
     if (has_capacity_ex)
-        info->maximum_capacity = UINT64_MAX;
+        info->maximum_capacity = DMI_SIZE_MAX;
     else
         info->maximum_capacity = (dmi_size_t)maximum_capacity << 10;
 

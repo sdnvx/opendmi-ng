@@ -198,7 +198,8 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, image_size, SIZE, {
             .code    = "image-size",
-            .name    = "Image size"
+            .name    = "Image size",
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX)
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, features, SET, {
             .code    = "characteristics",

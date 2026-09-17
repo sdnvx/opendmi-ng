@@ -165,9 +165,10 @@ static void test_chassis_decode_elements(void **pstate)
         0x03, 0x03, 0x03, 0x03,             // States
         0x00, 0x00, 0x00, 0x00,             // OEM-defined
         0x02, 0x02,                         // Height, power cords
-        0x02, 0x03,                         // Element count and size
+        0x03, 0x03,                         // Element count and size
         0x0A, 0x01, 0x02,                   // Baseboard: server blade
         0x91, 0x00, 0x04,                   // SMBIOS structure: memory device
+        0x84, 0xFF, 0x00,                   // SMBIOS structure: processor, reserved counts
         0x02,                               // SKU number
         0x01, 0x10                          // Rack type and height
     };
@@ -180,7 +181,7 @@ static void test_chassis_decode_elements(void **pstate)
     assert_int_equal(entity->level, DMI_VERSION(3, 9, 0));
     assert_int_equal(info->height, 2);
     assert_int_equal(info->power_cord_count, 2);
-    assert_int_equal(info->element_count, 2);
+    assert_int_equal(info->element_count, 3);
     assert_int_equal(info->element_size, 3);
 
     assert_int_equal(info->elements[0].type, DMI_TYPE_INVALID);
@@ -191,6 +192,11 @@ static void test_chassis_decode_elements(void **pstate)
     assert_int_equal(info->elements[1].type, DMI_TYPE(MEMORY_DEVICE));
     assert_int_equal(info->elements[1].minimum_count, 0);
     assert_int_equal(info->elements[1].maximum_count, 4);
+
+    // Reserved counts are represented as unknown values
+    assert_int_equal(info->elements[2].type, DMI_TYPE(PROCESSOR));
+    assert_uint_equal(info->elements[2].minimum_count, SIZE_MAX);
+    assert_uint_equal(info->elements[2].maximum_count, SIZE_MAX);
 
     assert_string_equal(info->sku_number, "SKU");
     assert_int_equal(info->rack_type, DMI_RACK_TYPE_OPEN);
