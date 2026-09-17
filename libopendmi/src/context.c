@@ -109,6 +109,47 @@ static bool dmi_dump_write(
         const dmi_data_t *data,
         size_t            size);
 
+/**
+ * @internal
+ * @brief Build entry point structure for a dump file.
+ *
+ * @details
+ * Dump file layout is compatible with dmidecode: the entry point structure
+ * is padded with zeroes to #DMI_ENTRY_MAX_SIZE bytes and followed by the
+ * structure table. The table address in the entry point is replaced with the
+ * table offset in the file, and the checksum is adjusted accordingly. If the
+ * backend provides no entry point data, a 64-bit entry point is generated.
+ */
+static bool dmi_dump_entry_build(dmi_context_t *context, dmi_byte_t *entry);
+
+/**
+ * @internal
+ * @brief Generate 64-bit entry point structure for a dump file.
+ */
+static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry);
+
+/**
+ * @internal
+ * @brief Set field of entry point structure placed in a writable buffer.
+ *
+ * @details
+ * Entry point structure fields are read-only, so the value is copied to the
+ * field address. Copying also avoids unaligned access to packed fields.
+ */
+#define dmi_entry_set(field, value) \
+    memcpy((void *)&(field), &(const __typeof__(field)){ value }, sizeof(field))
+
+/**
+ * @internal
+ * @brief Update checksum of `length` bytes of entry point structure placed
+ * in a writable buffer.
+ */
+#define dmi_entry_set_checksum(eps, length)                                  \
+    do {                                                                     \
+        dmi_entry_set((eps)->checksum, 0);                                   \
+        dmi_entry_set((eps)->checksum, dmi_checksum_calc((eps), (length))); \
+    } while (false)
+
 static const dmi_entity_spec_t dmi_inactive_spec =
 {
     .code        = "inactive",
@@ -406,10 +447,14 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
         return false;
     }
-    if (context->state.entry_size > DMI_ENTRY_MAX_SIZE) {
+    if (context->state.entry_data_size > DMI_ENTRY_MAX_SIZE) {
         dmi_error_raise(context, DMI_ERROR_INVALID_EPS_LENGTH);
         return false;
     }
+
+    dmi_byte_t entry[DMI_ENTRY_MAX_SIZE];
+    if (not dmi_dump_entry_build(context, entry))
+        return false;
 
     flags = O_CREAT | O_WRONLY | O_TRUNC;
 #if defined(O_BINARY)
@@ -430,12 +475,6 @@ bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
 
     success = false;
     do {
-        dmi_byte_t entry[DMI_ENTRY_MAX_SIZE] = {};
-
-        // Entry point data is optional, Windows backend does not provide it
-        if (context->state.entry_data != nullptr)
-            memcpy(entry, context->state.entry_data, context->state.entry_size);
-
         if (not dmi_dump_write(context, fd, path, entry, sizeof(entry)))
             break;
         if (not dmi_dump_write(context, fd, path, context->state.table_data, context->state.table_size))
@@ -576,12 +615,12 @@ static bool dmi_open_ex(
         // Read and decode entry point, if backend provides it
         if (backend->read_entry != nullptr) {
             dmi_log_info(context->logger, "Reading DMI entry point...");
-            context->state.entry_data = backend->read_entry(context, &context->state.entry_size);
+            context->state.entry_data = backend->read_entry(context, &context->state.entry_data_size);
             if (context->state.entry_data == nullptr)
                 break;
 
             dmi_log_info(context->logger, "Decoding DMI entry point...");
-            if (not dmi_entry_decode(context, context->state.entry_data, context->state.entry_size))
+            if (not dmi_entry_decode(context, context->state.entry_data, context->state.entry_data_size))
                 break;
         }
 
@@ -729,6 +768,89 @@ static bool dmi_dump_write(
         dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: Incomplete write", path);
         return false;
     }
+
+    return true;
+}
+
+static bool dmi_dump_entry_build(dmi_context_t *context, dmi_byte_t *entry)
+{
+    const dmi_entry_spec_t *spec = context->state.entry_spec;
+    size_t length;
+
+    memset(entry, 0, DMI_ENTRY_MAX_SIZE);
+
+    // Entry point data is optional, Windows backend does not provide it
+    if ((context->state.entry_data == nullptr) or (spec == nullptr))
+        return dmi_dump_entry_generate(context, entry);
+
+    memcpy(entry, context->state.entry_data, context->state.entry_data_size);
+
+    if (spec->version >= DMI_VERSION(3, 0, 0)) {
+        dmi_entry_v30_t *eps = dmi_cast(eps, entry);
+
+        length = dmi_decode(eps->length);
+
+        dmi_entry_set(eps->table_area_addr, dmi_encode_qword(DMI_ENTRY_MAX_SIZE));
+        dmi_entry_set_checksum(eps, length);
+    } else if (spec->version >= DMI_VERSION(2, 1, 0)) {
+        dmi_entry_v21_t *eps = dmi_cast(eps, entry);
+        dmi_entry_legacy_t *ieps = dmi_cast(ieps, &eps->ieps);
+
+        // Unlike dmidecode, the intermediate entry point is always written
+        // completely, even if the entry point length is 0x1E. Otherwise, its
+        // checksum would become invalid.
+        length = dmi_decode(eps->length);
+        if (length < sizeof(dmi_entry_v21_t))
+            length = sizeof(dmi_entry_v21_t);
+
+        // Intermediate entry point bytes sum to zero before and after the
+        // relocation, so the entry point checksum needs no adjustment.
+        dmi_entry_set(ieps->table_area_addr, dmi_encode_dword(DMI_ENTRY_MAX_SIZE));
+        dmi_entry_set_checksum(ieps, sizeof(dmi_entry_legacy_t));
+    } else {
+        dmi_entry_legacy_t *eps = dmi_cast(eps, entry);
+
+        length = sizeof(dmi_entry_legacy_t);
+
+        dmi_entry_set(eps->table_area_addr, dmi_encode_dword(DMI_ENTRY_MAX_SIZE));
+        dmi_entry_set_checksum(eps, length);
+    }
+
+    // Only the entry point itself is written, the rest is zero-filled
+    assert(length <= DMI_ENTRY_MAX_SIZE);
+    memset(entry + length, 0, DMI_ENTRY_MAX_SIZE - length);
+
+    return true;
+}
+
+static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry)
+{
+    dmi_version_t version = context->state.smbios_version;
+
+    if (context->state.table_size > UINT32_MAX) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
+                           "SMBIOS table is too large: %zu bytes", context->state.table_size);
+        return false;
+    }
+
+    dmi_entry_v30_t *eps = dmi_cast(eps, entry);
+
+    const dmi_entry_v30_t data = {
+        .length              = dmi_encode_byte(sizeof(dmi_entry_v30_t)),
+        .version_major       = dmi_encode_byte((uint8_t)dmi_version_major(version)),
+        .version_minor       = dmi_encode_byte((uint8_t)dmi_version_minor(version)),
+        .version_rev         = dmi_encode_byte((uint8_t)dmi_version_revision(version)),
+        .revision            = dmi_encode_byte(0x01), // SMBIOS 3.0 entry point
+        .table_area_max_size = dmi_encode_dword((uint32_t)context->state.table_size),
+        .table_area_addr     = dmi_encode_qword(DMI_ENTRY_MAX_SIZE)
+    };
+
+    memcpy(eps, &data, sizeof(data));
+
+    // Anchor is not null-terminated, so it is not initialized from string
+    memcpy(eps, DMI_ANCHOR_V30, strlen(DMI_ANCHOR_V30));
+
+    dmi_entry_set_checksum(eps, sizeof(dmi_entry_v30_t));
 
     return true;
 }

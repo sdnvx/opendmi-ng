@@ -92,6 +92,7 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
         dmi_tty_header("%s", spec->name);
 
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "Anchor: %s\n", spec->anchor);
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "EPS version: %s\n", entry_version);
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS version: %s\n", smbios_version);
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "Address size: %zu bits\n", context->state.address_size << 3);
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");

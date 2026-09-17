@@ -48,7 +48,21 @@ void dmi_free(void *ptr);
  *         otherwise. Returns @c false and sets `errno` to @c EINVAL if
  *         @p data is @c nullptr.
  */
-bool dmi_checksum(const void *data, size_t length);
+bool dmi_checksum_check(const void *data, size_t length);
+
+/**
+ * @brief Computes an SMBIOS-style 8-bit checksum.
+ *
+ * Computes the value which, when added to all bytes in @p data over
+ * @p length bytes, results in zero sum modulo 256. The checksum field within
+ * @p data must be set to zero before the computation.
+ *
+ * @param data   Pointer to the data block to compute checksum of.
+ * @param length Number of bytes to sum.
+ * @return Checksum value. Returns @c 0 and sets `errno` to @c EINVAL if
+ *         @p data is @c nullptr.
+ */
+uint8_t dmi_checksum_calc(const void *data, size_t length);
 
 /**
  * @brief Raises a 32-bit unsigned integer to a non-negative integer power.

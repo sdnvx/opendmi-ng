@@ -59,7 +59,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .min_length = sizeof(dmi_entry_v30_t),
         .handler    = dmi_entry_decode_v30,
         .attributes = (const dmi_attribute_t[]){
-            DMI_ATTRIBUTE(dmi_context_t, state.entry_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entry_length, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
             }),
@@ -87,7 +87,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .min_length = sizeof(dmi_entry_v21_t),
         .handler    = dmi_entry_decode_v21,
         .attributes = (const dmi_attribute_t[]){
-            DMI_ATTRIBUTE(dmi_context_t, state.entry_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entry_length, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
             }),
@@ -123,7 +123,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .min_length = sizeof(dmi_entry_legacy_t),
         .handler    = dmi_entry_decode_legacy,
         .attributes = (const dmi_attribute_t[]){
-            DMI_ATTRIBUTE(dmi_context_t, state.entry_size, SIZE, {
+            DMI_ATTRIBUTE(dmi_context_t, state.entry_length, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
             }),
@@ -174,7 +174,8 @@ bool dmi_entry_decode(dmi_context_t *context, const void *data, size_t length)
         return false;
     }
 
-    context->state.entry_spec = spec;
+    context->state.entry_spec    = spec;
+    context->state.entry_version = spec->version;
 
     return spec->handler(context, data, length);
 }
@@ -191,7 +192,7 @@ static bool dmi_entry_decode_legacy(dmi_context_t *context,
     const dmi_entry_legacy_t *entry = dmi_cast(entry, data);
 
     // Verify EPS checksum value
-    if (not dmi_checksum(data, sizeof(dmi_entry_legacy_t))) {
+    if (not dmi_checksum_check(data, sizeof(dmi_entry_legacy_t))) {
         dmi_error_raise(context, DMI_ERROR_INVALID_EPS_CHECKSUM);
         return false;
     }
@@ -210,6 +211,7 @@ static bool dmi_entry_decode_legacy(dmi_context_t *context,
         context->state.address_size = sizeof(uint32_t);
 
     // Decode table area parameters
+    context->state.entry_length        = sizeof(dmi_entry_legacy_t);
     context->state.entity_count        = dmi_decode(entry->entity_count);
     context->state.table_area_addr     = dmi_decode(entry->table_area_addr);
     context->state.table_area_max_size = dmi_decode(entry->table_area_size);
@@ -225,14 +227,12 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
     assert(data != nullptr);
     assert(length >= sizeof(dmi_entry_v21_t));
 
-    dmi_unused(length);
-
     const dmi_entry_v21_t *entry = dmi_cast(entry, data);
     size_t entry_length = dmi_decode(entry->length);
 
     // Check maximum entry point length to prevent checksum run beyond
     // the buffer.
-    if (entry_length > sizeof(dmi_entry_v21_t)) {
+    if (entry_length > length) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_EPS_LENGTH, "%zu", entry_length);
         return false;
     }
@@ -246,15 +246,17 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
     }
 
     // Verify EPS checksum value
-    if (not dmi_checksum(data, entry_length)) {
+    if (not dmi_checksum_check(data, entry_length)) {
         dmi_error_raise(context, DMI_ERROR_INVALID_EPS_CHECKSUM);
         return false;
     }
 
-    // Decode SMBIOS version
+    // Decode entry point revision and SMBIOS version, which has no revision
+    // number in this entry point
+    context->state.entry_revision = dmi_decode(entry->revision);
     context->state.smbios_version = dmi_version(dmi_decode(entry->version_major),
                                                 dmi_decode(entry->version_minor),
-                                                dmi_decode(entry->revision));
+                                                0);
 
     // Set address size
     context->state.address_size = sizeof(uint32_t);
@@ -262,7 +264,13 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
     // Decode structure parameters
     context->state.entity_max_size = dmi_decode(entry->entity_max_size);
 
-    return dmi_entry_decode_legacy(context, (const void *)&entry->ieps, sizeof(entry->ieps));
+    if (not dmi_entry_decode_legacy(context, (const void *)&entry->ieps, sizeof(entry->ieps)))
+        return false;
+
+    // Intermediate entry point length is overridden
+    context->state.entry_length = entry_length;
+
+    return true;
 }
 
 static bool dmi_entry_decode_v30(dmi_context_t *context,
@@ -272,14 +280,12 @@ static bool dmi_entry_decode_v30(dmi_context_t *context,
     assert(data != nullptr);
     assert(length >= sizeof(dmi_entry_v30_t));
 
-    dmi_unused(length);
-
     const dmi_entry_v30_t *entry = dmi_cast(entry, data);
     size_t entry_length = dmi_decode(entry->length);
 
     // Check maximum entry point length to prevent checksum run beyond
     // the buffer.
-    if (entry_length > sizeof(dmi_entry_v30_t)) {
+    if (entry_length > length) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_EPS_LENGTH, "%zu", entry_length);
         return false;
     }
@@ -291,7 +297,7 @@ static bool dmi_entry_decode_v30(dmi_context_t *context,
     }
 
     // Verify EPS checksum value
-    if (not dmi_checksum(data, entry_length)) {
+    if (not dmi_checksum_check(data, entry_length)) {
         dmi_error_raise(context, DMI_ERROR_INVALID_EPS_CHECKSUM);
         return false;
     }
@@ -302,11 +308,11 @@ static bool dmi_entry_decode_v30(dmi_context_t *context,
                                                 dmi_decode(entry->version_minor),
                                                 dmi_decode(entry->version_rev));
 
-
     // Set address size
     context->state.address_size = sizeof(uint64_t);
 
     // Decode table parameters
+    context->state.entry_length        = entry_length;
     context->state.table_area_addr     = dmi_decode(entry->table_area_addr);
     context->state.table_area_max_size = dmi_decode(entry->table_area_max_size);
 
