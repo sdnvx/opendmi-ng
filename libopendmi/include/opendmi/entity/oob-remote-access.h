@@ -78,6 +78,6 @@ struct dmi_oob_remote_access
 /**
  * @brief Out-of-band remote access entity specification.
  */
-extern const dmi_entity_spec_t dmi_oob_remote_access_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_oob_remote_access_spec;
 
 #endif // !OPENDMI_ENTITY_OOB_REMOTE_ACCESS_H

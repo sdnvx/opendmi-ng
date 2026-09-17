@@ -131,11 +131,11 @@ struct dmi_probe
     short nominal_value;
 };
 
-extern const dmi_name_set_t dmi_probe_location_names;
+extern __dmi_api const dmi_name_set_t dmi_probe_location_names;
 
 __BEGIN_DECLS
 
-const char *dmi_probe_location_name(dmi_probe_location_t value);
+__dmi_api const char *dmi_probe_location_name(dmi_probe_location_t value);
 
 /**
  * @internal
@@ -151,7 +151,7 @@ const char *dmi_probe_location_name(dmi_probe_location_t value);
  *
  * @return `true` on success, `false` on decoding failure.
  */
-bool dmi_probe_decode(dmi_entity_t *entity);
+__dmi_api bool dmi_probe_decode(dmi_entity_t *entity);
 
 __END_DECLS
 

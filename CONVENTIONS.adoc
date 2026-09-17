@@ -13,6 +13,10 @@
 
 * Use `#pragma once` in addition to include guargs in header files to avoid duplicated includes.
 
+== Public API
+
+* Mark every function and variable declared in public headers of `libopendmi` with `__dmi_api`, e.g. `__dmi_api bool dmi_open(...);` or `extern __dmi_api const dmi_module_t dmi_intel_module;`. The library is built with hidden symbol visibility, so unmarked symbols are not exported from the shared library.
+
 == Naming
 
 * Use `snake_case` to name a multi-word variable or type.

@@ -31,7 +31,7 @@ __BEGIN_DECLS
  *         success, or a negative value on failure (e.g., allocation error or
  *         formatting error).
  */
-int dmi_asprintf(char **strp, const char *format, ...);
+__dmi_api int dmi_asprintf(char **strp, const char *format, ...);
 
 /**
  * @brief Allocates and formats a string from a `va_list`, similar to
@@ -52,7 +52,7 @@ int dmi_asprintf(char **strp, const char *format, ...);
  *         success, or a negative value on failure (e.g., allocation error or
  *         formatting error).
  */
-int dmi_vasprintf(char **strp, const char *format, va_list args);
+__dmi_api int dmi_vasprintf(char **strp, const char *format, va_list args);
 
 /**
  * @brief Converts all characters in a string to lowercase in place.
@@ -63,7 +63,7 @@ int dmi_vasprintf(char **strp, const char *format, va_list args);
  *
  * @param[in,out] str  Null-terminated string to convert. Must not be @c nullptr.
  */
-void dmi_string_tolower(char *str);
+__dmi_api void dmi_string_tolower(char *str);
 
 /**
  * @brief Converts all characters in a string to uppercase in place.
@@ -74,7 +74,7 @@ void dmi_string_tolower(char *str);
  *
  * @param[in,out] str  Null-terminated string to convert. Must not be @c nullptr.
  */
-void dmi_string_toupper(char *str);
+__dmi_api void dmi_string_toupper(char *str);
 
 __END_DECLS
 

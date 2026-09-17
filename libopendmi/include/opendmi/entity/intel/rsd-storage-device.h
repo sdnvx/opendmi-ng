@@ -149,13 +149,13 @@ struct dmi_intel_rsd_storage_device
 /**
  * @brief Intel RSD storage device information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_storage_device_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_storage_device_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_intel_rsd_storage_connector_name(dmi_intel_rsd_storage_connector_t value);
-const char *dmi_intel_rsd_storage_proto_name(dmi_intel_rsd_storage_proto_t value);
-const char *dmi_intel_rsd_storage_device_type_name(dmi_intel_rsd_storage_device_type_t value);
+__dmi_api const char *dmi_intel_rsd_storage_connector_name(dmi_intel_rsd_storage_connector_t value);
+__dmi_api const char *dmi_intel_rsd_storage_proto_name(dmi_intel_rsd_storage_proto_t value);
+__dmi_api const char *dmi_intel_rsd_storage_device_type_name(dmi_intel_rsd_storage_device_type_t value);
 
 __END_DECLS
 

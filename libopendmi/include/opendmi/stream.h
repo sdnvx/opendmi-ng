@@ -60,7 +60,7 @@ __BEGIN_DECLS
  *
  * @return `true` on success, `false` if @p stream or @p entity is @c nullptr.
  */
-bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *entity);
+__dmi_api bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *entity);
 
 /**
  * @brief Seek to a byte position within the stream.
@@ -74,7 +74,7 @@ bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *entity);
  * @return `true` on success, `false` if @p position is beyond the end of the
  *         stream.
  */
-bool dmi_stream_seek(dmi_stream_t *stream, size_t position);
+__dmi_api bool dmi_stream_seek(dmi_stream_t *stream, size_t position);
 
 /**
  * @brief Read data from the stream at the current position.
@@ -90,7 +90,7 @@ bool dmi_stream_seek(dmi_stream_t *stream, size_t position);
  * @return `true` on success, `false` if there are fewer than @p length bytes
  *         remaining in the stream.
  */
-bool dmi_stream_read_data(dmi_stream_t *stream, void *ptr, size_t length);
+__dmi_api bool dmi_stream_read_data(dmi_stream_t *stream, void *ptr, size_t length);
 
 /**
  * @brief Read data from the stream at a given offset without advancing the
@@ -109,7 +109,7 @@ bool dmi_stream_read_data(dmi_stream_t *stream, void *ptr, size_t length);
  * @return `true` on success, `false` if the requested range exceeds the
  *         stream bounds.
  */
-bool dmi_stream_read_data_at(const dmi_stream_t *stream, void *ptr, size_t offset, size_t length);
+__dmi_api bool dmi_stream_read_data_at(const dmi_stream_t *stream, void *ptr, size_t offset, size_t length);
 
 /**
  * @brief Advance the stream cursor without reading data.
@@ -123,7 +123,7 @@ bool dmi_stream_read_data_at(const dmi_stream_t *stream, void *ptr, size_t offse
  * @return `true` on success, `false` if there are fewer than @p length bytes
  *         remaining in the stream.
  */
-bool dmi_stream_skip(dmi_stream_t *stream, size_t length);
+__dmi_api bool dmi_stream_skip(dmi_stream_t *stream, size_t length);
 
 /**
  * @brief Return the number of unread bytes in the stream.
@@ -133,7 +133,7 @@ bool dmi_stream_skip(dmi_stream_t *stream, size_t length);
  * @return Number of bytes from the current cursor position to the end of the
  *         entity body.
  */
-size_t dmi_stream_remaining(const dmi_stream_t *stream);
+__dmi_api size_t dmi_stream_remaining(const dmi_stream_t *stream);
 
 /**
  * @brief Check whether all data in the stream has been consumed.
@@ -142,7 +142,7 @@ size_t dmi_stream_remaining(const dmi_stream_t *stream);
  *
  * @return `true` if there are no remaining bytes to read, `false` otherwise.
  */
-bool dmi_stream_is_done(const dmi_stream_t *stream);
+__dmi_api bool dmi_stream_is_done(const dmi_stream_t *stream);
 
 /**
  * @brief Check if the stream contains at least the given number of bytes.
@@ -153,7 +153,7 @@ bool dmi_stream_is_done(const dmi_stream_t *stream);
  * @return `true` if at least @p length bytes remain from the current
  *         position, `false` otherwise.
  */
-bool dmi_stream_has(const dmi_stream_t *stream, size_t length);
+__dmi_api bool dmi_stream_has(const dmi_stream_t *stream, size_t length);
 
 /**
  * @brief Reset the stream cursor to the beginning.
@@ -163,7 +163,7 @@ bool dmi_stream_has(const dmi_stream_t *stream, size_t length);
  *
  * @param[in,out] stream Stream to reset.
  */
-void dmi_stream_reset(dmi_stream_t *stream);
+__dmi_api void dmi_stream_reset(dmi_stream_t *stream);
 
 __END_DECLS
 
@@ -193,7 +193,7 @@ __END_DECLS
             __type __value;                                                   \
             bool rv = dmi_stream_read(__stream, &__value);                    \
             if (rv)                                                           \
-                *(__pvalue) = (typeof(*(__pvalue)))__decoder(__value);        \
+                *(__pvalue) = (__dmi_typeof(*(__pvalue)))__decoder(__value);        \
             rv;                                                               \
         })
 
@@ -309,7 +309,7 @@ __END_DECLS
             __type __value;                                                     \
             bool rv = dmi_stream_read_at(__stream, __offset, &__value);         \
             if (rv)                                                             \
-                *(__pvalue) = (typeof(*(__pvalue)))__decoder(__value);          \
+                *(__pvalue) = (__dmi_typeof(*(__pvalue)))__decoder(__value);          \
             rv;                                                                 \
         })
 

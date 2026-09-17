@@ -60,6 +60,6 @@ struct dmi_memory_array_addr
 /**
  * @brief Memory array mapped address entity specification.
  */
-extern const dmi_entity_spec_t dmi_memory_array_addr_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_memory_array_addr_spec;
 
 #endif // !OPENDMI_ENTITY_MEMORY_ARRAY_ADDR_H

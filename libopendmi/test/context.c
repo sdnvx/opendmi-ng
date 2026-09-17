@@ -435,7 +435,7 @@ static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, si
         length = data[0x05];
         assert_uint_in_range(length, 0x1E, DMI_ENTRY_MAX_SIZE);
         assert_memory_equal(data + 0x10, "_DMI_", 5);
-        assert_true(dmi_checksum_check(data + 0x10, 0x0F));
+        assert_true(dmi_checksum_test(data + 0x10, 0x0F));
         address = test_address_get(data + 0x18, 4);
     } else if (memcmp(data, "_DMI_", 5) == 0) {
         length = 0x0F;
@@ -444,7 +444,7 @@ static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, si
         fail_msg("No entry point found in %s", test_save_path);
     }
 
-    assert_true(dmi_checksum_check(data, length));
+    assert_true(dmi_checksum_test(data, length));
     assert_int_equal(address, DMI_ENTRY_MAX_SIZE);
 
     // Entry point is padded with zeroes

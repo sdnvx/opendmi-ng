@@ -156,19 +156,19 @@ typedef struct dmi_firmware dmi_firmware_t;
 /**
  * @brief Platform firmware information entity specification.
  */
-extern const dmi_entity_spec_t dmi_firmware_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_firmware_spec;
 
 __BEGIN_DECLS
 
 /**
  * @internal
  */
-dmi_size_t dmi_firmware_rom_size(dmi_byte_t value);
+__dmi_api dmi_size_t dmi_firmware_rom_size(dmi_byte_t value);
 
 /**
  * @internal
  */
-dmi_size_t dmi_firmware_rom_size_ex(dmi_word_t value);
+__dmi_api dmi_size_t dmi_firmware_rom_size_ex(dmi_word_t value);
 
 __END_DECLS
 

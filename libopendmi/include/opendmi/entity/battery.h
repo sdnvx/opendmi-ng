@@ -126,11 +126,11 @@ struct dmi_battery
 /**
  * @brief Portable battery entity specification.
  */
-extern const dmi_entity_spec_t dmi_battery_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_battery_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_battery_chemistry_name(dmi_battery_chemistry_t value);
+__dmi_api const char *dmi_battery_chemistry_name(dmi_battery_chemistry_t value);
 
 __END_DECLS
 

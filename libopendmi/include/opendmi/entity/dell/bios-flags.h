@@ -14,6 +14,6 @@
 /**
  * @brief Dell BIOS flags entity specification.
  */
-extern const dmi_entity_spec_t dmi_dell_bios_flags_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_dell_bios_flags_spec;
 
 #endif // !OPENDMI_ENTITY_DELL_BIOS_FLAGS_H

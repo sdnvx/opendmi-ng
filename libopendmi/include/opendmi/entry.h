@@ -358,7 +358,7 @@ __BEGIN_DECLS
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-bool dmi_entry_decode(dmi_context_t *context, const void *data, size_t length);
+__dmi_api bool dmi_entry_decode(dmi_context_t *context, const void *data, size_t length);
 
 __END_DECLS
 

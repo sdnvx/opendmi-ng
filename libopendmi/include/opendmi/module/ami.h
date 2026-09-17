@@ -21,7 +21,7 @@ typedef enum dmi_ami_type
 
 __BEGIN_DECLS
 
-extern const dmi_module_t dmi_ami_module;
+extern __dmi_api const dmi_module_t dmi_ami_module;
 
 __END_DECLS
 

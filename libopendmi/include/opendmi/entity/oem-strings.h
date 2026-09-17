@@ -32,6 +32,6 @@ struct dmi_oem_strings
 /**
  * @brief OEM strings entity specification.
  */
-extern const dmi_entity_spec_t dmi_oem_strings_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_oem_strings_spec;
 
 #endif // !OPENDMI_ENTITY_OEM_STRINGS_H

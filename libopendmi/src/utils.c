@@ -50,7 +50,7 @@ void dmi_free(void *ptr)
     free(ptr);
 }
 
-bool dmi_checksum_check(const void *data, size_t length)
+bool dmi_checksum_test(const void *data, size_t length)
 {
     if (data == nullptr) {
         errno = EINVAL;

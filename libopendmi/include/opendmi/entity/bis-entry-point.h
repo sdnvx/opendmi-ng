@@ -14,6 +14,6 @@
 /**
  * @brief Boot Integrity Services (BIS) entry point entity specification.
  */
-extern const dmi_entity_spec_t dmi_bis_entry_point_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_bis_entry_point_spec;
 
 #endif // !OPENDMI_ENTITY_BIS_ENTRY_POINT_H

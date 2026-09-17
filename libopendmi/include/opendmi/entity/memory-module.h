@@ -168,16 +168,16 @@ struct dmi_memory_module
     dmi_memory_module_error_t error_status;
 };
 
-extern const dmi_name_set_t dmi_memory_module_type_names;
+extern __dmi_api const dmi_name_set_t dmi_memory_module_type_names;
 
 /**
  * @brief Memory module information entity specification.
  */
-extern const dmi_entity_spec_t dmi_memory_module_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_memory_module_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_memory_module_size_status_name(dmi_memory_module_size_status_t value);
+__dmi_api const char *dmi_memory_module_size_status_name(dmi_memory_module_size_status_t value);
 
 __END_DECLS
 

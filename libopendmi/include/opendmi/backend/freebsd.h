@@ -14,6 +14,6 @@
 #define DMI_FREEBSD_DEV_MEMORY  "/dev/mem"
 #define DMI_FREEBSD_KENV_SMBIOS "hint.smbios.0.mem"
 
-extern dmi_backend_t dmi_freebsd_backend;
+extern __dmi_api dmi_backend_t dmi_freebsd_backend;
 
 #endif // !OPENDMI_BACKEND_FREEBSD_H

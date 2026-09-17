@@ -128,11 +128,11 @@ struct dmi_system_reset
 /**
  * @brief System reset entity specification.
  */
-extern const dmi_entity_spec_t dmi_system_reset_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_system_reset_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_boot_option_name(dmi_boot_option_t value);
+__dmi_api const char *dmi_boot_option_name(dmi_boot_option_t value);
 
 __END_DECLS
 

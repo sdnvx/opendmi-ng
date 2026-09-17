@@ -25,7 +25,7 @@ typedef enum dmi_sun_type
 
 __BEGIN_DECLS
 
-extern const dmi_module_t dmi_sun_module;
+extern __dmi_api const dmi_module_t dmi_sun_module;
 
 __END_DECLS
 

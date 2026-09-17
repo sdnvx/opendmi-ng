@@ -30,7 +30,7 @@ typedef enum dmi_intel_type
 
 __BEGIN_DECLS
 
-extern const dmi_module_t dmi_intel_module;
+extern __dmi_api const dmi_module_t dmi_intel_module;
 
 __END_DECLS
 

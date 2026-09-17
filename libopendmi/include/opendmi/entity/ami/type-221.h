@@ -54,6 +54,6 @@ struct dmi_ami_type_221
 /**
  * @brief AMI type 221 entity specification.
  */
-extern const dmi_entity_spec_t dmi_ami_type_221_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_ami_type_221_spec;
 
 #endif // !OPENDMI_ENTITY_AMI_TYPE_221_H

@@ -90,11 +90,11 @@ struct dmi_system
 /**
  * @brief System information entity specification.
  */
-extern const dmi_entity_spec_t dmi_system_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_system_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_system_wakeup_type_name(dmi_system_wakeup_type_t value);
+__dmi_api const char *dmi_system_wakeup_type_name(dmi_system_wakeup_type_t value);
 
 __END_DECLS
 

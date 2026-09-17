@@ -202,7 +202,7 @@ __BEGIN_DECLS
 /**
  * @brief Create DMI context.
  */
-dmi_context_t *dmi_create(unsigned int flags);
+__dmi_api dmi_context_t *dmi_create(unsigned int flags);
 
 /**
  * @brief Set DMI context flags.
@@ -210,7 +210,7 @@ dmi_context_t *dmi_create(unsigned int flags);
  * @param[in] context DMI context handle.
  * @param[in] flags Flags
  */
-void dmi_set_flags(dmi_context_t *context, unsigned flags);
+__dmi_api void dmi_set_flags(dmi_context_t *context, unsigned flags);
 
 /**
  * @brief Get DMI context flags.
@@ -218,7 +218,7 @@ void dmi_set_flags(dmi_context_t *context, unsigned flags);
  * @param[in] context DMI context handle.
  * @return Flags
  */
-unsigned dmi_get_flags(const dmi_context_t *context);
+__dmi_api unsigned dmi_get_flags(const dmi_context_t *context);
 
 /**
  * @brief Open DMI context.
@@ -228,7 +228,7 @@ unsigned dmi_get_flags(const dmi_context_t *context);
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-bool dmi_open(dmi_context_t *context, const char *device);
+__dmi_api bool dmi_open(dmi_context_t *context, const char *device);
 
 /**
  * @brief Add DMI extension.
@@ -243,7 +243,7 @@ bool dmi_open(dmi_context_t *context, const char *device);
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module);
+__dmi_api bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module);
 
 /**
  * @brief Check whether DMI extension is enabled.
@@ -254,7 +254,7 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module);
  * @return `true` if @p module has been enabled with `dmi_add_extension()`,
  *         `false` otherwise.
  */
-bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module);
+__dmi_api bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module);
 
 /**
  * @brief Load dump file into DMI context.
@@ -264,7 +264,7 @@ bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module)
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-bool dmi_dump_load(dmi_context_t *context, const char *path);
+__dmi_api bool dmi_dump_load(dmi_context_t *context, const char *path);
 
 /**
  * @brief Save DMI context to dump file.
@@ -282,22 +282,22 @@ bool dmi_dump_load(dmi_context_t *context, const char *path);
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite);
+__dmi_api bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite);
 
 /**
  * @brief Find entity type identifier by its code.
  */
-dmi_type_t dmi_type_find(dmi_context_t *context, const char *code);
+__dmi_api dmi_type_t dmi_type_find(dmi_context_t *context, const char *code);
 
 /**
  * @brief Get entity type specification.
  */
-const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type);
+__dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type);
 
 /**
  * @brief Get entity type name.
  */
-const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
+__dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
 
 /**
  * @brief Set logging handler.
@@ -307,7 +307,7 @@ const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
+__dmi_api bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
 
 /**
  * @brief Close DMI context.
@@ -315,14 +315,14 @@ bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
  * @param[in] context DMI context handle.
  * @return The function returns `true` on success and `false` otherwise.
  */
-bool dmi_close(dmi_context_t *context);
+__dmi_api bool dmi_close(dmi_context_t *context);
 
 /**
  * @brief Destroy DMI context.
  *
  * @param[in] context DMI context handle.
  */
-void dmi_destroy(dmi_context_t *context);
+__dmi_api void dmi_destroy(dmi_context_t *context);
 
 __END_DECLS
 

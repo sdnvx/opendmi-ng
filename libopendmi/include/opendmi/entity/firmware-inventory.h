@@ -271,7 +271,7 @@ struct dmi_firmware_inventory
 /**
  * @brief Firmware inventory information entity specification.
  */
-extern const dmi_entity_spec_t dmi_firmware_inventory_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_firmware_inventory_spec;
 
 __BEGIN_DECLS
 
@@ -285,7 +285,7 @@ __BEGIN_DECLS
  * @return The version format name string, or @c nullptr if @p value is out of
  * range.
  */
-const char *dmi_version_format_name(dmi_version_format_t value);
+__dmi_api const char *dmi_version_format_name(dmi_version_format_t value);
 
 /**
  * @brief Get firmware identifier format name.
@@ -297,7 +297,7 @@ const char *dmi_version_format_name(dmi_version_format_t value);
  * @return The firmware identifier format name string, or @c nullptr if @p value is
  * out of range.
  */
-const char *dmi_firmware_ident_format_name(dmi_firmware_ident_format_t value);
+__dmi_api const char *dmi_firmware_ident_format_name(dmi_firmware_ident_format_t value);
 
 /**
  * @brief Get firmware inventory state name.
@@ -309,7 +309,7 @@ const char *dmi_firmware_ident_format_name(dmi_firmware_ident_format_t value);
  * @return The firmware inventory state name string, or @c nullptr if @p value is
  * out of range.
  */
-const char *dmi_firmware_inventory_state_name(dmi_firmware_inventory_state_t value);
+__dmi_api const char *dmi_firmware_inventory_state_name(dmi_firmware_inventory_state_t value);
 
 __END_DECLS
 

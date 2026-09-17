@@ -25,7 +25,7 @@ __BEGIN_DECLS
  * @param size    Number of bytes to allocate.
  * @return Pointer to the allocated block, or @c nullptr on failure.
  */
-void *dmi_alloc(dmi_context_t *context, size_t size);
+__dmi_api void *dmi_alloc(dmi_context_t *context, size_t size);
 
 /**
  * @brief Frees a previously allocated block of memory.
@@ -34,7 +34,7 @@ void *dmi_alloc(dmi_context_t *context, size_t size);
  *
  * @param ptr Pointer to the block to free, or @c nullptr.
  */
-void dmi_free(void *ptr);
+__dmi_api void dmi_free(void *ptr);
 
 /**
  * @brief Verifies an SMBIOS-style 8-bit checksum.
@@ -48,7 +48,7 @@ void dmi_free(void *ptr);
  *         otherwise. Returns @c false and sets `errno` to @c EINVAL if
  *         @p data is @c nullptr.
  */
-bool dmi_checksum_check(const void *data, size_t length);
+__dmi_api bool dmi_checksum_test(const void *data, size_t length);
 
 /**
  * @brief Computes an SMBIOS-style 8-bit checksum.
@@ -62,7 +62,7 @@ bool dmi_checksum_check(const void *data, size_t length);
  * @return Checksum value. Returns @c 0 and sets `errno` to @c EINVAL if
  *         @p data is @c nullptr.
  */
-uint8_t dmi_checksum_calc(const void *data, size_t length);
+__dmi_api uint8_t dmi_checksum_calc(const void *data, size_t length);
 
 /**
  * @brief Raises a 32-bit unsigned integer to a non-negative integer power.
@@ -74,7 +74,7 @@ uint8_t dmi_checksum_calc(const void *data, size_t length);
  * @param factor Exponent.
  * @return @p value raised to the power @p factor.
  */
-uint32_t dmi_ipow32(uint32_t value, unsigned int factor);
+__dmi_api uint32_t dmi_ipow32(uint32_t value, unsigned int factor);
 
 /**
  * @brief Raises a 64-bit unsigned integer to a non-negative integer power.
@@ -86,7 +86,7 @@ uint32_t dmi_ipow32(uint32_t value, unsigned int factor);
  * @param factor Exponent.
  * @return @p value raised to the power @p factor.
  */
-uint64_t dmi_ipow64(uint64_t value, unsigned int factor);
+__dmi_api uint64_t dmi_ipow64(uint64_t value, unsigned int factor);
 
 /**
  * @brief Reads the contents of a file into a newly allocated buffer.
@@ -108,7 +108,7 @@ uint64_t dmi_ipow64(uint64_t value, unsigned int factor);
  * @return Pointer to a newly allocated buffer containing the file data, or
  *         @c nullptr on failure. @p plength is not modified on failure.
  */
-dmi_data_t *dmi_file_get(
+__dmi_api dmi_data_t *dmi_file_get(
         dmi_context_t *context,
         const char    *path,
         off_t         offset,
@@ -135,7 +135,7 @@ dmi_data_t *dmi_file_get(
  * @return Pointer to a newly allocated buffer containing the requested data,
  *         or @c nullptr on failure.
  */
-    dmi_data_t *dmi_memory_get(dmi_context_t *context, const char *path, size_t base, size_t length);
+    __dmi_api dmi_data_t *dmi_memory_get(dmi_context_t *context, const char *path, size_t base, size_t length);
 #endif // !defined(_WIN32)
 
 __END_DECLS

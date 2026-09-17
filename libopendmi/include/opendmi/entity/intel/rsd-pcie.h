@@ -67,6 +67,6 @@ struct dmi_intel_rsd_pcie
 /**
  * @brief Intel RSD PCIe information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_pcie_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_pcie_spec;
 
 #endif // !DMI_ENTITY_INTEL_RSD_PCIE_H

@@ -94,7 +94,9 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
     add_compile_definitions(__BSD_VISIBLE __XPG_VISIBLE=420)
 endif()
 
+include(GNUInstallDirs)
 include(FindPackageEx)
+include(AddManPages)
 
 if(APPLE)
     list(PREPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/icu4c")
@@ -150,4 +152,3 @@ else()
 endif()
 
 include(CPack)
-include(GNUInstallDirs)

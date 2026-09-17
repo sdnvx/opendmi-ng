@@ -14,6 +14,6 @@
 /**
  * @brief Sun processor extended information entity specification.
  */
-extern const dmi_entity_spec_t dmi_sun_processor_ex_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_sun_processor_ex_spec;
 
 #endif // !OPENDMI_ENTITY_SUN_PROCESSOR_EX_H

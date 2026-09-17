@@ -179,12 +179,12 @@ struct dmi_baseboard
     dmi_entity_t **objects;
 };
 
-extern const dmi_name_set_t dmi_baseboard_type_names;
+extern __dmi_api const dmi_name_set_t dmi_baseboard_type_names;
 
 /**
  * @brief Baseboard or module information entity specification.
  */
-extern const dmi_entity_spec_t dmi_baseboard_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_baseboard_spec;
 
 __BEGIN_DECLS
 
@@ -197,7 +197,7 @@ __BEGIN_DECLS
  * @return The baseboard type name string, or @c nullptr if @p value is out of
  * range.
  */
-const char *dmi_baseboard_type_name(dmi_baseboard_type_t value);
+__dmi_api const char *dmi_baseboard_type_name(dmi_baseboard_type_t value);
 
 __END_DECLS
 

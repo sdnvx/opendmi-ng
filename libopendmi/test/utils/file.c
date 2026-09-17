@@ -108,7 +108,7 @@ static int test_file_teardown(void **pstate)
 
 static void test_file_write_read(void **pstate)
 {
-    test_file_state_t *state = *pstate;
+    const test_file_state_t *state = *pstate;
     dmi_data_t buffer[sizeof(test_data)] = {};
 
     assert_int_equal(dmi_file_write(state->fd, test_data, sizeof(test_data)), sizeof(test_data));
@@ -135,7 +135,7 @@ static void test_file_write_read(void **pstate)
 
 static void test_file_seek(void **pstate)
 {
-    test_file_state_t *state = *pstate;
+    const test_file_state_t *state = *pstate;
 
     assert_int_equal(dmi_file_write(state->fd, test_data, sizeof(test_data)), sizeof(test_data));
     assert_int_equal(dmi_file_tell(state->fd), sizeof(test_data));
@@ -152,7 +152,7 @@ static void test_file_seek(void **pstate)
 
 static void test_file_stat(void **pstate)
 {
-    test_file_state_t *state = *pstate;
+    const test_file_state_t *state = *pstate;
     dmi_file_stat_t st;
 
     assert_int_equal(dmi_file_write(state->fd, test_data, sizeof(test_data)), sizeof(test_data));
@@ -164,7 +164,7 @@ static void test_file_stat(void **pstate)
 
 static void test_file_lock(void **pstate)
 {
-    test_file_state_t *state = *pstate;
+    const test_file_state_t *state = *pstate;
 
     assert_int_equal(dmi_file_write(state->fd, test_data, sizeof(test_data)), sizeof(test_data));
     assert_int_equal(dmi_file_seek(state->fd, 0, SEEK_SET), 0);

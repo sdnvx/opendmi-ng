@@ -57,9 +57,9 @@ struct dmi_vendor_spec
 
 __BEGIN_DECLS
 
-const char *dmi_vendor_name(dmi_vendor_t vendor);
+__dmi_api const char *dmi_vendor_name(dmi_vendor_t vendor);
 
-const dmi_vendor_spec_t *dmi_vendor_detect(const char *name);
+__dmi_api const dmi_vendor_spec_t *dmi_vendor_detect(const char *name);
 
 __END_DECLS
 

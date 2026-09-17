@@ -50,7 +50,7 @@ static inline dmi_version_t dmi_version(unsigned int major,
  * @param[in] version Version number.
  * @return Major version number.
  */
-[[gnu::const]]
+__dmi_const
 static inline unsigned int dmi_version_major(dmi_version_t version)
 {
     return (version & 0xFF0000U) >> 16;
@@ -62,7 +62,7 @@ static inline unsigned int dmi_version_major(dmi_version_t version)
  * @param[in] version Version number.
  * @return Minor version number.
  */
-[[gnu::const]]
+__dmi_const
 static inline unsigned int dmi_version_minor(dmi_version_t version)
 {
     return (version & 0x00FF00U) >> 8;
@@ -74,7 +74,7 @@ static inline unsigned int dmi_version_minor(dmi_version_t version)
  * @param[in] version Version number.
  * @return Revision version number.
  */
-[[gnu::const]]
+__dmi_const
 static inline unsigned int dmi_version_revision(dmi_version_t version)
 {
     return version & 0x0000FFU;
@@ -94,7 +94,7 @@ __BEGIN_DECLS
  *
  * @return A newly allocated version string, or @c nullptr on allocation failure.
  */
-char *dmi_version_format(dmi_version_t version);
+__dmi_api char *dmi_version_format(dmi_version_t version);
 
 /**
  * @brief Format SMBIOS version as a string with explicit detail level.
@@ -113,7 +113,7 @@ char *dmi_version_format(dmi_version_t version);
  * @return A newly allocated version string, or @c nullptr if @p level is invalid
  *         or on allocation failure.
  */
-char *dmi_version_format_ex(dmi_version_t version, dmi_version_level_t level);
+__dmi_api char *dmi_version_format_ex(dmi_version_t version, dmi_version_level_t level);
 
 __END_DECLS
 

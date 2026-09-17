@@ -55,6 +55,6 @@ struct dmi_onboard_device_ex
 /**
  * @brief Onboard devices additional information entity specification.
  */
-extern const dmi_entity_spec_t dmi_onboard_device_ex_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_onboard_device_ex_spec;
 
 #endif // !OPENDMI_ENTITY_ONBOARD_DEVICE_EX_H

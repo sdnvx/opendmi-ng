@@ -145,7 +145,7 @@ static void test_registry_get(void **pstate)
     dmi_context_t *context = *pstate;
     dmi_registry_t *registry = context->state.registry;
 
-    dmi_entity_t *entity = dmi_registry_get(registry, 0x0011, DMI_TYPE(MEMORY_DEVICE), false);
+    const dmi_entity_t *entity = dmi_registry_get(registry, 0x0011, DMI_TYPE(MEMORY_DEVICE), false);
     assert_non_null(entity);
     assert_int_equal(entity->handle, 0x0011);
 
@@ -190,7 +190,7 @@ static void test_registry_get_any(void **pstate)
         DMI_TYPE_INVALID
     };
 
-    dmi_entity_t *entity = dmi_registry_get_any(registry, 0x0010, types, false);
+    const dmi_entity_t *entity = dmi_registry_get_any(registry, 0x0010, types, false);
     assert_non_null(entity);
     assert_int_equal(entity->handle, 0x0010);
 
@@ -208,7 +208,7 @@ static void test_registry_get_first(void **pstate)
     dmi_context_t *context = *pstate;
     dmi_registry_t *registry = context->state.registry;
 
-    dmi_entity_t *entity = dmi_registry_get_first(registry, DMI_TYPE(MEMORY_DEVICE), false);
+    const dmi_entity_t *entity = dmi_registry_get_first(registry, DMI_TYPE(MEMORY_DEVICE), false);
     assert_non_null(entity);
     assert_int_equal(entity->handle, 0x0010);
 
@@ -229,10 +229,10 @@ static void test_registry_link_unset_handles(void **pstate)
     dmi_context_t *context = *pstate;
     dmi_registry_t *registry = context->state.registry;
 
-    dmi_entity_t *device_a = dmi_registry_get(registry, 0x0010, DMI_TYPE(MEMORY_DEVICE), false);
-    dmi_entity_t *device_b = dmi_registry_get(registry, 0x0011, DMI_TYPE(MEMORY_DEVICE), false);
-    dmi_entity_t *channel  = dmi_registry_get(registry, 0x0040, DMI_TYPE(MEMORY_CHANNEL), false);
-    dmi_entity_t *array    = dmi_registry_get(registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
+    const dmi_entity_t *device_a = dmi_registry_get(registry, 0x0010, DMI_TYPE(MEMORY_DEVICE), false);
+    const dmi_entity_t *device_b = dmi_registry_get(registry, 0x0011, DMI_TYPE(MEMORY_DEVICE), false);
+    const dmi_entity_t *channel  = dmi_registry_get(registry, 0x0040, DMI_TYPE(MEMORY_CHANNEL), false);
+    const dmi_entity_t *array    = dmi_registry_get(registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
 
     assert_non_null(device_a);
     assert_non_null(device_b);
@@ -251,8 +251,8 @@ static void test_registry_link_unset_handles(void **pstate)
     assert_ptr_equal(device_b_info->channel, channel);
 
     // Array mapped address without array reference
-    dmi_entity_t *array_addr_1 = dmi_registry_get(registry, 0x0020, DMI_TYPE(MEMORY_ARRAY_ADDR), false);
-    dmi_entity_t *array_addr_2 = dmi_registry_get(registry, 0x0021, DMI_TYPE(MEMORY_ARRAY_ADDR), false);
+    const dmi_entity_t *array_addr_1 = dmi_registry_get(registry, 0x0020, DMI_TYPE(MEMORY_ARRAY_ADDR), false);
+    const dmi_entity_t *array_addr_2 = dmi_registry_get(registry, 0x0021, DMI_TYPE(MEMORY_ARRAY_ADDR), false);
     assert_non_null(array_addr_1);
     assert_non_null(array_addr_2);
 
@@ -262,7 +262,7 @@ static void test_registry_link_unset_handles(void **pstate)
     assert_null(array_addr_2_info->array);
 
     // Device mapped address without array mapped address reference
-    dmi_entity_t *device_addr = dmi_registry_get(registry, 0x0030, DMI_TYPE(MEMORY_DEVICE_ADDR), false);
+    const dmi_entity_t *device_addr = dmi_registry_get(registry, 0x0030, DMI_TYPE(MEMORY_DEVICE_ADDR), false);
     assert_non_null(device_addr);
 
     const dmi_memory_device_addr_t *device_addr_info = dmi_entity_info(device_addr, DMI_TYPE(MEMORY_DEVICE_ADDR));
@@ -283,9 +283,9 @@ static void test_registry_decode_malformed(void **pstate)
     assert_true(registry->status & DMI_REGISTRY_STATUS_DECODED);
     assert_true(registry->status & DMI_REGISTRY_STATUS_LINKED);
 
-    dmi_entity_t *device_a = dmi_registry_get(registry, 0x0010, DMI_TYPE(MEMORY_DEVICE), false);
-    dmi_entity_t *device_b = dmi_registry_get(registry, 0x0011, DMI_TYPE(MEMORY_DEVICE), false);
-    dmi_entity_t *channel  = dmi_registry_get(registry, 0x0040, DMI_TYPE(MEMORY_CHANNEL), false);
+    const dmi_entity_t *device_a = dmi_registry_get(registry, 0x0010, DMI_TYPE(MEMORY_DEVICE), false);
+    const dmi_entity_t *device_b = dmi_registry_get(registry, 0x0011, DMI_TYPE(MEMORY_DEVICE), false);
+    const dmi_entity_t *channel  = dmi_registry_get(registry, 0x0040, DMI_TYPE(MEMORY_CHANNEL), false);
 
     if ((device_a == nullptr) or (device_b == nullptr) or (channel == nullptr)) {
         dmi_destroy(context);
@@ -321,7 +321,7 @@ static void test_registry_decode_malformed_strict(void **pstate)
     dmi_unused(pstate);
 
     // Malformed structure is an error in strict mode
-    dmi_context_t *context = test_registry_open(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_STRICT,
+    const dmi_context_t *context = test_registry_open(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_STRICT,
                                                 test_malformed_table, sizeof(test_malformed_table));
     assert_null(context);
 }

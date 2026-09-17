@@ -85,6 +85,6 @@ struct dmi_intel_rsd_network_card
 /**
  * @brief Intel RSD Network card information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_network_card_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_network_card_spec;
 
 #endif // !DMI_ENTITY_INTEL_RSD_NETWORK_CARD_H

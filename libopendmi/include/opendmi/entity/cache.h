@@ -245,7 +245,7 @@ typedef struct dmi_cache dmi_cache_t;
 /**
  * @brief Cache information entity specification.
  */
-extern const dmi_entity_spec_t dmi_cache_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_cache_spec;
 
 __BEGIN_DECLS
 
@@ -258,7 +258,7 @@ __BEGIN_DECLS
  *
  * @return The cache type name string, or @c nullptr if @p value is out of range.
  */
-const char *dmi_cache_type_name(dmi_cache_type_t value);
+__dmi_api const char *dmi_cache_type_name(dmi_cache_type_t value);
 
 /**
  * @brief Get cache operational mode name.
@@ -269,7 +269,7 @@ const char *dmi_cache_type_name(dmi_cache_type_t value);
  *
  * @return The cache mode name string, or @c nullptr if @p value is out of range.
  */
-const char *dmi_cache_mode_name(dmi_cache_mode_t value);
+__dmi_api const char *dmi_cache_mode_name(dmi_cache_mode_t value);
 
 /**
  * @brief Get cache associativity name.
@@ -281,7 +281,7 @@ const char *dmi_cache_mode_name(dmi_cache_mode_t value);
  * @return The cache associativity name string, or @c nullptr if @p value is out of
  * range.
  */
-const char *dmi_cache_assoc_name(dmi_cache_assoc_t value);
+__dmi_api const char *dmi_cache_assoc_name(dmi_cache_assoc_t value);
 
 /**
  * @brief Get cache location name.
@@ -294,7 +294,7 @@ const char *dmi_cache_assoc_name(dmi_cache_assoc_t value);
  * @return The cache location name string, or @c nullptr if @p value is out of
  * range.
  */
-const char *dmi_cache_location_name(dmi_cache_location_t value);
+__dmi_api const char *dmi_cache_location_name(dmi_cache_location_t value);
 
 /**
  * @internal
@@ -307,7 +307,7 @@ const char *dmi_cache_location_name(dmi_cache_location_t value);
  *
  * @return Cache size in bytes.
  */
-dmi_size_t dmi_cache_size(uint16_t value);
+__dmi_api dmi_size_t dmi_cache_size(uint16_t value);
 
 /**
  * @internal
@@ -321,7 +321,7 @@ dmi_size_t dmi_cache_size(uint16_t value);
  *
  * @return Cache size in bytes.
  */
-dmi_size_t dmi_cache_size_ex(uint32_t value);
+__dmi_api dmi_size_t dmi_cache_size_ex(uint32_t value);
 
 __END_DECLS
 

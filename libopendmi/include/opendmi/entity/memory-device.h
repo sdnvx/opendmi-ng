@@ -271,23 +271,23 @@ struct dmi_memory_device
 /**
  * @brief Memory device entity specification.
  */
-extern const dmi_entity_spec_t dmi_memory_device_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_memory_device_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_memory_device_type_name(dmi_memory_device_type_t value);
-const char *dmi_memory_device_form_factor_name(dmi_memory_device_form_factor_t value);
-const char *dmi_memory_device_tech_name(dmi_memory_device_tech_t value);
+__dmi_api const char *dmi_memory_device_type_name(dmi_memory_device_type_t value);
+__dmi_api const char *dmi_memory_device_form_factor_name(dmi_memory_device_form_factor_t value);
+__dmi_api const char *dmi_memory_device_tech_name(dmi_memory_device_tech_t value);
 
 /**
  * @internal
  */
-dmi_size_t dmi_memory_device_size(uint16_t value);
+__dmi_api dmi_size_t dmi_memory_device_size(uint16_t value);
 
 /**
  * @internal
  */
-dmi_size_t dmi_memory_device_size_ex(uint32_t value);
+__dmi_api dmi_size_t dmi_memory_device_size_ex(uint32_t value);
 
 __END_DECLS
 

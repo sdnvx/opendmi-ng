@@ -13,7 +13,7 @@
 
 __BEGIN_DECLS
 
-extern const dmi_module_t dmi_lenovo_module;
+extern __dmi_api const dmi_module_t dmi_lenovo_module;
 
 __END_DECLS
 

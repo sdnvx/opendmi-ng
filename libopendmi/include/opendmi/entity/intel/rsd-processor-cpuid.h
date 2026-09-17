@@ -14,6 +14,6 @@
 /**
  * @brief Intel RSD processor CPUID information entity specification.
  */
-extern const dmi_entity_spec_t dmi_intel_rsd_processor_cpuid_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_processor_cpuid_spec;
 
 #endif // !DMI_ENTITY_INTEL_RSD_PROCESSOR_CPUID_H

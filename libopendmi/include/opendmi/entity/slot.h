@@ -426,15 +426,15 @@ struct dmi_slot_peer_group
 /**
  * @brief System slots entity specification.
  */
-extern const dmi_entity_spec_t dmi_slot_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_slot_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_slot_type_name(dmi_slot_type_t value);
-const char *dmi_slot_width_name(dmi_slot_width_t value);
-const char *dmi_slot_usage_name(dmi_slot_usage_t value);
-const char *dmi_slot_length_name(dmi_slot_length_t value);
-const char *dmi_slot_height_name(dmi_slot_height_t value);
+__dmi_api const char *dmi_slot_type_name(dmi_slot_type_t value);
+__dmi_api const char *dmi_slot_width_name(dmi_slot_width_t value);
+__dmi_api const char *dmi_slot_usage_name(dmi_slot_usage_t value);
+__dmi_api const char *dmi_slot_length_name(dmi_slot_length_t value);
+__dmi_api const char *dmi_slot_height_name(dmi_slot_height_t value);
 
 __END_DECLS
 

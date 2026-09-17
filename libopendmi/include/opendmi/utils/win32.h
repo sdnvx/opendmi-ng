@@ -27,7 +27,7 @@ __BEGIN_DECLS
  *
  * @return A pointer to a static buffer containing the error message.
  */
-const char *dmi_win32err_to_string(DWORD error_code);
+__dmi_api const char *dmi_win32err_to_string(DWORD error_code);
 
 /**
  * @brief Convert an NTSTATUS code to a human-readable string.
@@ -41,7 +41,7 @@ const char *dmi_win32err_to_string(DWORD error_code);
  *
  * @return A pointer to a static buffer containing the error message.
  */
-const char *dmi_ntstatus_to_string(NTSTATUS status);
+__dmi_api const char *dmi_ntstatus_to_string(NTSTATUS status);
 
 __END_DECLS
 

@@ -14,6 +14,6 @@
 /**
  * @brief Dell protected area type 2 entity specification.
  */
-extern const dmi_entity_spec_t dmi_dell_protected_area_2_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_dell_protected_area_2_spec;
 
 #endif // !OPENDMI_ENTITY_DELL_PROTECTED_AREA_2_H

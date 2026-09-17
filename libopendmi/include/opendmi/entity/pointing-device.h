@@ -81,17 +81,17 @@ struct dmi_pointing_device
  * @brief Pointing device entity specification.
  * @since SMBIOS 2.1
  */
-extern const dmi_entity_spec_t dmi_pointing_device_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_pointing_device_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_pointing_device_type_name(dmi_pointing_device_type_t value);
-const char *dmi_pointing_device_iface_name(dmi_pointing_device_iface_t value);
+__dmi_api const char *dmi_pointing_device_type_name(dmi_pointing_device_type_t value);
+__dmi_api const char *dmi_pointing_device_iface_name(dmi_pointing_device_iface_t value);
 
 /**
  * @internal
  */
-bool dmi_pointing_device_decode(dmi_entity_t *entity);
+__dmi_api bool dmi_pointing_device_decode(dmi_entity_t *entity);
 
 __END_DECLS
 

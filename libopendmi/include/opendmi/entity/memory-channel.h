@@ -91,7 +91,7 @@ struct dmi_memory_channel
 /**
  * @brief Memory channel entity specification.
  */
-extern const dmi_entity_spec_t dmi_memory_channel_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_memory_channel_spec;
 
 __BEGIN_DECLS
 
@@ -105,7 +105,7 @@ __BEGIN_DECLS
  * @return The memory channel type name string, or @c nullptr if @p value is out of
  * range.
  */
-const char *dmi_memory_channel_type_name(dmi_memory_channel_type_t value);
+__dmi_api const char *dmi_memory_channel_type_name(dmi_memory_channel_type_t value);
 
 __END_DECLS
 

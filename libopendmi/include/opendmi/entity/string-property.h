@@ -50,6 +50,6 @@ struct dmi_string_property
 /**
  * @brief String property entity specification.
  */
-extern const dmi_entity_spec_t dmi_string_property_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_string_property_spec;
 
 #endif // !OPENDMI_ENTITY_STRING_PROPERTY_H

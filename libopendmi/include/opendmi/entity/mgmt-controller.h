@@ -77,6 +77,6 @@ struct dmi_mgmt_proto_record
 /**
  * @brief Management controller host interface entity specification.
  */
-extern const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec;
 
 #endif // !OPENDMI_ENTITY_MGMT_CONTROLLER_H

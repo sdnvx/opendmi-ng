@@ -26,7 +26,7 @@ typedef enum dmi_apple_type
 
 __BEGIN_DECLS
 
-extern const dmi_module_t dmi_apple_module;
+extern __dmi_api const dmi_module_t dmi_apple_module;
 
 __END_DECLS
 

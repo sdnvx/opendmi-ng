@@ -129,18 +129,18 @@ static void test_checksum(void **pstate)
     // Checksum makes the sum of all bytes zero
     data[5] = dmi_checksum_calc(data, sizeof(data));
     assert_uint_equal(data[5], 0x68);
-    assert_true(dmi_checksum_check(data, sizeof(data)));
+    assert_true(dmi_checksum_test(data, sizeof(data)));
 
     data[6]++;
-    assert_false(dmi_checksum_check(data, sizeof(data)));
+    assert_false(dmi_checksum_test(data, sizeof(data)));
 
     // Empty data has zero checksum
     assert_uint_equal(dmi_checksum_calc(data, 0), 0);
-    assert_true(dmi_checksum_check(data, 0));
+    assert_true(dmi_checksum_test(data, 0));
 
     // Null data is rejected
     assert_uint_equal(dmi_checksum_calc(nullptr, 1), 0);
-    assert_false(dmi_checksum_check(nullptr, 1));
+    assert_false(dmi_checksum_test(nullptr, 1));
 }
 
 static void test_ipow32(void **pstate)

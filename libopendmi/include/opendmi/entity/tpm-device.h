@@ -103,6 +103,6 @@ struct dmi_tpm_device
 /**
  * @brief TPM device entity specification.
  */
-extern const dmi_entity_spec_t dmi_tpm_device_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_tpm_device_spec;
 
 #endif // !OPENDMI_ENTITY_TPM_DEVICE_H

@@ -113,16 +113,16 @@ struct dmi_onboard_device
 /**
  * @brief Onboard device type names.
  */
-extern const dmi_name_set_t dmi_onboard_device_type_names;
+extern __dmi_api const dmi_name_set_t dmi_onboard_device_type_names;
 
 /**
  * @brief Onboard devices information entity specification.
  */
-extern const dmi_entity_spec_t dmi_onboard_device_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_onboard_device_spec;
 
 __BEGIN_DECLS
 
-const char *dmi_onboard_device_type_name(dmi_onboard_device_type_t value);
+__dmi_api const char *dmi_onboard_device_type_name(dmi_onboard_device_type_t value);
 
 __END_DECLS
 
