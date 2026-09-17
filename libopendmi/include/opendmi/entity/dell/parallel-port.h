@@ -61,17 +61,19 @@ dmi_packed_union(dmi_dell_parallel_port_caps)
 
     dmi_packed_struct()
     {
-        bool is_xt_at        : 1; ///< XT/AT
-        bool is_ps2          : 1; ///< PS/2
-        bool is_ecp          : 1; ///< ECP
-        bool is_epp          : 1; ///< EPP
-        bool is_pc_98        : 1; ///< PC-98
-        bool is_pc_98_hireso : 1; ///< PC-98 Hireso
-        bool is_pc_h98       : 1; ///< PC-H98
-        uint16_t reserved    : 8; ///< Reserved
-        bool has_dma_support : 1; ///< Device supports DMA
+        dmi_word_t is_xt_at        : 1; ///< XT/AT
+        dmi_word_t is_ps2          : 1; ///< PS/2
+        dmi_word_t is_ecp          : 1; ///< ECP
+        dmi_word_t is_epp          : 1; ///< EPP
+        dmi_word_t is_pc_98        : 1; ///< PC-98
+        dmi_word_t is_pc_98_hireso : 1; ///< PC-98 Hireso
+        dmi_word_t is_pc_h98       : 1; ///< PC-H98
+        dmi_word_t reserved        : 8; ///< Reserved
+        dmi_word_t has_dma_support : 1; ///< Device supports DMA
     };
 };
+
+dmi_static_assert_value_union(dmi_dell_parallel_port_caps);
 
 struct dmi_dell_parallel_port
 {

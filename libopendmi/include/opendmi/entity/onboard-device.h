@@ -57,9 +57,11 @@ dmi_packed_union(dmi_onboard_device_instance_details)
         /**
          * @brief Set to `true` if device is enabled.
          */
-        bool is_enabled : 1;
+        dmi_byte_t is_enabled : 1;
     };
 };
+
+dmi_static_assert_value_union(dmi_onboard_device_instance_details);
 
 struct dmi_onboard_device_instance
 {

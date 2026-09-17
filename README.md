@@ -199,6 +199,11 @@ Values of options are specified either as a separate argument (`-i <path>`,
 
 Use `opendmi <command> --help` for detailed information on a specific command.
 
+Output of text commands (e.g. `show` or `types`) is shown through the pager set by
+the `PAGER` environment variable, or `less` if it is not set. Unless the `LESS`
+environment variable is set, `less` prints output that fits on one screen
+directly. Set `PAGER` to an empty value to disable the pager.
+
 ### Examples
 
 Show all SMBIOS structures in human-readable format:
@@ -211,6 +216,13 @@ Show structures of a specific type only:
 
 ```sh
 $ opendmi show -t processor
+```
+
+Show structure versions and decoding states (for example, `incomplete` for
+structures, which do not match any specification version):
+
+```sh
+$ opendmi show -V
 ```
 
 Show structures provided by the Dell extension module only:

@@ -52,16 +52,18 @@ dmi_packed_union(dmi_error_correct_caps)
 
     dmi_packed_struct()
     {
-        bool is_other      : 1; ///< Other
-        bool is_unknown    : 1; ///< Unknown
-        bool is_none       : 1; ///< None
-        bool is_single_bit : 1; ///< Single-bit error correcting
-        bool is_double_bit : 1; ///< Double-bit error correcting
-        bool is_scrubbing  : 1; ///< Error scrubbing
+        dmi_byte_t is_other      : 1; ///< Other
+        dmi_byte_t is_unknown    : 1; ///< Unknown
+        dmi_byte_t is_none       : 1; ///< None
+        dmi_byte_t is_single_bit : 1; ///< Single-bit error correcting
+        dmi_byte_t is_double_bit : 1; ///< Double-bit error correcting
+        dmi_byte_t is_scrubbing  : 1; ///< Error scrubbing
 
         dmi_byte_t __reserved : 2; ///< Reserved
     };
 };
+
+dmi_static_assert_value_union(dmi_error_correct_caps);
 
 /**
  * @brief The speed of the memory modules supported by the system.
@@ -75,14 +77,16 @@ dmi_packed_union(dmi_memory_module_speed)
 
     dmi_packed_struct()
     {
-        bool       is_other   : 1;  ///< Other
-        bool       is_unknown : 1;  ///< Unknown
-        bool       is_70ns    : 1;  ///< 70 ns
-        bool       is_60ns    : 1;  ///< 60 ns
-        bool       is_50ns    : 1;  ///< 50 ns
+        dmi_word_t is_other   : 1;  ///< Other
+        dmi_word_t is_unknown : 1;  ///< Unknown
+        dmi_word_t is_70ns    : 1;  ///< 70 ns
+        dmi_word_t is_60ns    : 1;  ///< 60 ns
+        dmi_word_t is_50ns    : 1;  ///< 50 ns
         dmi_word_t __reserved : 11; ///< Reserved
     };
 };
+
+dmi_static_assert_value_union(dmi_memory_module_speed);
 
 /**
  * @brief The required voltages for each of the memory module sockets
@@ -98,9 +102,9 @@ dmi_packed_union(dmi_memory_module_voltage)
 
     dmi_packed_struct()
     {
-        bool is_5v  : 1;
-        bool is_3v3 : 1;
-        bool is_2v9 : 1;
+        dmi_byte_t is_5v  : 1;
+        dmi_byte_t is_3v3 : 1;
+        dmi_byte_t is_2v9 : 1;
 
         /**
          * @brief Reserved for future use.
@@ -108,6 +112,8 @@ dmi_packed_union(dmi_memory_module_voltage)
         dmi_byte_t __reserved : 5;
     };
 };
+
+dmi_static_assert_value_union(dmi_memory_module_voltage);
 
 /**
  * @brief Memory controller information structure (type 5, obsolete).

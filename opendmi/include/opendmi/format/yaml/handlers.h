@@ -13,7 +13,7 @@
 
 __BEGIN_DECLS
 
-void *dmi_yaml_initialize(dmi_context_t *context, FILE *stream);
+void *dmi_yaml_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options);
 
 bool dmi_yaml_dump_start(dmi_yaml_session_t *session);
 bool dmi_yaml_entry(dmi_yaml_session_t *session);

@@ -11,11 +11,8 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_mgmt_controller        dmi_mgmt_controller_t;
-typedef struct dmi_mgmt_controller_data   dmi_mgmt_controller_data_t;
-typedef struct dmi_mgmt_controller_extra  dmi_mgmt_controller_extra_t;
-typedef struct dmi_mgmt_proto_record      dmi_mgmt_proto_record_t;
-typedef struct dmi_mgmt_proto_record_data dmi_mgmt_proto_record_data_t;
+typedef struct dmi_mgmt_controller   dmi_mgmt_controller_t;
+typedef struct dmi_mgmt_proto_record dmi_mgmt_proto_record_t;
 
 /**
  * @brief Management interface types.
@@ -51,45 +48,6 @@ typedef enum dmi_mgmt_proto {
 
 /**
  * @brief Management Controller Host Interface (Type 42) structure.
- */
-dmi_packed_struct(dmi_mgmt_controller_data)
-{
-    /**
-     * @brief SMBIOS structure header.
-     */
-    dmi_header_t header;
-
-    dmi_byte_t if_type;
-
-    dmi_byte_t if_data_length;
-
-    dmi_byte_t if_data[];
-};
-
-/**
- * @brief Management Controller Host Interface (Type 42) structure extra data.
- */
-dmi_packed_struct(dmi_mgmt_controller_extra)
-{
-    dmi_byte_t proto_records_count;
-
-    dmi_byte_t proto_records_data[];
-};
-
-/**
- * @brief Protocol Record Data Format.
- */
-dmi_packed_struct(dmi_mgmt_proto_record_data)
-{
-    dmi_byte_t type;
-
-    dmi_byte_t length;
-
-    dmi_byte_t data[];
-};
-
-/**
- * @brief Decoded Management Controller Host Interface.
  */
 struct dmi_mgmt_controller
 {

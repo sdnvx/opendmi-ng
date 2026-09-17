@@ -41,6 +41,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add tests for output format iterators
 - Add module tests for static library
 - Add `dmi_module_next()` function for iteration over built-in and registered modules
+- Add `dmi_stream_has()` function
+- Add `dmi_entity_stop()` and `dmi_entity_incomplete()` functions for decoders of extended structures
+- Add `DMI_ENTITY_STATE_INCOMPLETE` entity state for structures, which end in the middle of a set of fields
+- Add `DMI_ENTITY_STATE_PARTIAL` entity state for structures of older specification versions
+- Add compile-time size checks for value unions
+- Add tests for portable battery information decoder
+- Add `-V`/`--verbose` option to `show` command to show structure versions and states, overriding `-q`/`--quiet` and vice versa
+- Add structure states to XML, JSON and YAML output
+- Add `dmi_entity_state_names` name set
+- Use `less` as default pager on POSIX systems if `PAGER` environment variable is not set
+- Use pager for `show`, `list`, `explain`, `entry` and `modules` commands
 
 ### Changed
 
@@ -62,6 +73,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `dmi_modules` list with static `dmi_builtin_modules` array, built-in modules are no longer registered by constructors
 - Make `dmi_module_register()` return `bool` and reject modules with duplicate codes
 - Write flags of value sets in XML output as `flag` elements with `name` attribute
+- Migrate cache, firmware, portable battery, system boot, system event log, chassis, baseboard, processor and memory device information decoders to stream API
+- Decode only completely present fields of incomplete sets of fields, and mark such structures as incomplete
+- Use common handling of structures extended in newer specification versions in all decoders
+- Use the type of raw value for all bit fields of value unions
+- Pass output options (mode, raw data dump and pretty output) to output format handlers and entity printing functions
+- Remove raw SMBIOS data structures of decoders migrated to stream API
+- Use `nullptr` instead of `NULL` in documentation
 
 ### Fixed
 
@@ -130,6 +148,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix missing extension modules when linking with static library
 - Fix invalid element names in XML output for flags with codes starting with a digit (e.g. `5v`)
 - Fix name of Intel RSD cabled PCIe port information structure
+- Fix wrong bit field layout of value unions with MinGW, which made all flags reported as set on Windows
+- Fix minimum length of portable battery information
+- Fix level of firmware information with two characteristics extension bytes
+- Fix cache handles of SMBIOS 2.0 processor information
+- Fix bogus rack type and height in chassis information with incomplete SMBIOS 3.9 fields
+- Fix `dmi_stream_skip()` not updating remaining size
+- Fix unchecked decoding results of system information and Dell revisions structures
+- Fix decoding failures of structures with incomplete optional fields, completely present fields are decoded now
+- Fix ignored `-q`/`--quiet` option of `show` command, meta-data and handle references are now hidden
+- Fix raw color escape sequences shown by `less` pager, `LESS` environment variable now defaults to `FRX`
+- Fix missing colors in pager output of `show` command
 
 ## [0.3.2] - April 19, 2026
 

@@ -45,7 +45,7 @@ Each structure describes a single cooling device.
 Handle of the temperature probe monitoring this cooling device.
 
 `probe`::
-The temperature probe monitoring this cooling device. May be `NULL` when the
+The temperature probe monitoring this cooling device. May be `nullptr` when the
 temperature probe handle is incorrect (e.g. due to SMBIOS data errors).
 
 `type`::
@@ -71,7 +71,7 @@ set to `SHRT_MIN`.
 
 `description`::
 Additional descriptive information about the cooling device or its location. May
-be `NULL`.
+be `nullptr`.
 
 === Device types
 

@@ -44,7 +44,7 @@ __BEGIN_DECLS
  *
  * @param[in] context Context handle.
  *
- * @return Pointer to the new filter, or `NULL` on allocation failure.
+ * @return Pointer to the new filter, or @c nullptr on allocation failure.
  */
 dmi_filter_t *dmi_filter_create(dmi_context_t *context);
 
@@ -58,7 +58,7 @@ dmi_filter_t *dmi_filter_create(dmi_context_t *context);
  * @param[in,out] filter Filter to update.
  * @param[in]     handle Entity handle to allow.
  *
- * @return `true` on success, `false` if @p filter is `NULL` or the handle
+ * @return `true` on success, `false` if @p filter is @c nullptr or the handle
  *         could not be stored.
  */
 bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
@@ -73,7 +73,7 @@ bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
  * @param[in,out] filter Filter to update.
  * @param[in]     type   Structure type to allow.
  *
- * @return `true` on success, `false` if @p filter is `NULL` or the type could
+ * @return `true` on success, `false` if @p filter is @c nullptr or the type could
  *         not be stored.
  */
 bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type);
@@ -87,7 +87,7 @@ bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type);
  * @param[in] filter Filter to check.
  *
  * @return `true` if both the handle and type lists are empty, or if @p filter
- *         is `NULL`; `false` otherwise.
+ *         is @c nullptr; `false` otherwise.
  */
 bool dmi_filter_is_empty(const dmi_filter_t *filter);
 
@@ -109,7 +109,7 @@ bool dmi_filter_is_empty(const dmi_filter_t *filter);
  * @param[in] entity Entity to test.
  *
  * @return `true` if @p entity satisfies all filter constraints, `false`
- *         otherwise or if either argument is `NULL`.
+ *         otherwise or if either argument is @c nullptr.
  */
 bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity);
 
@@ -117,7 +117,7 @@ bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity);
  * @brief Destroy a filter.
  *
  * Releases all resources associated with @p filter, including the handle and
- * type constraint lists. Does nothing if @p filter is `NULL`.
+ * type constraint lists. Does nothing if @p filter is @c nullptr.
  *
  * @param[in] filter Filter to destroy.
  */

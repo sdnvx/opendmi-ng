@@ -143,27 +143,29 @@ static bool dmi_system_decode(dmi_entity_t *entity)
     if (not status)
         return false;
 
+    // SMBIOS 2.1 fields
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
 
-    //
-    // SMBIOS 2.1 features
-    //
     entity->level = dmi_version(2, 1, 0);
 
-    dmi_stream_decode_uuid(stream, &info->uuid) and
-    dmi_stream_decode(stream, dmi_byte_t, &info->wakeup_type);
+    status =
+        dmi_stream_decode_uuid(stream, &info->uuid) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->wakeup_type);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
+    // SMBIOS 2.4 fields
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
 
-    //
-    // SMBIOS 2.4 features
-    //
     entity->level = dmi_version(2, 4, 0);
 
-    dmi_stream_decode_str(stream, &info->sku_number) and
-    dmi_stream_decode_str(stream, &info->family);
+    status =
+        dmi_stream_decode_str(stream, &info->sku_number) and
+        dmi_stream_decode_str(stream, &info->family);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

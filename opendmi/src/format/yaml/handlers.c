@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <limits.h>
 #include <assert.h>
 
 #include <opendmi/context.h>
@@ -15,7 +16,7 @@
 #include <opendmi/format/yaml/handlers.h>
 #include <opendmi/format/yaml/helpers.h>
 
-void *dmi_yaml_initialize(dmi_context_t *context, FILE *stream)
+void *dmi_yaml_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options)
 {
     assert(context != nullptr);
     assert(stream != nullptr);
@@ -66,6 +67,10 @@ void *dmi_yaml_initialize(dmi_context_t *context, FILE *stream)
 
     session->context = context;
     session->stream  = stream;
+
+    // Default options are used if not specified
+    if (options != nullptr)
+        session->options = *options;
 
     return session;
 }
@@ -153,12 +158,29 @@ bool dmi_yaml_entity_start(dmi_yaml_session_t *session, const dmi_entity_t *enti
         (entity_level != nullptr ?
             dmi_yaml_scalar(session, entity_level, YAML_STR_TAG, YAML_SINGLE_QUOTED_SCALAR_STYLE) :
             dmi_yaml_scalar(session, "null", YAML_NULL_TAG, YAML_PLAIN_SCALAR_STYLE)) and
-        dmi_yaml_label(session, "description") and
-        dmi_yaml_scalar(session, entity_description, YAML_STR_TAG, YAML_PLAIN_SCALAR_STYLE);
+        dmi_yaml_label(session, "state") and
+        dmi_yaml_sequence_start(session, YAML_FLOW_SEQUENCE_STYLE);
 
     dmi_free(entity_level);
 
-    return result;
+    if (not result)
+        return false;
+
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
+
+    dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
+                              sizeof(entity->state) * CHAR_BIT);
+
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        if (flag->value and not dmi_yaml_scalar(session, flag->code, YAML_STR_TAG, YAML_PLAIN_SCALAR_STYLE))
+            return false;
+    }
+
+    return
+        dmi_yaml_sequence_end(session) and
+        dmi_yaml_label(session, "description") and
+        dmi_yaml_scalar(session, entity_description, YAML_STR_TAG, YAML_PLAIN_SCALAR_STYLE);
 }
 
 bool dmi_yaml_entity_attrs_start(dmi_yaml_session_t *session, const dmi_entity_t *entity)

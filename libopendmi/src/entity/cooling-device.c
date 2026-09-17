@@ -165,23 +165,28 @@ static bool dmi_cooling_device_decode(dmi_entity_t *entity)
 
     info->nominal_speed = SHRT_MIN;
 
+    // Nominal speed
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
 
     dmi_word_t nominal_speed = 0;
     if (not dmi_stream_decode(stream, dmi_word_t, &nominal_speed))
-        return false;
+        return dmi_entity_incomplete(entity);
 
     info->nominal_speed = nominal_speed != 0x8000u
                         ? (short)(nominal_speed & 0x7FFFu)
                         : SHRT_MIN;
 
+    // SMBIOS 2.7 fields
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
 
     entity->level = dmi_version(2, 7, 0);
 
-    return dmi_stream_decode_str(stream, &info->description);
+    if (not dmi_stream_decode_str(stream, &info->description))
+        return dmi_entity_incomplete(entity);
+
+    return true;
 }
 
 static bool dmi_cooling_device_link(dmi_entity_t *entity)

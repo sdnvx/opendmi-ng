@@ -5,6 +5,8 @@ table:
   type: 0
   length: 87
   level: '3.1'
+  state:
+  - decoded
   description: Platform firmware information
   attributes:
     vendor: VMware, Inc.
@@ -65,6 +67,8 @@ table:
   type: 1
   length: 133
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: VMware, Inc.
@@ -79,6 +83,9 @@ table:
   type: 2
   length: 64
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: VMware, Inc.
@@ -100,6 +107,9 @@ table:
   type: 3
   length: 65
   level: '2.3'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: VMware, Inc.
@@ -122,6 +132,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -156,6 +168,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -190,6 +204,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 0
@@ -228,6 +246,8 @@ table:
   type: 11
   length: 96
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 2
@@ -238,6 +258,9 @@ table:
   type: 16
   length: 25
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Physical memory array
   attributes:
     location: motherboard
@@ -250,6 +273,10 @@ table:
   type: 17
   length: 148
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -304,6 +331,10 @@ table:
   type: 17
   length: 148
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -358,6 +389,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -412,6 +447,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -466,6 +505,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -520,6 +563,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -574,6 +621,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -628,6 +679,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -682,6 +737,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -736,6 +795,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -790,6 +853,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -844,6 +911,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -898,6 +969,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -952,6 +1027,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1006,6 +1085,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1060,6 +1143,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1114,6 +1201,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1168,6 +1259,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1222,6 +1317,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1276,6 +1375,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1330,6 +1433,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1384,6 +1491,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1438,6 +1549,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1492,6 +1607,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1546,6 +1665,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1600,6 +1723,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1654,6 +1781,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1708,6 +1839,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1762,6 +1897,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1816,6 +1955,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1870,6 +2013,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1924,6 +2071,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -1978,6 +2129,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2032,6 +2187,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2086,6 +2245,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2140,6 +2303,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2194,6 +2361,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2248,6 +2419,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2302,6 +2477,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2356,6 +2535,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2410,6 +2593,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2464,6 +2651,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2518,6 +2709,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2572,6 +2767,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2626,6 +2825,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2680,6 +2883,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2734,6 +2941,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2788,6 +2999,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2842,6 +3057,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2896,6 +3115,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -2950,6 +3173,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3004,6 +3231,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3058,6 +3289,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3112,6 +3347,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3166,6 +3405,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3220,6 +3463,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3274,6 +3521,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3328,6 +3579,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3382,6 +3637,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3436,6 +3695,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3490,6 +3753,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3544,6 +3811,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3598,6 +3869,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3652,6 +3927,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 8
@@ -3706,6 +3985,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -3760,6 +4043,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -3814,6 +4101,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -3868,6 +4159,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -3922,6 +4217,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -3976,6 +4275,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4030,6 +4333,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4084,6 +4391,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4138,6 +4449,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4192,6 +4507,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4246,6 +4565,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4300,6 +4623,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4354,6 +4681,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4408,6 +4739,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4462,6 +4797,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4516,6 +4855,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4570,6 +4913,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4624,6 +4971,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4678,6 +5029,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4732,6 +5087,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4786,6 +5145,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4840,6 +5203,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4894,6 +5261,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -4948,6 +5319,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5002,6 +5377,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5056,6 +5435,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5110,6 +5493,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5164,6 +5551,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5218,6 +5609,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5272,6 +5667,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5326,6 +5725,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5380,6 +5783,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5434,6 +5841,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5488,6 +5899,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5542,6 +5957,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5596,6 +6015,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5650,6 +6073,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5704,6 +6131,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5758,6 +6189,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5812,6 +6247,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5866,6 +6305,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5920,6 +6363,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -5974,6 +6421,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6028,6 +6479,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6082,6 +6537,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6136,6 +6595,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6190,6 +6653,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6244,6 +6711,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6298,6 +6769,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6352,6 +6827,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6406,6 +6885,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6460,6 +6943,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6514,6 +7001,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6568,6 +7059,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6622,6 +7117,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6676,6 +7175,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6730,6 +7233,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6784,6 +7291,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6838,6 +7349,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6892,6 +7407,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -6946,6 +7465,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -7000,6 +7523,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -7054,6 +7581,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -7108,6 +7639,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -7162,6 +7697,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -7175,6 +7712,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 2147483648
@@ -7186,6 +7726,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
@@ -7200,6 +7743,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 4294967296
@@ -7214,6 +7760,8 @@ table:
   type: 23
   length: 15
   level: '2.2'
+  state:
+  - decoded
   description: System reset
   attributes:
     is-enabled: true
@@ -7228,6 +7776,8 @@ table:
   type: 24
   length: 7
   level: '2.2'
+  state:
+  - decoded
   description: Hardware security
   attributes:
     front-panel-reset: unknown
@@ -7238,6 +7788,8 @@ table:
   type: 30
   length: 13
   level: '2.2'
+  state:
+  - decoded
   description: Out-of-band remote access
   attributes:
     vendor: Intel
@@ -7248,6 +7800,8 @@ table:
   type: 32
   length: 13
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -7255,6 +7809,8 @@ table:
   type: 33
   length: 33
   level: '2.3'
+  state:
+  - decoded
   description: 64-bit memory error information
   attributes:
     type: ok
@@ -7268,6 +7824,7 @@ table:
   type: 126
   length: 6
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgSSAA==
@@ -7275,4 +7832,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

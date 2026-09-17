@@ -14,6 +14,7 @@
 
 #include <opendmi/types.h>
 #include <opendmi/attribute.h>
+#include <opendmi/format.h>
 
 #define YAML_BINARY_TAG "tag:yaml.org,2002:binary"
 
@@ -23,6 +24,11 @@ typedef struct dmi_yaml_session
      * @brief Context handle.
      */
     dmi_context_t *context;
+
+    /**
+     * @brief Output options.
+     */
+    dmi_format_options_t options;
 
     /**
      * @brief Output stream handle.

@@ -4,7 +4,10 @@ table:
 - handle: 0
   type: 0
   length: 63
-  level: '2.1'
+  level: '2.3'
+  state:
+  - decoded
+  - partial
   description: Platform firmware information
   attributes:
     vendor: Phoenix/FUJITSU
@@ -63,6 +66,9 @@ table:
   type: 1
   length: 73
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System information
   attributes:
     vendor: FUJITSU SIEMENS
@@ -75,6 +81,10 @@ table:
   type: 2
   length: 29
   level: '2.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Baseboard or module information
   attributes:
     vendor: FUJITSU
@@ -96,6 +106,9 @@ table:
   type: 3
   length: 43
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: FUJITSU SIEMENS
@@ -112,6 +125,10 @@ table:
   type: 4
   length: 93
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: Onboard
@@ -134,6 +151,9 @@ table:
   type: 5
   length: 20
   level: '2.1'
+  state:
+  - decoded
+  - linked
   description: Memory controller information
   attributes:
     error-detection: none
@@ -184,6 +204,8 @@ table:
   type: 6
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Memory module information
   attributes:
     socket: DIMM1
@@ -218,6 +240,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -252,6 +277,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -286,6 +314,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -297,6 +327,8 @@ table:
   type: 8
   length: 17
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -308,6 +340,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -319,6 +353,8 @@ table:
   type: 8
   length: 16
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -330,6 +366,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -341,6 +379,8 @@ table:
   type: 8
   length: 16
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -352,6 +392,8 @@ table:
   type: 8
   length: 16
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -363,6 +405,8 @@ table:
   type: 8
   length: 16
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -374,6 +418,8 @@ table:
   type: 8
   length: 14
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -385,6 +431,7 @@ table:
   type: 126
   length: 19
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkSAAAAASER
@@ -394,6 +441,7 @@ table:
   type: 126
   length: 22
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkTAAAAAf8c
@@ -403,6 +451,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -414,6 +464,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -425,6 +477,8 @@ table:
   type: 8
   length: 17
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -436,6 +490,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -447,6 +503,8 @@ table:
   type: 8
   length: 28
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -458,6 +516,8 @@ table:
   type: 8
   length: 18
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -469,6 +529,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -480,6 +542,8 @@ table:
   type: 8
   length: 24
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: null
@@ -491,6 +555,9 @@ table:
   type: 9
   length: 24
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: CardBus-1
@@ -531,6 +598,9 @@ table:
   type: 9
   length: 24
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: CardBus-2
@@ -571,6 +641,8 @@ table:
   type: 13
   length: 33
   level: '2.0'
+  state:
+  - decoded
   description: Firmware language information
   attributes:
     languages:
@@ -583,6 +655,8 @@ table:
   type: 15
   length: 37
   level: '2.1'
+  state:
+  - decoded
   description: System event log
   attributes:
     access-method: memory-mapped-32bit-address
@@ -593,6 +667,10 @@ table:
   type: 16
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Physical memory array
   attributes:
     location: motherboard
@@ -605,6 +683,10 @@ table:
   type: 17
   length: 39
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 32
@@ -643,6 +725,10 @@ table:
   type: 19
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -654,6 +740,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -668,6 +758,8 @@ table:
   type: 21
   length: 9
   level: '2.1'
+  state:
+  - decoded
   description: Built-in pointing device
   attributes:
     type: other
@@ -677,6 +769,8 @@ table:
   type: 22
   length: 67
   level: '2.2'
+  state:
+  - decoded
   description: Portable battery
   attributes:
     location: Internal Battery
@@ -696,6 +790,7 @@ table:
   type: 126
   length: 67
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fhomAAECAAMEBsiCMCoA/wAAAAAAAf////8=
@@ -708,6 +803,7 @@ table:
   type: 126
   length: 61
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fhonAAECAAMEBrBtMCoA/wAAAAAAAf////8=
@@ -720,6 +816,8 @@ table:
   type: 24
   length: 7
   level: '2.2'
+  state:
+  - decoded
   description: Hardware security
   attributes:
     front-panel-reset: not-implemented
@@ -730,6 +828,8 @@ table:
   type: 32
   length: 13
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -737,6 +837,7 @@ table:
   type: 143
   length: 24
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     jxAqAABfRkpfT0VNXxAAAA==
@@ -748,6 +849,7 @@ table:
   type: 143
   length: 13
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     jwgrAAEDAAA=
@@ -757,4 +859,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

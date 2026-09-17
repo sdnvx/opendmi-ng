@@ -69,7 +69,7 @@ const dmi_entity_spec_t dmi_battery_spec =
     },
     .type            = DMI_TYPE(PORTABLE_BATTERY),
     .minimum_version = DMI_VERSION(2, 1, 0),
-    .minimum_length  = 0x05,
+    .minimum_length  = 0x10,
     .decoded_length  = sizeof(dmi_battery_t),
     .attributes      = (const dmi_attribute_t[]){
         DMI_ATTRIBUTE(dmi_battery_t, location, STRING, {
@@ -154,21 +154,36 @@ const char *dmi_battery_chemistry_name(dmi_battery_chemistry_t value)
 
 static bool dmi_battery_decode(dmi_entity_t *entity)
 {
-    const dmi_battery_data_t *data;
     dmi_battery_t *info;
-
-    data = dmi_entity_data(entity, DMI_TYPE(PORTABLE_BATTERY));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
     if (info == nullptr)
         return false;
 
-    info->location = dmi_entity_string(entity, data->location);
-    info->vendor   = dmi_entity_string(entity, data->vendor);
+    dmi_stream_t *stream = &entity->stream;
 
-    const char *manufacture_date = dmi_entity_string(entity, data->manufacture_date);
+    // SMBIOS 2.1 fields
+    const char *manufacture_date = nullptr;
+    dmi_word_t capacity = 0;
+    dmi_byte_t maximum_error = 0;
+
+    bool status =
+        dmi_stream_decode_str(stream, &info->location) and
+        dmi_stream_decode_str(stream, &info->vendor) and
+        dmi_stream_decode_str(stream, &manufacture_date) and
+        dmi_stream_decode_str(stream, &info->serial_number) and
+        dmi_stream_decode_str(stream, &info->name) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->chemistry) and
+        dmi_stream_decode(stream, dmi_word_t, &capacity) and
+        dmi_stream_decode(stream, dmi_word_t, &info->voltage) and
+        dmi_stream_decode_str(stream, &info->sbds_version) and
+        dmi_stream_decode(stream, dmi_byte_t, &maximum_error);
+    if (not status)
+        return false;
+
+    info->capacity      = capacity;
+    info->maximum_error = (maximum_error != 0xFFu) ? maximum_error : USHRT_MAX;
+
     if (manufacture_date != nullptr) {
         info->manufacture_date = dmi_date_parse(manufacture_date);
         if (info->manufacture_date == DMI_DATE_NONE) {
@@ -177,42 +192,36 @@ static bool dmi_battery_decode(dmi_entity_t *entity)
         }
     }
 
-    info->serial_number    = dmi_entity_string(entity, data->serial_number);
-    info->name             = dmi_entity_string(entity, data->name);
-    info->chemistry        = dmi_decode(data->chemistry);
-    info->capacity         = dmi_decode(data->capacity);
-    info->voltage          = dmi_decode(data->voltage);
-    info->sbds_version     = dmi_entity_string(entity, data->sbds_version);
+    // SMBIOS 2.2 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    uint8_t maximum_error = dmi_decode(data->maximum_error);
-    if (maximum_error != 0xFFu)
-        info->maximum_error = maximum_error;
-    else
-        info->maximum_error = USHRT_MAX;
+    entity->level = dmi_version(2, 2, 0);
 
-    // SMBIOS 2.2 features
-    if (entity->body_length > 0x10u) {
-        entity->level = dmi_version(2, 2, 0);
+    // Missing values do not affect decoded date and capacity
+    dmi_word_t sbds_manufacture_date = 0;
+    dmi_byte_t capacity_factor = 1;
 
-        info->sbds_serial_number = dmi_decode(data->sbds_serial_number);
+    status =
+        dmi_stream_decode(stream, dmi_word_t, &info->sbds_serial_number) and
+        dmi_stream_decode(stream, dmi_word_t, &sbds_manufacture_date) and
+        dmi_stream_decode_str(stream, &info->sbds_chemistry) and
+        dmi_stream_decode(stream, dmi_byte_t, &capacity_factor) and
+        dmi_stream_decode(stream, dmi_dword_t, &info->oem_defined);
 
-        if (manufacture_date == nullptr) {
-            uint16_t sbds_manufacture_date = dmi_decode(data->sbds_manufacture_date);
-
-            if (sbds_manufacture_date != 0) {
-                info->manufacture_date = dmi_date(
-                    ((sbds_manufacture_date >> 9) & 0x7Fu) + 1980,
-                    (sbds_manufacture_date >> 5) & 0x0Fu,
-                    sbds_manufacture_date & 0x1Fu
-                );
-            }
-        }
-
-        info->sbds_chemistry = dmi_entity_string(entity, data->sbds_chemistry);
-        info->oem_defined    = dmi_decode(data->oem_defined);
-
-        info->capacity *= dmi_decode(data->capacity_factor);
+    // Manufacture date in SBDS format is used if the string is not set
+    if ((manufacture_date == nullptr) and (sbds_manufacture_date != 0)) {
+        info->manufacture_date = dmi_date(
+            ((sbds_manufacture_date >> 9) & 0x7Fu) + 1980,
+            (sbds_manufacture_date >> 5) & 0x0Fu,
+            sbds_manufacture_date & 0x1Fu
+        );
     }
+
+    info->capacity *= capacity_factor;
+
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

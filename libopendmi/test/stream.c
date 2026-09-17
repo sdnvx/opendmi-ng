@@ -76,6 +76,8 @@ static void test_stream_is_done_null(void **pstate);
 
 static void test_stream_reset(void **pstate);
 
+static void test_stream_has(void **pstate);
+
 static void test_stream_read_macro(void **pstate);
 static void test_stream_decode_macro(void **pstate);
 
@@ -112,6 +114,8 @@ int main(void)
         cmocka_unit_test(test_stream_is_done_null),
 
         cmocka_unit_test(test_stream_reset),
+
+        cmocka_unit_test(test_stream_has),
 
         cmocka_unit_test(test_stream_read_macro),
         cmocka_unit_test(test_stream_decode_macro),
@@ -319,6 +323,7 @@ static void test_stream_skip(void **pstate)
 
     assert_true(dmi_stream_skip(&stream, 3));
     assert_uint_equal(stream.position, TEST_BODY_OFFSET + 3);
+    assert_uint_equal(stream.remaining, TEST_BODY_SIZE - 3);
 }
 
 static void test_stream_skip_to_end(void **pstate)
@@ -411,6 +416,29 @@ static void test_stream_reset(void **pstate)
     dmi_stream_reset(&stream);
     assert_uint_equal(stream.position, 0);
     assert_uint_equal(stream.remaining, TEST_ENTITY_LENGTH);
+}
+
+static void test_stream_has(void **pstate)
+{
+    dmi_stream_t stream;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_stream_initialize(&stream, state->entity);
+    dmi_stream_seek(&stream, TEST_BODY_OFFSET);
+
+    assert_true(dmi_stream_has(&stream, 0));
+    assert_true(dmi_stream_has(&stream, 1));
+    assert_true(dmi_stream_has(&stream, TEST_BODY_SIZE));
+    assert_false(dmi_stream_has(&stream, TEST_BODY_SIZE + 1));
+
+    // Stream position is not modified
+    assert_uint_equal(stream.position, TEST_BODY_OFFSET);
+
+    assert_true(dmi_stream_skip(&stream, TEST_BODY_SIZE));
+    assert_true(dmi_stream_has(&stream, 0));
+    assert_false(dmi_stream_has(&stream, 1));
+
+    assert_false(dmi_stream_has(nullptr, 0));
 }
 
 static void test_stream_read_macro(void **pstate)

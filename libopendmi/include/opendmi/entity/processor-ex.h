@@ -108,6 +108,8 @@ dmi_packed_union(dmi_processor_revision)
     };
 };
 
+dmi_static_assert_value_union(dmi_processor_revision);
+
 /**
  * @brief The 64-bit ARM (Aarch64) processor-specific data.
  */

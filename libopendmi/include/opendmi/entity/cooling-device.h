@@ -63,6 +63,8 @@ dmi_packed_union(dmi_cooling_device_details)
     };
 };
 
+dmi_static_assert_value_union(dmi_cooling_device_details);
+
 
 typedef union dmi_cooling_device_details dmi_cooling_device_details_t;
 

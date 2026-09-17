@@ -1977,23 +1977,36 @@ const char *dmi_processor_status_name(dmi_processor_status_t value)
 static bool dmi_processor_decode(dmi_entity_t *entity)
 {
     dmi_processor_t *info;
-    const dmi_processor_data_t *data;
-
-    data = dmi_entity_data(entity, DMI_TYPE(PROCESSOR));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
     if (info == nullptr)
         return false;
 
-    info->socket_designation = dmi_entity_string(entity, data->socket_designation);
-    info->type               = dmi_decode(data->type);
-    info->family             = dmi_decode(data->family);
-    info->vendor             = dmi_entity_string(entity, data->vendor);
-    info->version            = dmi_entity_string(entity, data->version);
+    dmi_stream_t *stream = &entity->stream;
 
-    info->voltage = dmi_decode(data->voltage);
+    info->l1_cache_handle = DMI_HANDLE_INVALID;
+    info->l2_cache_handle = DMI_HANDLE_INVALID;
+    info->l3_cache_handle = DMI_HANDLE_INVALID;
+
+    // SMBIOS 2.0 fields
+    dmi_byte_t status_value = 0;
+
+    bool status =
+        dmi_stream_decode_str(stream, &info->socket_designation) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->type) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->family) and
+        dmi_stream_decode_str(stream, &info->vendor) and
+        dmi_stream_skip(stream, sizeof(dmi_qword_t)) and
+        dmi_stream_decode_str(stream, &info->version) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->voltage) and
+        dmi_stream_decode(stream, dmi_word_t, &info->external_clock) and
+        dmi_stream_decode(stream, dmi_word_t, &info->maximum_speed) and
+        dmi_stream_decode(stream, dmi_word_t, &info->current_speed) and
+        dmi_stream_decode(stream, dmi_byte_t, &status_value) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->upgrade);
+    if (not status)
+        return false;
+
     // TODO:
     // bool legacy = not (bool)(info->voltage & ((uint8_t)1 << 7));
     // if (legacy) {
@@ -2005,106 +2018,115 @@ static bool dmi_processor_decode(dmi_entity_t *entity)
     //     uint8_t voltage = (info->voltage & ~((uint8_t)1 << 7));
     // }
 
-    info->external_clock = dmi_decode(data->external_clock);
-    info->maximum_speed  = dmi_decode(data->maximum_speed);
-    info->current_speed  = dmi_decode(data->current_speed);
-    info->upgrade        = dmi_decode(data->upgrade);
-
-    dmi_processor_status_data_t status = {
-        .__value = dmi_decode(data->status)
+    dmi_processor_status_data_t status_data = {
+        .__value = status_value
     };
 
-    info->is_populated = status.is_populated;
-    info->status       = status.status;
+    info->is_populated = status_data.is_populated;
+    info->status       = status_data.status;
 
-    //
-    // SMBIOS 2.1 features
-    //
+    // SMBIOS 2.1 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    if (entity->body_length > 0x1Au) {
-        entity->level = dmi_version(2, 1, 0);
-        info->l1_cache_handle = dmi_decode(data->l1_cache_handle);
-    }
-    if (entity->body_length > 0x1Cu)
-        info->l2_cache_handle = dmi_decode(data->l2_cache_handle);
-    if (entity->body_length > 0x1Eu)
-        info->l3_cache_handle = dmi_decode(data->l3_cache_handle);
+    entity->level = dmi_version(2, 1, 0);
 
-    //
-    // SMBIOS 2.3 features
-    //
+    status =
+        dmi_stream_decode(stream, dmi_handle_t, &info->l1_cache_handle) and
+        dmi_stream_decode(stream, dmi_handle_t, &info->l2_cache_handle) and
+        dmi_stream_decode(stream, dmi_handle_t, &info->l3_cache_handle);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x20u) {
-        entity->level = dmi_version(2, 3, 0);
-        info->serial_number = dmi_entity_string(entity, data->serial_number);
-    }
-    if (entity->body_length > 0x21u)
-        info->asset_tag = dmi_entity_string(entity, data->asset_tag);
-    if (entity->body_length > 0x22u)
-        info->part_number   = dmi_entity_string(entity, data->part_number);
+    // SMBIOS 2.3 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    //
-    // SMBIOS 2.5 features
-    //
+    entity->level = dmi_version(2, 3, 0);
 
-    if (entity->body_length > 0x23u) {
-        entity->level = dmi_version(2, 5, 0);
-        info->core_count = dmi_decode(data->core_count);
-    }
-    if (entity->body_length > 0x24u)
-        info->core_enabled = dmi_decode(data->core_enabled);
-    if (entity->body_length > 0x25u)
-        info->thread_count = dmi_decode(data->thread_count);
-    if (entity->body_length > 0x26u)
-        info->features.__value = dmi_decode(data->features);
+    status =
+        dmi_stream_decode_str(stream, &info->serial_number) and
+        dmi_stream_decode_str(stream, &info->asset_tag) and
+        dmi_stream_decode_str(stream, &info->part_number);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
-    //
-    // SMBIOS 2.6 features
-    //
+    // SMBIOS 2.5 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    if (entity->body_length > 0x28u) {
-        entity->level = dmi_version(2, 6, 0);
+    entity->level = dmi_version(2, 5, 0);
 
-        if (info->family == DMI_PROCESSOR_FAMILY_EXTENDED)
-            info->family = dmi_decode(data->family_ex);
-    }
+    dmi_word_t features = 0;
 
-    //
-    // SMBIOS 3.0 features
-    //
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->core_count) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->core_enabled) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->thread_count) and
+        dmi_stream_decode(stream, dmi_word_t, &features);
 
-    if (entity->body_length > 0x2Au) {
-        entity->level = dmi_version(3, 0, 0);
+    info->features.__value = features;
 
-        if (info->core_count == 0xFFu)
-            info->core_count = dmi_decode(data->core_count_ex);
-    }
-    if (entity->body_length > 0x2Cu) {
-        if (info->core_enabled == 0xFFu)
-            info->core_enabled = dmi_decode(data->core_enabled_ex);
-    }
-    if (entity->body_length > 0x2Eu) {
-        if (info->thread_count == 0xFFu)
-            info->thread_count = dmi_decode(data->thread_count_ex);
-    }
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
-    //
-    // SMBIOS 3.6 features
-    //
+    // SMBIOS 2.6 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    if (entity->body_length > 0x30u) {
-        entity->level = dmi_version(3, 6, 0);
-        info->thread_enabled = dmi_decode(data->thread_enabled);
-    }
+    entity->level = dmi_version(2, 6, 0);
 
-    //
-    // SMBIOS 3.8 features
-    //
+    dmi_word_t family_ex = 0;
+    if (not dmi_stream_decode(stream, dmi_word_t, &family_ex))
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x32u) {
-        entity->level = dmi_version(3, 8, 0);
-        info->socket_type = dmi_entity_string(entity, data->socket_type);
-    }
+    // Actual family is stored in extended field
+    if (info->family == DMI_PROCESSOR_FAMILY_EXTENDED)
+        info->family = family_ex;
+
+    // SMBIOS 3.0 fields, actual counts are stored in extended fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(3, 0, 0);
+
+    // Missing extended counts keep the original values
+    dmi_word_t core_count_ex   = info->core_count;
+    dmi_word_t core_enabled_ex = info->core_enabled;
+    dmi_word_t thread_count_ex = info->thread_count;
+
+    status =
+        dmi_stream_decode(stream, dmi_word_t, &core_count_ex) and
+        dmi_stream_decode(stream, dmi_word_t, &core_enabled_ex) and
+        dmi_stream_decode(stream, dmi_word_t, &thread_count_ex);
+
+    if (info->core_count == 0xFFu)
+        info->core_count = core_count_ex;
+    if (info->core_enabled == 0xFFu)
+        info->core_enabled = core_enabled_ex;
+    if (info->thread_count == 0xFFu)
+        info->thread_count = thread_count_ex;
+
+    if (not status)
+        return dmi_entity_incomplete(entity);
+
+    // SMBIOS 3.6 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(3, 6, 0);
+
+    if (not dmi_stream_decode(stream, dmi_word_t, &info->thread_enabled))
+        return dmi_entity_incomplete(entity);
+
+    // SMBIOS 3.8 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(3, 8, 0);
+
+    if (not dmi_stream_decode_str(stream, &info->socket_type))
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

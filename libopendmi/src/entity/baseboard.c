@@ -201,65 +201,71 @@ const char *dmi_baseboard_type_name(dmi_baseboard_type_t value)
 
 static bool dmi_baseboard_decode(dmi_entity_t *entity)
 {
-    const dmi_baseboard_data_t *data;
     dmi_baseboard_t *info;
-
-    data = dmi_entity_data(entity, DMI_TYPE(BASEBOARD));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
     if (info == nullptr)
         return false;
 
-    if (entity->body_length > 0x04u)
-        info->vendor = dmi_entity_string(entity, data->vendor);
-    if (entity->body_length > 0x05u)
-        info->product = dmi_entity_string(entity, data->product);
-    if (entity->body_length > 0x06u)
-        info->version = dmi_entity_string(entity, data->version);
-    if (entity->body_length > 0x07u)
-        info->serial_number = dmi_entity_string(entity, data->serial_number);
-    if (entity->body_length > 0x08u)
-        info->asset_tag = dmi_entity_string(entity, data->asset_tag);
+    dmi_stream_t *stream = &entity->stream;
 
-    if (entity->body_length > 0x09u)
-        info->features.__value = dmi_decode(data->features);
+    info->chassis_handle = DMI_HANDLE_INVALID;
 
-    if (entity->body_length > 0x0Au)
-        info->location = dmi_entity_string(entity, data->location);
+    // Mandatory fields
+    bool status =
+        dmi_stream_decode_str(stream, &info->vendor) and
+        dmi_stream_decode_str(stream, &info->product) and
+        dmi_stream_decode_str(stream, &info->version) and
+        dmi_stream_decode_str(stream, &info->serial_number);
+    if (not status)
+        return false;
 
-    if (entity->body_length >= 0x0Du)
-        info->chassis_handle = dmi_decode(data->chassis_handle);
-    else
-        info->chassis_handle = DMI_HANDLE_INVALID;
+    // Optional fields are grouped as dmidecode does
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+    if (not dmi_stream_decode_str(stream, &info->asset_tag))
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x0Du)
-        info->type = dmi_decode(data->type);
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    if (entity->body_length <= 0x0Eu)
+    dmi_byte_t features = 0;
+    if (not dmi_stream_decode(stream, dmi_byte_t, &features))
+        return dmi_entity_incomplete(entity);
+
+    info->features.__value = features;
+
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    status =
+        dmi_stream_decode_str(stream, &info->location) and
+        dmi_stream_decode(stream, dmi_handle_t, &info->chassis_handle) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->type);
+    if (not status)
+        return dmi_entity_incomplete(entity);
+
+    // Contained object handles
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    dmi_byte_t object_count = 0;
+    if (not dmi_stream_decode(stream, dmi_byte_t, &object_count))
+        return dmi_entity_incomplete(entity);
+
+    if (object_count == 0)
         return true;
 
-    size_t object_count = dmi_decode(data->object_count);
+    info->object_handles = dmi_alloc_array(entity->context, sizeof(dmi_handle_t), object_count);
+    if (info->object_handles == nullptr)
+        return false;
 
-    // Contained object handles are skipped if they do not fit into the
-    // structure, as dmidecode does
-    if (sizeof(dmi_baseboard_data_t) + object_count * sizeof(dmi_handle_t) > entity->body_length) {
-        dmi_log_warning(entity->context->logger,
-                        "0x%04x: Contained object handles (%zu) exceed structure length",
-                        entity->handle, object_count);
-        return true;
-    }
+    // Only completely present handles are counted
+    for (size_t i = 0; i < object_count; i++) {
+        if (not dmi_stream_decode(stream, dmi_handle_t, &info->object_handles[i]))
+            return dmi_entity_incomplete(entity);
 
-    if (object_count > 0) {
-        info->object_handles = dmi_alloc_array(entity->context, sizeof(dmi_handle_t), object_count);
-        if (info->object_handles == nullptr)
-            return false;
-
-        info->object_count = object_count;
-
-        for (size_t i = 0; i < info->object_count; i++)
-            info->object_handles[i] = dmi_decode(data->object_handles[i]);
+        info->object_count++;
     }
 
     return true;

@@ -201,10 +201,10 @@ dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str)
 }
 
 bool dmi_print_all(
-        dmi_context_t      *context,
-        FILE               *stream,
-        const dmi_format_t *format,
-        bool                dump)
+        dmi_context_t              *context,
+        FILE                       *stream,
+        const dmi_format_t         *format,
+        const dmi_format_options_t *options)
 {
     void *session;
     dmi_registry_iter_t iter;
@@ -214,7 +214,7 @@ bool dmi_print_all(
     assert(stream != nullptr);
     assert(format != nullptr);
 
-    session = format->handlers.initialize(context, stream);
+    session = format->handlers.initialize(context, stream, options);
     if (session == nullptr)
         return false;
 
@@ -231,7 +231,7 @@ bool dmi_print_all(
 
         dmi_registry_iter_init(&iter, context->state.registry, &dmi_filter_config.filter);
         while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-            status = dmi_print_entity(format, entity, session, dump);
+            status = dmi_print_entity(format, entity, session, options);
             if (not status)
                 break;
         }
@@ -260,10 +260,10 @@ bool dmi_print_all(
 }
 
 bool dmi_print_entity(
-        const dmi_format_t *format,
-        const dmi_entity_t *entity,
-        void               *session,
-        bool                dump)
+        const dmi_format_t         *format,
+        const dmi_entity_t         *entity,
+        void                       *session,
+        const dmi_format_options_t *options)
 {
     assert(format != nullptr);
     assert(entity != nullptr);
@@ -274,6 +274,8 @@ bool dmi_print_entity(
 
     if (not format->handlers.entity_start(session, entity))
         return false;
+
+    bool dump = (options != nullptr) and options->dump;
 
     if (entity->info and not dump) {
         if ((format->handlers.entity_attrs_start != nullptr) and

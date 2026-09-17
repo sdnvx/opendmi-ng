@@ -108,6 +108,8 @@ static bool dmi_memory_array_addr_decode(dmi_entity_t *entity)
 
     dmi_stream_t *stream = &entity->stream;
 
+    bool success = false;
+
     do {
         bool status;
 
@@ -120,25 +122,35 @@ static bool dmi_memory_array_addr_decode(dmi_entity_t *entity)
             dmi_stream_decode(stream, dmi_handle_t, &info->array_handle) and
             dmi_stream_decode(stream, dmi_byte_t, &info->partition_width);
 
-        if (!status)
+        if (not status)
             return false;
 
         info->start_addr = (uint64_t)start_addr << 10u;
         info->end_addr   = (uint64_t)end_addr << 10u;
 
-        if (dmi_stream_is_done(stream))
+        // SMBIOS 2.7 fields
+        if (dmi_stream_is_done(stream)) {
+            success = dmi_entity_stop(entity);
             break;
+        }
 
         entity->level = dmi_version(2, 7, 0);
 
-        if (start_addr == 0xFFFFFFFFu) {
-            status =
-                dmi_stream_decode(stream, dmi_qword_t, &info->start_addr) and
-                dmi_stream_decode(stream, dmi_qword_t, &info->end_addr);
+        // Actual addresses are stored in extended fields, missing extended
+        // addresses keep the original values
+        uint64_t start_addr_ex = info->start_addr;
+        uint64_t end_addr_ex   = info->end_addr;
 
-            if (!status)
-                return false;
+        status =
+            dmi_stream_decode(stream, dmi_qword_t, &start_addr_ex) and
+            dmi_stream_decode(stream, dmi_qword_t, &end_addr_ex);
+
+        if (start_addr == 0xFFFFFFFFu) {
+            info->start_addr = start_addr_ex;
+            info->end_addr   = end_addr_ex;
         }
+
+        success = status ? true : dmi_entity_incomplete(entity);
     } while (false);
 
     if (info->end_addr > info->start_addr)
@@ -146,7 +158,7 @@ static bool dmi_memory_array_addr_decode(dmi_entity_t *entity)
     else
         info->range_size = info->start_addr - info->end_addr;
 
-    return true;
+    return success;
 }
 
 static bool dmi_memory_array_addr_link(dmi_entity_t *entity)

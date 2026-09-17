@@ -33,7 +33,7 @@ __BEGIN_DECLS
  * valid.
  *
  * @param[in] str    NUL-terminated string.
- * @param[in] filter Character filter, or `nullptr` to allow all characters.
+ * @param[in] filter Character filter, or @c nullptr to allow all characters.
  *
  * @return `true` if @p str is valid UTF-8 and all its characters are allowed
  *         by @p filter, `false` otherwise.
@@ -49,11 +49,11 @@ bool dmi_utf8_is_valid_ex(const char *str, dmi_utf8_filter_fn *filter);
  *
  * @param[in] context DMI context handle.
  * @param[in] str     NUL-terminated string.
- * @param[in] filter  Character filter, or `nullptr` to allow all characters.
+ * @param[in] filter  Character filter, or @c nullptr to allow all characters.
  *                    Replacement character must be allowed by the filter.
  *
  * @return Newly allocated string, which should be freed with `dmi_free()`,
- *         or `nullptr` if out of memory.
+ *         or @c nullptr if out of memory.
  */
 char *dmi_utf8_repair_ex(dmi_context_t *context, const char *str, dmi_utf8_filter_fn *filter);
 

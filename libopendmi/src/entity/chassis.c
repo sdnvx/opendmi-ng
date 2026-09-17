@@ -403,124 +403,144 @@ const char *dmi_chassis_security_status_name(dmi_chassis_security_status_t value
 
 static bool dmi_chassis_decode(dmi_entity_t *entity)
 {
-    const dmi_chassis_data_t *data;
     dmi_chassis_t *info;
-
-    data = dmi_entity_data(entity, DMI_TYPE(CHASSIS));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
     if (info == nullptr)
         return false;
 
+    dmi_stream_t *stream = &entity->stream;
+
+    // SMBIOS 2.0 fields
+    dmi_byte_t type_value = 0;
+
+    bool status =
+        dmi_stream_decode_str(stream, &info->vendor) and
+        dmi_stream_decode(stream, dmi_byte_t, &type_value) and
+        dmi_stream_decode_str(stream, &info->version) and
+        dmi_stream_decode_str(stream, &info->serial_number) and
+        dmi_stream_decode_str(stream, &info->asset_tag);
+    if (not status)
+        return false;
+
     dmi_chassis_type_data_t type = {
-        .__value = dmi_decode(data->type)
+        .__value = type_value
     };
 
-    info->vendor          = dmi_entity_string(entity,  data->vendor);
     info->type            = type.type;
     info->is_lock_present = type.is_lock_present;
-    info->version         = dmi_entity_string(entity, data->version);
-    info->serial_number   = dmi_entity_string(entity, data->serial_number);
-    info->asset_tag       = dmi_entity_string(entity, data->asset_tag);
 
-    //
-    // SMBIOS 2.1 features
-    //
+    // SMBIOS 2.1 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    if (entity->body_length > 0x09) {
-        entity->level = dmi_version(2, 1, 0);
-        info->bootup_state = dmi_decode(data->bootup_state);
-    }
-    if (entity->body_length > 0x0A)
-        info->power_supply_state = dmi_decode(data->power_supply_state);
-    if (entity->body_length > 0x0B)
-        info->thermal_state = dmi_decode(data->thermal_state);
-    if (entity->body_length > 0x0C)
-        info->security_status = dmi_decode(data->security_status);
+    entity->level = dmi_version(2, 1, 0);
 
-    //
-    // SMBIOS 2.3 features
-    //
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->bootup_state) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->power_supply_state) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->thermal_state) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->security_status);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x0D)
-        entity->level = dmi_version(2, 3, 0);
+    // SMBIOS 2.3 fields, grouped as dmidecode does
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    if (entity->body_length >= 0x11)
-        info->oem_defined = dmi_decode(data->oem_defined);
-    if (entity->body_length > 0x11)
-        info->height = dmi_decode(data->height);
-    if (entity->body_length > 0x12)
-        info->power_cord_count = dmi_decode(data->power_cord_count);
+    entity->level = dmi_version(2, 3, 0);
 
-    if (entity->body_length < sizeof(dmi_chassis_data_t))
-        return true;
+    if (not dmi_stream_decode(stream, dmi_dword_t, &info->oem_defined))
+        return dmi_entity_incomplete(entity);
 
-    size_t element_count = dmi_decode(data->element_count);
-    size_t element_size  = dmi_decode(data->element_size);
-    size_t base_len      = sizeof(dmi_chassis_data_t) + element_count * element_size;
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    // Contained elements and the following fields are skipped if elements do
-    // not fit into the structure, as dmidecode does
-    if (base_len > entity->body_length) {
-        dmi_log_warning(entity->context->logger,
-                        "0x%04x: Contained elements (%zu x %zu bytes) exceed structure length",
-                        entity->handle, element_count, element_size);
-        return true;
-    }
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->height) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->power_cord_count);
+    if (not status)
+        return dmi_entity_incomplete(entity);
+
+    // Contained elements
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    dmi_byte_t element_count = 0;
+    dmi_byte_t element_size = 0;
+
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &element_count) and
+        dmi_stream_decode(stream, dmi_byte_t, &element_size);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
     info->element_size = element_size;
 
-    // Element records shorter than defined by specification are not decoded
-    if ((element_count > 0) and (element_size >= sizeof(dmi_chassis_element_data_t))) {
+    // Element record consists of type, minimum and maximum counts. Records
+    // shorter than defined by specification are skipped.
+    const size_t element_data_size = 3 * sizeof(dmi_byte_t);
+    bool decode_elements = (element_size >= element_data_size);
+
+    if ((element_count > 0) and decode_elements) {
         info->elements = dmi_alloc_array(entity->context, sizeof(dmi_chassis_element_t), element_count);
         if (info->elements == nullptr)
             return false;
-
-        info->element_count = element_count;
-
-        for (size_t i = 0; i < info->element_count; i++) {
-            dmi_chassis_element_t *element = &info->elements[i];
-            const dmi_chassis_element_data_t *element_data = dmi_cast(element_data,
-                    entity->data + sizeof(dmi_chassis_data_t) + i * element_size);
-
-            uint8_t element_type = dmi_decode(element_data->type);
-            if (element_type & 0x80u) {
-                element->type = element_type & 0x7Fu;
-            } else {
-                element->type       = DMI_TYPE_INVALID;
-                element->board_type = element_type;
-            }
-
-            element->minimum_count = dmi_decode(element_data->minimum_count);
-            element->maximum_count = dmi_decode(element_data->maximum_count);
-        }
     }
 
-    //
-    // SMBIOS 2.7 features
-    //
+    // Only completely present elements are counted, and the following fields
+    // are not decoded if elements do not fit into the structure
+    for (size_t i = 0; i < element_count; i++) {
+        if (not dmi_stream_has(stream, element_size))
+            return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > base_len) {
-        entity->level = dmi_version(2, 7, 0);
-
-        size_t extra_len = entity->body_length - base_len;
-        const dmi_chassis_extra_t *extra = dmi_cast(extra, entity->data + base_len);
-
-        info->sku_number = dmi_entity_string(entity, extra->sku_number);
-
-        //
-        // SMBIOS 3.9 features
-        //
-
-        if (extra_len > 0x01) {
-            entity->level = dmi_version(3, 9, 0);
-            info->rack_type = dmi_decode(extra->rack_type);
+        if (not decode_elements) {
+            if (not dmi_stream_skip(stream, element_size))
+                return false;
+            continue;
         }
-        if (extra_len > 0x02)
-            info->rack_height = dmi_decode(extra->rack_height);
+
+        dmi_chassis_element_t *element = &info->elements[i];
+        dmi_byte_t element_type = 0;
+
+        status =
+            dmi_stream_decode(stream, dmi_byte_t, &element_type) and
+            dmi_stream_decode(stream, dmi_byte_t, &element->minimum_count) and
+            dmi_stream_decode(stream, dmi_byte_t, &element->maximum_count) and
+            dmi_stream_skip(stream, element_size - element_data_size);
+        if (not status)
+            return false;
+
+        if (element_type & 0x80u) {
+            element->type = element_type & 0x7Fu;
+        } else {
+            element->type       = DMI_TYPE_INVALID;
+            element->board_type = element_type;
+        }
+
+        info->element_count++;
     }
+
+    // SMBIOS 2.7 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(2, 7, 0);
+
+    if (not dmi_stream_decode_str(stream, &info->sku_number))
+        return dmi_entity_incomplete(entity);
+
+    // SMBIOS 3.9 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(3, 9, 0);
+
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->rack_type) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->rack_height);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

@@ -44,13 +44,13 @@ Pointer to the binary data to encode.
 Number of bytes in `data`.
 
 `poutput_length`::
-If non-`NULL`, receives the length of the returned string, excluding the null
+If non-`nullptr`, receives the length of the returned string, excluding the null
 terminator.
 
 == Return value
 
 On success, returns a newly allocated null-terminated Base64 string. On
-failure, returns `NULL` (e.g., allocation error or invalid arguments).
+failure, returns `nullptr` (e.g., allocation error or invalid arguments).
 
 == Examples
 
@@ -60,7 +60,7 @@ const dmi_data_t input[] = { 0x48, 0x65, 0x6C, 0x6C, 0x6F };
 size_t output_length;
 
 char *encoded = dmi_base64_encode(input, sizeof(input), &output_length);
-if (encoded != NULL) {
+if (encoded != nullptr) {
     printf("encoded: %s (length: %zu)\n", encoded, output_length);
     free(encoded);
 }

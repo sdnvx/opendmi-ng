@@ -74,21 +74,24 @@ static bool dmi_dell_revisions_decode(dmi_entity_t *entity)
     info->impl_version = dmi_version(impl_major, impl_minor, 0);
     info->system_id    = system_id;
 
+    // Extended system ID
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
+    if (not dmi_stream_decode(stream, dmi_word_t, &system_id_ex))
+        return dmi_entity_incomplete(entity);
 
-    status = dmi_stream_decode(stream, dmi_word_t, &system_id_ex);
-
-    if (not status)
-        return false;
     if (system_id == 0xFEu)
         info->system_id = system_id_ex;
 
+    // Manufacture and first power-on dates
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
 
-    dmi_stream_decode_str(stream, &info->manufacture_date) and
-    dmi_stream_decode_str(stream, &info->first_poweron_date);
+    status =
+        dmi_stream_decode_str(stream, &info->manufacture_date) and
+        dmi_stream_decode_str(stream, &info->first_poweron_date);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

@@ -45,7 +45,7 @@ Pointer to raw SMBIOS structure data, starting with the structure header.
 == Return value
 
 On success, returns a pointer to a newly allocated entity descriptor. On
-failure, returns `NULL` (e.g., if `context` or `data` is `NULL`, the structure
+failure, returns `nullptr` (e.g., if `context` or `data` is `nullptr`, the structure
 length is invalid, or a memory allocation fails).
 
 == Errors

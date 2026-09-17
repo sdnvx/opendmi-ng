@@ -6,6 +6,7 @@
 //
 #include <time.h>
 #include <inttypes.h>
+#include <limits.h>
 #include <assert.h>
 
 #include <opendmi/context.h>
@@ -26,7 +27,7 @@ static inline struct tm *gmtime_r(const time_t *timep, struct tm *result)
 }
 #endif
 
-void *dmi_xml_initialize(dmi_context_t *context, FILE *stream)
+void *dmi_xml_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options)
 {
     assert(context != nullptr);
     assert(stream != nullptr);
@@ -77,6 +78,10 @@ void *dmi_xml_initialize(dmi_context_t *context, FILE *stream)
 
     session->context = context;
     session->stream  = stream;
+
+    // Default options are used if not specified
+    if (options != nullptr)
+        session->options = *options;
 
     return session;
 }
@@ -202,6 +207,35 @@ bool dmi_xml_entity_start(dmi_xml_session_t *session, const dmi_entity_t *entity
                     session->writer,
                     dmi_xml_string("length"),
                     "%zu", entity->total_length) < 0)
+            break;
+
+        // State flags are written as a space-separated list
+        if (xmlTextWriterStartAttribute(session->writer, dmi_xml_string("state")) < 0)
+            break;
+
+        dmi_format_set_iter_t iter;
+        const dmi_format_flag_t *flag;
+        const char *separator = "";
+        bool written = true;
+
+        dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
+                                  sizeof(entity->state) * CHAR_BIT);
+
+        while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+            if (not flag->value)
+                continue;
+
+            if (xmlTextWriterWriteFormatString(session->writer, "%s%s", separator, flag->code) < 0) {
+                written = false;
+                break;
+            }
+
+            separator = " ";
+        }
+
+        if (not written)
+            break;
+        if (xmlTextWriterEndAttribute(session->writer) < 0)
             break;
 
         success = true;

@@ -22,11 +22,11 @@ __BEGIN_DECLS
  *
  * @param[in]  data            Pointer to the binary data to encode.
  * @param[in]  data_length     Number of bytes in @p data.
- * @param[out] poutput_length  If non-`NULL`, receives the length of the returned
+ * @param[out] poutput_length  If not @c nullptr, receives the length of the returned
  *                             string, excluding the null terminator.
  *
  * @return A newly allocated null-terminated Base64 string on success,
- *         or NULL on failure (e.g., allocation error or invalid arguments).
+ *         or @c nullptr on failure (e.g., allocation error or invalid arguments).
  */
 char *dmi_base64_encode(
         const dmi_data_t *data,
@@ -43,11 +43,11 @@ char *dmi_base64_encode(
  * @param[in] data             Pointer to the Base64-encoded string to decode.
  * @param[in] data_length      Length of @p data in bytes, excluding any null
  *                             terminator.
- * @param[out] poutput_length  If non-`NULL`, receives the number of bytes in the
+ * @param[out] poutput_length  If not @c nullptr, receives the number of bytes in the
  *                             returned buffer.
  *
  * @return A newly allocated buffer containing the decoded binary data on
- *         success, or `NULL` on failure (e.g., allocation error, invalid
+ *         success, or @c nullptr on failure (e.g., allocation error, invalid
  *         Base64 input, or invalid arguments).
  */
 dmi_data_t *dmi_base64_decode(

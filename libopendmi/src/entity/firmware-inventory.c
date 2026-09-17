@@ -278,25 +278,32 @@ static bool dmi_firmware_inventory_decode(dmi_entity_t *entity)
 
     if (not status)
         return false;
-    if (dmi_stream_is_done(stream))
-        return true;
 
-    if (not dmi_stream_decode(stream, dmi_byte_t, &info->component_count))
+    // Associated components
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    dmi_byte_t component_count = 0;
+    if (not dmi_stream_decode(stream, dmi_byte_t, &component_count))
         return false;
 
-    if (info->component_count > 0) {
-        info->components = dmi_alloc_array(entity->context,
-                                        sizeof(dmi_firmware_inventory_component_t),
-                                        info->component_count);
-        if (info->components == nullptr)
-            return false;
+    if (component_count == 0)
+        return true;
 
-        for (size_t i = 0; i < info->component_count; i++) {
-            dmi_firmware_inventory_component_t *component = &info->components[i];
+    info->components = dmi_alloc_array(entity->context,
+                                       sizeof(dmi_firmware_inventory_component_t),
+                                       component_count);
+    if (info->components == nullptr)
+        return false;
 
-            if (not dmi_stream_decode(stream, dmi_word_t, &component->handle))
-                return false;
-        }
+    // Only completely present component handles are counted
+    for (size_t i = 0; i < component_count; i++) {
+        dmi_firmware_inventory_component_t *component = &info->components[i];
+
+        if (not dmi_stream_decode(stream, dmi_word_t, &component->handle))
+            return dmi_entity_incomplete(entity);
+
+        info->component_count++;
     }
 
     return true;

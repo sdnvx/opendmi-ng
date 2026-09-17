@@ -37,7 +37,7 @@ Entity descriptor.
 
 == Return value
 
-Returns the handle associated with the entity. If `entity` is `NULL`, returns
+Returns the handle associated with the entity. If `entity` is `nullptr`, returns
 `DMI_HANDLE_INVALID` (`0xFFFF`).
 
 == See also

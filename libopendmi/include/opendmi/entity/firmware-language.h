@@ -30,7 +30,7 @@ dmi_packed_union(dmi_firmware_language_flags)
          * @brief If set to `true`, the current language strings use the
          * abbreviated format. Otherwise, the strings use the long format.
          */
-        bool is_abbreviated : 1;
+        dmi_byte_t is_abbreviated : 1;
 
         /**
          * @brief Reserved for future use.
@@ -38,6 +38,8 @@ dmi_packed_union(dmi_firmware_language_flags)
         dmi_byte_t __reserved: 7;
     };
 };
+
+dmi_static_assert_value_union(dmi_firmware_language_flags);
 
 /**
  * @brief Firmware language information structure (type 13).

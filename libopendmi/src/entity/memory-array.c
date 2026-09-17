@@ -231,18 +231,18 @@ static bool dmi_memory_array_decode(dmi_entity_t *entity)
     if (not status)
         return false;
 
+    // SMBIOS 2.7 fields
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
 
     entity->level = dmi_version(2, 7, 0);
 
-    if (has_capacity_ex) {
-        dmi_qword_t maximum_capacity_ex = 0;
+    dmi_qword_t maximum_capacity_ex = 0;
+    if (not dmi_stream_decode(stream, dmi_qword_t, &maximum_capacity_ex))
+        return dmi_entity_incomplete(entity);
 
-        // Capacity remains unknown if extended field is truncated
-        if (dmi_stream_decode(stream, dmi_qword_t, &maximum_capacity_ex))
-            info->maximum_capacity = maximum_capacity_ex;
-    }
+    if (has_capacity_ex)
+        info->maximum_capacity = maximum_capacity_ex;
 
     return true;
 }

@@ -16,6 +16,7 @@
 
 #include <opendmi/types.h>
 #include <opendmi/attribute.h>
+#include <opendmi/format.h>
 
 #define DMI_XML_PREFIX    "dmi"
 #define DMI_XML_NAMESPACE "http://opendmi.org/schema/opendmi.xsd"
@@ -26,6 +27,11 @@ typedef struct dmi_xml_session
      * @brief Context handle.
      */
     dmi_context_t *context;
+
+    /**
+     * @brief Output options.
+     */
+    dmi_format_options_t options;
 
     /**
      * @brief Output stream.

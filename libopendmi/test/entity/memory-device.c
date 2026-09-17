@@ -23,6 +23,7 @@ static void test_memory_device_size(void **pstate);
 static void test_memory_device_size_ex(void **pstate);
 static void test_memory_device_decode_size(void **pstate);
 static void test_memory_device_decode_rank(void **pstate);
+static void test_memory_device_decode_speed(void **pstate);
 
 static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
 
@@ -35,7 +36,8 @@ int main(void)
         cmocka_unit_test(test_memory_device_size),
         cmocka_unit_test(test_memory_device_size_ex),
         cmocka_unit_test(test_memory_device_decode_size),
-        cmocka_unit_test(test_memory_device_decode_rank)
+        cmocka_unit_test(test_memory_device_decode_rank),
+        cmocka_unit_test(test_memory_device_decode_speed)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -207,6 +209,49 @@ static void test_memory_device_decode_rank(void **pstate)
     // Reserved bits are ignored
     assert_int_equal(decode_memory_device_rank(context, 0xF2), 2);
     assert_int_equal(decode_memory_device_rank(context, 0x18), 8);
+
+    dmi_destroy(context);
+}
+
+static void test_memory_device_decode_speed(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+    dmi_set_logger(context, &test_logger);
+
+    // Speed field is present without the following SMBIOS 2.3 strings, as
+    // many SMBIOS 2.3 implementations do
+    for (uint8_t length = 0x15; length <= 0x17; length++) {
+        uint8_t data[] = {
+            17, length, 0x00, 0x10,
+            0x00, 0x01, 0xFE, 0xFF, 0x40, 0x00, 0x40, 0x00,
+            0x00, 0x40, 0x09, 0x00, 0x00, 0x00, 0x1A, 0x80, 0x00,
+            0x15, 0x02,
+            0x00, 0x00
+        };
+
+        // String set terminator right after the structure
+        data[length]     = 0;
+        data[length + 1] = 0;
+
+        dmi_entity_t *entity = dmi_entity_create(context, data, length + 2);
+        assert_non_null(entity);
+        assert_true(dmi_entity_decode(entity));
+
+        const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+        assert_non_null(info);
+
+        assert_int_equal(entity->level, (length > 0x15) ? DMI_VERSION(2, 3, 0) : DMI_VERSION(2, 1, 0));
+        assert_int_equal(info->maximum_speed, (length == 0x17) ? 533 : 0);
+
+        // Only partially present speed field makes the structure incomplete
+        assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, length == 0x16);
+        assert_int_equal((entity->state & DMI_ENTITY_STATE_PARTIAL) != 0, length != 0x16);
+
+        dmi_entity_destroy(entity);
+    }
 
     dmi_destroy(context);
 }

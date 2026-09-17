@@ -74,7 +74,7 @@ __BEGIN_DECLS
  *
  * @param[in] value Memory error type value.
  *
- * @return The memory error type name string, or `NULL` if @p value is out of
+ * @return The memory error type name string, or @c nullptr if @p value is out of
  * range.
  */
 const char *dmi_memory_error_type_name(dmi_memory_error_type_t value);
@@ -86,7 +86,7 @@ const char *dmi_memory_error_type_name(dmi_memory_error_type_t value);
  *
  * @param[in] value Memory error granularity value.
  *
- * @return The memory error granularity name string, or `NULL` if @p value is
+ * @return The memory error granularity name string, or @c nullptr if @p value is
  * out of range.
  */
 const char *dmi_memory_error_granularity_name(dmi_memory_error_granularity_t value);
@@ -98,7 +98,7 @@ const char *dmi_memory_error_granularity_name(dmi_memory_error_granularity_t val
  *
  * @param[in] value Memory error operation value.
  *
- * @return The memory error operation name string, or `NULL` if @p value is out
+ * @return The memory error operation name string, or @c nullptr if @p value is out
  * of range.
  */
 const char *dmi_memory_error_operation_name(dmi_memory_error_operation_t value);

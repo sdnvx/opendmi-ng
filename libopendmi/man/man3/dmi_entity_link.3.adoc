@@ -43,7 +43,7 @@ Entity descriptor.
 
 == Return value
 
-Returns `true` on success. Returns `false` if `entity` is `NULL`, the entity
+Returns `true` on success. Returns `false` if `entity` is `nullptr`, the entity
 has no specification, no link handler is registered, or the type-specific link
 handler fails.
 

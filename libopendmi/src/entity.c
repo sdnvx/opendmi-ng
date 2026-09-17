@@ -14,6 +14,19 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
+const dmi_name_set_t dmi_entity_state_names =
+{
+    .code  = "entity-states",
+    .names = (dmi_name_t[]){
+        { 0, "decoded",    "Decoded"    },
+        { 1, "linked",     "Linked"     },
+        { 2, "valid",      "Valid"      },
+        { 3, "incomplete", "Incomplete" },
+        { 4, "partial",    "Partial"    },
+        DMI_NAME_NULL
+    }
+};
+
 /**
  * @internal
  */
@@ -268,6 +281,42 @@ const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool ra
         return nullptr;
 
     return raw ? entry->raw : entry->pretty;
+}
+
+bool dmi_entity_stop(dmi_entity_t *entity)
+{
+    assert(entity != nullptr);
+    assert(dmi_stream_is_done(&entity->stream));
+
+    if (not dmi_stream_is_done(&entity->stream))
+        return dmi_entity_incomplete(entity);
+
+    entity->state |= DMI_ENTITY_STATE_PARTIAL;
+
+    return true;
+}
+
+bool dmi_entity_incomplete(dmi_entity_t *entity)
+{
+    assert(entity != nullptr);
+
+    entity->state |= DMI_ENTITY_STATE_INCOMPLETE;
+
+    size_t remaining = dmi_stream_remaining(&entity->stream);
+
+    if (remaining > 0) {
+        dmi_log_notice(entity->context->logger,
+                       "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx, %zu byte%s ignored",
+                       entity->handle, dmi_type_name(entity->context, entity->type),
+                       entity->stream.position, remaining, (remaining == 1) ? "" : "s");
+    } else {
+        dmi_log_notice(entity->context->logger,
+                       "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx",
+                       entity->handle, dmi_type_name(entity->context, entity->type),
+                       entity->stream.position);
+    }
+
+    return true;
 }
 
 void dmi_entity_destroy(dmi_entity_t *entity)

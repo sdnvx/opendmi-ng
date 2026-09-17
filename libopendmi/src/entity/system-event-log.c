@@ -108,22 +108,36 @@ const dmi_entity_spec_t dmi_system_event_log_spec =
 static bool dmi_system_event_log_decode(dmi_entity_t *entity)
 {
     dmi_system_event_log_t *info;
-    const dmi_system_event_log_data_t *data;
-
-    data = dmi_entity_data(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
     if (info == nullptr)
         return false;
 
-    info->access_method  = dmi_decode(data->access_method);
-    info->status.__value = dmi_decode(data->status);
+    dmi_stream_t *stream = &entity->stream;
 
-    if (entity->body_length > 0x14u) {
-        entity->level = dmi_version(2, 1, 0);
-    }
+    // SMBIOS 2.0 fields: log area length, header and data offsets, change
+    // token and access method address are not decoded yet
+    dmi_byte_t status_value = 0;
+
+    bool status =
+        dmi_stream_skip(stream, 3 * sizeof(dmi_word_t)) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->access_method) and
+        dmi_stream_decode(stream, dmi_byte_t, &status_value) and
+        dmi_stream_skip(stream, 2 * sizeof(dmi_dword_t));
+    if (not status)
+        return false;
+
+    info->status.__value = status_value;
+
+    // SMBIOS 2.1 fields: log header format and type descriptors are not
+    // decoded yet
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(2, 1, 0);
+
+    if (not dmi_stream_skip(stream, 3 * sizeof(dmi_byte_t)))
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

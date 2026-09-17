@@ -97,7 +97,7 @@ dmi_packed_union(dmi_cache_config)
         /**
          * @brief Socketed cache flag (e.g., cache on a stick).
          */
-        bool socketed : 1;
+        dmi_word_t socketed : 1;
 
         /**
          * @brief Reserved.
@@ -112,7 +112,7 @@ dmi_packed_union(dmi_cache_config)
         /**
          * @brief Enable flag (at boot time).
          */
-        bool enabled : 1;
+        dmi_word_t enabled : 1;
 
         /**
          * @brief Operational mode.
@@ -120,6 +120,8 @@ dmi_packed_union(dmi_cache_config)
         dmi_word_t mode : 2;
     };
 };
+
+dmi_static_assert_value_union(dmi_cache_config);
 
 typedef union dmi_cache_config dmi_cache_config_t;
 
@@ -135,15 +137,17 @@ dmi_packed_union(dmi_cache_sram_type)
 
     dmi_packed_struct()
     {
-        bool other          : 1; ///< Other
-        bool unknown        : 1; ///< Unknown
-        bool non_burst      : 1; ///< Non-burst
-        bool burst          : 1; ///< Burst
-        bool pipeline_burst : 1; ///< Pipeline burst
-        bool synchonous     : 1; ///< Synchronous
-        bool asynchronous   : 1; ///< Asynchronous
+        dmi_word_t other          : 1; ///< Other
+        dmi_word_t unknown        : 1; ///< Unknown
+        dmi_word_t non_burst      : 1; ///< Non-burst
+        dmi_word_t burst          : 1; ///< Burst
+        dmi_word_t pipeline_burst : 1; ///< Pipeline burst
+        dmi_word_t synchonous     : 1; ///< Synchronous
+        dmi_word_t asynchronous   : 1; ///< Asynchronous
     };
 };
+
+dmi_static_assert_value_union(dmi_cache_sram_type);
 
 #ifndef DMI_CACHE_SRAM_TYPE_T
 #define DMI_CACHE_SRAM_TYPE_T
@@ -158,94 +162,6 @@ typedef union dmi_cache_sram_type dmi_cache_sram_type_t;
  * whether the device is internal to or external to the CPU module. Cache
  * modules can be associated with a processor structure in one or two ways
  * depending on the SMBIOS version.
- */
-dmi_packed_struct(dmi_cache_data)
-{
-    /**
-     * @brief SMBIOS structure header.
-     */
-    dmi_header_t header;
-
-    /**
-     * @brief String number for reference designation, e.g. "CACHE1", 0.
-     * @since SMBIOS 2.0
-     */
-    dmi_string_t socket_designator;
-
-    /**
-     * @brief Cache configuration.
-     * @since SMBIOS 2.0
-     */
-    dmi_word_t config;
-
-    /**
-     * @brief Maximum cache size that can be installed.
-     * @since SMBIOS 2.0
-     */
-    dmi_word_t maximum_size;
-
-    /**
-     * @brief Installed cache size, set to 0 if no cache is installed.
-     * @since SMBIOS 2.0
-     */
-    dmi_word_t installed_size;
-
-    /**
-     * @brief Supported SRAM type.
-     * @since SMBIOS 2.0
-     */
-    dmi_word_t supported_sram;
-
-    /**
-     * @brief Current SRAM type.
-     * @since SMBIOS 2.0
-     */
-    dmi_word_t current_sram;
-
-    /**
-     * @brief Cache module speed, in nanoseconds. The value is 0 if the speed
-     * is unknown.
-     *
-     * @since SMBIOS 2.1
-     */
-    dmi_byte_t speed;
-
-    /**
-     * @brief Error-correction scheme supported by this cache component.
-     * @since SMBIOS 2.1
-     */
-    dmi_byte_t error_correction;
-
-    /**
-     * @brief Logical type of cache.
-     * @since SMBIOS 2.1
-     */
-    dmi_byte_t type;
-
-    /**
-     * @brief Associativity of the cache.
-     * @since SMBIOS 2.1
-     */
-    dmi_byte_t associativity;
-
-    /**
-     * @brief Maximum cache size that can be installed (for caches larger than
-     * 2047 MiB).
-     * @since SMBIOS 3.1
-     */
-    dmi_dword_t maximum_size_ex;
-
-    /**
-     * @brief Installed cache size (for caches larget than 2047 MiB).
-     * @since SMBIOS 3.1
-     */
-    dmi_dword_t installed_size_ex;
-};
-
-typedef struct dmi_cache_data dmi_cache_data_t;
-
-/**
- * @brief Decoded cache information.
  */
 struct dmi_cache
 {
@@ -340,7 +256,7 @@ __BEGIN_DECLS
  *
  * @param[in] value Cache type value.
  *
- * @return The cache type name string, or `NULL` if @p value is out of range.
+ * @return The cache type name string, or @c nullptr if @p value is out of range.
  */
 const char *dmi_cache_type_name(dmi_cache_type_t value);
 
@@ -351,7 +267,7 @@ const char *dmi_cache_type_name(dmi_cache_type_t value);
  *
  * @param[in] value Cache mode value.
  *
- * @return The cache mode name string, or `NULL` if @p value is out of range.
+ * @return The cache mode name string, or @c nullptr if @p value is out of range.
  */
 const char *dmi_cache_mode_name(dmi_cache_mode_t value);
 
@@ -362,7 +278,7 @@ const char *dmi_cache_mode_name(dmi_cache_mode_t value);
  *
  * @param[in] value Cache associativity value.
  *
- * @return The cache associativity name string, or `NULL` if @p value is out of
+ * @return The cache associativity name string, or @c nullptr if @p value is out of
  * range.
  */
 const char *dmi_cache_assoc_name(dmi_cache_assoc_t value);
@@ -375,7 +291,7 @@ const char *dmi_cache_assoc_name(dmi_cache_assoc_t value);
  *
  * @param[in] value Cache location value.
  *
- * @return The cache location name string, or `NULL` if @p value is out of
+ * @return The cache location name string, or @c nullptr if @p value is out of
  * range.
  */
 const char *dmi_cache_location_name(dmi_cache_location_t value);

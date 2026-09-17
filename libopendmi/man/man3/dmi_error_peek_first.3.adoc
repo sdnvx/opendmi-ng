@@ -37,8 +37,8 @@ DMI context.
 
 == Return value
 
-Returns a pointer to the oldest `dmi_error_t` in the queue, or `NULL` if
-`context` is `NULL` or the error queue is empty.
+Returns a pointer to the oldest `dmi_error_t` in the queue, or `nullptr` if
+`context` is `nullptr` or the error queue is empty.
 
 == See also
 

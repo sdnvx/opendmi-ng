@@ -14,6 +14,7 @@
 
 #include <opendmi/types.h>
 #include <opendmi/attribute.h>
+#include <opendmi/format.h>
 
 typedef struct dmi_json_session
 {
@@ -21,6 +22,11 @@ typedef struct dmi_json_session
      * @brief Context handle.
      */
     dmi_context_t *context;
+
+    /**
+     * @brief Output options.
+     */
+    dmi_format_options_t options;
 
     /**
      * @brief Output stream handle.

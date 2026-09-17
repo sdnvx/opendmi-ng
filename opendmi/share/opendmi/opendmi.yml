@@ -40,6 +40,17 @@ properties:
                     ref: "#/$definitions/entityLength"
                 level:
                     ref: "#/$definitions/versionNumber"
+                state:
+                    description: Entity state flags
+                    type: array
+                    items:
+                        type: string
+                        enum:
+                          - decoded
+                          - linked
+                          - valid
+                          - incomplete
+                          - partial
                 description:
                     type: string
                 data:

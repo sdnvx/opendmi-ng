@@ -48,7 +48,7 @@ struct dmi_vendor_spec
     const char *code;
 
     /**
-     * @brief Vendor names list, terminated by `nullptr`.
+     * @brief Vendor names list, terminated by @c nullptr.
      */
     const char **names;
 };

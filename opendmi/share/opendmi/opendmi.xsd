@@ -27,5 +27,20 @@
         <xs:attribute name="handle" type="xs:string" use="required" />
         <xs:attribute name="type" type="xs:unsignedInt" use="required" />
         <xs:attribute name="length" type="xs:unsignedInt" use="required" />
+        <xs:attribute name="state" type="dmi:entityStateList" use="optional" />
     </xs:complexType>
+
+    <xs:simpleType name="entityStateList">
+        <xs:list>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="decoded" />
+                    <xs:enumeration value="linked" />
+                    <xs:enumeration value="valid" />
+                    <xs:enumeration value="incomplete" />
+                    <xs:enumeration value="partial" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:list>
+    </xs:simpleType>
 </xs:schema>

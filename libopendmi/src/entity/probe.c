@@ -117,15 +117,15 @@ bool dmi_probe_decode(dmi_entity_t *entity)
     if (not status)
         return false;
 
-    info->location = details.location;
-    info->status   = details.status;
+    info->location      = details.location;
+    info->status        = details.status;
+    info->nominal_value = SHRT_MIN;
 
-    if (not dmi_stream_is_done(stream)) {
-        if (not dmi_stream_decode(stream, dmi_word_t, &info->nominal_value))
-            return false;
-    } else {
-        info->nominal_value = SHRT_MIN;
-    }
+    // Nominal value
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+    if (not dmi_stream_decode(stream, dmi_word_t, &info->nominal_value))
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

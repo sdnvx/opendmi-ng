@@ -35,6 +35,7 @@ const dmi_command_t dmi_explain_command =
     .name        = "explain",
     .description = "Explain SMBIOS structure or type",
     .options     = dmi_options(&dmi_explain_options),
+    .flags       = DMI_COMMAND_FLAG_PAGER,
     .arguments   = (const dmi_argument_t[]){
         {
             .name     = "type",

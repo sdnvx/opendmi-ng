@@ -89,7 +89,7 @@ __BEGIN_DECLS
  * a leading sign, a numeric value is out of the expected range, or the year
  * is neither two nor four digits long.
  *
- * @param[in] str  Null-terminated date string to parse. Must not be `NULL`.
+ * @param[in] str  Null-terminated date string to parse. Must not be @c nullptr.
  *
  * @return A `dmi_date_t` encoding the parsed date, or `DMI_DATE_NONE` if the
  *         string could not be parsed.
@@ -106,7 +106,7 @@ dmi_date_t dmi_date_parse(const char *str);
  * @param[in] date  Date value to format.
  *
  * @return A newly allocated `"YYYY-MM-DD"` string on success,
- *         or `NULL` on allocation failure.
+ *         or @c nullptr on allocation failure.
  */
 char *dmi_date_format(dmi_date_t date);
 

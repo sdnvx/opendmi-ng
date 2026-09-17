@@ -40,14 +40,14 @@ Error reason code.
 
 == Return value
 
-Returns a pointer to a static null-terminated string. Never returns `NULL`.
+Returns a pointer to a static null-terminated string. Never returns `nullptr`.
 
 == Examples
 
 [source, c]
 ```
 dmi_error_t *error = dmi_error_get_last(context);
-if (error != NULL) {
+if (error != nullptr) {
     fprintf(stderr, "error: %s\n", dmi_error_message(error->reason));
     dmi_error_clear(context);
 }

@@ -37,27 +37,32 @@ dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str);
  * @param[in] context DMI context handle.
  * @param[in] stream  Output stream.
  * @param[in] format  Output format.
- * @param[in] dump    Print raw entity data instead of decoded attributes.
+ * @param[in] options Output options, or @c nullptr to use defaults.
  *
  * @return `true` on success, `false` if output fails. Error details are
  *         raised in the context.
  */
 bool dmi_print_all(
-        dmi_context_t      *context,
-        FILE               *stream,
-        const dmi_format_t *format,
-        bool                dump);
+        dmi_context_t              *context,
+        FILE                       *stream,
+        const dmi_format_t         *format,
+        const dmi_format_options_t *options);
 
 /**
  * @brief Print single entity.
  *
+ * @param[in] format  Output format.
+ * @param[in] entity  Entity to print.
+ * @param[in] session Output format session.
+ * @param[in] options Output options, or @c nullptr to use defaults.
+ *
  * @return `true` on success, `false` if any format handler fails.
  */
 bool dmi_print_entity(
-        const dmi_format_t *format,
-        const dmi_entity_t *entity,
-        void               *session,
-        bool                dump);
+        const dmi_format_t         *format,
+        const dmi_entity_t         *entity,
+        void                       *session,
+        const dmi_format_options_t *options);
 
 __END_DECLS
 

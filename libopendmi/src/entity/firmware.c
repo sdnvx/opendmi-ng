@@ -334,73 +334,106 @@ dmi_size_t dmi_firmware_rom_size_ex(dmi_word_t value)
 
 static bool dmi_firmware_decode(dmi_entity_t *entity)
 {
-    const dmi_firmware_data_t *data;
     dmi_firmware_t *info;
-
-    data = dmi_entity_data(entity, DMI_TYPE(FIRMWARE));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE));
     if (info == nullptr)
         return false;
 
-    info->vendor       = dmi_entity_string(entity, data->vendor);
-    info->version      = dmi_entity_string(entity, data->version);
-    info->bios_segment = dmi_decode(data->bios_segment);
+    dmi_stream_t *stream = &entity->stream;
 
-    const char *release_date = dmi_entity_string(entity, data->release_date);
+    // SMBIOS 2.0 fields
+    const char *release_date = nullptr;
+    dmi_byte_t rom_size = 0;
+    dmi_qword_t features = 0;
+
+    bool status =
+        dmi_stream_decode_str(stream, &info->vendor) and
+        dmi_stream_decode_str(stream, &info->version) and
+        dmi_stream_decode(stream, dmi_word_t, &info->bios_segment) and
+        dmi_stream_decode_str(stream, &release_date) and
+        dmi_stream_decode(stream, dmi_byte_t, &rom_size) and
+        dmi_stream_decode(stream, dmi_qword_t, &features);
+    if (not status)
+        return false;
+
+    info->release_date     = DMI_DATE_NONE;
+    info->rom_size         = dmi_firmware_rom_size(rom_size);
+    info->features.__value = features;
+
     if (release_date != nullptr) {
         info->release_date = dmi_date_parse(release_date);
         if (info->release_date == DMI_DATE_NONE)
             dmi_log_warning(entity->context->logger,
                             "Invalid firmware release date format: '%s'", release_date);
-    } else {
-        info->release_date = DMI_DATE_NONE;
     }
 
-    info->rom_size         = dmi_firmware_rom_size(dmi_decode(data->rom_size));
-    info->features.__value = dmi_decode(data->features);
+    // SMBIOS 2.1 fields: extension byte 1
+    dmi_byte_t features_ex[2] = {};
 
-    // SMBIOS 2.1: Extra feature bits
-    if (entity->body_length > 0x12u) {
-        entity->level = dmi_version(2, 1, 0);
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-        size_t extra = entity->body_length - 0x12u;
+    entity->level = dmi_version(2, 1, 0);
 
-        info->features_ex = (typeof(info->features_ex)){
-            .__value = {
-                data->features_ex[0], extra > 1 ? data->features_ex[1] : 0
-            }
-        };
-    }
+    if (not dmi_stream_decode(stream, dmi_byte_t, &features_ex[0]))
+        return dmi_entity_incomplete(entity);
 
-    // SMBIOS 2.4 features
-    if (entity->body_length > 0x14u) {
-        entity->level = dmi_version(2, 4, 0);
+    info->features_ex = (dmi_firmware_features_ex_t){
+        .__value = { features_ex[0], features_ex[1] }
+    };
 
-        if (data->platform_release_major != 0xFFU) {
-            info->platform_version = dmi_version(data->platform_release_major,
-                                                 data->platform_release_minor, 0);
-        } else {
-            info->platform_version = DMI_VERSION_NONE;
-        }
+    // SMBIOS 2.3 fields: extension byte 2
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-        if (data->controller_release_major != 0xFFU) {
-            info->controller_version = dmi_version(data->controller_release_major,
-                                                   data->controller_release_minor, 0);
-        } else {
-            info->controller_version = DMI_VERSION_NONE;
-        }
-    }
+    entity->level = dmi_version(2, 3, 0);
 
-    // SMBIOS 3.1 features
-    if (entity->body_length > 0x18) {
-        entity->level = dmi_version(3, 1, 0);
+    if (not dmi_stream_decode(stream, dmi_byte_t, &features_ex[1]))
+        return dmi_entity_incomplete(entity);
 
-        if (data->rom_size == 0xFFU)
-            info->rom_size = dmi_firmware_rom_size_ex(dmi_decode(data->rom_size_ex));
-    }
+    info->features_ex = (dmi_firmware_features_ex_t){
+        .__value = { features_ex[0], features_ex[1] }
+    };
+
+    // SMBIOS 2.4 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(2, 4, 0);
+
+    // Major release 0xFF means that the version is not supported
+    dmi_byte_t major = 0;
+    dmi_byte_t minor = 0;
+
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &major) and
+        dmi_stream_decode(stream, dmi_byte_t, &minor);
+    if (status and (major != 0xFFu))
+        info->platform_version = dmi_version(major, minor, 0);
+
+    status = status and
+        dmi_stream_decode(stream, dmi_byte_t, &major) and
+        dmi_stream_decode(stream, dmi_byte_t, &minor);
+    if (status and (major != 0xFFu))
+        info->controller_version = dmi_version(major, minor, 0);
+
+    if (not status)
+        return dmi_entity_incomplete(entity);
+
+    // SMBIOS 3.1 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(3, 1, 0);
+
+    dmi_word_t rom_size_ex = 0;
+    if (not dmi_stream_decode(stream, dmi_word_t, &rom_size_ex))
+        return dmi_entity_incomplete(entity);
+
+    // Actual size is stored in extended field
+    if (rom_size == 0xFFu)
+        info->rom_size = dmi_firmware_rom_size_ex(rom_size_ex);
 
     return true;
 }

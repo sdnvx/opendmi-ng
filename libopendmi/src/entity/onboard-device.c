@@ -167,11 +167,12 @@ static bool dmi_onboard_device_decode(dmi_entity_t *entity)
 
     dmi_stream_t *stream = &entity->stream;
 
-    //
-    // According to SMBIOS specification, the number of devices should be
-    // determined as (length - sizeof(header)) / 2.
-    //
-    info->instance_count = (entity->body_length - sizeof(dmi_header_t)) / 2;
+    // Number of devices is determined by the structure length, and each
+    // device is described by two bytes
+    size_t remaining = dmi_stream_remaining(stream);
+    size_t instance_size = 2 * sizeof(dmi_byte_t);
+
+    info->instance_count = remaining / instance_size;
 
     info->instances = dmi_alloc_array(entity->context, sizeof(dmi_onboard_device_instance_t), info->instance_count);
     if (info->instances == nullptr)
@@ -190,6 +191,10 @@ static bool dmi_onboard_device_decode(dmi_entity_t *entity)
         instance->type        = details.type;
         instance->is_enabled  = details.is_enabled;
     }
+
+    // Remaining byte does not form a complete device
+    if (not dmi_stream_is_done(stream))
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

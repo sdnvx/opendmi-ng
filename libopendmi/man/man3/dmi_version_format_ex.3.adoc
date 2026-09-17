@@ -57,7 +57,7 @@ formatted string.
 
 On success, returns a newly allocated null-terminated string containing the
 formatted version. On failure (e.g., allocation error or invalid `level`),
-returns `NULL`.
+returns `nullptr`.
 
 == Examples
 
@@ -66,13 +66,13 @@ returns `NULL`.
 dmi_version_t ver = dmi_version(3, 4, 1);
 
 char *full = dmi_version_format_ex(ver, DMI_VERSION_LEVEL_REVISION);
-if (full != NULL) {
+if (full != nullptr) {
     printf("Full version: %s\n", full); // "3.4.1"
     free(full);
 }
 
 char *short_ver = dmi_version_format_ex(ver, DMI_VERSION_LEVEL_MAJOR);
-if (short_ver != NULL) {
+if (short_ver != nullptr) {
     printf("Major only: %s\n", short_ver); // "3"
     free(short_ver);
 }

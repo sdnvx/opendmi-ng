@@ -11,7 +11,6 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_processor_data        dmi_processor_data_t;
 typedef struct dmi_processor             dmi_processor_t;
 typedef union  dmi_processor_features    dmi_processor_features_t;
 typedef union  dmi_processor_status_data dmi_processor_status_data_t;
@@ -423,140 +422,13 @@ dmi_packed_union(dmi_processor_status_data)
         /**
          * @brief Is CPU socket populated.
          */
-        bool is_populated : 1;
+        dmi_byte_t is_populated : 1;
 
         dmi_byte_t __reserved_2 : 1;
     };
 };
 
-dmi_packed_struct(dmi_processor_data)
-{
-    /**
-     * @brief SMBIOS structure header.
-     */
-    dmi_header_t header;
-
-    dmi_string_t socket_designation;
-
-    dmi_byte_t type;
-
-    dmi_byte_t family;
-
-    dmi_string_t vendor;
-
-    dmi_qword_t raw_id;
-
-    dmi_string_t version;
-
-    dmi_byte_t voltage;
-
-    dmi_word_t external_clock;
-
-    dmi_word_t maximum_speed;
-
-    dmi_word_t current_speed;
-
-    dmi_byte_t status;
-
-    dmi_byte_t upgrade;
-
-    /**
-     * @brief L1 cache handle.
-     *
-     * Handle of a cache information structure that defines the attributes of
-     * the primary (Level 1) cache for this processor.
-     *
-     * @note
-     * For version 2.1 and version 2.2 implementations, the value is 0xFFFF if
-     * the processor has no L1 cache. For version 2.3 and later implementations,
-     * the value is 0xFFFF if the Cache Information structure is not provided.
-     *
-     * @since SMBIOS 2.1
-     */
-    dmi_handle_t l1_cache_handle;
-
-    /**
-     * @brief L2 cache handle.
-     *
-     * Handle of a cache information structure that defines the attributes of
-     * the secondary (Level 2) cache for this processor.
-     *
-     * @note
-     * For version 2.1 and version 2.2 implementations, the value is 0xFFFF if
-     * the processor has no L2 cache. For version 2.3 and later implementations,
-     * the value is 0xFFFF if the cache information structure is not provided.
-     *
-     * @since SMBIOS 2.1
-     */
-    dmi_handle_t l2_cache_handle;
-
-    /**
-     * @brief L3 cache handle.
-     *
-     * Handle of a cache information structure that defines the attributes of
-     * the tertiary (Level 3) cache for this processor.
-     *
-     * @note
-     * For version 2.1 and version 2.2 implementations, the value is 0xFFFF if
-     * the processor has no L3 cache. For version 2.3 and later implementations,
-     * the value is 0xFFFF if the cache information structure is not provided.
-     *
-     * @since SMBIOS 2.1
-     */
-    dmi_handle_t l3_cache_handle;
-
-    /**
-     * @brief Serial number.
-     *
-     * String number for the serial number of this processor. This value is set
-     * by the manufacturer and normally not changeable.
-     *
-     * @since SMBIOS 2.3
-     */
-    dmi_string_t serial_number;
-
-    /**
-     * @since SMBIOS 2.3
-     */
-    dmi_string_t asset_tag;
-
-    /**
-     * @since SMBIOS 2.3
-     */
-    dmi_string_t part_number;
-
-    /**
-     * @since SMBIOS 2.5
-     */
-    dmi_byte_t core_count;
-
-    /**
-     * @since SMBIOS 2.5
-     */
-    dmi_byte_t core_enabled;
-
-    /**
-     * @since SMBIOS 2.5
-     */
-    dmi_byte_t thread_count;
-
-    /**
-     * @since SMBIOS 2.5
-     */
-    dmi_word_t features;
-
-    dmi_word_t family_ex;
-
-    dmi_word_t core_count_ex;
-
-    dmi_word_t core_enabled_ex;
-
-    dmi_word_t thread_count_ex;
-
-    dmi_word_t thread_enabled;
-
-    dmi_string_t socket_type;
-};
+dmi_static_assert_value_union(dmi_processor_status_data);
 
 dmi_packed_union(dmi_processor_features)
 {
@@ -564,21 +436,23 @@ dmi_packed_union(dmi_processor_features)
 
     dmi_packed_struct()
     {
-        bool __reserved : 1;
+        uint16_t __reserved : 1;
 
-        bool is_unknown              : 1;
-        bool capable_64bit           : 1;
-        bool multicore               : 1;
-        bool hardware_thread         : 1;
-        bool execute_protection      : 1;
-        bool enhanced_virtualization : 1;
-        bool power_perf_control      : 1;
-        bool capable_128bit          : 1;
-        bool arm64_soc_id            : 1;
+        uint16_t is_unknown              : 1;
+        uint16_t capable_64bit           : 1;
+        uint16_t multicore               : 1;
+        uint16_t hardware_thread         : 1;
+        uint16_t execute_protection      : 1;
+        uint16_t enhanced_virtualization : 1;
+        uint16_t power_perf_control      : 1;
+        uint16_t capable_128bit          : 1;
+        uint16_t arm64_soc_id            : 1;
 
         uint16_t __reserved2 : 6;
     };
 };
+
+dmi_static_assert_value_union(dmi_processor_features);
 
 struct dmi_processor
 {

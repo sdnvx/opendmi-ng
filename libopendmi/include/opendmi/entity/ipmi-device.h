@@ -61,15 +61,17 @@ dmi_packed_union(dmi_ipmi_device_details)
 
     dmi_packed_struct()
     {
-        bool       is_intr_level_triggered : 1;
-        bool       is_intr_active_high     : 1;
-        dmi_byte_t __reserved_1            : 1; ///< Reserved for future use, set to 0.
-        bool       is_intr_info_specified  : 1;
-        bool       base_addr_lsb           : 1;
-        dmi_byte_t __reserved_2            : 1; ///< Reserved for future use, set to 0.
-        dmi_byte_t register_spacing        : 2;
+        uint8_t is_intr_level_triggered : 1;
+        uint8_t is_intr_active_high     : 1;
+        uint8_t __reserved_1            : 1; ///< Reserved for future use, set to 0.
+        uint8_t is_intr_info_specified  : 1;
+        uint8_t base_addr_lsb           : 1;
+        uint8_t __reserved_2            : 1; ///< Reserved for future use, set to 0.
+        uint8_t register_spacing        : 2;
     };
 };
+
+dmi_static_assert_value_union(dmi_ipmi_device_details);
 
 struct dmi_ipmi_device
 {

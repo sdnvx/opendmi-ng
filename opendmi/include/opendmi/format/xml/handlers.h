@@ -13,7 +13,7 @@
 
 __BEGIN_DECLS
 
-void *dmi_xml_initialize(dmi_context_t *context, FILE *stream);
+void *dmi_xml_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options);
 
 bool dmi_xml_dump_start(dmi_xml_session_t *session);
 bool dmi_xml_entry(dmi_xml_session_t *session);

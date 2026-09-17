@@ -5,6 +5,9 @@ table:
   type: 0
   length: 69
   level: '2.4'
+  state:
+  - decoded
+  - partial
   description: Platform firmware information
   attributes:
     vendor: American Megatrends Inc.
@@ -65,6 +68,8 @@ table:
   type: 1
   length: 132
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: To Be Filled By O.E.M.
@@ -79,6 +84,9 @@ table:
   type: 2
   length: 120
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: To be filled by O.E.M.
@@ -100,6 +108,9 @@ table:
   type: 3
   length: 114
   level: '2.3'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: To Be Filled By O.E.M.
@@ -122,6 +133,10 @@ table:
   type: 4
   length: 182
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 1
@@ -147,6 +162,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L1-Cache
@@ -181,6 +199,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L2-Cache
@@ -215,6 +236,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L3-Cache
@@ -249,6 +273,9 @@ table:
   type: 5
   length: 26
   level: '2.1'
+  state:
+  - decoded
+  - linked
   description: Memory controller information
   attributes:
     error-detection: ecc-64
@@ -302,6 +329,8 @@ table:
   type: 6
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Memory module information
   attributes:
     socket: DIMM0
@@ -336,6 +365,8 @@ table:
   type: 6
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Memory module information
   attributes:
     socket: DIMM1
@@ -370,6 +401,8 @@ table:
   type: 6
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Memory module information
   attributes:
     socket: DIMM2
@@ -404,6 +437,8 @@ table:
   type: 6
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Memory module information
   attributes:
     socket: DIMM3
@@ -438,6 +473,8 @@ table:
   type: 13
   length: 39
   level: '2.0'
+  state:
+  - decoded
   description: Firmware language information
   attributes:
     languages:
@@ -449,6 +486,10 @@ table:
   type: 16
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Physical memory array
   attributes:
     location: motherboard
@@ -461,6 +502,10 @@ table:
   type: 19
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -472,6 +517,10 @@ table:
   type: 17
   length: 84
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 14
@@ -510,6 +559,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -524,6 +577,10 @@ table:
   type: 17
   length: 84
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 14
@@ -562,6 +619,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
@@ -576,6 +637,10 @@ table:
   type: 17
   length: 84
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 14
@@ -614,6 +679,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 4294967296
@@ -628,6 +697,10 @@ table:
   type: 17
   length: 84
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 14
@@ -666,6 +739,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 4831838208
@@ -680,6 +757,8 @@ table:
   type: 32
   length: 22
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -687,4 +766,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

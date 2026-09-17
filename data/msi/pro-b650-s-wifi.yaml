@@ -5,6 +5,8 @@ table:
   type: 0
   length: 83
   level: '3.1'
+  state:
+  - decoded
   description: Platform firmware information
   attributes:
     vendor: American Megatrends International, LLC.
@@ -65,6 +67,8 @@ table:
   type: 1
   length: 144
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: Micro-Star International Co., Ltd.
@@ -79,6 +83,9 @@ table:
   type: 2
   length: 146
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: Micro-Star International Co., Ltd.
@@ -100,6 +107,9 @@ table:
   type: 3
   length: 131
   level: '2.7'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: Micro-Star International Co., Ltd.
@@ -123,6 +133,8 @@ table:
   type: 11
   length: 29
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 1
@@ -132,6 +144,8 @@ table:
   type: 12
   length: 29
   level: '2.0'
+  state:
+  - decoded
   description: System configuration options
   attributes:
     options:
@@ -140,6 +154,8 @@ table:
   type: 32
   length: 22
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -147,6 +163,7 @@ table:
   type: 44
   length: 11
   level: '2.0'
+  state: []
   description: Processor additional information
   data: !!binary |
     LAkHAP//AQEA
@@ -154,6 +171,8 @@ table:
   type: 43
   length: 44
   level: '2.0'
+  state:
+  - decoded
   description: TPM device
   attributes:
     specification-version: '2.0'
@@ -169,6 +188,9 @@ table:
   type: 45
   length: 73
   level: '3.5'
+  state:
+  - decoded
+  - linked
   description: Firmware inventory information
   attributes:
     name: TPM Firmware
@@ -191,6 +213,8 @@ table:
   type: 7
   length: 39
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 - Cache
@@ -225,6 +249,8 @@ table:
   type: 7
   length: 39
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 - Cache
@@ -259,6 +285,8 @@ table:
   type: 7
   length: 39
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 - Cache
@@ -293,6 +321,10 @@ table:
   type: 4
   length: 154
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: AM5
@@ -331,6 +363,7 @@ table:
   type: 44
   length: 11
   level: '2.0'
+  state: []
   description: Processor additional information
   data: !!binary |
     LAkOAA0AAQIA
@@ -338,6 +371,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -351,6 +386,9 @@ table:
   type: 16
   length: 25
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Physical memory array
   attributes:
     location: motherboard
@@ -363,6 +401,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -374,6 +415,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -387,6 +430,9 @@ table:
   type: 17
   length: 153
   level: '3.7'
+  state:
+  - decoded
+  - linked
   description: Memory device
   attributes:
     array-handle: 16
@@ -445,6 +491,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -458,6 +506,9 @@ table:
   type: 17
   length: 178
   level: '3.7'
+  state:
+  - decoded
+  - linked
   description: Memory device
   attributes:
     array-handle: 16
@@ -516,6 +567,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -530,6 +584,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -543,6 +599,9 @@ table:
   type: 17
   length: 153
   level: '3.7'
+  state:
+  - decoded
+  - linked
   description: Memory device
   attributes:
     array-handle: 16
@@ -601,6 +660,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -614,6 +675,9 @@ table:
   type: 17
   length: 178
   level: '3.7'
+  state:
+  - decoded
+  - linked
   description: Memory device
   attributes:
     array-handle: 16
@@ -672,6 +736,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 17179869184
@@ -686,6 +753,8 @@ table:
   type: 40
   length: 43
   level: '2.6'
+  state:
+  - decoded
   description: Additional information
   attributes:
     entries:
@@ -696,6 +765,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1500
@@ -707,6 +778,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1501
@@ -718,6 +791,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1502
@@ -729,6 +804,8 @@ table:
   type: 8
   length: 24
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1503
@@ -740,6 +817,8 @@ table:
   type: 8
   length: 24
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1504
@@ -751,6 +830,8 @@ table:
   type: 8
   length: 21
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1100
@@ -762,6 +843,8 @@ table:
   type: 8
   length: 28
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2100
@@ -773,6 +856,8 @@ table:
   type: 8
   length: 27
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2101
@@ -784,6 +869,8 @@ table:
   type: 8
   length: 29
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2102
@@ -795,6 +882,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIE1
@@ -835,6 +925,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J3502
@@ -875,6 +968,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIE3
@@ -915,6 +1011,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIE4
@@ -955,6 +1054,8 @@ table:
   type: 41
   length: 28
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: Realtek ALC1220
@@ -970,6 +1071,7 @@ table:
   type: 143
   length: 111
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     jxArAAABAgMEBQYHCAkKCw==
@@ -990,4 +1092,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

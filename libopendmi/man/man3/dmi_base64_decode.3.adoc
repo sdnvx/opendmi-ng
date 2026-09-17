@@ -45,12 +45,12 @@ Pointer to the Base64-encoded string to decode.
 Length of `data` in bytes, excluding any null terminator.
 
 `poutput_length`::
-If non-`NULL`, receives the number of bytes in the returned buffer.
+If non-`nullptr`, receives the number of bytes in the returned buffer.
 
 == Return value
 
 On success, returns a newly allocated buffer containing the decoded binary
-data. On failure, returns `NULL` (e.g., allocation error, invalid Base64
+data. On failure, returns `nullptr` (e.g., allocation error, invalid Base64
 input, or invalid arguments).
 
 == Examples
@@ -61,7 +61,7 @@ const char *input = "SGVsbG8=";
 size_t output_length;
 
 dmi_data_t *decoded = dmi_base64_decode(input, strlen(input), &output_length);
-if (decoded != NULL) {
+if (decoded != nullptr) {
     printf("decoded %zu bytes\n", output_length);
     free(decoded);
 }

@@ -40,7 +40,7 @@ Entity whose body data will be read.
 
 == Return value
 
-Returns `true` on success, `false` if `stream` or `entity` is `NULL`.
+Returns `true` on success, `false` if `stream` or `entity` is `nullptr`.
 
 == See also
 

@@ -186,45 +186,47 @@ dmi_packed_union(dmi_slot_features)
         /**
          * @brief Characteristics unknown.
          */
-        bool is_unknown : 1;
+        dmi_byte_t is_unknown : 1;
 
         /**
          * @brief Provides 5.0 volts.
          */
-        bool has_5v0_support : 1;
+        dmi_byte_t has_5v0_support : 1;
 
         /**
          * @brief Provides 3.3 volts.
          */
-        bool has_3v3_support : 1;
+        dmi_byte_t has_3v3_support : 1;
 
         /**
          * @brief Slot’s opening is shared with another slot (e.g., PCI/EISA
          * shared slot).
          */
-        bool has_shared_opening : 1;
+        dmi_byte_t has_shared_opening : 1;
 
         /**
          * @brief PC Card slot supports PC Card-16.
          */
-        bool has_pccard_16_support : 1;
+        dmi_byte_t has_pccard_16_support : 1;
 
         /**
          * @brief PC Card slot supports CardBus.
          */
-        bool has_cardbus_support : 1;
+        dmi_byte_t has_cardbus_support : 1;
 
         /**
          * @brief PC Card slot supports Zoom Video.
          */
-        bool has_zoom_video_supoort : 1;
+        dmi_byte_t has_zoom_video_supoort : 1;
 
         /**
          * @brief PC Card slot supports Modem Ring Resume.
          */
-        bool has_modem_ring_resume_support : 1;
+        dmi_byte_t has_modem_ring_resume_support : 1;
     };
 };
+
+dmi_static_assert_value_union(dmi_slot_features);
 
 /**
  * @brief System slot extended characteristics.
@@ -241,17 +243,17 @@ dmi_packed_union(dmi_slot_features_ex)
         /**
          * @brief PCI slot supports Power Management Event (PME#) signal.
          */
-        bool has_pme_support : 1;
+        dmi_byte_t has_pme_support : 1;
 
         /**
          * @brief Slot supports hot-plug devices.
          */
-        bool has_hotplug_support : 1;
+        dmi_byte_t has_hotplug_support : 1;
 
         /**
          * @brief PCI slot supports SMBus signal.
          */
-        bool has_smbus_support : 1;
+        dmi_byte_t has_smbus_support : 1;
 
         /**
          * @brief PCIe slot supports bifurcation. This slot can partition its
@@ -261,31 +263,33 @@ dmi_packed_union(dmi_slot_features_ex)
          * of bifurcation are supported by the slot, but only that the slot
          * supports some level of bifurcation.
          */
-        bool has_bifurcation_support : 1;
+        dmi_byte_t has_bifurcation_support : 1;
 
         /**
          * @brief Slot supports async/surprise removal, such as removal without
          * prior notification to the operating system, device driver, or
          * applications.
          */
-        bool has_async_removal_support : 1;
+        dmi_byte_t has_async_removal_support : 1;
 
         /**
          * @brief Flexbus slot, CXL 1.0 capable.
          */
-        bool is_cxl_10_capable : 1;
+        dmi_byte_t is_cxl_10_capable : 1;
 
         /**
          * @brief Flexbus slot, CXL 2.0 capable.
          */
-        bool is_cxl_20_capable : 1;
+        dmi_byte_t is_cxl_20_capable : 1;
 
         /**
          * @brief Flexbus slot, CXL 3.0 capable.
          */
-        bool is_cxl_30_capable : 1;
+        dmi_byte_t is_cxl_30_capable : 1;
     };
 };
+
+dmi_static_assert_value_union(dmi_slot_features_ex);
 
 /**
  * @brief System slots structure (type 9).
@@ -354,7 +358,7 @@ struct dmi_slot
 
     /**
      * @brief Peer Segment/Bus/Device/Function/Width present in the slot. This
-     * field is `NULL` if there are no peer groups (`peer_group_count` == 0).
+     * field is @c nullptr if there are no peer groups (`peer_group_count` == 0).
      */
     dmi_slot_peer_group_t *peer_groups;
 

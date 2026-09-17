@@ -79,9 +79,14 @@ struct dmi_format_flag
 struct dmi_format_set_iter
 {
     /**
-     * @brief Set attribute descriptor.
+     * @brief Flag names.
      */
-    const dmi_attribute_t *attr;
+    const dmi_name_set_t *values;
+
+    /**
+     * @brief Set width in bits.
+     */
+    size_t width;
 
     /**
      * @brief Set value.
@@ -140,7 +145,7 @@ void dmi_format_array_iter_init(
  *
  * @param[in,out] iter Iterator.
  *
- * @return Pointer to the element, or `nullptr` if there are no more elements.
+ * @return Pointer to the element, or @c nullptr if there are no more elements.
  */
 const dmi_data_t *dmi_format_array_iter_next(dmi_format_array_iter_t *iter);
 
@@ -157,6 +162,20 @@ void dmi_format_set_iter_init(
         const void            *value);
 
 /**
+ * @brief Initialize iterator over named flags of a bit mask.
+ *
+ * @param[out] iter   Iterator.
+ * @param[in]  values Flag names, identified by bit numbers.
+ * @param[in]  mask   Bit mask.
+ * @param[in]  width  Bit mask width in bits.
+ */
+void dmi_format_mask_iter_init(
+        dmi_format_set_iter_t *iter,
+        const dmi_name_set_t  *values,
+        uintmax_t              mask,
+        size_t                 width);
+
+/**
  * @brief Get the next named flag of a set attribute.
  *
  * Bits without names are skipped.
@@ -164,7 +183,7 @@ void dmi_format_set_iter_init(
  * @param[in,out] iter Iterator.
  *
  * @return Pointer to the flag, which is valid until the next call, or
- *         `nullptr` if there are no more flags.
+ *         @c nullptr if there are no more flags.
  */
 const dmi_format_flag_t *dmi_format_set_iter_next(dmi_format_set_iter_t *iter);
 
@@ -183,7 +202,7 @@ void dmi_format_string_iter_init(dmi_format_string_iter_t *iter, const dmi_entit
  *
  * @param[in,out] iter Iterator.
  *
- * @return String, or `nullptr` if there are no more strings.
+ * @return String, or @c nullptr if there are no more strings.
  */
 const char *dmi_format_string_iter_next(dmi_format_string_iter_t *iter);
 

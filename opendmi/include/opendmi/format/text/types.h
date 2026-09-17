@@ -13,11 +13,13 @@
 
 #include <opendmi/types.h>
 #include <opendmi/attribute.h>
+#include <opendmi/format.h>
 
 typedef struct dmi_text_session
 {
     dmi_context_t *context;
     FILE *stream;
+    dmi_format_options_t options;
     bool is_tty;
 } dmi_text_session_t;
 

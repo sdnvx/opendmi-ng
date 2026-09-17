@@ -118,7 +118,8 @@ static void decode_cache_size(
         uint32_t       maximum_size_ex,
         uint32_t       installed_size_ex,
         uint8_t        length,
-        dmi_cache_t   *result)
+        dmi_cache_t   *result,
+        unsigned int  *state)
 {
     // SMBIOS 3.1 cache information structure without strings
     uint8_t data[0x1B + 2] = {
@@ -148,6 +149,7 @@ static void decode_cache_size(
 
     // Copy numeric fields only, string pointers are owned by the entity
     *result = *info;
+    *state  = entity->state;
     dmi_entity_destroy(entity);
 }
 
@@ -164,39 +166,45 @@ static void test_cache_decode_size(void **pstate)
     dmi_set_logger(context, &test_logger);
 
     dmi_cache_t info;
+    unsigned int state;
 
     // Legacy size fields only
-    decode_cache_size(context, 0x0100, 0x0080, 0, 0, 0x1B, &info);
+    decode_cache_size(context, 0x0100, 0x0080, 0, 0, 0x1B, &info, &state);
     assert_uint_equal(info.maximum_size, 256 * kib);
     assert_uint_equal(info.installed_size, 128 * kib);
 
     // Extended size fields (in 64 KiB granularity) are used for 2 GiB and larger caches
-    decode_cache_size(context, 0xFFFF, 0xFFFF, 0x80010000, 0x80008000, 0x1B, &info);
+    decode_cache_size(context, 0xFFFF, 0xFFFF, 0x80010000, 0x80008000, 0x1B, &info, &state);
     assert_uint_equal(info.maximum_size, 4 * gib);
     assert_uint_equal(info.installed_size, 2 * gib);
 
     // Extended size fields in 1 KiB granularity
-    decode_cache_size(context, 0xFFFF, 0xFFFF, 0x00400000, 0x00200000, 0x1B, &info);
+    decode_cache_size(context, 0xFFFF, 0xFFFF, 0x00400000, 0x00200000, 0x1B, &info, &state);
     assert_uint_equal(info.maximum_size, 4 * gib);
     assert_uint_equal(info.installed_size, 2 * gib);
 
     // Extended size fields are ignored unless legacy field is 0xFFFF
-    decode_cache_size(context, 0x0100, 0xFFFF, 0x80010000, 0x80008000, 0x1B, &info);
+    decode_cache_size(context, 0x0100, 0xFFFF, 0x80010000, 0x80008000, 0x1B, &info, &state);
     assert_uint_equal(info.maximum_size, 256 * kib);
     assert_uint_equal(info.installed_size, 2 * gib);
 
-    decode_cache_size(context, 0xFFFF, 0x0080, 0x80010000, 0x80008000, 0x1B, &info);
+    decode_cache_size(context, 0xFFFF, 0x0080, 0x80010000, 0x80008000, 0x1B, &info, &state);
     assert_uint_equal(info.maximum_size, 4 * gib);
     assert_uint_equal(info.installed_size, 128 * kib);
 
-    // Extended fields are not read beyond the end of the structure
-    decode_cache_size(context, 0xFFFF, 0xFFFF, 0x80010000, 0x80008000, 0x17, &info);
+    assert_false(state & DMI_ENTITY_STATE_INCOMPLETE);
+
+    // Only completely present extended fields are used, and the structure is
+    // marked as incomplete
+    decode_cache_size(context, 0xFFFF, 0xFFFF, 0x80010000, 0x80008000, 0x17, &info, &state);
     assert_uint_equal(info.maximum_size, 4 * gib);
     assert_uint_equal(info.installed_size, dmi_cache_size(0xFFFF));
+    assert_true(state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    decode_cache_size(context, 0xFFFF, 0xFFFF, 0x80010000, 0x80008000, 0x15, &info);
+    decode_cache_size(context, 0xFFFF, 0xFFFF, 0x80010000, 0x80008000, 0x15, &info, &state);
     assert_uint_equal(info.maximum_size, dmi_cache_size(0xFFFF));
     assert_uint_equal(info.installed_size, dmi_cache_size(0xFFFF));
+    assert_true(state & DMI_ENTITY_STATE_INCOMPLETE);
 
     dmi_destroy(context);
 }
@@ -230,19 +238,21 @@ static void test_cache_decode_v21(void **pstate)
         assert_non_null(info);
         assert_string_equal(info->socket_designator, "L1");
 
-        if (length < 0x13) {
-            assert_int_equal(entity->level, DMI_VERSION(2, 0, 0));
-            assert_int_equal(info->speed, 0);
-            assert_int_equal(info->error_correction, 0);
-            assert_int_equal(info->type, 0);
-            assert_int_equal(info->associativity, 0);
-        } else {
-            assert_int_equal(entity->level, DMI_VERSION(2, 1, 0));
-            assert_int_equal(info->speed, 0x0A);
-            assert_int_equal(info->error_correction, 0x06);
-            assert_int_equal(info->type, 0x05);
-            assert_int_equal(info->associativity, 0x07);
-        }
+        // Incomplete SMBIOS 2.1 fields make the structure incomplete
+        bool incomplete = (length > 0x0F) and (length < 0x13);
+        assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, incomplete);
+
+        // Complete SMBIOS 2.0 and 2.1 structures do not contain SMBIOS 3.1 fields
+        assert_int_equal((entity->state & DMI_ENTITY_STATE_PARTIAL) != 0, not incomplete);
+
+        // Only completely present SMBIOS 2.1 fields are decoded
+        size_t fields = length - 0x0F;
+
+        assert_int_equal(entity->level, (fields > 0) ? DMI_VERSION(2, 1, 0) : DMI_VERSION(2, 0, 0));
+        assert_int_equal(info->speed, (fields > 0) ? 0x0A : 0);
+        assert_int_equal(info->error_correction, (fields > 1) ? 0x06 : 0);
+        assert_int_equal(info->type, (fields > 2) ? 0x05 : 0);
+        assert_int_equal(info->associativity, (fields > 3) ? 0x07 : 0);
 
         dmi_entity_destroy(entity);
     }

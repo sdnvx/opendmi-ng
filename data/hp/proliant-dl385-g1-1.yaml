@@ -4,7 +4,10 @@ table:
 - handle: 0
   type: 0
   length: 39
-  level: '2.1'
+  level: '2.3'
+  state:
+  - decoded
+  - partial
   description: Platform firmware information
   attributes:
     vendor: HP
@@ -63,6 +66,9 @@ table:
   type: 1
   length: 64
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System information
   attributes:
     vendor: HP
@@ -75,6 +81,9 @@ table:
   type: 3
   length: 67
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: HP
@@ -91,6 +100,10 @@ table:
   type: 4
   length: 44
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: Node 1
@@ -113,6 +126,10 @@ table:
   type: 4
   length: 44
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: Node 2
@@ -135,6 +152,9 @@ table:
   type: 7
   length: 45
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: Node 1 Internal L1 Cache
@@ -169,6 +189,9 @@ table:
   type: 7
   length: 45
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: Node 2 Internal L1 Cache
@@ -203,6 +226,9 @@ table:
   type: 7
   length: 45
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: Node 1 Internal L2 Cache
@@ -237,6 +263,9 @@ table:
   type: 7
   length: 45
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: Node 2 Internal L2 Cache
@@ -271,6 +300,9 @@ table:
   type: 7
   length: 45
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: Node 1 Internal L3 Cache
@@ -305,6 +337,9 @@ table:
   type: 7
   length: 45
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: Node 2 Internal L3 Cache
@@ -339,6 +374,8 @@ table:
   type: 8
   length: 26
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J508
@@ -350,6 +387,8 @@ table:
   type: 8
   length: 25
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J24
@@ -361,6 +400,8 @@ table:
   type: 8
   length: 25
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J24
@@ -372,6 +413,9 @@ table:
   type: 9
   length: 25
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot 1
@@ -412,6 +456,9 @@ table:
   type: 9
   length: 25
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot 2
@@ -452,6 +499,9 @@ table:
   type: 9
   length: 25
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot 3
@@ -492,6 +542,8 @@ table:
   type: 11
   length: 35
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 1
@@ -501,6 +553,10 @@ table:
   type: 16
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Physical memory array
   attributes:
     location: motherboard
@@ -513,6 +569,10 @@ table:
   type: 17
   length: 32
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 4096
@@ -551,6 +611,10 @@ table:
   type: 17
   length: 32
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 4096
@@ -589,6 +653,10 @@ table:
   type: 17
   length: 32
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 4096
@@ -627,6 +695,10 @@ table:
   type: 17
   length: 32
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 4096
@@ -665,6 +737,10 @@ table:
   type: 17
   length: 32
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 4096
@@ -703,6 +779,10 @@ table:
   type: 17
   length: 32
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 4096
@@ -741,6 +821,10 @@ table:
   type: 17
   length: 32
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 4096
@@ -779,6 +863,10 @@ table:
   type: 17
   length: 32
   level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 4096
@@ -817,6 +905,10 @@ table:
   type: 19
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -828,6 +920,10 @@ table:
   type: 19
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory array mapped address
   attributes:
     start-addr: 2147483648
@@ -839,6 +935,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -853,6 +953,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -867,6 +971,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -881,6 +989,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -895,6 +1007,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -909,6 +1025,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -923,6 +1043,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
@@ -937,6 +1061,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
@@ -951,6 +1079,8 @@ table:
   type: 32
   length: 13
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -958,6 +1088,7 @@ table:
   type: 193
   length: 30
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     wQcAwQEBAg==
@@ -968,6 +1099,7 @@ table:
   type: 194
   length: 7
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     wgUAwgE=
@@ -975,6 +1107,7 @@ table:
   type: 195
   length: 16
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     wwUAwwE=
@@ -984,6 +1117,7 @@ table:
   type: 196
   length: 7
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     xAUAxAA=
@@ -991,6 +1125,7 @@ table:
   type: 197
   length: 12
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     xQoGxQAEAAH/AQ==
@@ -998,6 +1133,7 @@ table:
   type: 197
   length: 12
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     xQoExQYEAgD/Ag==
@@ -1005,6 +1141,7 @@ table:
   type: 199
   length: 54
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     xzQAxzkAAAAEIAYCSAAAADoAAAAEIAYCSgAAAEEAAAAEICUCUAEAAE0AAAAFICgEEAIAAA==
@@ -1012,6 +1149,7 @@ table:
   type: 198
   length: 13
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     xgsAxhcAAAE8AAE=
@@ -1019,6 +1157,7 @@ table:
   type: 202
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     yggAygAR/wE=
@@ -1026,6 +1165,7 @@ table:
   type: 202
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     yggBygER/wI=
@@ -1033,6 +1173,7 @@ table:
   type: 202
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     yggCygIR/wM=
@@ -1040,6 +1181,7 @@ table:
   type: 202
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     yggDygMR/wQ=
@@ -1047,6 +1189,7 @@ table:
   type: 202
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     yggEygQR/wU=
@@ -1054,6 +1197,7 @@ table:
   type: 202
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     yggFygUR/wY=
@@ -1061,6 +1205,7 @@ table:
   type: 202
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     yggGygYR/wc=
@@ -1068,6 +1213,7 @@ table:
   type: 202
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     yggHygcR/wg=
@@ -1075,6 +1221,7 @@ table:
   type: 205
   length: 24
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     zRYAzQEBRkFUeAAA0/8AAAAAAIAFAA==
@@ -1082,6 +1229,7 @@ table:
   type: 209
   length: 22
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     0RQA0TADABekERMMMQMAF6QREws=
@@ -1089,6 +1237,7 @@ table:
   type: 212
   length: 26
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     1BgA1CRDUlUAAPf/AAAAAABAAAAAAAAA
@@ -1096,6 +1245,7 @@ table:
   type: 212
   length: 26
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     1BgB1CRTSEYAyPj/AAAAAABAAAAAAAAA
@@ -1103,6 +1253,7 @@ table:
   type: 213
   length: 30
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     1RwA1QAANgAAAL8fAABGAAAAAAAAAAAAAAAAAA==
@@ -1110,6 +1261,7 @@ table:
   type: 214
   length: 46
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     1iwA1jExAAIOIAAAEyAAAABgAAAAIAAAAiAAAAQgAAAGIAAADCAAAAggAAA=
@@ -1117,6 +1269,7 @@ table:
   type: 217
   length: 9
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     2QcA2QAEkA==
@@ -1124,6 +1277,7 @@ table:
   type: 217
   length: 9
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     2QcG2QYEjQ==
@@ -1131,6 +1285,7 @@ table:
   type: 219
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     2wgA2wUAAAA=
@@ -1138,4 +1293,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

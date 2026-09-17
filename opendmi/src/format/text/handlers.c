@@ -11,6 +11,7 @@
 #endif
 
 #include <string.h>
+#include <limits.h>
 #include <inttypes.h>
 #include <assert.h>
 
@@ -19,11 +20,12 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/tty.h>
 
+#include <opendmi/format.h>
 #include <opendmi/format/iter.h>
 #include <opendmi/format/text/handlers.h>
 #include <opendmi/format/text/helpers.h>
 
-void *dmi_text_initialize(dmi_context_t *context, FILE *stream)
+void *dmi_text_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options)
 {
     assert(context != nullptr);
     assert(stream != nullptr);
@@ -39,15 +41,33 @@ void *dmi_text_initialize(dmi_context_t *context, FILE *stream)
     session->context = context;
     session->stream  = stream;
 
-    // Colors are available only if terminal has been initialized
-    session->is_tty = dmi_has_tty() and isatty(fileno(session->stream));
+    // Default options are used if not specified
+    if (options != nullptr)
+        session->options = *options;
+
+    // Colors are available only if terminal has been initialized. Standard
+    // output may be already redirected to pager, which shows colors, so its
+    // state before redirection is used.
+    bool is_terminal = (stream == stdout) ? dmi_tty_is_stdout() : isatty(fileno(stream));
+
+    session->is_tty = dmi_has_tty() and is_terminal;
 
     return session;
+}
+
+// Handle references are hidden in quiet mode
+static bool dmi_text_is_hidden(const dmi_text_session_t *session, const dmi_attribute_t *attr)
+{
+    return (session->options.mode == DMI_FORMAT_MODE_QUIET) and (attr->type == DMI_ATTRIBUTE_TYPE_HANDLE);
 }
 
 bool dmi_text_entry(dmi_text_session_t *session)
 {
     assert(session != nullptr);
+
+    // Meta-data is hidden in quiet mode
+    if (session->options.mode == DMI_FORMAT_MODE_QUIET)
+        return true;
 
     dmi_context_t *context = session->context;
 
@@ -80,11 +100,45 @@ bool dmi_text_entity_start(dmi_text_session_t *session, const dmi_entity_t *enti
     assert(session != nullptr);
     assert(entity != nullptr);
 
-    dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, "Handle 0x%04hX, DMI type %d, %zu bytes\n",
-                    dmi_entity_handle(entity),
-                    dmi_entity_type(entity),
-                    entity->total_length);
+    if (session->options.mode != DMI_FORMAT_MODE_QUIET) {
+        dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, "Handle 0x%04hX, DMI type %d, %zu bytes\n",
+                        dmi_entity_handle(entity),
+                        dmi_entity_type(entity),
+                        entity->total_length);
+    }
+
     dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, "%s\n", dmi_entity_name(entity));
+
+    if (session->options.mode != DMI_FORMAT_MODE_VERBOSE)
+        return true;
+
+    if (entity->level != DMI_VERSION_NONE) {
+        char *level = dmi_version_format(entity->level);
+        if (level == nullptr)
+            return false;
+
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tStructure version: %s\n", level);
+        dmi_free(level);
+    }
+
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
+    const char *separator = "";
+
+    dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
+                              sizeof(entity->state) * CHAR_BIT);
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tState: ");
+
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        if (not flag->value)
+            continue;
+
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s%s", separator, flag->name);
+        separator = ", ";
+    }
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
 
     return true;
 }
@@ -99,6 +153,9 @@ bool dmi_text_entity_attr(
     assert(entity != nullptr);
     assert(attr != nullptr);
     assert(value != nullptr);
+
+    if (dmi_text_is_hidden(session, attr))
+        return true;
 
     // Print attribute name
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t%s: ", attr->params.name);
@@ -167,6 +224,9 @@ void dmi_text_entity_attr_struct(
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
     for (child_attr = attr->params.attrs; child_attr->params.name; child_attr++) {
         const dmi_data_t *ptr = dmi_member_ptr(value, child_attr->value, dmi_data_t);
+
+        if (dmi_text_is_hidden(session, child_attr))
+            continue;
 
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t\t%s: ", child_attr->params.name);
         dmi_text_entity_attr_value(session, child_attr, ptr, nullptr);

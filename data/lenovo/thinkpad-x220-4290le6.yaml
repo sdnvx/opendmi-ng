@@ -5,6 +5,7 @@ table:
   type: 134
   length: 42
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     hhAAAABTVE0gAQEAAAABAg==
@@ -15,6 +16,10 @@ table:
   type: 4
   length: 140
   level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU
@@ -53,6 +58,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L1-Cache
@@ -87,6 +95,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L2-Cache
@@ -121,6 +132,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L3-Cache
@@ -155,6 +169,10 @@ table:
   type: 16
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Physical memory array
   attributes:
     location: motherboard
@@ -167,6 +185,10 @@ table:
   type: 17
   length: 104
   level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -206,6 +228,10 @@ table:
   type: 17
   length: 98
   level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -245,6 +271,10 @@ table:
   type: 19
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -256,6 +286,7 @@ table:
   type: 129
   length: 33
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     gQgJAAEBAgE=
@@ -266,6 +297,7 @@ table:
   type: 130
   length: 22
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     ghQKACRBTVQAAAAAAaX/AwAAAAA=
@@ -273,6 +305,7 @@ table:
   type: 131
   length: 66
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     g0ALADEAAAAHAAAAAAA/APgATxz/////CcAAAAEABwBfBBQAAAAAAMgAAhUAAAAAAAAAAPYAAAB2
@@ -281,6 +314,7 @@ table:
   type: 134
   length: 15
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     hg0MABEEEiAAAAAAAA==
@@ -288,6 +322,9 @@ table:
   type: 0
   length: 60
   level: '2.4'
+  state:
+  - decoded
+  - partial
   description: Platform firmware information
   attributes:
     vendor: LENOVO
@@ -348,6 +385,8 @@ table:
   type: 1
   length: 79
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: LENOVO
@@ -362,6 +401,9 @@ table:
   type: 2
   length: 85
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: LENOVO
@@ -383,6 +425,9 @@ table:
   type: 3
   length: 72
   level: '2.3'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: LENOVO
@@ -405,6 +450,8 @@ table:
   type: 8
   length: 41
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -416,6 +463,8 @@ table:
   type: 8
   length: 36
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -427,6 +476,7 @@ table:
   type: 126
   length: 44
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkTAAEAAv8c
@@ -437,6 +487,7 @@ table:
   type: 126
   length: 44
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkUAAEAAv8c
@@ -447,6 +498,8 @@ table:
   type: 8
   length: 56
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -458,6 +511,7 @@ table:
   type: 126
   length: 39
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkWAAEAAh8d
@@ -468,6 +522,7 @@ table:
   type: 126
   length: 40
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkXAAEAAh8d
@@ -478,6 +533,8 @@ table:
   type: 8
   length: 33
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -489,6 +546,7 @@ table:
   type: 126
   length: 30
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkZAAEAAgoe
@@ -499,6 +557,8 @@ table:
   type: 8
   length: 30
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -510,6 +570,8 @@ table:
   type: 8
   length: 30
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -521,6 +583,8 @@ table:
   type: 8
   length: 30
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -532,6 +596,8 @@ table:
   type: 8
   length: 40
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: Not Available
@@ -543,6 +609,7 @@ table:
   type: 126
   length: 30
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkeAAEAAhIQ
@@ -553,6 +620,7 @@ table:
   type: 126
   length: 30
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkfAAEAAhIQ
@@ -563,6 +631,7 @@ table:
   type: 126
   length: 30
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkgAAEAAhIQ
@@ -573,6 +642,7 @@ table:
   type: 126
   length: 30
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkhAAEAAhIQ
@@ -583,6 +653,7 @@ table:
   type: 126
   length: 30
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkiAAEAAhIQ
@@ -593,6 +664,7 @@ table:
   type: 126
   length: 31
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkjAAEAAhIQ
@@ -603,6 +675,7 @@ table:
   type: 126
   length: 33
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgkkAAEAAiER
@@ -613,6 +686,7 @@ table:
   type: 126
   length: 30
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgklAAEAAiIg
@@ -623,6 +697,9 @@ table:
   type: 9
   length: 35
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: ExpressCard Slot
@@ -663,6 +740,9 @@ table:
   type: 9
   length: 34
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: Media Card Slot
@@ -703,6 +783,7 @@ table:
   type: 126
   length: 33
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fhEoAAEBAQMBAwAAAgAAAAA=
@@ -712,6 +793,8 @@ table:
   type: 10
   length: 38
   level: '2.0'
+  state:
+  - decoded
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -723,6 +806,8 @@ table:
   type: 12
   length: 7
   level: '2.0'
+  state:
+  - decoded
   description: System configuration options
   attributes:
     options: []
@@ -730,6 +815,8 @@ table:
   type: 13
   length: 29
   level: '2.0'
+  state:
+  - decoded
   description: Firmware language information
   attributes:
     languages:
@@ -741,6 +828,8 @@ table:
   type: 22
   length: 57
   level: '2.2'
+  state:
+  - decoded
   description: Portable battery
   attributes:
     location: Rear
@@ -760,6 +849,7 @@ table:
   type: 126
   length: 28
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fhotAAECAAADAgAAAAAE/wAAAAAFCgAAAAA=
@@ -767,6 +857,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -780,6 +872,8 @@ table:
   type: 21
   length: 9
   level: '2.1'
+  state:
+  - decoded
   description: Built-in pointing device
   attributes:
     type: track-point
@@ -789,6 +883,8 @@ table:
   type: 21
   length: 9
   level: '2.1'
+  state:
+  - decoded
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -798,6 +894,7 @@ table:
   type: 131
   length: 38
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     gxYxAAEAAAAAAAAAAAAAAAAAAAAAAQ==
@@ -807,6 +904,7 @@ table:
   type: 136
   length: 8
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     iAYyAFpa
@@ -814,6 +912,7 @@ table:
   type: 135
   length: 76
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     h0ozAFRQBwJCQVkgSS9PIAIABv8AAAAAAAAA/wAAAAAAAAD/AAAAAAAAAP8AAAAAAAAA/wAAAAAA
@@ -822,6 +921,7 @@ table:
   type: 135
   length: 32
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     hx40AFRQBwQBBQEBAgACAQIAAwECAAUBAgAGAQIA
@@ -829,6 +929,7 @@ table:
   type: 133
   length: 21
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     hQU1AAE=
@@ -838,6 +939,8 @@ table:
   type: 15
   length: 31
   level: '2.1'
+  state:
+  - decoded
   description: System event log
   attributes:
     access-method: data-functions
@@ -848,6 +951,7 @@ table:
   type: 140
   length: 69
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     jEM3AExFTk9WTwsAAfqncdnVRYyIRFhoeaCBTjUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -856,6 +960,7 @@ table:
   type: 140
   length: 49
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     jC84AExFTk9WTwsBASgAMDko0KhYvzk826VfTitiUQAAAAAQABAAEAHQACABAAE=
@@ -863,6 +968,7 @@ table:
   type: 140
   length: 65
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     jD85AExFTk9WTwsCAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -871,6 +977,7 @@ table:
   type: 140
   length: 19
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     jBE6AExFTk9WTwsDAQAAAAA=
@@ -878,6 +985,7 @@ table:
   type: 140
   length: 21
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     jBM7AExFTk9WTwsEAbIATVMgAA==
@@ -885,6 +993,8 @@ table:
   type: 24
   length: 7
   level: '2.2'
+  state:
+  - decoded
   description: Hardware security
   attributes:
     front-panel-reset: not-implemented
@@ -895,6 +1005,7 @@ table:
   type: 132
   length: 9
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     hAc9AAHYNg==
@@ -902,6 +1013,7 @@ table:
   type: 135
   length: 20
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     hxI+AFRQBwEBywcAAAAGAAAA
@@ -909,4 +1021,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

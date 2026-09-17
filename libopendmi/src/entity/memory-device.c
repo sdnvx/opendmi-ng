@@ -684,162 +684,172 @@ dmi_size_t dmi_memory_device_size_ex(uint32_t value)
 static bool dmi_memory_device_decode(dmi_entity_t *entity)
 {
     dmi_memory_device_t *info;
-    const dmi_memory_device_data_t *data;
-
-    data = dmi_entity_data(entity, DMI_TYPE(MEMORY_DEVICE));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
     if (info == nullptr)
         return false;
 
-    info->array_handle      = dmi_decode(data->array_handle);
-    info->error_info_handle = dmi_decode(data->error_info_handle);
+    dmi_stream_t *stream = &entity->stream;
 
-    info->total_width = dmi_decode(data->total_width);
+    // SMBIOS 2.1 fields
+    dmi_word_t size = 0;
+    dmi_byte_t device_set = 0;
+    dmi_word_t type_detail = 0;
+
+    bool status =
+        dmi_stream_decode(stream, dmi_handle_t, &info->array_handle) and
+        dmi_stream_decode(stream, dmi_handle_t, &info->error_info_handle) and
+        dmi_stream_decode(stream, dmi_word_t, &info->total_width) and
+        dmi_stream_decode(stream, dmi_word_t, &info->data_width) and
+        dmi_stream_decode(stream, dmi_word_t, &size) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->form_factor) and
+        dmi_stream_decode(stream, dmi_byte_t, &device_set) and
+        dmi_stream_decode_str(stream, &info->device_locator) and
+        dmi_stream_decode_str(stream, &info->bank_locator) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->memory_type) and
+        dmi_stream_decode(stream, dmi_word_t, &type_detail);
+    if (not status)
+        return false;
+
+    // Unknown values are represented by maximum values of wider types
     if (info->total_width == 0xFFFFu)
         info->total_width = USHRT_MAX;
-
-    info->data_width = dmi_decode(data->data_width);
     if (info->data_width == 0xFFFFu)
         info->data_width = USHRT_MAX;
 
-    uint16_t size = dmi_decode(data->size);
-    if (size != 0xFFFFu)
-        info->size = dmi_memory_device_size(size);
-    else
-        info->size = UINT64_MAX;
+    info->size       = (size != 0xFFFFu) ? dmi_memory_device_size(size) : UINT64_MAX;
+    info->device_set = (device_set != 0xFFu) ? device_set : USHRT_MAX;
 
-    info->form_factor = data->form_factor;
+    info->memory_type_detail.__value = type_detail;
 
-    if (data->device_set != 0xFFu)
-        info->device_set = data->device_set;
-    else
-        info->device_set = USHRT_MAX;
+    // SMBIOS 2.3 fields, grouped as dmidecode does
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    info->device_locator             = dmi_entity_string(entity, data->device_locator);
-    info->bank_locator               = dmi_entity_string(entity, data->bank_locator);
-    info->memory_type                = dmi_decode(data->memory_type);
-    info->memory_type_detail.__value = dmi_decode(data->memory_type_detail);
+    entity->level = dmi_version(2, 3, 0);
 
-    //
-    // SMBIOS 2.3 features
-    //
+    dmi_word_t maximum_speed = 0;
+    if (not dmi_stream_decode(stream, dmi_word_t, &maximum_speed))
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x15) {
-        entity->level = dmi_version(2, 3, 0);
-        info->maximum_speed = dmi_decode(data->maximum_speed);
-    }
+    info->maximum_speed = maximum_speed;
 
-    if (entity->body_length > 0x17)
-        info->vendor = dmi_entity_string(entity, data->vendor);
-    if (entity->body_length > 0x18)
-        info->serial_number = dmi_entity_string(entity, data->serial_number);
-    if (entity->body_length > 0x19)
-        info->asset_tag = dmi_entity_string(entity, data->asset_tag);
-    if (entity->body_length > 0x1A)
-        info->part_number = dmi_entity_string(entity, data->part_number);
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    //
-    // SMBIOS 2.6 features
-    //
+    status =
+        dmi_stream_decode_str(stream, &info->vendor) and
+        dmi_stream_decode_str(stream, &info->serial_number) and
+        dmi_stream_decode_str(stream, &info->asset_tag) and
+        dmi_stream_decode_str(stream, &info->part_number);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x1B) {
-        entity->level = dmi_version(2, 6, 0);
-        info->rank = data->rank;
-    }
+    // SMBIOS 2.6 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    //
-    // SMBIOS 2.7 features
-    //
+    entity->level = dmi_version(2, 6, 0);
 
-    if (entity->body_length > 0x1C) {
-        entity->level = dmi_version(2, 7, 0);
+    // Rank is stored in bits 3-0, bits 7-4 are reserved
+    dmi_byte_t rank = 0;
+    if (not dmi_stream_decode(stream, dmi_byte_t, &rank))
+        return dmi_entity_incomplete(entity);
 
-        // Actual size is stored in extended size field (offset 0x1C)
-        if ((size == 0x7FFFu) and (entity->body_length >= 0x20))
-            info->size = dmi_memory_device_size_ex(dmi_decode(data->size_ex));
-    }
+    info->rank = rank & 0x0Fu;
 
-    if (entity->body_length > 0x20)
-        info->configured_speed = dmi_decode(data->configured_speed);
+    // SMBIOS 2.7 fields, grouped as dmidecode does
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    //
-    // SMBIOS 2.8 features
-    //
+    entity->level = dmi_version(2, 7, 0);
 
-    if (entity->body_length > 0x22) {
-        entity->level = dmi_version(2, 8, 0);
-        info->minimum_voltage = dmi_decode(data->minimum_voltage);
-    }
+    dmi_dword_t size_ex = 0;
+    if (not dmi_stream_decode(stream, dmi_dword_t, &size_ex))
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x24)
-        info->maximum_voltage = dmi_decode(data->maximum_voltage);
-    if (entity->body_length > 0x26)
-        info->configured_voltage = dmi_decode(data->configured_voltage);
+    // Actual size is stored in extended size field
+    if (size == 0x7FFFu)
+        info->size = dmi_memory_device_size_ex(size_ex);
 
-    //
-    // SMBIOS 3.2 features
-    //
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    if (entity->body_length > 0x28) {
-        entity->level = dmi_version(3, 2, 0);
-        info->memory_tech = dmi_decode(data->memory_tech);
-    }
+    dmi_word_t configured_speed = 0;
+    if (not dmi_stream_decode(stream, dmi_word_t, &configured_speed))
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x29)
-        info->memory_mode_caps = dmi_decode(data->memory_mode_caps);
+    info->configured_speed = configured_speed;
 
-    if (entity->body_length > 0x2B)
-        info->firmware_version = dmi_entity_string(entity, data->firmware_version);
+    // SMBIOS 2.8 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    if (entity->body_length > 0x2C)
-        info->module_vendor_id = dmi_decode(data->module_vendor_id);
-    if (entity->body_length > 0x2E)
-        info->module_product_id = dmi_decode(data->module_product_id);
+    entity->level = dmi_version(2, 8, 0);
 
-    if (entity->body_length > 0x30)
-        info->controller_vendor_id = dmi_decode(data->controller_vendor_id);
-    if (entity->body_length > 0x32)
-        info->controller_product_id = dmi_decode(data->controller_product_id);
+    status =
+        dmi_stream_decode(stream, dmi_word_t, &info->minimum_voltage) and
+        dmi_stream_decode(stream, dmi_word_t, &info->maximum_voltage) and
+        dmi_stream_decode(stream, dmi_word_t, &info->configured_voltage);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x34)
-        info->non_volatile_size = dmi_decode(data->non_volatile_size);
-    if (entity->body_length > 0x3C)
-        info->volatile_size = dmi_decode(data->volatile_size);
-    if (entity->body_length > 0x44)
-        info->cache_size = dmi_decode(data->cache_size);
-    if (entity->body_length > 0x4C)
-        info->logical_size = dmi_decode(data->logical_size);
+    // SMBIOS 3.2 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    //
-    // SMBIOS 3.3 features
-    //
+    entity->level = dmi_version(3, 2, 0);
 
-    if (entity->body_length > 0x54) {
-        entity->level = dmi_version(3, 3, 0);
-        if (data->maximum_speed == 0xFFFFu)
-            info->maximum_speed = dmi_decode(data->maximum_speed_ex);
-    }
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->memory_tech) and
+        dmi_stream_decode(stream, dmi_word_t, &info->memory_mode_caps) and
+        dmi_stream_decode_str(stream, &info->firmware_version) and
+        dmi_stream_decode(stream, dmi_word_t, &info->module_vendor_id) and
+        dmi_stream_decode(stream, dmi_word_t, &info->module_product_id) and
+        dmi_stream_decode(stream, dmi_word_t, &info->controller_vendor_id) and
+        dmi_stream_decode(stream, dmi_word_t, &info->controller_product_id) and
+        dmi_stream_decode(stream, dmi_qword_t, &info->non_volatile_size) and
+        dmi_stream_decode(stream, dmi_qword_t, &info->volatile_size) and
+        dmi_stream_decode(stream, dmi_qword_t, &info->cache_size) and
+        dmi_stream_decode(stream, dmi_qword_t, &info->logical_size);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
-    if (entity->body_length > 0x58) {
-        if (data->configured_speed == 0xFFFFu)
-            info->configured_speed = dmi_decode(data->configured_speed_ex);
-    }
+    // SMBIOS 3.3 fields, actual speeds are stored in extended fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    // SMBIOS 3.7 features
-    if (entity->body_length > 0x5C) {
-        entity->level = dmi_version(3, 7, 0);
-        info->pmic0_vendor_id = dmi_decode(data->pmic0_vendor_id);
-    }
-    if (entity->body_length > 0x5E)
-        info->pmic0_revision = dmi_decode(data->pmic0_revision);
+    entity->level = dmi_version(3, 3, 0);
 
-    if (entity->body_length > 0x60)
-        info->rcd_vendor_id = dmi_decode(data->rcd_vendor_id);
-    if (entity->body_length > 0x62)
-        info->rcd_revision = dmi_decode(data->rcd_revision);
+    // Missing extended speeds keep the original values
+    dmi_dword_t maximum_speed_ex    = info->maximum_speed;
+    dmi_dword_t configured_speed_ex = info->configured_speed;
+
+    status =
+        dmi_stream_decode(stream, dmi_dword_t, &maximum_speed_ex) and
+        dmi_stream_decode(stream, dmi_dword_t, &configured_speed_ex);
+
+    if (maximum_speed == 0xFFFFu)
+        info->maximum_speed = maximum_speed_ex;
+    if (configured_speed == 0xFFFFu)
+        info->configured_speed = configured_speed_ex;
+
+    if (not status)
+        return dmi_entity_incomplete(entity);
+
+    // SMBIOS 3.7 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(3, 7, 0);
+
+    status =
+        dmi_stream_decode(stream, dmi_word_t, &info->pmic0_vendor_id) and
+        dmi_stream_decode(stream, dmi_word_t, &info->pmic0_revision) and
+        dmi_stream_decode(stream, dmi_word_t, &info->rcd_vendor_id) and
+        dmi_stream_decode(stream, dmi_word_t, &info->rcd_revision);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

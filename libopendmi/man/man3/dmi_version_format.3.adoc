@@ -44,7 +44,7 @@ macro.
 == Return value
 
 On success, returns a newly allocated null-terminated string containing the
-formatted version. On failure (e.g., allocation error), returns `NULL`.
+formatted version. On failure (e.g., allocation error), returns `nullptr`.
 
 == Examples
 
@@ -52,7 +52,7 @@ formatted version. On failure (e.g., allocation error), returns `NULL`.
 ```
 dmi_version_t ver = dmi_version(3, 4, 0);
 char *str = dmi_version_format(ver);
-if (str != NULL) {
+if (str != nullptr) {
     printf("SMBIOS version: %s\n", str); // "3.4"
     free(str);
 }

@@ -12,12 +12,9 @@
 #include <opendmi/entity/common.h>
 #include <opendmi/entity/baseboard.h>
 
-typedef struct dmi_chassis              dmi_chassis_t;
-typedef struct dmi_chassis_data         dmi_chassis_data_t;
-typedef union  dmi_chassis_type_data    dmi_chassis_type_data_t;
-typedef struct dmi_chassis_extra        dmi_chassis_extra_t;
-typedef struct dmi_chassis_element      dmi_chassis_element_t;
-typedef struct dmi_chassis_element_data dmi_chassis_element_data_t;
+typedef struct dmi_chassis           dmi_chassis_t;
+typedef union  dmi_chassis_type_data dmi_chassis_type_data_t;
+typedef struct dmi_chassis_element   dmi_chassis_element_t;
 
 /**
  * @brief System enclosure or chassis types.
@@ -92,144 +89,11 @@ dmi_packed_union(dmi_chassis_type_data)
     dmi_packed_struct()
     {
         dmi_byte_t type : 7;
-        bool is_lock_present : 1;
+        dmi_byte_t is_lock_present : 1;
     };
 };
 
-dmi_packed_struct(dmi_chassis_element_data)
-{
-    /**
-     * @brief Specifies the type of element associated with this record.
-     */
-    dmi_byte_t type;
-
-    /**
-     * @brief Specifies the minimum number of the element type that can be
-     * installed in the chassis for the chassis to properly operate, in the
-     * range 0 to 254. The value 255 (`0xFF`) is reserved for future definition
-     * by this specification.
-     */
-    dmi_byte_t minimum_count;
-
-    /**
-     * @brief Specifies the maximum number of the element type that can be
-     * installed in the chassis, in the range 1 to 255. The value 0 is reserved
-     * for future definition by this specification.
-     */
-    dmi_byte_t maximum_count;
-};
-
-/**
- * @brief System enclosure or chassis structure (type 3).
- *
- * The information in this structure defines attributes of the system’s
- * mechanical enclosure(s). For example, if a system included a separate
- * enclosure for its peripheral devices, two structures would be returned: one
- * for the main system enclosure and the second for the peripheral device
- * enclosure.
- *
- * The additions to this structure in version 2.1 of SMBIOS
- * specification support the population of the CIM_Chassis class.
- *
- * @since SMBIOS 2.0
- */
-dmi_packed_struct(dmi_chassis_data)
-{
-    /**
-     * @brief SMBIOS structure header.
-     */
-    dmi_header_t header;
-
-    /**
-     * @brief Manufacturer name.
-     * @since SMBIOS 2.0
-     */
-    dmi_string_t vendor;
-
-    /**
-     * @since SMBIOS 2.0
-     */
-    dmi_byte_t type;
-
-    /**
-     * @since SMBIOS 2.0
-     */
-    dmi_string_t version;
-
-    /**
-     * @since SMBIOS 2.0
-     */
-    dmi_string_t serial_number;
-
-    /**
-     * @since SMBIOS 2.0
-     */
-    dmi_string_t asset_tag;
-
-    /**
-     * @since SMBIOS 2.1
-     */
-    dmi_byte_t bootup_state;
-
-    /**
-     * @since SMBIOS 2.1
-     */
-    dmi_byte_t power_supply_state;
-
-    /**
-     * @since SMBIOS 2.1
-     */
-    dmi_byte_t thermal_state;
-
-    /**
-     * @since SMBIOS 2.1
-     */
-    dmi_byte_t security_status;
-
-    /**
-     * @since SMBIOS 2.3
-     */
-    dmi_dword_t oem_defined;
-
-    /**
-     * @since SMBIOS 2.3
-     */
-    dmi_byte_t height;
-
-    /**
-     * @since SMBIOS 2.3
-     */
-    dmi_byte_t power_cord_count;
-
-    /**
-     * @since SMBIOS 2.3
-     */
-    dmi_byte_t element_count;
-
-    /**
-     * @since SMBIOS 2.3
-     */
-    dmi_byte_t element_size;
-};
-
-dmi_packed_struct(dmi_chassis_extra)
-{
-    /**
-     * @brief Number of null-terminated string describing the chassis or
-     * enclosure SKU number.
-     */
-    dmi_byte_t sku_number;
-
-    /**
-     * @brief Rack type.
-     */
-    dmi_byte_t rack_type;
-
-    /**
-     * @brief Height of the enclosure based on the rack type.
-     */
-    dmi_byte_t rack_height;
-};
+dmi_static_assert_value_union(dmi_chassis_type_data);
 
 struct dmi_chassis
 {
@@ -375,7 +239,7 @@ __BEGIN_DECLS
  *
  * @param[in] value Chassis type value.
  *
- * @return The chassis type name string, or `NULL` if @p value is out of range.
+ * @return The chassis type name string, or @c nullptr if @p value is out of range.
  */
 const char *dmi_chassis_type_name(dmi_chassis_type_t value);
 
@@ -386,7 +250,7 @@ const char *dmi_chassis_type_name(dmi_chassis_type_t value);
  *
  * @param[in] value Chassis security status value.
  *
- * @return The chassis security status name string, or `NULL` if @p value is
+ * @return The chassis security status name string, or @c nullptr if @p value is
  * out of range.
  */
 const char *dmi_chassis_security_status_name(dmi_chassis_security_status_t value);

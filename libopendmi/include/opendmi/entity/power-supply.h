@@ -59,17 +59,17 @@ dmi_packed_union(dmi_power_supply_details)
         /**
          * @brief Power supply is hot-replaceable.
          */
-        bool hot_swappable : 1;
+        dmi_word_t hot_swappable : 1;
 
         /**
          * @brief Power supply is present.
          */
-        bool present : 1;
+        dmi_word_t present : 1;
 
         /**
          * @brief Power supply is unplugged from the wall.
          */
-        bool unplugged : 1;
+        dmi_word_t unplugged : 1;
 
         /**
          * @brief Input voltage range switching.
@@ -92,6 +92,8 @@ dmi_packed_union(dmi_power_supply_details)
         dmi_word_t __reserved : 2;
     };
 };
+
+dmi_static_assert_value_union(dmi_power_supply_details);
 
 typedef union dmi_power_supply_details dmi_power_supply_details_t;
 

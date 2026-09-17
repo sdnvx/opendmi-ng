@@ -13,8 +13,7 @@
 #include <opendmi/stream.h>
 #include <opendmi/utils/name.h>
 
-typedef struct dmi_pci_addr      dmi_pci_addr_t;
-typedef struct dmi_pci_addr_data dmi_pci_addr_data_t;
+typedef struct dmi_pci_addr dmi_pci_addr_t;
 
 /**
  * @brief Status types.
@@ -66,29 +65,6 @@ typedef uint16_t dmi_pci_vendor_id_t;
  * @brief PCI device identifier.
  */
 typedef uint16_t dmi_pci_device_id_t;
-
-dmi_packed_struct(dmi_pci_addr_data)
-{
-    /**
-     * @brief Segment group number. The value is 0 for a single-segment topology.
-     */
-    dmi_word_t segment_group;
-
-    /**
-     * @brief Bus number. Set to `0xFF` if not applicable.
-     */
-    dmi_byte_t bus_number;
-
-    /**
-     * @brief Function number. Set to `0x07` if not applicable.
-     */
-    dmi_byte_t function_number : 3;
-
-    /**
-     * @brief Device number. Set to `0x1F` if not applicable.
-     */
-    dmi_byte_t device_number : 5;
-};
 
 /**
  * @brief PCI address.

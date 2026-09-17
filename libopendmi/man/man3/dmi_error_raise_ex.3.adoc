@@ -57,7 +57,7 @@ Format arguments.
 
 == Return value
 
-Returns `true` on success. Returns `false` if `context` is `NULL` or if
+Returns `true` on success. Returns `false` if `context` is `nullptr` or if
 memory allocation for the formatted message fails.
 
 == Examples

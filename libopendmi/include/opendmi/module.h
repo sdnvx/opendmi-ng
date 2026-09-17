@@ -30,7 +30,7 @@ struct dmi_module
 };
 
 /**
- * @brief Built-in extension modules, terminated by `nullptr`.
+ * @brief Built-in extension modules, terminated by @c nullptr.
  *
  * Built-in modules are listed statically rather than registered at startup,
  * so that they are always linked in, including static builds.
@@ -47,7 +47,7 @@ __BEGIN_DECLS
  * is not copied. Registration is not thread-safe, so modules should be
  * registered before they are used.
  *
- * @param module Extension module to register; must not be @c NULL.
+ * @param module Extension module to register; must not be @c nullptr.
  *
  * @return `true` on success, `false` if a module with the same code is
  *         already available.
@@ -60,9 +60,9 @@ bool dmi_module_register(dmi_module_t *module);
  * Built-in modules are returned first, followed by registered modules in
  * the order of registration.
  *
- * @param module Module returned by the previous call, or @c NULL to get the
+ * @param module Module returned by the previous call, or @c nullptr to get the
  *               first module.
- * @return Pointer to the next module, or @c NULL if there are no more
+ * @return Pointer to the next module, or @c nullptr if there are no more
  *         modules.
  */
 const dmi_module_t *dmi_module_next(const dmi_module_t *module);
@@ -73,8 +73,8 @@ const dmi_module_t *dmi_module_next(const dmi_module_t *module);
  * Searches built-in and registered modules for the module whose `code` field
  * equals @p code.
  *
- * @param code Null-terminated module identifier string; must not be @c NULL.
- * @return Pointer to the matching module, or @c NULL if no module with the
+ * @param code Null-terminated module identifier string; must not be @c nullptr.
+ * @return Pointer to the matching module, or @c nullptr if no module with the
  *         given code is registered.
  */
 const dmi_module_t *dmi_module_find(const char *code);

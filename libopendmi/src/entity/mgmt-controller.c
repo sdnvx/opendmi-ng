@@ -204,12 +204,8 @@ static bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
 
     // Some implementations use different structure layout (e.g. the one from
     // SMBIOS versions prior to 3.2), so stop decoding there as dmidecode does
-    if (dmi_stream_remaining(stream) < if_data_length) {
-        dmi_log_warning(context->logger,
-                        "0x%04x: Interface data length %u exceeds structure length",
-                        entity->handle, if_data_length);
-        return true;
-    }
+    if (not dmi_stream_has(stream, if_data_length))
+        return dmi_entity_incomplete(entity);
 
     if (if_data_length > 0) {
         info->if_data = dmi_alloc(context, if_data_length);
@@ -224,11 +220,11 @@ static bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
 
     // Protocol records are present since SMBIOS 3.2
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
 
     dmi_byte_t proto_records_count = 0;
     if (not dmi_stream_decode(stream, dmi_byte_t, &proto_records_count))
-        return false;
+        return dmi_entity_incomplete(entity);
 
     if (proto_records_count == 0)
         return true;
@@ -246,13 +242,9 @@ static bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
         status =
             dmi_stream_decode(stream, dmi_byte_t, &type) and
             dmi_stream_decode(stream, dmi_byte_t, &length) and
-            (dmi_stream_remaining(stream) >= length);
-        if (not status) {
-            dmi_log_warning(context->logger,
-                            "0x%04x: Protocol record %zu exceeds structure length",
-                            entity->handle, i + 1);
-            break;
-        }
+            dmi_stream_has(stream, length);
+        if (not status)
+            return dmi_entity_incomplete(entity);
 
         dmi_mgmt_proto_record_t *record = dmi_alloc(context, sizeof(*record) + length);
         if (record == nullptr)

@@ -32,7 +32,7 @@ dmi_packed_union(dmi_oob_connections)
          * connections to receive incoming connections for the purpose of
          * remote operations or problem management.
          */
-        bool is_inbound_enabled : 1;
+        dmi_byte_t is_inbound_enabled : 1;
 
         /**
          * @brief Outbound connection enabled. Identifies whether (`true`) or
@@ -40,7 +40,7 @@ dmi_packed_union(dmi_oob_connections)
          * connections to contact an alert management facility when critical
          * conditions occur.
          */
-        bool is_outbound_enabled : 1;
+        dmi_byte_t is_outbound_enabled : 1;
 
         /**
          * @brief Reserved for future definition by this specification. Set to
@@ -49,6 +49,8 @@ dmi_packed_union(dmi_oob_connections)
         dmi_byte_t __reserved : 6;
     };
 };
+
+dmi_static_assert_value_union(dmi_oob_connections);
 
 /**
  * @brief Out-of-band remote access structure (type 30).

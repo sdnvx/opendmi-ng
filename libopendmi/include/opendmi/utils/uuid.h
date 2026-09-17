@@ -60,6 +60,8 @@ dmi_packed_union(dmi_uuid)
     };
 };
 
+dmi_static_assert_value_union(dmi_uuid);
+
 __BEGIN_DECLS
 
 /**

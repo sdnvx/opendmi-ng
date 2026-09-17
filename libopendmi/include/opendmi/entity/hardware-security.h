@@ -37,24 +37,26 @@ dmi_packed_union(dmi_hardware_security_settings)
         /**
          * @brief front panel reset status.
          */
-        dmi_hardware_security_status_t front_panel_reset : 2;
+        dmi_byte_t front_panel_reset : 2;
 
         /**
          * @brief Administrator password status.
          */
-        dmi_hardware_security_status_t admin_password : 2;
+        dmi_byte_t admin_password : 2;
 
         /**
          * @brief Keyboard password status.
          */
-        dmi_hardware_security_status_t keyboard_password : 2;
+        dmi_byte_t keyboard_password : 2;
 
         /**
          * @brief Power-on password status.
          */
-        dmi_hardware_security_status_t poweron_password : 2;
+        dmi_byte_t poweron_password : 2;
     };
 };
+
+dmi_static_assert_value_union(dmi_hardware_security_settings);
 
 struct dmi_hardware_security
 {

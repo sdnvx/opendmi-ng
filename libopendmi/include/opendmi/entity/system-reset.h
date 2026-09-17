@@ -41,24 +41,24 @@ dmi_packed_union(dmi_system_reset_caps)
          * @brief Status. Identifies whether (`true`) or not (`false`) the
          * system reset is enabled by the user.
          */
-        bool is_enabled : 1;
+        dmi_byte_t is_enabled : 1;
 
         /**
          * @brief Boot option. Indicates one of the following actions to be
          * taken after a watchdog reset.
          */
-        dmi_boot_option_t boot_on_watchdog : 2;
+        dmi_byte_t boot_on_watchdog : 2;
 
         /**
          * @brief Boot option on limit. Identifies one of the following system
          * actions to be taken when the reset limit is reached.
          */
-        dmi_boot_option_t boot_on_limit : 2;
+        dmi_byte_t boot_on_limit : 2;
 
         /**
          * @brief System contains a watchdog timer: either `true` or `false`.
          */
-        bool has_watchdog : 1;
+        dmi_byte_t has_watchdog : 1;
 
         /**
          * @brief Reserved for future assignment by this specification, set to
@@ -67,6 +67,8 @@ dmi_packed_union(dmi_system_reset_caps)
         dmi_byte_t __reserved : 2;
     };
 };
+
+dmi_static_assert_value_union(dmi_system_reset_caps);
 
 /**
  * @brief System reset information (type 23).

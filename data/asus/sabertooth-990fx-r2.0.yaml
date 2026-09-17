@@ -5,6 +5,9 @@ table:
   type: 0
   length: 66
   level: '2.4'
+  state:
+  - decoded
+  - partial
   description: Platform firmware information
   attributes:
     vendor: American Megatrends Inc.
@@ -65,6 +68,8 @@ table:
   type: 1
   length: 147
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: To be filled by O.E.M.
@@ -79,6 +84,9 @@ table:
   type: 2
   length: 131
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: ASUSTeK COMPUTER INC.
@@ -100,6 +108,9 @@ table:
   type: 3
   length: 138
   level: '2.7'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: To Be Filled By O.E.M.
@@ -123,6 +134,10 @@ table:
   type: 4
   length: 189
   level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: Socket 942
@@ -161,6 +176,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L1-Cache
@@ -195,6 +213,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L2-Cache
@@ -229,6 +250,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L3-Cache
@@ -263,6 +287,8 @@ table:
   type: 8
   length: 23
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: KBC
@@ -274,6 +300,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB78
@@ -285,6 +313,8 @@ table:
   type: 8
   length: 27
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: SPDIF_O
@@ -296,6 +326,8 @@ table:
   type: 8
   length: 26
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB3_12
@@ -307,6 +339,8 @@ table:
   type: 8
   length: 26
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: ESATA6G
@@ -318,6 +352,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB34
@@ -329,6 +365,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB56
@@ -340,6 +378,8 @@ table:
   type: 8
   length: 26
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB3_34
@@ -351,6 +391,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: LAN1
@@ -362,6 +404,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB12
@@ -373,6 +417,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: AUDIO
@@ -384,6 +430,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: SATA6G_12
@@ -395,6 +443,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: SATA6G_34
@@ -406,6 +456,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: SATA6G_56
@@ -417,6 +469,8 @@ table:
   type: 8
   length: 21
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: SATA6G_E12
@@ -428,6 +482,8 @@ table:
   type: 8
   length: 18
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB3_56
@@ -439,6 +495,8 @@ table:
   type: 8
   length: 18
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB1112
@@ -450,6 +508,8 @@ table:
   type: 8
   length: 18
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: USB1314
@@ -461,6 +521,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: COM port
@@ -472,6 +534,8 @@ table:
   type: 8
   length: 14
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: TPM
@@ -483,6 +547,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: SPDIF_OUT
@@ -494,6 +560,8 @@ table:
   type: 8
   length: 15
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: AAFP
@@ -505,6 +573,8 @@ table:
   type: 8
   length: 18
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: CPU_FAN
@@ -516,6 +586,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: CPU_OPT_FAN
@@ -527,6 +599,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: CHA_FAN1
@@ -538,6 +612,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: CHA_FAN2
@@ -549,6 +625,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: CHA_FAN3
@@ -560,6 +638,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: CHA_FAN4
@@ -571,6 +651,9 @@ table:
   type: 9
   length: 27
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIE16_1
@@ -611,6 +694,9 @@ table:
   type: 9
   length: 26
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIE1_1
@@ -651,6 +737,9 @@ table:
   type: 9
   length: 27
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIE16_2
@@ -691,6 +780,9 @@ table:
   type: 9
   length: 27
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIE16_3
@@ -731,6 +823,9 @@ table:
   type: 9
   length: 23
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI1
@@ -771,6 +866,9 @@ table:
   type: 9
   length: 27
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIE16_4
@@ -811,6 +909,8 @@ table:
   type: 10
   length: 33
   level: '2.0'
+  state:
+  - decoded
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -822,6 +922,8 @@ table:
   type: 11
   length: 98
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 4
@@ -834,6 +936,8 @@ table:
   type: 12
   length: 29
   level: '2.0'
+  state:
+  - decoded
   description: System configuration options
   attributes:
     options:
@@ -842,6 +946,9 @@ table:
   type: 16
   length: 25
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Physical memory array
   attributes:
     location: motherboard
@@ -854,6 +961,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -865,6 +975,10 @@ table:
   type: 17
   length: 101
   level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 45
@@ -905,6 +1019,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -919,6 +1036,10 @@ table:
   type: 17
   length: 101
   level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 45
@@ -959,6 +1080,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -973,6 +1097,10 @@ table:
   type: 17
   length: 101
   level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 45
@@ -1013,6 +1141,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1027,6 +1158,10 @@ table:
   type: 17
   length: 101
   level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 45
@@ -1067,6 +1202,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -1081,6 +1219,8 @@ table:
   type: 32
   length: 22
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -1088,6 +1228,8 @@ table:
   type: 41
   length: 25
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: Onboard IGD
@@ -1103,6 +1245,8 @@ table:
   type: 41
   length: 25
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: Onboard LAN
@@ -1118,6 +1262,8 @@ table:
   type: 41
   length: 26
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: Onboard 1394
@@ -1133,6 +1279,8 @@ table:
   type: 13
   length: 145
   level: '2.0'
+  state:
+  - decoded
   description: Firmware language information
   attributes:
     languages:
@@ -1151,4 +1299,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

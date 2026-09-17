@@ -42,6 +42,7 @@ const dmi_command_t dmi_entry_command =
     .name        = "entry",
     .description = "Show SMBIOS entry point data",
     .options     = dmi_options(&dmi_entry_options),
+    .flags       = DMI_COMMAND_FLAG_PAGER,
     .handlers    = {
         .usage = dmi_entry_usage,
         .main  = dmi_entry_main
@@ -72,7 +73,7 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
     }
 
     do {
-        session = dmi_text_initialize(context, stdout);
+        session = dmi_text_initialize(context, stdout, nullptr);
         if (session == nullptr)
             break;
 

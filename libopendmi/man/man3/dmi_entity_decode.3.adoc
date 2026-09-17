@@ -46,7 +46,7 @@ Entity descriptor.
 
 Returns `true` on success, including when the entity has already been decoded
 or no decoder is registered for its type. Returns `false` on failure (e.g.,
-if `entity` is `NULL`, the minimum length constraint is violated, or the
+if `entity` is `nullptr`, the minimum length constraint is violated, or the
 type-specific decoder fails).
 
 == Errors

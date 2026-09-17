@@ -31,8 +31,10 @@ static void test_format_set_high_bits(void **pstate);
 static void test_format_invalid_utf8(void **pstate);
 static void test_format_yaml_quoting(void **pstate);
 static void test_format_xml_flag_names(void **pstate);
+static void test_format_state(void **pstate);
+static void test_format_text_quiet(void **pstate);
 
-static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump);
+static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode);
 static bool test_format_has_controls(const char *output);
 
 // Firmware information (SMBIOS 2.0) with PCI support and vendor-reserved
@@ -75,7 +77,9 @@ int main(void)
         cmocka_unit_test(test_format_set_high_bits),
         cmocka_unit_test(test_format_invalid_utf8),
         cmocka_unit_test(test_format_yaml_quoting),
-        cmocka_unit_test(test_format_xml_flag_names)
+        cmocka_unit_test(test_format_xml_flag_names),
+        cmocka_unit_test(test_format_state),
+        cmocka_unit_test(test_format_text_quiet)
     };
 
     return cmocka_run_group_tests(tests, test_format_setup, test_format_teardown);
@@ -142,7 +146,7 @@ static void test_format_many_strings(void **pstate)
     // Strings beyond the range of string references are printed, and the
     // first ones are not printed again
     for (const dmi_format_t **pformat = dmi_formats; *pformat != nullptr; pformat++) {
-        char *output = test_format_print(*pformat, state->entity, true);
+        char *output = test_format_print(*pformat, state->entity, true, DMI_FORMAT_MODE_NORMAL);
         if (output == nullptr)
             fail_msg("Format %s: printing failed", (*pformat)->code);
 
@@ -173,7 +177,7 @@ static void test_format_set_high_bits(void **pstate)
         if (format == nullptr)
             continue;
 
-        char *output = test_format_print(format, entity, false);
+        char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
         if (output == nullptr) {
             dmi_entity_destroy(entity);
             fail_msg("Format %s: printing failed", format->code);
@@ -219,7 +223,7 @@ static void test_format_invalid_utf8(void **pstate)
         if (format == nullptr)
             continue;
 
-        char *output = test_format_print(format, entity, true);
+        char *output = test_format_print(format, entity, true, DMI_FORMAT_MODE_NORMAL);
         bool valid =
             (output != nullptr) and
             dmi_utf8_is_valid(output) and
@@ -271,7 +275,7 @@ static void test_format_yaml_quoting(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    char *output = test_format_print(format, entity, false);
+    char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
     dmi_entity_destroy(entity);
     assert_non_null(output);
 
@@ -313,7 +317,7 @@ static void test_format_xml_flag_names(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    char *output = test_format_print(format, entity, false);
+    char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
     dmi_entity_destroy(entity);
     assert_non_null(output);
 
@@ -335,14 +339,107 @@ static void test_format_xml_flag_names(void **pstate)
 #endif
 }
 
-static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump)
+static void test_format_state(void **pstate)
+{
+    test_format_state_t *state = *pstate;
+
+    static const struct {
+        const char        *code;
+        dmi_format_mode_t  mode;
+        const char        *expected;
+    } cases[] = {
+        { "text", DMI_FORMAT_MODE_VERBOSE, "\tStructure version: 2.0\n\tState: Decoded, Partial\n" },
+        { "json", DMI_FORMAT_MODE_NORMAL,  "\"state\": [\n                \"decoded\",\n                \"partial\"\n            ]" },
+        { "yaml", DMI_FORMAT_MODE_NORMAL,  "state: [decoded, partial]" },
+        { "xml",  DMI_FORMAT_MODE_NORMAL,  "state=\"decoded partial\"" }
+    };
+
+    // Complete SMBIOS 2.0 structure is decoded partially
+    dmi_entity_t *entity = dmi_entity_create(state->context, test_firmware_data, sizeof(test_firmware_data));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+
+    for (size_t i = 0; i < countof(cases); i++) {
+        const dmi_format_t *format = dmi_format_get(cases[i].code);
+
+        // Format may be disabled at build time
+        if (format == nullptr)
+            continue;
+
+        char *output = test_format_print(format, entity, false, cases[i].mode);
+        bool found = (output != nullptr) and (strstr(output, cases[i].expected) != nullptr);
+
+        free(output);
+
+        if (not found) {
+            dmi_entity_destroy(entity);
+            fail_msg("Format %s: state is missing", cases[i].code);
+        }
+    }
+
+    // State is not shown in text output by default
+    char *output = test_format_print(dmi_format_get("text"), entity, false, DMI_FORMAT_MODE_NORMAL);
+    bool found = (output != nullptr) and (strstr(output, "State:") != nullptr);
+
+    free(output);
+    dmi_entity_destroy(entity);
+
+    assert_false(found);
+}
+
+static void test_format_text_quiet(void **pstate)
+{
+    test_format_state_t *state = *pstate;
+
+    // Physical memory array with memory error information handle
+    static const dmi_data_t data[] = {
+        16, 0x0F, 0x20, 0x00,
+        0x03, 0x03, 0x03, 0x00, 0x00, 0x40, 0x00, 0x30, 0x00, 0x02, 0x00,
+        0x00, 0x00
+    };
+
+    dmi_entity_t *entity = dmi_entity_create(state->context, data, sizeof(data));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+
+    const dmi_format_t *format = dmi_format_get("text");
+
+    char *normal = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
+    char *quiet  = test_format_print(format, entity, false, DMI_FORMAT_MODE_QUIET);
+
+    dmi_entity_destroy(entity);
+
+    bool normal_header = (normal != nullptr) and (strstr(normal, "Handle 0x0020") != nullptr);
+    bool normal_handle = (normal != nullptr) and (strstr(normal, "Memory error information handle") != nullptr);
+    bool quiet_valid   = (quiet != nullptr) and (strstr(quiet, "Physical memory array") != nullptr);
+    bool quiet_header  = (quiet != nullptr) and (strstr(quiet, "Handle 0x0020") != nullptr);
+    bool quiet_handle  = (quiet != nullptr) and (strstr(quiet, "Memory error information handle") != nullptr);
+
+    free(normal);
+    free(quiet);
+
+    assert_true(normal_header);
+    assert_true(normal_handle);
+
+    // Structure header and handle references are hidden in quiet mode
+    assert_true(quiet_valid);
+    assert_false(quiet_header);
+    assert_false(quiet_handle);
+}
+
+static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode)
 {
     FILE *stream = tmpfile();
     if (stream == nullptr)
         return nullptr;
 
     char *output = nullptr;
-    void *session = format->handlers.initialize(entity->context, stream);
+    const dmi_format_options_t options = {
+        .mode = mode,
+        .dump = dump
+    };
+
+    void *session = format->handlers.initialize(entity->context, stream, &options);
 
     do {
         if (session == nullptr)
@@ -353,7 +450,7 @@ static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *e
         bool success =
             ((ops->dump_start == nullptr) or ops->dump_start(session)) and
             ((ops->table_start == nullptr) or ops->table_start(session)) and
-            dmi_print_entity(format, entity, session, dump) and
+            dmi_print_entity(format, entity, session, &options) and
             ((ops->table_end == nullptr) or ops->table_end(session)) and
             ((ops->dump_end == nullptr) or ops->dump_end(session));
 

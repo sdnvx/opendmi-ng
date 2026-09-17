@@ -21,8 +21,7 @@ typedef struct dmi_export_config
 {
     char *output_path;
     const dmi_format_t *output_format;
-    bool export_dump;
-    bool export_pretty;
+    dmi_format_options_t options;
     bool force;
 } dmi_export_config_t;
 
@@ -34,8 +33,7 @@ static dmi_export_config_t dmi_export_config =
 {
     .output_path   = nullptr,
     .output_format = nullptr,
-    .export_dump   = false,
-    .export_pretty = false,
+    .options       = {},
     .force         = false
 };
 
@@ -75,13 +73,13 @@ static const dmi_option_set_t dmi_export_options =
             .short_names = "D",
             .long_names  = (const char *[]){ "dump", nullptr },
             .description = "Do not decode the entries",
-            .value       = &dmi_export_config.export_dump,
+            .value       = &dmi_export_config.options.dump,
         },
         {
             .short_names = "p",
             .long_names  = (const char *[]){ "pretty", nullptr },
             .description = "Enable pretty output",
-            .value       = &dmi_export_config.export_pretty
+            .value       = &dmi_export_config.options.pretty
         },
         {
             .short_names = "F",
@@ -165,7 +163,7 @@ static int dmi_export_main(dmi_context_t *context, int argc, char *argv[])
     }
 
     bool success = dmi_print_all(context, out, dmi_export_config.output_format,
-                                 dmi_export_config.export_dump);
+                                 &dmi_export_config.options);
     if (not success)
         dmi_command_trace(context);
 

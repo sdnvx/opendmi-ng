@@ -34,25 +34,25 @@ dmi_packed_union(dmi_tpm_device_features)
         /**
          * @brief TPM Device Characteristics are not supported.
          */
-        bool is_unsupported : 1;
+        uint64_t is_unsupported : 1;
 
         /**
          * @brief Family configurable via firmware update. For example, switching
          * between TPM 1.2 and TPM 2.0.
          */
-        bool is_update_configurable : 1;
+        uint64_t is_update_configurable : 1;
 
         /**
          * @brief Family configurable via platform software support, such as
          * firmware setup. For example, switching between TPM 1.2 and TPM 2.0.
          */
-        bool is_software_configurable : 1;
+        uint64_t is_software_configurable : 1;
 
         /**
          * @brief Family configurable via OEM proprietary mechanism. For example,
          * switching between TPM 1.2 and TPM 2.0.
          */
-        bool is_proprietary_configurable : 1;
+        uint64_t is_proprietary_configurable : 1;
 
         /**
          * @brief Reserved for future use.
@@ -60,6 +60,8 @@ dmi_packed_union(dmi_tpm_device_features)
         uint64_t reserved_2 : 58;
     };
 };
+
+dmi_static_assert_value_union(dmi_tpm_device_features);
 
 /**
  * @brief TPM device.

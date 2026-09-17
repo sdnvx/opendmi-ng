@@ -11,8 +11,7 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_system_boot      dmi_system_boot_t;
-typedef struct dmi_system_boot_data dmi_system_boot_data_t;
+typedef struct dmi_system_boot dmi_system_boot_t;
 
 /**
  * @brief System boot status values.
@@ -39,25 +38,6 @@ typedef enum dmi_boot_status
 /**
  * @brief System boot information structure (type 32).
  */
-dmi_packed_struct(dmi_system_boot_data)
-{
-    /**
-     * @brief SMBIOS structure header.
-     */
-    dmi_header_t header;
-
-    /**
-     * @brief Reserved for future assignment by this specification;
-     * all bytes are set to 0.
-     */
-    dmi_byte_t __reserved[6];
-
-    /**
-     * @brief Boot status.
-     */
-    dmi_byte_t status[10];
-};
-
 struct dmi_system_boot
 {
     /**

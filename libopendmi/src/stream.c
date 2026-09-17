@@ -64,7 +64,8 @@ bool dmi_stream_skip(dmi_stream_t *stream, size_t length)
     if (stream->position + length > stream->entity->body_length)
         return false;
 
-    stream->position += length;
+    stream->position  += length;
+    stream->remaining -= length;
 
     return true;
 }
@@ -83,6 +84,14 @@ bool dmi_stream_is_done(const dmi_stream_t *stream)
         return true;
 
     return stream->position >= stream->entity->body_length;
+}
+
+bool dmi_stream_has(const dmi_stream_t *stream, size_t length)
+{
+    if (stream == nullptr)
+        return false;
+
+    return dmi_stream_remaining(stream) >= length;
 }
 
 void dmi_stream_reset(dmi_stream_t *stream)

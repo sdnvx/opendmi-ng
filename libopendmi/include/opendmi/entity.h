@@ -26,10 +26,33 @@ typedef void dmi_entity_cleanup_fn(dmi_entity_t *entity);
 
 typedef enum dmi_entity_state
 {
-    DMI_ENTITY_STATE_DECODED = (1 << 0),
-    DMI_ENTITY_STATE_LINKED  = (1 << 1),
-    DMI_ENTITY_STATE_VALID   = (1 << 2)
+    /** Entity has been decoded. */
+    DMI_ENTITY_STATE_DECODED    = (1 << 0),
+
+    /** Cross-references of entity have been resolved. */
+    DMI_ENTITY_STATE_LINKED     = (1 << 1),
+
+    /** Entity has been validated. */
+    DMI_ENTITY_STATE_VALID      = (1 << 2),
+
+    /**
+     * Entity has been decoded, but its data ends in the middle of a set of
+     * fields, and only completely present fields are decoded. Such entity
+     * length does not match any specification version.
+     */
+    DMI_ENTITY_STATE_INCOMPLETE = (1 << 3),
+
+    /**
+     * Entity conforms to an older specification version, and does not
+     * contain all fields known to the decoder.
+     */
+    DMI_ENTITY_STATE_PARTIAL    = (1 << 4)
 } dmi_entity_state_t;
+
+/**
+ * @brief Entity state flag names, identified by bit numbers.
+ */
+extern const dmi_name_set_t dmi_entity_state_names;
 
 /**
  * @brief Entity operations.
@@ -282,7 +305,7 @@ __BEGIN_DECLS
  *                       structure header.
  * @param[in] max_length Total amount of remaining data in the table area.
  *
- * @return A newly allocated entity descriptor on success, or `NULL` on
+ * @return A newly allocated entity descriptor on success, or @c nullptr on
  *         failure (e.g., invalid arguments, invalid structure length, or
  *         allocation error).
  */
@@ -328,7 +351,7 @@ bool dmi_entity_link(dmi_entity_t *entity);
  * @param[in] entity Entity descriptor.
  *
  * @return The handle associated with the entity, or `DMI_HANDLE_INVALID` if
- *         @p entity is `NULL`.
+ *         @p entity is @c nullptr.
  */
 dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity);
 
@@ -338,7 +361,7 @@ dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity);
  * @param[in] entity Entity descriptor.
  *
  * @return The SMBIOS type of the entity, or `DMI_TYPE_INVALID` if @p entity
- *         is `NULL`.
+ *         is @c nullptr.
  */
 dmi_type_t dmi_entity_type(const dmi_entity_t *entity);
 
@@ -349,7 +372,7 @@ dmi_type_t dmi_entity_type(const dmi_entity_t *entity);
  *
  * @param[in] entity Entity descriptor.
  *
- * @return The type name string, or `NULL` if @p entity is `NULL`.
+ * @return The type name string, or @c nullptr if @p entity is @c nullptr.
  */
 const char *dmi_entity_name(const dmi_entity_t *entity);
 
@@ -363,7 +386,7 @@ const char *dmi_entity_name(const dmi_entity_t *entity);
  * @param[in] type   Expected SMBIOS type. Pass `DMI_TYPE_INVALID` to skip
  *                   type checking.
  *
- * @return Pointer to the raw SMBIOS data, or `NULL` if @p entity is `NULL`
+ * @return Pointer to the raw SMBIOS data, or @c nullptr if @p entity is @c nullptr
  *         or the entity type does not match @p type.
  */
 const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type);
@@ -379,7 +402,7 @@ const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type);
  * @param[in] type   Expected SMBIOS type. Pass `DMI_TYPE_INVALID` to skip
  *                   type checking.
  *
- * @return Pointer to the decoded data, or `NULL` if @p entity is `NULL`,
+ * @return Pointer to the decoded data, or @c nullptr if @p entity is @c nullptr,
  *         the entity has not been decoded, or the entity type does not match
  *         @p type.
  */
@@ -398,16 +421,51 @@ void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type);
  * @param[in] raw    If `true`, return the raw (untrimmed) string; if `false`,
  *                   return the trimmed version.
  *
- * @return The requested string, or `NULL` if @p entity is `NULL`, @p num is
+ * @return The requested string, or @c nullptr if @p entity is @c nullptr, @p num is
  *         zero, or @p num exceeds the number of strings in the entity.
  */
 const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool raw);
 
 /**
+ * @internal
+ * @brief Stop decoding at the end of entity data.
+ *
+ * Intended for decoders of structures, which were extended in newer
+ * specification versions. Called when all entity data has been decoded, but
+ * the decoder knows more fields. Marks the entity with
+ * `DMI_ENTITY_STATE_PARTIAL`.
+ *
+ * Entity data must be exhausted. Otherwise, the entity is handled as
+ * incomplete (see `dmi_entity_incomplete`).
+ *
+ * @param[in,out] entity Entity descriptor.
+ *
+ * @return Always `true`, so that it can be returned by the decoder.
+ */
+bool dmi_entity_stop(dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Stop decoding at incomplete set of entity fields.
+ *
+ * Intended for decoders of structures, which were extended in newer
+ * specification versions. Called when entity data ends in the middle of a set
+ * of fields, so the length of entity does not match any specification
+ * version. Fields, which are completely present, should be decoded before
+ * the call. Marks the entity with `DMI_ENTITY_STATE_INCOMPLETE`, and the
+ * remaining data (a part of the next field, if any) is ignored.
+ *
+ * @param[in,out] entity Entity descriptor.
+ *
+ * @return Always `true`, so that it can be returned by the decoder.
+ */
+bool dmi_entity_incomplete(dmi_entity_t *entity);
+
+/**
  * @brief Destroy entity descriptor.
  *
  * Releases all resources associated with the entity, including decoded data,
- * strings, and the entity descriptor itself. If @p entity is `NULL`, this
+ * strings, and the entity descriptor itself. If @p entity is @c nullptr, this
  * function does nothing.
  *
  * @param[in] entity Entity descriptor to destroy.
@@ -425,7 +483,7 @@ __END_DECLS
  * @param[in] entity Entity descriptor.
  * @param[in] num    1-based string index.
  *
- * @return The trimmed string, or `NULL` if @p entity is `NULL`, @p num is
+ * @return The trimmed string, or @c nullptr if @p entity is @c nullptr, @p num is
  *         zero, or @p num exceeds the number of strings in the entity.
  */
 static inline const char *dmi_entity_string(const dmi_entity_t *entity, dmi_string_t num)

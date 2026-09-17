@@ -23,7 +23,7 @@ __BEGIN_DECLS
  * the returned buffer.
  *
  * @param[out] strp    On success, receives a pointer to the newly allocated
- *                     formatted string. On failure, set to `NULL`.
+ *                     formatted string. On failure, set to @c nullptr.
  * @param[in]  format  `printf`-style format string.
  * @param[in]  ...     Arguments for the format string.
  *
@@ -44,7 +44,7 @@ int dmi_asprintf(char **strp, const char *format, ...);
  * caller is responsible for freeing the returned buffer.
  *
  * @param[out] strp    On success, receives a pointer to the newly allocated
- *                     formatted string. On failure, set to `NULL`.
+ *                     formatted string. On failure, set to @c nullptr.
  * @param[in]  format  `printf`-style format string.
  * @param[in]  args    Argument list for the format string.
  *
@@ -61,7 +61,7 @@ int dmi_vasprintf(char **strp, const char *format, va_list args);
  * with its lowercase equivalent using `tolower()`. The string is modified in
  * place; no new buffer is allocated.
  *
- * @param[in,out] str  Null-terminated string to convert. Must not be `NULL`.
+ * @param[in,out] str  Null-terminated string to convert. Must not be @c nullptr.
  */
 void dmi_string_tolower(char *str);
 
@@ -72,7 +72,7 @@ void dmi_string_tolower(char *str);
  * with its uppercase equivalent using `toupper()`. The string is modified in
  * place; no new buffer is allocated.
  *
- * @param[in,out] str  Null-terminated string to convert. Must not be `NULL`.
+ * @param[in,out] str  Null-terminated string to convert. Must not be @c nullptr.
  */
 void dmi_string_toupper(char *str);
 

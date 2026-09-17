@@ -42,7 +42,7 @@ DMI context.
 == Return value
 
 Returns a pointer to the newest `dmi_error_t` removed from the queue, or
-`NULL` if `context` is `NULL` or the error queue is empty.
+`nullptr` if `context` is `nullptr` or the error queue is empty.
 
 == Examples
 
@@ -50,7 +50,7 @@ Returns a pointer to the newest `dmi_error_t` removed from the queue, or
 ```
 dmi_error_t *error;
 
-while ((error = dmi_error_get_last(context)) != NULL) {
+while ((error = dmi_error_get_last(context)) != nullptr) {
     fprintf(stderr, "%s:%d: %s\n",
             error->function,
             error->line,

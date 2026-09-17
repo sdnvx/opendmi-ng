@@ -37,7 +37,7 @@ Entity descriptor.
 
 == Return value
 
-Returns the SMBIOS type of the entity. If `entity` is `NULL`, returns
+Returns the SMBIOS type of the entity. If `entity` is `nullptr`, returns
 `DMI_TYPE_INVALID`.
 
 == See also

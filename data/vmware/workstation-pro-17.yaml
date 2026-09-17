@@ -5,6 +5,8 @@ table:
   type: 0
   length: 86
   level: '3.1'
+  state:
+  - decoded
   description: Platform firmware information
   attributes:
     vendor: VMware, Inc.
@@ -65,6 +67,8 @@ table:
   type: 1
   length: 112
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: VMware, Inc.
@@ -79,6 +83,9 @@ table:
   type: 2
   length: 77
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: Intel Corporation
@@ -100,6 +107,9 @@ table:
   type: 3
   length: 57
   level: '2.3'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: No Enclosure
@@ -122,6 +132,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -156,6 +168,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -190,6 +204,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -224,6 +240,10 @@ table:
   type: 4
   length: 105
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 0
@@ -262,6 +282,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -296,6 +318,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -330,6 +354,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -364,6 +390,10 @@ table:
   type: 4
   length: 105
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 1
@@ -402,6 +432,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -436,6 +468,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -470,6 +504,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -504,6 +540,10 @@ table:
   type: 4
   length: 105
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 2
@@ -542,6 +582,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -576,6 +618,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -610,6 +654,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -644,6 +690,10 @@ table:
   type: 4
   length: 105
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 3
@@ -682,6 +732,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -716,6 +768,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -750,6 +804,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -784,6 +840,10 @@ table:
   type: 4
   length: 105
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 4
@@ -822,6 +882,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -856,6 +918,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -890,6 +954,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -924,6 +990,10 @@ table:
   type: 4
   length: 105
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 5
@@ -962,6 +1032,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -996,6 +1068,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -1030,6 +1104,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -1064,6 +1140,10 @@ table:
   type: 4
   length: 105
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 6
@@ -1102,6 +1182,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 CACHE
@@ -1136,6 +1218,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 CACHE
@@ -1170,6 +1254,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 CACHE
@@ -1204,6 +1290,10 @@ table:
   type: 4
   length: 105
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 7
@@ -1242,6 +1332,10 @@ table:
   type: 4
   length: 73
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 8
@@ -1280,6 +1374,10 @@ table:
   type: 4
   length: 73
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 9
@@ -1318,6 +1416,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 10
@@ -1356,6 +1458,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 11
@@ -1394,6 +1500,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 12
@@ -1432,6 +1542,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 13
@@ -1470,6 +1584,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 14
@@ -1508,6 +1626,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 15
@@ -1546,6 +1668,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 16
@@ -1584,6 +1710,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 17
@@ -1622,6 +1752,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 18
@@ -1660,6 +1794,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 19
@@ -1698,6 +1836,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 20
@@ -1736,6 +1878,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 21
@@ -1774,6 +1920,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 22
@@ -1812,6 +1962,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 23
@@ -1850,6 +2004,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 24
@@ -1888,6 +2046,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 25
@@ -1926,6 +2088,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 26
@@ -1964,6 +2130,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 27
@@ -2002,6 +2172,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 28
@@ -2040,6 +2214,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 29
@@ -2078,6 +2256,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 30
@@ -2116,6 +2298,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 31
@@ -2154,6 +2340,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 32
@@ -2192,6 +2382,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 33
@@ -2230,6 +2424,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 34
@@ -2268,6 +2466,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 35
@@ -2306,6 +2508,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 36
@@ -2344,6 +2550,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 37
@@ -2382,6 +2592,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 38
@@ -2420,6 +2634,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 39
@@ -2458,6 +2676,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 40
@@ -2496,6 +2718,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 41
@@ -2534,6 +2760,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 42
@@ -2572,6 +2802,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 43
@@ -2610,6 +2844,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 44
@@ -2648,6 +2886,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 45
@@ -2686,6 +2928,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 46
@@ -2724,6 +2970,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 47
@@ -2762,6 +3012,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 48
@@ -2800,6 +3054,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 49
@@ -2838,6 +3096,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 50
@@ -2876,6 +3138,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 51
@@ -2914,6 +3180,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 52
@@ -2952,6 +3222,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 53
@@ -2990,6 +3264,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 54
@@ -3028,6 +3306,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 55
@@ -3066,6 +3348,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 56
@@ -3104,6 +3390,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 57
@@ -3142,6 +3432,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 58
@@ -3180,6 +3474,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 59
@@ -3218,6 +3516,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 60
@@ -3256,6 +3558,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 61
@@ -3294,6 +3600,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 62
@@ -3332,6 +3642,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 63
@@ -3370,6 +3684,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 64
@@ -3408,6 +3726,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 65
@@ -3446,6 +3768,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 66
@@ -3484,6 +3810,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 67
@@ -3522,6 +3852,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 68
@@ -3560,6 +3894,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 69
@@ -3598,6 +3936,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 70
@@ -3636,6 +3978,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 71
@@ -3674,6 +4020,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 72
@@ -3712,6 +4062,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 73
@@ -3750,6 +4104,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 74
@@ -3788,6 +4146,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 75
@@ -3826,6 +4188,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 76
@@ -3864,6 +4230,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 77
@@ -3902,6 +4272,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 78
@@ -3940,6 +4314,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 79
@@ -3978,6 +4356,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 80
@@ -4016,6 +4398,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 81
@@ -4054,6 +4440,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 82
@@ -4092,6 +4482,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 83
@@ -4130,6 +4524,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 84
@@ -4168,6 +4566,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 85
@@ -4206,6 +4608,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 86
@@ -4244,6 +4650,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 87
@@ -4282,6 +4692,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 88
@@ -4320,6 +4734,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 89
@@ -4358,6 +4776,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 90
@@ -4396,6 +4818,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 91
@@ -4434,6 +4860,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 92
@@ -4472,6 +4902,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 93
@@ -4510,6 +4944,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 94
@@ -4548,6 +4986,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 95
@@ -4586,6 +5028,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 96
@@ -4624,6 +5070,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 97
@@ -4662,6 +5112,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 98
@@ -4700,6 +5154,10 @@ table:
   type: 4
   length: 74
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 99
@@ -4738,6 +5196,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 100
@@ -4776,6 +5238,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 101
@@ -4814,6 +5280,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 102
@@ -4852,6 +5322,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 103
@@ -4890,6 +5364,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 104
@@ -4928,6 +5406,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 105
@@ -4966,6 +5448,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 106
@@ -5004,6 +5490,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 107
@@ -5042,6 +5532,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 108
@@ -5080,6 +5574,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 109
@@ -5118,6 +5616,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 110
@@ -5156,6 +5658,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 111
@@ -5194,6 +5700,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 112
@@ -5232,6 +5742,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 113
@@ -5270,6 +5784,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 114
@@ -5308,6 +5826,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 115
@@ -5346,6 +5868,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 116
@@ -5384,6 +5910,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 117
@@ -5422,6 +5952,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 118
@@ -5460,6 +5994,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 119
@@ -5498,6 +6036,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 120
@@ -5536,6 +6078,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 121
@@ -5574,6 +6120,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 122
@@ -5612,6 +6162,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 123
@@ -5650,6 +6204,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 124
@@ -5688,6 +6246,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 125
@@ -5726,6 +6288,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 126
@@ -5764,6 +6330,10 @@ table:
   type: 4
   length: 75
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU 127
@@ -5802,6 +6372,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J19
@@ -5813,6 +6385,8 @@ table:
   type: 8
   length: 23
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J23
@@ -5824,6 +6398,8 @@ table:
   type: 8
   length: 23
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J11
@@ -5835,6 +6411,8 @@ table:
   type: 8
   length: 25
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J12
@@ -5846,6 +6424,9 @@ table:
   type: 9
   length: 31
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot J11
@@ -5886,6 +6467,9 @@ table:
   type: 9
   length: 31
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot J12
@@ -5926,6 +6510,9 @@ table:
   type: 9
   length: 31
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot J13
@@ -5966,6 +6553,9 @@ table:
   type: 9
   length: 31
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot J14
@@ -6006,6 +6596,9 @@ table:
   type: 9
   length: 31
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot J15
@@ -6046,6 +6639,9 @@ table:
   type: 9
   length: 31
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCI Slot J16
@@ -6086,6 +6682,8 @@ table:
   type: 10
   length: 31
   level: '2.0'
+  state:
+  - decoded
   description: Onboard devices information
   attributes:
     instance-count: 2
@@ -6100,6 +6698,8 @@ table:
   type: 11
   length: 96
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 2
@@ -6110,6 +6710,9 @@ table:
   type: 16
   length: 25
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Physical memory array
   attributes:
     location: motherboard
@@ -6122,6 +6725,10 @@ table:
   type: 17
   length: 104
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6165,6 +6772,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6208,6 +6819,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6251,6 +6866,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6294,6 +6913,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6337,6 +6960,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6380,6 +7007,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6423,6 +7054,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6466,6 +7101,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6509,6 +7148,10 @@ table:
   type: 17
   length: 65
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6552,6 +7195,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6595,6 +7242,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6638,6 +7289,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6681,6 +7336,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6724,6 +7383,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6767,6 +7430,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6810,6 +7477,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6853,6 +7524,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6896,6 +7571,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6939,6 +7618,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -6982,6 +7665,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7025,6 +7712,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7068,6 +7759,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7111,6 +7806,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7154,6 +7853,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7197,6 +7900,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7240,6 +7947,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7283,6 +7994,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7326,6 +8041,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7369,6 +8088,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7412,6 +8135,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7455,6 +8182,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7498,6 +8229,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7541,6 +8276,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7584,6 +8323,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7627,6 +8370,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7670,6 +8417,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7713,6 +8464,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7756,6 +8511,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7799,6 +8558,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7842,6 +8605,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7885,6 +8652,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7928,6 +8699,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -7971,6 +8746,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8014,6 +8793,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8057,6 +8840,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8100,6 +8887,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8143,6 +8934,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8186,6 +8981,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8229,6 +9028,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8272,6 +9075,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8315,6 +9122,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8358,6 +9169,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8401,6 +9216,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8444,6 +9263,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8487,6 +9310,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8530,6 +9357,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8573,6 +9404,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8616,6 +9451,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8659,6 +9498,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8702,6 +9545,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8745,6 +9592,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8788,6 +9639,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8831,6 +9686,10 @@ table:
   type: 17
   length: 67
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 168
@@ -8874,6 +9733,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -8928,6 +9791,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -8982,6 +9849,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9036,6 +9907,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9090,6 +9965,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9144,6 +10023,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9198,6 +10081,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9252,6 +10139,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9306,6 +10197,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9360,6 +10255,10 @@ table:
   type: 17
   length: 109
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9414,6 +10313,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9468,6 +10371,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9522,6 +10429,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9576,6 +10487,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9630,6 +10545,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9684,6 +10603,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9738,6 +10661,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9792,6 +10719,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9846,6 +10777,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9900,6 +10835,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -9954,6 +10893,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10008,6 +10951,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10062,6 +11009,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10116,6 +11067,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10170,6 +11125,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10224,6 +11183,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10278,6 +11241,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10332,6 +11299,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10386,6 +11357,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10440,6 +11415,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10494,6 +11473,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10548,6 +11531,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10602,6 +11589,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10656,6 +11647,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10710,6 +11705,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10764,6 +11763,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10818,6 +11821,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10872,6 +11879,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10926,6 +11937,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -10980,6 +11995,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11034,6 +12053,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11088,6 +12111,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11142,6 +12169,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11196,6 +12227,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11250,6 +12285,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11304,6 +12343,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11358,6 +12401,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11412,6 +12459,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11466,6 +12517,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11520,6 +12575,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11574,6 +12633,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11628,6 +12691,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11682,6 +12749,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11736,6 +12807,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11790,6 +12865,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11844,6 +12923,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11898,6 +12981,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -11952,6 +13039,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -12006,6 +13097,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -12060,6 +13155,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -12114,6 +13213,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -12168,6 +13271,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -12222,6 +13329,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -12276,6 +13387,10 @@ table:
   type: 17
   length: 111
   level: '3.2'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 0
@@ -12330,6 +13445,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -12343,6 +13460,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -12354,6 +13474,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 1048576
@@ -12365,6 +13488,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -12379,6 +13505,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 1048576
@@ -12393,6 +13522,8 @@ table:
   type: 23
   length: 15
   level: '2.2'
+  state:
+  - decoded
   description: System reset
   attributes:
     is-enabled: true
@@ -12407,6 +13538,8 @@ table:
   type: 24
   length: 7
   level: '2.2'
+  state:
+  - decoded
   description: Hardware security
   attributes:
     front-panel-reset: unknown
@@ -12417,6 +13550,8 @@ table:
   type: 30
   length: 13
   level: '2.2'
+  state:
+  - decoded
   description: Out-of-band remote access
   attributes:
     vendor: Intel
@@ -12427,6 +13562,8 @@ table:
   type: 32
   length: 13
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -12434,6 +13571,8 @@ table:
   type: 33
   length: 33
   level: '2.3'
+  state:
+  - decoded
   description: 64-bit memory error information
   attributes:
     type: ok
@@ -12447,6 +13586,7 @@ table:
   type: 126
   length: 6
   level: null
+  state: []
   description: Inactive
   data: !!binary |
     fgQzAQ==
@@ -12454,4 +13594,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

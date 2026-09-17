@@ -819,85 +819,78 @@ static bool dmi_slot_decode(dmi_entity_t *entity)
     if (not status)
         return false;
 
-    //
-    // SMBIOS 2.1+ features
-    //
-    if (not dmi_stream_is_done(stream)) {
-        entity->level = dmi_version(2, 1, 0);
+    // SMBIOS 2.1 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-        status = dmi_stream_decode(stream, dmi_byte_t, &info->features_ex);
-        if (not status)
+    entity->level = dmi_version(2, 1, 0);
+
+    if (not dmi_stream_decode(stream, dmi_byte_t, &info->features_ex))
+        return dmi_entity_incomplete(entity);
+
+    // SMBIOS 2.6 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(2, 6, 0);
+
+    if (not dmi_pci_addr_decode(stream, &info->base_address))
+        return dmi_entity_incomplete(entity);
+
+    // SMBIOS 3.2 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(3, 2, 0);
+
+    dmi_byte_t peer_group_count = 0;
+
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->base_bus_width) &&
+        dmi_stream_decode(stream, dmi_byte_t, &peer_group_count);
+    if (not status)
+        return dmi_entity_incomplete(entity);
+
+    if (peer_group_count > 0) {
+        info->peer_groups = dmi_alloc_array(entity->context, sizeof(dmi_slot_peer_group_t), peer_group_count);
+        if (info->peer_groups == nullptr)
             return false;
     }
 
-    //
-    // SMBIOS 2.6+ features
-    //
-    if (not dmi_stream_is_done(stream)) {
-        entity->level = dmi_version(2, 6, 0);
-
-        status = dmi_pci_addr_decode(stream, &info->base_address);
-        if (not status)
-            return false;
-    }
-
-    //
-    // SMBIOS 3.2+ features
-    //
-    if (not dmi_stream_is_done(stream)) {
-        entity->level = dmi_version(3, 2, 0);
-
-        status = dmi_stream_decode(stream, dmi_byte_t, &info->base_bus_width);
-        if (not status)
-            return false;
-
-        if (dmi_stream_is_done(stream))
-            return true;
-
-        if (not dmi_stream_decode(stream, dmi_byte_t, &info->peer_group_count))
-            return false;
-
-        if (info->peer_group_count > 0) {
-            info->peer_groups = dmi_alloc_array(entity->context, sizeof(dmi_slot_peer_group_t), info->peer_group_count);
-            if (info->peer_groups == nullptr)
-                return false;
-
-            for (size_t i = 0; i < info->peer_group_count; i++) {
-                dmi_slot_peer_group_t *peer_group = &info->peer_groups[i];
-
-                status =
-                    dmi_pci_addr_decode(stream, &peer_group->address) &&
-                    dmi_stream_decode(stream, dmi_byte_t, &peer_group->bus_width);
-                if (not status)
-                    return false;
-            }
-        }
-    }
-
-    //
-    // SMBIOS 3.4+ features
-    //
-    if (not dmi_stream_is_done(stream)) {
-        entity->level = dmi_version(3, 4, 0);
+    // Only completely present peer groups are counted
+    for (size_t i = 0; i < peer_group_count; i++) {
+        dmi_slot_peer_group_t *peer_group = &info->peer_groups[i];
 
         status =
-            dmi_stream_decode(stream, dmi_byte_t, &info->information) &&
-            dmi_stream_decode(stream, dmi_byte_t, &info->physical_width) &&
-            dmi_stream_decode(stream, dmi_word_t, &info->pitch);
+            dmi_pci_addr_decode(stream, &peer_group->address) &&
+            dmi_stream_decode(stream, dmi_byte_t, &peer_group->bus_width);
         if (not status)
-            return true;
+            return dmi_entity_incomplete(entity);
+
+        info->peer_group_count++;
     }
 
-    //
-    // SMBIOS 3.5+ features
-    //
-    if (not dmi_stream_is_done(stream)) {
-        entity->level = dmi_version(3, 5, 0);
+    // SMBIOS 3.4 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-        status = dmi_stream_decode(stream, dmi_byte_t, &info->height);
-        if (not status)
-            return true;
-    }
+    entity->level = dmi_version(3, 4, 0);
+
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->information) &&
+        dmi_stream_decode(stream, dmi_byte_t, &info->physical_width) &&
+        dmi_stream_decode(stream, dmi_word_t, &info->pitch);
+    if (not status)
+        return dmi_entity_incomplete(entity);
+
+    // SMBIOS 3.5 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
+
+    entity->level = dmi_version(3, 5, 0);
+
+    if (not dmi_stream_decode(stream, dmi_byte_t, &info->height))
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

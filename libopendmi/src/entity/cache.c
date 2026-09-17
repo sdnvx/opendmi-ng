@@ -338,54 +338,77 @@ dmi_size_t dmi_cache_size_ex(uint32_t value)
 static bool dmi_cache_decode(dmi_entity_t *entity)
 {
     dmi_cache_t *info;
-    const dmi_cache_data_t *data;
-
-    data = dmi_entity_data(entity, DMI_TYPE(CACHE));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(CACHE));
     if (info == nullptr)
         return false;
 
-    // SMBIOS 2.0 features
-    info->socket_designator = dmi_entity_string(entity, data->socket_designator);
+    dmi_stream_t *stream = &entity->stream;
+
+    // SMBIOS 2.0 fields
+    dmi_word_t config_value = 0;
+    dmi_word_t maximum_size = 0;
+    dmi_word_t installed_size = 0;
+
+    bool status =
+        dmi_stream_decode_str(stream, &info->socket_designator) and
+        dmi_stream_decode(stream, dmi_word_t, &config_value) and
+        dmi_stream_decode(stream, dmi_word_t, &maximum_size) and
+        dmi_stream_decode(stream, dmi_word_t, &installed_size) and
+        dmi_stream_decode(stream, dmi_word_t, &info->supported_sram.__value) and
+        dmi_stream_decode(stream, dmi_word_t, &info->current_sram.__value);
+    if (not status)
+        return false;
 
     dmi_cache_config_t config = {
-        .__value = dmi_decode(data->config)
+        .__value = config_value
     };
 
-    info->level     = config.level + 1;
-    info->mode      = config.mode;
-    info->location  = config.location;
-    info->socketed  = config.socketed;
-    info->enabled   = config.enabled;
+    info->level          = config.level + 1;
+    info->mode           = config.mode;
+    info->location       = config.location;
+    info->socketed       = config.socketed;
+    info->enabled        = config.enabled;
+    info->maximum_size   = dmi_cache_size(maximum_size);
+    info->installed_size = dmi_cache_size(installed_size);
 
-    info->maximum_size           = dmi_cache_size(dmi_decode(data->maximum_size));
-    info->installed_size         = dmi_cache_size(dmi_decode(data->installed_size));
-    info->supported_sram.__value = dmi_decode(data->supported_sram);
-    info->current_sram.__value   = dmi_decode(data->current_sram);
+    // SMBIOS 2.1 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-    // SMBIOS 2.1 features (single-byte fields at offsets 0x0F-0x12)
-    if (entity->body_length >= 0x13) {
-        entity->level = dmi_version(2, 1, 0);
+    entity->level = dmi_version(2, 1, 0);
 
-        info->type             = dmi_decode(data->type);
-        info->associativity    = dmi_decode(data->associativity);
-        info->speed            = dmi_decode(data->speed);
-        info->error_correction = dmi_decode(data->error_correction);
-    }
+    status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->speed) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->error_correction) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->type) and
+        dmi_stream_decode(stream, dmi_byte_t, &info->associativity);
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
-    // SMBIOS 3.1 features
-    if (entity->body_length > 0x13) {
-        entity->level = dmi_version(3, 1, 0);
+    // SMBIOS 3.1 fields
+    if (dmi_stream_is_done(stream))
+        return dmi_entity_stop(entity);
 
-        // Actual sizes are stored in extended fields at offsets 0x13 and 0x17
-        if ((data->maximum_size == 0xFFFFU) and (entity->body_length >= 0x17))
-            info->maximum_size = dmi_cache_size_ex(dmi_decode(data->maximum_size_ex));
-        if ((data->installed_size == 0xFFFFU) and (entity->body_length >= 0x1B))
-            info->installed_size = dmi_cache_size_ex(dmi_decode(data->installed_size_ex));
-    }
+    entity->level = dmi_version(3, 1, 0);
+
+    // Actual sizes are stored in extended fields
+    dmi_dword_t maximum_size_ex = 0;
+    dmi_dword_t installed_size_ex = 0;
+
+    bool has_maximum_size_ex = dmi_stream_decode(stream, dmi_dword_t, &maximum_size_ex);
+
+    status =
+        has_maximum_size_ex and
+        dmi_stream_decode(stream, dmi_dword_t, &installed_size_ex);
+
+    if (has_maximum_size_ex and (maximum_size == 0xFFFFu))
+        info->maximum_size = dmi_cache_size_ex(maximum_size_ex);
+    if (status and (installed_size == 0xFFFFu))
+        info->installed_size = dmi_cache_size_ex(installed_size_ex);
+
+    if (not status)
+        return dmi_entity_incomplete(entity);
 
     return true;
 }

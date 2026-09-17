@@ -45,13 +45,13 @@ Error reason code.
 
 == Return value
 
-Returns `true` on success. Returns `false` if `context` is `NULL`.
+Returns `true` on success. Returns `false` if `context` is `nullptr`.
 
 == Examples
 
 [source, c]
 ```
-if (ptr == NULL) {
+if (ptr == nullptr) {
     dmi_error_raise(context, DMI_ERROR_NULL_ARGUMENT);
     return false;
 }

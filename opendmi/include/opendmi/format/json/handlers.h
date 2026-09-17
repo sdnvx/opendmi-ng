@@ -15,7 +15,7 @@
 
 __BEGIN_DECLS
 
-void *dmi_json_initialize(dmi_context_t *context, FILE *stream);
+void *dmi_json_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options);
 
 bool dmi_json_dump_start(dmi_json_session_t *session);
 bool dmi_json_entry(dmi_json_session_t *session);

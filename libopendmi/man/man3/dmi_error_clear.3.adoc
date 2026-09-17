@@ -28,7 +28,7 @@ void dmi_error_clear(dmi_context_t *context);
 
 The `dmi_error_clear` function removes all error descriptors from the error
 queue of `context`, freeing any associated message strings. After the call the
-queue is empty. If `context` is `NULL`, the function does nothing.
+queue is empty. If `context` is `nullptr`, the function does nothing.
 
 === Parameters
 

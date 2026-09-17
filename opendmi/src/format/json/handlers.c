@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <limits.h>
 #include <assert.h>
 
 #include <opendmi/context.h>
@@ -15,7 +16,7 @@
 #include <opendmi/format/json/handlers.h>
 #include <opendmi/format/json/helpers.h>
 
-void *dmi_json_initialize(dmi_context_t *context, FILE *stream)
+void *dmi_json_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options)
 {
     assert(context != nullptr);
     assert(stream != nullptr);
@@ -59,6 +60,10 @@ void *dmi_json_initialize(dmi_context_t *context, FILE *stream)
 
     session->context = context;
     session->stream  = stream;
+
+    // Default options are used if not specified
+    if (options != nullptr)
+        session->options = *options;
 
     return session;
 }
@@ -139,12 +144,29 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
         dmi_json_scalar(session, entity->total_length) and
         dmi_json_label(session, "level") and
         dmi_json_scalar(session, entity_level) and
-        dmi_json_label(session, "description") and
-        dmi_json_scalar(session, entity_description);
+        dmi_json_label(session, "state") and
+        dmi_json_sequence_start(session);
 
     dmi_free(entity_level);
 
-    return result;
+    if (not result)
+        return false;
+
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
+
+    dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
+                              sizeof(entity->state) * CHAR_BIT);
+
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        if (flag->value and not dmi_json_scalar(session, flag->code))
+            return false;
+    }
+
+    return
+        dmi_json_sequence_end(session) and
+        dmi_json_label(session, "description") and
+        dmi_json_scalar(session, entity_description);
 }
 
 bool dmi_json_entity_attrs_start(dmi_json_session_t *session, const dmi_entity_t *entity)

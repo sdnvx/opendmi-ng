@@ -29,21 +29,23 @@ dmi_packed_union(dmi_memory_module_type)
 
     dmi_packed_struct()
     {
-        bool is_other      : 1; ///< Other
-        bool is_unknown    : 1; ///< Unknown
-        bool is_standard   : 1; ///< Standard
-        bool is_fast_page  : 1; ///< Fast page mode
-        bool is_edo        : 1; ///< EDO
-        bool has_parity    : 1; ///< Parity
-        bool has_ecc       : 1; ///< ECC
-        bool is_simm       : 1; ///< SIMM
-        bool is_dimm       : 1; ///< DIMM
-        bool is_burst_edo  : 1; ///< Burst EDO
-        bool is_sdram      : 1; ///< SDRAM
+        dmi_word_t is_other      : 1; ///< Other
+        dmi_word_t is_unknown    : 1; ///< Unknown
+        dmi_word_t is_standard   : 1; ///< Standard
+        dmi_word_t is_fast_page  : 1; ///< Fast page mode
+        dmi_word_t is_edo        : 1; ///< EDO
+        dmi_word_t has_parity    : 1; ///< Parity
+        dmi_word_t has_ecc       : 1; ///< ECC
+        dmi_word_t is_simm       : 1; ///< SIMM
+        dmi_word_t is_dimm       : 1; ///< DIMM
+        dmi_word_t is_burst_edo  : 1; ///< Burst EDO
+        dmi_word_t is_sdram      : 1; ///< SDRAM
 
         dmi_word_t __reserved : 5;
     };
 };
+
+dmi_static_assert_value_union(dmi_memory_module_type);
 
 /**
  * @brief Memory module error status.
@@ -59,19 +61,19 @@ dmi_packed_union(dmi_memory_module_error)
          * a portion of the module has been disabled. This bit is only reset on
          * power-on.
          */
-        bool has_uncorrectable : 1;
+        dmi_byte_t has_uncorrectable : 1;
 
         /**
          * @brief Correctable errors received for the module, if set. This bit
          * is reset only during a system reset.
          */
-        bool has_correctable : 1;
+        dmi_byte_t has_correctable : 1;
 
         /**
          * @brief If set, the error status information should be obtained from
          * the event log; bits 1and 0 are reserved.
          */
-        bool has_event_log : 1;
+        dmi_byte_t has_event_log : 1;
 
         /**
          * @brief Reserved, set to zero.
@@ -79,6 +81,8 @@ dmi_packed_union(dmi_memory_module_error)
         dmi_byte_t __reserved : 5;
     };
 };
+
+dmi_static_assert_value_union(dmi_memory_module_error);
 
 typedef enum dmi_memory_module_size_status
 {

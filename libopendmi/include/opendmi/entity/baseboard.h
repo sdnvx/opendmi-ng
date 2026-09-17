@@ -12,7 +12,6 @@
 #include <opendmi/entity.h>
 
 typedef struct dmi_baseboard          dmi_baseboard_t;
-typedef struct dmi_baseboard_data     dmi_baseboard_data_t;
 typedef union  dmi_baseboard_features dmi_baseboard_features_t;
 
 /**
@@ -53,27 +52,27 @@ dmi_packed_union(dmi_baseboard_features)
          * @brief Set to `true` if the board is a hosting board (for example, a
          * motherboard).
          */
-        bool is_hosting_board : 1;
+        dmi_byte_t is_hosting_board : 1;
 
         /**
          * @brief Set to `true` if the board requires at least one daughter board
          * or auxiliary card to function properly.
          */
-        bool require_daughter_board : 1;
+        dmi_byte_t require_daughter_board : 1;
 
         /**
          * @brief Set to `true` if the board is removable. It is designed to be
          * taken in and out of the chassis without impairing the function of the
          * chassis.
          */
-        bool is_removable : 1;
+        dmi_byte_t is_removable : 1;
 
         /**
          * @brief Set to `true` if the board is replaceable. It is possible to
          * replace (either as a field repair or as an upgrade) the board with a
          * physically different board. The board is inherently removable.
          */
-        bool is_replaceable : 1;
+        dmi_byte_t is_replaceable : 1;
 
         /**
          * @brief Set to `true` if the board is hot swappable; it is possible to
@@ -81,7 +80,7 @@ dmi_packed_union(dmi_baseboard_features)
          * power is applied to the board. The board is inherently replaceable and
          * removable.
          */
-        bool is_hot_swappable : 1;
+        dmi_byte_t is_hot_swappable : 1;
 
         /**
          * @brief Reserved for future definition by SMBIOS specification, set to 0.
@@ -89,6 +88,8 @@ dmi_packed_union(dmi_baseboard_features)
         dmi_byte_t __reserved : 3;
     };
 };
+
+dmi_static_assert_value_union(dmi_baseboard_features);
 
 /**
  * @brief Baseboard or module information structure (type 2).
@@ -106,73 +107,6 @@ dmi_packed_union(dmi_baseboard_features)
  * provided, all system elements identified by the SMBIOS implementation are
  * associated with a single motherboard.
  */
-dmi_packed_struct(dmi_baseboard_data)
-{
-    /**
-     * @brief SMBIOS structure header.
-     */
-    dmi_header_t header;
-
-    /**
-     * @brief Manufacturer name.
-     */
-    dmi_string_t vendor;
-
-    /**
-     * @brief Product name.
-     */
-    dmi_string_t product;
-
-    /**
-     * @brief Product version.
-     */
-    dmi_string_t version;
-
-    /**
-     * @brief Serial number.
-     */
-    dmi_string_t serial_number;
-
-    /**
-     * @brief Asset tag.
-     */
-    dmi_string_t asset_tag;
-
-    /**
-     * @brief Collection of flags that identify features of this baseboard.
-     */
-    dmi_byte_t features;
-
-    /**
-     * @brief Number of a null-terminated string that describes this board's
-     * location within the chassis referenced by the chassis handle.
-     */
-    dmi_string_t location;
-
-    /**
-     * @brief Handle, or instance number, associated with the chassis in which
-     * this board resides.
-     */
-    dmi_handle_t chassis_handle;
-
-    /**
-     * @brief Type of board.
-     */
-    dmi_byte_t type;
-
-    /**
-     * @brief Number (0 to 255) of contained object handles that follow.
-     */
-    dmi_byte_t object_count;
-
-    /**
-     * @brief List of handles of other structures (for example, baseboard,
-     * processor, port, system slots, memory device) that are contained by
-     * this baseboard.
-     */
-    dmi_handle_t object_handles[];
-};
-
 struct dmi_baseboard
 {
     /**
@@ -260,7 +194,7 @@ __BEGIN_DECLS
  * Returns the human-readable name of the baseboard type.
  *
  * @param[in] value Baseboard type value.
- * @return The baseboard type name string, or `NULL` if @p value is out of
+ * @return The baseboard type name string, or @c nullptr if @p value is out of
  * range.
  */
 const char *dmi_baseboard_type_name(dmi_baseboard_type_t value);

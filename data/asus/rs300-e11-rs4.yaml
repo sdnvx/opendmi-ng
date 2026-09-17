@@ -5,6 +5,8 @@ table:
   type: 0
   length: 68
   level: '3.1'
+  state:
+  - decoded
   description: Platform firmware information
   attributes:
     vendor: American Megatrends Inc.
@@ -65,6 +67,8 @@ table:
   type: 1
   length: 97
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: ASUSTeK COMPUTER INC.
@@ -79,6 +83,9 @@ table:
   type: 2
   length: 105
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: ASUSTeK COMPUTER INC.
@@ -100,6 +107,9 @@ table:
   type: 3
   length: 92
   level: '2.7'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: ASUSTeK COMPUTER INC.
@@ -123,6 +133,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: 'NULL'
@@ -134,6 +146,8 @@ table:
   type: 8
   length: 31
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: 'NULL'
@@ -145,6 +159,8 @@ table:
   type: 8
   length: 31
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: 'NULL'
@@ -156,6 +172,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: 'NULL'
@@ -167,6 +185,8 @@ table:
   type: 8
   length: 25
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: 'NULL'
@@ -178,6 +198,8 @@ table:
   type: 8
   length: 25
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: 'NULL'
@@ -189,6 +211,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: 'NULL'
@@ -200,6 +224,8 @@ table:
   type: 8
   length: 21
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: 'NULL'
@@ -211,6 +237,8 @@ table:
   type: 10
   length: 48
   level: '2.0'
+  state:
+  - decoded
   description: Onboard devices information
   attributes:
     instance-count: 3
@@ -228,6 +256,8 @@ table:
   type: 11
   length: 96
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 6
@@ -242,6 +272,8 @@ table:
   type: 12
   length: 21
   level: '2.0'
+  state:
+  - decoded
   description: System configuration options
   attributes:
     options:
@@ -250,6 +282,8 @@ table:
   type: 32
   length: 22
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -257,6 +291,8 @@ table:
   type: 34
   length: 19
   level: '2.3'
+  state:
+  - decoded
   description: Management device
   attributes:
     description: LM78-1
@@ -267,6 +303,8 @@ table:
   type: 26
   length: 29
   level: '2.2'
+  state:
+  - decoded
   description: Voltage probe
   attributes:
     description: LM78A
@@ -283,6 +321,8 @@ table:
   type: 36
   length: 18
   level: '2.3'
+  state:
+  - decoded
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -295,6 +335,9 @@ table:
   type: 35
   length: 27
   level: '2.3'
+  state:
+  - decoded
+  - linked
   description: Management device component
   attributes:
     description: Default string
@@ -305,6 +348,8 @@ table:
   type: 28
   length: 29
   level: '2.2'
+  state:
+  - decoded
   description: Temperature probe
   attributes:
     description: LM78A
@@ -321,6 +366,8 @@ table:
   type: 36
   length: 18
   level: '2.3'
+  state:
+  - decoded
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -333,6 +380,9 @@ table:
   type: 35
   length: 27
   level: '2.3'
+  state:
+  - decoded
+  - linked
   description: Management device component
   attributes:
     description: Default string
@@ -343,6 +393,9 @@ table:
   type: 27
   length: 30
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Cooling device
   attributes:
     probe-handle: 20
@@ -356,6 +409,8 @@ table:
   type: 36
   length: 18
   level: '2.3'
+  state:
+  - decoded
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -368,6 +423,9 @@ table:
   type: 35
   length: 27
   level: '2.3'
+  state:
+  - decoded
+  - linked
   description: Management device component
   attributes:
     description: Default string
@@ -378,6 +436,9 @@ table:
   type: 27
   length: 17
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Cooling device
   attributes:
     probe-handle: 20
@@ -391,6 +452,8 @@ table:
   type: 36
   length: 18
   level: '2.3'
+  state:
+  - decoded
   description: Management device threshold data
   attributes:
     lower-non-critical: 1
@@ -403,6 +466,9 @@ table:
   type: 35
   length: 27
   level: '2.3'
+  state:
+  - decoded
+  - linked
   description: Management device component
   attributes:
     description: Default string
@@ -413,6 +479,8 @@ table:
   type: 29
   length: 27
   level: '2.2'
+  state:
+  - decoded
   description: Electrical current probe
   attributes:
     description: ABC
@@ -429,6 +497,8 @@ table:
   type: 36
   length: 18
   level: '2.3'
+  state:
+  - decoded
   description: Management device threshold data
   attributes:
     lower-non-critical: unknown
@@ -441,6 +511,9 @@ table:
   type: 35
   length: 27
   level: '2.3'
+  state:
+  - decoded
+  - linked
   description: Management device component
   attributes:
     description: Default string
@@ -451,6 +524,8 @@ table:
   type: 26
   length: 29
   level: '2.2'
+  state:
+  - decoded
   description: Voltage probe
   attributes:
     description: LM78A
@@ -467,6 +542,8 @@ table:
   type: 28
   length: 29
   level: '2.2'
+  state:
+  - decoded
   description: Temperature probe
   attributes:
     description: LM78A
@@ -483,6 +560,9 @@ table:
   type: 27
   length: 30
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Cooling device
   attributes:
     probe-handle: 33
@@ -496,6 +576,8 @@ table:
   type: 29
   length: 27
   level: '2.2'
+  state:
+  - decoded
   description: Electrical current probe
   attributes:
     description: ABC
@@ -512,6 +594,9 @@ table:
   type: 39
   length: 184
   level: 2.3.1
+  state:
+  - decoded
+  - linked
   description: System power supply
   attributes:
     group: 1
@@ -536,6 +621,8 @@ table:
   type: 41
   length: 24
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: ASPEED 2600
@@ -551,6 +638,8 @@ table:
   type: 41
   length: 26
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: Intel I210-AT
@@ -566,6 +655,8 @@ table:
   type: 41
   length: 26
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: Intel I210-AT
@@ -581,6 +672,7 @@ table:
   type: 44
   length: 11
   level: '2.0'
+  state: []
   description: Processor additional information
   data: !!binary |
     LAkoAP//AQEA
@@ -588,6 +680,8 @@ table:
   type: 42
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Management controller host interface
   attributes:
     if-type: keyboard-controller-style
@@ -595,6 +689,8 @@ table:
   type: 40
   length: 49
   level: '2.6'
+  state:
+  - decoded
   description: Additional information
   attributes:
     entries:
@@ -608,6 +704,9 @@ table:
   type: 16
   length: 25
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Physical memory array
   attributes:
     location: motherboard
@@ -620,6 +719,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -631,6 +733,8 @@ table:
   type: 15
   length: 75
   level: '2.1'
+  state:
+  - decoded
   description: System event log
   attributes:
     access-method: memory-mapped-32bit-address
@@ -641,6 +745,10 @@ table:
   type: 17
   length: 158
   level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 56
@@ -695,6 +803,10 @@ table:
   type: 17
   length: 119
   level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 56
@@ -749,6 +861,10 @@ table:
   type: 17
   length: 158
   level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 56
@@ -803,6 +919,10 @@ table:
   type: 17
   length: 119
   level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 56
@@ -857,6 +977,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -871,6 +994,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 17179869184
@@ -885,6 +1011,7 @@ table:
   type: 221
   length: 78
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     3RpFAAMBAAsBNGAAAgAAAABZAAMAAQ4uAAA=
@@ -896,6 +1023,7 @@ table:
   type: 221
   length: 93
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     3RpGAAMBAAsBNGAAAgAAAAAAAAMEAAAAAAA=
@@ -908,6 +1036,7 @@ table:
   type: 221
   length: 173
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     3S9HAAYBAAsBNGAAAgP//////wQA////EQAFAP///xEABgD//////wcABAAAAAA=
@@ -923,6 +1052,7 @@ table:
   type: 221
   length: 361
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     3VJIAAsBAAsBNGAAAgAABGGEAAMACwE0YAAEBf//////BgAAAAABAAcAAAAAAQAIAP//////CQD/
@@ -944,6 +1074,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -978,6 +1110,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -1012,6 +1146,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -1046,6 +1182,8 @@ table:
   type: 7
   length: 37
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 Cache
@@ -1080,6 +1218,10 @@ table:
   type: 4
   length: 182
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU
@@ -1118,6 +1260,7 @@ table:
   type: 221
   length: 323
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     3VJPAAsBAP//////AgD//////wME//////8FBv//////Bwj//////wkAAAAAAAAKAP//////CwD/
@@ -1141,6 +1284,9 @@ table:
   type: 9
   length: 32
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIEX16_7-f00
@@ -1181,6 +1327,9 @@ table:
   type: 9
   length: 32
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIEX16_7-f01
@@ -1221,6 +1370,9 @@ table:
   type: 9
   length: 27
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: PCIEX8_4
@@ -1261,6 +1413,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: M.2_1
@@ -1301,6 +1456,8 @@ table:
   type: 38
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: IPMI device information
   attributes:
     interface-type: kcs
@@ -1318,6 +1475,8 @@ table:
   type: 32
   length: 13
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -1325,6 +1484,8 @@ table:
   type: 13
   length: 39
   level: '2.0'
+  state:
+  - decoded
   description: Firmware language information
   attributes:
     languages:
@@ -1336,6 +1497,7 @@ table:
   type: 136
   length: 10
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     iAhXAAAAAAA=
@@ -1343,6 +1505,7 @@ table:
   type: 136
   length: 8
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     iAZYAAAA
@@ -1350,6 +1513,9 @@ table:
   type: 14
   length: 43
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Group associations
   attributes:
     group-name: Firmware Version Info
@@ -1368,4 +1534,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

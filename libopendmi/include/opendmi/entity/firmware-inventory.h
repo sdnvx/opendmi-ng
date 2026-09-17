@@ -143,12 +143,12 @@ dmi_packed_union(dmi_firmware_inventory_features)
         /**
          * @brief Updatable: This firmware can be updated by software.
          */
-        bool is_updatable : 1;
+        dmi_word_t is_updatable : 1;
 
         /**
          * @brief Write-protect: This firmware is in a write-protected state.
          */
-        bool is_write_protected : 1;
+        dmi_word_t is_write_protected : 1;
 
         /**
          * @brief Reserved for future user.
@@ -156,6 +156,8 @@ dmi_packed_union(dmi_firmware_inventory_features)
         dmi_word_t __reserved : 14;
     };
 };
+
+dmi_static_assert_value_union(dmi_firmware_inventory_features);
 
 /**
  * @brief Firmware inventory component.
@@ -168,7 +170,7 @@ struct dmi_firmware_inventory_component
     dmi_handle_t handle;
 
     /**
-     * @brief Component entity (may be `NULL` in case of invalid handles etc).
+     * @brief Component entity (may be @c nullptr in case of invalid handles etc).
      */
     dmi_entity_t *entity;
 };
@@ -280,7 +282,7 @@ __BEGIN_DECLS
  *
  * @param[in] value Version format value.
  *
- * @return The version format name string, or `NULL` if @p value is out of
+ * @return The version format name string, or @c nullptr if @p value is out of
  * range.
  */
 const char *dmi_version_format_name(dmi_version_format_t value);
@@ -292,7 +294,7 @@ const char *dmi_version_format_name(dmi_version_format_t value);
  *
  * @param[in] value Firmware identifier format value.
  *
- * @return The firmware identifier format name string, or `NULL` if @p value is
+ * @return The firmware identifier format name string, or @c nullptr if @p value is
  * out of range.
  */
 const char *dmi_firmware_ident_format_name(dmi_firmware_ident_format_t value);
@@ -304,7 +306,7 @@ const char *dmi_firmware_ident_format_name(dmi_firmware_ident_format_t value);
  *
  * @param[in] value Firmware inventory state value.
  *
- * @return The firmware inventory state name string, or `NULL` if @p value is
+ * @return The firmware inventory state name string, or @c nullptr if @p value is
  * out of range.
  */
 const char *dmi_firmware_inventory_state_name(dmi_firmware_inventory_state_t value);

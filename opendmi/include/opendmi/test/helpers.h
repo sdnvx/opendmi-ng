@@ -20,7 +20,7 @@ __BEGIN_DECLS
  * sets is only accessible via the first one. Every duplicate short or long
  * name is reported to the standard error stream.
  *
- * @param[in] options Option sets, terminated by `nullptr`.
+ * @param[in] options Option sets, terminated by @c nullptr.
  *
  * @return Number of duplicate option names.
  */

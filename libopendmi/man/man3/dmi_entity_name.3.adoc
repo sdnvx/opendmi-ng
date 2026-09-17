@@ -38,8 +38,8 @@ Entity descriptor.
 == Return value
 
 Returns a pointer to a string containing the type name. The returned string
-must not be modified or freed by the caller. If `entity` is `NULL`, returns
-`NULL`.
+must not be modified or freed by the caller. If `entity` is `nullptr`, returns
+`nullptr`.
 
 == See also
 

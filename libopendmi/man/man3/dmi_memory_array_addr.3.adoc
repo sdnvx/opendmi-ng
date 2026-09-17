@@ -59,7 +59,7 @@ array.
 
 `array`::
 Physical memory array to which this address range is mapped. Multiple address
-ranges can be mapped to a single physical memory array. May be `NULL` when the
+ranges can be mapped to a single physical memory array. May be `nullptr` when the
 memory array handle is incorrect (e.g. due to SMBIOS data errors).
 
 `partition_width`::

@@ -37,13 +37,13 @@ Entity descriptor.
 
 `type`::
 Expected SMBIOS structure type. If the entity's type does not match, the
-function returns `NULL` and raises an error. Pass `DMI_TYPE_INVALID` to skip
+function returns `nullptr` and raises an error. Pass `DMI_TYPE_INVALID` to skip
 type checking.
 
 == Return value
 
 Returns a pointer to the raw SMBIOS structure data. The returned pointer must
-not be modified or freed by the caller. Returns `NULL` if `entity` is `NULL`
+not be modified or freed by the caller. Returns `nullptr` if `entity` is `nullptr`
 or the entity type does not match `type`.
 
 == Errors

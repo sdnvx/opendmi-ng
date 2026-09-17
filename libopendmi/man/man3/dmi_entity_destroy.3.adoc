@@ -30,7 +30,7 @@ The `dmi_entity_destroy` function releases all resources associated with the
 given entity descriptor, including the decoded structure data, the string
 table, and the entity descriptor itself.
 
-If `entity` is `NULL`, this function does nothing.
+If `entity` is `nullptr`, this function does nothing.
 
 If a type-specific cleanup handler is registered and decoded data is present,
 the cleanup handler is invoked before freeing the decoded data.
@@ -38,7 +38,7 @@ the cleanup handler is invoked before freeing the decoded data.
 === Parameters
 
 `entity`::
-Entity descriptor to destroy, or `NULL`.
+Entity descriptor to destroy, or `nullptr`.
 
 == Return value
 

@@ -51,6 +51,7 @@ const dmi_command_t dmi_list_command =
     .name        = "list",
     .description = "List SMBIOS structures",
     .options     = dmi_options(&dmi_list_options, &dmi_filter_options),
+    .flags       = DMI_COMMAND_FLAG_PAGER,
     .handlers    = {
         .usage = dmi_list_usage,
         .main  = dmi_list_main

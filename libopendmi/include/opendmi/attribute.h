@@ -73,7 +73,7 @@ struct dmi_attribute_params
 
     /**
      * @brief Measurement units. Valid only for integer or decimal values,
-     * should be set to `nullptr` in other cases.
+     * should be set to @c nullptr in other cases.
      */
     const char *unit;
 
@@ -155,13 +155,13 @@ __BEGIN_DECLS
  * - If `attr->params.unspec` is set, the value is compared byte-for-byte
  *   against it.
  * - For `DMI_ATTRIBUTE_TYPE_STRING` without a sentinel: the value is
- *   considered unspecified when the string pointer is @c NULL.
+ *   considered unspecified when the string pointer is @c nullptr.
  * - For `DMI_ATTRIBUTE_TYPE_HANDLE` without a sentinel: the value is
  *   considered unspecified when the handle equals `DMI_HANDLE_INVALID`.
  * - For all other types without a sentinel: always returns @c false.
  *
- * @param attr  Attribute descriptor; must not be @c NULL.
- * @param value Pointer to the value to check; must not be @c NULL.
+ * @param attr  Attribute descriptor; must not be @c nullptr.
+ * @param value Pointer to the value to check; must not be @c nullptr.
  * @return @c true if the value represents an unspecified state, @c false
  *         otherwise.
  */
@@ -174,8 +174,8 @@ bool dmi_attribute_is_unspecified(const dmi_attribute_t *attr, const void *value
  * `attr->params.unknown`. If no unknown sentinel is configured, always
  * returns @c false.
  *
- * @param attr  Attribute descriptor; must not be @c NULL.
- * @param value Pointer to the value to check; must not be @c NULL.
+ * @param attr  Attribute descriptor; must not be @c nullptr.
+ * @param value Pointer to the value to check; must not be @c nullptr.
  * @return @c true if the value matches the unknown sentinel, @c false
  *         otherwise.
  */
@@ -185,7 +185,7 @@ bool dmi_attribute_is_unknown(const dmi_attribute_t *attr, const void *value);
  * @brief Reads a boolean attribute value.
  *
  * @param attr  Attribute descriptor (unused).
- * @param value Pointer to the value to read; must not be @c NULL.
+ * @param value Pointer to the value to read; must not be @c nullptr.
  * @return The boolean value at @p value.
  */
 bool dmi_attribute_get_bool(const dmi_attribute_t *attr, const void *value);
@@ -196,8 +196,8 @@ bool dmi_attribute_get_bool(const dmi_attribute_t *attr, const void *value);
  * Interprets the bytes at @p value as a signed integer whose width is
  * determined by `attr->value.size` (1, 2, 4, or 8 bytes).
  *
- * @param attr  Attribute descriptor; must not be @c NULL.
- * @param value Pointer to the value to read; must not be @c NULL.
+ * @param attr  Attribute descriptor; must not be @c nullptr.
+ * @param value Pointer to the value to read; must not be @c nullptr.
  * @return The signed integer value widened to `intmax_t`, or `INTMAX_MAX` if
  *         `attr->value.size` does not match any supported width.
  */
@@ -209,8 +209,8 @@ intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void *value);
  * Interprets the bytes at @p value as an unsigned integer whose width is
  * determined by `attr->value.size` (1, 2, 4, or 8 bytes).
  *
- * @param attr  Attribute descriptor; must not be @c NULL.
- * @param value Pointer to the value to read; must not be @c NULL.
+ * @param attr  Attribute descriptor; must not be @c nullptr.
+ * @param value Pointer to the value to read; must not be @c nullptr.
  * @return The unsigned integer value widened to `uintmax_t`, or `UINTMAX_MAX`
  *         if `attr->value.size` does not match any supported width.
  */
@@ -223,8 +223,8 @@ uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value)
  * integer whose width is determined by `attr->counter.size` (1, 2, 4, or 8
  * bytes).
  *
- * @param attr Attribute descriptor; must not be @c NULL.
- * @param info Pointer to the decoded entity data; must not be @c NULL.
+ * @param attr Attribute descriptor; must not be @c nullptr.
+ * @param info Pointer to the decoded entity data; must not be @c nullptr.
  * @return The number of array elements, or zero if the attribute has no
  *         counter or its width is not supported.
  */
@@ -242,11 +242,11 @@ size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
  * The caller is responsible for freeing the returned string.
  *
  * @param context   DMI context used for error reporting.
- * @param attribute Attribute descriptor; must not be @c NULL.
- * @param value     Pointer to the value to format; must not be @c NULL.
+ * @param attribute Attribute descriptor; must not be @c nullptr.
+ * @param value     Pointer to the value to format; must not be @c nullptr.
  * @param pretty    @c true for human-readable output, @c false for
  *                  machine-readable output.
- * @return A newly allocated null-terminated string, or @c NULL if the
+ * @return A newly allocated null-terminated string, or @c nullptr if the
  *         attribute type has no formatter or memory allocation fails.
  */
 char *dmi_attribute_format(

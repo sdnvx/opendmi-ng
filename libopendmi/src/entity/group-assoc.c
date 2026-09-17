@@ -74,7 +74,11 @@ static bool dmi_group_assoc_decode(dmi_entity_t *entity)
     if (not dmi_stream_decode_str(stream, &info->group_name))
         return false;
 
-    info->item_count = (entity->body_length - 5) / 3;
+    // Number of items is determined by the structure length
+    size_t remaining = dmi_stream_remaining(stream);
+    size_t item_size = sizeof(dmi_byte_t) + sizeof(dmi_handle_t);
+
+    info->item_count = remaining / item_size;
 
     info->items = dmi_alloc_array(entity->context, sizeof(dmi_group_assoc_item_t), info->item_count);
     if (info->items == nullptr)
@@ -92,7 +96,14 @@ static bool dmi_group_assoc_decode(dmi_entity_t *entity)
             break;
     }
 
-    return status;
+    if (not status)
+        return false;
+
+    // Remaining bytes do not form a complete item
+    if (not dmi_stream_is_done(stream))
+        return dmi_entity_incomplete(entity);
+
+    return true;
 }
 
 static bool dmi_group_assoc_link(dmi_entity_t *entity)

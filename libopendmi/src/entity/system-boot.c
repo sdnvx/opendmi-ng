@@ -4,8 +4,6 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <memory.h>
-
 #include <opendmi/context.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
@@ -128,21 +126,24 @@ const dmi_entity_spec_t dmi_system_boot_spec =
 static bool dmi_system_boot_decode(dmi_entity_t *entity)
 {
     dmi_system_boot_t *info;
-    const dmi_system_boot_data_t *data;
-
-    data = dmi_entity_data(entity, DMI_TYPE(SYSTEM_BOOT));
-    if (data == nullptr)
-        return false;
 
     info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_BOOT));
     if (info == nullptr)
         return false;
 
-    size_t status_data_length = entity->body_length - 10;
+    dmi_stream_t *stream = &entity->stream;
+
+    // Reserved bytes
+    if (not dmi_stream_skip(stream, 6 * sizeof(dmi_byte_t)))
+        return false;
+
+    // Boot status data has variable length, only the first bytes are kept
+    size_t status_data_length = dmi_stream_remaining(stream);
     if (status_data_length > countof(info->status_data))
         status_data_length = countof(info->status_data);
 
-    memcpy(info->status_data, data->status, status_data_length);
+    if (not dmi_stream_read_data(stream, info->status_data, status_data_length))
+        return false;
 
     info->status = info->status_data[0];
 

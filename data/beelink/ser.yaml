@@ -5,6 +5,8 @@ table:
   type: 0
   length: 87
   level: '3.1'
+  state:
+  - decoded
   description: Platform firmware information
   attributes:
     vendor: American Megatrends International, LLC.
@@ -65,6 +67,8 @@ table:
   type: 1
   length: 95
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: AZW
@@ -79,6 +83,9 @@ table:
   type: 2
   length: 74
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: AZW
@@ -100,6 +107,9 @@ table:
   type: 3
   length: 98
   level: '2.7'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: Default string
@@ -123,6 +133,8 @@ table:
   type: 10
   length: 33
   level: '2.0'
+  state:
+  - decoded
   description: Onboard devices information
   attributes:
     instance-count: 1
@@ -134,6 +146,8 @@ table:
   type: 11
   length: 21
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 1
@@ -143,6 +157,8 @@ table:
   type: 12
   length: 21
   level: '2.0'
+  state:
+  - decoded
   description: System configuration options
   attributes:
     options:
@@ -151,6 +167,8 @@ table:
   type: 32
   length: 22
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -158,6 +176,7 @@ table:
   type: 44
   length: 11
   level: '2.0'
+  state: []
   description: Processor additional information
   data: !!binary |
     LAkIAP//AQEA
@@ -165,6 +184,8 @@ table:
   type: 43
   length: 44
   level: '2.0'
+  state:
+  - decoded
   description: TPM device
   attributes:
     specification-version: '2.0'
@@ -180,6 +201,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -193,6 +216,9 @@ table:
   type: 16
   length: 25
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Physical memory array
   attributes:
     location: motherboard
@@ -205,6 +231,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -216,6 +245,8 @@ table:
   type: 7
   length: 39
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L1 - Cache
@@ -250,6 +281,8 @@ table:
   type: 7
   length: 39
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L2 - Cache
@@ -284,6 +317,8 @@ table:
   type: 7
   length: 39
   level: '3.1'
+  state:
+  - decoded
   description: Cache information
   attributes:
     socket-designator: L3 - Cache
@@ -318,6 +353,10 @@ table:
   type: 4
   length: 154
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: FP6
@@ -356,6 +395,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -369,6 +410,10 @@ table:
   type: 17
   length: 159
   level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 11
@@ -423,6 +468,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -437,6 +485,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -450,6 +500,10 @@ table:
   type: 17
   length: 159
   level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 11
@@ -504,6 +558,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -518,6 +575,8 @@ table:
   type: 8
   length: 31
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2304/J2300
@@ -529,6 +588,8 @@ table:
   type: 8
   length: 26
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J3811
@@ -540,6 +601,8 @@ table:
   type: 8
   length: 24
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1504
@@ -551,6 +614,8 @@ table:
   type: 8
   length: 24
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1500
@@ -562,6 +627,8 @@ table:
   type: 8
   length: 24
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1502
@@ -573,6 +640,8 @@ table:
   type: 8
   length: 31
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1501
@@ -584,6 +653,8 @@ table:
   type: 8
   length: 31
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1503
@@ -595,6 +666,8 @@ table:
   type: 8
   length: 24
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1300
@@ -606,6 +679,8 @@ table:
   type: 8
   length: 25
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1701
@@ -617,6 +692,8 @@ table:
   type: 8
   length: 25
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1703
@@ -628,6 +705,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1101
@@ -639,6 +718,8 @@ table:
   type: 8
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1100
@@ -650,6 +731,8 @@ table:
   type: 8
   length: 27
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2103
@@ -661,6 +744,8 @@ table:
   type: 8
   length: 26
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2105
@@ -672,6 +757,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J3604
@@ -712,6 +800,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J3711
@@ -752,6 +843,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J3704
@@ -792,6 +886,9 @@ table:
   type: 9
   length: 24
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J3709
@@ -832,6 +929,8 @@ table:
   type: 41
   length: 32
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: Onboard LAN Brodcom
@@ -847,6 +946,8 @@ table:
   type: 41
   length: 32
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: HD Audio Controller
@@ -862,6 +963,8 @@ table:
   type: 13
   length: 39
   level: '2.0'
+  state:
+  - decoded
   description: Firmware language information
   attributes:
     languages:
@@ -873,4 +976,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

@@ -27,6 +27,8 @@ static void test_entity_create_truncated_body(void **pstate);
 static void test_entity_create_missing_string_set(void **pstate);
 static void test_entity_create_unterminated_string(void **pstate);
 static void test_entity_create_unterminated_string_set(void **pstate);
+static void test_entity_stop(void **pstate);
+static void test_entity_incomplete(void **pstate);
 
 static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
 
@@ -42,7 +44,9 @@ int main(void)
         cmocka_unit_test(test_entity_create_truncated_body),
         cmocka_unit_test(test_entity_create_missing_string_set),
         cmocka_unit_test(test_entity_create_unterminated_string),
-        cmocka_unit_test(test_entity_create_unterminated_string_set)
+        cmocka_unit_test(test_entity_create_unterminated_string_set),
+        cmocka_unit_test(test_entity_stop),
+        cmocka_unit_test(test_entity_incomplete)
     };
 
     return cmocka_run_group_tests(tests, test_entity_setup, test_entity_teardown);
@@ -239,5 +243,51 @@ static void test_entity_create_unterminated_string_set(void **pstate)
 
     dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
     assert_non_null(entity);
+    dmi_entity_destroy(entity);
+}
+
+static void test_entity_stop(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    static const uint8_t data[] = {
+        126, 6, 0x01, 0x00, 0x11, 0x22,
+        0, 0
+    };
+
+    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    assert_non_null(entity);
+
+    // All data has been read, but decoder knows more fields
+    dmi_stream_initialize(&entity->stream, entity);
+    assert_true(dmi_stream_skip(&entity->stream, sizeof(data) - 2));
+
+    assert_true(dmi_entity_stop(entity));
+    assert_true(entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+
+    dmi_entity_destroy(entity);
+}
+
+static void test_entity_incomplete(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    static const uint8_t data[] = {
+        126, 6, 0x01, 0x00, 0x11, 0x22,
+        0, 0
+    };
+
+    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    assert_non_null(entity);
+
+    // Remaining data is shorter than the next set of fields
+    dmi_stream_initialize(&entity->stream, entity);
+    assert_true(dmi_stream_skip(&entity->stream, sizeof(dmi_header_t) + 1));
+
+    assert_true(dmi_entity_incomplete(entity));
+    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(entity->state & DMI_ENTITY_STATE_PARTIAL);
+
     dmi_entity_destroy(entity);
 }

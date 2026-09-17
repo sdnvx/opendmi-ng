@@ -11,9 +11,8 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_system_event_log      dmi_system_event_log_t;
-typedef struct dmi_system_event_log_data dmi_system_event_log_data_t;
-typedef union  dmi_system_log_status     dmi_system_log_status_t;
+typedef struct dmi_system_event_log  dmi_system_event_log_t;
+typedef union  dmi_system_log_status dmi_system_log_status_t;
 
 typedef enum dmi_system_log_access_method {
     DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_8BIT_1_1 = 0x00, // Indexed I/O: 1 8-bit index port, 1 8-bit data port
@@ -40,12 +39,14 @@ dmi_packed_union(dmi_system_log_status)
 
     dmi_packed_struct()
     {
-        bool is_log_area_valid : 1;
-        bool is_log_area_full  : 1;
+        dmi_byte_t is_log_area_valid : 1;
+        dmi_byte_t is_log_area_full  : 1;
 
-        uint8_t __reserved : 6;
+        dmi_byte_t __reserved : 6;
     };
 };
+
+dmi_static_assert_value_union(dmi_system_log_status);
 
 dmi_packed_union(dmi_system_log_access_method_addr)
 {
@@ -62,72 +63,11 @@ dmi_packed_union(dmi_system_log_access_method_addr)
     uint16_t gpnv_handle;
 };
 
+dmi_static_assert_value_union(dmi_system_log_access_method_addr);
+
 /**
  * @brief System event log structure (type 15).
  */
-dmi_packed_struct(dmi_system_event_log_data)
-{
-    /**
-     * @brief SMBIOS structure header.
-     */
-    dmi_header_t header;
-
-    /**
-     * @brief Log area length.
-     */
-    dmi_word_t length;
-
-    /**
-     * @brief Log header start offset.
-     */
-    dmi_word_t header_offset;
-
-    /**
-     * @brief Log data start offset.
-     */
-    dmi_word_t data_offset;
-
-    /**
-     * @brief Access method.
-     */
-    dmi_byte_t access_method;
-
-    /**
-     * @brief Log status.
-     */
-    dmi_byte_t status;
-
-    /**
-     * @brief Log change token.
-     */
-    dmi_dword_t change_token;
-
-    /**
-     * @brief Access method address.
-     */
-    dmi_dword_t access_method_addr;
-
-    /**
-     * @brief Log header format.
-     */
-    dmi_byte_t format;
-
-    /**
-     * @brief Number of supported log type descriptors.
-     */
-    dmi_byte_t type_descr_count;
-
-    /**
-     * @brief Length of each log type.
-     */
-    dmi_byte_t type_descr_length;
-
-    /**
-     * @brief List of supported event log type descriptors.
-     */
-    dmi_byte_t type_descr_list[];
-};
-
 struct dmi_system_event_log
 {
     dmi_system_log_access_method_t access_method;

@@ -24,6 +24,18 @@
 extern char **environ;
 #endif
 
+/**
+ * @brief Pager, which is used if `PAGER` environment variable is not set.
+ */
+static const char *dmi_pager_default = "less";
+
+/**
+ * @brief Options for default pager: quit if output fits on one screen, show
+ * colors and do not clear the screen. Used if `LESS` environment variable is
+ * not set.
+ */
+static const char *dmi_pager_default_options = "FRX";
+
 static pid_t dmi_pager_pid = -1;
 
 /**
@@ -72,9 +84,20 @@ bool dmi_pager_start(dmi_context_t *context)
     int rv;
     int fds[2];
 
+    // Empty value disables pager
     const char *pager = getenv("PAGER");
-    if ((pager == nullptr) or (*pager == 0))
+    bool is_default = (pager == nullptr);
+
+    if (is_default)
+        pager = dmi_pager_default;
+    if (*pager == 0)
         return true;
+
+    // Options are passed to the pager via environment, as git does
+    if (setenv("LESS", dmi_pager_default_options, 0) < 0) {
+        dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Unable to set pager options: %s", strerror(errno));
+        return false;
+    }
 
     rv = wordexp(pager, &we, WRDE_NOCMD);
     if (rv != 0) {
@@ -136,13 +159,21 @@ bool dmi_pager_start(dmi_context_t *context)
         posix_spawn_file_actions_destroy(&actions);
 
         if (spawn_rv != 0) {
+            dmi_file_close(fds[STDIN_FILENO]);
+            dmi_file_close(fds[STDOUT_FILENO]);
+            dmi_pager_pid = -1;
+
+            // Output is not paged if default pager is not installed
+            if ((spawn_rv == ENOENT) and is_default) {
+                success = true;
+                break;
+            }
+
             if (spawn_rv == ENOENT) {
                 dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Pager executable not found: '%s'", we.we_wordv[0]);
             } else {
                 dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Unable to exec pager: %s", strerror(spawn_rv));
             }
-            dmi_file_close(fds[STDIN_FILENO]);
-            dmi_file_close(fds[STDOUT_FILENO]);
             break;
         }
 

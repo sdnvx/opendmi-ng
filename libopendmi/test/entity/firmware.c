@@ -130,6 +130,7 @@ static void test_firmware_decode_v23(void **pstate)
     uint8_t data[TEST_FIRMWARE_SIZE];
     dmi_entity_t *entity = test_firmware_create(context, data, 0x14);
     assert_non_null(entity);
+    assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
 
     const dmi_firmware_t *info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE));
     assert_non_null(info);

@@ -205,7 +205,7 @@ bool dmi_registry_link(dmi_registry_t *registry);
  *
  * @param[in] handle   Entity handle. Reserved values `DMI_HANDLE_INVALID` and
  *                     `DMI_HANDLE_UNSUPPORTED` mean that the reference is not
- *                     set: `nullptr` is returned and no error is raised. Use
+ *                     set: @c nullptr is returned and no error is raised. Use
  *                     `dmi_registry_get_first()` to look up entity by type.
  *
  * @param[in] type     Expected structure type. Should be set to
@@ -213,7 +213,7 @@ bool dmi_registry_link(dmi_registry_t *registry);
  *
  * @param[in] optional Set to true if missing entity is not an error.
  *
- * @returns Non-owning pointer to the entity, `nullptr` if not found.
+ * @returns Non-owning pointer to the entity, @c nullptr if not found.
  */
 dmi_entity_t *dmi_registry_get(
         dmi_registry_t *registry,
@@ -228,15 +228,15 @@ dmi_entity_t *dmi_registry_get(
  *
  * @param[in] handle   Entity handle. Reserved values `DMI_HANDLE_INVALID` and
  *                     `DMI_HANDLE_UNSUPPORTED` mean that the reference is not
- *                     set: `nullptr` is returned and no error is raised.
+ *                     set: @c nullptr is returned and no error is raised.
  *
  * @param[in] types    Array of expected structure types, terminated by
- *                     `DMI_TYPE_INVALID`. May be set to `nullptr` to disable
+ *                     `DMI_TYPE_INVALID`. May be set to @c nullptr to disable
  *                     type checks.
  *
  * @param[in] optional Set to true if missing entity is not an error.
  *
- * @returns Non-owning pointer to the entity, `nullptr` if not found.
+ * @returns Non-owning pointer to the entity, @c nullptr if not found.
  */
 dmi_entity_t *dmi_registry_get_any(
         dmi_registry_t   *registry,
@@ -254,7 +254,7 @@ dmi_entity_t *dmi_registry_get_any(
  * @param[in] optional Set to true if missing entity is not an error.
  *
  * @returns Non-owning pointer to the first entity of the given type in table
- *          order, `nullptr` if not found.
+ *          order, @c nullptr if not found.
  */
 dmi_entity_t *dmi_registry_get_first(
         dmi_registry_t *registry,
@@ -280,14 +280,14 @@ void dmi_registry_destroy(dmi_registry_t *registry);
  * @brief Initialize a registry iterator.
  *
  * Prepares @p iter to traverse entities in @p registry in the order they were
- * scanned. If @p filter is non-`NULL`, only entities that match the filter are
- * visited; pass `NULL` to iterate over all entities.
+ * scanned. If @p filter is not @c nullptr, only entities that match the filter are
+ * visited; pass @c nullptr to iterate over all entities.
  *
  * @param[out] iter     Iterator to initialize.
  * @param[in]  registry Registry to iterate over.
- * @param[in]  filter   Optional filter; `NULL` to disable filtering.
+ * @param[in]  filter   Optional filter; @c nullptr to disable filtering.
  *
- * @return `true` on success, `false` if @p iter or @p registry is `NULL`.
+ * @return `true` on success, `false` if @p iter or @p registry is @c nullptr.
  */
 bool dmi_registry_iter_init(
         dmi_registry_iter_t *iter,
@@ -298,13 +298,13 @@ bool dmi_registry_iter_init(
  * @brief Check whether the iterator has more entities to yield.
  *
  * Peeks ahead from the current position to determine whether a subsequent call
- * to `dmi_registry_iter_next`(3) would return a non-`NULL` entity. The
+ * to `dmi_registry_iter_next`(3) would return an entity (not @c nullptr). The
  * iterator position is not modified.
  *
  * @param[in] iter Iterator to query.
  *
  * @return `true` if at least one more entity is available, `false` otherwise or
- *         if @p iter is `NULL`.
+ *         if @p iter is @c nullptr.
  */
 bool dmi_registry_iter_has_next(dmi_registry_iter_t *iter);
 
@@ -316,8 +316,8 @@ bool dmi_registry_iter_has_next(dmi_registry_iter_t *iter);
  *
  * @param[in,out] iter Iterator to advance.
  *
- * @return Non-owning pointer to the next entity, or `NULL` if there are no
- *         more entities or @p iter is `NULL`.
+ * @return Non-owning pointer to the next entity, or @c nullptr if there are no
+ *         more entities or @p iter is @c nullptr.
  */
 dmi_entity_t *dmi_registry_iter_next(dmi_registry_iter_t *iter);
 

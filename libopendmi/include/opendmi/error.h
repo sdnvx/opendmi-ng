@@ -104,7 +104,7 @@ typedef struct dmi_error_queue
  *
  * @param context DMI context.
  * @param reason  Error reason code.
- * @return @c true on success, @c false if @p context is @c NULL or memory
+ * @return @c true on success, @c false if @p context is @c nullptr or memory
  *         allocation fails.
  */
 #define dmi_error_raise(context, reason) \
@@ -120,7 +120,7 @@ typedef struct dmi_error_queue
  * @param reason   Error reason code.
  * @param message  printf-style format string for the additional message.
  * @param ...      Format arguments.
- * @return @c true on success, @c false if @p context is @c NULL or memory
+ * @return @c true on success, @c false if @p context is @c nullptr or memory
  *         allocation fails.
  */
 #define dmi_error_raise_ex(context, reason, message, ...) \
@@ -150,9 +150,9 @@ const char *dmi_error_message(dmi_error_code_t reason);
  * @param line     Line number where the error occurred.
  * @param reason   Error reason code.
  * @param message  printf-style format string for an additional message, or
- *                 @c NULL if no additional message is needed.
+ *                 @c nullptr if no additional message is needed.
  * @param ...      Format arguments.
- * @return @c true on success, @c false if @p context is @c NULL or memory
+ * @return @c true on success, @c false if @p context is @c nullptr or memory
  *         allocation for the message fails.
  */
 bool __dmi_error_raise(
@@ -174,9 +174,9 @@ bool __dmi_error_raise(
  * @param line     Line number where the error occurred.
  * @param reason   Error reason code.
  * @param message  printf-style format string for an additional message, or
- *                 @c NULL if no additional message is needed.
+ *                 @c nullptr if no additional message is needed.
  * @param args     Format arguments.
- * @return @c true on success, @c false if @p context is @c NULL or memory
+ * @return @c true on success, @c false if @p context is @c nullptr or memory
  *         allocation for the message fails.
  */
 bool __dmi_error_vraise(
@@ -193,8 +193,8 @@ bool __dmi_error_vraise(
  * removing it.
  *
  * @param context DMI context.
- * @return Pointer to the oldest error descriptor, or @c NULL if @p context is
- *         @c NULL or the error queue is empty.
+ * @return Pointer to the oldest error descriptor, or @c nullptr if @p context is
+ *         @c nullptr or the error queue is empty.
  */
 dmi_error_t *dmi_error_peek_first(dmi_context_t *context);
 
@@ -203,8 +203,8 @@ dmi_error_t *dmi_error_peek_first(dmi_context_t *context);
  * removing it.
  *
  * @param context DMI context.
- * @return Pointer to the newest error descriptor, or @c NULL if @p context is
- *         @c NULL or the error queue is empty.
+ * @return Pointer to the newest error descriptor, or @c nullptr if @p context is
+ *         @c nullptr or the error queue is empty.
  */
 dmi_error_t *dmi_error_peek_last(dmi_context_t *context);
 
@@ -214,8 +214,8 @@ dmi_error_t *dmi_error_peek_last(dmi_context_t *context);
  * Can be called repeatedly until there are no more entries.
  *
  * @param context DMI context.
- * @return Pointer to the oldest error descriptor, or @c NULL if @p context is
- *         @c NULL or the error queue is empty.
+ * @return Pointer to the oldest error descriptor, or @c nullptr if @p context is
+ *         @c nullptr or the error queue is empty.
  *
  * @note The returned pointer is valid only until the error queue is next
  *       modified by @c dmi_error_raise(), @c dmi_error_raise_ex(),
@@ -230,8 +230,8 @@ dmi_error_t *dmi_error_get_first(dmi_context_t *context);
  * Can be called repeatedly until there are no more entries.
  *
  * @param context DMI context.
- * @return Pointer to the newest error descriptor, or @c NULL if @p context is
- *         @c NULL or the error queue is empty.
+ * @return Pointer to the newest error descriptor, or @c nullptr if @p context is
+ *         @c nullptr or the error queue is empty.
  *
  * @note The returned pointer is valid only until the error queue is next
  *       modified by @c dmi_error_raise(), @c dmi_error_raise_ex(),

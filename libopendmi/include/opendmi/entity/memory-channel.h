@@ -102,7 +102,7 @@ __BEGIN_DECLS
  *
  * @param[in] value Memory channel type value.
  *
- * @return The memory channel type name string, or `NULL` if @p value is out of
+ * @return The memory channel type name string, or @c nullptr if @p value is out of
  * range.
  */
 const char *dmi_memory_channel_type_name(dmi_memory_channel_type_t value);

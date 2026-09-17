@@ -279,24 +279,33 @@ static bool dmi_memory_controller_decode(dmi_entity_t *entity)
     info->maximum_module_size = 1uLL << (maximum_module_size + 20);
     info->maximum_memory_size = info->maximum_module_size * info->slot_count;
 
-    info->module_handles = dmi_alloc_array(entity->context, sizeof(dmi_handle_t),
-                                           info->slot_count);
-    if (info->module_handles == nullptr) {
+    size_t slot_count = info->slot_count;
+
+    info->module_handles = dmi_alloc_array(entity->context, sizeof(dmi_handle_t), slot_count);
+    if (info->module_handles == nullptr)
         return false;
-    }
 
-    for (size_t i = 0; i < info->slot_count; i++) {
+    // Only completely present module handles are counted
+    info->slot_count = 0;
+
+    for (size_t i = 0; i < slot_count; i++) {
         if (not dmi_stream_decode(stream, dmi_word_t, &info->module_handles[i]))
-            return false;
+            return dmi_entity_incomplete(entity);
+
+        info->slot_count++;
     }
 
+    // SMBIOS 2.1 fields
     if (dmi_stream_is_done(stream))
-        return true;
+        return dmi_entity_stop(entity);
 
     entity->level = dmi_version(2, 1, 0);
 
-    if (not dmi_stream_decode(stream, dmi_byte_t, &info->enabled_error_correction.__value))
-        return false;
+    dmi_byte_t enabled_error_correction = 0;
+    if (not dmi_stream_decode(stream, dmi_byte_t, &enabled_error_correction))
+        return dmi_entity_incomplete(entity);
+
+    info->enabled_error_correction.__value = enabled_error_correction;
 
     return true;
 }

@@ -5,6 +5,9 @@ table:
   type: 0
   length: 61
   level: '2.4'
+  state:
+  - decoded
+  - partial
   description: Platform firmware information
   attributes:
     vendor: INSYDE Corp.
@@ -65,6 +68,8 @@ table:
   type: 1
   length: 93
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: AIC
@@ -79,6 +84,9 @@ table:
   type: 2
   length: 90
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: AIC
@@ -100,6 +108,9 @@ table:
   type: 3
   length: 108
   level: '2.7'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: Chassis Manufacturer
@@ -123,6 +134,10 @@ table:
   type: 4
   length: 125
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU0
@@ -161,6 +176,10 @@ table:
   type: 4
   length: 125
   level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: CPU1
@@ -199,6 +218,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L1-Cache
@@ -233,6 +255,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L2-Cache
@@ -267,6 +292,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L3-Cache
@@ -301,6 +329,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L1-Cache
@@ -335,6 +366,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L2-Cache
@@ -369,6 +403,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L3-Cache
@@ -403,6 +440,8 @@ table:
   type: 11
   length: 39
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 3
@@ -414,6 +453,9 @@ table:
   type: 16
   length: 25
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Physical memory array
   attributes:
     location: motherboard
@@ -426,6 +468,10 @@ table:
   type: 17
   length: 101
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -469,6 +515,10 @@ table:
   type: 17
   length: 101
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -512,6 +562,10 @@ table:
   type: 17
   length: 101
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -555,6 +609,10 @@ table:
   type: 17
   length: 101
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -598,6 +656,10 @@ table:
   type: 17
   length: 87
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -641,6 +703,10 @@ table:
   type: 17
   length: 87
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -684,6 +750,10 @@ table:
   type: 17
   length: 101
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -727,6 +797,10 @@ table:
   type: 17
   length: 101
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -770,6 +844,10 @@ table:
   type: 17
   length: 101
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -813,6 +891,10 @@ table:
   type: 17
   length: 101
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -856,6 +938,10 @@ table:
   type: 17
   length: 87
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -899,6 +985,10 @@ table:
   type: 17
   length: 87
   level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 5
@@ -942,6 +1032,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -953,6 +1046,9 @@ table:
   type: 19
   length: 33
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory array mapped address
   attributes:
     start-addr: 4294967296
@@ -964,6 +1060,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -978,6 +1077,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 34359738368
@@ -992,6 +1094,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 68719476736
@@ -1006,6 +1111,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 103079215104
@@ -1020,6 +1128,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 137438953472
@@ -1034,6 +1145,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 171798691840
@@ -1048,6 +1162,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 206158430208
@@ -1062,6 +1179,9 @@ table:
   type: 20
   length: 37
   level: '2.7'
+  state:
+  - decoded
+  - linked
   description: Memory device mapped address
   attributes:
     start-addr: 240518168576
@@ -1076,6 +1196,8 @@ table:
   type: 38
   length: 20
   level: '2.0'
+  state:
+  - decoded
   description: IPMI device information
   attributes:
     interface-type: kcs
@@ -1093,4 +1215,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

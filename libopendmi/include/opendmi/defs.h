@@ -83,6 +83,32 @@
 #define dmi_member_offset(__type, __member) offsetof(__type, __member)
 #define dmi_element_size(__type, __member)  sizeof(*((__type *)0)->__member)
 
+/**
+ * @brief Check that value union has the same size as its raw value.
+ *
+ * Bit field layout of value unions must not depend on the compiler. For
+ * example, MinGW uses Microsoft layout by default, which does not merge
+ * adjacent bit fields of different types, so all bit fields of a value union
+ * must have the same type as its `__value` member.
+ */
+#ifdef __cplusplus
+#   define dmi_static_assert_value_union(__name) \
+        static_assert(sizeof(union __name) == sizeof(((union __name *)0)->__value), \
+                      #__name " size does not match its value size")
+#else
+#   define dmi_static_assert_value_union(__name) \
+        _Static_assert(sizeof(union __name) == sizeof(((union __name *)0)->__value), \
+                       #__name " size does not match its value size")
+#endif
+
+/**
+ * @brief Size of consecutive members from @p __first to @p __last inclusive.
+ */
+#define dmi_member_span(__type, __first, __last)          \
+        (dmi_member_offset(__type, __last) +              \
+         dmi_member_size(__type, __last) -                \
+         dmi_member_offset(__type, __first))
+
 typedef struct dmi_member_ref
 {
     size_t offset;

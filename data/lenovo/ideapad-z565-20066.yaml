@@ -5,6 +5,9 @@ table:
   type: 0
   length: 59
   level: '2.4'
+  state:
+  - decoded
+  - partial
   description: Platform firmware information
   attributes:
     vendor: LENOVO
@@ -65,6 +68,8 @@ table:
   type: 1
   length: 137
   level: '2.4'
+  state:
+  - decoded
   description: System information
   attributes:
     vendor: LENOVO
@@ -79,6 +84,9 @@ table:
   type: 2
   length: 108
   level: '2.0'
+  state:
+  - decoded
+  - linked
   description: Baseboard or module information
   attributes:
     vendor: LENOVO
@@ -100,6 +108,9 @@ table:
   type: 3
   length: 100
   level: '2.7'
+  state:
+  - decoded
+  - partial
   description: System enclosure or chassis
   attributes:
     vendor: Chassis Manufacturer
@@ -123,6 +134,9 @@ table:
   type: 9
   length: 23
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J6C1
@@ -163,6 +177,9 @@ table:
   type: 9
   length: 23
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J8C1
@@ -203,6 +220,9 @@ table:
   type: 9
   length: 23
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J7C1
@@ -243,6 +263,9 @@ table:
   type: 9
   length: 23
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J8D1
@@ -283,6 +306,9 @@ table:
   type: 9
   length: 23
   level: '2.6'
+  state:
+  - decoded
+  - partial
   description: System slots
   attributes:
     designator: J8B1
@@ -323,6 +349,8 @@ table:
   type: 11
   length: 226
   level: '2.0'
+  state:
+  - decoded
   description: OEM strings
   attributes:
     string-count: 5
@@ -336,6 +364,8 @@ table:
   type: 12
   length: 174
   level: '2.0'
+  state:
+  - decoded
   description: System configuration options
   attributes:
     options:
@@ -347,6 +377,8 @@ table:
   type: 21
   length: 9
   level: '2.1'
+  state:
+  - decoded
   description: Built-in pointing device
   attributes:
     type: touch-pad
@@ -356,6 +388,8 @@ table:
   type: 32
   length: 22
   level: null
+  state:
+  - decoded
   description: System boot information
   attributes:
     status: no-errors-detected
@@ -363,6 +397,7 @@ table:
   type: 129
   length: 27
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     gQUNAE8=
@@ -373,6 +408,8 @@ table:
   type: 8
   length: 24
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -384,6 +421,8 @@ table:
   type: 8
   length: 21
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J1A1
@@ -395,6 +434,8 @@ table:
   type: 8
   length: 21
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2A2
@@ -406,6 +447,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -417,6 +460,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -428,6 +473,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J3A1
@@ -439,6 +486,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -450,6 +499,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -461,6 +512,8 @@ table:
   type: 8
   length: 23
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J5A1
@@ -472,6 +525,8 @@ table:
   type: 8
   length: 35
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J9G2
@@ -483,6 +538,8 @@ table:
   type: 8
   length: 35
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J7J1
@@ -494,6 +551,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2A1
@@ -505,6 +564,8 @@ table:
   type: 8
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J2A2
@@ -516,6 +577,8 @@ table:
   type: 8
   length: 28
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J30
@@ -527,6 +590,8 @@ table:
   type: 8
   length: 22
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J30
@@ -538,6 +603,8 @@ table:
   type: 8
   length: 26
   level: '2.0'
+  state:
+  - decoded
   description: Port connector information
   attributes:
     internal-designator: J30
@@ -549,6 +616,8 @@ table:
   type: 40
   length: 58
   level: '2.6'
+  state:
+  - decoded
   description: Additional information
   attributes:
     entries:
@@ -562,6 +631,8 @@ table:
   type: 41
   length: 47
   level: '2.6'
+  state:
+  - decoded
   description: Onboard devices extended information
   attributes:
     designator: 82567LM Gigabit Network Connection
@@ -577,6 +648,10 @@ table:
   type: 4
   length: 133
   level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Processor information
   attributes:
     socket-designation: Socket S1G4
@@ -615,6 +690,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L1 Cache
@@ -649,6 +727,9 @@ table:
   type: 7
   length: 29
   level: '2.1'
+  state:
+  - decoded
+  - partial
   description: Cache information
   attributes:
     socket-designator: L2 Cache
@@ -683,6 +764,10 @@ table:
   type: 16
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Physical memory array
   attributes:
     location: motherboard
@@ -695,6 +780,10 @@ table:
   type: 17
   length: 85
   level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 35
@@ -734,6 +823,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -747,6 +838,8 @@ table:
   type: 6
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Memory module information
   attributes:
     socket: DIMM0
@@ -781,6 +874,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 0
@@ -795,6 +892,10 @@ table:
   type: 17
   length: 85
   level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device
   attributes:
     array-handle: 35
@@ -834,6 +935,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -847,6 +950,8 @@ table:
   type: 6
   length: 19
   level: '2.0'
+  state:
+  - decoded
   description: Memory module information
   attributes:
     socket: DIMM1
@@ -881,6 +986,10 @@ table:
   type: 20
   length: 21
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
@@ -895,6 +1004,8 @@ table:
   type: 18
   length: 25
   level: '2.1'
+  state:
+  - decoded
   description: 32-bit memory error information
   attributes:
     type: ok
@@ -908,6 +1019,10 @@ table:
   type: 19
   length: 17
   level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
   description: Memory array mapped address
   attributes:
     start-addr: 0
@@ -919,6 +1034,9 @@ table:
   type: 5
   length: 22
   level: '2.1'
+  state:
+  - decoded
+  - linked
   description: Memory controller information
   attributes:
     error-detection: none
@@ -970,6 +1088,7 @@ table:
   type: 133
   length: 21
   level: null
+  state: []
   description: OEM-specific
   data: !!binary |
     hQUvAAE=
@@ -979,4 +1098,5 @@ table:
   type: 127
   length: 6
   level: null
+  state: []
   description: End of table

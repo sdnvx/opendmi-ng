@@ -70,9 +70,9 @@ __BEGIN_DECLS
  * Searches @p dict first by exact entry match in `names`, then by range match
  * in `ranges`, and returns the `code` field of the first matching entry.
  *
- * @param dict Dictionary to search; must not be @c NULL.
+ * @param dict Dictionary to search; must not be @c nullptr.
  * @param id   Integer identifier to look up; must be non-negative.
- * @return The code string for @p id, or @c NULL if @p dict is @c NULL,
+ * @return The code string for @p id, or @c nullptr if @p dict is @c nullptr,
  *         @p id is negative, or no matching entry is found.
  */
 const char *dmi_code_lookup(const dmi_name_set_t *dict, int id);
@@ -86,9 +86,9 @@ const char *dmi_code_lookup(const dmi_name_set_t *dict, int id);
  *
  * @note Range entries are not searched.
  *
- * @param dict Dictionary to search; must not be @c NULL.
- * @param code Code string to look up; must not be @c NULL.
- * @return The integer identifier for @p code, or @c -1 if @p dict is @c NULL,
+ * @param dict Dictionary to search; must not be @c nullptr.
+ * @param code Code string to look up; must not be @c nullptr.
+ * @return The integer identifier for @p code, or @c -1 if @p dict is @c nullptr,
  *         @p dict has no `names` entries, or no matching entry is found.
  */
 int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code);
@@ -99,9 +99,9 @@ int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code);
  * Searches @p dict first by exact entry match in `names`, then by range match
  * in `ranges`, and returns the `name` field of the first matching entry.
  *
- * @param dict Dictionary to search; must not be @c NULL.
+ * @param dict Dictionary to search; must not be @c nullptr.
  * @param id   Integer identifier to look up; must be non-negative.
- * @return The name string for @p id, or @c NULL if @p dict is @c NULL,
+ * @return The name string for @p id, or @c nullptr if @p dict is @c nullptr,
  *         @p id is negative, or no matching entry is found.
  */
 const char *dmi_name_lookup(const dmi_name_set_t *dict, int id);

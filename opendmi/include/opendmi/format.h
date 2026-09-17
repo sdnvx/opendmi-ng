@@ -13,16 +13,45 @@
 
 #include <opendmi/attribute.h>
 
-typedef struct dmi_format     dmi_format_t;
-typedef struct dmi_format_ops dmi_format_ops_t;
+typedef struct dmi_format         dmi_format_t;
+typedef struct dmi_format_ops     dmi_format_ops_t;
+typedef struct dmi_format_options dmi_format_options_t;
 
-typedef enum dmi_format_flags
+/**
+ * @brief Output mode.
+ */
+typedef enum dmi_format_mode
 {
-    DMI_FORMAT_FLAG_PRETTY = 1 << 0,
-    DMI_FORMAT_FLAG_QUIET  = 1 << 1
-} dmi_format_flags_t;
+    DMI_FORMAT_MODE_NORMAL,  ///< Default output
+    DMI_FORMAT_MODE_QUIET,   ///< Hide meta-data and handle references
+    DMI_FORMAT_MODE_VERBOSE  ///< Show structure versions and states
+} dmi_format_mode_t;
 
-typedef void *dmi_format_initialize_fn(dmi_context_t *context, FILE *stream);
+/**
+ * @brief Output options.
+ */
+struct dmi_format_options
+{
+    /**
+     * @brief Output mode.
+     */
+    dmi_format_mode_t mode;
+
+    /**
+     * @brief Print raw entity data instead of decoded attributes.
+     */
+    bool dump;
+
+    /**
+     * @brief Enable pretty output.
+     */
+    bool pretty;
+};
+
+typedef void *dmi_format_initialize_fn(
+        dmi_context_t              *context,
+        FILE                       *stream,
+        const dmi_format_options_t *options);
 
 typedef bool dmi_format_dump_start_fn(void *session);
 typedef bool dmi_format_entry_fn(void *session);

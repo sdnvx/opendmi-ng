@@ -13,7 +13,7 @@
 
 __BEGIN_DECLS
 
-void *dmi_text_initialize(dmi_context_t *context, FILE *stream);
+void *dmi_text_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options);
 
 bool dmi_text_entry(dmi_text_session_t *session);
 bool dmi_text_entity_start(dmi_text_session_t *session, const dmi_entity_t *entity);

@@ -58,7 +58,7 @@ __BEGIN_DECLS
  * @param[out] stream Stream to initialize.
  * @param[in]  entity Entity whose body data will be read.
  *
- * @return `true` on success, `false` if @p stream or @p entity is `NULL`.
+ * @return `true` on success, `false` if @p stream or @p entity is @c nullptr.
  */
 bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *entity);
 
@@ -143,6 +143,17 @@ size_t dmi_stream_remaining(const dmi_stream_t *stream);
  * @return `true` if there are no remaining bytes to read, `false` otherwise.
  */
 bool dmi_stream_is_done(const dmi_stream_t *stream);
+
+/**
+ * @brief Check if the stream contains at least the given number of bytes.
+ *
+ * @param[in] stream Stream to check.
+ * @param[in] length Number of bytes.
+ *
+ * @return `true` if at least @p length bytes remain from the current
+ *         position, `false` otherwise.
+ */
+bool dmi_stream_has(const dmi_stream_t *stream, size_t length);
 
 /**
  * @brief Reset the stream cursor to the beginning.
