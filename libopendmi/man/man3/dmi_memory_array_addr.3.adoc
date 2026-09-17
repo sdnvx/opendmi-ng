@@ -1,9 +1,9 @@
 = dmi_memory_array_addr(3)
 The OpenDMI contributors
-OpenDMI 0.4.0
+OpenDMI 0.4.1
 
 :doctype: manpage
-:release-version: 0.4.0
+:release-version: 0.4.1
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
