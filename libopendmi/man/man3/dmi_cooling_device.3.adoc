@@ -1,9 +1,9 @@
 = dmi_cooling_device(3)
 The OpenDMI contributors
-OpenDMI 0.4.0
+OpenDMI 0.5.0
 
 :doctype: manpage
-:release-version: 0.4.0
+:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
