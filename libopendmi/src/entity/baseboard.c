@@ -6,6 +6,7 @@
 //
 #include <opendmi/context.h>
 #include <opendmi/log.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>

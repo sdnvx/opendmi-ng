@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/entity/common.h>
 
 static void test_status_name(void **pstate);

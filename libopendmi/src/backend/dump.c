@@ -11,6 +11,7 @@
 #include <opendmi/entry.h>
 #include <opendmi/entity.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 #include <opendmi/backend/dump.h>
 
 typedef struct dmi_dump_session dmi_dump_session_t;

@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <assert.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/vector.h>
 

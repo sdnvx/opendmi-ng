@@ -10,6 +10,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/log.h>
+#include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/pointing-device.h>

@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/version.h>
 
 static void test_version_build(void **pstate);

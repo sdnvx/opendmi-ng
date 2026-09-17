@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/entity/onboard-device.h>
 
 static void test_onboard_device_type_name(void **pstate);

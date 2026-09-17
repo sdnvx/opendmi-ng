@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/codec.h>
 
 typedef struct test_vector_16 test_vector_16_t;

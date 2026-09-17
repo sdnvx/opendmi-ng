@@ -33,6 +33,7 @@
 #   endif
 #endif // ENABLE_CURSES
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/tty.h>
 
 static bool dmi_tty = false;

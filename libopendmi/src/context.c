@@ -26,6 +26,8 @@
 #include <opendmi/entry.h>
 #include <opendmi/entity.h>
 #include <opendmi/vendor.h>
+#include <opendmi/internal.h>
+
 #include <opendmi/utils.h>
 #include <opendmi/utils/file.h>
 

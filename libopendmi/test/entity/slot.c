@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/entity/slot.h>
 
 static void test_slot_usage_name(void **pstate);

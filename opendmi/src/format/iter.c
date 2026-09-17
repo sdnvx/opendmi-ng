@@ -7,6 +7,7 @@
 #include <limits.h>
 #include <assert.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/format/iter.h>
 

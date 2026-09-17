@@ -10,7 +10,7 @@ project(opendmi
         VERSION 0.5.0
         DESCRIPTION "Cross-platform DMI/SMBIOS framework"
         HOMEPAGE_URL https://github.com/sdnvx/opendmi
-        LANGUAGES C)
+        LANGUAGES C CXX)
 
 set(OPENDMI_VERSION "${CMAKE_PROJECT_VERSION}")
 
@@ -37,6 +37,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_EXTENSIONS ON)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_EXTENSIONS ON)
 
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 

@@ -12,6 +12,7 @@
 #include <opendmi/context.h>
 #include <opendmi/error.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 
 #include <opendmi/format/iter.h>
 #include <opendmi/format/xml/handlers.h>

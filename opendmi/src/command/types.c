@@ -17,6 +17,7 @@
 #include <assert.h>
 
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/tty.h>
 #include <opendmi/utils/vector.h>
 

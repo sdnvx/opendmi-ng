@@ -11,6 +11,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/format/iter.h>
 #include <opendmi/test/helpers.h>

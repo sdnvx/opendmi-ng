@@ -15,6 +15,7 @@
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
 #include <opendmi/format.h>
+#include <opendmi/internal.h>
 #include <opendmi/command/common.h>
 #include <opendmi/utils/utf8.h>
 
@@ -68,6 +69,7 @@ typedef struct test_format_state
     dmi_context_t *context;
     dmi_entity_t  *entity;
     dmi_data_t    *data;
+    size_t         data_size;
 } test_format_state_t;
 
 int main(void)
@@ -98,7 +100,8 @@ static int test_format_setup(void **pstate)
         return -1;
 
     // Inactive structure with 1-byte body and strings "S1" to "S300"
-    state->data = calloc(1, 5 + test_string_count * 5 + 1);
+    state->data_size = 5 + test_string_count * 5 + 1;
+    state->data      = calloc(1, state->data_size);
     if (state->data == nullptr)
         return -1;
 
@@ -107,7 +110,7 @@ static int test_format_setup(void **pstate)
 
     size_t length = sizeof(header);
     for (size_t i = 1; i <= test_string_count; i++)
-        length += (size_t)sprintf((char *)state->data + length, "S%zu", i) + 1;
+        length += (size_t)snprintf((char *)state->data + length, state->data_size - length, "S%zu", i) + 1;
 
     // String set is terminated by an additional NUL
     length++;

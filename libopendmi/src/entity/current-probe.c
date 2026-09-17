@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/value.h>
+#include <opendmi/internal.h>
 #include <opendmi/entity/current-probe.h>
 
 const dmi_entity_spec_t dmi_current_probe_spec =

@@ -22,6 +22,7 @@
 
 #include <opendmi/command.h>
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/file.h>
 #include <opendmi/utils/tty.h>
 

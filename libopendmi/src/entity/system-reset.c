@@ -7,6 +7,7 @@
 #include <opendmi/context.h>
 #include <opendmi/stream.h>
 #include <opendmi/value.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>

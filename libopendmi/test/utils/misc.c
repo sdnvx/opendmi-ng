@@ -9,6 +9,7 @@
 #include <cmocka.h>
 
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 
 typedef struct test_vector_32 test_vector_32_t;
 typedef struct test_vector_64 test_vector_64_t;

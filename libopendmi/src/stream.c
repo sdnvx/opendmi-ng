@@ -8,6 +8,7 @@
 
 #include <opendmi/entity.h>
 #include <opendmi/stream.h>
+#include <opendmi/internal.h>
 
 bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *entity)
 {

@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 #include <opendmi/entity/dell/serial-port.h>
 

@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
 #include <opendmi/format/text.h>
 
 #include <opendmi/command/common.h>

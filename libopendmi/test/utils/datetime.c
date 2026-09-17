@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/datetime.h>
 
 static void test_date_parse(void **pstate);

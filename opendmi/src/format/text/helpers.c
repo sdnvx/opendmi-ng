@@ -30,7 +30,9 @@
 #   endif
 #endif // ENABLE_CURSES
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/tty.h>
+
 #include <opendmi/format/text/helpers.h>
 
 void dmi_text_printf(

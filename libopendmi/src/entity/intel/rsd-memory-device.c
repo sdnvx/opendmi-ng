@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/value.h>
+#include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
 #include <opendmi/entity/intel/rsd-memory-device.h>
 

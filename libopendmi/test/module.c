@@ -10,6 +10,7 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
 #include <opendmi/module.h>
 #include <opendmi/module/intel.h>
 

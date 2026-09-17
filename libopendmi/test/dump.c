@@ -17,6 +17,7 @@
 #include <opendmi/log.h>
 #include <opendmi/registry.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
 static int test_dump_setup(void **pstate);

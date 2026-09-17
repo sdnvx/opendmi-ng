@@ -10,6 +10,7 @@
 #include <cmocka.h>
 
 #include <opendmi/command.h>
+#include <opendmi/internal.h>
 #include <opendmi/test/helpers.h>
 
 static int test_command_setup(void **pstate);

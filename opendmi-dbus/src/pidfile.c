@@ -10,11 +10,13 @@
 #include <assert.h>
 
 #include <opendmi/log.h>
+#include <opendmi/pidfile.h>
+#include <opendmi/internal.h>
+
 #include <opendmi/utils.h>
 #include <opendmi/utils/file.h>
 #include <opendmi/utils/string.h>
 
-#include <opendmi/pidfile.h>
 
 static void dmi_pidfile_destroy(dmi_pidfile_t *pidfile);
 

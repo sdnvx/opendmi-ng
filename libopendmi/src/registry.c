@@ -12,6 +12,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 
 /**
  * @internal

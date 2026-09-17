@@ -30,6 +30,7 @@
 #include <assert.h>
 
 #include <opendmi/error.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/base64.h>
 #include <opendmi/utils/utf8.h>

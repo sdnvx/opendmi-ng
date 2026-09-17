@@ -10,6 +10,7 @@
 #include <opendmi/context.h>
 #include <opendmi/error.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/base64.h>
 
 #include <opendmi/format/iter.h>

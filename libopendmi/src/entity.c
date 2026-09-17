@@ -11,6 +11,8 @@
 
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
+#include <opendmi/internal.h>
+
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 

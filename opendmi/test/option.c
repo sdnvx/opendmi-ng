@@ -13,6 +13,7 @@
 #include <opendmi/context.h>
 #include <opendmi/command.h>
 #include <opendmi/option.h>
+#include <opendmi/internal.h>
 #include <opendmi/test/helpers.h>
 
 static int test_option_setup(void **pstate);

@@ -6,6 +6,7 @@
 //
 #include <opendmi/utils.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/module/ami.h>
 #include <opendmi/entity/ami/type-221.h>
 

@@ -24,7 +24,6 @@
 #endif // __BEGIN_DECLS
 
 #include <stddef.h>
-#include <iso646.h>
 
 // Modern features support on MSVC
 #ifdef _MSC_VER
@@ -59,21 +58,6 @@
 #   define __dmi_pure
 #endif
 
-// C2y countof() macro
-#ifndef countof
-#define countof(x) (sizeof(x) / sizeof((x)[0]))
-#endif // !countof
-
-// Type-cast macros
-#define dmi_cast(dst, expr) ((__dmi_typeof(dst))(expr))
-#define dmi_deref(type, expr) (*(const type *)(expr))
-
-// Value pointer macro
-#define dmi_value_ptr(x) &(__dmi_typeof(x)){ (x) }
-
-// Cross-platform attribute unused macro
-#define dmi_unused(x) (void)(x)
-
 // Public API symbols export and import. The library itself is built with
 // DMI_BUILD defined, and users of static library define DMI_STATIC.
 #if defined(_WIN32) || defined(__CYGWIN__)
@@ -97,20 +81,6 @@
 #else
 #   define dmi_packed_struct(...) struct __attribute__((packed)) __VA_ARGS__
 #   define dmi_packed_union(...) union __attribute__((packed)) __VA_ARGS__
-#endif
-
-// Cross-compiler thread-local specifier support, thread_local is a keyword
-// since C23
-#if !defined(thread_local) && !defined(__cplusplus) && (__STDC_VERSION__ < 202311L)
-#   if (__STDC_VERSION__ >= 201112L) && !defined(__STDC_NO_THREADS__)
-#       define thread_local _Thread_local
-#   elif defined(_WIN32) && (defined(_MSC_VER) || defined(__ICL))
-#       define thread_local __declspec(thread)
-#   elif defined(__GNUC__) || defined(__clang__)
-#       define thread_local __thread
-#   else
-#       error "Cannot define thread_local"
-#   endif
 #endif
 
 #define dmi_member_size(__type, __member)   sizeof(((__type *)0)->__member)

@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/utf8.h>
 #include <opendmi/test/helpers.h>

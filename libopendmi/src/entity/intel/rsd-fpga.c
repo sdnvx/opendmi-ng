@@ -4,9 +4,10 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <opendmi/value.h>
+#include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
 #include <opendmi/entity/intel/rsd-fpga.h>
-#include <opendmi/value.h>
 
 static bool dmi_intel_rsd_fpga_decode(dmi_entity_t *entity);
 

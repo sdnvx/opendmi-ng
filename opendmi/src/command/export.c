@@ -11,6 +11,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/format.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/file.h>
 #include <opendmi/utils/tty.h>
 

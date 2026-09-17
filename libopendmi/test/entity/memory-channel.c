@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/entity/memory-channel.h>
 
 static void test_memory_channel_type_name(void **pstate);

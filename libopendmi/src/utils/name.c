@@ -6,6 +6,7 @@
 //
 #include <string.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 
 const char *dmi_code_lookup(const dmi_name_set_t *dict, int id)

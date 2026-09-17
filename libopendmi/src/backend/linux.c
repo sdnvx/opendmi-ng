@@ -15,6 +15,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 
 #include <opendmi/backend/linux.h>
 
@@ -83,7 +84,7 @@ static bool dmi_linux_open(dmi_context_t *context, const char *path)
             break;
 
         session->entry_size = 0;
-        session->entry = dmi_file_get(context, entry_path, -1, &session->entry_size);    
+        session->entry = dmi_file_get(context, entry_path, -1, &session->entry_size);
         if (session->entry == nullptr)
             break;
 

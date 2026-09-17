@@ -13,6 +13,7 @@
 #include <opendmi/context.h>
 #include <opendmi/error.h>
 #include <opendmi/attribute.h>
+#include <opendmi/internal.h>
 
 #include <opendmi/utils.h>
 #include <opendmi/utils/endian.h>

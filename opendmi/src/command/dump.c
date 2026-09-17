@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
 #include <opendmi/command/dump.h>
 
 typedef struct dmi_dump_config

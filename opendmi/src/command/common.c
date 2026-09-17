@@ -14,6 +14,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/module.h>
 #include <opendmi/registry.h>
+#include <opendmi/internal.h>
 
 #include <opendmi/command.h>
 #include <opendmi/command/common.h>

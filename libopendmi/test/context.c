@@ -18,6 +18,7 @@
 #include <opendmi/module/intel.h>
 #include <opendmi/registry.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/intel/rsd-network-card.h>

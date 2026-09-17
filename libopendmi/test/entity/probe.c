@@ -14,6 +14,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/value.h>
+#include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/probe.h>

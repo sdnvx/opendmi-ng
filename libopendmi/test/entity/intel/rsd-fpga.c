@@ -12,6 +12,7 @@
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
+#include <opendmi/internal.h>
 #include <opendmi/module.h>
 #include <opendmi/module/intel.h>
 #include <opendmi/test/logger.h>

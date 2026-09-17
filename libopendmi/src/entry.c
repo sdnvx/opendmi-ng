@@ -10,6 +10,7 @@
 #include <opendmi/entry.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
+#include <opendmi/internal.h>
 
 /**
  * @internal

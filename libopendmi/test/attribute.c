@@ -12,6 +12,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/attribute.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/uuid.h>
 #include <opendmi/utils/version.h>
 

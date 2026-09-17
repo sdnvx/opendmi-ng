@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/entity/memory-controller.h>
 
 static void test_memory_interleave_name(void **pstate);

@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/vector.h>
 
 static void test_vector_init_args(void **pstate);

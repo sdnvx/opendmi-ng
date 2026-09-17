@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/entity/memory-error.h>
 
 static void test_memory_error_type_name(void **pstate);

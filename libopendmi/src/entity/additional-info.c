@@ -9,6 +9,7 @@
 #include <opendmi/context.h>
 #include <opendmi/log.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 
 #include <opendmi/entity/additional-info.h>
 

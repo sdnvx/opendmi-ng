@@ -24,6 +24,7 @@
 #include <assert.h>
 
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/file.h>
 

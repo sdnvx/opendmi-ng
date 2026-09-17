@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 #include <opendmi/value.h>
+#include <opendmi/internal.h>
 #include <opendmi/entity/temperature-probe.h>
 
 const dmi_entity_spec_t dmi_temperature_probe_spec =

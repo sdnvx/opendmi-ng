@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
 #include <opendmi/command/import.h>
 
 static void dmi_import_usage(void);

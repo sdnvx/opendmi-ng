@@ -17,6 +17,7 @@
 #include <opendmi/context.h>
 #include <opendmi/entry.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 
 #include <opendmi/backend/generic.h>
 #include <opendmi/backend/freebsd.h>

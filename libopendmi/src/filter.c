@@ -7,6 +7,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/filter.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 
 dmi_filter_t *dmi_filter_create(dmi_context_t *context)
 {

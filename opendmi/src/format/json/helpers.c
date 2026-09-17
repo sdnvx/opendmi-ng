@@ -7,6 +7,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/utf8.h>
 
@@ -60,7 +61,7 @@ bool dmi_json_scalar_bool(dmi_json_session_t *session, bool value)
     if (yajl_gen_bool(session->generator, value) != yajl_gen_status_ok)
         return false;
 
-    return true; 
+    return true;
 }
 
 bool dmi_json_scalar_null(dmi_json_session_t *session)
@@ -70,7 +71,7 @@ bool dmi_json_scalar_null(dmi_json_session_t *session)
     if (yajl_gen_null(session->generator) != yajl_gen_status_ok)
         return false;
 
-    return true; 
+    return true;
 }
 
 bool dmi_json_sequence_start(dmi_json_session_t *session)

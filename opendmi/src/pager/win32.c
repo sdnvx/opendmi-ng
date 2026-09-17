@@ -13,6 +13,7 @@
 #include <errno.h>
 
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/win32.h>
 

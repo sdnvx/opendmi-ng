@@ -15,7 +15,7 @@ __BEGIN_DECLS
 
 __dmi_api bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, size_t *paddr);
 
-#if defined(__i386__) or defined(__x86_64__)
+#if defined(__i386__) || defined(__x86_64__)
     __dmi_api bool dmi_generic_find_entry_addr(
             dmi_context_t *context,
             const char    *device,

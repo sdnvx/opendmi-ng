@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/test/helpers.h>
 
 static bool dmi_test_option_has_short(const dmi_option_t *option, char name);

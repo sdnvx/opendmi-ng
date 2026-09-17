@@ -7,6 +7,7 @@
 #include <opendmi/log.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
+#include <opendmi/internal.h>
 
 static const dmi_name_set_t dmi_log_level_names =
 {

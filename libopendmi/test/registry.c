@@ -13,6 +13,7 @@
 #include <opendmi/error.h>
 #include <opendmi/log.h>
 #include <opendmi/registry.h>
+#include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/memory-array-addr.h>

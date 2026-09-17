@@ -18,6 +18,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/pager.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/file.h>
 
 #ifndef environ

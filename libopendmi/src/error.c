@@ -9,6 +9,7 @@
 #include <opendmi/context.h>
 #include <opendmi/error.h>
 #include <opendmi/utils.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/string.h>
 
 static size_t dmi_error_slot_get(dmi_error_queue_t *queue);

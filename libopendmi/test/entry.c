@@ -12,6 +12,7 @@
 #include <opendmi/context.h>
 #include <opendmi/entry.h>
 #include <opendmi/log.h>
+#include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
 static int test_entry_setup(void **pstate);

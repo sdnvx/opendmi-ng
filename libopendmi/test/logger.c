@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
 void dmi_test_log_handler(

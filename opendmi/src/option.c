@@ -10,6 +10,7 @@
 
 #include <opendmi/command.h>
 #include <opendmi/option.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/tty.h>
 
 static bool dmi_option_toggle(
@@ -24,7 +25,7 @@ static bool dmi_option_set(
 void dmi_option_list(const dmi_option_set_t *set)
 {
     const dmi_option_t *option;
-    
+
     assert(set != nullptr);
 
     dmi_tty_header("%s:", set->name);
