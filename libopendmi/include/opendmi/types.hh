@@ -4,8 +4,8 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#ifndef OPENDMI_TYPES
-#define OPENDMI_TYPES
+#ifndef OPENDMI_TYPES_HH
+#define OPENDMI_TYPES_HH
 
 #pragma once
 
@@ -70,4 +70,4 @@ namespace dmi {
     };
 }
 
-#endif // !OPENDMI_TYPES
+#endif // !OPENDMI_TYPES_HH

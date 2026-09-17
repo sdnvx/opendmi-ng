@@ -29,12 +29,12 @@ typedef struct dmi_context_state dmi_context_state_t;
 /**
  * @brief Context flags.
  */
-enum dmi_context_flags
+typedef enum dmi_context_flags
 {
     DMI_CONTEXT_FLAG_RELAXED = 0,
     DMI_CONTEXT_FLAG_STRICT  = (1 << 0),
     DMI_CONTEXT_FLAG_LINK    = (1 << 1)
-};
+} dmi_context_flags_t;
 
 /**
  * @brief State of opened DMI context. Populated when the context is opened

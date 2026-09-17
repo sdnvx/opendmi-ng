@@ -20,7 +20,7 @@ The project is under active development, see [ROADMAP](ROADMAP.md) and [CHANGELO
 
 * `opendmi` - Command line tool to query DMI/SMBIOS data
 * `opendmi-dbus` - D-bus service providing access to DMI/SMBIOS data
-* `libopendmi` - C library providing direct interface to DMI/SMBIOS
+* `libopendmi` - C/C++ library providing direct interface to DMI/SMBIOS
 * `libopendmi-go` - Go bindings for `libopendmi`
 * `libopendmi-python` - Python bindings for `libopendmi`
 * `libopendmi-rust` - Rust bindings for `libopendmi`
