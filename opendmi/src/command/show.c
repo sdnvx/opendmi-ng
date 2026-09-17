@@ -44,7 +44,7 @@ const dmi_option_set_t dmi_show_options =
             .value       = &dmi_show_config.quiet
         },
         {
-            .short_names = "u",
+            .short_names = "D",
             .long_names  = (const char *[]){ "dump", nullptr },
             .description = "Do not decode the entries",
             .value       = &dmi_show_config.show_dump

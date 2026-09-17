@@ -71,7 +71,7 @@ static const dmi_option_set_t dmi_export_options =
             }
         },
         {
-            .short_names = "u",
+            .short_names = "D",
             .long_names  = (const char *[]){ "dump", nullptr },
             .description = "Do not decode the entries",
             .value       = &dmi_export_config.export_dump,

@@ -11,6 +11,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
+#include <opendmi/module.h>
 #include <opendmi/registry.h>
 
 #include <opendmi/command.h>
@@ -28,6 +29,10 @@ static bool dmi_filter_config_disable_inactive(dmi_context_t *context, const cha
 static bool dmi_filter_config_enable_unknown(dmi_context_t *context, const char *value);
 static bool dmi_filter_config_disable_unknown(dmi_context_t *context, const char *value);
 static bool dmi_filter_config_enable_all(dmi_context_t *context, const char *value);
+static bool dmi_filter_config_add_module(dmi_context_t *context, const char *value);
+static bool dmi_filter_config_add_all_modules(dmi_context_t *context, const char *value);
+
+static bool dmi_filter_config_add_module_types(const dmi_module_t *module);
 
 dmi_filter_config_t dmi_filter_config =
 {
@@ -113,12 +118,19 @@ const dmi_option_set_t dmi_filter_options =
         {
             .short_names = "m",
             .long_names  = (const char *[]){ "module", nullptr },
-            .description = "Show entries provided by module(s)",
-            .argument = {
+            .description = "Show entries provided by enabled module",
+            .handler     = dmi_filter_config_add_module,
+            .argument    = {
                 .name     = "module",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
-                .required = false
+                .required = true
             }
+        },
+        {
+            .short_names = "M",
+            .long_names  = (const char *[]){ "all-modules", nullptr },
+            .description = "Show entries provided by all enabled modules",
+            .handler     = dmi_filter_config_add_all_modules
         },
         {
             .short_names = "a",
@@ -139,12 +151,12 @@ dmi_handle_t dmi_parse_handle(const char *str)
     value = strtoul(str, &ep, 16);
 
     if ((*str == 0) or (*ep != 0)) {
-        dmi_command_message("Invalid handle value: %s\n", str);
+        dmi_command_message("Invalid handle value: %s", str);
         return DMI_HANDLE_INVALID;
     }
 
     if (((errno == ERANGE) and (value == ULONG_MAX)) or (value >= DMI_HANDLE_INVALID)) {
-        dmi_command_message("Handle is out of range: %s\n", str);
+        dmi_command_message("Handle is out of range: %s", str);
         return DMI_HANDLE_INVALID;
     }
 
@@ -157,12 +169,12 @@ dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str)
     long value;
 
     if (*str == 0) {
-        dmi_command_message("Empty type value: %s\n", str);
+        dmi_command_message("Empty type value: %s", str);
         return DMI_TYPE_INVALID;
     }
 
     if ((*str == '+') or (*str == '-')) {
-        dmi_command_message("Invalid type value: %s\n", str);
+        dmi_command_message("Invalid type value: %s", str);
         return DMI_TYPE_INVALID;
     }
 
@@ -171,8 +183,8 @@ dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str)
 
     if (*ep != 0) {
         dmi_type_t type = dmi_type_find(context, str);
-        if (value == DMI_TYPE_INVALID)
-            dmi_command_message("Unknown type code: %s\n", str);
+        if (type == DMI_TYPE_INVALID)
+            dmi_command_message("Unknown type code: %s", str);
 
         return type;
     }
@@ -180,7 +192,7 @@ dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str)
     if (((errno == ERANGE) and ((value == LONG_MIN) or (value == LONG_MAX))) or
         (value < 0) or (value > DMI_TYPE_MAX))
     {
-        dmi_command_message("Type is out of range: %s\n", str);
+        dmi_command_message("Type is out of range: %s", str);
         return DMI_TYPE_INVALID;
     }
 
@@ -387,6 +399,70 @@ static bool dmi_filter_config_enable_all(dmi_context_t *context, const char *val
     dmi_unused(value);
 
     dmi_filter_config.filter.mask = DMI_FILTER_MASK_ALL;
+
+    return true;
+}
+
+static bool dmi_filter_config_add_module(dmi_context_t *context, const char *value)
+{
+    assert(context != nullptr);
+    assert(value != nullptr);
+
+    const dmi_module_t *module = dmi_module_find(value);
+    if (module == nullptr) {
+        dmi_command_message("Unknown module: %s", value);
+        return false;
+    }
+
+    // Entities provided by the module are decoded only if it is enabled
+    if (not dmi_has_extension(context, module)) {
+        dmi_command_message("Module %s is not enabled", value);
+        return false;
+    }
+
+    return dmi_filter_config_add_module_types(module);
+}
+
+static bool dmi_filter_config_add_all_modules(dmi_context_t *context, const char *value)
+{
+    bool found = false;
+
+    assert(context != nullptr);
+    dmi_unused(value);
+
+    for (const dmi_module_t *module = dmi_modules; module != nullptr; module = module->next) {
+        if ((module->entities == nullptr) or (*module->entities == nullptr))
+            continue;
+        if (not dmi_has_extension(context, module))
+            continue;
+
+        if (not dmi_filter_config_add_module_types(module))
+            return false;
+
+        found = true;
+    }
+
+    // Empty filter matches all entries, so this is an error
+    if (not found) {
+        dmi_command_message("No modules providing entries are enabled");
+        return false;
+    }
+
+    return true;
+}
+
+static bool dmi_filter_config_add_module_types(const dmi_module_t *module)
+{
+    // Empty filter matches all entries, so this is an error
+    if ((module->entities == nullptr) or (*module->entities == nullptr)) {
+        dmi_command_message("Module %s does not provide any entries", module->code);
+        return false;
+    }
+
+    for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++) {
+        if (not dmi_filter_add_type(&dmi_filter_config.filter, (*pspec)->type))
+            return false;
+    }
 
     return true;
 }

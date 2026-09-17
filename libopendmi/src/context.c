@@ -308,6 +308,11 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
 
     dmi_log_info(context->logger, "Enabling extension: %s", module->name);
 
+    if (dmi_has_extension(context, module)) {
+        dmi_error_raise_ex(context, DMI_ERROR_MODULE_CONFLICT, "%s: already enabled", module->name);
+        return false;
+    }
+
     if (module->entities) {
         const dmi_entity_spec_t **pspec;
 
@@ -327,14 +332,35 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
                 return false;
             }
         }
+    }
 
-        // Update type map
-        for (pspec = module->entities; *pspec != nullptr; pspec++) {
+    // Register enabled module
+    if (not dmi_vector_push(&context->modules, (uintptr_t)module)) {
+        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+        return false;
+    }
+
+    // Update type map
+    if (module->entities) {
+        for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++) {
             context->type_map[(*pspec)->type] = *pspec;
         }
     }
 
     return true;
+}
+
+bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module)
+{
+    if ((context == nullptr) or (module == nullptr))
+        return false;
+
+    for (size_t i = 0; i < context->modules.length; i++) {
+        if (context->modules.data[i] == (uintptr_t)module)
+            return true;
+    }
+
+    return false;
 }
 
 bool dmi_dump_load(dmi_context_t *context, const char *path)
@@ -509,6 +535,7 @@ void dmi_destroy(dmi_context_t *context)
             ures_close((UResourceBundle *)context->resources);
 #   endif
 
+    dmi_vector_clear(&context->modules);
     dmi_free(context->type_map);
     dmi_free(context);
 }

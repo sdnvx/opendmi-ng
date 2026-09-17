@@ -10,17 +10,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "Coverage")
-    set(ENABLE_COVERAGE ON)
-
-    if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
-       "${CMAKE_C_COMPILER_ID}" STREQUAL "AppleClang")
-        set(COVERAGE_OPTIONS -fprofile-instr-generate -fcoverage-mapping)
-    elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-        set(COVERAGE_OPTIONS --coverage)
-    endif()
-endif()
-
 add_library(opendmi-object OBJECT)
 add_library(opendmi-static STATIC)
 add_library(opendmi-shared SHARED)

@@ -44,10 +44,9 @@ void dmi_option_list(const dmi_option_set_t *set)
                 printf("%s", count > 0 ? ", " : "    ");
 
                 dmi_tty_cprintf(DMI_TTY_COLOR_AQUA, "-%c", *name);
-                if (arg->type != DMI_ARGUMENT_TYPE_NONE) {
-                    printf(arg->required ? " " : " [");
+                if ((arg->type != DMI_ARGUMENT_TYPE_NONE) and arg->required) {
+                    printf(" ");
                     dmi_tty_cprintf(DMI_TTY_COLOR_LIME, "<%s>", arg->name);
-                    printf(arg->required ? "" : "]");
                 }
                 name++, count++;
             }
@@ -120,7 +119,7 @@ const dmi_option_t *dmi_option_find_long(const dmi_option_set_t *set, const char
     assert(name != nullptr);
 
     for (option = set->options; option->short_names || option->long_names; option++) {
-        if (!option->short_names)
+        if (!option->long_names)
             continue;
 
         for (const char **item = option->long_names; *item != nullptr; item++) {
@@ -155,25 +154,27 @@ int dmi_option_parse(
         int                      argc,
         char                    *argv[])
 {
-    int count = 0;
+    const int total = argc;
     const dmi_option_t *option;
 
+    // Number of processed arguments is calculated as the difference between
+    // the initial and the remaining number of arguments
     while (argc > 0) {
         char *arg = *argv;
         char *value = nullptr;
 
-        if (*arg++ != '-')
+        // Non-option argument, including single dash, stops parsing
+        if ((arg[0] != '-') or (arg[1] == 0))
             break;
 
-        argc--, argv++;
+        argc--, argv++, arg++;
 
         if (*arg == '-') {
             arg++;
 
-            if (*arg == 0) {
-                count++;
+            // Double dash terminates options
+            if (*arg == 0)
                 break;
-            }
 
             value = strchr(arg, '=');
             if (value != nullptr)
@@ -181,65 +182,61 @@ int dmi_option_parse(
 
             option = dmi_option_find_long_ex(options, arg);
             if (option == nullptr) {
-                dmi_command_message("Unknown option: --%s\n", arg);
+                dmi_command_message("Unknown option: --%s", arg);
                 return -1;
             }
 
             if (option->argument.type == DMI_ARGUMENT_TYPE_NONE) {
                 if (value != nullptr) {
-                    dmi_command_message("Option --%s doesn't have arguments\n", arg);
+                    dmi_command_message("Option --%s doesn't have arguments", arg);
                     return -1;
                 }
 
                 if (not dmi_option_toggle(context, option))
-                    return false;
+                    return -1;
             } else if (option->argument.required) {
                 if (value == nullptr) {
-                    if ((argc == 0) or (*argv[0] == '-')) {
-                        dmi_command_message("Option --%s requires an argument\n", arg);
+                    // Next argument is always the value, as getopt does
+                    if (argc == 0) {
+                        dmi_command_message("Option --%s requires an argument", arg);
                         return -1;
                     }
 
                     value = *argv;
-                    argc--, argv++, count++;
+                    argc--, argv++;
                 }
 
                 if (not dmi_option_set(context, option, value))
                     return -1;
             } else {
-                if ((value == nullptr) and (argc > 0) and (*argv[0] != '-')) {
-                    value = *argv;
-                    argc--, argv++, count++;
-                }
-
+                // Optional value is accepted only in `--name=value` form
                 if (not dmi_option_set(context, option, value))
                     return -1;
             }
-
-            count++;
         } else {
             while (*arg != 0) {
                 char flag = *arg;
-    
+
                 value = nullptr;
 
                 option = dmi_option_find_short_ex(options, flag);
                 if (option == nullptr) {
-                    dmi_command_message("Unknown option: -%c\n", flag);
+                    dmi_command_message("Unknown option: -%c", flag);
                     return -1;
                 }
 
                 if (option->argument.type == DMI_ARGUMENT_TYPE_NONE) {
                     if (not dmi_option_toggle(context, option))
-                        return false;
+                        return -1;
 
-                    arg++, count++;
+                    arg++;
                 } else if (option->argument.required) {
                     arg++;
 
                     if (*arg == 0) {
-                        if ((argc == 0) or (*argv[0] == '-')) {
-                            dmi_command_message("Option -%c requires an argument\n", flag);
+                        // Next argument is always the value, as getopt does
+                        if (argc == 0) {
+                            dmi_command_message("Option -%c requires an argument", flag);
                             return -1;
                         }
 
@@ -252,29 +249,20 @@ int dmi_option_parse(
                     if (not dmi_option_set(context, option, value))
                         return -1;
 
-                    count++;
                     break;
                 } else {
-                    arg++;
-
-                    if (*arg != 0) {
-                        value = arg;
-                    } else if ((argc > 0) and (*argv[0] != '-')) {
-                        value = *argv;
-                        argc--, argv++;
-                    }
-
-                    if (not dmi_option_set(context, option, value))
+                    // Optional value is accepted only in `--name=value` form,
+                    // so short form of the option is just a flag
+                    if (not dmi_option_set(context, option, nullptr))
                         return -1;
 
-                    count++;
-                    break;
-                }  
+                    arg++;
+                }
             }
         }
     }
 
-    return count;
+    return total - argc;
 }
 
 static bool dmi_option_toggle(
@@ -286,6 +274,12 @@ static bool dmi_option_toggle(
 
     if (option->handler != nullptr)
         return option->handler(context, nullptr);
+
+    // Option without both handler and value is a mistake in options table
+    if (option->value == nullptr) {
+        dmi_command_message("Option is not implemented");
+        return false;
+    }
 
     bool *flag = dmi_cast(flag, option->value);
     if (option->flags & DMI_OPTION_FLAG_REVERSE)
@@ -306,6 +300,12 @@ static bool dmi_option_set(
 
     if (option->handler != nullptr)
         return option->handler(context, value);
+
+    // Option without both handler and value is a mistake in options table
+    if (option->value == nullptr) {
+        dmi_command_message("Option is not implemented");
+        return false;
+    }
 
     switch (option->argument.type) {
     case DMI_ARGUMENT_TYPE_STRING:

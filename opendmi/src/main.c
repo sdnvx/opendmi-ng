@@ -120,7 +120,8 @@ int main(int argc, char *argv[])
         argc--, argv++;
 
         // Initialize logging
-        dmi_log_init(context);
+        if (not dmi_log_init(context))
+            break;
 
         // Execute command
         rv = dmi_command_run(command, context, argc, argv);
@@ -149,18 +150,21 @@ static bool dmi_log_init(dmi_context_t *context)
     if (not dmi_global_config.log_enable)
         return true;
 
-    dmi_log_set_level(&log_target, dmi_global_config.log_level);
-    dmi_set_logger(context, &log_target);
-
+    // Open log file before enabling the logger, so that nothing is logged to
+    // the terminal instead of the file on errors
     if (dmi_global_config.log_path != nullptr) {
         log_file = fopen(dmi_global_config.log_path, "a");
         if (log_file == nullptr) {
-            dmi_command_message("Unable to open log file: %s", strerror(errno));
+            dmi_command_message("Unable to open log file: %s: %s",
+                                dmi_global_config.log_path, strerror(errno));
             return false;
         }
 
         atexit(dmi_log_close);
     }
+
+    dmi_log_set_level(&log_target, dmi_global_config.log_level);
+    dmi_set_logger(context, &log_target);
 
     return true;
 }

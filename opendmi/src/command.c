@@ -16,6 +16,7 @@
 #include <assert.h>
 
 #include <opendmi/context.h>
+#include <opendmi/module.h>
 #include <opendmi/pager.h>
 #include <opendmi/utils/string.h>
 #include <opendmi/utils/tty.h>
@@ -32,8 +33,13 @@
 #include <opendmi/command/import.h>
 #include <opendmi/command/types.h>
 
-static bool dmi_command_set_log_path(dmi_context_t *context, const char *value);
+static bool dmi_command_set_log_file(dmi_context_t *context, const char *value);
 static bool dmi_command_set_log_level(dmi_context_t *context, const char *value);
+static bool dmi_command_add_module(dmi_context_t *context, const char *value);
+
+#if defined(__linux__)
+static bool dmi_command_disable_sysfs(dmi_context_t *context, const char *value);
+#endif
 
 dmi_global_config_t dmi_global_config =
 {
@@ -71,11 +77,16 @@ const dmi_option_set_t dmi_global_options =
             .short_names = "l",
             .long_names  = (const char *[]){ "log", nullptr },
             .description = "Enable logging",
-            .handler     = dmi_command_set_log_path,
+            .value       = &dmi_global_config.log_enable
+        },
+        {
+            .long_names  = (const char *[]){ "log-file", nullptr },
+            .description = "Enable logging to the specified file",
+            .handler     = dmi_command_set_log_file,
             .argument    = {
                 .name     = "path",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
-                .required = false
+                .required = true
             }
         },
         {
@@ -93,7 +104,8 @@ const dmi_option_set_t dmi_global_options =
             {
                 .short_names = "S",
                 .long_names  = (const char *[]){ "no-sysfs", nullptr },
-                .description = "Do not attempt to read DMI data from SysFS"
+                .description = "Do not attempt to read DMI data from SysFS",
+                .handler     = dmi_command_disable_sysfs
             },
 #       endif
 #       if !defined(_WIN32)
@@ -124,6 +136,7 @@ const dmi_option_set_t dmi_global_options =
             .short_names = "m",
             .long_names  = (const char *[]){ "module", nullptr },
             .description = "Enable specified module",
+            .handler     = dmi_command_add_module,
             .argument    = {
                 .name     = "module",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
@@ -323,6 +336,14 @@ int dmi_command_run(
             break;
         }
 
+        // Reject unexpected arguments, since they are likely to be mistakes,
+        // e.g. value of an option with optional argument written separately
+        if ((command->arguments == nullptr) and (argc > 0)) {
+            rv = EXIT_USAGE;
+            dmi_command_message_ex(command, "Unexpected argument: %s", argv[0]);
+            break;
+        }
+
         // Load SMBIOS data
         if ((command->flags & DMI_COMMAND_FLAG_DETACHED) == 0) {
             bool status;
@@ -356,9 +377,11 @@ int dmi_command_run(
     return rv;
 }
 
-static bool dmi_command_set_log_path(dmi_context_t *context, const char *value)
+static bool dmi_command_set_log_file(dmi_context_t *context, const char *value)
 {
     dmi_unused(context);
+
+    assert(value != nullptr);
 
     dmi_global_config.log_enable = true;
     dmi_global_config.log_path   = value;
@@ -381,3 +404,35 @@ static bool dmi_command_set_log_level(dmi_context_t *context, const char *value)
     dmi_global_config.log_level = level;
     return true;
 }
+
+static bool dmi_command_add_module(dmi_context_t *context, const char *value)
+{
+    assert(context != nullptr);
+    assert(value != nullptr);
+
+    const dmi_module_t *module = dmi_module_find(value);
+    if (module == nullptr) {
+        dmi_command_message("Unknown module: %s", value);
+        return false;
+    }
+
+    if (not dmi_add_extension(context, module)) {
+        dmi_command_message("Unable to enable module: %s", value);
+        return false;
+    }
+
+    return true;
+}
+
+#if defined(__linux__)
+static bool dmi_command_disable_sysfs(dmi_context_t *context, const char *value)
+{
+    dmi_unused(context);
+    dmi_unused(value);
+
+    // Linux backend supports only SysFS for now
+    dmi_command_message("Option --no-sysfs is not implemented yet");
+
+    return false;
+}
+#endif

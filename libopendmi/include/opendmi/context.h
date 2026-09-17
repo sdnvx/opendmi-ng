@@ -16,6 +16,7 @@
 #include <opendmi/vendor.h>
 #include <opendmi/module.h>
 #include <opendmi/registry.h>
+#include <opendmi/utils/vector.h>
 #include <opendmi/utils/version.h>
 
 typedef struct dmi_context_state dmi_context_state_t;
@@ -159,6 +160,11 @@ struct dmi_context
     const dmi_entity_spec_t **type_map;
 
     /**
+     * @brief Enabled extension modules (`const dmi_module_t *`).
+     */
+    dmi_vector_t modules;
+
+    /**
      * @brief Error state.
      */
     dmi_error_queue_t error_queue;
@@ -214,8 +220,29 @@ bool dmi_open(dmi_context_t *context, const char *device);
 
 /**
  * @brief Add DMI extension.
+ *
+ * Registers entity specifications provided by @p module in the context and
+ * adds the module to the list of enabled modules. Fails if any of the entity
+ * types is already registered, including the case when the module is already
+ * enabled.
+ *
+ * @param[in] context DMI context handle.
+ * @param[in] module  Extension module to enable.
+ *
+ * @return The function returns `true` on success and `false` otherwise.
  */
 bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module);
+
+/**
+ * @brief Check whether DMI extension is enabled.
+ *
+ * @param[in] context DMI context handle.
+ * @param[in] module  Extension module.
+ *
+ * @return `true` if @p module has been enabled with `dmi_add_extension()`,
+ *         `false` otherwise.
+ */
+bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module);
 
 /**
  * @brief Load dump file into DMI context.

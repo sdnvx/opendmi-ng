@@ -172,11 +172,15 @@ $ opendmi [global options] <command> [command options]
 |---|---|
 | `-v`, `--version` | Print version information and exit |
 | `-h`, `--help` | Print help and exit |
-| `-i`, `--file=<path>` | Read DMI data from a binary file instead of the system |
-| `-d`, `--device=<path>` | Set path to memory device (default: `/dev/mem`) |
-| `-m`, `--module=<module>` | Enable the specified module |
-| `-l`, `--log[=<path>]` | Enable logging, optionally to a file |
-| `-L`, `--log-level=<level>` | Set logging level |
+| `-i <path>`, `--file=<path>` | Read DMI data from a binary file instead of the system |
+| `-d <path>`, `--device=<path>` | Set path to memory device (default: `/dev/mem`) |
+| `-m <module>`, `--module=<module>` | Enable the specified module |
+| `-l`, `--log` | Enable logging to the terminal |
+| `--log-file=<path>` | Enable logging to a file |
+| `-L <level>`, `--log-level=<level>` | Set logging level |
+
+Values of options are specified either as a separate argument (`-i <path>`,
+`--file <path>`) or attached to the option (`-i<path>`, `--file=<path>`).
 
 ### Commands
 
@@ -205,6 +209,12 @@ Show structures of a specific type only:
 
 ```sh
 $ opendmi show -t processor
+```
+
+Show structures provided by the Dell extension module only:
+
+```sh
+$ opendmi -m dell show -m dell
 ```
 
 List all structures with their handles and types:

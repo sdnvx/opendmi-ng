@@ -125,6 +125,11 @@ extern dmi_command_config_t dmi_command_config;
 
 extern const dmi_option_set_t dmi_global_options;
 
+/**
+ * @brief Available commands, terminated by `nullptr`.
+ */
+extern const dmi_command_t *dmi_commands[];
+
 __BEGIN_DECLS
 
 void dmi_command_init(const char *process);

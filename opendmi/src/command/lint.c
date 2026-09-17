@@ -37,14 +37,14 @@ static const dmi_option_set_t dmi_lint_options =
             .value       = &dmi_command_config.show_usage
         },
         {
-            .short_names = "a",
-            .long_names  = (const char *[]){ "all" },
+            .short_names = "A",
+            .long_names  = (const char *[]){ "all-checks", nullptr },
             .description = "Enable all checks",
-            .value       = &dmi_lint_config.check_links
+            .value       = &dmi_lint_config.check_all
         },
         {
             .short_names = "l",
-            .long_names  = (const char *[]){ "links" },
+            .long_names  = (const char *[]){ "links", nullptr },
             .description = "Enable link checking",
             .value       = &dmi_lint_config.check_links
         },

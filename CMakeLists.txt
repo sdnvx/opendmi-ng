@@ -72,6 +72,18 @@ else()
     add_compile_definitions(NDEBUG)
 endif()
 
+# Coverage options are used by all subprojects
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Coverage")
+    set(ENABLE_COVERAGE ON)
+
+    if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
+       "${CMAKE_C_COMPILER_ID}" STREQUAL "AppleClang")
+        set(COVERAGE_OPTIONS -fprofile-instr-generate -fcoverage-mapping)
+    elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+        set(COVERAGE_OPTIONS --coverage)
+    endif()
+endif()
+
 if(UNIX)
     add_compile_definitions(_REENTRANT _GNU_SOURCE)
 endif()

@@ -12,7 +12,12 @@
 #include <opendmi/context.h>
 #include <opendmi/error.h>
 #include <opendmi/log.h>
+#include <opendmi/module.h>
+#include <opendmi/module/intel.h>
 #include <opendmi/test/logger.h>
+
+#include <opendmi/entity/intel/rsd-network-card.h>
+#include <opendmi/entity/intel/rsd-processor-cpuid.h>
 
 static int test_context_setup(void **pstate);
 static int test_context_teardown(void **pstate);
@@ -22,6 +27,8 @@ static void test_context_reopen(void **pstate);
 static void test_context_reopen_after_failure(void **pstate);
 static void test_context_dump_save_after_close(void **pstate);
 static void test_context_dump_save_roundtrip(void **pstate);
+static void test_context_add_extension(void **pstate);
+static void test_context_add_extension_duplicate(void **pstate);
 
 static const char *test_dump_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-t14-g3-21aj.bin";
 
@@ -37,7 +44,9 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_context_reopen, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_reopen_after_failure, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_dump_save_after_close, test_context_setup, test_context_teardown),
-        cmocka_unit_test_setup_teardown(test_context_dump_save_roundtrip, test_context_setup, test_context_teardown)
+        cmocka_unit_test_setup_teardown(test_context_dump_save_roundtrip, test_context_setup, test_context_teardown),
+        cmocka_unit_test_setup_teardown(test_context_add_extension, test_context_setup, test_context_teardown),
+        cmocka_unit_test_setup_teardown(test_context_add_extension_duplicate, test_context_setup, test_context_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -156,4 +165,77 @@ static void test_context_dump_save_roundtrip(void **pstate)
     assert_non_null(context->state.registry);
 
     remove(test_save_path);
+}
+
+static void test_context_add_extension(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    const dmi_module_t *module = dmi_module_find("intel");
+    assert_non_null(module);
+
+    assert_false(dmi_has_extension(context, module));
+    assert_true(dmi_add_extension(context, module));
+    assert_true(dmi_has_extension(context, module));
+    assert_false(dmi_has_extension(context, dmi_module_find("dell")));
+    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE(INTEL_RSD_NETWORK_CARD)),
+                     &dmi_intel_rsd_network_card_spec);
+    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID)),
+                     &dmi_intel_rsd_processor_cpuid_spec);
+
+    // The same module cannot be added twice
+    dmi_error_clear(context);
+    assert_false(dmi_add_extension(context, module));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_MODULE_CONFLICT);
+    assert_true(dmi_has_extension(context, module));
+
+    // Modules without entities can be enabled, but only once
+    const dmi_module_t empty_module = {
+        .code = "empty",
+        .name = "Empty module"
+    };
+
+    assert_true(dmi_add_extension(context, &empty_module));
+    assert_true(dmi_has_extension(context, &empty_module));
+
+    dmi_error_clear(context);
+    assert_false(dmi_add_extension(context, &empty_module));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_MODULE_CONFLICT);
+
+    // Enabled modules are preserved when context is closed
+    assert_true(dmi_close(context));
+    assert_true(dmi_has_extension(context, module));
+
+    assert_false(dmi_has_extension(nullptr, module));
+    assert_false(dmi_has_extension(context, nullptr));
+}
+
+static void test_context_add_extension_duplicate(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    static const dmi_entity_spec_t spec_1 = {
+        .type = (dmi_type_t)250,
+        .code = "test-1",
+        .name = "Test 1"
+    };
+    static const dmi_entity_spec_t spec_2 = {
+        .type = (dmi_type_t)250,
+        .code = "test-2",
+        .name = "Test 2"
+    };
+
+    const dmi_module_t module = {
+        .code     = "test",
+        .name     = "Test module",
+        .entities = (const dmi_entity_spec_t *[]){ &spec_1, &spec_2, nullptr }
+    };
+
+    dmi_error_clear(context);
+    assert_false(dmi_add_extension(context, &module));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_MODULE_CONFLICT);
+
+    // Type map is not modified on conflicts
+    assert_null(dmi_type_spec(context, (dmi_type_t)250));
+    assert_false(dmi_has_extension(context, &module));
 }

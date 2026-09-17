@@ -33,8 +33,10 @@ typedef struct dmi_types_config
 static void dmi_types_usage(void);
 
 static bool dmi_types_add_module(dmi_context_t *context, const char *value);
+static bool dmi_types_add_all_modules(dmi_context_t *context, const char *value);
+static bool dmi_types_show_module_types(const dmi_module_t *module);
 static bool dmi_types_match_module(uintptr_t entry, uintptr_t key);
-static int dmi_types_main(dmi_context_t *context, int argc, char *argv[]);
+static int  dmi_types_main(dmi_context_t *context, int argc, char *argv[]);
 
 static void dmi_types_show_core(dmi_context_t *context);
 static void dmi_types_show_module(dmi_context_t *context, const dmi_module_t *module);
@@ -68,13 +70,19 @@ static const dmi_option_set_t dmi_types_options =
         {
             .short_names = "m",
             .long_names  = (const char *[]){ "module", nullptr },
-            .description = "List types provided by module(s)",
+            .description = "List types provided by module",
             .handler     = dmi_types_add_module,
             .argument    = {
                 .name     = "module",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
-                .required = false
+                .required = true
             }
+        },
+        {
+            .short_names = "M",
+            .long_names  = (const char *[]){ "all-modules", nullptr },
+            .description = "List types provided by all modules",
+            .handler     = dmi_types_add_all_modules
         },
         {
             .short_names = "a",
@@ -112,37 +120,43 @@ static void dmi_types_usage(void)
 
 static bool dmi_types_add_module(dmi_context_t *context, const char *value)
 {
-    const dmi_module_t *module;
-
     dmi_unused(context);
 
-    if (value != nullptr) {
-        module = dmi_module_find(value);
-        if (module == nullptr) {
-            dmi_command_message_ex(&dmi_types_command, "Unknown module name: %s", value);
-            return false;
-        }
+    assert(value != nullptr);
 
-        if (dmi_vector_exists(&dmi_types_config.show_modules, (uintptr_t)value))
-            return true;
-
-        if (not dmi_vector_push(&dmi_types_config.show_modules, (uintptr_t)module)) {
-            dmi_command_message_ex(&dmi_types_command, "Internal error: %s", strerror(errno));
-            return false;
-        }
-    } else {
-        for (module = dmi_modules; module != nullptr; module = module->next) {
-            if (dmi_vector_exists(&dmi_types_config.show_modules, (uintptr_t)module->code))
-                continue;
-
-            if (not dmi_vector_push(&dmi_types_config.show_modules, (uintptr_t)module)) {
-                dmi_command_message_ex(&dmi_types_command, "Internal error: %s", strerror(errno));
-                return false;
-            }  
-        }
+    const dmi_module_t *module = dmi_module_find(value);
+    if (module == nullptr) {
+        dmi_command_message_ex(&dmi_types_command, "Unknown module name: %s", value);
+        return false;
     }
 
+    return dmi_types_show_module_types(module);
+}
+
+static bool dmi_types_add_all_modules(dmi_context_t *context, const char *value)
+{
+    dmi_unused(context);
+    dmi_unused(value);
+
+    for (const dmi_module_t *module = dmi_modules; module != nullptr; module = module->next) {
+        if (not dmi_types_show_module_types(module))
+            return false;
+    }
+
+    return true;
+}
+
+static bool dmi_types_show_module_types(const dmi_module_t *module)
+{
     dmi_types_config.show_core = false;
+
+    if (dmi_vector_exists(&dmi_types_config.show_modules, (uintptr_t)module->code))
+        return true;
+
+    if (not dmi_vector_push(&dmi_types_config.show_modules, (uintptr_t)module)) {
+        dmi_command_message_ex(&dmi_types_command, "Internal error: %s", strerror(errno));
+        return false;
+    }
 
     return true;
 }
