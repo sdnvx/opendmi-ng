@@ -16,6 +16,8 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
+#include <opendmi/entity/string-property.h>
+
 const dmi_name_set_t dmi_entity_state_names =
 {
     .code  = "entity-states",
@@ -26,6 +28,45 @@ const dmi_name_set_t dmi_entity_state_names =
         { 3, "incomplete", "Incomplete" },
         { 4, "partial",    "Partial"    },
         DMI_NAME_NULL
+    }
+};
+
+const dmi_name_set_t dmi_property_names =
+{
+    .code  = "property-names",
+    .names = (dmi_name_t[]){
+        {
+            .id   = DMI_PROPERTY_ID_RESERVED,
+            .code = "reserved",
+            .name = "Reserved"
+        },
+        {
+            .id   = DMI_PROPERTY_ID_UEFI_DEVICE_PATH,
+            .code = "uefi-device-path",
+            .name = "UEFI device path"
+        },
+        DMI_NAME_NULL
+    },
+    .ranges = (dmi_name_range_t[]){
+        {
+            .start_id = __DMI_PROPERTY_ID_RESERVED_START,
+            .end_id   = __DMI_PROPERTY_ID_RESERVED_END,
+            .code     = "reserved",
+            .name     = "Reserved"
+        },
+        {
+            .start_id = __DMI_PROPERTY_ID_VENDOR_START,
+            .end_id   = __DMI_PROPERTY_ID_VENDOR_END,
+            .code     = "vendor-specific",
+            .name     = "Firmware vendor specific"
+        },
+        {
+            .start_id = __DMI_PROPERTY_ID_OEM_START,
+            .end_id   = __DMI_PROPERTY_ID_OEM_END,
+            .code     = "oem-specific",
+            .name     = "OEM specific"
+        },
+        DMI_NAME_RANGE_NULL
     }
 };
 
@@ -98,6 +139,8 @@ dmi_entity_t *dmi_entity_create(
     entity = dmi_alloc(context, sizeof(dmi_entity_t));
     if (entity == nullptr)
         return nullptr;
+
+    dmi_vector_init(&entity->properties, nullptr);
 
     // Decode structure header
     entity->context     = context;
@@ -285,6 +328,44 @@ const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool ra
     return raw ? entry->raw : entry->pretty;
 }
 
+const char *dmi_entity_property(const dmi_entity_t *entity, dmi_property_t property)
+{
+    if (entity == nullptr)
+        return nullptr;
+
+    for (size_t i = 0; i < entity->properties.length; i++) {
+        uintptr_t value;
+
+        if (not dmi_vector_get(&entity->properties, i, &value))
+            break;
+
+        const dmi_string_property_t *info = dmi_cast(info, value);
+
+        if (info->ident == property)
+            return info->value;
+    }
+
+    return nullptr;
+}
+
+bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_property_t *property)
+{
+    if (entity == nullptr)
+        return false;
+
+    if (property == nullptr) {
+        dmi_error_raise_ex(entity->context, DMI_ERROR_NULL_ARGUMENT, "property");
+        return false;
+    }
+
+    if (not dmi_vector_push(&entity->properties, (uintptr_t)property)) {
+        dmi_error_raise(entity->context, DMI_ERROR_OUT_OF_MEMORY);
+        return false;
+    }
+
+    return true;
+}
+
 bool dmi_entity_stop(dmi_entity_t *entity)
 {
     assert(entity != nullptr);
@@ -339,6 +420,9 @@ void dmi_entity_destroy(dmi_entity_t *entity)
 
         dmi_free(entity->strings);
     }
+
+    // String properties are owned by the registry, only the list is freed
+    dmi_vector_clear(&entity->properties);
 
     dmi_free(entity);
 }

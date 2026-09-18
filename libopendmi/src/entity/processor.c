@@ -2174,15 +2174,14 @@ static bool dmi_processor_link(dmi_entity_t *entity)
         return false;
 
     dmi_registry_t *registry = entity->context->state.registry;
+    bool success = true;
 
-    if (info->l1_cache_handle != DMI_HANDLE_INVALID)
-        info->l1_cache = dmi_registry_get(registry, info->l1_cache_handle, DMI_TYPE(CACHE), false);
+    if (not dmi_registry_resolve(registry, info->l1_cache_handle, DMI_TYPE(CACHE), &info->l1_cache))
+        success = false;
+    if (not dmi_registry_resolve(registry, info->l2_cache_handle, DMI_TYPE(CACHE), &info->l2_cache))
+        success = false;
+    if (not dmi_registry_resolve(registry, info->l3_cache_handle, DMI_TYPE(CACHE), &info->l3_cache))
+        success = false;
 
-    if (info->l2_cache_handle != DMI_HANDLE_INVALID)
-        info->l2_cache = dmi_registry_get(registry, info->l2_cache_handle, DMI_TYPE(CACHE), false);
-
-    if (info->l3_cache_handle != DMI_HANDLE_INVALID)
-        info->l3_cache = dmi_registry_get(registry, info->l3_cache_handle, DMI_TYPE(CACHE), false);
-
-    return true;
+    return success;
 }

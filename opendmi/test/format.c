@@ -15,6 +15,7 @@
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
 #include <opendmi/format.h>
+#include <opendmi/entity/string-property.h>
 #include <opendmi/internal.h>
 #include <opendmi/command/common.h>
 #include <opendmi/utils/utf8.h>
@@ -34,6 +35,7 @@ static void test_format_yaml_quoting(void **pstate);
 static void test_format_xml_flag_names(void **pstate);
 static void test_format_state(void **pstate);
 static void test_format_text_quiet(void **pstate);
+static void test_format_properties(void **pstate);
 
 static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode);
 static bool test_format_has_controls(const char *output);
@@ -81,7 +83,8 @@ int main(void)
         cmocka_unit_test(test_format_yaml_quoting),
         cmocka_unit_test(test_format_xml_flag_names),
         cmocka_unit_test(test_format_state),
-        cmocka_unit_test(test_format_text_quiet)
+        cmocka_unit_test(test_format_text_quiet),
+        cmocka_unit_test(test_format_properties)
     };
 
     return cmocka_run_group_tests(tests, test_format_setup, test_format_teardown);
@@ -428,6 +431,141 @@ static void test_format_text_quiet(void **pstate)
     assert_true(quiet_valid);
     assert_false(quiet_header);
     assert_false(quiet_handle);
+}
+
+static void test_format_properties(void **pstate)
+{
+    const test_format_state_t *state = *pstate;
+
+    // OEM strings with a single string
+    static const dmi_data_t parent_data[] = {
+        11, 5, 0x00, 0x01, 0x01,
+        'O', 'E', 'M', 0,
+        0
+    };
+
+    // String properties with named identifier, identifier within the vendor
+    // range and without value
+    static const dmi_data_t property_data[][13] = {
+        { 46, 9, 0x00, 0x02, 0x01, 0x00, 0x01, 0x00, 0x01, 'P', 0, 0 },
+        { 46, 9, 0x01, 0x02, 0x01, 0x80, 0x01, 0x00, 0x01, 'V', 0, 0 },
+        { 46, 9, 0x02, 0x02, 0x01, 0xC0, 0x00, 0x00, 0x01, 0, 0 }
+    };
+
+    static const struct {
+        const char *code;
+        const char *expected;
+    } cases[] = {
+        {
+            "text",
+            "\tProperties:\n"
+            "\t\tUEFI device path: P\n"
+            "\t\tFirmware vendor specific (0x8001): V\n"
+            "\t\tOEM specific (0xC001): <unspecified>\n"
+        },
+        {
+            "json",
+            "\"properties\": [\n"
+            "                {\n"
+            "                    \"id\": \"0x0001\",\n"
+            "                    \"code\": \"uefi-device-path\",\n"
+            "                    \"value\": \"P\"\n"
+            "                },\n"
+            "                {\n"
+            "                    \"id\": \"0x8001\",\n"
+            "                    \"code\": \"vendor-specific\",\n"
+            "                    \"value\": \"V\"\n"
+            "                },\n"
+            "                {\n"
+            "                    \"id\": \"0xc001\",\n"
+            "                    \"code\": \"oem-specific\",\n"
+            "                    \"value\": null\n"
+            "                }\n"
+            "            ]"
+        },
+        {
+            "yaml",
+            "  properties:\n"
+            "  - id: 0x0001\n"
+            "    code: \"uefi-device-path\"\n"
+            "    value: \"P\"\n"
+            "  - id: 0x8001\n"
+            "    code: \"vendor-specific\"\n"
+            "    value: \"V\"\n"
+            "  - id: 0xc001\n"
+            "    code: \"oem-specific\"\n"
+            "    value: null\n"
+        },
+        {
+            "xml",
+            "<dmi:properties>\n"
+            "      <dmi:property id=\"0x0001\" code=\"uefi-device-path\">P</dmi:property>\n"
+            "      <dmi:property id=\"0x8001\" code=\"vendor-specific\">V</dmi:property>\n"
+            "      <dmi:property id=\"0xc001\" code=\"oem-specific\"></dmi:property>\n"
+            "    </dmi:properties>\n"
+        }
+    };
+
+    dmi_entity_t *parent = dmi_entity_create(state->context, parent_data, sizeof(parent_data));
+    assert_non_null(parent);
+    assert_true(dmi_entity_decode(parent));
+
+    // Properties are not shown if there are none
+    char *output = test_format_print(dmi_format_get("text"), parent, false, DMI_FORMAT_MODE_NORMAL);
+    bool found = (output != nullptr) and (strstr(output, "Properties:") != nullptr);
+
+    free(output);
+    assert_false(found);
+
+    dmi_entity_t *properties[countof(property_data)];
+
+    for (size_t i = 0; i < countof(property_data); i++) {
+        properties[i] = dmi_entity_create(state->context, property_data[i], sizeof(property_data[i]));
+        assert_non_null(properties[i]);
+        assert_true(dmi_entity_decode(properties[i]));
+        assert_true(dmi_entity_add_property(parent, properties[i]->info));
+    }
+
+    const char *failed = nullptr;
+
+    for (size_t i = 0; (i < countof(cases)) and (failed == nullptr); i++) {
+        const dmi_format_t *format = dmi_format_get(cases[i].code);
+
+        // Format may be disabled at build time
+        if (format == nullptr)
+            continue;
+
+        output = test_format_print(format, parent, false, DMI_FORMAT_MODE_NORMAL);
+        if ((output == nullptr) or (strstr(output, cases[i].expected) == nullptr))
+            failed = cases[i].code;
+
+        free(output);
+    }
+
+    // Properties are shown even in quiet mode, but not in raw dumps
+    const dmi_format_t *format = dmi_format_get("text");
+
+    char *quiet = test_format_print(format, parent, false, DMI_FORMAT_MODE_QUIET);
+    char *dump  = test_format_print(format, parent, true, DMI_FORMAT_MODE_NORMAL);
+
+    bool quiet_found = (quiet != nullptr) and (strstr(quiet, "UEFI device path: P") != nullptr);
+    bool dump_valid  = (dump != nullptr) and (strstr(dump, "Header and data:") != nullptr);
+    bool dump_found  = (dump != nullptr) and (strstr(dump, "Properties:") != nullptr);
+
+    free(quiet);
+    free(dump);
+
+    for (size_t i = 0; i < countof(properties); i++)
+        dmi_entity_destroy(properties[i]);
+
+    dmi_entity_destroy(parent);
+
+    if (failed != nullptr)
+        fail_msg("Format %s: invalid properties output", failed);
+
+    assert_true(quiet_found);
+    assert_true(dump_valid);
+    assert_false(dump_found);
 }
 
 static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode)

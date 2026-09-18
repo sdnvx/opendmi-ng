@@ -396,6 +396,50 @@ bool dmi_yaml_entity_attrs_end(dmi_yaml_session_t *session, const dmi_entity_t *
     return dmi_yaml_mapping_end(session);
 }
 
+bool dmi_yaml_entity_properties(dmi_yaml_session_t *session, const dmi_entity_t *entity)
+{
+    assert(session != nullptr);
+    assert(entity != nullptr);
+
+    dmi_format_property_iter_t iter;
+    const dmi_string_property_t *property;
+
+    bool result =
+        dmi_yaml_label(session, "properties") and
+        dmi_yaml_sequence_start(session, YAML_BLOCK_SEQUENCE_STYLE);
+    if (not result)
+        return false;
+
+    dmi_format_property_iter_init(&iter, entity);
+
+    while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
+        char id[8];
+        const char *code = dmi_code_lookup(&dmi_property_names, property->ident);
+
+        snprintf(id, sizeof(id), "0x%04x", (unsigned)property->ident);
+
+        // Identifier is written as a plain number, like handles
+        result =
+            dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE) and
+            dmi_yaml_label(session, "id") and
+            dmi_yaml_scalar(session, id, nullptr, YAML_PLAIN_SCALAR_STYLE) and
+            dmi_yaml_label(session, "code") and
+            ((code != nullptr) ?
+                dmi_yaml_scalar(session, code, YAML_STR_TAG, YAML_DOUBLE_QUOTED_SCALAR_STYLE) :
+                dmi_yaml_scalar(session, "null", YAML_NULL_TAG, YAML_PLAIN_SCALAR_STYLE)) and
+            dmi_yaml_label(session, "value") and
+            ((property->value != nullptr) ?
+                dmi_yaml_scalar(session, property->value, YAML_STR_TAG, YAML_DOUBLE_QUOTED_SCALAR_STYLE) :
+                dmi_yaml_scalar(session, "null", YAML_NULL_TAG, YAML_PLAIN_SCALAR_STYLE)) and
+            dmi_yaml_mapping_end(session);
+
+        if (not result)
+            return false;
+    }
+
+    return dmi_yaml_sequence_end(session);
+}
+
 bool dmi_yaml_entity_data(dmi_yaml_session_t *session, const dmi_entity_t *entity)
 {
     bool result;

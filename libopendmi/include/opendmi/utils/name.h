@@ -15,6 +15,16 @@ typedef struct dmi_name       dmi_name_t;
 typedef struct dmi_name_range dmi_name_range_t;
 typedef struct dmi_name_set   dmi_name_set_t;
 
+/**
+ * @brief Kind of dictionary entry matching an identifier.
+ */
+typedef enum dmi_name_type
+{
+    DMI_NAME_TYPE_NONE,  ///< No matching entry
+    DMI_NAME_TYPE_EXACT, ///< Entry for the identifier itself
+    DMI_NAME_TYPE_RANGE  ///< Entry for a range the identifier belongs to
+} dmi_name_type_t;
+
 struct dmi_name
 {
     int id;
@@ -78,6 +88,22 @@ __BEGIN_DECLS
 __dmi_api const char *dmi_code_lookup(const dmi_name_set_t *dict, int id);
 
 /**
+ * @brief Look up the machine-readable code string for an integer identifier,
+ *        and tell whether it names the identifier itself or its range.
+ *
+ * Same as `dmi_code_lookup()`, but also reports the kind of matching entry.
+ * Range codes are shared by all identifiers of the range, so the identifier
+ * value is needed to tell them apart.
+ *
+ * @param[in]  dict  Dictionary to search; must not be @c nullptr.
+ * @param[in]  id    Integer identifier to look up; must be non-negative.
+ * @param[out] ptype Kind of matching entry, `DMI_NAME_TYPE_NONE` if not
+ *                   found. May be @c nullptr.
+ * @return The code string for @p id, or @c nullptr if not found.
+ */
+__dmi_api const char *dmi_code_lookup_ex(const dmi_name_set_t *dict, int id, dmi_name_type_t *ptype);
+
+/**
  * @brief Reverse look up the integer identifier for a machine-readable code
  *        string.
  *
@@ -105,6 +131,22 @@ __dmi_api int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code);
  *         @p id is negative, or no matching entry is found.
  */
 __dmi_api const char *dmi_name_lookup(const dmi_name_set_t *dict, int id);
+
+/**
+ * @brief Look up the human-readable name string for an integer identifier,
+ *        and tell whether it names the identifier itself or its range.
+ *
+ * Same as `dmi_name_lookup()`, but also reports the kind of matching entry.
+ * Range names are shared by all identifiers of the range, so the identifier
+ * value is needed to tell them apart.
+ *
+ * @param[in]  dict  Dictionary to search; must not be @c nullptr.
+ * @param[in]  id    Integer identifier to look up; must be non-negative.
+ * @param[out] ptype Kind of matching entry, `DMI_NAME_TYPE_NONE` if not
+ *                   found. May be @c nullptr.
+ * @return The name string for @p id, or @c nullptr if not found.
+ */
+__dmi_api const char *dmi_name_lookup_ex(const dmi_name_set_t *dict, int id, dmi_name_type_t *ptype);
 
 __END_DECLS
 

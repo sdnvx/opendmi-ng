@@ -50,6 +50,7 @@ bool dmi_yaml_entity_attr_set(
 
 bool dmi_yaml_entity_attrs_end(dmi_yaml_session_t *session, const dmi_entity_t *entity);
 bool dmi_yaml_entity_data(dmi_yaml_session_t *session, const dmi_entity_t *entity);
+bool dmi_yaml_entity_properties(dmi_yaml_session_t *session, const dmi_entity_t *entity);
 bool dmi_yaml_entity_strings(dmi_yaml_session_t *session, const dmi_entity_t *entity);
 bool dmi_yaml_entity_end(dmi_yaml_session_t *session, const dmi_entity_t *entity);
 bool dmi_yaml_table_end(dmi_yaml_session_t *session);

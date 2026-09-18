@@ -299,6 +299,11 @@ bool dmi_print_entity(
         if ((format->handlers.entity_attrs_end != nullptr) and
             not format->handlers.entity_attrs_end(session, entity))
             return false;
+
+        // String properties are added by other structures during linking
+        if (not dmi_vector_is_empty(&entity->properties) and
+            not format->handlers.entity_properties(session, entity))
+            return false;
     } else if (entity->type != DMI_TYPE(END_OF_TABLE)) {
         if (not format->handlers.entity_data(session, entity))
             return false;

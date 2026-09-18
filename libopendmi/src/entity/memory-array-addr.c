@@ -164,15 +164,13 @@ static bool dmi_memory_array_addr_decode(dmi_entity_t *entity)
 
 static bool dmi_memory_array_addr_link(dmi_entity_t *entity)
 {
-    dmi_registry_t *registry;
     dmi_memory_array_addr_t *info;
 
     info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
     if (info == nullptr)
         return false;
 
-    registry = entity->context->state.registry;
-    info->array = dmi_registry_get(registry, info->array_handle, DMI_TYPE(MEMORY_ARRAY), false);
+    dmi_registry_t *registry = entity->context->state.registry;
 
-    return true;
+    return dmi_registry_resolve(registry, info->array_handle, DMI_TYPE(MEMORY_ARRAY), &info->array);
 }

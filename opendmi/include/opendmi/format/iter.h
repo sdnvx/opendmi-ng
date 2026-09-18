@@ -15,11 +15,13 @@
 #include <opendmi/types.h>
 #include <opendmi/attribute.h>
 #include <opendmi/entity.h>
+#include <opendmi/entity/string-property.h>
 
-typedef struct dmi_format_array_iter  dmi_format_array_iter_t;
-typedef struct dmi_format_flag        dmi_format_flag_t;
-typedef struct dmi_format_set_iter    dmi_format_set_iter_t;
-typedef struct dmi_format_string_iter dmi_format_string_iter_t;
+typedef struct dmi_format_array_iter    dmi_format_array_iter_t;
+typedef struct dmi_format_flag          dmi_format_flag_t;
+typedef struct dmi_format_set_iter      dmi_format_set_iter_t;
+typedef struct dmi_format_string_iter   dmi_format_string_iter_t;
+typedef struct dmi_format_property_iter dmi_format_property_iter_t;
 
 /**
  * @brief Iterator over elements of an array attribute.
@@ -120,6 +122,19 @@ struct dmi_format_string_iter
     size_t index;
 };
 
+struct dmi_format_property_iter
+{
+    /**
+     * @brief Entity descriptor.
+     */
+    const dmi_entity_t *entity;
+
+    /**
+     * @brief Index of the next property.
+     */
+    size_t next;
+};
+
 __BEGIN_DECLS
 
 /**
@@ -205,6 +220,10 @@ void dmi_format_string_iter_init(dmi_format_string_iter_t *iter, const dmi_entit
  * @return String, or @c nullptr if there are no more strings.
  */
 const char *dmi_format_string_iter_next(dmi_format_string_iter_t *iter);
+
+void dmi_format_property_iter_init(dmi_format_property_iter_t *iter, const dmi_entity_t *entity);
+
+const dmi_string_property_t *dmi_format_property_iter_next(dmi_format_property_iter_t *iter);
 
 __END_DECLS
 

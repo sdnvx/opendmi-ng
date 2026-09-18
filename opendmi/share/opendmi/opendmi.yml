@@ -69,6 +69,26 @@ properties:
                                 type: string
                 attributes:
                     type: object
+                properties:
+                    description: String properties added by type 46 structures
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            id:
+                                type: integer
+                                minimum: 0x0000
+                                maximum: 0xFFFF
+                            code:
+                                type: string
+                            value:
+                                type:
+                                  - string
+                                  - "null"
+                        required:
+                          - id
+                          - code
+                          - value
             required:
               - handle
               - type

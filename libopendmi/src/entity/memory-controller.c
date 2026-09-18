@@ -313,7 +313,6 @@ static bool dmi_memory_controller_decode(dmi_entity_t *entity)
 
 static bool dmi_memory_controller_link(dmi_entity_t *entity)
 {
-    dmi_registry_t *registry;
     dmi_memory_controller_t *info;
 
     assert(entity != nullptr);
@@ -326,15 +325,22 @@ static bool dmi_memory_controller_link(dmi_entity_t *entity)
     if (info->modules == nullptr)
         return false;
 
-    registry = entity->context->state.registry;
+    dmi_registry_t *registry = entity->context->state.registry;
+    bool success = true;
 
     for (size_t i = 0; i < info->slot_count; i++) {
-        info->modules[i] = dmi_registry_get(registry, info->module_handles[i], DMI_TYPE(MEMORY_MODULE), false);
+        if (not dmi_registry_resolve(registry, info->module_handles[i], DMI_TYPE(MEMORY_MODULE), &info->modules[i])) {
+            success = false;
+            continue;
+        }
 
         if (info->modules[i] == nullptr)
             continue;
 
+        // Memory module may be left undecoded
         dmi_memory_module_t *module = dmi_entity_info(info->modules[i], DMI_TYPE(MEMORY_MODULE));
+        if (module == nullptr)
+            continue;
 
         // Bind memory controller to module
         module->controller = entity;
@@ -352,7 +358,7 @@ static bool dmi_memory_controller_link(dmi_entity_t *entity)
         }
     }
 
-    return true;
+    return success;
 }
 
 static void dmi_memory_controller_cleanup(dmi_entity_t *entity)

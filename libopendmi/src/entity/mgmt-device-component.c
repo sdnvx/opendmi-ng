@@ -93,22 +93,29 @@ static bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
 
     dmi_context_t *context = entity->context;
     dmi_registry_t *registry = context->state.registry;
+    bool success = true;
 
-    bool relaxed = not(context->flags & DMI_CONTEXT_FLAG_STRICT);
-
-    info->device = dmi_registry_get(registry, info->device_handle, DMI_TYPE(MGMT_DEVICE), false);
-    if ((info->device == nullptr) and (not relaxed))
-        return false;
-
-    info->component = dmi_registry_get_any(registry, info->component_handle, dmi_component_types, false);
-    if ((info->component == nullptr) and (not relaxed))
-        return false;
-
-    if (info->threshold_handle != DMI_HANDLE_INVALID) {
-        info->threshold = dmi_registry_get(registry, info->threshold_handle, DMI_TYPE(MGMT_DEVICE_THRESHOLD), false);
-        if ((info->threshold == nullptr) and (not relaxed))
-            return false;
+    // Management device and component are required, threshold is optional
+    if (not dmi_registry_resolve(registry, info->device_handle, DMI_TYPE(MGMT_DEVICE), &info->device)) {
+        success = false;
+    } else if (info->device == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
+                           "Management device component 0x%04x: management device is not specified",
+                           entity->handle);
+        success = false;
     }
 
-    return true;
+    if (not dmi_registry_resolve_any(registry, info->component_handle, dmi_component_types, &info->component)) {
+        success = false;
+    } else if (info->component == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
+                           "Management device component 0x%04x: component is not specified",
+                           entity->handle);
+        success = false;
+    }
+
+    if (not dmi_registry_resolve(registry, info->threshold_handle, DMI_TYPE(MGMT_DEVICE_THRESHOLD), &info->threshold))
+        success = false;
+
+    return success;
 }

@@ -11,7 +11,7 @@
 
 #include <opendmi/types.h>
 
-#define DMI_ERROR_MAX_DEPTH 32
+#define DMI_ERROR_MAX_DEPTH 64
 
 /**
  * @brief DMI error codes.

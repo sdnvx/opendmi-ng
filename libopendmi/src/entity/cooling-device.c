@@ -193,17 +193,12 @@ static bool dmi_cooling_device_decode(dmi_entity_t *entity)
 static bool dmi_cooling_device_link(dmi_entity_t *entity)
 {
     dmi_cooling_device_t *info;
-    dmi_registry_t *registry;
 
     info = dmi_entity_info(entity, DMI_TYPE(COOLING_DEVICE));
     if (info == nullptr)
         return false;
 
-    registry = entity->context->state.registry;
+    dmi_registry_t *registry = entity->context->state.registry;
 
-    if (info->probe_handle != DMI_HANDLE_INVALID) {
-        info->probe = dmi_registry_get(registry, info->probe_handle, DMI_TYPE(TEMPERATURE_PROBE), false);
-    }
-
-    return true;
+    return dmi_registry_resolve(registry, info->probe_handle, DMI_TYPE(TEMPERATURE_PROBE), &info->probe);
 }

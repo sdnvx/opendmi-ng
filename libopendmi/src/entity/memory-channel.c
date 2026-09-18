@@ -139,24 +139,25 @@ static bool dmi_memory_channel_decode(dmi_entity_t *entity)
 static bool dmi_memory_channel_link(dmi_entity_t *entity)
 {
     dmi_memory_channel_t *info;
-    dmi_registry_t *registry;
-    dmi_entity_t *device;
 
     info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CHANNEL));
     if (info == nullptr)
         return false;
 
-    if (info->device_count == 0)
-        return true;
-
-    registry = entity->context->state.registry;
+    dmi_registry_t *registry = entity->context->state.registry;
+    bool success = true;
 
     for (size_t i = 0; i < info->device_count; i++) {
-        device = dmi_registry_get(registry, info->devices[i].handle, DMI_TYPE(MEMORY_DEVICE), false);
-        if (device == nullptr)
+        dmi_entity_t *device;
+
+        if (not dmi_registry_resolve(registry, info->devices[i].handle, DMI_TYPE(MEMORY_DEVICE), &device)) {
+            success = false;
             continue;
+        }
 
         info->devices[i].device = device;
+        if (device == nullptr)
+            continue;
 
         // Memory device may be left undecoded
         dmi_memory_device_t *device_info = dmi_entity_info(device, DMI_TYPE(MEMORY_DEVICE));
@@ -164,7 +165,7 @@ static bool dmi_memory_channel_link(dmi_entity_t *entity)
             device_info->channel = entity;
     }
 
-    return true;
+    return success;
 }
 
 static void dmi_memory_channel_cleanup(dmi_entity_t *entity)

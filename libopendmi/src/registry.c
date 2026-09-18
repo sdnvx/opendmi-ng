@@ -147,6 +147,71 @@ dmi_entity_t *dmi_registry_get_any(
     return entity;
 }
 
+bool dmi_registry_resolve(
+        dmi_registry_t  *registry,
+        dmi_handle_t     handle,
+        dmi_type_t       type,
+        dmi_entity_t   **pentity)
+{
+    const dmi_type_t types[] = { type, DMI_TYPE_INVALID };
+
+    return dmi_registry_resolve_any(registry, handle, (type != DMI_TYPE_INVALID) ? types : nullptr, pentity);
+}
+
+bool dmi_registry_resolve_any(
+        dmi_registry_t    *registry,
+        dmi_handle_t       handle,
+        const dmi_type_t  *types,
+        dmi_entity_t     **pentity)
+{
+    assert(pentity != nullptr);
+
+    *pentity = nullptr;
+
+    if (registry == nullptr)
+        return false;
+
+    // Reserved handle values mean that the reference is not set
+    if ((handle == DMI_HANDLE_INVALID) or (handle == DMI_HANDLE_UNSUPPORTED))
+        return true;
+
+    dmi_context_t *context = registry->context;
+
+    dmi_entity_t *entity = dmi_registry_get(registry, handle, DMI_TYPE_INVALID, false);
+    if (entity == nullptr)
+        return false;
+
+    if (types != nullptr) {
+        const dmi_type_t *type = types;
+
+        while ((*type != DMI_TYPE_INVALID) and (entity->type != *type))
+            type++;
+
+        if (*type == DMI_TYPE_INVALID) {
+            // Some SMBIOS vendors report 0x0000u instead of 0xFFFFu as
+            // unspecified handle value
+            if ((handle == 0x0000u) and (context->flags & DMI_CONTEXT_FLAG_STRICT) == 0)
+                return true;
+
+            if (types[1] == DMI_TYPE_INVALID) {
+                dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+                                   "0x%04x: %s instead of %s", handle,
+                                   dmi_type_name(context, entity->type),
+                                   dmi_type_name(context, types[0]));
+            } else {
+                dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+                                   "0x%04x: unexpected %s", handle,
+                                   dmi_type_name(context, entity->type));
+            }
+            return false;
+        }
+    }
+
+    *pentity = entity;
+
+    return true;
+}
+
 dmi_entity_t *dmi_registry_get_first(
         dmi_registry_t *registry,
         dmi_type_t      type,
@@ -354,6 +419,8 @@ bool dmi_registry_link(dmi_registry_t *registry)
     dmi_registry_iter_t iter;
     dmi_registry_iter_init(&iter, registry, nullptr);
 
+    bool success = true;
+
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         if ((entity->spec == nullptr) or (entity->spec->handlers.link == nullptr))
@@ -370,9 +437,16 @@ bool dmi_registry_link(dmi_registry_t *registry)
                       entity->type,
                       dmi_type_name(context, entity->type));
 
+        // Linking goes on after a failure, so that all broken references in
+        // the table are reported at once
         if (not dmi_entity_link(entity))
-            return false;
+            success = false;
     }
+
+    // Broken references are fatal only in strict mode, otherwise the rest of
+    // the table remains usable and the errors are left in the error queue
+    if ((not success) and (context->flags & DMI_CONTEXT_FLAG_STRICT))
+        return false;
 
     registry->status |= DMI_REGISTRY_STATUS_LINKED;
 

@@ -49,6 +49,7 @@ bool dmi_xml_entity_attr_set(
 
 bool dmi_xml_entity_attrs_end(dmi_xml_session_t *session, const dmi_entity_t *entity);
 bool dmi_xml_entity_data(dmi_xml_session_t *session, const dmi_entity_t *entity);
+bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *entity);
 bool dmi_xml_entity_strings(dmi_xml_session_t *session, const dmi_entity_t *entity);
 bool dmi_xml_entity_end(dmi_xml_session_t *session, const dmi_entity_t *entity);
 bool dmi_xml_dump_end(dmi_xml_session_t *session);

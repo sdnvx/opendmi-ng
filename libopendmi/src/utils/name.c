@@ -9,26 +9,24 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 
+static bool dmi_name_find(
+        const dmi_name_set_t  *dict,
+        int                    id,
+        const char           **pcode,
+        const char           **pname,
+        dmi_name_type_t       *ptype);
+
 const char *dmi_code_lookup(const dmi_name_set_t *dict, int id)
 {
-    if ((dict == nullptr) or (id < 0))
-        return nullptr;
+    return dmi_code_lookup_ex(dict, id, nullptr);
+}
 
-    if (dict->names != nullptr) {
-        for (const dmi_name_t *entry = dict->names; entry->code != nullptr; entry++) {
-            if (id == entry->id)
-                return entry->code;
-        }
-    }
+const char *dmi_code_lookup_ex(const dmi_name_set_t *dict, int id, dmi_name_type_t *ptype)
+{
+    const char *code = nullptr;
+    dmi_name_find(dict, id, &code, nullptr, ptype);
 
-    if (dict->ranges != nullptr) {
-        for (const dmi_name_range_t *entry = dict->ranges; entry->code != nullptr; entry++) {
-            if ((id >= entry->start_id) and (id <= entry->end_id))
-                return entry->code;
-        }
-    }
-
-    return nullptr;
+    return code;
 }
 
 int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code)
@@ -46,22 +44,72 @@ int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code)
 
 const char *dmi_name_lookup(const dmi_name_set_t *dict, int id)
 {
-    if ((dict == nullptr) or (id < 0))
-        return nullptr;
+    return dmi_name_lookup_ex(dict, id, nullptr);
+}
 
-    if (dict->names != nullptr) {
-        for (const dmi_name_t *entry = dict->names; entry->code != nullptr; entry++) {
-            if (id == entry->id)
-                return entry->name;
+const char *dmi_name_lookup_ex(const dmi_name_set_t *dict, int id, dmi_name_type_t *ptype)
+{
+    const char *name = nullptr;
+    dmi_name_find(dict, id, nullptr, &name, ptype);
+
+    return name;
+}
+
+//
+// Find entry for the identifier, exact entries take precedence over ranges.
+// Returns false if there is no matching entry.
+//
+static bool dmi_name_find(
+        const dmi_name_set_t  *dict,
+        int                    id,
+        const char           **pcode,
+        const char           **pname,
+        dmi_name_type_t       *ptype)
+{
+    const char *code = nullptr;
+    const char *name = nullptr;
+    dmi_name_type_t type = DMI_NAME_TYPE_NONE;
+
+    do {
+        if ((dict == nullptr) or (id < 0))
+            break;
+
+        // Names and ranges are optional
+        if (dict->names != nullptr) {
+            for (const dmi_name_t *entry = dict->names; entry->code != nullptr; entry++) {
+                if (id != entry->id)
+                    continue;
+
+                type = DMI_NAME_TYPE_EXACT;
+                code = entry->code, name = entry->name;
+
+                break;
+            }
         }
-    }
 
-    if (dict->ranges != nullptr) {
-        for (const dmi_name_range_t *entry = dict->ranges; entry->code != nullptr; entry++) {
-            if ((id >= entry->start_id) and (id <= entry->end_id))
-                return entry->name;
+        // Exact entries take precedence over ranges
+        if (type != DMI_NAME_TYPE_NONE)
+            break;
+
+        if (dict->ranges != nullptr) {
+            for (const dmi_name_range_t *entry = dict->ranges; entry->code != nullptr; entry++) {
+                if ((id < entry->start_id) or (id > entry->end_id))
+                    continue;
+
+                type = DMI_NAME_TYPE_RANGE;
+                code = entry->code, name = entry->name;
+
+                break;
+            }
         }
-    }
+    } while (false);
 
-    return nullptr;
+    if (pcode != nullptr)
+        *pcode = code;
+    if (pname != nullptr)
+        *pname = name;
+    if (ptype != nullptr)
+        *ptype = type;
+
+    return type != DMI_NAME_TYPE_NONE;
 }

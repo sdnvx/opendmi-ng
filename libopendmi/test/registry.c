@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include <cmocka.h>
 
@@ -31,6 +32,11 @@ static void test_registry_get_first(void **pstate);
 static void test_registry_link_unset_handles(void **pstate);
 static void test_registry_decode_malformed(void **pstate);
 static void test_registry_decode_malformed_strict(void **pstate);
+static void test_registry_resolve(void **pstate);
+static void test_registry_resolve_strict(void **pstate);
+
+static void test_resolve(dmi_registry_t *registry, dmi_handle_t handle, dmi_type_t type,
+                         bool success, dmi_type_t found, dmi_error_code_t reason);
 
 static dmi_context_t *test_registry_open(unsigned int flags, dmi_data_t *table, size_t size);
 
@@ -105,6 +111,24 @@ static dmi_data_t test_table[] = {
     0x00, 0x00
 };
 
+// SMBIOS table with a structure at handle 0x0000, which some vendors use as
+// unspecified handle value
+static dmi_data_t test_resolve_table[] = {
+    // OEM strings, handle 0x0000
+    11, 0x05, 0x00, 0x00,
+    0x01, 'O', 'E', 'M', 0x00,
+    0x00,
+
+    // Physical memory array, handle 0x0001
+    16, 0x0F, 0x01, 0x00,
+    0x03, 0x03, 0x03, 0x00, 0x00, 0x40, 0x00, 0xFE, 0xFF, 0x02, 0x00,
+    0x00, 0x00,
+
+    // End of table
+    127, 0x04, 0xFF, 0x00,
+    0x00, 0x00
+};
+
 int main(void)
 {
     const struct CMUnitTest tests[] = {
@@ -114,7 +138,9 @@ int main(void)
         cmocka_unit_test(test_registry_get_first),
         cmocka_unit_test(test_registry_link_unset_handles),
         cmocka_unit_test(test_registry_decode_malformed),
-        cmocka_unit_test(test_registry_decode_malformed_strict)
+        cmocka_unit_test(test_registry_decode_malformed_strict),
+        cmocka_unit_test(test_registry_resolve),
+        cmocka_unit_test(test_registry_resolve_strict)
     };
 
     return cmocka_run_group_tests(tests, test_registry_setup, test_registry_teardown);
@@ -325,6 +351,97 @@ static void test_registry_decode_malformed_strict(void **pstate)
     const dmi_context_t *context = test_registry_open(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_STRICT,
                                                 test_malformed_table, sizeof(test_malformed_table));
     assert_null(context);
+}
+
+static void test_registry_resolve(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = test_registry_open(DMI_CONTEXT_FLAG_LINK, test_resolve_table,
+                                                sizeof(test_resolve_table));
+    assert_non_null(context);
+
+    dmi_registry_t *registry = context->state.registry;
+
+    // Reference which is not set is resolved to nothing
+    test_resolve(registry, DMI_HANDLE_INVALID, DMI_TYPE(MEMORY_ARRAY), true, DMI_TYPE_INVALID, DMI_ERROR_NONE);
+    test_resolve(registry, DMI_HANDLE_UNSUPPORTED, DMI_TYPE(MEMORY_ARRAY), true, DMI_TYPE_INVALID, DMI_ERROR_NONE);
+
+    // Valid references, with and without type check
+    test_resolve(registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), true, DMI_TYPE(MEMORY_ARRAY), DMI_ERROR_NONE);
+    test_resolve(registry, 0x0001, DMI_TYPE_INVALID, true, DMI_TYPE(MEMORY_ARRAY), DMI_ERROR_NONE);
+    test_resolve(registry, 0x0000, DMI_TYPE(OEM_STRINGS), true, DMI_TYPE(OEM_STRINGS), DMI_ERROR_NONE);
+
+    // Broken references
+    test_resolve(registry, 0x0001, DMI_TYPE(CACHE), false, DMI_TYPE_INVALID, DMI_ERROR_INVALID_ENTITY_TYPE);
+    test_resolve(registry, 0x0999, DMI_TYPE(MEMORY_ARRAY), false, DMI_TYPE_INVALID, DMI_ERROR_ENTITY_NOT_FOUND);
+
+    // Handle 0x0000 of unexpected type means unspecified value in relaxed mode
+    test_resolve(registry, 0x0000, DMI_TYPE(MEMORY_ARRAY), true, DMI_TYPE_INVALID, DMI_ERROR_NONE);
+
+    // Any of the expected types is accepted
+    static const dmi_type_t valid_types[]   = { DMI_TYPE(CACHE), DMI_TYPE(MEMORY_ARRAY), DMI_TYPE_INVALID };
+    static const dmi_type_t invalid_types[] = { DMI_TYPE(CACHE), DMI_TYPE(PROCESSOR), DMI_TYPE_INVALID };
+
+    dmi_entity_t *entity = nullptr;
+
+    assert_true(dmi_registry_resolve_any(registry, 0x0001, valid_types, &entity));
+    assert_non_null(entity);
+
+    dmi_error_clear(context);
+    assert_false(dmi_registry_resolve_any(registry, 0x0001, invalid_types, &entity));
+    assert_null(entity);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ENTITY_TYPE);
+    assert_non_null(strstr(dmi_error_peek_last(context)->message, "unexpected"));
+
+    // The only expected type is named in the error message
+    dmi_error_clear(context);
+    assert_false(dmi_registry_resolve(registry, 0x0001, DMI_TYPE(CACHE), &entity));
+    assert_non_null(strstr(dmi_error_peek_last(context)->message, "instead of"));
+
+    dmi_destroy(context);
+}
+
+static void test_registry_resolve_strict(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = test_registry_open(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_STRICT,
+                                                test_resolve_table, sizeof(test_resolve_table));
+    assert_non_null(context);
+
+    // Handle 0x0000 is not treated as unspecified value in strict mode
+    test_resolve(context->state.registry, 0x0000, DMI_TYPE(MEMORY_ARRAY), false, DMI_TYPE_INVALID,
+                 DMI_ERROR_INVALID_ENTITY_TYPE);
+
+    dmi_destroy(context);
+}
+
+//
+// Resolve reference and check the result, the resolved entity type and the
+// raised error
+//
+static void test_resolve(dmi_registry_t *registry, dmi_handle_t handle, dmi_type_t type,
+                         bool success, dmi_type_t found, dmi_error_code_t reason)
+{
+    dmi_context_t *context = registry->context;
+    dmi_entity_t *entity = (dmi_entity_t *)(uintptr_t)1;
+
+    dmi_error_clear(context);
+    assert_int_equal(dmi_registry_resolve(registry, handle, type, &entity), success);
+
+    if (found == DMI_TYPE_INVALID) {
+        assert_null(entity);
+    } else {
+        assert_non_null(entity);
+        assert_int_equal(entity->type, found);
+    }
+
+    const dmi_error_t *error = dmi_error_peek_last(context);
+    if (reason == DMI_ERROR_NONE)
+        assert_null(error);
+    else
+        assert_int_equal(error->reason, reason);
 }
 
 static dmi_context_t *test_registry_open(unsigned int flags, dmi_data_t *table, size_t size)

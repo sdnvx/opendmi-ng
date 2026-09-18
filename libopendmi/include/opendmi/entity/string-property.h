@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_string_property dmi_string_property_t;
+#ifndef DMI_STRING_PROPERTY_T
+#   define DMI_STRING_PROPERTY_T
+    typedef struct dmi_string_property dmi_string_property_t;
+#endif // !DMI_STRING_PROPERTY_T
 
 /**
  * @brief String property structure (type 46).
@@ -28,7 +31,7 @@ struct dmi_string_property
     /**
      * @brief Property identifier.
      */
-    uint16_t ident;
+    dmi_property_t ident;
 
     /**
      * @brief Property value.

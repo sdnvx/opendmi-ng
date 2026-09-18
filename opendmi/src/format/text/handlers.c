@@ -308,6 +308,39 @@ void dmi_text_entity_attr_set(
     }
 }
 
+bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t *entity)
+{
+    assert(session != nullptr);
+    assert(entity != nullptr);
+
+    dmi_format_property_iter_t iter;
+    const dmi_string_property_t *property;
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tProperties:\n");
+
+    dmi_format_property_iter_init(&iter, entity);
+
+    while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
+        dmi_name_type_t type;
+        const char *name = dmi_name_lookup_ex(&dmi_property_names, property->ident, &type);
+
+        // Identifiers named by their range only are told apart by value
+        if (type == DMI_NAME_TYPE_EXACT) {
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s: ", name);
+        } else {
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s (0x%04X): ",
+                            name ? name : "<invalid>", (unsigned)property->ident);
+        }
+
+        if (property->value != nullptr)
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s\n", property->value);
+        else
+            dmi_text_printf(session, DMI_TTY_COLOR_GREY, "<unspecified>\n");
+    }
+
+    return true;
+}
+
 bool dmi_text_entity_data(dmi_text_session_t *session, const dmi_entity_t *entity)
 {
     assert(session != nullptr);

@@ -313,8 +313,6 @@ static bool dmi_firmware_inventory_decode(dmi_entity_t *entity)
 
 static bool dmi_firmware_inventory_link(dmi_entity_t *entity)
 {
-    dmi_context_t *context;
-    dmi_registry_t *registry;
     dmi_firmware_inventory_t *info;
 
     assert(entity != nullptr);
@@ -323,28 +321,17 @@ static bool dmi_firmware_inventory_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    if (info->component_count == 0)
-        return true;
-
-    context  = entity->context;
-    registry = context->state.registry;
+    dmi_registry_t *registry = entity->context->state.registry;
+    bool success = true;
 
     for (size_t i = 0; i < info->component_count; i++) {
         dmi_firmware_inventory_component_t *component = &info->components[i];
 
-        if ((component->handle == DMI_HANDLE_INVALID) or
-            (component->handle == DMI_HANDLE_UNSUPPORTED))
-            continue;
-
-        component->entity = dmi_registry_get(registry, component->handle, DMI_TYPE_INVALID, false);
-        if (component->entity == nullptr) {
-            const dmi_error_t *error = dmi_error_peek_last(context);
-            if (error->reason != DMI_ERROR_ENTITY_NOT_FOUND)
-                return false;
-        }
+        if (not dmi_registry_resolve(registry, component->handle, DMI_TYPE_INVALID, &component->entity))
+            success = false;
     }
 
-    return true;
+    return success;
 }
 
 static void dmi_firmware_inventory_cleanup(dmi_entity_t *entity)

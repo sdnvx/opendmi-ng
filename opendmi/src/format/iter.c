@@ -125,3 +125,26 @@ const char *dmi_format_string_iter_next(dmi_format_string_iter_t *iter)
     // Strings within the string count are always present
     return dmi_entity_string_ex(iter->entity, ++iter->index, true);
 }
+
+void dmi_format_property_iter_init(dmi_format_property_iter_t *iter, const dmi_entity_t *entity)
+{
+    assert(iter != nullptr);
+    assert(entity != nullptr);
+
+    iter->entity = entity;
+    iter->next   = 0;
+}
+
+const dmi_string_property_t *dmi_format_property_iter_next(dmi_format_property_iter_t *iter)
+{
+    uintptr_t value;
+
+    assert(iter != nullptr);
+
+    if (not dmi_vector_get(&iter->entity->properties, iter->next, &value))
+        return nullptr;
+
+    iter->next++;
+
+    return (const dmi_string_property_t *)value;
+}

@@ -10,11 +10,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add basic C++ API
+- Add linking of string properties to their parent structures
+- Add `dmi_entity_property()` function
+- Show string properties of structures in all output formats
+- Add `dmi_registry_resolve()` and `dmi_registry_resolve_any()` functions
+- Add `dmi_code_lookup_ex()` and `dmi_name_lookup_ex()` functions
 
 ### Changed
 
 - Move internal definitions from `<opendmi/defs.h>` to a private header
 - Remove unused compatibility macros from public headers
+- Report all broken references when linking instead of stopping at the first one
+- Increase error queue depth from 32 to 64 entries
+- Treat broken references as link failures in all structures, fatal only in strict mode
+
+### Fixed
+
+- Fix name of string property value attribute
+- Fix false errors on memory device references to handle 0x0000 used as unspecified value
+- Fix crash on memory controller referring to undecoded memory module
 
 ## [0.4.1] - September 18, 2026
 

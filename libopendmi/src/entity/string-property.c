@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/context.h>
+#include <opendmi/error.h>
+#include <opendmi/registry.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
@@ -13,6 +15,7 @@
 
 static bool dmi_string_property_decode(dmi_entity_t *entity);
 static bool dmi_string_property_link(dmi_entity_t *entity);
+
 
 const dmi_entity_spec_t dmi_string_property_spec =
 {
@@ -32,13 +35,14 @@ const dmi_entity_spec_t dmi_string_property_spec =
     .minimum_length  = 0x09,
     .decoded_length  = sizeof(dmi_string_property_t),
     .attributes      = (const dmi_attribute_t[]){
-        DMI_ATTRIBUTE(dmi_string_property_t, ident, INTEGER, {
-            .code = "ident",
-            .name = "Identifier"
+        DMI_ATTRIBUTE(dmi_string_property_t, ident, ENUM, {
+            .code   = "ident",
+            .name   = "Identifier",
+            .values = &dmi_property_names
         }),
         DMI_ATTRIBUTE(dmi_string_property_t, value, STRING, {
             .code = "value",
-            .name = "Identifier"
+            .name = "Value"
         }),
         DMI_ATTRIBUTE(dmi_string_property_t, parent_handle, HANDLE, {
             .code = "parent-handle",
@@ -76,11 +80,33 @@ static bool dmi_string_property_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = entity->context->state.registry;
+    dmi_context_t *context = entity->context;
 
-    if (info->parent_handle != DMI_HANDLE_INVALID) {
-        info->parent = dmi_registry_get(registry, info->parent_handle, DMI_TYPE_INVALID, false);
+    if ((info->parent_handle == DMI_HANDLE_INVALID) or (info->parent_handle == DMI_HANDLE_UNSUPPORTED)) {
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
+                           "String property 0x%04x: parent is not specified", entity->handle);
+        return false;
     }
+
+    dmi_entity_t *parent = dmi_registry_get(context->state.registry, info->parent_handle, DMI_TYPE_INVALID, true);
+    if (parent == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
+                           "String property 0x%04x: parent 0x%04x not found",
+                           entity->handle, info->parent_handle);
+        return false;
+    }
+
+    if (parent->type == DMI_TYPE(STRING_PROPERTY)) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+                           "String property 0x%04x: parent 0x%04x is a string property",
+                           entity->handle, info->parent_handle);
+        return false;
+    }
+
+    if (not dmi_entity_add_property(parent, info))
+        return false;
+
+    info->parent = parent;
 
     return true;
 }

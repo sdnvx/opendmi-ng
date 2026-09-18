@@ -199,17 +199,19 @@ static bool dmi_memory_device_addr_decode(dmi_entity_t *entity)
 
 static bool dmi_memory_device_addr_link(dmi_entity_t *entity)
 {
-    dmi_registry_t *registry;
     dmi_memory_device_addr_t *info;
 
     info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE_ADDR));
     if (info == nullptr)
         return false;
 
-    registry = entity->context->state.registry;
+    dmi_registry_t *registry = entity->context->state.registry;
+    bool success = true;
 
-    info->device = dmi_registry_get(registry, info->device_handle, DMI_TYPE(MEMORY_DEVICE), false);
-    info->array_addr = dmi_registry_get(registry, info->array_addr_handle, DMI_TYPE(MEMORY_ARRAY_ADDR), false);
+    if (not dmi_registry_resolve(registry, info->device_handle, DMI_TYPE(MEMORY_DEVICE), &info->device))
+        success = false;
+    if (not dmi_registry_resolve(registry, info->array_addr_handle, DMI_TYPE(MEMORY_ARRAY_ADDR), &info->array_addr))
+        success = false;
 
-    return true;
+    return success;
 }

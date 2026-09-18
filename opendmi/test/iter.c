@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
+#include <opendmi/entity/string-property.h>
 #include <opendmi/format/iter.h>
 #include <opendmi/test/helpers.h>
 
@@ -20,6 +21,7 @@ static void test_iter_array(void **pstate);
 static void test_iter_array_empty(void **pstate);
 static void test_iter_set(void **pstate);
 static void test_iter_strings(void **pstate);
+static void test_iter_properties(void **pstate);
 
 typedef struct test_iter_info
 {
@@ -55,7 +57,8 @@ int main(void)
         cmocka_unit_test(test_iter_array),
         cmocka_unit_test(test_iter_array_empty),
         cmocka_unit_test(test_iter_set),
-        cmocka_unit_test(test_iter_strings)
+        cmocka_unit_test(test_iter_strings),
+        cmocka_unit_test(test_iter_properties)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -188,5 +191,81 @@ static void test_iter_strings(void **pstate)
     assert_null(dmi_format_string_iter_next(&iter));
 
     dmi_entity_destroy(entity);
+    dmi_destroy(context);
+}
+
+static void test_iter_properties(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+
+    // Inactive structure without properties
+    static const dmi_data_t parent_data[] = {
+        126, 5, 0x01, 0x00, 0x00,
+        0, 0
+    };
+
+    // String properties with named identifier, identifier within the vendor
+    // range and without value
+    static const dmi_data_t property_data[][13] = {
+        { 46, 9, 0x00, 0x02, 0x01, 0x00, 0x01, 0x00, 0x01, 'P', 0, 0 },
+        { 46, 9, 0x01, 0x02, 0x01, 0x80, 0x01, 0x00, 0x01, 'V', 0, 0 },
+        { 46, 9, 0x02, 0x02, 0x01, 0xC0, 0x00, 0x00, 0x01, 0, 0 }
+    };
+
+    static const struct {
+        dmi_property_t  ident;
+        const char     *value;
+    } expected[] = {
+        { DMI_PROPERTY_ID_UEFI_DEVICE_PATH, "P"     },
+        { 0x8001,                           "V"     },
+        { 0xC001,                           nullptr }
+    };
+
+    dmi_entity_t *parent = dmi_entity_create(context, parent_data, sizeof(parent_data));
+    assert_non_null(parent);
+
+    dmi_format_property_iter_t iter;
+    const dmi_string_property_t *property;
+
+    // Entity without properties
+    dmi_format_property_iter_init(&iter, parent);
+    assert_null(dmi_format_property_iter_next(&iter));
+
+    dmi_entity_t *properties[countof(property_data)];
+
+    for (size_t i = 0; i < countof(property_data); i++) {
+        properties[i] = dmi_entity_create(context, property_data[i], sizeof(property_data[i]));
+        assert_non_null(properties[i]);
+        assert_true(dmi_entity_decode(properties[i]));
+        assert_true(dmi_entity_add_property(parent, properties[i]->info));
+    }
+
+    // Properties are returned in the order they were added
+    size_t count = 0;
+
+    dmi_format_property_iter_init(&iter, parent);
+
+    while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
+        assert_true(count < countof(expected));
+        assert_int_equal(property->ident, expected[count].ident);
+
+        if (expected[count].value != nullptr)
+            assert_string_equal(property->value, expected[count].value);
+        else
+            assert_null(property->value);
+
+        count++;
+    }
+
+    assert_int_equal(count, countof(expected));
+    assert_null(dmi_format_property_iter_next(&iter));
+
+    for (size_t i = 0; i < countof(properties); i++)
+        dmi_entity_destroy(properties[i]);
+
+    dmi_entity_destroy(parent);
     dmi_destroy(context);
 }

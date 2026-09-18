@@ -256,21 +256,14 @@ static bool dmi_power_supply_link(dmi_entity_t *entity)
         return false;
 
     dmi_registry_t *registry = entity->context->state.registry;
+    bool success = true;
 
-    if (info->voltage_probe_handle != DMI_HANDLE_INVALID) {
-        info->voltage_probe = dmi_registry_get(registry, info->voltage_probe_handle,
-                                               DMI_TYPE(VOLTAGE_PROBE), false);
-    }
+    if (not dmi_registry_resolve(registry, info->voltage_probe_handle, DMI_TYPE(VOLTAGE_PROBE), &info->voltage_probe))
+        success = false;
+    if (not dmi_registry_resolve(registry, info->cooling_device_handle, DMI_TYPE(COOLING_DEVICE), &info->cooling_device))
+        success = false;
+    if (not dmi_registry_resolve(registry, info->current_probe_handle, DMI_TYPE(CURRENT_PROBE), &info->current_probe))
+        success = false;
 
-    if (info->cooling_device_handle != DMI_HANDLE_INVALID) {
-        info->cooling_device = dmi_registry_get(registry, info->cooling_device_handle,
-                                                DMI_TYPE(COOLING_DEVICE), false);
-    }
-
-    if (info->current_probe_handle != DMI_HANDLE_INVALID) {
-        info->current_probe = dmi_registry_get(registry, info->current_probe_handle,
-                                               DMI_TYPE(CURRENT_PROBE), false);
-    }
-
-    return true;
+    return success;
 }

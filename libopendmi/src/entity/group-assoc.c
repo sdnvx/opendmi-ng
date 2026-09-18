@@ -116,13 +116,16 @@ static bool dmi_group_assoc_link(dmi_entity_t *entity)
         return false;
 
     dmi_registry_t *registry = entity->context->state.registry;
+    bool success = true;
 
     for (size_t i = 0; i < info->item_count; i++) {
         dmi_group_assoc_item_t *item = &info->items[i];
-        item->entity = dmi_registry_get(registry, item->handle, item->type, false);
+
+        if (not dmi_registry_resolve(registry, item->handle, item->type, &item->entity))
+            success = false;
     }
 
-    return true;
+    return success;
 }
 
 static void dmi_group_assoc_cleanup(dmi_entity_t *entity)

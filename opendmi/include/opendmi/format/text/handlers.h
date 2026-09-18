@@ -47,6 +47,7 @@ void dmi_text_entity_attr_set(
         const void            *value);
 
 bool dmi_text_entity_data(dmi_text_session_t *session, const dmi_entity_t *entity);
+bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t *entity);
 bool dmi_text_entity_strings(dmi_text_session_t *session, const dmi_entity_t *entity);
 
 bool dmi_text_entity_end(dmi_text_session_t *session, const dmi_entity_t *entity);

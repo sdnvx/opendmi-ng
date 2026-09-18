@@ -282,31 +282,25 @@ static bool dmi_baseboard_link(dmi_entity_t *entity)
 
     dmi_context_t  *context  = entity->context;
     dmi_registry_t *registry = context->state.registry;
+    bool success = true;
 
-    if (info->chassis_handle != DMI_HANDLE_INVALID) {
-        info->chassis = dmi_registry_get(registry, info->chassis_handle,
-                                         DMI_TYPE(CHASSIS), false);
-    }
+    if (not dmi_registry_resolve(registry, info->chassis_handle, DMI_TYPE(CHASSIS), &info->chassis))
+        success = false;
 
     if (info->object_count > 0) {
         info->objects = dmi_alloc_array(context, sizeof(dmi_entity_t *), info->object_count);
-
         if (info->objects == nullptr) {
             dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
             return false;
         }
 
         for (size_t i = 0; i < info->object_count; i++) {
-            dmi_handle_t handle = info->object_handles[i];
-
-            if (handle == DMI_HANDLE_INVALID)
-                continue;
-
-            info->objects[i] = dmi_registry_get(registry, handle, DMI_TYPE_INVALID, false);
+            if (not dmi_registry_resolve(registry, info->object_handles[i], DMI_TYPE_INVALID, &info->objects[i]))
+                success = false;
         }
     }
 
-    return true;
+    return success;
 }
 
 static void dmi_baseboard_cleanup(dmi_entity_t *entity)

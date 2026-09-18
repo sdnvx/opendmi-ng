@@ -250,13 +250,13 @@ static bool dmi_memory_array_decode(dmi_entity_t *entity)
 
 static bool dmi_memory_array_link(dmi_entity_t *entity)
 {
-    dmi_memory_array_t *info;
-
     static const dmi_type_t error_types[] = {
         DMI_TYPE(MEMORY_ERROR_32),
         DMI_TYPE(MEMORY_ERROR_64),
         DMI_TYPE_INVALID
     };
+
+    dmi_memory_array_t *info;
 
     info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
     if (info == nullptr)
@@ -264,12 +264,5 @@ static bool dmi_memory_array_link(dmi_entity_t *entity)
 
     dmi_registry_t *registry = entity->context->state.registry;
 
-    if ((info->error_info_handle != DMI_HANDLE_INVALID) and
-        (info->error_info_handle != DMI_HANDLE_UNSUPPORTED))
-    {
-        info->error_info = dmi_registry_get_any(registry, info->error_info_handle,
-                                                error_types, false);
-    }
-
-    return true;
+    return dmi_registry_resolve_any(registry, info->error_info_handle, error_types, &info->error_info);
 }

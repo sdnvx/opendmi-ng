@@ -192,9 +192,16 @@ __dmi_api bool dmi_registry_decode(dmi_registry_t *registry);
  * establishing relationships between structures. Undecoded entities are
  * skipped. Sets `DMI_REGISTRY_STATUS_LINKED` on success.
  *
+ * Linking is not stopped by a failure: all entities are processed, so that
+ * every broken reference in the table is reported to the error queue. Link
+ * handlers return `false` on any failure, and whether it is fatal is decided
+ * here: unless `DMI_CONTEXT_FLAG_STRICT` is set, the registry is still marked
+ * as linked and the errors are left in the error queue.
+ *
  * @param[in,out] registry Registry handle.
  *
- * @return `true` on success, `false` if any entity fails to link.
+ * @return `true` on success, `false` if any entity fails to link in strict
+ *         mode.
  */
 __dmi_api bool dmi_registry_link(dmi_registry_t *registry);
 
@@ -243,6 +250,56 @@ __dmi_api dmi_entity_t *dmi_registry_get_any(
         dmi_handle_t      handle,
         const dmi_type_t *type,
         bool              optional);
+
+/**
+ * @brief Resolve reference to another entity, for use in link handlers.
+ *
+ * Unlike `dmi_registry_get()`, the function tells a reference which is not
+ * set from a broken one, so that link handlers can report failures honestly.
+ *
+ * @param[in]  registry Registry handle.
+ * @param[in]  handle   Referenced entity handle. Reserved values
+ *                      `DMI_HANDLE_INVALID` and `DMI_HANDLE_UNSUPPORTED` mean
+ *                      that the reference is not set.
+ * @param[in]  type     Expected structure type, or `DMI_TYPE_INVALID` to
+ *                      disable type checks.
+ * @param[out] pentity  Resolved entity, or @c nullptr if the reference is not
+ *                      set or is broken.
+ *
+ * @return `true` if the reference is resolved or not set, `false` if the
+ *         referenced entity is missing or has unexpected type. The reason is
+ *         raised to the error queue.
+ */
+__dmi_api bool dmi_registry_resolve(
+        dmi_registry_t  *registry,
+        dmi_handle_t     handle,
+        dmi_type_t       type,
+        dmi_entity_t   **pentity);
+
+/**
+ * @brief Resolve reference to another entity of any of the expected types,
+ * for use in link handlers.
+ *
+ * Some SMBIOS vendors report `0x0000` instead of `DMI_HANDLE_INVALID` as
+ * unspecified handle value, even if there is a structure with this handle.
+ * Unless `DMI_CONTEXT_FLAG_STRICT` is set, such reference to a structure of
+ * unexpected type is treated as not set.
+ *
+ * @param[in]  registry Registry handle.
+ * @param[in]  handle   Referenced entity handle, see `dmi_registry_resolve()`.
+ * @param[in]  types    Array of expected structure types, terminated by
+ *                      `DMI_TYPE_INVALID`, or @c nullptr to disable type
+ *                      checks.
+ * @param[out] pentity  Resolved entity, or @c nullptr if the reference is not
+ *                      set or is broken.
+ *
+ * @return `true` if the reference is resolved or not set, `false` otherwise.
+ */
+__dmi_api bool dmi_registry_resolve_any(
+        dmi_registry_t    *registry,
+        dmi_handle_t       handle,
+        const dmi_type_t  *types,
+        dmi_entity_t     **pentity);
 
 /**
  * @brief Get the first entity of the given type from registry.

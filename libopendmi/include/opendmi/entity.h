@@ -11,7 +11,13 @@
 
 #include <opendmi/stream.h>
 #include <opendmi/attribute.h>
+#include <opendmi/utils/vector.h>
 #include <opendmi/utils/version.h>
+
+#ifndef DMI_STRING_PROPERTY_T
+#   define DMI_STRING_PROPERTY_T
+    typedef struct dmi_string_property dmi_string_property_t;
+#endif // !DMI_STRING_PROPERTY_T
 
 typedef struct dmi_entity       dmi_entity_t;
 typedef struct dmi_entity_spec  dmi_entity_spec_t;
@@ -53,6 +59,30 @@ typedef enum dmi_entity_state
  * @brief Entity state flag names, identified by bit numbers.
  */
 extern __dmi_api const dmi_name_set_t dmi_entity_state_names;
+
+/**
+ * @brief String property identifiers.
+ *
+ * String properties are defined by string property structures (type 46),
+ * which add strings to other structures without changing their definitions.
+ */
+typedef enum dmi_property
+{
+    DMI_PROPERTY_ID_RESERVED         = 0x0000, ///< Reserved, do not use
+    DMI_PROPERTY_ID_UEFI_DEVICE_PATH = 0x0001, ///< UEFI device path
+
+    __DMI_PROPERTY_ID_RESERVED_START = 0x0002,
+    __DMI_PROPERTY_ID_RESERVED_END   = 0x7FFF,
+    __DMI_PROPERTY_ID_VENDOR_START   = 0x8000,
+    __DMI_PROPERTY_ID_VENDOR_END     = 0xBFFF,
+    __DMI_PROPERTY_ID_OEM_START      = 0xC000,
+    __DMI_PROPERTY_ID_OEM_END        = 0xFFFF
+} dmi_property_t;
+
+/**
+ * @brief String property identifier names.
+ */
+extern __dmi_api const dmi_name_set_t dmi_property_names;
 
 /**
  * @brief Entity operations.
@@ -288,6 +318,16 @@ struct dmi_entity
      * @brief Entity state mask.
      */
     unsigned int state;
+
+    /**
+     * @brief String properties of the structure.
+     *
+     * Decoded string property structures (type 46) referring to this
+     * structure as their parent. The list holds non-owning pointers and is
+     * filled while linking structures. Use dmi_entity_property() to get
+     * property values.
+     */
+    dmi_vector_t properties;
 };
 
 __BEGIN_DECLS
@@ -425,6 +465,33 @@ __dmi_api void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type);
  *         zero, or @p num exceeds the number of strings in the entity.
  */
 __dmi_api const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool raw);
+
+/**
+ * @brief Get string property of the structure.
+ *
+ * String properties are added to the structure by string property structures
+ * (type 46), which are attached to their parent structures while linking.
+ * If there are several properties with the same identifier, the first one in
+ * the table order is used.
+ *
+ * @param[in] entity   Entity descriptor.
+ * @param[in] property String property identifier.
+ *
+ * @return Property value, or @c nullptr if the structure has no such property,
+ *         the property has no value, or structures have not been linked.
+ */
+__dmi_api const char *dmi_entity_property(const dmi_entity_t *entity, dmi_property_t property);
+
+/**
+ * @internal
+ * @brief Attach decoded string property to its parent structure.
+ *
+ * @param[in] entity   Parent entity descriptor.
+ * @param[in] property Decoded string property structure (type 46).
+ *
+ * @return The function returns `true` on success and `false` otherwise.
+ */
+__dmi_api bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_property_t *property);
 
 /**
  * @internal

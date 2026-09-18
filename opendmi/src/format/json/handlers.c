@@ -372,6 +372,49 @@ bool dmi_json_entity_attrs_end(dmi_json_session_t *session, const dmi_entity_t *
     return dmi_json_mapping_end(session);
 }
 
+bool dmi_json_entity_properties(dmi_json_session_t *session, const dmi_entity_t *entity)
+{
+    assert(session != nullptr);
+    assert(entity != nullptr);
+
+    dmi_format_property_iter_t iter;
+    const dmi_string_property_t *property;
+
+    bool result =
+        dmi_json_label(session, "properties") and
+        dmi_json_sequence_start(session);
+    if (not result)
+        return false;
+
+    dmi_format_property_iter_init(&iter, entity);
+
+    while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
+        char id[8];
+        const char *code = dmi_code_lookup(&dmi_property_names, property->ident);
+
+        snprintf(id, sizeof(id), "0x%04x", (unsigned)property->ident);
+
+        result =
+            dmi_json_mapping_start(session) and
+            dmi_json_label(session, "id") and
+            dmi_json_scalar(session, id) and
+            dmi_json_label(session, "code") and
+            ((code != nullptr) ?
+                dmi_json_scalar(session, code) :
+                dmi_json_scalar_null(session)) and
+            dmi_json_label(session, "value") and
+            ((property->value != nullptr) ?
+                dmi_json_scalar(session, property->value) :
+                dmi_json_scalar_null(session)) and
+            dmi_json_mapping_end(session);
+
+        if (not result)
+            return false;
+    }
+
+    return dmi_json_sequence_end(session);
+}
+
 bool dmi_json_entity_data(dmi_json_session_t *session, const dmi_entity_t *entity)
 {
     bool result;

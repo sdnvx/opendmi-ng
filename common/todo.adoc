@@ -1,0 +1,120 @@
+= To do
+
+== Vendor-specific decoders
+
+Vendors put structured data into generic SMBIOS structures using their own
+undocumented conventions. Decoding it is not done by other tools, so it is a
+distinctive feature of the project. Each convention needs reverse engineering
+on a representative set of dumps before a decoder can be written.
+
+=== Dell OEM strings (type 11)
+
+Dell systems report keyed values in OEM strings. The first string is the
+marker `Dell System`, and the following strings have the form `N[value]`,
+where `N` is a decimal key and `value` is its value.
+
+Examples from the dumps in `data/dell`:
+
+[cols="1,3", frame=ends, grid=rows]
+|===
+| Dump | OEM strings
+
+| `g15-5510.bin`
+| `Dell System`, `1[0A64]`, `3[1.0]`, `12[www.dell.com]`, `14[1]`, `15[0]`,
+  `27[34716449091]`
+
+| `poweredge-1800.bin`
+| `Dell System`, `5[0000]`
+|===
+
+Meaning of the keys is not documented. Unconfirmed guesses:
+
+* `1` looks like the platform System ID.
+* `27` looks like the Express Service Code, i.e. the numeric form of the
+  Service Tag.
+
+To do:
+
+* Collect OEM strings from more Dell dumps and compare keys across models
+  and generations.
+* Look for public sources describing the keys, e.g. Dell `libsmbios`.
+* Decode the keyed values in the `dell` module, keeping unknown keys as raw
+  values.
+
+== Firmware quirks
+
+=== Off-by-one handles in management device components (type 35)
+
+Some AMI firmware reports wrong handles in management device component
+structures. Field offsets match the specification, and dmidecode reads the same
+values, so this is a firmware bug. Such structures fail linking: the component
+handle refers to a management device (type 34) or to the previous management
+device component (type 35), and the threshold handle refers to a probe or a
+cooling device.
+
+All management device components are affected in these dumps:
+
+[cols="2,1,2,1", frame=ends, grid=rows]
+|===
+| Dump | SMBIOS | Firmware | Components
+
+| `asus/rs300-e8-rs4.bin`
+| 2.7
+| 2101, 04/20/2018
+| 5
+
+| `ecs/x79r-ax.bin`
+| 2.7
+| 4.6.5, 12/04/2013
+| 13
+
+| `supermicro/x10ddw-i.bin`
+| 3.0.0
+| 3.4, 10/18/2021
+| 13
+
+| `supermicro/x10sll-f.bin`
+| 2.7
+| 3.2, 05/14/2018
+| 5
+|===
+
+Other AMI firmware in `data/` is not affected: `asus/prime-h610m-r.bin`,
+`asus/rs300-e11-rs4.bin`, `asus/zenbook-ux425ja.bin`,
+`gigabyte/b560m-ds3h-v2.bin`, `gigabyte/b760m-ds3h-gen5.bin` and
+`msi/modern-15-a10m.bin`.
+
+Structures are grouped as a probe or a cooling device, its threshold data
+(type 36) and the management device component. Example from
+`asus/rs300-e8-rs4.bin`:
+
+[cols="1,1,1,1", frame=ends, grid=rows]
+|===
+| Handle | Type | Component handle | Threshold handle
+
+| `0x0036` | Voltage probe (26) | |
+| `0x0037` | Threshold data (36) | |
+| `0x0038` | Component (35) | `0x0035`, should be `0x0036` | `0x0036`, should be `0x0037`
+|===
+
+Findings:
+
+* The actual component is always at the reported component handle plus one
+  (36 of 36 structures in all four dumps).
+* The reported threshold handle plus one is always threshold data (type 36),
+  and matches the grouping above in 28 of 36 structures. The remaining 8 refer
+  to threshold data of another group, and sometimes two components refer to
+  the same one (e.g. `0x0059` and `0x005c` in `ecs/x79r-ax.bin` both refer to
+  `0x0055`), so thresholds may be shared between components.
+
+To do:
+
+* Check whether the 8 thresholds, which do not match the grouping, are shared
+  between components of the same kind, e.g. by comparing probe types and
+  threshold values.
+* Collect more dumps of the same firmware generation to find out which AMI
+  versions are affected.
+* Consider a workaround in relaxed mode: if the component handle refers to
+  type 34 or 35, the handle plus one is a probe or a cooling device, and the
+  threshold handle plus one is threshold data, use the corrected handles and
+  log a notice. Strict mode and `lint` should keep reporting the errors.

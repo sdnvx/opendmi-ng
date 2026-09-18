@@ -464,6 +464,68 @@ bool dmi_xml_entity_attrs_end(dmi_xml_session_t *session, const dmi_entity_t *en
     return true;
 }
 
+bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *entity)
+{
+    assert(session != nullptr);
+    assert(entity != nullptr);
+
+    bool success = false;
+
+    do {
+        if (xmlTextWriterStartElementNS(
+                    session->writer,
+                    dmi_xml_string(DMI_XML_PREFIX),
+                    dmi_xml_string("properties"),
+                    nullptr) < 0)
+            break;
+
+        dmi_format_property_iter_t iter;
+        const dmi_string_property_t *property;
+
+        dmi_format_property_iter_init(&iter, entity);
+
+        while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
+            const char *code = dmi_code_lookup(&dmi_property_names, property->ident);
+
+            if (xmlTextWriterStartElementNS(
+                        session->writer,
+                        dmi_xml_string(DMI_XML_PREFIX),
+                        dmi_xml_string("property"),
+                        nullptr) < 0)
+                break;
+            if (xmlTextWriterWriteFormatAttribute(
+                        session->writer,
+                        dmi_xml_string("id"),
+                        "0x%04x", (unsigned)property->ident) < 0)
+                break;
+            if ((code != nullptr) and
+                (xmlTextWriterWriteAttribute(
+                        session->writer,
+                        dmi_xml_string("code"),
+                        dmi_xml_string(code)) < 0))
+                break;
+
+            // Element is left empty if the value is not specified
+            if ((property->value != nullptr) and not dmi_xml_text(session, property->value))
+                break;
+
+            if (xmlTextWriterFullEndElement(session->writer) < 0)
+                break;
+        }
+
+        // Loop is interrupted on errors
+        if (property != nullptr)
+            break;
+
+        if (xmlTextWriterFullEndElement(session->writer) < 0)
+            break;
+
+        success = true;
+    } while (false);
+
+    return success;
+}
+
 bool dmi_xml_entity_data(dmi_xml_session_t *session, const dmi_entity_t *entity)
 {
     assert(session != nullptr);
