@@ -628,6 +628,7 @@ opendmi_test(utils/version-cxx SOURCES test/utils/version.cc)
 opendmi_test(utils/datetime SOURCES test/utils/datetime.c)
 opendmi_test(utils/datetime-cxx SOURCES test/utils/datetime.cc)
 opendmi_test(utils/uuid SOURCES test/utils/uuid.c)
+opendmi_test(utils/uuid-cxx SOURCES test/utils/uuid.cc)
 opendmi_test(utils/misc SOURCES test/utils/misc.c)
 opendmi_test(utils/file SOURCES test/utils/file.c)
 

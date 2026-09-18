@@ -22,7 +22,6 @@ namespace dmi {
 #       include <opendmi/utils/version.h>
     }
 
-    using version_t = capi::dmi_version_t;
     using version_level_t = capi::dmi_version_level_t;
 
     /**
@@ -50,8 +49,14 @@ namespace dmi {
      */
     class version
     {
+    public:
+        /**
+         * @brief Value type of the C API.
+         */
+        using native_t = capi::dmi_version_t;
+
     private:
-        version_t m_value = DMI_VERSION_NONE;
+        native_t m_value = DMI_VERSION_NONE;
 
     public:
         /**
@@ -70,7 +75,7 @@ namespace dmi {
         /**
          * @brief Construct a version from a packed value of the C API.
          */
-        constexpr explicit version(version_t value) noexcept
+        constexpr explicit version(native_t value) noexcept
             : m_value(value) { }
 
         /**
@@ -109,9 +114,17 @@ namespace dmi {
          * @brief Compare two versions component-wise.
          */
         [[nodiscard]]
-        constexpr auto operator<=>(const version &other) const noexcept = default;
+        constexpr auto operator<=>(const version &other) const noexcept {
+            return m_value <=> other.m_value;
+        }
+
+        /**
+         * @brief Compare two versions component-wise.
+         */
         [[nodiscard]]
-        constexpr bool operator==(const version &other) const noexcept = default;
+        constexpr bool operator==(const version &other) const noexcept {
+            return m_value == other.m_value;
+        }
 
         /**
          * @brief Format the version as a string.
@@ -146,7 +159,7 @@ namespace dmi {
          * @brief Packed value, for use with the C API.
          */
         [[nodiscard]]
-        constexpr version_t native() const noexcept {
+        constexpr native_t native() const noexcept {
             return m_value;
         }
     };
@@ -167,7 +180,7 @@ namespace dmi {
     static_assert(version(3, 4, 1).revision_number() == 1);
     static_assert(version(3, 4, 1).native() == DMI_VERSION(3, 4, 1));
     static_assert(version().native() == DMI_VERSION_NONE);
-    static_assert(sizeof(version) == sizeof(version_t));
+    static_assert(sizeof(version) == sizeof(version::native_t));
 }
 
 /**

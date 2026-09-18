@@ -23,8 +23,6 @@ namespace dmi {
 #       include <opendmi/utils/datetime.h>
     }
 
-    using date_t = capi::dmi_date_t;
-
     /**
      * @brief Date reported by firmware.
      *
@@ -36,8 +34,14 @@ namespace dmi {
      */
     class date
     {
+    public:
+        /**
+         * @brief Value type of the C API.
+         */
+        using native_t = capi::dmi_date_t;
+
     private:
-        date_t m_value = DMI_DATE_NONE;
+        native_t m_value = DMI_DATE_NONE;
 
     public:
         /**
@@ -57,7 +61,7 @@ namespace dmi {
         /**
          * @brief Construct a date from a packed value of the C API.
          */
-        constexpr explicit date(date_t value) noexcept
+        constexpr explicit date(native_t value) noexcept
             : m_value(value) { }
 
         /**
@@ -96,9 +100,17 @@ namespace dmi {
          * @brief Compare two dates component-wise, i.e. chronologically.
          */
         [[nodiscard]]
-        constexpr auto operator<=>(const date &other) const noexcept = default;
+        constexpr auto operator<=>(const date &other) const noexcept {
+            return m_value <=> other.m_value;
+        }
+
+        /**
+         * @brief Compare two dates component-wise, i.e. chronologically.
+         */
         [[nodiscard]]
-        constexpr bool operator==(const date &other) const noexcept = default;
+        constexpr bool operator==(const date &other) const noexcept {
+            return m_value == other.m_value;
+        }
 
         /**
          * @brief Parse a date as firmware reports it, `MM/DD/YY` or
@@ -112,7 +124,7 @@ namespace dmi {
          */
         [[nodiscard]]
         static std::optional<date> parse(const std::string &str) {
-            const date_t value = capi::dmi_date_parse(str.c_str());
+            const native_t value = capi::dmi_date_parse(str.c_str());
 
             if (value == DMI_DATE_NONE)
                 return std::nullopt;
@@ -135,7 +147,7 @@ namespace dmi {
          * @brief Packed value, for use with the C API.
          */
         [[nodiscard]]
-        constexpr date_t native() const noexcept {
+        constexpr native_t native() const noexcept {
             return m_value;
         }
     };
@@ -156,7 +168,7 @@ namespace dmi {
     static_assert(date(2026, 9, 18).day() == 18);
     static_assert(date(2026, 9, 18).native() == DMI_DATE(2026, 9, 18));
     static_assert(date().native() == DMI_DATE_NONE);
-    static_assert(sizeof(date) == sizeof(date_t));
+    static_assert(sizeof(date) == sizeof(date::native_t));
 }
 
 /**
