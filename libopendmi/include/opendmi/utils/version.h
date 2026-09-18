@@ -24,7 +24,10 @@ typedef enum dmi_version_level
 } dmi_version_level_t;
 
 #define DMI_VERSION(major, minor, revision) \
-    ((dmi_version_t)((((major) & 0xFFU) << 16) | (((minor) & 0xFFU) << 8) | ((revision) & 0xFFU)))
+    ((__dmi_scope dmi_version_t)(           \
+            (((major) & 0xFFU) << 16) |     \
+            (((minor) & 0xFFU) << 8)  |     \
+            ((revision) & 0xFFU)))
 
 #define DMI_VERSION_NONE DMI_VERSION(0, 0, 0)
 
@@ -37,9 +40,11 @@ typedef enum dmi_version_level
  *
  * @return Version number.
  */
-static inline dmi_version_t dmi_version(unsigned int major,
-                                        unsigned int minor,
-                                        unsigned int revision)
+__dmi_const
+static __dmi_constexpr dmi_version_t dmi_version(
+        unsigned int major,
+        unsigned int minor,
+        unsigned int revision)
 {
     return DMI_VERSION(major, minor, revision);
 }
@@ -51,7 +56,7 @@ static inline dmi_version_t dmi_version(unsigned int major,
  * @return Major version number.
  */
 __dmi_const
-static inline unsigned int dmi_version_major(dmi_version_t version)
+static __dmi_constexpr unsigned int dmi_version_major(dmi_version_t version)
 {
     return (version & 0xFF0000U) >> 16;
 }
@@ -63,7 +68,7 @@ static inline unsigned int dmi_version_major(dmi_version_t version)
  * @return Minor version number.
  */
 __dmi_const
-static inline unsigned int dmi_version_minor(dmi_version_t version)
+static __dmi_constexpr unsigned int dmi_version_minor(dmi_version_t version)
 {
     return (version & 0x00FF00U) >> 8;
 }
@@ -75,7 +80,7 @@ static inline unsigned int dmi_version_minor(dmi_version_t version)
  * @return Revision version number.
  */
 __dmi_const
-static inline unsigned int dmi_version_revision(dmi_version_t version)
+static __dmi_constexpr unsigned int dmi_version_revision(dmi_version_t version)
 {
     return version & 0x0000FFU;
 }

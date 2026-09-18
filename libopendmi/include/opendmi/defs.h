@@ -58,6 +58,24 @@
 #   define __dmi_pure
 #endif
 
+// Constant expression support for inline functions. C++ requires constexpr
+// to use them in constant expressions, while in C they are plain inline
+// functions.
+#if defined(__cplusplus)
+#   define __dmi_constexpr constexpr
+#else
+#   define __dmi_constexpr inline
+#endif
+
+// Scope qualification for macros which name library types and symbols. In C++
+// the C declarations may be placed into a namespace, and macros are expanded
+// at the point of use, which may be outside of it.
+#if defined(__cplusplus) && !defined(OPENDMI_C_GLOBAL)
+#   define __dmi_scope ::dmi::capi::
+#else
+#   define __dmi_scope
+#endif
+
 // Public API symbols export and import. The library itself is built with
 // DMI_BUILD defined, and users of static library define DMI_STATIC.
 #if defined(_WIN32) || defined(__CYGWIN__)

@@ -16,8 +16,11 @@
  */
 typedef uint32_t dmi_date_t;
 
-#define DMI_DATE(year, month, day) \
-    ((dmi_date_t)((((year) & 0xFFFFu) << 16) | (((month) & 0xFFu) << 8) | ((day) & 0xFFu)))
+#define DMI_DATE(year, month, day)       \
+    ((__dmi_scope dmi_date_t)(           \
+            (((year) & 0xFFFFu) << 16) | \
+            (((month) & 0xFFu) << 8)   | \
+            ((day) & 0xFFu)))
 
 #define DMI_DATE_NONE DMI_DATE(0, 0, 0)
 
@@ -30,9 +33,11 @@ typedef uint32_t dmi_date_t;
  *
  * @return A `dmi_date_t` encoding the given date components.
  */
-static inline dmi_date_t dmi_date(unsigned int year,
-                                  unsigned int month,
-                                  unsigned int day)
+__dmi_const
+static __dmi_constexpr dmi_date_t dmi_date(
+        unsigned int year,
+        unsigned int month,
+        unsigned int day)
 {
     return DMI_DATE(year, month, day);
 }
@@ -44,7 +49,8 @@ static inline dmi_date_t dmi_date(unsigned int year,
  *
  * @return The year component as an unsigned integer.
  */
-static inline unsigned int dmi_date_year(dmi_date_t date)
+__dmi_const
+static __dmi_constexpr unsigned int dmi_date_year(dmi_date_t date)
 {
     return (date & 0xFFFF0000U) >> 16;
 }
@@ -56,7 +62,8 @@ static inline unsigned int dmi_date_year(dmi_date_t date)
  *
  * @return The month component as an unsigned integer (1–12).
  */
-static inline unsigned int dmi_date_month(dmi_date_t date)
+__dmi_const
+static __dmi_constexpr unsigned int dmi_date_month(dmi_date_t date)
 {
     return (date & 0x00FF00U) >> 8;
 }
@@ -68,7 +75,8 @@ static inline unsigned int dmi_date_month(dmi_date_t date)
  *
  * @return The day component as an unsigned integer (1–31).
  */
-static inline unsigned int dmi_date_day(dmi_date_t date)
+__dmi_const
+static __dmi_constexpr unsigned int dmi_date_day(dmi_date_t date)
 {
     return date & 0x0000FFU;
 }

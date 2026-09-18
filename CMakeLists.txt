@@ -43,7 +43,8 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 
 if(MSVC)
-    add_compile_options(/std:c11 /W4)
+    # C standard is selected per language, so that it is not applied to C++
+    add_compile_options($<$<COMPILE_LANGUAGE:C>:/std:c11> /W4)
     add_compile_definitions(_CRT_NONSTDC_NO_DEPRECATE)
 else()
     add_compile_options(-Wall -Wextra)
