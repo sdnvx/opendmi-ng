@@ -49,7 +49,10 @@ namespace dmi {
     {
     public:
         /**
-         * @brief UUID bytes, either in RFC 4122 or in SMBIOS byte order.
+         * @brief Storage for UUID bytes, as returned by encode().
+         *
+         * UUID bytes are accepted as `std::span`, so that any contiguous
+         * sequence of 16 bytes can be passed without copying.
          */
         using bytes_t = std::array<std::byte, 16>;
 
@@ -70,7 +73,7 @@ namespace dmi {
         /**
          * @brief Construct a UUID from bytes in RFC 4122 order.
          */
-        constexpr explicit uuid(const bytes_t &bytes) noexcept {
+        constexpr explicit uuid(std::span<const std::byte, 16> bytes) noexcept {
             for (std::size_t i = 0; i < bytes.size(); i++)
                 m_value.__value[i] = std::to_integer<capi::dmi_byte_t>(bytes[i]);
         }
@@ -95,13 +98,22 @@ namespace dmi {
         /**
          * @brief Encode the UUID as it is stored in SMBIOS structures.
          *
+         * @param[out] data Buffer receiving raw 16 bytes in SMBIOS byte order.
+         */
+        void encode(std::span<std::byte, 16> data) const noexcept {
+            capi::dmi_uuid_encode(m_value, reinterpret_cast<uint8_t *>(data.data()));
+        }
+
+        /**
+         * @brief Encode the UUID as it is stored in SMBIOS structures.
+         *
          * @return Raw 16 bytes in SMBIOS byte order.
          */
         [[nodiscard]]
         bytes_t encode() const noexcept {
             bytes_t data;
 
-            capi::dmi_uuid_encode(m_value, reinterpret_cast<uint8_t *>(data.data()));
+            encode(data);
 
             return data;
         }

@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <format>
+#include <span>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -82,6 +83,11 @@ static void test_uuid_decode(void **pstate)
     const auto uuid = dmi::uuid::decode(test_smbios);
     assert_true(same_bytes(uuid, test_rfc));
 
+    // UUID can be constructed from a part of a larger buffer without copying
+    std::array<std::byte, 20> buffer {};
+    std::copy(test_rfc.begin(), test_rfc.end(), buffer.begin() + 2);
+    assert_true(dmi::uuid(std::span(buffer).subspan<2, 16>()) == dmi::uuid(test_rfc));
+
     // Nil and max UUIDs are not affected by byte order
     const auto nil = bytes(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     assert_true(dmi::uuid::decode(nil).is_nil());
@@ -101,6 +107,14 @@ static void test_uuid_encode(void **pstate)
 
     const auto roundtrip = dmi::uuid::decode(test_smbios).encode();
     assert_memory_equal(roundtrip.data(), test_smbios.data(), test_smbios.size());
+
+    // UUID can be encoded into a part of a larger caller buffer
+    std::array<std::byte, 20> buffer {};
+    dmi::uuid(test_rfc).encode(std::span(buffer).subspan<2, 16>());
+
+    assert_memory_equal(buffer.data() + 2, test_smbios.data(), test_smbios.size());
+    assert_int_equal(std::to_integer<int>(buffer[0]), 0);
+    assert_int_equal(std::to_integer<int>(buffer[18]), 0);
 }
 
 static void test_uuid_special(void **pstate)

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add basic C++ API
+
 ### Changed
 
 - Move internal definitions from `<opendmi/defs.h>` to a private header
