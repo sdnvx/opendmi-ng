@@ -77,7 +77,7 @@ namespace dmi {
          * @brief Major component.
          */
         [[nodiscard]]
-        constexpr unsigned int major() const noexcept {
+        constexpr unsigned int major_number() const noexcept {
             return capi::dmi_version_major(m_value);
         }
 
@@ -85,7 +85,7 @@ namespace dmi {
          * @brief Minor component.
          */
         [[nodiscard]]
-        constexpr unsigned int minor() const noexcept {
+        constexpr unsigned int minor_number() const noexcept {
             return capi::dmi_version_minor(m_value);
         }
 
@@ -93,7 +93,7 @@ namespace dmi {
          * @brief Revision component.
          */
         [[nodiscard]]
-        constexpr unsigned int revision() const noexcept {
+        constexpr unsigned int revision_number() const noexcept {
             return capi::dmi_version_revision(m_value);
         }
 
@@ -162,9 +162,9 @@ namespace dmi {
     //
     // The packed layout is defined by the C API and must not drift
     //
-    static_assert(version(3, 4, 1).major() == 3);
-    static_assert(version(3, 4, 1).minor() == 4);
-    static_assert(version(3, 4, 1).revision() == 1);
+    static_assert(version(3, 4, 1).major_number() == 3);
+    static_assert(version(3, 4, 1).minor_number() == 4);
+    static_assert(version(3, 4, 1).revision_number() == 1);
     static_assert(version(3, 4, 1).native() == DMI_VERSION(3, 4, 1));
     static_assert(version().native() == DMI_VERSION_NONE);
     static_assert(sizeof(version) == sizeof(version_t));

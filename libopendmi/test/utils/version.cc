@@ -67,9 +67,9 @@ static void test_version_components(void **pstate)
 
     const dmi::version version(3, 4, 1);
 
-    assert_int_equal(version.major(), 3);
-    assert_int_equal(version.minor(), 4);
-    assert_int_equal(version.revision(), 1);
+    assert_int_equal(version.major_number(), 3);
+    assert_int_equal(version.minor_number(), 4);
+    assert_int_equal(version.revision_number(), 1);
 
     // Unknown version is the only one which is false
     assert_true(static_cast<bool>(version));
@@ -104,9 +104,9 @@ static void test_version_traits(void **pstate)
     static_assert(sizeof(dmi::version) == sizeof(dmi::capi::dmi_version_t));
 
     // Every accessor is usable in a constant expression
-    static_assert(dmi::version(3, 4, 1).major() == 3);
-    static_assert(dmi::version(3, 4, 1).minor() == 4);
-    static_assert(dmi::version(3, 4, 1).revision() == 1);
+    static_assert(dmi::version(3, 4, 1).major_number() == 3);
+    static_assert(dmi::version(3, 4, 1).minor_number() == 4);
+    static_assert(dmi::version(3, 4, 1).revision_number() == 1);
     static_assert(dmi::version(3, 4, 1).native() == DMI_VERSION(3, 4, 1));
     static_assert(dmi::version(3, 4) < dmi::version(3, 4, 1));
     static_assert(!static_cast<bool>(dmi::version()));
