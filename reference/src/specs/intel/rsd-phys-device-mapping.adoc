@@ -1,0 +1,155 @@
+= Intel RSD Physical Device Mapping Information (Type 200)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.11.
+
+Declares the relationship between physical devices and their SMBIOS
+representation, allowing to link structures to physical locations of the
+devices in the system.
+
+Each structure describes devices of one type only. There may be several
+structures describing devices of the same type, if they do not fit into a
+single structure.
+
+.Intel RSD Physical Device Mapping Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `200`
+| Physical Device Mapping Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Physical Device Type
+| `BYTE`
+| `ENUM`
+| Type of the devices described by the structure, see
+<<intel-rsd-phys-device-types>>
+
+| `0x05`
+| 2.0+
+| Reserved
+| `BYTE`
+| `0x00`
+|
+
+| `0x06`
+| 2.0+
+| Physical Device Mappings
+| Varies
+| Varies
+| Locations of the devices, 4 bytes each, see <<intel-rsd-phys-device-mappings>>
+|===
+
+[#intel-rsd-phys-device-types, reftext=Physical device types]
+== Intel RSD Physical Device Mapping -- Device types
+
+.Intel RSD Physical Device Mapping: Physical device type field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Undefined or invalid
+| `0x01` | `1` | Processor (type 4)
+| `0x02` | `2` | PCIe system slot (type 9)
+| `0x03` | `3` | Memory device (type 17)
+|===
+
+Other values are undefined or invalid.
+
+[#intel-rsd-phys-device-mappings, reftext=Physical device mappings]
+== Intel RSD Physical Device Mapping -- Device mappings
+
+All numbers are zero-based.
+
+.Intel RSD Physical Device Mapping: Processor
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| SMBIOS Handle
+| `WORD`
+| `HANDLE`
+| Processor information structure (type 4)
+
+| `0x02`
+| Socket Number
+| `BYTE`
+| `NUMBER`
+| Physical number of the socket
+
+| `0x03`
+| Reserved
+| `BYTE`
+| `0x00`
+|
+|===
+
+.Intel RSD Physical Device Mapping: PCIe system slot
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| SMBIOS Handle
+| `WORD`
+| `HANDLE`
+| System slot structure (type 9)
+
+| `0x02`
+| Riser Number
+| `BYTE`
+| `NUMBER`
+| Physical number of the riser
+
+| `0x03`
+| Slot Number
+| `BYTE`
+| `NUMBER`
+| Physical number of the slot within the riser
+|===
+
+.Intel RSD Physical Device Mapping: Memory device
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| SMBIOS Handle
+| `WORD`
+| `HANDLE`
+| Memory device structure (type 17)
+
+| `0x02`
+| CPU Socket Number
+| `BYTE`
+| `NUMBER`
+| Physical number of the processor, which the memory device belongs to
+
+| `0x03`
+| DIMM Slot Number
+| `BYTE`
+| `NUMBER`
+| Physical number of the slot within the processor
+|===

@@ -1,0 +1,132 @@
+= Intel RSD Processor CPUID Information (Type 193)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.3.
+
+Declares CPUID leaves of the processors in the system. Leaves 00h to 10h and
+14h to 80000008h are stored in structures of different subtypes. The firmware
+constructs the structures as late as possible on every boot, so that they
+reflect the current configuration of the system.
+
+.Intel RSD Processor CPUID Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `193`
+| Processor CPUID Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Socket Designation
+| `BYTE`
+| `STRING`
+| Physically labelled socket or board position of the processor, e.g.
+"Socket 0"
+
+| `0x05`
+| 2.0+
+| Subtype
+| `BYTE`
+| `ENUM`
+| Set of leaves stored in the structure, see <<intel-rsd-cpuid-subtypes>>
+
+| `0x06`
+| 2.0+
+| Leaves
+| Varies
+| Varies
+| CPUID leaves, see <<intel-rsd-cpuid-leaves>> and <<intel-rsd-cpuid-leaf>>
+|===
+
+[#intel-rsd-cpuid-subtypes, reftext=Subtypes]
+== Intel RSD Processor CPUID -- Subtypes
+
+.Intel RSD Processor CPUID: Subtype field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x01` | `1` | Leaves 00h to 10h
+| `0x02` | `2` | Leaves 14h to 80000008h
+|===
+
+[#intel-rsd-cpuid-leaves, reftext=Leaves]
+== Intel RSD Processor CPUID -- Leaves
+
+Leaves are stored in the following order, 16 bytes each. For some leaves the
+input value of ECX (subleaf) is specified.
+
+.Intel RSD Processor CPUID: Leaves
+[width=100%, cols="1,2,2"]
+|===
+| Offset | Subtype 1 | Subtype 2
+
+| `0x06` | EAX = 00h | EAX = 14h, ECX = 00h
+| `0x16` | EAX = 01h | EAX = 15h
+| `0x26` | EAX = 02h | EAX = 16h
+| `0x36` | EAX = 03h | EAX = 17h, ECX = 00h
+| `0x46` | EAX = 04h | EAX = 17h, ECX = 01h
+| `0x56` | EAX = 05h | EAX = 17h, ECX = 02h
+| `0x66` | EAX = 06h | EAX = 17h, ECX = 03h
+| `0x76` | EAX = 07h | EAX = 80000000h
+| `0x86` | EAX = 09h | EAX = 80000001h
+| `0x96` | EAX = 0Ah | EAX = 80000002h
+| `0xA6` | EAX = 0Bh | EAX = 80000003h
+| `0xB6` | EAX = 0Dh, ECX = 00h | EAX = 80000004h
+| `0xC6` | EAX = 0Fh, ECX = 00h | EAX = 80000006h
+| `0xD6` | EAX = 10h, ECX = 00h | EAX = 80000007h
+| `0xE6` | -- | EAX = 80000008h
+|===
+
+[#intel-rsd-cpuid-leaf, reftext=Leaf]
+== Intel RSD Processor CPUID -- Leaf
+
+.Intel RSD Processor CPUID: Leaf
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| EAX
+| `DWORD`
+| Varies
+| EAX register value returned by the CPUID instruction
+
+| `0x04`
+| EBX
+| `DWORD`
+| Varies
+| EBX register value returned by the CPUID instruction
+
+| `0x08`
+| ECX
+| `DWORD`
+| Varies
+| ECX register value returned by the CPUID instruction
+
+| `0x0C`
+| EDX
+| `DWORD`
+| Varies
+| EDX register value returned by the CPUID instruction
+|===

@@ -16,6 +16,11 @@ include::dell/protected-area-1.adoc[leveloffset=2]
 include::dell/protected-area-2.adoc[leveloffset=2]
 include::dell/calling-iface.adoc[leveloffset=2]
 
+== Intel-specific structures
+
+include::intel/rsd-processor-cpuid.adoc[leveloffset=2]
+include::intel/rsd-phys-device-mapping.adoc[leveloffset=2]
+
 == Sun-specific structures
 
 include::sun/processor-ex.adoc[leveloffset=2]
