@@ -19,6 +19,11 @@ bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *entity)
     stream->position  = 0;
     stream->remaining = entity->body_length;
 
+    if (entity->overlay != nullptr)
+        stream->data = entity->overlay;
+    else
+        stream->data = entity->data;
+
     return true;
 }
 
@@ -53,7 +58,7 @@ bool dmi_stream_read_data_at(const dmi_stream_t *stream, void *ptr, size_t offse
     if (offset + length > stream->entity->body_length)
         return false;
 
-    memcpy(ptr, stream->entity->data + offset, length);
+    memcpy(ptr, stream->data + offset, length);
 
     return true;
 }

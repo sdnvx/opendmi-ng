@@ -45,6 +45,12 @@ struct dmi_stream
      * Always equal to `entity->body_length - position`.
      */
     size_t remaining;
+
+    /**
+     * @brief Body data being read: the structure data, or its copy with
+     * additional information applied.
+     */
+    const dmi_data_t *data;
 };
 
 __BEGIN_DECLS

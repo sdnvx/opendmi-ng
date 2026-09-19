@@ -328,6 +328,23 @@ struct dmi_entity
      * property values.
      */
     dmi_vector_t properties;
+
+    /**
+     * @brief Structure decoded from the original data, if additional
+     * information entries are applied, @c nullptr otherwise.
+     *
+     * Used to show original values of attributes changed by the entries.
+     */
+    dmi_data_t *original;
+
+    /**
+     * @brief Copy of the structure body with additional information entries
+     * applied, @c nullptr if there are no entries.
+     *
+     * Created on decoding and used by the decoder instead of the structure
+     * data. Raw structure data remains unchanged.
+     */
+    dmi_data_t *overlay;
 };
 
 __BEGIN_DECLS
