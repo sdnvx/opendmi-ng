@@ -1,3 +1,134 @@
 = Dell Indexed IO (Type 212)
 :sectnums:
 :sectlinks:
+
+Source: Dell `libsmbios`, `src/include/smbios_c/obj/token.h`.
+
+Describes tokens, which are stored in CMOS and accessed through the indexed
+I/O ports, and the checksum of the CMOS area.
+
+.Dell Indexed IO structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `212`
+| Dell Indexed IO indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Index Port
+| `WORD`
+| `ADDRESS`
+| I/O port used to select the CMOS location
+
+| `0x06`
+| 2.0+
+| Data Port
+| `WORD`
+| `ADDRESS`
+| I/O port used to access the selected CMOS location
+
+| `0x08`
+| 2.0+
+| Checksum Type
+| `BYTE`
+| `ENUM`
+| See <<dell-check-types>> for details
+
+| `0x09`
+| 2.0+
+| Checked Range Start Index
+| `BYTE`
+| `NUMBER`
+| First CMOS index of the checked range
+
+| `0x0A`
+| 2.0+
+| Checked Range End Index
+| `BYTE`
+| `NUMBER`
+| Last CMOS index of the checked range
+
+| `0x0B`
+| 2.0+
+| Checksum Value Index
+| `BYTE`
+| `NUMBER`
+| CMOS index of the checksum value. If the checked range and the checksum index
+are all zeroes, there is no checksum.
+
+| `0x0C`
+| 2.0+
+| Tokens
+| Varies
+| Varies
+| Tokens, see <<dell-indexed-io-tokens>>. The table is terminated by a token
+with ID `0xFFFF`, tokens with ID `0x0000` are unused.
+|===
+
+[#dell-indexed-io-tokens, reftext=Tokens]
+== Dell Indexed IO -- Tokens
+
+.Dell Indexed IO: Token
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| Token ID
+| `WORD`
+| `NUMBER`
+|
+
+| `0x02`
+| Location
+| `BYTE`
+| `NUMBER`
+| CMOS index of the token value
+
+| `0x03`
+| AND Mask
+| `BYTE`
+| `NUMBER`
+| Mask applied to the value at the location. Zero for string tokens.
+
+| `0x04`
+| OR Value / String Length
+| `BYTE`
+| `NUMBER`
+| For boolean tokens, value set at the location when the token is activated.
+For string tokens, length of the string.
+|===
+
+[#dell-check-types, reftext=Checksum types]
+== Dell -- Checksum types
+
+.Dell: Checksum type field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Running sum in a word
+| `0x01` | `1` | Running sum in a byte
+| `0x02` | `2` | CRC in a word
+| `0x03` | `3` | Running sum in a word, then negated (`~sum + 1`)
+|===

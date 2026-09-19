@@ -1,3 +1,6 @@
 = Dell BIOS Flags (Type 177)
 :sectnums:
 :sectlinks:
+
+The structure is not described in public sources: neither Dell `libsmbios` nor
+other known projects decode it.

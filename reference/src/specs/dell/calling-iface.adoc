@@ -1,3 +1,92 @@
 = Dell Calling Interface (Type 218)
 :sectnums:
 :sectlinks:
+
+Source: Dell `libsmbios`, `src/libsmbios_c/token/token_impl.h`.
+
+Describes the interface for issuing commands to the firmware through an I/O
+port, and tokens, which are stored in non-volatile storage and accessed with
+these commands.
+
+.Dell Calling Interface structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `218`
+| Dell Calling Interface indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Command I/O Address
+| `WORD`
+| `ADDRESS`
+| I/O port, which is written to issue a command
+
+| `0x06`
+| 2.0+
+| Command I/O Code
+| `BYTE`
+| `NUMBER`
+| Value, which is written to the command I/O port
+
+| `0x07`
+| 2.0+
+| Supported Commands
+| `DWORD`
+| `BITFIELD`
+|
+
+| `0x0B`
+| 2.0+
+| Tokens
+| Varies
+| Varies
+| Tokens, see <<dell-calling-iface-tokens>>. The table is terminated by a token
+with ID `0xFFFF`, tokens with ID `0x0000` are unused.
+|===
+
+[#dell-calling-iface-tokens, reftext=Tokens]
+== Dell Calling Interface -- Tokens
+
+.Dell Calling Interface: Token
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| Token ID
+| `WORD`
+| `NUMBER`
+|
+
+| `0x02`
+| Location
+| `WORD`
+| `NUMBER`
+| Location of the token in non-volatile storage, zero for string tokens
+
+| `0x04`
+| Value / String Length
+| `WORD`
+| `NUMBER`
+| Token value, or length of the string for string tokens
+|===

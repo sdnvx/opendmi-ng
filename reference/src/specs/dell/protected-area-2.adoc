@@ -1,3 +1,143 @@
-= Dell Protected Area Type 1 (Type 215)
+= Dell Protected Area Type 2 (Type 215)
 :sectnums:
 :sectlinks:
+
+Source: Dell `libsmbios`, `src/include/smbios_c/obj/token.h`.
+
+Describes a protected value, such as a password, which is stored in CMOS and
+accessed through the indexed I/O ports, and its checksum.
+
+In addition to the checksum of the value, the checksum of a CMOS range is
+described.
+
+.Dell Protected Area Type 2 structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `215`
+| Dell Protected Area Type 2 indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x15`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Token ID
+| `WORD`
+| `NUMBER`
+| Token of the protected value
+
+| `0x06`
+| 2.0+
+| Value Length
+| `BYTE`
+| `NUMBER`
+|
+
+| `0x07`
+| 2.0+
+| Value Format
+| `BYTE`
+| `ENUM`
+| See <<dell-value-formats>> for details
+
+| `0x08`
+| 2.0+
+| Validation Key
+| `WORD`
+| `NUMBER`
+|
+
+| `0x0A`
+| 2.0+
+| Index Port
+| `WORD`
+| `ADDRESS`
+| I/O port used to select the CMOS location
+
+| `0x0C`
+| 2.0+
+| Data Port
+| `WORD`
+| `ADDRESS`
+| I/O port used to access the selected CMOS location
+
+| `0x0E`
+| 2.0+
+| Checksum Type
+| `BYTE`
+| `ENUM`
+| See <<dell-check-types>> for details
+
+| `0x0F`
+| 2.0+
+| Value Start Index
+| `BYTE`
+| `NUMBER`
+| CMOS index of the protected value
+
+| `0x10`
+| 2.0+
+| Checksum Index
+| `BYTE`
+| `NUMBER`
+| CMOS index of the checksum of the value
+
+| `0x11`
+| 2.0+
+| Range Checksum Type
+| `BYTE`
+| `ENUM`
+| See <<dell-check-types>> for details
+
+| `0x12`
+| 2.0+
+| Range Check Start Index
+| `BYTE`
+| `NUMBER`
+| First CMOS index of the checked range
+
+| `0x13`
+| 2.0+
+| Range Check End Index
+| `BYTE`
+| `NUMBER`
+| Last CMOS index of the checked range
+
+| `0x14`
+| 2.0+
+| Range Checksum Index
+| `BYTE`
+| `NUMBER`
+| CMOS index of the checksum of the range
+|===
+
+[#dell-value-formats, reftext=Value formats]
+== Dell -- Protected value formats
+
+.Dell: Value format field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Alphanumeric, scan codes
+| `0x01` | `1` | Alphanumeric, ASCII
+| `0x02` | `2` | Alphanumeric, scan codes (NS)
+| `0x03` | `3` | Alphanumeric, ASCII (NS)
+|===

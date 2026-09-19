@@ -1,3 +1,101 @@
 = Dell Protected Area Type 1 (Type 214)
 :sectnums:
 :sectlinks:
+
+Source: Dell `libsmbios`, `src/include/smbios_c/obj/token.h`.
+
+Describes a protected value, such as a password, which is stored in CMOS and
+accessed through the indexed I/O ports, and its checksum.
+
+.Dell Protected Area Type 1 structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `214`
+| Dell Protected Area Type 1 indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x11`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Token ID
+| `WORD`
+| `NUMBER`
+| Token of the protected value
+
+| `0x06`
+| 2.0+
+| Value Length
+| `BYTE`
+| `NUMBER`
+|
+
+| `0x07`
+| 2.0+
+| Value Format
+| `BYTE`
+| `ENUM`
+| See <<dell-value-formats>> for details
+
+| `0x08`
+| 2.0+
+| Validation Key
+| `WORD`
+| `NUMBER`
+|
+
+| `0x0A`
+| 2.0+
+| Index Port
+| `WORD`
+| `ADDRESS`
+| I/O port used to select the CMOS location
+
+| `0x0C`
+| 2.0+
+| Data Port
+| `WORD`
+| `ADDRESS`
+| I/O port used to access the selected CMOS location
+
+| `0x0E`
+| 2.0+
+| Checksum Type
+| `BYTE`
+| `ENUM`
+| See <<dell-check-types>> for details
+
+| `0x0F`
+| 2.0+
+| Value Start Index
+| `BYTE`
+| `NUMBER`
+| CMOS index of the protected value
+
+| `0x10`
+| 2.0+
+| Checksum Index
+| `BYTE`
+| `NUMBER`
+| CMOS index of the checksum of the value
+|===
+
+Checksum types are the same as in <<dell-check-types>>. Value formats are
+described in <<dell-value-formats>>.
