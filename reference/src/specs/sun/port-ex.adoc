@@ -1,3 +1,70 @@
 = Sun Port Extended Information (Type 136)
 :sectnums:
 :sectlinks:
+
+Source: illumos, `usr/src/uts/common/sys/smbios_impl.h`.
+
+Extends the port connector information (type 8) with the chassis containing
+the port and the device connected to it.
+
+.Sun Port Extended Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `136`
+| Sun Port Extended Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x0C`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Chassis Handle
+| `WORD`
+| `HANDLE`
+| Chassis containing the port
+
+| `0x06`
+| 2.0+
+| Port Connector Handle
+| `WORD`
+| `HANDLE`
+| Port connector information structure (type 8) being extended
+
+| `0x08`
+| 2.0+
+| Device Type
+| `BYTE`
+| `NUMBER`
+| Type of the connected device. Values are not described in the source.
+
+| `0x09`
+| 2.0+
+| Device Handle
+| `WORD`
+| `HANDLE`
+| Connected device
+
+| `0x0B`
+| 2.0+
+| PHY
+| `BYTE`
+| `NUMBER`
+| PHY number
+|===

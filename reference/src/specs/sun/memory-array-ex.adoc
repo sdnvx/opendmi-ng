@@ -1,3 +1,59 @@
 = Sun Memory Array Extended Information (Type 144)
 :sectnums:
 :sectlinks:
+
+Source: illumos, `usr/src/uts/common/sys/smbios_impl.h`.
+
+Extends the physical memory array information (type 16) with the parent
+component and the PCI address of the memory controller.
+
+.Sun Memory Array Extended Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `144`
+| Sun Memory Array Extended Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x0A`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Memory Array Handle
+| `WORD`
+| `HANDLE`
+| Physical memory array structure (type 16) being extended
+
+| `0x06`
+| 2.0+
+| Component Parent Handle
+| `WORD`
+| `HANDLE`
+| Parent component of the memory array
+
+| `0x08`
+| 2.0+
+| Bus/Device/Function
+| `WORD`
+| `NUMBER`
+| PCI address of the memory controller
+|===
+
+Bus, device and function numbers are packed as in PCI routing IDs: bus number
+in bits 15:8, device number in bits 7:3, function number in bits 2:0.

@@ -1,3 +1,52 @@
 = Sun PCI-Express Root Complex Information (Type 138)
 :sectnums:
 :sectlinks:
+
+Source: illumos, `usr/src/uts/common/sys/smbios_impl.h`.
+
+Describes the PCI address of a PCI-Express root complex or root port and the
+baseboard containing it.
+
+.Sun PCI-Express Root Complex Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `138`
+| Sun PCI-Express Root Complex Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x08`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Baseboard Handle
+| `WORD`
+| `HANDLE`
+| Baseboard containing the root complex or root port
+
+| `0x06`
+| 2.0+
+| Bus/Device/Function
+| `WORD`
+| `NUMBER`
+| PCI address of the root complex or root port
+|===
+
+Bus, device and function numbers are packed as in PCI routing IDs: bus number
+in bits 15:8, device number in bits 7:3, function number in bits 2:0.

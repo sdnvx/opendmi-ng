@@ -1,3 +1,63 @@
 = Sun Processor Extended Information (Type 132)
 :sectnums:
 :sectlinks:
+
+Source: illumos, `usr/src/uts/common/sys/smbios_impl.h`.
+
+Extends the processor information (type 4) with initial APIC IDs of the
+processor strands.
+
+.Sun Processor Extended Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `132`
+| Sun Processor Extended Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Processor Handle
+| `WORD`
+| `HANDLE`
+| Processor information structure (type 4) being extended
+
+| `0x06`
+| 2.0+
+| FRU
+| `BYTE`
+| `NUMBER`
+| FRU indicator
+
+| `0x07`
+| 2.0+
+| Number of APIC IDs
+| `BYTE`
+| `NUMBER`
+| Number of initial APIC IDs (n)
+
+| `0x08`
+| 2.0+
+| Initial APIC IDs
+| 2n BYTEs
+| Varies
+| Initial APIC IDs of the processor strands, a `WORD` each
+|===
