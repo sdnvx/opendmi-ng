@@ -119,6 +119,7 @@ _usage() {
     echo "        --enable-python    Build with Python support (libopendmi-python, default=${ENABLE_PYTHON})"
     echo "        --enable-rust      Build with Rust support (libopendmi-rust, default=${ENABLE_RUST})"
     echo "        --enable-dbus      Build with D-bus support (opendmi-dbus, default=${ENABLE_DBUS})"
+    echo "        --enable-sysfs     Build with SysFS support (opendmi-sysfs, default=${ENABLE_SYSFS})"
     echo "    Features:"
     echo "        --with-icu         Build with ICU4C support (default=${ENABLE_ICU})"
     echo "        --with-curses      Build with Curses support (default=${ENABLE_CURSES})"
@@ -186,6 +187,9 @@ _configure() {
             --enable-dbus)
                 ENABLE_DBUS=ON
                 ;;
+            --enable-sysfs)
+                ENABLE_SYSFS=ON
+                ;;
             --with-icu)
                 ENABLE_ICU=ON
                 ;;
@@ -251,6 +255,7 @@ _configure() {
         -DENABLE_PYTHON=${ENABLE_PYTHON} \
         -DENABLE_RUST=${ENABLE_RUST} \
         -DENABLE_DBUS=${ENABLE_DBUS} \
+        -DENABLE_SYSFS=${ENABLE_SYSFS} \
         ${FEATURES}
 }
 
