@@ -32,6 +32,7 @@ static void test_registry_get_first(void **pstate);
 static void test_registry_link_unset_handles(void **pstate);
 static void test_registry_decode_malformed(void **pstate);
 static void test_registry_decode_malformed_strict(void **pstate);
+static void test_registry_decode_all_strict(void **pstate);
 static void test_registry_resolve(void **pstate);
 static void test_registry_resolve_strict(void **pstate);
 
@@ -59,6 +60,29 @@ static dmi_data_t test_malformed_table[] = {
     // Memory channel, handle 0x0040, devices: 0x0010 and 0x0011
     37, 0x0D, 0x40, 0x00,
     0x03, 0x04, 0x02, 0x02, 0x10, 0x00, 0x02, 0x11, 0x00,
+    0x00, 0x00,
+
+    // End of table
+    127, 0x04, 0xFF, 0x00,
+    0x00, 0x00
+};
+
+// SMBIOS table with two malformed structures followed by a valid one
+static dmi_data_t test_all_malformed_table[] = {
+    // Memory device, handle 0x0011, shorter than the minimum length
+    17, 0x10, 0x11, 0x00,
+    0x01, 0x00, 0xFE, 0xFF, 0x40, 0x00, 0x40, 0x00, 0x00, 0x20,
+    0x09, 0x00,
+    0x00, 0x00,
+
+    // Memory channel, handle 0x0040, with more devices than it contains
+    37, 0x0D, 0x40, 0x00,
+    0x03, 0x04, 0x03, 0x02, 0xFF, 0xFF, 0x02, 0xFF, 0xFF,
+    0x00, 0x00,
+
+    // Physical memory array, handle 0x0001
+    16, 0x0F, 0x01, 0x00,
+    0x03, 0x03, 0x03, 0x00, 0x00, 0x40, 0x00, 0xFE, 0xFF, 0x02, 0x00,
     0x00, 0x00,
 
     // End of table
@@ -139,6 +163,7 @@ int main(void)
         cmocka_unit_test(test_registry_link_unset_handles),
         cmocka_unit_test(test_registry_decode_malformed),
         cmocka_unit_test(test_registry_decode_malformed_strict),
+        cmocka_unit_test(test_registry_decode_all_strict),
         cmocka_unit_test(test_registry_resolve),
         cmocka_unit_test(test_registry_resolve_strict)
     };
@@ -351,6 +376,57 @@ static void test_registry_decode_malformed_strict(void **pstate)
     const dmi_context_t *context = test_registry_open(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_STRICT,
                                                 test_malformed_table, sizeof(test_malformed_table));
     assert_null(context);
+}
+
+static void test_registry_decode_all_strict(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_STRICT);
+    assert_non_null(context);
+
+    dmi_set_logger(context, &test_logger);
+
+    context->state.smbios_version = DMI_VERSION(2, 7, 0);
+    context->state.table_data     = test_all_malformed_table;
+    context->state.table_size     = sizeof(test_all_malformed_table);
+    context->state.registry       = dmi_registry_create(context, 0);
+
+    dmi_registry_t *registry = context->state.registry;
+
+    if ((registry == nullptr) or not dmi_registry_scan(registry)) {
+        dmi_destroy(context);
+        fail_msg("Unable to scan table");
+    }
+
+    // Decoding fails in strict mode, but goes on after the first failure
+    bool decoded = dmi_registry_decode(registry);
+    bool status  = registry->status & DMI_REGISTRY_STATUS_DECODED;
+
+    const dmi_entity_t *array = dmi_registry_get(registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
+    bool array_decoded = (array != nullptr) and (array->state & DMI_ENTITY_STATE_DECODED);
+
+    // Both malformed structures are reported
+    bool length_found = false;
+    bool data_found   = false;
+
+    const dmi_error_t *error;
+    while ((error = dmi_error_get_first(context)) != nullptr) {
+        const char *message = (error->message != nullptr) ? error->message : "";
+
+        if ((error->reason == DMI_ERROR_INVALID_ENTITY_LENGTH) and (strstr(message, "0x0011") != nullptr))
+            length_found = true;
+        if ((error->reason == DMI_ERROR_ENTITY_DECODE) and (strstr(message, "0x0040") != nullptr))
+            data_found = true;
+    }
+
+    dmi_destroy(context);
+
+    assert_false(decoded);
+    assert_false(status);
+    assert_true(array_decoded);
+    assert_true(length_found);
+    assert_true(data_found);
 }
 
 static void test_registry_resolve(void **pstate)

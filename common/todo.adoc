@@ -41,6 +41,75 @@ To do:
 * Decode the keyed values in the `dell` module, keeping unknown keys as raw
   values.
 
+== Lint
+
+The `lint` command is a stub: `opendmi/src/command/lint.c` only parses the
+`-A` and `-l` options and reports that it is not implemented, and the man page
+is empty.
+
+Design questions to settle first:
+
+* Where checks live: in the library, as a `check` handler in
+  `dmi_entity_spec_t` next to `decode` and `link` plus a registry pass, or in
+  the CLI only.
+* How findings are collected: the error queue is limited to
+  `DMI_ERROR_MAX_DEPTH` entries and mixes causes, so a separate list of
+  findings (handle, check code, severity, message) is probably needed.
+* How findings are reported: plain lines with an exit code, or through the
+  output formats used by `show` and `export`.
+* How checks are selected: check codes, severities, and whether warnings can
+  be treated as errors.
+
+=== String properties (type 46)
+
+[cols="3,1", frame=ends, grid=rows]
+|===
+| Check | Severity
+
+| Parent handle is not specified (`0xFFFF`)
+| Error
+
+| Parent structure is not found
+| Error
+
+| Parent structure is a string property itself
+| Error
+
+| Property identifier is reserved (`0x0000`, `0x0002`-`0x7FFF`)
+| Error
+
+| Parent has several properties with the same identifier
+| Warning
+
+| Property with a defined identifier has no value
+| Warning
+
+| String property in a table of SMBIOS version below 3.5
+| Warning
+|===
+
+The first three are already detected while linking and raised to the error
+queue, the rest are not detected anywhere yet.
+
+== Documentation
+
+=== Custom `@error` command
+
+Header comments list errors raised by a function with one tag per error code:
+
+----
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
+----
+
+The command is not standard: Doxygen provides `@throw`, `@throws` and
+`@exception` for exceptions only, and they are reserved for the C++ API. It has
+to be registered once the tools are enabled:
+
+* Doxygen: add an alias to the Doxyfile, e.g.
+  `ALIASES += "error{1}=@par Error \1:"`, or render the errors as a list.
+* Clang: pass `-fcomment-block-commands=error` if `-Wdocumentation` is
+  enabled, otherwise the command is reported as unknown.
+
 == Firmware quirks
 
 === Off-by-one handles in management device components (type 35)

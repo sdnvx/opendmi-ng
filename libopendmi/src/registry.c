@@ -377,6 +377,8 @@ bool dmi_registry_decode(dmi_registry_t *registry)
     dmi_registry_iter_t iter;
     dmi_registry_iter_init(&iter, registry, nullptr);
 
+    bool success = true;
+
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         dmi_log_debug(context->logger, "%p: Handle 0x%04hx, length %zu, type %d (%s)",
@@ -389,17 +391,26 @@ bool dmi_registry_decode(dmi_registry_t *registry)
         if (dmi_entity_decode(entity))
             continue;
 
-        // Malformed structure is left undecoded in relaxed mode, so the rest
-        // of the table remains available
+        // Nothing else can be decoded without memory, regardless of the mode
+        const dmi_error_t *error = dmi_error_peek_last(context);
+        if ((error != nullptr) and (error->reason == DMI_ERROR_OUT_OF_MEMORY))
+            return false;
+
+        // Structure boundaries have been checked while scanning, so a failure
+        // concerns this structure only. Decoding goes on, so that all
+        // malformed structures in the table are reported at once.
+        success = false;
+
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
             dmi_log_warning(context->logger, "Unable to decode structure 0x%04hx (%s), skipping",
                             entity->handle, dmi_type_name(context, entity->type));
-            continue;
         }
-
-        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_DECODE, "0x%04hx", entity->handle);
-        return false;
     }
+
+    // Malformed structures are fatal only in strict mode, otherwise they are
+    // left undecoded, and the rest of the table remains usable
+    if ((not success) and (context->flags & DMI_CONTEXT_FLAG_STRICT))
+        return false;
 
     registry->status |= DMI_REGISTRY_STATUS_DECODED;
 

@@ -172,13 +172,21 @@ __dmi_api bool dmi_registry_scan(dmi_registry_t *registry);
  * type-specific decode handler for each one, populating their decoded
  * field data. Sets `DMI_REGISTRY_STATUS_DECODED` on success.
  *
- * Unless `DMI_CONTEXT_FLAG_STRICT` is set, entities that fail to decode are
- * left undecoded (without decoded field data) and skipped with a warning.
+ * Structure boundaries are checked by `dmi_registry_scan()`, so a structure
+ * that fails to decode does not affect the others. Decoding is not stopped by
+ * such failure: all entities are processed, so that every malformed structure
+ * in the table is reported to the error queue, and entities that fail to
+ * decode are left undecoded (without decoded field data). Whether it is fatal
+ * is decided at the end: unless `DMI_CONTEXT_FLAG_STRICT` is set, the failures
+ * are logged as warnings, and the registry is still marked as decoded.
+ *
+ * Decoding is stopped immediately if memory is exhausted, regardless of the
+ * mode.
  *
  * @param[in,out] registry Registry handle.
  *
  * @return `true` on success, `false` if any entity fails to decode in strict
- *         mode.
+ *         mode, or if memory is exhausted.
  */
 __dmi_api bool dmi_registry_decode(dmi_registry_t *registry);
 

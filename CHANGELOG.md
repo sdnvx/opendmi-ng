@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move internal definitions from `<opendmi/defs.h>` to a private header
 - Remove unused compatibility macros from public headers
 - Report all broken references when linking instead of stopping at the first one
+- Report all malformed structures when decoding instead of stopping at the first one
+- Stop decoding on memory exhaustion in relaxed mode too
 - Increase error queue depth from 32 to 64 entries
 - Treat broken references as link failures in all structures, fatal only in strict mode
 
@@ -29,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix name of string property value attribute
 - Fix false errors on memory device references to handle 0x0000 used as unspecified value
 - Fix crash on memory controller referring to undecoded memory module
+- Fix structure version shown for structures shorter than the minimum length
 
 ## [0.4.1] - September 18, 2026
 

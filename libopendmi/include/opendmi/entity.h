@@ -366,7 +366,13 @@ __dmi_api dmi_entity_t *dmi_entity_create(
  * @param[in] entity Entity descriptor.
  *
  * @return `true` on success (including when already decoded or no decoder is
- *         registered), `false` on failure.
+ *         registered), `false` on failure. The reason is the last error in the
+ *         error queue.
+ *
+ * @error DMI_ERROR_INVALID_ENTITY_LENGTH Structure is shorter than the minimum
+ *        length for its type.
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
+ * @error DMI_ERROR_ENTITY_DECODE Structure data is malformed.
  */
 __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
 

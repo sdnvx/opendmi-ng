@@ -186,14 +186,17 @@ bool dmi_entity_decode(dmi_entity_t *entity)
     if (spec == nullptr)
         return true;
 
-    entity->spec  = spec;
-    entity->level = spec->minimum_version;
+    entity->spec = spec;
 
     // Check minimum length constraint
     if ((spec->minimum_length != 0) and (entity->body_length < spec->minimum_length)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_LENGTH, "%zu", entity->body_length);
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_LENGTH,
+                           "0x%04x (%s): %zu bytes, at least %zu expected",
+                           entity->handle, spec->name, entity->body_length, spec->minimum_length);
         return false;
     }
+
+    entity->level = spec->minimum_version;
 
     if (spec->handlers.decode == nullptr)
         return true;
@@ -213,8 +216,14 @@ bool dmi_entity_decode(dmi_entity_t *entity)
     if (status) {
         entity->state |= DMI_ENTITY_STATE_DECODED;
     } else {
-        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_DECODE,
-                           "0x%04x (%s)", entity->handle, entity->spec->name);
+        const dmi_error_t *error = dmi_error_peek_last(context);
+
+        // Out of memory is left as the last error, since it is not caused by
+        // structure data
+        if ((error == nullptr) or (error->reason != DMI_ERROR_OUT_OF_MEMORY)) {
+            dmi_error_raise_ex(context, DMI_ERROR_ENTITY_DECODE,
+                               "0x%04x (%s)", entity->handle, entity->spec->name);
+        }
 
         // Call cleanup handler on errors
         if (spec->handlers.cleanup != nullptr)
