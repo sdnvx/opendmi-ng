@@ -118,19 +118,24 @@ dmi_destroy(context);
 * Text, JSON, XML and YAML output, with filtering by handle, type, module and
   structure state.
 * Modular extensions for OEM-specific structures.
-* C and C++ API, bindings for Go, Python and Rust.
-* D-Bus service and a Linux kernel module exposing SMBIOS data via SysFS.
+* C and C++ API, bindings for Go, Python and Rust, a D-Bus service and a Linux
+  kernel module exposing SMBIOS data via SysFS — see
+  [Components](#components) for what is ready today.
 * Small footprint, no external dependencies in the library itself.
 
 ## Components
 
-* `opendmi` - Command line tool to query DMI/SMBIOS data
-* `opendmi-dbus` - D-bus service providing access to DMI/SMBIOS data
-* `opendmi-sysfs` - Linux kernel module providing DMI/SMBIOS data via SysFS
-* `libopendmi` - C/C++ library providing direct interface to DMI/SMBIOS
-* `libopendmi-go` - Go bindings for `libopendmi`
-* `libopendmi-python` - Python bindings for `libopendmi`
-* `libopendmi-rust` - Rust bindings for `libopendmi`
+| Component | Description | Status |
+|---|---|---|
+| `libopendmi` | C/C++ library providing direct interface to DMI/SMBIOS | Usable, API not frozen until 1.0 |
+| `opendmi` | Command line tool to query DMI/SMBIOS data | Usable, `lint` and `import` commands are on the way |
+| `libopendmi-python` | Python bindings for `libopendmi` | In progress |
+| `opendmi-dbus` | D-Bus service providing access to DMI/SMBIOS data | In progress |
+| `opendmi-sysfs` | Linux kernel module providing DMI/SMBIOS data via SysFS | Planned |
+| `libopendmi-go` | Go bindings for `libopendmi` | Planned |
+| `libopendmi-rust` | Rust bindings for `libopendmi` | Planned |
+
+Everything is scheduled for 1.0, see [ROADMAP](ROADMAP.md) for the order.
 
 ## Getting started
 
