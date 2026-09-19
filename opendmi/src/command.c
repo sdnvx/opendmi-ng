@@ -38,6 +38,7 @@
 static bool dmi_command_set_log_file(dmi_context_t *context, const char *value);
 static bool dmi_command_set_log_level(dmi_context_t *context, const char *value);
 static bool dmi_command_add_module(dmi_context_t *context, const char *value);
+static bool dmi_command_enable_overlay(dmi_context_t *context, const char *value);
 
 #if defined(__linux__)
 static bool dmi_command_disable_sysfs(dmi_context_t *context, const char *value);
@@ -144,6 +145,12 @@ const dmi_option_set_t dmi_global_options =
                 .type     = DMI_ARGUMENT_TYPE_STRING,
                 .required = true
             }
+        },
+        {
+            .short_names = "O",
+            .long_names  = (const char *[]){ "overlay", nullptr },
+            .description = "Apply additional information entries (type 40) to structures",
+            .handler     = dmi_command_enable_overlay
         },
         {}
     }
@@ -428,6 +435,16 @@ static bool dmi_command_add_module(dmi_context_t *context, const char *value)
         dmi_command_message("Unable to enable module: %s", value);
         return false;
     }
+
+    return true;
+}
+
+static bool dmi_command_enable_overlay(dmi_context_t *context, const char *value)
+{
+    assert(context != nullptr);
+    dmi_unused(value);
+
+    dmi_set_flags(context, dmi_get_flags(context) | DMI_CONTEXT_FLAG_OVERLAY);
 
     return true;
 }

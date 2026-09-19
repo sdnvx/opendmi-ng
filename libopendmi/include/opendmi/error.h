@@ -53,6 +53,7 @@ typedef enum dmi_error_code
     DMI_ERROR_BACKEND_INIT,          ///< Unable to open backend
     DMI_ERROR_CONTEXT_OPEN,          ///< Unable to open context
     DMI_ERROR_INVALID_DUMP,          ///< Invalid SMBIOS dump
+    DMI_ERROR_INVALID_OVERLAY,       ///< Invalid additional information entry
     __DMI_ERROR_COUNT
 } dmi_error_code_t;
 

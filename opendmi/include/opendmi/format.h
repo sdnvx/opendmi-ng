@@ -68,6 +68,7 @@ typedef bool dmi_format_entity_attr_fn(
 
 typedef bool dmi_format_entity_attrs_end_fn(void *session, const dmi_entity_t *entity);
 typedef bool dmi_format_entity_properties_fn(void *session, const dmi_entity_t *entity);
+typedef bool dmi_format_entity_overlays_fn(void *session, const dmi_entity_t *entity);
 typedef bool dmi_format_entity_data_fn(void *session, const dmi_entity_t *entity);
 typedef bool dmi_format_entity_strings_fn(void *session, const dmi_entity_t *entity);
 typedef bool dmi_format_entity_end_fn(void *session, const dmi_entity_t *entity);
@@ -91,6 +92,7 @@ struct dmi_format_ops
     dmi_format_entity_attr_fn        *entity_attr;
     dmi_format_entity_attrs_end_fn   *entity_attrs_end;
     dmi_format_entity_properties_fn  *entity_properties;
+    dmi_format_entity_overlays_fn    *entity_overlays;
 
     dmi_format_entity_data_fn    *entity_data;
     dmi_format_entity_strings_fn *entity_strings;

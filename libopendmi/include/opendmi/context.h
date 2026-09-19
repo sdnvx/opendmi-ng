@@ -31,9 +31,36 @@ typedef struct dmi_context_state dmi_context_state_t;
  */
 typedef enum dmi_context_flags
 {
+    /**
+     * Default mode, in which as much of the table as possible is made
+     * available. Malformed structures are left undecoded, broken references
+     * and invalid additional information entries are skipped, and the errors
+     * are left in the error queue. A structure with invalid length ends the
+     * table, and missing firmware information leaves the vendor unknown.
+     */
     DMI_CONTEXT_FLAG_RELAXED = 0,
+
+    /**
+     * Fail to open the context if the table has any error: invalid structure
+     * length, missing firmware information, malformed structure, broken
+     * reference or invalid additional information entry. Decoding and linking
+     * still go on after the first error, so that all errors are reported to
+     * the error queue.
+     */
     DMI_CONTEXT_FLAG_STRICT  = (1 << 0),
-    DMI_CONTEXT_FLAG_LINK    = (1 << 1)
+
+    /**
+     * Resolve references between structures after decoding, and attach
+     * string properties (type 46) to their parent structures.
+     */
+    DMI_CONTEXT_FLAG_LINK    = (1 << 1),
+
+    /**
+     * Decode structures with values of additional information entries
+     * (type 40) applied. Entries usually do not carry field values, but
+     * annotations with placeholder values, so this is disabled by default.
+     */
+    DMI_CONTEXT_FLAG_OVERLAY = (1 << 2)
 } dmi_context_flags_t;
 
 /**

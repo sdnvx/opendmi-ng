@@ -12,14 +12,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add basic C++ API
 - Add SysFS module skeleton
 - Add Boot Integrity Services (BIS) entry point information decoder
-- Add tests for intel RSD network card information decoder
+- Add processor additional information decoder
+- Add tests for BIS entry point, system boot, system event log, TPM device and management device threshold decoders
+- Add tests for additional information overlays and module structure decoders
 - Add support for binary attributes
 - Add support for variant attributes
 - Add support for string properties (including linking)
-- Show MAC address of Intel RSD network cards
+- Show TPM device vendor ID
+- Show Intel RSD network card MAC address
+- Show nested structures in all output formats
 - Show string properties of structures in all output formats
-- Add `dmi_registry_resolve()` and `dmi_registry_resolve_any()` functions
-- Add `dmi_code_lookup_ex()` and `dmi_name_lookup_ex()` functions
+- Show values of additional information entries
+- Add `-O`/`--overlay` global option to apply additional information entries
+- Show applied additional information entries in all output formats
+- Show firmware inventory versions and identifiers parsed according to their formats
+- Show TPM firmware versions according to the TPM version
+- Show management device thresholds in units of the components using them
+- Show IPMI SMBus target addresses as numbers, and hide register details of SSIF interfaces
+- Decode system event log access method address according to the access method
+- Decode processor ID: signature and feature flags of x86 processors, MIDR and SoC ID of Arm processors
+- Show vendor- and product-specific boot status data
+- Decode all system event log fields
+- Decode management controller host interface data and protocol records (DSP0270)
+- Add `DMI_ATTRIBUTE_FLAG_IP` flag for IP addresses
+- Add Dell indexed IO, calling interface and protected area decoders
+- Add Intel RSD processor CPUID and physical device mapping decoders
+- Add Sun extended processor, port, memory array, memory device and PCIe root complex decoders
+- Add module structure specifications to the reference manual
 
 ### Changed
 
@@ -28,8 +47,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Report all broken references when linking instead of stopping at the first one
 - Report all malformed structures when decoding instead of stopping at the first one
 - Stop decoding on memory exhaustion in relaxed mode too
+- Leave memory exhaustion as the last error on decoding failures
+- Add structure handle and expected length to minimum length errors
+- Reference additional information entry values in place as `dmi_binary_t`
+- Keep both double words in TPM firmware version for all TPM versions
+- Keep boot status data of any length as `dmi_binary_t` instead of the first 10 bytes
+- Replace unused `dmi_system_log_access_method_addr` union with access address fields of `dmi_system_event_log_t`
 - Increase error queue depth from 32 to 64 entries
 - Treat broken references as link failures in all structures, fatal only in strict mode
+- Keep management controller interface and protocol record data as `dmi_binary_t`
 
 ### Fixed
 
@@ -37,7 +63,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix false errors on memory device references to handle 0x0000 used as unspecified value
 - Fix crash on memory controller referring to undecoded memory module
 - Fix structure version shown for structures shorter than the minimum length
+- Fix handling of additional information entries shorter than their header
+- Fix decoding of additional information values longer than 32 bytes
 - Fix indentation of nested structures in text output
+- Fix indentation of nested flags in text output
 - Remove trailing spaces in text output
 
 ## [0.4.1] - September 18, 2026

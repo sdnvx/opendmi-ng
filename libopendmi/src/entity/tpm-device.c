@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/context.h>
+#include <opendmi/log.h>
 #include <opendmi/stream.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
@@ -14,6 +15,7 @@
 #include <opendmi/entity/tpm-device.h>
 
 static bool dmi_tpm_device_decode(dmi_entity_t *entity);
+static void dmi_tpm_device_decode_vendor(dmi_entity_t *entity, dmi_tpm_device_t *info);
 
 static const dmi_name_set_t dmi_tpm_device_feature_names =
 {
@@ -52,15 +54,45 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
     .minimum_length  = 0x1F,
     .decoded_length  = sizeof(dmi_tpm_device_t),
     .attributes      = (const dmi_attribute_t[]){
+        DMI_ATTRIBUTE(dmi_tpm_device_t, vendor, STRING, {
+            .code   = "vendor-id",
+            .name   = "Vendor ID"
+        }),
         DMI_ATTRIBUTE(dmi_tpm_device_t, spec_version, VERSION, {
             .code   = "specification-version",
             .name   = "Specification version",
             .scale  = 2
         }),
-        DMI_ATTRIBUTE(dmi_tpm_device_t, firmware_version, INTEGER, {
-            .code   = "firmware-version",
-            .name   = "Firmware version",
-            .flags  = DMI_ATTRIBUTE_FLAG_HEX
+        DMI_ATTRIBUTE_VARIANT(dmi_tpm_device_t, firmware_version_format, {
+            .code     = "firmware-version",
+            .name     = "Firmware version",
+            .variants = (const dmi_attribute_variant_t[]){
+                DMI_VARIANT(DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1, dmi_tpm_device_t, firmware_revision, VERSION, {
+                    .scale = 2
+                }),
+                DMI_VARIANT(DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2, dmi_tpm_device_t, firmware_version_2, STRUCT, {
+                    .attrs = (const dmi_attribute_t[]){
+                        DMI_ATTRIBUTE(dmi_tpm_firmware_version_t, major, INTEGER, {
+                            .code = "major",
+                            .name = "Major"
+                        }),
+                        DMI_ATTRIBUTE(dmi_tpm_firmware_version_t, minor, INTEGER, {
+                            .code = "minor",
+                            .name = "Minor"
+                        }),
+                        DMI_ATTRIBUTE(dmi_tpm_firmware_version_t, vendor_specific, INTEGER, {
+                            .code  = "vendor-specific",
+                            .name  = "Vendor-specific",
+                            .flags = DMI_ATTRIBUTE_FLAG_HEX
+                        }),
+                        DMI_ATTRIBUTE_NULL
+                    }
+                }),
+                DMI_VARIANT_DEFAULT(dmi_tpm_device_t, firmware_version, INTEGER, {
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                DMI_VARIANT_NULL
+            }
         }),
         DMI_ATTRIBUTE(dmi_tpm_device_t, description, STRING, {
             .code   = "description",
@@ -113,16 +145,63 @@ static bool dmi_tpm_device_decode(dmi_entity_t *entity)
     // Terminate vendor identifier
     info->vendor_id[sizeof(info->vendor_id) - 1] = 0;
 
+    dmi_tpm_device_decode_vendor(entity, info);
+
     // Decode specification version
     info->spec_version = dmi_version(spec_version_major, spec_version_minor, 0);
 
-    // Decode firmware version
-    if (dmi_version_major(info->spec_version) > 1) {
-        info->firmware_version = ((uint64_t)firmware_version_1 << 32) |
-                                 (uint64_t)firmware_version_2;
-    } else {
-        info->firmware_version = firmware_version_1;
+    // Firmware version is kept as stored, and parsed according to the TPM
+    // version
+    info->firmware_version = ((uint64_t)firmware_version_1 << 32) | (uint64_t)firmware_version_2;
+
+    switch (dmi_version_major(info->spec_version)) {
+    case 1:
+        // TCPA_VERSION structure: major, minor, revMajor and revMinor
+        info->firmware_version_format = DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1;
+        info->firmware_revision       = dmi_version((firmware_version_1 >> 16) & 0xFFu,
+                                                    (firmware_version_1 >> 24) & 0xFFu, 0);
+        break;
+
+    case 2:
+        info->firmware_version_format            = DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2;
+        info->firmware_version_2.major           = (uint16_t)(firmware_version_1 >> 16);
+        info->firmware_version_2.minor           = (uint16_t)(firmware_version_1 & 0xFFFFu);
+        info->firmware_version_2.vendor_specific = firmware_version_2;
+        break;
+
+    default:
+        info->firmware_version_format = DMI_TPM_FIRMWARE_VERSION_FORMAT_RAW;
+        break;
     }
 
     return true;
 }
+
+static void dmi_tpm_device_decode_vendor(dmi_entity_t *entity, dmi_tpm_device_t *info)
+{
+    char *id = info->vendor_id;
+
+    // Some firmware stores vendor identifier as a little-endian double word,
+    // so that it starts with the terminating zero, e.g. "\0XFI" for "IFX"
+    if ((id[0] == 0) and (id[3] != 0)) {
+        dmi_log_notice(entity->context->logger,
+                       "Handle 0x%04hx (%s): Vendor ID bytes are reversed",
+                       entity->handle, dmi_type_name(entity->context, entity->type));
+
+        for (size_t i = 0; i < 2; i++) {
+            char c = id[i];
+            id[i]     = id[3 - i];
+            id[3 - i] = c;
+        }
+    }
+
+    // Only printable characters are kept, identifier ends at the first other
+    size_t length = 0;
+    while ((length < 4) and (id[length] >= 0x20) and (id[length] < 0x7F))
+        length++;
+
+    id[length] = 0;
+
+    info->vendor = (length > 0) ? id : nullptr;
+}
+

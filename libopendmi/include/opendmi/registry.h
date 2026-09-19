@@ -166,6 +166,35 @@ __dmi_api bool dmi_registry_scan(dmi_registry_t *registry);
 
 /**
  * @internal
+ * @brief Attach additional information entries to the structures they refer
+ * to.
+ *
+ * Decodes all additional information structures (type 40) in @p registry, and
+ * attaches their entries to the referenced structures, so that entry values
+ * are applied when the structures are decoded. Must be called after scanning
+ * and before decoding other structures. Called on opening a context if
+ * `DMI_CONTEXT_FLAG_OVERLAY` is set.
+ *
+ * Processing is not stopped by invalid entries, so that all of them are
+ * reported to the error queue. Invalid entries are not applied, and whether
+ * they are fatal is decided at the end, as in `dmi_registry_link()`.
+ *
+ * @param[in,out] registry Registry handle.
+ *
+ * @return `true` on success, `false` if any entry is invalid in strict mode,
+ *         or if memory is exhausted.
+ *
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Referenced structure is not found.
+ * @error DMI_ERROR_INVALID_OVERLAY Entry refers to the structure header or
+ *        beyond the structure body.
+ * @error DMI_ERROR_ENTITY_DECODE Additional information structure is
+ *        malformed.
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
+ */
+__dmi_api bool dmi_registry_overlay(dmi_registry_t *registry);
+
+/**
+ * @internal
  * @brief Decode all entities in the registry.
  *
  * Iterates over all entities registered in @p registry and invokes the

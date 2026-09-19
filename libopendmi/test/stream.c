@@ -413,9 +413,9 @@ static void test_stream_decode_bin_overlay(void **pstate)
 
     // Data is referenced in the copy of structure body with additional
     // information applied
-    entity->overlay = overlay;
+    entity->overlay_data = overlay;
     dmi_stream_initialize(&stream, entity);
-    entity->overlay = nullptr;
+    entity->overlay_data = nullptr;
 
     dmi_stream_seek(&stream, TEST_BODY_OFFSET);
 

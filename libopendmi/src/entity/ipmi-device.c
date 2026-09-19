@@ -105,6 +105,17 @@ static const dmi_name_set_t dmi_ipmi_intr_polarity_names =
     }
 };
 
+//
+// Register-related fields are defined only for interfaces in I/O or memory
+// space, and are not shown for SSIF interface
+//
+#define dmi_ipmi_register_variants(__member, ...)                                                    \
+    (const dmi_attribute_variant_t[]){                                                              \
+        DMI_VARIANT(DMI_IPMI_ADDR_TYPE_IO, dmi_ipmi_device_t, __member, INTEGER, __VA_ARGS__),       \
+        DMI_VARIANT(DMI_IPMI_ADDR_TYPE_MEMORY, dmi_ipmi_device_t, __member, INTEGER, __VA_ARGS__),   \
+        DMI_VARIANT_NULL                                                                            \
+    }
+
 const dmi_entity_spec_t dmi_ipmi_device_spec =
 {
     .code            = "ipmi-device",
@@ -144,13 +155,22 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
             .unspec = dmi_value_ptr((uint8_t)UINT8_MAX),
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, base_addr, ADDRESS, {
-            .code   = "base-address",
-            .name   = "Base address"
+        // SMBus target address of SSIF interface is shown as a short number
+        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_addr_type, {
+            .code     = "base-address",
+            .name     = "Base address",
+            .variants = (const dmi_attribute_variant_t[]){
+                DMI_VARIANT(DMI_IPMI_ADDR_TYPE_SMBUS, dmi_ipmi_device_t, base_addr, INTEGER, {
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                DMI_VARIANT_DEFAULT(dmi_ipmi_device_t, base_addr, ADDRESS, {}),
+                DMI_VARIANT_NULL
+            }
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, base_addr_lsb, INTEGER, {
-            .code   = "base-address-lsb",
-            .name   = "Base address LSB"
+        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_addr_type, {
+            .code     = "base-address-lsb",
+            .name     = "Base address LSB",
+            .variants = dmi_ipmi_register_variants(base_addr_lsb, {})
         }),
         DMI_ATTRIBUTE(dmi_ipmi_device_t, base_addr_type, ENUM, {
             .code   = "base-address-type",
@@ -174,11 +194,13 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
             .name   = "Interrupt number",
             .unspec = dmi_value_ptr((unsigned short)0)
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, register_spacing, INTEGER, {
-            .code   = "register-spacing",
-            .name   = "Register spacing",
-            .unit   = "bytes",
-            .unspec = dmi_value_ptr((unsigned short)0)
+        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_addr_type, {
+            .code     = "register-spacing",
+            .name     = "Register spacing",
+            .variants = dmi_ipmi_register_variants(register_spacing, {
+                .unit   = "bytes",
+                .unspec = dmi_value_ptr((unsigned short)0)
+            })
         }),
         DMI_ATTRIBUTE_NULL
     },

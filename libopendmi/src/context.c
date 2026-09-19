@@ -654,6 +654,13 @@ static bool dmi_open_ex(
         if (not dmi_registry_scan(context->state.registry))
             break;
 
+        // Additional information is applied before any structure is decoded,
+        // including firmware information used to detect the vendor
+        if (context->flags & DMI_CONTEXT_FLAG_OVERLAY) {
+            if (not dmi_registry_overlay(context->state.registry))
+                break;
+        }
+
         if (not dmi_setup_extensions(context))
             break;
 

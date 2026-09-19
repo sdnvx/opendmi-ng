@@ -117,6 +117,15 @@ const dmi_entity_spec_t dmi_system_boot_spec =
             .name   = "Boot status",
             .values = &dmi_system_boot_status_names
         }),
+        // Additional data is defined only for vendor and product codes
+        DMI_ATTRIBUTE_VARIANT(dmi_system_boot_t, has_status_data, {
+            .code     = "status-data",
+            .name     = "Boot status data",
+            .variants = (const dmi_attribute_variant_t[]){
+                DMI_VARIANT(true, dmi_system_boot_t, status_data, BINARY, {}),
+                DMI_VARIANT_NULL
+            }
+        }),
         DMI_ATTRIBUTE_NULL
     },
     .handlers = {
@@ -138,15 +147,14 @@ static bool dmi_system_boot_decode(dmi_entity_t *entity)
     if (not dmi_stream_skip(stream, 6 * sizeof(dmi_byte_t)))
         return false;
 
-    // Boot status data has variable length, only the first bytes are kept
-    size_t status_data_length = dmi_stream_remaining(stream);
-    if (status_data_length > countof(info->status_data))
-        status_data_length = countof(info->status_data);
-
-    if (not dmi_stream_read_data(stream, info->status_data, status_data_length))
+    // Boot status has variable length, and starts with the status code
+    bool status =
+        dmi_stream_decode(stream, dmi_byte_t, &info->status) and
+        dmi_stream_decode_bin(stream, dmi_stream_remaining(stream), &info->status_data);
+    if (not status)
         return false;
 
-    info->status = info->status_data[0];
+    info->has_status_data = (info->status >= __DMI_BOOT_STATUS_VENDOR_SPECIFIC_START);
 
     return true;
 }

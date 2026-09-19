@@ -42,7 +42,10 @@ const dmi_entity_spec_t dmi_additional_info_spec =
                     .code = "string",
                     .name = "String value"
                 }),
-                // TODO: Add binary value attribute
+                DMI_ATTRIBUTE(dmi_additional_info_entry_t, value, BINARY, {
+                    .code = "value",
+                    .name = "Value"
+                }),
                 {}
             }
         }),
@@ -95,7 +98,16 @@ static bool dmi_additional_info_decode(dmi_entity_t *entity)
             return false;
         }
 
-        entry->value_length = entry_length - 5;
+        // Entry length includes the entry header, and there is at least one
+        // byte of value
+        if (entry_length < DMI_ADDITIONAL_INFO_ENTRY_HEADER + 1) {
+            dmi_log_error(context->logger,
+                          "Invalid additional information entry length: 0x%04X[%zu]: %zu bytes",
+                          entity->handle, i, entry_length);
+            return false;
+        }
+
+        entry->value.length = entry_length - DMI_ADDITIONAL_INFO_ENTRY_HEADER;
 
         if (entry->ref_offset < sizeof(dmi_header_t)) {
             dmi_log_warning(context->logger,
@@ -103,23 +115,17 @@ static bool dmi_additional_info_decode(dmi_entity_t *entity)
                             entity->handle, i, entry->ref_offset);
         }
 
-        if (entry->value_length > sizeof(entry->value)) {
-            dmi_log_error(context->logger,
-                          "Value length exceeds buffer size: 0x%04X[%zu]: %zu bytes",
-                          entity->handle, i, entry->value_length);
-            return false;
-        }
-
         size_t remaining = dmi_stream_remaining(stream);
-        if (entry->value_length > remaining) {
+        if (entry->value.length > remaining) {
             dmi_log_warning(context->logger,
                             "Truncated additional information entry value: "
                             "0x%04X[%zu]: length=%zu remaining=%zu",
-                            entity->handle, i, entry->value_length, remaining);
-            entry->value_length = remaining;
+                            entity->handle, i, entry->value.length, remaining);
+            entry->value.length = remaining;
         }
 
-        if (not dmi_stream_read_data(stream, entry->value, entry->value_length)) {
+        // Value is referenced in place, since its length is not limited
+        if (not dmi_stream_decode_bin(stream, entry->value.length, &entry->value)) {
             dmi_log_error(context->logger, "Unable to decode additional information entry value: 0x%04X[%zu]",
                           entity->handle, i);
             return false;

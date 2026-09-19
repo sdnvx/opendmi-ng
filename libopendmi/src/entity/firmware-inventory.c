@@ -15,6 +15,19 @@
 #include <opendmi/entity/firmware-inventory.h>
 
 static bool dmi_firmware_inventory_decode(dmi_entity_t *entity);
+
+static void dmi_firmware_version_parse(
+        const char             *str,
+        dmi_version_format_t    format,
+        dmi_firmware_version_t *version);
+static void dmi_firmware_ident_parse(
+        const char                  *str,
+        dmi_firmware_ident_format_t  format,
+        dmi_firmware_ident_t        *ident);
+
+static bool dmi_firmware_parse_decimal(const char **pstr, uint32_t *value);
+static bool dmi_firmware_parse_hex(const char *str, size_t max_digits, uint64_t *value);
+static int dmi_firmware_hex_digit(char c);
 static bool dmi_firmware_inventory_link(dmi_entity_t *entity);
 static void dmi_firmware_inventory_cleanup(dmi_entity_t *entity);
 
@@ -138,6 +151,35 @@ static const dmi_name_set_t dmi_firmware_inventory_state_names =
     }
 };
 
+static const dmi_attribute_t dmi_firmware_version_number_attrs[] =
+{
+    DMI_ATTRIBUTE(dmi_firmware_version_number_t, major, INTEGER, {
+        .code = "major",
+        .name = "Major"
+    }),
+    DMI_ATTRIBUTE(dmi_firmware_version_number_t, minor, INTEGER, {
+        .code = "minor",
+        .name = "Minor"
+    }),
+    DMI_ATTRIBUTE_NULL
+};
+
+//
+// Version is shown as parsed according to the version format, or as the
+// original string, if it does not conform to the format
+//
+#define dmi_firmware_version_variants(__string, __parsed)                                        \
+    (const dmi_attribute_variant_t[]){                                                         \
+        DMI_VARIANT(DMI_VERSION_FORMAT_SEMANTIC, dmi_firmware_inventory_t, __parsed.number,     \
+                    STRUCT, { .attrs = dmi_firmware_version_number_attrs }),                   \
+        DMI_VARIANT(DMI_VERSION_FORMAT_HEX_32, dmi_firmware_inventory_t, __parsed.value,        \
+                    INTEGER, { .flags = DMI_ATTRIBUTE_FLAG_HEX }),                             \
+        DMI_VARIANT(DMI_VERSION_FORMAT_HEX_64, dmi_firmware_inventory_t, __parsed.value,        \
+                    INTEGER, { .flags = DMI_ATTRIBUTE_FLAG_HEX }),                             \
+        DMI_VARIANT_DEFAULT(dmi_firmware_inventory_t, __string, STRING, {}),                   \
+        DMI_VARIANT_NULL                                                                       \
+    }
+
 const dmi_entity_spec_t dmi_firmware_inventory_spec =
 {
     .code            = "firmware-inventory",
@@ -167,18 +209,24 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
             .code    = "name",
             .name    = "Name"
         }),
-        DMI_ATTRIBUTE(dmi_firmware_inventory_t, version, STRING, {
-            .code    = "version",
-            .name    = "Version"
+        DMI_ATTRIBUTE_VARIANT(dmi_firmware_inventory_t, parsed_version.format, {
+            .code     = "version",
+            .name     = "Version",
+            .variants = dmi_firmware_version_variants(version, parsed_version)
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, version_format, ENUM, {
             .code    = "version-format",
             .name    = "Version format",
             .values  = &dmi_version_format_names
         }),
-        DMI_ATTRIBUTE(dmi_firmware_inventory_t, ident, STRING, {
-            .code    = "ident",
-            .name    = "Identifier"
+        DMI_ATTRIBUTE_VARIANT(dmi_firmware_inventory_t, parsed_ident.format, {
+            .code     = "ident",
+            .name     = "Identifier",
+            .variants = (const dmi_attribute_variant_t[]){
+                DMI_VARIANT(DMI_FIRMWARE_IDENT_FORMAT_GUID, dmi_firmware_inventory_t, parsed_ident.guid, UUID, {}),
+                DMI_VARIANT_DEFAULT(dmi_firmware_inventory_t, ident, STRING, {}),
+                DMI_VARIANT_NULL
+            }
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, ident_format, ENUM, {
             .code    = "ident-format",
@@ -193,9 +241,10 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
             .code    = "vendor",
             .name    = "Vendor"
         }),
-        DMI_ATTRIBUTE(dmi_firmware_inventory_t, lowest_version, STRING, {
-            .code    = "lowest-version",
-            .name    = "Lowest version"
+        DMI_ATTRIBUTE_VARIANT(dmi_firmware_inventory_t, parsed_lowest_version.format, {
+            .code     = "lowest-version",
+            .name     = "Lowest version",
+            .variants = dmi_firmware_version_variants(lowest_version, parsed_lowest_version)
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, image_size, SIZE, {
             .code    = "image-size",
@@ -281,6 +330,10 @@ static bool dmi_firmware_inventory_decode(dmi_entity_t *entity)
     if (not status)
         return false;
 
+    dmi_firmware_version_parse(info->version, info->version_format, &info->parsed_version);
+    dmi_firmware_version_parse(info->lowest_version, info->version_format, &info->parsed_lowest_version);
+    dmi_firmware_ident_parse(info->ident, info->ident_format, &info->parsed_ident);
+
     // Associated components
     if (dmi_stream_is_done(stream))
         return dmi_entity_stop(entity);
@@ -346,3 +399,130 @@ static void dmi_firmware_inventory_cleanup(dmi_entity_t *entity)
 
     dmi_free(info->components);
 }
+
+static void dmi_firmware_version_parse(
+        const char             *str,
+        dmi_version_format_t    format,
+        dmi_firmware_version_t *version)
+{
+    version->format = DMI_VERSION_FORMAT_FREE;
+
+    if (str == nullptr)
+        return;
+
+    // Strings not conforming to the format are kept as free-form ones
+    switch (format) {
+    case DMI_VERSION_FORMAT_SEMANTIC:
+        if (dmi_firmware_parse_decimal(&str, &version->number.major) and (*str++ == '.') and
+            dmi_firmware_parse_decimal(&str, &version->number.minor) and (*str == 0))
+            version->format = format;
+        break;
+
+    case DMI_VERSION_FORMAT_HEX_32:
+        if (dmi_firmware_parse_hex(str, 8, &version->value))
+            version->format = format;
+        break;
+
+    case DMI_VERSION_FORMAT_HEX_64:
+        if (dmi_firmware_parse_hex(str, 16, &version->value))
+            version->format = format;
+        break;
+
+    default:
+        break;
+    }
+}
+
+static void dmi_firmware_ident_parse(
+        const char                  *str,
+        dmi_firmware_ident_format_t  format,
+        dmi_firmware_ident_t        *ident)
+{
+    ident->format = DMI_FIRMWARE_IDENT_FORMAT_FREE;
+
+    if ((str == nullptr) or (format != DMI_FIRMWARE_IDENT_FORMAT_GUID))
+        return;
+
+    // GUID string uses RFC 4122 format, in which bytes are in the same order
+    // as in the UUID value
+    size_t count = 0;
+
+    for (size_t i = 0; str[i] != 0; i++) {
+        if ((i == 8) or (i == 13) or (i == 18) or (i == 23)) {
+            if (str[i] != '-')
+                return;
+            continue;
+        }
+
+        int digit = dmi_firmware_hex_digit(str[i]);
+        if ((digit < 0) or (count >= 2 * sizeof(ident->guid.__value)))
+            return;
+
+        if (count % 2 == 0)
+            ident->guid.__value[count / 2] = (dmi_byte_t)(digit << 4);
+        else
+            ident->guid.__value[count / 2] |= (dmi_byte_t)digit;
+
+        count++;
+    }
+
+    if (count == 2 * sizeof(ident->guid.__value))
+        ident->format = format;
+}
+
+static bool dmi_firmware_parse_decimal(const char **pstr, uint32_t *value)
+{
+    const char *str = *pstr;
+    uint64_t rv = 0;
+
+    if ((*str < '0') or (*str > '9'))
+        return false;
+
+    for (; (*str >= '0') and (*str <= '9'); str++) {
+        rv = rv * 10 + (uint64_t)(*str - '0');
+        if (rv > UINT32_MAX)
+            return false;
+    }
+
+    *pstr  = str;
+    *value = (uint32_t)rv;
+
+    return true;
+}
+
+static bool dmi_firmware_parse_hex(const char *str, size_t max_digits, uint64_t *value)
+{
+    uint64_t rv = 0;
+    size_t count = 0;
+
+    if ((str[0] != '0') or ((str[1] != 'x') and (str[1] != 'X')))
+        return false;
+
+    for (str += 2; *str != 0; str++, count++) {
+        int digit = dmi_firmware_hex_digit(*str);
+        if ((digit < 0) or (count >= max_digits))
+            return false;
+
+        rv = (rv << 4) | (uint64_t)digit;
+    }
+
+    if (count == 0)
+        return false;
+
+    *value = rv;
+
+    return true;
+}
+
+static int dmi_firmware_hex_digit(char c)
+{
+    if ((c >= '0') and (c <= '9'))
+        return c - '0';
+    if ((c >= 'a') and (c <= 'f'))
+        return c - 'a' + 10;
+    if ((c >= 'A') and (c <= 'F'))
+        return c - 'A' + 10;
+
+    return -1;
+}
+

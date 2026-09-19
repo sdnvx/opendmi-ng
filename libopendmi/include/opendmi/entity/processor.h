@@ -16,6 +16,108 @@ typedef union  dmi_processor_features     dmi_processor_features_t;
 typedef union  dmi_processor_status_data  dmi_processor_status_data_t;
 typedef union  dmi_processor_voltage_data dmi_processor_voltage_data_t;
 typedef union  dmi_processor_voltages     dmi_processor_voltages_t;
+typedef struct dmi_processor_x86_id       dmi_processor_x86_id_t;
+typedef struct dmi_processor_arm_id       dmi_processor_arm_id_t;
+typedef struct dmi_processor_soc_id       dmi_processor_soc_id_t;
+
+/**
+ * @brief Processor ID formats, depending on the processor architecture.
+ */
+typedef enum dmi_processor_id_format
+{
+    DMI_PROCESSOR_ID_FORMAT_RAW,    ///< Unknown architecture, raw value
+    DMI_PROCESSOR_ID_FORMAT_X86,    ///< x86: CPUID signature (EAX) and feature flags (EDX)
+    DMI_PROCESSOR_ID_FORMAT_MIDR,   ///< Arm: Main ID Register (MIDR or MIDR_EL1)
+    DMI_PROCESSOR_ID_FORMAT_SOC_ID  ///< Arm64: SoC ID and revision, as returned by SMCCC_ARCH_SOC_ID
+} dmi_processor_id_format_t;
+
+/**
+ * @brief Processor ID of x86 processors.
+ */
+struct dmi_processor_x86_id
+{
+    /**
+     * @brief Processor type (0 for original OEM processor).
+     */
+    uint8_t type;
+
+    /**
+     * @brief Family, including extended family.
+     */
+    uint16_t family;
+
+    /**
+     * @brief Model, including extended model.
+     */
+    uint16_t model;
+
+    /**
+     * @brief Stepping.
+     */
+    uint8_t stepping;
+
+    /**
+     * @brief Feature flags, as returned by CPUID leaf 1 in EDX register.
+     */
+    uint32_t features;
+};
+
+/**
+ * @brief Main ID Register of Arm processors.
+ */
+struct dmi_processor_arm_id
+{
+    /**
+     * @brief Implementer code, e.g. 0x41 for Arm.
+     */
+    uint8_t implementer;
+
+    /**
+     * @brief Variant number, major revision of the processor.
+     */
+    uint8_t variant;
+
+    /**
+     * @brief Architecture code.
+     */
+    uint8_t architecture;
+
+    /**
+     * @brief Primary part number.
+     */
+    uint16_t part_number;
+
+    /**
+     * @brief Revision number, minor revision of the processor.
+     */
+    uint8_t revision;
+};
+
+/**
+ * @brief SoC ID of Arm64 processors.
+ */
+struct dmi_processor_soc_id
+{
+    /**
+     * @brief JEP106 continuation code (bank index) of the SiP vendor.
+     */
+    uint8_t jep106_bank;
+
+    /**
+     * @brief JEP106 identification code of the SiP vendor.
+     */
+    uint8_t jep106_id;
+
+    /**
+     * @brief SoC identifier defined by the SiP vendor.
+     */
+    uint16_t soc_id;
+
+    /**
+     * @brief SoC revision defined by the SiP vendor.
+     */
+    uint32_t soc_revision;
+};
 
 typedef enum dmi_processor_type
 {
@@ -517,6 +619,32 @@ struct dmi_processor
     dmi_processor_family_t family;
 
     const char *vendor;
+
+    /**
+     * @brief Processor ID, as stored.
+     */
+    dmi_binary_t id;
+
+    /**
+     * @brief Processor ID format, depending on the processor architecture.
+     * Selects the field containing the parsed processor ID.
+     */
+    dmi_processor_id_format_t id_format;
+
+    /**
+     * @brief Processor ID of x86 processors.
+     */
+    dmi_processor_x86_id_t x86_id;
+
+    /**
+     * @brief Main ID Register of Arm processors.
+     */
+    dmi_processor_arm_id_t arm_id;
+
+    /**
+     * @brief SoC ID of Arm64 processors.
+     */
+    dmi_processor_soc_id_t soc_id;
 
     const char *version;
 

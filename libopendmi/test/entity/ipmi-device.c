@@ -6,6 +6,7 @@
 //
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <cmocka.h>
 
 #include <opendmi/context.h>
@@ -20,6 +21,9 @@ static void test_ipmi_addr_type_name(void **pstate);
 static void test_ipmi_device_decode_io(void **pstate);
 static void test_ipmi_device_decode_memory(void **pstate);
 static void test_ipmi_device_decode_ssif(void **pstate);
+static void test_ipmi_device_variants(void **pstate);
+
+static const dmi_attribute_t *test_attribute(const char *code);
 
 static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
 
@@ -29,7 +33,8 @@ int main(void)
         cmocka_unit_test(test_ipmi_addr_type_name),
         cmocka_unit_test(test_ipmi_device_decode_io),
         cmocka_unit_test(test_ipmi_device_decode_memory),
-        cmocka_unit_test(test_ipmi_device_decode_ssif)
+        cmocka_unit_test(test_ipmi_device_decode_ssif),
+        cmocka_unit_test(test_ipmi_device_variants)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -131,3 +136,43 @@ static void test_ipmi_device_decode_ssif(void **pstate)
     assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_SMBUS);
     assert_uint_equal(info.base_addr, 0x10);
 }
+
+static void test_ipmi_device_variants(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_ipmi_device_t kcs;
+    dmi_ipmi_device_t ssif;
+
+    decode_ipmi_device(DMI_IPMI_INTERFACE_KCS, 0xCA3, 0x00, &kcs);
+    decode_ipmi_device(DMI_IPMI_INTERFACE_SSIF, 0x21, 0x00, &ssif);
+
+    const dmi_attribute_t *base_addr = test_attribute("base-address");
+    const dmi_attribute_t *base_addr_lsb = test_attribute("base-address-lsb");
+    const dmi_attribute_t *register_spacing = test_attribute("register-spacing");
+
+    assert_non_null(base_addr);
+    assert_non_null(base_addr_lsb);
+    assert_non_null(register_spacing);
+
+    // Address in I/O space is shown as an address, with register details
+    assert_int_equal(dmi_attribute_resolve(base_addr, &kcs)->type, DMI_ATTRIBUTE_TYPE_ADDRESS);
+    assert_non_null(dmi_attribute_resolve(base_addr_lsb, &kcs));
+    assert_non_null(dmi_attribute_resolve(register_spacing, &kcs));
+
+    // SMBus target address is shown as a number, without register details
+    assert_int_equal(dmi_attribute_resolve(base_addr, &ssif)->type, DMI_ATTRIBUTE_TYPE_INTEGER);
+    assert_null(dmi_attribute_resolve(base_addr_lsb, &ssif));
+    assert_null(dmi_attribute_resolve(register_spacing, &ssif));
+}
+
+static const dmi_attribute_t *test_attribute(const char *code)
+{
+    for (const dmi_attribute_t *attr = dmi_ipmi_device_spec.attributes; attr->params.name != nullptr; attr++) {
+        if (strcmp(attr->params.code, code) == 0)
+            return attr;
+    }
+
+    return nullptr;
+}
+

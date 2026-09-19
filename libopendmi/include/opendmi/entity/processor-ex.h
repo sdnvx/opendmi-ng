@@ -11,7 +11,7 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_processor_ex_data               dmi_processor_ex_data_t;
+typedef struct dmi_processor_ex                    dmi_processor_ex_t;
 typedef struct dmi_processor_specific_block        dmi_processor_specific_block_t;
 typedef struct dmi_processor_aarch64_data          dmi_processor_aarch64_data_t;
 typedef union  dmi_processor_revision              dmi_processor_revision_t;
@@ -19,7 +19,7 @@ typedef struct dmi_processor_amd64_attribute       dmi_processor_amd64_attribute
 
 typedef enum dmi_processor_arch
 {
-    DMI_PROCESSOR_ARCH_RESERVED     = 0x00,
+    DMI_PROCESSOR_ARCH_RESERVED     = 0x00, ///< Reserved
     DMI_PROCESSOR_ARCH_IA32         = 0x01, ///< IA32 (x86)
     DMI_PROCESSOR_ARCH_AMD64        = 0x02, ///< x64 (x86-64, Intel64, AMD64, EM64T)
     DMI_PROCESSOR_ARCH_ITANIUM      = 0x03, ///< Intel Itanium architecture
@@ -53,29 +53,6 @@ dmi_packed_struct(dmi_processor_specific_block)
      * @brief Raw processor-specific data.
      */
     dmi_byte_t __data[];
-};
-
-/**
- * @brief Processor Additional Information (type 44).
- */
-dmi_packed_struct(dmi_processor_ex_data)
-{
-    /**
-     * @brief SMBIOS structure header.
-     */
-    dmi_header_t header;
-
-    /**
-     * @brief Handle, or instance number, associated with the Processor
-     * structure (SMBIOS type 4) which the Processor Additional Information
-     * describes.
-     */
-    dmi_handle_t referenced_handle;
-
-    /**
-     * @brief Processor-specific block.
-     */
-    dmi_processor_specific_block_t block;
 };
 
 typedef enum dmi_processor_aarch64_data_subtype
@@ -240,12 +217,14 @@ dmi_packed_struct(dmi_processor_aarch64_arch_data)
     dmi_qword_t id_aa64mmfr4_el1;
 
     /**
-     * @brief Processor feature register 0.
+     * @brief Processor Feature Register 0, see Arm A-profile Architecture for
+     * the bit-field definitions.
      */
     dmi_qword_t id_aa64pfr0_el1;
 
     /**
-     * @brief Processor feature register 1.
+     * @brief Processor feature register 1, see Arm A-profile Architecture for
+     * the bit-field definitions.
      */
     dmi_qword_t id_aa64pfr1_el1;
 
@@ -325,6 +304,34 @@ dmi_packed_struct(dmi_processor_rv64_data)
     dmi_qword_t arch_id;
 
     dmi_qword_t machine_impl_id;
+};
+
+/**
+ * @brief Processor additional information structure (type 44).
+ */
+struct dmi_processor_ex
+{
+    /**
+     * @brief Handle of the processor structure (type 4), which the
+     * information describes.
+     */
+    dmi_handle_t processor_handle;
+
+    /**
+     * @brief Processor structure (type 4). Set when linking.
+     */
+    dmi_entity_t *processor;
+
+    /**
+     * @brief Processor architecture of the processor-specific block.
+     */
+    dmi_processor_arch_t arch;
+
+    /**
+     * @brief Processor-specific data, as stored. Its format is defined by
+     * processor architecture workgroups or vendors.
+     */
+    dmi_binary_t data;
 };
 
 /**

@@ -5,10 +5,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <limits.h>
+#include <string.h>
 #include <assert.h>
 
 #include <opendmi/internal.h>
+#include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
+#include <opendmi/utils/string.h>
 #include <opendmi/format/iter.h>
 
 void dmi_format_array_iter_init(
@@ -148,3 +151,22 @@ const dmi_string_property_t *dmi_format_property_iter_next(dmi_format_property_i
 
     return (const dmi_string_property_t *)value;
 }
+
+char *dmi_format_overlay_value(const dmi_entity_t *entity, const dmi_entity_overlay_t *overlay, bool pretty)
+{
+    assert(entity != nullptr);
+    assert(overlay != nullptr);
+
+    // Entry value is formatted as a binary attribute
+    static const dmi_attribute_t attr = {
+        .value   = {
+            .size   = sizeof(dmi_binary_t),
+            .offset = 0
+        },
+        .counter = DMI_MEMBER_NULL,
+        .type    = DMI_ATTRIBUTE_TYPE_BINARY
+    };
+
+    return dmi_attribute_format(entity->context, &attr, &overlay->entry->value, pretty);
+}
+

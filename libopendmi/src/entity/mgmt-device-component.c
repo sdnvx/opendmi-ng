@@ -12,6 +12,7 @@
 #include <opendmi/utils/codec.h>
 
 #include <opendmi/entity/mgmt-device-component.h>
+#include <opendmi/entity/mgmt-device-threshold.h>
 
 static bool dmi_mgmt_device_component_decode(dmi_entity_t *entity);
 static bool dmi_mgmt_device_component_link(dmi_entity_t *entity);
@@ -116,6 +117,10 @@ static bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
 
     if (not dmi_registry_resolve(registry, info->threshold_handle, DMI_TYPE(MGMT_DEVICE_THRESHOLD), &info->threshold))
         success = false;
+
+    // Units of threshold values are defined by the component
+    if ((info->threshold != nullptr) and (info->component != nullptr))
+        dmi_mgmt_device_threshold_set_component(info->threshold, info->component->type);
 
     return success;
 }

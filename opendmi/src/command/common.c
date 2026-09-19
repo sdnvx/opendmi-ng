@@ -18,6 +18,7 @@
 
 #include <opendmi/command.h>
 #include <opendmi/command/common.h>
+#include <opendmi/format/iter.h>
 
 static bool dmi_filter_config_add_handle(dmi_context_t *context, const char *value);
 static bool dmi_filter_config_add_type(dmi_context_t *context, const char *value);
@@ -307,6 +308,11 @@ bool dmi_print_entity(
         // String properties are added by other structures during linking
         if (not dmi_vector_is_empty(&entity->properties) and
             not format->handlers.entity_properties(session, entity))
+            return false;
+
+        // Additional information entries are applied only if requested
+        if ((entity->overlays != nullptr) and (format->handlers.entity_overlays != nullptr) and
+            not format->handlers.entity_overlays(session, entity))
             return false;
     } else if (entity->type != DMI_TYPE(END_OF_TABLE)) {
         if (not format->handlers.entity_data(session, entity))

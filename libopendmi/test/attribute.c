@@ -22,6 +22,7 @@ static int test_attribute_teardown(void **pstate);
 static void test_attribute_format_address(void **pstate);
 static void test_attribute_format_binary(void **pstate);
 static void test_attribute_format_mac(void **pstate);
+static void test_attribute_format_ip(void **pstate);
 static void test_attribute_format_bool(void **pstate);
 static void test_attribute_format_bool_ex(void **pstate);
 static void test_attribute_format_decimal(void **pstate);
@@ -34,6 +35,7 @@ static void test_attribute_format_string(void **pstate);
 static void test_attribute_format_uuid(void **pstate);
 static void test_attribute_format_version(void **pstate);
 static void test_attribute_get_count(void **pstate);
+static void test_attribute_resolve(void **pstate);
 static int free_attribute_value(void **pstate);
 
 static dmi_context_t *context = nullptr;
@@ -44,6 +46,7 @@ int main(void)
         cmocka_unit_test_teardown(test_attribute_format_address, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_binary, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_mac, free_attribute_value),
+        cmocka_unit_test_teardown(test_attribute_format_ip, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_bool, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_bool_ex, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_decimal, free_attribute_value),
@@ -55,7 +58,8 @@ int main(void)
         cmocka_unit_test_teardown(test_attribute_format_string, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_uuid, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_version, free_attribute_value),
-        cmocka_unit_test(test_attribute_get_count)
+        cmocka_unit_test(test_attribute_get_count),
+        cmocka_unit_test(test_attribute_resolve)
     };
 
     return cmocka_run_group_tests(tests, test_attribute_setup, test_attribute_teardown);
@@ -167,6 +171,64 @@ static void test_attribute_format_mac(void **pstate)
 
     for (size_t i = 0; i < countof(test_data); i++) {
         char *result = dmi_attribute_format(context, &attr, &test_data[i].value, test_data[i].pretty);
+        *pstate = result;
+
+        assert_non_null(result);
+        assert_string_equal(result, test_data[i].expected);
+
+        free(result);
+        *pstate = nullptr;
+    }
+}
+
+static void test_attribute_format_ip(void **pstate)
+{
+    static const dmi_data_t ipv4[] = { 0x0A, 0x0C, 0x6E, 0x39 };
+    static const dmi_data_t ipv6[] = {
+        0x20, 0x01, 0x0D, 0xB8, 0x63, 0xB3, 0x00, 0x01,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x34, 0x90
+    };
+    static const dmi_data_t ipv6_first[] = {
+        0x20, 0x01, 0x0D, 0xB8, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
+    };
+    static const dmi_data_t ipv6_single[] = {
+        0x20, 0x01, 0x0D, 0xB8, 0x00, 0x00, 0x00, 0x01,
+        0x00, 0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x01
+    };
+    static const dmi_data_t ipv6_loopback[16] = { [15] = 0x01 };
+    static const dmi_data_t ipv6_zero[16] = {};
+    static const dmi_data_t other[] = { 0x0A, 0x0B };
+
+    const struct {
+        dmi_binary_t  value;
+        const char   *expected;
+    } test_data[] = {
+        { { ipv4, countof(ipv4) },                   "10.12.110.57"               },
+        { { ipv6, countof(ipv6) },                   "2001:db8:63b3:1::3490"      },
+        { { ipv6_first, countof(ipv6_first) },       "2001:db8::1:0:0:1"          },
+        { { ipv6_single, countof(ipv6_single) },     "2001:db8:0:1:1:1:1:1"       },
+        { { ipv6_loopback, countof(ipv6_loopback) }, "::1"                        },
+        { { ipv6_zero, countof(ipv6_zero) },         "::"                         },
+        { { other, countof(other) },                 "0A 0B"                      }
+    };
+
+    static const dmi_attribute_t attr = {
+        .value   = {
+            .size   = sizeof(dmi_binary_t),
+            .offset = 0
+        },
+        .counter = DMI_MEMBER_NULL,
+        .type    = DMI_ATTRIBUTE_TYPE_BINARY,
+        .params  = {
+            .flags = DMI_ATTRIBUTE_FLAG_IP
+        }
+    };
+
+    *pstate = nullptr;
+
+    for (size_t i = 0; i < countof(test_data); i++) {
+        char *result = dmi_attribute_format(context, &attr, &test_data[i].value, true);
         *pstate = result;
 
         assert_non_null(result);
@@ -627,3 +689,54 @@ static void test_attribute_get_count(void **pstate)
     // Attribute without counter
     assert_int_equal(dmi_attribute_get_count(&attrs[4], &info), 0);
 }
+
+static void test_attribute_resolve(void **pstate)
+{
+    dmi_unused(pstate);
+
+    typedef struct test_info
+    {
+        int         selector;
+        uint32_t    number;
+        const char *string;
+    } test_info_t;
+
+    const dmi_attribute_t with_default = DMI_ATTRIBUTE_VARIANT(test_info_t, selector, {
+        .code     = "value",
+        .name     = "Value",
+        .variants = (const dmi_attribute_variant_t[]){
+            DMI_VARIANT(1, test_info_t, number, INTEGER, {}),
+            DMI_VARIANT_DEFAULT(test_info_t, string, STRING, {}),
+            DMI_VARIANT_NULL
+        }
+    });
+    const dmi_attribute_t without_default = DMI_ATTRIBUTE_VARIANT(test_info_t, selector, {
+        .code     = "value",
+        .name     = "Value",
+        .variants = (const dmi_attribute_variant_t[]){
+            DMI_VARIANT(1, test_info_t, number, INTEGER, {}),
+            DMI_VARIANT(-1, test_info_t, string, STRING, {}),
+            DMI_VARIANT_NULL
+        }
+    });
+    static const dmi_attribute_t plain = DMI_ATTRIBUTE(test_info_t, number, INTEGER, {
+        .code = "number",
+        .name = "Number"
+    });
+
+    const test_info_t number   = { 1, 42, "text" };
+    const test_info_t string   = { 2, 42, "text" };
+    const test_info_t negative = { -1, 42, "text" };
+
+    // Attributes of other types describe their values themselves
+    assert_ptr_equal(dmi_attribute_resolve(&plain, &number), &plain);
+
+    // Variant matching the selector, or the default one
+    assert_ptr_equal(dmi_attribute_resolve(&with_default, &number), &with_default.params.variants[0].attribute);
+    assert_ptr_equal(dmi_attribute_resolve(&with_default, &string), &with_default.params.variants[1].attribute);
+
+    // Selectors may be negative, and there may be no matching variant
+    assert_ptr_equal(dmi_attribute_resolve(&without_default, &negative), &without_default.params.variants[1].attribute);
+    assert_null(dmi_attribute_resolve(&without_default, &string));
+}
+

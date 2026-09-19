@@ -363,7 +363,11 @@ bool dmi_xml_entity_attr_struct(
         if (xmlTextWriterStartElement(session->writer, dmi_xml_string(child_attr->params.code)) < 0)
             return false;
 
-        if (not dmi_xml_entity_attr_value(session, child, ptr))
+        // Nested structures are written as nested elements
+        bool result = (child->type == DMI_ATTRIBUTE_TYPE_STRUCT) ?
+            dmi_xml_entity_attr_struct(session, child, ptr) :
+            dmi_xml_entity_attr_value(session, child, ptr);
+        if (not result)
             return false;
 
         if (xmlTextWriterFullEndElement(session->writer) < 0)
@@ -536,6 +540,95 @@ bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *e
     } while (false);
 
     return success;
+}
+
+static bool dmi_xml_entity_overlay(
+        dmi_xml_session_t          *session,
+        const dmi_entity_t         *entity,
+        const dmi_entity_overlay_t *overlay)
+{
+    bool success = false;
+
+    char *value = dmi_format_overlay_value(entity, overlay, false);
+    if (value == nullptr)
+        return false;
+
+    do {
+        if (xmlTextWriterStartElementNS(
+                    session->writer,
+                    dmi_xml_string(DMI_XML_PREFIX),
+                    dmi_xml_string("overlay"),
+                    nullptr) < 0)
+            break;
+        if (xmlTextWriterWriteFormatAttribute(
+                    session->writer,
+                    dmi_xml_string("source"),
+                    "0x%04hx", overlay->source->handle) < 0)
+            break;
+        if (xmlTextWriterWriteFormatAttribute(
+                    session->writer,
+                    dmi_xml_string("index"),
+                    "%zu", overlay->index) < 0)
+            break;
+        if (xmlTextWriterWriteFormatAttribute(
+                    session->writer,
+                    dmi_xml_string("offset"),
+                    "0x%02x", overlay->entry->ref_offset) < 0)
+            break;
+        if (xmlTextWriterStartElementNS(
+                    session->writer,
+                    dmi_xml_string(DMI_XML_PREFIX),
+                    dmi_xml_string("value"),
+                    nullptr) < 0)
+            break;
+        if (not dmi_xml_text(session, value))
+            break;
+        if (xmlTextWriterFullEndElement(session->writer) < 0)
+            break;
+
+        // Element is omitted if the entry has no string
+        if (overlay->entry->string != nullptr) {
+            if (xmlTextWriterStartElementNS(
+                        session->writer,
+                        dmi_xml_string(DMI_XML_PREFIX),
+                        dmi_xml_string("string"),
+                        nullptr) < 0)
+                break;
+            if (not dmi_xml_text(session, overlay->entry->string))
+                break;
+            if (xmlTextWriterFullEndElement(session->writer) < 0)
+                break;
+        }
+
+        if (xmlTextWriterFullEndElement(session->writer) < 0)
+            break;
+
+        success = true;
+    } while (false);
+
+    dmi_free(value);
+
+    return success;
+}
+
+bool dmi_xml_entity_overlays(dmi_xml_session_t *session, const dmi_entity_t *entity)
+{
+    assert(session != nullptr);
+    assert(entity != nullptr);
+
+    if (xmlTextWriterStartElementNS(
+                session->writer,
+                dmi_xml_string(DMI_XML_PREFIX),
+                dmi_xml_string("overlays"),
+                nullptr) < 0)
+        return false;
+
+    for (const dmi_entity_overlay_t *overlay = entity->overlays; overlay != nullptr; overlay = overlay->next) {
+        if (not dmi_xml_entity_overlay(session, entity, overlay))
+            return false;
+    }
+
+    return xmlTextWriterFullEndElement(session->writer) >= 0;
 }
 
 bool dmi_xml_entity_data(dmi_xml_session_t *session, const dmi_entity_t *entity)

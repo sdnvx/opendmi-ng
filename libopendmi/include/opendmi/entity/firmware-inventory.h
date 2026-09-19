@@ -10,11 +10,15 @@
 #pragma once
 
 #include <opendmi/entity.h>
+#include <opendmi/utils/uuid.h>
 
 typedef struct dmi_firmware_inventory           dmi_firmware_inventory_t;
 typedef struct dmi_firmware_inventory_data      dmi_firmware_inventory_data_t;
 typedef union  dmi_firmware_inventory_features  dmi_firmware_inventory_features_t;
 typedef struct dmi_firmware_inventory_component dmi_firmware_inventory_component_t;
+typedef struct dmi_firmware_version_number      dmi_firmware_version_number_t;
+typedef struct dmi_firmware_version             dmi_firmware_version_t;
+typedef struct dmi_firmware_ident               dmi_firmware_ident_t;
 
 /**
  * @brief Version number formats.
@@ -176,6 +180,63 @@ struct dmi_firmware_inventory_component
 };
 
 /**
+ * @brief Firmware version number in semantic format.
+ */
+struct dmi_firmware_version_number
+{
+    /**
+     * @brief Major version number.
+     */
+    uint32_t major;
+
+    /**
+     * @brief Minor version number.
+     */
+    uint32_t minor;
+};
+
+/**
+ * @brief Firmware version parsed according to the version format.
+ */
+struct dmi_firmware_version
+{
+    /**
+     * @brief Format of the version string: the version format, if the string
+     * conforms to it, or free form otherwise. Selects the field containing
+     * the parsed version.
+     */
+    dmi_version_format_t format;
+
+    /**
+     * @brief Version number, if the format is semantic.
+     */
+    dmi_firmware_version_number_t number;
+
+    /**
+     * @brief Version value, if the format is hexadecimal.
+     */
+    uint64_t value;
+};
+
+/**
+ * @brief Firmware identifier parsed according to the identifier format.
+ */
+struct dmi_firmware_ident
+{
+    /**
+     * @brief Format of the identifier string: the identifier format, if the
+     * string conforms to it, or free form otherwise. Selects the field
+     * containing the parsed identifier.
+     */
+    dmi_firmware_ident_format_t format;
+
+    /**
+     * @brief Identifier, if the format is GUID.
+     */
+    dmi_uuid_t guid;
+};
+
+/**
  * @brief Firmware inventory information.
  */
 struct dmi_firmware_inventory
@@ -233,6 +294,21 @@ struct dmi_firmware_inventory
      * set to `DMI_SIZE_MAX`.
      */
     dmi_size_t image_size;
+
+    /**
+     * @brief Firmware version parsed according to the version format.
+     */
+    dmi_firmware_version_t parsed_version;
+
+    /**
+     * @brief Lowest version parsed according to the version format.
+     */
+    dmi_firmware_version_t parsed_lowest_version;
+
+    /**
+     * @brief Firmware identifier parsed according to the identifier format.
+     */
+    dmi_firmware_ident_t parsed_ident;
 
     /**
      * @brief Firmware characteristics information.

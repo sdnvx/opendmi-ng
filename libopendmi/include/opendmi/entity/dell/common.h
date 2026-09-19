@@ -38,8 +38,32 @@ typedef enum dmi_dell_port_security
     DMI_DELL_PORT_SECURITY_BOOT_BYPASS       = 0x06, ///< Boot-bypass
 } dmi_dell_port_security_t;
 
+/**
+ * @brief Dell CMOS checksum types.
+ */
+typedef enum dmi_dell_check_type
+{
+    DMI_DELL_CHECK_TYPE_WORD_CHECKSUM   = 0x00, ///< Running sum in a word
+    DMI_DELL_CHECK_TYPE_BYTE_CHECKSUM   = 0x01, ///< Running sum in a byte
+    DMI_DELL_CHECK_TYPE_WORD_CRC        = 0x02, ///< CRC in a word
+    DMI_DELL_CHECK_TYPE_WORD_CHECKSUM_N = 0x03  ///< Negated running sum in a word
+} dmi_dell_check_type_t;
+
+/**
+ * @brief Dell protected value formats.
+ */
+typedef enum dmi_dell_value_format
+{
+    DMI_DELL_VALUE_FORMAT_SCAN_CODE    = 0x00, ///< Alphanumeric, scan codes
+    DMI_DELL_VALUE_FORMAT_ASCII        = 0x01, ///< Alphanumeric, ASCII
+    DMI_DELL_VALUE_FORMAT_SCAN_CODE_NS = 0x02, ///< Alphanumeric, scan codes (NS)
+    DMI_DELL_VALUE_FORMAT_ASCII_NS     = 0x03  ///< Alphanumeric, ASCII (NS)
+} dmi_dell_value_format_t;
+
 extern __dmi_api const dmi_name_set_t dmi_dell_enable_state_names;
 extern __dmi_api const dmi_name_set_t dmi_dell_port_security_names;
+extern __dmi_api const dmi_name_set_t dmi_dell_check_type_names;
+extern __dmi_api const dmi_name_set_t dmi_dell_value_format_names;
 
 __BEGIN_DECLS
 

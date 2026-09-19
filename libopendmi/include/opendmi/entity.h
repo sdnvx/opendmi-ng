@@ -19,11 +19,17 @@
     typedef struct dmi_string_property dmi_string_property_t;
 #endif // !DMI_STRING_PROPERTY_T
 
-typedef struct dmi_entity       dmi_entity_t;
-typedef struct dmi_entity_spec  dmi_entity_spec_t;
-typedef struct dmi_entity_ops   dmi_entity_ops_t;
-typedef struct dmi_header       dmi_header_t;
-typedef struct dmi_string_entry dmi_string_entry_t;
+#ifndef DMI_ADDITIONAL_INFO_ENTRY_T
+#   define DMI_ADDITIONAL_INFO_ENTRY_T
+    typedef struct dmi_additional_info_entry dmi_additional_info_entry_t;
+#endif // !DMI_ADDITIONAL_INFO_ENTRY_T
+
+typedef struct dmi_entity         dmi_entity_t;
+typedef struct dmi_entity_overlay dmi_entity_overlay_t;
+typedef struct dmi_entity_spec    dmi_entity_spec_t;
+typedef struct dmi_entity_ops     dmi_entity_ops_t;
+typedef struct dmi_header         dmi_header_t;
+typedef struct dmi_string_entry   dmi_string_entry_t;
 
 typedef bool dmi_entity_validate_fn(dmi_entity_t *entity);
 typedef bool dmi_entity_decode_fn(dmi_entity_t *entity);
@@ -330,12 +336,14 @@ struct dmi_entity
     dmi_vector_t properties;
 
     /**
-     * @brief Structure decoded from the original data, if additional
-     * information entries are applied, @c nullptr otherwise.
+     * @brief Additional information entries applied to the structure.
      *
-     * Used to show original values of attributes changed by the entries.
+     * Linked list of entries of additional information structures (type 40)
+     * referring to this structure, in the order they are applied, or
+     * @c nullptr if there are none. Attached before decoding, only if
+     * `DMI_CONTEXT_FLAG_OVERLAY` is set.
      */
-    dmi_data_t *original;
+    dmi_entity_overlay_t *overlays;
 
     /**
      * @brief Copy of the structure body with additional information entries
@@ -344,7 +352,34 @@ struct dmi_entity
      * Created on decoding and used by the decoder instead of the structure
      * data. Raw structure data remains unchanged.
      */
-    dmi_data_t *overlay;
+    dmi_data_t *overlay_data;
+};
+
+/**
+ * @brief Additional information entry applied to a structure.
+ */
+struct dmi_entity_overlay
+{
+    /**
+     * @brief Additional information structure (type 40) containing the entry.
+     */
+    const dmi_entity_t *source;
+
+    /**
+     * @brief Zero-based index of the entry in the additional information
+     * structure.
+     */
+    size_t index;
+
+    /**
+     * @brief Additional information entry.
+     */
+    const dmi_additional_info_entry_t *entry;
+
+    /**
+     * @brief Next applied entry, @c nullptr for the last one.
+     */
+    dmi_entity_overlay_t *next;
 };
 
 __BEGIN_DECLS
@@ -515,6 +550,29 @@ __dmi_api const char *dmi_entity_property(const dmi_entity_t *entity, dmi_proper
  * @return The function returns `true` on success and `false` otherwise.
  */
 __dmi_api bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_property_t *property);
+
+/**
+ * @internal
+ * @brief Attach additional information entry to the structure it refers to.
+ *
+ * The entry value is applied to a copy of the structure body when the
+ * structure is decoded, so entries must be attached before decoding. Entries
+ * are applied in the order they are attached.
+ *
+ * @param[in] entity Referenced entity descriptor.
+ * @param[in] source Decoded additional information structure (type 40).
+ * @param[in] index  Zero-based index of the entry in @p source.
+ *
+ * @return `true` on success, `false` if the entry cannot be applied.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Source is not a decoded additional
+ *        information structure, or has no entry with such index.
+ * @error DMI_ERROR_INVALID_STATE Structure is already decoded.
+ * @error DMI_ERROR_INVALID_OVERLAY Entry refers to an additional information
+ *        structure, to the structure header, or beyond the structure body.
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
+ */
+__dmi_api bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, size_t index);
 
 /**
  * @internal

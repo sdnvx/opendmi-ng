@@ -36,6 +36,7 @@ static void test_format_xml_flag_names(void **pstate);
 static void test_format_state(void **pstate);
 static void test_format_text_quiet(void **pstate);
 static void test_format_properties(void **pstate);
+static void test_format_overlays(void **pstate);
 
 static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode);
 static bool test_format_has_controls(const char *output);
@@ -84,7 +85,8 @@ int main(void)
         cmocka_unit_test(test_format_xml_flag_names),
         cmocka_unit_test(test_format_state),
         cmocka_unit_test(test_format_text_quiet),
-        cmocka_unit_test(test_format_properties)
+        cmocka_unit_test(test_format_properties),
+        cmocka_unit_test(test_format_overlays)
     };
 
     return cmocka_run_group_tests(tests, test_format_setup, test_format_teardown);
@@ -566,6 +568,115 @@ static void test_format_properties(void **pstate)
     assert_true(quiet_found);
     assert_true(dump_valid);
     assert_false(dump_found);
+}
+
+static void test_format_overlays(void **pstate)
+{
+    const test_format_state_t *state = *pstate;
+
+    // Additional information changing firmware version string number from 2
+    // ("1.0") to 1 ("Vendor"), and the same without string, which overrides
+    // the first entry
+    static const dmi_data_t overlay_data[] = {
+        40, 0x11, 0x40, 0x00, 0x02,
+        0x06, 0x00, 0x00, 0x05, 0x01, 0x01,
+        0x06, 0x00, 0x00, 0x05, 0x00, 0x01,
+        'N', 'o', 't', 'e', 0,
+        0
+    };
+
+    static const struct {
+        const char *code;
+        const char *expected;
+    } cases[] = {
+        {
+            "text",
+            "\tAdditional information:\n"
+            "\t\t0x0040[0]: 01 at offset 0x05 - \"Note\"\n"
+            "\t\t0x0040[1]: 01 at offset 0x05\n"
+        },
+        {
+            "json",
+            "\"overlays\": [\n"
+            "                {\n"
+            "                    \"source\": \"0x0040\",\n"
+            "                    \"index\": 0,\n"
+            "                    \"offset\": \"0x05\",\n"
+            "                    \"value\": \"01\",\n"
+            "                    \"string\": \"Note\"\n"
+            "                },\n"
+            "                {\n"
+            "                    \"source\": \"0x0040\",\n"
+            "                    \"index\": 1,\n"
+            "                    \"offset\": \"0x05\",\n"
+            "                    \"value\": \"01\",\n"
+            "                    \"string\": null\n"
+            "                }\n"
+            "            ]"
+        },
+        {
+            "yaml",
+            "  overlays:\n"
+            "  - source: 0x0040\n"
+            "    index: 0\n"
+            "    offset: 0x05\n"
+            "    value: \"01\"\n"
+            "    string: \"Note\"\n"
+            "  - source: 0x0040\n"
+            "    index: 1\n"
+            "    offset: 0x05\n"
+            "    value: \"01\"\n"
+            "    string: null\n"
+        },
+        {
+            "xml",
+            "<dmi:overlays>\n"
+            "      <dmi:overlay source=\"0x0040\" index=\"0\" offset=\"0x05\">\n"
+            "        <dmi:value>01</dmi:value>\n"
+            "        <dmi:string>Note</dmi:string>\n"
+            "      </dmi:overlay>\n"
+            "      <dmi:overlay source=\"0x0040\" index=\"1\" offset=\"0x05\">\n"
+            "        <dmi:value>01</dmi:value>\n"
+            "      </dmi:overlay>\n"
+            "    </dmi:overlays>\n"
+        }
+    };
+
+    dmi_entity_t *overlay = dmi_entity_create(state->context, overlay_data, sizeof(overlay_data));
+    assert_non_null(overlay);
+    assert_true(dmi_entity_decode(overlay));
+
+    dmi_entity_t *entity = dmi_entity_create(state->context, test_firmware_data, sizeof(test_firmware_data));
+    assert_non_null(entity);
+
+    bool attached =
+        dmi_entity_add_overlay(entity, overlay, 0) and
+        dmi_entity_add_overlay(entity, overlay, 1) and
+        dmi_entity_decode(entity);
+
+    const char *failed = nullptr;
+
+    for (size_t i = 0; attached and (i < countof(cases)) and (failed == nullptr); i++) {
+        const dmi_format_t *format = dmi_format_get(cases[i].code);
+
+        // Format may be disabled at build time
+        if (format == nullptr)
+            continue;
+
+        char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
+        if ((output == nullptr) or (strstr(output, cases[i].expected) == nullptr))
+            failed = cases[i].code;
+
+        free(output);
+    }
+
+    dmi_entity_destroy(entity);
+    dmi_entity_destroy(overlay);
+
+    assert_true(attached);
+
+    if (failed != nullptr)
+        fail_msg("Format %s: invalid overlays output", failed);
 }
 
 static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode)

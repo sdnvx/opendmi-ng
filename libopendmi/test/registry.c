@@ -17,6 +17,8 @@
 #include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
+#include <opendmi/entity/additional-info.h>
+#include <opendmi/entity/memory-array.h>
 #include <opendmi/entity/memory-array-addr.h>
 #include <opendmi/entity/memory-channel.h>
 #include <opendmi/entity/memory-device.h>
@@ -33,6 +35,9 @@ static void test_registry_link_unset_handles(void **pstate);
 static void test_registry_decode_malformed(void **pstate);
 static void test_registry_decode_malformed_strict(void **pstate);
 static void test_registry_decode_all_strict(void **pstate);
+static void test_registry_overlay(void **pstate);
+static void test_registry_overlay_disabled(void **pstate);
+static void test_registry_overlay_strict(void **pstate);
 static void test_registry_resolve(void **pstate);
 static void test_registry_resolve_strict(void **pstate);
 
@@ -89,6 +94,38 @@ static dmi_data_t test_all_malformed_table[] = {
     127, 0x04, 0xFF, 0x00,
     0x00, 0x00
 };
+
+// SMBIOS table with additional information changing memory array usage and
+// keeping its location, followed by invalid entries if the given entry count
+// is 5
+#define TEST_OVERLAY_TABLE(count)                                                       \
+    {                                                                                   \
+        /* Physical memory array, handle 0x0001, system memory */                      \
+        16, 0x0F, 0x01, 0x00,                                                           \
+        0x03, 0x03, 0x03, 0x00, 0x00, 0x40, 0x00, 0xFE, 0xFF, 0x02, 0x00,               \
+        0x00, 0x00,                                                                     \
+                                                                                        \
+        /* Additional information, handle 0x0040 */                                    \
+        40, 0x24, 0x40, 0x00, (count),                                                  \
+        /* Usage of array 0x0001 is video memory */                                    \
+        0x06, 0x01, 0x00, 0x05, 0x00, 0x04,                                             \
+        /* Location of array 0x0001 is not changed */                                  \
+        0x06, 0x01, 0x00, 0x04, 0x00, 0x03,                                             \
+        /* Header of array 0x0001 */                                                   \
+        0x06, 0x01, 0x00, 0x01, 0x00, 0x7F,                                             \
+        /* Beyond the end of array 0x0001 */                                           \
+        0x07, 0x01, 0x00, 0x0E, 0x00, 0x00, 0x00,                                       \
+        /* Missing structure 0x0999 */                                                 \
+        0x06, 0x99, 0x09, 0x05, 0x00, 0x04,                                             \
+        0x00, 0x00,                                                                     \
+                                                                                        \
+        /* End of table */                                                             \
+        127, 0x04, 0xFF, 0x00,                                                          \
+        0x00, 0x00                                                                      \
+    }
+
+static dmi_data_t test_overlay_table[] = TEST_OVERLAY_TABLE(5);
+static dmi_data_t test_valid_overlay_table[] = TEST_OVERLAY_TABLE(2);
 
 // SMBIOS table with unset (0xFFFF) references
 static dmi_data_t test_table[] = {
@@ -164,6 +201,9 @@ int main(void)
         cmocka_unit_test(test_registry_decode_malformed),
         cmocka_unit_test(test_registry_decode_malformed_strict),
         cmocka_unit_test(test_registry_decode_all_strict),
+        cmocka_unit_test(test_registry_overlay),
+        cmocka_unit_test(test_registry_overlay_disabled),
+        cmocka_unit_test(test_registry_overlay_strict),
         cmocka_unit_test(test_registry_resolve),
         cmocka_unit_test(test_registry_resolve_strict)
     };
@@ -429,6 +469,106 @@ static void test_registry_decode_all_strict(void **pstate)
     assert_true(data_found);
 }
 
+static void test_registry_overlay(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = test_registry_open(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_OVERLAY,
+                                                test_overlay_table, sizeof(test_overlay_table));
+    assert_non_null(context);
+
+    const dmi_entity_t *array = dmi_registry_get(context->state.registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
+    const dmi_memory_array_t *info = dmi_entity_info(array, DMI_TYPE(MEMORY_ARRAY));
+
+    if (info == nullptr) {
+        dmi_destroy(context);
+        fail_msg("Memory array is not decoded");
+    }
+
+    // Only valid entries are applied, raw structure data is not changed
+    dmi_memory_array_usage_t usage = info->usage;
+    const dmi_entity_overlay_t *first  = array->overlays;
+    const dmi_entity_overlay_t *second = (first != nullptr) ? first->next : nullptr;
+    bool applied = (second != nullptr) and (second->next == nullptr);
+    dmi_data_t raw = array->data[0x05];
+
+    // Entries are listed in the order they are applied
+    bool first_valid =
+        applied and
+        (first->source->handle == 0x0040) and
+        (first->index == 0);
+
+    // Invalid entries are reported
+    size_t invalid = 0;
+    size_t missing = 0;
+
+    const dmi_error_t *error;
+    while ((error = dmi_error_get_first(context)) != nullptr) {
+        if (error->reason == DMI_ERROR_INVALID_OVERLAY)
+            invalid++;
+        if (error->reason == DMI_ERROR_ENTITY_NOT_FOUND)
+            missing++;
+    }
+
+    dmi_destroy(context);
+
+    assert_int_equal(usage, 0x04);
+    assert_true(applied);
+    assert_int_equal(raw, 0x03);
+    assert_true(first_valid);
+    assert_int_equal(invalid, 2);
+    assert_int_equal(missing, 1);
+}
+
+static void test_registry_overlay_disabled(void **pstate)
+{
+    dmi_unused(pstate);
+
+    // Additional information is not applied by default
+    dmi_context_t *context = test_registry_open(DMI_CONTEXT_FLAG_LINK, test_overlay_table,
+                                                sizeof(test_overlay_table));
+    assert_non_null(context);
+
+    const dmi_entity_t *array = dmi_registry_get(context->state.registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
+    const dmi_memory_array_t *info = dmi_entity_info(array, DMI_TYPE(MEMORY_ARRAY));
+
+    bool decoded = (info != nullptr);
+    dmi_memory_array_usage_t usage = decoded ? info->usage : 0;
+    bool overlaid = (array != nullptr) and (array->overlay_data != nullptr);
+
+    dmi_destroy(context);
+
+    assert_true(decoded);
+    assert_int_equal(usage, 0x03);
+    assert_false(overlaid);
+}
+
+static void test_registry_overlay_strict(void **pstate)
+{
+    dmi_unused(pstate);
+
+    const unsigned int flags = DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_OVERLAY | DMI_CONTEXT_FLAG_STRICT;
+
+    // Invalid entries are fatal in strict mode
+    const dmi_context_t *context = test_registry_open(flags, test_overlay_table, sizeof(test_overlay_table));
+    assert_null(context);
+
+    // Valid entries are applied in strict mode too
+    dmi_context_t *valid = test_registry_open(flags, test_valid_overlay_table, sizeof(test_valid_overlay_table));
+    assert_non_null(valid);
+
+    const dmi_entity_t *array = dmi_registry_get(valid->state.registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
+    const dmi_memory_array_t *info = dmi_entity_info(array, DMI_TYPE(MEMORY_ARRAY));
+
+    bool decoded = (info != nullptr);
+    dmi_memory_array_usage_t usage = decoded ? info->usage : 0;
+
+    dmi_destroy(valid);
+
+    assert_true(decoded);
+    assert_int_equal(usage, 0x04);
+}
+
 static void test_registry_resolve(void **pstate)
 {
     dmi_unused(pstate);
@@ -539,6 +679,7 @@ static dmi_context_t *test_registry_open(unsigned int flags, dmi_data_t *table, 
     bool success =
         (context->state.registry != nullptr) and
         dmi_registry_scan(context->state.registry) and
+        (((flags & DMI_CONTEXT_FLAG_OVERLAY) == 0) or dmi_registry_overlay(context->state.registry)) and
         dmi_registry_decode(context->state.registry) and
         dmi_registry_link(context->state.registry);
 

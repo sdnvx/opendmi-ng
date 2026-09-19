@@ -11,13 +11,13 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_calling_iface_data dmi_dell_calling_iface_data_t;
+typedef struct dmi_dell_calling_iface       dmi_dell_calling_iface_t;
 typedef struct dmi_dell_calling_iface_token dmi_dell_calling_iface_token_t;
 
 /**
- * @brief Dell calling interface token.
+ * @brief Token of Dell calling interface structure.
  */
-dmi_packed_struct(dmi_dell_calling_iface_token)
+struct dmi_dell_calling_iface_token
 {
     /**
      * @brief Token identifier.
@@ -25,45 +25,46 @@ dmi_packed_struct(dmi_dell_calling_iface_token)
     uint16_t id;
 
     /**
-     * @brief Location.
+     * @brief Location of the token in non-volatile storage, zero for string
+     * tokens.
      */
     uint16_t location;
 
     /**
-     * @brief Token value or string length.
+     * @brief Token value, or string length for string tokens.
      */
-    uint16_t length;
+    uint16_t value;
 };
 
 /**
  * @brief Dell calling interface structure (type 218).
  */
-dmi_packed_struct(dmi_dell_calling_iface_data)
+struct dmi_dell_calling_iface
 {
     /**
-     * @brief SMBIOS structure header.
+     * @brief I/O port, which is written to issue a command.
      */
-    dmi_header_t header;
+    uint16_t cmd_io_address;
 
     /**
-     * @brief Command address.
+     * @brief Value, which is written to the command I/O port.
      */
-    uint16_t command_addr;
-
-    /**
-     * @brief Command code.
-     */
-    uint8_t command_code;
+    uint8_t cmd_io_code;
 
     /**
      * @brief Supported commands.
      */
-    uint32_t supported_commands;
+    uint32_t supported_cmds;
 
     /**
-     * @brief Tokens.
+     * @brief Number of tokens.
      */
-    dmi_dell_calling_iface_token_t tokens[];
+    size_t token_count;
+
+    /**
+     * @brief Tokens, excluding unused ones and the end-of-table marker.
+     */
+    dmi_dell_calling_iface_token_t *tokens;
 };
 
 /**

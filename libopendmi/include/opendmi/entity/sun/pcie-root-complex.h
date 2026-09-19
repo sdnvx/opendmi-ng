@@ -11,6 +11,35 @@
 
 #include <opendmi/entity.h>
 
+typedef struct dmi_sun_pcie_root_complex dmi_sun_pcie_root_complex_t;
+
+/**
+ * @brief Sun PCI-express root complex information (type 138).
+ */
+struct dmi_sun_pcie_root_complex
+{
+    /**
+     * @brief Handle of the baseboard containing the root complex or root
+     * port.
+     */
+    dmi_handle_t baseboard_handle;
+
+    /**
+     * @brief PCI bus number.
+     */
+    uint8_t bus_number;
+
+    /**
+     * @brief PCI device number.
+     */
+    uint8_t device_number;
+
+    /**
+     * @brief PCI function number.
+     */
+    uint8_t function_number;
+};
+
 /**
  * @brief Sun PCI-express root complex information entity specification.
  */

@@ -14,6 +14,8 @@
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 
+#include <opendmi/entity/additional-info.h>
+
 /**
  * @internal
  */
@@ -362,6 +364,66 @@ bool dmi_registry_scan(dmi_registry_t *registry)
 
 exit:
     return success;
+}
+
+bool dmi_registry_overlay(dmi_registry_t *registry)
+{
+    assert(registry != nullptr);
+
+    dmi_context_t *context = registry->context;
+    dmi_log_debug(context->logger, "Applying additional information...");
+
+    dmi_registry_iter_t iter;
+    dmi_registry_iter_init(&iter, registry, nullptr);
+
+    bool success = true;
+
+    dmi_entity_t *entity;
+    while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+        if (entity->type != DMI_TYPE(ADDITIONAL_INFO))
+            continue;
+
+        // Additional information does not depend on other structures
+        if (not dmi_entity_decode(entity)) {
+            const dmi_error_t *error = dmi_error_peek_last(context);
+            if ((error != nullptr) and (error->reason == DMI_ERROR_OUT_OF_MEMORY))
+                return false;
+
+            success = false;
+            continue;
+        }
+
+        const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(ADDITIONAL_INFO));
+
+        // All entries are processed, so that every invalid one is reported
+        for (size_t i = 0; i < info->entry_count; i++) {
+            const dmi_additional_info_entry_t *entry = &info->entries[i];
+
+            dmi_entity_t *target = dmi_registry_get(registry, entry->ref_handle, DMI_TYPE_INVALID, true);
+            if (target == nullptr) {
+                dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
+                                   "Additional information 0x%04x[%zu]: structure 0x%04x not found",
+                                   entity->handle, i, entry->ref_handle);
+                success = false;
+                continue;
+            }
+
+            if (not dmi_entity_add_overlay(target, entity, i)) {
+                const dmi_error_t *error = dmi_error_peek_last(context);
+                if ((error != nullptr) and (error->reason == DMI_ERROR_OUT_OF_MEMORY))
+                    return false;
+
+                success = false;
+            }
+        }
+    }
+
+    // Invalid entries are fatal only in strict mode, otherwise they are
+    // skipped, and the errors are left in the error queue
+    if ((not success) and (context->flags & DMI_CONTEXT_FLAG_STRICT))
+        return false;
+
+    return true;
 }
 
 bool dmi_registry_decode(dmi_registry_t *registry)

@@ -55,6 +55,62 @@ const dmi_name_set_t dmi_dell_port_security_names =
     }
 };
 
+const dmi_name_set_t dmi_dell_check_type_names =
+{
+    .code  = "dell-check-types",
+    .names = (const dmi_name_t[]){
+        {
+            .id   = DMI_DELL_CHECK_TYPE_WORD_CHECKSUM,
+            .code = "word-checksum",
+            .name = "Word checksum"
+        },
+        {
+            .id   = DMI_DELL_CHECK_TYPE_BYTE_CHECKSUM,
+            .code = "byte-checksum",
+            .name = "Byte checksum"
+        },
+        {
+            .id   = DMI_DELL_CHECK_TYPE_WORD_CRC,
+            .code = "word-crc",
+            .name = "Word CRC"
+        },
+        {
+            .id   = DMI_DELL_CHECK_TYPE_WORD_CHECKSUM_N,
+            .code = "word-checksum-negated",
+            .name = "Negated word checksum"
+        },
+        DMI_NAME_NULL
+    }
+};
+
+const dmi_name_set_t dmi_dell_value_format_names =
+{
+    .code  = "dell-value-formats",
+    .names = (const dmi_name_t[]){
+        {
+            .id   = DMI_DELL_VALUE_FORMAT_SCAN_CODE,
+            .code = "scan-code",
+            .name = "Alphanumeric, scan codes"
+        },
+        {
+            .id   = DMI_DELL_VALUE_FORMAT_ASCII,
+            .code = "ascii",
+            .name = "Alphanumeric, ASCII"
+        },
+        {
+            .id   = DMI_DELL_VALUE_FORMAT_SCAN_CODE_NS,
+            .code = "scan-code-ns",
+            .name = "Alphanumeric, scan codes (NS)"
+        },
+        {
+            .id   = DMI_DELL_VALUE_FORMAT_ASCII_NS,
+            .code = "ascii-ns",
+            .name = "Alphanumeric, ASCII (NS)"
+        },
+        DMI_NAME_NULL
+    }
+};
+
 const char *dmi_dell_enable_state_name(dmi_dell_enable_state_t value)
 {
     return dmi_name_lookup(&dmi_dell_enable_state_names, (int)value);

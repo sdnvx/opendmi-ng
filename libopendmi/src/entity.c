@@ -17,6 +17,7 @@
 #include <opendmi/utils/codec.h>
 
 #include <opendmi/entity/string-property.h>
+#include <opendmi/entity/additional-info.h>
 
 const dmi_name_set_t dmi_entity_state_names =
 {
@@ -69,6 +70,12 @@ const dmi_name_set_t dmi_property_names =
         DMI_NAME_RANGE_NULL
     }
 };
+
+/**
+ * @internal
+ * @brief Create copy of structure body with additional information applied.
+ */
+static bool dmi_entity_apply_overlays(dmi_entity_t *entity);
 
 /**
  * @internal
@@ -200,6 +207,13 @@ bool dmi_entity_decode(dmi_entity_t *entity)
 
     if (spec->handlers.decode == nullptr)
         return true;
+
+    // Decoder reads the copy of structure body with additional information
+    // applied, if there is any
+    if ((entity->overlays != nullptr) and (entity->overlay_data == nullptr)) {
+        if (not dmi_entity_apply_overlays(entity))
+            return false;
+    }
 
     // Allocate structure descriptor
     entity->info = dmi_alloc(context, spec->decoded_length);
@@ -375,6 +389,72 @@ bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_property_t *
     return true;
 }
 
+bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, size_t index)
+{
+    if (entity == nullptr)
+        return false;
+
+    dmi_context_t *context = entity->context;
+
+    const dmi_additional_info_t *info = nullptr;
+    if (source != nullptr)
+        info = dmi_entity_info(source, DMI_TYPE(ADDITIONAL_INFO));
+
+    if ((info == nullptr) or (index >= info->entry_count)) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "source");
+        return false;
+    }
+
+    const dmi_additional_info_entry_t *entry = &info->entries[index];
+
+    // Values are applied on decoding
+    if (entity->state & DMI_ENTITY_STATE_DECODED) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
+                           "Additional information 0x%04x[%zu]: structure 0x%04x is already decoded",
+                           source->handle, index, entity->handle);
+        return false;
+    }
+
+    // Additional information itself is decoded before other structures
+    if (entity->type == DMI_TYPE(ADDITIONAL_INFO)) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_OVERLAY,
+                           "Additional information 0x%04x[%zu]: refers to additional information 0x%04x",
+                           source->handle, index, entity->handle);
+        return false;
+    }
+
+    // Structure header and strings cannot be changed
+    if ((entry->ref_offset < sizeof(dmi_header_t)) or
+        (entry->ref_offset + entry->value.length > entity->body_length))
+    {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_OVERLAY,
+                           "Additional information 0x%04x[%zu]: %zu bytes at offset 0x%02x "
+                           "of structure 0x%04x, which is %zu bytes long",
+                           source->handle, index, entry->value.length, entry->ref_offset,
+                           entity->handle, entity->body_length);
+        return false;
+    }
+
+    dmi_entity_overlay_t *node = dmi_alloc(context, sizeof(*node));
+    if (node == nullptr)
+        return false;
+
+    *node = (dmi_entity_overlay_t){
+        .source = source,
+        .index   = index,
+        .entry   = entry
+    };
+
+    // Entries are applied in the order they are attached
+    dmi_entity_overlay_t **tail = &entity->overlays;
+    while (*tail != nullptr)
+        tail = &(*tail)->next;
+
+    *tail = node;
+
+    return true;
+}
+
 bool dmi_entity_stop(dmi_entity_t *entity)
 {
     assert(entity != nullptr);
@@ -430,9 +510,20 @@ void dmi_entity_destroy(dmi_entity_t *entity)
         dmi_free(entity->strings);
     }
 
-    // String properties are owned by the registry, only the list is freed
+    // String properties and additional information entries are owned by the
+    // registry, only the lists are freed
     dmi_vector_clear(&entity->properties);
 
+    dmi_entity_overlay_t *node = entity->overlays;
+    while (node != nullptr) {
+        dmi_entity_overlay_t *next = node->next;
+
+        dmi_free(node);
+
+        node = next;
+    }
+
+    dmi_free(entity->overlay_data);
     dmi_free(entity);
 }
 
@@ -551,3 +642,27 @@ static char *dmi_entity_string_trim(dmi_context_t *context, const char *ptr)
 
     return str;
 }
+
+static bool dmi_entity_apply_overlays(dmi_entity_t *entity)
+{
+    dmi_context_t *context = entity->context;
+
+    entity->overlay_data = dmi_alloc(context, entity->body_length);
+    if (entity->overlay_data == nullptr)
+        return false;
+
+    memcpy(entity->overlay_data, entity->data, entity->body_length);
+
+    // Entries have been checked when attached, later ones take precedence
+    for (const dmi_entity_overlay_t *node = entity->overlays; node != nullptr; node = node->next) {
+        const dmi_additional_info_entry_t *entry = node->entry;
+
+        dmi_log_debug(context->logger, "0x%04x: Applying %zu bytes at offset 0x%02x",
+                      entity->handle, entry->value.length, entry->ref_offset);
+
+        memcpy(entity->overlay_data + entry->ref_offset, entry->value.data, entry->value.length);
+    }
+
+    return true;
+}
+

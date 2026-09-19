@@ -174,12 +174,10 @@ bool dmi_text_entity_attr(
         if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
             dmi_text_entity_attr_struct(session, variant, value, 2);
         else
-            dmi_text_entity_attr_value(session, variant, value, nullptr);
+            dmi_text_entity_attr_value(session, variant, value, nullptr, 1);
     } else {
         dmi_text_entity_attr_array(session, variant, entity->info, value);
     }
-
-    dmi_text_entity_attr_changes(session, entity, attr);
 
     return true;
 }
@@ -216,7 +214,7 @@ void dmi_text_entity_attr_array(
                 descr = dmi_entity_name(entity);
             }
 
-            dmi_text_entity_attr_value(session, attr, ptr, descr);
+            dmi_text_entity_attr_value(session, attr, ptr, descr, 2);
         }
     }
 }
@@ -246,8 +244,12 @@ void dmi_text_entity_attr_struct(
             continue;
 
         // Fields are indented one level deeper than the structure
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s:", (int)depth, "\t\t\t\t", child_attr->params.name);
-        dmi_text_entity_attr_value(session, child, ptr, nullptr);
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s:", (int)depth, "\t\t\t\t\t\t\t\t", child_attr->params.name);
+
+        if (child->type == DMI_ATTRIBUTE_TYPE_STRUCT)
+            dmi_text_entity_attr_struct(session, child, ptr, depth + 1);
+        else
+            dmi_text_entity_attr_value(session, child, ptr, nullptr, depth);
     }
 }
 
@@ -255,7 +257,8 @@ void dmi_text_entity_attr_value(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
         const void            *value,
-        const char            *descr)
+        const char            *descr,
+        unsigned int           depth)
 {
     assert(session != nullptr);
     assert(attr != nullptr);
@@ -304,14 +307,16 @@ void dmi_text_entity_attr_value(
 
     dmi_free(text);
 
+    // Flags are indented one level deeper than the attribute
     if (attr->type == DMI_ATTRIBUTE_TYPE_SET)
-        dmi_text_entity_attr_set(session, attr, value);
+        dmi_text_entity_attr_set(session, attr, value, depth + 1);
 }
 
 void dmi_text_entity_attr_set(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
-        const void            *value)
+        const void            *value,
+        unsigned int           depth)
 {
     assert(session != nullptr);
     assert(attr != nullptr);
@@ -325,7 +330,7 @@ void dmi_text_entity_attr_set(
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         dmi_tty_color_t color = flag->value ? DMI_TTY_COLOR_LIME : DMI_TTY_COLOR_RED;
 
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s: ", flag->name);
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s: ", (int)depth, "\t\t\t\t\t\t\t\t", flag->name);
         dmi_text_printf(session, color, "%s\n", flag->value ? "yes" : "no");
     }
 }
@@ -361,6 +366,32 @@ bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t 
             dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %s\n", property->value);
         else
             dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
+    }
+
+    return true;
+}
+
+bool dmi_text_entity_overlays(dmi_text_session_t *session, const dmi_entity_t *entity)
+{
+    assert(session != nullptr);
+    assert(entity != nullptr);
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tAdditional information:\n");
+
+    for (const dmi_entity_overlay_t *overlay = entity->overlays; overlay != nullptr; overlay = overlay->next) {
+        char *value = dmi_format_overlay_value(entity, overlay, true);
+        if (value == nullptr)
+            return false;
+
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t0x%04hX[%zu]: %s at offset 0x%02X",
+                        overlay->source->handle, overlay->index, value, overlay->entry->ref_offset);
+
+        dmi_free(value);
+
+        if (overlay->entry->string != nullptr)
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, " - \"%s\"", overlay->entry->string);
+
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
     }
 
     return true;

@@ -16,6 +16,7 @@
 #include <opendmi/attribute.h>
 #include <opendmi/entity.h>
 #include <opendmi/entity/string-property.h>
+#include <opendmi/entity/additional-info.h>
 
 typedef struct dmi_format_array_iter    dmi_format_array_iter_t;
 typedef struct dmi_format_flag          dmi_format_flag_t;
@@ -224,6 +225,19 @@ const char *dmi_format_string_iter_next(dmi_format_string_iter_t *iter);
 void dmi_format_property_iter_init(dmi_format_property_iter_t *iter, const dmi_entity_t *entity);
 
 const dmi_string_property_t *dmi_format_property_iter_next(dmi_format_property_iter_t *iter);
+
+/**
+ * @brief Format value of additional information entry applied to an entity.
+ *
+ * @param[in] entity  Entity, which the entry is applied to.
+ * @param[in] overlay Applied entry.
+ * @param[in] pretty  Format for humans: bytes are uppercase and separated by
+ *                    spaces.
+ *
+ * @return Allocated string, which is to be freed with `dmi_free()`, or
+ *         @c nullptr on failure.
+ */
+char *dmi_format_overlay_value(const dmi_entity_t *entity, const dmi_entity_overlay_t *overlay, bool pretty);
 
 __END_DECLS
 

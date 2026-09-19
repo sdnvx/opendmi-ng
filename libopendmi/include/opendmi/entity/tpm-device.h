@@ -11,8 +11,40 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_tpm_device          dmi_tpm_device_t;
-typedef union  dmi_tpm_device_features dmi_tpm_device_features_t;
+typedef struct dmi_tpm_device           dmi_tpm_device_t;
+typedef union  dmi_tpm_device_features  dmi_tpm_device_features_t;
+typedef struct dmi_tpm_firmware_version dmi_tpm_firmware_version_t;
+
+/**
+ * @brief Firmware version formats, depending on the TPM version.
+ */
+typedef enum dmi_tpm_firmware_version_format
+{
+    DMI_TPM_FIRMWARE_VERSION_FORMAT_RAW,   ///< Unknown TPM version, raw value
+    DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1, ///< Revision of TCPA_VERSION structure
+    DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2  ///< TPM_PT_FIRMWARE_VERSION_1 and _2 properties
+} dmi_tpm_firmware_version_format_t;
+
+/**
+ * @brief TPM 2.0 firmware version.
+ */
+struct dmi_tpm_firmware_version
+{
+    /**
+     * @brief Major version number, the high word of TPM_PT_FIRMWARE_VERSION_1.
+     */
+    uint16_t major;
+
+    /**
+     * @brief Minor version number, the low word of TPM_PT_FIRMWARE_VERSION_1.
+     */
+    uint16_t minor;
+
+    /**
+     * @brief Vendor-specific value of TPM_PT_FIRMWARE_VERSION_2.
+     */
+    uint32_t vendor_specific;
+};
 
 /**
  * @brief TPM device characteristics structure (type 43).
@@ -75,14 +107,39 @@ struct dmi_tpm_device
     char vendor_id[5];
 
     /**
+     * @brief Vendor identifier as a string of printable characters,
+     * @c nullptr if there are none. Points to `vendor_id`, which is
+     * terminated.
+     */
+    const char *vendor;
+
+    /**
      * @brief TPM version supported by the TPM device.
      */
     dmi_version_t spec_version;
 
     /**
-     * @brief TPM vendor-specific value for firmware version.
+     * @brief TPM vendor-specific value for firmware version, both double
+     * words as they are stored.
      */
     uint64_t firmware_version;
+
+    /**
+     * @brief Format of firmware version, depending on the TPM version.
+     * Selects the field containing the parsed firmware version.
+     */
+    dmi_tpm_firmware_version_format_t firmware_version_format;
+
+    /**
+     * @brief Firmware revision of TPM 1.x (revMajor and revMinor of
+     * TCPA_VERSION).
+     */
+    dmi_version_t firmware_revision;
+
+    /**
+     * @brief Firmware version of TPM 2.0.
+     */
+    dmi_tpm_firmware_version_t firmware_version_2;
 
     /**
      * @brief descriptive information of the TPM device.

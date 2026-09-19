@@ -41,6 +41,171 @@ To do:
 * Decode the keyed values in the `dell` module, keeping unknown keys as raw
   values.
 
+=== Module selection
+
+Modules are enabled only manually with `-m`, automatic selection in
+`dmi_setup_extensions()` is a TODO. Detecting the firmware vendor from type 0
+is not enough:
+
+* Firmware vendor and system vendor are different layers, and both add
+  structures. AMI reports itself as the firmware vendor on ASUS, ASRock, MSI,
+  Gigabyte, Firebat, Beelink, ECS and Supermicro boards, but not every board
+  of these vendors has AMI firmware.
+* Intel platform structures come from Intel reference code, regardless of the
+  firmware vendor: they are found on AMI, Insyde, HP, Lenovo, Huawei and Honor
+  firmware alike (see below).
+* The same OEM type has different meaning in different firmware. Type 221 is
+  Intel firmware version information on Intel platforms, but HP ProLiant and
+  Dell put their own data there (with handle `0xDD00`). Type 133 is a 44-byte
+  structure on AMI boards, and a structure with a single string on Lenovo.
+
+Ideas:
+
+* Detect layers independently: firmware vendor (type 0), system and baseboard
+  vendors (types 1 and 2), and platform (e.g. processor manufacturer).
+* Add a `probe` handler to entity specifications, which checks structure
+  content (length formula, signatures such as `$AMT`, known strings), so that
+  one of several specifications for the same OEM type can be chosen.
+* Keep `-m` as a manual override.
+
+=== Intel firmware version information (type 221)
+
+Currently decoded by the `ami` module as `ami-221` with unknown fields, but it
+is not AMI specific. It is found on Intel platforms with AMI, Insyde, HP,
+Lenovo, Huawei, Honor and Supermicro firmware, with the same strings:
+`Reference Code - CPU`, `uCode Version`, `TXT ACM version`, `FSP Binary
+Version`. It looks like the firmware version information (FVI) structure of
+Intel reference code.
+
+Probable layout: entry count (BYTE), then 7-byte entries of component name
+(STRING), version (STRING), major, minor and revision (BYTE each) and build
+number (WORD). The current decoder reads the same 7 bytes as name, string and
+three unknown fields. E.g. `uCode Version` of `acer/nitro-an515-31.bin` has
+build number `0x0084`, which looks like the microcode revision.
+
+To do:
+
+* Confirm the layout, e.g. against public Intel reference code.
+* Move the decoder from the `ami` module to a platform (Intel) module and
+  decode version fields.
+* Decode type 221 of HP ProLiant and Dell separately, in their modules.
+
+=== Other Intel platform structures
+
+Found on the same set of firmware vendors, not decoded by dmidecode:
+
+* Type 219 with strings `MEI1`, `MEI2`, `MEI3`, probably Intel ME interface
+  information.
+* Type 131, 64 bytes, probably Intel ME or vPro information.
+* Type 130 with `$AMT` signature (Lenovo), probably Intel AMT information.
+
+=== AMI specifics
+
+Not decoded by dmidecode, reverse engineering to be finished:
+
+* Type 133, 44 bytes, with identical content on ASUS and Gigabyte boards
+  (`asus/prime-h610m-r.bin`, `gigabyte/b760m-ds3h-gen5.bin`).
+* Type 136, 8 bytes of zeroes on the same boards (Lenovo has a different
+  6-byte type 136).
+* Additional information (type 40) used as key-value storage: values are
+  always 4 bytes regardless of the referenced field size, and strings are
+  e.g. `PRODUCT_LINE`, `PRODUCT_SKU`, `YEAR`, `AGESA!V9 ComboAm5PI 1.2.0.3g`.
+  References point to the header (offset `0x01`), beyond the structure end,
+  and to missing structures.
+
+Other vendors misuse type 40 too: Lenovo, Toshiba and Neousys store the
+compiler version in firmware information, and apply a slot type entry to port
+connectors; Supermicro stores 17-byte blobs with `_AST` signature (probably
+ASPEED BMC data) at offset `0x00`.
+
+== Ideas
+
+=== Linux kernel module
+
+A kernel module exposing decoded SMBIOS data in sysfs, e.g. one directory per
+structure with one file per attribute, built from the same decoders as
+`libopendmi`.
+
+Linux already provides:
+
+* `/sys/firmware/dmi/tables/DMI` and `smbios_entry_point` with the raw table
+  and entry point, which are read by the `sysfs` backend;
+* `/sys/firmware/dmi/entries/<type>-<instance>/` with raw data of each
+  structure and a few header fields;
+* `/sys/class/dmi/id/` with a dozen decoded fields of firmware, system,
+  baseboard and chassis information.
+
+Decoded attributes of all structures would make SMBIOS data available to
+scripts and tools without any user-space library, as `/sys/class/dmi/id` does
+for a few fields. To be considered:
+
+* Decoders use libc and `dmi_alloc()`, so they need a thin portability layer
+  for kernel allocation, strings and formatting.
+* License of the module (e.g. `Dual BSD/GPL`), since BSD-3-Clause code is
+  compatible with GPL.
+* Layout and stability of the sysfs interface, since it becomes a kernel ABI
+  once merged, and whether to target mainline or ship an out-of-tree module.
+
+== Incomplete decoders
+
+To be closed in 0.5. Standard structures, which are not decoded completely:
+
+* Processor additional information (type 44): processor-specific data is
+  kept as raw bytes. Its format needs to be checked against the RISC-V SMBIOS
+  specification, and documents for other architectures are to be found: the
+  only data seen in dumps are placeholders of AMI firmware.
+* Management controller host interface (type 42): only network host interface
+  data and Redfish over IP records are decoded (DSP0270). Interface data of
+  MCTP interfaces and records of other protocols are kept as raw bytes, since
+  their formats are not defined by the SMBIOS specification.
+
+Other standard structures are decoded completely, and bytes left in some
+dumps are firmware quirks: padding in baseboard information of IBM x3950 M2,
+odd length of onboard devices information of Acer Nitro, extra bytes in
+management device information of Supermicro X10DDW-i.
+
+Module structures without decoders:
+
+* Dell BIOS flags (type 177): the structure is not described in public
+  sources (`libsmbios` does not describe it either), and there are no dumps
+  containing it.
+
+Module structures are decoded and described in the reference manual
+(`reference/src/specs`) according to these sources:
+
+* Dell: `libsmbios` (`src/include/smbios_c/obj/token.h`).
+* Intel RSD: Intel RSD Firmware Extension Specification v2.3.2
+  (document 337201-003US).
+* Sun: illumos (`usr/src/uts/common/sys/smbios_impl.h`). Device types of
+  extended ports are not described there.
+
+== Variant attributes
+
+Values, which representation depends on other fields, are described by
+variant attributes (`DMI_ATTRIBUTE_TYPE_VARIANT`): the decoder or the link
+handler sets a selector, and `dmi_attribute_resolve()` returns the attribute
+describing the value.
+
+Converted: firmware inventory versions and identifiers (type 45), TPM
+firmware version (type 43), management controller interface data and protocol
+records (type 42), IPMI base address and register details (type 38),
+management device thresholds (type 36, selector is set by the link handler of
+type 35), system event log access method address (type 15) and processor ID
+(type 4).
+
+Candidates, which are not decoded yet, so that new decoders are needed first:
+
+* Processor additional information (type 44): processor-specific data
+  depends on the processor architecture, see incomplete decoders.
+
+Intel RSD network card address is not a candidate: the structure has no field
+telling the address type, see `DMI_ATTRIBUTE_FLAG_MAC`.
+
+Open questions:
+
+* Whether to show the selected variant in JSON, YAML and XML output, since the
+  value shape of such attributes depends on the variant.
+
 == Lint
 
 The `lint` command is a stub: `opendmi/src/command/lint.c` only parses the
@@ -187,3 +352,25 @@ To do:
   type 34 or 35, the handle plus one is a probe or a cooling device, and the
   threshold handle plus one is threshold data, use the corrected handles and
   log a notice. Strict mode and `lint` should keep reporting the errors.
+
+=== Processor ID
+
+* `asus/c60m1-i.bin` and `asus/k53u.bin` (AMD Bobcat) store feature flags
+  before the signature. The decoder swaps the words back, since reserved bits
+  of the signature are set in feature flags.
+* `foxconn/m61pmv.bin` reports AMD Athlon 64 X2 with family `0x13`, which was
+  Cyrix M2 in older specification versions and is Apple M2 now. Families
+  `0x12` and `0x13` are treated as Arm only if the vendor or version names
+  Apple.
+* `honor/magicbook-art-14-2024-mra-7211.bin` reports Intel Core Ultra 7 155H
+  with 80486 family. The signature is still valid, since 80386 and 80486
+  families are decoded as x86.
+* Several dumps report x86 processors with other or unknown family, which are
+  recognized by vendor or version names.
+
+=== TPM device vendor ID
+
+Lenovo ThinkCentre M70s, M720q and M720s store TPM vendor ID as a
+little-endian double word (`\0XFI` instead of `IFX`). The decoder reverses
+the bytes, if the identifier starts with zero.
+

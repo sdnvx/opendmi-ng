@@ -46,10 +46,17 @@ struct dmi_system_boot
     dmi_boot_status_t status;
 
     /**
-     * @brief Raw boot status data. Might be useful for vendor/OEM-specific
-     * or product-specific implementations.
+     * @brief Additional boot status data following the status code, as
+     * stored.
      */
-    dmi_byte_t status_data[10];
+    dmi_binary_t status_data;
+
+    /**
+     * @brief Set if the status code is vendor/OEM-specific or
+     * product-specific, so that additional status data is defined by vendor.
+     * Selects whether the data is shown.
+     */
+    bool has_status_data;
 };
 
 /**

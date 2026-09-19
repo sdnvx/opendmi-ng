@@ -69,7 +69,15 @@ typedef enum dmi_attribute_flag
      * trailing zero bytes of a field longer than a MAC-48 address are
      * omitted.
      */
-    DMI_ATTRIBUTE_FLAG_MAC       = 0x10
+    DMI_ATTRIBUTE_FLAG_MAC = 0x10,
+
+    /**
+     * Format binary data as an IP address in network byte order: 4 bytes as
+     * an IPv4 address in dotted decimal notation, 16 bytes as an IPv6
+     * address in the RFC 5952 text representation. Data of other lengths is
+     * formatted as usual.
+     */
+    DMI_ATTRIBUTE_FLAG_IP = 0x20
 } dmi_attribute_flag_t;
 
 struct dmi_attribute_ops

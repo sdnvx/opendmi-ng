@@ -40,14 +40,17 @@ void dmi_text_entity_attr_value(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
         const void            *value,
-        const char            *descr);
+        const char            *descr,
+        unsigned int           depth);
 
 void dmi_text_entity_attr_set(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
-        const void            *value);
+        const void            *value,
+        unsigned int           depth);
 
 bool dmi_text_entity_data(dmi_text_session_t *session, const dmi_entity_t *entity);
+bool dmi_text_entity_overlays(dmi_text_session_t *session, const dmi_entity_t *entity);
 bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t *entity);
 bool dmi_text_entity_strings(dmi_text_session_t *session, const dmi_entity_t *entity);
 

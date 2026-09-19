@@ -53,6 +53,7 @@ bool dmi_json_entity_attr_set(
 bool dmi_json_entity_attrs_end(dmi_json_session_t *session, const dmi_entity_t *entity);
 bool dmi_json_entity_data(dmi_json_session_t *session, const dmi_entity_t *entity);
 bool dmi_json_entity_properties(dmi_json_session_t *session, const dmi_entity_t *entity);
+bool dmi_json_entity_overlays(dmi_json_session_t *session, const dmi_entity_t *entity);
 bool dmi_json_entity_strings(dmi_json_session_t *session, const dmi_entity_t *entity);
 bool dmi_json_entity_end(dmi_json_session_t *session, const dmi_entity_t *entity);
 bool dmi_json_table_end(dmi_json_session_t *session);

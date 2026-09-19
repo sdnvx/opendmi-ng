@@ -296,9 +296,12 @@ bool dmi_yaml_entity_attr_struct(
 
         const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
 
+        // Nested structures are written as nested mappings
         bool result =
             dmi_yaml_label(session, child_attr->params.code) and
-            dmi_yaml_entity_attr_value(session, child, ptr);
+            ((child->type == DMI_ATTRIBUTE_TYPE_STRUCT) ?
+                dmi_yaml_entity_attr_struct(session, child, ptr) :
+                dmi_yaml_entity_attr_value(session, child, ptr));
 
         if (not result)
             return false;
@@ -444,6 +447,57 @@ bool dmi_yaml_entity_properties(dmi_yaml_session_t *session, const dmi_entity_t 
                 dmi_yaml_scalar(session, property->value, YAML_STR_TAG, YAML_DOUBLE_QUOTED_SCALAR_STYLE) :
                 dmi_yaml_scalar(session, "null", YAML_NULL_TAG, YAML_PLAIN_SCALAR_STYLE)) and
             dmi_yaml_mapping_end(session);
+
+        if (not result)
+            return false;
+    }
+
+    return dmi_yaml_sequence_end(session);
+}
+
+bool dmi_yaml_entity_overlays(dmi_yaml_session_t *session, const dmi_entity_t *entity)
+{
+    assert(session != nullptr);
+    assert(entity != nullptr);
+
+    bool result =
+        dmi_yaml_label(session, "overlays") and
+        dmi_yaml_sequence_start(session, YAML_BLOCK_SEQUENCE_STYLE);
+    if (not result)
+        return false;
+
+    for (const dmi_entity_overlay_t *overlay = entity->overlays; overlay != nullptr; overlay = overlay->next) {
+        const char *string = overlay->entry->string;
+        char source[8];
+        char index[24];
+        char offset[8];
+
+        snprintf(source, sizeof(source), "0x%04hx", overlay->source->handle);
+        snprintf(index, sizeof(index), "%zu", overlay->index);
+        snprintf(offset, sizeof(offset), "0x%02x", overlay->entry->ref_offset);
+
+        char *value = dmi_format_overlay_value(entity, overlay, false);
+        if (value == nullptr)
+            return false;
+
+        // Handle, index and offset are written as plain numbers
+        result =
+            dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE) and
+            dmi_yaml_label(session, "source") and
+            dmi_yaml_scalar(session, source, nullptr, YAML_PLAIN_SCALAR_STYLE) and
+            dmi_yaml_label(session, "index") and
+            dmi_yaml_scalar(session, index, nullptr, YAML_PLAIN_SCALAR_STYLE) and
+            dmi_yaml_label(session, "offset") and
+            dmi_yaml_scalar(session, offset, nullptr, YAML_PLAIN_SCALAR_STYLE) and
+            dmi_yaml_label(session, "value") and
+            dmi_yaml_scalar(session, value, YAML_STR_TAG, YAML_DOUBLE_QUOTED_SCALAR_STYLE) and
+            dmi_yaml_label(session, "string") and
+            ((string != nullptr) ?
+                dmi_yaml_scalar(session, string, YAML_STR_TAG, YAML_DOUBLE_QUOTED_SCALAR_STYLE) :
+                dmi_yaml_scalar(session, "null", YAML_NULL_TAG, YAML_PLAIN_SCALAR_STYLE)) and
+            dmi_yaml_mapping_end(session);
+
+        dmi_free(value);
 
         if (not result)
             return false;

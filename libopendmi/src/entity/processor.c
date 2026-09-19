@@ -4,7 +4,11 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <string.h>
+#include <ctype.h>
+
 #include <opendmi/context.h>
+#include <opendmi/log.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
@@ -14,6 +18,15 @@
 #include <opendmi/entity/processor.h>
 
 static bool dmi_processor_decode(dmi_entity_t *entity);
+static bool dmi_processor_decode_fields(dmi_entity_t *entity);
+static void dmi_processor_decode_id(dmi_entity_t *entity, dmi_processor_t *info);
+static void dmi_processor_decode_id_x86(dmi_entity_t *entity, dmi_processor_t *info,
+                                        uint32_t low, uint32_t high);
+static void dmi_processor_decode_id_midr(dmi_processor_t *info, uint32_t low);
+static void dmi_processor_decode_id_soc(dmi_processor_t *info, uint32_t low, uint32_t high);
+static dmi_processor_id_format_t dmi_processor_id_format(const dmi_processor_t *info);
+static bool dmi_processor_is_x86_vendor(const char *str);
+static bool dmi_processor_has_word(const char *str, const char *word);
 static bool dmi_processor_link(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_processor_type_names =
@@ -1812,6 +1825,238 @@ const dmi_name_set_t dmi_processor_features_names =
     }
 };
 
+//
+// Feature flags of x86 processors, as returned by CPUID leaf 1 in EDX register
+//
+static const dmi_name_set_t dmi_processor_x86_feature_names =
+{
+    .code  = "processor-x86-features",
+    .names = (dmi_name_t[]){
+        {
+            .id   = 0,
+            .code = "fpu",
+            .name = "FPU (floating-point unit on-chip)"
+        },
+        {
+            .id   = 1,
+            .code = "vme",
+            .name = "VME (virtual mode extension)"
+        },
+        {
+            .id   = 2,
+            .code = "de",
+            .name = "DE (debugging extension)"
+        },
+        {
+            .id   = 3,
+            .code = "pse",
+            .name = "PSE (page size extension)"
+        },
+        {
+            .id   = 4,
+            .code = "tsc",
+            .name = "TSC (time stamp counter)"
+        },
+        {
+            .id   = 5,
+            .code = "msr",
+            .name = "MSR (model specific registers)"
+        },
+        {
+            .id   = 6,
+            .code = "pae",
+            .name = "PAE (physical address extension)"
+        },
+        {
+            .id   = 7,
+            .code = "mce",
+            .name = "MCE (machine check exception)"
+        },
+        {
+            .id   = 8,
+            .code = "cx8",
+            .name = "CX8 (CMPXCHG8B instruction)"
+        },
+        {
+            .id   = 9,
+            .code = "apic",
+            .name = "APIC (on-chip APIC)"
+        },
+        {
+            .id   = 11,
+            .code = "sep",
+            .name = "SEP (fast system call)"
+        },
+        {
+            .id   = 12,
+            .code = "mtrr",
+            .name = "MTRR (memory type range registers)"
+        },
+        {
+            .id   = 13,
+            .code = "pge",
+            .name = "PGE (page global enable)"
+        },
+        {
+            .id   = 14,
+            .code = "mca",
+            .name = "MCA (machine check architecture)"
+        },
+        {
+            .id   = 15,
+            .code = "cmov",
+            .name = "CMOV (conditional move instructions)"
+        },
+        {
+            .id   = 16,
+            .code = "pat",
+            .name = "PAT (page attribute table)"
+        },
+        {
+            .id   = 17,
+            .code = "pse-36",
+            .name = "PSE-36 (36-bit page size extension)"
+        },
+        {
+            .id   = 18,
+            .code = "psn",
+            .name = "PSN (processor serial number)"
+        },
+        {
+            .id   = 19,
+            .code = "clfsh",
+            .name = "CLFSH (CLFLUSH instruction)"
+        },
+        {
+            .id   = 21,
+            .code = "ds",
+            .name = "DS (debug store)"
+        },
+        {
+            .id   = 22,
+            .code = "acpi",
+            .name = "ACPI (thermal monitor and software controlled clock)"
+        },
+        {
+            .id   = 23,
+            .code = "mmx",
+            .name = "MMX (MMX technology)"
+        },
+        {
+            .id   = 24,
+            .code = "fxsr",
+            .name = "FXSR (FXSAVE and FXRSTOR instructions)"
+        },
+        {
+            .id   = 25,
+            .code = "sse",
+            .name = "SSE (streaming SIMD extensions)"
+        },
+        {
+            .id   = 26,
+            .code = "sse2",
+            .name = "SSE2 (streaming SIMD extensions 2)"
+        },
+        {
+            .id   = 27,
+            .code = "ss",
+            .name = "SS (self-snoop)"
+        },
+        {
+            .id   = 28,
+            .code = "htt",
+            .name = "HTT (multi-threading)"
+        },
+        {
+            .id   = 29,
+            .code = "tm",
+            .name = "TM (thermal monitor)"
+        },
+        {
+            .id   = 31,
+            .code = "pbe",
+            .name = "PBE (pending break enable)"
+        },
+        DMI_NAME_NULL
+    }
+};
+
+static const dmi_attribute_t dmi_processor_x86_id_attrs[] =
+{
+    DMI_ATTRIBUTE(dmi_processor_x86_id_t, type, INTEGER, {
+        .code = "type",
+        .name = "Type"
+    }),
+    DMI_ATTRIBUTE(dmi_processor_x86_id_t, family, INTEGER, {
+        .code = "family",
+        .name = "Family"
+    }),
+    DMI_ATTRIBUTE(dmi_processor_x86_id_t, model, INTEGER, {
+        .code = "model",
+        .name = "Model"
+    }),
+    DMI_ATTRIBUTE(dmi_processor_x86_id_t, stepping, INTEGER, {
+        .code = "stepping",
+        .name = "Stepping"
+    }),
+    DMI_ATTRIBUTE_NULL
+};
+
+static const dmi_attribute_t dmi_processor_arm_id_attrs[] =
+{
+    DMI_ATTRIBUTE(dmi_processor_arm_id_t, implementer, INTEGER, {
+        .code  = "implementer",
+        .name  = "Implementer",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE(dmi_processor_arm_id_t, variant, INTEGER, {
+        .code  = "variant",
+        .name  = "Variant",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE(dmi_processor_arm_id_t, architecture, INTEGER, {
+        .code  = "architecture",
+        .name  = "Architecture",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE(dmi_processor_arm_id_t, part_number, INTEGER, {
+        .code  = "part-number",
+        .name  = "Part number",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE(dmi_processor_arm_id_t, revision, INTEGER, {
+        .code  = "revision",
+        .name  = "Revision",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE_NULL
+};
+
+static const dmi_attribute_t dmi_processor_soc_id_attrs[] =
+{
+    DMI_ATTRIBUTE(dmi_processor_soc_id_t, jep106_bank, INTEGER, {
+        .code  = "jep106-bank",
+        .name  = "JEP106 bank",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE(dmi_processor_soc_id_t, jep106_id, INTEGER, {
+        .code  = "jep106-id",
+        .name  = "JEP106 identification code",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE(dmi_processor_soc_id_t, soc_id, INTEGER, {
+        .code  = "soc-id",
+        .name  = "SoC ID",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE(dmi_processor_soc_id_t, soc_revision, INTEGER, {
+        .code  = "soc-revision",
+        .name  = "SoC revision",
+        .flags = DMI_ATTRIBUTE_FLAG_HEX
+    }),
+    DMI_ATTRIBUTE_NULL
+};
+
 const dmi_entity_spec_t dmi_processor_spec =
 {
     .code            = "processor",
@@ -1861,6 +2106,37 @@ const dmi_entity_spec_t dmi_processor_spec =
         DMI_ATTRIBUTE(dmi_processor_t, vendor, STRING, {
             .code    = "vendor",
             .name    = "Vendor"
+        }),
+        DMI_ATTRIBUTE(dmi_processor_t, id, BINARY, {
+            .code    = "id",
+            .name    = "ID"
+        }),
+        // Fields of processor ID depend on the processor architecture
+        DMI_ATTRIBUTE_VARIANT(dmi_processor_t, id_format, {
+            .code     = "signature",
+            .name     = "Signature",
+            .variants = (const dmi_attribute_variant_t[]){
+                DMI_VARIANT(DMI_PROCESSOR_ID_FORMAT_X86, dmi_processor_t, x86_id, STRUCT, {
+                    .attrs = dmi_processor_x86_id_attrs
+                }),
+                DMI_VARIANT(DMI_PROCESSOR_ID_FORMAT_MIDR, dmi_processor_t, arm_id, STRUCT, {
+                    .attrs = dmi_processor_arm_id_attrs
+                }),
+                DMI_VARIANT(DMI_PROCESSOR_ID_FORMAT_SOC_ID, dmi_processor_t, soc_id, STRUCT, {
+                    .attrs = dmi_processor_soc_id_attrs
+                }),
+                DMI_VARIANT_NULL
+            }
+        }),
+        DMI_ATTRIBUTE_VARIANT(dmi_processor_t, id_format, {
+            .code     = "flags",
+            .name     = "Flags",
+            .variants = (const dmi_attribute_variant_t[]){
+                DMI_VARIANT(DMI_PROCESSOR_ID_FORMAT_X86, dmi_processor_t, x86_id.features, SET, {
+                    .values = &dmi_processor_x86_feature_names
+                }),
+                DMI_VARIANT_NULL
+            }
         }),
         DMI_ATTRIBUTE(dmi_processor_t, version, STRING, {
             .code    = "version",
@@ -2008,6 +2284,18 @@ const char *dmi_processor_status_name(dmi_processor_status_t value)
 
 static bool dmi_processor_decode(dmi_entity_t *entity)
 {
+    // Processor ID is interpreted after the family and characteristics are
+    // known, and these are decoded depending on the structure version
+    if (not dmi_processor_decode_fields(entity))
+        return false;
+
+    dmi_processor_decode_id(entity, dmi_entity_info(entity, DMI_TYPE(PROCESSOR)));
+
+    return true;
+}
+
+static bool dmi_processor_decode_fields(dmi_entity_t *entity)
+{
     dmi_processor_t *info;
 
     info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
@@ -2029,7 +2317,7 @@ static bool dmi_processor_decode(dmi_entity_t *entity)
         dmi_stream_decode(stream, dmi_byte_t, &info->type) and
         dmi_stream_decode(stream, dmi_byte_t, &info->family) and
         dmi_stream_decode_str(stream, &info->vendor) and
-        dmi_stream_skip(stream, sizeof(dmi_qword_t)) and
+        dmi_stream_decode_bin(stream, sizeof(dmi_qword_t), &info->id) and
         dmi_stream_decode_str(stream, &info->version) and
         dmi_stream_decode(stream, dmi_byte_t, &voltage_value) and
         dmi_stream_decode(stream, dmi_word_t, &info->external_clock) and
@@ -2185,3 +2473,210 @@ static bool dmi_processor_link(dmi_entity_t *entity)
 
     return success;
 }
+
+static void dmi_processor_decode_id(dmi_entity_t *entity, dmi_processor_t *info)
+{
+    info->id_format = DMI_PROCESSOR_ID_FORMAT_RAW;
+
+    if ((info->id.data == nullptr) or (info->id.length < sizeof(dmi_qword_t)))
+        return;
+
+    // Structure data is not aligned
+    dmi_dword_t words[2];
+    memcpy(words, info->id.data, sizeof(words));
+
+    uint32_t low  = dmi_decode(words[0]);
+    uint32_t high = dmi_decode(words[1]);
+
+    info->id_format = dmi_processor_id_format(info);
+
+    switch (info->id_format) {
+    case DMI_PROCESSOR_ID_FORMAT_X86:
+        dmi_processor_decode_id_x86(entity, info, low, high);
+        break;
+
+    case DMI_PROCESSOR_ID_FORMAT_MIDR:
+        dmi_processor_decode_id_midr(info, low);
+        break;
+
+    case DMI_PROCESSOR_ID_FORMAT_SOC_ID:
+        dmi_processor_decode_id_soc(info, low, high);
+        break;
+
+    default:
+        break;
+    }
+}
+
+/**
+ * @internal
+ * @brief Decode signature (EAX) and feature flags (EDX) of CPUID leaf 1.
+ */
+static void dmi_processor_decode_id_x86(dmi_entity_t *entity, dmi_processor_t *info,
+                                        uint32_t low, uint32_t high)
+{
+    // Some firmware stores feature flags before the signature, which is told
+    // by reserved bits of the signature
+    const uint32_t reserved = 0xF000C000u;
+
+    if ((low & reserved) and not (high & reserved)) {
+        dmi_log_notice(entity->context->logger,
+                       "Handle 0x%04hx (%s): Processor ID words are swapped",
+                       entity->handle, dmi_type_name(entity->context, entity->type));
+
+        uint32_t swap = low;
+        low  = high;
+        high = swap;
+    }
+
+    uint8_t  family = (low >> 8) & 0x0Fu;
+    uint16_t model  = (low >> 4) & 0x0Fu;
+
+    info->x86_id.type     = (low >> 12) & 0x03u;
+    info->x86_id.stepping = low & 0x0Fu;
+    info->x86_id.features = high;
+
+    // Extended fields apply to some base families only
+    info->x86_id.family = family;
+    if (family == 0x0Fu)
+        info->x86_id.family += (low >> 20) & 0xFFu;
+    if ((family == 0x06u) or (family == 0x0Fu))
+        model |= ((low >> 16) & 0x0Fu) << 4;
+
+    info->x86_id.model = model;
+}
+
+/**
+ * @internal
+ * @brief Decode Main ID Register (MIDR or MIDR_EL1) of Arm processors.
+ */
+static void dmi_processor_decode_id_midr(dmi_processor_t *info, uint32_t low)
+{
+    info->arm_id.implementer  = (low >> 24) & 0xFFu;
+    info->arm_id.variant      = (low >> 20) & 0x0Fu;
+    info->arm_id.architecture = (low >> 16) & 0x0Fu;
+    info->arm_id.part_number  = (low >> 4) & 0x0FFFu;
+    info->arm_id.revision     = low & 0x0Fu;
+}
+
+/**
+ * @internal
+ * @brief Decode SoC ID version and revision, as returned by SMCCC_ARCH_SOC_ID.
+ */
+static void dmi_processor_decode_id_soc(dmi_processor_t *info, uint32_t low, uint32_t high)
+{
+    info->soc_id.jep106_bank  = (low >> 24) & 0x7Fu;
+    info->soc_id.jep106_id    = (low >> 16) & 0x7Fu;
+    info->soc_id.soc_id       = low & 0xFFFFu;
+    info->soc_id.soc_revision = high & 0x7FFFFFFFu;
+}
+
+static dmi_processor_id_format_t dmi_processor_id_format(const dmi_processor_t *info)
+{
+    unsigned int family = info->family;
+
+    // Apple M1 and M2 families were Cyrix M1 and M2 x86 families in older
+    // specification versions, and are still reported so by older firmware
+    if ((family == DMI_PROCESSOR_FAMILY_APPLE_M1) or (family == DMI_PROCESSOR_FAMILY_APPLE_M2)) {
+        if (not dmi_processor_has_word(info->vendor, "apple") and
+            not dmi_processor_has_word(info->version, "apple"))
+            return DMI_PROCESSOR_ID_FORMAT_X86;
+    }
+
+    // Arm processors report SoC ID if they support it, and MIDR otherwise
+    if (((family >= DMI_PROCESSOR_FAMILY_ARM_V7) and (family <= DMI_PROCESSOR_FAMILY_ARM_V9)) or
+        (family == DMI_PROCESSOR_FAMILY_APPLE_M1) or (family == DMI_PROCESSOR_FAMILY_APPLE_M2) or
+        (family == DMI_PROCESSOR_FAMILY_ARM))
+    {
+        if ((family != DMI_PROCESSOR_FAMILY_ARM_V7) and (family != DMI_PROCESSOR_FAMILY_ARM) and
+            info->features.arm64_soc_id)
+            return DMI_PROCESSOR_ID_FORMAT_SOC_ID;
+
+        return DMI_PROCESSOR_ID_FORMAT_MIDR;
+    }
+
+    // Processor families of Intel, AMD, VIA, Cyrix, IDT and Transmeta x86
+    // processors, supporting CPUID instruction
+    static const struct {
+        unsigned int first;
+        unsigned int last;
+    } x86_families[] = {
+        { DMI_PROCESSOR_FAMILY_INTEL_80386,         DMI_PROCESSOR_FAMILY_INTEL_80386          },
+        { DMI_PROCESSOR_FAMILY_INTEL_80486,         DMI_PROCESSOR_FAMILY_INTEL_80486          },
+        { DMI_PROCESSOR_FAMILY_INTEL_PENTIUM,       DMI_PROCESSOR_FAMILY_INTEL_PENTIUM_3      },
+        { DMI_PROCESSOR_FAMILY_INTEL_CELERON_M,     DMI_PROCESSOR_FAMILY_INTEL                },
+        { DMI_PROCESSOR_FAMILY_AMD_DURON,           DMI_PROCESSOR_FAMILY_AMD_ATHLON           },
+        { DMI_PROCESSOR_FAMILY_AMD_K6_2_PLUS,       DMI_PROCESSOR_FAMILY_AMD_K6_2_PLUS        },
+        { DMI_PROCESSOR_FAMILY_INTEL_CORE_DUO,      DMI_PROCESSOR_FAMILY_INTEL_CORE_M7        },
+        { DMI_PROCESSOR_FAMILY_AMD_TURION_2_ULTRA_2C_M, DMI_PROCESSOR_FAMILY_AMD_FX           },
+        { DMI_PROCESSOR_FAMILY_AMD_C,               DMI_PROCESSOR_FAMILY_AMD_FIREPRO          },
+        { DMI_PROCESSOR_FAMILY_AMD_ATHLON_X4_4C,    DMI_PROCESSOR_FAMILY_AMD_ZEN              },
+        { DMI_PROCESSOR_FAMILY_CRUSOE_TM5000,       DMI_PROCESSOR_FAMILY_EFFICEON_TM8000      },
+        { DMI_PROCESSOR_FAMILY_AMD_ATHLON_64,       DMI_PROCESSOR_FAMILY_AMD_ATHLON_X2_2C     },
+        { DMI_PROCESSOR_FAMILY_INTEL_XEON_3200_4C,  DMI_PROCESSOR_FAMILY_INTEL_XEON           },
+        { DMI_PROCESSOR_FAMILY_INTEL_XEON_MP,       DMI_PROCESSOR_FAMILY_AMD_ATHLON_MP        },
+        { DMI_PROCESSOR_FAMILY_INTEL_PENTIUM_M,     DMI_PROCESSOR_FAMILY_INTEL_CELERON_2C     },
+        { DMI_PROCESSOR_FAMILY_INTEL_CORE_I5,       DMI_PROCESSOR_FAMILY_INTEL_XEON_D         },
+        { DMI_PROCESSOR_FAMILY_VIA_C7_M,            DMI_PROCESSOR_FAMILY_INTEL_XEON_5XXX_4C   },
+        { DMI_PROCESSOR_FAMILY_INTEL_XEON_7XXX_2C,  DMI_PROCESSOR_FAMILY_INTEL_XEON_3400_MC   },
+        { DMI_PROCESSOR_FAMILY_AMD_OPTERON_3000,    DMI_PROCESSOR_FAMILY_AMD_SEMPRON_M        },
+        { DMI_PROCESSOR_FAMILY_CYRIX_6X86,          DMI_PROCESSOR_FAMILY_CYRIX_M2             },
+        { DMI_PROCESSOR_FAMILY_WINCHIP,             DMI_PROCESSOR_FAMILY_WINCHIP              },
+        { DMI_PROCESSOR_FAMILY_INTEL_CORE_3,        DMI_PROCESSOR_FAMILY_INTEL_CORE_ULTRA_9   }
+    };
+
+    for (size_t i = 0; i < countof(x86_families); i++) {
+        if ((family >= x86_families[i].first) and (family <= x86_families[i].last))
+            return DMI_PROCESSOR_ID_FORMAT_X86;
+    }
+
+    // Some firmware reports x86 processors as other or unknown ones, so they
+    // are recognized by vendor
+    if ((family == DMI_PROCESSOR_FAMILY_OTHER) or (family == DMI_PROCESSOR_FAMILY_UNKNOWN)) {
+        if (dmi_processor_is_x86_vendor(info->vendor) or dmi_processor_is_x86_vendor(info->version))
+            return DMI_PROCESSOR_ID_FORMAT_X86;
+    }
+
+    return DMI_PROCESSOR_ID_FORMAT_RAW;
+}
+
+static bool dmi_processor_is_x86_vendor(const char *str)
+{
+    // Vendor names, including CPUID vendor identification strings
+    static const char *vendors[] = {
+        "intel", "amd", "advanced micro devices", "hygon", "zhaoxin", "centaur", "via",
+        "genuineintel", "authenticamd", "hygongenuine", "centaurhauls"
+    };
+
+    for (size_t i = 0; i < countof(vendors); i++) {
+        if (dmi_processor_has_word(str, vendors[i]))
+            return true;
+    }
+
+    return false;
+}
+
+static bool dmi_processor_has_word(const char *str, const char *word)
+{
+    if (str == nullptr)
+        return false;
+
+    size_t length = strlen(word);
+
+    // Word is matched case-insensitively, and must not be a part of a longer
+    // word
+    for (const char *pos = str; *pos != 0; pos++) {
+        if ((pos != str) and isalnum((unsigned char)pos[-1]))
+            continue;
+
+        size_t i = 0;
+        while ((i < length) and (tolower((unsigned char)pos[i]) == word[i]))
+            i++;
+
+        if ((i == length) and not isalnum((unsigned char)pos[i]))
+            return true;
+    }
+
+    return false;
+}
+

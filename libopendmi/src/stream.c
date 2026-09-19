@@ -19,8 +19,8 @@ bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *entity)
     stream->position  = 0;
     stream->remaining = entity->body_length;
 
-    if (entity->overlay != nullptr)
-        stream->data = entity->overlay;
+    if (entity->overlay_data != nullptr)
+        stream->data = entity->overlay_data;
     else
         stream->data = entity->data;
 

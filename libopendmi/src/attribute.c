@@ -277,7 +277,6 @@ const dmi_attribute_t *dmi_attribute_resolve(const dmi_attribute_t *attr, const 
     return fallback;
 }
 
-
 char *dmi_attribute_format(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
@@ -741,6 +740,82 @@ static char *dmi_attribute_format_uuid(
     return str;
 }
 
+static char *dmi_attribute_format_ipv4(dmi_context_t *context, const dmi_binary_t *binary)
+{
+    const dmi_byte_t *data = binary->data;
+    char *str = nullptr;
+
+    if (binary->length != 4) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "length");
+        return nullptr;
+    }
+
+    if (dmi_asprintf(&str, "%u.%u.%u.%u", data[0], data[1], data[2], data[3]) < 0) {
+        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+        return nullptr;
+    }
+
+    return str;
+}
+
+static char *dmi_attribute_format_ipv6(dmi_context_t *context, const dmi_binary_t *binary)
+{
+    const dmi_byte_t *data = binary->data;
+    char *str = nullptr;
+
+    if (binary->length != 16) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "length");
+        return nullptr;
+    }
+
+    uint16_t groups[8];
+    for (size_t i = 0; i < countof(groups); i++)
+        groups[i] = (uint16_t)((data[i * 2] << 8) | data[i * 2 + 1]);
+
+    // The longest run of at least two zero groups is compressed, the first
+    // one if there are several (RFC 5952, section 4.2)
+    size_t zero_start  = countof(groups);
+    size_t zero_length = 1;
+
+    for (size_t i = 0; i < countof(groups);) {
+        size_t j = i;
+        while ((j < countof(groups)) and (groups[j] == 0))
+            j++;
+
+        if (j - i > zero_length) {
+            zero_start  = i;
+            zero_length = j - i;
+        }
+
+        i = (j > i) ? j : i + 1;
+    }
+
+    // The longest representation is "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
+    str = dmi_alloc(context, sizeof("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"));
+    if (str == nullptr)
+        return nullptr;
+
+    char *pos = str;
+
+    for (size_t i = 0; i < countof(groups); i++) {
+        if (i == zero_start) {
+            pos += sprintf(pos, "::");
+            i += zero_length - 1;
+            continue;
+        }
+
+        // Separator is already written after the compressed run
+        if ((i > 0) and (i != zero_start + zero_length))
+            *pos++ = ':';
+
+        pos += sprintf(pos, "%x", groups[i]);
+    }
+
+    *pos = 0;
+
+    return str;
+}
+
 static char *dmi_attribute_format_binary(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
@@ -752,6 +827,13 @@ static char *dmi_attribute_format_binary(
     assert(value != nullptr);
 
     const dmi_binary_t *binary = dmi_cast(binary, value);
+
+    if (attribute->params.flags & DMI_ATTRIBUTE_FLAG_IP) {
+        if (binary->length == 4)
+            return dmi_attribute_format_ipv4(context, binary);
+        if (binary->length == 16)
+            return dmi_attribute_format_ipv6(context, binary);
+    }
 
     size_t length    = binary->length;
     char   separator = 0;

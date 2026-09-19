@@ -11,8 +11,18 @@
 
 #include <opendmi/entity.h>
 
+/**
+ * @brief Length of additional information entry header: entry length,
+ * referenced handle, referenced offset and string number.
+ */
+#define DMI_ADDITIONAL_INFO_ENTRY_HEADER 5
+
 typedef struct dmi_additional_info       dmi_additional_info_t;
-typedef struct dmi_additional_info_entry dmi_additional_info_entry_t;
+
+#ifndef DMI_ADDITIONAL_INFO_ENTRY_T
+#   define DMI_ADDITIONAL_INFO_ENTRY_T
+    typedef struct dmi_additional_info_entry dmi_additional_info_entry_t;
+#endif // !DMI_ADDITIONAL_INFO_ENTRY_T
 
 /**
  * @brief Additional information entry.
@@ -42,17 +52,14 @@ struct dmi_additional_info_entry
      * approved for publication in this specification and therefore could not
      * be used in the field referenced by referenced offset.
      *
+     * Value is referenced in the structure data. Its length is determined by
+     * the entry length, and must match the length of the referenced field.
+     *
      * @note
      * This field is the same type and size as the field being referenced by
      * this additional information entry.
      */
-    dmi_data_t value[32];
-
-    /**
-     * @brief Length of the value data (determined from additional info
-     * structure, must match length of the referenced field).
-     */
-    size_t value_length;
+    dmi_binary_t value;
 };
 
 /**
