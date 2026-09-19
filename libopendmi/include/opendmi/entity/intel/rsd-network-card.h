@@ -12,6 +12,11 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
+/**
+ * @brief Length of MAC address field in bytes.
+ */
+#define DMI_INTEL_RSD_MAC_ADDRESS_LENGTH 32
+
 typedef struct dmi_intel_rsd_network_card dmi_intel_rsd_network_card_t;
 
 /**
@@ -71,9 +76,9 @@ struct dmi_intel_rsd_network_card
     uint16_t port_index;
 
     /**
-     * @brief Network MAC address.
+     * @brief Network MAC address, `DMI_INTEL_RSD_MAC_ADDRESS_LENGTH` bytes.
      */
-    dmi_data_t mac_address[32];
+    dmi_binary_t mac_address;
 
     /**
      * @brief The string that identifies the version of the firmware installed

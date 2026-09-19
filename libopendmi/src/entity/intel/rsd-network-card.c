@@ -62,7 +62,11 @@ const dmi_entity_spec_t dmi_intel_rsd_network_card_spec =
             .code  = "port-index",
             .name  = "Port index"
         }),
-        // TODO: Add MAC address attribute after supporting binary attrs
+        DMI_ATTRIBUTE(dmi_intel_rsd_network_card_t, mac_address, BINARY, {
+            .code  = "mac-address",
+            .name  = "MAC address",
+            .flags = DMI_ATTRIBUTE_FLAG_MAC
+        }),
         DMI_ATTRIBUTE(dmi_intel_rsd_network_card_t, firmware_version, STRING, {
             .code = "firmware-version",
             .name = "Firmware version"
@@ -94,6 +98,6 @@ static bool dmi_intel_rsd_network_card_decode(dmi_entity_t *entity)
         dmi_stream_decode(stream, dmi_dword_t, &info->maximum_speed) and
         dmi_stream_decode(stream, dmi_dword_t, &info->current_speed) and
         dmi_stream_decode(stream, dmi_word_t, &info->port_index) and
-        dmi_stream_read_data(stream, info->mac_address, sizeof(info->mac_address)) and
+        dmi_stream_decode_bin(stream, DMI_INTEL_RSD_MAC_ADDRESS_LENGTH, &info->mac_address) and
         dmi_stream_decode_str(stream, &info->firmware_version);
 }

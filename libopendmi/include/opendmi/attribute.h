@@ -39,15 +39,28 @@ typedef enum dmi_attribute_type
     DMI_ATTRIBUTE_TYPE_SET,
     DMI_ATTRIBUTE_TYPE_VERSION,
     DMI_ATTRIBUTE_TYPE_DATE,
-    DMI_ATTRIBUTE_TYPE_UUID
+    DMI_ATTRIBUTE_TYPE_UUID,
+    DMI_ATTRIBUTE_TYPE_BINARY, ///< Binary data, stored as `dmi_binary_t`
 } dmi_attribute_type_t;
+
+/**
+ * @brief Length of MAC-48 address in bytes.
+ */
+#define DMI_MAC_ADDRESS_LENGTH 6
 
 typedef enum dmi_attribute_flag
 {
     DMI_ATTRIBUTE_FLAG_SIGNED    = 0x01,
     DMI_ATTRIBUTE_FLAG_HEX       = 0x02,
     DMI_ATTRIBUTE_FLAG_BCD       = 0x04,
-    DMI_ATTRIBUTE_FLAG_TRANSIENT = 0x08
+    DMI_ATTRIBUTE_FLAG_TRANSIENT = 0x08,
+
+    /**
+     * Format binary data as a MAC address: bytes are separated by colons, and
+     * trailing zero bytes of a field longer than a MAC-48 address are
+     * omitted.
+     */
+    DMI_ATTRIBUTE_FLAG_MAC       = 0x10
 } dmi_attribute_flag_t;
 
 struct dmi_attribute_ops

@@ -22,6 +22,9 @@
 #include <opendmi/utils/uuid.h>
 #include <opendmi/utils/version.h>
 
+static uintmax_t dmi_attribute_read_uint(const void *ptr, size_t size);
+static intmax_t dmi_attribute_read_int(const void *ptr, size_t size);
+
 static char *dmi_attribute_format_handle(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
@@ -94,6 +97,12 @@ static char *dmi_attribute_format_uuid(
         const void            *value,
         bool                   pretty);
 
+static char *dmi_attribute_format_binary(
+        dmi_context_t         *context,
+        const dmi_attribute_t *attribute,
+        const void            *value,
+        bool                   pretty);
+
 static const dmi_attribute_ops_t dmi_attribute_type_ops[] =
 {
     [DMI_ATTRIBUTE_TYPE_HANDLE] = {
@@ -143,6 +152,10 @@ static const dmi_attribute_ops_t dmi_attribute_type_ops[] =
     [DMI_ATTRIBUTE_TYPE_UUID] = {
         .format = dmi_attribute_format_uuid,
         .parse  = nullptr
+    },
+    [DMI_ATTRIBUTE_TYPE_BINARY] = {
+        .format = dmi_attribute_format_binary,
+        .parse  = nullptr
     }
 };
 
@@ -159,6 +172,9 @@ bool dmi_attribute_is_unspecified(const dmi_attribute_t *attr, const void *value
             return true;
     } else if (attr->type == DMI_ATTRIBUTE_TYPE_HANDLE) {
         if (dmi_deref(dmi_handle_t, value) == DMI_HANDLE_INVALID)
+            return true;
+    } else if (attr->type == DMI_ATTRIBUTE_TYPE_BINARY) {
+        if (dmi_deref(dmi_binary_t, value).length == 0)
             return true;
     }
 
@@ -232,20 +248,7 @@ size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info)
     assert(attr != nullptr);
     assert(info != nullptr);
 
-    uintmax_t rv;
-    const void *counter = dmi_member_ptr(info, attr->counter, void);
-
-    // Counter width does not have to match `size_t`
-    if (attr->counter.size == sizeof(uint8_t))
-        rv = dmi_deref(uint8_t, counter);
-    else if (attr->counter.size == sizeof(uint16_t))
-        rv = dmi_deref(uint16_t, counter);
-    else if (attr->counter.size == sizeof(uint32_t))
-        rv = dmi_deref(uint32_t, counter);
-    else if (attr->counter.size == sizeof(uint64_t))
-        rv = dmi_deref(uint64_t, counter);
-    else
-        rv = 0;
+    uintmax_t rv = dmi_attribute_read_uint(dmi_member_ptr(info, attr->counter, void), attr->counter.size);
 
     return (rv <= SIZE_MAX) ? (size_t)rv : 0;
 }
@@ -712,3 +715,83 @@ static char *dmi_attribute_format_uuid(
 
     return str;
 }
+
+static char *dmi_attribute_format_binary(
+        dmi_context_t         *context,
+        const dmi_attribute_t *attribute,
+        const void            *value,
+        bool                   pretty)
+{
+    assert(context != nullptr);
+    assert(attribute != nullptr);
+    assert(value != nullptr);
+
+    const dmi_binary_t *binary = dmi_cast(binary, value);
+
+    size_t length    = binary->length;
+    char   separator = 0;
+
+    if (attribute->params.flags & DMI_ATTRIBUTE_FLAG_MAC) {
+        separator = ':';
+
+        // MAC address fields may be longer than the address itself
+        while ((length > DMI_MAC_ADDRESS_LENGTH) and (binary->data[length - 1] == 0))
+            length--;
+    } else if (pretty) {
+        separator = ' ';
+    }
+
+    // Separators take the same space as the string terminator for the last
+    // byte
+    size_t size = (length > 0) ? length * (separator ? 3 : 2) + (separator ? 0 : 1) : 1;
+
+    char *str = dmi_alloc(context, size);
+    if (str == nullptr)
+        return nullptr;
+
+    const char *digits = pretty ? "0123456789ABCDEF" : "0123456789abcdef";
+    char *pos = str;
+
+    for (size_t i = 0; i < length; i++) {
+        if (separator and (i > 0))
+            *pos++ = separator;
+
+        *pos++ = digits[binary->data[i] >> 4];
+        *pos++ = digits[binary->data[i] & 0x0F];
+    }
+
+    *pos = 0;
+
+    return str;
+}
+
+static uintmax_t dmi_attribute_read_uint(const void *ptr, size_t size)
+{
+    // Member width does not have to match `uintmax_t`
+    if (size == sizeof(uint8_t))
+        return dmi_deref(uint8_t, ptr);
+    if (size == sizeof(uint16_t))
+        return dmi_deref(uint16_t, ptr);
+    if (size == sizeof(uint32_t))
+        return dmi_deref(uint32_t, ptr);
+    if (size == sizeof(uint64_t))
+        return dmi_deref(uint64_t, ptr);
+
+    return 0;
+}
+
+static intmax_t dmi_attribute_read_int(const void *ptr, size_t size)
+{
+    // Selectors are usually enumerations, which may be signed
+    if (size == sizeof(int8_t))
+        return dmi_deref(int8_t, ptr);
+    if (size == sizeof(int16_t))
+        return dmi_deref(int16_t, ptr);
+    if (size == sizeof(int32_t))
+        return dmi_deref(int32_t, ptr);
+    if (size == sizeof(int64_t))
+        return dmi_deref(int64_t, ptr);
+
+    return 0;
+}
+

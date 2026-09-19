@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add SysFS module skeleton
 - Add Boot Integrity Services (BIS) entry point information decoder
 - Add support for binary attributes
-- Add linking of string properties to their parent structures
-- Add `dmi_entity_property()` function
+- Add support for string properties (including linking)
+- Show MAC address of Intel RSD network cards
 - Show string properties of structures in all output formats
 - Add `dmi_registry_resolve()` and `dmi_registry_resolve_any()` functions
 - Add `dmi_code_lookup_ex()` and `dmi_name_lookup_ex()` functions

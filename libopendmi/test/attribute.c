@@ -20,6 +20,8 @@ static int test_attribute_setup(void **pstate);
 static int test_attribute_teardown(void **pstate);
 
 static void test_attribute_format_address(void **pstate);
+static void test_attribute_format_binary(void **pstate);
+static void test_attribute_format_mac(void **pstate);
 static void test_attribute_format_bool(void **pstate);
 static void test_attribute_format_bool_ex(void **pstate);
 static void test_attribute_format_decimal(void **pstate);
@@ -40,6 +42,8 @@ int main(void)
 {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test_teardown(test_attribute_format_address, free_attribute_value),
+        cmocka_unit_test_teardown(test_attribute_format_binary, free_attribute_value),
+        cmocka_unit_test_teardown(test_attribute_format_mac, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_bool, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_bool_ex, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_decimal, free_attribute_value),
@@ -80,6 +84,97 @@ static void test_attribute_format_address(void **pstate)
 {
     dmi_unused(pstate);
     skip();
+}
+
+static void test_attribute_format_binary(void **pstate)
+{
+    static const dmi_data_t data[] = { 0x5F, 0x41, 0x0A, 0xFF };
+
+    const struct {
+        dmi_binary_t  value;
+        bool          pretty;
+        const char   *expected;
+    } test_data[] = {
+        { { data, 1 },             false, "5f"          },
+        { { data, 1 },             true,  "5F"          },
+        { { data, countof(data) }, false, "5f410aff"    },
+        { { data, countof(data) }, true,  "5F 41 0A FF" },
+        { { nullptr, 0 },          false, ""            },
+        { { nullptr, 0 },          true,  ""            }
+    };
+
+    static const dmi_attribute_t attr = {
+        .value   = {
+            .size   = sizeof(dmi_binary_t),
+            .offset = 0
+        },
+        .counter = DMI_MEMBER_NULL,
+        .type    = DMI_ATTRIBUTE_TYPE_BINARY,
+        .params  = {}
+    };
+
+    *pstate = nullptr;
+
+    for (size_t i = 0; i < countof(test_data); i++) {
+        char *result = dmi_attribute_format(context, &attr, &test_data[i].value, test_data[i].pretty);
+        *pstate = result;
+
+        assert_non_null(result);
+        assert_string_equal(result, test_data[i].expected);
+
+        free(result);
+        *pstate = nullptr;
+    }
+
+    // Empty data is unspecified
+    assert_true(dmi_attribute_is_unspecified(&attr, &test_data[4].value));
+    assert_false(dmi_attribute_is_unspecified(&attr, &test_data[0].value));
+}
+
+static void test_attribute_format_mac(void **pstate)
+{
+    // MAC-48 address in a longer field, EUI-64 address, and a short value
+    static const dmi_data_t mac48[] = { 0x00, 0x1B, 0x21, 0x3C, 0x4D, 0x5E, 0x00, 0x00, 0x00, 0x00 };
+    static const dmi_data_t eui64[] = { 0x00, 0x1B, 0x21, 0xFF, 0xFE, 0x3C, 0x4D, 0x5E, 0x00, 0x00 };
+    static const dmi_data_t zeros[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    static const dmi_data_t short_mac[] = { 0x0A, 0x00 };
+
+    const struct {
+        dmi_binary_t  value;
+        bool          pretty;
+        const char   *expected;
+    } test_data[] = {
+        { { mac48, countof(mac48) },         true,  "00:1B:21:3C:4D:5E"       },
+        { { mac48, countof(mac48) },         false, "00:1b:21:3c:4d:5e"       },
+        { { eui64, countof(eui64) },         true,  "00:1B:21:FF:FE:3C:4D:5E" },
+        { { zeros, countof(zeros) },         true,  "00:00:00:00:00:00"       },
+        { { short_mac, countof(short_mac) }, true,  "0A:00"                   }
+    };
+
+    static const dmi_attribute_t attr = {
+        .value   = {
+            .size   = sizeof(dmi_binary_t),
+            .offset = 0
+        },
+        .counter = DMI_MEMBER_NULL,
+        .type    = DMI_ATTRIBUTE_TYPE_BINARY,
+        .params  = {
+            .flags = DMI_ATTRIBUTE_FLAG_MAC
+        }
+    };
+
+    *pstate = nullptr;
+
+    for (size_t i = 0; i < countof(test_data); i++) {
+        char *result = dmi_attribute_format(context, &attr, &test_data[i].value, test_data[i].pretty);
+        *pstate = result;
+
+        assert_non_null(result);
+        assert_string_equal(result, test_data[i].expected);
+
+        free(result);
+        *pstate = nullptr;
+    }
 }
 
 static void test_attribute_format_bool(void **pstate)
