@@ -271,6 +271,13 @@ bool dmi_xml_entity_attr(
     assert(attr != nullptr);
     assert(value != nullptr);
 
+    // Value of variant attribute is described by the variant
+    const dmi_attribute_t *variant = dmi_attribute_resolve(attr, entity->info);
+    if (variant == nullptr)
+        return true;
+
+    value = dmi_member_ptr(entity->info, variant->value, dmi_data_t);
+
     bool success = false;
 
     do {
@@ -279,13 +286,13 @@ bool dmi_xml_entity_attr(
         if (xmlTextWriterStartElement(session->writer, dmi_xml_string(attr->params.code)) < 0)
             break;
 
-        if (not dmi_member_is_present(attr->counter)) {
-            if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-                rv = dmi_xml_entity_attr_struct(session, attr, value);
+        if (not dmi_member_is_present(variant->counter)) {
+            if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
+                rv = dmi_xml_entity_attr_struct(session, variant, value);
             else
-                rv = dmi_xml_entity_attr_value(session, attr, value);
+                rv = dmi_xml_entity_attr_value(session, variant, value);
         } else {
-            rv = dmi_xml_entity_attr_array(session, attr, entity->info, value);
+            rv = dmi_xml_entity_attr_array(session, variant, entity->info, value);
         }
         if (not rv)
             break;
@@ -346,12 +353,17 @@ bool dmi_xml_entity_attr_struct(
     const dmi_attribute_t *child_attr = nullptr;
 
     for (child_attr = attr->params.attrs; child_attr->params.name; child_attr++) {
-        const dmi_data_t *ptr = dmi_member_ptr(value, child_attr->value, dmi_data_t);
+        // Value of variant attribute is described by the variant
+        const dmi_attribute_t *child = dmi_attribute_resolve(child_attr, value);
+        if (child == nullptr)
+            continue;
+
+        const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
 
         if (xmlTextWriterStartElement(session->writer, dmi_xml_string(child_attr->params.code)) < 0)
             return false;
 
-        if (not dmi_xml_entity_attr_value(session, child_attr, ptr))
+        if (not dmi_xml_entity_attr_value(session, child, ptr))
             return false;
 
         if (xmlTextWriterFullEndElement(session->writer) < 0)

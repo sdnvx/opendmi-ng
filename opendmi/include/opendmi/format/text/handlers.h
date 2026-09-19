@@ -31,9 +31,10 @@ void dmi_text_entity_attr_array(
         const void            *value);
 
 void dmi_text_entity_attr_struct(
-       dmi_text_session_t     *session,
+        dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
-        const void            *value);
+        const void            *value,
+        unsigned int           depth);
 
 void dmi_text_entity_attr_value(
         dmi_text_session_t    *session,

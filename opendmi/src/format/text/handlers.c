@@ -124,12 +124,13 @@ bool dmi_text_entity_start(dmi_text_session_t *session, const dmi_entity_t *enti
 
     dmi_format_set_iter_t iter;
     const dmi_format_flag_t *flag;
-    const char *separator = "";
+    const char *separator = " ";
 
     dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
                               sizeof(entity->state) * CHAR_BIT);
 
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tState: ");
+    // Values are preceded by separators, so that there are no trailing spaces
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tState:");
 
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         if (not flag->value)
@@ -155,21 +156,30 @@ bool dmi_text_entity_attr(
     assert(attr != nullptr);
     assert(value != nullptr);
 
-    if (dmi_text_is_hidden(session, attr))
+    // Value of variant attribute is described by the variant
+    const dmi_attribute_t *variant = dmi_attribute_resolve(attr, entity->info);
+    if (variant == nullptr)
         return true;
 
-    // Print attribute name
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t%s: ", attr->params.name);
+    value = dmi_member_ptr(entity->info, variant->value, dmi_data_t);
+
+    if (dmi_text_is_hidden(session, variant))
+        return true;
+
+    // Print attribute name, values are preceded by spaces themselves
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t%s:", attr->params.name);
 
     // Print attribute value
-    if (not dmi_member_is_present(attr->counter)) {
-        if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-            dmi_text_entity_attr_struct(session, attr, value);
+    if (not dmi_member_is_present(variant->counter)) {
+        if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
+            dmi_text_entity_attr_struct(session, variant, value, 2);
         else
-            dmi_text_entity_attr_value(session, attr, value, nullptr);
+            dmi_text_entity_attr_value(session, variant, value, nullptr);
     } else {
-        dmi_text_entity_attr_array(session, attr, entity->info, value);
+        dmi_text_entity_attr_array(session, variant, entity->info, value);
     }
+
+    dmi_text_entity_attr_changes(session, entity, attr);
 
     return true;
 }
@@ -189,13 +199,13 @@ void dmi_text_entity_attr_array(
     const dmi_data_t *ptr;
 
     dmi_format_array_iter_init(&iter, attr, info, value);
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%zu items\n", iter.count);
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %zu items\n", iter.count);
 
     while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%zu: ", iter.index);
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%zu:", iter.index);
 
         if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-            dmi_text_entity_attr_struct(session, attr, ptr);
+            dmi_text_entity_attr_struct(session, attr, ptr, 3);
         } else {
             const char *descr = nullptr;
 
@@ -214,7 +224,8 @@ void dmi_text_entity_attr_array(
 void dmi_text_entity_attr_struct(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
-        const void            *value)
+        const void            *value,
+        unsigned int           depth)
 {
     assert(session != nullptr);
     assert(attr != nullptr);
@@ -224,13 +235,19 @@ void dmi_text_entity_attr_struct(
 
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
     for (child_attr = attr->params.attrs; child_attr->params.name; child_attr++) {
-        const dmi_data_t *ptr = dmi_member_ptr(value, child_attr->value, dmi_data_t);
-
-        if (dmi_text_is_hidden(session, child_attr))
+        // Value of variant attribute is described by the variant
+        const dmi_attribute_t *child = dmi_attribute_resolve(child_attr, value);
+        if (child == nullptr)
             continue;
 
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t\t%s: ", child_attr->params.name);
-        dmi_text_entity_attr_value(session, child_attr, ptr, nullptr);
+        const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
+
+        if (dmi_text_is_hidden(session, child))
+            continue;
+
+        // Fields are indented one level deeper than the structure
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s:", (int)depth, "\t\t\t\t", child_attr->params.name);
+        dmi_text_entity_attr_value(session, child, ptr, nullptr);
     }
 }
 
@@ -246,20 +263,25 @@ void dmi_text_entity_attr_value(
 
     char *text;
 
+    // Values are preceded by a space, which is omitted for empty values, so
+    // that there are no trailing spaces
     if (dmi_attribute_is_unspecified(attr, value)) {
-        dmi_text_printf(session, DMI_TTY_COLOR_GREY, "<unspecified>\n");
+        dmi_text_printf(session, DMI_TTY_COLOR_GREY, " <unspecified>\n");
         return;
     }
     if (dmi_attribute_is_unknown(attr, value)) {
-        dmi_text_printf(session, DMI_TTY_COLOR_OLIVE, "<unknown>\n");
+        dmi_text_printf(session, DMI_TTY_COLOR_OLIVE, " <unknown>\n");
         return;
     }
 
     text = dmi_attribute_format(session->context, attr, value, true);
     if (text == nullptr) {
-        dmi_text_printf(session, DMI_TTY_COLOR_RED, "<error>\n");
+        dmi_text_printf(session, DMI_TTY_COLOR_RED, " <error>\n");
         return;
     }
+
+    if ((*text != 0) or (attr->params.unit != nullptr))
+        fputc(' ', session->stream);
 
     // Adjust color of boolean values
     dmi_tty_color_t color = DMI_TTY_COLOR_NONE;
@@ -326,16 +348,19 @@ bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t 
 
         // Identifiers named by their range only are told apart by value
         if (type == DMI_NAME_TYPE_EXACT) {
-            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s: ", name);
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s:", name);
         } else {
-            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s (0x%04X): ",
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%s (0x%04X):",
                             name ? name : "<invalid>", (unsigned)property->ident);
         }
 
-        if (property->value != nullptr)
-            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s\n", property->value);
+        // Empty values are not preceded by a space
+        if (property->value == nullptr)
+            dmi_text_printf(session, DMI_TTY_COLOR_GREY, " <unspecified>\n");
+        else if (*property->value != 0)
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %s\n", property->value);
         else
-            dmi_text_printf(session, DMI_TTY_COLOR_GREY, "<unspecified>\n");
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
     }
 
     return true;

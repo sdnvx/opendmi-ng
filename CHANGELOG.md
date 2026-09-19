@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add basic C++ API
 - Add SysFS module skeleton
 - Add Boot Integrity Services (BIS) entry point information decoder
+- Add tests for intel RSD network card information decoder
 - Add support for binary attributes
+- Add support for variant attributes
 - Add support for string properties (including linking)
 - Show MAC address of Intel RSD network cards
 - Show string properties of structures in all output formats
@@ -35,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix false errors on memory device references to handle 0x0000 used as unspecified value
 - Fix crash on memory controller referring to undecoded memory module
 - Fix structure version shown for structures shorter than the minimum length
+- Fix indentation of nested structures in text output
+- Remove trailing spaces in text output
 
 ## [0.4.1] - September 18, 2026
 

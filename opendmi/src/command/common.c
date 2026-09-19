@@ -292,6 +292,10 @@ bool dmi_print_entity(
                     continue;
             }
 
+            // Variant attribute has no value if no variant matches
+            if (dmi_attribute_resolve(attr, entity->info) == nullptr)
+                continue;
+
             if (not format->handlers.entity_attr(session, entity, attr, value))
                 return false;
         }

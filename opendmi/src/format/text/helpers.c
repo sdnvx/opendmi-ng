@@ -67,17 +67,16 @@ void dmi_text_hex_data(dmi_text_session_t *session, const void *data, size_t len
 
     const unsigned char *ptr = dmi_cast(ptr, data);
 
+    // Bytes are separated by spaces, lines have no trailing ones
     for (size_t i = 0; i < length; i++) {
-        char sp = ' ';
-
         if (i % 0x10 == 0)
             fprintf(session->stream, "\t\t");
-        if (i % 0x10 == 0x0f)
-            sp = '\n';
+        else
+            fputc(' ', session->stream);
 
-        fprintf(session->stream, "%02X%c", (int)ptr[i], sp);
+        fprintf(session->stream, "%02X", (int)ptr[i]);
+
+        if ((i % 0x10 == 0x0f) or (i + 1 == length))
+            fputc('\n', session->stream);
     }
-
-    if (length % 0x10 != 0)
-        fprintf(session->stream, "\n");
 }

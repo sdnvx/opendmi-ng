@@ -253,6 +253,31 @@ size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info)
     return (rv <= SIZE_MAX) ? (size_t)rv : 0;
 }
 
+const dmi_attribute_t *dmi_attribute_resolve(const dmi_attribute_t *attr, const void *info)
+{
+    assert(attr != nullptr);
+    assert(info != nullptr);
+
+    if (attr->type != DMI_ATTRIBUTE_TYPE_VARIANT)
+        return attr;
+
+    intmax_t selector = dmi_attribute_read_int(dmi_member_ptr(info, attr->value, void), attr->value.size);
+    const dmi_attribute_t *fallback = nullptr;
+
+    for (const dmi_attribute_variant_t *variant = attr->params.variants;
+         variant->attribute.type != DMI_ATTRIBUTE_TYPE_NONE;
+         variant++)
+    {
+        if (variant->is_default)
+            fallback = &variant->attribute;
+        else if (variant->selector == selector)
+            return &variant->attribute;
+    }
+
+    return fallback;
+}
+
+
 char *dmi_attribute_format(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,

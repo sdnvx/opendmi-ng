@@ -197,6 +197,13 @@ bool dmi_json_entity_attr(
     assert(attr != nullptr);
     assert(value != nullptr);
 
+    // Value of variant attribute is described by the variant
+    const dmi_attribute_t *variant = dmi_attribute_resolve(attr, entity->info);
+    if (variant == nullptr)
+        return true;
+
+    value = dmi_member_ptr(entity->info, variant->value, dmi_data_t);
+
     bool success = false;
 
     do {
@@ -205,13 +212,13 @@ bool dmi_json_entity_attr(
         if (not dmi_json_label(session, attr->params.code))
             break;
 
-        if (not dmi_member_is_present(attr->counter)) {
-            if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-                result = dmi_json_entity_attr_struct(session, attr, value);
+        if (not dmi_member_is_present(variant->counter)) {
+            if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
+                result = dmi_json_entity_attr_struct(session, variant, value);
             else
-                result = dmi_json_entity_attr_value(session, attr, value);
+                result = dmi_json_entity_attr_value(session, variant, value);
         } else {
-            result = dmi_json_entity_attr_array(session, attr, entity->info, value);
+            result = dmi_json_entity_attr_array(session, variant, entity->info, value);
         }
 
         if (not result)
@@ -275,11 +282,16 @@ bool dmi_json_entity_attr_struct(
         return false;
 
     for (child_attr = attr->params.attrs; child_attr->params.name; child_attr++) {
-        const dmi_data_t *ptr = dmi_member_ptr(value, child_attr->value, dmi_data_t);
+        // Value of variant attribute is described by the variant
+        const dmi_attribute_t *child = dmi_attribute_resolve(child_attr, value);
+        if (child == nullptr)
+            continue;
+
+        const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
 
         bool result =
             dmi_json_label(session, child_attr->params.code) and
-            dmi_json_entity_attr_value(session, child_attr, ptr);
+            dmi_json_entity_attr_value(session, child, ptr);
 
         if (not result)
             return false;

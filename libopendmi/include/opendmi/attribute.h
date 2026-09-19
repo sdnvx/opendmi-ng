@@ -12,9 +12,10 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/version.h>
 
-typedef struct dmi_attribute        dmi_attribute_t;
-typedef struct dmi_attribute_params dmi_attribute_params_t;
-typedef struct dmi_attribute_ops    dmi_attribute_ops_t;
+typedef struct dmi_attribute         dmi_attribute_t;
+typedef struct dmi_attribute_params  dmi_attribute_params_t;
+typedef struct dmi_attribute_ops     dmi_attribute_ops_t;
+typedef struct dmi_attribute_variant dmi_attribute_variant_t;
 
 typedef char *dmi_attribute_format_fn(
         dmi_context_t         *context,
@@ -40,7 +41,15 @@ typedef enum dmi_attribute_type
     DMI_ATTRIBUTE_TYPE_VERSION,
     DMI_ATTRIBUTE_TYPE_DATE,
     DMI_ATTRIBUTE_TYPE_UUID,
-    DMI_ATTRIBUTE_TYPE_BINARY, ///< Binary data, stored as `dmi_binary_t`
+    DMI_ATTRIBUTE_TYPE_BINARY,
+
+    /**
+     * Value, which representation depends on other data. The attribute value
+     * is a selector, set by the decoder or the link handler, and the value is
+     * described by the variant matching the selector, see
+     * `dmi_attribute_resolve()`.
+     */
+    DMI_ATTRIBUTE_TYPE_VARIANT
 } dmi_attribute_type_t;
 
 /**
@@ -122,6 +131,11 @@ struct dmi_attribute_params
     const dmi_attribute_t *attrs;
 
     /**
+     * @brief Variants of variant attribute, terminated by `DMI_VARIANT_NULL`.
+     */
+    const dmi_attribute_variant_t *variants;
+
+    /**
      * @brief Minimum SMBIOS version supporting this attribute.
      */
     dmi_version_t level;
@@ -133,6 +147,28 @@ struct dmi_attribute
     dmi_member_ref_t counter;
     dmi_attribute_type_t type;
     dmi_attribute_params_t params;
+};
+
+/**
+ * @brief Variant of variant attribute.
+ */
+struct dmi_attribute_variant
+{
+    /**
+     * @brief Selector value, for which the variant is used.
+     */
+    intmax_t selector;
+
+    /**
+     * @brief Set if the variant is used when no other variant matches.
+     */
+    bool is_default;
+
+    /**
+     * @brief Attribute describing the value. Its code, name and level are
+     * not used.
+     */
+    dmi_attribute_t attribute;
 };
 
 #define DMI_ATTRIBUTE(__entity, __member, __type, ...) \
@@ -158,6 +194,40 @@ struct dmi_attribute
         .type    = DMI_ATTRIBUTE_TYPE_NONE, \
         .params  = {}                       \
     }
+
+/**
+ * @brief Variant attribute, which value is described by one of @p __variants
+ * depending on the @p __selector member.
+ *
+ * Code, name and level of the variant attribute are used for all variants.
+ */
+#define DMI_ATTRIBUTE_VARIANT(__entity, __selector, ...)  \
+    {                                                    \
+        .value   = dmi_member(__entity, __selector),     \
+        .counter = DMI_MEMBER_NULL,                      \
+        .type    = DMI_ATTRIBUTE_TYPE_VARIANT,           \
+        .params  = __VA_ARGS__                           \
+    }
+
+/**
+ * @brief Variant used if the selector is equal to @p __selector.
+ */
+#define DMI_VARIANT(__selector, __entity, __member, __type, ...)             \
+    {                                                                       \
+        .selector  = (__selector),                                          \
+        .attribute = DMI_ATTRIBUTE(__entity, __member, __type, __VA_ARGS__) \
+    }
+
+/**
+ * @brief Variant used if no other variant matches the selector.
+ */
+#define DMI_VARIANT_DEFAULT(__entity, __member, __type, ...)                 \
+    {                                                                       \
+        .is_default = true,                                                 \
+        .attribute  = DMI_ATTRIBUTE(__entity, __member, __type, __VA_ARGS__) \
+    }
+
+#define DMI_VARIANT_NULL { .attribute = DMI_ATTRIBUTE_NULL }
 
 __BEGIN_DECLS
 
@@ -242,6 +312,22 @@ __dmi_api uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const vo
  *         counter or its width is not supported.
  */
 __dmi_api size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
+
+/**
+ * @brief Get attribute describing the value of variant attribute.
+ *
+ * Attributes of other types describe their values themselves. Values of
+ * variant attributes must be formatted with the returned attribute, since
+ * the value of variant attribute itself is its selector.
+ *
+ * @param[in] attr Attribute descriptor.
+ * @param[in] info Decoded structure containing the attribute.
+ *
+ * @return @p attr if it is not a variant attribute, the variant matching the
+ *         selector or the default variant otherwise, or @c nullptr if there
+ *         is no such variant, and the attribute has no value.
+ */
+__dmi_api const dmi_attribute_t *dmi_attribute_resolve(const dmi_attribute_t *attr, const void *info);
 
 /**
  * @brief Formats an attribute value as a newly allocated string.
