@@ -171,6 +171,24 @@ __dmi_api bool dmi_stream_has(const dmi_stream_t *stream, size_t length);
  */
 __dmi_api void dmi_stream_reset(dmi_stream_t *stream);
 
+/**
+ * @brief Decode binary data from the stream at the current position.
+ *
+ * Data is not copied: @p value refers to the data read by the stream, which is
+ * the copy of the structure body with additional information applied, if
+ * there is any. The data remains valid as long as the entity exists. The
+ * stream cursor is advanced.
+ *
+ * @param[in,out] stream Stream to read from.
+ * @param[in]     length Number of bytes to reference, may be zero.
+ * @param[out]    value  Binary data descriptor. Data pointer is set to
+ *                       @c nullptr if @p length is zero.
+ *
+ * @return `true` on success, `false` if there are fewer than @p length bytes
+ *         remaining in the stream.
+ */
+__dmi_api bool dmi_stream_decode_bin(dmi_stream_t *stream, size_t length, dmi_binary_t *value);
+
 __END_DECLS
 
 /**

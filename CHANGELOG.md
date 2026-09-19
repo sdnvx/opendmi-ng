@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add basic C++ API
 - Add SysFS module skeleton
 - Add Boot Integrity Services (BIS) entry point information decoder
+- Add support for binary attributes
 - Add linking of string properties to their parent structures
 - Add `dmi_entity_property()` function
 - Show string properties of structures in all output formats

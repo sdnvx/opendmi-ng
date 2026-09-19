@@ -68,6 +68,10 @@ static void test_stream_skip(void **pstate);
 static void test_stream_skip_to_end(void **pstate);
 static void test_stream_skip_out_of_bounds(void **pstate);
 
+static void test_stream_decode_bin(void **pstate);
+static void test_stream_decode_bin_out_of_bounds(void **pstate);
+static void test_stream_decode_bin_overlay(void **pstate);
+
 static void test_stream_remaining(void **pstate);
 static void test_stream_remaining_null(void **pstate);
 
@@ -106,6 +110,10 @@ int main(void)
         cmocka_unit_test(test_stream_skip),
         cmocka_unit_test(test_stream_skip_to_end),
         cmocka_unit_test(test_stream_skip_out_of_bounds),
+
+        cmocka_unit_test(test_stream_decode_bin),
+        cmocka_unit_test(test_stream_decode_bin_out_of_bounds),
+        cmocka_unit_test(test_stream_decode_bin_overlay),
 
         cmocka_unit_test(test_stream_remaining),
         cmocka_unit_test(test_stream_remaining_null),
@@ -349,6 +357,71 @@ static void test_stream_skip_out_of_bounds(void **pstate)
 
     assert_false(dmi_stream_skip(&stream, TEST_ENTITY_LENGTH + 1));
     assert_uint_equal(stream.position, 0);
+}
+
+static void test_stream_decode_bin(void **pstate)
+{
+    dmi_stream_t stream;
+    dmi_binary_t value;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_stream_initialize(&stream, state->entity);
+
+    dmi_stream_seek(&stream, TEST_BODY_OFFSET);
+
+    // Data is referenced in place, and the cursor is advanced
+    assert_true(dmi_stream_decode_bin(&stream, 3, &value));
+    assert_ptr_equal(value.data, state->entity->data + TEST_BODY_OFFSET);
+    assert_uint_equal(value.length, 3);
+    assert_uint_equal(value.data[2], 0x33);
+    assert_uint_equal(stream.position, TEST_BODY_OFFSET + 3);
+    assert_uint_equal(stream.remaining, TEST_BODY_SIZE - 3);
+
+    // Empty data has no pointer
+    assert_true(dmi_stream_decode_bin(&stream, 0, &value));
+    assert_null(value.data);
+    assert_uint_equal(value.length, 0);
+    assert_uint_equal(stream.position, TEST_BODY_OFFSET + 3);
+}
+
+static void test_stream_decode_bin_out_of_bounds(void **pstate)
+{
+    dmi_stream_t stream;
+    dmi_binary_t value = {};
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_stream_initialize(&stream, state->entity);
+
+    assert_false(dmi_stream_decode_bin(&stream, TEST_ENTITY_LENGTH + 1, &value));
+    assert_null(value.data);
+    assert_uint_equal(stream.position, 0);
+
+    assert_false(dmi_stream_decode_bin(&stream, 1, nullptr));
+}
+
+static void test_stream_decode_bin_overlay(void **pstate)
+{
+    dmi_stream_t stream;
+    dmi_binary_t value;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_entity_t *entity = state->entity;
+
+    dmi_data_t overlay[TEST_ENTITY_LENGTH];
+    memcpy(overlay, entity->data, sizeof(overlay));
+    overlay[TEST_BODY_OFFSET] = 0xAA;
+
+    // Data is referenced in the copy of structure body with additional
+    // information applied
+    entity->overlay = overlay;
+    dmi_stream_initialize(&stream, entity);
+    entity->overlay = nullptr;
+
+    dmi_stream_seek(&stream, TEST_BODY_OFFSET);
+
+    assert_true(dmi_stream_decode_bin(&stream, 1, &value));
+    assert_ptr_equal(value.data, overlay + TEST_BODY_OFFSET);
+    assert_uint_equal(value.data[0], 0xAA);
 }
 
 static void test_stream_remaining(void **pstate)

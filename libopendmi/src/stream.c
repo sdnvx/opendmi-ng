@@ -76,6 +76,23 @@ bool dmi_stream_skip(dmi_stream_t *stream, size_t length)
     return true;
 }
 
+bool dmi_stream_decode_bin(dmi_stream_t *stream, size_t length, dmi_binary_t *value)
+{
+    if ((stream == nullptr) or (value == nullptr))
+        return false;
+
+    size_t position = stream->position;
+
+    // Data is referenced in place, so the cursor is only advanced
+    if (not dmi_stream_skip(stream, length))
+        return false;
+
+    value->data   = (length > 0) ? stream->data + position : nullptr;
+    value->length = length;
+
+    return true;
+}
+
 size_t dmi_stream_remaining(const dmi_stream_t *stream)
 {
     if (stream == nullptr)

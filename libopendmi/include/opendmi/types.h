@@ -33,6 +33,22 @@ typedef uint8_t dmi_data_t;
 #define dmi_data(x) ((const dmi_data_t *)(x))
 
 /**
+ * @brief Binary data of variable length, referenced in place.
+ */
+typedef struct dmi_binary
+{
+    /**
+     * @brief Pointer to the data, @c nullptr if the data is empty.
+     */
+    const dmi_data_t *data;
+
+    /**
+     * @brief Data length in bytes.
+     */
+    size_t length;
+} dmi_binary_t;
+
+/**
  * @brief SMBIOS BYTE type.
  */
 typedef uint8_t dmi_byte_t;
