@@ -209,11 +209,6 @@ struct dmi_context
     dmi_error_queue_t error_queue;
 
     /**
-     * @brief ICU4C resources.
-     */
-    void *resources;
-
-    /**
      * @brief Flags.
      */
     unsigned int flags;

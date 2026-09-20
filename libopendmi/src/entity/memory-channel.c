@@ -19,7 +19,7 @@ static void dmi_memory_channel_cleanup(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_memory_channel_type_names =
 {
-    .code  = "memory-channel-types",
+    .code  = "memory-channel-type",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_MEMORY_CHANNEL_TYPE_UNSPEC),
         DMI_NAME_OTHER(DMI_MEMORY_CHANNEL_TYPE_OTHER),

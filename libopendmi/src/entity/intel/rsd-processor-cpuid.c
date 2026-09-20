@@ -50,7 +50,7 @@ static const dmi_intel_rsd_cpuid_input_t dmi_intel_rsd_cpuid_extended[] = {
 
 const dmi_name_set_t dmi_intel_rsd_cpuid_subtype_names =
 {
-    .code  = "intel-rsd-cpuid-subtypes",
+    .code  = "intel-rsd-cpuid-subtype",
     .names = (const dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_CPUID_SUBTYPE_BASIC,

@@ -31,7 +31,7 @@ static bool dmi_processor_link(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_processor_type_names =
 {
-    .code  = "processor-types",
+    .code  = "processor-type",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_PROCESSOR_TYPE_UNSPEC),
         DMI_NAME_OTHER(DMI_PROCESSOR_TYPE_OTHER),
@@ -62,7 +62,7 @@ static const dmi_name_set_t dmi_processor_type_names =
 
 static const dmi_name_set_t dmi_processor_family_names =
 {
-    .code  = "processor-families",
+    .code  = "processor-family",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_PROCESSOR_FAMILY_UNSPEC),
         DMI_NAME_OTHER(DMI_PROCESSOR_FAMILY_OTHER),
@@ -834,7 +834,7 @@ static const dmi_name_set_t dmi_processor_family_names =
         },
         {
             .id   = DMI_PROCESSOR_FAMILY_RESERVED_1,
-            .code = "reserved",
+            .code = "reserved-k7-core-2",
             .name = "Reserved (AMD K7/Intel Core 2)"
         },
         {
@@ -1293,7 +1293,7 @@ static const dmi_name_set_t dmi_processor_family_names =
 
 static const dmi_name_set_t dmi_processor_status_names =
 {
-    .code  = "processor-statuses",
+    .code  = "processor-status",
     .names = (dmi_name_t[]){
         DMI_NAME_UNKNOWN(DMI_PROCESSOR_STATUS_UNKNOWN),
         {
@@ -1323,7 +1323,7 @@ static const dmi_name_set_t dmi_processor_status_names =
 
 static const dmi_name_set_t dmi_processor_voltage_names =
 {
-    .code  = "processor-voltages",
+    .code  = "processor-voltage",
     .names = (dmi_name_t[]){
         {
             .id   = 0,
@@ -1346,7 +1346,7 @@ static const dmi_name_set_t dmi_processor_voltage_names =
 
 static const dmi_name_set_t dmi_processor_upgrade_names =
 {
-    .code  = "processor-upgrades",
+    .code  = "processor-upgrade",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_PROCESSOR_UPGRADE_UNSPEC),
         DMI_NAME_OTHER(DMI_PROCESSOR_UPGRADE_OTHER),
@@ -1778,7 +1778,7 @@ static const dmi_name_set_t dmi_processor_upgrade_names =
 
 const dmi_name_set_t dmi_processor_features_names =
 {
-    .code  = "features",
+    .code  = "processor-feature",
     .names = (dmi_name_t[]){
         DMI_NAME_UNKNOWN(1),
         {
@@ -1830,7 +1830,7 @@ const dmi_name_set_t dmi_processor_features_names =
 //
 static const dmi_name_set_t dmi_processor_x86_feature_names =
 {
-    .code  = "processor-x86-features",
+    .code  = "processor-x86-feature",
     .names = (dmi_name_t[]){
         {
             .id   = 0,
@@ -2087,7 +2087,7 @@ const dmi_entity_spec_t dmi_processor_spec =
     .attributes      = (const dmi_attribute_t[]){
         DMI_ATTRIBUTE(dmi_processor_t, socket_designation, STRING, {
             .code    = "socket-designation",
-            .name    = "Socket Designation"
+            .name    = "Socket designation"
         }),
         DMI_ATTRIBUTE(dmi_processor_t, type, ENUM, {
             .code    = "type",
@@ -2157,19 +2157,19 @@ const dmi_entity_spec_t dmi_processor_spec =
         }),
         DMI_ATTRIBUTE(dmi_processor_t, external_clock, INTEGER, {
             .code    = "external-clock",
-            .name    = "External Clock",
+            .name    = "External clock",
             .unit    = DMI_UNIT_MHZ,
             .unknown = dmi_value_ptr((uint16_t)0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, maximum_speed, INTEGER, {
             .code    = "maximum-speed",
-            .name    = "Maximum Speed",
+            .name    = "Maximum speed",
             .unit    = DMI_UNIT_MHZ,
             .unknown = dmi_value_ptr((uint16_t)0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, current_speed, INTEGER, {
             .code    = "current-speed",
-            .name    = "Current Speed",
+            .name    = "Current speed",
             .unit    = DMI_UNIT_MHZ,
             .unknown = dmi_value_ptr((uint16_t)0)
         }),
@@ -2207,17 +2207,17 @@ const dmi_entity_spec_t dmi_processor_spec =
         }),
         DMI_ATTRIBUTE(dmi_processor_t, serial_number, STRING, {
             .code    = "serial-number",
-            .name    = "Serial Number",
+            .name    = "Serial number",
             .level   = DMI_VERSION(2, 3, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, asset_tag, STRING, {
             .code    = "asset-tag",
-            .name    = "Asset Tag",
+            .name    = "Asset tag",
             .level   = DMI_VERSION(2, 3, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, part_number, STRING, {
             .code    = "part-number",
-            .name    = "Part Number",
+            .name    = "Part number",
             .level   = DMI_VERSION(2, 3, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, features, SET, {
@@ -2228,31 +2228,31 @@ const dmi_entity_spec_t dmi_processor_spec =
         }),
         DMI_ATTRIBUTE(dmi_processor_t, core_count, INTEGER, {
             .code    = "core-count",
-            .name    = "Core Count",
+            .name    = "Core count",
             .unknown = dmi_value_ptr((uint16_t)0),
             .level   = DMI_VERSION(2, 5, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, core_enabled, INTEGER, {
             .code    = "core-enabled",
-            .name    = "Core Enabled",
+            .name    = "Enabled cores",
             .unknown = dmi_value_ptr((uint16_t)0),
             .level   = DMI_VERSION(2, 5, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, thread_count, INTEGER, {
             .code    = "thread-count",
-            .name    = "Thread Count",
+            .name    = "Thread count",
             .unknown = dmi_value_ptr((uint16_t)0),
             .level   = DMI_VERSION(2, 5, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, thread_enabled, INTEGER, {
             .code    = "thread-enabled",
-            .name    = "Thread Enabled",
+            .name    = "Enabled threads",
             .unknown = dmi_value_ptr((uint16_t)0),
             .level   = DMI_VERSION(3, 6, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, socket_type, STRING, {
             .code    = "socket-type",
-            .name    = "Socket Type"
+            .name    = "Socket type"
         }),
         DMI_ATTRIBUTE_NULL
     },

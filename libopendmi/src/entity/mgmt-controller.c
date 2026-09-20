@@ -20,7 +20,7 @@ static void dmi_mgmt_controller_cleanup(dmi_entity_t *entity);
 
 const dmi_name_set_t dmi_mgmt_if_type_names =
 {
-    .code  = "mgmt-if-types",
+    .code  = "mgmt-if-type",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_MGMT_IF_TYPE_MCTP_KCS,
@@ -108,7 +108,7 @@ const dmi_name_set_t dmi_mgmt_if_type_names =
 
 const dmi_name_set_t dmi_mgmt_proto_names =
 {
-    .code  = "mgmt-protocols",
+    .code  = "mgmt-protocol",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_MGMT_PROTO_IPMI,
@@ -136,7 +136,7 @@ const dmi_name_set_t dmi_mgmt_proto_names =
 
 const dmi_name_set_t dmi_mgmt_nhi_device_type_names =
 {
-    .code   = "mgmt-nhi-device-types",
+    .code   = "mgmt-nhi-device-type",
     .names  = (dmi_name_t[]){
         {
             .id   = DMI_MGMT_NHI_DEVICE_TYPE_USB,
@@ -173,7 +173,7 @@ const dmi_name_set_t dmi_mgmt_nhi_device_type_names =
 
 const dmi_name_set_t dmi_mgmt_nhi_characteristic_names =
 {
-    .code  = "mgmt-nhi-characteristics",
+    .code  = "mgmt-nhi-characteristic",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING,
@@ -186,7 +186,7 @@ const dmi_name_set_t dmi_mgmt_nhi_characteristic_names =
 
 const dmi_name_set_t dmi_mgmt_redfish_ip_assignment_names =
 {
-    .code  = "mgmt-redfish-ip-assignments",
+    .code  = "mgmt-redfish-ip-assignment",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_MGMT_REDFISH_IP_ASSIGNMENT_UNKNOWN,
@@ -219,7 +219,7 @@ const dmi_name_set_t dmi_mgmt_redfish_ip_assignment_names =
 
 const dmi_name_set_t dmi_mgmt_redfish_ip_format_names =
 {
-    .code  = "mgmt-redfish-ip-formats",
+    .code  = "mgmt-redfish-ip-format",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_MGMT_REDFISH_IP_FORMAT_UNKNOWN,

@@ -39,9 +39,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Intel RSD processor CPUID and physical device mapping decoders
 - Add Sun extended processor, port, memory array, memory device and PCIe root complex decoders
 - Add module structure specifications to the reference manual
+- Add ICU4C resources for en_US and ru_RU locales
+- Translate structure and attribute names to the locale
+- Translate measurement units and boolean values to the locale
+- Translate the header of text output to the locale
+- Translate error messages and messages of the tool to the locale
+- Translate the texts of unspecified, unknown and invalid values to the locale
+- Translate command line help to the locale
 
 ### Changed
 
+- Lowercase the names of command line arguments
 - Move internal definitions from `<opendmi/defs.h>` to a private header
 - Remove unused compatibility macros from public headers
 - Report all broken references when linking instead of stopping at the first one
@@ -57,6 +65,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Treat broken references as link failures in all structures, fatal only in strict mode
 - Keep management controller interface and protocol record data as `dmi_binary_t`
 - Take DMI context instead of logging handler in logging macros
+- Unify capitalization of printable attribute names
+- Replace measurement unit strings with the `dmi_unit_t` enumeration
+- Serialize measurement units by their code names in XML output
+- Require the internationalization component of ICU4C for plural rules
+- Replace error message table with the `dmi_error_names` name set, which gives error codes their own names
 
 ### Fixed
 
@@ -68,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix decoding of additional information values longer than 32 bytes
 - Fix indentation of nested structures in text output
 - Fix indentation of nested flags in text output
+- Fix ICU4C initialization
 - Remove trailing spaces in text output
 
 ## [0.4.1] - September 18, 2026

@@ -15,7 +15,7 @@ static bool dmi_system_boot_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_system_boot_status_names =
 {
-    .code = "system-boot-statuses",
+    .code = "system-boot-status",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_BOOT_STATUS_NO_ERRORS_DETECTED,

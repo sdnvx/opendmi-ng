@@ -20,7 +20,7 @@ static void dmi_memory_module_decode_size(dmi_memory_module_size_t *psize, dmi_b
 
 const dmi_name_set_t dmi_memory_module_type_names =
 {
-    .code  = "memory-module-types",
+    .code  = "memory-module-type",
     .names = (const dmi_name_t[]){
         DMI_NAME_OTHER(0),
         DMI_NAME_UNKNOWN(1),
@@ -75,7 +75,7 @@ const dmi_name_set_t dmi_memory_module_type_names =
 
 static const dmi_name_set_t dmi_memory_module_size_status_names =
 {
-    .code = "memory-module-size-statuses",
+    .code = "memory-module-size-status",
     .names = (const dmi_name_t[]){
         {
             .id   = DMI_MEMORY_MODULE_SIZE_STATUS_INVALID,
@@ -108,7 +108,7 @@ static const dmi_name_set_t dmi_memory_module_size_status_names =
 
 static const dmi_name_set_t dmi_memory_module_error_names =
 {
-    .code  = "memory-module-errors",
+    .code  = "memory-module-error",
     .names = (const dmi_name_t[]){
         {
             .id   = 0,

@@ -11,7 +11,7 @@
 
 static const dmi_name_set_t dmi_log_level_names =
 {
-    .code  = "log-levels",
+    .code  = "log-level",
     .names = (const dmi_name_t[]) {
         { .id = DMI_LOG_ERROR,   .code = "error",   .name = "ERROR"   },
         { .id = DMI_LOG_WARNING, .code = "warning", .name = "WARNING" },

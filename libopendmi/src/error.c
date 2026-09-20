@@ -10,6 +10,7 @@
 #include <opendmi/error.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
+#include <opendmi/utils/name.h>
 #include <opendmi/utils/string.h>
 
 static size_t dmi_error_slot_get(dmi_error_queue_t *queue);
@@ -20,44 +21,53 @@ static inline size_t dmi_error_queue_last_slot(const dmi_error_queue_t *queue)
     return (queue->first + queue->count - 1) % DMI_ERROR_MAX_DEPTH;
 }
 
-static const char *dmi_error_messages[__DMI_ERROR_COUNT] =
+//
+// Codes of errors are machine-readable, while the messages are printable
+// descriptions, which are translated to the locale.
+//
+const dmi_name_set_t dmi_error_names =
 {
-    [DMI_ERROR_NONE]                  = "Success",
-    [DMI_ERROR_NULL_ARGUMENT]         = "Argument is NULL",
-    [DMI_ERROR_INVALID_ARGUMENT]      = "Invalid argument",
-    [DMI_ERROR_INVALID_STATE]         = "Invalid state",
-    [DMI_ERROR_FILE_OPEN]             = "Unable to open file",
-    [DMI_ERROR_FILE_STAT]             = "Unable to stat file",
-    [DMI_ERROR_FILE_READ]             = "Unable to read file",
-    [DMI_ERROR_FILE_WRITE]            = "Unable to write file",
-    [DMI_ERROR_FILE_DUP]              = "Unable to clone file handle",
-    [DMI_ERROR_FILE_MAP]              = "Unable to map file",
-    [DMI_ERROR_EPS_NOT_FOUND]         = "Entry point structure not found",
-    [DMI_ERROR_UNKNOWN_EPS_ANCHOR]    = "Unknown entry point structure anchor",
-    [DMI_ERROR_INVALID_EPS_LENGTH]    = "Invalid entry point structure length",
-    [DMI_ERROR_INVALID_EPS_CHECKSUM]  = "Invalid entry point structure checksum",
-    [DMI_ERROR_INVALID_ENTITY_ADDR]   = "Invalid structure address",
-    [DMI_ERROR_INVALID_ENTITY_LENGTH] = "Invalid structure length",
-    [DMI_ERROR_INVALID_ENTITY_TYPE]   = "Invalid structure type",
-    [DMI_ERROR_ENTITY_TRUNCATED]      = "Truncated structure",
-    [DMI_ERROR_ENTITY_DECODE]         = "Unable to decode structure",
-    [DMI_ERROR_ENTITY_REGISTER]       = "Unable to register structure",
-    [DMI_ERROR_ENTITY_LINK]           = "Unable to link structure",
-    [DMI_ERROR_ENTITY_NOT_FOUND]      = "Structure not found",
-    [DMI_ERROR_STRING_NOT_FOUND]      = "String not found",
-    [DMI_ERROR_DUPLICATE_ENTRY]       = "Duplicate entry",
-    [DMI_ERROR_DUPLICATE_HANDLE]      = "Duplicate handle",
-    [DMI_ERROR_NO_MORE_ENTRIES]       = "No more entries",
-    [DMI_ERROR_MISSING_FIRMWARE_INFO] = "No platform firmware information structure is present",
-    [DMI_ERROR_MODULE_CONFLICT]       = "Module has conflicts",
-    [DMI_ERROR_SERVICE_UNAVAILABLE]   = "Service unavailable",
-    [DMI_ERROR_OUT_OF_MEMORY]         = "Out of memory",
-    [DMI_ERROR_SYSTEM]                = "System error",
-    [DMI_ERROR_INTERNAL]              = "Internal error",
-    [DMI_ERROR_BACKEND_INIT]          = "Unable to initialize backend",
-    [DMI_ERROR_CONTEXT_OPEN]          = "Unable to open context",
-    [DMI_ERROR_INVALID_DUMP]          = "Invalid SMBIOS dump",
-    [DMI_ERROR_INVALID_OVERLAY]       = "Invalid additional information entry"
+    .code  = "error",
+    .name  = "Error reasons",
+    .names = (const dmi_name_t[]){
+        { DMI_ERROR_NONE,                  "none",                  "Success" },
+        { DMI_ERROR_NULL_ARGUMENT,         "null-argument",         "Argument is NULL" },
+        { DMI_ERROR_INVALID_ARGUMENT,      "invalid-argument",      "Invalid argument" },
+        { DMI_ERROR_INVALID_STATE,         "invalid-state",         "Invalid state" },
+        { DMI_ERROR_FILE_OPEN,             "file-open",             "Unable to open file" },
+        { DMI_ERROR_FILE_STAT,             "file-stat",             "Unable to stat file" },
+        { DMI_ERROR_FILE_READ,             "file-read",             "Unable to read file" },
+        { DMI_ERROR_FILE_WRITE,            "file-write",            "Unable to write file" },
+        { DMI_ERROR_FILE_DUP,              "file-dup",              "Unable to clone file handle" },
+        { DMI_ERROR_FILE_MAP,              "file-map",              "Unable to map file" },
+        { DMI_ERROR_EPS_NOT_FOUND,         "eps-not-found",         "Entry point structure not found" },
+        { DMI_ERROR_UNKNOWN_EPS_ANCHOR,    "unknown-eps-anchor",    "Unknown entry point structure anchor" },
+        { DMI_ERROR_INVALID_EPS_LENGTH,    "invalid-eps-length",    "Invalid entry point structure length" },
+        { DMI_ERROR_INVALID_EPS_CHECKSUM,  "invalid-eps-checksum",  "Invalid entry point structure checksum" },
+        { DMI_ERROR_INVALID_ENTITY_ADDR,   "invalid-entity-addr",   "Invalid structure address" },
+        { DMI_ERROR_INVALID_ENTITY_LENGTH, "invalid-entity-length", "Invalid structure length" },
+        { DMI_ERROR_INVALID_ENTITY_TYPE,   "invalid-entity-type",   "Invalid structure type" },
+        { DMI_ERROR_ENTITY_TRUNCATED,      "entity-truncated",      "Truncated structure" },
+        { DMI_ERROR_ENTITY_DECODE,         "entity-decode",         "Unable to decode structure" },
+        { DMI_ERROR_ENTITY_REGISTER,       "entity-register",       "Unable to register structure" },
+        { DMI_ERROR_ENTITY_LINK,           "entity-link",           "Unable to link structure" },
+        { DMI_ERROR_ENTITY_NOT_FOUND,      "entity-not-found",      "Structure not found" },
+        { DMI_ERROR_STRING_NOT_FOUND,      "string-not-found",      "String not found" },
+        { DMI_ERROR_DUPLICATE_ENTRY,       "duplicate-entry",       "Duplicate entry" },
+        { DMI_ERROR_DUPLICATE_HANDLE,      "duplicate-handle",      "Duplicate handle" },
+        { DMI_ERROR_NO_MORE_ENTRIES,       "no-more-entries",       "No more entries" },
+        { DMI_ERROR_MISSING_FIRMWARE_INFO, "missing-firmware-info", "No platform firmware information structure is present" },
+        { DMI_ERROR_MODULE_CONFLICT,       "module-conflict",       "Module has conflicts" },
+        { DMI_ERROR_SERVICE_UNAVAILABLE,   "service-unavailable",   "Service unavailable" },
+        { DMI_ERROR_OUT_OF_MEMORY,         "out-of-memory",         "Out of memory" },
+        { DMI_ERROR_SYSTEM,                "system",                "System error" },
+        { DMI_ERROR_INTERNAL,              "internal",              "Internal error" },
+        { DMI_ERROR_BACKEND_INIT,          "backend-init",          "Unable to initialize backend" },
+        { DMI_ERROR_CONTEXT_OPEN,          "context-open",          "Unable to open context" },
+        { DMI_ERROR_INVALID_DUMP,          "invalid-dump",          "Invalid SMBIOS dump" },
+        { DMI_ERROR_INVALID_OVERLAY,       "invalid-overlay",       "Invalid additional information entry" },
+        DMI_NAME_NULL
+    }
 };
 
 static const dmi_error_t dmi_error_null =
@@ -71,10 +81,12 @@ static const dmi_error_t dmi_error_null =
 
 const char *dmi_error_message(dmi_error_code_t reason)
 {
-    if ((reason < 0) or (reason >= __DMI_ERROR_COUNT) or (dmi_error_messages[reason] == nullptr))
-        return "Unknown error";
+    const char *message = dmi_name_lookup(&dmi_error_names, reason);
 
-    return dmi_error_messages[reason];
+    if (message == nullptr)
+        return dmi_value_text("unknown-error", "Unknown error");
+
+    return message;
 }
 
 bool __dmi_error_raise(

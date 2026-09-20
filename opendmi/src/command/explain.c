@@ -4,17 +4,23 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <config.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
 #include <opendmi/context.h>
+#include <opendmi/internal.h>
+#include <opendmi/locale.h>
 #include <opendmi/utils/tty.h>
+#include <opendmi/utils/locale.h>
 #include <opendmi/command/explain.h>
 
 static void dmi_explain_usage(void);
 static int dmi_explain_main(dmi_context_t *context, int argc, char *argv[]);
 static const dmi_entity_spec_t *dmi_explain_find_entity(dmi_context_t *context, const char *code);
+static const char *dmi_explain_text(const char *code);
 
 static const dmi_option_set_t dmi_explain_options =
 {
@@ -77,9 +83,16 @@ static int dmi_explain_main(dmi_context_t *context, int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    dmi_tty_header("%s, type %d\n%s", spec->code, (int)spec->type, spec->name);
+    // Name of the type is translated, while the code is machine-readable
+    dmi_tty_header("%s, type %d\n%s", spec->code, (int)spec->type, dmi_spec_name(spec));
 
-    if (spec->description != nullptr) {
+    // Explanations are translated, and the built-in ones are used if there is
+    // no translation, or if the tool is built without ICU4C support
+    const char *text = dmi_explain_text(spec->code);
+
+    if (text != nullptr) {
+        printf("%s\n\n", text);
+    } else if (spec->description != nullptr) {
         const char **para;
 
         for (para = spec->description; *para != nullptr; para++) {
@@ -88,6 +101,14 @@ static int dmi_explain_main(dmi_context_t *context, int argc, char *argv[])
     }
 
     return EXIT_SUCCESS;
+}
+
+//
+// Look up the explanation of the structure type in the resources of the tool.
+//
+static const char *dmi_explain_text(const char *code)
+{
+    return dmi_resource_string(dmi_tool_resource(), code, "description");
 }
 
 static const dmi_entity_spec_t *dmi_explain_find_entity(dmi_context_t *context, const char *code)

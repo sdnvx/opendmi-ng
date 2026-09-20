@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include "../src/config.h"
+#include <config.h>
 
 #include <stdio.h>
 #include <stdlib.h>

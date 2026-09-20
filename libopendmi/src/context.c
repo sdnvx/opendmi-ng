@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include "config.h"
+#include <config.h>
 
 #if __has_include(<unistd.h>)
 #   include <unistd.h>
@@ -15,12 +15,6 @@
 #include <errno.h>
 #include <assert.h>
 #include <stdio.h>
-
-#ifdef ENABLE_ICU
-#   include <unicode/uclean.h>
-#   include <unicode/udata.h>
-#   include <unicode/ures.h>
-#endif // ENABLE_ICU
 
 #include <opendmi/context.h>
 #include <opendmi/entry.h>
@@ -256,10 +250,6 @@ static const dmi_entity_spec_t *dmi_entity_specs[] =
     [DMI_TYPE_END_OF_TABLE]            = &dmi_end_of_table_spec
 };
 
-#ifdef ENABLE_ICU
-    extern const char opendmi_dat[];
-#endif
-
 dmi_context_t *dmi_create(unsigned int flags)
 {
     bool success = false;
@@ -290,29 +280,6 @@ dmi_context_t *dmi_create(unsigned int flags)
             context->type_map[spec->type] = spec;
         }
 
-#       ifdef ENABLE_ICU
-            UErrorCode status = U_ZERO_ERROR;
-
-            u_init(&status);
-            if (U_FAILURE(status)) {
-                fprintf(stderr, "Unable to initialize ICU: %s\n", u_errorName(status));
-                break;
-            }
-
-            // Register resources package
-            udata_setAppData("opendmi", opendmi_dat, &status);
-            if (U_FAILURE(status)) {
-                fprintf(stderr, "Unable register resources package: %s\n", u_errorName(status));
-                break;
-            }
-
-            // Load i18n resources
-            context->resources = ures_open("opendmi", nullptr, &status);
-            if (U_FAILURE(status)) {
-                fprintf(stderr, "Unable to open resource bundle: %s\n", u_errorName(status));
-                break;
-            }
-#       endif
 
         success = true;
     } while (false);
@@ -529,17 +496,30 @@ const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type)
     return context->type_map[type];
 }
 
+const char *dmi_spec_name(const dmi_entity_spec_t *spec)
+{
+    if (spec == nullptr)
+        return nullptr;
+
+    // Names of structure types are translated, if the locale has a
+    // translation for the type
+    const char *translated = dmi_locale_string(spec->code, "name");
+
+    return (translated != nullptr) ? translated : spec->name;
+}
+
 const char *dmi_type_name(dmi_context_t *context, dmi_type_t type)
 {
-    const char *name;
     const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
 
     if (spec != nullptr)
-        name = spec->name;
-    else
-        name = type > 0x7F ? "OEM-specific" : "Unknown";
+        return dmi_spec_name(spec);
 
-    return name;
+    // Types of the modules which are not enabled have no specification of
+    // their own in the context
+    return (type > 0x7F)
+            ? dmi_value_text("oem-type", "OEM-specific")
+            : dmi_value_text("unknown-type", "Unknown");
 }
 
 dmi_log_t *dmi_get_logger(dmi_context_t *context)
@@ -629,12 +609,6 @@ void dmi_destroy(dmi_context_t *context)
     // Close and free context
     dmi_close(context);
     dmi_error_clear(context);
-
-#   ifdef ENABLE_ICU
-        // Close resources
-        if (context->resources != nullptr)
-            ures_close((UResourceBundle *)context->resources);
-#   endif
 
     dmi_vector_clear(&context->modules);
     dmi_free(context->type_map);

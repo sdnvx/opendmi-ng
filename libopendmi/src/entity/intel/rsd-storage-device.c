@@ -13,7 +13,7 @@ static bool dmi_intel_rsd_storage_device_decode(dmi_entity_t *entity);
 
 const dmi_name_set_t dmi_intel_rsd_storage_connector_names =
 {
-    .code  = "intel-rsd-storage-connectors",
+    .code  = "intel-rsd-storage-connector",
     .names = (const dmi_name_t[]){
         DMI_NAME_UNKNOWN(DMI_INTEL_RSD_STORAGE_CONNECTOR_UNKNOWN),
         {
@@ -52,7 +52,7 @@ const dmi_name_set_t dmi_intel_rsd_storage_connector_names =
 
 const dmi_name_set_t dmi_intel_rsd_storage_proto_names =
 {
-    .code  = "intel-rsd-storage-protocols",
+    .code  = "intel-rsd-storage-protocol",
     .names = (const dmi_name_t[]){
         DMI_NAME_UNKNOWN(DMI_INTEL_RSD_STORAGE_PROTO_UNKNOWN),
         {
@@ -81,7 +81,7 @@ const dmi_name_set_t dmi_intel_rsd_storage_proto_names =
 
 const dmi_name_set_t dmi_intel_rsd_storage_device_type_names =
 {
-    .code  = "intel-rsd-storage-device-types",
+    .code  = "intel-rsd-storage-device-type",
     .names = (const dmi_name_t[]){
         DMI_NAME_UNKNOWN(DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_UNKNOWN),
         {

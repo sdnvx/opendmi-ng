@@ -1,0 +1,419 @@
+// Resources of the tool: messages it prints, the plural forms of the words
+// they use, and explanations of SMBIOS structures shown by the `explain`
+// command.
+//
+// Messages are patterns of `dmi_message_format`(3), where `{0}` is an
+// argument itself, and `{0:word}` is the plural form of `word` selected by
+// the argument.
+//
+// Every structure type has a table of its own, named after the type code,
+// holding its description and, in the future, descriptions of its fields.
+
+root {
+    plural {
+        structure {
+            one { "structure" }
+            other { "structures" }
+        }
+        byte {
+            one { "byte" }
+            other { "bytes" }
+        }
+    }
+    entry {
+        version { "SMBIOS {0} present" }
+        vendor { "SMBIOS vendor: {0}" }
+        vendor-unknown { "SMBIOS vendor: unknown" }
+        size { "{0} {0:structure} occupying {1} {1:byte}" }
+        address { "Table at {0}" }
+    }
+    entity {
+        header { "Handle {0}, DMI type {1}, {2} {2:byte}" }
+    }
+    baseboard {
+        description {
+            "The information in this structure defines attributes of a system "
+            "baseboard (for example, a motherboard, planar, server blade, or other "
+            "standard system module).\n\nNote: If more than one Type 2 structure is "
+            "provided by an SMBIOS implementation, each structure shall include the "
+            "Number of Contained Object Handles and Contained Object Handles fields "
+            "to specify which system elements are contained on which boards. If a "
+            "single Type 2 structure is provided and the contained object information "
+            "is not present, or if no Type 2 structure is provided, all system "
+            "elements identified by the SMBIOS implementation are associated with a "
+            "single motherboard."
+        }
+    }
+    bis-entry-point {
+        description {
+            "Structure type 31 is reserved for use by the Boot Integrity Services "
+            "(BIS). See the Boot Integrity Services API Specification for details."
+        }
+    }
+    cache {
+        description {
+            "The information in this structure defines the attributes of CPU cache "
+            "device in the system. One structure is specified for each such device, "
+            "whether the device is internal to or external to the CPU module. Cache "
+            "modules can be associated with a processor structure in one or two ways "
+            "depending on the SMBIOS version."
+        }
+    }
+    chassis {
+        description {
+            "The information in this structure defines attributes of the system’s "
+            "mechanical enclosure(s). For example, if a system included a separate "
+            "enclosure for its peripheral devices, two structures would be returned: "
+            "one for the main system enclosure and the second for the peripheral "
+            "device enclosure. The additions to this structure in version 2.1 of this "
+            "specification support the population of the CIM_Chassis class."
+        }
+    }
+    cooling-device {
+        description {
+            "This structure describes the attributes for a cooling device in the "
+            "system. Each structure describes a single cooling device."
+        }
+    }
+    current-probe {
+        description {
+            "This structure describes the attributes for an electrical current probe "
+            "in the system. Each structure describes a single electrical current "
+            "probe."
+        }
+    }
+    firmware-inventory {
+        description {
+            "The information in this structure defines an inventory of firmware "
+            "components in the system. This can include firmware components such as "
+            "platform firmware, BMC, as well as firmware for other devices in the "
+            "system.\n\nThe information can be used by software to display the "
+            "firmware inventory in a uniform manner. It can also be used by a "
+            "management controller, such as a BMC, for remote system management. This "
+            "structure is not intended to replace other standard programmatic "
+            "interfaces for firmware updates.\n\nOne Type 45 structure is provided "
+            "for each firmware component."
+        }
+    }
+    firmware-language {
+        description {
+            "The information in this structure defines the installable language "
+            "attributes of the platform firmware."
+        }
+    }
+    group-associations {
+        description {
+            "The Group Associations structure is provided for OEMs who want to "
+            "specify the arrangement or hierarchy of certain components (including "
+            "other Group Associations) within the system. For example, you can use  "
+            "the Group Associations structure to indicate that two CPUs share a "
+            "common external cache system."
+        }
+    }
+    hardware-security {
+        description {
+            "This structure describes the system-wide hardware security settings."
+        }
+    }
+    ipmi-device {
+        description {
+            "The information in this structure defines the attributes of an "
+            "Intelligent Platform Management Interface (IPMI) Baseboard Management "
+            "Controller (BMC). See the Intelligent Platform Management Interface "
+            "(IPMI) Interface Specification for full documentation of IPMI and "
+            "additional information on the use of this structure."
+        }
+    }
+    memory-array {
+        description {
+            "This structure describes a collection of memory devices that operate "
+            "together to form a memory address space."
+        }
+    }
+    memory-channel {
+        description {
+            "The information in this structure provides the correlation between a "
+            "Memory Channel and its associated Memory Devices. Each device presents "
+            "one or more loads to the channel; the sum of all device loads cannot "
+            "exceed the channel\\'s defined maximum."
+        }
+    }
+    memory-device {
+        description {
+            "This structure describes a single memory device that is part of a larger "
+            "Physical Memory Array (Type 16) structure.\n\nNote: If a system includes "
+            "memory-device sockets, the SMBIOS implementation includes a Memory "
+            "Device structure instance for each slot, whether the socket is currently "
+            "populated."
+        }
+    }
+    memory-device-address {
+        description {
+            "This structure maps memory address space usually to a device-level "
+            "granularity. One structure is present for each contiguous address range "
+            "described.\n\nNote: A Memory Device Mapped Address structure is provided "
+            "only if a Memory Device has a mapped address; there is no provision "
+            "within this structure to map a zero-length address space."
+        }
+    }
+    memory-error-32 {
+        description {
+            "This structure identifies the specifics of an error that might be "
+            "detected within a Physical Memory Array."
+        }
+    }
+    memory-error-64 {
+        description {
+            "This structure describes an error within a Physical Memory Array when "
+            "the error address is above 4GiB (0xFFFFFFFF)."
+        }
+    }
+    memory-module {
+        description {
+            "One Memory Module Information structure is included for each "
+            "memory-module socket in the system. The structure describes the speed, "
+            "type, size, and error status of each system memory module. The supported "
+            "attributes of each module are described by the \"owning\" Memory "
+            "Controller Information structure.\n\nNote: This structure and its "
+            "companion Memory Controller Information (Type 5) are obsolete starting "
+            "with version 2.1 of this specification; the Physical Memory Array (Type "
+            "16) and Memory Device (Type 17) structures should be used instead. BIOS "
+            "providers might choose to implement both memory description types to "
+            "allow existing DMI browsers to properly display the system’s memory "
+            "attributes."
+        }
+    }
+    mgmt-controller-host-if {
+        description {
+            "The information in this structure defines the attributes of a Management "
+            "Controller Host Interface that is not discoverable by \"Plug and Play\" "
+            "mechanisms. The Type 42 structure can be used to describe a physical "
+            "management controller host interface and one or more protocols that "
+            "share that interface.\n\nType 42 should be used for management "
+            "controller host interfaces that use protocols other than IPMI or that "
+            "use multiple protocols on a single host interface type.\n\nThis "
+            "structure should also be provided if IPMI is shared with other protocols "
+            "over the same interface hardware. If IPMI is not shared with other "
+            "protocols, either the Type 38 or the Type 42 structures can be "
+            "used.\n\nProviding Type 38 is recommended for backward compatibility. "
+            "The structures are not required to be mutually exclusive. Type 38 and "
+            "Type 42 structures may be implemented simultaneously to provide backward "
+            "compatibility with IPMI applications or drivers that do not yet "
+            "recognize the Type 42 structure.\n\nSee the Intelligent Platform "
+            "Management Interface (IPMI) Interface Specification for full "
+            "documentation of IPMI and additional information on the use of this "
+            "structure with IPMI."
+        }
+    }
+    mgmt-device {
+        description {
+            "The information in this structure defines the attributes of a Management "
+            "Device. A Management Device might control one or more fans or voltage, "
+            "current, or temperature probes as defined by one or more Management "
+            "Device Component structures."
+        }
+    }
+    mgmt-device-component {
+        description {
+            "This structure associates a cooling device or environmental probe with "
+            "structures that define the controlling hardware device and (optionally) "
+            "the component’s thresholds."
+        }
+    }
+    mgmt-device-threshold {
+        description {
+            "The information in this structure defines threshold information for a "
+            "component (probe or cooling-unit) contained within a Management Device."
+        }
+    }
+    oem-strings {
+        description {
+            "This structure contains free-form strings defined by the OEM. Examples "
+            "are part numbers for system reference documents, contact information for "
+            "the manufacturer, and so on."
+        }
+    }
+    onboard-device {
+        description {
+            "The information in this structure defines the attributes of devices that "
+            "are onboard (soldered onto) a system element, usually the baseboard. In "
+            "general, an entry in this table implies that the firmware has some level "
+            "of control over the enabling of the associated device for use by the "
+            "system.\n\nNote: This structure is obsolete starting with version 2.6 of "
+            "SMBIOS specification; the Onboard Devices Extended Information (Type 41) "
+            "structure should be used instead. Firmware providers can choose to "
+            "implement both types to allow existing SMBIOS browsers to properly "
+            "display the system’s onboard devices information."
+        }
+    }
+    onboard-device-ex {
+        description {
+            "The information in this structure defines the attributes of devices that "
+            "are onboard (soldered onto) a system element, usually the "
+            "baseboard.\n\nIn general, an entry in this table implies that the "
+            "firmware has some level of control over the enablement of the associated "
+            "device for use by the system.\n\nTo describe multi-function devices, use "
+            "one type 41 structure per function, and one type 14 (Group Association) "
+            "structure referencing all the function handles."
+        }
+    }
+    oob-remote-access {
+        description {
+            "This structure describes the attributes and policy settings of a "
+            "hardware facility that may be used to gain remote access to a hardware "
+            "system when the operating system is not available due to power-down "
+            "status, hardware failures, or boot failures."
+        }
+    }
+    pointing-device {
+        description {
+            "This structure describes the attributes of the built-in pointing device "
+            "for the system. The presence of this structure does not imply that the "
+            "built-in pointing device is active for the system\\'s use."
+        }
+    }
+    port-connector {
+        description {
+            "The information in this structure defines the attributes of a system "
+            "port connector (for example, parallel, serial, keyboard, or mouse "
+            "ports). The port’s type and connector information are provided. One "
+            "structure is present for each port provided by the system."
+        }
+    }
+    portable-battery {
+        description {
+            "This structure describes the attributes of the portable battery or "
+            "batteries for the system. The structure contains the static attributes "
+            "for the group. Each structure describes attributes for a single battery "
+            "pack."
+        }
+    }
+    power-controls {
+        description {
+            "This structure describes the attributes for controlling the main power "
+            "supply to the system.\n\nSoftware that interprets this structure uses "
+            "the month, day, hour, minute, and second values to determine the number "
+            "of seconds until the next power-on of the system. The presence of this "
+            "structure implies that a timed power-on facility is available for the "
+            "system."
+        }
+    }
+    power-supply {
+        description {
+            "This structure identifies attributes of a system power supply. One "
+            "instance of this structure is present for each possible power supply in "
+            "a system."
+        }
+    }
+    processor {
+        description {
+            "The information in this structure defines the attributes of a single "
+            "processor; a separate structure instance is provided for each system "
+            "processor socket/slot. For example, a system with an Intel DX2 processor "
+            "would have a single structure instance while a system with an Intel SX2 "
+            "processor would have a structure to describe the main CPU and a second "
+            "structure to describe the 80487 co-processor.\n\nNote: One structure is "
+            "provided for each processor instance in a system. For example, a system "
+            "that supports up to two processors includes two Processor Information "
+            "structures - even if only one processor is currently installed. Software "
+            "that interprets the SMBIOS information can count the Processor "
+            "Information structures to determine the maximum possible configuration "
+            "of the system."
+        }
+    }
+    processor-ex {
+        description {
+            "The information in this structure defines the processor additional "
+            "information in case SMBIOS type 4 is not sufficient to describe "
+            "processor characteristics.\n\nThe SMBIOS type 44 structure has a "
+            "reference handle field to link back to the related SMBIOS type 4 "
+            "structure. There may be multiple SMBIOS type 44 structures linked to the "
+            "same SMBIOS type 4 structure. For example, when cores are not identical "
+            "in a processor, SMBIOS type 44 structures describe different "
+            "core-specific information.\n\nSMBIOS type 44 defines the standard header "
+            "for the processor-specific block (see 7.45.1), while the contents of "
+            "processor-specific data are maintained by processor architecture "
+            "workgroups or vendors in separate documents."
+        }
+    }
+    slot {
+        description {
+            "The information in this structure defines the attributes of a system "
+            "slot. One structure is provided for each slot in the system."
+        }
+    }
+    string-property {
+        description {
+            "This structure defines a string property for another structure. This "
+            "allows adding string properties that are common to several structures "
+            "without having to modify the definitions of these structures. Multiple "
+            "type 46 structures can add string properties to the same parent "
+            "structure."
+        }
+    }
+    system {
+        description {
+            "The information in this structure defines attributes of the overall "
+            "system and is intended to be associated with the Component ID group of "
+            "the system\\'s MIF. An SMBIOS implementation is associated with a single "
+            "system instance and contains one and only one System Information (Type "
+            "1) structure."
+        }
+    }
+    system-boot {
+        description {
+            "The client system firmware (for example, BIOS) communicates the System "
+            "Boot Status to the client’s Pre-boot Execution Environment (PXE) boot "
+            "image or OS-present management application through this "
+            "structure.\n\nWhen used in the PXE environment, for example, this code "
+            "identifies the reason the PXE was initiated and can be used by "
+            "boot-image software to further automate an enterprise’s PXE sessions. "
+            "For example, an enterprise could choose to automatically download a "
+            "hardware-diagnostic image to a client whose reason code indicated either "
+            "a firmware- or an operating system-detected hardware failure."
+        }
+    }
+    system-config-options {
+        description {
+            "This structure contains information required to configure the "
+            "baseboard\\'s jumpers and switches."
+        }
+    }
+    system-event-log {
+        description {
+            "The presence of this structure within the SMBIOS data returned for a "
+            "system indicates that the system supports an event log. An event log is "
+            "a fixed-length area within a non-volatile storage element, starting with "
+            "a fixed-length (and vendor-specific) header record, followed by one or "
+            "more variable-length log records.\n\nAn application can implement "
+            "event-log change notification by periodically reading the System Event "
+            "Log structure (by its assigned handle) and looking for a change in the "
+            "Log Change Token. This token uniquely identifies the last time the event "
+            "log was updated. When it sees the token changed, the application can "
+            "retrieve the entire event log and determine the changes since the last "
+            "time it read the event log."
+        }
+    }
+    system-reset {
+        description {
+            "This structure describes whether Automatic System Reset functions are "
+            "enabled (Status).\n\nIf the system has a watchdog timer and the timer is "
+            "not reset (Timer Reset) before the Interval elapses, an automatic system "
+            "reset occurs. The system re-boots according to the Boot Option. This "
+            "function may repeat until the Limit is reached, at which time the system "
+            "re-boots according to the Boot Option at Limit."
+        }
+    }
+    temperature-probe {
+        description {
+            "This structure describes the attributes for a temperature probe in the "
+            "system. Each structure describes a single temperature probe. "
+        }
+    }
+    voltage-probe {
+        description {
+            "This describes the attributes for a voltage probe in the system. Each "
+            "structure describes a single voltage probe."
+        }
+    }
+}

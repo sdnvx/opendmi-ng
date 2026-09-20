@@ -12,7 +12,7 @@ static bool dmi_intel_rsd_tpm_decode(dmi_entity_t *entity);
 
 const dmi_name_set_t dmi_intel_rsd_tpm_status_names =
 {
-    .code  = "intel-rsd-tpm-statuses",
+    .code  = "intel-rsd-tpm-status",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_TPM_STATUS_DISABLED,

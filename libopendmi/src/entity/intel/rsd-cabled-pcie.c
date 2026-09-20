@@ -23,7 +23,7 @@ const dmi_entity_spec_t dmi_intel_rsd_cabled_pcie_spec =
     .attributes      = (const dmi_attribute_t[]){
         DMI_ATTRIBUTE(dmi_intel_rsd_cabled_pcie_t, pci_slot_id, INTEGER, {
             .code = "pci-slot-id",
-            .name = "PCI Slot ID"
+            .name = "PCI slot ID"
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_cabled_pcie_t, link_width, INTEGER, {
             .code = "link-width",

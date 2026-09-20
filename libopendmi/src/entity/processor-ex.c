@@ -19,7 +19,7 @@ static bool dmi_processor_ex_link(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_processor_arch_names =
 {
-    .code  = "processor-architectures",
+    .code  = "processor-architecture",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_PROCESSOR_ARCH_RESERVED,

@@ -18,6 +18,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/string.h>
 #include <opendmi/utils/tty.h>
+#include <opendmi/utils/locale.h>
 
 #include <opendmi/command/modules.h>
 
@@ -79,7 +80,7 @@ static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[])
 
     if (dmi_tty_is_stdout()) {
         dmi_command_banner();
-        dmi_tty_header("Available modules:");
+        dmi_tty_header("%s:", dmi_tool_string("Available modules"));
     } else {
         dmi_modules_config.show_raw = true;
     }
@@ -121,7 +122,7 @@ static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[])
                 printf("%s\t%s\n", module->code, module->name);
             } else {
                 dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, format, "", module->code);
-                dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s\n", module->name);
+                dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s\n", dmi_tool_string(module->name));
             }
         }
 

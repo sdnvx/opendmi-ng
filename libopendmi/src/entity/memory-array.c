@@ -17,7 +17,7 @@ static bool dmi_memory_array_link(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_memory_array_location_names =
 {
-    .code  = "memory-array-locations",
+    .code  = "memory-array-location",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_MEMORY_ARRAY_LOCATION_UNSPEC),
         DMI_NAME_OTHER(DMI_MEMORY_ARRAY_LOCATION_OTHER),
@@ -93,7 +93,7 @@ static const dmi_name_set_t dmi_memory_array_location_names =
 
 static const dmi_name_set_t dmi_memory_array_usage_names =
 {
-    .code  = "memory-array-usages",
+    .code  = "memory-array-usage",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_MEMORY_ARRAY_USAGE_UNSPEC),
         DMI_NAME_OTHER(DMI_MEMORY_ARRAY_USAGE_OTHER),

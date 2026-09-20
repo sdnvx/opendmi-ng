@@ -12,7 +12,7 @@ static bool dmi_dell_infrared_port_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_dell_infrared_proto_names =
 {
-    .code = "dell-infrared-protocols",
+    .code = "dell-infrared-protocol",
     .names = (const dmi_name_t[]) {
         DMI_NAME_UNSPEC(DMI_DELL_INFRARED_PROTO_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_INFRARED_PROTO_OTHER),
@@ -66,7 +66,7 @@ const dmi_entity_spec_t dmi_dell_infrared_port_spec =
         DMI_ATTRIBUTE(dmi_dell_infrared_port_t, speed_limit, INTEGER, {
             .code    = "speed-limit",
             .name    = "Speed limit",
-            .unit    = "baud"
+            .unit    = DMI_UNIT_BAUD
         }),
         DMI_ATTRIBUTE(dmi_dell_infrared_port_t, physical_port, STRING, {
             .code    = "physical-port",

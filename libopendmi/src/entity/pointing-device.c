@@ -14,7 +14,7 @@
 
 static const dmi_name_set_t dmi_pointing_device_type_names =
 {
-    .code  = "pointing-device-types",
+    .code  = "pointing-device-type",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_POINTING_DEVICE_TYPE_UNSPEC),
         DMI_NAME_OTHER(DMI_POINTING_DEVICE_TYPE_OTHER),
@@ -60,7 +60,7 @@ static const dmi_name_set_t dmi_pointing_device_type_names =
 
 static const dmi_name_set_t dmi_pointing_device_iface_names =
 {
-    .code  = "pointing-device-interfaces",
+    .code  = "pointing-device-interface",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_POINTING_DEVICE_IFACE_UNSPEC),
         DMI_NAME_OTHER(DMI_POINTING_DEVICE_IFACE_OTHER),

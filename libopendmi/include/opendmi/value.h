@@ -10,43 +10,76 @@
 #pragma once
 
 #include <opendmi/defs.h>
+#include <opendmi/utils/name.h>
 
-#define DMI_UNIT_HOUR           "h"
-#define DMI_UNIT_MINUTE         "m"
-#define DMI_UNIT_SECOND         "s"
-#define DMI_UNIT_MILLISECOND    "ms"
-#define DMI_UNIT_MICROSECOND    "us"
-#define DMI_UNIT_NANOSECOND     "ns"
+/**
+ * @brief Measurement units of attribute values.
+ */
+typedef enum dmi_unit
+{
+    DMI_UNIT_NONE,           ///< Value has no measurement units
 
-#define DMI_UNIT_AMPERE         "A"
-#define DMI_UNIT_MILLIAMPERE    "mA"
-#define DMI_UNIT_VOLT           "V"
-#define DMI_UNIT_MILLIVOLT      "mV"
-#define DMI_UNIT_WATT           "W"
-#define DMI_UNIT_MILLIWATT      "mW"
-#define DMI_UNIT_WATT_HOUR      "W*h"
+    DMI_UNIT_HOUR,           ///< Hours
+    DMI_UNIT_MINUTE,         ///< Minutes
+    DMI_UNIT_SECOND,         ///< Seconds
+    DMI_UNIT_MILLISECOND,    ///< Milliseconds
+    DMI_UNIT_MICROSECOND,    ///< Microseconds
+    DMI_UNIT_NANOSECOND,     ///< Nanoseconds
 
-#define DMI_UNIT_CELSIUS        "°C"
+    DMI_UNIT_AMPERE,         ///< Amperes
+    DMI_UNIT_MILLIAMPERE,    ///< Milliamperes
+    DMI_UNIT_VOLT,           ///< Volts
+    DMI_UNIT_MILLIVOLT,      ///< Millivolts
+    DMI_UNIT_WATT,           ///< Watts
+    DMI_UNIT_MILLIWATT,      ///< Milliwatts
+    DMI_UNIT_WATT_HOUR,      ///< Watt-hours
 
-#define DMI_UNIT_BIT            "bits"
+    DMI_UNIT_CELSIUS,        ///< Degrees Celsius
 
-#define DMI_UNIT_KILOBYTE       "KB"
-#define DMI_UNIT_KIBIBYTE       "KiB"
-#define DMI_UNIT_MEGABYTE       "MB"
-#define DMI_UNIT_MIBIBYTE       "MiB"
-#define DMI_UNIT_GIGABYTE       "GB"
-#define DMI_UNIT_GIBIBYTE       "GiB"
+    DMI_UNIT_BIT,            ///< Bits
+    DMI_UNIT_BYTE,           ///< Bytes
 
-#define DMI_UNIT_MEGAXA_SECOND  "MT/s"
-#define DMI_UNIT_KILOBIT_SECOND "Kbps"
-#define DMI_UNIT_MEGABIT_SECOND "Mbps"
-#define DMI_UNIT_GIGABIT_SECOND "Gbps"
+    DMI_UNIT_KILOBYTE,       ///< Kilobytes, 1000 bytes
+    DMI_UNIT_MEGABYTE,       ///< Megabytes, 1000 kilobytes
+    DMI_UNIT_GIGABYTE,       ///< Gigabytes, 1000 megabytes
 
-#define DMI_UNIT_PERCENT        "%"
-#define DMI_UNIT_REVOLUTION     "rpm"
-#define DMI_UNIT_RACK           "U"
-#define DMI_UNIT_MHZ            "MHz"
+    DMI_UNIT_KIBIBYTE,       ///< Kibibytes, 1024 bytes
+    DMI_UNIT_MEBIBYTE,       ///< Mebibytes, 1024 kibibytes
+    DMI_UNIT_GIBIBYTE,       ///< Gibibytes, 1024 mebibytes
+    DMI_UNIT_TEBIBYTE,       ///< Tebibytes, 1024 gibibytes
+    DMI_UNIT_PEBIBYTE,       ///< Pebibytes, 1024 tebibytes
+    DMI_UNIT_EXBIBYTE,       ///< Exbibytes, 1024 pebibytes
+    DMI_UNIT_ZEBIBYTE,       ///< Zebibytes, 1024 exbibytes
+    DMI_UNIT_YOBIBYTE,       ///< Yobibytes, 1024 zebibytes
+    DMI_UNIT_ROBIBYTE,       ///< Robibytes, 1024 yobibytes
+    DMI_UNIT_QUEBIBYTE,      ///< Quebibytes, 1024 robibytes
 
-#define DMI_UNIT_MILLIMETER     "mm"
+    DMI_UNIT_BAUD,           ///< Symbols per second
+    DMI_UNIT_MEGAXA_SECOND,  ///< Megatransfers per second
+    DMI_UNIT_KILOBIT_SECOND, ///< Kilobits per second
+    DMI_UNIT_MEGABIT_SECOND, ///< Megabits per second
+    DMI_UNIT_GIGABIT_SECOND, ///< Gigabits per second
+
+    DMI_UNIT_PERCENT,        ///< Percents
+    DMI_UNIT_REVOLUTION,     ///< Revolutions per minute
+    DMI_UNIT_RACK,           ///< Rack units
+    DMI_UNIT_MHZ,            ///< Megahertz
+
+    DMI_UNIT_MILLIMETER      ///< Millimeters
+} dmi_unit_t;
+
+__BEGIN_DECLS
+
+/**
+ * @brief Names of measurement units.
+ */
+extern __dmi_api const dmi_name_set_t dmi_unit_names;
+
+/**
+ * @brief Names of boolean values.
+ */
+extern __dmi_api const dmi_name_set_t dmi_bool_names;
+
+__END_DECLS
 
 #endif // !OPENDMI_VALUE_H

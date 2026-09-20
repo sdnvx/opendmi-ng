@@ -12,6 +12,7 @@
 #include <opendmi/option.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils/tty.h>
+#include <opendmi/utils/locale.h>
 
 static bool dmi_option_toggle(
         dmi_context_t      *context,
@@ -28,7 +29,7 @@ void dmi_option_list(const dmi_option_set_t *set)
 
     assert(set != nullptr);
 
-    dmi_tty_header("%s:", set->name);
+    dmi_tty_header("%s:", dmi_tool_string(set->name));
 
     for (option = set->options; option->short_names || option->long_names; option++) {
         const dmi_argument_t *arg = &option->argument;
@@ -47,7 +48,7 @@ void dmi_option_list(const dmi_option_set_t *set)
                 dmi_tty_cprintf(DMI_TTY_COLOR_AQUA, "-%c", *name);
                 if ((arg->type != DMI_ARGUMENT_TYPE_NONE) and arg->required) {
                     printf(" ");
-                    dmi_tty_cprintf(DMI_TTY_COLOR_LIME, "<%s>", arg->name);
+                    dmi_tty_cprintf(DMI_TTY_COLOR_LIME, "<%s>", dmi_tool_string(arg->name));
                 }
                 name++, count++;
             }
@@ -62,14 +63,14 @@ void dmi_option_list(const dmi_option_set_t *set)
                 dmi_tty_cprintf(DMI_TTY_COLOR_AQUA, "--%s", *name);
                 if (arg->type != DMI_ARGUMENT_TYPE_NONE) {
                     printf(arg->required ? "=" : "[=");
-                    dmi_tty_cprintf(DMI_TTY_COLOR_LIME, "<%s>", arg->name);
+                    dmi_tty_cprintf(DMI_TTY_COLOR_LIME, "<%s>", dmi_tool_string(arg->name));
                     printf(arg->required ? "" : "]");
                 }
                 name++, count++;
             }
         }
 
-        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "\n%8s%s\n", "", option->description);
+        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "\n%8s%s\n", "", dmi_tool_string(option->description));
     }
 
     printf("\n");

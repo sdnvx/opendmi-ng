@@ -15,7 +15,7 @@
 
 const dmi_name_set_t dmi_probe_location_names =
 {
-    .code  = "probe-locations",
+    .code  = "probe-location",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_PROBE_LOCATION_UNSPEC),
         DMI_NAME_OTHER(DMI_PROBE_LOCATION_OTHER),

@@ -54,7 +54,7 @@ const dmi_option_set_t dmi_filter_options =
             .description = "Only display the entries of given handle(s)",
             .handler     = dmi_filter_config_add_handle,
             .argument    = {
-                .name     = "HANDLE",
+                .name     = "handle",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
                 .required = true
             }
@@ -65,7 +65,7 @@ const dmi_option_set_t dmi_filter_options =
             .description = "Only display the entries of given type(s)",
             .handler     = dmi_filter_config_add_type,
             .argument    = {
-                .name     = "TYPE",
+                .name     = "type",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
                 .required = true
             }

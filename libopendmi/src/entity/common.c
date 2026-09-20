@@ -14,7 +14,7 @@
 
 const dmi_name_set_t dmi_status_names =
 {
-    .code  = "statuses",
+    .code  = "status",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_STATUS_UNSPEC),
         DMI_NAME_OTHER(DMI_STATUS_OTHER),
@@ -45,7 +45,7 @@ const dmi_name_set_t dmi_status_names =
 
 const dmi_name_set_t dmi_error_correct_type_names =
 {
-    .code  = "error-correction-types",
+    .code  = "error-correction-type",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_ERROR_CORRECT_TYPE_UNSPEC),
         DMI_NAME_OTHER(DMI_ERROR_CORRECT_TYPE_OTHER),

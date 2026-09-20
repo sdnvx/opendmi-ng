@@ -34,6 +34,13 @@
 // Value pointer macro
 #define dmi_value_ptr(x) &(__dmi_typeof(x)){ (x) }
 
+// Look up a string of the library resources, nullptr if there is none
+const char *dmi_locale_string(const char *table, const char *key);
+
+// Look up the text of a value which has no text of its own, e.g. an unknown
+// enumeration identifier, falling back to the English one
+const char *dmi_value_text(const char *key, const char *fallback);
+
 // Cross-platform attribute unused macro
 #define dmi_unused(x) (void)(x)
 

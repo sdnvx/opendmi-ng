@@ -16,7 +16,7 @@ static void dmi_firmware_language_cleanup(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_firmware_language_flag_names =
 {
-    .code = "firmware-language-flags",
+    .code = "firmware-language-flag",
     .names = (const dmi_name_t[]){
         {
             .id   = 0,

@@ -13,7 +13,7 @@ static bool dmi_intel_rsd_memory_device_decode(dmi_entity_t *entity);
 
 const dmi_name_set_t dmi_intel_rsd_memory_type_names =
 {
-    .code  = "intel-rsd-memory-types",
+    .code  = "intel-rsd-memory-type",
     .names = (const dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_MEMORY_TYPE_DIMM,
@@ -41,7 +41,7 @@ const dmi_name_set_t dmi_intel_rsd_memory_type_names =
 
 const dmi_name_set_t dmi_intel_rsd_memory_media_names =
 {
-    .code  = "intel-rsd-memory-medias",
+    .code  = "intel-rsd-memory-media",
     .names = (const dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_MEMORY_MEDIA_DRAM,

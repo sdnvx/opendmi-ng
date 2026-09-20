@@ -18,10 +18,13 @@ if(Curses_FOUND AND NOT TARGET Curses::Curses)
     )
 endif()
 
+# Generated into the build directory, so that builds with different options
+# do not overwrite the configuration of each other
 configure_file(
     ${PROJECT_SOURCE_DIR}/src/config.h.in
-    ${PROJECT_SOURCE_DIR}/src/config.h
-    USE_SOURCE_PERMISSIONS)
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    USE_SOURCE_PERMISSIONS
+)
 
 #
 # Command line tool code is built as an object library, so that it can be
@@ -46,6 +49,7 @@ add_library(opendmi-cli OBJECT
     src/format/text.c
     src/format/text/handlers.c
     src/format/text/helpers.c
+    src/utils/locale.c
     src/utils/tty.c
     src/utils/utf8.c
 )
@@ -90,7 +94,13 @@ if(ENABLE_JSON)
     target_link_libraries(opendmi-cli PUBLIC ${LIBYAJL_LIBRARIES})
 endif()
 
-target_include_directories(opendmi-cli PUBLIC include)
+target_include_directories(opendmi-cli PUBLIC include ${CMAKE_CURRENT_BINARY_DIR})
+if(ICU_FOUND)
+    add_resources(opendmi-cli-resources opendmi ${CMAKE_CURRENT_SOURCE_DIR}/locale OPENDMI_RESOURCE_DATA)
+
+    add_dependencies(opendmi-cli opendmi-cli-resources)
+endif()
+
 target_link_libraries(opendmi-cli PUBLIC opendmi-shared)
 
 if(ENABLE_CURSES)
@@ -104,6 +114,12 @@ endif()
 
 add_executable(opendmi src/main.c)
 target_link_libraries(opendmi PRIVATE opendmi-cli)
+
+# Resource data is a plain object file, and `opendmi-cli` is an object library,
+# so it is passed to the linker of every program which uses the tool sources
+if(ICU_FOUND)
+    target_link_libraries(opendmi PRIVATE ${OPENDMI_RESOURCE_DATA})
+endif()
 
 # Windows has no rpath, so the library DLL is copied next to the executable to
 # make it runnable from the build directory
@@ -141,10 +157,16 @@ function(opendmi_cli_test TEST_NAME)
     target_compile_definitions(${TEST_TARGET} PRIVATE OPENDMI_TEST_DATA="${PROJECT_SOURCE_DIR}/../data")
     target_link_libraries(${TEST_TARGET} PRIVATE cmocka-static)
 
+    # Tests which build the tool sources themselves need its resources as well
+    if(ICU_FOUND)
+        add_dependencies(${TEST_TARGET} opendmi-cli-resources)
+        target_link_libraries(${TEST_TARGET} PRIVATE ${OPENDMI_RESOURCE_DATA})
+    endif()
+
     if(TEST_LINK_CLI)
         target_link_libraries(${TEST_TARGET} PRIVATE opendmi-cli)
     else()
-        target_include_directories(${TEST_TARGET} PRIVATE include)
+        target_include_directories(${TEST_TARGET} PRIVATE include ${CMAKE_CURRENT_BINARY_DIR})
         target_link_libraries(${TEST_TARGET} PRIVATE opendmi-shared)
 
         if(NOT WIN32)
@@ -184,7 +206,7 @@ function(opendmi_cli_test TEST_NAME)
 endfunction()
 
 # Option parser test uses its own stub of `dmi_command_message()`
-opendmi_cli_test(option SOURCES test/option.c src/option.c src/utils/tty.c)
+opendmi_cli_test(option SOURCES test/option.c src/option.c src/utils/tty.c src/utils/locale.c)
 opendmi_cli_test(utf8 SOURCES test/utf8.c src/utils/utf8.c)
 opendmi_cli_test(command SOURCES test/command.c LINK_CLI)
 opendmi_cli_test(format SOURCES test/format.c LINK_CLI)

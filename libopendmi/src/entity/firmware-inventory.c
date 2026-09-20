@@ -33,7 +33,7 @@ static void dmi_firmware_inventory_cleanup(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_version_format_names =
 {
-    .code  = "version-formats",
+    .code  = "version-format",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_VERSION_FORMAT_FREE,
@@ -61,7 +61,7 @@ static const dmi_name_set_t dmi_version_format_names =
 
 static const dmi_name_set_t dmi_firmware_ident_format_names =
 {
-    .code  = "firmware-ident-formats",
+    .code  = "firmware-ident-format",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_FIRMWARE_IDENT_FORMAT_FREE,
@@ -94,7 +94,7 @@ static const dmi_name_set_t dmi_firmware_ident_format_names =
 
 static const dmi_name_set_t dmi_firmware_inventory_feature_names =
 {
-    .code  = "firmware-inventory-features",
+    .code  = "firmware-inventory-feature",
     .names = (dmi_name_t[]){
         {
             .id   = 0,
@@ -112,7 +112,7 @@ static const dmi_name_set_t dmi_firmware_inventory_feature_names =
 
 static const dmi_name_set_t dmi_firmware_inventory_state_names =
 {
-    .code  = "firmware-inventory-states",
+    .code  = "firmware-inventory-state",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_FIRMWARE_INVENTORY_STATE_UNSPEC),
         DMI_NAME_OTHER(DMI_FIRMWARE_INVENTORY_STATE_OTHER),

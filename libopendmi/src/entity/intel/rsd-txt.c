@@ -11,7 +11,7 @@ static bool dmi_intel_rsd_txt_decode(dmi_entity_t *entity);
 
 const dmi_name_set_t dmi_intel_rsd_txt_status_names =
 {
-    .code  = "intel-rsd-txt-statuses",
+    .code  = "intel-rsd-txt-status",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_TXT_STATUS_DISABLED,

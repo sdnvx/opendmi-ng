@@ -1,0 +1,164 @@
+// Russian resources of the tool. Explanations of SMBIOS structures are not
+// translated yet, and are taken from the root bundle.
+
+ru_RU {
+    plural {
+        structure {
+            one { "структура" }
+            few { "структуры" }
+            many { "структур" }
+            other { "структуры" }
+        }
+        occupy {
+            one { "занимает" }
+            few { "занимают" }
+            many { "занимают" }
+            other { "занимают" }
+        }
+        byte {
+            one { "байт" }
+            few { "байта" }
+            many { "байт" }
+            other { "байта" }
+        }
+    }
+    entry {
+        version { "Обнаружен SMBIOS {0}" }
+        vendor { "Производитель SMBIOS: {0}" }
+        vendor-unknown { "Производитель SMBIOS неизвестен" }
+        size { "{0} {0:structure} {0:occupy} {1} {1:byte}" }
+        address { "Таблица по адресу {0}" }
+    }
+    entity {
+        header { "Дескриптор {0}, тип DMI {1}, {2} {2:byte}" }
+    }
+
+    // Values which have no meaningful text of their own
+    value {
+        unspecified { "<не задано>" }
+        unknown { "<неизвестно>" }
+        error { "<ошибка>" }
+        invalid { "<недопустимо>" }
+    }
+
+    // Texts of the tool are translated by their English text
+    text {
+        "Commands" { "Команды" }
+        "Usage" { "Использование" }
+        "Global options" { "Глобальные параметры" }
+        "Command options" { "Параметры команды" }
+        "Filter options" { "Параметры отбора" }
+        "global options" { "глобальные параметры" }
+        "command options" { "параметры команды" }
+        "filter options" { "параметры отбора" }
+        "Supported output formats" { "Поддерживаемые форматы вывода" }
+        "Core types" { "Основные типы" }
+        "Available modules" { "Доступные модули" }
+        "OpenDMI Framework, version %s (%s)" { "OpenDMI Framework, версия %s (%s)" }
+        "Licensed under the BSD 3-Clause License" { "Лицензия BSD 3-Clause" }
+        usage-line { "    %s [глобальные параметры] <команда> [параметры команды] [--] [аргументы команды]" }
+        "Use %s <command> --help for more information" { "Подробнее: %s <команда> --help" }
+        "level" { "уровень" }
+        "module" { "модуль" }
+        "path" { "путь" }
+        "type" { "тип" }
+        "handle" { "дескриптор" }
+        "format" { "формат" }
+        "Dump entire SMBIOS table to file" { "Сохранить таблицу SMBIOS целиком в файл" }
+        "Show SMBIOS entry point data" { "Показать данные точки входа SMBIOS" }
+        "List SMBIOS structures" { "Перечислить структуры SMBIOS" }
+        "Show SMBIOS structures data" { "Показать данные структур SMBIOS" }
+        "Explain SMBIOS structure or type" { "Описать структуру или тип SMBIOS" }
+        "Check SMBIOS structures for errors" { "Проверить структуры SMBIOS на ошибки" }
+        "Export SMBIOS data to external format" { "Экспортировать данные SMBIOS во внешний формат" }
+        "Import SMBIOS data from external format" { "Импортировать данные SMBIOS из внешнего формата" }
+        "List SMBIOS structure types" { "Перечислить типы структур SMBIOS" }
+        "List available modules" { "Перечислить доступные модули" }
+        "Print version information and exit" { "Показать сведения о версии и выйти" }
+        "Print this help and exit" { "Показать эту справку и выйти" }
+        "Enable logging" { "Включить журналирование" }
+        "Enable logging to the specified file" { "Включить журналирование в указанный файл" }
+        "Set logging level" { "Задать уровень журналирования" }
+        "Do not attempt to read DMI data from SysFS" { "Не читать данные DMI из SysFS" }
+        "Set path to memory device (default: /dev/mem)" { "Задать путь к устройству памяти (по умолчанию: /dev/mem)" }
+        "Read the DMI data from a binary file" { "Читать данные DMI из двоичного файла" }
+        "Enable specified module" { "Включить указанный модуль" }
+        "Apply additional information entries (type 40) to structures" { "Применить к структурам записи дополнительных сведений (тип 40)" }
+        "Do not decode the entries" { "Не декодировать записи" }
+        "Don't show OEM-specific entries" { "Не показывать записи производителя" }
+        "Don't show inactive entries" { "Не показывать неактивные записи" }
+        "Don't show standard entries" { "Не показывать стандартные записи" }
+        "Don't show unknown entries" { "Не показывать неизвестные записи" }
+        "Show OEM-specific entries" { "Показывать записи производителя" }
+        "Show inactive entries" { "Показывать неактивные записи" }
+        "Show standard entries" { "Показывать стандартные записи" }
+        "Show unknown entries" { "Показывать неизвестные записи" }
+        "Show all entries" { "Показывать все записи" }
+        "Show entries provided by all enabled modules" { "Показывать записи всех включённых модулей" }
+        "Show entries provided by enabled module" { "Показывать записи включённого модуля" }
+        "Only display the entries of given handle(s)" { "Показывать только записи с указанными дескрипторами" }
+        "Only display the entries of given type(s)" { "Показывать только записи указанных типов" }
+        "Hide meta-data and handle references" { "Скрыть служебные сведения и ссылки на дескрипторы" }
+        "Show structure versions and states" { "Показывать версии и состояния структур" }
+        "Enable all checks" { "Включить все проверки" }
+        "Enable link checking" { "Включить проверку ссылок" }
+        "Enable pretty output" { "Включить форматированный вывод" }
+        "Raw output (default if stdout is a pipe)" { "Необработанный вывод (по умолчанию, если stdout — канал)" }
+        "Overwrite existing files" { "Перезаписывать существующие файлы" }
+        "Set output file path (default: smbios.bin)" { "Задать путь к файлу вывода (по умолчанию: smbios.bin)" }
+        "Set output file path (default: stdout)" { "Задать путь к файлу вывода (по умолчанию: stdout)" }
+        "Set output format (default: yaml)" { "Задать формат вывода (по умолчанию: yaml)" }
+        "List all available types" { "Перечислить все доступные типы" }
+        "List types provided by all modules" { "Перечислить типы всех модулей" }
+        "List types provided by module" { "Перечислить типы модуля" }
+        "Plain text" { "Обычный текст" }
+        "Acer extensions" { "Расширения Acer" }
+        "AMI extensions" { "Расширения AMI" }
+        "Apple extensions" { "Расширения Apple" }
+        "Dell extensions" { "Расширения Dell" }
+        "HP/HPE extensions" { "Расширения HP/HPE" }
+        "IBM/Lenovo extensions" { "Расширения IBM/Lenovo" }
+        "Intel extensions" { "Расширения Intel" }
+        "Sun extensions" { "Расширения Sun" }
+    }
+
+    // Messages are translated by their English text, so the format
+    // specifiers of a translation have to match the ones of the key
+    message {
+        "Empty type value" { "Пустое значение типа" }
+        "Entry point data is not available" { "Данные точки входа недоступны" }
+        "Handle is out of range: %s" { "Дескриптор вне диапазона: %s" }
+        "Internal error: %s" { "Внутренняя ошибка: %s" }
+        "Invalid command: %s" { "Недопустимая команда: %s" }
+        "Invalid handle value: %s" { "Недопустимое значение дескриптора: %s" }
+        "Invalid logging level: %s" { "Недопустимый уровень журналирования: %s" }
+        "Invalid output format: %s" { "Недопустимый формат вывода: %s" }
+        "Invalid type value: %s" { "Недопустимое значение типа: %s" }
+        "Missing command" { "Команда не указана" }
+        "Module %s does not provide any entries" { "Модуль %s не предоставляет записей" }
+        "Module %s is not enabled" { "Модуль %s не включён" }
+        "No modules providing entries are enabled" { "Ни один из включённых модулей не предоставляет записей" }
+        "No type specified" { "Тип не указан" }
+        "Not implemented yet" { "Ещё не реализовано" }
+        "Option -%c requires an argument" { "Параметр -%c требует аргумент" }
+        "Option --%s doesn't have arguments" { "Параметр --%s не принимает аргументов" }
+        "Option --%s requires an argument" { "Параметр --%s требует аргумент" }
+        "Option --no-sysfs is not implemented yet" { "Параметр --no-sysfs ещё не реализован" }
+        "Option is not implemented" { "Параметр не реализован" }
+        "Too many arguments" { "Слишком много аргументов" }
+        "Type is out of range: %s" { "Тип вне диапазона: %s" }
+        "Unable to enable module: %s" { "Не удалось включить модуль: %s" }
+        "Unable to get log position: %s" { "Не удалось определить позицию в журнале: %s" }
+        "Unable to lock log file: %s" { "Не удалось заблокировать файл журнала: %s" }
+        "Unable to open log file: %s: %s" { "Не удалось открыть файл журнала: %s: %s" }
+        "Unable to unlock log file: %s" { "Не удалось разблокировать файл журнала: %s" }
+        "Unable to write output: %s" { "Не удалось записать вывод: %s" }
+        "Unexpected argument: %s" { "Непредвиденный аргумент: %s" }
+        "Unknown module name: %s" { "Неизвестное имя модуля: %s" }
+        "Unknown module: %s" { "Неизвестный модуль: %s" }
+        "Unknown option: -%c" { "Неизвестный параметр: -%c" }
+        "Unknown option: --%s" { "Неизвестный параметр: --%s" }
+        "Unknown type code: %s" { "Неизвестный код типа: %s" }
+        "Unknown type specified: %s" { "Указан неизвестный тип: %s" }
+    }
+}

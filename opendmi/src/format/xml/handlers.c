@@ -409,11 +409,13 @@ bool dmi_xml_entity_attr_value(
         if (text == nullptr)
             break;
 
-        if (attr->params.unit) {
+        // Units are serialized by their code names, which do not change with
+        // the locale
+        if (attr->params.unit != DMI_UNIT_NONE) {
             if (xmlTextWriterWriteAttribute(
                         session->writer,
                         dmi_xml_string("units"),
-                        dmi_xml_string(attr->params.unit)) < 0)
+                        dmi_xml_string(dmi_code_lookup(&dmi_unit_names, attr->params.unit))) < 0)
                 break;
         }
 

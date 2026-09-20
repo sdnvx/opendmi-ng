@@ -25,7 +25,7 @@
 typedef struct test_probe_value {
     const char *code;
     const char *value;
-    const char *unit;
+    dmi_unit_t  unit;
 } test_probe_value_t;
 
 static void test_probe_location_name(void **pstate);
@@ -106,8 +106,8 @@ static void assert_probe_values(dmi_type_t type, const test_probe_value_t *expec
         assert_string_equal(value, item->value);
         free(value);
 
-        assert_non_null(attr->params.unit);
-        assert_string_equal(attr->params.unit, item->unit);
+        assert_int_not_equal(attr->params.unit, DMI_UNIT_NONE);
+        assert_int_equal(attr->params.unit, item->unit);
     }
 
     dmi_entity_destroy(entity);
@@ -124,7 +124,7 @@ static void test_probe_voltage_values(void **pstate)
         { "resolution",    "0.5",   DMI_UNIT_MILLIVOLT },
         { "tolerance",     "128",   DMI_UNIT_MILLIVOLT },
         { "accuracy",      "0.5",   DMI_UNIT_PERCENT   },
-        { nullptr, nullptr, nullptr }
+        {}
     });
 }
 
@@ -138,7 +138,7 @@ static void test_probe_current_values(void **pstate)
         { "resolution",    "0.5",   DMI_UNIT_MILLIAMPERE },
         { "tolerance",     "128",   DMI_UNIT_MILLIAMPERE },
         { "accuracy",      "0.5",   DMI_UNIT_PERCENT     },
-        { nullptr, nullptr, nullptr }
+        {}
     });
 }
 
@@ -152,6 +152,6 @@ static void test_probe_temperature_values(void **pstate)
         { "resolution",    "0.005",  DMI_UNIT_CELSIUS },
         { "tolerance",     "12.8",   DMI_UNIT_CELSIUS },
         { "accuracy",      "0.5",    DMI_UNIT_PERCENT },
-        { nullptr, nullptr, nullptr }
+        {}
     });
 }

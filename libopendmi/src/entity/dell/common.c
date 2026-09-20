@@ -9,7 +9,7 @@
 
 const dmi_name_set_t dmi_dell_enable_state_names =
 {
-    .code  = "dell-enable-states",
+    .code  = "dell-enable-state",
     .names = (const dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_DELL_ENABLE_STATE_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_ENABLE_STATE_OTHER),
@@ -30,7 +30,7 @@ const dmi_name_set_t dmi_dell_enable_state_names =
 
 const dmi_name_set_t dmi_dell_port_security_names =
 {
-    .code  = "dell-port-security-settings",
+    .code  = "dell-port-security-setting",
     .names = (const dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_DELL_PORT_SECURITY_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_PORT_SECURITY_OTHER),
@@ -57,7 +57,7 @@ const dmi_name_set_t dmi_dell_port_security_names =
 
 const dmi_name_set_t dmi_dell_check_type_names =
 {
-    .code  = "dell-check-types",
+    .code  = "dell-check-type",
     .names = (const dmi_name_t[]){
         {
             .id   = DMI_DELL_CHECK_TYPE_WORD_CHECKSUM,
@@ -85,7 +85,7 @@ const dmi_name_set_t dmi_dell_check_type_names =
 
 const dmi_name_set_t dmi_dell_value_format_names =
 {
-    .code  = "dell-value-formats",
+    .code  = "dell-value-format",
     .names = (const dmi_name_t[]){
         {
             .id   = DMI_DELL_VALUE_FORMAT_SCAN_CODE,

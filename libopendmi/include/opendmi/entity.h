@@ -400,6 +400,14 @@ __dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_typ
 __dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
 
 /**
+ * @brief Get entity specification name.
+ *
+ * Unlike `dmi_type_name`(3), the specification is named whether the module
+ * providing it is enabled or not, since the caller has the specification.
+ */
+__dmi_api const char *dmi_spec_name(const dmi_entity_spec_t *spec);
+
+/**
  * @internal
  * @brief Create SMBIOS entity.
  *

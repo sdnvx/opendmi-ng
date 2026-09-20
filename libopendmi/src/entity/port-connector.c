@@ -16,7 +16,7 @@ static bool dmi_port_connector_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_connector_type_names =
 {
-    .code  = "port-connector-types",
+    .code  = "port-connector-type",
     .names = (dmi_name_t[]){
         DMI_NAME_NONE(DMI_CONNECTOR_TYPE_NONE),
         {
@@ -226,7 +226,7 @@ static const dmi_name_set_t dmi_connector_type_names =
 
 static const dmi_name_set_t dmi_port_type_names =
 {
-    .code  = "port-types",
+    .code  = "port-type",
     .names = (dmi_name_t[]){
         DMI_NAME_NONE(DMI_PORT_TYPE_NONE),
         {

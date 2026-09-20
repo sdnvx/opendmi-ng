@@ -14,6 +14,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils/file.h>
 #include <opendmi/utils/tty.h>
+#include <opendmi/utils/locale.h>
 
 #include <opendmi/command/common.h>
 #include <opendmi/command/export.h>
@@ -54,7 +55,7 @@ static const dmi_option_set_t dmi_export_options =
             .description = "Set output file path (default: stdout)",
             .value       = &dmi_export_config.output_path,
             .argument    = {
-                .name     = "PATH",
+                .name     = "path",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
                 .required = true
             }
@@ -65,7 +66,7 @@ static const dmi_option_set_t dmi_export_options =
             .description = "Set output format (default: yaml)",
             .handler     = dmi_export_set_format,
             .argument    = {
-                .name     = "FORMAT",
+                .name     = "format",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
                 .required = true
             }
@@ -107,11 +108,11 @@ static void dmi_export_usage(void)
 {
     dmi_command_usage(&dmi_export_command);
 
-    dmi_tty_header("Supported output formats:");
+    dmi_tty_header("%s:", dmi_tool_string("Supported output formats"));
 
     for (const dmi_format_t **pformat = dmi_formats; *pformat != nullptr; pformat++) {
         dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%4s%-5s", "", (*pformat)->code);
-        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, " %s\n", (*pformat)->name);
+        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, " %s\n", dmi_tool_string((*pformat)->name));
     }
     printf("\n");
 }

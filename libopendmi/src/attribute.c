@@ -22,6 +22,12 @@
 #include <opendmi/utils/uuid.h>
 #include <opendmi/utils/version.h>
 
+/**
+ * @internal
+ * @brief Name of the resource table holding the names shared by structures.
+ */
+#define DMI_ATTRIBUTE_TABLE "attribute"
+
 static uintmax_t dmi_attribute_read_uint(const void *ptr, size_t size);
 static intmax_t dmi_attribute_read_int(const void *ptr, size_t size);
 
@@ -253,6 +259,35 @@ size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info)
     return (rv <= SIZE_MAX) ? (size_t)rv : 0;
 }
 
+const char *dmi_attribute_name(const dmi_attribute_t *attr, const char *owner)
+{
+    if (attr == nullptr)
+        return nullptr;
+
+    // Printable names are translated, if the locale has a translation for the
+    // attribute, while codes are machine-readable and are never translated
+    if (attr->params.code != nullptr) {
+        const char *translated = nullptr;
+
+        // Names of the structure take precedence over the shared ones, so
+        // that a common name can be overridden where it does not fit
+        if (owner != nullptr) {
+            char table[128];
+
+            if (snprintf(table, sizeof(table), "%s/" DMI_ATTRIBUTE_TABLE, owner) < (int)sizeof(table))
+                translated = dmi_locale_string(table, attr->params.code);
+        }
+
+        if (translated == nullptr)
+            translated = dmi_locale_string(DMI_ATTRIBUTE_TABLE, attr->params.code);
+
+        if (translated != nullptr)
+            return translated;
+    }
+
+    return attr->params.name;
+}
+
 const dmi_attribute_t *dmi_attribute_resolve(const dmi_attribute_t *attr, const void *info)
 {
     assert(attr != nullptr);
@@ -369,9 +404,9 @@ static char *dmi_attribute_format_bool(
             str = dmi_code_lookup(attribute->params.values, flag);
     } else {
         if (pretty)
-            str = flag ? "yes" : "no";
+            str = dmi_name_lookup(&dmi_bool_names, flag);
         else
-            str = flag ? "true" : "false";
+            str = dmi_code_lookup(&dmi_bool_names, flag);
     }
 
     char *result = strdup(str);
@@ -524,20 +559,22 @@ static char *dmi_attribute_format_size(
     if (pretty) {
         unsigned int i;
 
-        static const char *units[] = {
-            "bytes",
-            "KiB", "MiB", "GiB", "TiB", "PiB",
-            "EiB", "ZiB", "YiB", "RiB", "QiB",
-            nullptr
+        static const dmi_unit_t units[] = {
+            DMI_UNIT_BYTE,
+            DMI_UNIT_KIBIBYTE, DMI_UNIT_MEBIBYTE, DMI_UNIT_GIBIBYTE,
+            DMI_UNIT_TEBIBYTE, DMI_UNIT_PEBIBYTE, DMI_UNIT_EXBIBYTE,
+            DMI_UNIT_ZEBIBYTE, DMI_UNIT_YOBIBYTE, DMI_UNIT_ROBIBYTE,
+            DMI_UNIT_QUEBIBYTE,
+            DMI_UNIT_NONE
         };
 
-        for (i = 0; units[i]; i++) {
+        for (i = 0; units[i] != DMI_UNIT_NONE; i++) {
             if ((size < 1024) or (size % 1024 != 0))
                 break;
             size >>= 10;
         }
 
-        rv = dmi_asprintf(&str, "%" PRIu64 " %s", size, units[i]);
+        rv = dmi_asprintf(&str, "%" PRIu64 " %s", size, dmi_name_lookup(&dmi_unit_names, units[i]));
     } else {
         rv = dmi_asprintf(&str, "%" PRIu64, size);
     }
@@ -605,7 +642,7 @@ static char *dmi_attribute_format_enum(
     if (name != nullptr)
         str = strdup(name);
     else if (pretty)
-        dmi_asprintf(&str, "<invalid> (0x%x)", dmi_deref(int, value));
+        dmi_asprintf(&str, "%s (0x%x)", dmi_value_text("invalid", "<invalid>"), dmi_deref(int, value));
     else
         dmi_asprintf(&str, "0x%x", dmi_deref(int, value));
 

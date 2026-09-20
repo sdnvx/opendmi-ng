@@ -15,7 +15,7 @@ static bool dmi_hardware_security_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_hardware_security_status_names =
 {
-    .code  = "hardware-security-statuses",
+    .code  = "hardware-security-status",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_HARDWARE_SECURITY_STATUS_DISABLED,

@@ -12,7 +12,7 @@ static bool dmi_dell_parallel_port_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_dell_parallel_port_connector_type_names =
 {
-    .code  = "dell-parallel-port-connector-types",
+    .code  = "dell-parallel-port-connector-type",
     .names = (const dmi_name_t[]) {
         DMI_NAME_UNSPEC(DMI_DELL_PARALLEL_PORT_CONNECTOR_TYPE_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_PARALLEL_PORT_CONNECTOR_TYPE_OTHER),
@@ -63,7 +63,7 @@ static const dmi_name_set_t dmi_dell_parallel_port_connector_type_names =
 
 static const dmi_name_set_t dmi_dell_parallel_port_connector_pinout_names =
 {
-    .code  = "dell-parallel-port-connector-pinouts",
+    .code  = "dell-parallel-port-connector-pinout",
     .names = (const dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_OTHER),
@@ -120,7 +120,7 @@ static const dmi_name_set_t dmi_dell_parallel_port_connector_pinout_names =
 
 static const dmi_name_set_t dmi_dell_parallel_port_caps_names =
 {
-    .code  = "dell-parallel-port-caps",
+    .code  = "dell-parallel-port-cap",
     .names = (const dmi_name_t[]){
         {
             .id   = 0,

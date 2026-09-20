@@ -102,7 +102,7 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
             const dmi_data_t *value = dmi_member_ptr(context, attr->value, dmi_data_t);
 
             // Values are preceded by a space themselves
-            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s:", attr->params.name);
+            dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s:", dmi_attribute_name(attr, nullptr));
             dmi_text_entity_attr_value(session, attr, value, nullptr, 0);
         }
 

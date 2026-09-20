@@ -19,7 +19,7 @@ static void dmi_baseboard_cleanup(dmi_entity_t *entity);
 
 const dmi_name_set_t dmi_baseboard_type_names =
 {
-    .code  = "baseboard-types",
+    .code  = "baseboard-type",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_BASEBOARD_TYPE_UNSPEC),
         DMI_NAME_UNKNOWN(DMI_BASEBOARD_TYPE_UNKNOWN),
@@ -85,7 +85,7 @@ const dmi_name_set_t dmi_baseboard_type_names =
 
 const dmi_name_set_t dmi_baseboard_feature_names =
 {
-    .code  = "baseboard-features",
+    .code  = "baseboard-feature",
     .names = (dmi_name_t[]){
         {
             .id   = 0,

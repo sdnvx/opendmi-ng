@@ -44,14 +44,14 @@ const dmi_entity_spec_t dmi_memory_error_64_spec =
         }),
         DMI_ATTRIBUTE(dmi_memory_error_64_t, operation, ENUM, {
             .code    = "operation",
-            .name    = "operation",
+            .name    = "Operation",
             .unspec  = dmi_value_ptr(DMI_MEMORY_ERROR_OPERATION_UNSPEC),
             .unknown = dmi_value_ptr(DMI_MEMORY_ERROR_OPERATION_UNKNOWN),
             .values  = &dmi_memory_error_operation_names
         }),
         DMI_ATTRIBUTE(dmi_memory_error_64_t, vendor_syndrome, INTEGER, {
             .code    = "vendor-syndrome",
-            .name    = "vendor-syndrome",
+            .name    = "Vendor syndrome",
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
         DMI_ATTRIBUTE(dmi_memory_error_64_t, array_addr, ADDRESS, {

@@ -12,7 +12,7 @@
 
 static const dmi_name_set_t dmi_vendor_names =
 {
-    .code = "vendors",
+    .code = "vendor",
     .names = (const dmi_name_t[]){
         DMI_NAME_OTHER(DMI_VENDOR_OTHER),
         {

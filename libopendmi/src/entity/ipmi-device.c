@@ -16,7 +16,7 @@ static bool dmi_ipmi_device_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_ipmi_interface_names =
 {
-    .code  = "ipmi-interfaces",
+    .code  = "ipmi-interface",
     .names = (dmi_name_t[]){
         DMI_NAME_UNKNOWN(DMI_IPMI_INTERFACE_UNKNOWN),
         {
@@ -45,7 +45,7 @@ static const dmi_name_set_t dmi_ipmi_interface_names =
 
 static const dmi_name_set_t dmi_ipmi_addr_type_names =
 {
-    .code  = "ipmi-addr-types",
+    .code  = "ipmi-addr-type",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_IPMI_ADDR_TYPE_MEMORY,
@@ -69,7 +69,7 @@ static const dmi_name_set_t dmi_ipmi_addr_type_names =
 
 static const dmi_name_set_t dmi_ipmi_intr_trigger_names =
 {
-    .code  = "ipmi-intr-triggers",
+    .code  = "ipmi-intr-trigger",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_IPMI_INTR_TRIGGER_UNSPEC),
         {
@@ -88,7 +88,7 @@ static const dmi_name_set_t dmi_ipmi_intr_trigger_names =
 
 static const dmi_name_set_t dmi_ipmi_intr_polarity_names =
 {
-    .code  = "ipmi-intr-polarities",
+    .code  = "ipmi-intr-polarity",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_IPMI_INTR_POLARITY_UNSPEC),
         {
@@ -198,7 +198,7 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
             .code     = "register-spacing",
             .name     = "Register spacing",
             .variants = dmi_ipmi_register_variants(register_spacing, {
-                .unit   = "bytes",
+                .unit   = DMI_UNIT_BYTE,
                 .unspec = dmi_value_ptr((unsigned short)0)
             })
         }),

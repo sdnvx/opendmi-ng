@@ -2,6 +2,7 @@ build
 .vscode
 .cache
 .PVS-Studio
+build.conf
 Makefile
 CMakeFiles
 CMakeCache.txt

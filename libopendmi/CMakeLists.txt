@@ -15,81 +15,33 @@ add_library(opendmi-static STATIC)
 add_library(opendmi-shared SHARED)
 
 if(ICU_FOUND)
-    set(LIBOPENDMI_RESOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/locale)
-    set(LIBOPENDMI_BUNDLE_ROOT ${CMAKE_CURRENT_BINARY_DIR}/locale)
-
-    file(GLOB LIBOPENDMI_RESOURCES
-        RELATIVE ${LIBOPENDMI_RESOURCE_ROOT}
-        ${LIBOPENDMI_RESOURCE_ROOT}/*.txt)
-    make_directory(${LIBOPENDMI_BUNDLE_ROOT})
-
-    # Bundles are packaged flat: ICU looks up "<locale>.res" in the root of
-    # the package, and falls back to "root.res" for unknown locales
-    foreach(RESOURCE_NAME ${LIBOPENDMI_RESOURCES})
-        cmake_path(REPLACE_EXTENSION RESOURCE_NAME ".res" OUTPUT_VARIABLE BUNDLE_NAME)
-
-        message(STATUS "Compiling ${RESOURCE_NAME} -> ${BUNDLE_NAME}")
-
-        add_custom_command(
-            OUTPUT ${LIBOPENDMI_BUNDLE_ROOT}/${BUNDLE_NAME}
-            COMMAND ${ICU_GENRB_EXECUTABLE}
-                --sourcedir ${LIBOPENDMI_RESOURCE_ROOT}
-                --destdir ${LIBOPENDMI_BUNDLE_ROOT}
-                --encoding UTF-8
-                ${RESOURCE_NAME}
-            DEPENDS ${LIBOPENDMI_RESOURCE_ROOT}/${RESOURCE_NAME}
-        )
-
-        list(APPEND LIBOPENDMI_BUNDLES ${BUNDLE_NAME})
-        list(APPEND LIBOPENDMI_BUNDLES_DEPS ${LIBOPENDMI_BUNDLE_ROOT}/${BUNDLE_NAME})
-    endforeach()
-
-    file(GENERATE
-        OUTPUT ${LIBOPENDMI_BUNDLE_ROOT}/package-list.txt
-        CONTENT "$<JOIN:${LIBOPENDMI_BUNDLES},\n>"
-    )
-
-    add_custom_target(opendmi-bundles
-        DEPENDS ${LIBOPENDMI_BUNDLES_DEPS}
-    )
-
-    # Package name must match the name the data is registered with at run time
-    # (see `udata_setAppData()`), and `pkgdata` appends "_dat" to the entry
-    # point name, so the data symbol is `opendmi_dat`
-    set(LIBOPENDMI_BUNDLE_DATA ${LIBOPENDMI_BUNDLE_ROOT}/opendmi_dat.o)
-    add_custom_command(
-        OUTPUT ${LIBOPENDMI_BUNDLE_DATA}
-        COMMAND ${ICU_PKGDATA_EXECUTABLE}
-            --name opendmi
-            --entrypoint opendmi
-            --libname opendmi-resources
-            --mode static
-            --destdir ${LIBOPENDMI_BUNDLE_ROOT}
-            ${LIBOPENDMI_BUNDLE_ROOT}/package-list.txt
-        DEPENDS opendmi-bundles
-        WORKING_DIRECTORY ${LIBOPENDMI_BUNDLE_ROOT}
-    )
-
-    add_custom_target(opendmi-resources
-        DEPENDS ${LIBOPENDMI_BUNDLE_DATA}
-    )
+    add_resources(opendmi-resources libopendmi ${CMAKE_CURRENT_SOURCE_DIR}/locale LIBOPENDMI_RESOURCE_DATA)
 
     add_dependencies(opendmi-object opendmi-resources)
 
     target_include_directories(opendmi-object PRIVATE ${ICU_INCLUDE_DIRS})
-    target_sources(opendmi-static PRIVATE ${LIBOPENDMI_BUNDLE_DATA})
-    target_sources(opendmi-shared PRIVATE ${LIBOPENDMI_BUNDLE_DATA})
+    target_sources(opendmi-static PRIVATE ${LIBOPENDMI_RESOURCE_DATA})
+    target_sources(opendmi-shared PRIVATE ${LIBOPENDMI_RESOURCE_DATA})
 
-    list(APPEND LIBOPENDMI_LIBRARIES ICU::uc)
-    list(APPEND LIBOPENDMI_PC_REQUIRES icu-uc)
+    # Plural rules of message formatting live in the internationalization
+    # component, the rest of the resource handling in the common one
+    list(APPEND LIBOPENDMI_LIBRARIES ICU::uc ICU::i18n)
+    list(APPEND LIBOPENDMI_PC_REQUIRES icu-uc icu-i18n)
 endif()
 
+# Generated into the build directory, so that builds with different options
+# do not overwrite the configuration of each other
 configure_file(
     ${PROJECT_SOURCE_DIR}/src/config.h.in
-    ${PROJECT_SOURCE_DIR}/src/config.h
-    USE_SOURCE_PERMISSIONS)
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    USE_SOURCE_PERMISSIONS
+)
 
-target_include_directories(opendmi-object PUBLIC include)
+target_include_directories(opendmi-object
+    PUBLIC include
+    PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 set(LIBOPENDMI_HEADERS
     include/opendmi/attribute.h
     include/opendmi/backend.h
@@ -99,6 +51,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/error.h
     include/opendmi/filter.h
     include/opendmi/keyword.h
+    include/opendmi/locale.h
     include/opendmi/log.h
     include/opendmi/module.h
     include/opendmi/registry.h
@@ -225,11 +178,13 @@ target_sources(opendmi-object
         src/entry.c
         src/error.c
         src/filter.c
+        src/locale.c
         src/log.c
         src/module.c
         src/registry.c
         src/stream.c
         src/utils.c
+        src/value.c
         src/vendor.c
 
         src/utils/base64.c
@@ -617,6 +572,7 @@ opendmi_test(module SOURCES test/module.c)
 opendmi_test(module/static SOURCES test/module.c LIBRARY opendmi-static)
 opendmi_test(registry SOURCES test/registry.c)
 opendmi_test(dump SOURCES test/dump.c)
+opendmi_test(locale SOURCES test/locale.c)
 opendmi_test(stream SOURCES test/stream.c)
 
 opendmi_test(utils/endian SOURCES test/utils/endian.c)

@@ -1,10 +1,2390 @@
 ru_RU {
-    cache-types {
-        unspecified { "Не указан"       }
-        other       { "Другой"          }
-        unknown     { "Неизвестный"     }
-        instruction { "Инструкции"      }
-        data        { "Данные"          }
-        unified     { "Унифицированный" }
+    access-method {
+        indexed-io-8bit-1-1 { "Индексный ввод-вывод: один 8-битный индексный порт, один 8-битный порт данных" }
+        indexed-io-8bit-2-1 { "Индексный ввод-вывод: два 8-битных индексных порта, один 8-битный порт данных" }
+        indexed-io-16bit { "Индексный ввод-вывод: один 16-битный индексный порт, один 8-битный порт данных" }
+        memory-mapped-32bit-address { "Физический 32-битный адрес в памяти" }
+        data-functions { "Функции энергонезависимых данных общего назначения" }
+    }
+    additional-info {
+        name { "Дополнительные сведения" }
+    }
+    ami-221 {
+        name { "AMI, тип 221" }
+    }
+    attribute {
+        access-address { "Адрес метода доступа" }
+        access-method { "Метод доступа" }
+        accuracy { "Точность" }
+        address { "Адрес" }
+        address-type { "Тип адреса" }
+        admin-password { "Состояние пароля администратора" }
+        and-mask { "Маска AND" }
+        apic-id-total { "Число идентификаторов APIC" }
+        apic-ids { "Начальные идентификаторы APIC" }
+        architecture { "Архитектура" }
+        area-length { "Длина области" }
+        array-addr { "Адрес относительно массива" }
+        array-addr-handle { "Дескриптор отображённого адреса массива" }
+        array-handle { "Дескриптор массива памяти" }
+        asset-tag { "Инвентарный номер" }
+        associativity { "Ассоциативность" }
+        bank-connection-1 { "Подключение банка 1" }
+        bank-connection-2 { "Подключение банка 2" }
+        bank-count { "Число банков" }
+        bank-locator { "Расположение банка" }
+        base-address { "Базовый адрес" }
+        base-address-lsb { "Младший разряд базового адреса" }
+        base-address-type { "Тип базового адреса" }
+        baseboard-handle { "Дескриптор системной платы" }
+        bios-segment { "Сегмент BIOS" }
+        bit-stream-version { "Версия битового потока" }
+        board-type { "Тип платы" }
+        boot-on-limit { "Вариант загрузки при достижении предела" }
+        boot-on-watchdog { "Вариант загрузки по сторожевому таймеру" }
+        bootup-state { "Состояние при включении" }
+        bus-number { "Номер шины" }
+        bus-width { "Разрядность шины данных" }
+        button-count { "Число кнопок" }
+        cache-size { "Объём кэша" }
+        capabilities { "Возможности" }
+        capacity { "Ёмкость" }
+        change-token { "Токен изменений" }
+        characteristics { "Характеристики" }
+        chassis-handle { "Дескриптор корпуса" }
+        check-end { "Конец проверяемого диапазона" }
+        check-index { "Индекс контрольной суммы" }
+        check-start { "Начало проверяемого диапазона" }
+        check-type { "Тип контрольной суммы" }
+        checksum { "Контрольная сумма" }
+        chemistry { "Химический состав" }
+        chip-select-total { "Число сигналов выбора кристалла" }
+        chip-selects { "Сигналы выбора кристалла" }
+        command-io-address { "Адрес ввода-вывода команд" }
+        command-io-code { "Код ввода-вывода команд" }
+        component-count { "Число связанных компонентов" }
+        component-handle { "Дескриптор компонента" }
+        components { "Связанные компоненты" }
+        config-index { "Индекс конфигурации" }
+        configured-speed { "Настроенная частота" }
+        configured-voltage { "Настроенное напряжение" }
+        connections { "Подключения" }
+        connector { "Разъём" }
+        contained-objects { "Содержащиеся объекты" }
+        controller-product-id { "Идентификатор контроллера подсистемы памяти" }
+        controller-vendor-id { "Идентификатор производителя контроллера подсистемы памяти" }
+        controller-version { "Версия прошивки встроенного контроллера" }
+        cooling-device-handle { "Дескриптор устройства охлаждения" }
+        core-count { "Число ядер" }
+        core-enabled { "Число включённых ядер" }
+        credential-bootstrapping-handle { "Дескриптор начальных учётных данных" }
+        current-interleave { "Текущее чередование" }
+        current-language { "Текущий язык" }
+        current-probe-handle { "Дескриптор датчика входного тока" }
+        current-speed { "Текущая частота" }
+        current-sram { "Текущий тип SRAM" }
+        current-type { "Тип тока" }
+        data { "Данные" }
+        data-format { "Формат данных" }
+        data-offset { "Смещение начала данных" }
+        data-port { "Порт данных" }
+        data-width { "Разрядность данных" }
+        description { "Описание" }
+        descriptors { "Поддерживаемые типы журналов" }
+        designator { "Обозначение" }
+        device-addr { "Адрес относительно устройства" }
+        device-count { "Число устройств" }
+        device-descriptor { "Описание устройства" }
+        device-handle { "Дескриптор устройства" }
+        device-id { "Идентификатор устройства" }
+        device-locator { "Расположение устройства" }
+        device-number { "Номер устройства" }
+        device-set { "Набор устройств" }
+        device-type { "Тип устройства" }
+        devices { "Устройства" }
+        dram-channel { "Канал DRAM" }
+        element-count { "Число содержащихся элементов" }
+        element-size { "Размер содержащегося элемента" }
+        elements { "Содержащиеся элементы" }
+        enabled { "Включено" }
+        enabled-error-correction { "Включённые возможности коррекции ошибок" }
+        enabled-size { "Включённый объём" }
+        end-addr { "Конечный адрес" }
+        entries { "Записи" }
+        entry-point-16 { "16-битная точка входа" }
+        entry-point-32 { "32-битная точка входа" }
+        error-correction { "Коррекция ошибок" }
+        error-detection { "Метод обнаружения ошибок" }
+        error-handle { "Дескриптор сведений об ошибке памяти" }
+        error-info-handle { "Дескриптор сведений об ошибке памяти" }
+        error-status { "Состояние ошибки" }
+        external-clock { "Внешняя частота" }
+        external-connector { "Тип внешнего разъёма" }
+        external-designator { "Внешнее обозначение" }
+        family { "Семейство" }
+        features { "Возможности" }
+        features-ex { "Дополнительные возможности" }
+        firmware-api-version { "Версия API прошивки" }
+        firmware-revision { "Ревизия прошивки" }
+        firmware-version { "Версия прошивки" }
+        first-poweron-date { "Дата первого включения" }
+        flags { "Флаги" }
+        form-factor { "Форм-фактор" }
+        front-panel-reset { "Состояние сброса с передней панели" }
+        fru { "Признак FRU" }
+        function-number { "Номер функции" }
+        granularity { "Гранулярность" }
+        group { "Группа" }
+        group-name { "Имя группы" }
+        handle { "Дескриптор" }
+        hardware-revision { "Ревизия оборудования" }
+        has-watchdog { "Сторожевой таймер" }
+        header-format { "Формат заголовка" }
+        header-offset { "Смещение начала заголовка" }
+        height { "Высота" }
+        host-ip-assignment { "Способ назначения IP-адреса узла" }
+        host-ip-format { "Формат IP-адреса узла" }
+        hot-swappable { "Горячая замена" }
+        hps-core-count { "Число ядер HPS" }
+        hps-isa { "Архитектура HPS" }
+        hssi-config { "Конфигурация HSSI" }
+        hssi-port-count { "Число портов HSSI" }
+        hssi-port-speed { "Скорость порта HSSI" }
+        hssi-side-band-config { "Конфигурация боковых сигналов HSSI" }
+        i2c-target-address { "Адрес устройства I2C" }
+        id { "Идентификатор" }
+        ident { "Идентификатор" }
+        ident-format { "Формат идентификатора" }
+        if-data { "Данные интерфейса" }
+        if-type { "Тип интерфейса" }
+        image-size { "Размер образа" }
+        implementation-version { "Версия реализации" }
+        implementer { "Разработчик" }
+        index { "Индекс" }
+        index-port { "Индексный порт" }
+        information { "Сведения" }
+        installed-size { "Установленный объём" }
+        instance { "Экземпляр" }
+        instance-count { "Число экземпляров" }
+        instances { "Экземпляры" }
+        interface { "Тип интерфейса" }
+        interface-type { "Тип интерфейса" }
+        interleave-depth { "Глубина чередования данных" }
+        interleave-pos { "Позиция чередования" }
+        internal-connector { "Тип внутреннего разъёма" }
+        internal-designator { "Внутреннее обозначение" }
+        interrupt-number { "Номер прерывания" }
+        interrupt-polarity { "Полярность прерывания" }
+        interrupt-trigger-mode { "Способ срабатывания прерывания" }
+        irq-number { "Номер IRQ" }
+        is-enabled { "Включено" }
+        is-lock-present { "Замок" }
+        is-populated { "Разъём занят" }
+        is-valid { "Достоверность" }
+        items { "Элементы" }
+        jep106-bank { "Банк JEP106" }
+        jep106-id { "Код JEP106" }
+        keyboard-password { "Состояние пароля клавиатуры" }
+        l1-cache-handle { "Дескриптор кэша L1" }
+        l2-cache-handle { "Дескриптор кэша L2" }
+        l3-cache-handle { "Дескриптор кэша L3" }
+        languages { "Языки" }
+        leaf { "Лист" }
+        leaves { "Листья" }
+        length { "Длина слота" }
+        level { "Уровень кэша" }
+        link-speed { "Скорость канала" }
+        link-width { "Ширина канала" }
+        load { "Нагрузка" }
+        location { "Расположение" }
+        logical-size { "Логический объём" }
+        lower-critical { "Нижний критический" }
+        lower-non-critical { "Нижний некритический" }
+        lower-non-recoverable { "Нижний невосстановимый" }
+        lowest-version { "Минимальная версия" }
+        mac-address { "MAC-адрес" }
+        major { "Старший номер" }
+        manufacture-date { "Дата изготовления" }
+        maximum-capacity { "Максимальная ёмкость" }
+        maximum-count { "Максимальное число" }
+        maximum-error { "Максимальная погрешность" }
+        maximum-load { "Максимальная нагрузка" }
+        maximum-memory-size { "Максимальный объём памяти" }
+        maximum-module-size { "Максимальный объём модуля" }
+        maximum-size { "Максимальный объём кэша" }
+        maximum-speed { "Максимальная скорость" }
+        maximum-tdp { "Максимальный TDP" }
+        maximum-value { "Максимальное значение" }
+        maximum-voltage { "Максимальное напряжение" }
+        memory-array-handle { "Дескриптор массива памяти" }
+        memory-capacity { "Объём памяти" }
+        memory-device-handle { "Дескриптор устройства памяти" }
+        memory-media { "Носитель памяти" }
+        memory-mode-caps { "Поддерживаемые режимы работы памяти" }
+        memory-speed { "Частота памяти" }
+        memory-tech { "Технология памяти" }
+        memory-technology { "Технология памяти" }
+        memory-type { "Тип памяти" }
+        memory-type-details { "Свойства типа памяти" }
+        minimum-count { "Минимальное число" }
+        minimum-value { "Минимальное значение" }
+        minimum-voltage { "Минимальное напряжение" }
+        minor { "Младший номер" }
+        mode { "Режим работы" }
+        model { "Модель" }
+        module-handles { "Дескрипторы модулей" }
+        module-product-id { "Идентификатор модуля" }
+        module-vendor-id { "Идентификатор производителя модуля" }
+        name { "Имя" }
+        nominal-speed { "Номинальная частота" }
+        nominal-value { "Номинальное значение" }
+        non-volatile-size { "Объём энергонезависимой памяти" }
+        nv-storage-address { "Адрес энергонезависимого хранилища" }
+        oem-defined { "Определяется производителем" }
+        offset { "Смещение" }
+        operation { "Операция" }
+        options { "Параметры" }
+        or-value { "Значение OR" }
+        parent-handle { "Дескриптор родителя" }
+        part-number { "Артикул" }
+        partition-pos { "Позиция строки раздела" }
+        partition-width { "Ширина раздела" }
+        pci-class { "Класс PCI" }
+        pci-slot-id { "Идентификатор слота PCI" }
+        pcie-bus-number { "Номер шины PCIe" }
+        pcie-device-id { "Идентификатор устройства PCIe" }
+        pcie-function-id { "Идентификатор функции PCIe" }
+        pcie-slot-id { "Идентификатор слота PCIe" }
+        peer-groups { "Смежные группы" }
+        phy { "Номер PHY" }
+        physical-port { "Физический порт" }
+        physical-width { "Физическая разрядность" }
+        pinout { "Распиновка разъёма" }
+        pitch { "Шаг" }
+        platform-version { "Версия прошивки платформы" }
+        pmi0-vendor-id { "Идентификатор производителя PMIC0" }
+        pmic0-revision { "Ревизия PMIC0" }
+        port { "Обозначение порта" }
+        port-handle { "Дескриптор разъёма порта" }
+        port-index { "Индекс порта" }
+        port-type { "Тип порта" }
+        ports { "Порты" }
+        power-cord-count { "Число кабелей питания" }
+        power-supply-state { "Состояние питания" }
+        poweron-day { "День следующего включения" }
+        poweron-hour { "Час следующего включения" }
+        poweron-minute { "Минута следующего включения" }
+        poweron-month { "Месяц следующего включения" }
+        poweron-password { "Состояние пароля при включении" }
+        poweron-second { "Секунда следующего включения" }
+        present { "Присутствует" }
+        probe-handle { "Дескриптор датчика температуры" }
+        processor-handle { "Дескриптор процессора" }
+        product { "Продукт" }
+        product-id { "Идентификатор продукта" }
+        protocol { "Протокол" }
+        protocol-records { "Записи протоколов" }
+        rack-height { "Высота стойки" }
+        rack-type { "Тип стойки" }
+        range-check-end { "Конец проверяемого диапазона" }
+        range-check-index { "Индекс контрольной суммы диапазона" }
+        range-check-start { "Начало проверяемого диапазона" }
+        range-check-type { "Тип контрольной суммы диапазона" }
+        range-size { "Размер диапазона" }
+        range-switching { "Переключение диапазона входного напряжения" }
+        rank { "Ранг" }
+        rcd-revision { "Ревизия RCD" }
+        rcd-vendor-id { "Идентификатор производителя RCD" }
+        reconfig-slots { "Слоты частичной реконфигурации (PR)" }
+        referenced-handle { "Дескриптор целевой структуры" }
+        referenced-offset { "Смещение в целевой структуре" }
+        register-spacing { "Шаг регистров" }
+        release-date { "Дата выпуска" }
+        required-voltages { "Требуемые напряжения" }
+        reset-count { "Число сбросов" }
+        reset-limit { "Предел числа сбросов" }
+        resolution { "Разрешающая способность" }
+        revision { "Ревизия" }
+        riser-number { "Номер райзера" }
+        rom-size { "Объём ПЗУ" }
+        rpm { "Обороты в минуту" }
+        sbds-chemistry { "Химический состав SBDS" }
+        sbds-serial-number { "Серийный номер SBDS" }
+        sbds-version { "Версия SBDS" }
+        security { "Защита" }
+        security-status { "Состояние защиты" }
+        segment { "Сегмент" }
+        segment-group { "Группа сегментов" }
+        serial-number { "Серийный номер" }
+        service-hostname { "Имя узла службы" }
+        service-ip-discovery { "Способ обнаружения IP-адреса службы" }
+        service-ip-format { "Формат IP-адреса службы" }
+        service-ip-port { "IP-порт службы" }
+        service-uuid { "UUID службы" }
+        service-vlan-id { "Идентификатор VLAN службы" }
+        signature { "Сигнатура" }
+        size { "Объём" }
+        sku-number { "Номер SKU" }
+        slot-count { "Число слотов" }
+        slot-number { "Номер слота" }
+        smbus-address { "Адрес SMBus" }
+        soc-id { "Идентификатор SoC" }
+        soc-revision { "Ревизия SoC" }
+        socket { "Разъём" }
+        socket-designation { "Обозначение сокета" }
+        socket-designator { "Обозначение разъёма" }
+        socket-number { "Номер сокета" }
+        socket-type { "Тип сокета" }
+        socketed { "В сокете" }
+        specification-version { "Версия спецификации" }
+        speed { "Быстродействие кэша" }
+        speed-limit { "Предел скорости" }
+        speed-limit-state { "Состояние ограничения скорости" }
+        start-addr { "Начальный адрес" }
+        start-lane { "Начальная линия" }
+        state { "Состояние" }
+        status { "Состояние" }
+        status-data { "Данные состояния загрузки" }
+        stepping { "Степпинг" }
+        string { "Строковое значение" }
+        string-count { "Число строк" }
+        string-length { "Длина строки" }
+        string-value { "Строковое значение" }
+        strings { "Строки" }
+        sub-device-id { "Идентификатор подустройства" }
+        sub-vendor-id { "Идентификатор субпроизводителя" }
+        subleaf { "Подлист" }
+        subsystem-id { "Идентификатор подсистемы" }
+        subsystem-vendor-id { "Идентификатор производителя подсистемы" }
+        subtype { "Подтип" }
+        supported-commands { "Поддерживаемые команды" }
+        supported-interleave { "Поддерживаемое чередование" }
+        supported-speeds { "Поддерживаемые скорости" }
+        supported-sram { "Поддерживаемые типы SRAM" }
+        supported-types { "Поддерживаемые типы" }
+        supported-voltages { "Поддерживаемые напряжения" }
+        system-id { "Идентификатор системы" }
+        thermal-state { "Тепловое состояние" }
+        thread-count { "Число потоков" }
+        thread-enabled { "Число включённых потоков" }
+        threshold-handle { "Дескриптор пороговых значений" }
+        timeout { "Тайм-аут" }
+        timer-interval { "Интервал таймера" }
+        token-id { "Идентификатор токена" }
+        tokens { "Токены" }
+        tolerance { "Допуск" }
+        total-width { "Полная разрядность" }
+        type { "Тип" }
+        unknown-1 { "Неизвестное 1" }
+        unknown-2 { "Неизвестное 2" }
+        unknown-3 { "Неизвестное 3" }
+        unplugged { "Отключено от сети" }
+        upgrade { "Тип обновления" }
+        upper-critical { "Верхний критический" }
+        upper-non-critical { "Верхний некритический" }
+        upper-non-recoverable { "Верхний невосстановимый" }
+        usage { "Текущее назначение" }
+        use { "Назначение" }
+        validation-key { "Ключ проверки" }
+        value { "Значение" }
+        value-format { "Формат значения" }
+        value-length { "Длина значения" }
+        value-start { "Индекс значения" }
+        variant { "Вариант" }
+        vendor { "Производитель" }
+        vendor-data { "Данные производителя" }
+        vendor-iana { "Номер предприятия IANA" }
+        vendor-id { "Идентификатор производителя" }
+        vendor-specific { "Специфично для производителя" }
+        vendor-syndrome { "Синдром производителя" }
+        version { "Версия" }
+        version-format { "Формат версии" }
+        virtual-com-port { "Виртуальный порт COM" }
+        virtual-lpt-port { "Виртуальный порт LPT" }
+        volatile-size { "Объём энергозависимой памяти" }
+        voltage { "Напряжение" }
+        voltage-probe-handle { "Дескриптор датчика входного напряжения" }
+        wakeup-type { "Тип пробуждения" }
+    }
+    baseboard {
+        name { "Системная или модульная плата" }
+    }
+    baseboard-feature {
+        is-hosting-board { "Несущая плата" }
+        require-daughter-board { "Требует дочернюю плату" }
+        is-removable { "Съёмная" }
+        is-replaceable { "Заменяемая" }
+        is-hot-swappable { "С горячей заменой" }
+    }
+    baseboard-type {
+        unspecified { "Не указан" }
+        unknown { "Неизвестный" }
+        other { "Другой" }
+        server-blade { "Серверное лезвие" }
+        connectivity-switch { "Коммутатор" }
+        system-management-module { "Модуль управления системой" }
+        processor-module { "Процессорный модуль" }
+        io-module { "Модуль ввода-вывода" }
+        memory-module { "Модуль памяти" }
+        daughterboard { "Дочерняя плата" }
+        motherboard { "Материнская плата" }
+        processor-memory-module { "Процессорный модуль с памятью" }
+        processor-io-module { "Процессорный модуль ввода-вывода" }
+        interconnect-board { "Плата межсоединений" }
+    }
+    battery-chemistry {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        lead-acid { "Свинцово-кислотный" }
+        ni-cd { "Никель-кадмиевый" }
+        ni-mh { "Никель-металлгидридный" }
+        li-ion { "Литий-ионный" }
+        zn-air { "Воздушно-цинковый" }
+        li-po { "Литий-полимерный" }
+    }
+    bis-entry-point {
+        name { "Точка входа Boot Integrity Services (BIS)" }
+    }
+    bool {
+        false { "нет" }
+        true { "да" }
+    }
+    boot-option {
+        reserved { "Зарезервирован" }
+        operating-system { "Операционная система" }
+        system-utils { "Системные утилиты" }
+        avoid-reboot { "Не перезагружать" }
+    }
+    cache {
+        attribute {
+            error-correction { "Тип коррекции ошибок" }
+            installed-size { "Объём установленного кэша" }
+            type { "Тип системного кэша" }
+        }
+        name { "Кэш-память" }
+    }
+    cache-assoc {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        direct { "Прямого отображения" }
+        "2-way" { "2-канальная множественно-ассоциативная" }
+        "4-way" { "4-канальная множественно-ассоциативная" }
+        full { "Полностью ассоциативная" }
+        "8-way" { "8-канальная множественно-ассоциативная" }
+        "16-way" { "16-канальная множественно-ассоциативная" }
+        "12-way" { "12-канальная множественно-ассоциативная" }
+        "24-way" { "24-канальная множественно-ассоциативная" }
+        "32-way" { "32-канальная множественно-ассоциативная" }
+        "48-way" { "48-канальная множественно-ассоциативная" }
+        "64-way" { "64-канальная множественно-ассоциативная" }
+        "20-way" { "20-канальная множественно-ассоциативная" }
+    }
+    cache-location {
+        internal { "Внутреннее" }
+        external { "Внешнее" }
+        reserved { "Зарезервировано" }
+        unknown { "Неизвестное" }
+    }
+    cache-mode {
+        write-through { "Сквозная запись" }
+        write-back { "Отложенная запись" }
+        variable { "Переменный" }
+        unknown { "Неизвестный" }
+    }
+    cache-sram-type {
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        non-burst { "Без пакетной передачи" }
+        burst { "Пакетная передача" }
+        pipeline-burst { "Конвейерная пакетная передача" }
+        synchronous { "Синхронный" }
+        asynchronous { "Асинхронный" }
+    }
+    cache-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        instruction { "Инструкции" }
+        data { "Данные" }
+        unified { "Унифицированный" }
+    }
+    chassis {
+        name { "Корпус системы" }
+    }
+    chassis-security-status {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        none { "Нет" }
+        ext-if-locked { "Внешний интерфейс заблокирован" }
+        ext-if-enabled { "Внешний интерфейс разрешён" }
+    }
+    chassis-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        desktop { "Настольный" }
+        low-profile-desktop { "Настольный низкопрофильный" }
+        pizza-box { "Плоский настольный" }
+        mini-tower { "Мини-башня" }
+        tower { "Башня" }
+        portable { "Переносной" }
+        laptop { "Ноутбук" }
+        notebook { "Ноутбук" }
+        hand-held { "Карманный" }
+        docking-station { "Док-станция" }
+        all-in-one { "Моноблок" }
+        sub-notebook { "Субноутбук" }
+        space-saving { "Компактный" }
+        lunch-box { "Переносной компактный" }
+        main-server { "Основной серверный корпус" }
+        expansion { "Корпус расширения" }
+        sub-chassis { "Дополнительный корпус" }
+        bus-expansion { "Корпус расширения шины" }
+        peripheral { "Корпус для периферии" }
+        raid { "Корпус RAID" }
+        rack-mount { "Стоечный корпус" }
+        sealed-case-pc { "Герметичный корпус" }
+        multy-system { "Многосистемный корпус" }
+        compact-pci { "Compact PCI" }
+        advanced-tca { "Advanced TCA" }
+        blade { "Лезвие" }
+        blade-enclosure { "Корзина для лезвий" }
+        tablet { "Планшет" }
+        convertible { "Трансформер" }
+        detachable { "Съёмный" }
+        iot-gateway { "Шлюз IoT" }
+        embedded-pc { "Встраиваемый компьютер" }
+        mini-pc { "Мини-компьютер" }
+        stick-pc { "Компьютер-брелок" }
+    }
+    cooling-device {
+        name { "Устройство охлаждения" }
+    }
+    cooling-device-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        fan { "Вентилятор" }
+        centrifugal-blower { "Центробежный вентилятор" }
+        chip-fan { "Вентилятор микросхемы" }
+        cabinet-fan { "Вентилятор корпуса" }
+        power-supply-fan { "Вентилятор блока питания" }
+        heat-pipe { "Тепловая трубка" }
+        integrated-refrigeration { "Встроенное охлаждение" }
+        active-cooling { "Активное охлаждение" }
+        passive-cooling { "Пассивное охлаждение" }
+    }
+    current-probe {
+        name { "Датчик тока" }
+    }
+    dell-bios-flags {
+        name { "Флаги BIOS Dell" }
+    }
+    dell-calling-iface {
+        attribute {
+            id { "Идентификатор токена" }
+        }
+        name { "Интерфейс вызовов Dell" }
+    }
+    dell-check-type {
+        word-checksum { "Контрольная сумма словом" }
+        byte-checksum { "Контрольная сумма байтом" }
+        word-crc { "CRC словом" }
+        word-checksum-negated { "Инвертированная контрольная сумма словом" }
+    }
+    dell-enable-state {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        enabled { "Включено" }
+        disabled { "Отключено" }
+    }
+    dell-indexed-io {
+        attribute {
+            id { "Идентификатор токена" }
+        }
+        name { "Индексный ввод-вывод Dell" }
+    }
+    dell-infrared-port {
+        name { "Инфракрасный порт Dell" }
+    }
+    dell-infrared-protocol {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        sir { "SIR (Standard IR)" }
+        fir { "FIR (Fast IR)" }
+        mir { "MIR (Medium Speed IR)" }
+    }
+    dell-parallel-port {
+        attribute {
+            connector { "Тип разъёма" }
+        }
+        name { "Параллельный порт Dell" }
+    }
+    dell-parallel-port-cap {
+        xt-at { "XT/AT" }
+        ps2 { "PS/2" }
+        ecp { "ECP" }
+        epp { "EPP" }
+        pc-98 { "PC-98" }
+        pc-98-hireso { "PC-98 Hireso" }
+        pc-h98 { "PC-H98" }
+        dma-support { "Поддержка DMA" }
+    }
+    dell-parallel-port-connector-pinout {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        xt-at { "XT/AT" }
+        ps2 { "PS/2" }
+        ieee-1284 { "IEEE 1284" }
+        proprietary { "Proprietary" }
+        pc-98 { "PC-98" }
+        pc-98-hireso { "PC-98 Hireso" }
+        pc-h98 { "PC-H98" }
+        pc-98-note { "PC-98 Note" }
+        pc-98-full { "PC-98 Full" }
+    }
+    dell-parallel-port-connector-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        db-25-f { "DB-25 female IEEE 1284-A receptacle" }
+        db-25-m { "DB-25 male IEEE 1284-A plug" }
+        cn-36 { "Centronics IEEE 1284-B receptacle" }
+        hpcn-36 { "Mini-Centronics IEEE 1284-C receptacle" }
+        proprietary { "Проприетарный" }
+        cn-14 { "Centronics-14" }
+        db-36-f { "DB-36 female" }
+        hpcn-20 { "Mini-Centronics-20" }
+    }
+    dell-port-security-setting {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        none { "Нет" }
+        external-iface-locked { "Внешний интерфейс заблокирован" }
+        external-iface-enabled { "Внешний интерфейс разрешён" }
+        boot-bypass { "Обход загрузки" }
+    }
+    dell-protected-area-1 {
+        name { "Защищённая область Dell, тип 1" }
+    }
+    dell-protected-area-2 {
+        name { "Защищённая область Dell, тип 2" }
+    }
+    dell-revisions {
+        name { "Ревизии и идентификаторы Dell" }
+    }
+    dell-serial-port {
+        attribute {
+            connector { "Тип разъёма" }
+        }
+        name { "Последовательный порт Dell" }
+    }
+    dell-serial-port-capability {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        xt-at { "Совместимый с XT/AT" }
+        "16450" { "Совместимый с 16450" }
+        "16550" { "Совместимый с 16550" }
+        "16550a" { "Совместимый с 16550A" }
+        "8251" { "Совместимый с 8251" }
+        "8251-fifo" { "Совместимый с 8251 FIFO" }
+    }
+    dell-serial-port-connector-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        db-9-m { "DB-9 male" }
+        db-9-f { "DB-9 female" }
+        db-25-m { "DB-25 male" }
+        db-25-f { "DB-25 female" }
+        rj-11 { "RJ-11" }
+        rj-45 { "RJ-45" }
+        proprietary { "Проприетарный" }
+        circular-din-8-m { "Circular DIN-8 male" }
+        circular-din-8-f { "Circular DIN-8 female" }
+        ieee-1284-c-14 { "Mini-Centronics Type-14" }
+        ieee-1284-c-26 { "Mini-Centronics Type-26" }
+    }
+    dell-value-format {
+        scan-code { "Буквенно-цифровой, скан-коды" }
+        ascii { "Буквенно-цифровой, ASCII" }
+        scan-code-ns { "Буквенно-цифровой, скан-коды (NS)" }
+        ascii-ns { "Буквенно-цифровой, ASCII (NS)" }
+    }
+    end-of-table {
+        name { "Конец таблицы" }
+    }
+    entity-state {
+        decoded { "декодирована" }
+        linked { "связана" }
+        valid { "корректна" }
+        incomplete { "неполная" }
+        partial { "частично декодирована" }
+    }
+    error {
+        none { "Успешно" }
+        null-argument { "Аргумент равен NULL" }
+        invalid-argument { "Недопустимый аргумент" }
+        invalid-state { "Недопустимое состояние" }
+        file-open { "Не удалось открыть файл" }
+        file-stat { "Не удалось получить сведения о файле" }
+        file-read { "Не удалось прочитать файл" }
+        file-write { "Не удалось записать файл" }
+        file-dup { "Не удалось скопировать дескриптор файла" }
+        file-map { "Не удалось отобразить файл в память" }
+        eps-not-found { "Точка входа не найдена" }
+        unknown-eps-anchor { "Неизвестная сигнатура точки входа" }
+        invalid-eps-length { "Недопустимая длина точки входа" }
+        invalid-eps-checksum { "Недопустимая контрольная сумма точки входа" }
+        invalid-entity-addr { "Недопустимый адрес структуры" }
+        invalid-entity-length { "Недопустимая длина структуры" }
+        invalid-entity-type { "Недопустимый тип структуры" }
+        entity-truncated { "Усечённая структура" }
+        entity-decode { "Не удалось декодировать структуру" }
+        entity-register { "Не удалось зарегистрировать структуру" }
+        entity-link { "Не удалось связать структуру" }
+        entity-not-found { "Структура не найдена" }
+        string-not-found { "Строка не найдена" }
+        duplicate-entry { "Повторяющаяся запись" }
+        duplicate-handle { "Повторяющийся дескриптор" }
+        no-more-entries { "Записей больше нет" }
+        missing-firmware-info { "Отсутствует структура со сведениями о прошивке платформы" }
+        module-conflict { "Модуль конфликтует с другими" }
+        service-unavailable { "Служба недоступна" }
+        out-of-memory { "Недостаточно памяти" }
+        system { "Системная ошибка" }
+        internal { "Внутренняя ошибка" }
+        backend-init { "Не удалось инициализировать бэкенд" }
+        context-open { "Не удалось открыть контекст" }
+        invalid-dump { "Недопустимый дамп SMBIOS" }
+        invalid-overlay { "Недопустимая запись дополнительных сведений" }
+    }
+    error-correct-cap {
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        none { "Нет" }
+        single-bit { "Коррекция одиночных ошибок" }
+        double-bit { "Коррекция двойных ошибок" }
+        scrubbing { "Фоновая проверка памяти" }
+    }
+    error-correction-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        none { "Нет" }
+        parity { "Чётность" }
+        single-bit { "Однобитовый ECC" }
+        multi-bit { "Многобитовый ECC" }
+        crc { "CRC" }
+    }
+    error-detect-method {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        none { "Нет" }
+        parity { "8-bit Parity" }
+        ecc-32 { "32-bit ECC" }
+        ecc-64 { "64-bit ECC" }
+        ecc-128 { "128-bit ECC" }
+        crc { "CRC" }
+    }
+    event-log-data-format {
+        none { "Нет" }
+        handle { "Дескриптор" }
+        multiple-event { "Несколько событий" }
+        multiple-event-handle { "Дескриптор нескольких событий" }
+        post-results { "Битовая карта результатов POST" }
+        system-management { "Тип управления системой" }
+        multiple-event-system-management { "Тип управления системой, несколько событий" }
+        unused { "Не используется" }
+        oem-specific { "Специфичный для производителя" }
+    }
+    event-log-type {
+        single-bit-ecc { "Одиночная ошибка ECC памяти" }
+        multi-bit-ecc { "Множественная ошибка ECC памяти" }
+        parity { "Ошибка чётности памяти" }
+        bus-timeout { "Тайм-аут шины" }
+        io-channel-check { "Ошибка канала ввода-вывода" }
+        software-nmi { "Программное NMI" }
+        post-memory-resize { "Изменение объёма памяти при POST" }
+        post-error { "Ошибка POST" }
+        pci-parity { "Ошибка чётности PCI" }
+        pci-system { "Системная ошибка PCI" }
+        cpu-failure { "Отказ процессора" }
+        eisa-failsafe-timeout { "Тайм-аут таймера EISA FailSafe" }
+        memory-log-disabled { "Журнал исправимых ошибок памяти отключён" }
+        logging-disabled { "Журналирование отключено для типа события" }
+        limit-exceeded { "Превышен системный предел" }
+        timer-expired { "Истёк аппаратный таймер" }
+        config-info { "Сведения о конфигурации системы" }
+        hard-disk-info { "Сведения о жёстком диске" }
+        reconfigured { "Система перенастроена" }
+        cpu-complex-error { "Неисправимая ошибка процессорного комплекса" }
+        log-cleared { "Область журнала сброшена или очищена" }
+        system-boot { "Загрузка системы" }
+        end-of-log { "Конец журнала" }
+        unused { "Не используется" }
+        oem-specific { "Специфичный для системы или производителя" }
+    }
+    firmware {
+        name { "Прошивка платформы" }
+    }
+    firmware-feature {
+        unknown { "Неизвестная" }
+        unsupported { "Не поддерживается" }
+        isa-support { "Поддержка ISA" }
+        mca-support { "Поддержка MCA" }
+        eisa-support { "Поддержка EISA" }
+        pci-support { "Поддержка PCI" }
+        pcmcia-support { "Поддержка PC Card (PCMCIA)" }
+        pnp-support { "Поддержка Plug and Play" }
+        apm-support { "Поддержка APM" }
+        upgradeable-flash { "Прошивка обновляема (flash)" }
+        shadowing-allowed { "Разрешено теневое копирование прошивки" }
+        vesa-support { "Поддержка VL-VESA" }
+        escd-support { "Поддержка ESCD" }
+        boot-cd { "Загрузка с компакт-диска" }
+        boot-selectable { "Выбор устройства загрузки" }
+        socketed-rom { "Микросхема ПЗУ в разъёме" }
+        boot-pcmcia-support { "Загрузка с PC Card (PCMCIA)" }
+        edd-support { "Поддержка спецификации EDD" }
+        floppy-nec-support { "Int 13h: японские дискеты 1,2 МБ для NEC 9800" }
+        floppy-toshiba-support { "Int 13h: японские дискеты 1,2 МБ для Toshiba" }
+        floppy-525-360k-support { "Int 13h 5.25\\\"” / 360 KB floppy services support" }
+        floppy-525-1m2-support { "Int 13h 5.25\\\" / 1.2 MB floppy services support" }
+        floppy-35-720k-support { "Int 13h 3.5\\\" / 720 KB floppy services support" }
+        floppy-35-2m88-support { "Int 13h 3.5\\\" / 2.88 MB floppy services support" }
+        print-screen-support { "Int 5h: печать экрана" }
+        keyboard-support { "Int 9h: служба клавиатуры 8042" }
+        serial-support { "Int 14h: служба последовательных портов" }
+        printer-support { "Int 17h: служба печати" }
+        video-cga-mono-support { "Int 10h: видеослужбы CGA/Mono" }
+        nec-pc-98 { "NEC PC-98" }
+    }
+    firmware-features-ex {
+        acpi-support { "Поддержка ACPI" }
+        usb-legacy-support { "Поддержка USB legacy" }
+        agp-support { "Поддержка AGP" }
+        boot-i2o { "Загрузка I2O" }
+        boot-ls120 { "Загрузка с LS-120 SuperDisk" }
+        boot-atapi-zip { "Загрузка с ATAPI ZIP" }
+        boot-ieee1394 { "Загрузка по IEEE 1394" }
+        smart-battery { "Поддержка интеллектуальной батареи" }
+        bios-boot-spec { "Поддержка спецификации загрузки BIOS" }
+        boot-network-fn-key { "Сетевая загрузка по функциональной клавише" }
+        content-distribution { "Целевое распространение содержимого" }
+        uefi-spec { "Поддержка спецификации UEFI" }
+        virtual-machine { "SMBIOS описывает виртуальную машину" }
+        mfg-mode-support { "Поддержка режима производства" }
+        mfg-mode-enabled { "Режим производства включён" }
+    }
+    firmware-ident-format {
+        free-form { "Произвольный" }
+        guid { "GUID" }
+        reserved { "Зарезервирован" }
+        vendor-specific { "Специфичный для производителя" }
+    }
+    firmware-inventory {
+        name { "Состав прошивок" }
+    }
+    firmware-inventory-feature {
+        is-updatable { "Обновляемая" }
+        is-write-protected { "Защищена от записи" }
+    }
+    firmware-inventory-state {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        disabled { "Отключено" }
+        enabled { "Включено" }
+        absent { "Отсутствует" }
+        standby-offline { "Резерв, отключена" }
+        standby-spare { "Резервная" }
+        unavail-offline { "Недоступна, отключена" }
+    }
+    firmware-language {
+        name { "Языки прошивки" }
+    }
+    firmware-language-flag {
+        is-abbreviated { "Сокращённый" }
+    }
+    group-associations {
+        name { "Групповые связи" }
+    }
+    hardware-security {
+        name { "Аппаратная защита" }
+    }
+    hardware-security-status {
+        disabled { "Отключён" }
+        enabled { "Включён" }
+        not-implemented { "Не реализовано" }
+        unknown { "Неизвестный" }
+    }
+    inactive {
+        name { "Неактивная структура" }
+    }
+    intel-rsd-cabled-pcie {
+        name { "Кабельный порт PCIe Intel RSD" }
+    }
+    intel-rsd-cpuid-subtype {
+        basic { "Листы с 00h по 10h" }
+        extended { "Листы с 14h по 80000008h" }
+    }
+    intel-rsd-fpga {
+        attribute {
+            socket { "Идентификатор сокета" }
+        }
+        name { "ПЛИС Intel RSD" }
+    }
+    intel-rsd-fpga-config {
+        networking { "Сетевая" }
+        pcie { "PCIe" }
+        unavailable { "Сведения недоступны" }
+    }
+    intel-rsd-fpga-isa {
+        x86 { "x86" }
+        x86-64 { "x86-64" }
+        ia-64 { "IA-64" }
+        arm-a32 { "ARM-A32" }
+        arm-a64 { "ARM-A64" }
+        mips32 { "MIPS32" }
+        mips64 { "MIPS64" }
+        oem { "OEM" }
+    }
+    intel-rsd-fpga-memory-tech {
+        none { "Нет" }
+        edram { "EDRAM" }
+        hbm { "HBM" }
+        hbm2 { "HBM2" }
+    }
+    intel-rsd-fpga-status {
+        disabled { "Отключён" }
+        enabled { "Включён" }
+    }
+    intel-rsd-fpga-type {
+        integrated { "Интегрированная" }
+        discrete { "Дискретная" }
+        discrete-soc { "Дискретная с процессорной подсистемой (HPS)" }
+    }
+    intel-rsd-memory-device-ex {
+        name { "Устройство памяти Intel RSD, расширенные сведения" }
+    }
+    intel-rsd-memory-media {
+        dram { "DRAM" }
+        nand { "NAND" }
+        proprietary { "Проприетарный" }
+    }
+    intel-rsd-memory-type {
+        dimm { "DIMM" }
+        nvdimm-n { "NVDIMM-N (Byte accessible persistent memory)" }
+        nvdimm-f { "NVDIMM-F (Block accessible persistent memory)" }
+        nvdimm-p { "NVDIMM-P" }
+    }
+    intel-rsd-network-card {
+        name { "Сетевая карта Intel RSD" }
+    }
+    intel-rsd-pcie {
+        name { "PCIe Intel RSD" }
+    }
+    intel-rsd-phys-device-mapping {
+        attribute {
+            data { "Данные о расположении" }
+            handle { "Дескриптор структуры" }
+        }
+        name { "Соответствие физических устройств Intel RSD" }
+    }
+    intel-rsd-phys-device-type {
+        invalid { "Не определён или неверен" }
+        processor { "Процессор" }
+        pcie-slot { "Системный слот PCIe" }
+        memory-device { "Устройство памяти" }
+    }
+    intel-rsd-processor-cpuid {
+        attribute {
+            data { "Данные CPUID" }
+        }
+        name { "CPUID процессора Intel RSD" }
+    }
+    intel-rsd-storage-connector {
+        unknown { "Неизвестный" }
+        sata { "SATA" }
+        sas { "SAS" }
+        pcie { "PCIe" }
+        m2 { "M.2" }
+        usb { "USB" }
+        u2 { "U.2" }
+    }
+    intel-rsd-storage-device {
+        attribute {
+            capacity { "Ёмкость" }
+            index { "Индекс устройства" }
+        }
+        name { "Устройство хранения Intel RSD" }
+    }
+    intel-rsd-storage-device-type {
+        unknown { "Неизвестный" }
+        hdd { "HDD" }
+        ssd { "SSD" }
+        dvd { "Optical - DVD" }
+        bluray { "Optical - Blu-ray" }
+        usb { "USB" }
+    }
+    intel-rsd-storage-protocol {
+        unknown { "Неизвестный" }
+        ide { "IDE" }
+        ahci { "AHCI" }
+        nvme { "NVMe" }
+        usb { "USB" }
+    }
+    intel-rsd-tpm {
+        name { "Доверенный платформенный модуль (TPM) Intel RSD" }
+    }
+    intel-rsd-tpm-status {
+        disabled { "Отключён" }
+        enabled { "Включён" }
+    }
+    intel-rsd-txt {
+        name { "Intel TXT в Intel RSD" }
+    }
+    intel-rsd-txt-status {
+        disabled { "Отключён" }
+        enabled { "Включён" }
+    }
+    ipmi-addr-type {
+        memory { "Память" }
+        io { "Ввод-вывод" }
+        smbus { "SMBus" }
+    }
+    ipmi-device {
+        name { "Устройство IPMI" }
+    }
+    ipmi-interface {
+        unknown { "Неизвестный" }
+        kcs { "KCS: в стиле контроллера клавиатуры" }
+        smic { "SMIC: микросхема интерфейса управления сервером" }
+        bt { "BT: блочная передача" }
+        ssif { "SSIF: системный интерфейс SMBus" }
+    }
+    ipmi-intr-polarity {
+        unspecified { "Не указана" }
+        active-low { "Активный низкий" }
+        active-high { "Активный высокий" }
+    }
+    ipmi-intr-trigger {
+        unspecified { "Не указано" }
+        edge { "По фронту" }
+        level { "По уровню" }
+    }
+    log-level {
+        error { "ERROR" }
+        warning { "WARNING" }
+        notice { "NOTICE" }
+        info { "INFO" }
+        debug { "DEBUG" }
+    }
+    memory-array {
+        attribute {
+            device-count { "Число устройств" }
+            error-correction { "Коррекция ошибок" }
+        }
+        name { "Физический массив памяти" }
+    }
+    memory-array-address {
+        name { "Адресное пространство массива памяти" }
+    }
+    memory-array-location {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        motherboard { "Системная плата" }
+        isa { "Плата расширения ISA" }
+        eisa { "Плата расширения EISA" }
+        pci { "Плата расширения PCI" }
+        mca { "Плата расширения MCA" }
+        pcmcia { "Плата расширения PCMCIA" }
+        proprietary { "Фирменная плата расширения" }
+        nubus { "NuBus" }
+        pc-98-c20 { "Плата расширения PC-98/C20" }
+        pc-98-c24 { "Плата расширения PC-98/C24" }
+        pc-98-e { "Плата расширения PC-98/E" }
+        pc-98-local-bus { "Плата расширения локальной шины PC-98" }
+        cxl { "Плата расширения CXL" }
+    }
+    memory-array-usage {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        system { "Системная память" }
+        video { "Видеопамять" }
+        flash { "Флеш-память" }
+        nvram { "Энергонезависимая память" }
+        cache { "Кэш-память" }
+    }
+    memory-channel {
+        attribute {
+            device-count { "Число устройств" }
+        }
+        name { "Канал памяти" }
+    }
+    memory-channel-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        rambus { "RamBus" }
+        synclink { "SyncLink" }
+    }
+    memory-controller {
+        attribute {
+            error-correction { "Возможности коррекции ошибок" }
+        }
+        name { "Контроллер памяти" }
+    }
+    memory-device {
+        attribute {
+            maximum-speed { "Максимальная частота" }
+        }
+        name { "Устройство памяти" }
+    }
+    memory-device-address {
+        name { "Адресное пространство устройства памяти" }
+    }
+    memory-device-form-factor {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        simm { "SIMM" }
+        sip { "SIP" }
+        chip { "Микросхема" }
+        dip { "DIP" }
+        zip { "ZIP" }
+        card { "Proprietary card" }
+        dimm { "DIMM" }
+        tsop { "TSOP" }
+        chip-row { "Row of chips" }
+        rimm { "RIMM" }
+        sodimm { "SODIMM" }
+        srimm { "SRIMM" }
+        fbdimm { "FBDIMM" }
+        die { "Die" }
+        camm { "CAMM" }
+        cudimm { "CUDIMM" }
+        csodimm { "CSODIMM" }
+    }
+    memory-device-technology {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        dram { "DRAM" }
+        nvdimm-n { "NVDIMM-N" }
+        nvdimm-f { "NVDIMM-F" }
+        nvdimm-p { "NVDIMM-P" }
+        optane { "Intel Optane persistent memory" }
+        mrdimm { "MRDIMM" }
+    }
+    memory-device-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        dram { "DRAM" }
+        edram { "EDRAM" }
+        vram { "VRAM" }
+        sram { "SRAM" }
+        ram { "RAM" }
+        rom { "ROM" }
+        flash { "Flash" }
+        eeprom { "EEPROM" }
+        feprom { "FEPROM" }
+        eprom { "EPROM" }
+        cdram { "CDRAM" }
+        "3dram" { "3DRAM" }
+        sdram { "SDRAM" }
+        sgram { "SGRAM" }
+        rdram { "RDRAM" }
+        ddr { "DDR" }
+        ddr2 { "DDR2" }
+        ddr2-fbdimm { "DDR2 FB-DIMM" }
+        ddr3 { "DDR3" }
+        fbd2 { "FBD2" }
+        ddr4 { "DDR4" }
+        lpddr { "LPDDR" }
+        lpddr2 { "LPDDR2" }
+        lpddr3 { "LPDDR3" }
+        lpddr4 { "LPDDR4" }
+        logical-nv { "Logical non-volatile device" }
+        hbm { "HBM (High Bandwidth Memory)" }
+        hbm2 { "HBM2 (High Bandwidth Memory Generation 2)" }
+        ddr5 { "DDR5" }
+        lpddr5 { "LPDDR5" }
+        hbm3 { "HBM3 (High Bandwidth Memory Generation 3)" }
+        mrdimm { "MRDIMM" }
+    }
+    memory-device-type-detail {
+        reserved { "Зарезервирована" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        fast-paged { "Со страничным доступом" }
+        static-column { "Со статическим столбцом" }
+        pseudo-static { "Псевдостатическая" }
+        rambus { "RAMBUS" }
+        synchronous { "Синхронный" }
+        cmos { "CMOS" }
+        edo { "EDO" }
+        window-dram { "Window DRAM" }
+        cache-dram { "Кэширующая" }
+        non-volatile { "Энергонезависимая" }
+        registered { "Регистровая" }
+        unbuffered { "Небуферизованная" }
+        lrdimm { "LRDIMM" }
+    }
+    memory-error-32 {
+        name { "Ошибка памяти, 32-битный адрес" }
+    }
+    memory-error-64 {
+        name { "Ошибка памяти, 64-битный адрес" }
+    }
+    memory-error-granularity {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        device { "Уровень устройства" }
+        partition { "Уровень раздела памяти" }
+    }
+    memory-error-operation {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        read { "Чтение" }
+        write { "Запись" }
+        partial-write { "Частичная запись" }
+    }
+    memory-error-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        ok { "OK" }
+        bad-read { "Ошибка чтения" }
+        parity { "Ошибка чётности" }
+        single-bit { "Одиночная ошибка" }
+        double-bit { "Двойная ошибка" }
+        multi-bit { "Множественная ошибка" }
+        nibble { "Ошибка тетрады" }
+        checksum { "Ошибка контрольной суммы" }
+        crc { "Ошибка CRC" }
+        corrected-single-bit { "Исправленная одиночная ошибка" }
+        corrected { "Исправленная ошибка" }
+        uncorrectable { "Неисправимая ошибка" }
+    }
+    memory-interleave {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        "1-way" { "Без чередования" }
+        "2-way" { "Двухканальное чередование" }
+        "4-way" { "Четырёхканальное чередование" }
+        "8-way" { "Восьмиканальное чередование" }
+        "16-way" { "Шестнадцатиканальное чередование" }
+    }
+    memory-module {
+        attribute {
+            installed-size { "Установленный объём" }
+            socket { "Обозначение разъёма" }
+        }
+        name { "Модуль памяти" }
+    }
+    memory-module-error {
+        uncorrectable { "Неисправимая" }
+        correctable { "Исправимая" }
+        event-log { "Журнал событий" }
+    }
+    memory-module-size-status {
+        invalid { "Неверный" }
+        present { "Определён" }
+        not-determinable { "Невозможно определить" }
+        not-enabled { "Не включён" }
+        not-installed { "Не установлен" }
+    }
+    memory-module-speed {
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        "70ns" { "70 ns" }
+        "60ns" { "60 ns" }
+        "50ns" { "50 ns" }
+    }
+    memory-module-type {
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        standard { "Стандартный" }
+        fpm { "Режим быстрого доступа к странице" }
+        edo { "EDO" }
+        parity { "Parity" }
+        ecc { "ECC" }
+        simm { "SIMM" }
+        dimm { "DIMM" }
+        burst-edo { "Burst EDO" }
+        sdram { "SDRAM" }
+    }
+    memory-module-voltage {
+        "5v" { "5V" }
+        "3v3" { "3.3V" }
+        "2v9" { "2.9V" }
+    }
+    mgmt-controller-host-if {
+        attribute {
+            characteristics { "Характеристики устройства" }
+            data { "Данные протокола" }
+            segment-group { "Номер группы сегментов" }
+            type { "Тип протокола" }
+        }
+        name { "Интерфейс контроллера управления" }
+    }
+    mgmt-device {
+        name { "Устройство управления" }
+    }
+    mgmt-device-addr-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        port { "Порт ввода-вывода" }
+        memory { "Память" }
+        smbus { "SMBus" }
+    }
+    mgmt-device-component {
+        name { "Компонент устройства управления" }
+    }
+    mgmt-device-threshold {
+        name { "Пороговые значения устройства управления" }
+    }
+    mgmt-device-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        national-lm75 { "National Semiconductor LM75" }
+        national-lm78 { "National Semiconductor LM78" }
+        national-lm79 { "National Semiconductor LM79" }
+        national-lm80 { "National Semiconductor LM80" }
+        national-lm81 { "National Semiconductor LM81" }
+        analog-adm9240 { "Analog Devices ADM9240" }
+        dallas-ds1780 { "Dallas Semiconductor DS1780" }
+        maxim-1617 { "Maxim 1617" }
+        genesys-gl518sm { "Genesys GL518SM" }
+        winbond-w83781d { "Winbond W83781D" }
+        holtek-ht82h791 { "Holtek HT82H791" }
+    }
+    mgmt-if-type {
+        keyboard-controller-style { "В стиле контроллера клавиатуры" }
+        "8250-uart" { "Совместимый с регистрами 8250 UART" }
+        "16450-uart" { "Совместимый с регистрами 16450 UART" }
+        "16550-uart" { "Совместимый с регистрами 16550/16550A UART" }
+        "16650-uart" { "Совместимый с регистрами 16650/16650A UART" }
+        "16750-uart" { "Совместимый с регистрами 16750/16750A UART" }
+        "16850-uart" { "Совместимый с регистрами 16850/16850A UART" }
+        i2c-smbus { "I2C/SMBUS" }
+        i3c { "I3C" }
+        pcie-vdm { "PCIe VDM" }
+        mmbi { "MMBI" }
+        pcc { "PCC" }
+        ucie { "UCIe" }
+        usb { "USB" }
+        network-host-interface { "Сетевой интерфейс узла" }
+        oem-defined { "Определяется производителем" }
+    }
+    mgmt-nhi-characteristic {
+        credential-bootstrapping { "Получение учётных данных командами IPMI" }
+    }
+    mgmt-nhi-device-type {
+        usb { "Сетевой интерфейс USB" }
+        pci { "Сетевой интерфейс PCI/PCIe" }
+        usb-v2 { "Сетевой интерфейс USB, версия 2" }
+        pci-v2 { "Сетевой интерфейс PCI/PCIe, версия 2" }
+        oem-defined { "Определяется производителем" }
+    }
+    mgmt-protocol {
+        ipmi { "IPMI" }
+        mctp { "MCTP" }
+        redfish-over-ip { "Redfish поверх IP" }
+        oem-defined { "Определяется производителем" }
+    }
+    mgmt-redfish-ip-assignment {
+        unknown { "Неизвестный" }
+        static { "Статический" }
+        dhcp { "DHCP" }
+        auto-configure { "Автоматическая настройка" }
+        host-selected { "Выбран узлом" }
+    }
+    mgmt-redfish-ip-format {
+        unknown { "Неизвестный" }
+        ipv4 { "IPv4" }
+        ipv6 { "IPv6" }
+    }
+    oem-strings {
+        name { "Строки производителя" }
+    }
+    onboard-device {
+        name { "Встроенные устройства" }
+    }
+    onboard-device-ex {
+        name { "Встроенные устройства, расширенные сведения" }
+    }
+    onboard-device-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        video { "Видео" }
+        scsi-controller { "Контроллер SCSI" }
+        ethernet { "Ethernet" }
+        token-ring { "Token Ring" }
+        sound { "Звук" }
+        pata-controller { "Контроллер PATA" }
+        sata-controller { "Контроллер SATA" }
+        sas-controller { "Контроллер SAS" }
+        wireless lan { "Беспроводная сеть" }
+        bluetooth { "Bluetooth" }
+        wireless-wan { "Беспроводная сеть WAN" }
+        emm-controller { "Контроллер eMMC" }
+        nvme-controller { "Контроллер NVMe" }
+        ufs-controller { "Контроллер UFS" }
+    }
+    oob-connection {
+        is-inbound-enabled { "Входящие подключения разрешены" }
+        is-outbound-enabled { "Исходящие подключения разрешены" }
+    }
+    oob-remote-access {
+        name { "Внеполосный удалённый доступ" }
+    }
+    pointing-device {
+        name { "Встроенное указывающее устройство" }
+    }
+    pointing-device-interface {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        serial { "Последовательный" }
+        ps2 { "PS/2" }
+        infrared { "Инфракрасный" }
+        hp-hil { "HP-HIL" }
+        bus-mouse { "Шинная мышь" }
+        adb { "ADB (Apple Desktop Bus)" }
+        bus-mouse-db9 { "Шинная мышь DB-9" }
+        bus-mouse-din { "Шинная мышь micro-DIN" }
+        usb { "USB" }
+        i2c { "I2C" }
+        spi { "SPI" }
+    }
+    pointing-device-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        mouse { "Мышь" }
+        track-ball { "Трекбол" }
+        track-point { "Трекпойнт" }
+        glide-point { "Сенсорная панель" }
+        touch-pad { "Сенсорная панель" }
+        touch-screen { "Сенсорный экран" }
+        optical-sensor { "Оптический датчик" }
+    }
+    port-connector {
+        name { "Разъём порта" }
+    }
+    port-connector-type {
+        none { "Нет" }
+        cn-36 { "Centronics" }
+        hpcn-36 { "Mini-Centronics" }
+        proprietary { "Proprietary" }
+        db-25-m { "DB-25 male" }
+        db-25-f { "DB-25 female" }
+        db-15-m { "DB-15 male" }
+        db-15-f { "DB-15 female" }
+        db-9-m { "DB-9 male" }
+        db-9-f { "DB-9 female" }
+        rj-11 { "RJ-11" }
+        rj-45 { "RJ-45" }
+        mini-scsi-50pin { "50-pin MiniSCSI" }
+        mini-din { "Mini-DIN" }
+        micro-din { "Micro-DIN" }
+        ps-2 { "PS/2" }
+        infrared { "Инфракрасный" }
+        hp-hil { "HP-HIL" }
+        access-bus { "Access Bus (USB)" }
+        ssa-scsi { "SSA SCSI" }
+        circular-din-8-m { "Circular DIN-8 male" }
+        circular-din-8-f { "Circular DIN-8 female" }
+        onboard-ide { "On Board IDE" }
+        onboard-floppy { "On Board Floppy" }
+        dil-9pin { "9-pin Dual Inline (pin 10 cut)" }
+        dil-25-pin { "25-pin Dual Inline (pin 26 cut)" }
+        dil-50pin { "50-pin Dual Inline" }
+        dil-68pin { "68-pin Dual Inline" }
+        onboard-sound { "On Board Sound Input from CD-ROM" }
+        hpcn-14 { "Mini-Centronics Type-14" }
+        hpcn-26 { "Mini-Centronics Type-26" }
+        mini-jack { "Mini-jack (headphones)" }
+        bnc { "BNC" }
+        ieee-1394 { "IEEE 1394" }
+        sas-sata { "SAS/SATA Plug Receptacle" }
+        usb-c { "USB Type-C Receptacle" }
+        pc-98 { "PC-98" }
+        pc-98-hireso { "PC-98 Hireso" }
+        pc-h98 { "PC-H98" }
+        pc-98-note { "PC-98 Note" }
+        pc-98-full { "PC-98 Full" }
+        other { "Другой" }
+    }
+    port-type {
+        none { "Нет" }
+        parallel-xt-at { "Параллельный, совместимый с XT/AT" }
+        parallel-ps2 { "Параллельный PS/2" }
+        parallel-ecp { "Параллельный ECP" }
+        parallel-epp { "Параллельный EPP" }
+        parallel-ecp-epp { "Параллельный ECP/EPP" }
+        serial-xt-at { "Последовательный, совместимый с XT/AT" }
+        serial-16450 { "Последовательный, совместимый с 16450" }
+        serial-16550 { "Последовательный, совместимый с 16550" }
+        serial-16550a { "Последовательный, совместимый с 16550A" }
+        scsi { "SCSI" }
+        midi { "MIDI" }
+        joystick { "Joystick" }
+        keyboard { "Keyboard" }
+        mouse { "Мышь" }
+        ssa-scsi { "SSA SCSI" }
+        usb { "USB" }
+        firewire { "FireWire (IEEE 1394)" }
+        pcmcia-i { "PCMCIA type I" }
+        pcmcia-ii { "PCMCIA type II" }
+        pcmcia-iii { "PCMCIA type III" }
+        cardbus { "CardBus" }
+        access-bus { "ACCESS.bus" }
+        scsi-2 { "SCSI-2" }
+        wide-scsi { "Wide SCSI" }
+        pc-98 { "PC-98" }
+        pc-98-hireso { "PC-98-Hireso" }
+        pc-h98 { "PC-H98" }
+        video { "Видео" }
+        audio { "Audio" }
+        modem { "Modem" }
+        network { "Network" }
+        sata { "SATA" }
+        sas { "SAS" }
+        mfdp { "MFDP (многофункциональный DisplayPort)" }
+        thunderbolt { "Thunderbolt" }
+        "8251" { "Совместимый с 8251" }
+        "8251-fifo" { "Совместимый с 8251 FIFO" }
+        other { "Другой" }
+    }
+    portable-battery {
+        attribute {
+            capacity { "Расчётная ёмкость" }
+            voltage { "Расчётное напряжение" }
+        }
+        name { "Аккумулятор" }
+    }
+    power-controls {
+        name { "Управление питанием системы" }
+    }
+    power-supply {
+        attribute {
+            group { "Группа питания" }
+        }
+        name { "Блок питания системы" }
+    }
+    power-supply-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        linear { "Линейный" }
+        switching { "Импульсный" }
+        battery { "Батарея" }
+        ups { "ИБП" }
+        converter { "Преобразователь" }
+        regulator { "Регулятор" }
+    }
+    probe-location {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        processor { "Процессор" }
+        disk { "Диск" }
+        peripheral-bay { "Отсек периферии" }
+        system-mgmt-module { "Модуль управления системой" }
+        motherboard { "Материнская плата" }
+        memory-module { "Модуль памяти" }
+        processor-module { "Процессорный модуль" }
+        power-unit { "Блок питания" }
+        addin-card { "Плата расширения" }
+        front-panel-board { "Плата передней панели" }
+        back-panel-board { "Плата задней панели" }
+        power-system-board { "Плата системы питания" }
+        drive-back-plane { "Объединительная плата накопителей" }
+    }
+    processor {
+        attribute {
+            maximum-speed { "Максимальная частота" }
+        }
+        name { "Процессор" }
+    }
+    processor-architecture {
+        reserved { "Зарезервирована" }
+        ia32 { "IA32 (x86)" }
+        x64 { "x64 (x86-64, Intel 64, AMD64, EM64T)" }
+        itanium { "Intel Itanium" }
+        aarch32 { "32-битный Arm (AArch32)" }
+        aarch64 { "64-битный Arm (AArch64)" }
+        rv32 { "32-битный RISC-V (RV32)" }
+        rv64 { "64-битный RISC-V (RV64)" }
+        rv128 { "128-битный RISC-V (RV128)" }
+        loongarch32 { "32-битный LoongArch (LoongArch32)" }
+        loongarch64 { "64-битный LoongArch (LoongArch64)" }
+    }
+    processor-ex {
+        attribute {
+            data { "Данные процессора" }
+        }
+        name { "Процессор, дополнительные сведения" }
+    }
+    processor-family {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        intel-8086 { "Intel 8086" }
+        intel-80286 { "Intel 80286" }
+        intel-80386 { "Intel 80386" }
+        intel-80486 { "Intel 80486" }
+        intel-8087 { "Intel 8087" }
+        intel-80287 { "Intel 80287" }
+        intel-80387 { "Intel 80387" }
+        intel-80487 { "Intel 80487" }
+        intel-pentium { "Intel Pentium" }
+        intel-pentium-pro { "Intel Pentium Pro" }
+        intel-pentium-2 { "Intel Pentium II" }
+        intel-pentium-mmx { "Intel Pentium MMX" }
+        intel-celeron { "Intel Celeron" }
+        intel-pentium-2-xeon { "Intel Pentium II Xeon" }
+        intel-pentium-3 { "Intel Pentium III" }
+        apple-m1 { "Apple M1" }
+        apple-m2 { "Apple M2" }
+        intel-celeron-m { "Intel Celeron M" }
+        intel-pentium-4-ht { "Intel Pentium 4 HT" }
+        intel { "Intel" }
+        amd-duron { "AMD Duron" }
+        amd-k5 { "AMD K5" }
+        amd-k6 { "AMD K6" }
+        amd-k6-2 { "AMD K6-2" }
+        amd-k6-3 { "AMD K6-3" }
+        amd-athlon { "AMD Athlon" }
+        amd-29000 { "AMD 29000" }
+        amd-k6-2-plus { "AMD K6-2+" }
+        powerpc { "PowerPC" }
+        powerpc-601 { "PowerPC 601" }
+        powerpc-603 { "PowerPC 603" }
+        powerpc-603-plus { "PowerPC 603+" }
+        powerpc-604 { "PowerPC 604" }
+        powerpc-620 { "PowerPC 620" }
+        powerpc-x704 { "PowerPC x704" }
+        powerpc-750 { "PowerPC 750" }
+        intel-core-duo { "Intel Core Duo" }
+        intel-core-duo-m { "Intel Core Duo M" }
+        intel-core-solo-m { "Intel Core Solo M" }
+        intel-atom { "Intel Atom" }
+        intel-core-m { "Intel Core M" }
+        intel-core-m3 { "Intel Core m3" }
+        intel-core-m5 { "Intel Core m5" }
+        intel-core-m7 { "Intel Core m7" }
+        alpha { "Alpha" }
+        alpha-21064 { "Alpha 21064" }
+        alpha-21066 { "Alpha 21066" }
+        alpha-21164 { "Alpha 21164" }
+        alpha-21164pc { "Alpha 21164PC" }
+        alpha-21164a { "Alpha 21164a" }
+        alpha-21264 { "Alpha 21264" }
+        alpha-21364 { "Alpha 21364" }
+        amd-turion-2-ultra-2c-m { "AMD Turion II Ultra Dual-Core M" }
+        amd-turion-2-2c-m { "AMD Turion II Dual-Core M" }
+        amd-athlon-2-2c-m { "AMD Athlon II Dual-Core M" }
+        amd-opteron-6100 { "AMD Opteron 6100 series" }
+        amd-opteron-4100 { "AMD Opteron 4100 series" }
+        amd-opteron-6200 { "AMD Opteron 6200 series" }
+        amd-opteron-4200 { "AMD Opteron 4200 series" }
+        amd-fx { "AMD FX series" }
+        mips { "MIPS" }
+        mips-r4000 { "MIPS R4000" }
+        mips-r4200 { "MIPS R4200" }
+        mips-r4400 { "MIPS R4400" }
+        mips-r4600 { "MIPS R4600" }
+        mips-r10000 { "MIPS R10000" }
+        amd-c { "AMD C-series" }
+        amd-e { "AMD E-series" }
+        amd-a { "AMD A-series" }
+        amd-g { "AMD G-series" }
+        amd-z { "AMD Z-series" }
+        amd-r { "AMD R-series" }
+        amd-opteron-4300 { "AMD Opteron 4300 series" }
+        amd-opteron-6300 { "AMD Opteron 6300 series" }
+        amd-opteron-3300 { "AMD Opteron 3300 series" }
+        amd-firepro { "AMD FirePro series" }
+        sparc { "SPARC" }
+        supersparc { "SuperSPARC" }
+        microsparc-2 { "microSPARC II" }
+        microsparc-2ep { "microSPARC IIep" }
+        ultrasparc { "UltraSPARC" }
+        ultrasparc-2 { "UltraSPARC II" }
+        ultrasparc-2i { "UltraSPARC IIi" }
+        ultrasparc-3 { "UltraSPARC III" }
+        ultrasparc-3i { "UltraSPARC IIIi" }
+        motorola-68040 { "Motorola 68040" }
+        motorola-68xxx { "Motorola 68xxx" }
+        motorola-68000 { "Motorola 68000" }
+        motorola-68010 { "Motorola 68010" }
+        motorola-68020 { "Motorola 68020" }
+        motorola-68030 { "Motorola 68030" }
+        amd-athlon-x4-4c { "AMD Athlon X4 Quad-Core" }
+        amd-opteron-x1000 { "AMD Opteron X1000 series" }
+        amd-opteron-x2000 { "AMD Opteron X2000 series APU" }
+        amd-opteron-a { "AMD Opteron A-series" }
+        amd-opteron-x3000 { "AMD Opteron X3000 series APU" }
+        amd-zen { "AMD Zen" }
+        hobbit { "Hobbit" }
+        crusoe-tm5000 { "Transmeta Crusoe TM5000" }
+        crusoe-tm3000 { "Transmeta Crusoe TM3000" }
+        efficeon-tm8000 { "Transmeta Efficeon TM8000" }
+        weitek { "Weitek" }
+        intel-itanium { "Intel Itanium" }
+        amd-athlon-64 { "AMD Athlon 64" }
+        amd-opteron { "AMD Opteron" }
+        amd-sempron { "AMD Sempron" }
+        amd-turion-64-m { "AMD Turion 64 Mobile" }
+        amd-opteron-2c { "Dual-Core AMD Opteron" }
+        amd-athlon-64-x2-2c { "AMD Athlon 64 X2 Dual-Core" }
+        amd-turion-64-x2-m { "AMD Turion 64 X2 Mobile" }
+        amd-opteron-4c { "Quad-Core AMD Opteron" }
+        amd-opteron-g3 { "Third-Generation AMD Opteron" }
+        amd-phenom-fx-4c { "AMD Phenom FX Quad-Core" }
+        amd-phenom-x4-4c { "AMD Phenom X4 Quad-Core" }
+        amd-phenom-x2-2c { "AMD Phenom X2 Dual-Core" }
+        amd-athlon-x2-2c { "AMD Athlon X2 Dual-Core" }
+        parisc { "PA-RISC" }
+        parisc-8500 { "PA-RISC 8500" }
+        parisc-8000 { "PA-RISC 8000" }
+        parisc-7300lc { "PA-RISC 7300LC" }
+        parisc-7200 { "PA-RISC 7200" }
+        parisc-7100lc { "PA-RISC 7100LC" }
+        parisc-7100 { "PA-RISC 7100" }
+        v30 { "V30" }
+        intel-xeon-3200-4c { "Quad-Core Intel Xeon 3200 series" }
+        intel-xeon-3000-2c { "Dual-Core Intel Xeon 3000 series" }
+        intel-xeon-5300-4c { "Quad-Core Intel Xeon 5300 series" }
+        intel-xeon-5100-2c { "Dual-Core Intel Xeon 5100 series" }
+        intel-xeon-5000-2c { "Dual-Core Intel Xeon 5000 series" }
+        intel-xeon-lv-2c { "Dual-Core Intel Xeon LV" }
+        intel-xeon-ulv-2c { "Dual-Core Intel Xeon ULV" }
+        intel-xeon-7100-2c { "Dual-Core Intel Xeon 7100 series" }
+        intel-xeon-5400-4c { "Quad-Core Intel Xeon 5400 series" }
+        intel-xeon-4c { "Quad-Core Intel Xeon" }
+        intel-xeon-5200-2c { "Dual-Core Intel Xeon 5200 series" }
+        intel-xeon-7200-2c { "Dual-Core Intel Xeon 7200 series" }
+        intel-xeon-7300-4c { "Quad-Core Intel Xeon 7300 series" }
+        intel-xeon-7400-4c { "Quad-Core Intel Xeon 7400 series" }
+        intel-xeon-7400-mc { "Multi-Core Intel Xeon 7400 series" }
+        intel-pentium-3-xeon { "Intel Pentium III Xeon" }
+        intel-pentium-3-ss { "Intel Pentium III with SpeedStep technology" }
+        intel-pentium-4 { "Intel Pentium 4" }
+        intel-xeon { "Intel Xeon" }
+        ibm-as400 { "IBM AS400" }
+        intel-xeon-mp { "Intel Xeon MP" }
+        amd-athlon-xp { "AMD Athlon XP" }
+        amd-athlon-mp { "AMD Athlon MP" }
+        intel-itanium-2 { "Intel Itanium 2" }
+        intel-pentium-m { "Intel Pentium M" }
+        intel-celeron-d { "Intel Celeron D" }
+        intel-pentium-d { "Intel Pentium D" }
+        intel-pentium-extreme { "Intel Pentium Extreme Edition" }
+        intel-core-solo { "Intel Core Solo" }
+        reserved-k7-core-2 { "Reserved (AMD K7/Intel Core 2)" }
+        intel-core-2-duo { "Intel Core 2 Duo" }
+        intel-core-2-solo { "Intel Core 2 Solo" }
+        intel-core-2-extreme { "Intel Core 2 Extreme" }
+        intel-core-2-quad { "Intel Core 2 Quad" }
+        intel-core-2-extreme-m { "Intel Core 2 Extreme mobile" }
+        intel-core-2-duo-m { "Intel Core 2 Duo mobile" }
+        intel-core-2-solo-m { "Intel Core 2 Solo mobile" }
+        intel-core-i7 { "Intel Core i7" }
+        intel-celeron-2c { "Dual-Core Intel Celeron" }
+        ibm-esa390 { "IBM ESA/390" }
+        powerpc-g4 { "PowerPC G4" }
+        powerpc-g5 { "PowerPC G5" }
+        ibm-esa390-g6 { "IBM ESA/390 G6" }
+        ibm-zarch { "IBM z/Architecture" }
+        intel-core-i5 { "Intel Core i5" }
+        intel-core-i3 { "Intel Core i3" }
+        intel-core-i9 { "Intel Core i9" }
+        intel-xeon-d { "Intel Xeon D" }
+        via-c7-m { "VIA C7-M" }
+        via-c7-d { "VIA C7-D" }
+        via-c7 { "VIA C7" }
+        via-eden { "VIA Eden" }
+        intel-xeon-mc { "Multi-Core Intel Xeon" }
+        intel-xeon-3xxx-2c { "Dual-Core Intel Xeon 3xxx series" }
+        intel-xeon-3xxx-4c { "Quad-Core Intel Xeon 3xxx series" }
+        via-nano { "VIA Nano" }
+        intel-xeon-5xxx-2c { "Dual-Core Intel Xeon 5xxx series" }
+        intel-xeon-5xxx-4c { "Quad-Core Intel Xeon 5xxx series" }
+        intel-xeon-7xxx-2c { "Dual-Core Intel Xeon 7xxx series" }
+        intel-xeon-7xxx-4c { "Quad-Core Intel Xeon 7xxx series" }
+        intel-xeon-7xxx-mc { "Multi-Core Intel Xeon 7xxx series" }
+        intel-xeon-3400-mc { "Multi-Core Intel Xeon 3400 series" }
+        amd-opteron-3000 { "AMD Opteron 3000 series" }
+        amd-sempron-2 { "AMD Sempron II" }
+        amd-opteron-embedded-4c { "Embedded AMD Opteron Quad-Core" }
+        amd-phenon-3c { "AMD Phenom Triple-Core" }
+        amd-turion-ultra-m-2c { "AMD Turion Ultra Dual-Core mobile" }
+        amd-turion-m-2c { "AMD Turion Dual-Core mobile" }
+        amd-athlon-2c { "AMD Athlon Dual-Core" }
+        amd-sempron-si { "AMD Sempron SI" }
+        amd-phenon-2 { "AMD Phenom II" }
+        amd-athlon-2 { "AMD Athlon II" }
+        amd-opteron-6c { "Six-Core AMD Opteron" }
+        amd-sempron-m { "AMD Sempron M" }
+        intel-i860 { "Intel i860" }
+        intel-i960 { "Intel i960" }
+        extended { "Processor family from the extended field" }
+        reserved { "Зарезервировано" }
+        arm-v7 { "ARM v7" }
+        arm-v8 { "ARMv8" }
+        arm-v9 { "ARMv9" }
+        arm-reserved { "Reserved for future use by ARM" }
+        hitachi-sh-3 { "Hitachi SH-3" }
+        hitachi-sh-4 { "Hitachi SH-4" }
+        arm { "ARM" }
+        strongarm { "StrongARM" }
+        cyrix-6x86 { "Cyrix 6x86" }
+        cyrix-mediagx { "Cyrix MediaGX" }
+        cyrix-m2 { "Cyrix MII" }
+        winchip { "WinChip" }
+        dsp { "DSP" }
+        video { "Видео" }
+        riscv-rv32 { "RISC-V RV32" }
+        riscv-rv64 { "RISC-V RV64" }
+        riscv-rv128 { "RISC-V RV128" }
+        loongarch { "LoongArch" }
+        loongson-1 { "Loongson 1" }
+        loongson-2 { "Loongson 2" }
+        loongson-3 { "Loongson 3" }
+        loongson-2k { "Loongson 2K" }
+        loongson-3a { "Loongson 3A" }
+        loongson-3b { "Loongson 3B" }
+        loongson-3c { "Loongson 3C" }
+        loongson-3d { "Loongson 3D" }
+        loongson-3e { "Loongson 3E" }
+        loongson-2k-2xxx-2c { "Dual-Core Loongson 2K 2xxx series" }
+        loongson-3a-5xxx-4c { "Quad-Core Loongson 3A 5xxx series" }
+        loongson-3a-5xxx-mc { "Multi-Core Loongson 3A 5xxx series" }
+        loongson-3b-5xxx-4c { "Quad-Core Loongson 3B 5xxx series" }
+        loongson-3b-5xxx-mc { "Multi-Core Loongson 3B 5xxx series" }
+        loongson-3c-5xxx-mc { "Multi-Core Loongson 3C 5xxx series" }
+        loongson-3d-5xxx-mc { "Multi-Core Loongson 3D 5xxx series" }
+        intel-core-3 { "Intel Core 3" }
+        intel-core-5 { "Intel Core 5" }
+        intel-core-7 { "Intel Core 7" }
+        intel-core-9 { "Intel Core 9" }
+        intel-core-ultra-3 { "Intel Core Ultra 3" }
+        intel-core-ultra-5 { "Intel Core Ultra 5" }
+        intel-core-ultra-7 { "Intel Core Ultra 7" }
+        intel-core-ultra-9 { "Intel Core Ultra 9" }
+    }
+    processor-feature {
+        unknown { "Неизвестный" }
+        capable-64bit { "Поддержка 64 бит" }
+        multicore { "Многоядерный" }
+        hardware_thread { "Аппаратные потоки" }
+        execute-protection { "Защита исполнения" }
+        enhanced-virtualization { "Расширенная виртуализация" }
+        power-perf-control { "Управление питанием и производительностью" }
+        capable-128bit { "Поддержка 128 бит" }
+        arm64-soc-id { "Идентификатор Arm64 SoC" }
+    }
+    processor-status {
+        unknown { "Неизвестный" }
+        enabled { "Включён" }
+        disabled-by-user { "Отключён пользователем" }
+        disabled-by-firmware { "Отключён прошивкой" }
+        idle { "Простаивает" }
+        other { "Другой" }
+    }
+    processor-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        central { "Центральный процессор" }
+        math { "Математический сопроцессор" }
+        dsp { "Сигнальный процессор" }
+        video { "Видеопроцессор" }
+    }
+    processor-upgrade {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        daughter-board { "Дочерняя плата" }
+        socket-zif { "Разъём ZIF" }
+        piggy-back { "Заменяемый модуль" }
+        none { "Нет" }
+        socket-lif { "Разъём LIF" }
+        slot-1 { "Slot 1" }
+        slot-2 { "Slot 2" }
+        socket-370pin { "370-pin socket" }
+        slot-a { "Slot A" }
+        slot-m { "Slot M" }
+        socket-423 { "Socket 423" }
+        socket-a { "Socket A (462)" }
+        socket-478 { "Socket 478" }
+        socket-754 { "Socket 754" }
+        socket-940 { "Socket 940" }
+        socket-939 { "Socket 939" }
+        socket-mpga604 { "Socket mPGA604" }
+        socket-lga771 { "Socket LGA771" }
+        socket-lga775 { "Socket LGA775" }
+        socket-s1 { "Socket S1" }
+        socket-am2 { "Socket AM2" }
+        socket-f { "Socket F (1207)" }
+        socket-lga1366 { "Socket LGA1366" }
+        socket-g34 { "Socket G34" }
+        socket-am3 { "Socket AM3" }
+        socket-c32 { "Socket C32" }
+        socket-lga1156 { "Socket LGA1156" }
+        socket-lga1567 { "Socket LGA1567" }
+        socket-pga988a { "Socket PGA988A" }
+        socket-bga1288 { "Socket BGA1288" }
+        socket-rpga988b { "Socket rPGA988B" }
+        socket-bga1023 { "Socket BGA1023" }
+        socket-bga1224 { "Socket BGA1224" }
+        socket-lga1155 { "Socket LGA1155" }
+        socket-lga1356 { "Socket LGA1356" }
+        socket-lga2011 { "Socket LGA2011" }
+        socket-fs1 { "Socket FS1" }
+        socket-fs2 { "Socket FS2" }
+        socket-fm1 { "Socket FM1" }
+        socket-fm2 { "Socket FM2" }
+        socket-lga2011-3 { "Socket LGA2011-3" }
+        socket-lga1356-3 { "Socket LGA1356-3" }
+        socket-lga1150 { "Socket LGA1150" }
+        socket-bga1168 { "Socket BGA1168" }
+        socket-bga1234 { "Socket BGA1234" }
+        socket-bga1364 { "Socket BGA1364" }
+        socket-am4 { "Socket AM4" }
+        socket-lga1151 { "Socket LGA1151" }
+        socket-bga1356 { "Socket BGA1356" }
+        socket-bga1440 { "Socket BGA1440" }
+        socket-bga1515 { "Socket BGA1515" }
+        socket-lga3647-1 { "Socket LGA3647-1" }
+        socket-sp3 { "Socket SP3" }
+        socket-sp3r2 { "Socket SP3r2" }
+        socket-lga2066 { "Socket LGA2066" }
+        socket-bga1392 { "Socket BGA1392" }
+        socket-bga1510 { "Socket BGA1510" }
+        socket-bga1528 { "Socket BGA1528" }
+        socket-lga4189 { "Socket LGA4189" }
+        socket-lga1200 { "Socket LGA1200" }
+        socket-lga4677 { "Socket LGA4677" }
+        socket-lga1700 { "Socket LGA1700" }
+        socket-bga1744 { "Socket BGA1744" }
+        socket-bga1781 { "Socket BGA1781" }
+        socket-bga1211 { "Socket BGA1211" }
+        socket-bga2422 { "Socket BGA2422" }
+        socket-lga1211 { "Socket LGA1211" }
+        socket-lga2422 { "Socket LGA2422" }
+        socket-lga5773 { "Socket LGA5773" }
+        sockt-bga5773 { "Socket BGA5773" }
+        socket-am5 { "Socket AM5" }
+        socket-sp5 { "Socket SP5" }
+        socket-sp6 { "Socket SP6" }
+        socket-bga883 { "Socket BGA883" }
+        socket-bga1190 { "Socket BGA1190" }
+        socket-bga4129 { "Socket BGA4129" }
+        socket-lga4710 { "Socket LGA4710" }
+        socket-lga7529 { "Socket LGA7529" }
+        socket-bga1964 { "Socket BGA1964" }
+        socket-bga1792 { "Socket BGA1792" }
+        socket-bga2049 { "Socket BGA2049" }
+        socket-bga2551 { "Socket BGA2551" }
+        socket-lga1851 { "Socket LGA1851" }
+        socket-bga2114 { "Socket BGA2114" }
+        socket-bga2833 { "Socket BGA2833" }
+    }
+    processor-voltage {
+        "5v" { "5V" }
+        "3v3" { "3.3V" }
+        "2v9" { "2.9V" }
+    }
+    processor-x86-feature {
+        fpu { "FPU (встроенный блок плавающей точки)" }
+        vme { "VME (расширение виртуального режима)" }
+        de { "DE (расширение отладки)" }
+        pse { "PSE (расширение размера страницы)" }
+        tsc { "TSC (счётчик тактов)" }
+        msr { "MSR (регистры, зависящие от модели)" }
+        pae { "PAE (расширение физических адресов)" }
+        mce { "MCE (исключение машинного контроля)" }
+        cx8 { "CX8 (инструкция CMPXCHG8B)" }
+        apic { "APIC (встроенный APIC)" }
+        sep { "SEP (быстрый системный вызов)" }
+        mtrr { "MTRR (регистры диапазонов типов памяти)" }
+        pge { "PGE (глобальные страницы)" }
+        mca { "MCA (архитектура машинного контроля)" }
+        cmov { "CMOV (инструкции условного перемещения)" }
+        pat { "PAT (таблица атрибутов страниц)" }
+        pse-36 { "PSE-36 (36-битное расширение размера страницы)" }
+        psn { "PSN (серийный номер процессора)" }
+        clfsh { "CLFSH (инструкция CLFLUSH)" }
+        ds { "DS (хранилище отладки)" }
+        acpi { "ACPI (тепловой монитор и программное управление частотой)" }
+        mmx { "MMX (технология MMX)" }
+        fxsr { "FXSR (инструкции FXSAVE и FXRSTOR)" }
+        sse { "SSE (потоковые SIMD-расширения)" }
+        sse2 { "SSE2 (потоковые SIMD-расширения 2)" }
+        ss { "SS (самоотслеживание кэша)" }
+        htt { "HTT (многопоточность)" }
+        tm { "TM (тепловой монитор)" }
+        pbe { "PBE (сигнал отложенного прерывания)" }
+    }
+    property-name {
+        reserved { "Зарезервировано" }
+        uefi-device-path { "Путь устройства UEFI" }
+        vendor-specific { "Специфично для производителя прошивки" }
+        oem-specific { "Специфично для производителя" }
+    }
+    rack-type {
+        unspecified { "Не указан" }
+        open-rack { "Open Rack" }
+    }
+    range-switching-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        manual { "Ручное" }
+        auto { "Автоматическое переключение" }
+        wide-range { "Широкий диапазон" }
+        not-applicable { "Неприменимо" }
+    }
+    slot {
+        attribute {
+            address { "Адрес смежного устройства" }
+            base-address { "Базовый адрес устройства" }
+            features { "Характеристики" }
+            features-ex { "Дополнительные характеристики" }
+        }
+        name { "Слоты расширения" }
+    }
+    slot-feature {
+        unknown { "Неизвестная" }
+        has-5v0-support { "Подаёт 5,0 В" }
+        has-3v3-support { "Подаёт 3,3 В" }
+        has-shared-opening { "Отверстие разделяется с другим слотом" }
+        has-pccard-16-support { "Слот PC Card поддерживает PC Card-16" }
+        has-cardbus-support { "Слот PC Card поддерживает CardBus" }
+        has-zoom-video-support { "Слот PC Card поддерживает Zoom Video" }
+        has-modem-ring-resume-support { "Слот PC Card поддерживает пробуждение по звонку модема" }
+    }
+    slot-features-ex {
+        has-pme-support { "Слот PCI поддерживает сигнал PME#" }
+        has-hotplug-support { "Слот поддерживает горячее подключение" }
+        has-smbus-support { "Слот PCI поддерживает сигнал SMBus" }
+        has-bifurcation-support { "Слот PCIe поддерживает разделение линий" }
+        has-async-removal-support { "Слот поддерживает внезапное извлечение" }
+        is-cxl-10-capable { "Слот Flexbus с поддержкой CXL 1.0" }
+        is-cxl-20-capable { "Слот Flexbus с поддержкой CXL 2.0" }
+        is-cxl-30-capable { "Слот Flexbus с поддержкой CXL 3.0" }
+    }
+    slot-height {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        full { "Полной высоты" }
+        low-profile { "Низкий профиль" }
+    }
+    slot-length {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        short { "Короткая" }
+        long { "Длинная" }
+        sff-8200 { "Форм-фактор накопителя 2,5 дюйма" }
+        sff-8300 { "Форм-фактор накопителя 3,5 дюйма" }
+    }
+    slot-type {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        isa { "ISA" }
+        mca { "MCA" }
+        eisa { "EISA" }
+        pci { "PCI" }
+        pcmcia { "PC card (PCMCIA)" }
+        vesa { "VL-VESA" }
+        proprietary { "Проприетарный" }
+        processor-card { "Слот платы процессора" }
+        memory-card { "Слот платы памяти" }
+        io-riser-card { "I/O riser card slot" }
+        nubus { "NuBus" }
+        pci-66 { "PCI 66 Mhz" }
+        agp { "AGP" }
+        agp-2x { "AGP 2x" }
+        agp-4x { "AGP 4x" }
+        pci-x { "PCI-X" }
+        agp-8x { "AGP 8x" }
+        m2-s1-dp { "M.2 Socket 1-DP (Mechanical key A)" }
+        m2-s1-sd { "M.2 Socket 1-SD (Mechanical key E)" }
+        m2-s2 { "M.2 Socket 2 (Mechanical key B)" }
+        m2-s3 { "M.2 Socket 3 (Mechanical key M)" }
+        mxm-i { "MXM Type I" }
+        mxm-iii { "MXM Type II" }
+        mxm-iii-std { "MXM Type III (Standard connector)" }
+        mxm-iii-he { "MXM Type III (HE connector)" }
+        mxm-iv { "MXM Type IV" }
+        mxm-3.0-a { "MXM 3.0 Type A" }
+        mxm-3.0-b { "MXM 3.0 Type B" }
+        pci-e-g2-sff8639 { "PCI Express Gen 2 SFF-8639 (U.2)" }
+        pci-e-g3-sff8639 { "PCI Express Gen 3 SFF-8639 (U.2)" }
+        pci-e-mini-52pin-bsko { "PCI Express Mini 52-pin (CEM spec. 2.0) with bottom-side keep-outs" }
+        pci-e-mini-52pin { "PCI Express Mini 52-pin (CEM spec. 2.0) without bottom-side keep-outs" }
+        pci-e-mini-76pin { "PCI Express Mini 76-pin (CEM spec. 2.0)" }
+        pci-e-g4-sff8639 { "PCI Express Gen 4 SFF-8639 (U.2)" }
+        pci-e-g5-sff8639 { "PCI Express Gen 5 SFF-8639 (U.2)" }
+        ocp-nic-3.0-sff { "OCP NIC 3.0 Small Form Factor (SFF)" }
+        ocp-nic-3.0-lff { "OCP NIC 3.0 Large Form Factor (LFF)" }
+        ocp-nic-legacy { "OCP NIC prior to 3.0" }
+        cxl-flexbus-1.0 { "CXL FlexBus 1.0" }
+        pc-98-c20 { "PC-98/C20" }
+        pc-98-c24 { "PC-98/C24" }
+        pc-98-e { "PC-98/E" }
+        pc-98-local-bus { "PC-98/Local bus" }
+        pc-98-card { "PC-98/Card" }
+        pci-e { "PCI Express" }
+        pci-e-x1 { "PCI Express x1" }
+        pci-e-x2 { "PCI Express x2" }
+        pci-e-x4 { "PCI Express x4" }
+        pci-e-x8 { "PCI Express x8" }
+        pci-e-x16 { "PCI Express x16" }
+        pci-e-g2 { "PCI Express Gen 2" }
+        pci-e-g2-x1 { "PCI Express Gen 2 x1" }
+        pci-e-g2-x2 { "PCI Express Gen 2 x2" }
+        pci-e-g2-x4 { "PCI Express Gen 2 x4" }
+        pci-e-g2-x8 { "PCI Express Gen 2 x8" }
+        pci-e-g2-x16 { "PCI Express Gen 2 x16" }
+        pci-e-g3 { "PCI Express Gen 3" }
+        pci-e-g3-x1 { "PCI Express Gen 3 x1" }
+        pci-e-g3-x2 { "PCI Express Gen 3 x2" }
+        pci-e-g3-x4 { "PCI Express Gen 3 x4" }
+        pci-e-g3-x8 { "PCI Express Gen 3 x8" }
+        pci-e-g3-x16 { "PCI Express Gen 3 x16" }
+        pci-e-g4 { "PCI Express Gen 4" }
+        pci-e-g4-x1 { "PCI Express Gen 4 x1" }
+        pci-e-g4-x2 { "PCI Express Gen 4 x2" }
+        pci-e-g4-x4 { "PCI Express Gen 4 x4" }
+        pci-e-g4-x8 { "PCI Express Gen 4 x8" }
+        pci-e-g4-x16 { "PCI Express Gen 4 x16" }
+        pci-e-g5 { "PCI Express Gen 5" }
+        pci-e-g5-x1 { "PCI Express Gen 5 x1" }
+        pci-e-g5-x2 { "PCI Express Gen 5 x2" }
+        pci-e-g5-x4 { "PCI Express Gen 5 x4" }
+        pci-e-g5-x8 { "PCI Express Gen 5 x8" }
+        pci-e-g5-x16 { "PCI Express Gen 5 x16" }
+        pci-e-g6 { "PCI Express Gen 6 and beyond" }
+        edsff-e1 { "Enterprise and datacenter 1U E1 form factor slot (EDSFF E1.S, E1.L)" }
+        edsff-e3 { "Enterprise and datacenter 3\\\"} E3 form factor slot (EDSFF E3.S, E3.L)" }
+    }
+    slot-usage {
+        unspecified { "Не указано" }
+        other { "Другое" }
+        unknown { "Неизвестное" }
+        available { "Свободен" }
+        in-use { "Занят" }
+        unavailable { "Недоступен" }
+    }
+    slot-width {
+        unspecified { "Не указана" }
+        other { "Другая" }
+        unknown { "Неизвестная" }
+        "8-bit" { "8 бит" }
+        "16-bit" { "16 бит" }
+        "32-bit" { "32 бита" }
+        "64-bit" { "64 бита" }
+        "128-bit" { "128 бит" }
+        "1x" { "1x или x1" }
+        "2x" { "2x или x2" }
+        "4x" { "4x или x4" }
+        "8x" { "8x или x8" }
+        "12x" { "12x или x12" }
+        "16x" { "16x или x16" }
+        "32x" { "32x или x32" }
+    }
+    status {
+        unspecified { "Не указан" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        ok { "OK" }
+        non-critical { "Non-critical" }
+        critical { "Critical" }
+        non-recoverable { "Non-recoverable" }
+    }
+    string-property {
+        name { "Строковое свойство" }
+    }
+    sun-memory-array-ex {
+        attribute {
+            component-handle { "Дескриптор родительского компонента" }
+        }
+        name { "Массив памяти Sun, расширенные сведения" }
+    }
+    sun-memory-device-ex {
+        name { "Устройство памяти Sun, расширенные сведения" }
+    }
+    sun-pcie-root-complex {
+        name { "Корневой комплекс PCI Express Sun" }
+    }
+    sun-port-ex {
+        name { "Порт Sun, расширенные сведения" }
+    }
+    sun-processor-ex {
+        name { "Процессор Sun, расширенные сведения" }
+    }
+    system {
+        name { "Система" }
+    }
+    system-boot {
+        attribute {
+            status { "Состояние загрузки" }
+        }
+        name { "Загрузка системы" }
+    }
+    system-boot-status {
+        no-errors-detected { "Ошибок не обнаружено" }
+        no-bootable-media { "Нет загрузочного носителя" }
+        os-failed-to-load { "Не удалось загрузить операционную систему" }
+        fw-detected-hw-failure { "Прошивка обнаружила аппаратный сбой" }
+        os-detected-hw-failure { "Операционная система обнаружила аппаратный сбой" }
+        user-requested-boot { "Загрузка по запросу пользователя" }
+        system-security-violation { "Нарушение безопасности системы" }
+        previously-requested-image { "Ранее запрошенный образ" }
+        system-wdt-expired { "Истёк сторожевой таймер" }
+        reserved { "Зарезервирован" }
+        vendor-specific { "Специфичный для производителя" }
+        product-specific { "Специфичный для продукта" }
+    }
+    system-config-options {
+        name { "Параметры конфигурации системы" }
+    }
+    system-event-log {
+        name { "Журнал событий системы" }
+    }
+    system-log-header-format {
+        no-header { "Без заголовка" }
+        type-1 { "Заголовок журнала типа 1" }
+        oem-specific { "Специфичный для производителя" }
+    }
+    system-log-status {
+        log-area-valid { "Область журнала корректна" }
+        log-area-full { "Область журнала заполнена" }
+    }
+    system-reset {
+        attribute {
+            is-enabled { "Сброс включён" }
+        }
+        name { "Сброс системы" }
+    }
+    system-wakeup-type {
+        reserved { "Зарезервирован" }
+        other { "Другой" }
+        unknown { "Неизвестный" }
+        apm-timer { "Таймер APM" }
+        modem-ring { "Modem Ring" }
+        lan-remote { "LAN Remote" }
+        power-switch { "Power Switch" }
+        pci-pme { "PCI PME#" }
+        power-restore { "AC Power Restored" }
+    }
+    temperature-probe {
+        name { "Датчик температуры" }
+    }
+    tpm-device {
+        name { "Доверенный платформенный модуль (TPM)" }
+    }
+    tpm-device-feature {
+        is-unsupported { "Характеристики не поддерживаются" }
+        is-update-configurable { "Настраивается обновлением прошивки" }
+        is-software-configurable { "Настраивается программным обеспечением платформы" }
+        is-proprietary-configurable { "Настраивается механизмом производителя" }
+    }
+    unit {
+        hour { "ч" }
+        minute { "мин" }
+        second { "с" }
+        millisecond { "мс" }
+        microsecond { "мкс" }
+        nanosecond { "нс" }
+        ampere { "А" }
+        milliampere { "мА" }
+        volt { "В" }
+        millivolt { "мВ" }
+        watt { "Вт" }
+        milliwatt { "мВт" }
+        watt-hour { "Вт·ч" }
+        celsius { "°C" }
+        bit { "бит" }
+        byte { "байт" }
+        kilobyte { "КБ" }
+        megabyte { "МБ" }
+        gigabyte { "ГБ" }
+        kibibyte { "КиБ" }
+        mebibyte { "МиБ" }
+        gibibyte { "ГиБ" }
+        tebibyte { "ТиБ" }
+        pebibyte { "ПиБ" }
+        exbibyte { "ЭиБ" }
+        zebibyte { "ЗиБ" }
+        yobibyte { "ЙиБ" }
+        robibyte { "РиБ" }
+        quebibyte { "КуиБ" }
+        baud { "бод" }
+        megaxa-second { "МТ/с" }
+        kilobit-second { "Кбит/с" }
+        megabit-second { "Мбит/с" }
+        gigabit-second { "Гбит/с" }
+        percent { "%" }
+        revolution { "об/мин" }
+        rack { "U" }
+        mhz { "МГц" }
+        millimeter { "мм" }
+    }
+    value {
+        invalid { "<недопустимо>" }
+        unknown-error { "Неизвестная ошибка" }
+        unknown-type { "Неизвестный" }
+        oem-type { "Зависит от производителя" }
+    }
+    vendor {
+        other { "Другой" }
+        acer { "Acer" }
+        ami { "AMI" }
+        apple { "Apple" }
+        dell { "Dell" }
+        hp { "HP" }
+        hpe { "HPE" }
+        ibm { "IBM" }
+        intel { "Intel" }
+        lenovo { "Lenovo" }
+    }
+    version-format {
+        free-form { "Произвольный" }
+        semantic { "Семантический" }
+        hexadecimal-32 { "Шестнадцатеричный (32 бита)" }
+        hexadecimal-64 { "Шестнадцатеричный (64 бита)" }
+    }
+    voltage-probe {
+        name { "Датчик напряжения" }
     }
 }

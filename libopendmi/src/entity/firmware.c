@@ -16,7 +16,7 @@ static bool dmi_firmware_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_firmware_feature_names =
 {
-    .code  = "firmware-features",
+    .code  = "firmware-feature",
     .names = (dmi_name_t[]){
         DMI_NAME_UNKNOWN(2),
         DMI_NAME_UNSUPPORTED(3),

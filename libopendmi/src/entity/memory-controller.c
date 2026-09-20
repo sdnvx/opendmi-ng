@@ -20,7 +20,7 @@ static void dmi_memory_controller_cleanup(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_error_detect_method_names =
 {
-    .code  = "error-detect-methods",
+    .code  = "error-detect-method",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_ERROR_DETECT_METHOD_UNSPEC),
         DMI_NAME_OTHER(DMI_ERROR_DETECT_METHOD_OTHER),
@@ -57,7 +57,7 @@ static const dmi_name_set_t dmi_error_detect_method_names =
 
 static const dmi_name_set_t dmi_error_correct_caps_names =
 {
-    .code  = "error-correct-caps",
+    .code  = "error-correct-cap",
     .names = (dmi_name_t[]){
         DMI_NAME_OTHER(0),
         DMI_NAME_UNKNOWN(1),
@@ -83,7 +83,7 @@ static const dmi_name_set_t dmi_error_correct_caps_names =
 
 static const dmi_name_set_t dmi_memory_module_speed_names =
 {
-    .code  = "memory-module-speeds",
+    .code  = "memory-module-speed",
     .names = (dmi_name_t[]){
         DMI_NAME_OTHER(0),
         DMI_NAME_UNKNOWN(1),
@@ -108,7 +108,7 @@ static const dmi_name_set_t dmi_memory_module_speed_names =
 
 static const dmi_name_set_t dmi_memory_interleave_names =
 {
-    .code  = "memory-interleaves",
+    .code  = "memory-interleave",
     .names = (dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_MEMORY_INTERLEAVE_UNSPEC),
         DMI_NAME_OTHER(DMI_MEMORY_INTERLEAVE_OTHER),
@@ -144,7 +144,7 @@ static const dmi_name_set_t dmi_memory_interleave_names =
 
 static const dmi_name_set_t dmi_memory_module_voltage_names =
 {
-    .code  = "memory-module-voltages",
+    .code  = "memory-module-voltage",
     .names = (dmi_name_t[]){
         {
             .id   = 0,

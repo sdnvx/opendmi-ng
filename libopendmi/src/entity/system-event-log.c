@@ -15,7 +15,7 @@ static void dmi_system_event_log_cleanup(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_system_log_access_method_names =
 {
-    .code  = "access-methods",
+    .code  = "access-method",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_8BIT_1_1,
@@ -48,7 +48,7 @@ static const dmi_name_set_t dmi_system_log_access_method_names =
 
 static const dmi_name_set_t dmi_system_log_status_names =
 {
-    .code = "status",
+    .code = "system-log-status",
     .names = (dmi_name_t[]){
         {
             .id   = 0,
@@ -66,7 +66,7 @@ static const dmi_name_set_t dmi_system_log_status_names =
 
 static const dmi_name_set_t dmi_system_log_header_format_names =
 {
-    .code   = "system-log-header-formats",
+    .code   = "system-log-header-format",
     .names  = (dmi_name_t[]){
         {
             .id   = DMI_SYSTEM_LOG_HEADER_FMT_NO_HEADER,
@@ -93,7 +93,7 @@ static const dmi_name_set_t dmi_system_log_header_format_names =
 
 static const dmi_name_set_t dmi_event_log_type_names =
 {
-    .code   = "event-log-types",
+    .code   = "event-log-type",
     .names  = (dmi_name_t[]){
         {
             .id   = DMI_EVENT_LOG_TYPE_SINGLE_BIT_ECC,
@@ -231,7 +231,7 @@ static const dmi_name_set_t dmi_event_log_type_names =
 
 static const dmi_name_set_t dmi_event_log_data_format_names =
 {
-    .code   = "event-log-data-formats",
+    .code   = "event-log-data-format",
     .names  = (dmi_name_t[]){
         {
             .id   = DMI_EVENT_LOG_DATA_FORMAT_NONE,
@@ -354,7 +354,7 @@ const dmi_entity_spec_t dmi_system_event_log_spec =
         DMI_ATTRIBUTE(dmi_system_event_log_t, area_length, INTEGER, {
             .code   = "area-length",
             .name   = "Area length",
-            .unit   = "bytes"
+            .unit   = DMI_UNIT_BYTE
         }),
         DMI_ATTRIBUTE(dmi_system_event_log_t, header_offset, INTEGER, {
             .code   = "header-offset",

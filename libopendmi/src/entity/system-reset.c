@@ -18,7 +18,7 @@ static bool dmi_system_reset_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_boot_option_names =
 {
-    .code  = "boot-options",
+    .code  = "boot-option",
     .names = (dmi_name_t[]){
         DMI_NAME_RESERVED(DMI_BOOT_OPTION_RESERVED),
         {

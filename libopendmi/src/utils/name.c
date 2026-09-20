@@ -104,6 +104,15 @@ static bool dmi_name_find(
         }
     } while (false);
 
+    // Printable names are translated, if the locale has a translation for
+    // the entry, while codes are machine-readable and are never translated
+    if ((pname != nullptr) and (code != nullptr) and (dict->code != nullptr)) {
+        const char *translated = dmi_locale_string(dict->code, code);
+
+        if (translated != nullptr)
+            name = translated;
+    }
+
     if (pcode != nullptr)
         *pcode = code;
     if (pname != nullptr)

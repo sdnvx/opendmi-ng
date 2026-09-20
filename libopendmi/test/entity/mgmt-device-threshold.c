@@ -54,9 +54,12 @@ static const char *test_format(dmi_entity_t *entity)
     char *text = dmi_attribute_format(dmi_entity_context(entity), variant, value, true);
     assert_non_null(text);
 
+    const char *unit = (variant->params.unit != DMI_UNIT_NONE)
+            ? dmi_name_lookup(&dmi_unit_names, variant->params.unit) : nullptr;
+
     snprintf(buffer, sizeof(buffer), "%s%s%s", text,
-             (variant->params.unit != nullptr) ? " " : "",
-             (variant->params.unit != nullptr) ? variant->params.unit : "");
+             (unit != nullptr) ? " " : "",
+             (unit != nullptr) ? unit : "");
     free(text);
 
     return buffer;

@@ -21,20 +21,22 @@
 
 const dmi_name_set_t dmi_entity_state_names =
 {
-    .code  = "entity-states",
+    .code  = "entity-state",
     .names = (dmi_name_t[]){
-        { 0, "decoded",    "Decoded"    },
-        { 1, "linked",     "Linked"     },
-        { 2, "valid",      "Valid"      },
-        { 3, "incomplete", "Incomplete" },
-        { 4, "partial",    "Partial"    },
+        // Names are printed in the header of the structure, following its
+        // length, so they are lowercase
+        { 0, "decoded",    "decoded"    },
+        { 1, "linked",     "linked"     },
+        { 2, "valid",      "valid"      },
+        { 3, "incomplete", "incomplete" },
+        { 4, "partial",    "partial"    },
         DMI_NAME_NULL
     }
 };
 
 const dmi_name_set_t dmi_property_names =
 {
-    .code  = "property-names",
+    .code  = "property-name",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_PROPERTY_ID_RESERVED,

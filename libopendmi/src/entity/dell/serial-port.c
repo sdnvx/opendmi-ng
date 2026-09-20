@@ -12,7 +12,7 @@ static bool dmi_dell_serial_port_decode(dmi_entity_t *entity);
 
 static const dmi_name_set_t dmi_dell_serial_port_connector_type_names =
 {
-    .code  = "dell-serial-port-connector-types",
+    .code  = "dell-serial-port-connector-type",
     .names = (const dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_OTHER),
@@ -79,7 +79,7 @@ static const dmi_name_set_t dmi_dell_serial_port_connector_type_names =
 
 static const dmi_name_set_t dmi_dell_serial_port_caps_names =
 {
-    .code  = "dell-serial-port-capabilities",
+    .code  = "dell-serial-port-capability",
     .names = (const dmi_name_t[]){
         DMI_NAME_UNSPEC(DMI_DELL_SERIAL_PORT_CAPS_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_SERIAL_PORT_CAPS_OTHER),
@@ -151,8 +151,8 @@ const dmi_entity_spec_t dmi_dell_serial_port_spec =
         }),
         DMI_ATTRIBUTE(dmi_dell_serial_port_t, maximum_speed, INTEGER, {
             .code    = "maximum-speed",
-            .name    = "Maximum speeed",
-            .unit    = "baud"
+            .name    = "Maximum speed",
+            .unit    = DMI_UNIT_BAUD
         }),
         DMI_ATTRIBUTE(dmi_dell_serial_port_t, security, ENUM, {
             .code    = "security",

@@ -19,7 +19,7 @@ static void dmi_tpm_device_decode_vendor(dmi_entity_t *entity, dmi_tpm_device_t 
 
 static const dmi_name_set_t dmi_tpm_device_feature_names =
 {
-    .code  = "tpm-device-features",
+    .code  = "tpm-device-feature",
     .names = (dmi_name_t[]){
         {
             .id   = 2,

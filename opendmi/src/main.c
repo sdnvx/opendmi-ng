@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include "config.h"
+#include <config.h>
 
 #if __has_include(<unistd.h>)
 #   include <unistd.h>
@@ -22,6 +22,7 @@
 
 #include <opendmi/command.h>
 #include <opendmi/context.h>
+#include <opendmi/locale.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils/file.h>
 #include <opendmi/utils/tty.h>
@@ -72,6 +73,7 @@ int main(int argc, char *argv[])
     const dmi_command_t *command;
 
     // Initialize command environment
+    dmi_locale_init();
     dmi_command_init(basename(argv[0]));
     argc--, argv++;
 

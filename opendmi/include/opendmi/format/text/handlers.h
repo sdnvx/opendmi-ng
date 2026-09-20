@@ -28,13 +28,15 @@ void dmi_text_entity_attr_array(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
         const dmi_data_t      *info,
-        const void            *value);
+        const void            *value,
+        const char            *owner);
 
 void dmi_text_entity_attr_struct(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
         const void            *value,
-        unsigned int           depth);
+        unsigned int           depth,
+        const char            *owner);
 
 void dmi_text_entity_attr_value(
         dmi_text_session_t    *session,

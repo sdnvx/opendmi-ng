@@ -13,7 +13,7 @@ static bool dmi_intel_rsd_fpga_decode(dmi_entity_t *entity);
 
 const dmi_name_set_t dmi_intel_rsd_fpga_type_names =
 {
-    .code  = "intel-rsd-fpga-types",
+    .code  = "intel-rsd-fpga-type",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_FPGA_TYPE_INTEGRATED,
@@ -36,7 +36,7 @@ const dmi_name_set_t dmi_intel_rsd_fpga_type_names =
 
 const dmi_name_set_t dmi_intel_rsd_fpga_status_names =
 {
-    .code  = "intel-rsd-fpga-statuses",
+    .code  = "intel-rsd-fpga-status",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_FPGA_STATUS_DISABLED,
@@ -54,7 +54,7 @@ const dmi_name_set_t dmi_intel_rsd_fpga_status_names =
 
 const dmi_name_set_t dmi_intel_rsd_fpga_hps_isa_names =
 {
-    .code  = "intel-rsd-fpga-isas",
+    .code  = "intel-rsd-fpga-isa",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_X86,
@@ -102,7 +102,7 @@ const dmi_name_set_t dmi_intel_rsd_fpga_hps_isa_names =
 
 const dmi_name_set_t dmi_intel_rsd_fpga_hssi_config_names =
 {
-    .code  = "intel-rsd-fpga-configs",
+    .code  = "intel-rsd-fpga-config",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING,
@@ -125,7 +125,7 @@ const dmi_name_set_t dmi_intel_rsd_fpga_hssi_config_names =
 
 const dmi_name_set_t dmi_intel_rsd_fpga_memory_tech_names =
 {
-    .code  = "intel-rsd-fpga-memory-techs",
+    .code  = "intel-rsd-fpga-memory-tech",
     .names = (dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_FPGA_MEMORY_TECH_NONE,

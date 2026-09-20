@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include "../config.h"
+#include <config.h>
 
 #if __has_include(<unistd.h>)
 #   include <unistd.h>
@@ -19,6 +19,7 @@
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils/tty.h>
+#include <opendmi/utils/locale.h>
 #include <opendmi/utils/vector.h>
 
 #include <opendmi/command/types.h>
@@ -209,7 +210,7 @@ static void dmi_types_show_core(dmi_context_t *context)
     dmi_unused(context);
 
     if (not dmi_types_config.show_raw)
-        dmi_tty_header("Core types:");
+        dmi_tty_header("%s:", dmi_tool_string("Core types"));
 
     for (int type = 0; type < __DMI_TYPE_OEM_START; type++) {
         const dmi_entity_spec_t *spec = dmi_type_spec(context, (dmi_type_t)type);
@@ -235,7 +236,7 @@ static void dmi_types_show_module(dmi_context_t *context, const dmi_module_t *mo
         return;
 
     if (not dmi_types_config.show_raw)
-        dmi_tty_header("%s:", module->name);
+        dmi_tty_header("%s:", dmi_tool_string(module->name));
 
     for (pspec = module->entities; *pspec != nullptr; pspec++) {
         dmi_types_show_type(context, module, *pspec);
@@ -265,7 +266,7 @@ static void dmi_types_show_type(
     } else {
         dmi_tty_cprintf(DMI_TTY_COLOR_NAVY, "%4s%-3d", "", spec->type);
         dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "  %-30s", spec->code);
-        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "  %s\n", spec->name);
+        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "  %s\n", dmi_spec_name(spec));
     }
 }
 

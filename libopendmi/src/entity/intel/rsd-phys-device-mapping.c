@@ -19,7 +19,7 @@ static void dmi_intel_rsd_phys_device_mapping_cleanup(dmi_entity_t *entity);
 
 const dmi_name_set_t dmi_intel_rsd_phys_device_type_names =
 {
-    .code  = "intel-rsd-phys-device-types",
+    .code  = "intel-rsd-phys-device-type",
     .names = (const dmi_name_t[]){
         {
             .id   = DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID,

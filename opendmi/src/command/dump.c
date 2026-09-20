@@ -41,7 +41,7 @@ static const dmi_option_set_t dmi_dump_options =
             .description = "Set output file path (default: smbios.bin)",
             .value       = &dmi_dump_config.output_path,
             .argument    = {
-                .name     = "PATH",
+                .name     = "path",
                 .type     = DMI_ARGUMENT_TYPE_STRING,
                 .required = true
             }

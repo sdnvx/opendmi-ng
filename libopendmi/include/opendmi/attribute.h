@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <opendmi/value.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/version.h>
 
@@ -103,9 +104,9 @@ struct dmi_attribute_params
 
     /**
      * @brief Measurement units. Valid only for integer or decimal values,
-     * should be set to @c nullptr in other cases.
+     * should be left unset in other cases.
      */
-    const char *unit;
+    dmi_unit_t unit;
 
     /**
      * @brief Number of decimal digits after the decimal point. Valid only for
@@ -320,6 +321,25 @@ __dmi_api uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const vo
  *         counter or its width is not supported.
  */
 __dmi_api size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
+
+/**
+ * @brief Get printable name of an attribute.
+ *
+ * The name is translated, if the locale the library is set to has a
+ * translation for the attribute, and is left as it is declared otherwise.
+ * Translations are looked up in the `attribute` table of the structure the
+ * attribute belongs to, and then in the shared `attribute` table, which holds
+ * the names common to all structures, e.g. `manufacturer`.
+ *
+ * @param[in] attr  Attribute descriptor.
+ * @param[in] owner Code name of the structure the attribute belongs to, e.g.
+ *                  `dmi_entity_spec_t::code`, or @c nullptr to look the name
+ *                  up in the shared table only.
+ *
+ * @return Printable name of the attribute, or @c nullptr if @p attr is
+ *         @c nullptr.
+ */
+__dmi_api const char *dmi_attribute_name(const dmi_attribute_t *attr, const char *owner);
 
 /**
  * @brief Get attribute describing the value of variant attribute.

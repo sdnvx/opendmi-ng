@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include "config.h"
+#include <config.h>
 
 #if __has_include(<unistd.h>)
 #   include <unistd.h>
@@ -22,6 +22,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils/string.h>
 #include <opendmi/utils/tty.h>
+#include <opendmi/utils/locale.h>
 
 #include <opendmi/command.h>
 #include <opendmi/command/dump.h>
@@ -184,11 +185,11 @@ void dmi_command_list(void)
 {
     const dmi_command_t **pcommand;
 
-    dmi_tty_header("Commands:");
+    dmi_tty_header("%s:", dmi_tool_string("Commands"));
 
     for (pcommand = dmi_commands; *pcommand != nullptr; pcommand++) {
         dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%4s%-8s", "", (*pcommand)->name);
-        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, " %s\n", (*pcommand)->description);
+        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, " %s\n", dmi_tool_string((*pcommand)->description));
     }
     printf("\n");
 }
@@ -209,11 +210,11 @@ const dmi_command_t *dmi_command_find(const char *name)
 
 void dmi_command_banner(void)
 {
-    dmi_tty_header("OpenDMI Framework, version %s (%s)",
+    dmi_tty_header(dmi_tool_string("OpenDMI Framework, version %s (%s)"),
                    OPENDMI_VERSION, OPENDMI_RELEASE_DATE);
 
     dmi_tty_cprintf(DMI_TTY_COLOR_GREY, "Copyright (c) 2025-2026, The OpenDMI contributors\n");
-    dmi_tty_cprintf(DMI_TTY_COLOR_GREY, "Licensed under the BSD 3-Clause License\n\n");
+    dmi_tty_cprintf(DMI_TTY_COLOR_GREY, "%s\n\n", dmi_tool_string("Licensed under the BSD 3-Clause License"));
 }
 
 void dmi_command_usage(const dmi_command_t *command)
@@ -221,16 +222,22 @@ void dmi_command_usage(const dmi_command_t *command)
     dmi_command_banner();
 
     if (command != nullptr) {
-        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s\n\n", command->description);
+        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s\n\n", dmi_tool_string(command->description));
     }
 
-    dmi_tty_header("Usage:");
+    dmi_tty_header("%s:", dmi_tool_string("Usage"));
 
     if (command == nullptr) {
-        printf("    %s [global options] <command> [command options] [--] [command args]\n\n", dmi_process);
+        // Text of the line is not its own key, since resource keys may have
+        // neither brackets nor escape sequences
+        printf(dmi_tool_text("text", "usage-line",
+                             "    %s [global options] <command> [command options] [--] [command args]"),
+               dmi_process);
+        printf("\n\n");
         dmi_command_list();
     } else {
-        printf("    %s [global options] %s", dmi_process, command->name);
+        printf("    %s [%s] %s", dmi_process,
+               dmi_tool_string("global options"), command->name);
 
         if (command->options != nullptr) {
             for (const dmi_option_set_t **set = command->options; *set != nullptr; set++) {
@@ -240,14 +247,16 @@ void dmi_command_usage(const dmi_command_t *command)
                 memcpy(name, (*set)->name, name_len);
                 dmi_string_tolower(name);
 
-                printf(" [%s]", name);
+                // Names are translated after they are lowercased, so that the
+                // translation has the case it is printed with
+                printf(" [%s]", dmi_tool_string(name));
             }
         }
 
         if (command->arguments != nullptr) {
             printf(" [--]");
             for (const dmi_argument_t *arg = command->arguments; arg->name != nullptr; arg++) {
-                printf(arg->required ? " <%s>" : " [<%s>]", arg->name);
+                printf(arg->required ? " <%s>" : " [<%s>]", dmi_tool_string(arg->name));
             }
         }
 
@@ -260,8 +269,20 @@ void dmi_command_usage(const dmi_command_t *command)
         for (const dmi_option_set_t **set = command->options; *set != nullptr; set++)
             dmi_option_list(*set);
     } else {
-        printf("Use %s <command> --help for more information\n\n", dmi_process);
+        printf(dmi_tool_string("Use %s <command> --help for more information"), dmi_process);
+        printf("\n\n");
     }
+}
+
+//
+// Messages are translated by their text, which is the key of the translation
+// in the resources of the tool, so that the format arguments stay the same.
+//
+static const char *dmi_command_message_text(const char *format)
+{
+    const char *text = dmi_resource_string(dmi_tool_resource(), "message", format);
+
+    return (text != nullptr) ? text : format;
 }
 
 void dmi_command_message(const char *format, ...)
@@ -273,7 +294,7 @@ void dmi_command_message(const char *format, ...)
     va_start(args, format);
 
     fprintf(stderr, "%s: ", dmi_process);
-    vfprintf(stderr, format, args);
+    vfprintf(stderr, dmi_command_message_text(format), args);
     fprintf(stderr, "\n");
 
     va_end(args);
@@ -289,7 +310,7 @@ void dmi_command_message_ex(const dmi_command_t *command, const char *format, ..
     va_start(args, format);
 
     fprintf(stderr, "%s: %s: ", dmi_process, command->name);
-    vfprintf(stderr, format, args);
+    vfprintf(stderr, dmi_command_message_text(format), args);
     fprintf(stderr, "\n");
 
     va_end(args);

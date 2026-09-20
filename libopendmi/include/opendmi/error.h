@@ -10,6 +10,7 @@
 #pragma once
 
 #include <opendmi/types.h>
+#include <opendmi/utils/name.h>
 
 #define DMI_ERROR_MAX_DEPTH 64
 
@@ -128,6 +129,11 @@ typedef struct dmi_error_queue
         __dmi_error_raise(context, __FILE__, __func__, __LINE__, reason, message, ##__VA_ARGS__)
 
 __BEGIN_DECLS
+
+/**
+ * @brief Names of error reason codes.
+ */
+extern __dmi_api const dmi_name_set_t dmi_error_names;
 
 /**
  * @brief Returns the human-readable message for an error reason code.
