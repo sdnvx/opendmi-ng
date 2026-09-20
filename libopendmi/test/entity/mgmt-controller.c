@@ -31,7 +31,7 @@ static void test_mgmt_controller_decode_nhi_usb_v2(void **pstate);
 static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate);
 static void test_mgmt_controller_decode_nhi_oem(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

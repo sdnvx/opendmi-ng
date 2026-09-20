@@ -248,16 +248,6 @@ __dmi_api void dmi_set_flags(dmi_context_t *context, unsigned flags);
 __dmi_api unsigned dmi_get_flags(const dmi_context_t *context);
 
 /**
- * @brief Open DMI context.
- *
- * @param[in] context DMI context handle.
- * @param[in] device  Path to memory device.
- *
- * @return The function returns `true` on success and `false` otherwise.
- */
-__dmi_api bool dmi_open(dmi_context_t *context, const char *device);
-
-/**
  * @brief Add DMI extension.
  *
  * Registers entity specifications provided by @p module in the context and
@@ -284,6 +274,16 @@ __dmi_api bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *mod
 __dmi_api bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module);
 
 /**
+ * @brief Open DMI context.
+ *
+ * @param[in] context DMI context handle.
+ * @param[in] device  Path to memory device.
+ *
+ * @return The function returns `true` on success and `false` otherwise.
+ */
+__dmi_api bool dmi_open(dmi_context_t *context, const char *device);
+
+/**
  * @brief Load dump file into DMI context.
  *
  * @param[in] context DMI context handle.
@@ -291,7 +291,7 @@ __dmi_api bool dmi_has_extension(const dmi_context_t *context, const dmi_module_
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-__dmi_api bool dmi_dump_load(dmi_context_t *context, const char *path);
+__dmi_api bool dmi_load(dmi_context_t *context, const char *path);
 
 /**
  * @brief Save DMI context to dump file.
@@ -309,22 +309,7 @@ __dmi_api bool dmi_dump_load(dmi_context_t *context, const char *path);
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-__dmi_api bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite);
-
-/**
- * @brief Find entity type identifier by its code.
- */
-__dmi_api dmi_type_t dmi_type_find(dmi_context_t *context, const char *code);
-
-/**
- * @brief Get entity type specification.
- */
-__dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type);
-
-/**
- * @brief Get entity type name.
- */
-__dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
+__dmi_api bool dmi_save(dmi_context_t *context, const char *path, bool overwrite);
 
 /**
  * @brief Set logging handler.
@@ -337,6 +322,51 @@ __dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
 __dmi_api bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
 
 /**
+ * @brief Get logging handler of DMI context.
+ *
+ * @param[in] context DMI context handle.
+ *
+ * @return Logging handler, or @c nullptr if there is none.
+ */
+__dmi_api dmi_log_t *dmi_get_logger(dmi_context_t *context);
+
+/**
+ * @brief Set logging level of DMI context.
+ *
+ * Messages of levels above @p level are dropped before they reach the logging
+ * handler, which has a level of its own.
+ *
+ * @param[in] context DMI context handle.
+ * @param[in] level   Logging level.
+ *
+ * @return The function returns `true` on success and `false` otherwise.
+ */
+__dmi_api bool dmi_set_log_level(dmi_context_t *context, dmi_log_level_t level);
+
+/**
+ * @brief Get logging level of DMI context.
+ *
+ * @param[in] context DMI context handle.
+ *
+ * @return Logging level, or `DMI_LOG_INVALID` if @p context is @c nullptr.
+ */
+__dmi_api dmi_log_level_t dmi_get_log_level(const dmi_context_t *context);
+
+/**
+ * @brief Write a message to the logging handler of DMI context.
+ *
+ * The message is dropped if @p level is above the logging level of the
+ * context, see `dmi_set_log_level`(3), or above the level of the handler.
+ *
+ * @param[in] context DMI context handle.
+ * @param[in] level   Logging level of the message.
+ * @param[in] format  Message format string.
+ *
+ * @return `true` if the message has been written, `false` otherwise.
+ */
+__dmi_api bool dmi_log(dmi_context_t *context, dmi_log_level_t level, const char *format, ...);
+
+/**
  * @brief Get entity registry of an opened DMI context.
  *
  * @param[in] context DMI context handle.
@@ -344,7 +374,7 @@ __dmi_api bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
  * @return Non-owning pointer to the registry, or @c nullptr if the context is
  *         not opened.
  */
-__dmi_api dmi_registry_t *dmi_registry(dmi_context_t *context);
+__dmi_api dmi_registry_t *dmi_get_registry(dmi_context_t *context);
 
 /**
  * @brief Close DMI context.
@@ -362,5 +392,24 @@ __dmi_api bool dmi_close(dmi_context_t *context);
 __dmi_api void dmi_destroy(dmi_context_t *context);
 
 __END_DECLS
+
+/**
+ * @name Logging shorthands
+ *
+ * Write a message of the given level to the logging handler of the context,
+ * see `dmi_log`(3).
+ * @{
+ */
+#define dmi_log_error(context, format, ...) \
+        dmi_log(context, DMI_LOG_ERROR, format, ##__VA_ARGS__)
+#define dmi_log_warning(context, format, ...) \
+        dmi_log(context, DMI_LOG_WARNING, format, ##__VA_ARGS__)
+#define dmi_log_notice(context, format, ...) \
+        dmi_log(context, DMI_LOG_NOTICE, format, ##__VA_ARGS__)
+#define dmi_log_info(context, format, ...) \
+        dmi_log(context, DMI_LOG_INFO, format, ##__VA_ARGS__)
+#define dmi_log_debug(context, format, ...) \
+        dmi_log(context, DMI_LOG_DEBUG, format, ##__VA_ARGS__)
+/** @} */
 
 #endif // !OPENDMI_CONTEXT_H

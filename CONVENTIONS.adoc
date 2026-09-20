@@ -37,6 +37,31 @@ expressions and conditionals.
 
 * Avoid magic numbers; define meaningful constants. Prefer C language symbols over preprocessor symbols, because the former are visible in a symbolic debugger like gdb.
 
+=== Function prefixes
+
+* Name a function after the subsystem it belongs to: `dmi_<subsystem>_<name>`,
+where the subsystem is the type the function operates on, e.g.
+`dmi_entity_decode()`, `dmi_registry_lookup()`, `dmi_attribute_format()`,
+`dmi_stream_skip()`.
+
+* Within a subsystem, name a function that returns a property of its object
+after the property itself, without a verb: `dmi_entity_stream()`,
+`dmi_entity_context()`, `dmi_attribute_resolve()`. The prefix already tells
+what the function operates on, so there is no ambiguity.
+
+* Functions of the DMI context are the only ones without a subsystem prefix,
+because the context is the root of the API: `dmi_create()`, `dmi_open()`,
+`dmi_load()`. Their names must start with a verb (`create`, `open`, `close`,
+`destroy`, `get`, `set`, `add`, `has`, `find`, `load`, `save`), so that they
+are not read as the beginning of a subsystem family. A name starting with a
+noun is not allowed there: `dmi_registry()` reads as a function of the
+`dmi_registry_*` family rather than as the registry of a context, hence
+`dmi_get_registry()`.
+
+* Use `get` and `set` only in pairs and only for context functions, e.g.
+`dmi_get_flags()` and `dmi_set_flags()`. Elsewhere `get` means a lookup and
+should be named accordingly: `dmi_registry_lookup()`, `dmi_name_lookup()`.
+
 === Common abbreviations
 
 [horizontal]

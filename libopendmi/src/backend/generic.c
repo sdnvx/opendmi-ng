@@ -37,7 +37,7 @@ bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, size_
     }
 
     *paddr = (size_t)addr;
-    dmi_log_debug(context->logger, "Found SMBIOS address: 0x%zx", *paddr);
+    dmi_log_debug(context, "Found SMBIOS address: 0x%zx", *paddr);
 
     return true;
 }
@@ -54,7 +54,7 @@ bool dmi_generic_find_entry_addr(
     dmi_data_t *buffer = nullptr;
     bool        found  = false;
 
-    dmi_log_debug(context->logger, "Running memory scan...");
+    dmi_log_debug(context, "Running memory scan...");
 
     buffer = dmi_memory_get(context, device, base_addr, area_size);
     if (buffer == nullptr)
@@ -66,7 +66,7 @@ bool dmi_generic_find_entry_addr(
         dmi_generic_find_anchor(context, buffer, base_addr, area_size, DMI_ANCHOR_LEGACY, paddr);
 
     if (not found)
-        dmi_log_debug(context->logger, "No SMBIOS entry point found");
+        dmi_log_debug(context, "No SMBIOS entry point found");
 
     dmi_free(buffer);
 
@@ -94,17 +94,17 @@ bool dmi_generic_find_anchor(
     length = strlen(anchor);
     assert(length <= 16);
 
-    dmi_log_debug(context->logger, "Scanning for SMBIOS anchor: '%s'...", anchor);
+    dmi_log_debug(context, "Scanning for SMBIOS anchor: '%s'...", anchor);
 
     for (offset = 0; offset <= area_size - DMI_ENTRY_MAX_SIZE; offset += 16) {
         if (memcmp(buffer + offset, anchor, length) == 0) {
             *paddr = base_addr + offset;
-            dmi_log_debug(context->logger, "Found SMBIOS address: 0x%zx", *paddr);
+            dmi_log_debug(context, "Found SMBIOS address: 0x%zx", *paddr);
             return true;
         }
     }
 
-    dmi_log_debug(context->logger, "No SMBIOS anchor found");
+    dmi_log_debug(context, "No SMBIOS anchor found");
 
     return false;
 }

@@ -1,0 +1,25 @@
+= dmi_log(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_log - write a message to the logging handler of an OpenDMI context.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/context.h>
+
+bool dmi_log(dmi_context_t *context, dmi_log_level_t level, const char *format, ...);
+----

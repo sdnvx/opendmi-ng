@@ -358,7 +358,7 @@ int dmi_command_run(
             bool status;
 
             if (dmi_global_config.input_path != nullptr)
-                status = dmi_dump_load(context, dmi_global_config.input_path);
+                status = dmi_load(context, dmi_global_config.input_path);
             else
                 status = dmi_open(context, dmi_global_config.device_path);
 

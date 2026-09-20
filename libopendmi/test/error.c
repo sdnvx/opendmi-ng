@@ -42,7 +42,7 @@ static void test_error_wraparound(void **pstate);
 static void test_error_clear_null_context(void **pstate);
 static void test_error_clear(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

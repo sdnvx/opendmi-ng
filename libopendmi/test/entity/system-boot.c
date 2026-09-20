@@ -19,7 +19,7 @@
 
 static void test_system_boot_status(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

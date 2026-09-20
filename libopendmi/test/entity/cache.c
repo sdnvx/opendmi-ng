@@ -26,7 +26,7 @@ static void test_cache_size_ex(void **pstate);
 static void test_cache_decode_size(void **pstate);
 static void test_cache_decode_v21(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

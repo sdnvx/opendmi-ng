@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Increase error queue depth from 32 to 64 entries
 - Treat broken references as link failures in all structures, fatal only in strict mode
 - Keep management controller interface and protocol record data as `dmi_binary_t`
+- Take DMI context instead of logging handler in logging macros
 
 ### Fixed
 
@@ -213,7 +214,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix missing error message on unknown type in `-t`/`--type` option
 - Fix log file opening error handling
 - Fix exit codes of command line tool on output errors
-- Fix incomplete writes handling in `dmi_dump_save()` and `export` command
+- Fix incomplete writes handling in `dmi_save()` and `export` command
 - Fix redundant zero-length calls in `dmi_file_read()` and `dmi_file_write()`
 - Fix crash of `entry` command on missing entry point data
 - Fix raw output of `types` and `modules` commands when pager is used

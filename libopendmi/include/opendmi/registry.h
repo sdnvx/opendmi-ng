@@ -250,7 +250,7 @@ __dmi_api bool dmi_registry_link(dmi_registry_t *registry);
  * @param[in] handle   Entity handle. Reserved values `DMI_HANDLE_INVALID` and
  *                     `DMI_HANDLE_UNSUPPORTED` mean that the reference is not
  *                     set: @c nullptr is returned and no error is raised. Use
- *                     `dmi_registry_get_first()` to look up entity by type.
+ *                     `dmi_registry_lookup_first()` to look up entity by type.
  *
  * @param[in] type     Expected structure type. Should be set to
  *                     `DMI_TYPE_INVALID` if the type is unknown.
@@ -259,7 +259,7 @@ __dmi_api bool dmi_registry_link(dmi_registry_t *registry);
  *
  * @returns Non-owning pointer to the entity, @c nullptr if not found.
  */
-__dmi_api dmi_entity_t *dmi_registry_get(
+__dmi_api dmi_entity_t *dmi_registry_lookup(
         dmi_registry_t *registry,
         dmi_handle_t    handle,
         dmi_type_t      type,
@@ -282,7 +282,7 @@ __dmi_api dmi_entity_t *dmi_registry_get(
  *
  * @returns Non-owning pointer to the entity, @c nullptr if not found.
  */
-__dmi_api dmi_entity_t *dmi_registry_get_any(
+__dmi_api dmi_entity_t *dmi_registry_lookup_any(
         dmi_registry_t   *registry,
         dmi_handle_t      handle,
         const dmi_type_t *type,
@@ -291,7 +291,7 @@ __dmi_api dmi_entity_t *dmi_registry_get_any(
 /**
  * @brief Resolve reference to another entity, for use in link handlers.
  *
- * Unlike `dmi_registry_get()`, the function tells a reference which is not
+ * Unlike `dmi_registry_lookup()`, the function tells a reference which is not
  * set from a broken one, so that link handlers can report failures honestly.
  *
  * @param[in]  registry Registry handle.
@@ -350,7 +350,7 @@ __dmi_api bool dmi_registry_resolve_any(
  * @returns Non-owning pointer to the first entity of the given type in table
  *          order, @c nullptr if not found.
  */
-__dmi_api dmi_entity_t *dmi_registry_get_first(
+__dmi_api dmi_entity_t *dmi_registry_lookup_first(
         dmi_registry_t *registry,
         dmi_type_t      type,
         bool            optional);

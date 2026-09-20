@@ -1,0 +1,25 @@
+= dmi_set_log_level(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_set_log_level - set logging level of an OpenDMI context.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/context.h>
+
+bool dmi_set_log_level(dmi_context_t *context, dmi_log_level_t level);
+----

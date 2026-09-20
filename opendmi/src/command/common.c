@@ -230,7 +230,7 @@ bool dmi_print_all(
 
         bool status = true;
 
-        dmi_registry_t *registry = dmi_registry(context);
+        dmi_registry_t *registry = dmi_get_registry(context);
         dmi_registry_iter_init(&iter, registry, &dmi_filter_config.filter);
 
         const dmi_entity_t *entity;

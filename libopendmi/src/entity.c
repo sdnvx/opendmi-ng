@@ -121,7 +121,7 @@ dmi_entity_t *dmi_entity_create(
     size_t        length = dmi_decode(header->length);
     dmi_handle_t  handle = dmi_decode(header->handle);
 
-    dmi_log_debug(context->logger,
+    dmi_log_debug(context,
                   "%p: Handle 0x%04x, length %zu, type %d (%s)",
                   data, handle, length, (int)header->type,
                   dmi_type_name(context, type));
@@ -493,12 +493,12 @@ bool dmi_entity_incomplete(dmi_entity_t *entity)
     size_t remaining = dmi_stream_remaining(&entity->stream);
 
     if (remaining > 0) {
-        dmi_log_notice(entity->context->logger,
+        dmi_log_notice(entity->context,
                        "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx, %zu byte%s ignored",
                        entity->handle, dmi_type_name(entity->context, entity->type),
                        entity->stream.position, remaining, (remaining == 1) ? "" : "s");
     } else {
-        dmi_log_notice(entity->context->logger,
+        dmi_log_notice(entity->context,
                        "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx",
                        entity->handle, dmi_type_name(entity->context, entity->type),
                        entity->stream.position);
@@ -673,7 +673,7 @@ static bool dmi_entity_apply_overlays(dmi_entity_t *entity)
     for (const dmi_entity_overlay_t *node = entity->overlays; node != nullptr; node = node->next) {
         const dmi_additional_info_entry_t *entry = node->entry;
 
-        dmi_log_debug(context->logger, "0x%04x: Applying %zu bytes at offset 0x%02x",
+        dmi_log_debug(context, "0x%04x: Applying %zu bytes at offset 0x%02x",
                       entity->handle, entry->value.length, entry->ref_offset);
 
         memcpy(entity->overlay_data + entry->ref_offset, entry->value.data, entry->value.length);

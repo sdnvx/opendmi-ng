@@ -25,7 +25,7 @@ static int test_rsd_phys_device_mapping_teardown(void **pstate);
 static void test_rsd_phys_device_mapping_decode(void **pstate);
 static void test_rsd_phys_device_mapping_decode_unknown(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

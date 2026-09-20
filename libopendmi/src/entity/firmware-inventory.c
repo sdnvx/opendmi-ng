@@ -376,7 +376,7 @@ static bool dmi_firmware_inventory_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_registry(context);
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     bool success = true;
     for (size_t i = 0; i < info->component_count; i++) {

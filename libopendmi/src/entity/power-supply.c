@@ -256,7 +256,7 @@ static bool dmi_power_supply_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_registry(context);
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     bool success = true;
     if (not dmi_registry_resolve(registry, info->voltage_probe_handle, DMI_TYPE(VOLTAGE_PROBE), &info->voltage_probe))

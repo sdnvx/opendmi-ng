@@ -29,7 +29,7 @@ static dmi_entity_t *test_additional_info_create(
         dmi_context_t *context, dmi_data_t *data, size_t count,
         const dmi_data_t *entries, size_t length);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 // Structure header, entry count and terminating string set are added to the
 // entries by test_additional_info_create()

@@ -32,7 +32,7 @@ static void test_sun_pcie_root_complex_decode(void **pstate);
 static void test_sun_memory_array_ex_decode(void **pstate);
 static void test_sun_memory_device_ex_decode(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

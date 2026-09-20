@@ -64,7 +64,7 @@ static void test_pointing_device_decode_button_count(void **pstate);
 
 static dmi_header_t test_pointing_device_header(ssize_t extra_length);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, &dmi_test_log_handler };
+static dmi_log_t test_logger = { &dmi_test_log_handler };
 
 int main(void)
 {

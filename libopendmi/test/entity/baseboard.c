@@ -26,7 +26,7 @@ static void test_baseboard_decode_objects(void **pstate);
 static void test_baseboard_decode_no_objects(void **pstate);
 static void test_baseboard_decode_objects_overflow(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

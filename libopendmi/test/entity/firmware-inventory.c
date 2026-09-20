@@ -31,7 +31,7 @@ static dmi_entity_t *test_create(
         const char    *ident);
 static const dmi_attribute_t *test_attribute(const dmi_entity_t *entity, const char *code);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

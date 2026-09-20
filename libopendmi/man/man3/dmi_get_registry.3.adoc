@@ -1,4 +1,4 @@
-= dmi_dump_save(3)
+= dmi_get_registry(3)
 The OpenDMI contributors
 OpenDMI 0.5.0
 
@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_dump_save - save SMBIOS dump from context.
+dmi_get_registry - get entity registry of an opened OpenDMI context.
 
 == Library
 
@@ -21,5 +21,5 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 ----
 #include <opendmi/context.h>
 
-bool dmi_dump_save(dmi_context_t *context, const char *path);
+dmi_registry_t *dmi_get_registry(dmi_context_t *context);
 ----

@@ -57,7 +57,7 @@ static const char *test_dump_v21_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-x220
 // Table address as found in firmware
 static const uint64_t test_table_address = 0x7AEB2000;
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {
@@ -107,10 +107,10 @@ static void test_context_close_resets_state(void **pstate)
     const dmi_entity_spec_t **type_map = context->type_map;
     unsigned int flags = context->flags;
 
-    assert_true(dmi_dump_load(context, test_dump_path));
+    assert_true(dmi_load(context, test_dump_path));
     assert_non_null(context->state.backend);
     assert_non_null(context->state.session);
-    assert_non_null(dmi_registry(context));
+    assert_non_null(dmi_get_registry(context));
     assert_non_null(context->state.entry_data);
     assert_non_null(context->state.table_data);
     assert_int_not_equal(context->state.smbios_version, 0);
@@ -118,7 +118,7 @@ static void test_context_close_resets_state(void **pstate)
     assert_true(dmi_close(context));
     assert_null(context->state.backend);
     assert_null(context->state.session);
-    assert_null(dmi_registry(context));
+    assert_null(dmi_get_registry(context));
     assert_null(context->state.entry_data);
     assert_null(context->state.entry_spec);
     assert_null(context->state.table_data);
@@ -143,21 +143,21 @@ static void test_context_reopen(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    assert_true(dmi_dump_load(context, test_dump_path));
+    assert_true(dmi_load(context, test_dump_path));
     assert_true(dmi_close(context));
-    assert_true(dmi_dump_load(context, test_dump_path));
-    assert_non_null(dmi_registry(context));
+    assert_true(dmi_load(context, test_dump_path));
+    assert_non_null(dmi_get_registry(context));
 }
 
 static void test_context_reopen_after_failure(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    assert_false(dmi_dump_load(context, OPENDMI_TEST_DATA "/nonexistent.bin"));
+    assert_false(dmi_load(context, OPENDMI_TEST_DATA "/nonexistent.bin"));
     assert_null(context->state.backend);
 
     dmi_error_clear(context);
-    assert_true(dmi_dump_load(context, test_dump_path));
+    assert_true(dmi_load(context, test_dump_path));
 }
 
 static void test_context_dump_save_after_close(void **pstate)
@@ -166,15 +166,15 @@ static void test_context_dump_save_after_close(void **pstate)
 
     // Never opened
     dmi_error_clear(context);
-    assert_false(dmi_dump_save(context, test_save_path, true));
+    assert_false(dmi_save(context, test_save_path, true));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_STATE);
 
     // Opened and then closed
-    assert_true(dmi_dump_load(context, test_dump_path));
+    assert_true(dmi_load(context, test_dump_path));
     assert_true(dmi_close(context));
 
     dmi_error_clear(context);
-    assert_false(dmi_dump_save(context, test_save_path, true));
+    assert_false(dmi_save(context, test_save_path, true));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_STATE);
 
     remove(test_save_path);
@@ -184,12 +184,12 @@ static void test_context_dump_save_roundtrip(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    assert_true(dmi_dump_load(context, test_dump_path));
-    assert_true(dmi_dump_save(context, test_save_path, true));
+    assert_true(dmi_load(context, test_dump_path));
+    assert_true(dmi_save(context, test_save_path, true));
     assert_true(dmi_close(context));
 
-    assert_true(dmi_dump_load(context, test_save_path));
-    assert_non_null(dmi_registry(context));
+    assert_true(dmi_load(context, test_save_path));
+    assert_non_null(dmi_get_registry(context));
 
     remove(test_save_path);
 }
@@ -198,13 +198,13 @@ static void test_context_dump_save_errors(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    assert_true(dmi_dump_load(context, test_dump_path));
+    assert_true(dmi_load(context, test_dump_path));
 
     // Existing file is not overwritten
-    assert_true(dmi_dump_save(context, test_save_path, false));
+    assert_true(dmi_save(context, test_save_path, false));
 
     dmi_error_clear(context);
-    assert_false(dmi_dump_save(context, test_save_path, false));
+    assert_false(dmi_save(context, test_save_path, false));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN);
 
     remove(test_save_path);
@@ -217,7 +217,7 @@ static void test_context_dump_save_errors(void **pstate)
     fclose(device);
 
     dmi_error_clear(context);
-    assert_false(dmi_dump_save(context, "/dev/full", true));
+    assert_false(dmi_save(context, "/dev/full", true));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_WRITE);
 
     device = fopen("/dev/full", "r");
@@ -246,22 +246,22 @@ static void test_context_dump_save_relocated(void **pstate)
         test_dump_write(test_source_path, source, size);
 
         // Table address from the entry point is replaced on save
-        assert_true(dmi_dump_load(context, test_source_path));
+        assert_true(dmi_load(context, test_source_path));
         assert_int_equal(context->state.table_area_addr, test_table_address);
 
         dmi_version_t version = context->state.smbios_version;
-        size_t count = dmi_registry(context)->count;
+        size_t count = dmi_get_registry(context)->count;
 
-        assert_true(dmi_dump_save(context, test_save_path, true));
+        assert_true(dmi_save(context, test_save_path, true));
         assert_true(dmi_close(context));
 
         test_dump_verify(context, source + DMI_ENTRY_MAX_SIZE, size - DMI_ENTRY_MAX_SIZE);
 
         // Saved dump is loaded the same way as the source one
-        assert_true(dmi_dump_load(context, test_save_path));
+        assert_true(dmi_load(context, test_save_path));
         assert_int_equal(context->state.table_area_addr, DMI_ENTRY_MAX_SIZE);
         assert_int_equal(context->state.smbios_version, version);
-        assert_int_equal(dmi_registry(context)->count, count);
+        assert_int_equal(dmi_get_registry(context)->count, count);
         assert_true(dmi_close(context));
 
         dmi_free(source);
@@ -275,17 +275,17 @@ static void test_context_dump_save_generated(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    assert_true(dmi_dump_load(context, test_dump_v21_path));
+    assert_true(dmi_load(context, test_dump_v21_path));
 
     dmi_version_t version = context->state.smbios_version;
-    size_t count = dmi_registry(context)->count;
+    size_t count = dmi_get_registry(context)->count;
 
     // Simulate backend without entry point data, like the Windows one
     context->state.entry_data = nullptr;
     context->state.entry_data_size = 0;
     context->state.entry_spec = nullptr;
 
-    assert_true(dmi_dump_save(context, test_save_path, true));
+    assert_true(dmi_save(context, test_save_path, true));
 
     size_t table_size = context->state.table_size;
     dmi_data_t *table = dmi_alloc(context, table_size);
@@ -298,11 +298,11 @@ static void test_context_dump_save_generated(void **pstate)
     dmi_free(table);
 
     // 64-bit entry point is generated
-    assert_true(dmi_dump_load(context, test_save_path));
+    assert_true(dmi_load(context, test_save_path));
     assert_string_equal(context->state.entry_spec->anchor, DMI_ANCHOR_V30);
     assert_int_equal(context->state.smbios_version, version);
     assert_int_equal(context->state.table_area_max_size, table_size);
-    assert_int_equal(dmi_registry(context)->count, count);
+    assert_int_equal(dmi_get_registry(context)->count, count);
 
     remove(test_save_path);
 }

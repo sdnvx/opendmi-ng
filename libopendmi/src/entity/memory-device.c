@@ -864,7 +864,7 @@ static bool dmi_memory_device_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_registry(context);
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     static const dmi_type_t error_types[] = {
         DMI_TYPE(MEMORY_ERROR_32),

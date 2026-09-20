@@ -2462,7 +2462,7 @@ static bool dmi_processor_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_registry(context);
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     bool success = true;
     if (not dmi_registry_resolve(registry, info->l1_cache_handle, DMI_TYPE(CACHE), &info->l1_cache))
@@ -2521,7 +2521,7 @@ static void dmi_processor_decode_id_x86(const dmi_entity_t *entity, dmi_processo
     const uint32_t reserved = 0xF000C000u;
 
     if ((low & reserved) and not (high & reserved)) {
-        dmi_log_notice(dmi_entity_context(entity)->logger,
+        dmi_log_notice(dmi_entity_context(entity),
                        "Handle 0x%04hx (%s): Processor ID words are swapped",
                        dmi_entity_handle(entity), dmi_type_name(dmi_entity_context(entity), entity->type));
 

@@ -25,7 +25,7 @@ static void test_ipmi_device_variants(void **pstate);
 
 static const dmi_attribute_t *test_attribute(const char *code);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

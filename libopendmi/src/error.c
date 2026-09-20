@@ -129,9 +129,9 @@ bool __dmi_error_vraise(
     }
 
     if (error->message != nullptr)
-        dmi_log_error(context->logger, "%s: %s", dmi_error_message(error->reason), error->message);
+        dmi_log_error(context, "%s: %s", dmi_error_message(error->reason), error->message);
     else
-        dmi_log_error(context->logger, "%s", dmi_error_message(error->reason));
+        dmi_log_error(context, "%s", dmi_error_message(error->reason));
 
     return true;
 }

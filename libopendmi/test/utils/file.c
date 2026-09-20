@@ -31,7 +31,7 @@ static void test_file_get_errors(void **pstate);
 
 static void test_file_create(const char *path, const dmi_data_t *data, size_t size);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 // Relative to test working directory
 static const char *test_path       = "file-test.bin";

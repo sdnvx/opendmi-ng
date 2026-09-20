@@ -23,7 +23,7 @@ static void test_tpm_device_vendor(void **pstate);
 static dmi_entity_t *test_create(dmi_context_t *context, uint8_t *data, uint8_t major, uint8_t minor);
 static dmi_entity_t *test_create_vendor(dmi_context_t *context, uint8_t *data, const char vendor[4]);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 // TPM device structure (0x1F bytes) followed by strings
 #define TEST_TPM_DEVICE_SIZE (0x1F + 5)

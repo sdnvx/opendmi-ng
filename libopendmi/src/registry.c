@@ -26,7 +26,7 @@ dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity)
     bool success = false;
     dmi_registry_t *registry = nullptr;
 
-    dmi_log_debug(context->logger, "Creating registry...");
+    dmi_log_debug(context, "Creating registry...");
 
     if (capacity == 0)
         capacity = DMI_REGISTRY_CAPACITY;
@@ -54,7 +54,7 @@ dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity)
     return registry;
 }
 
-dmi_entity_t *dmi_registry_get(
+dmi_entity_t *dmi_registry_lookup(
         dmi_registry_t *registry,
         dmi_handle_t    handle,
         dmi_type_t      type,
@@ -106,7 +106,7 @@ dmi_entity_t *dmi_registry_get(
     return entity;
 }
 
-dmi_entity_t *dmi_registry_get_any(
+dmi_entity_t *dmi_registry_lookup_any(
         dmi_registry_t   *registry,
         dmi_handle_t      handle,
         const dmi_type_t *type,
@@ -120,7 +120,7 @@ dmi_entity_t *dmi_registry_get_any(
 
     context = registry->context;
 
-    entity = dmi_registry_get(registry, handle, DMI_TYPE_ANY, optional);
+    entity = dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, optional);
     if (entity == nullptr)
         return nullptr;
 
@@ -179,7 +179,7 @@ bool dmi_registry_resolve_any(
 
     dmi_context_t *context = registry->context;
 
-    dmi_entity_t *entity = dmi_registry_get(registry, handle, DMI_TYPE_ANY, false);
+    dmi_entity_t *entity = dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, false);
     if (entity == nullptr)
         return false;
 
@@ -214,7 +214,7 @@ bool dmi_registry_resolve_any(
     return true;
 }
 
-dmi_entity_t *dmi_registry_get_first(
+dmi_entity_t *dmi_registry_lookup_first(
         dmi_registry_t *registry,
         dmi_type_t      type,
         bool            optional)
@@ -254,7 +254,7 @@ void dmi_registry_destroy(dmi_registry_t *registry)
         return;
 
     dmi_context_t *context = registry->context;
-    dmi_log_debug(context->logger, "Destroying registry...");
+    dmi_log_debug(context, "Destroying registry...");
 
     if (registry->index) {
         dmi_registry_entry_t *entry, *next;
@@ -286,7 +286,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
         return true;
 
     dmi_context_t *context = registry->context;
-    dmi_log_debug(context->logger, "Scanning SMBIOS structures...");
+    dmi_log_debug(context, "Scanning SMBIOS structures...");
 
     bool success = false;
     const dmi_data_t *ptr = context->state.table_data;
@@ -305,7 +305,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
 
         // Check for the end of table area
         if (remaining < sizeof(dmi_header_t) + 2) {
-            dmi_log_warning(context->logger, "Truncated table area, stopping before end-of-table");
+            dmi_log_warning(context, "Truncated table area, stopping before end-of-table");
             registry->status |= DMI_REGISTRY_STATUS_TRUNCATED;
             break;
         }
@@ -316,7 +316,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
             const dmi_error_t *error = dmi_error_peek_last(context);
 
             if (error->reason == DMI_ERROR_ENTITY_TRUNCATED) {
-                dmi_log_warning(context->logger, "Truncated structure, stopping before end-of-table");
+                dmi_log_warning(context, "Truncated structure, stopping before end-of-table");
                 registry->status |= DMI_REGISTRY_STATUS_TRUNCATED;
                 break;
             }
@@ -327,7 +327,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
             if ((error->reason == DMI_ERROR_INVALID_ENTITY_LENGTH) and
                 ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0))
             {
-                dmi_log_warning(context->logger, "Invalid structure length, stopping before end-of-table");
+                dmi_log_warning(context, "Invalid structure length, stopping before end-of-table");
                 registry->status |= DMI_REGISTRY_STATUS_TRUNCATED;
                 break;
             }
@@ -359,7 +359,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
     registry->count   = count;
     registry->status |= DMI_REGISTRY_STATUS_SCANNED;
 
-    dmi_log_debug(context->logger, "Found %zu structures", registry->count);
+    dmi_log_debug(context, "Found %zu structures", registry->count);
     success = true;
 
 exit:
@@ -371,7 +371,7 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
     assert(registry != nullptr);
 
     dmi_context_t *context = registry->context;
-    dmi_log_debug(context->logger, "Applying additional information...");
+    dmi_log_debug(context, "Applying additional information...");
 
     dmi_registry_iter_t iter;
     dmi_registry_iter_init(&iter, registry, nullptr);
@@ -399,7 +399,7 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
         for (size_t i = 0; i < info->entry_count; i++) {
             const dmi_additional_info_entry_t *entry = &info->entries[i];
 
-            dmi_entity_t *target = dmi_registry_get(registry, entry->ref_handle, DMI_TYPE_ANY, true);
+            dmi_entity_t *target = dmi_registry_lookup(registry, entry->ref_handle, DMI_TYPE_ANY, true);
             if (target == nullptr) {
                 dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
                                    "Additional information 0x%04x[%zu]: structure 0x%04x not found",
@@ -434,7 +434,7 @@ bool dmi_registry_decode(dmi_registry_t *registry)
         return true;
 
     dmi_context_t *context = registry->context;
-    dmi_log_debug(context->logger, "Decoding SMBIOS structures...");
+    dmi_log_debug(context, "Decoding SMBIOS structures...");
 
     dmi_registry_iter_t iter;
     dmi_registry_iter_init(&iter, registry, nullptr);
@@ -443,7 +443,7 @@ bool dmi_registry_decode(dmi_registry_t *registry)
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        dmi_log_debug(context->logger, "%p: Handle 0x%04hx, length %zu, type %d (%s)",
+        dmi_log_debug(context, "%p: Handle 0x%04hx, length %zu, type %d (%s)",
                       entity->data,
                       entity->handle,
                       entity->body_length,
@@ -464,7 +464,7 @@ bool dmi_registry_decode(dmi_registry_t *registry)
         success = false;
 
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
-            dmi_log_warning(context->logger, "Unable to decode structure 0x%04hx (%s), skipping",
+            dmi_log_warning(context, "Unable to decode structure 0x%04hx (%s), skipping",
                             entity->handle, dmi_type_name(context, entity->type));
         }
     }
@@ -487,7 +487,7 @@ bool dmi_registry_link(dmi_registry_t *registry)
         return true;
 
     dmi_context_t *context = registry->context;
-    dmi_log_debug(context->logger, "Linking SMBIOS structures...");
+    dmi_log_debug(context, "Linking SMBIOS structures...");
 
     dmi_registry_iter_t iter;
     dmi_registry_iter_init(&iter, registry, nullptr);
@@ -503,7 +503,7 @@ bool dmi_registry_link(dmi_registry_t *registry)
         if ((entity->state & DMI_ENTITY_STATE_DECODED) == 0)
             continue;
 
-        dmi_log_debug(context->logger, "%p: Handle 0x%04hx, length %zu, type %d (%s)",
+        dmi_log_debug(context, "%p: Handle 0x%04hx, length %zu, type %d (%s)",
                       entity->data,
                       entity->handle,
                       entity->body_length,

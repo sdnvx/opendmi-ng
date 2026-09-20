@@ -37,7 +37,7 @@ static void test_dump_write(const dmi_data_t *data, size_t size);
 static bool test_dump_has_error(dmi_context_t *context, dmi_error_code_t reason);
 static size_t test_dump_decode_all(dmi_context_t *context);
 
-static dmi_log_t test_logger = { DMI_LOG_ERROR, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 static const char *test_source_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-t14-g3-21aj.bin";
 
@@ -87,6 +87,7 @@ static int test_dump_setup(void **pstate)
         return -1;
 
     dmi_set_logger(state->context, &test_logger);
+    dmi_set_log_level(state->context, DMI_LOG_ERROR);
 
     state->source = dmi_file_get(state->context, test_source_path, -1, &state->source_size);
     if (state->source == nullptr)
@@ -118,9 +119,9 @@ static void test_dump_load_valid(void **pstate)
 
     test_dump_write(state->source, state->source_size);
 
-    assert_true(dmi_dump_load(state->context, test_dump_path));
+    assert_true(dmi_load(state->context, test_dump_path));
 
-    const dmi_registry_t *registry = dmi_registry(state->context);
+    const dmi_registry_t *registry = dmi_get_registry(state->context);
 
     assert_int_equal(state->context->state.table_size, state->source_size - DMI_ENTRY_MAX_SIZE);
     assert_int_equal(registry->count, test_source_count);
@@ -136,7 +137,7 @@ static void test_dump_load_not_dump(void **pstate)
     test_dump_write((const dmi_data_t *)text, sizeof(text) - 1);
 
     dmi_error_clear(state->context);
-    assert_false(dmi_dump_load(state->context, test_dump_path));
+    assert_false(dmi_load(state->context, test_dump_path));
     assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
 }
 
@@ -151,7 +152,7 @@ static void test_dump_load_too_small(void **pstate)
         test_dump_write(state->source, sizes[i]);
 
         dmi_error_clear(state->context);
-        assert_false(dmi_dump_load(state->context, test_dump_path));
+        assert_false(dmi_load(state->context, test_dump_path));
         assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
     }
 }
@@ -170,7 +171,7 @@ static void test_dump_load_bad_checksum(void **pstate)
     dmi_free(data);
 
     dmi_error_clear(state->context);
-    assert_false(dmi_dump_load(state->context, test_dump_path));
+    assert_false(dmi_load(state->context, test_dump_path));
     assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_EPS_CHECKSUM));
 }
 
@@ -184,8 +185,8 @@ static void test_dump_load_entry_only(void **pstate)
 
     test_dump_write(data, sizeof(data));
 
-    assert_true(dmi_dump_load(state->context, test_dump_path));
-    assert_true(dmi_registry(state->context)->status & DMI_REGISTRY_STATUS_TRUNCATED);
+    assert_true(dmi_load(state->context, test_dump_path));
+    assert_true(dmi_get_registry(state->context)->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_true(dmi_close(state->context));
 }
 
@@ -198,7 +199,7 @@ static void test_dump_load_truncated(void **pstate)
     for (size_t size = DMI_ENTRY_MAX_SIZE + sizeof(dmi_header_t); size < DMI_ENTRY_MAX_SIZE + 512; size++) {
         test_dump_write(state->source, size);
 
-        assert_true(dmi_dump_load(state->context, test_dump_path));
+        assert_true(dmi_load(state->context, test_dump_path));
 
         // Table area size from the entry point is not affected by actual
         // table data size
@@ -206,7 +207,7 @@ static void test_dump_load_truncated(void **pstate)
         assert_int_equal(state->context->state.table_size, size - DMI_ENTRY_MAX_SIZE);
 
         // Registry is created anew on every load
-        const dmi_registry_t *registry = dmi_registry(state->context);
+        const dmi_registry_t *registry = dmi_get_registry(state->context);
 
         assert_true(registry->status & DMI_REGISTRY_STATUS_TRUNCATED);
         assert_true(registry->count < test_source_count);
@@ -228,8 +229,8 @@ static void test_dump_load_bad_length(void **pstate)
     data[DMI_ENTRY_MAX_SIZE + 1] = 0xFF;
     test_dump_write(data, DMI_ENTRY_MAX_SIZE + 0x40);
 
-    assert_true(dmi_dump_load(state->context, test_dump_path));
-    assert_true(dmi_registry(state->context)->status & DMI_REGISTRY_STATUS_TRUNCATED);
+    assert_true(dmi_load(state->context, test_dump_path));
+    assert_true(dmi_get_registry(state->context)->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_true(dmi_close(state->context));
 
     // Structure length shorter than its header truncates the table
@@ -237,9 +238,9 @@ static void test_dump_load_bad_length(void **pstate)
     data[DMI_ENTRY_MAX_SIZE + 1] = 0x02;
     test_dump_write(data, state->source_size);
 
-    assert_true(dmi_dump_load(state->context, test_dump_path));
+    assert_true(dmi_load(state->context, test_dump_path));
 
-    const dmi_registry_t *registry = dmi_registry(state->context);
+    const dmi_registry_t *registry = dmi_get_registry(state->context);
 
     assert_true(registry->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_int_equal(registry->count, 0);
@@ -257,9 +258,9 @@ static void test_dump_load_bad_length(void **pstate)
     data[offset + 1] = 0x03;
     test_dump_write(data, state->source_size);
 
-    assert_true(dmi_dump_load(state->context, test_dump_path));
+    assert_true(dmi_load(state->context, test_dump_path));
 
-    registry = dmi_registry(state->context);
+    registry = dmi_get_registry(state->context);
 
     assert_true(registry->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_int_equal(registry->count, 1);
@@ -284,8 +285,9 @@ static void test_dump_load_bad_length_strict(void **pstate)
     dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_STRICT);
     assert_non_null(context);
     dmi_set_logger(context, &test_logger);
+    dmi_set_log_level(context, DMI_LOG_ERROR);
 
-    bool loaded = dmi_dump_load(context, test_dump_path);
+    bool loaded = dmi_load(context, test_dump_path);
     bool found  = test_dump_has_error(context, DMI_ERROR_INVALID_ENTITY_LENGTH);
 
     dmi_destroy(context);
@@ -326,7 +328,7 @@ static void test_dump_load_mutated(void **pstate)
 
         // Loading may fail, but must not crash
         dmi_error_clear(state->context);
-        if (dmi_dump_load(state->context, test_dump_path)) {
+        if (dmi_load(state->context, test_dump_path)) {
             test_dump_decode_all(state->context);
             assert_true(dmi_close(state->context));
             loaded++;
@@ -378,7 +380,7 @@ static size_t test_dump_decode_all(dmi_context_t *context)
     const dmi_entity_t *entity;
     size_t decoded = 0;
 
-    dmi_registry_t *registry = dmi_registry(context);
+    dmi_registry_t *registry = dmi_get_registry(context);
     assert_true(dmi_registry_iter_init(&iter, registry, nullptr));
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {

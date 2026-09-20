@@ -24,7 +24,7 @@ static void test_processor_decode_version(void **pstate);
 static void test_processor_decode_incomplete(void **pstate);
 static void test_processor_decode_id(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 // Processor information structure (SMBIOS 2.0) with strings
 static const uint8_t test_processor_data[] = {

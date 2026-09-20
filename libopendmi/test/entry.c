@@ -24,7 +24,7 @@ static void test_entry_decode_v21(void **pstate);
 static void test_entry_decode_v30(void **pstate);
 static void test_entry_decode_v30_length(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
 {

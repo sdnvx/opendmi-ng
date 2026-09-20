@@ -26,7 +26,7 @@ static int test_rsd_network_card_teardown(void **pstate);
 static void test_rsd_network_card_decode(void **pstate);
 static void test_rsd_network_card_decode_short(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 // Offset of MAC address field
 #define TEST_MAC_ADDRESS_OFFSET 0x19

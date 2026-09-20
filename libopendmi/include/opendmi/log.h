@@ -36,13 +36,10 @@ typedef void dmi_log_handler_fn(
 
 struct dmi_log
 {
-    dmi_log_level_t level;
     dmi_log_handler_fn *handler;
 };
 
 __BEGIN_DECLS
-
-__dmi_api bool dmi_log_set_level(dmi_log_t *target, dmi_log_level_t level);
 
 __dmi_api bool dmi_log_message(
         dmi_log_t       *target,
@@ -50,20 +47,15 @@ __dmi_api bool dmi_log_message(
         const char      *format,
         ...);
 
+__dmi_api bool dmi_log_message_va(
+        dmi_log_t       *target,
+        dmi_log_level_t  level,
+        const char      *format,
+        va_list          args);
+
 __dmi_api const char *dmi_log_level_name(dmi_log_level_t value);
 __dmi_api dmi_log_level_t dmi_log_level_find(const char *code);
 
 __END_DECLS
-
-#define dmi_log_error(target, format, ...) \
-        dmi_log_message(target, DMI_LOG_ERROR, format, ##__VA_ARGS__)
-#define dmi_log_warning(target, format, ...) \
-        dmi_log_message(target, DMI_LOG_WARNING, format, ##__VA_ARGS__)
-#define dmi_log_notice(target, format, ...) \
-        dmi_log_message(target, DMI_LOG_NOTICE, format, ##__VA_ARGS__)
-#define dmi_log_info(target, format, ...) \
-        dmi_log_message(target, DMI_LOG_INFO, format, ##__VA_ARGS__)
-#define dmi_log_debug(target, format, ...) \
-        dmi_log_message(target, DMI_LOG_DEBUG, format, ##__VA_ARGS__)
 
 #endif // !OPENDMI_LOG_H

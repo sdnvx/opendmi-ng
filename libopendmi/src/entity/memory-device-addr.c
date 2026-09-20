@@ -206,7 +206,7 @@ static bool dmi_memory_device_addr_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_registry(context);
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     bool success = true;
     if (not dmi_registry_resolve(registry, info->device_handle, DMI_TYPE(MEMORY_DEVICE), &info->device))

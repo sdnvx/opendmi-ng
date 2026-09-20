@@ -189,7 +189,7 @@ static bool dmi_battery_decode(dmi_entity_t *entity)
     if (manufacture_date != nullptr) {
         info->manufacture_date = dmi_date_parse(manufacture_date);
         if (info->manufacture_date == DMI_DATE_NONE) {
-            dmi_log_warning(context->logger,
+            dmi_log_warning(context,
                             "Invalid battery manufacture date format: '%s'", manufacture_date);
         }
     }

@@ -385,6 +385,21 @@ struct dmi_entity_overlay
 __BEGIN_DECLS
 
 /**
+ * @brief Find entity type identifier by its code.
+ */
+__dmi_api dmi_type_t dmi_type_find(dmi_context_t *context, const char *code);
+
+/**
+ * @brief Get entity type specification.
+ */
+__dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type);
+
+/**
+ * @brief Get entity type name.
+ */
+__dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
+
+/**
  * @internal
  * @brief Create SMBIOS entity.
  *

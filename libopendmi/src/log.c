@@ -23,29 +23,23 @@ static const dmi_name_set_t dmi_log_level_names =
 };
 
 
-bool dmi_log_set_level(dmi_log_t *target, dmi_log_level_t level)
-{
-    if (target == nullptr)
-        return false;
-
-    target->level = level;
-
-    return true;
-}
-
 bool dmi_log_message(dmi_log_t *target, dmi_log_level_t level, const char *format, ...)
 {
     va_list args;
 
+    va_start(args, format);
+    bool status = dmi_log_message_va(target, level, format, args);
+    va_end(args);
+
+    return status;
+}
+
+bool dmi_log_message_va(dmi_log_t *target, dmi_log_level_t level, const char *format, va_list args)
+{
     if ((target == nullptr) or (target->handler == nullptr))
         return false;
 
-    if (level > target->level)
-        return false;
-
-    va_start(args, format);
     target->handler(target, level, format, args);
-    va_end(args);
 
     return true;
 }

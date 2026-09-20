@@ -25,7 +25,7 @@ static int test_rsd_fpga_teardown(void **pstate);
 static void test_rsd_fpga_decode(void **pstate);
 static void test_rsd_fpga_decode_short(void **pstate);
 
-static dmi_log_t test_logger = { DMI_LOG_DEBUG, dmi_test_log_handler };
+static dmi_log_t test_logger = { dmi_test_log_handler };
 
 // Intel RSD FPGA information structure (0x24 bytes) followed by strings
 static const uint8_t test_data[] = {

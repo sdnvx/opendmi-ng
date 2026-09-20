@@ -272,7 +272,7 @@ dmi_context_t *dmi_create(unsigned int flags)
 
     context->state.vendor = DMI_VENDOR_OTHER;
     context->flags        = flags;
-    context->log_level    = DMI_LOG_INFO;
+    context->log_level    = DMI_LOG_DEBUG;
 
     do {
         // Allocate type map
@@ -360,7 +360,7 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
         return false;
     }
 
-    dmi_log_info(context->logger, "Enabling extension: %s", module->name);
+    dmi_log_info(context, "Enabling extension: %s", module->name);
 
     if (dmi_has_extension(context, module)) {
         dmi_error_raise_ex(context, DMI_ERROR_MODULE_CONFLICT, "%s: already enabled", module->name);
@@ -417,7 +417,7 @@ bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module)
     return false;
 }
 
-bool dmi_dump_load(dmi_context_t *context, const char *path)
+bool dmi_load(dmi_context_t *context, const char *path)
 {
     if (context == nullptr)
         return false;
@@ -427,12 +427,12 @@ bool dmi_dump_load(dmi_context_t *context, const char *path)
         return false;
     }
 
-    dmi_log_info(context->logger, "Loading DMI dump: %s...", path);
+    dmi_log_info(context, "Loading DMI dump: %s...", path);
 
     return dmi_open_ex(context, &dmi_dump_backend, path);
 }
 
-bool dmi_dump_save(dmi_context_t *context, const char *path, bool overwrite)
+bool dmi_save(dmi_context_t *context, const char *path, bool overwrite)
 {
     int flags;
     int fd;
@@ -542,6 +542,51 @@ const char *dmi_type_name(dmi_context_t *context, dmi_type_t type)
     return name;
 }
 
+dmi_log_t *dmi_get_logger(dmi_context_t *context)
+{
+    if (context == nullptr)
+        return nullptr;
+
+    return context->logger;
+}
+
+bool dmi_set_log_level(dmi_context_t *context, dmi_log_level_t level)
+{
+    if ((context == nullptr) or (level == DMI_LOG_INVALID))
+        return false;
+
+    context->log_level = level;
+
+    return true;
+}
+
+dmi_log_level_t dmi_get_log_level(const dmi_context_t *context)
+{
+    if (context == nullptr)
+        return DMI_LOG_INVALID;
+
+    return context->log_level;
+}
+
+bool dmi_log(dmi_context_t *context, dmi_log_level_t level, const char *format, ...)
+{
+    if (context == nullptr)
+        return false;
+
+    // Context level is checked before the level of the handler
+    if (level > context->log_level)
+        return false;
+
+    va_list args;
+    va_start(args, format);
+
+    bool status = dmi_log_message_va(context->logger, level, format, args);
+
+    va_end(args);
+
+    return status;
+}
+
 bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger)
 {
     if (context == nullptr)
@@ -552,7 +597,7 @@ bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger)
     return true;
 }
 
-dmi_registry_t *dmi_registry(dmi_context_t *context)
+dmi_registry_t *dmi_get_registry(dmi_context_t *context)
 {
     if (context == nullptr)
         return nullptr;
@@ -608,8 +653,8 @@ static bool dmi_open_ex(
         return false;
     }
 
-    dmi_log_info(context->logger, "Opening DMI context...");
-    dmi_log_info(context->logger, "Using backend: %s", backend->name);
+    dmi_log_info(context, "Opening DMI context...");
+    dmi_log_info(context, "Using backend: %s", backend->name);
 
     // Initialize context
     bool success = false;
@@ -624,25 +669,25 @@ static bool dmi_open_ex(
 
         // Read and decode entry point, if backend provides it
         if (backend->read_entry != nullptr) {
-            dmi_log_info(context->logger, "Reading DMI entry point...");
+            dmi_log_info(context, "Reading DMI entry point...");
             context->state.entry_data = backend->read_entry(context, &context->state.entry_data_size);
             if (context->state.entry_data == nullptr)
                 break;
 
-            dmi_log_info(context->logger, "Decoding DMI entry point...");
+            dmi_log_info(context, "Decoding DMI entry point...");
             if (not dmi_entry_decode(context, context->state.entry_data, context->state.entry_data_size))
                 break;
         }
 
         // Fixup SMBIOS version number
         dmi_version_fixup(context);
-        dmi_log_info(context->logger, "SMBIOS %u.%u.%u present",
+        dmi_log_info(context, "SMBIOS %u.%u.%u present",
                      dmi_version_major(context->state.smbios_version),
                      dmi_version_minor(context->state.smbios_version),
                      dmi_version_revision(context->state.smbios_version));
 
         // Read and decode SMBIOS structures
-        dmi_log_info(context->logger, "Reading DMI structures...");
+        dmi_log_info(context, "Reading DMI structures...");
         context->state.table_data = context->state.backend->read_table(context, &context->state.table_size);
         if (context->state.table_data == nullptr)
             break;
@@ -698,12 +743,12 @@ static bool dmi_setup_extensions(dmi_context_t *context)
     const dmi_firmware_t *firmware;
     const dmi_vendor_spec_t *vendor;
 
-    dmi_log_debug(context->logger, "Detecting SMBIOS vendor...");
+    dmi_log_debug(context, "Detecting SMBIOS vendor...");
 
-    entity = dmi_registry_get_first(context->state.registry, DMI_TYPE(FIRMWARE), true);
+    entity = dmi_registry_lookup_first(context->state.registry, DMI_TYPE(FIRMWARE), true);
     if (entity == nullptr) {
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
-            dmi_log_notice(context->logger, dmi_error_message(DMI_ERROR_MISSING_FIRMWARE_INFO));
+            dmi_log_notice(context, dmi_error_message(DMI_ERROR_MISSING_FIRMWARE_INFO));
             return true;
         }
 
@@ -713,7 +758,7 @@ static bool dmi_setup_extensions(dmi_context_t *context)
 
     if (not dmi_entity_decode(entity)) {
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
-            dmi_log_notice(context->logger, "Unable to decode firmware information, vendor is unknown");
+            dmi_log_notice(context, "Unable to decode firmware information, vendor is unknown");
             return true;
         }
 
@@ -727,7 +772,7 @@ static bool dmi_setup_extensions(dmi_context_t *context)
     if (vendor != nullptr)
         context->state.vendor = vendor->id;
 
-    dmi_log_info(context->logger, "SMBIOS vendor: %s (%s)",
+    dmi_log_info(context, "SMBIOS vendor: %s (%s)",
                  dmi_vendor_name(context->state.vendor), firmware->vendor);
 
     //

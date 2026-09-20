@@ -62,7 +62,7 @@ static void dmi_log_file_unlock(off_t start);
 
 static FILE     *log_file   = nullptr;
 static bool      log_lock   = true;
-static dmi_log_t log_target = { DMI_LOG_WARNING, dmi_log_handler };
+static dmi_log_t log_target = { dmi_log_handler };
 
 int main(int argc, char *argv[])
 {
@@ -164,8 +164,8 @@ static bool dmi_log_init(dmi_context_t *context)
         atexit(dmi_log_close);
     }
 
-    dmi_log_set_level(&log_target, dmi_global_config.log_level);
     dmi_set_logger(context, &log_target);
+    dmi_set_log_level(context, dmi_global_config.log_level);
 
     return true;
 }

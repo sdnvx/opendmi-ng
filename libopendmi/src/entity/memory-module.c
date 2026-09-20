@@ -273,7 +273,7 @@ static bool dmi_memory_module_decode(dmi_entity_t *entity)
     // Decode installed size
     dmi_memory_module_decode_size(&info->installed_size, installed_size);
     if (info->installed_size.status == DMI_MEMORY_MODULE_SIZE_STATUS_INVALID) {
-        dmi_log_warning(context->logger,
+        dmi_log_warning(context,
                         "Installed memory size is out of range: 0x%04hX: 0x%02hX",
                         dmi_entity_handle(entity), installed_size);
     }
@@ -281,7 +281,7 @@ static bool dmi_memory_module_decode(dmi_entity_t *entity)
     // Decode enabled size
     dmi_memory_module_decode_size(&info->enabled_size, enabled_size);
     if (info->enabled_size.status == DMI_MEMORY_MODULE_SIZE_STATUS_INVALID) {
-        dmi_log_warning(context->logger,
+        dmi_log_warning(context,
                         "Enabled memory size is out of range: 0x%04hX: 0x%02hX",
                         dmi_entity_handle(entity), enabled_size);
     }

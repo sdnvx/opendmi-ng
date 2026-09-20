@@ -186,7 +186,7 @@ static void dmi_tpm_device_decode_vendor(dmi_entity_t *entity, dmi_tpm_device_t 
     // Some firmware stores vendor identifier as a little-endian double word,
     // so that it starts with the terminating zero, e.g. "\0XFI" for "IFX"
     if ((id[0] == 0) and (id[3] != 0)) {
-        dmi_log_notice(context->logger,
+        dmi_log_notice(context,
                        "Handle 0x%04hx (%s): Vendor ID bytes are reversed",
                        dmi_entity_handle(entity), dmi_type_name(context, entity->type));
 

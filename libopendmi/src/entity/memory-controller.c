@@ -323,7 +323,7 @@ static bool dmi_memory_controller_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_registry(context);
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     info->modules = dmi_alloc_array(context, sizeof(dmi_entity_t *), info->slot_count);
     if (info->modules == nullptr)
