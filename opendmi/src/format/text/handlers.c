@@ -101,43 +101,41 @@ bool dmi_text_entity_start(dmi_text_session_t *session, const dmi_entity_t *enti
     assert(session != nullptr);
     assert(entity != nullptr);
 
+    bool verbose = (session->options.mode == DMI_FORMAT_MODE_VERBOSE);
+
     if (session->options.mode != DMI_FORMAT_MODE_QUIET) {
-        dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, "Handle 0x%04hX, DMI type %d, %zu bytes\n",
+        dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, "Handle 0x%04hX, DMI type %d, %zu bytes",
                         dmi_entity_handle(entity),
                         dmi_entity_type(entity),
                         entity->total_length);
+
+        // Structure states follow the header in verbose mode
+        if (verbose) {
+            dmi_format_set_iter_t iter;
+            const dmi_format_flag_t *flag;
+
+            dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
+                                      sizeof(entity->state) * CHAR_BIT);
+
+            while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+                if (flag->value)
+                    dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, ", %s", flag->code);
+            }
+        }
+
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
     }
 
-    dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, "%s\n", dmi_entity_name(entity));
+    dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, "%s", dmi_entity_name(entity));
 
-    if (session->options.mode != DMI_FORMAT_MODE_VERBOSE)
-        return true;
-
-    if (entity->level != DMI_VERSION_NONE) {
+    // Structure version follows the name in verbose mode
+    if (verbose and (entity->level != DMI_VERSION_NONE)) {
         char *level = dmi_version_format(entity->level);
         if (level == nullptr)
             return false;
 
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tStructure version: %s\n", level);
+        dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, " (%s)", level);
         dmi_free(level);
-    }
-
-    dmi_format_set_iter_t iter;
-    const dmi_format_flag_t *flag;
-    const char *separator = " ";
-
-    dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
-                              sizeof(entity->state) * CHAR_BIT);
-
-    // Values are preceded by separators, so that there are no trailing spaces
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tState:");
-
-    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
-        if (not flag->value)
-            continue;
-
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s%s", separator, flag->name);
-        separator = ", ";
     }
 
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");

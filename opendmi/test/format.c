@@ -356,7 +356,7 @@ static void test_format_state(void **pstate)
         dmi_format_mode_t  mode;
         const char        *expected;
     } cases[] = {
-        { "text", DMI_FORMAT_MODE_VERBOSE, "\tStructure version: 2.0\n\tState: Decoded, Partial\n" },
+        { "text", DMI_FORMAT_MODE_VERBOSE, ", decoded, partial\nPlatform firmware information (2.0)\n" },
         { "json", DMI_FORMAT_MODE_NORMAL,  "\"state\": [\n                \"decoded\",\n                \"partial\"\n            ]" },
         { "yaml", DMI_FORMAT_MODE_NORMAL,  "state: [decoded, partial]" },
         { "xml",  DMI_FORMAT_MODE_NORMAL,  "state=\"decoded partial\"" }
@@ -385,9 +385,10 @@ static void test_format_state(void **pstate)
         }
     }
 
-    // State is not shown in text output by default
+    // States and versions are not shown in text output by default
     char *output = test_format_print(dmi_format_get("text"), entity, false, DMI_FORMAT_MODE_NORMAL);
-    bool found = (output != nullptr) and (strstr(output, "State:") != nullptr);
+    bool found = (output != nullptr) and
+        ((strstr(output, ", decoded") != nullptr) or (strstr(output, "information (") != nullptr));
 
     free(output);
     dmi_entity_destroy(entity);
