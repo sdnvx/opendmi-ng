@@ -70,7 +70,8 @@ bool dmi_text_entry(dmi_text_session_t *session)
     if (session->options.mode == DMI_FORMAT_MODE_QUIET)
         return true;
 
-    dmi_context_t *context = session->context;
+    dmi_context_t        *context  = session->context;
+    const dmi_registry_t *registry = dmi_registry(context);
 
     char *version = dmi_version_format(context->state.smbios_version);
     if (version == nullptr) {
@@ -80,7 +81,7 @@ bool dmi_text_entry(dmi_text_session_t *session)
 
     size_t entity_count = context->state.entity_count;
     if (entity_count == 0)
-        entity_count = dmi_get_registry(context)->count;
+        entity_count = registry->count;
 
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS %s present\n", version);
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS vendor: %s\n",
@@ -191,6 +192,8 @@ void dmi_text_entity_attr_array(
     assert(info != nullptr);
     assert(value != nullptr);
 
+    dmi_registry_t *registry = dmi_registry(session->context);
+
     dmi_format_array_iter_t iter;
     const dmi_data_t *ptr;
 
@@ -207,7 +210,7 @@ void dmi_text_entity_attr_array(
 
             if (attr->type == DMI_ATTRIBUTE_TYPE_HANDLE) {
                 dmi_handle_t handle = dmi_deref(dmi_handle_t, ptr);
-                const dmi_entity_t *entity = dmi_registry_get(dmi_get_registry(session->context), handle, DMI_TYPE_INVALID, true);
+                const dmi_entity_t *entity = dmi_registry_get(registry, handle, DMI_TYPE_ANY, true);
 
                 descr = dmi_entity_name(entity);
             }

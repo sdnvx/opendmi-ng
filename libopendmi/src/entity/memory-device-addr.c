@@ -86,7 +86,7 @@ static bool dmi_memory_device_addr_validate(dmi_entity_t *entity)
     if ((entity == nullptr) or (entity->type != DMI_TYPE(MEMORY_DEVICE_ADDR)))
         return false;
 
-    const dmi_stream_t *stream = &entity->stream;
+    const dmi_stream_t *stream = dmi_entity_stream(entity);
 
     uint32_t start_addr = 0, end_addr = 0;
     uint64_t start_addr_ex = 0, end_addr_ex = 0;
@@ -133,7 +133,7 @@ static bool dmi_memory_device_addr_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     bool success = false;
 
@@ -205,9 +205,10 @@ static bool dmi_memory_device_addr_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
-    bool success = true;
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
+    bool success = true;
     if (not dmi_registry_resolve(registry, info->device_handle, DMI_TYPE(MEMORY_DEVICE), &info->device))
         success = false;
     if (not dmi_registry_resolve(registry, info->array_addr_handle, DMI_TYPE(MEMORY_ARRAY_ADDR), &info->array_addr))

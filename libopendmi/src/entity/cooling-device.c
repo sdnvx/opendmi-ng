@@ -146,7 +146,7 @@ static bool dmi_cooling_device_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     if (not dmi_stream_decode(stream, dmi_handle_t, &info->probe_handle))
         return false;
@@ -198,7 +198,8 @@ static bool dmi_cooling_device_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
     return dmi_registry_resolve(registry, info->probe_handle, DMI_TYPE(TEMPERATURE_PROBE), &info->probe);
 }

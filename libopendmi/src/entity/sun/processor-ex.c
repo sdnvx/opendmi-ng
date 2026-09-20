@@ -60,7 +60,8 @@ static bool dmi_sun_processor_ex_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     bool status =
         dmi_stream_decode(stream, dmi_word_t, &info->processor_handle) and
@@ -72,7 +73,7 @@ static bool dmi_sun_processor_ex_decode(dmi_entity_t *entity)
     if (info->apic_id_total == 0)
         return true;
 
-    info->apic_ids = dmi_alloc_array(entity->context, sizeof(*info->apic_ids), info->apic_id_total);
+    info->apic_ids = dmi_alloc_array(context, sizeof(*info->apic_ids), info->apic_id_total);
     if (info->apic_ids == nullptr)
         return false;
 

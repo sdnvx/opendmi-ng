@@ -59,7 +59,8 @@ static bool dmi_sun_memory_device_ex_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     bool status =
         dmi_stream_decode(stream, dmi_word_t, &info->memory_device_handle) and
@@ -71,7 +72,7 @@ static bool dmi_sun_memory_device_ex_decode(dmi_entity_t *entity)
     if (info->chip_select_total == 0)
         return true;
 
-    info->chip_selects = dmi_alloc_array(entity->context, sizeof(*info->chip_selects),
+    info->chip_selects = dmi_alloc_array(context, sizeof(*info->chip_selects),
                                          info->chip_select_total);
     if (info->chip_selects == nullptr)
         return false;

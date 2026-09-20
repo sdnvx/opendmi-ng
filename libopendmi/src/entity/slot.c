@@ -807,7 +807,8 @@ static bool dmi_slot_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     status =
         dmi_stream_decode_str(stream, &info->designator) &&
@@ -853,7 +854,7 @@ static bool dmi_slot_decode(dmi_entity_t *entity)
         return dmi_entity_incomplete(entity);
 
     if (peer_group_count > 0) {
-        info->peer_groups = dmi_alloc_array(entity->context, sizeof(dmi_slot_peer_group_t), peer_group_count);
+        info->peer_groups = dmi_alloc_array(context, sizeof(dmi_slot_peer_group_t), peer_group_count);
         if (info->peer_groups == nullptr)
             return false;
     }

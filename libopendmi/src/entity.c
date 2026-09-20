@@ -280,6 +280,22 @@ bool dmi_entity_link(dmi_entity_t *entity)
     return true;
 }
 
+dmi_context_t *dmi_entity_context(const dmi_entity_t *entity)
+{
+    if (entity == nullptr)
+        return nullptr;
+
+    return entity->context;
+}
+
+dmi_stream_t *dmi_entity_stream(dmi_entity_t *entity)
+{
+    if (entity == nullptr)
+        return nullptr;
+
+    return &entity->stream;
+}
+
 dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
@@ -309,7 +325,7 @@ const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type)
     if (entity == nullptr)
         return nullptr;
 
-    if ((type != DMI_TYPE_INVALID) and (entity->type != type)) {
+    if ((type != DMI_TYPE_ANY) and (entity->type != type)) {
         dmi_error_raise(entity->context, DMI_ERROR_INVALID_ENTITY_TYPE);
         return nullptr;
     }
@@ -322,7 +338,7 @@ void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type)
     if (entity == nullptr)
         return nullptr;
 
-    if ((type != DMI_TYPE_INVALID) and (entity->type != type)) {
+    if ((type != DMI_TYPE_ANY) and (entity->type != type)) {
         dmi_error_raise(entity->context, DMI_ERROR_INVALID_ENTITY_TYPE);
         return nullptr;
     }

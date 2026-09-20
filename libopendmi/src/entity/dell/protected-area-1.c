@@ -84,7 +84,7 @@ static bool dmi_dell_protected_area_1_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     dmi_byte_t value_format = 0;
     dmi_byte_t check_type   = 0;

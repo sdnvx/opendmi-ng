@@ -51,7 +51,7 @@ static const char *test_format(dmi_entity_t *entity)
     assert_non_null(variant);
 
     const void *value = dmi_member_ptr(entity->info, variant->value, dmi_data_t);
-    char *text = dmi_attribute_format(entity->context, variant, value, true);
+    char *text = dmi_attribute_format(dmi_entity_context(entity), variant, value, true);
     assert_non_null(text);
 
     snprintf(buffer, sizeof(buffer), "%s%s%s", text,

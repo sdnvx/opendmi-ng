@@ -203,7 +203,7 @@ static bool dmi_memory_array_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     status =
         dmi_stream_decode(stream, dmi_byte_t, &info->location) and
@@ -250,19 +250,20 @@ static bool dmi_memory_array_decode(dmi_entity_t *entity)
 
 static bool dmi_memory_array_link(dmi_entity_t *entity)
 {
-    static const dmi_type_t error_types[] = {
-        DMI_TYPE(MEMORY_ERROR_32),
-        DMI_TYPE(MEMORY_ERROR_64),
-        DMI_TYPE_INVALID
-    };
-
     dmi_memory_array_t *info;
 
     info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
+
+    static const dmi_type_t error_types[] = {
+        DMI_TYPE(MEMORY_ERROR_32),
+        DMI_TYPE(MEMORY_ERROR_64),
+        DMI_TYPE_INVALID
+    };
 
     return dmi_registry_resolve_any(registry, info->error_info_handle, error_types, &info->error_info);
 }

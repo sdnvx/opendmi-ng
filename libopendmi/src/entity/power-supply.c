@@ -214,7 +214,7 @@ static bool dmi_power_supply_decode(dmi_entity_t *entity)
     info->cooling_device_handle = DMI_HANDLE_INVALID;
     info->current_probe_handle  = DMI_HANDLE_INVALID;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     // Decode mandatory fields
     bool status =
@@ -255,9 +255,10 @@ static bool dmi_power_supply_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
-    bool success = true;
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
+    bool success = true;
     if (not dmi_registry_resolve(registry, info->voltage_probe_handle, DMI_TYPE(VOLTAGE_PROBE), &info->voltage_probe))
         success = false;
     if (not dmi_registry_resolve(registry, info->cooling_device_handle, DMI_TYPE(COOLING_DEVICE), &info->cooling_device))

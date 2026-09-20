@@ -248,8 +248,8 @@ static bool dmi_memory_module_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_context_t *context = entity->context;
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     dmi_byte_t bank_connections;
     dmi_byte_t installed_size;
@@ -275,7 +275,7 @@ static bool dmi_memory_module_decode(dmi_entity_t *entity)
     if (info->installed_size.status == DMI_MEMORY_MODULE_SIZE_STATUS_INVALID) {
         dmi_log_warning(context->logger,
                         "Installed memory size is out of range: 0x%04hX: 0x%02hX",
-                        entity->handle, installed_size);
+                        dmi_entity_handle(entity), installed_size);
     }
 
     // Decode enabled size
@@ -283,7 +283,7 @@ static bool dmi_memory_module_decode(dmi_entity_t *entity)
     if (info->enabled_size.status == DMI_MEMORY_MODULE_SIZE_STATUS_INVALID) {
         dmi_log_warning(context->logger,
                         "Enabled memory size is out of range: 0x%04hX: 0x%02hX",
-                        entity->handle, enabled_size);
+                        dmi_entity_handle(entity), enabled_size);
     }
 
     return true;

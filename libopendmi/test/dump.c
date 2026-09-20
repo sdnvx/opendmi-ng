@@ -120,7 +120,7 @@ static void test_dump_load_valid(void **pstate)
 
     assert_true(dmi_dump_load(state->context, test_dump_path));
 
-    const dmi_registry_t *registry = dmi_get_registry(state->context);
+    const dmi_registry_t *registry = dmi_registry(state->context);
 
     assert_int_equal(state->context->state.table_size, state->source_size - DMI_ENTRY_MAX_SIZE);
     assert_int_equal(registry->count, test_source_count);
@@ -185,7 +185,7 @@ static void test_dump_load_entry_only(void **pstate)
     test_dump_write(data, sizeof(data));
 
     assert_true(dmi_dump_load(state->context, test_dump_path));
-    assert_true(dmi_get_registry(state->context)->status & DMI_REGISTRY_STATUS_TRUNCATED);
+    assert_true(dmi_registry(state->context)->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_true(dmi_close(state->context));
 }
 
@@ -206,7 +206,7 @@ static void test_dump_load_truncated(void **pstate)
         assert_int_equal(state->context->state.table_size, size - DMI_ENTRY_MAX_SIZE);
 
         // Registry is created anew on every load
-        const dmi_registry_t *registry = dmi_get_registry(state->context);
+        const dmi_registry_t *registry = dmi_registry(state->context);
 
         assert_true(registry->status & DMI_REGISTRY_STATUS_TRUNCATED);
         assert_true(registry->count < test_source_count);
@@ -229,7 +229,7 @@ static void test_dump_load_bad_length(void **pstate)
     test_dump_write(data, DMI_ENTRY_MAX_SIZE + 0x40);
 
     assert_true(dmi_dump_load(state->context, test_dump_path));
-    assert_true(dmi_get_registry(state->context)->status & DMI_REGISTRY_STATUS_TRUNCATED);
+    assert_true(dmi_registry(state->context)->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_true(dmi_close(state->context));
 
     // Structure length shorter than its header truncates the table
@@ -239,7 +239,7 @@ static void test_dump_load_bad_length(void **pstate)
 
     assert_true(dmi_dump_load(state->context, test_dump_path));
 
-    const dmi_registry_t *registry = dmi_get_registry(state->context);
+    const dmi_registry_t *registry = dmi_registry(state->context);
 
     assert_true(registry->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_int_equal(registry->count, 0);
@@ -259,7 +259,7 @@ static void test_dump_load_bad_length(void **pstate)
 
     assert_true(dmi_dump_load(state->context, test_dump_path));
 
-    registry = dmi_get_registry(state->context);
+    registry = dmi_registry(state->context);
 
     assert_true(registry->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_int_equal(registry->count, 1);
@@ -378,7 +378,7 @@ static size_t test_dump_decode_all(dmi_context_t *context)
     const dmi_entity_t *entity;
     size_t decoded = 0;
 
-    dmi_registry_t *registry = dmi_get_registry(context);
+    dmi_registry_t *registry = dmi_registry(context);
     assert_true(dmi_registry_iter_init(&iter, registry, nullptr));
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {

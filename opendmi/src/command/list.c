@@ -67,22 +67,26 @@ static void dmi_list_usage(void)
 static int dmi_list_main(dmi_context_t *context, int argc, char *argv[])
 {
     dmi_registry_iter_t iter;
-    dmi_entity_t *entity;
+    const dmi_entity_t *entity;
 
     assert(context != nullptr);
     dmi_unused(argc);
     dmi_unused(argv);
 
-    dmi_registry_t *registry = dmi_get_registry(context);
+    dmi_registry_t *registry = dmi_registry(context);
     dmi_registry_iter_init(&iter, registry, &dmi_filter_config.filter);
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+        dmi_handle_t handle = dmi_entity_handle(entity);
+        int          type   = dmi_entity_type(entity);
+        const char  *name   = dmi_entity_name(entity);
+
         if (dmi_list_config.show_raw) {
-            printf("0x%04hX\t%d\t%s\n", entity->handle, (int)entity->type, dmi_entity_name(entity));
+            printf("0x%04hX\t%d\t%s\n", handle, type, name);
         } else {
-            dmi_tty_cprintf(DMI_TTY_COLOR_NAVY, "0x%04hX", entity->handle);
-            dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "  %-3u", entity->type);
-            dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "  %s\n", dmi_entity_name(entity));
+            dmi_tty_cprintf(DMI_TTY_COLOR_NAVY, "0x%04hX", handle);
+            dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "  %-3u", type);
+            dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "  %s\n", name);
         }
     }
 

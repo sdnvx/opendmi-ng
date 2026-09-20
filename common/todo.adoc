@@ -256,6 +256,33 @@ Design questions to settle first:
 The first three are already detected while linking and raised to the error
 queue, the rest are not detected anywhere yet.
 
+=== Management device thresholds (type 36)
+
+Most dumps carry template values instead of real thresholds: every field holds
+its own ordinal number (`1`, `2`, `3`, `4`, `5`, `6`), and the numbering
+continues across structures of the same table (`7`, `8`, `8`, `10`, `11`, `12`,
+then `13` to `18`), with an obvious typo in the second set. The same set is
+repeated for components of different kinds — voltage probe, temperature probe
+and cooling device — although thresholds are measured in units of the
+component, so the values cannot be real.
+
+This is 52 of 66 structures in dumps of ASUS, ECS, Gigabyte, Lenovo, MSI and
+Supermicro, so the source is shared firmware code rather than a single vendor.
+The remaining 14 structures are filled correctly, with all fields set to
+`0x8000` (threshold is not applicable).
+
+[cols="3,1", frame=ends, grid=rows]
+|===
+| Check | Severity
+
+| Thresholds repeat the ordinal numbers of their fields
+| Warning
+
+| Lower threshold is greater than the corresponding upper one, unless either
+  is unspecified
+| Warning
+|===
+
 == Documentation
 
 === Custom `@error` command

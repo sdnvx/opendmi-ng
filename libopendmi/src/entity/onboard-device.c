@@ -166,7 +166,8 @@ static bool dmi_onboard_device_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     // Number of devices is determined by the structure length, and each
     // device is described by two bytes
@@ -175,7 +176,7 @@ static bool dmi_onboard_device_decode(dmi_entity_t *entity)
 
     info->instance_count = remaining / instance_size;
 
-    info->instances = dmi_alloc_array(entity->context, sizeof(dmi_onboard_device_instance_t), info->instance_count);
+    info->instances = dmi_alloc_array(context, sizeof(dmi_onboard_device_instance_t), info->instance_count);
     if (info->instances == nullptr)
         return false;
 

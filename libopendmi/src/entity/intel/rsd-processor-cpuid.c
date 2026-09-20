@@ -160,7 +160,9 @@ static bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
+
     dmi_byte_t subtype = 0;
 
     bool status =
@@ -193,7 +195,7 @@ static bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
         return dmi_stream_decode_bin(stream, dmi_stream_remaining(stream), &info->data);
     }
 
-    info->leaves = dmi_alloc_array(entity->context, sizeof(*info->leaves), count);
+    info->leaves = dmi_alloc_array(context, sizeof(*info->leaves), count);
     if (info->leaves == nullptr)
         return false;
 

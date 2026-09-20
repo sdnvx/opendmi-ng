@@ -259,8 +259,8 @@ static void test_entity_stop(void **pstate)
     assert_non_null(entity);
 
     // All data has been read, but decoder knows more fields
-    dmi_stream_initialize(&entity->stream, entity);
-    assert_true(dmi_stream_skip(&entity->stream, sizeof(data) - 2));
+    dmi_stream_initialize(dmi_entity_stream(entity), entity);
+    assert_true(dmi_stream_skip(dmi_entity_stream(entity), sizeof(data) - 2));
 
     assert_true(dmi_entity_stop(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_PARTIAL);
@@ -282,8 +282,8 @@ static void test_entity_incomplete(void **pstate)
     assert_non_null(entity);
 
     // Remaining data is shorter than the next set of fields
-    dmi_stream_initialize(&entity->stream, entity);
-    assert_true(dmi_stream_skip(&entity->stream, sizeof(dmi_header_t) + 1));
+    dmi_stream_initialize(dmi_entity_stream(entity), entity);
+    assert_true(dmi_stream_skip(dmi_entity_stream(entity), sizeof(dmi_header_t) + 1));
 
     assert_true(dmi_entity_incomplete(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);

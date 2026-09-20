@@ -60,7 +60,8 @@ static bool dmi_intel_rsd_cabled_pcie_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     bool status =
         dmi_stream_decode(stream, dmi_word_t, &info->pci_slot_id) and
@@ -69,7 +70,7 @@ static bool dmi_intel_rsd_cabled_pcie_decode(dmi_entity_t *entity)
     if (not status or (info->port_count == 0))
         return false;
 
-    info->ports = dmi_alloc_array(entity->context,
+    info->ports = dmi_alloc_array(context,
                                   sizeof(dmi_intel_rsd_cabled_pcie_port_t),
                                   info->port_count);
     if (info->ports == nullptr)

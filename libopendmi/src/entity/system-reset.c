@@ -121,7 +121,7 @@ static bool dmi_system_reset_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     dmi_system_reset_caps_t capabilities;
 

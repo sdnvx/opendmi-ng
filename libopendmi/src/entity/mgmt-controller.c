@@ -607,8 +607,10 @@ static char *dmi_mgmt_utf16_decode(dmi_context_t *context, const dmi_byte_t *dat
  */
 static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_t length)
 {
-    dmi_stream_t *stream = &entity->stream;
-    dmi_byte_t    device_type = 0;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
+
+    dmi_byte_t device_type = 0;
 
     if (not dmi_stream_decode(stream, dmi_byte_t, &device_type))
         return true;
@@ -648,7 +650,7 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
         // Serial number is a UTF-16 string, that follows the descriptor
         // length and type
         if (serial_length > 2) {
-            usb->serial_number = dmi_mgmt_utf16_decode(entity->context, nhi->descriptor.data + 6,
+            usb->serial_number = dmi_mgmt_utf16_decode(context, nhi->descriptor.data + 6,
                                                        serial_length - 2);
             if (usb->serial_number == nullptr)
                 return false;
@@ -766,7 +768,7 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
  */
 static bool dmi_mgmt_redfish_decode(dmi_entity_t *entity, dmi_mgmt_proto_record_t *record)
 {
-    dmi_stream_t               *stream  = &entity->stream;
+    dmi_stream_t               *stream  = dmi_entity_stream(entity);
     dmi_mgmt_redfish_over_ip_t *redfish = &record->redfish;
 
     dmi_byte_t host_ip_assignment   = 0;
@@ -818,7 +820,7 @@ static bool dmi_mgmt_redfish_decode(dmi_entity_t *entity, dmi_mgmt_proto_record_
     size_t hostname_size = strnlen(hostname, hostname_length);
 
     if (hostname_size > 0) {
-        redfish->service_hostname = dmi_alloc(entity->context, hostname_size + 1);
+        redfish->service_hostname = dmi_alloc(dmi_entity_context(entity), hostname_size + 1);
         if (redfish->service_hostname == nullptr)
             return false;
 
@@ -839,8 +841,8 @@ static bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_context_t *context = entity->context;
-    dmi_stream_t  *stream  = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     dmi_byte_t if_type        = 0;
     dmi_byte_t if_data_length = 0;

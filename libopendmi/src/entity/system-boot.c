@@ -141,7 +141,7 @@ static bool dmi_system_boot_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     // Reserved bytes
     if (not dmi_stream_skip(stream, 6 * sizeof(dmi_byte_t)))

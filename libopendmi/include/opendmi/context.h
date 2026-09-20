@@ -344,7 +344,7 @@ __dmi_api bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
  * @return Non-owning pointer to the registry, or @c nullptr if the context is
  *         not opened.
  */
-__dmi_api dmi_registry_t *dmi_get_registry(dmi_context_t *context);
+__dmi_api dmi_registry_t *dmi_registry(dmi_context_t *context);
 
 /**
  * @brief Close DMI context.

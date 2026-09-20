@@ -71,7 +71,8 @@ static bool dmi_firmware_language_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     bool status =
         dmi_stream_decode(stream, dmi_byte_t, &info->language_count) and
@@ -82,7 +83,7 @@ static bool dmi_firmware_language_decode(dmi_entity_t *entity)
         return false;
 
     if (info->language_count > 0) {
-        info->languages = dmi_alloc_array(entity->context, sizeof(const char *), info->language_count);
+        info->languages = dmi_alloc_array(context, sizeof(const char *), info->language_count);
         if (info->languages == nullptr)
             return false;
 

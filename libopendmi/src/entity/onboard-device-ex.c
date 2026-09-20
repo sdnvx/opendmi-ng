@@ -77,8 +77,7 @@ static bool dmi_onboard_device_ex_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
-
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     bool status =
         dmi_stream_decode_str(stream, &info->designator) and

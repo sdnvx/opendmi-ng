@@ -131,7 +131,9 @@ static bool dmi_dell_indexed_io_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
+
     dmi_byte_t check_type = 0;
 
     bool status =
@@ -150,7 +152,7 @@ static bool dmi_dell_indexed_io_decode(dmi_entity_t *entity)
     // truncated itself
     size_t capacity = dmi_stream_remaining(stream) / DMI_DELL_INDEXED_IO_TOKEN_SIZE;
     if (capacity > 0) {
-        info->tokens = dmi_alloc_array(entity->context, sizeof(*info->tokens), capacity);
+        info->tokens = dmi_alloc_array(context, sizeof(*info->tokens), capacity);
         if (info->tokens == nullptr)
             return false;
     }

@@ -70,7 +70,8 @@ static bool dmi_ami_type_221_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     if (not dmi_stream_decode(stream, dmi_byte_t, &info->item_count))
         return false;
@@ -78,7 +79,7 @@ static bool dmi_ami_type_221_decode(dmi_entity_t *entity)
     if (!info->item_count)
         return true;
 
-    info->items = dmi_alloc_array(entity->context, sizeof(dmi_ami_type_221_item_t), info->item_count);
+    info->items = dmi_alloc_array(context, sizeof(dmi_ami_type_221_item_t), info->item_count);
     if (info->items == nullptr)
         return false;
 

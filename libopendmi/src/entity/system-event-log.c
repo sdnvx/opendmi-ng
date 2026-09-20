@@ -426,7 +426,8 @@ static bool dmi_system_event_log_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t *stream   = dmi_entity_stream(entity);
 
     // SMBIOS 2.0 fields
     dmi_byte_t status_value = 0;
@@ -470,7 +471,7 @@ static bool dmi_system_event_log_decode(dmi_entity_t *entity)
     if ((descriptor_count == 0) or (descriptor_length < 2))
         return true;
 
-    info->descriptors = dmi_alloc_array(entity->context, sizeof(*info->descriptors), descriptor_count);
+    info->descriptors = dmi_alloc_array(context, sizeof(*info->descriptors), descriptor_count);
     if (info->descriptors == nullptr)
         return false;
 

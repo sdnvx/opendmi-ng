@@ -68,7 +68,7 @@ static bool dmi_power_controls_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     return
         dmi_stream_decode_bcd(stream, dmi_byte_t, &info->poweron_month) and

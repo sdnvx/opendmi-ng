@@ -123,7 +123,7 @@ static bool dmi_tpm_device_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     uint8_t spec_version_major;
     uint8_t spec_version_minor;
@@ -131,7 +131,7 @@ static bool dmi_tpm_device_decode(dmi_entity_t *entity)
     uint32_t firmware_version_2;
 
     bool status =
-        dmi_stream_read_data(&entity->stream, info->vendor_id, sizeof(info->vendor_id) - 1) and
+        dmi_stream_read_data(stream, info->vendor_id, sizeof(info->vendor_id) - 1) and
         dmi_stream_decode(stream, dmi_byte_t, &spec_version_major) and
         dmi_stream_decode(stream, dmi_byte_t, &spec_version_minor) and
         dmi_stream_decode(stream, dmi_dword_t, &firmware_version_1) and
@@ -181,12 +181,14 @@ static void dmi_tpm_device_decode_vendor(dmi_entity_t *entity, dmi_tpm_device_t 
 {
     char *id = info->vendor_id;
 
+    dmi_context_t *context = dmi_entity_context(entity);
+
     // Some firmware stores vendor identifier as a little-endian double word,
     // so that it starts with the terminating zero, e.g. "\0XFI" for "IFX"
     if ((id[0] == 0) and (id[3] != 0)) {
-        dmi_log_notice(entity->context->logger,
+        dmi_log_notice(context->logger,
                        "Handle 0x%04hx (%s): Vendor ID bytes are reversed",
-                       entity->handle, dmi_type_name(entity->context, entity->type));
+                       dmi_entity_handle(entity), dmi_type_name(context, entity->type));
 
         for (size_t i = 0; i < 2; i++) {
             char c = id[i];

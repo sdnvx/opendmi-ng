@@ -137,7 +137,7 @@ static bool dmi_processor_ex_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     // Processor-specific block may be absent, since the minimum length does
     // not include it
@@ -173,7 +173,8 @@ static bool dmi_processor_ex_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
     return dmi_registry_resolve(registry, info->processor_handle, DMI_TYPE(PROCESSOR), &info->processor);
 }

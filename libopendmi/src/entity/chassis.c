@@ -419,7 +419,8 @@ static bool dmi_chassis_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     // SMBIOS 2.0 fields
     dmi_byte_t type_value = 0;
@@ -493,7 +494,7 @@ static bool dmi_chassis_decode(dmi_entity_t *entity)
     bool decode_elements = (element_size >= element_data_size);
 
     if ((element_count > 0) and decode_elements) {
-        info->elements = dmi_alloc_array(entity->context, sizeof(dmi_chassis_element_t), element_count);
+        info->elements = dmi_alloc_array(context, sizeof(dmi_chassis_element_t), element_count);
         if (info->elements == nullptr)
             return false;
     }

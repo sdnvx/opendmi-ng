@@ -50,12 +50,13 @@ static bool dmi_system_config_opts_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     if (not dmi_stream_decode(stream, dmi_byte_t, &info->option_count))
         return false;
 
-    info->options = dmi_alloc_array(entity->context, sizeof(const char *), info->option_count);
+    info->options = dmi_alloc_array(context, sizeof(const char *), info->option_count);
     if (info->options == nullptr)
         return false;
 

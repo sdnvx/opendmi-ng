@@ -76,7 +76,7 @@ static bool dmi_bis_entry_point_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     // Real mode entry point is stored as offset followed by segment
     bool status =

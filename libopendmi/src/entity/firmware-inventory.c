@@ -312,7 +312,8 @@ static bool dmi_firmware_inventory_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     bool status =
         dmi_stream_decode_str(stream, &info->name) and
@@ -345,7 +346,7 @@ static bool dmi_firmware_inventory_decode(dmi_entity_t *entity)
     if (component_count == 0)
         return true;
 
-    info->components = dmi_alloc_array(entity->context,
+    info->components = dmi_alloc_array(context,
                                        sizeof(dmi_firmware_inventory_component_t),
                                        component_count);
     if (info->components == nullptr)
@@ -374,13 +375,14 @@ static bool dmi_firmware_inventory_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
-    bool success = true;
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
+    bool success = true;
     for (size_t i = 0; i < info->component_count; i++) {
         dmi_firmware_inventory_component_t *component = &info->components[i];
 
-        if (not dmi_registry_resolve(registry, component->handle, DMI_TYPE_INVALID, &component->entity))
+        if (not dmi_registry_resolve(registry, component->handle, DMI_TYPE_ANY, &component->entity))
             success = false;
     }
 

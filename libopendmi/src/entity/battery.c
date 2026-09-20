@@ -161,7 +161,8 @@ static bool dmi_battery_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     // SMBIOS 2.1 fields
     const char *manufacture_date = nullptr;
@@ -188,7 +189,7 @@ static bool dmi_battery_decode(dmi_entity_t *entity)
     if (manufacture_date != nullptr) {
         info->manufacture_date = dmi_date_parse(manufacture_date);
         if (info->manufacture_date == DMI_DATE_NONE) {
-            dmi_log_warning(entity->context->logger,
+            dmi_log_warning(context->logger,
                             "Invalid battery manufacture date format: '%s'", manufacture_date);
         }
     }

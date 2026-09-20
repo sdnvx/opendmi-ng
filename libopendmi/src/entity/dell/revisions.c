@@ -56,7 +56,7 @@ static bool dmi_dell_revisions_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     uint8_t  impl_major = 0;
     uint8_t  impl_minor = 0;

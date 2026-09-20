@@ -100,7 +100,7 @@ static bool dmi_mgmt_device_threshold_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     // Units are unknown until components are linked
     info->component_type = DMI_TYPE_INVALID;

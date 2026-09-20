@@ -237,7 +237,7 @@ static bool dmi_dell_parallel_port_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     bool status =
         dmi_stream_decode(stream, dmi_word_t, &info->base_addr) and

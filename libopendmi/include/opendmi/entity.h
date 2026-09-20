@@ -454,6 +454,28 @@ __dmi_api bool dmi_entity_link(dmi_entity_t *entity);
 __dmi_api dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity);
 
 /**
+ * @brief Get DMI context the entity belongs to.
+ *
+ * @param[in] entity Entity descriptor.
+ *
+ * @return DMI context handle, or @c nullptr if @p entity is @c nullptr.
+ */
+__dmi_api dmi_context_t *dmi_entity_context(const dmi_entity_t *entity);
+
+/**
+ * @brief Get data stream of an entity.
+ *
+ * The stream is used by decoders to read the structure body, and is reset
+ * after decoding.
+ *
+ * @param[in] entity Entity descriptor.
+ *
+ * @return Non-owning pointer to the stream, or @c nullptr if @p entity is
+ *         @c nullptr.
+ */
+__dmi_api dmi_stream_t *dmi_entity_stream(dmi_entity_t *entity);
+
+/**
  * @brief Get entity type.
  *
  * @param[in] entity Entity descriptor.

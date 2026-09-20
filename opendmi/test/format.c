@@ -692,7 +692,8 @@ static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *e
         .dump = dump
     };
 
-    void *session = format->handlers.initialize(entity->context, stream, &options);
+    dmi_context_t *context = dmi_entity_context(entity);
+    void *session = format->handlers.initialize(context, stream, &options);
 
     do {
         if (session == nullptr)

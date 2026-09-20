@@ -208,7 +208,8 @@ static bool dmi_baseboard_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     info->chassis_handle = DMI_HANDLE_INVALID;
 
@@ -257,7 +258,7 @@ static bool dmi_baseboard_decode(dmi_entity_t *entity)
     if (object_count == 0)
         return true;
 
-    info->object_handles = dmi_alloc_array(entity->context, sizeof(dmi_handle_t), object_count);
+    info->object_handles = dmi_alloc_array(context, sizeof(dmi_handle_t), object_count);
     if (info->object_handles == nullptr)
         return false;
 
@@ -280,8 +281,8 @@ static bool dmi_baseboard_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_context_t  *context  = entity->context;
-    dmi_registry_t *registry = dmi_get_registry(context);
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
     bool success = true;
 
     if (not dmi_registry_resolve(registry, info->chassis_handle, DMI_TYPE(CHASSIS), &info->chassis))

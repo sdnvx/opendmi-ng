@@ -157,6 +157,8 @@ char *dmi_format_overlay_value(const dmi_entity_t *entity, const dmi_entity_over
     assert(entity != nullptr);
     assert(overlay != nullptr);
 
+    dmi_context_t *context = dmi_entity_context(entity);
+
     // Entry value is formatted as a binary attribute
     static const dmi_attribute_t attr = {
         .value   = {
@@ -167,6 +169,6 @@ char *dmi_format_overlay_value(const dmi_entity_t *entity, const dmi_entity_over
         .type    = DMI_ATTRIBUTE_TYPE_BINARY
     };
 
-    return dmi_attribute_format(entity->context, &attr, &overlay->entry->value, pretty);
+    return dmi_attribute_format(context, &attr, &overlay->entry->value, pretty);
 }
 

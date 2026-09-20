@@ -19,8 +19,8 @@
 
 static bool dmi_processor_decode(dmi_entity_t *entity);
 static bool dmi_processor_decode_fields(dmi_entity_t *entity);
-static void dmi_processor_decode_id(dmi_entity_t *entity, dmi_processor_t *info);
-static void dmi_processor_decode_id_x86(dmi_entity_t *entity, dmi_processor_t *info,
+static void dmi_processor_decode_id(const dmi_entity_t *entity, dmi_processor_t *info);
+static void dmi_processor_decode_id_x86(const dmi_entity_t *entity, dmi_processor_t *info,
                                         uint32_t low, uint32_t high);
 static void dmi_processor_decode_id_midr(dmi_processor_t *info, uint32_t low);
 static void dmi_processor_decode_id_soc(dmi_processor_t *info, uint32_t low, uint32_t high);
@@ -2302,7 +2302,7 @@ static bool dmi_processor_decode_fields(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     info->l1_cache_handle = DMI_HANDLE_INVALID;
     info->l2_cache_handle = DMI_HANDLE_INVALID;
@@ -2461,9 +2461,10 @@ static bool dmi_processor_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
-    bool success = true;
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
+    bool success = true;
     if (not dmi_registry_resolve(registry, info->l1_cache_handle, DMI_TYPE(CACHE), &info->l1_cache))
         success = false;
     if (not dmi_registry_resolve(registry, info->l2_cache_handle, DMI_TYPE(CACHE), &info->l2_cache))
@@ -2474,7 +2475,7 @@ static bool dmi_processor_link(dmi_entity_t *entity)
     return success;
 }
 
-static void dmi_processor_decode_id(dmi_entity_t *entity, dmi_processor_t *info)
+static void dmi_processor_decode_id(const dmi_entity_t *entity, dmi_processor_t *info)
 {
     info->id_format = DMI_PROCESSOR_ID_FORMAT_RAW;
 
@@ -2512,7 +2513,7 @@ static void dmi_processor_decode_id(dmi_entity_t *entity, dmi_processor_t *info)
  * @internal
  * @brief Decode signature (EAX) and feature flags (EDX) of CPUID leaf 1.
  */
-static void dmi_processor_decode_id_x86(dmi_entity_t *entity, dmi_processor_t *info,
+static void dmi_processor_decode_id_x86(const dmi_entity_t *entity, dmi_processor_t *info,
                                         uint32_t low, uint32_t high)
 {
     // Some firmware stores feature flags before the signature, which is told
@@ -2520,9 +2521,9 @@ static void dmi_processor_decode_id_x86(dmi_entity_t *entity, dmi_processor_t *i
     const uint32_t reserved = 0xF000C000u;
 
     if ((low & reserved) and not (high & reserved)) {
-        dmi_log_notice(entity->context->logger,
+        dmi_log_notice(dmi_entity_context(entity)->logger,
                        "Handle 0x%04hx (%s): Processor ID words are swapped",
-                       entity->handle, dmi_type_name(entity->context, entity->type));
+                       dmi_entity_handle(entity), dmi_type_name(dmi_entity_context(entity), entity->type));
 
         uint32_t swap = low;
         low  = high;

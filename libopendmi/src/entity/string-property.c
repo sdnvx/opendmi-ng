@@ -64,7 +64,7 @@ static bool dmi_string_property_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     return
         dmi_stream_decode(stream, dmi_word_t, &info->ident) and
@@ -80,28 +80,28 @@ static bool dmi_string_property_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_context_t *context = entity->context;
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
     if ((info->parent_handle == DMI_HANDLE_INVALID) or (info->parent_handle == DMI_HANDLE_UNSUPPORTED)) {
         dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
-                           "String property 0x%04x: parent is not specified", entity->handle);
+                           "String property 0x%04x: parent is not specified", dmi_entity_handle(entity));
         return false;
     }
 
-    dmi_registry_t *registry = dmi_get_registry(context);
-    dmi_entity_t   *parent   = dmi_registry_get(registry, info->parent_handle, DMI_TYPE_INVALID, true);
+    dmi_entity_t *parent = dmi_registry_get(registry, info->parent_handle, DMI_TYPE_ANY, true);
 
     if (parent == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
                            "String property 0x%04x: parent 0x%04x not found",
-                           entity->handle, info->parent_handle);
+                           dmi_entity_handle(entity), info->parent_handle);
         return false;
     }
 
     if (parent->type == DMI_TYPE(STRING_PROPERTY)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
                            "String property 0x%04x: parent 0x%04x is a string property",
-                           entity->handle, info->parent_handle);
+                           dmi_entity_handle(entity), info->parent_handle);
         return false;
     }
 

@@ -88,7 +88,7 @@ dmi_entity_t *dmi_registry_get(
 
     entity = entry->entity;
 
-    if ((type != DMI_TYPE_INVALID) and (entity->type != type)) {
+    if ((type != DMI_TYPE_ANY) and (entity->type != type)) {
         //
         // Some SMBIOS vendors report 0x0000u instead of 0xFFFFu as
         // unspecified handle value, even if there is a structure with
@@ -120,7 +120,7 @@ dmi_entity_t *dmi_registry_get_any(
 
     context = registry->context;
 
-    entity = dmi_registry_get(registry, handle, DMI_TYPE_INVALID, optional);
+    entity = dmi_registry_get(registry, handle, DMI_TYPE_ANY, optional);
     if (entity == nullptr)
         return nullptr;
 
@@ -157,7 +157,7 @@ bool dmi_registry_resolve(
 {
     const dmi_type_t types[] = { type, DMI_TYPE_INVALID };
 
-    return dmi_registry_resolve_any(registry, handle, (type != DMI_TYPE_INVALID) ? types : nullptr, pentity);
+    return dmi_registry_resolve_any(registry, handle, (type != DMI_TYPE_ANY) ? types : nullptr, pentity);
 }
 
 bool dmi_registry_resolve_any(
@@ -179,7 +179,7 @@ bool dmi_registry_resolve_any(
 
     dmi_context_t *context = registry->context;
 
-    dmi_entity_t *entity = dmi_registry_get(registry, handle, DMI_TYPE_INVALID, false);
+    dmi_entity_t *entity = dmi_registry_get(registry, handle, DMI_TYPE_ANY, false);
     if (entity == nullptr)
         return false;
 
@@ -399,7 +399,7 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
         for (size_t i = 0; i < info->entry_count; i++) {
             const dmi_additional_info_entry_t *entry = &info->entries[i];
 
-            dmi_entity_t *target = dmi_registry_get(registry, entry->ref_handle, DMI_TYPE_INVALID, true);
+            dmi_entity_t *target = dmi_registry_get(registry, entry->ref_handle, DMI_TYPE_ANY, true);
             if (target == nullptr) {
                 dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
                                    "Additional information 0x%04x[%zu]: structure 0x%04x not found",

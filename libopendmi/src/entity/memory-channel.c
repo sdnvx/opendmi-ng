@@ -107,7 +107,8 @@ static bool dmi_memory_channel_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     bool status =
         dmi_stream_decode(stream, dmi_byte_t, &info->type) and
@@ -117,7 +118,7 @@ static bool dmi_memory_channel_decode(dmi_entity_t *entity)
         return false;
 
     if (info->device_count > 0) {
-        info->devices = dmi_alloc_array(entity->context, sizeof(dmi_memory_channel_device_t),
+        info->devices = dmi_alloc_array(context, sizeof(dmi_memory_channel_device_t),
                                         info->device_count);
         if (info->devices == nullptr)
             return false;
@@ -144,9 +145,10 @@ static bool dmi_memory_channel_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
-    bool success = true;
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
+    bool success = true;
     for (size_t i = 0; i < info->device_count; i++) {
         dmi_entity_t *device;
 

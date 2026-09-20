@@ -70,7 +70,8 @@ static bool dmi_group_assoc_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     if (not dmi_stream_decode_str(stream, &info->group_name))
         return false;
@@ -81,7 +82,7 @@ static bool dmi_group_assoc_decode(dmi_entity_t *entity)
 
     info->item_count = remaining / item_size;
 
-    info->items = dmi_alloc_array(entity->context, sizeof(dmi_group_assoc_item_t), info->item_count);
+    info->items = dmi_alloc_array(context, sizeof(dmi_group_assoc_item_t), info->item_count);
     if (info->items == nullptr)
         return false;
 
@@ -115,9 +116,10 @@ static bool dmi_group_assoc_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = dmi_get_registry(entity->context);
-    bool success = true;
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
 
+    bool success = true;
     for (size_t i = 0; i < info->item_count; i++) {
         dmi_group_assoc_item_t *item = &info->items[i];
 

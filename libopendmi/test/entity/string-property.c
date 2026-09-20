@@ -131,7 +131,7 @@ static void test_property_invalid_parent(void **pstate)
     dmi_context_t *context = test_create(DMI_CONTEXT_FLAG_LINK);
     assert_non_null(context);
 
-    dmi_registry_t *registry = dmi_get_registry(context);
+    dmi_registry_t *registry = dmi_registry(context);
 
     assert_true(dmi_registry_scan(registry));
     assert_true(dmi_registry_decode(registry));
@@ -145,7 +145,7 @@ static void test_property_invalid_parent(void **pstate)
     context = test_create(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_STRICT);
     assert_non_null(context);
 
-    registry = dmi_get_registry(context);
+    registry = dmi_registry(context);
 
     assert_true(dmi_registry_scan(registry));
     assert_true(dmi_registry_decode(registry));
@@ -314,7 +314,7 @@ static dmi_context_t *test_create(unsigned int flags)
     context->state.table_size     = test_table.size;
 
     context->state.registry = dmi_registry_create(context, 0);
-    if (dmi_get_registry(context) == nullptr) {
+    if (dmi_registry(context) == nullptr) {
         dmi_destroy(context);
         return nullptr;
     }
@@ -332,7 +332,7 @@ static dmi_context_t *test_open(unsigned int flags)
     if (context == nullptr)
         return nullptr;
 
-    dmi_registry_t *registry = dmi_get_registry(context);
+    dmi_registry_t *registry = dmi_registry(context);
 
     bool success =
         dmi_registry_scan(registry) and
@@ -351,8 +351,8 @@ static dmi_context_t *test_open(unsigned int flags)
 
 static dmi_entity_t *test_get(dmi_context_t *context, dmi_handle_t handle)
 {
-    dmi_registry_t *registry = dmi_get_registry(context);
-    dmi_entity_t *entity = dmi_registry_get(registry, handle, DMI_TYPE_INVALID, false);
+    dmi_registry_t *registry = dmi_registry(context);
+    dmi_entity_t   *entity   = dmi_registry_get(registry, handle, DMI_TYPE_ANY, false);
 
     assert_non_null(entity);
 

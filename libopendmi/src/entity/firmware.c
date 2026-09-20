@@ -341,7 +341,8 @@ static bool dmi_firmware_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     // SMBIOS 2.0 fields
     const char *release_date = nullptr;
@@ -365,7 +366,7 @@ static bool dmi_firmware_decode(dmi_entity_t *entity)
     if (release_date != nullptr) {
         info->release_date = dmi_date_parse(release_date);
         if (info->release_date == DMI_DATE_NONE)
-            dmi_log_warning(entity->context->logger,
+            dmi_log_warning(context->logger,
                             "Invalid firmware release date format: '%s'", release_date);
     }
 

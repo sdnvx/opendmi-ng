@@ -110,7 +110,7 @@ static void test_context_close_resets_state(void **pstate)
     assert_true(dmi_dump_load(context, test_dump_path));
     assert_non_null(context->state.backend);
     assert_non_null(context->state.session);
-    assert_non_null(dmi_get_registry(context));
+    assert_non_null(dmi_registry(context));
     assert_non_null(context->state.entry_data);
     assert_non_null(context->state.table_data);
     assert_int_not_equal(context->state.smbios_version, 0);
@@ -118,7 +118,7 @@ static void test_context_close_resets_state(void **pstate)
     assert_true(dmi_close(context));
     assert_null(context->state.backend);
     assert_null(context->state.session);
-    assert_null(dmi_get_registry(context));
+    assert_null(dmi_registry(context));
     assert_null(context->state.entry_data);
     assert_null(context->state.entry_spec);
     assert_null(context->state.table_data);
@@ -146,7 +146,7 @@ static void test_context_reopen(void **pstate)
     assert_true(dmi_dump_load(context, test_dump_path));
     assert_true(dmi_close(context));
     assert_true(dmi_dump_load(context, test_dump_path));
-    assert_non_null(dmi_get_registry(context));
+    assert_non_null(dmi_registry(context));
 }
 
 static void test_context_reopen_after_failure(void **pstate)
@@ -189,7 +189,7 @@ static void test_context_dump_save_roundtrip(void **pstate)
     assert_true(dmi_close(context));
 
     assert_true(dmi_dump_load(context, test_save_path));
-    assert_non_null(dmi_get_registry(context));
+    assert_non_null(dmi_registry(context));
 
     remove(test_save_path);
 }
@@ -250,7 +250,7 @@ static void test_context_dump_save_relocated(void **pstate)
         assert_int_equal(context->state.table_area_addr, test_table_address);
 
         dmi_version_t version = context->state.smbios_version;
-        size_t count = dmi_get_registry(context)->count;
+        size_t count = dmi_registry(context)->count;
 
         assert_true(dmi_dump_save(context, test_save_path, true));
         assert_true(dmi_close(context));
@@ -261,7 +261,7 @@ static void test_context_dump_save_relocated(void **pstate)
         assert_true(dmi_dump_load(context, test_save_path));
         assert_int_equal(context->state.table_area_addr, DMI_ENTRY_MAX_SIZE);
         assert_int_equal(context->state.smbios_version, version);
-        assert_int_equal(dmi_get_registry(context)->count, count);
+        assert_int_equal(dmi_registry(context)->count, count);
         assert_true(dmi_close(context));
 
         dmi_free(source);
@@ -278,7 +278,7 @@ static void test_context_dump_save_generated(void **pstate)
     assert_true(dmi_dump_load(context, test_dump_v21_path));
 
     dmi_version_t version = context->state.smbios_version;
-    size_t count = dmi_get_registry(context)->count;
+    size_t count = dmi_registry(context)->count;
 
     // Simulate backend without entry point data, like the Windows one
     context->state.entry_data = nullptr;
@@ -302,7 +302,7 @@ static void test_context_dump_save_generated(void **pstate)
     assert_string_equal(context->state.entry_spec->anchor, DMI_ANCHOR_V30);
     assert_int_equal(context->state.smbios_version, version);
     assert_int_equal(context->state.table_area_max_size, table_size);
-    assert_int_equal(dmi_get_registry(context)->count, count);
+    assert_int_equal(dmi_registry(context)->count, count);
 
     remove(test_save_path);
 }

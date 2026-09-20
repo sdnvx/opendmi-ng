@@ -141,7 +141,9 @@ static bool dmi_intel_rsd_phys_device_mapping_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
+
     dmi_byte_t device_type = 0;
 
     bool status =
@@ -156,7 +158,7 @@ static bool dmi_intel_rsd_phys_device_mapping_decode(dmi_entity_t *entity)
     if (count == 0)
         return true;
 
-    info->devices = dmi_alloc_array(entity->context, sizeof(*info->devices), count);
+    info->devices = dmi_alloc_array(context, sizeof(*info->devices), count);
     if (info->devices == nullptr)
         return false;
 

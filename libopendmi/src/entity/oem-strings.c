@@ -54,12 +54,13 @@ static bool dmi_oem_strings_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_stream_t  *stream  = dmi_entity_stream(entity);
 
     if (not dmi_stream_decode(stream, dmi_byte_t, &info->string_count))
         return false;
 
-    info->strings = dmi_alloc_array(entity->context, sizeof(const char *), info->string_count);
+    info->strings = dmi_alloc_array(context, sizeof(const char *), info->string_count);
     if (info->strings == nullptr)
         return false;
 

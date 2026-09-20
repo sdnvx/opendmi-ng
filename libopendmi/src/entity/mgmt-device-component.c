@@ -65,7 +65,7 @@ static bool dmi_mgmt_device_component_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     return
         dmi_stream_decode_str(stream, &info->description) and
@@ -92,8 +92,9 @@ static bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_context_t *context = entity->context;
-    dmi_registry_t *registry = dmi_get_registry(context);
+    dmi_context_t  *context  = dmi_entity_context(entity);
+    dmi_registry_t *registry = dmi_registry(context);
+
     bool success = true;
 
     // Management device and component are required, threshold is optional
@@ -102,7 +103,7 @@ static bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
     } else if (info->device == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
                            "Management device component 0x%04x: management device is not specified",
-                           entity->handle);
+                           dmi_entity_handle(entity));
         success = false;
     }
 
@@ -111,7 +112,7 @@ static bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
     } else if (info->component == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
                            "Management device component 0x%04x: component is not specified",
-                           entity->handle);
+                           dmi_entity_handle(entity));
         success = false;
     }
 

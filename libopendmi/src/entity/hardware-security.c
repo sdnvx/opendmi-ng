@@ -96,7 +96,7 @@ static bool dmi_hardware_security_decode(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_stream_t *stream = &entity->stream;
+    dmi_stream_t *stream = dmi_entity_stream(entity);
 
     if (not dmi_stream_decode(stream, dmi_byte_t, &settings.__value))
         return false;
