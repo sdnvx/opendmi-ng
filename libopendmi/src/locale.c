@@ -669,10 +669,15 @@ static const char *dmi_resource_plural(dmi_resource_t *resource, const char *wor
     UErrorCode status = U_ZERO_ERROR;
 
     // Rules belong to the locale of the bundle rather than to the requested
-    // one, since the forms come from the bundle as well
+    // one, since the forms come from the bundle as well. The root bundle
+    // holds the text in English, while the rules of the root locale know the
+    // "other" form only, so English rules are used for it.
     const char *locale = ures_getLocaleByType(resource->bundle, ULOC_VALID_LOCALE, &status);
     if (U_FAILURE(status))
         return nullptr;
+
+    if ((locale == nullptr) or (strcmp(locale, "root") == 0))
+        locale = "en";
 
     UPluralRules *rules = uplrules_open(locale, &status);
     if (U_FAILURE(status))

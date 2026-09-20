@@ -52,6 +52,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/filter.h
     include/opendmi/keyword.h
     include/opendmi/locale.h
+    include/opendmi/lint.h
     include/opendmi/log.h
     include/opendmi/module.h
     include/opendmi/registry.h
@@ -72,6 +73,9 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/utils/uuid.h
     include/opendmi/utils/vector.h
     include/opendmi/utils/version.h
+
+    include/opendmi/lint/entry.h
+    include/opendmi/lint/table.h
 
     include/opendmi/entity/additional-info.h
     include/opendmi/entity/baseboard.h
@@ -179,6 +183,9 @@ target_sources(opendmi-object
         src/error.c
         src/filter.c
         src/locale.c
+        src/lint.c
+        src/lint/entry.c
+        src/lint/table.c
         src/log.c
         src/module.c
         src/registry.c
@@ -573,6 +580,7 @@ opendmi_test(module/static SOURCES test/module.c LIBRARY opendmi-static)
 opendmi_test(registry SOURCES test/registry.c)
 opendmi_test(dump SOURCES test/dump.c)
 opendmi_test(locale SOURCES test/locale.c)
+opendmi_test(lint SOURCES test/lint.c)
 opendmi_test(stream SOURCES test/stream.c)
 
 opendmi_test(utils/endian SOURCES test/utils/endian.c)

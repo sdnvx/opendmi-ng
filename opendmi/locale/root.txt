@@ -19,6 +19,22 @@ root {
             one { "byte" }
             other { "bytes" }
         }
+        issue {
+            one { "issue" }
+            other { "issues" }
+        }
+        error {
+            one { "error" }
+            other { "errors" }
+        }
+        warning {
+            one { "warning" }
+            other { "warnings" }
+        }
+        note {
+            one { "note" }
+            other { "notes" }
+        }
     }
     entry {
         version { "SMBIOS {0} present" }
@@ -29,6 +45,10 @@ root {
     }
     entity {
         header { "Handle {0}, DMI type {1}, {2} {2:byte}" }
+    }
+    lint {
+        clean { "no issues found" }
+        summary { "{0} {0:issue}: {1} {1:error}, {2} {2:warning}, {3} {3:note}" }
     }
     baseboard {
         description {

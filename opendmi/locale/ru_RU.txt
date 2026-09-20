@@ -21,6 +21,30 @@ ru_RU {
             many { "байт" }
             other { "байта" }
         }
+        issue {
+            one { "замечание" }
+            few { "замечания" }
+            many { "замечаний" }
+            other { "замечания" }
+        }
+        error {
+            one { "ошибка" }
+            few { "ошибки" }
+            many { "ошибок" }
+            other { "ошибки" }
+        }
+        warning {
+            one { "предупреждение" }
+            few { "предупреждения" }
+            many { "предупреждений" }
+            other { "предупреждения" }
+        }
+        note {
+            one { "заметка" }
+            few { "заметки" }
+            many { "заметок" }
+            other { "заметки" }
+        }
     }
     entry {
         version { "Обнаружен SMBIOS {0}" }
@@ -32,6 +56,10 @@ ru_RU {
     entity {
         header { "Дескриптор {0}, тип DMI {1}, {2} {2:byte}" }
     }
+    lint {
+        clean { "замечаний не найдено" }
+        summary { "{0} {0:issue}: {1} {1:error}, {2} {2:warning}, {3} {3:note}" }
+    }
 
     // Values which have no meaningful text of their own
     value {
@@ -39,6 +67,8 @@ ru_RU {
         unknown { "<неизвестно>" }
         error { "<ошибка>" }
         invalid { "<недопустимо>" }
+        entry { "<точка входа>" }
+        table { "<таблица>" }
     }
 
     // Texts of the tool are translated by their English text
@@ -54,6 +84,8 @@ ru_RU {
         "Supported output formats" { "Поддерживаемые форматы вывода" }
         "Core types" { "Основные типы" }
         "Available modules" { "Доступные модули" }
+        "Rules" { "Правила" }
+        "all checks only" { "только со всеми проверками" }
         "OpenDMI Framework, version %s (%s)" { "OpenDMI Framework, версия %s (%s)" }
         "Licensed under the BSD 3-Clause License" { "Лицензия BSD 3-Clause" }
         usage-line { "    %s [глобальные параметры] <команда> [параметры команды] [--] [аргументы команды]" }
