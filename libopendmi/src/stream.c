@@ -93,6 +93,14 @@ bool dmi_stream_decode_bin(dmi_stream_t *stream, size_t length, dmi_binary_t *va
     return true;
 }
 
+size_t dmi_stream_tell(const dmi_stream_t *stream)
+{
+    if (stream == nullptr)
+        return 0;
+
+    return stream->position;
+}
+
 size_t dmi_stream_remaining(const dmi_stream_t *stream)
 {
     if (stream == nullptr)

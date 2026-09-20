@@ -132,6 +132,20 @@ __dmi_api bool dmi_stream_read_data_at(const dmi_stream_t *stream, void *ptr, si
 __dmi_api bool dmi_stream_skip(dmi_stream_t *stream, size_t length);
 
 /**
+ * @brief Return the current position of the stream cursor.
+ *
+ * The position is the offset of the next byte to be read from the beginning
+ * of the entity body, so reading a field right after the call gives the
+ * offset of that field within the structure.
+ *
+ * @param[in] stream Stream to query.
+ *
+ * @return Offset of the cursor from the beginning of the entity body, or zero
+ *         if @p stream is @c nullptr.
+ */
+__dmi_api size_t dmi_stream_tell(const dmi_stream_t *stream);
+
+/**
  * @brief Return the number of unread bytes in the stream.
  *
  * @param[in] stream Stream to query.
