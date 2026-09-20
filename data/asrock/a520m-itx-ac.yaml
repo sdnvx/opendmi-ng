@@ -419,14 +419,19 @@ table:
     - referenced-handle: 161
       referenced-offset: 1
       string: To Be Filled By O.E.M. 1
+      value: '00000000'
 - handle: 13
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAkNAP//AQEA
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
 - handle: 14
   type: 18
   length: 25
@@ -593,6 +598,42 @@ table:
     type: central
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
+    id: 000fa500fffb8b17
+    signature:
+      type: 0
+      family: 25
+      model: 80
+      stepping: 0
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: AMD Ryzen 7 5700G with Radeon Graphics
     voltage: 1.4
     supported-voltages: null

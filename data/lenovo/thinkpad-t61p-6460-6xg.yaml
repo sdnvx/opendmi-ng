@@ -164,6 +164,42 @@ table:
     type: central
     family: other
     vendor: GenuineIntel
+    id: fb060000fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Core(TM)2 Duo CPU     T7500  @ 2.20GHz
     voltage: 1.4
     supported-voltages: null
@@ -858,10 +894,19 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 0
+    header-offset: 0
+    data-offset: 16
     access-method: data-functions
+    access-address: 0
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 222
+    header-format: type-1
+    descriptors:
+    - type: post-error
+      data-format: post-results
 - handle: 43
   type: 16
   length: 17
@@ -884,7 +929,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device
   attributes:
@@ -926,7 +970,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device
   attributes:

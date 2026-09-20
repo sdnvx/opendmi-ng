@@ -176,10 +176,14 @@ table:
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAkIAP//AQEA
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
 - handle: 9
   type: 18
   length: 25
@@ -360,6 +364,42 @@ table:
     type: central
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
+    id: 100fa200fffb8b17
+    signature:
+      type: 0
+      family: 25
+      model: 33
+      stepping: 0
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: AMD Ryzen 9 5900X 12-Core Processor
     voltage: 1.1
     supported-voltages: null

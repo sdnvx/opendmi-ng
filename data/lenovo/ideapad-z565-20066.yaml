@@ -624,9 +624,11 @@ table:
     - referenced-handle: 4
       referenced-offset: 5
       string: PCIExpressx16
+      value: aa
     - referenced-handle: 0
       referenced-offset: 5
       string: 'Compiler Version: VC 9.0'
+      value: dc05
 - handle: 31
   type: 41
   length: 47
@@ -658,6 +660,42 @@ table:
     type: central
     family: amd-phenon-2
     vendor: AMD processor
+    id: 530f1000fffb8b17
+    signature:
+      type: 0
+      family: 16
+      model: 5
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: AMD Phenom(tm) II N930 Quad-Core Processor
     voltage: 1.1
     supported-voltages: null

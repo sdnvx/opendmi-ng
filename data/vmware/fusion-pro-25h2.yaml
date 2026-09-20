@@ -214,6 +214,13 @@ table:
     type: central
     family: arm-v8
     vendor: Apple
+    id: 00000f6100000000
+    signature:
+      implementer: 97
+      variant: 0
+      architecture: 15
+      part-number: 0
+      revision: 0
     version: Apple silicon
     voltage: null
     supported-voltages:

@@ -185,10 +185,14 @@ table:
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAkIAP//AQEA
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
 - handle: 9
   type: 43
   length: 40
@@ -197,8 +201,12 @@ table:
   - decoded
   description: TPM device
   attributes:
+    vendor-id: MSFT
     specification-version: '2.0'
-    firmware-version: 2814775536910340
+    firmware-version:
+      major: 10
+      minor: 6
+      vendor-specific: 4
     description: null
     characteristics:
       is-unsupported: false
@@ -353,6 +361,42 @@ table:
     type: central
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
+    id: 400fb200fffb8b17
+    signature:
+      type: 0
+      family: 26
+      model: 36
+      stepping: 0
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: AMD Ryzen AI 9 365 w/ Radeon 880M
     voltage: 1.2
     supported-voltages: null
@@ -386,10 +430,14 @@ table:
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAkPAA4AAQIA
+  attributes:
+    processor-handle: 14
+    architecture: x64
+    data: '00'
 - handle: 16
   type: 18
   length: 25
@@ -626,6 +674,7 @@ table:
     - referenced-handle: 0
       referenced-offset: 5
       string: AGESA!V9 StrixKrackanPI-FP8 1.1.0.1
+      value: '00000000'
 - handle: 26
   type: 8
   length: 21

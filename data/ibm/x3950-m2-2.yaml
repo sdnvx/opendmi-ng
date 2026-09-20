@@ -86,7 +86,6 @@ table:
   level: '2.0'
   state:
   - decoded
-  - linked
   description: Baseboard or module information
   attributes:
     vendor: IBM
@@ -130,7 +129,6 @@ table:
   level: '2.0'
   state:
   - decoded
-  - linked
   description: Baseboard or module information
   attributes:
     vendor: IBM
@@ -468,7 +466,6 @@ table:
   level: '2.5'
   state:
   - decoded
-  - linked
   - partial
   description: Processor information
   attributes:
@@ -476,6 +473,42 @@ table:
     type: central
     family: intel-xeon-mp
     vendor: GenuineIntel
+    id: fb06000000000000
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: false
+      vme: false
+      de: false
+      pse: false
+      tsc: false
+      msr: false
+      pae: false
+      mce: false
+      cx8: false
+      apic: false
+      sep: false
+      mtrr: false
+      pge: false
+      mca: false
+      cmov: false
+      pat: false
+      pse-36: false
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: false
+      fxsr: false
+      sse: false
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
     version: Intel Xeon MP
     voltage: 1.5
     supported-voltages: null
@@ -511,7 +544,6 @@ table:
   level: '2.5'
   state:
   - decoded
-  - linked
   - partial
   description: Processor information
   attributes:
@@ -519,6 +551,42 @@ table:
     type: central
     family: intel-xeon-mp
     vendor: GenuineIntel
+    id: fb06000000000000
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: false
+      vme: false
+      de: false
+      pse: false
+      tsc: false
+      msr: false
+      pae: false
+      mce: false
+      cx8: false
+      apic: false
+      sep: false
+      mtrr: false
+      pge: false
+      mca: false
+      cmov: false
+      pat: false
+      pse-36: false
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: false
+      fxsr: false
+      sse: false
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
     version: Intel Xeon MP
     voltage: 1.5
     supported-voltages: null
@@ -554,7 +622,6 @@ table:
   level: '2.5'
   state:
   - decoded
-  - linked
   - partial
   description: Processor information
   attributes:
@@ -562,6 +629,42 @@ table:
     type: central
     family: intel-xeon-mp
     vendor: GenuineIntel
+    id: fb06000000000000
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: false
+      vme: false
+      de: false
+      pse: false
+      tsc: false
+      msr: false
+      pae: false
+      mce: false
+      cx8: false
+      apic: false
+      sep: false
+      mtrr: false
+      pge: false
+      mca: false
+      cmov: false
+      pat: false
+      pse-36: false
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: false
+      fxsr: false
+      sse: false
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
     version: Intel Xeon MP
     voltage: 1.5
     supported-voltages: null
@@ -597,7 +700,6 @@ table:
   level: '2.5'
   state:
   - decoded
-  - linked
   - partial
   description: Processor information
   attributes:
@@ -605,6 +707,42 @@ table:
     type: central
     family: intel-xeon-mp
     vendor: GenuineIntel
+    id: fb06000000000000
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: false
+      vme: false
+      de: false
+      pse: false
+      tsc: false
+      msr: false
+      pae: false
+      mce: false
+      cx8: false
+      apic: false
+      sep: false
+      mtrr: false
+      pge: false
+      mca: false
+      cmov: false
+      pat: false
+      pse-36: false
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: false
+      fxsr: false
+      sse: false
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
     version: Intel Xeon MP
     voltage: 1.5
     supported-voltages: null

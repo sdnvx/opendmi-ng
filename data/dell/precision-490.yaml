@@ -175,6 +175,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel
+    id: f6060000fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 6
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: null
     voltage: 1.8
     supported-voltages: null
@@ -218,6 +254,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel
+    id: '0000000000000000'
+    signature:
+      type: 0
+      family: 0
+      model: 0
+      stepping: 0
+    flags:
+      fpu: false
+      vme: false
+      de: false
+      pse: false
+      tsc: false
+      msr: false
+      pae: false
+      mce: false
+      cx8: false
+      apic: false
+      sep: false
+      mtrr: false
+      pge: false
+      mca: false
+      cmov: false
+      pat: false
+      pse-36: false
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: false
+      fxsr: false
+      sse: false
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
     version: null
     voltage: 1.8
     supported-voltages: null
@@ -965,10 +1037,25 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 2049
+    header-offset: 0
+    data-offset: 16
     access-method: memory-mapped-32bit-address
+    access-address: 4293922816
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 17
+    header-format: type-1
+    descriptors:
+    - type: post-error
+      data-format: post-results
+    - type: limit-exceeded
+      data-format: system-management
+    - type: log-cleared
+      data-format: none
+    - type: multi-bit-ecc
+      data-format: handle
 - handle: 4096
   type: 16
   length: 17

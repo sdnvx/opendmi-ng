@@ -116,6 +116,42 @@ table:
     type: central
     family: amd-opteron
     vendor: AMD
+    id: 120f0400fffb8b17
+    signature:
+      type: 0
+      family: 15
+      model: 65
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: null
     voltage: 1.4
     supported-voltages: null
@@ -159,6 +195,42 @@ table:
     type: central
     family: amd-opteron
     vendor: AMD
+    id: 120f0400fffb8b17
+    signature:
+      type: 0
+      family: 15
+      model: 65
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: null
     voltage: 1.4
     supported-voltages: null
@@ -202,6 +274,42 @@ table:
     type: central
     family: amd-opteron
     vendor: AMD
+    id: 120f0400fffb8b17
+    signature:
+      type: 0
+      family: 15
+      model: 65
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: null
     voltage: 1.4
     supported-voltages: null
@@ -245,6 +353,42 @@ table:
     type: central
     family: amd-opteron
     vendor: AMD
+    id: 120f0400fffb8b17
+    signature:
+      type: 0
+      family: 15
+      model: 65
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: null
     voltage: 1.4
     supported-voltages: null

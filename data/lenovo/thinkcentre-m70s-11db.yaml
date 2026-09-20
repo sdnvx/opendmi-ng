@@ -818,12 +818,12 @@ table:
   - decoded
   description: Management device threshold data
   attributes:
-    lower-non-critical: 1
-    upper-non-critical: 2
-    lower-critical: 3
-    upper-critical: 4
-    lower-non-recoverable: 5
-    upper-non-recoverable: 6
+    lower-non-critical: 0.1
+    upper-non-critical: 0.2
+    lower-critical: 0.3
+    upper-critical: 0.4
+    lower-non-recoverable: 0.5
+    upper-non-recoverable: 0.6
 - handle: 44
   type: 35
   length: 27
@@ -1073,8 +1073,12 @@ table:
   - decoded
   description: TPM device
   attributes:
+    vendor-id: IFX
     specification-version: '2.0'
-    firmware-version: 1970689910360832
+    firmware-version:
+      major: 7
+      minor: 85
+      vendor-specific: 1166080
     description: INFINEON
     characteristics:
       is-unsupported: false
@@ -1588,6 +1592,42 @@ table:
     type: central
     family: intel-core-i7
     vendor: Intel(R) Corporation
+    id: 55060a00fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 165
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Core(TM) i7-10700 CPU @ 2.90GHz
     voltage: 0.8
     supported-voltages: null

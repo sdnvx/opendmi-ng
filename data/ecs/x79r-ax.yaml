@@ -144,6 +144,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel
+    id: d7060200fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 45
+      stepping: 7
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Xeon(R) CPU E5-2687W 0 @ 3.10GHz
     voltage: null
     supported-voltages: null
@@ -1220,7 +1256,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1265,7 +1300,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1308,7 +1342,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1351,7 +1384,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1396,7 +1428,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1453,7 +1484,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1498,7 +1528,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1543,7 +1572,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1586,7 +1614,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1631,7 +1658,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1674,7 +1700,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1719,7 +1744,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1764,7 +1788,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.

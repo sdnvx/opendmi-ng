@@ -144,6 +144,42 @@ table:
     type: central
     family: amd-fx
     vendor: AMD
+    id: 200f6000fffb8b17
+    signature:
+      type: 0
+      family: 21
+      model: 2
+      stepping: 0
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: AMD FX(tm)-8320 Eight-Core Processor
     voltage: 1.3
     supported-voltages: null

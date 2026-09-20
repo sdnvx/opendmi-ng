@@ -119,6 +119,42 @@ table:
     type: central
     family: intel-xeon-mp
     vendor: Intel
+    id: fb060000fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: null
     voltage: 1.2
     supported-voltages: null
@@ -162,6 +198,42 @@ table:
     type: central
     family: intel-xeon-mp
     vendor: Intel
+    id: fb060000fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: null
     voltage: 1.2
     supported-voltages: null
@@ -205,6 +277,42 @@ table:
     type: central
     family: intel-xeon-mp
     vendor: Intel
+    id: fb060000fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: null
     voltage: 1.2
     supported-voltages: null
@@ -248,6 +356,42 @@ table:
     type: central
     family: intel-xeon-mp
     vendor: Intel
+    id: fb060000fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 11
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: null
     voltage: 1.2
     supported-voltages: null

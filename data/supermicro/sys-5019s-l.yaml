@@ -878,6 +878,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel(R) Corporation
+    id: e9060900fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 158
+      stepping: 9
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Xeon(R) CPU E3-1230 v6 @ 3.50GHz
     voltage: 1.0
     supported-voltages: null
@@ -1132,10 +1168,67 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 65535
+    header-offset: 0
+    data-offset: 16
     access-method: memory-mapped-32bit-address
+    access-address: 4284547072
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 1
+    header-format: type-1
+    descriptors:
+    - type: single-bit-ecc
+      data-format: multiple-event-handle
+    - type: multi-bit-ecc
+      data-format: multiple-event-handle
+    - type: parity
+      data-format: none
+    - type: bus-timeout
+      data-format: none
+    - type: io-channel-check
+      data-format: none
+    - type: software-nmi
+      data-format: none
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: pci-parity
+      data-format: multiple-event-handle
+    - type: pci-system
+      data-format: multiple-event-handle
+    - type: cpu-failure
+      data-format: none
+    - type: eisa-failsafe-timeout
+      data-format: none
+    - type: memory-log-disabled
+      data-format: none
+    - type: logging-disabled
+      data-format: none
+    - type: limit-exceeded
+      data-format: none
+    - type: timer-expired
+      data-format: none
+    - type: config-info
+      data-format: none
+    - type: hard-disk-info
+      data-format: none
+    - type: reconfigured
+      data-format: none
+    - type: cpu-complex-error
+      data-format: none
+    - type: log-cleared
+      data-format: none
+    - type: system-boot
+      data-format: none
+    - type: end-of-log
+      data-format: none
+    - type: oem-specific
+      data-format: oem-specific
+    - type: oem-specific
+      data-format: oem-specific
 - handle: 52
   type: 20
   length: 37
@@ -1214,6 +1307,7 @@ table:
     - referenced-handle: 28
       referenced-offset: 0
       string: null
+      value: 5f4153540111ffffffffffffffffffffff
 - handle: 57
   type: 40
   length: 29
@@ -1226,6 +1320,7 @@ table:
     - referenced-handle: 29
       referenced-offset: 0
       string: null
+      value: 5f4153540111ffffffffffffffffffffff
 - handle: 58
   type: 40
   length: 29
@@ -1238,6 +1333,7 @@ table:
     - referenced-handle: 30
       referenced-offset: 0
       string: null
+      value: 5f41535401118680fb1086800600020000
 - handle: 59
   type: 40
   length: 29
@@ -1250,6 +1346,7 @@ table:
     - referenced-handle: 31
       referenced-offset: 0
       string: null
+      value: 5f4153540111ffffffffffffffffffffff
 - handle: 60
   type: 136
   length: 8

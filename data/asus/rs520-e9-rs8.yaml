@@ -725,9 +725,11 @@ table:
     - referenced-handle: 2
       referenced-offset: 13
       string: PRODUCT_LINE
+      value: '01000000'
     - referenced-handle: 2
       referenced-offset: 13
       string: PRODUCT_SKU
+      value: '00000000'
 - handle: 36
   type: 41
   length: 25
@@ -808,6 +810,7 @@ table:
   description: Management controller host interface
   attributes:
     if-type: keyboard-controller-style
+    if-data: null
 - handle: 41
   type: 15
   length: 75
@@ -816,10 +819,67 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 0
+    header-offset: 0
+    data-offset: 16
     access-method: memory-mapped-32bit-address
+    access-address: 4279369728
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 2
+    header-format: type-1
+    descriptors:
+    - type: single-bit-ecc
+      data-format: multiple-event-handle
+    - type: multi-bit-ecc
+      data-format: multiple-event-handle
+    - type: parity
+      data-format: none
+    - type: bus-timeout
+      data-format: none
+    - type: io-channel-check
+      data-format: none
+    - type: software-nmi
+      data-format: none
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: pci-parity
+      data-format: multiple-event-handle
+    - type: pci-system
+      data-format: multiple-event-handle
+    - type: cpu-failure
+      data-format: none
+    - type: eisa-failsafe-timeout
+      data-format: none
+    - type: memory-log-disabled
+      data-format: none
+    - type: logging-disabled
+      data-format: none
+    - type: limit-exceeded
+      data-format: none
+    - type: timer-expired
+      data-format: none
+    - type: config-info
+      data-format: none
+    - type: hard-disk-info
+      data-format: none
+    - type: reconfigured
+      data-format: none
+    - type: cpu-complex-error
+      data-format: none
+    - type: log-cleared
+      data-format: none
+    - type: system-boot
+      data-format: none
+    - type: end-of-log
+      data-format: none
+    - type: oem-specific
+      data-format: oem-specific
+    - type: oem-specific
+      data-format: oem-specific
 - handle: 42
   type: 16
   length: 25
@@ -1759,6 +1819,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel(R) Corporation
+    id: 57060500fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 85
+      stepping: 7
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
     voltage: 1.6
     supported-voltages: null
@@ -1910,6 +2006,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel(R) Corporation
+    id: 57060500fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 85
+      stepping: 7
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
     voltage: 1.6
     supported-voltages: null

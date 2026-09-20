@@ -176,10 +176,14 @@ table:
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAkIAP//AQEA
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
 - handle: 9
   type: 43
   length: 44
@@ -188,8 +192,12 @@ table:
   - decoded
   description: TPM device
   attributes:
+    vendor-id: AMD
     specification-version: '2.0'
-    firmware-version: 844820067123205
+    firmware-version:
+      major: 3
+      minor: 92
+      vendor-specific: 5
     description: AMD
     characteristics:
       is-unsupported: false
@@ -363,6 +371,42 @@ table:
     type: central
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
+    id: 000fa500fffb8b17
+    signature:
+      type: 0
+      family: 25
+      model: 80
+      stepping: 0
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: AMD Ryzen 7 5700G with Radeon Graphics
     voltage: 1.4
     supported-voltages: null

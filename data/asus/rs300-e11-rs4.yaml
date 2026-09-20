@@ -370,12 +370,12 @@ table:
   - decoded
   description: Management device threshold data
   attributes:
-    lower-non-critical: 1
-    upper-non-critical: 2
-    lower-critical: 3
-    upper-critical: 4
-    lower-non-recoverable: 5
-    upper-non-recoverable: 6
+    lower-non-critical: 0.1
+    upper-non-critical: 0.2
+    lower-critical: 0.3
+    upper-critical: 0.4
+    lower-non-recoverable: 0.5
+    upper-non-recoverable: 0.6
 - handle: 22
   type: 35
   length: 27
@@ -672,19 +672,27 @@ table:
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAkoAP//AQEA
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
 - handle: 42
   type: 42
   length: 19
-  level: '2.0'
+  level: '3.2'
   state:
   - decoded
   description: Management controller host interface
   attributes:
     if-type: keyboard-controller-style
+    if-data: ff000000
+    protocol-records:
+    - type: ipmi
+      data: ffffffff
 - handle: 43
   type: 40
   length: 49
@@ -697,9 +705,11 @@ table:
     - referenced-handle: 1
       referenced-offset: 26
       string: PRODUCT_LINE
+      value: '01000000'
     - referenced-handle: 1
       referenced-offset: 25
       string: PRODUCT_SKU
+      value: '00000000'
 - handle: 56
   type: 16
   length: 25
@@ -737,10 +747,67 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 65535
+    header-offset: 0
+    data-offset: 16
     access-method: memory-mapped-32bit-address
+    access-address: 4278845440
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 1
+    header-format: type-1
+    descriptors:
+    - type: single-bit-ecc
+      data-format: multiple-event-handle
+    - type: multi-bit-ecc
+      data-format: multiple-event-handle
+    - type: parity
+      data-format: none
+    - type: bus-timeout
+      data-format: none
+    - type: io-channel-check
+      data-format: none
+    - type: software-nmi
+      data-format: none
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: pci-parity
+      data-format: multiple-event-handle
+    - type: pci-system
+      data-format: multiple-event-handle
+    - type: cpu-failure
+      data-format: none
+    - type: eisa-failsafe-timeout
+      data-format: none
+    - type: memory-log-disabled
+      data-format: none
+    - type: logging-disabled
+      data-format: none
+    - type: limit-exceeded
+      data-format: none
+    - type: timer-expired
+      data-format: none
+    - type: config-info
+      data-format: none
+    - type: hard-disk-info
+      data-format: none
+    - type: reconfigured
+      data-format: none
+    - type: cpu-complex-error
+      data-format: none
+    - type: log-cleared
+      data-format: none
+    - type: system-boot
+      data-format: none
+    - type: end-of-log
+      data-format: none
+    - type: oem-specific
+      data-format: oem-specific
+    - type: oem-specific
+      data-format: oem-specific
 - handle: 63
   type: 17
   length: 158
@@ -1228,6 +1295,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel(R) Corporation
+    id: 71060a00fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 167
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Xeon(R) E-2386G CPU @ 3.50GHz
     voltage: 0.9
     supported-voltages: null

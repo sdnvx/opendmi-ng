@@ -592,10 +592,14 @@ table:
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAknAP//AQEA
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
 - handle: 40
   type: 43
   length: 44
@@ -604,8 +608,12 @@ table:
   - decoded
   description: TPM device
   attributes:
+    vendor-id: AMD
     specification-version: '2.0'
-    firmware-version: 844820067123205
+    firmware-version:
+      major: 3
+      minor: 92
+      vendor-specific: 5
     description: AMD
     characteristics:
       is-unsupported: false
@@ -779,6 +787,42 @@ table:
     type: central
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
+    id: 010f8600fffb8b17
+    signature:
+      type: 0
+      family: 23
+      model: 96
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: AMD Ryzen 5 PRO 4650G with Radeon Graphics
     voltage: 1.2
     supported-voltages: null

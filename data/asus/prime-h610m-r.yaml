@@ -671,12 +671,12 @@ table:
   - decoded
   description: Management device threshold data
   attributes:
-    lower-non-critical: 1
-    upper-non-critical: 2
-    lower-critical: 3
-    upper-critical: 4
-    lower-non-recoverable: 5
-    upper-non-recoverable: 6
+    lower-non-critical: 0.1
+    upper-non-critical: 0.2
+    lower-critical: 0.3
+    upper-critical: 0.4
+    lower-non-recoverable: 0.5
+    upper-non-recoverable: 0.6
 - handle: 41
   type: 35
   length: 50
@@ -930,26 +930,35 @@ table:
     - referenced-handle: 31
       referenced-offset: 1
       string: To Be Filled By O.E.M. 1
+      value: '00000000'
     - referenced-handle: 1
       referenced-offset: 15
       string: null
+      value: 1e000000
     - referenced-handle: 1
       referenced-offset: 26
       string: Mordor 1.11
+      value: '00000000'
     - referenced-handle: 1
       referenced-offset: 26
       string: PRODUCT_LINE
+      value: '00000000'
     - referenced-handle: 1
       referenced-offset: 25
       string: PRODUCT_SKU
+      value: '00000000'
 - handle: 57
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAk5AP//AQEA
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
 - handle: 58
   type: 16
   length: 25
@@ -1360,6 +1369,42 @@ table:
     type: central
     family: intel-core-i5
     vendor: Intel(R) Corporation
+    id: 75060900fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 151
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: 12th Gen Intel(R) Core(TM) i5-12400
     voltage: 1.1
     supported-voltages: null

@@ -176,10 +176,14 @@ table:
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAkIAP//AQEA
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
 - handle: 9
   type: 43
   length: 44
@@ -188,8 +192,12 @@ table:
   - decoded
   description: TPM device
   attributes:
+    vendor-id: AMD
     specification-version: '2.0'
-    firmware-version: 1688987299217414
+    firmware-version:
+      major: 6
+      minor: 32
+      vendor-specific: 6
     description: AMD
     characteristics:
       is-unsupported: false
@@ -319,6 +327,42 @@ table:
     type: central
     family: amd-zen
     vendor: Advanced Micro Devices, Inc.
+    id: 400fb400fffb8b17
+    signature:
+      type: 0
+      family: 26
+      model: 68
+      stepping: 0
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: AMD Ryzen 9 9950X3D 16-Core Processor
     voltage: 1.3
     supported-voltages: null
@@ -352,10 +396,14 @@ table:
   type: 44
   length: 11
   level: '2.0'
-  state: []
+  state:
+  - decoded
+  - linked
   description: Processor additional information
-  data: !!binary |
-    LAkOAA0AAQIA
+  attributes:
+    processor-handle: 13
+    architecture: x64
+    data: '00'
 - handle: 15
   type: 18
   length: 25
@@ -738,6 +786,7 @@ table:
     - referenced-handle: 0
       referenced-offset: 5
       string: AGESA!V9 ComboAm5PI 1.2.0.3g
+      value: '00000000'
 - handle: 29
   type: 13
   length: 159

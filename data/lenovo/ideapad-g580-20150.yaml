@@ -146,6 +146,42 @@ table:
     type: central
     family: intel-core-i7
     vendor: Intel(R) Corporation
+    id: a9060300fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 58
+      stepping: 9
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Core(TM) i7-3840QM CPU @ 2.80GHz
     voltage: 0.9
     supported-voltages: null
@@ -1051,10 +1087,23 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 0
+    header-offset: 0
+    data-offset: 32
     access-method: data-functions
+    access-address: 0
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 305419896
+    header-format: oem-specific
+    descriptors:
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: log-cleared
+      data-format: none
 - handle: 40
   type: 16
   length: 25
@@ -1365,9 +1414,11 @@ table:
     - referenced-handle: 28
       referenced-offset: 5
       string: PCIExpressx16
+      value: aa
     - referenced-handle: 0
       referenced-offset: 5
       string: 'Compiler Version: VC 9.0'
+      value: dc05
 - handle: 56
   type: 41
   length: 42

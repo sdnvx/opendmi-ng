@@ -143,6 +143,42 @@ table:
     type: central
     family: intel-pentium-m
     vendor: Intel
+    id: c2060100fffbe9bf
+    signature:
+      type: 0
+      family: 6
+      model: 28
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: false
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Atom(TM) CPU N270   @ 1.60GH
     voltage: null
     supported-voltages:

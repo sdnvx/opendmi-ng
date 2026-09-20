@@ -110,6 +110,42 @@ table:
     type: central
     family: amd-opteron
     vendor: AMD
+    id: 120f0200fffb8b17
+    signature:
+      type: 0
+      family: 15
+      model: 33
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: null
     voltage: 1.7
     supported-voltages: null
@@ -137,6 +173,42 @@ table:
     type: central
     family: amd-opteron
     vendor: AMD
+    id: 120f0200fffb8b17
+    signature:
+      type: 0
+      family: 15
+      model: 33
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
     version: null
     voltage: 1.7
     supported-voltages: null
@@ -164,6 +236,42 @@ table:
     type: central
     family: amd-opteron
     vendor: AMD
+    id: '0000000000000000'
+    signature:
+      type: 0
+      family: 0
+      model: 0
+      stepping: 0
+    flags:
+      fpu: false
+      vme: false
+      de: false
+      pse: false
+      tsc: false
+      msr: false
+      pae: false
+      mce: false
+      cx8: false
+      apic: false
+      sep: false
+      mtrr: false
+      pge: false
+      mca: false
+      cmov: false
+      pat: false
+      pse-36: false
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: false
+      fxsr: false
+      sse: false
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
     version: null
     voltage: 1.7
     supported-voltages: null
@@ -191,6 +299,42 @@ table:
     type: central
     family: amd-opteron
     vendor: AMD
+    id: '0000000000000000'
+    signature:
+      type: 0
+      family: 0
+      model: 0
+      stepping: 0
+    flags:
+      fpu: false
+      vme: false
+      de: false
+      pse: false
+      tsc: false
+      msr: false
+      pae: false
+      mce: false
+      cx8: false
+      apic: false
+      sep: false
+      mtrr: false
+      pge: false
+      mca: false
+      cmov: false
+      pat: false
+      pse-36: false
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: false
+      fxsr: false
+      sse: false
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
     version: null
     voltage: 1.7
     supported-voltages: null
@@ -1948,7 +2092,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -1966,7 +2109,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -1984,7 +2126,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2002,7 +2143,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2092,7 +2232,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2110,7 +2249,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2128,7 +2266,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2146,7 +2283,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2236,7 +2372,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2254,7 +2389,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2272,7 +2406,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2290,7 +2423,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2380,7 +2512,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2398,7 +2529,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2416,7 +2546,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:
@@ -2434,7 +2563,6 @@ table:
   level: '2.1'
   state:
   - decoded
-  - linked
   - partial
   description: Memory device mapped address
   attributes:

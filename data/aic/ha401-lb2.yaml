@@ -144,6 +144,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel(R) Corporation
+    id: f1060400fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 79
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz
     voltage: 1.8
     supported-voltages: null
@@ -187,6 +223,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel(R) Corporation
+    id: f1060400fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 79
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz
     voltage: 1.8
     supported-voltages: null
@@ -459,10 +531,23 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 0
+    header-offset: 0
+    data-offset: 8192
     access-method: data-functions
+    access-address: 0
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 305419896
+    header-format: oem-specific
+    descriptors:
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: log-cleared
+      data-format: none
 - handle: 14
   type: 16
   length: 25

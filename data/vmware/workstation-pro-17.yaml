@@ -250,6 +250,42 @@ table:
     type: central
     family: unknown
     vendor: GenuineIntel
+    id: a3060900fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 154
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
     version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: null
     supported-voltages:
@@ -404,6 +440,42 @@ table:
     type: central
     family: unknown
     vendor: GenuineIntel
+    id: a3060900fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 154
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
     version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: null
     supported-voltages:
@@ -558,6 +630,42 @@ table:
     type: central
     family: unknown
     vendor: GenuineIntel
+    id: a3060900fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 154
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
     version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: null
     supported-voltages:
@@ -712,6 +820,42 @@ table:
     type: central
     family: unknown
     vendor: GenuineIntel
+    id: a3060900fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 154
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
     version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: null
     supported-voltages:
@@ -866,6 +1010,42 @@ table:
     type: central
     family: unknown
     vendor: GenuineIntel
+    id: a3060900fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 154
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
     version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: null
     supported-voltages:
@@ -1020,6 +1200,42 @@ table:
     type: central
     family: unknown
     vendor: GenuineIntel
+    id: a3060900fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 154
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
     version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: null
     supported-voltages:
@@ -1174,6 +1390,42 @@ table:
     type: central
     family: unknown
     vendor: GenuineIntel
+    id: a3060900fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 154
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
     version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: null
     supported-voltages:
@@ -1328,6 +1580,42 @@ table:
     type: central
     family: unknown
     vendor: GenuineIntel
+    id: a3060900fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 154
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
     version: 12th Gen Intel(R) Core(TM) i9-12900H
     voltage: null
     supported-voltages:
@@ -1374,6 +1662,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1420,6 +1709,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1466,6 +1756,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1512,6 +1803,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1558,6 +1850,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1604,6 +1897,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1650,6 +1944,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1696,6 +1991,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1742,6 +2038,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1788,6 +2085,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1834,6 +2132,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1880,6 +2179,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1926,6 +2226,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -1972,6 +2273,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2018,6 +2320,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2064,6 +2367,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2110,6 +2414,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2156,6 +2461,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2202,6 +2508,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2248,6 +2555,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2294,6 +2602,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2340,6 +2649,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2386,6 +2696,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2432,6 +2743,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2478,6 +2790,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2524,6 +2837,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2570,6 +2884,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2616,6 +2931,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2662,6 +2978,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2708,6 +3025,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2754,6 +3072,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2800,6 +3119,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2846,6 +3166,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2892,6 +3213,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2938,6 +3260,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -2984,6 +3307,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3030,6 +3354,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3076,6 +3401,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3122,6 +3448,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3168,6 +3495,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3214,6 +3542,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3260,6 +3589,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3306,6 +3636,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3352,6 +3683,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3398,6 +3730,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3444,6 +3777,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3490,6 +3824,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3536,6 +3871,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3582,6 +3918,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3628,6 +3965,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3674,6 +4012,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3720,6 +4059,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3766,6 +4106,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3812,6 +4153,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3858,6 +4200,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3904,6 +4247,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3950,6 +4294,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -3996,6 +4341,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4042,6 +4388,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4088,6 +4435,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4134,6 +4482,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4180,6 +4529,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4226,6 +4576,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4272,6 +4623,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4318,6 +4670,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4364,6 +4717,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4410,6 +4764,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4456,6 +4811,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4502,6 +4858,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4548,6 +4905,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4594,6 +4952,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4640,6 +4999,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4686,6 +5046,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4732,6 +5093,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4778,6 +5140,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4824,6 +5187,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4870,6 +5234,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4916,6 +5281,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -4962,6 +5328,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5008,6 +5375,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5054,6 +5422,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5100,6 +5469,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5146,6 +5516,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5192,6 +5563,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5238,6 +5610,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5284,6 +5657,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5330,6 +5704,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5376,6 +5751,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5422,6 +5798,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5468,6 +5845,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5514,6 +5892,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5560,6 +5939,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5606,6 +5986,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5652,6 +6033,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5698,6 +6080,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5744,6 +6127,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5790,6 +6174,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5836,6 +6221,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5882,6 +6268,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5928,6 +6315,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -5974,6 +6362,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6020,6 +6409,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6066,6 +6456,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6112,6 +6503,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6158,6 +6550,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6204,6 +6597,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6250,6 +6644,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6296,6 +6691,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6342,6 +6738,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6388,6 +6785,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6434,6 +6832,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6480,6 +6879,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6526,6 +6926,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6572,6 +6973,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6618,6 +7020,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6664,6 +7067,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6710,6 +7114,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6756,6 +7161,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6802,6 +7208,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:
@@ -6848,6 +7255,7 @@ table:
     type: central
     family: unknown
     vendor: null
+    id: '0000000000000000'
     version: Unknown Processor
     voltage: null
     supported-voltages:

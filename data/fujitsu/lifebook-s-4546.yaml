@@ -135,6 +135,42 @@ table:
     type: central
     family: intel-pentium-3
     vendor: Intel Corporation
+    id: 86060000fff98303
+    signature:
+      type: 0
+      family: 6
+      model: 8
+      stepping: 6
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: false
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
     version: Intel(R) Pentium(R) III processor
     voltage: 1.3
     supported-voltages: null
@@ -660,10 +696,29 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 1344
+    header-offset: 0
+    data-offset: 16
     access-method: memory-mapped-32bit-address
+    access-address: 4294443008
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 93
+    header-format: type-1
+    descriptors:
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: reconfigured
+      data-format: none
+    - type: log-cleared
+      data-format: none
+    - type: system-boot
+      data-format: none
+    - type: oem-specific
+      data-format: none
 - handle: 32
   type: 16
   length: 17

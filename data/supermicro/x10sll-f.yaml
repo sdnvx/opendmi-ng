@@ -652,7 +652,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -697,7 +696,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -740,7 +738,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -783,7 +780,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -828,7 +824,6 @@ table:
   level: '2.3'
   state:
   - decoded
-  - linked
   description: Management device component
   attributes:
     description: To Be Filled By O.E.M.
@@ -1016,6 +1011,42 @@ table:
     type: central
     family: intel-xeon
     vendor: Intel
+    id: c3060300fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 60
+      stepping: 3
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
     version: Intel(R) Xeon(R) CPU E3-1271 v3 @ 3.60GHz
     voltage: 1.2
     supported-voltages: null
@@ -1437,10 +1468,67 @@ table:
   - decoded
   description: System event log
   attributes:
+    area-length: 65535
+    header-offset: 0
+    data-offset: 16
     access-method: memory-mapped-32bit-address
+    access-address: 4283760640
     status:
       log-area-valid: true
       log-area-full: false
+    change-token: 1
+    header-format: type-1
+    descriptors:
+    - type: single-bit-ecc
+      data-format: multiple-event-handle
+    - type: multi-bit-ecc
+      data-format: multiple-event-handle
+    - type: parity
+      data-format: none
+    - type: bus-timeout
+      data-format: none
+    - type: io-channel-check
+      data-format: none
+    - type: software-nmi
+      data-format: none
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: pci-parity
+      data-format: multiple-event-handle
+    - type: pci-system
+      data-format: multiple-event-handle
+    - type: cpu-failure
+      data-format: none
+    - type: eisa-failsafe-timeout
+      data-format: none
+    - type: memory-log-disabled
+      data-format: none
+    - type: logging-disabled
+      data-format: none
+    - type: limit-exceeded
+      data-format: none
+    - type: timer-expired
+      data-format: none
+    - type: config-info
+      data-format: none
+    - type: hard-disk-info
+      data-format: none
+    - type: reconfigured
+      data-format: none
+    - type: cpu-complex-error
+      data-format: none
+    - type: log-cleared
+      data-format: none
+    - type: system-boot
+      data-format: none
+    - type: end-of-log
+      data-format: none
+    - type: oem-specific
+      data-format: oem-specific
+    - type: oem-specific
+      data-format: oem-specific
 - handle: 96
   type: 136
   length: 8
