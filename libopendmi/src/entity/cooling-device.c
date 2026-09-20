@@ -198,7 +198,7 @@ static bool dmi_cooling_device_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = entity->context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(entity->context);
 
     return dmi_registry_resolve(registry, info->probe_handle, DMI_TYPE(TEMPERATURE_PROBE), &info->probe);
 }

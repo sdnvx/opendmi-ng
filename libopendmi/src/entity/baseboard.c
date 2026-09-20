@@ -281,7 +281,7 @@ static bool dmi_baseboard_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t  *context  = entity->context;
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
     bool success = true;
 
     if (not dmi_registry_resolve(registry, info->chassis_handle, DMI_TYPE(CHASSIS), &info->chassis))

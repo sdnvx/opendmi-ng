@@ -144,7 +144,7 @@ static bool dmi_memory_channel_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = entity->context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(entity->context);
     bool success = true;
 
     for (size_t i = 0; i < info->device_count; i++) {

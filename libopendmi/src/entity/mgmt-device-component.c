@@ -93,7 +93,7 @@ static bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
         return false;
 
     dmi_context_t *context = entity->context;
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
     bool success = true;
 
     // Management device and component are required, threshold is optional

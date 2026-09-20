@@ -205,7 +205,7 @@ static bool dmi_memory_device_addr_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_registry_t *registry = entity->context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(entity->context);
     bool success = true;
 
     if (not dmi_registry_resolve(registry, info->device_handle, DMI_TYPE(MEMORY_DEVICE), &info->device))

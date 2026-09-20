@@ -88,7 +88,9 @@ static bool dmi_string_property_link(dmi_entity_t *entity)
         return false;
     }
 
-    dmi_entity_t *parent = dmi_registry_get(context->state.registry, info->parent_handle, DMI_TYPE_INVALID, true);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    dmi_entity_t   *parent   = dmi_registry_get(registry, info->parent_handle, DMI_TYPE_INVALID, true);
+
     if (parent == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
                            "String property 0x%04x: parent 0x%04x not found",

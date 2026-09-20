@@ -80,7 +80,7 @@ bool dmi_text_entry(dmi_text_session_t *session)
 
     size_t entity_count = context->state.entity_count;
     if (entity_count == 0)
-        entity_count = context->state.registry->count;
+        entity_count = dmi_get_registry(context)->count;
 
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS %s present\n", version);
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "SMBIOS vendor: %s\n",
@@ -209,7 +209,7 @@ void dmi_text_entity_attr_array(
 
             if (attr->type == DMI_ATTRIBUTE_TYPE_HANDLE) {
                 dmi_handle_t handle = dmi_deref(dmi_handle_t, ptr);
-                const dmi_entity_t *entity = dmi_registry_get(session->context->state.registry, handle, DMI_TYPE_INVALID, true);
+                const dmi_entity_t *entity = dmi_registry_get(dmi_get_registry(session->context), handle, DMI_TYPE_INVALID, true);
 
                 descr = dmi_entity_name(entity);
             }

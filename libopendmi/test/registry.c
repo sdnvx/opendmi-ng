@@ -235,7 +235,7 @@ static int test_registry_teardown(void **pstate)
 static void test_registry_get(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     const dmi_entity_t *entity = dmi_registry_get(registry, 0x0011, DMI_TYPE(MEMORY_DEVICE), false);
     assert_non_null(entity);
@@ -259,7 +259,7 @@ static void test_registry_get(void **pstate)
 static void test_registry_get_reserved_handles(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     // Reserved handles never match any entity and are not errors
     dmi_error_clear(context);
@@ -274,7 +274,7 @@ static void test_registry_get_reserved_handles(void **pstate)
 static void test_registry_get_any(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     static const dmi_type_t types[] = {
         DMI_TYPE(MEMORY_ARRAY),
@@ -298,7 +298,7 @@ static void test_registry_get_any(void **pstate)
 static void test_registry_get_first(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     const dmi_entity_t *entity = dmi_registry_get_first(registry, DMI_TYPE(MEMORY_DEVICE), false);
     assert_non_null(entity);
@@ -319,7 +319,7 @@ static void test_registry_get_first(void **pstate)
 static void test_registry_link_unset_handles(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     const dmi_entity_t *device_a = dmi_registry_get(registry, 0x0010, DMI_TYPE(MEMORY_DEVICE), false);
     const dmi_entity_t *device_b = dmi_registry_get(registry, 0x0011, DMI_TYPE(MEMORY_DEVICE), false);
@@ -371,7 +371,7 @@ static void test_registry_decode_malformed(void **pstate)
                                                 sizeof(test_malformed_table));
     assert_non_null(context);
 
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
     assert_true(registry->status & DMI_REGISTRY_STATUS_DECODED);
     assert_true(registry->status & DMI_REGISTRY_STATUS_LINKED);
 
@@ -432,7 +432,7 @@ static void test_registry_decode_all_strict(void **pstate)
     context->state.table_size     = sizeof(test_all_malformed_table);
     context->state.registry       = dmi_registry_create(context, 0);
 
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     if ((registry == nullptr) or not dmi_registry_scan(registry)) {
         dmi_destroy(context);
@@ -477,7 +477,8 @@ static void test_registry_overlay(void **pstate)
                                                 test_overlay_table, sizeof(test_overlay_table));
     assert_non_null(context);
 
-    const dmi_entity_t *array = dmi_registry_get(context->state.registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *array = dmi_registry_get(registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
     const dmi_memory_array_t *info = dmi_entity_info(array, DMI_TYPE(MEMORY_ARRAY));
 
     if (info == nullptr) {
@@ -529,7 +530,8 @@ static void test_registry_overlay_disabled(void **pstate)
                                                 sizeof(test_overlay_table));
     assert_non_null(context);
 
-    const dmi_entity_t *array = dmi_registry_get(context->state.registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *array = dmi_registry_get(registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
     const dmi_memory_array_t *info = dmi_entity_info(array, DMI_TYPE(MEMORY_ARRAY));
 
     bool decoded = (info != nullptr);
@@ -557,7 +559,8 @@ static void test_registry_overlay_strict(void **pstate)
     dmi_context_t *valid = test_registry_open(flags, test_valid_overlay_table, sizeof(test_valid_overlay_table));
     assert_non_null(valid);
 
-    const dmi_entity_t *array = dmi_registry_get(valid->state.registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
+    dmi_registry_t *registry = dmi_get_registry(valid);
+    const dmi_entity_t *array = dmi_registry_get(registry, 0x0001, DMI_TYPE(MEMORY_ARRAY), false);
     const dmi_memory_array_t *info = dmi_entity_info(array, DMI_TYPE(MEMORY_ARRAY));
 
     bool decoded = (info != nullptr);
@@ -577,7 +580,7 @@ static void test_registry_resolve(void **pstate)
                                                 sizeof(test_resolve_table));
     assert_non_null(context);
 
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
 
     // Reference which is not set is resolved to nothing
     test_resolve(registry, DMI_HANDLE_INVALID, DMI_TYPE(MEMORY_ARRAY), true, DMI_TYPE_INVALID, DMI_ERROR_NONE);
@@ -627,7 +630,8 @@ static void test_registry_resolve_strict(void **pstate)
     assert_non_null(context);
 
     // Handle 0x0000 is not treated as unspecified value in strict mode
-    test_resolve(context->state.registry, 0x0000, DMI_TYPE(MEMORY_ARRAY), false, DMI_TYPE_INVALID,
+    dmi_registry_t *registry = dmi_get_registry(context);
+    test_resolve(registry, 0x0000, DMI_TYPE(MEMORY_ARRAY), false, DMI_TYPE_INVALID,
                  DMI_ERROR_INVALID_ENTITY_TYPE);
 
     dmi_destroy(context);
@@ -676,12 +680,14 @@ static dmi_context_t *test_registry_open(unsigned int flags, dmi_data_t *table, 
 
     context->state.registry = dmi_registry_create(context, 0);
 
+    dmi_registry_t *registry;
+
     bool success =
-        (context->state.registry != nullptr) and
-        dmi_registry_scan(context->state.registry) and
-        (((flags & DMI_CONTEXT_FLAG_OVERLAY) == 0) or dmi_registry_overlay(context->state.registry)) and
-        dmi_registry_decode(context->state.registry) and
-        dmi_registry_link(context->state.registry);
+        ((registry = dmi_get_registry(context)) != nullptr) and
+        dmi_registry_scan(registry) and
+        (((flags & DMI_CONTEXT_FLAG_OVERLAY) == 0) or dmi_registry_overlay(registry)) and
+        dmi_registry_decode(registry) and
+        dmi_registry_link(registry);
 
     if (not success) {
         dmi_destroy(context);

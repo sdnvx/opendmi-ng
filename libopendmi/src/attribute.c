@@ -761,7 +761,6 @@ static char *dmi_attribute_format_ipv4(dmi_context_t *context, const dmi_binary_
 static char *dmi_attribute_format_ipv6(dmi_context_t *context, const dmi_binary_t *binary)
 {
     const dmi_byte_t *data = binary->data;
-    char *str = nullptr;
 
     if (binary->length != 16) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "length");
@@ -791,15 +790,18 @@ static char *dmi_attribute_format_ipv6(dmi_context_t *context, const dmi_binary_
     }
 
     // The longest representation is "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
-    str = dmi_alloc(context, sizeof("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"));
+    size_t size = sizeof("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff");
+
+    char *str = dmi_alloc(context, size);
     if (str == nullptr)
         return nullptr;
 
-    char *pos = str;
+    char       *pos = str;
+    const char *end = str + size;
 
     for (size_t i = 0; i < countof(groups); i++) {
         if (i == zero_start) {
-            pos += sprintf(pos, "::");
+            pos += snprintf(pos, end - pos, "::");
             i += zero_length - 1;
             continue;
         }
@@ -808,7 +810,7 @@ static char *dmi_attribute_format_ipv6(dmi_context_t *context, const dmi_binary_
         if ((i > 0) and (i != zero_start + zero_length))
             *pos++ = ':';
 
-        pos += sprintf(pos, "%x", groups[i]);
+        pos += snprintf(pos, end - pos, "%x", groups[i]);
     }
 
     *pos = 0;

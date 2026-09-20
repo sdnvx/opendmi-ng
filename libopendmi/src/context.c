@@ -552,6 +552,14 @@ bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger)
     return true;
 }
 
+dmi_registry_t *dmi_get_registry(dmi_context_t *context)
+{
+    if (context == nullptr)
+        return nullptr;
+
+    return context->state.registry;
+}
+
 bool dmi_close(dmi_context_t *context)
 {
     if (context == nullptr)

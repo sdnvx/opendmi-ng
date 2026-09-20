@@ -73,7 +73,7 @@ The same data from C, with decoded structures mapped to plain C types:
 dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK);
 
 if (dmi_open(context, nullptr)) {
-    dmi_registry_t *registry = context->state.registry;
+    dmi_registry_t *registry = dmi_get_registry(context);
     dmi_entity_t   *entity   = dmi_registry_get_first(registry, DMI_TYPE(SYSTEM), false);
     dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(SYSTEM));
 

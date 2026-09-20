@@ -337,6 +337,16 @@ __dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
 __dmi_api bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
 
 /**
+ * @brief Get entity registry of an opened DMI context.
+ *
+ * @param[in] context DMI context handle.
+ *
+ * @return Non-owning pointer to the registry, or @c nullptr if the context is
+ *         not opened.
+ */
+__dmi_api dmi_registry_t *dmi_get_registry(dmi_context_t *context);
+
+/**
  * @brief Close DMI context.
  *
  * @param[in] context DMI context handle.
