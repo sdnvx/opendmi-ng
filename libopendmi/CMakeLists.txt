@@ -18,33 +18,30 @@ if(ICU_FOUND)
     set(LIBOPENDMI_RESOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/locale)
     set(LIBOPENDMI_BUNDLE_ROOT ${CMAKE_CURRENT_BINARY_DIR}/locale)
 
-    file(GLOB_RECURSE LIBOPENDMI_RESOURCES
+    file(GLOB LIBOPENDMI_RESOURCES
         RELATIVE ${LIBOPENDMI_RESOURCE_ROOT}
         ${LIBOPENDMI_RESOURCE_ROOT}/*.txt)
     make_directory(${LIBOPENDMI_BUNDLE_ROOT})
 
-    foreach(RESOURCE_PATH ${LIBOPENDMI_RESOURCES})
-        cmake_path(GET RESOURCE_PATH FILENAME RESOURCE_NAME)
+    # Bundles are packaged flat: ICU looks up "<locale>.res" in the root of
+    # the package, and falls back to "root.res" for unknown locales
+    foreach(RESOURCE_NAME ${LIBOPENDMI_RESOURCES})
+        cmake_path(REPLACE_EXTENSION RESOURCE_NAME ".res" OUTPUT_VARIABLE BUNDLE_NAME)
 
-        cmake_path(REPLACE_EXTENSION RESOURCE_PATH ".res" OUTPUT_VARIABLE BUNDLE_PATH)
-        cmake_path(REMOVE_FILENAME BUNDLE_PATH OUTPUT_VARIABLE BUNDLE_DIR)
-
-        make_directory(${LIBOPENDMI_BUNDLE_ROOT}/${BUNDLE_DIR})
-
-        message(STATUS "Compiling ${RESOURCE_PATH} -> ${BUNDLE_PATH}")
+        message(STATUS "Compiling ${RESOURCE_NAME} -> ${BUNDLE_NAME}")
 
         add_custom_command(
-            OUTPUT ${LIBOPENDMI_BUNDLE_ROOT}/${BUNDLE_PATH}
+            OUTPUT ${LIBOPENDMI_BUNDLE_ROOT}/${BUNDLE_NAME}
             COMMAND ${ICU_GENRB_EXECUTABLE}
-                --sourcedir ${LIBOPENDMI_RESOURCE_ROOT}/${BUNDLE_DIR}
-                --destdir ${LIBOPENDMI_BUNDLE_ROOT}/${BUNDLE_DIR}
+                --sourcedir ${LIBOPENDMI_RESOURCE_ROOT}
+                --destdir ${LIBOPENDMI_BUNDLE_ROOT}
                 --encoding UTF-8
                 ${RESOURCE_NAME}
-            DEPENDS ${LIBOPENDMI_RESOURCE_ROOT}/${RESOURCE_PATH}
+            DEPENDS ${LIBOPENDMI_RESOURCE_ROOT}/${RESOURCE_NAME}
         )
 
-        list(APPEND LIBOPENDMI_BUNDLES ${BUNDLE_PATH})
-        list(APPEND LIBOPENDMI_BUNDLES_DEPS ${LIBOPENDMI_BUNDLE_ROOT}/${BUNDLE_PATH})
+        list(APPEND LIBOPENDMI_BUNDLES ${BUNDLE_NAME})
+        list(APPEND LIBOPENDMI_BUNDLES_DEPS ${LIBOPENDMI_BUNDLE_ROOT}/${BUNDLE_NAME})
     endforeach()
 
     file(GENERATE
@@ -56,12 +53,15 @@ if(ICU_FOUND)
         DEPENDS ${LIBOPENDMI_BUNDLES_DEPS}
     )
 
-    set(LIBOPENDMI_BUNDLE_DATA ${LIBOPENDMI_BUNDLE_ROOT}/resources_dat.o)
+    # Package name must match the name the data is registered with at run time
+    # (see `udata_setAppData()`), and `pkgdata` appends "_dat" to the entry
+    # point name, so the data symbol is `opendmi_dat`
+    set(LIBOPENDMI_BUNDLE_DATA ${LIBOPENDMI_BUNDLE_ROOT}/opendmi_dat.o)
     add_custom_command(
         OUTPUT ${LIBOPENDMI_BUNDLE_DATA}
         COMMAND ${ICU_PKGDATA_EXECUTABLE}
-            --name resources
-            --entrypoint dmi_resources
+            --name opendmi
+            --entrypoint opendmi
             --libname opendmi-resources
             --mode static
             --destdir ${LIBOPENDMI_BUNDLE_ROOT}

@@ -257,7 +257,7 @@ static const dmi_entity_spec_t *dmi_entity_specs[] =
 };
 
 #ifdef ENABLE_ICU
-    extern const char dmi_resources_dat[];
+    extern const char opendmi_dat[];
 #endif
 
 dmi_context_t *dmi_create(unsigned int flags)
@@ -300,7 +300,7 @@ dmi_context_t *dmi_create(unsigned int flags)
             }
 
             // Register resources package
-            udata_setAppData("opendmi", dmi_resources_dat, &status);
+            udata_setAppData("opendmi", opendmi_dat, &status);
             if (U_FAILURE(status)) {
                 fprintf(stderr, "Unable register resources package: %s\n", u_errorName(status));
                 break;

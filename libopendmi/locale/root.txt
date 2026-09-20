@@ -1,4 +1,4 @@
-en_US {
+root {
     cache-types {
         unspecified { "Unspecified" }
         other       { "Other"       }
