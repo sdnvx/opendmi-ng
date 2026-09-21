@@ -20,6 +20,12 @@
 #include <opendmi/command/lint.h>
 
 /**
+ * @brief Widths of the columns of the rule listing, in characters.
+ */
+#define DMI_LINT_CODE_WIDTH     32
+#define DMI_LINT_SEVERITY_WIDTH 16
+
+/**
  * @brief State of the report being printed.
  */
 typedef struct dmi_lint_report
@@ -54,6 +60,7 @@ static bool dmi_lint_rule_filter(void *data, const dmi_lint_rule_t *rule);
 static bool dmi_lint_rule_matches(const dmi_vector_t *codes, const dmi_lint_rule_t *rule);
 static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue);
 static void dmi_lint_summary(const dmi_lint_report_t *report);
+static void dmi_lint_pad(const char *text, size_t width);
 static void dmi_lint_rule_print(const dmi_lint_rule_t *rule);
 static void dmi_lint_rules_print(dmi_context_t *context);
 static dmi_tty_color_t dmi_lint_severity_color(dmi_lint_severity_t severity);
@@ -321,14 +328,36 @@ static void dmi_lint_summary(const dmi_lint_report_t *report)
     dmi_free(text);
 }
 
+//
+// Pad a string to a width, counting the characters rather than the bytes,
+// since a translated name holds more bytes than it takes on the screen.
+//
+static void dmi_lint_pad(const char *text, size_t width)
+{
+    size_t length = 0;
+
+    for (const char *ptr = text; *ptr != 0; ptr++) {
+        // Continuation bytes of a character take no place of their own
+        if ((*ptr & 0xC0) != 0x80)
+            length++;
+    }
+
+    while (length++ < width)
+        printf(" ");
+}
+
 static void dmi_lint_rule_print(const dmi_lint_rule_t *rule)
 {
     dmi_lint_severity_t severity = dmi_lint_rule_severity(rule, DMI_LINT_PROFILE_READER);
+    const char *name = dmi_name_lookup(&dmi_lint_severity_names, severity);
 
-    dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%4s%-28s", "", rule->code);
-    dmi_tty_cprintf(dmi_lint_severity_color(severity), "%-8s",
-                    dmi_name_lookup(&dmi_lint_severity_names, severity));
-    dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "  %s", dmi_lint_rule_name(rule));
+    dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%4s%s", "", rule->code);
+    dmi_lint_pad(rule->code, DMI_LINT_CODE_WIDTH);
+
+    dmi_tty_cprintf(dmi_lint_severity_color(severity), "%s", name);
+    dmi_lint_pad(name, DMI_LINT_SEVERITY_WIDTH);
+
+    dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s", dmi_lint_rule_name(rule));
 
     if (rule->optional)
         dmi_tty_cprintf(DMI_TTY_COLOR_GREY, " (%s)", dmi_tool_string("all checks only"));

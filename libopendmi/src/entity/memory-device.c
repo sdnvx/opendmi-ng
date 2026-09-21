@@ -11,6 +11,7 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
+#include <opendmi/stream.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -449,6 +450,27 @@ static const dmi_lint_rule_t dmi_memory_device_sizes_rule =
     .check             = dmi_memory_device_lint_sizes
 };
 
+static void dmi_memory_device_lint_extended_size(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offset of the size, the value telling that the actual one is in the
+ * extended field, and the length of a structure carrying that field.
+ */
+#define DMI_MEMORY_DEVICE_SIZE_OFFSET 0x0C
+#define DMI_MEMORY_DEVICE_SIZE_OFFSET_EXTENDED 0x7FFF
+#define DMI_MEMORY_DEVICE_SIZE_OFFSET_LENGTH 0x20
+
+static const dmi_lint_rule_t dmi_memory_device_extended_size_rule =
+{
+    .code              = "memory-device.extended-size",
+    .name              = "Extended size is present when the plain one needs it",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_device_lint_extended_size
+};
+
 const dmi_entity_spec_t dmi_memory_device_spec =
 {
     .code            = "memory-device",
@@ -471,10 +493,12 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_ATTRIBUTE(dmi_memory_device_t, array_handle, HANDLE, {
             .code    = "array-handle",
             .name    = "Memory array handle",
+            .targets = dmi_targets(DMI_TYPE_MEMORY_ARRAY),
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, error_info_handle, HANDLE, {
             .code    = "error-info-handle",
-            .name    = "Memory error information handle"
+            .name    = "Memory error information handle",
+            .targets = dmi_targets(DMI_TYPE_MEMORY_ERROR_32, DMI_TYPE_MEMORY_ERROR_64),
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, total_width, INTEGER, {
             .code    = "total-width",
@@ -555,6 +579,8 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_ATTRIBUTE(dmi_memory_device_t, rank, INTEGER, {
             .code    = "rank",
             .name    = "Rank",
+            .minimum = dmi_value_ptr((unsigned short)0),
+            .maximum = dmi_value_ptr((unsigned short)15),
             .unknown = dmi_value_ptr((unsigned short)0),
             .level   = DMI_VERSION(2, 6, 0)
         }),
@@ -612,7 +638,7 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .code    = "module-vendor-id",
             .name    = "Module manufacturer ID",
             .unknown = dmi_value_ptr((uint16_t)0),
-            .flags   = DMI_ATTRIBUTE_FLAG_HEX,
+            .flags   = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_JEP106,
             .level   = DMI_VERSION(3, 2, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, module_product_id, INTEGER, {
@@ -626,7 +652,7 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .code    = "controller-vendor-id",
             .name    = "Memory subsystem controller manufacturer ID",
             .unknown = dmi_value_ptr((uint16_t)0),
-            .flags   = DMI_ATTRIBUTE_FLAG_HEX,
+            .flags   = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_JEP106,
             .level   = DMI_VERSION(3, 2, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, controller_product_id, INTEGER, {
@@ -664,7 +690,7 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .code    = "pmi0-vendor-id",
             .name    = "PMIC0 manufacturer ID",
             .unknown = dmi_value_ptr((uint16_t)0),
-            .flags   = DMI_ATTRIBUTE_FLAG_HEX,
+            .flags   = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_JEP106,
             .level   = DMI_VERSION(3, 7, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, pmic0_revision, INTEGER, {
@@ -678,7 +704,7 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .code    = "rcd-vendor-id",
             .name    = "RCD manufacturer ID",
             .unknown = dmi_value_ptr((uint16_t)0),
-            .flags   = DMI_ATTRIBUTE_FLAG_HEX,
+            .flags   = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_JEP106,
             .level   = DMI_VERSION(3, 7, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, rcd_revision, INTEGER, {
@@ -691,6 +717,7 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_ATTRIBUTE_NULL
     },
     .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_memory_device_extended_size_rule,
         &dmi_memory_device_width_rule,
         &dmi_memory_device_speed_rule,
         &dmi_memory_device_voltage_rule,
@@ -1011,4 +1038,25 @@ static void dmi_memory_device_lint_sizes(dmi_lint_t *lint, const dmi_entity_t *e
     dmi_lint_issue(lint, entity, "size", dmi_lint_entity_offset(lint, entity),
                    "volatile and non-volatile sizes add up to %" PRIu64 " bytes, while the "
                    "device is %" PRIu64 " bytes", total, info->size);
+}
+
+static void dmi_memory_device_lint_extended_size(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+    dmi_word_t value;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, &value, DMI_MEMORY_DEVICE_SIZE_OFFSET, sizeof(value)))
+        return;
+
+    if (dmi_decode(value) != DMI_MEMORY_DEVICE_SIZE_OFFSET_EXTENDED)
+        return;
+
+    if (entity->body_length >= DMI_MEMORY_DEVICE_SIZE_OFFSET_LENGTH)
+        return;
+
+    dmi_lint_issue(lint, entity, "size", dmi_lint_entity_offset(lint, entity) + DMI_MEMORY_DEVICE_SIZE_OFFSET,
+                   "Size refers to the extended one, which the structure does not carry");
 }

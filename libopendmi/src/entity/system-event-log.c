@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/internal.h>
+#include <opendmi/lint.h>
+#include <opendmi/stream.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
@@ -325,6 +327,37 @@ static const dmi_attribute_t dmi_system_log_io_ports_attrs[] =
         .attrs = dmi_system_log_io_ports_attrs                               \
     })
 
+static void dmi_system_event_log_lint_area(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_system_event_log_lint_descriptors(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offset of the length of a descriptor of the supported log types,
+ * which the specification fixes at two bytes.
+ */
+#define DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_OFFSET 0x16
+#define DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_LENGTH 2
+
+static const dmi_lint_rule_t dmi_system_event_log_area_rule =
+{
+    .code              = "system-event-log.area",
+    .name              = "Header and data of the log are within its area",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_system_event_log_lint_area
+};
+
+static const dmi_lint_rule_t dmi_system_event_log_descriptors_rule =
+{
+    .code              = "system-event-log.descriptors",
+    .name              = "Descriptors of the supported log types are of the expected length",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_system_event_log_lint_descriptors
+};
+
 const dmi_entity_spec_t dmi_system_event_log_spec =
 {
     .code            = "system-event-log",
@@ -412,6 +445,12 @@ const dmi_entity_spec_t dmi_system_event_log_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_system_event_log_area_rule,
+        &dmi_system_event_log_descriptors_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode  = dmi_system_event_log_decode,
         .cleanup = dmi_system_event_log_cleanup
@@ -502,4 +541,56 @@ static void dmi_system_event_log_cleanup(dmi_entity_t *entity)
         return;
 
     dmi_free(info->descriptors);
+}
+
+static void dmi_system_event_log_lint_area(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
+
+    if ((info == nullptr) or (info->area_length == 0))
+        return;
+
+    size_t offset = dmi_lint_entity_offset(lint, entity);
+
+    // Both the header and the data live in the area of the log, which is
+    // what its length covers
+    if (info->header_offset >= info->area_length) {
+        dmi_lint_issue(lint, entity, "header-offset", offset,
+                       "header starts at 0x%X, while the area is 0x%X bytes long",
+                       info->header_offset, info->area_length);
+    }
+
+    if (info->data_offset >= info->area_length) {
+        dmi_lint_issue(lint, entity, "data-offset", offset,
+                       "data starts at 0x%X, while the area is 0x%X bytes long",
+                       info->data_offset, info->area_length);
+    }
+}
+
+static void dmi_system_event_log_lint_descriptors(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
+
+    if ((info == nullptr) or (info->descriptor_count == 0))
+        return;
+
+    // Length of the descriptors is read from the structure itself, since the
+    // decoder keeps the descriptors rather than their layout
+    dmi_stream_t stream;
+    dmi_byte_t length;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, &length, DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_OFFSET,
+                                    sizeof(length)))
+        return;
+
+    if (length == DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_LENGTH)
+        return;
+
+    dmi_lint_issue(lint, entity, "descriptors", dmi_lint_entity_offset(lint, entity) +
+                   DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_OFFSET,
+                   "descriptors are %u bytes long, expected %d",
+                   (unsigned)length, DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_LENGTH);
 }

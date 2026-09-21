@@ -6,6 +6,9 @@
 //
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
+#include <string.h>
+#include <opendmi/stream.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -247,6 +250,38 @@ static const dmi_name_set_t dmi_firmware_feature_ex_names =
     }
 };
 
+static void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_firmware_lint_release_date(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offsets of the fields whose raw values the rules are checked
+ * against, and the value standing for the extended ROM size.
+ */
+#define DMI_FIRMWARE_DATE_OFFSET      0x08
+#define DMI_FIRMWARE_ROM_SIZE_OFFSET  0x09
+#define DMI_FIRMWARE_ROM_SIZE_EXTENDED 0xFF
+
+static const dmi_lint_rule_t dmi_firmware_rom_size_rule =
+{
+    .code              = "firmware.rom-size",
+    .name              = "Extended ROM size is present when the plain one needs it",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_firmware_lint_rom_size
+};
+
+static const dmi_lint_rule_t dmi_firmware_release_date_rule =
+{
+    .code              = "firmware.release-date",
+    .name              = "Release date is written the way the specification requires",
+    .severity          = DMI_LINT_SEVERITY_NOTE,
+    .producer_severity = DMI_LINT_SEVERITY_WARNING,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_firmware_lint_release_date
+};
+
 const dmi_entity_spec_t dmi_firmware_spec =
 {
     .code            = "firmware",
@@ -307,6 +342,11 @@ const dmi_entity_spec_t dmi_firmware_spec =
             .level  = DMI_VERSION(2, 4, 0)
         }),
         DMI_ATTRIBUTE_NULL
+    },
+    .lint_rules = (const dmi_lint_rule_t *const[]){
+        &dmi_firmware_rom_size_rule,
+        &dmi_firmware_release_date_rule,
+        nullptr
     },
     .handlers = {
         .decode = dmi_firmware_decode
@@ -438,4 +478,57 @@ static bool dmi_firmware_decode(dmi_entity_t *entity)
         info->rom_size = dmi_firmware_rom_size_ex(rom_size_ex);
 
     return true;
+}
+
+//
+// Size of 0xFF means that the actual one is in the extended field, which was
+// added in SMBIOS 3.1, so a structure of an earlier version carries no size
+// at all.
+//
+static void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+    dmi_byte_t value;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, &value, DMI_FIRMWARE_ROM_SIZE_OFFSET, sizeof(value)))
+        return;
+
+    if (value != DMI_FIRMWARE_ROM_SIZE_EXTENDED)
+        return;
+
+    // Extended size is the last field of the structure of SMBIOS 3.1
+    if (entity->level >= dmi_version(3, 1, 0))
+        return;
+
+    dmi_lint_issue(lint, entity, "rom-size", dmi_lint_entity_offset(lint, entity) +
+                   DMI_FIRMWARE_ROM_SIZE_OFFSET,
+                   "ROM size refers to the extended one, which the structure does not carry");
+}
+
+//
+// Release date is a string, which the specification requires to be written as
+// mm/dd/yyyy since SMBIOS 2.3, while the earlier two-digit year leaves the
+// century to the reader.
+//
+static void dmi_firmware_lint_release_date(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+    dmi_string_t index;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, &index, DMI_FIRMWARE_DATE_OFFSET, sizeof(index)))
+        return;
+
+    const char *date = dmi_entity_string(entity, index);
+
+    if ((date == nullptr) or (strlen(date) == strlen("mm/dd/yyyy")))
+        return;
+
+    dmi_lint_issue(lint, entity, "release-date", dmi_lint_string_offset(lint, entity, index),
+                   "release date \"%s\" is not written as mm/dd/yyyy", date);
 }

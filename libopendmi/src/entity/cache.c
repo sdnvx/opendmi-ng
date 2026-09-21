@@ -241,7 +241,9 @@ const dmi_entity_spec_t dmi_cache_spec =
         }),
         DMI_ATTRIBUTE(dmi_cache_t, level, INTEGER, {
             .code    = "level",
-            .name    = "Cache level"
+            .name    = "Cache level",
+            .minimum = dmi_value_ptr((unsigned short)1),
+            .maximum = dmi_value_ptr((unsigned short)8),
         }),
         DMI_ATTRIBUTE(dmi_cache_t, socketed, BOOL, {
             .code    = "socketed",

@@ -7,6 +7,7 @@
 #include <opendmi/context.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -653,6 +654,34 @@ static const dmi_name_set_t dmi_slot_usage_names =
     }
 };
 
+static void dmi_slot_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_slot_width_rule =
+{
+    .code              = "slot.width",
+    .name              = "Physical width of the slot covers the width of its bus",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_slot_lint_width
+};
+
+//
+// Widths are comparable within a series only: the ones counting bits and the
+// ones counting lanes are ordered by their values, but say nothing about each
+// other. Anything below the first series stands for "other" or "unknown".
+//
+static bool dmi_slot_width_comparable(dmi_slot_width_t first, dmi_slot_width_t second)
+{
+    if ((first < DMI_SLOT_WIDTH_8_BIT) or (second < DMI_SLOT_WIDTH_8_BIT))
+        return false;
+
+    bool first_lanes  = (first >= DMI_SLOT_WIDTH_1X);
+    bool second_lanes = (second >= DMI_SLOT_WIDTH_1X);
+
+    return first_lanes == second_lanes;
+}
+
 const dmi_entity_spec_t dmi_slot_spec =
 {
     .code            = "slot",
@@ -767,6 +796,11 @@ const dmi_entity_spec_t dmi_slot_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_slot_width_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode  = dmi_slot_decode,
         .cleanup = dmi_slot_cleanup
@@ -906,4 +940,26 @@ static void dmi_slot_cleanup(dmi_entity_t *entity)
         return;
 
     dmi_free(info->peer_groups);
+}
+
+//
+// A card of the width of the bus has to fit the slot physically, so the slot
+// is at least as wide as its bus.
+//
+static void dmi_slot_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_slot_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_SLOTS));
+    if (info == nullptr)
+        return;
+
+    if (not dmi_slot_width_comparable(info->physical_width, info->bus_width))
+        return;
+
+    if (info->physical_width >= info->bus_width)
+        return;
+
+    dmi_lint_issue(lint, entity, "physical-width", dmi_lint_entity_offset(lint, entity),
+                   "slot is %s wide, while its bus is %s wide",
+                   dmi_slot_width_name(info->physical_width),
+                   dmi_slot_width_name(info->bus_width));
 }

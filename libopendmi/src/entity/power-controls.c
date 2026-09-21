@@ -66,23 +66,33 @@ const dmi_entity_spec_t dmi_power_controls_spec =
     .attributes      = (const dmi_attribute_t[]){
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_month, INTEGER, {
             .code = "poweron-month",
-            .name = "Next power-on month"
+            .name = "Next power-on month",
+            .minimum = dmi_value_ptr((unsigned short)1),
+            .maximum = dmi_value_ptr((unsigned short)12),
         }),
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_day, INTEGER, {
             .code = "poweron-day",
-            .name = "Next power-on day of month"
+            .name = "Next power-on day of month",
+            .minimum = dmi_value_ptr((unsigned short)1),
+            .maximum = dmi_value_ptr((unsigned short)31),
         }),
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_hour, INTEGER, {
             .code = "poweron-hour",
-            .name = "Next power-on hour"
+            .name = "Next power-on hour",
+            .minimum = dmi_value_ptr((unsigned short)0),
+            .maximum = dmi_value_ptr((unsigned short)23),
         }),
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_minute, INTEGER, {
             .code = "poweron-minute",
-            .name = "Next power-on minute"
+            .name = "Next power-on minute",
+            .minimum = dmi_value_ptr((unsigned short)0),
+            .maximum = dmi_value_ptr((unsigned short)59),
         }),
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_second, INTEGER, {
             .code = "poweron-second",
-            .name = "Next power-on second"
+            .name = "Next power-on second",
+            .minimum = dmi_value_ptr((unsigned short)0),
+            .maximum = dmi_value_ptr((unsigned short)59),
         }),
         DMI_ATTRIBUTE_NULL
     },

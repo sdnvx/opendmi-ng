@@ -78,7 +78,13 @@ typedef enum dmi_attribute_flag
      * address in the RFC 5952 text representation. Data of other lengths is
      * formatted as usual.
      */
-    DMI_ATTRIBUTE_FLAG_IP = 0x20
+    DMI_ATTRIBUTE_FLAG_IP = 0x20,
+
+    /**
+     * Value is a JEDEC JEP106 identification code, whose last byte carries an
+     * odd parity bit, see `value.jep106` of `dmi_lint`(3).
+     */
+    DMI_ATTRIBUTE_FLAG_JEP106 = 0x40
 } dmi_attribute_flag_t;
 
 struct dmi_attribute_ops
@@ -133,6 +139,23 @@ struct dmi_attribute_params
      * @brief Enumeration or boolean value names.
      */
     const dmi_name_set_t *values;
+
+    /**
+     * @brief Types the referenced structure may be of, terminated with
+     * `DMI_TYPE_INVALID`. Valid only for handles, and left unset for the ones
+     * which may refer to a structure of any type.
+     */
+    const dmi_type_t *targets;
+
+    /**
+     * @brief Smallest and largest values the field may hold, which are both
+     * left unset for the fields the specification puts no limits on.
+     *
+     * Values standing for "unknown" and "unspecified" are outside of the
+     * limits by nature, and are not checked against them.
+     */
+    const void *minimum;
+    const void *maximum;
 
     /**
      * @brief Structure attribute descriptors.

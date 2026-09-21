@@ -19,6 +19,11 @@ __BEGIN_DECLS
 extern __dmi_api const dmi_lint_rule_t dmi_lint_link_dangling_rule;
 
 /**
+ * @brief References point to the structures of the types they expect.
+ */
+extern __dmi_api const dmi_lint_rule_t dmi_lint_link_wrong_type_rule;
+
+/**
  * @brief Structures do not reference themselves.
  */
 extern __dmi_api const dmi_lint_rule_t dmi_lint_link_self_rule;

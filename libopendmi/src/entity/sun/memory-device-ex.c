@@ -29,7 +29,8 @@ const dmi_entity_spec_t dmi_sun_memory_device_ex_spec =
     .attributes      = (const dmi_attribute_t[]){
         DMI_ATTRIBUTE(dmi_sun_memory_device_ex_t, memory_device_handle, HANDLE, {
             .code  = "memory-device-handle",
-            .name  = "Memory device handle"
+            .name  = "Memory device handle",
+            .targets = dmi_targets(DMI_TYPE_MEMORY_DEVICE),
         }),
         DMI_ATTRIBUTE(dmi_sun_memory_device_ex_t, dram_channel, INTEGER, {
             .code  = "dram-channel",

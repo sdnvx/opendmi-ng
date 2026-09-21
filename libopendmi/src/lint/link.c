@@ -22,6 +22,7 @@ typedef void dmi_lint_link_fn(
         dmi_handle_t           handle);
 
 static void dmi_lint_link_dangling(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_lint_link_wrong_type(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_link_self(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity);
 
@@ -52,6 +53,16 @@ const dmi_lint_rule_t dmi_lint_link_self_rule =
     .producer_severity = DMI_LINT_SEVERITY_ERROR,
     .scope             = DMI_LINT_SCOPE_ENTITY,
     .check             = dmi_lint_link_self
+};
+
+const dmi_lint_rule_t dmi_lint_link_wrong_type_rule =
+{
+    .code              = "link.wrong-type",
+    .name              = "References point to the structures of the types they expect",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_lint_link_wrong_type
 };
 
 const dmi_lint_rule_t dmi_lint_link_orphan_rule =
@@ -129,6 +140,49 @@ static void dmi_lint_link_walk(
             handler(lint, entity, resolved, dmi_deref(dmi_handle_t, ptr));
     }
 }
+
+//
+// Attributes which name the types they refer to describe the shape of the
+// table, so a reference to a structure of another type is a broken one.
+//
+static void dmi_lint_link_check_type(
+        dmi_lint_t            *lint,
+        const dmi_entity_t    *entity,
+        const dmi_attribute_t *attr,
+        dmi_handle_t           handle)
+{
+    if (not dmi_lint_link_is_set(handle) or (attr->params.targets == nullptr))
+        return;
+
+    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
+
+    const dmi_entity_t *target = dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, true);
+    if (target == nullptr)
+        return;
+
+    dmi_type_t type = dmi_entity_type(target);
+
+    for (const dmi_type_t *expected = attr->params.targets;
+         *expected != DMI_TYPE_INVALID; expected++) {
+        if (*expected == type)
+            return;
+    }
+
+    dmi_lint_issue(lint, entity, attr->params.code, dmi_lint_entity_offset(lint, entity),
+                   "handle 0x%04X refers to a structure of type %d (%s)",
+                   (unsigned)handle, (int)type,
+                   dmi_type_name(dmi_lint_context(lint), type));
+}
+
+static void dmi_lint_link_wrong_type(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_lint_link_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
+                       entity->info, dmi_lint_link_check_type);
+}
+
+static void dmi_lint_link_dangling(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_lint_link_self(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 static void dmi_lint_link_check_dangling(
         dmi_lint_t            *lint,

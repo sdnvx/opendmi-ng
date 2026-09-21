@@ -39,15 +39,18 @@ const dmi_entity_spec_t dmi_mgmt_device_component_spec =
         }),
         DMI_ATTRIBUTE(dmi_mgmt_device_component_t, device_handle, HANDLE, {
             .code = "device-handle",
-            .name = "Device handle"
+            .name = "Device handle",
+            .targets = dmi_targets(DMI_TYPE_MGMT_DEVICE),
         }),
         DMI_ATTRIBUTE(dmi_mgmt_device_component_t, component_handle, HANDLE, {
             .code = "component-handle",
-            .name = "Component handle"
+            .name = "Component handle",
+            .targets = dmi_targets(DMI_TYPE_VOLTAGE_PROBE, DMI_TYPE_COOLING_DEVICE, DMI_TYPE_TEMPERATURE_PROBE, DMI_TYPE_CURRENT_PROBE),
         }),
         DMI_ATTRIBUTE(dmi_mgmt_device_component_t, threshold_handle, HANDLE, {
             .code = "threshold-handle",
-            .name = "Threshold handle"
+            .name = "Threshold handle",
+            .targets = dmi_targets(DMI_TYPE_MGMT_DEVICE_THRESHOLD),
         }),
         DMI_ATTRIBUTE_NULL
     },

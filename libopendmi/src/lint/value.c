@@ -20,6 +20,13 @@
 
 /**
  * @internal
+ * @brief Number of the continuation codes leading to the last bank JEDEC has
+ * published, see JEP106.
+ */
+#define DMI_LINT_JEP106_BANKS 8
+
+/**
+ * @internal
  * @brief Code name of the entries standing for the values the specification
  * reserves.
  */
@@ -47,6 +54,8 @@ static void dmi_lint_value_reserved(dmi_lint_t *lint, const dmi_entity_t *entity
 static void dmi_lint_value_reserved_bits(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_value_bcd(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_value_uuid(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_lint_value_range(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_lint_value_jep106(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 static void dmi_lint_value_walk(
         dmi_lint_t            *lint,
@@ -101,6 +110,26 @@ const dmi_lint_rule_t dmi_lint_value_bcd_rule =
     .producer_severity = DMI_LINT_SEVERITY_ERROR,
     .scope             = DMI_LINT_SCOPE_ENTITY,
     .check             = dmi_lint_value_bcd
+};
+
+const dmi_lint_rule_t dmi_lint_value_range_rule =
+{
+    .code              = "value.range",
+    .name              = "Fields hold the values the specification allows them",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_lint_value_range
+};
+
+const dmi_lint_rule_t dmi_lint_value_jep106_rule =
+{
+    .code              = "value.jep106",
+    .name              = "Identification codes of JEDEC manufacturers carry their parity bit",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_lint_value_jep106
 };
 
 const dmi_lint_rule_t dmi_lint_value_uuid_rule =
@@ -322,6 +351,120 @@ static void dmi_lint_value_check_uuid(dmi_lint_t *lint, const dmi_lint_value_t *
     } else if (ones == sizeof(uuid->__value)) {
         dmi_lint_value_report(lint, value, "UUID is not present");
     }
+}
+
+//
+// Limits are values of the field itself, so they are read the same way it is.
+//
+static void dmi_lint_value_check_range(dmi_lint_t *lint, const dmi_lint_value_t *value)
+{
+    const dmi_attribute_t *attr = value->attr;
+
+    if ((attr->params.minimum == nullptr) and (attr->params.maximum == nullptr))
+        return;
+
+    if (dmi_lint_value_is_special(value))
+        return;
+
+    bool is_signed = (attr->params.flags & DMI_ATTRIBUTE_FLAG_SIGNED) != 0;
+
+    if (is_signed) {
+        intmax_t actual = dmi_attribute_get_int(attr, value->value);
+
+        if (attr->params.minimum != nullptr) {
+            intmax_t minimum = dmi_attribute_get_int(attr, attr->params.minimum);
+
+            if (actual < minimum) {
+                dmi_lint_value_report(lint, value, "value %jd is below the minimum of %jd",
+                                      actual, minimum);
+                return;
+            }
+        }
+
+        if (attr->params.maximum != nullptr) {
+            intmax_t maximum = dmi_attribute_get_int(attr, attr->params.maximum);
+
+            if (actual > maximum)
+                dmi_lint_value_report(lint, value, "value %jd is above the maximum of %jd",
+                                      actual, maximum);
+        }
+
+        return;
+    }
+
+    uintmax_t actual = dmi_attribute_get_uint(attr, value->value);
+
+    if (attr->params.minimum != nullptr) {
+        uintmax_t minimum = dmi_attribute_get_uint(attr, attr->params.minimum);
+
+        if (actual < minimum) {
+            dmi_lint_value_report(lint, value, "value %ju is below the minimum of %ju",
+                                  actual, minimum);
+            return;
+        }
+    }
+
+    if (attr->params.maximum != nullptr) {
+        uintmax_t maximum = dmi_attribute_get_uint(attr, attr->params.maximum);
+
+        if (actual > maximum)
+            dmi_lint_value_report(lint, value, "value %ju is above the maximum of %ju",
+                                  actual, maximum);
+    }
+}
+
+static void dmi_lint_value_range(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
+                        entity->info, dmi_lint_value_check_range);
+}
+
+//
+// Codes of JEP106 are a number of continuation bytes and the code itself,
+// whose high bit makes the number of the set bits odd. A code without it is
+// either taken from the wrong place, or byte-swapped.
+//
+static void dmi_lint_value_check_jep106(dmi_lint_t *lint, const dmi_lint_value_t *value)
+{
+    const dmi_attribute_t *attr = value->attr;
+
+    if (not (attr->params.flags & DMI_ATTRIBUTE_FLAG_JEP106))
+        return;
+
+    if (dmi_lint_value_is_special(value))
+        return;
+
+    uintmax_t code = dmi_attribute_get_uint(attr, value->value);
+    if (code == 0)
+        return;
+
+    // Low byte counts the continuation codes leading to the bank of the
+    // manufacturer, and JEDEC has published nine banks
+    uintmax_t continuations = code & 0xFF;
+
+    if (continuations > DMI_LINT_JEP106_BANKS) {
+        dmi_lint_value_report(lint, value, "code 0x%04jX leads to bank %ju, while JEDEC has "
+                              "published %d of them", code, continuations + 1,
+                              DMI_LINT_JEP106_BANKS + 1);
+        return;
+    }
+
+    unsigned bits = 0;
+
+    for (uintmax_t rest = (code >> 8) & 0xFF; rest != 0; rest >>= 1)
+        bits += (rest & 1);
+
+    if ((bits % 2) != 0)
+        return;
+
+    dmi_lint_value_report(lint, value, "code 0x%04jX has an even number of bits set in its "
+                          "identifier, which is no JEP106 code", code);
+}
+
+static void dmi_lint_value_jep106(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
+                        entity->info, dmi_lint_value_check_jep106);
 }
 
 static void dmi_lint_value_invalid_enum(dmi_lint_t *lint, const dmi_entity_t *entity)

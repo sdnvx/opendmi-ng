@@ -173,6 +173,7 @@ const dmi_entity_spec_t dmi_baseboard_spec =
         DMI_ATTRIBUTE(dmi_baseboard_t, chassis_handle, HANDLE, {
             .code    = "chassis-handle",
             .name    = "Chassis handle",
+            .targets = dmi_targets(DMI_TYPE_CHASSIS),
             .unspec  = dmi_value_ptr(DMI_HANDLE_INVALID)
         }),
         DMI_ATTRIBUTE(dmi_baseboard_t, type, ENUM, {

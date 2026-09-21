@@ -58,6 +58,25 @@ static const dmi_lint_rule_t dmi_tpm_device_version_rule =
     .check             = dmi_tpm_device_lint_version
 };
 
+static void dmi_tpm_device_lint_vendor(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offset of the vendor identifier, which is four characters long.
+ */
+#define DMI_TPM_DEVICE_VENDOR_OFFSET 0x04
+
+static const dmi_lint_rule_t dmi_tpm_device_vendor_rule =
+{
+    .code              = "tpm-device.vendor",
+    .name              = "Vendor identifier is stored in the order of the specification",
+    .severity          = DMI_LINT_SEVERITY_NOTE,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_tpm_device_lint_vendor
+};
+
+
 const dmi_entity_spec_t dmi_tpm_device_spec =
 {
     .code            = "tpm-device",
@@ -124,6 +143,7 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
         DMI_ATTRIBUTE_NULL
     },
     .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_tpm_device_vendor_rule,
         &dmi_tpm_device_version_rule,
         nullptr
     },
@@ -240,4 +260,28 @@ static void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *en
 
     dmi_lint_issue(lint, entity, "specification-version", dmi_lint_entity_offset(lint, entity),
                    "device declares TPM %u.%u", major, dmi_version_minor(info->spec_version));
+}
+
+//
+// Firmware of some vendors stores the identifier as a little-endian double
+// word, so that it starts with the terminating zero, e.g. "\0XFI" for "IFX".
+// The decoder puts it back in place, and the raw data still shows it.
+//
+static void dmi_tpm_device_lint_vendor(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+    char id[4];
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, id, DMI_TPM_DEVICE_VENDOR_OFFSET, sizeof(id)))
+        return;
+
+    if ((id[0] != 0) or (id[3] == 0))
+        return;
+
+    dmi_lint_issue(lint, entity, "vendor-id", dmi_lint_entity_offset(lint, entity) +
+                   DMI_TPM_DEVICE_VENDOR_OFFSET,
+                   "identifier is stored as a little-endian double word");
 }

@@ -34,6 +34,16 @@ extern __dmi_api const dmi_lint_rule_t dmi_lint_value_reserved_bits_rule;
 extern __dmi_api const dmi_lint_rule_t dmi_lint_value_bcd_rule;
 
 /**
+ * @brief Fields hold the values the specification allows them.
+ */
+extern __dmi_api const dmi_lint_rule_t dmi_lint_value_range_rule;
+
+/**
+ * @brief Identification codes of JEDEC manufacturers carry their parity bit.
+ */
+extern __dmi_api const dmi_lint_rule_t dmi_lint_value_jep106_rule;
+
+/**
  * @brief UUIDs are set.
  */
 extern __dmi_api const dmi_lint_rule_t dmi_lint_value_uuid_rule;

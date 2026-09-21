@@ -11,6 +11,7 @@
 #include <opendmi/log.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
+#include <opendmi/stream.h>
 #include <opendmi/registry.h>
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>
@@ -2094,6 +2095,47 @@ static const dmi_lint_rule_t dmi_processor_cache_rule =
     .check             = dmi_processor_lint_cache
 };
 
+static void dmi_processor_lint_family(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offset of the family of the processor, and the value telling that
+ * the actual family is in the extended field.
+ */
+#define DMI_PROCESSOR_FAMILY_OFFSET   0x06
+#define DMI_PROCESSOR_FAMILY_EXTENDED 0xFE
+
+static const dmi_lint_rule_t dmi_processor_family_rule =
+{
+    .code              = "processor.family",
+    .name              = "Extended family is present when the plain one needs it",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_processor_lint_family
+};
+
+static void dmi_processor_lint_id(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offset of the processor identifier, and the bits of a CPUID
+ * signature which are reserved, and thus zero in a valid one.
+ */
+#define DMI_PROCESSOR_ID_OFFSET   0x08
+#define DMI_PROCESSOR_ID_RESERVED 0xF000C000u
+
+static const dmi_lint_rule_t dmi_processor_id_rule =
+{
+    .code              = "processor.id",
+    .name              = "Words of the processor identifier are in the order of the specification",
+    .severity          = DMI_LINT_SEVERITY_NOTE,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_processor_lint_id
+};
+
+
 const dmi_entity_spec_t dmi_processor_spec =
 {
     .code            = "processor",
@@ -2230,16 +2272,19 @@ const dmi_entity_spec_t dmi_processor_spec =
         DMI_ATTRIBUTE(dmi_processor_t, l1_cache_handle, HANDLE, {
             .code    = "l1-cache-handle",
             .name    = "L1 Cache handle",
+            .targets = dmi_targets(DMI_TYPE_CACHE),
             .level   = DMI_VERSION(2, 1, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, l2_cache_handle, HANDLE, {
             .code    = "l2-cache-handle",
             .name    = "L2 Cache handle",
+            .targets = dmi_targets(DMI_TYPE_CACHE),
             .level   = DMI_VERSION(2, 1, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, l3_cache_handle, HANDLE, {
             .code    = "l3-cache-handle",
             .name    = "L3 Cache handle",
+            .targets = dmi_targets(DMI_TYPE_CACHE),
             .level   = DMI_VERSION(2, 1, 0)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, serial_number, STRING, {
@@ -2294,6 +2339,8 @@ const dmi_entity_spec_t dmi_processor_spec =
         DMI_ATTRIBUTE_NULL
     },
     .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_processor_family_rule,
+        &dmi_processor_id_rule,
         &dmi_processor_cores_rule,
         &dmi_processor_speed_rule,
         &dmi_processor_cache_rule,
@@ -2810,4 +2857,61 @@ static void dmi_processor_lint_cache(dmi_lint_t *lint, const dmi_entity_t *entit
                        "handle 0x%04X refers to a cache of level %u",
                        (unsigned)caches[i].handle, data->level);
     }
+}
+
+static void dmi_processor_lint_family(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+    dmi_byte_t value;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, &value, DMI_PROCESSOR_FAMILY_OFFSET, sizeof(value)))
+        return;
+
+    if (value != DMI_PROCESSOR_FAMILY_EXTENDED)
+        return;
+
+    // Extended family was added in SMBIOS 2.6, and the structures of the
+    // earlier versions end before it
+    if (entity->level >= dmi_version(2, 6, 0))
+        return;
+
+    dmi_lint_issue(lint, entity, "family", dmi_lint_entity_offset(lint, entity) +
+                   DMI_PROCESSOR_FAMILY_OFFSET,
+                   "family refers to the extended one, which the structure does not carry");
+}
+
+//
+// Firmware of some vendors stores the feature flags before the signature,
+// which the decoder puts back in place. The swap is told by the bits the
+// signature reserves, since a valid signature has none of them set.
+//
+static void dmi_processor_lint_id(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+
+    if ((info == nullptr) or (info->id_format != DMI_PROCESSOR_ID_FORMAT_X86))
+        return;
+
+    dmi_stream_t stream;
+    dmi_dword_t words[2];
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, words, DMI_PROCESSOR_ID_OFFSET, sizeof(words)))
+        return;
+
+    uint32_t low  = dmi_decode(words[0]);
+    uint32_t high = dmi_decode(words[1]);
+
+    if (not (low & DMI_PROCESSOR_ID_RESERVED) or (high & DMI_PROCESSOR_ID_RESERVED))
+        return;
+
+    dmi_lint_issue(lint, entity, "id", dmi_lint_entity_offset(lint, entity) +
+                   DMI_PROCESSOR_ID_OFFSET,
+                   "signature 0x%08X and feature flags 0x%08X are stored the other way round",
+                   high, low);
 }

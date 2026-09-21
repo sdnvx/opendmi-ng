@@ -9,6 +9,8 @@
 #include <opendmi/context.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/stream.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 #include <opendmi/utils/endian.h>
@@ -474,6 +476,25 @@ static const dmi_attribute_t dmi_mgmt_proto_record_attrs[] =
     DMI_ATTRIBUTE_NULL
 };
 
+static void dmi_mgmt_controller_lint_records(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offset of the length of the interface-specific data, which the
+ * protocol records follow.
+ */
+#define DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET 0x05
+
+static const dmi_lint_rule_t dmi_mgmt_controller_records_rule =
+{
+    .code              = "mgmt-controller-host-if.records",
+    .name              = "Protocol records fit the structure holding them",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_mgmt_controller_lint_records
+};
+
 const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
 {
     .code            = "mgmt-controller-host-if",
@@ -535,6 +556,11 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_mgmt_controller_records_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode  = dmi_mgmt_controller_decode,
         .cleanup = dmi_mgmt_controller_cleanup
@@ -943,4 +969,52 @@ static void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
         dmi_free(info->proto_records[i].redfish.service_hostname);
 
     dmi_free(info->proto_records);
+}
+
+//
+// Records follow each other, each one carrying its own length, so they all
+// fit the structure only if the lengths agree with it.
+//
+static void dmi_mgmt_controller_lint_records(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+    dmi_byte_t length;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, &length, DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET,
+                                    sizeof(length)))
+        return;
+
+    // Number of the records follows the interface-specific data
+    size_t offset = DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET + sizeof(length) + length;
+    dmi_byte_t count;
+
+    if (not dmi_stream_read_data_at(&stream, &count, offset, sizeof(count))) {
+        dmi_lint_issue(lint, entity, "if-data", dmi_lint_entity_offset(lint, entity) +
+                       DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET,
+                       "interface data of %u bytes leaves no room for the protocol records",
+                       (unsigned)length);
+        return;
+    }
+
+    offset += sizeof(count);
+
+    for (unsigned i = 0; i < count; i++) {
+        dmi_byte_t record[2];
+
+        // Every record starts with its type and the length of its data
+        if (dmi_stream_read_data_at(&stream, record, offset, sizeof(record))) {
+            offset += sizeof(record) + record[1];
+
+            if (offset <= entity->body_length)
+                continue;
+        }
+
+        dmi_lint_issue(lint, entity, "protocol-records", dmi_lint_entity_offset(lint, entity),
+                       "record %u of %u does not fit the structure of %zu bytes",
+                       i + 1, (unsigned)count, entity->body_length);
+        return;
+    }
 }

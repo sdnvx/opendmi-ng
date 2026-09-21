@@ -10,6 +10,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/registry.h>
 #include <opendmi/lint.h>
+#include <opendmi/stream.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -191,6 +192,27 @@ static size_t dmi_memory_array_devices(
     return count;
 }
 
+static void dmi_memory_array_lint_extended_capacity(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offset of the maximum capacity, the value telling that the actual one is in the
+ * extended field, and the length of a structure carrying that field.
+ */
+#define DMI_MEMORY_ARRAY_CAPACITY_OFFSET 0x07
+#define DMI_MEMORY_ARRAY_CAPACITY_OFFSET_EXTENDED 0x80000000
+#define DMI_MEMORY_ARRAY_CAPACITY_OFFSET_LENGTH 0x17
+
+static const dmi_lint_rule_t dmi_memory_array_extended_capacity_rule =
+{
+    .code              = "memory-array.extended-capacity",
+    .name              = "Extended maximum capacity is present when the plain one needs it",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_array_lint_extended_capacity
+};
+
 const dmi_entity_spec_t dmi_memory_array_spec =
 {
     .code            = "memory-array",
@@ -234,7 +256,8 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, error_info_handle, HANDLE, {
             .code    = "error-handle",
-            .name    = "Memory error information handle"
+            .name    = "Memory error information handle",
+            .targets = dmi_targets(DMI_TYPE_MEMORY_ERROR_32, DMI_TYPE_MEMORY_ERROR_64),
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, device_count, INTEGER, {
             .code    = "device-count",
@@ -243,6 +266,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         DMI_ATTRIBUTE_NULL
     },
     .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_memory_array_extended_capacity_rule,
         &dmi_memory_array_device_count_rule,
         &dmi_memory_array_capacity_rule,
         nullptr
@@ -374,4 +398,25 @@ static void dmi_memory_array_lint_capacity(dmi_lint_t *lint, const dmi_entity_t 
     dmi_lint_issue(lint, entity, "maximum-capacity", dmi_lint_entity_offset(lint, entity),
                    "devices of the array add up to %" PRIu64 " bytes, while its maximum "
                    "capacity is %" PRIu64 " bytes", capacity, info->maximum_capacity);
+}
+
+static void dmi_memory_array_lint_extended_capacity(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+    dmi_dword_t value;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, &value, DMI_MEMORY_ARRAY_CAPACITY_OFFSET, sizeof(value)))
+        return;
+
+    if (dmi_decode(value) != DMI_MEMORY_ARRAY_CAPACITY_OFFSET_EXTENDED)
+        return;
+
+    if (entity->body_length >= DMI_MEMORY_ARRAY_CAPACITY_OFFSET_LENGTH)
+        return;
+
+    dmi_lint_issue(lint, entity, "maximum-capacity", dmi_lint_entity_offset(lint, entity) + DMI_MEMORY_ARRAY_CAPACITY_OFFSET,
+                   "Maximum capacity refers to the extended one, which the structure does not carry");
 }

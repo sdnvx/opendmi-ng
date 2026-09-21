@@ -34,6 +34,10 @@
 // Value pointer macro
 #define dmi_value_ptr(x) &(__dmi_typeof(x)){ (x) }
 
+// List of the types a handle may refer to, see dmi_attribute_params_t::targets
+#define dmi_targets(...) \
+        (const dmi_type_t[]){ __VA_ARGS__, DMI_TYPE_INVALID }
+
 // Look up a string of the library resources, nullptr if there is none
 const char *dmi_locale_string(const char *table, const char *key);
 

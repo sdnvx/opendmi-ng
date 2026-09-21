@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `dmi_lint` and the registry of the rules it checks the data against
 - Add lint rules for structures, strings, values, references, additional information entries and data quality
 - Add lint rules of the structure types, provided by their specifications
+- Add `targets`, `minimum` and `maximum` attribute parameters, which lint rules check the data against
 - Add basic C++ API
 - Add SysFS module skeleton
 - Add Boot Integrity Services (BIS) entry point information decoder

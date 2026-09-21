@@ -223,7 +223,8 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
         }),
         DMI_ATTRIBUTE_ARRAY(dmi_memory_controller_t, module_handles, slot_count, HANDLE, {
             .code   = "module-handles",
-            .name   = "Module handles"
+            .name   = "Module handles",
+            .targets = dmi_targets(DMI_TYPE_MEMORY_MODULE),
         }),
         DMI_ATTRIBUTE(dmi_memory_controller_t, enabled_error_correction, SET, {
             .code   = "enabled-error-correction",
