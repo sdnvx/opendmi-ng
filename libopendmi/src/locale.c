@@ -84,7 +84,7 @@ static bool            dmi_library_failed;
 static bool dmi_resource_reopen(dmi_resource_t *resource);
 static void dmi_resource_release(dmi_resource_t *resource);
 static const dmi_resource_table_t *dmi_resource_table(dmi_resource_t *resource, const char *name);
-static bool dmi_resource_load(dmi_resource_t *resource, dmi_resource_table_t *table);
+static bool dmi_resource_load(const dmi_resource_t *resource, dmi_resource_table_t *table);
 static const char *dmi_resource_plural(dmi_resource_t *resource, const char *word, intmax_t number);
 #endif // ENABLE_ICU
 
@@ -565,7 +565,7 @@ static const dmi_resource_table_t *dmi_resource_table(dmi_resource_t *resource, 
 // Convert all strings of the table to UTF-8, so that they are kept as long as
 // the package is open and the locale is not changed.
 //
-static bool dmi_resource_load(dmi_resource_t *resource, dmi_resource_table_t *table)
+static bool dmi_resource_load(const dmi_resource_t *resource, dmi_resource_table_t *table)
 {
     UErrorCode status = U_ZERO_ERROR;
 

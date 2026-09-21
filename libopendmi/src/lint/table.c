@@ -114,7 +114,7 @@ static void dmi_lint_table_truncated(dmi_lint_t *lint, const dmi_entity_t *entit
 {
     dmi_unused(entity);
 
-    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
+    const dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
 
     if (dmi_registry_status(registry) & DMI_REGISTRY_STATUS_TRUNCATED) {
         dmi_lint_issue(lint, nullptr, nullptr, DMI_LINT_NO_OFFSET,

@@ -394,7 +394,7 @@ static bool dmi_field_decode_value(
         dmi_field_state_t *state,
         const dmi_field_t *field,
         void              *value,
-        uintmax_t         *raw_out)
+        uintmax_t         *raw)
 {
     assert(state != nullptr);
     assert(field != nullptr);
@@ -459,8 +459,8 @@ static bool dmi_field_decode_value(
         return false;
     }
 
-    if (raw_out != nullptr)
-        *raw_out = data.number;
+    if (raw != nullptr)
+        *raw = data.number;
 
     return dmi_field_apply(field, &data, value);
 }
@@ -1140,7 +1140,7 @@ static bool dmi_field_encode_one(
         if (not other->params.extended or (other->member.offset != field->member.offset))
             continue;
 
-        dmi_field_choice_t *governing =
+        const dmi_field_choice_t *governing =
                 dmi_field_choice_find(choices, choice_count, dmi_field_when_offset(other));
 
         if ((governing != nullptr) and governing->extended) {
@@ -1164,7 +1164,7 @@ static bool dmi_field_encode_array(
     assert(writer != nullptr);
     assert(field != nullptr);
 
-    dmi_encoder_t *encoder = writer->encoder;
+    const dmi_encoder_t *encoder = writer->encoder;
     bool preserve = (encoder->mode == DMI_ENCODE_MODE_PRESERVE);
 
     size_t counter = dmi_deref(size_t, info + field->params.counter.offset);
@@ -1253,11 +1253,12 @@ static bool dmi_field_encode_bits(
     assert(writer != nullptr);
     assert(field != nullptr);
 
-    unsigned  bits = field->params.bits;
-    uintmax_t raw  = 0;
+    unsigned bits = field->params.bits;
 
     // Bits reserved between the ranges hold what the source data had
     if (value == nullptr) {
+        uintmax_t raw = 0;
+
         if (writer->encoder->mode == DMI_ENCODE_MODE_PRESERVE)
             raw = dmi_field_source_bits(writer, bits);
 

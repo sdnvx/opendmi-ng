@@ -522,7 +522,7 @@ const char *dmi_type_name(dmi_context_t *context, dmi_type_t type)
             : dmi_value_text("unknown-type", "Unknown");
 }
 
-dmi_log_t *dmi_get_logger(dmi_context_t *context)
+dmi_log_t *dmi_get_logger(const dmi_context_t *context)
 {
     if (context == nullptr)
         return nullptr;

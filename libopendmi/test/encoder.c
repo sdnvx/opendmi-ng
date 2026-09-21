@@ -486,8 +486,6 @@ static dmi_byte_t *test_canonical_bytes(const dmi_entity_t *entity, dmi_version_
 //
 static bool test_canonical_roundtrip(dmi_context_t *context, const dmi_entity_t *entity, const char **where)
 {
-    const dmi_entity_spec_t *spec = entity->spec;
-
     size_t      size = 0;
     dmi_byte_t *data = test_canonical_bytes(entity, entity->level, &size);
 
@@ -502,6 +500,8 @@ static bool test_canonical_roundtrip(dmi_context_t *context, const dmi_entity_t 
 
     dmi_entity_t *decoded = dmi_entity_create(context, data, size);
     if ((decoded != nullptr) and dmi_entity_decode(decoded)) {
+        const dmi_entity_spec_t *spec = entity->spec;
+
         if ((spec->fields != nullptr) and (spec->handlers.decode == nullptr)) {
             equal = (decoded->info != nullptr) and
                     test_fields_equal(spec->fields, entity->info, decoded->info, where);

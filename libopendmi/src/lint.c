@@ -386,7 +386,7 @@ static void dmi_lint_collect(dmi_lint_t *lint)
         return;
 
     dmi_registry_iter_t iter;
-    dmi_entity_t *entity;
+    const dmi_entity_t *entity;
 
     if (not dmi_registry_iter_init(&iter, registry, nullptr))
         return;
@@ -415,7 +415,7 @@ static void dmi_lint_check_entities(dmi_lint_t *lint)
         return;
 
     dmi_registry_iter_t iter;
-    dmi_entity_t *entity;
+    const dmi_entity_t *entity;
 
     if (not dmi_registry_iter_init(&iter, registry, nullptr))
         return;

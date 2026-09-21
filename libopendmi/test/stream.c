@@ -647,6 +647,7 @@ static void test_stream_skip_ex(void **pstate)
     // Record is stepped over by its length, whatever has been read from it
     dmi_byte_t val = 0;
     assert_true(dmi_stream_decode(&stream, dmi_byte_t, &val));
+    assert_uint_equal(val, test_body[0]);
 
     assert_true(dmi_stream_skip_ex(&stream, mark, 4));
     assert_uint_equal(stream.position, TEST_BODY_OFFSET + 4);

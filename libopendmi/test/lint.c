@@ -318,9 +318,15 @@ static void test_lint_raw_data(void **pstate)
 
     FILE *file = fopen(test_broken_path, "wb");
 
-    assert_non_null(file);
-    assert_int_equal(fwrite(data, 1, size, file), size);
-    assert_int_equal(fclose(file), 0);
+    if (file != nullptr) {
+        size_t written = fwrite(data, 1, size, file);
+        int rv = fclose(file);
+
+        assert_int_equal(written, size);
+        assert_int_equal(rv, 0);
+    } else {
+        fail_msg("Unable to create file %s", test_broken_path);
+    }
 
     dmi_free(data);
 
@@ -344,7 +350,7 @@ static void test_lint_closed_context(void **pstate)
     assert_false(dmi_lint(state->context, nullptr, test_lint_handler, &report));
     assert_int_equal(report.total, 0);
 
-    dmi_error_t *error = dmi_error_peek_last(state->context);
+    const dmi_error_t *error = dmi_error_peek_last(state->context);
 
     assert_non_null(error);
     assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);

@@ -44,11 +44,10 @@ bool dmi_encoder_initialize(
 
     // Only the preserve mode reads the data the structure has been decoded
     // from, and the canonical one has nothing to read at all
-    if (mode == DMI_ENCODE_MODE_PRESERVE)
+    if (mode == DMI_ENCODE_MODE_PRESERVE) {
         dmi_stream_initialize(&encoder->source, entity);
 
-    // Strings keep their numbers, including the ones nothing refers to
-    if (mode == DMI_ENCODE_MODE_PRESERVE) {
+        // Strings keep their numbers, including the ones nothing refers to
         for (size_t i = 0; i < entity->string_count; i++) {
             size_t index = 0;
 

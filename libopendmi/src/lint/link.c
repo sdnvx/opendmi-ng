@@ -298,7 +298,7 @@ static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity)
 
     dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
     dmi_registry_iter_t iter;
-    dmi_entity_t *other;
+    const dmi_entity_t *other;
 
     if (not dmi_registry_iter_init(&iter, registry, nullptr))
         return;

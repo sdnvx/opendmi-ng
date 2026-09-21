@@ -323,7 +323,7 @@ __dmi_api bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
  *
  * @return Logging handler, or @c nullptr if there is none.
  */
-__dmi_api dmi_log_t *dmi_get_logger(dmi_context_t *context);
+__dmi_api dmi_log_t *dmi_get_logger(const dmi_context_t *context);
 
 /**
  * @brief Set logging level of DMI context.

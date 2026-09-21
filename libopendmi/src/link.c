@@ -17,13 +17,13 @@
 static bool dmi_attributes_have_links(const dmi_attribute_t *attrs);
 
 static bool dmi_attributes_link_list(
-        dmi_entity_t          *entity,
+        const dmi_entity_t    *entity,
         dmi_registry_t        *registry,
         const dmi_attribute_t *attrs,
         dmi_data_t            *info);
 
 static bool dmi_attributes_link_handle(
-        dmi_entity_t          *entity,
+        const dmi_entity_t    *entity,
         dmi_registry_t        *registry,
         const dmi_attribute_t *attr,
         dmi_data_t            *info);
@@ -80,7 +80,7 @@ static bool dmi_attributes_have_links(const dmi_attribute_t *attrs)
 // members of that element.
 //
 static bool dmi_attributes_link_list(
-        dmi_entity_t          *entity,
+        const dmi_entity_t    *entity,
         dmi_registry_t        *registry,
         const dmi_attribute_t *attrs,
         dmi_data_t            *info)
@@ -132,7 +132,7 @@ static bool dmi_attributes_link_list(
 // own, one pointer per handle, which is allocated here.
 //
 static bool dmi_attributes_link_handle(
-        dmi_entity_t          *entity,
+        const dmi_entity_t    *entity,
         dmi_registry_t        *registry,
         const dmi_attribute_t *attr,
         dmi_data_t            *info)
