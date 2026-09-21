@@ -366,6 +366,10 @@ const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool ra
     if (entry->raw == nullptr)
         return nullptr;
 
+    // Reading a string is what makes it referenced, whichever value it ends
+    // up as, e.g. a date or a version
+    entry->used = true;
+
     return raw ? entry->raw : entry->pretty;
 }
 

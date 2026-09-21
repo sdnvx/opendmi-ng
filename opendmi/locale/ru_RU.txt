@@ -85,6 +85,7 @@ ru_RU {
         "Core types" { "Основные типы" }
         "Available modules" { "Доступные модули" }
         "Rules" { "Правила" }
+        "Rules of the structure types" { "Правила типов структур" }
         "all checks only" { "только со всеми проверками" }
         "OpenDMI Framework, version %s (%s)" { "OpenDMI Framework, версия %s (%s)" }
         "Licensed under the BSD 3-Clause License" { "Лицензия BSD 3-Clause" }

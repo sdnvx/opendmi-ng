@@ -74,8 +74,14 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/utils/vector.h
     include/opendmi/utils/version.h
 
+    include/opendmi/lint/entity.h
     include/opendmi/lint/entry.h
+    include/opendmi/lint/link.h
+    include/opendmi/lint/overlay.h
+    include/opendmi/lint/quality.h
+    include/opendmi/lint/string.h
     include/opendmi/lint/table.h
+    include/opendmi/lint/value.h
 
     include/opendmi/entity/additional-info.h
     include/opendmi/entity/baseboard.h
@@ -184,8 +190,14 @@ target_sources(opendmi-object
         src/filter.c
         src/locale.c
         src/lint.c
+        src/lint/entity.c
         src/lint/entry.c
+        src/lint/link.c
+        src/lint/overlay.c
+        src/lint/quality.c
+        src/lint/string.c
         src/lint/table.c
+        src/lint/value.c
         src/log.c
         src/module.c
         src/registry.c

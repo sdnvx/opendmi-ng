@@ -6,6 +6,7 @@
 //
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -13,6 +14,25 @@
 #include <opendmi/entity/ipmi-device.h>
 
 static bool dmi_ipmi_device_decode(dmi_entity_t *entity);
+static void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Offset of the revision of the IPMI specification, which holds the
+ * major version in the high nibble and the minor one in the low nibble.
+ */
+#define DMI_IPMI_DEVICE_REVISION_OFFSET 0x05
+
+const dmi_lint_rule_t dmi_ipmi_device_revision_rule =
+{
+    .code              = "ipmi-device.revision",
+    .name              = "Revision of the IPMI specification is a binary-coded decimal",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_ipmi_device_lint_revision
+};
+
 
 static const dmi_name_set_t dmi_ipmi_interface_names =
 {
@@ -204,6 +224,10 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_ipmi_device_revision_rule,
+        nullptr
+    },
     .handlers = {
         .decode = dmi_ipmi_device_decode,
     }
@@ -297,4 +321,28 @@ static bool dmi_ipmi_device_decode(dmi_entity_t *entity)
     }
 
     return dmi_stream_decode(stream, dmi_byte_t, &info->intr_number);
+}
+
+//
+// Revision is decoded into a version, which keeps no trace of the digits it
+// was made of, so the raw data is read instead.
+//
+static void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+    dmi_byte_t value;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    if (not dmi_stream_read_data_at(&stream, &value, DMI_IPMI_DEVICE_REVISION_OFFSET,
+                                    sizeof(value)))
+        return;
+
+    if (((value & 0x0F) <= 9) and (((value >> 4) & 0x0F) <= 9))
+        return;
+
+    dmi_lint_issue(lint, entity, "specification-version",
+                   dmi_lint_entity_offset(lint, entity) + DMI_IPMI_DEVICE_REVISION_OFFSET,
+                   "revision 0x%02X is not a binary-coded decimal", (unsigned)value);
 }

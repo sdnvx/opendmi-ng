@@ -54,7 +54,8 @@ static bool dmi_lint_rule_filter(void *data, const dmi_lint_rule_t *rule);
 static bool dmi_lint_rule_matches(const dmi_vector_t *codes, const dmi_lint_rule_t *rule);
 static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue);
 static void dmi_lint_summary(const dmi_lint_report_t *report);
-static void dmi_lint_rules_print(void);
+static void dmi_lint_rule_print(const dmi_lint_rule_t *rule);
+static void dmi_lint_rules_print(dmi_context_t *context);
 static dmi_tty_color_t dmi_lint_severity_color(dmi_lint_severity_t severity);
 
 static dmi_lint_config_t dmi_lint_config;
@@ -151,7 +152,7 @@ static int dmi_lint_main(dmi_context_t *context, int argc, char *argv[])
     }
 
     if (dmi_lint_config.list_rules) {
-        dmi_lint_rules_print();
+        dmi_lint_rules_print(context);
         return EXIT_SUCCESS;
     }
 
@@ -257,11 +258,18 @@ static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue)
     dmi_tty_cprintf(dmi_lint_severity_color(issue->severity), "%s: ",
                     dmi_name_lookup(&dmi_lint_severity_names, issue->severity));
 
-    // Issues which belong to no structure are tagged with the part of the
-    // data they belong to
+    // Structures are named by their code, so that the location is machine
+    // readable, while the translated name follows it in parentheses
+    const dmi_entity_spec_t *spec = nullptr;
+
     if (issue->handle != DMI_HANDLE_INVALID) {
-        dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%s 0x%04X",
-                        dmi_type_name(report->context, issue->type), (unsigned)issue->handle);
+        spec = dmi_type_spec(report->context, issue->type);
+
+        if (spec != nullptr)
+            dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%s@0x%04X", spec->code, (unsigned)issue->handle);
+        else
+            dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "type-%d@0x%04X",
+                            (int)issue->type, (unsigned)issue->handle);
     } else if (issue->rule->scope == DMI_LINT_SCOPE_ENTRY) {
         dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%s", dmi_tool_text("value", "entry", "<entry>"));
     } else {
@@ -269,7 +277,10 @@ static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue)
     }
 
     if (issue->attribute != nullptr)
-        dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, " (%s)", issue->attribute);
+        dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, ".%s", issue->attribute);
+
+    if (spec != nullptr)
+        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, " (%s)", dmi_spec_name(spec));
 
     dmi_tty_cprintf(DMI_TTY_COLOR_NONE, ": %s ", issue->message);
     dmi_tty_cprintf(DMI_TTY_COLOR_GREY, "[%s]\n", issue->rule->code);
@@ -310,22 +321,42 @@ static void dmi_lint_summary(const dmi_lint_report_t *report)
     dmi_free(text);
 }
 
-static void dmi_lint_rules_print(void)
+static void dmi_lint_rule_print(const dmi_lint_rule_t *rule)
+{
+    dmi_lint_severity_t severity = dmi_lint_rule_severity(rule, DMI_LINT_PROFILE_READER);
+
+    dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%4s%-28s", "", rule->code);
+    dmi_tty_cprintf(dmi_lint_severity_color(severity), "%-8s",
+                    dmi_name_lookup(&dmi_lint_severity_names, severity));
+    dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "  %s", dmi_lint_rule_name(rule));
+
+    if (rule->optional)
+        dmi_tty_cprintf(DMI_TTY_COLOR_GREY, " (%s)", dmi_tool_string("all checks only"));
+
+    printf("\n");
+}
+
+static void dmi_lint_rules_print(dmi_context_t *context)
 {
     dmi_tty_header("%s:", dmi_tool_string("Rules"));
 
-    for (const dmi_lint_rule_t *const *rule = dmi_lint_rules(); *rule != nullptr; rule++) {
-        dmi_lint_severity_t severity = dmi_lint_rule_severity(*rule, DMI_LINT_PROFILE_READER);
+    for (const dmi_lint_rule_t *const *rule = dmi_lint_rules(); *rule != nullptr; rule++)
+        dmi_lint_rule_print(*rule);
 
-        dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%4s%-28s", "", (*rule)->code);
-        dmi_tty_cprintf(dmi_lint_severity_color(severity), "%-8s",
-                        dmi_name_lookup(&dmi_lint_severity_names, severity));
-        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "  %s", dmi_lint_rule_name(*rule));
+    printf("\n");
 
-        if ((*rule)->optional)
-            dmi_tty_cprintf(DMI_TTY_COLOR_GREY, " (%s)", dmi_tool_string("all checks only"));
+    // Rules of the structure types are provided by their specifications, so
+    // the listing depends on the modules which are enabled
+    dmi_tty_header("%s:", dmi_tool_string("Rules of the structure types"));
 
-        printf("\n");
+    for (dmi_type_t type = 0; type <= DMI_TYPE_MAX; type++) {
+        const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
+
+        if ((spec == nullptr) or (spec->lint_rules == nullptr))
+            continue;
+
+        for (const dmi_lint_rule_t *const *rule = spec->lint_rules; *rule != nullptr; rule++)
+            dmi_lint_rule_print(*rule);
     }
 
     printf("\n");

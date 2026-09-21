@@ -28,6 +28,12 @@ typedef struct dmi_entity         dmi_entity_t;
 typedef struct dmi_entity_overlay dmi_entity_overlay_t;
 typedef struct dmi_entity_spec    dmi_entity_spec_t;
 typedef struct dmi_entity_ops     dmi_entity_ops_t;
+
+#ifndef DMI_LINT_RULE_T
+#   define DMI_LINT_RULE_T
+    typedef struct dmi_lint_rule dmi_lint_rule_t;
+#endif // !DMI_LINT_RULE_T
+
 typedef struct dmi_header         dmi_header_t;
 typedef struct dmi_string_entry   dmi_string_entry_t;
 
@@ -192,6 +198,13 @@ struct dmi_entity_spec
     const dmi_attribute_t *attributes;
 
     /**
+     * @brief Rules the structures of the type are checked against, terminated
+     * with @c nullptr, see `dmi_lint`(3). Rules which apply to any structure
+     * belong to the library itself, while the ones here know the type.
+     */
+    const dmi_lint_rule_t *const *lint_rules;
+
+    /**
      * @brief Operation handlers.
      */
     dmi_entity_ops_t handlers;
@@ -247,6 +260,12 @@ struct dmi_string_entry
      * @brief Pretty value.
      */
     char *pretty;
+
+    /**
+     * @brief String has been read from the structure, which tells the strings
+     * carrying field values from the ones nothing refers to.
+     */
+    bool used;
 };
 
 /**

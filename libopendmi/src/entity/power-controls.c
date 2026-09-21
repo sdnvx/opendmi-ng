@@ -7,11 +7,42 @@
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
+#include <opendmi/lint.h>
+#include <opendmi/stream.h>
 #include <opendmi/utils/codec.h>
 
 #include <opendmi/entity/power-controls.h>
 
 static bool dmi_power_controls_decode(dmi_entity_t *entity);
+static void dmi_power_controls_lint_bcd(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Fields of the next scheduled power-on, at the offsets the
+ * specification gives them, along with the attributes they are decoded into.
+ */
+static const struct
+{
+    size_t      offset;
+    const char *code;
+} dmi_power_controls_bcd_fields[] =
+{
+    { 0x04, "poweron-month"  },
+    { 0x05, "poweron-day"    },
+    { 0x06, "poweron-hour"   },
+    { 0x07, "poweron-minute" },
+    { 0x08, "poweron-second" }
+};
+
+const dmi_lint_rule_t dmi_power_controls_bcd_rule =
+{
+    .code              = "power-controls.bcd",
+    .name              = "Fields of the next scheduled power-on hold binary-coded decimals",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_power_controls_lint_bcd
+};
 
 const dmi_entity_spec_t dmi_power_controls_spec =
 {
@@ -55,6 +86,10 @@ const dmi_entity_spec_t dmi_power_controls_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_power_controls_bcd_rule,
+        nullptr
+    },
     .handlers = {
         .decode = dmi_power_controls_decode
     }
@@ -76,4 +111,35 @@ static bool dmi_power_controls_decode(dmi_entity_t *entity)
         dmi_stream_decode_bcd(stream, dmi_byte_t, &info->poweron_hour) and
         dmi_stream_decode_bcd(stream, dmi_byte_t, &info->poweron_minute) and
         dmi_stream_decode_bcd(stream, dmi_byte_t, &info->poweron_second);
+}
+
+//
+// Values are decoded into plain numbers, and an invalid pair of digits is
+// silently turned into one of them, so the raw data is read instead.
+//
+static void dmi_power_controls_lint_bcd(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_stream_t stream;
+
+    if (not dmi_stream_initialize(&stream, entity))
+        return;
+
+    for (size_t i = 0; i < countof(dmi_power_controls_bcd_fields); i++) {
+        size_t offset = dmi_power_controls_bcd_fields[i].offset;
+        dmi_byte_t value;
+
+        if (not dmi_stream_read_data_at(&stream, &value, offset, sizeof(value)))
+            break;
+
+        // Fields which are not set hold 0xFF, which is no decimal either
+        if (value == 0xFF)
+            continue;
+
+        if (((value & 0x0F) <= 9) and (((value >> 4) & 0x0F) <= 9))
+            continue;
+
+        dmi_lint_issue(lint, entity, dmi_power_controls_bcd_fields[i].code,
+                       dmi_lint_entity_offset(lint, entity) + offset,
+                       "value 0x%02X is not a binary-coded decimal", (unsigned)value);
+    }
 }

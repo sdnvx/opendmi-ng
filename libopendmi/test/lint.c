@@ -14,7 +14,9 @@
 #include <opendmi/error.h>
 #include <opendmi/lint.h>
 #include <opendmi/log.h>
+#include <opendmi/entry.h>
 #include <opendmi/utils.h>
+#include <opendmi/utils/file.h>
 #include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
@@ -27,14 +29,22 @@ static void test_lint_trailing_data(void **pstate);
 static void test_lint_profile(void **pstate);
 static void test_lint_rule_filter(void **pstate);
 static void test_lint_closed_context(void **pstate);
+static void test_lint_raw_data(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
-// Dump with no issues of the table itself
+// Dump which has no issues worth an error
 static const char *test_clean_path = OPENDMI_TEST_DATA "/acer/nitro-an515-31.bin";
 
 // Dump with 290 bytes past the end-of-table structure
 static const char *test_trailing_path = OPENDMI_TEST_DATA "/lenovo/thinkcentre-m700-10hy.bin";
+
+// Dump with an IPMI device structure, and the copy of it the test breaks
+static const char *test_ipmi_path = OPENDMI_TEST_DATA "/asus/rs100-x7.bin";
+static const char *test_broken_path = "lint-test.bin";
+
+// Offset of the revision of the IPMI specification within the structure
+static const size_t test_ipmi_revision = 0x05;
 
 typedef struct test_lint_report
 {
@@ -59,7 +69,8 @@ int main(void)
         cmocka_unit_test(test_lint_trailing_data),
         cmocka_unit_test(test_lint_profile),
         cmocka_unit_test(test_lint_rule_filter),
-        cmocka_unit_test(test_lint_closed_context)
+        cmocka_unit_test(test_lint_closed_context),
+        cmocka_unit_test(test_lint_raw_data)
     };
 
     return cmocka_run_group_tests(tests, test_lint_setup, test_lint_teardown);
@@ -147,7 +158,7 @@ static size_t test_lint_count_rule(
         dmi_lint_profile_t   profile,
         dmi_lint_severity_t *severity)
 {
-    test_lint_only_rule = dmi_lint_rule_find(code);
+    test_lint_only_rule = dmi_lint_rule_find(state->context, code);
     assert_non_null(test_lint_only_rule);
 
     const dmi_lint_options_t options =
@@ -181,14 +192,14 @@ static void test_lint_rules(void **pstate)
         assert_non_null((*rule)->name);
 
         // Every rule is reachable by its code name, and the codes are unique
-        assert_ptr_equal(dmi_lint_rule_find((*rule)->code), *rule);
+        assert_ptr_equal(dmi_lint_rule_find(nullptr, (*rule)->code), *rule);
         count++;
     }
 
     assert_true(count > 0);
 
-    assert_null(dmi_lint_rule_find("no.such.rule"));
-    assert_null(dmi_lint_rule_find(nullptr));
+    assert_null(dmi_lint_rule_find(nullptr, "no.such.rule"));
+    assert_null(dmi_lint_rule_find(nullptr, nullptr));
     assert_null(dmi_lint_rule_name(nullptr));
 
     // Issues of the producer profile are never less severe than the ones of
@@ -207,9 +218,13 @@ static void test_lint_clean_dump(void **pstate)
     test_lint_state_t *state = *pstate;
     test_lint_report_t report = {};
 
-    test_lint_check(state, test_clean_path, nullptr, &report);
+    const dmi_lint_options_t options = { .all = true };
 
-    assert_int_equal(report.total, 0);
+    test_lint_check(state, test_clean_path, &options, &report);
+
+    // Notes and warnings depend on the rules the library has, while an error
+    // means the data is broken, and the dump is not
+    assert_int_equal(report.counts[DMI_LINT_SEVERITY_ERROR], 0);
 }
 
 static void test_lint_trailing_data(void **pstate)
@@ -261,6 +276,62 @@ static void test_lint_rule_filter(void **pstate)
 
     // Filtering every rule out leaves nothing to report
     assert_int_equal(report.total, 0);
+}
+
+//
+// Break the binary-coded decimal of an IPMI device structure, and check that
+// the rule reading the raw data of the structures finds it.
+//
+static void test_lint_raw_data(void **pstate)
+{
+    test_lint_state_t *state = *pstate;
+
+    size_t size = 0;
+    dmi_data_t *data = dmi_file_get(state->context, test_ipmi_path, -1, &size);
+
+    assert_non_null(data);
+
+    // Structures follow the entry point, which is no longer than its maximum
+    size_t offset = DMI_ENTRY_MAX_SIZE;
+    bool broken = false;
+
+    while ((offset + 4) < size) {
+        dmi_byte_t type   = data[offset];
+        dmi_byte_t length = data[offset + 1];
+
+        if (type == DMI_TYPE_IPMI_DEVICE) {
+            data[offset + test_ipmi_revision] = 0x1A;
+            broken = true;
+            break;
+        }
+
+        // Strings of a structure end with a pair of zeroes
+        size_t end = offset + length;
+
+        while (((end + 1) < size) and not ((data[end] == 0) and (data[end + 1] == 0)))
+            end++;
+
+        offset = end + 2;
+    }
+
+    assert_true(broken);
+
+    FILE *file = fopen(test_broken_path, "wb");
+
+    assert_non_null(file);
+    assert_int_equal(fwrite(data, 1, size, file), size);
+    assert_int_equal(fclose(file), 0);
+
+    dmi_free(data);
+
+    dmi_lint_severity_t severity = DMI_LINT_SEVERITY_NONE;
+    size_t count = test_lint_count_rule(state, test_broken_path, "ipmi-device.revision",
+                                        DMI_LINT_PROFILE_READER, &severity);
+
+    remove(test_broken_path);
+
+    assert_int_equal(count, 1);
+    assert_int_equal(severity, DMI_LINT_SEVERITY_WARNING);
 }
 
 static void test_lint_closed_context(void **pstate)

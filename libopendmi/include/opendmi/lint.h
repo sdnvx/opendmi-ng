@@ -14,7 +14,12 @@
 #include <opendmi/utils/version.h>
 
 typedef struct dmi_lint         dmi_lint_t;
-typedef struct dmi_lint_rule    dmi_lint_rule_t;
+
+#ifndef DMI_LINT_RULE_T
+#   define DMI_LINT_RULE_T
+    typedef struct dmi_lint_rule dmi_lint_rule_t;
+#endif // !DMI_LINT_RULE_T
+
 typedef struct dmi_lint_issue   dmi_lint_issue_t;
 typedef struct dmi_lint_options dmi_lint_options_t;
 
@@ -322,6 +327,16 @@ __dmi_api void dmi_lint_issue(
 __dmi_api dmi_context_t *dmi_lint_context(dmi_lint_t *lint);
 
 /**
+ * @brief Get the version of the specification the data is checked against.
+ *
+ * @param[in] lint Check in progress.
+ *
+ * @return Version given in the options of the check, or the one of the entry
+ *         point if the options name none.
+ */
+__dmi_api dmi_version_t dmi_lint_version(const dmi_lint_t *lint);
+
+/**
  * @brief Get the offset of a structure from the beginning of the table.
  *
  * @param[in] lint   Check in progress.
@@ -331,6 +346,22 @@ __dmi_api dmi_context_t *dmi_lint_context(dmi_lint_t *lint);
  *         told.
  */
 __dmi_api size_t dmi_lint_entity_offset(const dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @brief Get the offset of a string of a structure from the beginning of the
+ * table.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure the string belongs to.
+ * @param[in] num    One-based number of the string.
+ *
+ * @return Offset of the string data, or `DMI_LINT_NO_OFFSET` if it cannot be
+ *         told.
+ */
+__dmi_api size_t dmi_lint_string_offset(
+        const dmi_lint_t   *lint,
+        const dmi_entity_t *entity,
+        size_t              num);
 
 /**
  * @brief Get the totals of the table being checked.
@@ -366,11 +397,16 @@ __dmi_api const char *dmi_lint_rule_name(const dmi_lint_rule_t *rule);
 /**
  * @brief Find a rule by its code name.
  *
- * @param[in] code Code name of the rule.
+ * Rules of the structure types belong to their specifications, so the ones
+ * of the types an opened context knows are searched as well.
+ *
+ * @param[in] context DMI context, or @c nullptr to search the rules which
+ *                    apply to any structure only.
+ * @param[in] code    Code name of the rule.
  *
  * @return Rule, or @c nullptr if there is no rule with such code name.
  */
-__dmi_api const dmi_lint_rule_t *dmi_lint_rule_find(const char *code);
+__dmi_api const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *code);
 
 /**
  * @brief Get the severity of a rule in a profile.

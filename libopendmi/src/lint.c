@@ -16,8 +16,14 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 
+#include <opendmi/lint/entity.h>
 #include <opendmi/lint/entry.h>
+#include <opendmi/lint/link.h>
+#include <opendmi/lint/overlay.h>
+#include <opendmi/lint/quality.h>
+#include <opendmi/lint/string.h>
 #include <opendmi/lint/table.h>
+#include <opendmi/lint/value.h>
 
 /**
  * @internal
@@ -81,11 +87,43 @@ static const dmi_lint_rule_t *const dmi_lint_rule_list[] =
     &dmi_lint_table_recommended_rule,
     &dmi_lint_table_singleton_rule,
     &dmi_lint_table_reserved_handle_rule,
+    &dmi_lint_entity_below_minimum_rule,
+    &dmi_lint_entity_unknown_length_rule,
+    &dmi_lint_entity_undecoded_rule,
+    &dmi_lint_entity_newer_fields_rule,
+    &dmi_lint_entity_newer_type_rule,
+    &dmi_lint_entity_unknown_type_rule,
+    &dmi_lint_entity_obsolete_rule,
+    &dmi_lint_string_too_long_rule,
+    &dmi_lint_string_non_printable_rule,
+    &dmi_lint_string_blank_rule,
+    &dmi_lint_string_padded_rule,
+    &dmi_lint_string_unreferenced_rule,
+    &dmi_lint_value_invalid_enum_rule,
+    &dmi_lint_value_reserved_rule,
+    &dmi_lint_value_reserved_bits_rule,
+    &dmi_lint_value_bcd_rule,
+    &dmi_lint_value_uuid_rule,
+    &dmi_lint_link_dangling_rule,
+    &dmi_lint_link_self_rule,
+    &dmi_lint_link_orphan_rule,
+    &dmi_lint_overlay_dangling_rule,
+    &dmi_lint_overlay_out_of_bounds_rule,
+    &dmi_lint_overlay_empty_rule,
+    &dmi_lint_quality_placeholder_rule,
     nullptr
 };
 
 static bool dmi_lint_enabled(const dmi_lint_t *lint, const dmi_lint_rule_t *rule);
 static void dmi_lint_check_scope(dmi_lint_t *lint, dmi_lint_scope_t scope, const dmi_entity_t *entity);
+static void dmi_lint_check_rules(
+        dmi_lint_t                   *lint,
+        const dmi_lint_rule_t *const *rules,
+        const dmi_entity_t           *entity);
+static void dmi_lint_check_rule(
+        dmi_lint_t            *lint,
+        const dmi_lint_rule_t *rule,
+        const dmi_entity_t    *entity);
 static void dmi_lint_collect(dmi_lint_t *lint);
 static void dmi_lint_check_entities(dmi_lint_t *lint);
 
@@ -175,6 +213,11 @@ const dmi_lint_totals_t *dmi_lint_totals(const dmi_lint_t *lint)
     return (lint != nullptr) ? &lint->totals : nullptr;
 }
 
+dmi_version_t dmi_lint_version(const dmi_lint_t *lint)
+{
+    return (lint != nullptr) ? lint->version : DMI_VERSION_NONE;
+}
+
 size_t dmi_lint_entity_offset(const dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     if ((lint == nullptr) or (entity == nullptr))
@@ -186,6 +229,25 @@ size_t dmi_lint_entity_offset(const dmi_lint_t *lint, const dmi_entity_t *entity
         return DMI_LINT_NO_OFFSET;
 
     return (size_t)(entity->data - table);
+}
+
+size_t dmi_lint_string_offset(const dmi_lint_t *lint, const dmi_entity_t *entity, size_t num)
+{
+    size_t offset = dmi_lint_entity_offset(lint, entity);
+
+    if ((offset == DMI_LINT_NO_OFFSET) or (num == 0) or (num > entity->string_count))
+        return DMI_LINT_NO_OFFSET;
+
+    // Strings follow the formatted section, each one terminated with a zero
+    offset += entity->body_length;
+
+    for (size_t i = 0; i + 1 < num; i++) {
+        const char *text = entity->strings[i].raw;
+
+        offset += ((text != nullptr) ? strlen(text) : 0) + 1;
+    }
+
+    return offset;
 }
 
 const dmi_lint_rule_t *const *dmi_lint_rules(void)
@@ -205,7 +267,7 @@ const char *dmi_lint_rule_name(const dmi_lint_rule_t *rule)
     return (translated != nullptr) ? translated : rule->name;
 }
 
-const dmi_lint_rule_t *dmi_lint_rule_find(const char *code)
+const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *code)
 {
     if (code == nullptr)
         return nullptr;
@@ -213,6 +275,23 @@ const dmi_lint_rule_t *dmi_lint_rule_find(const char *code)
     for (const dmi_lint_rule_t *const *rule = dmi_lint_rule_list; *rule != nullptr; rule++) {
         if (strcmp((*rule)->code, code) == 0)
             return *rule;
+    }
+
+    if (context == nullptr)
+        return nullptr;
+
+    // Rules of the types are provided by their specifications, and the types
+    // the context knows depend on the modules it has enabled
+    for (dmi_type_t type = 0; type <= DMI_TYPE_MAX; type++) {
+        const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
+
+        if ((spec == nullptr) or (spec->lint_rules == nullptr))
+            continue;
+
+        for (const dmi_lint_rule_t *const *rule = spec->lint_rules; *rule != nullptr; rule++) {
+            if (strcmp((*rule)->code, code) == 0)
+                return *rule;
+        }
     }
 
     return nullptr;
@@ -254,13 +333,42 @@ static bool dmi_lint_enabled(const dmi_lint_t *lint, const dmi_lint_rule_t *rule
 static void dmi_lint_check_scope(dmi_lint_t *lint, dmi_lint_scope_t scope, const dmi_entity_t *entity)
 {
     for (const dmi_lint_rule_t *const *rule = dmi_lint_rule_list; *rule != nullptr; rule++) {
-        if (((*rule)->scope != scope) or not dmi_lint_enabled(lint, *rule))
+        if ((*rule)->scope != scope)
             continue;
 
-        lint->rule = *rule;
-        (*rule)->check(lint, entity);
+        dmi_lint_check_rule(lint, *rule, entity);
     }
+}
 
+//
+// Check a list of rules, which the specification of a type provides.
+//
+static void dmi_lint_check_rules(
+        dmi_lint_t                   *lint,
+        const dmi_lint_rule_t *const *rules,
+        const dmi_entity_t           *entity)
+{
+    if (rules == nullptr)
+        return;
+
+    for (const dmi_lint_rule_t *const *rule = rules; *rule != nullptr; rule++)
+        dmi_lint_check_rule(lint, *rule, entity);
+}
+
+//
+// Check a single rule, keeping it as the one the issues are reported on
+// behalf of.
+//
+static void dmi_lint_check_rule(
+        dmi_lint_t            *lint,
+        const dmi_lint_rule_t *rule,
+        const dmi_entity_t    *entity)
+{
+    if (not dmi_lint_enabled(lint, rule))
+        return;
+
+    lint->rule = rule;
+    rule->check(lint, entity);
     lint->rule = nullptr;
 }
 
@@ -309,6 +417,12 @@ static void dmi_lint_check_entities(dmi_lint_t *lint)
     if (not dmi_registry_iter_init(&iter, registry, nullptr))
         return;
 
-    while ((entity = dmi_registry_iter_next(&iter)) != nullptr)
+    while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         dmi_lint_check_scope(lint, DMI_LINT_SCOPE_ENTITY, entity);
+
+        // Rules of the type know the structure itself, so they follow the
+        // ones which apply to any structure
+        if (entity->spec != nullptr)
+            dmi_lint_check_rules(lint, entity->spec->lint_rules, entity);
+    }
 }

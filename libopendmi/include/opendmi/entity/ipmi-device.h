@@ -10,6 +10,7 @@
 #pragma once
 
 #include <opendmi/entity.h>
+#include <opendmi/lint.h>
 
 typedef struct dmi_ipmi_device         dmi_ipmi_device_t;
 typedef union  dmi_ipmi_device_details dmi_ipmi_device_details_t;
@@ -145,6 +146,11 @@ struct dmi_ipmi_device
  * @brief IPMI device information entity specification.
  */
 extern __dmi_api const dmi_entity_spec_t dmi_ipmi_device_spec;
+
+/**
+ * @brief Revision of the IPMI specification is a binary-coded decimal.
+ */
+extern __dmi_api const dmi_lint_rule_t dmi_ipmi_device_revision_rule;
 
 __BEGIN_DECLS
 
