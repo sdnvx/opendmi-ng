@@ -138,6 +138,7 @@ const dmi_command_t dmi_lint_command =
     .name        = "lint",
     .description = "Check SMBIOS structures for errors",
     .options     = dmi_options(&dmi_lint_options),
+    .flags       = DMI_COMMAND_FLAG_PAGER,
     .handlers    = {
         .usage = dmi_lint_usage,
         .main  = dmi_lint_main

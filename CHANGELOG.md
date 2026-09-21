@@ -75,9 +75,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Serialize measurement units by their code names in XML output
 - Require the internationalization component of ICU4C for plural rules
 - Replace error message table with the `dmi_error_names` name set, which gives error codes their own names
+- Add manual pages for the `opendmi` command line tool and all of its commands
 
 ### Fixed
 
+- Fix `explain` command rejecting structure types given by their number
 - Fix name of string property value attribute
 - Fix false errors on memory device references to handle 0x0000 used as unspecified value
 - Fix crash on memory controller referring to undecoded memory module

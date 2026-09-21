@@ -1,7 +1,98 @@
 = opendmi-types(1)
 The OpenDMI contributors
-OpenDMI 0.2.0
+OpenDMI 0.5.0
 
 :doctype: manpage
-:manmanual: OPENDMI-TYPES
-:mansource: OPENDMI-TYPES
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+opendmi-types - list the SMBIOS structure types.
+
+== Synopsis
+
+*opendmi* [_global options_] *types* [_command options_]
+
+== Description
+
+The *types* command lists the structure types the utility knows how to decode,
+giving the number of each type, the module which describes it, its code name
+and what it holds.
+
+The code name is what the *--type* option of `opendmi-show`(1),
+`opendmi-list`(1) and `opendmi-export`(1) accepts in place of the number, and
+what `opendmi-explain`(1) takes as its argument. It is also the name the type
+is known by in the output of `opendmi-export`(1) and in the reports of
+`opendmi-lint`(1).
+
+Only the types the specification defines are listed by default. *--module* and
+*--all-modules* list the types of the extension modules in place of those, and
+*--all* lists everything at once. The command reads no SMBIOS data, so it works
+without access to the platform.
+
+== Options
+
+*-?*, *-h*, *--help*::
+Print help and exit.
+
+*-m* _module_, *--module*=_module_::
+List the types described by the named module instead of the standard ones. The
+option may be given several times. See `opendmi-modules`(1) for the modules
+available.
+
+*-M*, *--all-modules*::
+List the types described by every module instead of the standard ones.
+
+*-a*, *--all*::
+List every type the utility knows, the standard ones and the ones of every
+module alike.
+
+*-r*, *--raw*::
+Print the fields separated by tabs rather than aligned in columns, so that the
+output is easy to read with `cut`(1) or `awk`(1). This is the default when the
+standard output is not a terminal.
+
+== Exit status
+
+*0*::
+Types have been listed.
+
+*2*::
+Command line is invalid.
+
+== Examples
+
+List the types the specification defines:
+
+....
+$ opendmi types
+....
+
+List every type, including the OEM-specific ones:
+
+....
+$ opendmi types -a
+....
+
+List the types a particular vendor adds:
+
+....
+$ opendmi types -m dell
+....
+
+Find the number of a type by its code:
+
+....
+$ opendmi types -a -r | grep memory-device
+....
+
+== See also
+
+`opendmi`(1), `opendmi-explain`(1), `opendmi-modules`(1), `opendmi-show`(1)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

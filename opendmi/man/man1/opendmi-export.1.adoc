@@ -1,7 +1,147 @@
 = opendmi-export(1)
 The OpenDMI contributors
-OpenDMI 0.2.0
+OpenDMI 0.5.0
 
 :doctype: manpage
-:manmanual: OPENDMI-EXPORT
-:mansource: OPENDMI-EXPORT
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+opendmi-export - export SMBIOS data to an external format.
+
+== Synopsis
+
+*opendmi* [_global options_] *export* [_command options_] [_filter options_]
+
+== Description
+
+The *export* command writes the decoded SMBIOS structures in a machine-readable
+format, so that the data can be consumed by something other than a reader of
+the terminal.
+
+Fields are named by their codes rather than by their labels, e.g.
+`socket-designation` instead of `Socket Designation`, and enumerated values are
+written as codes as well. Codes are stable across versions and locales, so the
+output can be matched against without parsing human-readable text.
+
+The formats available depend on how the utility was built, since each of them
+needs a library of its own. The formats of a particular build are listed at the
+end of its *--help* output.
+
+Which structures are exported is decided by the filter options, which are
+common to `opendmi-show`(1) and `opendmi-list`(1). By default the standard and
+the OEM-specific structures are exported, and the inactive and the unknown ones
+are not.
+
+== Options
+
+*-?*, *-h*, *--help*::
+Print help and exit.
+
+*-o* _path_, *--output*=_path_::
+Write the output to the named file instead of the standard output.
+
+*-f* _format_, *--format*=_format_::
+Set the output format: `text`, `json`, `xml` or `yaml`. The default is `yaml`.
+
+*-D*, *--dump*::
+Export the raw bytes of the structures instead of decoding them.
+
+*-p*, *--pretty*::
+Format the output for reading rather than as compactly as possible. None of the
+formats honour the option yet, since all of them are already written indented.
+
+*-F*, *--force*::
+Overwrite the output file if it exists. Without this option an existing file is
+left alone and the command fails.
+
+== Filter options
+
+*-H* _handle_, *--handle*=_handle_::
+Only export the structures with the given handle, which is read as a
+hexadecimal number, with or without the `0x` prefix. The option may be given
+several times.
+
+*-t* _type_, *--type*=_type_::
+Only export the structures of the given type, which is either a number or a
+code name, e.g. `4` or `processor`. The option may be given several times. See
+`opendmi-types`(1) for the types and their codes.
+
+*-s*, *--standard*::
+Export the structures of the types the specification defines.
+
+*-S*, *--no-standard*::
+Do not export the structures of the types the specification defines.
+
+*-e*, *--oem*::
+Export the OEM-specific structures, which are the ones of types 128 to 255.
+
+*-E*, *--no-oem*::
+Do not export the OEM-specific structures.
+
+*-i*, *--inactive*::
+Export the structures which the firmware has marked as inactive (type 126).
+
+*-I*, *--no-inactive*::
+Do not export the inactive structures.
+
+*-u*, *--unknown*::
+Export the structures of the types no enabled module describes, which are left
+as raw data.
+
+*-U*, *--no-unknown*::
+Do not export the structures of the unknown types.
+
+*-m* _module_, *--module*=_module_::
+Only export the structures described by the named module, which has to be
+enabled with the global *--module* option. The option may be given several
+times.
+
+*-M*, *--all-modules*::
+Only export the structures described by the enabled modules.
+
+*-a*, *--all*::
+Export every structure, including the inactive and the unknown ones.
+
+== Exit status
+
+*0*::
+Data has been exported.
+
+*1*::
+Data could not be read or written, e.g. the output file exists and *--force*
+was not given.
+
+*2*::
+Command line is invalid.
+
+== Examples
+
+Export everything to YAML, which is the default format:
+
+....
+$ opendmi export -o smbios.yaml
+....
+
+Export to JSON, indented for reading:
+
+....
+$ opendmi export -f json --pretty -o smbios.json
+....
+
+Export the processors alone, and read a field out of the result:
+
+....
+$ opendmi export -f json -t processor | jq '.table[].attributes."socket-designation"'
+....
+
+== See also
+
+`opendmi`(1), `opendmi-dump`(1), `opendmi-import`(1), `opendmi-show`(1)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

@@ -1,7 +1,75 @@
 = opendmi-explain(1)
 The OpenDMI contributors
-OpenDMI 0.2.0
+OpenDMI 0.5.0
 
 :doctype: manpage
-:manmanual: OPENDMI-EXPLAIN
-:mansource: OPENDMI-EXPLAIN
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+opendmi-explain - explain an SMBIOS structure type.
+
+== Synopsis
+
+*opendmi* [_global options_] *explain* [_command options_] [--] _type_
+
+== Description
+
+The *explain* command prints what a structure type is for, as the specification
+describes it, along with its number and its code name.
+
+The _type_ argument is either a number or a code name, e.g. `4` or `processor`.
+Use `opendmi-types`(1) to see the types and their codes, and `--` before the
+argument if it could be read as an option.
+
+Types described by extension modules are explained as well, once the module is
+enabled with the global *--module* option.
+
+The command has no options of its own.
+
+== Options
+
+*-?*, *-h*, *--help*::
+Print help and exit.
+
+== Exit status
+
+*0*::
+Type has been explained.
+
+*1*::
+Type is unknown, or the data could not be read.
+
+*2*::
+Command line is invalid.
+
+== Examples
+
+Explain a type by its code name:
+
+....
+$ opendmi explain processor
+....
+
+Explain a type by its number:
+
+....
+$ opendmi explain 17
+....
+
+Explain a type an extension module describes:
+
+....
+$ opendmi -m dell explain 212
+....
+
+== See also
+
+`opendmi`(1), `opendmi-show`(1), `opendmi-types`(1)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

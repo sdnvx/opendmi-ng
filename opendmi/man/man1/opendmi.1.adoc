@@ -1,7 +1,185 @@
 = opendmi(1)
 The OpenDMI contributors
-OpenDMI 0.2.0
+OpenDMI 0.5.0
 
 :doctype: manpage
-:manmanual: OPENDMI
-:mansource: OPENDMI
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+opendmi - read and check DMI/SMBIOS data.
+
+== Synopsis
+
+*opendmi* [_global options_] _command_ [_command options_] [--] [_command args_]
+
+*opendmi* *-v*|*--version*
+
+*opendmi* *-h*|*--help*
+
+== Description
+
+The *opendmi* utility reads the DMI/SMBIOS data of the platform it runs on, or
+of a dump file, and gives it back as decoded structures rather than as text to
+parse. Every field is addressed by a stable code, carries a type and a unit,
+and reads the same way in the terminal, in JSON, XML and YAML, and through the
+C API of `libopendmi`.
+
+What the utility does is chosen by a _command_, which follows the global
+options and takes options of its own. Global options apply to every command,
+and decide where the data comes from and what is decoded; command options
+decide what is done with it. Values of options are given either as a separate
+argument (*-i* _path_, *--file* _path_) or attached to the option
+(*-i*_path_, *--file*=_path_).
+
+Reading the data of a platform usually requires privileges, because the table
+is taken from physical memory or from an interface the kernel restricts. Dump
+files are read with the privileges of the file itself.
+
+== Commands
+
+*dump*::
+Dump the entire SMBIOS table to a binary file, see `opendmi-dump`(1).
+
+*entry*::
+Show the data of the SMBIOS entry point, see `opendmi-entry`(1).
+
+*list*::
+List the structures with their handles and types, see `opendmi-list`(1).
+
+*show*::
+Show the data of the structures, see `opendmi-show`(1).
+
+*explain*::
+Explain a structure type, see `opendmi-explain`(1).
+
+*lint*::
+Check the data against the rules of the specification, see `opendmi-lint`(1).
+
+*export*::
+Export the data to an external format, see `opendmi-export`(1).
+
+*import*::
+Import the data from an external format, see `opendmi-import`(1).
+
+*types*::
+List the structure types the utility knows, see `opendmi-types`(1).
+
+*modules*::
+List the extension modules available, see `opendmi-modules`(1).
+
+Use *opendmi* _command_ *--help* for the options of a particular command.
+
+== Options
+
+*-v*, *--version*::
+Print version information and exit.
+
+*-?*, *-h*, *--help*::
+Print help and exit.
+
+*-i* _path_, *--file*=_path_::
+Read the data from a binary dump file instead of the platform. Dump files are
+interchangeable with the ones of `dmidecode --dump-bin`.
+
+*-d* _path_, *--device*=_path_::
+Set the path to the memory device the data is read through, `/dev/mem` by
+default. Only used by the backends which read physical memory.
+
+*-m* _module_, *--module*=_module_::
+Enable the named extension module, so that the structures it describes are
+decoded instead of being left unknown. The option may be given several times.
+See `opendmi-modules`(1) for the modules available.
+
+*-O*, *--overlay*::
+Apply additional information entries (type 40) to the structures they refer
+to, so that the values they carry are shown as part of those structures.
+
+*-l*, *--log*::
+Enable logging of what the library does while it reads and decodes the data.
+
+*--log-file*=_path_::
+Enable logging to the named file, which is appended to rather than replaced.
+
+*-L* _level_, *--log-level*=_level_::
+Set the level logging is limited to: `error`, `warning`, `notice`, `info` or
+`debug`. The default is `notice`.
+
+== Exit status
+
+*0*::
+Command has succeeded.
+
+*1*::
+Command has failed, e.g. the data could not be read, or the checks of
+`opendmi-lint`(1) have found an error.
+
+*2*::
+Command line is invalid.
+
+== Environment
+
+*PAGER*::
+Pager the output of the text commands (`show`, `list`, `entry`, `lint`, `types`,
+`explain`, `modules`) is shown through, `less` if it is not set. Set it to an
+empty value to disable the pager. Output which is not a terminal is never
+paged.
+
+*LESS*::
+Options of `less`, when it is used as the pager. If it is not set, the utility
+lets `less` print output which fits on one screen directly.
+
+== Files
+
+_/dev/mem_::
+Memory device the table is read through on FreeBSD and NetBSD, see
+*--device*.
+
+_/sys/firmware/dmi/tables_::
+Tables exposed by the Linux kernel, which the Linux backend reads.
+
+== Examples
+
+Show the data of the local platform:
+
+....
+$ opendmi show
+....
+
+Show the processors only:
+
+....
+$ opendmi show -t processor
+....
+
+Save the table of the local platform and read it back later:
+
+....
+$ opendmi dump -o smbios.bin
+$ opendmi -i smbios.bin show
+....
+
+Decode the structures of a vendor as well as the standard ones:
+
+....
+$ opendmi -m dell show
+....
+
+Check a dump against the rules of the specification:
+
+....
+$ opendmi -i smbios.bin lint
+....
+
+== See also
+
+`opendmi-dump`(1), `opendmi-entry`(1), `opendmi-explain`(1),
+`opendmi-export`(1), `opendmi-import`(1), `opendmi-lint`(1), `opendmi-list`(1),
+`opendmi-modules`(1), `opendmi-show`(1), `opendmi-types`(1)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

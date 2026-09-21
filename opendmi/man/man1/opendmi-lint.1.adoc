@@ -1,7 +1,187 @@
 = opendmi-lint(1)
 The OpenDMI contributors
-OpenDMI 0.2.0
+OpenDMI 0.5.0
 
 :doctype: manpage
-:manmanual: OPENDMI-LINT
-:mansource: OPENDMI-LINT
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+opendmi-lint - check SMBIOS data against the rules of the specification.
+
+== Synopsis
+
+*opendmi* [_global options_] *lint* [_command options_]
+
+== Description
+
+The *lint* command checks the SMBIOS data against the rules of the
+specification and reports what it finds, from the checksum of the entry point
+down to the values of individual fields.
+
+The checks cover the entry point, the table as a whole, and every structure in
+it. Rules which apply to any structure look at its length, its strings, the
+values of its fields, the references it makes and the additional information
+entries pointing at it. Rules which belong to a particular type look at what
+that type means: that the enabled cores of a processor fit the ones it has,
+that the mapped address ranges of the memory arrays do not overlap, that a
+cooling device points at a temperature probe rather than at a voltage one.
+
+Since the data is decoded before it is checked, the rules see fields rather
+than bytes, and a report names the structure and the attribute the issue
+belongs to. Some rules read the raw bytes as well, to catch what the decoder
+discards.
+
+=== Output
+
+Every issue is reported the way a compiler reports a diagnostic, so that the
+output is readable by the tools which are used to that format:
+
+....
+0x0009: warning: firmware@0x0000.rom-size (Platform firmware information): ROM size refers to the extended one, which the structure does not carry [firmware.rom-size]
+0x00F3: note: baseboard@0x0002 (Baseboard or module information): string 4 holds whitespace only [string.blank]
+0x103C: note: <table>: table has 290 bytes past the end-of-table structure [table.trailing-data]
+9 issues: 0 errors, 1 warning, 8 notes
+....
+
+The line starts with the offset of the issue within the data, followed by its
+severity. The location which comes next is the code of the structure type and
+the handle of the structure, and the attribute the issue belongs to if it has
+one; the translated name of the type follows in parentheses. Issues of the
+entry point and of the table itself have no offset and are located at
+`<entry>` and `<table>` instead. The rule which has found the issue is named in
+brackets at the end of the line.
+
+Issues have three severities. An *error* means a requirement of the
+specification is violated, and the data cannot be trusted. A *warning* means a
+recommendation is not followed. A *note* points out a peculiarity of the data
+which is not a defect in itself.
+
+=== Rules
+
+Rules are named _group_._rule_, e.g. `entry.checksum` or `processor.cores`. The
+groups which apply to any structure are `entry`, `table`, `entity`, `string`,
+`value`, `link`, `overlay` and `quality`; the rest of the groups are named
+after the structure types the rules belong to.
+
+*--enable* and *--disable* take either a full name or a group name, which
+stands for every rule in it. Naming rules with *--enable* leaves the rest of
+them out, and a rule named explicitly is checked even if it is disabled by
+default. Use *--list-rules* to see the rules along with their severities; the
+ones which are only checked with *--all-checks* say so.
+
+Rules of the structure types belong to the specifications of those types,
+which is how an extension module can bring rules of its own along with the
+structures it describes.
+
+=== Profiles
+
+Severity depends on the profile the data is checked against. By default the
+data is assumed to have been read from a platform, where the defects of the
+firmware are nothing the reader can fix, and where a peculiarity is worth a
+note rather than a complaint. With *--producer* the same data is checked as
+data being written, where it is expected to conform to the specification
+because it is authored rather than observed, and several rules become errors.
+
+== Options
+
+*-?*, *-h*, *--help*::
+Print help and exit.
+
+*-A*, *--all-checks*::
+Check the rules which are disabled by default, either because they are a
+matter of taste rather than of the specification, or because they report what
+is unusual rather than what is wrong.
+
+*-e* _rule_, *--enable*=_rule_::
+Check the named rule or group of rules, and nothing else. The option may be
+given several times, and a rule named here is checked even if it is disabled by
+default.
+
+*-d* _rule_, *--disable*=_rule_::
+Skip the named rule or group of rules. The option may be given several times,
+and takes precedence over *--enable*.
+
+*-P*, *--producer*::
+Check the data as if it was produced, not read, which makes the rules as strict
+as the specification is.
+
+*-S*, *--strict*::
+Treat warnings as errors, so that the command fails on a warning as well.
+
+*-q*, *--quiet*::
+Report the errors only, leaving the warnings and the notes out. They are still
+counted in the summary.
+
+*-R*, *--list-rules*::
+List the rules with their severities and descriptions, and exit without
+checking anything.
+
+== Exit status
+
+*0*::
+Data has been checked and no error has been found.
+
+*1*::
+An error has been found, or a warning in strict mode, or the data could not be
+read.
+
+*2*::
+Command line is invalid.
+
+== Examples
+
+Check the data of the local platform:
+
+....
+$ opendmi lint
+....
+
+Check a dump, which is how the data of another machine is checked:
+
+....
+$ opendmi -i smbios.bin lint
+....
+
+Check everything, reporting the peculiarities of the data along with its
+defects:
+
+....
+$ opendmi lint -A
+....
+
+Check the references between the structures only:
+
+....
+$ opendmi lint -e link -e overlay
+....
+
+Check everything except the complaints about the strings:
+
+....
+$ opendmi lint -A -d string
+....
+
+Check the data as if it was being written, and fail on anything the
+specification does not allow:
+
+....
+$ opendmi -i smbios.bin lint -P -S
+....
+
+List the rules and what they check:
+
+....
+$ opendmi lint -R
+....
+
+== See also
+
+`opendmi`(1), `opendmi-explain`(1), `opendmi-show`(1)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

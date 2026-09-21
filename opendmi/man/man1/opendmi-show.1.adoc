@@ -1,7 +1,155 @@
 = opendmi-show(1)
 The OpenDMI contributors
-OpenDMI 0.2.0
+OpenDMI 0.5.0
 
 :doctype: manpage
-:manmanual: OPENDMI-SHOW
-:mansource: OPENDMI-SHOW
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+opendmi-show - show the data of SMBIOS structures.
+
+== Synopsis
+
+*opendmi* [_global options_] *show* [_command options_] [_filter options_]
+
+== Description
+
+The *show* command decodes the SMBIOS structures and prints their fields in
+human-readable form, one structure after another, in the order of the table.
+
+Every field is decoded to its meaning rather than to the bytes holding it:
+enumerations are named, bit sets are listed bit by bit, sizes and speeds carry
+their units, and versions are formatted according to the fields which define
+them. Handles are resolved into references to the structures they point to, so
+that a cache of a processor or an array of a memory device is named rather than
+numbered.
+
+Structures which cannot be decoded completely are still shown, along with
+whatever has been read from them; *--verbose* tells such structures apart.
+
+Which structures are shown is decided by the filter options, which are common
+to `opendmi-list`(1) and `opendmi-export`(1). By default the standard and the
+OEM-specific structures are shown, and the inactive and the unknown ones are
+not.
+
+== Options
+
+*-?*, *-h*, *--help*::
+Print help and exit.
+
+*-q*, *--quiet*::
+Hide the meta-data of the structures and the references between them, leaving
+the decoded fields alone.
+
+*-V*, *--verbose*::
+Show the handle, the type, the length and the version of every structure,
+along with the state of its decoding: `decoded` for a structure which has been
+read completely, `incomplete` for one which matches no version of its
+specification, and `partial` for one which has been decoded only in part.
+
+*-D*, *--dump*::
+Show the raw bytes of the structures instead of decoding them.
+
+== Filter options
+
+*-H* _handle_, *--handle*=_handle_::
+Only show the structures with the given handle, which is read as a hexadecimal
+number, with or without the `0x` prefix. The option may be given several
+times.
+
+*-t* _type_, *--type*=_type_::
+Only show the structures of the given type, which is either a number or a code
+name, e.g. `4` or `processor`. The option may be given several times. See
+`opendmi-types`(1) for the types and their codes.
+
+*-s*, *--standard*::
+Show the structures of the types the specification defines.
+
+*-S*, *--no-standard*::
+Do not show the structures of the types the specification defines.
+
+*-e*, *--oem*::
+Show the OEM-specific structures, which are the ones of types 128 to 255.
+
+*-E*, *--no-oem*::
+Do not show the OEM-specific structures.
+
+*-i*, *--inactive*::
+Show the structures which the firmware has marked as inactive (type 126).
+
+*-I*, *--no-inactive*::
+Do not show the inactive structures.
+
+*-u*, *--unknown*::
+Show the structures of the types no enabled module describes, which are left
+as raw data.
+
+*-U*, *--no-unknown*::
+Do not show the structures of the unknown types.
+
+*-m* _module_, *--module*=_module_::
+Only show the structures described by the named module, which has to be
+enabled with the global *--module* option. The option may be given several
+times.
+
+*-M*, *--all-modules*::
+Only show the structures described by the enabled modules.
+
+*-a*, *--all*::
+Show every structure, including the inactive and the unknown ones.
+
+== Exit status
+
+*0*::
+Data has been shown.
+
+*1*::
+Data could not be read.
+
+*2*::
+Command line is invalid.
+
+== Examples
+
+Show every structure of the local platform:
+
+....
+$ opendmi show
+....
+
+Show the memory devices only:
+
+....
+$ opendmi show -t memory-device
+....
+
+Show a single structure by its handle:
+
+....
+$ opendmi show -H 0x0010
+....
+
+Show the versions and the decoding states of the structures, to find the ones
+the firmware writes differently from the specification:
+
+....
+$ opendmi show -V
+....
+
+Decode the structures of a vendor, and show those alone:
+
+....
+$ opendmi -m dell show -m dell
+....
+
+== See also
+
+`opendmi`(1), `opendmi-export`(1), `opendmi-explain`(1), `opendmi-list`(1)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

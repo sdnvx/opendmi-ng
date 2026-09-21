@@ -37,30 +37,43 @@ Processor information
 The same structure in JSON, with stable codes instead of human-readable labels:
 
 ```console
-$ opendmi export -f json --pretty -t processor
+$ opendmi export -f json -t processor
 ```
 ```json
 {
-    "handle": "0x001a",
-    "type": 4,
-    "description": "Processor information",
-    "attributes": {
-        "socket-designation": "U3E1",
-        "type": "central",
-        "family": "intel-core-i5",
-        "vendor": "Intel(R) Corporation",
-        "id": "a4060900fffbebbf",
-        "signature": {
-            "type": "0",
-            "family": "6",
-            "model": "154",
-            "stepping": "4"
-        },
-        "flags": {
-            "fpu": true,
-            "vme": true
+    "entry": {
+        "smbios-version": "3.0"
+    },
+    "table": [
+        {
+            "handle": "0x001a",
+            "type": 4,
+            "length": 185,
+            "level": "3.0",
+            "state": [
+                "decoded",
+                "linked"
+            ],
+            "description": "Processor information",
+            "attributes": {
+                "socket-designation": "U3E1",
+                "type": "central",
+                "family": "intel-core-i5",
+                "vendor": "Intel(R) Corporation",
+                "id": "a4060900fffbebbf",
+                "signature": {
+                    "type": "0",
+                    "family": "6",
+                    "model": "154",
+                    "stepping": "4"
+                },
+                "flags": {
+                    "fpu": true,
+                    "vme": true
+                }
+            }
         }
-    }
+    ]
 }
 ```
 
@@ -256,7 +269,7 @@ Export SMBIOS data to external format. Structures are selected with
 | `-o <path>`, `--output=<path>` | Set output file path (default: standard output) |
 | `-f <format>`, `--format=<format>` | Set output format: `text`, `json`, `xml` or `yaml` (default: `yaml`) |
 | `-D`, `--dump` | Export raw structure data instead of decoded fields |
-| `-p`, `--pretty` | Enable pretty output |
+| `-p`, `--pretty` | Format the output for reading |
 | `-F`, `--force` | Overwrite existing files |
 
 #### `dump`
@@ -405,10 +418,10 @@ Export SMBIOS data to YAML (default format):
 $ opendmi export -o smbios.yaml
 ```
 
-Export SMBIOS data to JSON with pretty-printing:
+Export SMBIOS data to JSON:
 
 ```sh
-$ opendmi export -f json --pretty -o smbios.json
+$ opendmi export -f json -o smbios.json
 ```
 
 Dump the raw SMBIOS table to a binary file:

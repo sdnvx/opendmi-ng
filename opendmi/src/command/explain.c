@@ -8,6 +8,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
 #include <assert.h>
 
 #include <opendmi/context.h>
@@ -116,9 +117,23 @@ static const dmi_entity_spec_t *dmi_explain_find_entity(dmi_context_t *context, 
     assert(context != nullptr);
     assert(code != nullptr);
 
+    // Types are named either by their code or by their number, the way the
+    // filter options of the other commands take them
     dmi_type_t type = dmi_type_find(context, code);
-    if (type == DMI_TYPE_INVALID)
-        return nullptr;
+
+    if (type == DMI_TYPE_INVALID) {
+        char *end;
+        long value;
+
+        errno = 0;
+        value = strtol(code, &end, 10);
+
+        if ((*code == 0) or (*end != 0) or (errno != 0) or
+            (value < 0) or (value > DMI_TYPE_MAX))
+            return nullptr;
+
+        type = (dmi_type_t)value;
+    }
 
     return dmi_type_spec(context, type);
 }
