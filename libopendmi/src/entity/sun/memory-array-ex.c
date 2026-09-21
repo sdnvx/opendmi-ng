@@ -28,7 +28,7 @@ const dmi_entity_spec_t dmi_sun_memory_array_ex_spec =
         DMI_ATTRIBUTE(dmi_sun_memory_array_ex_t, memory_array_handle, HANDLE, {
             .code  = "memory-array-handle",
             .name  = "Memory array handle",
-            .targets = dmi_targets(DMI_TYPE_MEMORY_ARRAY),
+            .targets = dmi_types(DMI_TYPE_MEMORY_ARRAY),
         }),
         DMI_ATTRIBUTE(dmi_sun_memory_array_ex_t, component_handle, HANDLE, {
             .code  = "component-handle",

@@ -104,7 +104,7 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
         DMI_ATTRIBUTE(dmi_cooling_device_t, probe_handle, HANDLE, {
             .code    = "probe-handle",
             .name    = "Temperature probe handle",
-            .targets = dmi_targets(DMI_TYPE_TEMPERATURE_PROBE),
+            .targets = dmi_types(DMI_TYPE_TEMPERATURE_PROBE),
         }),
         DMI_ATTRIBUTE(dmi_cooling_device_t, type, ENUM, {
             .code    = "type",

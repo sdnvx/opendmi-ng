@@ -28,7 +28,7 @@ const dmi_entity_spec_t dmi_sun_pcie_root_complex_spec =
         DMI_ATTRIBUTE(dmi_sun_pcie_root_complex_t, baseboard_handle, HANDLE, {
             .code  = "baseboard-handle",
             .name  = "Baseboard handle",
-            .targets = dmi_targets(DMI_TYPE_BASEBOARD),
+            .targets = dmi_types(DMI_TYPE_BASEBOARD),
         }),
         DMI_ATTRIBUTE(dmi_sun_pcie_root_complex_t, bus_number, INTEGER, {
             .code  = "bus-number",

@@ -34,8 +34,9 @@
 // Value pointer macro
 #define dmi_value_ptr(x) &(__dmi_typeof(x)){ (x) }
 
-// List of the types a handle may refer to, see dmi_attribute_params_t::targets
-#define dmi_targets(...) \
+// List of structure types, e.g. the ones a handle may refer to, see
+// dmi_attribute_params_t::targets
+#define dmi_types(...) \
         (const dmi_type_t[]){ __VA_ARGS__, DMI_TYPE_INVALID }
 
 // Look up a string of the library resources, nullptr if there is none

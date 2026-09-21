@@ -30,7 +30,7 @@ const dmi_entity_spec_t dmi_sun_processor_ex_spec =
         DMI_ATTRIBUTE(dmi_sun_processor_ex_t, processor_handle, HANDLE, {
             .code  = "processor-handle",
             .name  = "Processor handle",
-            .targets = dmi_targets(DMI_TYPE_PROCESSOR),
+            .targets = dmi_types(DMI_TYPE_PROCESSOR),
         }),
         DMI_ATTRIBUTE(dmi_sun_processor_ex_t, fru, INTEGER, {
             .code  = "fru",

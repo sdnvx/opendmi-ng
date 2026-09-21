@@ -80,12 +80,12 @@ const dmi_entity_spec_t dmi_memory_device_addr_spec =
         DMI_ATTRIBUTE(dmi_memory_device_addr_t, device_handle, HANDLE, {
             .code    = "device-handle",
             .name    = "Device handle",
-            .targets = dmi_targets(DMI_TYPE_MEMORY_DEVICE),
+            .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE),
         }),
         DMI_ATTRIBUTE(dmi_memory_device_addr_t, array_addr_handle, HANDLE, {
             .code    = "array-addr-handle",
             .name    = "Array mapped address handle",
-            .targets = dmi_targets(DMI_TYPE_MEMORY_ARRAY_ADDR),
+            .targets = dmi_types(DMI_TYPE_MEMORY_ARRAY_ADDR),
         }),
         DMI_ATTRIBUTE(dmi_memory_device_addr_t, partition_pos, INTEGER, {
             .code    = "partition-pos",

@@ -67,7 +67,7 @@ const dmi_entity_spec_t dmi_memory_array_addr_spec =
         DMI_ATTRIBUTE(dmi_memory_array_addr_t, array_handle, HANDLE, {
             .code   = "array-handle",
             .name   = "Memory array handle",
-            .targets = dmi_targets(DMI_TYPE_MEMORY_ARRAY),
+            .targets = dmi_types(DMI_TYPE_MEMORY_ARRAY),
         }),
         DMI_ATTRIBUTE(dmi_memory_array_addr_t, partition_width, INTEGER, {
             .code   = "partition-width",

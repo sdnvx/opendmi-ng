@@ -257,7 +257,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         DMI_ATTRIBUTE(dmi_memory_array_t, error_info_handle, HANDLE, {
             .code    = "error-handle",
             .name    = "Memory error information handle",
-            .targets = dmi_targets(DMI_TYPE_MEMORY_ERROR_32, DMI_TYPE_MEMORY_ERROR_64),
+            .targets = dmi_types(DMI_TYPE_MEMORY_ERROR_32, DMI_TYPE_MEMORY_ERROR_64),
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, device_count, INTEGER, {
             .code    = "device-count",

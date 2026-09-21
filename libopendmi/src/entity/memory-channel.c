@@ -94,7 +94,7 @@ const dmi_entity_spec_t dmi_memory_channel_spec =
                 DMI_ATTRIBUTE(dmi_memory_channel_device_t, handle, HANDLE, {
                     .code = "handle",
                     .name = "Handle",
-                    .targets = dmi_targets(DMI_TYPE_MEMORY_DEVICE),
+                    .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE),
                 }),
                 DMI_ATTRIBUTE_NULL
             }

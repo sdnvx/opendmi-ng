@@ -28,12 +28,12 @@ const dmi_entity_spec_t dmi_sun_port_ex_spec =
         DMI_ATTRIBUTE(dmi_sun_port_ex_t, chassis_handle, HANDLE, {
             .code  = "chassis-handle",
             .name  = "Chassis handle",
-            .targets = dmi_targets(DMI_TYPE_CHASSIS),
+            .targets = dmi_types(DMI_TYPE_CHASSIS),
         }),
         DMI_ATTRIBUTE(dmi_sun_port_ex_t, port_handle, HANDLE, {
             .code  = "port-handle",
             .name  = "Port connector handle",
-            .targets = dmi_targets(DMI_TYPE_PORT_CONNECTOR),
+            .targets = dmi_types(DMI_TYPE_PORT_CONNECTOR),
         }),
         DMI_ATTRIBUTE(dmi_sun_port_ex_t, device_type, INTEGER, {
             .code  = "device-type",
