@@ -7,10 +7,8 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/module/sun.h>
-#include <opendmi/entity/sun/memory-device-ex.h>
 
-static bool dmi_sun_memory_device_ex_decode(dmi_entity_t *entity);
-static void dmi_sun_memory_device_ex_cleanup(dmi_entity_t *entity);
+#include <opendmi/entity/sun/memory-device-ex-internal.h>
 
 const dmi_entity_spec_t dmi_sun_memory_device_ex_spec =
 {
@@ -23,10 +21,27 @@ const dmi_entity_spec_t dmi_sun_memory_device_ex_spec =
         //
         nullptr
     },
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x08,
-    .decoded_length  = sizeof(dmi_sun_memory_device_ex_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x08,
+        .decoded_length  = sizeof(dmi_sun_memory_device_ex_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_sun_memory_device_ex_t, memory_device_handle, WORD),
+        DMI_FIELD(dmi_sun_memory_device_ex_t, dram_channel,         BYTE),
+
+        DMI_FIELD_ARRAY(dmi_sun_memory_device_ex_t, chip_selects, chip_select_count,
+            .count_type   = DMI_FIELD_TYPE_BYTE,
+            .count_member = dmi_member(dmi_sun_memory_device_ex_t, chip_select_total),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD_ELEMENT(dmi_sun_memory_device_ex_t, chip_selects, BYTE),
+                {}
+            })),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_sun_memory_device_ex_t, memory_device_handle, HANDLE, {
             .code  = "memory-device-handle",
             .name  = "Memory device handle",
@@ -44,57 +59,10 @@ const dmi_entity_spec_t dmi_sun_memory_device_ex_spec =
             .code  = "chip-selects",
             .name  = "Chip selects"
         }),
-        DMI_ATTRIBUTE_NULL
-    },
+        {}
+    }),
+
     .handlers = {
-        .decode  = dmi_sun_memory_device_ex_decode,
         .cleanup = dmi_sun_memory_device_ex_cleanup
     }
 };
-
-static bool dmi_sun_memory_device_ex_decode(dmi_entity_t *entity)
-{
-    dmi_sun_memory_device_ex_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_DEVICE_EX));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t *context = dmi_entity_context(entity);
-    dmi_stream_t  *stream  = dmi_entity_stream(entity);
-
-    bool status =
-        dmi_stream_decode(stream, dmi_word_t, &info->memory_device_handle) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->dram_channel) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->chip_select_total);
-    if (not status)
-        return false;
-
-    if (info->chip_select_total == 0)
-        return true;
-
-    info->chip_selects = dmi_alloc_array(context, sizeof(*info->chip_selects),
-                                         info->chip_select_total);
-    if (info->chip_selects == nullptr)
-        return false;
-
-    for (size_t i = 0; i < info->chip_select_total; i++) {
-        if (not dmi_stream_decode(stream, dmi_byte_t, &info->chip_selects[i]))
-            return dmi_entity_incomplete(entity);
-
-        info->chip_select_count++;
-    }
-
-    return true;
-}
-
-static void dmi_sun_memory_device_ex_cleanup(dmi_entity_t *entity)
-{
-    dmi_sun_memory_device_ex_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_DEVICE_EX));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->chip_selects);
-}

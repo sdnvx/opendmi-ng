@@ -7,19 +7,38 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
-#include <opendmi/entity/intel/rsd-network-card.h>
 
-static bool dmi_intel_rsd_network_card_decode(dmi_entity_t *entity);
+#include <opendmi/entity/intel/rsd-network-card-internal.h>
 
 const dmi_entity_spec_t dmi_intel_rsd_network_card_spec =
 {
-    .code            = "intel-rsd-network-card",
-    .name            = "Intel RSD Network card information",
-    .type            = DMI_TYPE(INTEL_RSD_NETWORK_CARD),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x3A,
-    .decoded_length  = sizeof(dmi_intel_rsd_network_card_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .code = "intel-rsd-network-card",
+    .name = "Intel RSD Network card information",
+    .type = DMI_TYPE(INTEL_RSD_NETWORK_CARD),
+
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x3A,
+        .decoded_length  = sizeof(dmi_intel_rsd_network_card_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_intel_rsd_network_card_t, pci_class,        BYTE),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, pci_slot_id,      WORD),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, vendor_id,        WORD),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, device_id,        WORD),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, sub_vendor_id,    WORD),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, sub_device_id,    WORD),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, maximum_speed,    DWORD),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, current_speed,    DWORD),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, port_index,       WORD),
+        DMI_FIELD_BINARY(dmi_intel_rsd_network_card_t, mac_address,
+                         DMI_INTEL_RSD_MAC_ADDRESS_LENGTH),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, firmware_version, STRING),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_intel_rsd_network_card_t, pci_class, INTEGER, {
             .code = "pci-class",
             .name = "PCI class"
@@ -72,32 +91,5 @@ const dmi_entity_spec_t dmi_intel_rsd_network_card_spec =
             .name = "Firmware version"
         }),
         {}
-    },
-    .handlers = {
-        .decode = dmi_intel_rsd_network_card_decode
-    }
+    })
 };
-
-static bool dmi_intel_rsd_network_card_decode(dmi_entity_t *entity)
-{
-    dmi_intel_rsd_network_card_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_NETWORK_CARD));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode(stream, dmi_byte_t, &info->pci_class) and
-        dmi_stream_decode(stream, dmi_word_t, &info->pci_slot_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->vendor_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->device_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->sub_vendor_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->sub_device_id) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->maximum_speed) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->current_speed) and
-        dmi_stream_decode(stream, dmi_word_t, &info->port_index) and
-        dmi_stream_decode_bin(stream, DMI_INTEL_RSD_MAC_ADDRESS_LENGTH, &info->mac_address) and
-        dmi_stream_decode_str(stream, &info->firmware_version);
-}

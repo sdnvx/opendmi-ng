@@ -13,7 +13,7 @@
 static const dmi_name_set_t dmi_vendor_names =
 {
     .code = "vendor",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         DMI_NAME_OTHER(DMI_VENDOR_OTHER),
         {
             .id   = DMI_VENDOR_ACER,
@@ -60,8 +60,8 @@ static const dmi_name_set_t dmi_vendor_names =
             .code = "lenovo",
             .name = "Lenovo"
         },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 static const dmi_vendor_spec_t dmi_vendor_specs[] =

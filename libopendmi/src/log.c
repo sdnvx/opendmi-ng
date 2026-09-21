@@ -18,7 +18,7 @@ static const dmi_name_set_t dmi_log_level_names =
         { .id = DMI_LOG_NOTICE,  .code = "notice",  .name = "NOTICE"  },
         { .id = DMI_LOG_INFO,    .code = "info",    .name = "INFO"    },
         { .id = DMI_LOG_DEBUG,   .code = "debug",   .name = "DEBUG"   },
-        DMI_NAME_NULL
+        {}
     }
 };
 

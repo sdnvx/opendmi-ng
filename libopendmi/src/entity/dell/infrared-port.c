@@ -6,45 +6,35 @@
 //
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
-#include <opendmi/entity/dell/infrared-port.h>
 
-static bool dmi_dell_infrared_port_decode(dmi_entity_t *entity);
-
-static const dmi_name_set_t dmi_dell_infrared_proto_names =
-{
-    .code = "dell-infrared-protocol",
-    .names = (const dmi_name_t[]) {
-        DMI_NAME_UNSPEC(DMI_DELL_INFRARED_PROTO_UNSPEC),
-        DMI_NAME_OTHER(DMI_DELL_INFRARED_PROTO_OTHER),
-        DMI_NAME_UNKNOWN(DMI_DELL_INFRARED_PROTO_UNKNOWN),
-        {
-            .id   = DMI_DELL_INFRARED_PROTO_SIR,
-            .code = "sir",
-            .name = "SIR (Standard IR)"
-        },
-        {
-            .id   = DMI_DELL_INFRARED_PROTO_FIR,
-            .code = "fir",
-            .name = "FIR (Fast IR)"
-        },
-        {
-            .id   = DMI_DELL_INFRARED_PROTO_MIR,
-            .code = "mir",
-            .name = "MIR (Medium Speed IR)"
-        },
-        DMI_NAME_NULL
-    }
-};
+#include <opendmi/entity/dell/infrared-port-internal.h>
 
 const dmi_entity_spec_t dmi_dell_infrared_port_spec =
 {
-    .type            = DMI_TYPE(DELL_INFRARED_PORT),
-    .code            = "dell-infrared-port",
-    .name            = "Dell infrared port",
-    .minimum_version = DMI_VERSION(2, 2, 0),
-    .minimum_length  = 0x0D,
-    .decoded_length  = sizeof(dmi_dell_infrared_port_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .type = DMI_TYPE(DELL_INFRARED_PORT),
+    .code = "dell-infrared-port",
+    .name = "Dell infrared port",
+
+    .params = {
+        .minimum_version = DMI_VERSION(2, 2, 0),
+        .minimum_length  = 0x0D,
+        .decoded_length  = sizeof(dmi_dell_infrared_port_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_dell_infrared_port_t, location,          STRING),
+        DMI_FIELD(dmi_dell_infrared_port_t, state,             BYTE),
+        DMI_FIELD(dmi_dell_infrared_port_t, speed_limit_state, BYTE),
+        DMI_FIELD(dmi_dell_infrared_port_t, speed_limit,       WORD,
+                  .convert = dmi_dell_infrared_port_convert_speed),
+        DMI_FIELD(dmi_dell_infrared_port_t, physical_port,     STRING),
+        DMI_FIELD(dmi_dell_infrared_port_t, virtual_com_port,  STRING),
+        DMI_FIELD(dmi_dell_infrared_port_t, virtual_lpt_port,  STRING),
+        DMI_FIELD(dmi_dell_infrared_port_t, protocol,          BYTE),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_dell_infrared_port_t, location, STRING, {
             .code    = "location",
             .name    = "Location"
@@ -87,40 +77,6 @@ const dmi_entity_spec_t dmi_dell_infrared_port_spec =
             .unknown = dmi_value_ptr(DMI_DELL_INFRARED_PROTO_UNKNOWN),
             .values  = &dmi_dell_infrared_proto_names
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .handlers = {
-        .decode = dmi_dell_infrared_port_decode
-    }
+        {}
+    })
 };
-
-const char *dmi_dell_infrared_proto_name(dmi_dell_infrared_proto_t value)
-{
-    return dmi_name_lookup(&dmi_dell_infrared_proto_names, (int)value);
-}
-
-static bool dmi_dell_infrared_port_decode(dmi_entity_t *entity)
-{
-    dmi_dell_infrared_port_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(DELL_INFRARED_PORT));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-    dmi_word_t speed_limit = 0;
-
-    bool status =
-        dmi_stream_decode_str(stream, &info->location) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->state) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->speed_limit_state) and
-        dmi_stream_decode(stream, dmi_word_t, &speed_limit) and
-        dmi_stream_decode_str(stream, &info->physical_port) and
-        dmi_stream_decode_str(stream, &info->virtual_com_port) and
-        dmi_stream_decode_str(stream, &info->virtual_lpt_port) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->protocol);
-
-    info->speed_limit = (uint32_t)speed_limit * 100;
-
-    return status;
-}

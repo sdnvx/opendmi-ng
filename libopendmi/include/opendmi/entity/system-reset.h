@@ -12,7 +12,6 @@
 #include <opendmi/entity.h>
 
 typedef struct dmi_system_reset dmi_system_reset_t;
-typedef union dmi_system_reset_caps dmi_system_reset_caps_t;
 
 /**
  * @brief System boot options.
@@ -24,51 +23,6 @@ typedef enum dmi_boot_option
     DMI_BOOT_OPTION_SYSTEM_UTILS     = 0x02, ///< System utilities
     DMI_BOOT_OPTION_AVOID_REBOOT     = 0x03, ///< Do not reboot
 } dmi_boot_option_t;
-
-/**
- * @brief System reset capabilities.
- */
-dmi_packed_union(dmi_system_reset_caps)
-{
-    /**
-     * @brief Raw value;
-     */
-    dmi_byte_t __value;
-
-    dmi_packed_struct()
-    {
-        /**
-         * @brief Status. Identifies whether (`true`) or not (`false`) the
-         * system reset is enabled by the user.
-         */
-        dmi_byte_t is_enabled : 1;
-
-        /**
-         * @brief Boot option. Indicates one of the following actions to be
-         * taken after a watchdog reset.
-         */
-        dmi_byte_t boot_on_watchdog : 2;
-
-        /**
-         * @brief Boot option on limit. Identifies one of the following system
-         * actions to be taken when the reset limit is reached.
-         */
-        dmi_byte_t boot_on_limit : 2;
-
-        /**
-         * @brief System contains a watchdog timer: either `true` or `false`.
-         */
-        dmi_byte_t has_watchdog : 1;
-
-        /**
-         * @brief Reserved for future assignment by this specification, set to
-         * zero.
-         */
-        dmi_byte_t __reserved : 2;
-    };
-};
-
-dmi_static_assert_value_union(dmi_system_reset_caps);
 
 /**
  * @brief System reset information (type 23).

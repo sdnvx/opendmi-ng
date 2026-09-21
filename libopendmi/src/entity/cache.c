@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <inttypes.h>
-
 #include <opendmi/context.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
@@ -14,208 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/cache.h>
-
-static bool dmi_cache_decode(dmi_entity_t *entity);
-
-static const dmi_name_set_t dmi_cache_type_names =
-{
-    .code  = "cache-type",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_CACHE_TYPE_UNSPEC),
-        DMI_NAME_OTHER(DMI_CACHE_TYPE_OTHER),
-        DMI_NAME_UNKNOWN(DMI_CACHE_TYPE_UNKNOWN),
-        {
-            .id   = DMI_CACHE_TYPE_INSTRUCTION,
-            .code = "instruction",
-            .name = "Instruction"
-        },
-        {
-            .id   = DMI_CACHE_TYPE_DATA,
-            .code = "data",
-            .name = "Data"
-        },
-        {
-            .id   = DMI_CACHE_TYPE_UNIFIED,
-            .code = "unified",
-            .name = "Unified"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_cache_mode_names =
-{
-    .code  = "cache-mode",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_CACHE_MODE_WRITE_THROUGH,
-            .code = "write-through",
-            .name = "Write-through"
-        },
-        {
-            .id   = DMI_CACHE_MODE_WRITE_BACK,
-            .code = "write-back",
-            .name = "Write-back"
-        },
-        {
-            .id   = DMI_CACHE_MODE_VARIABLE,
-            .code = "variable",
-            .name = "Variable"
-        },
-        DMI_NAME_UNKNOWN(DMI_CACHE_MODE_UNKNOWN),
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_cache_assoc_names =
-{
-    .code  = "cache-assoc",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_CACHE_ASSOC_UNSPEC),
-        DMI_NAME_OTHER(DMI_CACHE_ASSOC_OTHER),
-        DMI_NAME_UNKNOWN(DMI_CACHE_ASSOC_UNKNOWN),
-        {
-            .id   = DMI_CACHE_ASSOC_DIRECT,
-            .code = "direct",
-            .name = "Direct mapped"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_2WAY,
-            .code = "2-way",
-            .name = "2-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_4WAY,
-            .code = "4-way",
-            .name = "4-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_FULL,
-            .code = "full",
-            .name = "Fully associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_8WAY,
-            .code = "8-way",
-            .name = "8-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_16WAY,
-            .code = "16-way",
-            .name = "16-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_12WAY,
-            .code = "12-way",
-            .name = "12-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_24WAY,
-            .code = "24-way",
-            .name = "24-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_32WAY,
-            .code = "32-way",
-            .name = "32-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_48WAY,
-            .code = "48-way",
-            .name = "48-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_64WAY,
-            .code = "64-way",
-            .name = "64-way set-associative"
-        },
-        {
-            .id   = DMI_CACHE_ASSOC_20WAY,
-            .code = "20-way",
-            .name = "20-way set-associative"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_cache_location_names =
-{
-    .code  = "cache-location",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_CACHE_LOCATION_INTERNAL,
-            .code = "internal",
-            .name = "Internal"
-        },
-        {
-            .id   = DMI_CACHE_LOCATION_EXTERNAL,
-            .code = "external",
-            .name = "External"
-        },
-        DMI_NAME_RESERVED(DMI_CACHE_LOCATION_RESERVED),
-        DMI_NAME_UNKNOWN(DMI_CACHE_LOCATION_UNKNOWN),
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_cache_sram_type_names =
-{
-    .code  = "cache-sram-type",
-    .names = (dmi_name_t[]){
-        DMI_NAME_OTHER(0),
-        DMI_NAME_UNKNOWN(1),
-        {
-            .id   = 2,
-            .code = "non-burst",
-            .name = "Non-burst"
-        },
-        {
-            .id   = 3,
-            .code = "burst",
-            .name = "Burst"
-        },
-        {
-            .id   = 4,
-            .code = "pipeline-burst",
-            .name = "Pipeline burst"
-        },
-        {
-            .id   = 5,
-            .code = "synchronous",
-            .name = "Synchronous"
-        },
-        {
-            .id   = 6,
-            .code = "asynchronous",
-            .name = "Asynchronous"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity);
-static void dmi_cache_lint_sram(dmi_lint_t *lint, const dmi_entity_t *entity);
-
-static const dmi_lint_rule_t dmi_cache_size_rule =
-{
-    .code              = "cache.size",
-    .name              = "Installed size of the cache fits its maximum size",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_cache_lint_size
-};
-
-static const dmi_lint_rule_t dmi_cache_sram_rule =
-{
-    .code              = "cache.sram",
-    .name              = "Current SRAM type of the cache is one of the supported ones",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_cache_lint_sram
-};
+#include <opendmi/entity/cache-internal.h>
 
 const dmi_entity_spec_t dmi_cache_spec =
 {
@@ -231,10 +29,51 @@ const dmi_entity_spec_t dmi_cache_spec =
         nullptr
     },
     .type            = DMI_TYPE(CACHE),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x0F,
-    .decoded_length  = sizeof(dmi_cache_t),
-    .attributes      = (const dmi_attribute_t[]) {
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .required_from   = DMI_VERSION(2, 3, 0),
+        .minimum_length  = 0x0F,
+        .decoded_length  = sizeof(dmi_cache_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_cache_t, socket_designator, STRING),
+
+        // One word holding the configuration of the cache
+        DMI_FIELD_BITS(dmi_cache_t, level, 3, .convert = dmi_cache_convert_level),
+        DMI_FIELD_BITS(dmi_cache_t, socketed, 1),
+        DMI_FIELD_BITS_SKIP(1),
+        DMI_FIELD_BITS(dmi_cache_t, location, 2),
+        DMI_FIELD_BITS(dmi_cache_t, enabled,  1),
+        DMI_FIELD_BITS(dmi_cache_t, mode,     2),
+        DMI_FIELD_PAD(WORD),
+
+        // Sizes are carried in granules of one or of sixty-four kibibytes,
+        // and the caches too large for a word carry them in the extended
+        // fields instead
+        DMI_FIELD(dmi_cache_t, maximum_size,   WORD, .convert = dmi_cache_convert_size),
+        DMI_FIELD(dmi_cache_t, installed_size, WORD, .convert = dmi_cache_convert_size),
+
+        DMI_FIELD(dmi_cache_t, supported_sram, WORD),
+        DMI_FIELD(dmi_cache_t, current_sram,   WORD),
+
+        DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
+        DMI_FIELD(dmi_cache_t, speed,            BYTE),
+        DMI_FIELD(dmi_cache_t, error_correction, BYTE),
+        DMI_FIELD(dmi_cache_t, type,             BYTE),
+        DMI_FIELD(dmi_cache_t, associativity,    BYTE),
+
+        DMI_FIELD_GROUP(.since = DMI_VERSION(3, 1, 0)),
+        DMI_FIELD_EXTENDED(dmi_cache_t, maximum_size, DWORD,
+                           .when_raw = 0xFFFFu,
+                           .convert  = dmi_cache_convert_size_ex),
+        DMI_FIELD_EXTENDED(dmi_cache_t, installed_size, DWORD,
+                           .when_raw = 0xFFFFu,
+                           .convert  = dmi_cache_convert_size_ex),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_cache_t, socket_designator, STRING, {
             .code    = "socket-designator",
             .name    = "Socket designator"
@@ -313,170 +152,20 @@ const dmi_entity_spec_t dmi_cache_spec =
             .values  = &dmi_cache_assoc_names,
             .level   = DMI_VERSION(2, 1, 0)
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .lint_rules      = (const dmi_lint_rule_t *const[]){
-        &dmi_cache_size_rule,
-        &dmi_cache_sram_rule,
-        nullptr
-    },
+        {}
+    }),
 
-    .handlers = {
-        .decode = dmi_cache_decode
-    }
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("cache.size", dmi_cache_lint_size, {
+            .name              = "Installed size of the cache fits its maximum size",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        DMI_LINT_RULE("cache.sram", dmi_cache_lint_sram, {
+            .name              = "Current SRAM type of the cache is one of the supported ones",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        {}
+    })
 };
-
-const char *dmi_cache_type_name(dmi_cache_type_t value)
-{
-    return dmi_name_lookup(&dmi_cache_type_names, (int)value);
-}
-
-const char *dmi_cache_mode_name(dmi_cache_mode_t value)
-{
-    return dmi_name_lookup(&dmi_cache_mode_names, (int)value);
-}
-
-const char *dmi_cache_assoc_name(dmi_cache_assoc_t value)
-{
-    return dmi_name_lookup(&dmi_cache_assoc_names, (int)value);
-}
-
-const char *dmi_cache_location_name(dmi_cache_location_t value)
-{
-    return dmi_name_lookup(&dmi_cache_location_names, (int)value);
-}
-
-dmi_size_t dmi_cache_size(uint16_t value)
-{
-    dmi_size_t size = value & 0x7FFFU;
-
-    if (value & 0x8000U)
-        size <<= 16; // Granularity is 64 Kb
-    else
-        size <<= 10; // Granularity is 1 Kb
-
-    return size;
-}
-
-dmi_size_t dmi_cache_size_ex(uint32_t value)
-{
-    dmi_size_t size = value & 0x7FFFFFFFU;
-
-    if (value & 0x80000000U)
-        size <<= 16; // Granularity is 64 Kb
-    else
-        size <<= 10; // Granularity is 1 Kb
-
-    return size;
-}
-
-static bool dmi_cache_decode(dmi_entity_t *entity)
-{
-    dmi_cache_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(CACHE));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    // SMBIOS 2.0 fields
-    dmi_word_t config_value = 0;
-    dmi_word_t maximum_size = 0;
-    dmi_word_t installed_size = 0;
-
-    bool status =
-        dmi_stream_decode_str(stream, &info->socket_designator) and
-        dmi_stream_decode(stream, dmi_word_t, &config_value) and
-        dmi_stream_decode(stream, dmi_word_t, &maximum_size) and
-        dmi_stream_decode(stream, dmi_word_t, &installed_size) and
-        dmi_stream_decode(stream, dmi_word_t, &info->supported_sram.__value) and
-        dmi_stream_decode(stream, dmi_word_t, &info->current_sram.__value);
-    if (not status)
-        return false;
-
-    dmi_cache_config_t config = {
-        .__value = config_value
-    };
-
-    info->level          = config.level + 1;
-    info->mode           = config.mode;
-    info->location       = config.location;
-    info->socketed       = config.socketed;
-    info->enabled        = config.enabled;
-    info->maximum_size   = dmi_cache_size(maximum_size);
-    info->installed_size = dmi_cache_size(installed_size);
-
-    // SMBIOS 2.1 fields
-    if (dmi_stream_is_done(stream))
-        return dmi_entity_stop(entity);
-
-    entity->level = dmi_version(2, 1, 0);
-
-    status =
-        dmi_stream_decode(stream, dmi_byte_t, &info->speed) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->error_correction) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->type) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->associativity);
-    if (not status)
-        return dmi_entity_incomplete(entity);
-
-    // SMBIOS 3.1 fields
-    if (dmi_stream_is_done(stream))
-        return dmi_entity_stop(entity);
-
-    entity->level = dmi_version(3, 1, 0);
-
-    // Actual sizes are stored in extended fields
-    dmi_dword_t maximum_size_ex = 0;
-    dmi_dword_t installed_size_ex = 0;
-
-    bool has_maximum_size_ex = dmi_stream_decode(stream, dmi_dword_t, &maximum_size_ex);
-
-    status =
-        has_maximum_size_ex and
-        dmi_stream_decode(stream, dmi_dword_t, &installed_size_ex);
-
-    if (has_maximum_size_ex and (maximum_size == 0xFFFFu))
-        info->maximum_size = dmi_cache_size_ex(maximum_size_ex);
-    if (status and (installed_size == 0xFFFFu))
-        info->installed_size = dmi_cache_size_ex(installed_size_ex);
-
-    if (not status)
-        return dmi_entity_incomplete(entity);
-
-    return true;
-}
-
-static void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity)
-{
-    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
-
-    if ((info == nullptr) or (info->maximum_size == 0) or (info->maximum_size == DMI_SIZE_MAX))
-        return;
-
-    if ((info->installed_size == DMI_SIZE_MAX) or (info->installed_size <= info->maximum_size))
-        return;
-
-    dmi_lint_issue(lint, entity, "installed-size", dmi_lint_entity_offset(lint, entity),
-                   "installed size of %" PRIu64 " bytes is above the maximum of %" PRIu64
-                   " bytes", info->installed_size, info->maximum_size);
-}
-
-static void dmi_cache_lint_sram(dmi_lint_t *lint, const dmi_entity_t *entity)
-{
-    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
-
-    if ((info == nullptr) or (info->current_sram.__value == 0) or
-        (info->supported_sram.__value == 0))
-        return;
-
-    // The cache operates in one of the modes it supports, so the current type
-    // is one of the supported ones
-    if ((info->current_sram.__value & ~info->supported_sram.__value) == 0)
-        return;
-
-    dmi_lint_issue(lint, entity, "current-sram", dmi_lint_entity_offset(lint, entity),
-                   "current SRAM type 0x%04X is not among the supported ones 0x%04X",
-                   (unsigned)info->current_sram.__value, (unsigned)info->supported_sram.__value);
-}

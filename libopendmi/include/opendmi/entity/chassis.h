@@ -13,7 +13,6 @@
 #include <opendmi/entity/baseboard.h>
 
 typedef struct dmi_chassis           dmi_chassis_t;
-typedef union  dmi_chassis_type_data dmi_chassis_type_data_t;
 typedef struct dmi_chassis_element   dmi_chassis_element_t;
 
 /**
@@ -78,22 +77,6 @@ typedef enum dmi_rack_type
     DMI_RACK_TYPE_OPEN   = 0x01, ///< Open Rack,
     __DMI_RACK_TYPE_COUNT
 } dmi_rack_type_t;
-
-dmi_packed_union(dmi_chassis_type_data)
-{
-    /**
-     * @brief Raw value.
-     */
-    dmi_byte_t __value;
-
-    dmi_packed_struct()
-    {
-        dmi_byte_t type : 7;
-        dmi_byte_t is_lock_present : 1;
-    };
-};
-
-dmi_static_assert_value_union(dmi_chassis_type_data);
 
 struct dmi_chassis
 {

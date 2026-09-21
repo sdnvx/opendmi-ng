@@ -37,43 +37,51 @@ static bool dmi_lint_link_is_set(dmi_handle_t handle);
 
 const dmi_lint_rule_t dmi_lint_link_dangling_rule =
 {
-    .code              = "link.dangling",
-    .name              = "References point to the structures of the table",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_link_dangling
+    .code   = "link.dangling",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_link_dangling,
+    .params = {
+        .name              = "References point to the structures of the table",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_link_self_rule =
 {
-    .code              = "link.self",
-    .name              = "Structures do not reference themselves",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_link_self
+    .code   = "link.self",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_link_self,
+    .params = {
+        .name              = "Structures do not reference themselves",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_link_wrong_type_rule =
 {
-    .code              = "link.wrong-type",
-    .name              = "References point to the structures of the types they expect",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_link_wrong_type
+    .code   = "link.wrong-type",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_link_wrong_type,
+    .params = {
+        .name              = "References point to the structures of the types they expect",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_link_orphan_rule =
 {
-    .code              = "link.orphan",
-    .name              = "Structures are referenced by the rest of the table",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_NOTE,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_link_orphan,
-    .optional          = true
+    .code   = "link.orphan",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_link_orphan,
+    .params = {
+        .name              = "Structures are referenced by the rest of the table",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_NOTE,
+        .optional          = true
+    }
 };
 
 //

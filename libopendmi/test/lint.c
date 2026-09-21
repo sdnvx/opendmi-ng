@@ -189,7 +189,7 @@ static void test_lint_rules(void **pstate)
 
     for (const dmi_lint_rule_t *const *rule = rules; *rule != nullptr; rule++) {
         assert_non_null((*rule)->code);
-        assert_non_null((*rule)->name);
+        assert_non_null((*rule)->params.name);
 
         // Every rule is reachable by its code name, and the codes are unique
         assert_ptr_equal(dmi_lint_rule_find(nullptr, (*rule)->code), *rule);

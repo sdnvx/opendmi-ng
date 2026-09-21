@@ -14,7 +14,7 @@ const dmi_name_set_t dmi_unit_names =
 {
     .code  = "unit",
     .name  = "Measurement units",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         { DMI_UNIT_HOUR,           "hour",           "h"     },
         { DMI_UNIT_MINUTE,         "minute",         "m"     },
         { DMI_UNIT_SECOND,         "second",         "s"     },
@@ -62,8 +62,8 @@ const dmi_name_set_t dmi_unit_names =
         { DMI_UNIT_MHZ,            "mhz",            "MHz"   },
 
         { DMI_UNIT_MILLIMETER,     "millimeter",     "mm"    },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 //
@@ -74,9 +74,9 @@ const dmi_name_set_t dmi_bool_names =
 {
     .code  = "bool",
     .name  = "Boolean values",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         { false, "false", "no"  },
         { true,  "true",  "yes" },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };

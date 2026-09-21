@@ -11,27 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/oob-remote-access.h>
-
-static bool dmi_oob_remote_access_decode(dmi_entity_t *entity);
-
-static const dmi_name_set_t dmi_oob_connection_names =
-{
-    .code  = "oob-connection",
-    .names = (dmi_name_t[]){
-        {
-            .id   = 0,
-            .code = "is-inbound-enabled",
-            .name = "Inbound connections enabled"
-        },
-        {
-            .id   = 1,
-            .code = "is-outbound-enabled",
-            .name = "Outbound connections enabled"
-        },
-        DMI_NAME_NULL
-    }
-};
+#include <opendmi/entity/oob-remote-access-internal.h>
 
 const dmi_entity_spec_t dmi_oob_remote_access_spec =
 {
@@ -46,10 +26,19 @@ const dmi_entity_spec_t dmi_oob_remote_access_spec =
         nullptr
     },
     .type            = DMI_TYPE(OOB_REMOTE_ACCESS),
-    .minimum_version = DMI_VERSION(2, 2, 0),
-    .minimum_length  = 0x06,
-    .decoded_length  = sizeof(dmi_oob_remote_access_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 2, 0),
+        .minimum_length  = 0x06,
+        .decoded_length  = sizeof(dmi_oob_remote_access_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_oob_remote_access_t, vendor,              STRING),
+        DMI_FIELD(dmi_oob_remote_access_t, connections.__value, BYTE),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_oob_remote_access_t, vendor, STRING, {
             .code = "vendor",
             .name = "Vendor"
@@ -59,24 +48,6 @@ const dmi_entity_spec_t dmi_oob_remote_access_spec =
             .name   = "Connections",
             .values = &dmi_oob_connection_names
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .handlers = {
-        .decode = dmi_oob_remote_access_decode
-    }
+        {}
+    }),
 };
-
-static bool dmi_oob_remote_access_decode(dmi_entity_t *entity)
-{
-    dmi_oob_remote_access_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(OOB_REMOTE_ACCESS));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode_str(stream, &info->vendor) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->connections.__value);
-}

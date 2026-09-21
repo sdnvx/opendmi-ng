@@ -9,83 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/system-boot.h>
-
-static bool dmi_system_boot_decode(dmi_entity_t *entity);
-
-static const dmi_name_set_t dmi_system_boot_status_names =
-{
-    .code = "system-boot-status",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_BOOT_STATUS_NO_ERRORS_DETECTED,
-            .code = "no-errors-detected",
-            .name = "No errors detected"
-        },
-        {
-            .id   = DMI_BOOT_STATUS_NO_BOOTABLE_MEDIA,
-            .code = "no-bootable-media",
-            .name = "No bootable media"
-        },
-        {
-            .id   = DMI_BOOT_STATUS_OS_FAILED_TO_LOAD,
-            .code = "os-failed-to-load",
-            .name = "Operating system failed to load"
-        },
-        {
-            .id   = DMI_BOOT_STATUS_FW_DETECTED_HW_FAILURE,
-            .code = "fw-detected-hw-failure",
-            .name = "Firmware-detected hardware failure"
-        },
-        {
-            .id   = DMI_BOOT_STATUS_OS_DETECTED_HW_FAILURE,
-            .code = "os-detected-hw-failure",
-            .name = "Operating system-detected hardware failure"
-        },
-        {
-            .id   = DMI_BOOT_STATUS_USER_REQUESTED_BOOT,
-            .code = "user-requested-boot",
-            .name = "User-requested boot"
-        },
-        {
-            .id   = DMI_BOOT_STATUS_SYSTEM_SECURITY_VIOLATION,
-            .code = "system-security-violation",
-            .name = "System security violation"
-        },
-        {
-            .id   = DMI_BOOT_STATUS_PREVIOUSLY_REQUESTED_IMAGE,
-            .code = "previously-requested-image",
-            .name = "Previously requested image"
-        },
-        {
-            .id   = DMI_BOOT_STATUS_SYSTEM_WDT_EXPIRED,
-            .code = "system-wdt-expired",
-            .name = "System watchdog timer expired"
-        },
-        DMI_NAME_NULL
-    },
-    .ranges = (dmi_name_range_t[]){
-        {
-            .start_id = __DMI_BOOT_STATUS_RESERVED_START,
-            .end_id   = __DMI_BOOT_STATUS_RESERVED_END,
-            .code     = "reserved",
-            .name     = "Reserved"
-        },
-        {
-            .start_id = __DMI_BOOT_STATUS_VENDOR_SPECIFIC_START,
-            .end_id   = __DMI_BOOT_STATUS_VENDOR_SPECIFIC_END,
-            .code     = "vendor-specific",
-            .name     = "Vendor/OEM-specific"
-        },
-        {
-            .start_id = __DMI_BOOT_STATUS_PRODUCT_SPECIFIC_START,
-            .end_id   = __DMI_BOOT_STATUS_PRODUCT_SPECIFIC_END,
-            .code     = "product-specific",
-            .name     = "Product-specific"
-        },
-        DMI_NAME_RANGE_NULL
-    }
-};
+#include <opendmi/entity/system-boot-internal.h>
 
 const dmi_entity_spec_t dmi_system_boot_spec =
 {
@@ -107,11 +31,24 @@ const dmi_entity_spec_t dmi_system_boot_spec =
         nullptr
     },
     .type           = DMI_TYPE(SYSTEM_BOOT),
-    .required_from  = DMI_VERSION(2, 3, 0),
-    .required_till  = DMI_VERSION_NONE,
-    .minimum_length = 0x0B,
-    .decoded_length = sizeof(dmi_system_boot_t),
-    .attributes     = (const dmi_attribute_t[]){
+    .params = {
+        .required_from  = DMI_VERSION(2, 3, 0),
+        .required_till  = DMI_VERSION_NONE,
+        .minimum_length = 0x0B,
+        .decoded_length = sizeof(dmi_system_boot_t)
+    },
+
+    .fields = DMI_FIELDS({
+        // Reserved bytes
+        DMI_FIELD_SKIP(6 * sizeof(dmi_byte_t)),
+
+        // Boot status has variable length, and starts with the status code
+        DMI_FIELD(dmi_system_boot_t, status, BYTE),
+        DMI_FIELD_BINARY(dmi_system_boot_t, status_data, DMI_FIELD_LENGTH_REST),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_system_boot_t, status, ENUM, {
             .code   = "status",
             .name   = "Boot status",
@@ -121,40 +58,15 @@ const dmi_entity_spec_t dmi_system_boot_spec =
         DMI_ATTRIBUTE_VARIANT(dmi_system_boot_t, has_status_data, {
             .code     = "status-data",
             .name     = "Boot status data",
-            .variants = (const dmi_attribute_variant_t[]){
+            .variants = DMI_VARIANTS({
                 DMI_VARIANT(true, dmi_system_boot_t, status_data, BINARY, {}),
-                DMI_VARIANT_NULL
-            }
+                {}
+            })
         }),
-        DMI_ATTRIBUTE_NULL
-    },
+        {}
+    }),
+
     .handlers = {
-        .decode = dmi_system_boot_decode
+        .derive = dmi_system_boot_derive
     }
 };
-
-static bool dmi_system_boot_decode(dmi_entity_t *entity)
-{
-    dmi_system_boot_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_BOOT));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    // Reserved bytes
-    if (not dmi_stream_skip(stream, 6 * sizeof(dmi_byte_t)))
-        return false;
-
-    // Boot status has variable length, and starts with the status code
-    bool status =
-        dmi_stream_decode(stream, dmi_byte_t, &info->status) and
-        dmi_stream_decode_bin(stream, dmi_stream_remaining(stream), &info->status_data);
-    if (not status)
-        return false;
-
-    info->has_status_data = (info->status >= __DMI_BOOT_STATUS_VENDOR_SPECIFIC_START);
-
-    return true;
-}

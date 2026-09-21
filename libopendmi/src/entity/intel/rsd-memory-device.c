@@ -7,70 +7,32 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
-#include <opendmi/entity/intel/rsd-memory-device.h>
 
-static bool dmi_intel_rsd_memory_device_decode(dmi_entity_t *entity);
-
-const dmi_name_set_t dmi_intel_rsd_memory_type_names =
-{
-    .code  = "intel-rsd-memory-type",
-    .names = (const dmi_name_t[]){
-        {
-            .id   = DMI_INTEL_RSD_MEMORY_TYPE_DIMM,
-            .code = "dimm",
-            .name = "DIMM"
-        },
-        {
-            .id   = DMI_INTEL_RSD_MEMORY_TYPE_NVDIMM_N,
-            .code = "nvdimm-n",
-            .name = "NVDIMM-N (Byte accessible persistent memory)"
-        },
-        {
-            .id   = DMI_INTEL_RSD_MEMORY_TYPE_NVDIMM_F,
-            .code = "nvdimm-f",
-            .name = "NVDIMM-F (Block accessible persistent memory)"
-        },
-        {
-            .id   = DMI_INTEL_RSD_MEMORY_TYPE_NVDIMM_P,
-            .code = "nvdimm-p",
-            .name = "NVDIMM-P"
-        },
-        {}
-    }
-};
-
-const dmi_name_set_t dmi_intel_rsd_memory_media_names =
-{
-    .code  = "intel-rsd-memory-media",
-    .names = (const dmi_name_t[]){
-        {
-            .id   = DMI_INTEL_RSD_MEMORY_MEDIA_DRAM,
-            .code = "dram",
-            .name = "DRAM"
-        },
-        {
-            .id   = DMI_INTEL_RSD_MEMORY_MEDIA_NAND,
-            .code = "nand",
-            .name = "NAND"
-        },
-        {
-            .id   = DMI_INTEL_RSD_MEMORY_MEDIA_PROPRIETARY,
-            .code = "proprietary",
-            .name = "Proprietary"
-        },
-        {}
-    }
-};
+#include <opendmi/entity/intel/rsd-memory-device-internal.h>
 
 const dmi_entity_spec_t dmi_intel_rsd_memory_device_spec =
 {
     .code            = "intel-rsd-memory-device-ex",
     .name            = "Intel RSD memory device extended information",
     .type            = DMI_TYPE(INTEL_RSD_MEMORY_DEVICE),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x0F,
-    .decoded_length  = sizeof(dmi_intel_rsd_memory_device_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x0F,
+        .decoded_length  = sizeof(dmi_intel_rsd_memory_device_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, device_handle,        WORD),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, memory_type,          BYTE),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, memory_media,         BYTE),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, firmware_revision,    STRING),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, firmware_api_version, STRING),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, maximum_tdp,          DWORD),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, smbus_address,        BYTE),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_intel_rsd_memory_device_t, device_handle, HANDLE, {
             .code = "device-handle",
             .name = "Device handle"
@@ -104,38 +66,5 @@ const dmi_entity_spec_t dmi_intel_rsd_memory_device_spec =
             .name   = "SMBus address"
         }),
         {}
-    },
-    .handlers = {
-        .decode = dmi_intel_rsd_memory_device_decode
-    }
+    }),
 };
-
-const char *dmi_intel_rsd_memory_type_name(dmi_intel_rsd_memory_type_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_memory_type_names, (int)value);
-}
-
-const char *dmi_intel_rsd_memory_media_name(dmi_intel_rsd_memory_media_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_memory_media_names, (int)value);
-}
-
-static bool dmi_intel_rsd_memory_device_decode(dmi_entity_t *entity)
-{
-    dmi_intel_rsd_memory_device_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_MEMORY_DEVICE));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode(stream, dmi_word_t, &info->device_handle) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->memory_type) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->memory_media) and
-        dmi_stream_decode_str(stream, &info->firmware_revision) and
-        dmi_stream_decode_str(stream, &info->firmware_api_version) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->maximum_tdp) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->smbus_address);
-}

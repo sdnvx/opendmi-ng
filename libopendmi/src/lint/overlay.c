@@ -26,33 +26,39 @@ static const dmi_additional_info_t *dmi_lint_overlay_info(const dmi_entity_t *en
 
 const dmi_lint_rule_t dmi_lint_overlay_dangling_rule =
 {
-    .code              = "overlay.dangling",
-    .name              = "Additional information entries refer to the structures of the table",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_overlay_dangling
+    .code   = "overlay.dangling",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_overlay_dangling,
+    .params = {
+        .name              = "Additional information entries refer to the structures of the table",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_overlay_out_of_bounds_rule =
 {
-    .code              = "overlay.out-of-bounds",
-    .name              = "Additional information entries refer to the fields of the structures",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_overlay_out_of_bounds
+    .code   = "overlay.out-of-bounds",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_overlay_out_of_bounds,
+    .params = {
+        .name              = "Additional information entries refer to the fields of the structures",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_overlay_empty_rule =
 {
-    .code              = "overlay.empty",
-    .name              = "Additional information entries carry values",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_WARNING,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_overlay_empty,
-    .optional          = true
+    .code   = "overlay.empty",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_overlay_empty,
+    .params = {
+        .name              = "Additional information entries carry values",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_WARNING,
+        .optional          = true
+    }
 };
 
 //

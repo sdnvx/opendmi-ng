@@ -10,7 +10,7 @@
 const dmi_name_set_t dmi_dell_enable_state_names =
 {
     .code  = "dell-enable-state",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         DMI_NAME_UNSPEC(DMI_DELL_ENABLE_STATE_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_ENABLE_STATE_OTHER),
         DMI_NAME_UNKNOWN(DMI_DELL_ENABLE_STATE_UNKNOWN),
@@ -24,14 +24,14 @@ const dmi_name_set_t dmi_dell_enable_state_names =
             .code = "disabled",
             .name = "Disabled"
         },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 const dmi_name_set_t dmi_dell_port_security_names =
 {
     .code  = "dell-port-security-setting",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         DMI_NAME_UNSPEC(DMI_DELL_PORT_SECURITY_UNSPEC),
         DMI_NAME_OTHER(DMI_DELL_PORT_SECURITY_OTHER),
         DMI_NAME_UNKNOWN(DMI_DELL_PORT_SECURITY_UNKNOWN),
@@ -51,14 +51,14 @@ const dmi_name_set_t dmi_dell_port_security_names =
             .code = "boot-bypass",
             .name = "Boot-bypass"
         },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 const dmi_name_set_t dmi_dell_check_type_names =
 {
     .code  = "dell-check-type",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         {
             .id   = DMI_DELL_CHECK_TYPE_WORD_CHECKSUM,
             .code = "word-checksum",
@@ -79,14 +79,14 @@ const dmi_name_set_t dmi_dell_check_type_names =
             .code = "word-checksum-negated",
             .name = "Negated word checksum"
         },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 const dmi_name_set_t dmi_dell_value_format_names =
 {
     .code  = "dell-value-format",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         {
             .id   = DMI_DELL_VALUE_FORMAT_SCAN_CODE,
             .code = "scan-code",
@@ -107,8 +107,8 @@ const dmi_name_set_t dmi_dell_value_format_names =
             .code = "ascii-ns",
             .name = "Alphanumeric, ASCII (NS)"
         },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 const char *dmi_dell_enable_state_name(dmi_dell_enable_state_t value)

@@ -11,9 +11,8 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_onboard_device                  dmi_onboard_device_t;
-typedef struct dmi_onboard_device_instance         dmi_onboard_device_instance_t;
-typedef union  dmi_onboard_device_instance_details dmi_onboard_device_instance_details_t;
+typedef struct dmi_onboard_device          dmi_onboard_device_t;
+typedef struct dmi_onboard_device_instance dmi_onboard_device_instance_t;
 
 /**
  * @brief Onboard device types.
@@ -39,29 +38,6 @@ typedef enum dmi_onboard_device_type
     DMI_ONBOARD_DEVICE_TYPE_UFS_CONTROLLER  = 0x10, ///< UFS controller
     __DMI_ONBOARD_DEVICE_TYPE_COUNT
 } dmi_onboard_device_type_t;
-
-dmi_packed_union(dmi_onboard_device_instance_details)
-{
-    /**
-     * @brief Raw value.
-     */
-    dmi_byte_t __value;
-
-    dmi_packed_struct()
-    {
-        /**
-         * @brief Device type;
-         */
-        dmi_byte_t type : 7;
-
-        /**
-         * @brief Set to `true` if device is enabled.
-         */
-        dmi_byte_t is_enabled : 1;
-    };
-};
-
-dmi_static_assert_value_union(dmi_onboard_device_instance_details);
 
 struct dmi_onboard_device_instance
 {

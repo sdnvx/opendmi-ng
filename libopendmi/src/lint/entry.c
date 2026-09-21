@@ -24,62 +24,74 @@ static bool dmi_lint_entry_verify(const dmi_data_t *data, size_t length);
 
 const dmi_lint_rule_t dmi_lint_entry_checksum_rule =
 {
-    .code              = "entry.checksum",
-    .name              = "Checksum of the entry point matches its data",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTRY,
-    .check             = dmi_lint_entry_checksum
+    .code   = "entry.checksum",
+    .scope  = DMI_LINT_SCOPE_ENTRY,
+    .check  = dmi_lint_entry_checksum,
+    .params = {
+        .name              = "Checksum of the entry point matches its data",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entry_length_rule =
 {
-    .code              = "entry.length",
-    .name              = "Length of the entry point matches its format",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTRY,
-    .check             = dmi_lint_entry_length
+    .code   = "entry.length",
+    .scope  = DMI_LINT_SCOPE_ENTRY,
+    .check  = dmi_lint_entry_length,
+    .params = {
+        .name              = "Length of the entry point matches its format",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entry_table_address_rule =
 {
-    .code              = "entry.table-address",
-    .name              = "Entry point points to the table",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTRY,
-    .check             = dmi_lint_entry_table_address
+    .code   = "entry.table-address",
+    .scope  = DMI_LINT_SCOPE_ENTRY,
+    .check  = dmi_lint_entry_table_address,
+    .params = {
+        .name              = "Entry point points to the table",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entry_table_size_rule =
 {
-    .code              = "entry.table-size",
-    .name              = "Size of the table matches the one declared by the entry point",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTRY,
-    .check             = dmi_lint_entry_table_size
+    .code   = "entry.table-size",
+    .scope  = DMI_LINT_SCOPE_ENTRY,
+    .check  = dmi_lint_entry_table_size,
+    .params = {
+        .name              = "Size of the table matches the one declared by the entry point",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entry_entity_count_rule =
 {
-    .code              = "entry.entity-count",
-    .name              = "Number of the structures matches the one declared by the entry point",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTRY,
-    .check             = dmi_lint_entry_entity_count
+    .code   = "entry.entity-count",
+    .scope  = DMI_LINT_SCOPE_ENTRY,
+    .check  = dmi_lint_entry_entity_count,
+    .params = {
+        .name              = "Number of the structures matches the one declared by the entry point",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entry_entity_max_size_rule =
 {
-    .code              = "entry.entity-max-size",
-    .name              = "Structures fit the maximum size declared by the entry point",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTRY,
-    .check             = dmi_lint_entry_entity_max_size
+    .code   = "entry.entity-max-size",
+    .scope  = DMI_LINT_SCOPE_ENTRY,
+    .check  = dmi_lint_entry_entity_max_size,
+    .params = {
+        .name              = "Structures fit the maximum size declared by the entry point",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 //

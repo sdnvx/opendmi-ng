@@ -28,54 +28,64 @@ static void dmi_lint_string_unreferenced(dmi_lint_t *lint, const dmi_entity_t *e
 
 const dmi_lint_rule_t dmi_lint_string_too_long_rule =
 {
-    .code              = "string.too-long",
-    .name              = "Strings are no longer than the specification allows",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_string_too_long
+    .code   = "string.too-long",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_string_too_long,
+    .params = {
+        .name              = "Strings are no longer than the specification allows",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_string_non_printable_rule =
 {
-    .code              = "string.non-printable",
-    .name              = "Strings hold printable text",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_string_non_printable
+    .code   = "string.non-printable",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_string_non_printable,
+    .params = {
+        .name              = "Strings hold printable text",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_string_blank_rule =
 {
-    .code              = "string.blank",
-    .name              = "Strings are not blank",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_WARNING,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_string_blank
+    .code   = "string.blank",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_string_blank,
+    .params = {
+        .name              = "Strings are not blank",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_WARNING
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_string_padded_rule =
 {
-    .code              = "string.padded",
-    .name              = "Strings have no leading or trailing whitespace",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_WARNING,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_string_padded,
-    .optional          = true
+    .code   = "string.padded",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_string_padded,
+    .params = {
+        .name              = "Strings have no leading or trailing whitespace",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_WARNING,
+        .optional          = true
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_string_unreferenced_rule =
 {
-    .code              = "string.unreferenced",
-    .name              = "Every string is referenced by a field of its structure",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_WARNING,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_string_unreferenced,
-    .optional          = true
+    .code   = "string.unreferenced",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_string_unreferenced,
+    .params = {
+        .name              = "Every string is referenced by a field of its structure",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_WARNING,
+        .optional          = true
+    }
 };
 
 static void dmi_lint_string_too_long(dmi_lint_t *lint, const dmi_entity_t *entity)

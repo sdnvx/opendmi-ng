@@ -10,119 +10,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/pointing-device.h>
-
-static const dmi_name_set_t dmi_pointing_device_type_names =
-{
-    .code  = "pointing-device-type",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_POINTING_DEVICE_TYPE_UNSPEC),
-        DMI_NAME_OTHER(DMI_POINTING_DEVICE_TYPE_OTHER),
-        DMI_NAME_UNKNOWN(DMI_POINTING_DEVICE_TYPE_UNKNOWN),
-        {
-            .id   = DMI_POINTING_DEVICE_TYPE_MOUSE,
-            .code = "mouse",
-            .name = "Mouse"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_TYPE_TRACK_BALL,
-            .code = "track-ball",
-            .name = "Track ball"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_TYPE_TRACK_POINT,
-            .code = "track-point",
-            .name = "Track point"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_TYPE_GLIDE_POINT,
-            .code = "glide-point",
-            .name = "Glide point"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_TYPE_TOUCH_PAD,
-            .code = "touch-pad",
-            .name = "Touch pad"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_TYPE_TOUCH_SCREEN,
-            .code = "touch-screen",
-            .name = "Touch screen"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_TYPE_OPTICAL_SENSOR,
-            .code = "optical-sensor",
-            .name = "Optical sensor"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_pointing_device_iface_names =
-{
-    .code  = "pointing-device-interface",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_POINTING_DEVICE_IFACE_UNSPEC),
-        DMI_NAME_OTHER(DMI_POINTING_DEVICE_IFACE_OTHER),
-        DMI_NAME_UNKNOWN(DMI_POINTING_DEVICE_IFACE_UNKNOWN),
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_SERIAL,
-            .code = "serial",
-            .name = "Serial"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_PS2,
-            .code = "ps2",
-            .name = "PS/2"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_INFRARED,
-            .code = "infrared",
-            .name = "Infrared"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_HP_HIL,
-            .code = "hp-hil",
-            .name = "HP-HIL"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_BUS_MOUSE,
-            .code = "bus-mouse",
-            .name = "Bus mouse"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_ADB,
-            .code = "adb",
-            .name = "ADB (Apple Desktop Bus)"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_BUS_MOUSE_DB9,
-            .code = "bus-mouse-db9",
-            .name = "Bus mouse DB-9"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_BUS_MOUSE_DIN,
-            .code = "bus-mouse-din",
-            .name = "Bus mouse micro-DIN"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_USB,
-            .code = "usb",
-            .name = "USB"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_I2C,
-            .code = "i2c",
-            .name = "I2C"
-        },
-        {
-            .id   = DMI_POINTING_DEVICE_IFACE_SPI,
-            .code = "spi",
-            .name = "SPI"
-        },
-        DMI_NAME_NULL
-    }
-};
+#include <opendmi/entity/pointing-device-internal.h>
 
 const dmi_entity_spec_t dmi_pointing_device_spec =
 {
@@ -136,10 +24,20 @@ const dmi_entity_spec_t dmi_pointing_device_spec =
         nullptr
     },
     .type            = DMI_TYPE(POINTING_DEVICE),
-    .minimum_version = DMI_VERSION(2, 1, 0),
-    .minimum_length  = 0x07,
-    .decoded_length  = sizeof(dmi_pointing_device_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 1, 0),
+        .minimum_length  = 0x07,
+        .decoded_length  = sizeof(dmi_pointing_device_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_pointing_device_t, type,         BYTE),
+        DMI_FIELD(dmi_pointing_device_t, interface,    BYTE),
+        DMI_FIELD(dmi_pointing_device_t, button_count, BYTE),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_pointing_device_t, type, ENUM, {
             .code    = "type",
             .name    = "Type",
@@ -158,35 +56,6 @@ const dmi_entity_spec_t dmi_pointing_device_spec =
             .code    = "button-count",
             .name    = "Button count"
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .handlers = {
-        .decode = dmi_pointing_device_decode
-    }
+        {}
+    }),
 };
-
-const char *dmi_pointing_device_type_name(dmi_pointing_device_type_t value)
-{
-    return dmi_name_lookup(&dmi_pointing_device_type_names, (int)value);
-}
-
-const char *dmi_pointing_device_iface_name(dmi_pointing_device_iface_t value)
-{
-    return dmi_name_lookup(&dmi_pointing_device_iface_names, (int)value);
-}
-
-bool dmi_pointing_device_decode(dmi_entity_t *entity)
-{
-    dmi_pointing_device_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(POINTING_DEVICE));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode(stream, dmi_byte_t, &info->type) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->interface) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->button_count);
-}

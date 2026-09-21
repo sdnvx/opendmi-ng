@@ -77,55 +77,6 @@ typedef enum dmi_cache_location
 } dmi_cache_location_t;
 
 /**
- * @brief Cache configuration.
- */
-dmi_packed_union(dmi_cache_config)
-{
-    /**
-     * @brief Raw value.
-     */
-    dmi_word_t __value;
-
-    dmi_packed_struct()
-    {
-        /**
-         * @brief Cache Level – 1 through 8. For example, an L1 cache would use
-         * value 0x0 and an L3 cache would use 0x2.
-         */
-        dmi_word_t level : 3;
-
-        /**
-         * @brief Socketed cache flag (e.g., cache on a stick).
-         */
-        dmi_word_t socketed : 1;
-
-        /**
-         * @brief Reserved.
-         */
-        dmi_word_t __reserved : 1;
-
-        /**
-         * @brief Location, relative to the CPU module.
-         */
-        dmi_word_t location : 2;
-
-        /**
-         * @brief Enable flag (at boot time).
-         */
-        dmi_word_t enabled : 1;
-
-        /**
-         * @brief Operational mode.
-         */
-        dmi_word_t mode : 2;
-    };
-};
-
-dmi_static_assert_value_union(dmi_cache_config);
-
-typedef union dmi_cache_config dmi_cache_config_t;
-
-/**
  * @brief Cache SRAM type.
  */
 dmi_packed_union(dmi_cache_sram_type)

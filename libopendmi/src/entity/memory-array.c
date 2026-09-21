@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <inttypes.h>
-
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
 #include <opendmi/registry.h>
@@ -14,204 +13,9 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
-
 #include <opendmi/entity/memory-device.h>
-#include <opendmi/entity/memory-array.h>
 
-static bool dmi_memory_array_decode(dmi_entity_t *entity);
-static bool dmi_memory_array_link(dmi_entity_t *entity);
-
-static const dmi_name_set_t dmi_memory_array_location_names =
-{
-    .code  = "memory-array-location",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_MEMORY_ARRAY_LOCATION_UNSPEC),
-        DMI_NAME_OTHER(DMI_MEMORY_ARRAY_LOCATION_OTHER),
-        DMI_NAME_UNKNOWN(DMI_MEMORY_ARRAY_LOCATION_UNKNOWN),
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_MOTHERBOARD,
-            .code = "motherboard",
-            .name = "System board or motherboard"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_ISA,
-            .code = "isa",
-            .name = "ISA add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_EISA,
-            .code = "eisa",
-            .name = "EISA add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_PCI,
-            .code = "pci",
-            .name = "PCI add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_MCA,
-            .code = "mca",
-            .name = "MCA add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_PCMCIA,
-            .code = "pcmcia",
-            .name = "PCMCIA add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_PROPRIETARY,
-            .code = "proprietary",
-            .name = "Proprietary add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_NUBUS,
-            .code = "nubus",
-            .name = "NuBus"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_PC_98_C20,
-            .code = "pc-98-c20",
-            .name = "PC-98/C20 add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_PC_98_C24,
-            .code = "pc-98-c24",
-            .name = "PC-98/C24 add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_PC_98_E,
-            .code = "pc-98-e",
-            .name = "PC-98/E add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_PC_98_LOCAL_BUS,
-            .code = "pc-98-local-bus",
-            .name = "PC-98/Local bus add-on card"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_LOCATION_CXL,
-            .code = "cxl",
-            .name = "CXL add-on card"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_memory_array_usage_names =
-{
-    .code  = "memory-array-usage",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_MEMORY_ARRAY_USAGE_UNSPEC),
-        DMI_NAME_OTHER(DMI_MEMORY_ARRAY_USAGE_OTHER),
-        DMI_NAME_UNKNOWN(DMI_MEMORY_ARRAY_USAGE_UNKNOWN),
-        {
-            .id   = DMI_MEMORY_ARRAY_USAGE_SYSTEM,
-            .code = "system",
-            .name = "System memory"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_USAGE_VIDEO,
-            .code = "video",
-            .name = "Video memory"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_USAGE_FLASH,
-            .code = "flash",
-            .name = "Flash memory"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_USAGE_NVRAM,
-            .code = "nvram",
-            .name = "Non-volatile RAM"
-        },
-        {
-            .id   = DMI_MEMORY_ARRAY_USAGE_CACHE,
-            .code = "cache",
-            .name = "Cache memory"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *entity);
-static void dmi_memory_array_lint_capacity(dmi_lint_t *lint, const dmi_entity_t *entity);
-
-static const dmi_lint_rule_t dmi_memory_array_device_count_rule =
-{
-    .code              = "memory-array.device-count",
-    .name              = "Number of the devices matches the ones referring to the array",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_memory_array_lint_device_count
-};
-
-static const dmi_lint_rule_t dmi_memory_array_capacity_rule =
-{
-    .code              = "memory-array.capacity",
-    .name              = "Devices of the array fit its maximum capacity",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_memory_array_lint_capacity
-};
-
-//
-// Sum of the sizes of the devices of an array, along with their number, which
-// both rules of the array are checked against.
-//
-static size_t dmi_memory_array_devices(
-        dmi_lint_t         *lint,
-        const dmi_entity_t *entity,
-        dmi_size_t         *capacity)
-{
-    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
-    dmi_registry_iter_t iter;
-    dmi_entity_t *device;
-
-    size_t count = 0;
-
-    if (not dmi_registry_iter_init(&iter, registry, nullptr))
-        return 0;
-
-    while ((device = dmi_registry_iter_next(&iter)) != nullptr) {
-        if (dmi_entity_type(device) != DMI_TYPE_MEMORY_DEVICE)
-            continue;
-
-        const dmi_memory_device_t *info = dmi_entity_info(device, DMI_TYPE(MEMORY_DEVICE));
-
-        if ((info == nullptr) or (info->array_handle != dmi_entity_handle(entity)))
-            continue;
-
-        count++;
-
-        if ((capacity != nullptr) and (info->size != DMI_SIZE_MAX))
-            *capacity += info->size;
-    }
-
-    return count;
-}
-
-static void dmi_memory_array_lint_extended_capacity(dmi_lint_t *lint, const dmi_entity_t *entity);
-
-/**
- * @internal
- * @brief Offset of the maximum capacity, the value telling that the actual one is in the
- * extended field, and the length of a structure carrying that field.
- */
-#define DMI_MEMORY_ARRAY_CAPACITY_OFFSET 0x07
-#define DMI_MEMORY_ARRAY_CAPACITY_OFFSET_EXTENDED 0x80000000
-#define DMI_MEMORY_ARRAY_CAPACITY_OFFSET_LENGTH 0x17
-
-static const dmi_lint_rule_t dmi_memory_array_extended_capacity_rule =
-{
-    .code              = "memory-array.extended-capacity",
-    .name              = "Extended maximum capacity is present when the plain one needs it",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_memory_array_lint_extended_capacity
-};
+#include <opendmi/entity/memory-array-internal.h>
 
 const dmi_entity_spec_t dmi_memory_array_spec =
 {
@@ -224,10 +28,34 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         nullptr
     },
     .type            = DMI_TYPE(MEMORY_ARRAY),
-    .minimum_version = DMI_VERSION(2, 1, 0),
-    .minimum_length  = 0x0F,
-    .decoded_length  = sizeof(dmi_memory_array_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 1, 0),
+        .required_from   = DMI_VERSION(2, 3, 0),
+        .minimum_length  = 0x0F,
+        .decoded_length  = sizeof(dmi_memory_array_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_memory_array_t, location,         BYTE),
+        DMI_FIELD(dmi_memory_array_t, usage,            BYTE),
+        DMI_FIELD(dmi_memory_array_t, error_correction, BYTE),
+
+        // Capacity is carried in kilobytes, and arrays of two tebibytes or
+        // more carry it in the extended field instead
+        DMI_FIELD(dmi_memory_array_t, maximum_capacity, DWORD,
+                  .unknown_raw = 0x80000000u,
+                  .convert     = dmi_field_kilobytes),
+
+        DMI_FIELD(dmi_memory_array_t, error_info_handle, WORD),
+        DMI_FIELD(dmi_memory_array_t, device_count,      WORD),
+
+        DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
+        DMI_FIELD_EXTENDED(dmi_memory_array_t, maximum_capacity, QWORD,
+                           .when_raw = 0x80000000u),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_memory_array_t, location, ENUM, {
             .code    = "location",
             .name    = "Location",
@@ -263,160 +91,29 @@ const dmi_entity_spec_t dmi_memory_array_spec =
             .code    = "device-count",
             .name    = "Number of memory devices"
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .lint_rules      = (const dmi_lint_rule_t *const[]){
-        &dmi_memory_array_extended_capacity_rule,
-        &dmi_memory_array_device_count_rule,
-        &dmi_memory_array_capacity_rule,
-        nullptr
-    },
+        {}
+    }),
+
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("memory-array.extended-capacity", dmi_memory_array_lint_extended_capacity, {
+            .name              = "Extended maximum capacity is present when the plain one needs it",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        DMI_LINT_RULE("memory-array.device-count", dmi_memory_array_lint_device_count, {
+            .name              = "Number of the devices matches the ones referring to the array",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        DMI_LINT_RULE("memory-array.capacity", dmi_memory_array_lint_capacity, {
+            .name              = "Devices of the array fit its maximum capacity",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        {}
+    }),
 
     .handlers = {
-        .decode = dmi_memory_array_decode,
         .link   = dmi_memory_array_link
     }
 };
-
-const char *dmi_memory_array_location_name(dmi_memory_array_location_t value)
-{
-    return dmi_name_lookup(&dmi_memory_array_location_names, (int)value);
-}
-
-const char *dmi_memory_array_usage_name(dmi_memory_array_usage_t value)
-{
-    return dmi_name_lookup(&dmi_memory_array_usage_names, (int)value);
-}
-
-static bool dmi_memory_array_decode(dmi_entity_t *entity)
-{
-    bool status;
-    dmi_memory_array_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    status =
-        dmi_stream_decode(stream, dmi_byte_t, &info->location) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->usage) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->error_correction);
-    if (not status)
-        return false;
-
-    dmi_dword_t maximum_capacity = 0;
-    if (not dmi_stream_decode(stream, dmi_dword_t, &maximum_capacity))
-        return false;
-
-    // Maximum capacity is specified in kilobytes. If it is unknown, or 2 TiB
-    // or more, the field value is 0x80000000, and actual capacity is stored
-    // in extended maximum capacity field (in bytes).
-    bool has_capacity_ex = (maximum_capacity == 0x80000000u);
-
-    if (has_capacity_ex)
-        info->maximum_capacity = DMI_SIZE_MAX;
-    else
-        info->maximum_capacity = (dmi_size_t)maximum_capacity << 10;
-
-    status =
-        dmi_stream_decode(stream, dmi_handle_t, &info->error_info_handle) and
-        dmi_stream_decode(stream, dmi_word_t, &info->device_count);
-    if (not status)
-        return false;
-
-    // SMBIOS 2.7 fields
-    if (dmi_stream_is_done(stream))
-        return dmi_entity_stop(entity);
-
-    entity->level = dmi_version(2, 7, 0);
-
-    dmi_qword_t maximum_capacity_ex = 0;
-    if (not dmi_stream_decode(stream, dmi_qword_t, &maximum_capacity_ex))
-        return dmi_entity_incomplete(entity);
-
-    if (has_capacity_ex)
-        info->maximum_capacity = maximum_capacity_ex;
-
-    return true;
-}
-
-static bool dmi_memory_array_link(dmi_entity_t *entity)
-{
-    dmi_memory_array_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_get_registry(context);
-
-    static const dmi_type_t error_types[] = {
-        DMI_TYPE(MEMORY_ERROR_32),
-        DMI_TYPE(MEMORY_ERROR_64),
-        DMI_TYPE_INVALID
-    };
-
-    return dmi_registry_resolve_any(registry, info->error_info_handle, error_types, &info->error_info);
-}
-
-static void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *entity)
-{
-    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
-    if (info == nullptr)
-        return;
-
-    size_t count = dmi_memory_array_devices(lint, entity, nullptr);
-
-    // Devices are counted whether they are populated or not, so the number
-    // is the number of the sockets of the array
-    if (count == info->device_count)
-        return;
-
-    dmi_lint_issue(lint, entity, "device-count", dmi_lint_entity_offset(lint, entity),
-                   "array declares %u devices, while %zu structures refer to it",
-                   info->device_count, count);
-}
-
-static void dmi_memory_array_lint_capacity(dmi_lint_t *lint, const dmi_entity_t *entity)
-{
-    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
-
-    if ((info == nullptr) or (info->maximum_capacity == DMI_SIZE_MAX) or
-        (info->maximum_capacity == 0))
-        return;
-
-    dmi_size_t capacity = 0;
-
-    dmi_memory_array_devices(lint, entity, &capacity);
-
-    if (capacity <= info->maximum_capacity)
-        return;
-
-    dmi_lint_issue(lint, entity, "maximum-capacity", dmi_lint_entity_offset(lint, entity),
-                   "devices of the array add up to %" PRIu64 " bytes, while its maximum "
-                   "capacity is %" PRIu64 " bytes", capacity, info->maximum_capacity);
-}
-
-static void dmi_memory_array_lint_extended_capacity(dmi_lint_t *lint, const dmi_entity_t *entity)
-{
-    dmi_stream_t stream;
-    dmi_dword_t value;
-
-    if (not dmi_stream_initialize(&stream, entity))
-        return;
-
-    if (not dmi_stream_read_data_at(&stream, &value, DMI_MEMORY_ARRAY_CAPACITY_OFFSET, sizeof(value)))
-        return;
-
-    if (dmi_decode(value) != DMI_MEMORY_ARRAY_CAPACITY_OFFSET_EXTENDED)
-        return;
-
-    if (entity->body_length >= DMI_MEMORY_ARRAY_CAPACITY_OFFSET_LENGTH)
-        return;
-
-    dmi_lint_issue(lint, entity, "maximum-capacity", dmi_lint_entity_offset(lint, entity) + DMI_MEMORY_ARRAY_CAPACITY_OFFSET,
-                   "Maximum capacity refers to the extended one, which the structure does not carry");
-}

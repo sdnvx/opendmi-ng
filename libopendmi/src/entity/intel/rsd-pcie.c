@@ -6,19 +6,33 @@
 //
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
-#include <opendmi/entity/intel/rsd-pcie.h>
 
-static bool dmi_intel_rsd_pcie_decode(dmi_entity_t *entity);
+#include <opendmi/entity/intel/rsd-pcie-internal.h>
 
 const dmi_entity_spec_t dmi_intel_rsd_pcie_spec =
 {
     .code            = "intel-rsd-pcie",
     .name            = "Intel RSD PCIe information",
     .type            = DMI_TYPE(INTEL_RSD_PCIE),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x17,
-    .decoded_length  = sizeof(dmi_intel_rsd_pcie_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x17,
+        .decoded_length  = sizeof(dmi_intel_rsd_pcie_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_intel_rsd_pcie_t, pci_class,     BYTE),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, pci_slot_id,   WORD),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, vendor_id,     WORD),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, device_id,     WORD),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, sub_vendor_id, WORD),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, sub_device_id, WORD),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, link_speed,    DWORD),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, link_width,    DWORD),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_intel_rsd_pcie_t, pci_class, INTEGER, {
             .code = "pci-class",
             .name = "PCI class"
@@ -56,29 +70,5 @@ const dmi_entity_spec_t dmi_intel_rsd_pcie_spec =
             .name  = "Link width"
         }),
         {}
-    },
-    .handlers = {
-        .decode = dmi_intel_rsd_pcie_decode
-    }
+    }),
 };
-
-static bool dmi_intel_rsd_pcie_decode(dmi_entity_t *entity)
-{
-    dmi_intel_rsd_pcie_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PCIE));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode(stream, dmi_byte_t, &info->pci_class) and
-        dmi_stream_decode(stream, dmi_word_t, &info->pci_slot_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->vendor_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->device_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->sub_vendor_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->sub_device_id) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->link_speed) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->link_width);
-}

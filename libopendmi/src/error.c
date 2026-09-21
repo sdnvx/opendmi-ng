@@ -29,7 +29,7 @@ const dmi_name_set_t dmi_error_names =
 {
     .code  = "error",
     .name  = "Error reasons",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         { DMI_ERROR_NONE,                  "none",                  "Success" },
         { DMI_ERROR_NULL_ARGUMENT,         "null-argument",         "Argument is NULL" },
         { DMI_ERROR_INVALID_ARGUMENT,      "invalid-argument",      "Invalid argument" },
@@ -66,8 +66,8 @@ const dmi_name_set_t dmi_error_names =
         { DMI_ERROR_CONTEXT_OPEN,          "context-open",          "Unable to open context" },
         { DMI_ERROR_INVALID_DUMP,          "invalid-dump",          "Invalid SMBIOS dump" },
         { DMI_ERROR_INVALID_OVERLAY,       "invalid-overlay",       "Invalid additional information entry" },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 static const dmi_error_t dmi_error_null =

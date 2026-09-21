@@ -11,130 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/ipmi-device.h>
-
-static bool dmi_ipmi_device_decode(dmi_entity_t *entity);
-static void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *entity);
-
-/**
- * @internal
- * @brief Offset of the revision of the IPMI specification, which holds the
- * major version in the high nibble and the minor one in the low nibble.
- */
-#define DMI_IPMI_DEVICE_REVISION_OFFSET 0x05
-
-static const dmi_lint_rule_t dmi_ipmi_device_revision_rule =
-{
-    .code              = "ipmi-device.revision",
-    .name              = "Revision of the IPMI specification is a binary-coded decimal",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_ipmi_device_lint_revision
-};
-
-
-static const dmi_name_set_t dmi_ipmi_interface_names =
-{
-    .code  = "ipmi-interface",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNKNOWN(DMI_IPMI_INTERFACE_UNKNOWN),
-        {
-            .id   = DMI_IPMI_INTERFACE_KCS,
-            .code = "kcs",
-            .name = "KCS: Keyboard Controller Style"
-        },
-        {
-            .id   = DMI_IPMI_INTERFACE_SMIC,
-            .code = "smic",
-            .name = "SMIC: Server Management Interface Chip"
-        },
-        {
-            .id   = DMI_IPMI_INTERFACE_BT,
-            .code = "bt",
-            .name = "BT: Block Transfer"
-        },
-        {
-            .id   = DMI_IPMI_INTERFACE_SSIF,
-            .code = "ssif",
-            .name = "SSIF: SMBus System Interface"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_ipmi_addr_type_names =
-{
-    .code  = "ipmi-addr-type",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_IPMI_ADDR_TYPE_MEMORY,
-            .code = "memory",
-            .name = "Memory"
-
-        },
-        {
-            .id   = DMI_IPMI_ADDR_TYPE_IO,
-            .code = "io",
-            .name = "I/O"
-        },
-        {
-            .id   = DMI_IPMI_ADDR_TYPE_SMBUS,
-            .code = "smbus",
-            .name = "SMBus"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_ipmi_intr_trigger_names =
-{
-    .code  = "ipmi-intr-trigger",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_IPMI_INTR_TRIGGER_UNSPEC),
-        {
-            .id   = DMI_IPMI_INTR_TRIGGER_EDGE,
-            .code = "edge",
-            .name = "Edge"
-        },
-        {
-            .id   = DMI_IPMI_INTR_TRIGGER_LEVEL,
-            .code = "level",
-            .name = "Level"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-static const dmi_name_set_t dmi_ipmi_intr_polarity_names =
-{
-    .code  = "ipmi-intr-polarity",
-    .names = (dmi_name_t[]){
-        DMI_NAME_UNSPEC(DMI_IPMI_INTR_POLARITY_UNSPEC),
-        {
-            .id   = DMI_IPMI_INTR_POLARITY_LOW,
-            .code = "active-low",
-            .name = "Active low"
-        },
-        {
-            .id   = DMI_IPMI_INTR_POLARITY_HIGH,
-            .code = "active-high",
-            .name = "Active high"
-        },
-        DMI_NAME_NULL
-    }
-};
-
-//
-// Register-related fields are defined only for interfaces in I/O or memory
-// space, and are not shown for SSIF interface
-//
-#define dmi_ipmi_register_variants(__member, ...)                                                    \
-    (const dmi_attribute_variant_t[]){                                                              \
-        DMI_VARIANT(DMI_IPMI_ADDR_TYPE_IO, dmi_ipmi_device_t, __member, INTEGER, __VA_ARGS__),       \
-        DMI_VARIANT(DMI_IPMI_ADDR_TYPE_MEMORY, dmi_ipmi_device_t, __member, INTEGER, __VA_ARGS__),   \
-        DMI_VARIANT_NULL                                                                            \
-    }
+#include <opendmi/entity/ipmi-device-internal.h>
 
 const dmi_entity_spec_t dmi_ipmi_device_spec =
 {
@@ -150,10 +27,35 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
         nullptr
     },
     .type            = DMI_TYPE(IPMI_DEVICE),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x12,
-    .decoded_length  = sizeof(dmi_ipmi_device_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x12,
+        .decoded_length  = sizeof(dmi_ipmi_device_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_ipmi_device_t, interface_type, BYTE),
+
+        // Revision is one nibble of major and one of minor
+        DMI_FIELD(dmi_ipmi_device_t, spec_version, BYTE,
+                  .convert = dmi_ipmi_device_convert_version),
+
+        DMI_FIELD(dmi_ipmi_device_t, i2c_target_addr, BYTE),
+        DMI_FIELD(dmi_ipmi_device_t, nv_storage_addr, BYTE),
+
+        // Base address is taken as stored, and is read again by the interface
+        // type once the modifier below is known
+        DMI_FIELD(dmi_ipmi_device_t, base_addr, QWORD),
+
+        // One byte holding the interrupt information and the modifier of the
+        // base address, whose parts mean nothing on their own
+        DMI_FIELD_SPLIT(dmi_ipmi_device_t, .decode = dmi_ipmi_device_decode_details),
+
+        DMI_FIELD(dmi_ipmi_device_t, intr_number, BYTE),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_ipmi_device_t, interface_type, ENUM, {
             .code   = "interface-type",
             .name   = "Interface type",
@@ -179,13 +81,13 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
         DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_addr_type, {
             .code     = "base-address",
             .name     = "Base address",
-            .variants = (const dmi_attribute_variant_t[]){
+            .variants = DMI_VARIANTS({
                 DMI_VARIANT(DMI_IPMI_ADDR_TYPE_SMBUS, dmi_ipmi_device_t, base_addr, INTEGER, {
                     .flags = DMI_ATTRIBUTE_FLAG_HEX
                 }),
                 DMI_VARIANT_DEFAULT(dmi_ipmi_device_t, base_addr, ADDRESS, {}),
-                DMI_VARIANT_NULL
-            }
+                {}
+            })
         }),
         DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_addr_type, {
             .code     = "base-address-lsb",
@@ -222,127 +124,19 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
                 .unspec = dmi_value_ptr((unsigned short)0)
             })
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .lint_rules      = (const dmi_lint_rule_t *const[]){
-        &dmi_ipmi_device_revision_rule,
-        nullptr
-    },
+        {}
+    }),
+
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("ipmi-device.revision", dmi_ipmi_device_lint_revision, {
+            .name              = "Revision of the IPMI specification is a binary-coded decimal",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        {}
+    }),
+
     .handlers = {
-        .decode = dmi_ipmi_device_decode,
+        .derive = dmi_ipmi_device_derive,
     }
 };
-
-const char *dmi_ipmi_interface_name(dmi_ipmi_interface_t value)
-{
-    return dmi_name_lookup(&dmi_ipmi_interface_names, (int)value);
-}
-
-const char *dmi_ipmi_addr_type_name(dmi_ipmi_addr_type_t value)
-{
-    return dmi_name_lookup(&dmi_ipmi_addr_type_names, (int)value);
-}
-
-const char *dmi_ipmi_intr_trigger_name(dmi_ipmi_intr_trigger_t value)
-{
-    return dmi_name_lookup(&dmi_ipmi_intr_trigger_names, (int)value);
-}
-
-const char *dmi_ipmi_intr_polarity_name(dmi_ipmi_intr_polarity_t value)
-{
-    return dmi_name_lookup(&dmi_ipmi_intr_polarity_names, (int)value);
-}
-
-static bool dmi_ipmi_device_decode(dmi_entity_t *entity)
-{
-    dmi_ipmi_device_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(IPMI_DEVICE));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    if (not dmi_stream_decode(stream, dmi_byte_t, &info->interface_type))
-        return false;
-
-    dmi_byte_t spec_version = 0;
-    if (not dmi_stream_decode(stream, dmi_byte_t, &spec_version))
-        return false;
-
-    info->spec_version = dmi_version((spec_version & 0xF0) >> 4, spec_version & 0x0F, 0);
-
-    bool status =
-        dmi_stream_decode(stream, dmi_byte_t, &info->i2c_target_addr) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->nv_storage_addr);
-    if (not status)
-        return false;
-
-    dmi_qword_t base_addr = 0;
-    if (not dmi_stream_decode(stream, dmi_qword_t, &base_addr))
-        return false;
-
-    dmi_ipmi_device_details_t details;
-    if (not dmi_stream_decode(stream, dmi_byte_t, &details.__value))
-        return false;
-
-    if (details.is_intr_info_specified) {
-        info->intr_trigger  = details.is_intr_level_triggered
-                            ? DMI_IPMI_INTR_TRIGGER_LEVEL
-                            : DMI_IPMI_INTR_TRIGGER_EDGE;
-        info->intr_polarity = details.is_intr_active_high
-                            ? DMI_IPMI_INTR_POLARITY_HIGH
-                            : DMI_IPMI_INTR_POLARITY_LOW;
-    } else {
-        info->intr_trigger  = DMI_IPMI_INTR_TRIGGER_UNSPEC;
-        info->intr_polarity = DMI_IPMI_INTR_POLARITY_UNSPEC;
-    }
-
-    switch (details.register_spacing) {
-    case DMI_IPMI_REGISTER_SPACING_1:  info->register_spacing = 1;  break;
-    case DMI_IPMI_REGISTER_SPACING_4:  info->register_spacing = 4;  break;
-    case DMI_IPMI_REGISTER_SPACING_16: info->register_spacing = 16; break;
-    default: // fallthrough
-    }
-
-    info->base_addr_lsb = details.base_addr_lsb;
-
-    if (info->interface_type == DMI_IPMI_INTERFACE_SSIF) {
-        // SSIF interface uses SMBus target address, shifted left by one bit
-        info->base_addr      = (base_addr & 0xFFu) >> 1;
-        info->base_addr_type = DMI_IPMI_ADDR_TYPE_SMBUS;
-    } else {
-        // Least-significant bit indicates I/O space, and the actual
-        // least-significant bit of the address is stored in the modifier
-        info->base_addr      = (base_addr & ~(dmi_qword_t)1u) | info->base_addr_lsb;
-        info->base_addr_type = (base_addr & 1u)
-                             ? DMI_IPMI_ADDR_TYPE_IO
-                             : DMI_IPMI_ADDR_TYPE_MEMORY;
-    }
-
-    return dmi_stream_decode(stream, dmi_byte_t, &info->intr_number);
-}
-
-//
-// Revision is decoded into a version, which keeps no trace of the digits it
-// was made of, so the raw data is read instead.
-//
-static void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *entity)
-{
-    dmi_stream_t stream;
-    dmi_byte_t value;
-
-    if (not dmi_stream_initialize(&stream, entity))
-        return;
-
-    if (not dmi_stream_read_data_at(&stream, &value, DMI_IPMI_DEVICE_REVISION_OFFSET,
-                                    sizeof(value)))
-        return;
-
-    if (((value & 0x0F) <= 9) and (((value >> 4) & 0x0F) <= 9))
-        return;
-
-    dmi_lint_issue(lint, entity, "specification-version",
-                   dmi_lint_entity_offset(lint, entity) + DMI_IPMI_DEVICE_REVISION_OFFSET,
-                   "revision 0x%02X is not a binary-coded decimal", (unsigned)value);
-}

@@ -7,159 +7,56 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
-#include <opendmi/entity/intel/rsd-fpga.h>
 
-static bool dmi_intel_rsd_fpga_decode(dmi_entity_t *entity);
-
-const dmi_name_set_t dmi_intel_rsd_fpga_type_names =
-{
-    .code  = "intel-rsd-fpga-type",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_INTEL_RSD_FPGA_TYPE_INTEGRATED,
-            .code = "integrated",
-            .name = "Integrated"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_TYPE_DISCRETE,
-            .code = "discrete",
-            .name = "Discrete"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_TYPE_DISCRETE_SOC,
-            .code = "discrete-soc",
-            .name = "Discrete with SoC/Hard Processor Subsystem (HPS)"
-        },
-        {}
-    }
-};
-
-const dmi_name_set_t dmi_intel_rsd_fpga_status_names =
-{
-    .code  = "intel-rsd-fpga-status",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_INTEL_RSD_FPGA_STATUS_DISABLED,
-            .code = "disabled",
-            .name = "Disabled"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_STATUS_ENABLED,
-            .code = "enabled",
-            .name = "Enabled"
-        },
-        {}
-    }
-};
-
-const dmi_name_set_t dmi_intel_rsd_fpga_hps_isa_names =
-{
-    .code  = "intel-rsd-fpga-isa",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_X86,
-            .code = "x86",
-            .name = "x86"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_X86_64,
-            .code = "x86-64",
-            .name = "x86-64"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_IA_64,
-            .code = "ia-64",
-            .name = "IA-64"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_ARM_A32,
-            .code = "arm-a32",
-            .name = "ARM-A32"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_ARM_A64,
-            .code = "arm-a64",
-            .name = "ARM-A64"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_MIPS32,
-            .code = "mips32",
-            .name = "MIPS32"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_MIPS64,
-            .code = "mips64",
-            .name = "MIPS64"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_OEM,
-            .code = "oem",
-            .name = "OEM"
-        },
-        {}
-    }
-};
-
-const dmi_name_set_t dmi_intel_rsd_fpga_hssi_config_names =
-{
-    .code  = "intel-rsd-fpga-config",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING,
-            .code = "networking",
-            .name = "Networking"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE,
-            .code = "pcie",
-            .name = "PCIe"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_HSSI_CONFIG_UNAVAILABLE,
-            .code = "unavailable",
-            .name = "Information not available"
-        },
-        {}
-    }
-};
-
-const dmi_name_set_t dmi_intel_rsd_fpga_memory_tech_names =
-{
-    .code  = "intel-rsd-fpga-memory-tech",
-    .names = (dmi_name_t[]){
-        {
-            .id   = DMI_INTEL_RSD_FPGA_MEMORY_TECH_NONE,
-            .code = "none",
-            .name = "None"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_MEMORY_TECH_EDRAM,
-            .code = "edram",
-            .name = "EDRAM"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM,
-            .code = "hbm",
-            .name = "HBM"
-        },
-        {
-            .id   = DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM2,
-            .code = "hbm2",
-            .name = "HBM2"
-        },
-        {}
-    }
-};
+#include <opendmi/entity/intel/rsd-fpga-internal.h>
 
 const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
 {
     .code            = "intel-rsd-fpga",
     .name            = "Intel RSD FPGA information",
     .type            = DMI_TYPE(INTEL_RSD_FPGA),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .decoded_length  = sizeof(dmi_intel_rsd_fpga_t),
-    .minimum_length  = 0x24,
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .decoded_length  = sizeof(dmi_intel_rsd_fpga_t),
+        .minimum_length  = 0x24
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_intel_rsd_fpga_t, index,  BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, type,   BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, status, BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, socket, BYTE),
+
+        DMI_FIELD(dmi_intel_rsd_fpga_t, vendor,             STRING),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, family,             STRING),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, model,              STRING),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, bit_stream_version, STRING),
+
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hps_core_count, BYTE),
+
+        // Offset 0Dh is not defined by the specification
+        DMI_FIELD_SKIP(sizeof(dmi_byte_t)),
+
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hps_isa,               BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_config,           BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_port_count,       BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_port_speed,       BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_side_band_config, STRING),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, reconfig_slots,        BYTE),
+
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_slot_id,     WORD),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_bus_number,  BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_device_id,   BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_function_id, BYTE),
+
+        DMI_FIELD(dmi_intel_rsd_fpga_t, tdp,             DWORD),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_tech,     BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_capacity, DWORD),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_speed,    WORD),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, index, INTEGER, {
             .code   = "index",
             .name   = "Index"
@@ -262,45 +159,5 @@ const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
             .unit   = DMI_UNIT_MHZ
         }),
         {}
-    },
-    .handlers = {
-        .decode = dmi_intel_rsd_fpga_decode
-    }
+    })
 };
-
-static bool dmi_intel_rsd_fpga_decode(dmi_entity_t *entity)
-{
-    dmi_intel_rsd_fpga_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_FPGA));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode(stream, dmi_byte_t, &info->index) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->type) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->status) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->socket) and
-        dmi_stream_decode_str(stream, &info->vendor) and
-        dmi_stream_decode_str(stream, &info->family) and
-        dmi_stream_decode_str(stream, &info->model) and
-        dmi_stream_decode_str(stream, &info->bit_stream_version) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->hps_core_count) and
-        dmi_stream_skip(stream, 1) and // Offset 0Dh is not defined by specification
-        dmi_stream_decode(stream, dmi_byte_t, &info->hps_isa) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->hssi_config) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->hssi_port_count) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->hssi_port_speed) and
-        dmi_stream_decode_str(stream, &info->hssi_side_band_config) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->reconfig_slots) and
-        dmi_stream_decode(stream, dmi_word_t, &info->pci_slot_id) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->pci_bus_number) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->pci_device_id) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->pci_function_id) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->tdp) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->memory_tech) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->memory_capacity) and
-        dmi_stream_decode(stream, dmi_word_t, &info->memory_speed);
-}

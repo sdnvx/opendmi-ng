@@ -19,15 +19,15 @@ static void test_name_lookup_rev(void **pstate);
 static const dmi_name_set_t test_names =
 {
     .code  = "test-names",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         { 1,    "first",  "First"  },
         { 0x81, "inside", "Inside" },
-        DMI_NAME_NULL
-    },
-    .ranges = (const dmi_name_range_t[]){
+        {}
+    }),
+    .ranges = DMI_NAME_RANGES({
         { 0x80, 0xFF, "range", "Range" },
-        DMI_NAME_RANGE_NULL
-    }
+        {}
+    })
 };
 
 int main(void)

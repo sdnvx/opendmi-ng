@@ -10,10 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-config.h>
-
-static bool dmi_system_config_opts_decode(dmi_entity_t *entity);
-static void dmi_system_config_opts_cleanup(dmi_entity_t *entity);
+#include <opendmi/entity/system-config-internal.h>
 
 const dmi_entity_spec_t dmi_system_config_opts_spec =
 {
@@ -26,54 +23,27 @@ const dmi_entity_spec_t dmi_system_config_opts_spec =
         nullptr
     },
     .type            = DMI_TYPE(SYSTEM_CONFIG_OPTIONS),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x05,
-    .decoded_length  = sizeof(dmi_system_config_opts_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x05,
+        .decoded_length  = sizeof(dmi_system_config_opts_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_system_config_opts_t, option_count, BYTE),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE_ARRAY(dmi_system_config_opts_t, options, option_count, STRING, {
             .code = "options",
             .name = "Options"
         }),
-        DMI_ATTRIBUTE_NULL
-    },
+        {}
+    }),
+
     .handlers = {
-        .decode  = dmi_system_config_opts_decode,
+        .derive  = dmi_system_config_opts_derive,
         .cleanup = dmi_system_config_opts_cleanup
     }
 };
-
-static bool dmi_system_config_opts_decode(dmi_entity_t *entity)
-{
-    dmi_system_config_opts_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_CONFIG_OPTIONS));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t *context = dmi_entity_context(entity);
-    dmi_stream_t  *stream  = dmi_entity_stream(entity);
-
-    if (not dmi_stream_decode(stream, dmi_byte_t, &info->option_count))
-        return false;
-
-    info->options = dmi_alloc_array(context, sizeof(const char *), info->option_count);
-    if (info->options == nullptr)
-        return false;
-
-    for (size_t i = 0; i < info->option_count; i++) {
-        info->options[i] = dmi_entity_string(entity, i + 1);
-    }
-
-    return true;
-}
-
-static void dmi_system_config_opts_cleanup(dmi_entity_t *entity)
-{
-    dmi_system_config_opts_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_CONFIG_OPTIONS));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->options);
-}

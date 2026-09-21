@@ -17,13 +17,15 @@ static void dmi_lint_quality_placeholder(dmi_lint_t *lint, const dmi_entity_t *e
 
 const dmi_lint_rule_t dmi_lint_quality_placeholder_rule =
 {
-    .code              = "quality.placeholder",
-    .name              = "Strings hold data rather than the placeholders of the firmware vendor",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_WARNING,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_quality_placeholder,
-    .optional          = true
+    .code   = "quality.placeholder",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_quality_placeholder,
+    .params = {
+        .name              = "Strings hold data rather than the placeholders of the firmware vendor",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_WARNING,
+        .optional          = true
+    }
 };
 
 //

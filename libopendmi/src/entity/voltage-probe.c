@@ -7,21 +7,9 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
+#include <opendmi/entity/probe-internal.h>
 
-#include <opendmi/entity/probe.h>
-#include <opendmi/entity/voltage-probe.h>
-
-static void dmi_voltage_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity);
-
-static const dmi_lint_rule_t dmi_voltage_probe_range_rule =
-{
-    .code              = "voltage-probe.range",
-    .name              = "Nominal value of the probe is within its limits",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_voltage_probe_lint_range
-};
+#include <opendmi/entity/voltage-probe-internal.h>
 
 const dmi_entity_spec_t dmi_voltage_probe_spec =
 {
@@ -34,10 +22,15 @@ const dmi_entity_spec_t dmi_voltage_probe_spec =
         nullptr
     },
     .type            = DMI_TYPE(VOLTAGE_PROBE),
-    .minimum_version = DMI_VERSION(2, 2, 0),
-    .minimum_length  = 0x14,
-    .decoded_length  = sizeof(dmi_voltage_probe_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 2, 0),
+        .minimum_length  = 0x14,
+        .decoded_length  = sizeof(dmi_voltage_probe_t)
+    },
+
+    .fields = dmi_probe_fields(dmi_voltage_probe_t),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_voltage_probe_t, description, STRING, {
             .code    = "description",
             .name    = "Description"
@@ -105,49 +98,15 @@ const dmi_entity_spec_t dmi_voltage_probe_spec =
             .unknown = dmi_value_ptr(DMI_PROBE_VALUE_UNKNOWN),
             .flags   = DMI_ATTRIBUTE_FLAG_SIGNED
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .lint_rules      = (const dmi_lint_rule_t *const[]){
-        &dmi_voltage_probe_range_rule,
-        nullptr
-    },
+        {}
+    }),
 
-    .handlers = {
-        .decode = dmi_probe_decode,
-    }
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("voltage-probe.range", dmi_voltage_probe_lint_range, {
+            .name              = "Nominal value of the probe is within its limits",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        {}
+    })
 };
-
-static void dmi_voltage_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
-{
-    const dmi_probe_t *info = dmi_entity_info(entity, DMI_TYPE(VOLTAGE_PROBE));
-    if (info == nullptr)
-        return;
-
-    size_t offset = dmi_lint_entity_offset(lint, entity);
-
-    bool has_minimum = ((dmi_word_t)info->minimum_value != DMI_PROBE_VALUE_UNKNOWN);
-    bool has_maximum = ((dmi_word_t)info->maximum_value != DMI_PROBE_VALUE_UNKNOWN);
-    bool has_nominal = ((dmi_word_t)info->nominal_value != DMI_PROBE_VALUE_UNKNOWN);
-
-    if (has_minimum and has_maximum and (info->minimum_value > info->maximum_value)) {
-        dmi_lint_issue(lint, entity, "minimum-value", offset,
-                       "minimum value of %d is above the maximum of %d",
-                       info->minimum_value, info->maximum_value);
-        return;
-    }
-
-    if (not has_nominal)
-        return;
-
-    if (has_minimum and (info->nominal_value < info->minimum_value)) {
-        dmi_lint_issue(lint, entity, "nominal-value", offset,
-                       "nominal value of %d is below the minimum of %d",
-                       info->nominal_value, info->minimum_value);
-    }
-
-    if (has_maximum and (info->nominal_value > info->maximum_value)) {
-        dmi_lint_issue(lint, entity, "nominal-value", offset,
-                       "nominal value of %d is above the maximum of %d",
-                       info->nominal_value, info->maximum_value);
-    }
-}

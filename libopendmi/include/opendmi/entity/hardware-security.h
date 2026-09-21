@@ -12,7 +12,6 @@
 #include <opendmi/entity.h>
 
 typedef struct dmi_hardware_security          dmi_hardware_security_t;
-typedef union  dmi_hardware_security_settings dmi_hardware_security_settings_t;
 
 /**
  * @brief Hardware security status values.
@@ -24,39 +23,6 @@ typedef enum dmi_hardware_security_status
     DMI_HARDWARE_SECURITY_STATUS_NOT_IMPLEMENTED = 0x02, ///< Not implemented
     DMI_HARDWARE_SECURITY_STATUS_UNKNOWN         = 0x03, ///< Unknown
 } dmi_hardware_security_status_t;
-
-/**
- * @brief Hardware security settings.
- */
-dmi_packed_union(dmi_hardware_security_settings)
-{
-    dmi_byte_t __value;
-
-    dmi_packed_struct()
-    {
-        /**
-         * @brief front panel reset status.
-         */
-        dmi_byte_t front_panel_reset : 2;
-
-        /**
-         * @brief Administrator password status.
-         */
-        dmi_byte_t admin_password : 2;
-
-        /**
-         * @brief Keyboard password status.
-         */
-        dmi_byte_t keyboard_password : 2;
-
-        /**
-         * @brief Power-on password status.
-         */
-        dmi_byte_t poweron_password : 2;
-    };
-};
-
-dmi_static_assert_value_union(dmi_hardware_security_settings);
 
 struct dmi_hardware_security
 {

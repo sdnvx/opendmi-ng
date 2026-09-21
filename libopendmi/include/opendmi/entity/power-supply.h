@@ -45,58 +45,8 @@ typedef enum dmi_range_switching_type
 } dmi_range_switching_type_t;
 
 /**
- * @brief Power supply characteristics.
+ * @brief Power supply information (type 39).
  */
-dmi_packed_union(dmi_power_supply_details)
-{
-    /**
-     * @brief Raw value.
-     */
-    dmi_word_t __value;
-
-    dmi_packed_struct()
-    {
-        /**
-         * @brief Power supply is hot-replaceable.
-         */
-        dmi_word_t hot_swappable : 1;
-
-        /**
-         * @brief Power supply is present.
-         */
-        dmi_word_t present : 1;
-
-        /**
-         * @brief Power supply is unplugged from the wall.
-         */
-        dmi_word_t unplugged : 1;
-
-        /**
-         * @brief Input voltage range switching.
-         */
-        dmi_word_t range_switching : 4;
-
-        /**
-         * @brief Status.
-         */
-        dmi_word_t status : 3;
-
-        /**
-         * @brief Power supply type.
-         */
-        dmi_word_t type : 4;
-
-        /**
-         * @brief Reserved for future use, set to zero.
-         */
-        dmi_word_t __reserved : 2;
-    };
-};
-
-dmi_static_assert_value_union(dmi_power_supply_details);
-
-typedef union dmi_power_supply_details dmi_power_supply_details_t;
-
 struct dmi_power_supply
 {
     /**

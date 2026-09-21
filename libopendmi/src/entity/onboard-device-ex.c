@@ -11,21 +11,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/onboard-device-ex.h>
-
-static bool dmi_onboard_device_ex_decode(dmi_entity_t *entity);
-
-static void dmi_onboard_device_ex_lint_instance(dmi_lint_t *lint, const dmi_entity_t *entity);
-
-static const dmi_lint_rule_t dmi_onboard_device_ex_instance_rule =
-{
-    .code              = "onboard-device-ex.instance",
-    .name              = "Instances of the devices of a type are unique",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_onboard_device_ex_lint_instance
-};
+#include <opendmi/entity/onboard-device-ex-internal.h>
 
 const dmi_entity_spec_t dmi_onboard_device_ex_spec =
 {
@@ -47,10 +33,27 @@ const dmi_entity_spec_t dmi_onboard_device_ex_spec =
         nullptr
     },
     .type            = DMI_TYPE(ONBOARD_DEVICE_EX),
-    .minimum_version = DMI_VERSION(2, 6, 0),
-    .minimum_length  = 0x0B,
-    .decoded_length  = sizeof(dmi_onboard_device_ex_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 6, 0),
+        .minimum_length  = 0x0B,
+        .decoded_length  = sizeof(dmi_onboard_device_ex_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_onboard_device_ex_t, designator, STRING),
+
+        // One byte holding the type of the device and whether it is enabled
+        DMI_FIELD_BITS(dmi_onboard_device_ex_t, type,       7),
+        DMI_FIELD_BITS(dmi_onboard_device_ex_t, is_enabled, 1),
+        DMI_FIELD_PAD(BYTE),
+
+        DMI_FIELD(dmi_onboard_device_ex_t, instance, BYTE),
+        DMI_FIELD_CUSTOM(dmi_onboard_device_ex_t, address,
+                         .decode = dmi_onboard_device_ex_decode_pci_addr),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_onboard_device_ex_t, designator, STRING, {
             .code    = "designator",
             .name    = "Designator"
@@ -75,77 +78,15 @@ const dmi_entity_spec_t dmi_onboard_device_ex_spec =
             .name    = "Address",
             .attrs   = dmi_pci_addr_attrs
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .lint_rules      = (const dmi_lint_rule_t *const[]){
-        &dmi_onboard_device_ex_instance_rule,
-        nullptr
-    },
+        {}
+    }),
 
-    .handlers = {
-        .decode = dmi_onboard_device_ex_decode
-    }
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("onboard-device-ex.instance", dmi_onboard_device_ex_lint_instance, {
+            .name              = "Instances of the devices of a type are unique",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        {}
+    })
 };
-
-static bool dmi_onboard_device_ex_decode(dmi_entity_t *entity)
-{
-    dmi_onboard_device_ex_t *info;
-    dmi_onboard_device_instance_details_t details;
-
-    info = dmi_entity_info(entity, DMI_TYPE(ONBOARD_DEVICE_EX));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    bool status =
-        dmi_stream_decode_str(stream, &info->designator) and
-        dmi_stream_decode(stream, dmi_byte_t, &details.__value) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->instance) and
-        dmi_pci_addr_decode(stream, &info->address);
-
-    if (not status)
-        return false;
-
-    info->type       = details.type;
-    info->is_enabled = details.is_enabled;
-
-    return true;
-}
-
-//
-// Devices of the same type are told apart by their instances, so no two of
-// them share one.
-//
-static void dmi_onboard_device_ex_lint_instance(dmi_lint_t *lint, const dmi_entity_t *entity)
-{
-    const dmi_onboard_device_ex_t *info = dmi_entity_info(entity, DMI_TYPE(ONBOARD_DEVICE_EX));
-    if (info == nullptr)
-        return;
-
-    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
-    dmi_registry_iter_t iter;
-    dmi_entity_t *other;
-
-    if (not dmi_registry_iter_init(&iter, registry, nullptr))
-        return;
-
-    while ((other = dmi_registry_iter_next(&iter)) != nullptr) {
-        if ((other == entity) or (dmi_entity_type(other) != DMI_TYPE_ONBOARD_DEVICE_EX))
-            continue;
-
-        // Every pair is reported once, by the structure which comes later
-        if (dmi_entity_handle(other) >= dmi_entity_handle(entity))
-            continue;
-
-        const dmi_onboard_device_ex_t *peer =
-                dmi_entity_info(other, DMI_TYPE(ONBOARD_DEVICE_EX));
-
-        if ((peer == nullptr) or (peer->type != info->type) or (peer->instance != info->instance))
-            continue;
-
-        dmi_lint_issue(lint, entity, "instance", dmi_lint_entity_offset(lint, entity),
-                       "instance %u of the device type is taken by handle 0x%04X",
-                       info->instance, (unsigned)dmi_entity_handle(other));
-    }
-}

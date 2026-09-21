@@ -163,7 +163,7 @@ struct dmi_attribute_params
     const dmi_attribute_t *attrs;
 
     /**
-     * @brief Variants of variant attribute, terminated by `DMI_VARIANT_NULL`.
+     * @brief Variants of variant attribute, terminated by `{}`.
      */
     const dmi_attribute_variant_t *variants;
 
@@ -219,14 +219,6 @@ struct dmi_attribute_variant
         .params  = __VA_ARGS__                                          \
     }
 
-#define DMI_ATTRIBUTE_NULL                  \
-    {                                       \
-        .value   = DMI_MEMBER_NULL,         \
-        .counter = DMI_MEMBER_NULL,         \
-        .type    = DMI_ATTRIBUTE_TYPE_NONE, \
-        .params  = {}                       \
-    }
-
 /**
  * @brief Variant attribute, which value is described by one of @p __variants
  * depending on the @p __selector member.
@@ -259,7 +251,23 @@ struct dmi_attribute_variant
         .attribute  = DMI_ATTRIBUTE(__entity, __member, __type, __VA_ARGS__) \
     }
 
-#define DMI_VARIANT_NULL { .attribute = DMI_ATTRIBUTE_NULL }
+/**
+ * @brief List of the attributes of a structure or of a nested one, terminated for the code
+ * which walks it.
+ *
+ * The terminator is added by the macro, so that a list which has lost it
+ * cannot be written in the first place.
+ */
+#define DMI_ATTRIBUTES(...) (const dmi_attribute_t[])__VA_ARGS__
+
+/**
+ * @brief List of the variants of a variant attribute, terminated for the code
+ * which walks it.
+ *
+ * The terminator is added by the macro, so that a list which has lost it
+ * cannot be written in the first place.
+ */
+#define DMI_VARIANTS(...) (const dmi_attribute_variant_t[])__VA_ARGS__
 
 __BEGIN_DECLS
 

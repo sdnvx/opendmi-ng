@@ -10,13 +10,12 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
-
 #include <opendmi/entity/probe.h>
 
 const dmi_name_set_t dmi_probe_location_names =
 {
     .code  = "probe-location",
-    .names = (dmi_name_t[]){
+    .names = DMI_NAMES({
         DMI_NAME_UNSPEC(DMI_PROBE_LOCATION_UNSPEC),
         DMI_NAME_OTHER(DMI_PROBE_LOCATION_OTHER),
         DMI_NAME_UNKNOWN(DMI_PROBE_LOCATION_UNKNOWN),
@@ -85,48 +84,11 @@ const dmi_name_set_t dmi_probe_location_names =
             .code = "drive-back-plane",
             .name = "Drive back plane"
         },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 const char *dmi_probe_location_name(dmi_probe_location_t value)
 {
     return dmi_name_lookup(&dmi_probe_location_names, (int)value);
-}
-
-bool dmi_probe_decode(dmi_entity_t *entity)
-{
-    dmi_probe_t *info = nullptr;
-
-    info = dmi_cast(info, entity->info);
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    dmi_probe_details_t details;
-
-    bool status =
-        dmi_stream_decode_str(stream, &info->description) and
-        dmi_stream_decode(stream, dmi_byte_t, &details.__value) and
-        dmi_stream_decode(stream, dmi_word_t, &info->maximum_value) and
-        dmi_stream_decode(stream, dmi_word_t, &info->minimum_value) and
-        dmi_stream_decode(stream, dmi_word_t, &info->resolution) and
-        dmi_stream_decode(stream, dmi_word_t, &info->tolerance) and
-        dmi_stream_decode(stream, dmi_word_t, &info->accuracy) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->oem_defined);
-    if (not status)
-        return false;
-
-    info->location      = details.location;
-    info->status        = details.status;
-    info->nominal_value = SHRT_MIN;
-
-    // Nominal value
-    if (dmi_stream_is_done(stream))
-        return dmi_entity_stop(entity);
-    if (not dmi_stream_decode(stream, dmi_word_t, &info->nominal_value))
-        return dmi_entity_incomplete(entity);
-
-    return true;
 }

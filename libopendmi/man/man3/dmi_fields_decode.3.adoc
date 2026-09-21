@@ -1,0 +1,123 @@
+= dmi_fields_decode(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_fields_decode - decode a structure according to the fields of its specification.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+bool dmi_fields_decode(dmi_entity_t *entity);
+----
+
+== Description
+
+The `dmi_fields_decode` function reads a structure according to the layout its
+specification declares, instead of a decoding handler written for the type.
+
+A specification describes its layout with the `fields` member of
+`dmi_entity_spec_t`, a list of `dmi_field_t` terminated with `DMI_FIELD_NULL`.
+Fields are read in the order they are declared, starting at the beginning of
+the structure body. A specification which declares fields and no decoding
+handler is decoded by this function, which `dmi_entity_decode`(3) calls on its
+own, so it rarely has to be named.
+
+Fields describe the bytes, while the attributes of `dmi_attribute_t` describe
+the values they are decoded into. The two are joined by the member of the
+decoded structure they name, and neither is a complete description of the
+other: a field may carry no member of its own, and a member may be computed
+rather than read.
+
+=== Groups and truncation
+
+The firmware of a platform writes the fields of the version of the
+specification it follows, and leaves out the ones of the newer versions, so a
+structure of a type is not as long as the decoder knows it to be.
+
+`DMI_FIELD_GROUP` declares where the data is allowed to end. When the data ends
+at the beginning of a group, the fields of that group and of the ones after it
+are left unset, and the structure is marked as stopped rather than as broken;
+the version of the group the data has been read up to becomes the level of the
+structure. Ending anywhere else marks the structure as incomplete, except
+within the fields before the first group, which every structure of the type is
+required to carry.
+
+=== Fields which are not described
+
+A field of the `DMI_FIELD_TYPE_CUSTOM` type is read by a handler of its own,
+declared with `DMI_FIELD_CUSTOM`. This is how the layouts the declaration does
+not describe are decoded, e.g. the ones which hold several values in one byte,
+without the rest of the structure being written by hand.
+
+=== Parameters
+
+`entity`::
+Structure to decode, which is decoded into the structure of its type.
+
+== Return value
+
+Returns `true` if the structure has been decoded, which includes the
+structures the data ends within, and `false` if it cannot be.
+
+== Errors
+
+`DMI_ERROR_NULL_ARGUMENT`::
+Entity is `nullptr`.
+
+`DMI_ERROR_INVALID_STATE`::
+Specification declares no fields.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Elements of an array cannot be allocated.
+
+== Examples
+
+[source, c]
+----
+const dmi_entity_spec_t dmi_slot_spec =
+{
+    .code   = "slot",
+    .type   = DMI_TYPE(SYSTEM_SLOTS),
+    ...
+    .fields = (const dmi_field_t[]){
+        DMI_FIELD(dmi_slot_t, designator, STRING),
+        DMI_FIELD(dmi_slot_t, type,       BYTE),
+        DMI_FIELD(dmi_slot_t, bus_width,  BYTE),
+
+        DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
+        DMI_FIELD(dmi_slot_t, features_ex, BYTE),
+
+        DMI_FIELD_GROUP(.since = DMI_VERSION(3, 2, 0)),
+        DMI_FIELD_ARRAY(dmi_slot_t, peer_groups, peer_group_count,
+            .count_type = DMI_FIELD_TYPE_BYTE,
+            .fields     = (const dmi_field_t[]){
+                DMI_FIELD(dmi_slot_peer_group_t, bus_width, BYTE),
+                DMI_FIELD_NULL
+            }),
+        DMI_FIELD_NULL
+    }
+};
+----
+
+== See also
+
+`dmi_entity_decode`(3), `dmi_stream_initialize`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

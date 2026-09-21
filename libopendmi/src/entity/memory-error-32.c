@@ -9,9 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-error-32.h>
-
-static bool dmi_memory_error_32_decode(dmi_entity_t *entity);
+#include <opendmi/entity/memory-error-32-internal.h>
 
 const dmi_entity_spec_t dmi_memory_error_32_spec =
 {
@@ -24,10 +22,24 @@ const dmi_entity_spec_t dmi_memory_error_32_spec =
         nullptr
     },
     .type            = DMI_TYPE(MEMORY_ERROR_32),
-    .minimum_version = DMI_VERSION(2, 1, 0),
-    .minimum_length  = 0x17,
-    .decoded_length  = sizeof(dmi_memory_error_32_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 1, 0),
+        .minimum_length  = 0x17,
+        .decoded_length  = sizeof(dmi_memory_error_32_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_memory_error_32_t, type,            BYTE),
+        DMI_FIELD(dmi_memory_error_32_t, granularity,     BYTE),
+        DMI_FIELD(dmi_memory_error_32_t, operation,       BYTE),
+        DMI_FIELD(dmi_memory_error_32_t, vendor_syndrome, DWORD),
+        DMI_FIELD(dmi_memory_error_32_t, array_addr,      DWORD),
+        DMI_FIELD(dmi_memory_error_32_t, device_addr,     DWORD),
+        DMI_FIELD(dmi_memory_error_32_t, resolution,      DWORD),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_memory_error_32_t, type, ENUM, {
             .code    = "type",
             .name    = "Type",
@@ -68,29 +80,6 @@ const dmi_entity_spec_t dmi_memory_error_32_spec =
             .code    = "resolution",
             .name    = "Resolution"
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .handlers = {
-        .decode = dmi_memory_error_32_decode
-    }
+        {}
+    }),
 };
-
-static bool dmi_memory_error_32_decode(dmi_entity_t *entity)
-{
-    dmi_memory_error_32_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ERROR_32));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode(stream, dmi_byte_t, &info->type) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->granularity) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->operation) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->vendor_syndrome) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->array_addr) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->device_addr) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->resolution);
-}

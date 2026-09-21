@@ -13,7 +13,6 @@
 
 typedef struct dmi_processor              dmi_processor_t;
 typedef union  dmi_processor_features     dmi_processor_features_t;
-typedef union  dmi_processor_status_data  dmi_processor_status_data_t;
 typedef union  dmi_processor_voltage_data dmi_processor_voltage_data_t;
 typedef union  dmi_processor_voltages     dmi_processor_voltages_t;
 typedef struct dmi_processor_x86_id       dmi_processor_x86_id_t;
@@ -506,33 +505,6 @@ typedef enum dmi_processor_status
     DMI_PROCESSOR_STATUS_OTHER            = 0x07, ///< Other
     __DMI_PROCESSOR_STATUS_COUNT
 } dmi_processor_status_t;
-
-dmi_packed_union(dmi_processor_status_data)
-{
-    /**
-     * @brief Raw value.
-     */
-    dmi_byte_t __value;
-
-    dmi_packed_struct()
-    {
-        /**
-         * @brief CPU status.
-         */
-        dmi_byte_t status : 3;
-
-        dmi_byte_t __reserved_1 : 3;
-
-        /**
-         * @brief Is CPU socket populated.
-         */
-        dmi_byte_t is_populated : 1;
-
-        dmi_byte_t __reserved_2 : 1;
-    };
-};
-
-dmi_static_assert_value_union(dmi_processor_status_data);
 
 /**
  * @brief Processor voltage field.

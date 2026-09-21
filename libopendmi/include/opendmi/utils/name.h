@@ -72,8 +72,6 @@ struct dmi_name_set
     const dmi_name_range_t *ranges;
 };
 
-#define DMI_NAME_NULL { -1, nullptr, nullptr }
-
 #define DMI_NAME_UNSPEC(id)      { (id), "unspecified", "Unspecified" }
 #define DMI_NAME_UNKNOWN(id)     { (id), "unknown",     "Unknown"     }
 #define DMI_NAME_OTHER(id)       { (id), "other",       "Other"       }
@@ -81,7 +79,23 @@ struct dmi_name_set
 #define DMI_NAME_UNSUPPORTED(id) { (id), "unsupported", "Unsupported" }
 #define DMI_NAME_RESERVED(id)    { (id), "reserved",    "Reserved"    }
 
-#define DMI_NAME_RANGE_NULL { -1, -1, nullptr, nullptr }
+/**
+ * @brief List of the names of a name set, terminated for the code
+ * which walks it.
+ *
+ * The terminator is added by the macro, so that a list which has lost it
+ * cannot be written in the first place.
+ */
+#define DMI_NAMES(...) (const dmi_name_t[])__VA_ARGS__
+
+/**
+ * @brief List of the ranges of a name set, terminated for the code
+ * which walks it.
+ *
+ * The terminator is added by the macro, so that a list which has lost it
+ * cannot be written in the first place.
+ */
+#define DMI_NAME_RANGES(...) (const dmi_name_range_t[])__VA_ARGS__
 
 __BEGIN_DECLS
 

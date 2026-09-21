@@ -26,74 +26,88 @@ static char *dmi_lint_entity_version(dmi_version_t version, char *buffer, size_t
 
 const dmi_lint_rule_t dmi_lint_entity_below_minimum_rule =
 {
-    .code              = "entity.below-minimum",
-    .name              = "Structure is long enough for its type",
-    .severity          = DMI_LINT_SEVERITY_ERROR,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_entity_below_minimum
+    .code   = "entity.below-minimum",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_entity_below_minimum,
+    .params = {
+        .name              = "Structure is long enough for its type",
+        .severity          = DMI_LINT_SEVERITY_ERROR,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entity_unknown_length_rule =
 {
-    .code              = "entity.unknown-length",
-    .name              = "Length of the structure matches a version of its specification",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_entity_unknown_length
+    .code   = "entity.unknown-length",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_entity_unknown_length,
+    .params = {
+        .name              = "Length of the structure matches a version of its specification",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entity_undecoded_rule =
 {
-    .code              = "entity.undecoded",
-    .name              = "Structure has been decoded",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_entity_undecoded
+    .code   = "entity.undecoded",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_entity_undecoded,
+    .params = {
+        .name              = "Structure has been decoded",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entity_newer_fields_rule =
 {
-    .code              = "entity.newer-fields",
-    .name              = "Structure has no fields newer than the version of the entry point",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_entity_newer_fields
+    .code   = "entity.newer-fields",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_entity_newer_fields,
+    .params = {
+        .name              = "Structure has no fields newer than the version of the entry point",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entity_newer_type_rule =
 {
-    .code              = "entity.newer-type",
-    .name              = "Type of the structure is defined by the version of the entry point",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_entity_newer_type
+    .code   = "entity.newer-type",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_entity_newer_type,
+    .params = {
+        .name              = "Type of the structure is defined by the version of the entry point",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entity_unknown_type_rule =
 {
-    .code              = "entity.unknown-type",
-    .name              = "Type of the structure is known",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_WARNING,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_entity_unknown_type,
-    .optional          = true
+    .code   = "entity.unknown-type",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_entity_unknown_type,
+    .params = {
+        .name              = "Type of the structure is known",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_WARNING,
+        .optional          = true
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_entity_obsolete_rule =
 {
-    .code              = "entity.obsolete",
-    .name              = "Structure is not of a type obsoleted by the specification",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_WARNING,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_entity_obsolete,
-    .optional          = true
+    .code   = "entity.obsolete",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_entity_obsolete,
+    .params = {
+        .name              = "Structure is not of a type obsoleted by the specification",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_WARNING,
+        .optional          = true
+    }
 };
 
 //
@@ -129,13 +143,13 @@ static void dmi_lint_entity_below_minimum(dmi_lint_t *lint, const dmi_entity_t *
 {
     const dmi_entity_spec_t *spec = entity->spec;
 
-    if ((spec == nullptr) or (spec->minimum_length == 0))
+    if ((spec == nullptr) or (spec->params.minimum_length == 0))
         return;
 
-    if (entity->body_length < spec->minimum_length) {
+    if (entity->body_length < spec->params.minimum_length) {
         dmi_lint_issue(lint, entity, nullptr, dmi_lint_entity_offset(lint, entity),
                        "structure is %zu bytes long, but its type needs at least %zu",
-                       entity->body_length, spec->minimum_length);
+                       entity->body_length, spec->params.minimum_length);
     }
 }
 
@@ -153,8 +167,12 @@ static void dmi_lint_entity_unknown_length(dmi_lint_t *lint, const dmi_entity_t 
 static void dmi_lint_entity_undecoded(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     // Structures which carry no data of their own, e.g. the end-of-table one,
-    // have nothing to decode
-    if ((entity->spec == nullptr) or (entity->spec->handlers.decode == nullptr))
+    // have nothing to decode: they neither describe their layout nor decode
+    // it themselves
+    if (entity->spec == nullptr)
+        return;
+
+    if ((entity->spec->handlers.decode == nullptr) and (entity->spec->fields == nullptr))
         return;
 
     if (entity->state & DMI_ENTITY_STATE_DECODED)
@@ -185,8 +203,8 @@ static void dmi_lint_entity_newer_type(dmi_lint_t *lint, const dmi_entity_t *ent
     const dmi_entity_spec_t *spec = entity->spec;
     dmi_version_t version = dmi_lint_version(lint);
 
-    if ((spec == nullptr) or (spec->minimum_version == DMI_VERSION_NONE) or
-        (spec->minimum_version <= version))
+    if ((spec == nullptr) or (spec->params.minimum_version == DMI_VERSION_NONE) or
+        (spec->params.minimum_version <= version))
         return;
 
     char minimum[16];
@@ -194,7 +212,7 @@ static void dmi_lint_entity_newer_type(dmi_lint_t *lint, const dmi_entity_t *ent
 
     dmi_lint_issue(lint, entity, nullptr, dmi_lint_entity_offset(lint, entity),
                    "type is defined by SMBIOS %s, while the entry point declares %s",
-                   dmi_lint_entity_version(spec->minimum_version, minimum, sizeof(minimum)),
+                   dmi_lint_entity_version(spec->params.minimum_version, minimum, sizeof(minimum)),
                    dmi_lint_entity_version(version, entry, sizeof(entry)));
 }
 

@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `lint` command checking the data against the rules of the specification
 - Add `dmi_stream_mark()`, `dmi_stream_rewind()` and `dmi_stream_skip_ex()`, which step over records by their declared length instead of by the bytes read from them
+- Add `dmi_field_t` describing the layout of a structure on the wire, and `dmi_fields_decode()` decoding the specifications which declare it
+- Describe the layout of nearly every structure type on the wire instead of decoding it by hand
 - Add `dmi_lint` and the registry of the rules it checks the data against
 - Add lint rules for structures, strings, values, references, additional information entries and data quality
 - Add lint rules of the structure types, provided by their specifications
@@ -76,11 +78,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Serialize measurement units by their code names in XML output
 - Require the internationalization component of ICU4C for plural rules
 - Replace error message table with the `dmi_error_names` name set, which gives error codes their own names
+- Rename `dmi_targets()` macro to `dmi_types()`, which reads as a list of structure types wherever one is needed
+- Remove the unions which existed only for decoding, whose fields are decoded into the members of the structures themselves
+- Split the sources of a structure type into its specification, value names, handlers and lint rules
+- Declare the lint rules of a structure type along with the rest of its specification
+- Decode the structures whose specification declares fields and no decoding handler with the field engine
 - Add manual pages for the `opendmi` command line tool and all of its commands
 
 ### Fixed
 
 - Fix `--pretty` option of the `export` command having no effect on any output format
+- Fix portable battery manufacture date being dropped when the date string is malformed and the packed SBDS date is there
 - Fix `explain` command rejecting structure types given by their number
 - Fix name of string property value attribute
 - Fix false errors on memory device references to handle 0x0000 used as unspecified value

@@ -59,7 +59,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .version    = DMI_VERSION(3, 0, 0),
         .min_length = sizeof(dmi_entry_v30_t),
         .handler    = dmi_entry_decode_v30,
-        .attributes = (const dmi_attribute_t[]){
+        .attributes = DMI_ATTRIBUTES({
             DMI_ATTRIBUTE(dmi_context_t, state.entry_length, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
@@ -79,7 +79,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
             {}
-        }
+        })
     },
     {
         .name       = "SMBIOS 2.1+ (32-bit)",
@@ -87,7 +87,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .version    = DMI_VERSION(2, 1, 0),
         .min_length = sizeof(dmi_entry_v21_t),
         .handler    = dmi_entry_decode_v21,
-        .attributes = (const dmi_attribute_t[]){
+        .attributes = DMI_ATTRIBUTES({
             DMI_ATTRIBUTE(dmi_context_t, state.entry_length, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
@@ -115,7 +115,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
                 .name  = "Entity count"
             }),
             {}
-        }
+        })
     },
     {
         .name       = "Legacy (32-bit)",
@@ -123,7 +123,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .version    = DMI_VERSION(2, 0, 0),
         .min_length = sizeof(dmi_entry_legacy_t),
         .handler    = dmi_entry_decode_legacy,
-        .attributes = (const dmi_attribute_t[]){
+        .attributes = DMI_ATTRIBUTES({
             DMI_ATTRIBUTE(dmi_context_t, state.entry_length, SIZE, {
                 .code  = "length",
                 .name  = "Entry point length"
@@ -142,7 +142,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
                 .name  = "Entity count"
             }),
             {}
-        }
+        })
     },
     {}
 };

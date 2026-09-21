@@ -11,6 +11,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
+#include <opendmi/field.h>
 #include <opendmi/internal.h>
 
 #include <opendmi/utils.h>
@@ -22,7 +23,7 @@
 const dmi_name_set_t dmi_entity_state_names =
 {
     .code  = "entity-state",
-    .names = (dmi_name_t[]){
+    .names = DMI_NAMES({
         // Names are printed in the header of the structure, following its
         // length, so they are lowercase
         { 0, "decoded",    "decoded"    },
@@ -30,14 +31,14 @@ const dmi_name_set_t dmi_entity_state_names =
         { 2, "valid",      "valid"      },
         { 3, "incomplete", "incomplete" },
         { 4, "partial",    "partial"    },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 const dmi_name_set_t dmi_property_names =
 {
     .code  = "property-name",
-    .names = (dmi_name_t[]){
+    .names = DMI_NAMES({
         {
             .id   = DMI_PROPERTY_ID_RESERVED,
             .code = "reserved",
@@ -48,9 +49,9 @@ const dmi_name_set_t dmi_property_names =
             .code = "uefi-device-path",
             .name = "UEFI device path"
         },
-        DMI_NAME_NULL
-    },
-    .ranges = (dmi_name_range_t[]){
+        {}
+    }),
+    .ranges = DMI_NAME_RANGES({
         {
             .start_id = __DMI_PROPERTY_ID_RESERVED_START,
             .end_id   = __DMI_PROPERTY_ID_RESERVED_END,
@@ -69,8 +70,8 @@ const dmi_name_set_t dmi_property_names =
             .code     = "oem-specific",
             .name     = "OEM specific"
         },
-        DMI_NAME_RANGE_NULL
-    }
+        {}
+    })
 };
 
 /**
@@ -198,17 +199,27 @@ bool dmi_entity_decode(dmi_entity_t *entity)
     entity->spec = spec;
 
     // Check minimum length constraint
-    if ((spec->minimum_length != 0) and (entity->body_length < spec->minimum_length)) {
+    if ((spec->params.minimum_length != 0) and (entity->body_length < spec->params.minimum_length)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_LENGTH,
                            "0x%04x (%s): %zu bytes, at least %zu expected",
-                           entity->handle, spec->name, entity->body_length, spec->minimum_length);
+                           entity->handle, spec->name, entity->body_length, spec->params.minimum_length);
         return false;
     }
 
-    entity->level = spec->minimum_version;
+    entity->level = spec->params.minimum_version;
 
-    if (spec->handlers.decode == nullptr)
-        return true;
+    // Specifications which describe their layout rather than decode it
+    // themselves are decoded by the library, while the ones which carry no
+    // data of their own, e.g. the end-of-table structure, have nothing to
+    // decode at all
+    dmi_entity_decode_fn *decode = spec->handlers.decode;
+
+    if (decode == nullptr) {
+        if (spec->fields == nullptr)
+            return true;
+
+        decode = dmi_fields_decode;
+    }
 
     // Decoder reads the copy of structure body with additional information
     // applied, if there is any
@@ -218,7 +229,7 @@ bool dmi_entity_decode(dmi_entity_t *entity)
     }
 
     // Allocate structure descriptor
-    entity->info = dmi_alloc(context, spec->decoded_length);
+    entity->info = dmi_alloc(context, spec->params.decoded_length);
     if (entity->info == nullptr)
         return false;
 
@@ -227,7 +238,13 @@ bool dmi_entity_decode(dmi_entity_t *entity)
     dmi_stream_seek(&entity->stream, sizeof(dmi_header_t));
 
     // Execute decoder
-    bool status = spec->handlers.decode(entity);
+    bool status = decode(entity);
+
+    // Members which are computed rather than read are filled in once the
+    // fields are there, including when the data ended early: whatever has
+    // been read is what they are derived from
+    if (status and (spec->handlers.derive != nullptr))
+        status = spec->handlers.derive(entity);
 
     if (status) {
         entity->state |= DMI_ENTITY_STATE_DECODED;

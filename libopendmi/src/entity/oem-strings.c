@@ -9,10 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/oem-strings.h>
-
-static bool dmi_oem_strings_decode(dmi_entity_t *entity);
-static void dmi_oem_strings_cleanup(dmi_entity_t *entity);
+#include <opendmi/entity/oem-strings-internal.h>
 
 const dmi_entity_spec_t dmi_oem_strings_spec =
 {
@@ -26,10 +23,18 @@ const dmi_entity_spec_t dmi_oem_strings_spec =
         nullptr
     },
     .type            = DMI_TYPE(OEM_STRINGS),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x05,
-    .decoded_length  = sizeof(dmi_oem_strings_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x05,
+        .decoded_length  = sizeof(dmi_oem_strings_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_oem_strings_t, string_count, BYTE),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_oem_strings_t, string_count, INTEGER, {
             .code = "string-count",
             .name = "String count"
@@ -38,46 +43,11 @@ const dmi_entity_spec_t dmi_oem_strings_spec =
             .code    = "strings",
             .name    = "Strings"
         }),
-        DMI_ATTRIBUTE_NULL
-    },
+        {}
+    }),
+
     .handlers = {
-        .decode  = dmi_oem_strings_decode,
+        .derive  = dmi_oem_strings_derive,
         .cleanup = dmi_oem_strings_cleanup
     }
 };
-
-static bool dmi_oem_strings_decode(dmi_entity_t *entity)
-{
-    dmi_oem_strings_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(OEM_STRINGS));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t *context = dmi_entity_context(entity);
-    dmi_stream_t  *stream  = dmi_entity_stream(entity);
-
-    if (not dmi_stream_decode(stream, dmi_byte_t, &info->string_count))
-        return false;
-
-    info->strings = dmi_alloc_array(context, sizeof(const char *), info->string_count);
-    if (info->strings == nullptr)
-        return false;
-
-    for (size_t i = 0; i < info->string_count; i++) {
-        info->strings[i] = dmi_entity_string(entity, (dmi_string_t)(i + 1));
-    }
-
-    return true;
-}
-
-static void dmi_oem_strings_cleanup(dmi_entity_t *entity)
-{
-    dmi_oem_strings_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(OEM_STRINGS));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->strings);
-}

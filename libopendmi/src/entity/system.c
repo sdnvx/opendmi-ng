@@ -10,50 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/system.h>
-
-static bool dmi_system_decode(dmi_entity_t *entity);
-
-const dmi_name_set_t dmi_system_wakeup_type_names =
-{
-    .code  = "system-wakeup-type",
-    .names = (dmi_name_t[]){
-        DMI_NAME_RESERVED(DMI_SYSTEM_WAKEUP_TYPE_RESERVED),
-        DMI_NAME_OTHER(DMI_SYSTEM_WAKEUP_TYPE_OTHER),
-        DMI_NAME_UNKNOWN(DMI_SYSTEM_WAKEUP_TYPE_UNKNOWN),
-        {
-            .id   = DMI_SYSTEM_WAKEUP_TYPE_APM_TIMER,
-            .code = "apm-timer",
-            .name = "APM Timer"
-        },
-        {
-            .id   = DMI_SYSTEM_WAKEUP_TYPE_MODEM_RING,
-            .code = "modem-ring",
-            .name = "Modem Ring"
-        },
-        {
-            .id   = DMI_SYSTEM_WAKEUP_TYPE_LAN_REMOTE,
-            .code = "lan-remote",
-            .name = "LAN Remote"
-        },
-        {
-            .id = DMI_SYSTEM_WAKEUP_TYPE_POWER_SWITCH,
-            .code = "power-switch",
-            .name = "Power Switch"
-        },
-        {
-            .id   = DMI_SYSTEM_WAKEUP_TYPE_PCI_PME,
-            .code = "pci-pme",
-            .name = "PCI PME#"
-        },
-        {
-            .id   = DMI_SYSTEM_WAKEUP_TYPE_POWER_RESTORE,
-            .code = "power-restore",
-            .name = "AC Power Restored"
-        },
-        DMI_NAME_NULL
-    }
-};
+#include <opendmi/entity/system-internal.h>
 
 const dmi_entity_spec_t dmi_system_spec =
 {
@@ -69,13 +26,32 @@ const dmi_entity_spec_t dmi_system_spec =
         nullptr
     },
     .type            = DMI_TYPE(SYSTEM),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .required_from   = DMI_VERSION(2, 3, 0),
-    .required_till   = DMI_VERSION_NONE,
-    .unique          = true,
-    .minimum_length  = 0x8,
-    .decoded_length  = sizeof(dmi_system_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .required_from   = DMI_VERSION(2, 3, 0),
+        .required_till   = DMI_VERSION_NONE,
+        .unique          = true,
+        .minimum_length  = 0x8,
+        .decoded_length  = sizeof(dmi_system_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_system_t, vendor,        STRING),
+        DMI_FIELD(dmi_system_t, product,       STRING),
+        DMI_FIELD(dmi_system_t, version,       STRING),
+        DMI_FIELD(dmi_system_t, serial_number, STRING),
+
+        DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
+        DMI_FIELD(dmi_system_t, uuid,        UUID),
+        DMI_FIELD(dmi_system_t, wakeup_type, BYTE),
+
+        DMI_FIELD_GROUP(.since = DMI_VERSION(2, 4, 0)),
+        DMI_FIELD(dmi_system_t, sku_number, STRING),
+        DMI_FIELD(dmi_system_t, family,     STRING),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_system_t, vendor, STRING, {
             .code    = "vendor",
             .name    = "Manufacturer"
@@ -114,59 +90,6 @@ const dmi_entity_spec_t dmi_system_spec =
             .name    = "Family",
             .level   = DMI_VERSION(2, 4, 0)
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .handlers      = {
-        .decode = dmi_system_decode
-    }
+        {}
+    })
 };
-
-const char *dmi_system_wakeup_type_name(dmi_system_wakeup_type_t value)
-{
-    return dmi_name_lookup(&dmi_system_wakeup_type_names, (int)value);
-}
-
-static bool dmi_system_decode(dmi_entity_t *entity)
-{
-    dmi_system_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    bool status =
-        dmi_stream_decode_str(stream, &info->vendor) and
-        dmi_stream_decode_str(stream, &info->product) and
-        dmi_stream_decode_str(stream, &info->version) and
-        dmi_stream_decode_str(stream, &info->serial_number);
-    if (not status)
-        return false;
-
-    // SMBIOS 2.1 fields
-    if (dmi_stream_is_done(stream))
-        return dmi_entity_stop(entity);
-
-    entity->level = dmi_version(2, 1, 0);
-
-    status =
-        dmi_stream_decode_uuid(stream, &info->uuid) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->wakeup_type);
-    if (not status)
-        return dmi_entity_incomplete(entity);
-
-    // SMBIOS 2.4 fields
-    if (dmi_stream_is_done(stream))
-        return dmi_entity_stop(entity);
-
-    entity->level = dmi_version(2, 4, 0);
-
-    status =
-        dmi_stream_decode_str(stream, &info->sku_number) and
-        dmi_stream_decode_str(stream, &info->family);
-    if (not status)
-        return dmi_entity_incomplete(entity);
-
-    return true;
-}

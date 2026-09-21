@@ -6,9 +6,8 @@
 //
 #include <opendmi/internal.h>
 #include <opendmi/module/sun.h>
-#include <opendmi/entity/sun/port-ex.h>
 
-static bool dmi_sun_port_ex_decode(dmi_entity_t *entity);
+#include <opendmi/entity/sun/port-ex-internal.h>
 
 const dmi_entity_spec_t dmi_sun_port_ex_spec =
 {
@@ -21,10 +20,22 @@ const dmi_entity_spec_t dmi_sun_port_ex_spec =
         //
         nullptr
     },
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x0C,
-    .decoded_length  = sizeof(dmi_sun_port_ex_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x0C,
+        .decoded_length  = sizeof(dmi_sun_port_ex_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_sun_port_ex_t, chassis_handle, WORD),
+        DMI_FIELD(dmi_sun_port_ex_t, port_handle,    WORD),
+        DMI_FIELD(dmi_sun_port_ex_t, device_type,    BYTE),
+        DMI_FIELD(dmi_sun_port_ex_t, device_handle,  WORD),
+        DMI_FIELD(dmi_sun_port_ex_t, phy,            BYTE),
+        {}
+    }),
+
+    .attributes      = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_sun_port_ex_t, chassis_handle, HANDLE, {
             .code  = "chassis-handle",
             .name  = "Chassis handle",
@@ -47,27 +58,6 @@ const dmi_entity_spec_t dmi_sun_port_ex_spec =
             .code  = "phy",
             .name  = "PHY number"
         }),
-        DMI_ATTRIBUTE_NULL
-    },
-    .handlers = {
-        .decode = dmi_sun_port_ex_decode
-    }
+        {}
+    })
 };
-
-static bool dmi_sun_port_ex_decode(dmi_entity_t *entity)
-{
-    dmi_sun_port_ex_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(SUN_PORT_EX));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode(stream, dmi_word_t, &info->chassis_handle) and
-        dmi_stream_decode(stream, dmi_word_t, &info->port_handle) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->device_type) and
-        dmi_stream_decode(stream, dmi_word_t, &info->device_handle) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->phy);
-}

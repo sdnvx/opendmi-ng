@@ -7,121 +7,40 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
-#include <opendmi/entity/intel/rsd-storage-device.h>
 
-static bool dmi_intel_rsd_storage_device_decode(dmi_entity_t *entity);
-
-const dmi_name_set_t dmi_intel_rsd_storage_connector_names =
-{
-    .code  = "intel-rsd-storage-connector",
-    .names = (const dmi_name_t[]){
-        DMI_NAME_UNKNOWN(DMI_INTEL_RSD_STORAGE_CONNECTOR_UNKNOWN),
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_CONNECTOR_SATA,
-            .code = "sata",
-            .name = "SATA"
-        },
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_CONNECTOR_SAS,
-            .code = "sas",
-            .name = "SAS"
-        },
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_CONNECTOR_PCIE,
-            .code = "pcie",
-            .name = "PCIe"
-        },
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_CONNECTOR_M2,
-            .code = "m2",
-            .name = "M.2"
-        },
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_CONNECTOR_USB,
-            .code = "usb",
-            .name = "USB"
-        },
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_CONNECTOR_U2,
-            .code = "u2",
-            .name = "U.2"
-        },
-        {}
-    }
-};
-
-const dmi_name_set_t dmi_intel_rsd_storage_proto_names =
-{
-    .code  = "intel-rsd-storage-protocol",
-    .names = (const dmi_name_t[]){
-        DMI_NAME_UNKNOWN(DMI_INTEL_RSD_STORAGE_PROTO_UNKNOWN),
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_PROTO_IDE,
-            .code = "ide",
-            .name = "IDE"
-        },
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_PROTO_AHCI,
-            .code = "ahci",
-            .name = "AHCI"
-        },
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_PROTO_NVME,
-            .code = "nvme",
-            .name = "NVMe"
-        },
-        {
-            .id   = DMI_INTEL_RSD_STORAGE_PROTO_USB,
-            .code = "usb",
-            .name = "USB"
-        },
-        {}
-    }
-};
-
-const dmi_name_set_t dmi_intel_rsd_storage_device_type_names =
-{
-    .code  = "intel-rsd-storage-device-type",
-    .names = (const dmi_name_t[]){
-        DMI_NAME_UNKNOWN(DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_UNKNOWN),
-        {
-            .id = DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_HDD,
-            .code = "hdd",
-            .name = "HDD"
-        },
-        {
-            .id = DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_SSD,
-            .code = "ssd",
-            .name = "SSD"
-        },
-        {
-            .id = DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_DVD,
-            .code = "dvd",
-            .name = "Optical - DVD"
-        },
-        {
-            .id = DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_BLURAY,
-            .code = "bluray",
-            .name = "Optical - Blu-ray"
-        },
-        {
-            .id = DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_USB,
-            .code = "usb",
-            .name = "USB"
-        },
-        {}
-    }
-};
+#include <opendmi/entity/intel/rsd-storage-device-internal.h>
 
 const dmi_entity_spec_t dmi_intel_rsd_storage_device_spec =
 {
     .code            = "intel-rsd-storage-device",
     .name            = "Intel RSD storage device information",
     .type            = DMI_TYPE(INTEL_RSD_STORAGE_DEVICE),
-    .minimum_version = DMI_VERSION(2, 0, 0),
-    .minimum_length  = 0x1B,
-    .decoded_length  = sizeof(dmi_intel_rsd_storage_device_t),
-    .attributes      = (const dmi_attribute_t[]){
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x1B,
+        .decoded_length  = sizeof(dmi_intel_rsd_storage_device_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, port,             STRING),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, index,            BYTE),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, connector,        BYTE),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, protocol,         BYTE),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, type,             BYTE),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, capacity,         DWORD),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, rpm,              WORD),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, model,            STRING),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, serial_number,    STRING),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, pci_class,        BYTE),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, vendor_id,        WORD),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, device_id,        WORD),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, sub_vendor_id,    WORD),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, sub_device_id,    WORD),
+        DMI_FIELD(dmi_intel_rsd_storage_device_t, firmware_version, STRING),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_intel_rsd_storage_device_t, port, STRING, {
             .code    = "port",
             .name    = "Port designator"
@@ -196,51 +115,5 @@ const dmi_entity_spec_t dmi_intel_rsd_storage_device_spec =
             .name    = "Firmware version"
         }),
         {}
-    },
-    .handlers = {
-        .decode = dmi_intel_rsd_storage_device_decode
-    }
+    })
 };
-
-const char *dmi_intel_rsd_storage_connector_name(dmi_intel_rsd_storage_connector_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_storage_connector_names, (int)value);
-}
-
-const char *dmi_intel_rsd_storage_proto_name(dmi_intel_rsd_storage_proto_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_storage_proto_names, (int)value);
-}
-
-const char *dmi_intel_rsd_storage_device_type_name(dmi_intel_rsd_storage_device_type_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_storage_device_type_names, (int)value);
-}
-
-static bool dmi_intel_rsd_storage_device_decode(dmi_entity_t *entity)
-{
-    dmi_intel_rsd_storage_device_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_STORAGE_DEVICE));
-    if (info == nullptr)
-        return false;
-
-    dmi_stream_t *stream = dmi_entity_stream(entity);
-
-    return
-        dmi_stream_decode_str(stream, &info->port) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->index) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->connector) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->protocol) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->type) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->capacity) and
-        dmi_stream_decode(stream, dmi_word_t, &info->rpm) and
-        dmi_stream_decode_str(stream, &info->model) and
-        dmi_stream_decode_str(stream, &info->serial_number) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->pci_class) and
-        dmi_stream_decode(stream, dmi_word_t, &info->vendor_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->device_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->sub_vendor_id) and
-        dmi_stream_decode(stream, dmi_word_t, &info->sub_device_id) and
-        dmi_stream_decode_str(stream, &info->firmware_version);
-}

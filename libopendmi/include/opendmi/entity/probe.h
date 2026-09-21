@@ -13,7 +13,6 @@
 #include <opendmi/entity/common.h>
 
 typedef struct dmi_probe dmi_probe_t;
-typedef union dmi_probe_details dmi_probe_details_t;
 
 #define DMI_PROBE_VALUE_UNKNOWN ((dmi_word_t)0x8000U)
 
@@ -40,31 +39,6 @@ typedef enum dmi_probe_location
     DMI_PROBE_LOCATION_DRIVE_BACK_PLANE   = 0x0F, ///< Drive back plane
     __DMI_PROBE_LOCATION_COUNT
 } dmi_probe_location_t;
-
-/**
- * @brief Probe location and status details.
- */
-dmi_packed_union(dmi_probe_details)
-{
-    /**
-     * @brief Raw value.
-     */
-    dmi_byte_t __value;
-
-    dmi_packed_struct() {
-        /**
-         * @brief Physical location.
-         */
-        dmi_byte_t location : 5;
-
-        /**
-         * @brief Status.
-         */
-        dmi_byte_t status : 3;
-    };
-};
-
-dmi_static_assert_value_union(dmi_probe_details);
 
 struct dmi_probe
 {
@@ -136,22 +110,6 @@ extern __dmi_api const dmi_name_set_t dmi_probe_location_names;
 __BEGIN_DECLS
 
 __dmi_api const char *dmi_probe_location_name(dmi_probe_location_t value);
-
-/**
- * @internal
- * @brief Decode common probe fields from an SMBIOS entity.
- *
- * Reads the probe description, location, status, value range (maximum,
- * minimum, resolution, tolerance, accuracy), OEM-defined data, and optional
- * nominal value from the entity's data stream into a @ref dmi_probe_t
- * structure. This function is shared by type-specific probe decoders
- * (voltage, temperature, current).
- *
- * @param[in] entity Entity descriptor.
- *
- * @return `true` on success, `false` on decoding failure.
- */
-__dmi_api bool dmi_probe_decode(dmi_entity_t *entity);
 
 __END_DECLS
 

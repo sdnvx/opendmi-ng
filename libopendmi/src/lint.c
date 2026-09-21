@@ -59,13 +59,13 @@ const dmi_name_set_t dmi_lint_severity_names =
 {
     .code  = "lint-severity",
     .name  = "Issue severities",
-    .names = (const dmi_name_t[]){
+    .names = DMI_NAMES({
         { DMI_LINT_SEVERITY_NONE,    "none",    "None"    },
         { DMI_LINT_SEVERITY_NOTE,    "note",    "note"    },
         { DMI_LINT_SEVERITY_WARNING, "warning", "warning" },
         { DMI_LINT_SEVERITY_ERROR,   "error",   "error"   },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 //
@@ -120,9 +120,9 @@ static const dmi_lint_rule_t *const dmi_lint_rule_list[] =
 static bool dmi_lint_enabled(const dmi_lint_t *lint, const dmi_lint_rule_t *rule);
 static void dmi_lint_check_scope(dmi_lint_t *lint, dmi_lint_scope_t scope, const dmi_entity_t *entity);
 static void dmi_lint_check_rules(
-        dmi_lint_t                   *lint,
-        const dmi_lint_rule_t *const *rules,
-        const dmi_entity_t           *entity);
+        dmi_lint_t            *lint,
+        const dmi_lint_rule_t *rules,
+        const dmi_entity_t    *entity);
 static void dmi_lint_check_rule(
         dmi_lint_t            *lint,
         const dmi_lint_rule_t *rule,
@@ -267,7 +267,7 @@ const char *dmi_lint_rule_name(const dmi_lint_rule_t *rule)
     // the rule, while codes are machine-readable and are never translated
     const char *translated = dmi_locale_string(DMI_LINT_RULE_TABLE, rule->code);
 
-    return (translated != nullptr) ? translated : rule->name;
+    return (translated != nullptr) ? translated : rule->params.name;
 }
 
 const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *code)
@@ -291,9 +291,9 @@ const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *co
         if ((spec == nullptr) or (spec->lint_rules == nullptr))
             continue;
 
-        for (const dmi_lint_rule_t *const *rule = spec->lint_rules; *rule != nullptr; rule++) {
-            if (strcmp((*rule)->code, code) == 0)
-                return *rule;
+        for (const dmi_lint_rule_t *rule = spec->lint_rules; rule->code != nullptr; rule++) {
+            if (strcmp(rule->code, code) == 0)
+                return rule;
         }
     }
 
@@ -305,7 +305,7 @@ dmi_lint_severity_t dmi_lint_rule_severity(const dmi_lint_rule_t *rule, dmi_lint
     if (rule == nullptr)
         return DMI_LINT_SEVERITY_NONE;
 
-    return (profile == DMI_LINT_PROFILE_PRODUCER) ? rule->producer_severity : rule->severity;
+    return (profile == DMI_LINT_PROFILE_PRODUCER) ? rule->params.producer_severity : rule->params.severity;
 }
 
 //
@@ -317,7 +317,7 @@ static bool dmi_lint_enabled(const dmi_lint_t *lint, const dmi_lint_rule_t *rule
     if (rule->check == nullptr)
         return false;
 
-    if (rule->optional and not lint->options.all)
+    if (rule->params.optional and not lint->options.all)
         return false;
 
     if (dmi_lint_rule_severity(rule, lint->options.profile) == DMI_LINT_SEVERITY_NONE)
@@ -347,15 +347,15 @@ static void dmi_lint_check_scope(dmi_lint_t *lint, dmi_lint_scope_t scope, const
 // Check a list of rules, which the specification of a type provides.
 //
 static void dmi_lint_check_rules(
-        dmi_lint_t                   *lint,
-        const dmi_lint_rule_t *const *rules,
-        const dmi_entity_t           *entity)
+        dmi_lint_t            *lint,
+        const dmi_lint_rule_t *rules,
+        const dmi_entity_t    *entity)
 {
     if (rules == nullptr)
         return;
 
-    for (const dmi_lint_rule_t *const *rule = rules; *rule != nullptr; rule++)
-        dmi_lint_check_rule(lint, *rule, entity);
+    for (const dmi_lint_rule_t *rule = rules; rule->code != nullptr; rule++)
+        dmi_lint_check_rule(lint, rule, entity);
 }
 
 //

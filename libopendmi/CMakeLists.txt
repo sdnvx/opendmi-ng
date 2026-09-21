@@ -49,6 +49,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/defs.h
     include/opendmi/entry.h
     include/opendmi/error.h
+    include/opendmi/field.h
     include/opendmi/filter.h
     include/opendmi/keyword.h
     include/opendmi/locale.h
@@ -185,6 +186,7 @@ target_sources(opendmi-object
         src/backend.c
         src/context.c
         src/entity.c
+        src/field.c
         src/entry.c
         src/error.c
         src/filter.c
@@ -218,97 +220,208 @@ target_sources(opendmi-object
         src/utils/version.c
 
         src/entity/additional-info.c
+        src/entity/additional-info-handlers.c
         src/entity/baseboard.c
+        src/entity/baseboard-handlers.c
+        src/entity/baseboard-names.c
         src/entity/battery.c
+        src/entity/battery-handlers.c
+        src/entity/battery-names.c
+        src/entity/battery-rules.c
         src/entity/bis-entry-point.c
+        src/entity/bis-entry-point-handlers.c
         src/entity/cache.c
+        src/entity/cache-handlers.c
+        src/entity/cache-names.c
+        src/entity/cache-rules.c
         src/entity/chassis.c
+        src/entity/chassis-handlers.c
+        src/entity/chassis-names.c
         src/entity/common.c
+        src/entity/common-handlers.c
+        src/entity/common-names.c
         src/entity/cooling-device.c
+        src/entity/cooling-device-handlers.c
+        src/entity/cooling-device-names.c
+        src/entity/cooling-device-rules.c
         src/entity/current-probe.c
+        src/entity/current-probe-rules.c
         src/entity/firmware.c
+        src/entity/firmware-handlers.c
+        src/entity/firmware-names.c
+        src/entity/firmware-rules.c
         src/entity/firmware-inventory.c
+        src/entity/firmware-inventory-handlers.c
+        src/entity/firmware-inventory-names.c
+        src/entity/firmware-inventory-rules.c
         src/entity/firmware-language.c
+        src/entity/firmware-language-handlers.c
+        src/entity/firmware-language-names.c
         src/entity/group-assoc.c
+        src/entity/group-assoc-handlers.c
         src/entity/hardware-security.c
+        src/entity/hardware-security-names.c
         src/entity/ipmi-device.c
+        src/entity/ipmi-device-handlers.c
+        src/entity/ipmi-device-names.c
+        src/entity/ipmi-device-rules.c
         src/entity/memory-array.c
+        src/entity/memory-array-handlers.c
+        src/entity/memory-array-names.c
+        src/entity/memory-array-rules.c
         src/entity/memory-array-addr.c
+        src/entity/memory-array-addr-handlers.c
+        src/entity/memory-array-addr-rules.c
         src/entity/memory-channel.c
+        src/entity/memory-channel-handlers.c
+        src/entity/memory-channel-names.c
+        src/entity/memory-channel-rules.c
         src/entity/memory-controller.c
+        src/entity/memory-controller-handlers.c
+        src/entity/memory-controller-names.c
         src/entity/memory-device.c
+        src/entity/memory-device-handlers.c
+        src/entity/memory-device-names.c
+        src/entity/memory-device-rules.c
         src/entity/memory-device-addr.c
-        src/entity/memory-error.c
+        src/entity/memory-device-addr-handlers.c
+        src/entity/memory-device-addr-rules.c
+        src/entity/memory-error-names.c
         src/entity/memory-error-32.c
         src/entity/memory-error-64.c
         src/entity/memory-module.c
+        src/entity/memory-module-handlers.c
+        src/entity/memory-module-names.c
         src/entity/mgmt-controller.c
+        src/entity/mgmt-controller-handlers.c
+        src/entity/mgmt-controller-names.c
+        src/entity/mgmt-controller-rules.c
         src/entity/mgmt-device.c
+        src/entity/mgmt-device-names.c
         src/entity/mgmt-device-component.c
+        src/entity/mgmt-device-component-handlers.c
         src/entity/mgmt-device-threshold.c
+        src/entity/mgmt-device-threshold-handlers.c
+        src/entity/mgmt-device-threshold-rules.c
         src/entity/oem-strings.c
+        src/entity/oem-strings-handlers.c
         src/entity/onboard-device.c
+        src/entity/onboard-device-handlers.c
+        src/entity/onboard-device-names.c
         src/entity/onboard-device-ex.c
+        src/entity/onboard-device-ex-handlers.c
+        src/entity/onboard-device-ex-rules.c
         src/entity/oob-remote-access.c
+        src/entity/oob-remote-access-names.c
         src/entity/pointing-device.c
+        src/entity/pointing-device-names.c
         src/entity/port-connector.c
+        src/entity/port-connector-names.c
         src/entity/power-controls.c
+        src/entity/power-controls-rules.c
         src/entity/power-supply.c
-        src/entity/probe.c
+        src/entity/power-supply-handlers.c
+        src/entity/power-supply-names.c
+        src/entity/power-supply-rules.c
+        src/entity/probe-names.c
         src/entity/processor.c
+        src/entity/processor-handlers.c
+        src/entity/processor-names.c
+        src/entity/processor-rules.c
         src/entity/processor-ex.c
+        src/entity/processor-ex-handlers.c
+        src/entity/processor-ex-names.c
         src/entity/slot.c
+        src/entity/slot-handlers.c
+        src/entity/slot-names.c
+        src/entity/slot-rules.c
         src/entity/string-property.c
+        src/entity/string-property-handlers.c
         src/entity/system.c
+        src/entity/system-names.c
         src/entity/system-boot.c
+        src/entity/system-boot-handlers.c
+        src/entity/system-boot-names.c
         src/entity/system-config.c
+        src/entity/system-config-handlers.c
         src/entity/system-event-log.c
+        src/entity/system-event-log-handlers.c
+        src/entity/system-event-log-names.c
+        src/entity/system-event-log-rules.c
         src/entity/system-reset.c
+        src/entity/system-reset-names.c
+        src/entity/system-reset-rules.c
         src/entity/temperature-probe.c
+        src/entity/temperature-probe-rules.c
         src/entity/tpm-device.c
+        src/entity/tpm-device-handlers.c
+        src/entity/tpm-device-names.c
+        src/entity/tpm-device-rules.c
         src/entity/voltage-probe.c
+        src/entity/voltage-probe-rules.c
 
         src/module/acer.c
 
         src/module/ami.c
         src/entity/ami/type-221.c
+        src/entity/ami/type-221-handlers.c
 
         src/module/apple.c
 
         src/module/dell.c
-        src/entity/dell/common.c
+        src/entity/dell/common-names.c
         src/entity/dell/bios-flags.c
         src/entity/dell/calling-iface.c
+        src/entity/dell/calling-iface-handlers.c
         src/entity/dell/indexed-io.c
+        src/entity/dell/indexed-io-handlers.c
         src/entity/dell/infrared-port.c
+        src/entity/dell/infrared-port-handlers.c
+        src/entity/dell/infrared-port-names.c
         src/entity/dell/parallel-port.c
+        src/entity/dell/parallel-port-names.c
         src/entity/dell/protected-area-1.c
         src/entity/dell/protected-area-2.c
         src/entity/dell/revisions.c
+        src/entity/dell/revisions-handlers.c
         src/entity/dell/serial-port.c
+        src/entity/dell/serial-port-handlers.c
+        src/entity/dell/serial-port-names.c
 
         src/module/hpe.c
 
         src/module/intel.c
         src/entity/intel/rsd-cabled-pcie.c
+        src/entity/intel/rsd-cabled-pcie-handlers.c
         src/entity/intel/rsd-fpga.c
+        src/entity/intel/rsd-fpga-names.c
         src/entity/intel/rsd-memory-device.c
+        src/entity/intel/rsd-memory-device-names.c
         src/entity/intel/rsd-network-card.c
         src/entity/intel/rsd-pcie.c
         src/entity/intel/rsd-phys-device-mapping.c
+        src/entity/intel/rsd-phys-device-mapping-handlers.c
+        src/entity/intel/rsd-phys-device-mapping-names.c
         src/entity/intel/rsd-processor-cpuid.c
+        src/entity/intel/rsd-processor-cpuid-handlers.c
+        src/entity/intel/rsd-processor-cpuid-names.c
         src/entity/intel/rsd-storage-device.c
+        src/entity/intel/rsd-storage-device-names.c
         src/entity/intel/rsd-tpm.c
+        src/entity/intel/rsd-tpm-names.c
         src/entity/intel/rsd-txt.c
+        src/entity/intel/rsd-txt-names.c
 
         src/module/lenovo.c
 
         src/module/sun.c
         src/entity/sun/memory-array-ex.c
         src/entity/sun/memory-device-ex.c
+        src/entity/sun/memory-device-ex-handlers.c
         src/entity/sun/pcie-root-complex.c
         src/entity/sun/port-ex.c
         src/entity/sun/processor-ex.c
+        src/entity/sun/processor-ex-handlers.c
 
         src/backend/dump.c
 )

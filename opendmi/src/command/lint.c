@@ -360,7 +360,7 @@ static void dmi_lint_rule_print(const dmi_lint_rule_t *rule)
 
     dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s", dmi_lint_rule_name(rule));
 
-    if (rule->optional)
+    if (rule->params.optional)
         dmi_tty_cprintf(DMI_TTY_COLOR_GREY, " (%s)", dmi_tool_string("all checks only"));
 
     printf("\n");
@@ -385,8 +385,8 @@ static void dmi_lint_rules_print(dmi_context_t *context)
         if ((spec == nullptr) or (spec->lint_rules == nullptr))
             continue;
 
-        for (const dmi_lint_rule_t *const *rule = spec->lint_rules; *rule != nullptr; rule++)
-            dmi_lint_rule_print(*rule);
+        for (const dmi_lint_rule_t *rule = spec->lint_rules; rule->code != nullptr; rule++)
+            dmi_lint_rule_print(rule);
     }
 
     printf("\n");

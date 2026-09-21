@@ -20,6 +20,7 @@ typedef struct dmi_lint         dmi_lint_t;
     typedef struct dmi_lint_rule dmi_lint_rule_t;
 #endif // !DMI_LINT_RULE_T
 
+typedef struct dmi_lint_rule_params dmi_lint_rule_params_t;
 typedef struct dmi_lint_issue   dmi_lint_issue_t;
 typedef struct dmi_lint_options dmi_lint_options_t;
 
@@ -87,15 +88,10 @@ typedef enum dmi_lint_scope
 typedef void dmi_lint_check_fn(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 /**
- * @brief Rule the data is checked against.
+ * @brief Parameters of a rule.
  */
-struct dmi_lint_rule
+struct dmi_lint_rule_params
 {
-    /**
-     * @brief Code name of the rule, e.g. `entry.checksum`.
-     */
-    const char *code;
-
     /**
      * @brief Printable description of what the rule checks.
      */
@@ -112,6 +108,24 @@ struct dmi_lint_rule
     dmi_lint_severity_t producer_severity;
 
     /**
+     * @brief Rule is checked only if all checks are enabled, either because
+     * it is expensive, or because it is a matter of taste rather than of the
+     * specification.
+     */
+    bool optional;
+};
+
+/**
+ * @brief Rule the data is checked against.
+ */
+struct dmi_lint_rule
+{
+    /**
+     * @brief Code name of the rule, e.g. `entry.checksum`.
+     */
+    const char *code;
+
+    /**
      * @brief Part of the data the rule is checked against, which tells when
      * the check is performed.
      */
@@ -123,12 +137,27 @@ struct dmi_lint_rule
     dmi_lint_check_fn *check;
 
     /**
-     * @brief Rule is checked only if all checks are enabled, either because
-     * it is expensive, or because it is a matter of taste rather than of the
-     * specification.
+     * @brief Parameters of the rule.
      */
-    bool optional;
+    dmi_lint_rule_params_t params;
 };
+
+/**
+ * @brief Rule a specification declares, which is checked against every
+ * structure of its type.
+ *
+ * The check is performed by @p __check, and the rest of the rule is given as
+ * the designated initializers of `dmi_lint_rule_t`. Rules of a type apply to
+ * a structure of it, so they are of the `DMI_LINT_SCOPE_ENTITY` scope unless
+ * they say otherwise.
+ */
+#define DMI_LINT_RULE(__code, __check, ...) \
+    {                                       \
+        .code   = (__code),                 \
+        .check  = (__check),                \
+        .scope  = DMI_LINT_SCOPE_ENTITY,    \
+        .params = __VA_ARGS__               \
+    }
 
 /**
  * @brief Issue found by a rule.
@@ -263,6 +292,15 @@ typedef struct dmi_lint_totals
      */
     const dmi_entity_t *terminator;
 } dmi_lint_totals_t;
+
+/**
+ * @brief List of the rules a specification declares, terminated for the code
+ * which walks it.
+ *
+ * The terminator is added by the macro, so that a list which has lost it
+ * cannot be written in the first place.
+ */
+#define DMI_LINT_RULES(...) (const dmi_lint_rule_t[])__VA_ARGS__
 
 __BEGIN_DECLS
 

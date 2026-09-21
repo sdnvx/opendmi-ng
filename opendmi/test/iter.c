@@ -33,12 +33,12 @@ typedef struct test_iter_info
 static const dmi_name_set_t test_iter_flag_names =
 {
     .code  = "test-flags",
-    .names = (dmi_name_t[]){
+    .names = DMI_NAMES({
         { 0,  "first",  "First"  },
         { 2,  "third",  "Third"  },
         { 63, "last",   "Last"   },
-        DMI_NAME_NULL
-    }
+        {}
+    })
 };
 
 static const dmi_attribute_t test_iter_attrs[] = {
@@ -48,7 +48,7 @@ static const dmi_attribute_t test_iter_attrs[] = {
         .name   = "Flags",
         .values = &test_iter_flag_names
     }),
-    DMI_ATTRIBUTE_NULL
+    {}
 };
 
 int main(void)

@@ -27,6 +27,7 @@
 typedef struct dmi_entity         dmi_entity_t;
 typedef struct dmi_entity_overlay dmi_entity_overlay_t;
 typedef struct dmi_entity_spec    dmi_entity_spec_t;
+typedef struct dmi_entity_params  dmi_entity_params_t;
 typedef struct dmi_entity_ops     dmi_entity_ops_t;
 
 #ifndef DMI_LINT_RULE_T
@@ -34,11 +35,17 @@ typedef struct dmi_entity_ops     dmi_entity_ops_t;
     typedef struct dmi_lint_rule dmi_lint_rule_t;
 #endif // !DMI_LINT_RULE_T
 
+#ifndef DMI_FIELD_T
+#   define DMI_FIELD_T
+    typedef struct dmi_field dmi_field_t;
+#endif // !DMI_FIELD_T
+
 typedef struct dmi_header         dmi_header_t;
 typedef struct dmi_string_entry   dmi_string_entry_t;
 
 typedef bool dmi_entity_validate_fn(dmi_entity_t *entity);
 typedef bool dmi_entity_decode_fn(dmi_entity_t *entity);
+typedef bool dmi_entity_derive_fn(dmi_entity_t *entity);
 typedef bool dmi_entity_link_fn(dmi_entity_t *entity);
 typedef void dmi_entity_cleanup_fn(dmi_entity_t *entity);
 
@@ -97,6 +104,67 @@ typedef enum dmi_property
 extern __dmi_api const dmi_name_set_t dmi_property_names;
 
 /**
+ * @brief Parameters of a structure type.
+ */
+struct dmi_entity_params
+{
+    /**
+     * @brief Minimum SMBIOS version. Should be set to `DMI_VERSION_NONE` when
+     * not specified.
+     */
+    dmi_version_t minimum_version;
+
+    /**
+     * @brief The SMBIOS version starting from which the structure is mandatory.
+     * Should be set to `DMI_VERSION_NONE` for optional structures.
+     */
+    dmi_version_t required_from;
+
+    /**
+     * @brief The SMBIOS version up to which the structure is mandatory.
+     * Should be set to `DMI_VERSION_NONE` for optional structures.
+     */
+    dmi_version_t required_till;
+
+    /**
+     * @brief The SMBIOS version starting from which the structure is expected
+     * from a platform, without the specification requiring it. Should be set
+     * to `DMI_VERSION_NONE` for the types which are either required or of no
+     * interest.
+     */
+    dmi_version_t recommended_from;
+
+    /**
+     * @brief Should be set to true if the structure should be the only one
+     * in the table.
+     */
+    bool unique;
+
+    /**
+     * @brief Minimum length. Zero means that the minimum length is not
+     * specified.
+     *
+     * Starting with SMBIOS 2.3, each SMBIOS structure type has a minimum
+     * length - enabling the addition of new, but optional, fields to SMBIOS
+     * structures. In no case shall a structure’s length result in a field
+     * being less than fully populated. For example, a voltage probe structure
+     * with length of 0x15 is invalid because the nominal value field would
+     * not be fully specified.
+     *
+     * @since SMBIOS 2.3
+     */
+    size_t minimum_length;
+
+    /**
+     * @brief The size of the structure descriptor. Used for automatic memory
+     * allocation during decoding.
+     */
+    size_t decoded_length;
+
+
+};
+
+/**
  * @brief Entity operations.
  */
 struct dmi_entity_ops
@@ -110,6 +178,17 @@ struct dmi_entity_ops
      * @brief Decoding handler.
      */
     dmi_entity_decode_fn *decode;
+
+    /**
+     * @brief Handler deriving the members the data does not carry, called
+     * once the fields have been read.
+     *
+     * Some members are computed from the ones the structure holds rather than
+     * read from it, e.g. the ports an access address is split into, or
+     * whether a checksum matches. They are not fields, so the layout says
+     * nothing about them, and this is where they are filled in.
+     */
+    dmi_entity_derive_fn *derive;
 
     /**
      * @brief Link handler.
@@ -148,49 +227,20 @@ struct dmi_entity_spec
     dmi_type_t type;
 
     /**
-     * @brief Minimum SMBIOS version. Should be set to `DMI_VERSION_NONE` when
-     * not specified.
+     * @brief Parameters of the type.
      */
-    dmi_version_t minimum_version;
+    dmi_entity_params_t params;
 
     /**
-     * @brief The SMBIOS version starting from which the structure is mandatory.
-     * Should be set to `DMI_VERSION_NONE` for optional structures.
-     */
-    dmi_version_t required_from;
-
-    /**
-     * @brief The SMBIOS version up to which the structure is mandatory.
-     * Should be set to `DMI_VERSION_NONE` for optional structures.
-     */
-    dmi_version_t required_till;
-
-    /**
-     * @brief Should be set to true if the structure should be the only one
-     * in the table.
-     */
-    bool unique;
-
-    /**
-     * @brief Minimum length. Zero means that the minimum length is not
-     * specified.
+     * @brief Layout of the structure on the wire, terminated with
+     * `{}`, see `dmi_fields_decode`(3).
      *
-     * Starting with SMBIOS 2.3, each SMBIOS structure type has a minimum
-     * length - enabling the addition of new, but optional, fields to SMBIOS
-     * structures. In no case shall a structure’s length result in a field
-     * being less than fully populated. For example, a voltage probe structure
-     * with length of 0x15 is invalid because the nominal value field would
-     * not be fully specified.
-     *
-     * @since SMBIOS 2.3
+     * Specifications which describe their layout are decoded and encoded by
+     * the library itself; the ones which do not declare handlers of their
+     * own. Attributes describe the values and fields describe the bytes, and
+     * the two are joined by the members of the decoded structure.
      */
-    size_t minimum_length;
-
-    /**
-     * @brief The size of the structure descriptor. Used for automatic memory
-     * allocation during decoding.
-     */
-    size_t decoded_length;
+    const dmi_field_t *fields;
 
     /**
      * @brief Attribute specifications.
@@ -199,10 +249,14 @@ struct dmi_entity_spec
 
     /**
      * @brief Rules the structures of the type are checked against, terminated
-     * with @c nullptr, see `dmi_lint`(3). Rules which apply to any structure
-     * belong to the library itself, while the ones here know the type.
+     * with `{}`, see `dmi_lint`(3). Rules which apply to any
+     * structure belong to the library itself, while the ones here know the
+     * type.
+     *
+     * Rules are declared along with the rest of the specification, while the
+     * checks they perform live next to the handlers of the type.
      */
-    const dmi_lint_rule_t *const *lint_rules;
+    const dmi_lint_rule_t *lint_rules;
 
     /**
      * @brief Operation handlers.

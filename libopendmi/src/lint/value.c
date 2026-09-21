@@ -74,73 +74,87 @@ static bool dmi_lint_value_is_special(const dmi_lint_value_t *value);
 
 const dmi_lint_rule_t dmi_lint_value_invalid_enum_rule =
 {
-    .code              = "value.invalid-enum",
-    .name              = "Values of enumerated fields are defined by the specification",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_value_invalid_enum
+    .code   = "value.invalid-enum",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_value_invalid_enum,
+    .params = {
+        .name              = "Values of enumerated fields are defined by the specification",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_value_reserved_rule =
 {
-    .code              = "value.reserved",
-    .name              = "Fields hold no values reserved by the specification",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_value_reserved
+    .code   = "value.reserved",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_value_reserved,
+    .params = {
+        .name              = "Fields hold no values reserved by the specification",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_value_reserved_bits_rule =
 {
-    .code              = "value.reserved-bits",
-    .name              = "Bit fields have no bits reserved by the specification set",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_value_reserved_bits
+    .code   = "value.reserved-bits",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_value_reserved_bits,
+    .params = {
+        .name              = "Bit fields have no bits reserved by the specification set",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_value_bcd_rule =
 {
-    .code              = "value.bcd",
-    .name              = "Fields encoded as binary-coded decimals hold decimal digits",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_value_bcd
+    .code   = "value.bcd",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_value_bcd,
+    .params = {
+        .name              = "Fields encoded as binary-coded decimals hold decimal digits",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_value_range_rule =
 {
-    .code              = "value.range",
-    .name              = "Fields hold the values the specification allows them",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_value_range
+    .code   = "value.range",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_value_range,
+    .params = {
+        .name              = "Fields hold the values the specification allows them",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_value_jep106_rule =
 {
-    .code              = "value.jep106",
-    .name              = "Identification codes of JEDEC manufacturers carry their parity bit",
-    .severity          = DMI_LINT_SEVERITY_WARNING,
-    .producer_severity = DMI_LINT_SEVERITY_ERROR,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_value_jep106
+    .code   = "value.jep106",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_value_jep106,
+    .params = {
+        .name              = "Identification codes of JEDEC manufacturers carry their parity bit",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
 };
 
 const dmi_lint_rule_t dmi_lint_value_uuid_rule =
 {
-    .code              = "value.uuid",
-    .name              = "UUIDs are set",
-    .severity          = DMI_LINT_SEVERITY_NOTE,
-    .producer_severity = DMI_LINT_SEVERITY_WARNING,
-    .scope             = DMI_LINT_SCOPE_ENTITY,
-    .check             = dmi_lint_value_uuid,
-    .optional          = true
+    .code   = "value.uuid",
+    .scope  = DMI_LINT_SCOPE_ENTITY,
+    .check  = dmi_lint_value_uuid,
+    .params = {
+        .name              = "UUIDs are set",
+        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .producer_severity = DMI_LINT_SEVERITY_WARNING,
+        .optional          = true
+    }
 };
 
 //
@@ -282,7 +296,7 @@ static void dmi_lint_value_check_bits(dmi_lint_t *lint, const dmi_lint_value_t *
     // Bits of a set are named by their numbers, so the ones the dictionary
     // has no name for are the reserved ones
     for (const dmi_name_t *name = attr->params.values->names;
-         (name != nullptr) and (name->id >= 0); name++) {
+         (name != nullptr) and (name->code != nullptr); name++) {
         if ((size_t)name->id >= sizeof(bits) * CHAR_BIT)
             continue;
 

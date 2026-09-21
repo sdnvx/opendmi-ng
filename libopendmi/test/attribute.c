@@ -704,20 +704,20 @@ static void test_attribute_resolve(void **pstate)
     const dmi_attribute_t with_default = DMI_ATTRIBUTE_VARIANT(test_info_t, selector, {
         .code     = "value",
         .name     = "Value",
-        .variants = (const dmi_attribute_variant_t[]){
+        .variants = DMI_VARIANTS({
             DMI_VARIANT(1, test_info_t, number, INTEGER, {}),
             DMI_VARIANT_DEFAULT(test_info_t, string, STRING, {}),
-            DMI_VARIANT_NULL
-        }
+            {}
+        })
     });
     const dmi_attribute_t without_default = DMI_ATTRIBUTE_VARIANT(test_info_t, selector, {
         .code     = "value",
         .name     = "Value",
-        .variants = (const dmi_attribute_variant_t[]){
+        .variants = DMI_VARIANTS({
             DMI_VARIANT(1, test_info_t, number, INTEGER, {}),
             DMI_VARIANT(-1, test_info_t, string, STRING, {}),
-            DMI_VARIANT_NULL
-        }
+            {}
+        })
     });
     static const dmi_attribute_t plain = DMI_ATTRIBUTE(test_info_t, number, INTEGER, {
         .code = "number",

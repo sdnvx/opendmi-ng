@@ -35,39 +35,6 @@ typedef enum dmi_cooling_device_type
     __DMI_COOLING_DEVICE_TYPE_COUNT
 } dmi_cooling_device_type_t;
 
-/**
- * @brief Cooling device type and status details.
- */
-dmi_packed_union(dmi_cooling_device_details)
-{
-    /**
-     * @brief Raw value.
-     */
-    dmi_byte_t __value;
-
-    dmi_packed_struct()
-    {
-        /**
-         * @brief Cooling device type.
-         *
-         * @since SMBIOS 2.2
-         */
-        dmi_byte_t type : 5;
-
-        /**
-         * @brief Cooling device status.
-         *
-         * @since SMBIOS 2.2
-         */
-        dmi_byte_t status : 3;
-    };
-};
-
-dmi_static_assert_value_union(dmi_cooling_device_details);
-
-
-typedef union dmi_cooling_device_details dmi_cooling_device_details_t;
-
 struct dmi_cooling_device
 {
     /**
