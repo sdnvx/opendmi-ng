@@ -99,6 +99,10 @@ dmi_destroy(context);
   strict mode is available when correctness matters more than completeness.
   Known firmware quirks, such as swapped processor ID words or reversed TPM
   vendor identifiers, are handled.
+* **Data can be checked, not only read.** The `lint` command checks a table
+  against the rules of the specification, from the checksum of the entry point
+  to the values of individual fields, and reports what it finds with the file
+  offset, the structure and the attribute it belongs to.
 * **OEM structures are first-class.** Vendor-specific structures are decoded by
   extension modules for Acer, AMI, Apple, Dell, HP/HPE, Intel, IBM/Lenovo and
   Sun, and their layouts are described in the reference manual.
@@ -118,6 +122,8 @@ dmi_destroy(context);
 * Text, JSON, XML and YAML output, with filtering by handle, type, module and
   structure state.
 * Modular extensions for OEM-specific structures.
+* Validation against the rules of the specification, down to individual fields,
+  with the findings reported the way a compiler reports diagnostics.
 * C and C++ API, bindings for Go, Python and Rust, a D-Bus service and a Linux
   kernel module exposing SMBIOS data via SysFS — see
   [Components](#components) for what is ready today.
@@ -128,7 +134,7 @@ dmi_destroy(context);
 | Component | Description | Status |
 |---|---|---|
 | `libopendmi` | C/C++ library providing direct interface to DMI/SMBIOS | Usable, API not frozen until 1.0 |
-| `opendmi` | Command line tool to query DMI/SMBIOS data | Usable, `lint` and `import` commands are on the way |
+| `opendmi` | Command line tool to query DMI/SMBIOS data | Usable, `import` command is on the way |
 | `libopendmi-python` | Python bindings for `libopendmi` | In progress |
 | `opendmi-dbus` | D-Bus service providing access to DMI/SMBIOS data | In progress |
 | `opendmi-sysfs` | Linux kernel module providing DMI/SMBIOS data via SysFS | Planned |
@@ -194,7 +200,7 @@ Values of options are specified either as a separate argument (`-i <path>`,
 | `export` | Export SMBIOS data to external format (JSON, XML, YAML) |
 | `dump` | Dump the entire SMBIOS table to a binary file |
 | `import` | Import SMBIOS data from an external format * |
-| `lint` | Check SMBIOS structures for errors * |
+| `lint` | Check SMBIOS structures against the rules of the specification |
 | `modules` | List available modules |
 
 Use `opendmi <command> --help` for detailed information on a specific command.
@@ -262,6 +268,50 @@ Dump the entire SMBIOS table to a binary file, compatible with
 |---|---|
 | `-o <path>`, `--output=<path>` | Set output file path (default: `smbios.bin`) |
 | `-F`, `--force` | Overwrite existing files |
+
+#### `lint`
+
+Check SMBIOS data against the rules of the specification.
+
+| Option | Description |
+|---|---|
+| `-A`, `--all-checks` | Enable the rules which are disabled by default |
+| `-e <rule>`, `--enable=<rule>` | Check the given rule or group of rules only |
+| `-d <rule>`, `--disable=<rule>` | Skip the given rule or group of rules |
+| `-P`, `--producer` | Check the data as if it was produced, not read |
+| `-S`, `--strict` | Treat warnings as errors |
+| `-q`, `--quiet` | Report errors only |
+| `-R`, `--list-rules` | List the rules and exit |
+
+Each issue is reported the way a compiler reports a diagnostic, so that the
+output is readable by the tools that are used to that format:
+
+```console
+$ opendmi -i smbios.bin lint
+0x0009: warning: firmware@0x0000.rom-size (Platform firmware information): ROM size refers to the extended one, which the structure does not carry [firmware.rom-size]
+0x00F3: note: baseboard@0x0002 (Baseboard or module information): string 4 holds whitespace only [string.blank]
+0x103C: note: <table>: table has 290 bytes past the end-of-table structure [table.trailing-data]
+9 issues: 0 errors, 1 warning, 8 notes
+```
+
+The location is the offset of the issue within the data, followed by the code
+of the structure and its handle, and by the attribute the issue belongs to.
+Issues of the entry point and of the table itself are located at `<entry>` and
+`<table>` instead. The rule that has found the issue is named in brackets.
+
+Rules are named `<group>.<rule>`, e.g. `entry.checksum`, and `-e` and `-d` take
+either a full name or a group name standing for every rule in it. Naming rules
+with `-e` leaves the rest of them out, and a rule named explicitly is checked
+even if it is disabled by default. Use `-R` to list the rules along with their
+severities.
+
+Severity depends on the profile. By default the data is assumed to have been
+read from a platform, where the defects of the firmware are nothing the reader
+can fix; `-P` checks it as data being written, where the same defects are
+errors.
+
+The command exits with a non-zero status if any issue of the error severity has
+been found, or any warning in strict mode.
 
 #### `modules`
 
@@ -371,6 +421,25 @@ Read SMBIOS data from a previously saved dump:
 
 ```sh
 $ opendmi -i smbios.bin show
+```
+
+Check a dump against the rules of the specification:
+
+```sh
+$ opendmi -i smbios.bin lint
+```
+
+Check everything, reporting the peculiarities of the data along with its
+defects:
+
+```sh
+$ opendmi lint -A
+```
+
+Check the references between the structures only:
+
+```sh
+$ opendmi lint -e link -e overlay
 ```
 
 ## Building from sources
