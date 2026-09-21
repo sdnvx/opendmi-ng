@@ -505,6 +505,10 @@ static bool dmi_chassis_decode(dmi_entity_t *entity)
         if (not dmi_stream_has(stream, element_size))
             return dmi_entity_incomplete(entity);
 
+        // Record may be longer than the fields it is known to hold, so the
+        // next one is found by the size rather than by counting
+        dmi_stream_mark_t start = dmi_stream_mark(stream);
+
         if (not decode_elements) {
             if (not dmi_stream_skip(stream, element_size))
                 return false;
@@ -518,7 +522,7 @@ static bool dmi_chassis_decode(dmi_entity_t *entity)
             dmi_stream_decode(stream, dmi_byte_t, &element_type) and
             dmi_stream_decode(stream, dmi_byte_t, &element->minimum_count) and
             dmi_stream_decode(stream, dmi_byte_t, &element->maximum_count) and
-            dmi_stream_skip(stream, element_size - element_data_size);
+            dmi_stream_skip_ex(stream, start, element_size);
         if (not status)
             return false;
 

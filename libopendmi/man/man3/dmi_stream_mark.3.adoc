@@ -1,0 +1,73 @@
+= dmi_stream_mark(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_stream_mark - take a mark of the current stream position.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/stream.h>
+
+dmi_stream_mark_t dmi_stream_mark(const dmi_stream_t *stream);
+----
+
+== Description
+
+The `dmi_stream_mark` function takes a mark of the current position of the
+stream cursor, which names a place to come back to without counting the bytes
+read in between.
+
+Marks are values rather than handles: they are copied, they nest without any
+bookkeeping, and they need no release. A mark stays valid for as long as the
+stream reads the same entity, and a mark taken from another stream is rejected
+by the functions which take one.
+
+This is what records of a declared length need. The beginning of the record is
+marked, the fields the record is known to hold are read, and the next record is
+found by advancing the length of the record from the mark, so that the code
+does not count the bytes it has read:
+
+[source, c]
+----
+dmi_stream_mark_t start = dmi_stream_mark(stream);
+
+bool status =
+    dmi_stream_decode(stream, dmi_byte_t, &record->type) and
+    dmi_stream_decode(stream, dmi_byte_t, &record->format) and
+    dmi_stream_skip_ex(stream, start, record_length);
+----
+
+=== Parameters
+
+`stream`::
+Stream to mark.
+
+== Return value
+
+Returns a mark of the current position. A mark taken from a `nullptr` stream
+is rejected by `dmi_stream_rewind`(3) and `dmi_stream_skip_ex`(3).
+
+== See also
+
+`dmi_stream_rewind`(3),
+`dmi_stream_skip_ex`(3),
+`dmi_stream_seek`(3),
+`dmi_stream_initialize`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

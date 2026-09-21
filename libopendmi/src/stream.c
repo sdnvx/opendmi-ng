@@ -40,6 +40,23 @@ bool dmi_stream_seek(dmi_stream_t *stream, size_t position)
     return true;
 }
 
+dmi_stream_mark_t dmi_stream_mark(const dmi_stream_t *stream)
+{
+    if (stream == nullptr)
+        return (dmi_stream_mark_t){};
+
+    return (dmi_stream_mark_t){
+        .entity   = stream->entity,
+        .position = stream->position
+    };
+}
+
+bool dmi_stream_rewind(dmi_stream_t *stream, dmi_stream_mark_t mark)
+{
+    // Coming back to a mark is advancing by nothing from it
+    return dmi_stream_skip_ex(stream, mark, 0);
+}
+
 bool dmi_stream_read_data(dmi_stream_t *stream, void *ptr, size_t length)
 {
     if (!dmi_stream_read_data_at(stream, ptr, stream->position, length))
@@ -63,17 +80,42 @@ bool dmi_stream_read_data_at(const dmi_stream_t *stream, void *ptr, size_t offse
     return true;
 }
 
+//
+// Place the cursor at the given number of bytes past the given position,
+// which is what skipping is in either of its forms.
+//
+static bool dmi_stream_advance(dmi_stream_t *stream, size_t position, size_t length)
+{
+    // Written so that the sum of the position and the length cannot overflow
+    size_t body_length = stream->entity->body_length;
+
+    if ((length > body_length) or (position > (body_length - length)))
+        return false;
+
+    stream->position  = position + length;
+    stream->remaining = body_length - stream->position;
+
+    return true;
+}
+
 bool dmi_stream_skip(dmi_stream_t *stream, size_t length)
 {
     if (stream == nullptr)
         return false;
-    if (stream->position + length > stream->entity->body_length)
+
+    return dmi_stream_advance(stream, stream->position, length);
+}
+
+bool dmi_stream_skip_ex(dmi_stream_t *stream, dmi_stream_mark_t from, size_t length)
+{
+    if (stream == nullptr)
         return false;
 
-    stream->position  += length;
-    stream->remaining -= length;
+    // Marks belong to the stream they were taken from
+    if ((from.entity == nullptr) or (from.entity != stream->entity))
+        return false;
 
-    return true;
+    return dmi_stream_advance(stream, from.position, length);
 }
 
 bool dmi_stream_decode_bin(dmi_stream_t *stream, size_t length, dmi_binary_t *value)

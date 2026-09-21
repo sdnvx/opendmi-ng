@@ -518,11 +518,15 @@ static bool dmi_system_event_log_decode(dmi_entity_t *entity)
     for (size_t i = 0; i < descriptor_count; i++) {
         dmi_system_log_type_descriptor_t *descriptor = &info->descriptors[i];
 
+        // Descriptor may be longer than the fields it is known to hold, so
+        // the next one is found by the length rather than by counting
+        dmi_stream_mark_t start = dmi_stream_mark(stream);
+
         status =
             dmi_stream_has(stream, descriptor_length) and
             dmi_stream_decode(stream, dmi_byte_t, &descriptor->type) and
             dmi_stream_decode(stream, dmi_byte_t, &descriptor->data_format) and
-            dmi_stream_skip(stream, descriptor_length - 2u);
+            dmi_stream_skip_ex(stream, start, descriptor_length);
         if (not status)
             return dmi_entity_incomplete(entity);
 

@@ -11,7 +11,15 @@
 
 #include <opendmi/utils/codec.h>
 
-typedef struct dmi_stream dmi_stream_t;
+#ifndef DMI_STREAM_T
+#   define DMI_STREAM_T
+    typedef struct dmi_stream dmi_stream_t;
+#endif // !DMI_STREAM_T
+
+#ifndef DMI_STREAM_MARK_T
+#   define DMI_STREAM_MARK_T
+    typedef struct dmi_stream_mark dmi_stream_mark_t;
+#endif // !DMI_STREAM_MARK_T
 
 /**
  * @brief Sequential reader over an SMBIOS entity body.
@@ -53,6 +61,30 @@ struct dmi_stream
     const dmi_data_t *data;
 };
 
+/**
+ * @brief Position of a stream cursor, taken with `dmi_stream_mark`(3).
+ *
+ * Marks are values: they are copied rather than allocated, nest without any
+ * bookkeeping, and need no release. A mark stays valid for as long as the
+ * stream reads the same entity.
+ *
+ * @note All fields are maintained internally. Do not read or modify them
+ *       directly; pass the mark to `dmi_stream_rewind`(3) instead.
+ */
+struct dmi_stream_mark
+{
+    /**
+     * @brief Entity the stream was reading when the mark was taken, which
+     * tells the marks of different streams apart.
+     */
+    const dmi_entity_t *entity;
+
+    /**
+     * @brief Cursor position the mark was taken at.
+     */
+    size_t position;
+};
+
 __BEGIN_DECLS
 
 /**
@@ -81,6 +113,36 @@ __dmi_api bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *e
  *         stream.
  */
 __dmi_api bool dmi_stream_seek(dmi_stream_t *stream, size_t position);
+
+/**
+ * @brief Take a mark of the current position of the stream cursor.
+ *
+ * Marks name a place to come back to without counting the bytes read in
+ * between, which is what records of a declared length need: mark the
+ * beginning of the record, read whatever fields it holds, then rewind and
+ * skip the length of the record.
+ *
+ * @param[in] stream Stream to mark.
+ *
+ * @return Mark of the current position, which is rejected by
+ *         `dmi_stream_rewind`(3) if @p stream is @c nullptr.
+ */
+__dmi_api dmi_stream_mark_t dmi_stream_mark(const dmi_stream_t *stream);
+
+/**
+ * @brief Reposition the stream cursor to a mark taken earlier.
+ *
+ * Unlike `dmi_stream_seek`(3), a mark taken at the end of the body is
+ * accepted, since the cursor has already been there.
+ *
+ * @param[in,out] stream Stream to reposition.
+ * @param[in]     mark   Mark taken from the same stream with
+ *                       `dmi_stream_mark`(3).
+ *
+ * @return `true` on success, `false` if the mark was taken from a stream
+ *         reading another entity.
+ */
+__dmi_api bool dmi_stream_rewind(dmi_stream_t *stream, dmi_stream_mark_t mark);
 
 /**
  * @brief Read data from the stream at the current position.
@@ -130,6 +192,30 @@ __dmi_api bool dmi_stream_read_data_at(const dmi_stream_t *stream, void *ptr, si
  *         remaining in the stream.
  */
 __dmi_api bool dmi_stream_skip(dmi_stream_t *stream, size_t length);
+
+/**
+ * @brief Advance the stream cursor from a mark taken earlier.
+ *
+ * Records of a declared length are stepped over by that length rather than
+ * by the number of bytes read from them: mark the beginning of the record,
+ * read whatever fields it is known to hold, then advance by the length of
+ * the record from the mark.
+ *
+ * Counting from the current position is what `dmi_stream_skip`(3) does.
+ *
+ * @param[in,out] stream Stream to advance.
+ * @param[in]     from   Mark to count @p length from, taken from the same
+ *                       stream with `dmi_stream_mark`(3).
+ * @param[in]     length Number of bytes to advance by.
+ *
+ * @return `true` on success, `false` if the resulting position is beyond the
+ *         end of the stream, or if @p from was taken from a stream reading
+ *         another entity.
+ */
+__dmi_api bool dmi_stream_skip_ex(
+        dmi_stream_t      *stream,
+        dmi_stream_mark_t  from,
+        size_t             length);
 
 /**
  * @brief Return the current position of the stream cursor.

@@ -886,21 +886,22 @@ static bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
     if (not dmi_stream_has(stream, if_data_length))
         return dmi_entity_incomplete(entity);
 
-    size_t if_data_start = stream->position;
+    // Interface data is read as a whole, and then read again by its type, so
+    // the cursor ends up past it either way
+    dmi_stream_mark_t if_data_start = dmi_stream_mark(stream);
 
     if (not dmi_stream_decode_bin(stream, if_data_length, &info->if_data))
         return false;
 
     if ((info->if_type == DMI_MGMT_IF_TYPE_NETWORK_HOST_IF) and (if_data_length > 0)) {
-        dmi_stream_seek(stream, if_data_start);
+        dmi_stream_rewind(stream, if_data_start);
+
         if (not dmi_mgmt_nhi_decode(entity, &info->nhi, if_data_length))
             return false;
 
         info->has_nhi = true;
 
-        // Stream cannot be positioned at the end directly
-        dmi_stream_seek(stream, if_data_start);
-        dmi_stream_skip(stream, if_data_length);
+        dmi_stream_skip_ex(stream, if_data_start, if_data_length);
     }
 
     // Protocol records are present since SMBIOS 3.2
@@ -934,20 +935,22 @@ static bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
             return dmi_entity_incomplete(entity);
 
         dmi_mgmt_proto_record_t *record = &info->proto_records[i];
-        size_t data_start = stream->position;
+        dmi_stream_mark_t data_start = dmi_stream_mark(stream);
 
         record->type = dmi_cast(record->type, type);
         if (not dmi_stream_decode_bin(stream, length, &record->data))
             return false;
 
         if (record->type == DMI_MGMT_PROTO_REDFISH_OVER_IP) {
-            dmi_stream_seek(stream, data_start);
+            dmi_stream_rewind(stream, data_start);
+
             if (not dmi_mgmt_redfish_decode(entity, record))
                 return false;
-
-            dmi_stream_seek(stream, data_start);
-            dmi_stream_skip(stream, length);
         }
+
+        // Record may be longer than the fields it is known to hold, so the
+        // next one is found by the length rather than by counting
+        dmi_stream_skip_ex(stream, data_start, length);
 
         info->proto_records_count++;
     }

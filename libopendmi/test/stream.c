@@ -68,6 +68,13 @@ static void test_stream_skip(void **pstate);
 static void test_stream_skip_to_end(void **pstate);
 static void test_stream_skip_out_of_bounds(void **pstate);
 
+static void test_stream_mark_rewind(void **pstate);
+static void test_stream_mark_null(void **pstate);
+static void test_stream_mark_foreign(void **pstate);
+static void test_stream_skip_ex(void **pstate);
+static void test_stream_skip_ex_to_end(void **pstate);
+static void test_stream_skip_ex_out_of_bounds(void **pstate);
+
 static void test_stream_decode_bin(void **pstate);
 static void test_stream_decode_bin_out_of_bounds(void **pstate);
 static void test_stream_decode_bin_overlay(void **pstate);
@@ -110,6 +117,13 @@ int main(void)
         cmocka_unit_test(test_stream_skip),
         cmocka_unit_test(test_stream_skip_to_end),
         cmocka_unit_test(test_stream_skip_out_of_bounds),
+
+        cmocka_unit_test(test_stream_mark_rewind),
+        cmocka_unit_test(test_stream_mark_null),
+        cmocka_unit_test(test_stream_mark_foreign),
+        cmocka_unit_test(test_stream_skip_ex),
+        cmocka_unit_test(test_stream_skip_ex_to_end),
+        cmocka_unit_test(test_stream_skip_ex_out_of_bounds),
 
         cmocka_unit_test(test_stream_decode_bin),
         cmocka_unit_test(test_stream_decode_bin_out_of_bounds),
@@ -544,4 +558,146 @@ static void test_stream_decode_macro(void **pstate)
     assert_true(dmi_stream_decode(&stream, dmi_byte_t, &val));
     assert_uint_equal(val, test_body[0]);
     assert_uint_equal(stream.position, TEST_BODY_OFFSET + sizeof(dmi_byte_t));
+}
+
+static void test_stream_mark_rewind(void **pstate)
+{
+    dmi_stream_t stream;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_stream_initialize(&stream, state->entity);
+
+    dmi_stream_seek(&stream, TEST_BODY_OFFSET);
+
+    dmi_stream_mark_t mark = dmi_stream_mark(&stream);
+
+    assert_true(dmi_stream_skip(&stream, 3));
+    assert_uint_equal(stream.position, TEST_BODY_OFFSET + 3);
+
+    // Coming back to the mark restores both the position and the size left
+    assert_true(dmi_stream_rewind(&stream, mark));
+    assert_uint_equal(stream.position, TEST_BODY_OFFSET);
+    assert_uint_equal(stream.remaining, TEST_BODY_SIZE);
+
+    // Data can be read again from where the mark was taken
+    dmi_byte_t val = 0;
+    assert_true(dmi_stream_decode(&stream, dmi_byte_t, &val));
+    assert_uint_equal(val, test_body[0]);
+}
+
+static void test_stream_mark_null(void **pstate)
+{
+    dmi_stream_t stream;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_stream_initialize(&stream, state->entity);
+
+    // Mark of no stream belongs to no entity, so it is rejected rather than
+    // taken for the beginning of the data
+    dmi_stream_mark_t mark = dmi_stream_mark(nullptr);
+
+    assert_false(dmi_stream_rewind(&stream, mark));
+    assert_false(dmi_stream_skip_ex(&stream, mark, 1));
+    assert_uint_equal(stream.position, 0);
+
+    assert_false(dmi_stream_rewind(nullptr, dmi_stream_mark(&stream)));
+    assert_false(dmi_stream_skip_ex(nullptr, dmi_stream_mark(&stream), 1));
+}
+
+static void test_stream_mark_foreign(void **pstate)
+{
+    dmi_stream_t stream;
+    dmi_stream_t other_stream;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    dmi_entity_t *other = dmi_entity_create(state->context, &test_envelope, sizeof(test_envelope));
+    assert_non_null(other);
+
+    dmi_stream_initialize(&stream, state->entity);
+    dmi_stream_initialize(&other_stream, other);
+
+    dmi_stream_seek(&stream, TEST_BODY_OFFSET);
+
+    // Marks belong to the stream they were taken from, even when the other
+    // stream reads the same data
+    dmi_stream_mark_t mark = dmi_stream_mark(&other_stream);
+
+    bool rejected =
+        not dmi_stream_rewind(&stream, mark) and
+        not dmi_stream_skip_ex(&stream, mark, 1) and
+        (stream.position == TEST_BODY_OFFSET);
+
+    dmi_entity_destroy(other);
+
+    assert_true(rejected);
+}
+
+static void test_stream_skip_ex(void **pstate)
+{
+    dmi_stream_t stream;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_stream_initialize(&stream, state->entity);
+
+    dmi_stream_seek(&stream, TEST_BODY_OFFSET);
+
+    dmi_stream_mark_t mark = dmi_stream_mark(&stream);
+
+    // Record is stepped over by its length, whatever has been read from it
+    dmi_byte_t val = 0;
+    assert_true(dmi_stream_decode(&stream, dmi_byte_t, &val));
+
+    assert_true(dmi_stream_skip_ex(&stream, mark, 4));
+    assert_uint_equal(stream.position, TEST_BODY_OFFSET + 4);
+    assert_uint_equal(stream.remaining, TEST_BODY_SIZE - 4);
+
+    // The same mark counts from where it was taken, not from the cursor
+    assert_true(dmi_stream_skip_ex(&stream, mark, 6));
+    assert_uint_equal(stream.position, TEST_BODY_OFFSET + 6);
+
+    // A record shorter than what has been read of it moves the cursor back
+    assert_true(dmi_stream_skip_ex(&stream, mark, 2));
+    assert_uint_equal(stream.position, TEST_BODY_OFFSET + 2);
+}
+
+static void test_stream_skip_ex_to_end(void **pstate)
+{
+    dmi_stream_t stream;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_stream_initialize(&stream, state->entity);
+
+    dmi_stream_mark_t mark = dmi_stream_mark(&stream);
+
+    // Unlike seeking, a mark may be reached at the end of the data
+    assert_true(dmi_stream_skip_ex(&stream, mark, TEST_ENTITY_LENGTH));
+    assert_true(dmi_stream_is_done(&stream));
+
+    dmi_stream_mark_t end = dmi_stream_mark(&stream);
+
+    assert_false(dmi_stream_seek(&stream, TEST_ENTITY_LENGTH));
+    assert_true(dmi_stream_rewind(&stream, end));
+    assert_uint_equal(dmi_stream_remaining(&stream), 0);
+}
+
+static void test_stream_skip_ex_out_of_bounds(void **pstate)
+{
+    dmi_stream_t stream;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_stream_initialize(&stream, state->entity);
+
+    dmi_stream_mark_t mark = dmi_stream_mark(&stream);
+
+    assert_true(dmi_stream_skip(&stream, 2));
+
+    assert_false(dmi_stream_skip_ex(&stream, mark, TEST_ENTITY_LENGTH + 1));
+
+    // Length which would overflow the sum with the position is rejected as
+    // well, rather than wrapping around into a valid position
+    assert_false(dmi_stream_skip_ex(&stream, mark, SIZE_MAX));
+
+    // Failure leaves the cursor where it was
+    assert_uint_equal(stream.position, 2);
 }
