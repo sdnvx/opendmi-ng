@@ -19,18 +19,16 @@
 extern const dmi_name_set_t dmi_battery_chemistry_names;
 
 // Operation handlers, see battery-handlers.c
-bool dmi_battery_decode_date(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value);
 bool dmi_battery_decode_sbds_date(
-        dmi_entity_t      *entity,
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_battery_encode_sbds_date(
         const dmi_field_t *field,
-        void              *value);
-bool dmi_battery_decode_capacity_factor(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value);
+        const void        *value,
+        dmi_field_data_t  *data);
+
+bool dmi_battery_derive(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see battery-rules.c
 void dmi_battery_lint_sbds(dmi_lint_t *lint, const dmi_entity_t *entity);

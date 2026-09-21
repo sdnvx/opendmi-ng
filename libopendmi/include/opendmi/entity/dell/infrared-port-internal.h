@@ -19,6 +19,13 @@
 extern const dmi_name_set_t dmi_dell_infrared_proto_names;
 
 // Speeds are carried in hundreds of bits per second, see infrared-port-handlers.c
-uintmax_t dmi_dell_infrared_port_convert_speed(uintmax_t raw);
+bool dmi_dell_infrared_port_decode_speed(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_dell_infrared_port_encode_speed(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
 
 #endif // !OPENDMI_ENTITY_INFRARED_PORT_INTERNAL_H

@@ -16,6 +16,13 @@
 #include <opendmi/entity/dell/revisions.h>
 
 // Operation handlers, see revisions-handlers.c
-uintmax_t dmi_dell_revisions_convert_version(uintmax_t raw);
+bool dmi_dell_revisions_decode_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_dell_revisions_encode_version(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
 
 #endif // !OPENDMI_ENTITY_REVISIONS_INTERNAL_H

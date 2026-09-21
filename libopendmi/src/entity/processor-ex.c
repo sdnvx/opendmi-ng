@@ -48,7 +48,10 @@ const dmi_entity_spec_t dmi_processor_ex_spec =
 
         // Processor-specific block declares a length of its own, and the
         // minimum length of the structure does not include it
-        DMI_FIELD_SPLIT(dmi_processor_ex_t, .decode = dmi_processor_ex_decode_data),
+        DMI_FIELD_GROUP(),
+        DMI_FIELD(dmi_processor_ex_t, data.length, BYTE),
+        DMI_FIELD(dmi_processor_ex_t, arch,        BYTE),
+        DMI_FIELD_BINARY(dmi_processor_ex_t, data, DMI_FIELD_LENGTH_MEMBER),
         {}
     }),
 

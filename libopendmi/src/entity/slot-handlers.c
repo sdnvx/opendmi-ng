@@ -11,20 +11,6 @@
 #include <opendmi/entity/common.h>
 #include <opendmi/entity/slot-internal.h>
 
-//
-// PCI address holds the device and the function numbers in one byte, and
-// leaves both unset when the bus number says they do not apply.
-//
-bool dmi_slot_decode_pci_addr(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value)
-{
-    dmi_unused(field);
-
-    return dmi_pci_addr_decode(dmi_entity_stream(entity), value);
-}
-
 void dmi_slot_cleanup(dmi_entity_t *entity)
 {
     dmi_slot_t *info;

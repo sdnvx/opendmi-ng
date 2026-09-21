@@ -13,7 +13,22 @@
 // Implementation version is carried as the major and the minor number, one
 // byte each, which the version number puts in the order it counts them.
 //
-uintmax_t dmi_dell_revisions_convert_version(uintmax_t raw)
+bool dmi_dell_revisions_decode_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return dmi_version((unsigned int)(raw & 0xFFu), (unsigned int)((raw >> 8) & 0xFFu), 0);
+    return dmi_field_set(field, value, dmi_version((unsigned int)(data->number & 0xFFu), (unsigned int)((data->number >> 8) & 0xFFu), 0));
+}
+
+bool dmi_dell_revisions_encode_version(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    dmi_version_t version = (dmi_version_t)dmi_field_get(field, value);
+
+    data->number = dmi_version_major(version) | (dmi_version_minor(version) << 8);
+
+    return true;
 }

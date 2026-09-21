@@ -30,17 +30,20 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
     .fields = DMI_FIELDS({
         // Vendor identifier is four bytes of text, which the specification
         // does not terminate
-        DMI_FIELD_CUSTOM(dmi_tpm_device_t, vendor_id,
-                         .decode = dmi_tpm_device_decode_vendor_id),
+        DMI_FIELD(dmi_tpm_device_t, vendor_id, DWORD,
+                  .decode = dmi_tpm_device_decode_vendor_id,
+                  .encode = dmi_tpm_device_encode_vendor_id),
 
         // Specification version is one byte of major and one of minor
         DMI_FIELD(dmi_tpm_device_t, spec_version, WORD,
-                  .convert = dmi_tpm_device_convert_version),
+                  .decode = dmi_tpm_device_decode_version,
+                  .encode = dmi_tpm_device_encode_version),
 
         // Firmware version is kept as stored, and is read according to the
         // version of the specification once that is known
         DMI_FIELD(dmi_tpm_device_t, firmware_version, QWORD,
-                  .convert = dmi_tpm_device_convert_firmware_version),
+                  .decode = dmi_tpm_device_decode_firmware_version,
+                  .encode = dmi_tpm_device_encode_firmware_version),
 
         DMI_FIELD(dmi_tpm_device_t, description, STRING),
         DMI_FIELD(dmi_tpm_device_t, features,    QWORD),

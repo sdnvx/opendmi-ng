@@ -35,13 +35,15 @@ const dmi_entity_spec_t dmi_firmware_spec =
         DMI_FIELD(dmi_firmware_t, version,      STRING),
         DMI_FIELD(dmi_firmware_t, bios_segment, WORD),
 
-        DMI_FIELD_CUSTOM(dmi_firmware_t, release_date,
-                         .decode = dmi_firmware_decode_date),
+        DMI_FIELD(dmi_firmware_t, release_date, STRING,
+                  .decode = dmi_firmware_decode_date,
+                  .encode = dmi_firmware_encode_date),
 
         // ROM size is carried as the number of the granules it takes, and the
         // chips too large for one byte carry it in the extended field instead
         DMI_FIELD(dmi_firmware_t, rom_size, BYTE,
-                  .convert = dmi_firmware_convert_rom_size),
+                  .decode = dmi_firmware_decode_rom_size,
+                  .encode = dmi_firmware_encode_rom_size),
 
         DMI_FIELD(dmi_firmware_t, features, QWORD),
 
@@ -57,14 +59,17 @@ const dmi_entity_spec_t dmi_firmware_spec =
         // number of 0xFF says that the platform carries no version at all
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 4, 0)),
         DMI_FIELD(dmi_firmware_t, platform_version, WORD,
-                  .convert = dmi_firmware_convert_version),
+                  .decode = dmi_firmware_decode_version,
+                  .encode = dmi_firmware_encode_version),
         DMI_FIELD(dmi_firmware_t, controller_version, WORD,
-                  .convert = dmi_firmware_convert_version),
+                  .decode = dmi_firmware_decode_version,
+                  .encode = dmi_firmware_encode_version),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 1, 0)),
         DMI_FIELD_EXTENDED(dmi_firmware_t, rom_size, WORD,
                            .when_raw = DMI_FIRMWARE_ROM_SIZE_EXTENDED,
-                           .convert  = dmi_firmware_convert_rom_size_ex),
+                           .decode   = dmi_firmware_decode_rom_size_ex,
+                           .encode   = dmi_firmware_encode_rom_size_ex),
         {}
     }),
 

@@ -44,7 +44,8 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         // more carry it in the extended field instead
         DMI_FIELD(dmi_memory_array_t, maximum_capacity, DWORD,
                   .unknown_raw = 0x80000000u,
-                  .convert     = dmi_field_kilobytes),
+                  .decode      = dmi_field_decode_kilobytes,
+                  .encode      = dmi_field_encode_kilobytes),
 
         DMI_FIELD(dmi_memory_array_t, error_info_handle, WORD),
         DMI_FIELD(dmi_memory_array_t, device_count,      WORD),

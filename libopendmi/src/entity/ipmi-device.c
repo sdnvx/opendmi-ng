@@ -38,18 +38,20 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
 
         // Revision is one nibble of major and one of minor
         DMI_FIELD(dmi_ipmi_device_t, spec_version, BYTE,
-                  .convert = dmi_ipmi_device_convert_version),
+                  .decode = dmi_ipmi_device_decode_version,
+                  .encode = dmi_ipmi_device_encode_version),
 
         DMI_FIELD(dmi_ipmi_device_t, i2c_target_addr, BYTE),
         DMI_FIELD(dmi_ipmi_device_t, nv_storage_addr, BYTE),
 
-        // Base address is taken as stored, and is read again by the interface
-        // type once the modifier below is known
-        DMI_FIELD(dmi_ipmi_device_t, base_addr, QWORD),
-
-        // One byte holding the interrupt information and the modifier of the
-        // base address, whose parts mean nothing on their own
-        DMI_FIELD_SPLIT(dmi_ipmi_device_t, .decode = dmi_ipmi_device_decode_details),
+        // Base address and the byte after it, which holds the modifier of the
+        // address along with the interrupt information: the address means
+        // what the interface type and the modifier say it does, so the two
+        // are read as one
+        DMI_FIELD_SPLIT(dmi_ipmi_device_t, BINARY,
+                        .length = sizeof(dmi_qword_t) + sizeof(dmi_byte_t),
+                        .decode = dmi_ipmi_device_decode_address,
+                        .encode = dmi_ipmi_device_encode_address),
 
         DMI_FIELD(dmi_ipmi_device_t, intr_number, BYTE),
         {}
@@ -134,9 +136,5 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}
-    }),
-
-    .handlers = {
-        .derive = dmi_ipmi_device_derive,
-    }
+    })
 };

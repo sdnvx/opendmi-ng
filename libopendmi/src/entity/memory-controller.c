@@ -33,7 +33,8 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
         // Module size is carried as the power of two it is a number of
         // megabytes of
         DMI_FIELD(dmi_memory_controller_t, maximum_module_size, BYTE,
-                  .convert = dmi_memory_controller_convert_size),
+                  .decode = dmi_memory_controller_decode_size,
+                  .encode = dmi_memory_controller_encode_size),
 
         DMI_FIELD(dmi_memory_controller_t, supported_speeds,  WORD),
         DMI_FIELD(dmi_memory_controller_t, supported_types,   WORD),
@@ -110,6 +111,15 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
             .name   = "Enabled error correcting capabilities",
             .values = &dmi_error_correct_caps_names,
             .level  = DMI_VERSION(2, 1, 0)
+        }),
+        {}
+    }),
+
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("memory-controller.module-size", dmi_memory_controller_lint_module_size, {
+            .name              = "Modules are no larger than the controller supports",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}
     }),

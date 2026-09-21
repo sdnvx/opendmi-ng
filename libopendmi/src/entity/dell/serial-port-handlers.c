@@ -12,7 +12,20 @@
 //
 // Speeds are carried in hundreds of bits per second.
 //
-uintmax_t dmi_dell_serial_port_convert_speed(uintmax_t raw)
+bool dmi_dell_serial_port_decode_speed(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return raw * 100;
+    return dmi_field_set(field, value, data->number * 100);
+}
+
+bool dmi_dell_serial_port_encode_speed(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    data->number = dmi_field_get(field, value) / 100;
+
+    return true;
 }

@@ -54,6 +54,7 @@ const dmi_entity_spec_t dmi_additional_info_spec =
 
     .handlers = {
         .decode  = dmi_additional_info_decode,
+        .encode  = dmi_additional_info_encode,
         .cleanup = dmi_additional_info_cleanup
     }
 };

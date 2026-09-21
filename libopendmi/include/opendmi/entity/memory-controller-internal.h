@@ -23,9 +23,20 @@ extern const dmi_name_set_t dmi_memory_interleave_names;
 extern const dmi_name_set_t dmi_memory_module_voltage_names;
 
 // Operation handlers, see memory-controller-handlers.c
-uintmax_t dmi_memory_controller_convert_size(uintmax_t raw);
+bool dmi_memory_controller_decode_size(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_memory_controller_encode_size(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+
 bool dmi_memory_controller_derive(dmi_entity_t *entity);
 bool dmi_memory_controller_link(dmi_entity_t *entity);
 void dmi_memory_controller_cleanup(dmi_entity_t *entity);
+
+// Checks the lint rules of the specification perform, see memory-controller-rules.c
+void dmi_memory_controller_lint_module_size(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_MEMORY_CONTROLLER_INTERNAL_H

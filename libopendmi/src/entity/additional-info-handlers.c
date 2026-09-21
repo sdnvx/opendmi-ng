@@ -8,6 +8,7 @@
 #include <opendmi/context.h>
 #include <opendmi/log.h>
 #include <opendmi/utils.h>
+#include <opendmi/encoder.h>
 #include <opendmi/internal.h>
 
 #include <opendmi/entity/additional-info-internal.h>
@@ -100,4 +101,56 @@ void dmi_additional_info_cleanup(dmi_entity_t *entity)
         return;
 
     dmi_free(info->entries);
+}
+
+//
+// Entries are written with the length of their value. The length the source
+// data declares is kept whenever it reads as the same value, which it does
+// when the structure ends before the value and the decoder has taken what is
+// there.
+//
+bool dmi_additional_info_encode(dmi_encoder_t *encoder)
+{
+    const dmi_additional_info_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(ADDITIONAL_INFO));
+    if (info == nullptr)
+        return false;
+
+    if (not dmi_encoder_put(encoder, dmi_byte_t, info->entry_count))
+        return false;
+
+    for (size_t i = 0; i < info->entry_count; i++) {
+        const dmi_additional_info_entry_t *entry = &info->entries[i];
+
+        size_t length = DMI_ADDITIONAL_INFO_ENTRY_HEADER + entry->value.length;
+
+        dmi_byte_t original = 0;
+
+        if (dmi_encoder_peek(encoder, &original, sizeof(original)) and
+            (original > DMI_ADDITIONAL_INFO_ENTRY_HEADER) and
+            (dmi_encoder_remaining(encoder) >= DMI_ADDITIONAL_INFO_ENTRY_HEADER)) {
+            size_t declared  = original - DMI_ADDITIONAL_INFO_ENTRY_HEADER;
+            size_t remaining = dmi_encoder_remaining(encoder) - DMI_ADDITIONAL_INFO_ENTRY_HEADER;
+
+            if (((declared < remaining) ? declared : remaining) == entry->value.length)
+                length = original;
+        }
+
+        if (length > UINT8_MAX) {
+            dmi_error_raise_ex(dmi_entity_context(encoder->entity), DMI_ERROR_INVALID_ARGUMENT,
+                               "0x%04x: entry %zu of %zu bytes", dmi_entity_handle(encoder->entity),
+                               i, length);
+            return false;
+        }
+
+        bool status =
+            dmi_encoder_put(encoder, dmi_byte_t, length) and
+            dmi_encoder_put(encoder, dmi_word_t, entry->ref_handle) and
+            dmi_encoder_put(encoder, dmi_byte_t, entry->ref_offset) and
+            dmi_encoder_write_str(encoder, entry->string) and
+            dmi_encoder_write(encoder, entry->value.data, entry->value.length);
+        if (not status)
+            return false;
+    }
+
+    return true;
 }

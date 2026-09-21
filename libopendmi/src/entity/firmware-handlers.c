@@ -6,6 +6,7 @@
 //
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
+#include <stdio.h>
 #include <string.h>
 #include <opendmi/stream.h>
 #include <opendmi/lint.h>
@@ -40,29 +41,24 @@ dmi_size_t dmi_firmware_rom_size_ex(dmi_word_t value)
 // missing or malformed carry no date at all.
 //
 bool dmi_firmware_decode_date(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value)
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
     dmi_unused(field);
-
-    const char *text = nullptr;
-
-    if (not dmi_stream_decode_str(dmi_entity_stream(entity), &text))
-        return false;
 
     dmi_date_t *date = value;
 
     *date = DMI_DATE_NONE;
 
-    if (text == nullptr)
+    if (data->string == nullptr)
         return true;
 
-    *date = dmi_date_parse(text);
+    *date = dmi_date_parse(data->string);
 
-    if (*date == DMI_DATE_NONE) {
-        dmi_log_warning(dmi_entity_context(entity),
-                        "Invalid firmware release date format: '%s'", text);
+    if ((*date == DMI_DATE_NONE) and (data->entity != nullptr)) {
+        dmi_log_warning(dmi_entity_context(data->entity),
+                        "Invalid firmware release date format: '%s'", data->string);
     }
 
     return true;
@@ -71,26 +67,109 @@ bool dmi_firmware_decode_date(
 //
 // ROM size is carried as the number of the granules it takes.
 //
-uintmax_t dmi_firmware_convert_rom_size(uintmax_t raw)
+bool dmi_firmware_decode_rom_size(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return dmi_firmware_rom_size((dmi_byte_t)raw);
+    return dmi_field_set(field, value, dmi_firmware_rom_size((dmi_byte_t)data->number));
 }
 
-uintmax_t dmi_firmware_convert_rom_size_ex(uintmax_t raw)
+bool dmi_firmware_decode_rom_size_ex(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return dmi_firmware_rom_size_ex((dmi_word_t)raw);
+    return dmi_field_set(field, value, dmi_firmware_rom_size_ex((dmi_word_t)data->number));
 }
 
 //
 // Versions are one byte of major and one of minor, and the major number of
 // 0xFF says that the platform carries no version at all.
 //
-uintmax_t dmi_firmware_convert_version(uintmax_t raw)
+bool dmi_firmware_decode_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    unsigned int major = (unsigned int)(raw & 0xFFu);
+    unsigned int major = (unsigned int)(data->number & 0xFFu);
 
     if (major == 0xFFu)
-        return DMI_VERSION_NONE;
+        return dmi_field_set(field, value, DMI_VERSION_NONE);
 
-    return dmi_version(major, (unsigned int)((raw >> 8) & 0xFFu), 0);
+    return dmi_field_set(field, value, dmi_version(major, (unsigned int)((data->number >> 8) & 0xFFu), 0));
+}
+
+//
+// Release date is written the way the specification spells it, and no date
+// is written as no string.
+//
+bool dmi_firmware_encode_date(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    dmi_unused(field);
+
+    dmi_date_t date = *(const dmi_date_t *)value;
+
+    if (date == DMI_DATE_NONE)
+        return true;
+
+    snprintf((char *)data->buffer, sizeof(data->buffer), "%02u/%02u/%04u",
+             dmi_date_month(date) % 100u, dmi_date_day(date) % 100u, dmi_date_year(date) % 10000u);
+
+    data->string = (const char *)data->buffer;
+
+    return true;
+}
+
+bool dmi_firmware_encode_rom_size(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    uintmax_t size = dmi_field_get(field, value);
+
+    data->number = (size >= ((uintmax_t)1 << 16)) ? (size >> 16) - 1 : 0;
+
+    return true;
+}
+
+//
+// Extended size is written in megabytes whenever it fits, and in gigabytes
+// otherwise, the way the two most significant bits of the field tell them
+// apart.
+//
+bool dmi_firmware_encode_rom_size_ex(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    uintmax_t size = dmi_field_get(field, value);
+
+    if (((size & 0xFFFFFu) == 0) and ((size >> 20) <= 0x3FFFu))
+        data->number = size >> 20;
+    else
+        data->number = 0x4000u | ((size >> 30) & 0x3FFFu);
+
+    return true;
+}
+
+//
+// Platform which carries no version says so by the major number of 0xFF.
+//
+bool dmi_firmware_encode_version(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    dmi_version_t version = (dmi_version_t)dmi_field_get(field, value);
+
+    if (version == DMI_VERSION_NONE)
+        data->number = 0xFFFFu;
+    else
+        data->number = dmi_version_major(version) | (dmi_version_minor(version) << 8);
+
+    return true;
 }

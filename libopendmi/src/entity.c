@@ -10,6 +10,7 @@
 #include <assert.h>
 
 #include <opendmi/context.h>
+#include <opendmi/encoder.h>
 #include <opendmi/entity.h>
 #include <opendmi/field.h>
 #include <opendmi/internal.h>
@@ -272,6 +273,44 @@ bool dmi_entity_decode(dmi_entity_t *entity)
     dmi_stream_reset(&entity->stream);
 
     return status;
+}
+
+bool dmi_entity_encode(dmi_encoder_t *encoder)
+{
+    if (encoder == nullptr) {
+        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "encoder");
+        return false;
+    }
+
+    const dmi_entity_t      *entity = encoder->entity;
+    const dmi_entity_spec_t *spec   = entity->spec;
+
+    // Specifications which describe their layout are encoded by it
+    if ((spec != nullptr) and (spec->handlers.decode == nullptr) and (spec->fields != nullptr))
+        return dmi_fields_encode(encoder);
+
+    if ((spec != nullptr) and (spec->handlers.encode != nullptr)) {
+        if (not spec->handlers.encode(encoder))
+            return false;
+    } else if ((spec != nullptr) and (spec->handlers.decode != nullptr)) {
+        dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
+                           "0x%04x (%s): structure has no encoding handler",
+                           entity->handle, spec->code);
+        return false;
+    } else if ((spec == nullptr) and (encoder->mode == DMI_ENCODE_MODE_CANONICAL)) {
+        dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
+                           "0x%04x: type %d has no specification to write it by",
+                           entity->handle, (int)entity->type);
+        return false;
+    }
+
+    // Bytes after the ones the model holds are the structure's own, and are
+    // kept as they are, which is all of them for a structure the model holds
+    // nothing of
+    if (not dmi_encoder_copy(encoder, dmi_encoder_remaining(encoder)))
+        return false;
+
+    return dmi_encoder_finish(encoder);
 }
 
 bool dmi_entity_link(dmi_entity_t *entity)

@@ -74,12 +74,14 @@ const dmi_entity_spec_t dmi_chassis_spec =
             .fields         = DMI_FIELDS({
                 // Element is named by either a structure type or a baseboard
                 // type, which the most significant bit tells apart
-                DMI_FIELD_SPLIT(dmi_chassis_element_t,
-                                .decode = dmi_chassis_decode_element_type),
+                DMI_FIELD_SPLIT(dmi_chassis_element_t, BYTE,
+                                .decode = dmi_chassis_decode_element_type,
+                                .encode = dmi_chassis_encode_element_type),
 
                 DMI_FIELD(dmi_chassis_element_t, minimum_count, BYTE, .unknown_raw = 0xFFu),
                 DMI_FIELD(dmi_chassis_element_t, maximum_count, BYTE,
-                          .convert = dmi_chassis_convert_maximum_count),
+                          .decode = dmi_chassis_decode_maximum_count,
+                          .encode = dmi_chassis_encode_maximum_count),
                 {}
             })),
 

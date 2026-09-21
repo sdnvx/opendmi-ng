@@ -54,10 +54,12 @@ const dmi_entity_spec_t dmi_memory_module_spec =
 
         // Sizes are carried as the power of two they are a number of
         // megabytes of, together with the flags of the module
-        DMI_FIELD_CUSTOM(dmi_memory_module_t, installed_size,
-                         .decode = dmi_memory_module_decode_installed_size),
-        DMI_FIELD_CUSTOM(dmi_memory_module_t, enabled_size,
-                         .decode = dmi_memory_module_decode_enabled_size),
+        DMI_FIELD(dmi_memory_module_t, installed_size, BYTE,
+                  .decode = dmi_memory_module_decode_installed_size,
+                  .encode = dmi_memory_module_encode_size),
+        DMI_FIELD(dmi_memory_module_t, enabled_size, BYTE,
+                  .decode = dmi_memory_module_decode_enabled_size,
+                  .encode = dmi_memory_module_encode_size),
 
         DMI_FIELD(dmi_memory_module_t, error_status, BYTE),
         {}

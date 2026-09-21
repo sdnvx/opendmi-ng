@@ -26,11 +26,29 @@ extern const dmi_name_set_t dmi_tpm_device_feature_names;
 
 // Operation handlers, see tpm-device-handlers.c
 bool dmi_tpm_device_decode_vendor_id(
-        dmi_entity_t      *entity,
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_tpm_device_encode_vendor_id(
         const dmi_field_t *field,
-        void              *value);
-uintmax_t dmi_tpm_device_convert_version(uintmax_t raw);
-uintmax_t dmi_tpm_device_convert_firmware_version(uintmax_t raw);
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_tpm_device_decode_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_tpm_device_encode_version(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_tpm_device_decode_firmware_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_tpm_device_encode_firmware_version(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
 bool dmi_tpm_device_derive(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see tpm-device-rules.c

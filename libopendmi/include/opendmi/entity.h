@@ -40,11 +40,17 @@ typedef struct dmi_entity_ops     dmi_entity_ops_t;
     typedef struct dmi_field dmi_field_t;
 #endif // !DMI_FIELD_T
 
+#ifndef DMI_ENCODER_T
+#   define DMI_ENCODER_T
+    typedef struct dmi_encoder dmi_encoder_t;
+#endif // !DMI_ENCODER_T
+
 typedef struct dmi_header         dmi_header_t;
 typedef struct dmi_string_entry   dmi_string_entry_t;
 
 typedef bool dmi_entity_validate_fn(dmi_entity_t *entity);
 typedef bool dmi_entity_decode_fn(dmi_entity_t *entity);
+typedef bool dmi_entity_encode_fn(dmi_encoder_t *encoder);
 typedef bool dmi_entity_derive_fn(dmi_entity_t *entity);
 typedef bool dmi_entity_link_fn(dmi_entity_t *entity);
 typedef void dmi_entity_cleanup_fn(dmi_entity_t *entity);
@@ -180,6 +186,18 @@ struct dmi_entity_ops
     dmi_entity_decode_fn *decode;
 
     /**
+     * @brief Encoding handler, which undoes the decoding one, and is required
+     * along with it for the structure to be encoded.
+     *
+     * The handler writes the formatted area after the header, which the
+     * encoder has written, and leaves the bytes after the ones it knows of,
+     * and the length of the header, to `dmi_entity_encode()`. Specifications
+     * which describe their layout rather than decode it themselves are
+     * encoded by their fields, and need none.
+     */
+    dmi_entity_encode_fn *encode;
+
+    /**
      * @brief Handler deriving the members the data does not carry, called
      * once the fields have been read.
      *
@@ -187,6 +205,10 @@ struct dmi_entity_ops
      * read from it, e.g. the ports an access address is split into, or
      * whether a checksum matches. They are not fields, so the layout says
      * nothing about them, and this is where they are filled in.
+     *
+     * The handler writes only the members no field decodes into, and leaves
+     * the ones of the fields as they have been decoded: they are what the
+     * encoder writes the structure back from.
      */
     dmi_entity_derive_fn *derive;
 
@@ -530,6 +552,29 @@ __dmi_api dmi_entity_t *dmi_entity_create(
  * @error DMI_ERROR_ENTITY_DECODE Structure data is malformed.
  */
 __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
+
+/**
+ * @brief Encode the SMBIOS structure an encoder has been initialized with.
+ *
+ * Structures whose specification describes their layout are encoded by its
+ * fields, see `dmi_fields_encode()`, and the rest by the encoding handler of
+ * the specification. Structures which carry no data the model holds, such as
+ * the end-of-table one, and the ones of the types no specification describes,
+ * are kept as they are in the preserve mode: their bytes are all the model
+ * the structure has.
+ *
+ * @param[in,out] encoder Encoder of the structure, see
+ *                        `dmi_encoder_initialize()`.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
+ * @error DMI_ERROR_INVALID_STATE Structure cannot be encoded: its type has no
+ *        specification and the mode is the canonical one, or its
+ *        specification decodes it by a handler with no encoding one
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
+ *
+ * @return `true` if the structure has been encoded, `false` otherwise.
+ */
+__dmi_api bool dmi_entity_encode(dmi_encoder_t *encoder);
 
 /**
  * @internal

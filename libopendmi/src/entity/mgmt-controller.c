@@ -327,6 +327,7 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
 
     .handlers = {
         .decode  = dmi_mgmt_controller_decode,
+        .encode  = dmi_mgmt_controller_encode,
         .cleanup = dmi_mgmt_controller_cleanup
     }
 };

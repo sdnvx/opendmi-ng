@@ -56,6 +56,7 @@ const dmi_entity_spec_t dmi_intel_rsd_processor_cpuid_spec =
 
     .handlers = {
         .decode  = dmi_intel_rsd_processor_cpuid_decode,
+        .encode  = dmi_intel_rsd_processor_cpuid_encode,
         .cleanup = dmi_intel_rsd_processor_cpuid_cleanup
     }
 };

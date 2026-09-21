@@ -32,12 +32,37 @@ extern const dmi_name_set_t dmi_firmware_feature_ex_names;
 
 // Operation handlers, see firmware-handlers.c
 bool dmi_firmware_decode_date(
-        dmi_entity_t      *entity,
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_firmware_decode_rom_size(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_firmware_decode_rom_size_ex(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_firmware_decode_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_firmware_encode_date(
         const dmi_field_t *field,
-        void              *value);
-uintmax_t dmi_firmware_convert_rom_size(uintmax_t raw);
-uintmax_t dmi_firmware_convert_rom_size_ex(uintmax_t raw);
-uintmax_t dmi_firmware_convert_version(uintmax_t raw);
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_firmware_encode_rom_size(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_firmware_encode_rom_size_ex(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_firmware_encode_version(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
 
 // Checks the lint rules of the specification perform, see firmware-rules.c
 void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity);

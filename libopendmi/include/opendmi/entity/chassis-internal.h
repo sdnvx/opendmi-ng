@@ -22,10 +22,22 @@ extern const dmi_name_set_t dmi_rack_type_names;
 
 // Operation handlers, see chassis-handlers.c
 bool dmi_chassis_decode_element_type(
-        dmi_entity_t      *entity,
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_chassis_encode_element_type(
         const dmi_field_t *field,
-        void              *value);
-uintmax_t dmi_chassis_convert_maximum_count(uintmax_t raw);
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_chassis_decode_maximum_count(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_chassis_encode_maximum_count(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+
 void dmi_chassis_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_CHASSIS_INTERNAL_H

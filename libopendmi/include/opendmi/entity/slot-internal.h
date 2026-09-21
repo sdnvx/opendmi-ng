@@ -27,11 +27,6 @@ extern const dmi_name_set_t dmi_slot_usage_names;
 // Operation handlers, see slot-handlers.c
 void dmi_slot_cleanup(dmi_entity_t *entity);
 
-bool dmi_slot_decode_pci_addr(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value);
-
 // Checks the lint rules of the specification perform, see slot-rules.c
 void dmi_slot_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity);
 

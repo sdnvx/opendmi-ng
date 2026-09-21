@@ -68,6 +68,7 @@ const dmi_entity_spec_t dmi_dell_indexed_io_spec =
 
     .handlers = {
         .decode  = dmi_dell_indexed_io_decode,
+        .encode  = dmi_dell_indexed_io_encode,
         .cleanup = dmi_dell_indexed_io_cleanup
     }
 };

@@ -18,10 +18,4 @@
 // Value names, see processor-ex-names.c
 extern const dmi_name_set_t dmi_processor_arch_names;
 
-// Operation handlers, see processor-ex-handlers.c
-bool dmi_processor_ex_decode_data(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value);
-
 #endif // !OPENDMI_ENTITY_PROCESSOR_EX_INTERNAL_H

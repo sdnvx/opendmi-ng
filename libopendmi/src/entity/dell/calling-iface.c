@@ -54,6 +54,7 @@ const dmi_entity_spec_t dmi_dell_calling_iface_spec =
 
     .handlers = {
         .decode  = dmi_dell_calling_iface_decode,
+        .encode  = dmi_dell_calling_iface_encode,
         .cleanup = dmi_dell_calling_iface_cleanup
     }
 };

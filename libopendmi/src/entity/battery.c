@@ -34,32 +34,31 @@ const dmi_entity_spec_t dmi_battery_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_battery_t, location, STRING),
-        DMI_FIELD(dmi_battery_t, vendor,   STRING),
-
-        DMI_FIELD_CUSTOM(dmi_battery_t, manufacture_date,
-                         .decode = dmi_battery_decode_date),
-
-        DMI_FIELD(dmi_battery_t, serial_number, STRING),
-        DMI_FIELD(dmi_battery_t, name,          STRING),
-        DMI_FIELD(dmi_battery_t, chemistry,     BYTE),
-        DMI_FIELD(dmi_battery_t, capacity,      WORD),
-        DMI_FIELD(dmi_battery_t, voltage,       WORD),
-        DMI_FIELD(dmi_battery_t, sbds_version,  STRING),
-        DMI_FIELD(dmi_battery_t, maximum_error, BYTE, .unknown_raw = 0xFFu),
+        DMI_FIELD(dmi_battery_t, location,                STRING),
+        DMI_FIELD(dmi_battery_t, vendor,                  STRING),
+        DMI_FIELD(dmi_battery_t, manufacture_date_string, STRING),
+        DMI_FIELD(dmi_battery_t, serial_number,           STRING),
+        DMI_FIELD(dmi_battery_t, name,                    STRING),
+        DMI_FIELD(dmi_battery_t, chemistry,               BYTE),
+        DMI_FIELD(dmi_battery_t, design_capacity,         WORD),
+        DMI_FIELD(dmi_battery_t, voltage,                 WORD),
+        DMI_FIELD(dmi_battery_t, sbds_version,            STRING),
+        DMI_FIELD(dmi_battery_t, maximum_error,           BYTE, .unknown_raw = 0xFFu),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 2, 0)),
         DMI_FIELD(dmi_battery_t, sbds_serial_number, WORD),
 
         // Batteries whose date is not written as a string carry it packed
-        DMI_FIELD_CUSTOM(dmi_battery_t, manufacture_date,
-                         .decode = dmi_battery_decode_sbds_date),
+        DMI_FIELD(dmi_battery_t, sbds_manufacture_date, WORD,
+                  .decode = dmi_battery_decode_sbds_date,
+                  .encode = dmi_battery_encode_sbds_date),
 
         DMI_FIELD(dmi_battery_t, sbds_chemistry, STRING),
 
-        // Capacity is carried in the units the factor names
-        DMI_FIELD_CUSTOM(dmi_battery_t, capacity,
-                         .decode = dmi_battery_decode_capacity_factor),
+        // Capacity is carried in the units the multiplier names, which the
+        // structures older than it leave as they are
+        DMI_FIELD_PRESET(dmi_battery_t, design_capacity_multiplier, (uint8_t)1),
+        DMI_FIELD(dmi_battery_t, design_capacity_multiplier, BYTE),
 
         DMI_FIELD(dmi_battery_t, oem_defined, DWORD),
         {}
@@ -144,5 +143,9 @@ const dmi_entity_spec_t dmi_battery_spec =
             .producer_severity = DMI_LINT_SEVERITY_WARNING
         }),
         {}
-    })
+    }),
+
+    .handlers = {
+        .derive = dmi_battery_derive
+    }
 };

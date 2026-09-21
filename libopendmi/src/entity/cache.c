@@ -40,7 +40,9 @@ const dmi_entity_spec_t dmi_cache_spec =
         DMI_FIELD(dmi_cache_t, socket_designator, STRING),
 
         // One word holding the configuration of the cache
-        DMI_FIELD_BITS(dmi_cache_t, level, 3, .convert = dmi_cache_convert_level),
+        DMI_FIELD_BITS(dmi_cache_t, level, 3,
+                       .decode = dmi_cache_decode_level,
+                       .encode = dmi_cache_encode_level),
         DMI_FIELD_BITS(dmi_cache_t, socketed, 1),
         DMI_FIELD_BITS_SKIP(1),
         DMI_FIELD_BITS(dmi_cache_t, location, 2),
@@ -51,8 +53,12 @@ const dmi_entity_spec_t dmi_cache_spec =
         // Sizes are carried in granules of one or of sixty-four kibibytes,
         // and the caches too large for a word carry them in the extended
         // fields instead
-        DMI_FIELD(dmi_cache_t, maximum_size,   WORD, .convert = dmi_cache_convert_size),
-        DMI_FIELD(dmi_cache_t, installed_size, WORD, .convert = dmi_cache_convert_size),
+        DMI_FIELD(dmi_cache_t, maximum_size, WORD,
+                  .decode = dmi_cache_decode_size,
+                  .encode = dmi_cache_encode_size),
+        DMI_FIELD(dmi_cache_t, installed_size, WORD,
+                  .decode = dmi_cache_decode_size,
+                  .encode = dmi_cache_encode_size),
 
         DMI_FIELD(dmi_cache_t, supported_sram, WORD),
         DMI_FIELD(dmi_cache_t, current_sram,   WORD),
@@ -66,10 +72,12 @@ const dmi_entity_spec_t dmi_cache_spec =
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 1, 0)),
         DMI_FIELD_EXTENDED(dmi_cache_t, maximum_size, DWORD,
                            .when_raw = 0xFFFFu,
-                           .convert  = dmi_cache_convert_size_ex),
+                           .decode   = dmi_cache_decode_size_ex,
+                           .encode   = dmi_cache_encode_size_ex),
         DMI_FIELD_EXTENDED(dmi_cache_t, installed_size, DWORD,
                            .when_raw = 0xFFFFu,
-                           .convert  = dmi_cache_convert_size_ex),
+                           .decode   = dmi_cache_decode_size_ex,
+                           .encode   = dmi_cache_encode_size_ex),
         {}
     }),
 

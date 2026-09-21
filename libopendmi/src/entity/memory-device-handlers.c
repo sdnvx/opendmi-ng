@@ -35,12 +35,52 @@ dmi_size_t dmi_memory_device_size_ex(uint32_t value)
 // Conversions the field engine applies, which take the values the way the
 // data carries them.
 //
-uintmax_t dmi_memory_device_convert_size(uintmax_t raw)
+bool dmi_memory_device_decode_size(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return dmi_memory_device_size((uint16_t)raw);
+    return dmi_field_set(field, value, dmi_memory_device_size((uint16_t)data->number));
 }
 
-uintmax_t dmi_memory_device_convert_size_ex(uintmax_t raw)
+bool dmi_memory_device_decode_size_ex(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return dmi_memory_device_size_ex((uint32_t)raw);
+    return dmi_field_set(field, value, dmi_memory_device_size_ex((uint32_t)data->number));
+}
+
+//
+// Sizes are written in megabytes whenever they fit, and in kilobytes
+// otherwise, the way the most significant bit of the field tells them apart.
+//
+bool dmi_memory_device_encode_size(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    uintmax_t size = dmi_field_get(field, value);
+
+    if (((size & 0xFFFFFu) == 0) and ((size >> 20) < 0x7FFFu))
+        data->number = size >> 20;
+    else
+        data->number = 0x8000u | ((size >> 10) & 0x7FFFu);
+
+    return true;
+}
+
+bool dmi_memory_device_encode_size_ex(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    uintmax_t size = dmi_field_get(field, value);
+
+    if (size == DMI_SIZE_MAX)
+        data->number = 0x80000000u;
+    else
+        data->number = (size >> 20) & 0x7FFFFFFFu;
+
+    return true;
 }

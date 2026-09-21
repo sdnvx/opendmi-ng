@@ -15,83 +15,77 @@
 #include <opendmi/entity/battery-internal.h>
 
 //
-// Manufacture date is written as a string, which the batteries carrying it in
-// the packed SBDS field leave unset.
+// SBDS date packs the year counted from 1980, the month and the day into one
+// word, and zero stands for no date.
 //
-bool dmi_battery_decode_date(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value)
+bool dmi_battery_decode_sbds_date(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
     dmi_unused(field);
 
-    const char *text = nullptr;
-
-    if (not dmi_stream_decode_str(dmi_entity_stream(entity), &text))
-        return false;
-
     dmi_date_t *date = value;
+    uintmax_t   raw  = data->number;
 
     *date = DMI_DATE_NONE;
 
-    if (text == nullptr)
+    if (raw != 0)
+        *date = dmi_date(((raw >> 9) & 0x7Fu) + 1980, (raw >> 5) & 0x0Fu, raw & 0x1Fu);
+
+    return true;
+}
+
+bool dmi_battery_encode_sbds_date(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    dmi_unused(field);
+
+    dmi_date_t date = *(const dmi_date_t *)value;
+
+    if (date == DMI_DATE_NONE) {
+        data->number = 0;
         return true;
-
-    *date = dmi_date_parse(text);
-
-    if (*date == DMI_DATE_NONE) {
-        dmi_log_warning(dmi_entity_context(entity),
-                        "Invalid battery manufacture date format: '%s'", text);
     }
 
-    return true;
-}
-
-//
-// SBDS date packs the year counted from 1980, the month and the day into one
-// word, and is used only by the batteries whose date string is not there.
-//
-bool dmi_battery_decode_sbds_date(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value)
-{
-    dmi_unused(field);
-
-    dmi_word_t raw = 0;
-
-    if (not dmi_stream_decode(dmi_entity_stream(entity), dmi_word_t, &raw))
-        return false;
-
-    dmi_date_t *date = value;
-
-    if ((*date != DMI_DATE_NONE) or (raw == 0))
-        return true;
-
-    *date = dmi_date(((raw >> 9) & 0x7Fu) + 1980, (raw >> 5) & 0x0Fu, raw & 0x1Fu);
+    data->number = (((dmi_date_year(date) - 1980u) & 0x7Fu) << 9) |
+                   ((dmi_date_month(date) & 0x0Fu) << 5) |
+                   (dmi_date_day(date) & 0x1Fu);
 
     return true;
 }
 
 //
-// Capacity is carried in the units the factor names, which is how a battery
-// too large for a word declares how much it holds.
+// Manufacture date is the one the string spells, or the SBDS one when the
+// string spells none, and the capacity is the design one times its
+// multiplier.
 //
-bool dmi_battery_decode_capacity_factor(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value)
+bool dmi_battery_derive(dmi_entity_t *entity)
 {
-    dmi_unused(field);
+    dmi_battery_t *info;
 
-    dmi_byte_t factor = 0;
-
-    if (not dmi_stream_decode(dmi_entity_stream(entity), dmi_byte_t, &factor))
+    info = dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+    if (info == nullptr)
         return false;
 
-    unsigned int *capacity = value;
+    info->manufacture_date = DMI_DATE_NONE;
 
-    *capacity *= factor;
+    if (info->manufacture_date_string != nullptr) {
+        info->manufacture_date = dmi_date_parse(info->manufacture_date_string);
+
+        if (info->manufacture_date == DMI_DATE_NONE) {
+            dmi_log_warning(dmi_entity_context(entity),
+                            "Invalid battery manufacture date format: '%s'",
+                            info->manufacture_date_string);
+        }
+    }
+
+    if (info->manufacture_date == DMI_DATE_NONE)
+        info->manufacture_date = info->sbds_manufacture_date;
+
+    info->capacity = (unsigned int)info->design_capacity * info->design_capacity_multiplier;
 
     return true;
 }

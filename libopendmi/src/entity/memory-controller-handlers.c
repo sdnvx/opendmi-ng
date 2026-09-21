@@ -16,9 +16,16 @@
 //
 // Module size is carried as the power of two it is a number of megabytes of.
 //
-uintmax_t dmi_memory_controller_convert_size(uintmax_t raw)
+bool dmi_memory_controller_decode_size(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return (uintmax_t)1 << (raw + 20);
+    // Powers too large for the member are not sizes of any module
+    if (data->number + 20 >= 63)
+        return dmi_field_set(field, value, UINTMAX_MAX);
+
+    return dmi_field_set(field, value, (uintmax_t)1 << (data->number + 20));
 }
 
 //
@@ -40,8 +47,9 @@ bool dmi_memory_controller_derive(dmi_entity_t *entity)
 
 //
 // Modules of a controller are linked by the attributes, and learn the
-// controller they belong to here, along with the largest size it supports,
-// which the sizes they declare are checked against.
+// controller they belong to here. The sizes they declare are checked against
+// the largest one the controller supports by the lint rules, since linking
+// leaves the members the data decodes into as they are.
 //
 bool dmi_memory_controller_link(dmi_entity_t *entity)
 {
@@ -67,18 +75,6 @@ bool dmi_memory_controller_link(dmi_entity_t *entity)
 
         // Bind memory controller to module
         module->controller = entity;
-
-        // Check module installed size value
-        if (module->installed_size.status == DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT) {
-            if (module->installed_size.value > info->maximum_module_size)
-                module->installed_size.status = DMI_MEMORY_MODULE_SIZE_STATUS_INVALID;
-        }
-
-        // Check module enabled size value
-        if (module->enabled_size.status == DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT) {
-            if (module->enabled_size.value > info->maximum_module_size)
-                module->enabled_size.status = DMI_MEMORY_MODULE_SIZE_STATUS_INVALID;
-        }
     }
 
     return true;
@@ -94,4 +90,24 @@ void dmi_memory_controller_cleanup(dmi_entity_t *entity)
 
     dmi_free(info->module_handles);
     dmi_free(info->modules);
+}
+
+//
+// Module size is written as the power of two it is a number of megabytes of,
+// which the widest size the member holds bounds.
+//
+bool dmi_memory_controller_encode_size(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    uintmax_t size  = dmi_field_get(field, value);
+    unsigned  power = 0;
+
+    while ((power + 20 < 63) and ((((uintmax_t)1) << (power + 20)) < size))
+        power++;
+
+    data->number = power;
+
+    return true;
 }

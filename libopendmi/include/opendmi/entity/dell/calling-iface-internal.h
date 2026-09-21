@@ -34,6 +34,7 @@
 // Operation handlers, see calling-iface-handlers.c
 extern const dmi_attribute_t dmi_dell_calling_iface_token_attrs[];
 bool dmi_dell_calling_iface_decode(dmi_entity_t *entity);
+bool dmi_dell_calling_iface_encode(dmi_encoder_t *encoder);
 void dmi_dell_calling_iface_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_CALLING_IFACE_INTERNAL_H

@@ -46,7 +46,8 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
         DMI_FIELD_PRESET(dmi_cooling_device_t, nominal_speed, (short)SHRT_MIN),
         DMI_FIELD_GROUP(),
         DMI_FIELD(dmi_cooling_device_t, nominal_speed, WORD,
-                  .convert = dmi_cooling_device_convert_speed),
+                  .decode = dmi_cooling_device_decode_speed,
+                  .encode = dmi_cooling_device_encode_speed),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
         DMI_FIELD(dmi_cooling_device_t, description, STRING),

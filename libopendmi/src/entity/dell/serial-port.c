@@ -27,7 +27,8 @@ const dmi_entity_spec_t dmi_dell_serial_port_spec =
         DMI_FIELD(dmi_dell_serial_port_t, connector,     BYTE),
         DMI_FIELD(dmi_dell_serial_port_t, capabilities,  BYTE),
         DMI_FIELD(dmi_dell_serial_port_t, maximum_speed, WORD,
-                  .convert = dmi_dell_serial_port_convert_speed),
+                  .decode = dmi_dell_serial_port_decode_speed,
+                  .encode = dmi_dell_serial_port_encode_speed),
         DMI_FIELD(dmi_dell_serial_port_t, security,      BYTE),
         {}
     }),

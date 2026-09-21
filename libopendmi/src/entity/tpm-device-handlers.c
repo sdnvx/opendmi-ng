@@ -15,25 +15,48 @@
 
 #include <opendmi/entity/tpm-device-internal.h>
 
-static void dmi_tpm_device_decode_vendor(dmi_entity_t *entity, dmi_tpm_device_t *info);
 
 //
-// Vendor identifier is four bytes of text, which the specification does not
-// terminate.
+// Vendor identifier is four bytes of text, which some firmware stores as a
+// little-endian double word, so that it starts with the terminating zero,
+// e.g. "\0XFI" for "IFX". Only printable characters are kept, and the
+// identifier ends at the first other.
 //
 bool dmi_tpm_device_decode_vendor_id(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value)
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
     dmi_unused(field);
 
-    char *vendor_id = value;
+    char *id = value;
 
-    if (not dmi_stream_read_data(dmi_entity_stream(entity), vendor_id, 4))
-        return false;
+    for (size_t i = 0; i < 4; i++)
+        id[i] = (char)((data->number >> (i * CHAR_BIT)) & 0xFFu);
 
-    vendor_id[4] = 0;
+    id[4] = 0;
+
+    if ((id[0] == 0) and (id[3] != 0)) {
+        if (data->entity != nullptr) {
+            dmi_context_t *context = dmi_entity_context(data->entity);
+
+            dmi_log_notice(context, "Handle 0x%04hx (%s): Vendor ID bytes are reversed",
+                           dmi_entity_handle(data->entity),
+                           dmi_type_name(context, dmi_entity_type(data->entity)));
+        }
+
+        for (size_t i = 0; i < 2; i++) {
+            char c    = id[i];
+            id[i]     = id[3 - i];
+            id[3 - i] = c;
+        }
+    }
+
+    size_t length = 0;
+    while ((length < 4) and (id[length] >= 0x20) and (id[length] < 0x7F))
+        length++;
+
+    id[length] = 0;
 
     return true;
 }
@@ -41,18 +64,24 @@ bool dmi_tpm_device_decode_vendor_id(
 //
 // Specification version is one byte of major and one of minor.
 //
-uintmax_t dmi_tpm_device_convert_version(uintmax_t raw)
+bool dmi_tpm_device_decode_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return dmi_version((unsigned int)(raw & 0xFFu), (unsigned int)((raw >> 8) & 0xFFu), 0);
+    return dmi_field_set(field, value, dmi_version((unsigned int)(data->number & 0xFFu), (unsigned int)((data->number >> 8) & 0xFFu), 0));
 }
 
 //
 // Firmware version is two double words, of which the first one is the more
 // significant half of the number they spell together.
 //
-uintmax_t dmi_tpm_device_convert_firmware_version(uintmax_t raw)
+bool dmi_tpm_device_decode_firmware_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return ((raw & 0xFFFFFFFFu) << 32) | ((raw >> 32) & 0xFFFFFFFFu);
+    return dmi_field_set(field, value, ((data->number & 0xFFFFFFFFu) << 32) | ((data->number >> 32) & 0xFFFFFFFFu));
 }
 
 //
@@ -67,7 +96,7 @@ bool dmi_tpm_device_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_tpm_device_decode_vendor(entity, info);
+    info->vendor = (info->vendor_id[0] != 0) ? info->vendor_id : nullptr;
 
     uint32_t firmware_version_1 = (uint32_t)(info->firmware_version >> 32);
     uint32_t firmware_version_2 = (uint32_t)(info->firmware_version & 0xFFFFFFFFu);
@@ -95,32 +124,43 @@ bool dmi_tpm_device_derive(dmi_entity_t *entity)
     return true;
 }
 
-static void dmi_tpm_device_decode_vendor(dmi_entity_t *entity, dmi_tpm_device_t *info)
+bool dmi_tpm_device_encode_vendor_id(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
 {
-    char *id = info->vendor_id;
+    dmi_unused(field);
 
-    dmi_context_t *context = dmi_entity_context(entity);
+    const char *vendor_id = value;
 
-    // Some firmware stores vendor identifier as a little-endian double word,
-    // so that it starts with the terminating zero, e.g. "\0XFI" for "IFX"
-    if ((id[0] == 0) and (id[3] != 0)) {
-        dmi_log_notice(context,
-                       "Handle 0x%04hx (%s): Vendor ID bytes are reversed",
-                       dmi_entity_handle(entity), dmi_type_name(context, entity->type));
+    data->number = 0;
 
-        for (size_t i = 0; i < 2; i++) {
-            char c = id[i];
-            id[i]     = id[3 - i];
-            id[3 - i] = c;
-        }
-    }
+    for (size_t i = 0; i < 4; i++)
+        data->number |= (uintmax_t)(dmi_byte_t)vendor_id[i] << (i * CHAR_BIT);
 
-    // Only printable characters are kept, identifier ends at the first other
-    size_t length = 0;
-    while ((length < 4) and (id[length] >= 0x20) and (id[length] < 0x7F))
-        length++;
+    return true;
+}
 
-    id[length] = 0;
+bool dmi_tpm_device_encode_version(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    dmi_version_t version = (dmi_version_t)dmi_field_get(field, value);
 
-    info->vendor = (length > 0) ? id : nullptr;
+    data->number = dmi_version_major(version) | (dmi_version_minor(version) << 8);
+
+    return true;
+}
+
+bool dmi_tpm_device_encode_firmware_version(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    uintmax_t version = dmi_field_get(field, value);
+
+    data->number = ((version & 0xFFFFFFFFu) << 32) | ((version >> 32) & 0xFFFFFFFFu);
+
+    return true;
 }

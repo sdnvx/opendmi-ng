@@ -23,8 +23,22 @@ extern const dmi_name_set_t dmi_memory_device_tech_names;
 
 // Sizes are carried in granules of their own, and in a field of the width the
 // plain one is too narrow for, see memory-device-handlers.c
-uintmax_t dmi_memory_device_convert_size(uintmax_t raw);
-uintmax_t dmi_memory_device_convert_size_ex(uintmax_t raw);
+bool dmi_memory_device_decode_size(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_memory_device_decode_size_ex(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_memory_device_encode_size(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_memory_device_encode_size_ex(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
 
 // Checks the lint rules of the specification perform, see memory-device-rules.c
 void dmi_memory_device_lint_extended_size(dmi_lint_t *lint, const dmi_entity_t *entity);

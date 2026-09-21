@@ -22,12 +22,16 @@ extern const dmi_name_set_t dmi_memory_module_error_names;
 
 // Operation handlers, see memory-module-handlers.c
 bool dmi_memory_module_decode_installed_size(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value);
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
 bool dmi_memory_module_decode_enabled_size(
-        dmi_entity_t      *entity,
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_memory_module_encode_size(
         const dmi_field_t *field,
-        void              *value);
+        const void        *value,
+        dmi_field_data_t  *data);
 
 #endif // !OPENDMI_ENTITY_MEMORY_MODULE_INTERNAL_H

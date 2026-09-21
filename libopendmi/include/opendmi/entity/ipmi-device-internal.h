@@ -40,12 +40,22 @@ extern const dmi_name_set_t dmi_ipmi_intr_trigger_names;
 extern const dmi_name_set_t dmi_ipmi_intr_polarity_names;
 
 // Operation handlers, see ipmi-device-handlers.c
-uintmax_t dmi_ipmi_device_convert_version(uintmax_t raw);
-bool dmi_ipmi_device_decode_details(
-        dmi_entity_t      *entity,
+bool dmi_ipmi_device_decode_version(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_ipmi_device_encode_version(
         const dmi_field_t *field,
-        void              *value);
-bool dmi_ipmi_device_derive(dmi_entity_t *entity);
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_ipmi_device_decode_address(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_ipmi_device_encode_address(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
 
 // Checks the lint rules of the specification perform, see ipmi-device-rules.c
 void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *entity);

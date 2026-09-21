@@ -48,8 +48,9 @@ const dmi_entity_spec_t dmi_onboard_device_ex_spec =
         DMI_FIELD_PAD(BYTE),
 
         DMI_FIELD(dmi_onboard_device_ex_t, instance, BYTE),
-        DMI_FIELD_CUSTOM(dmi_onboard_device_ex_t, address,
-                         .decode = dmi_onboard_device_ex_decode_pci_addr),
+        DMI_FIELD(dmi_onboard_device_ex_t, address, DWORD,
+                  .decode = dmi_pci_addr_decode,
+                  .encode = dmi_pci_addr_encode),
         {}
     }),
 

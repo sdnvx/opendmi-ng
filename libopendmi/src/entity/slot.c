@@ -44,7 +44,9 @@ const dmi_entity_spec_t dmi_slot_spec =
         DMI_FIELD(dmi_slot_t, features_ex, BYTE),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 6, 0)),
-        DMI_FIELD_CUSTOM(dmi_slot_t, base_address, .decode = dmi_slot_decode_pci_addr),
+        DMI_FIELD(dmi_slot_t, base_address, DWORD,
+                  .decode = dmi_pci_addr_decode,
+                  .encode = dmi_pci_addr_encode),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 2, 0)),
         DMI_FIELD(dmi_slot_t, base_bus_width, BYTE),
@@ -54,8 +56,9 @@ const dmi_entity_spec_t dmi_slot_spec =
         DMI_FIELD_ARRAY(dmi_slot_t, peer_groups, peer_group_count,
             .count_type = DMI_FIELD_TYPE_BYTE,
             .fields     = DMI_FIELDS({
-                DMI_FIELD_CUSTOM(dmi_slot_peer_group_t, address,
-                                 .decode = dmi_slot_decode_pci_addr),
+                DMI_FIELD(dmi_slot_peer_group_t, address, DWORD,
+                          .decode = dmi_pci_addr_decode,
+                          .encode = dmi_pci_addr_encode),
                 DMI_FIELD(dmi_slot_peer_group_t, bus_width, BYTE),
                 {}
             })),

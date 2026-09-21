@@ -140,7 +140,9 @@ const dmi_entity_spec_t dmi_processor_spec =
         DMI_FIELD(dmi_processor_t, version, STRING),
 
         // One byte holding either the current voltage or the ones supported
-        DMI_FIELD_SPLIT(dmi_processor_t, .decode = dmi_processor_decode_voltage),
+        DMI_FIELD_SPLIT(dmi_processor_t, BYTE,
+                        .decode = dmi_processor_decode_voltage,
+                        .encode = dmi_processor_encode_voltage),
 
         DMI_FIELD(dmi_processor_t, external_clock, WORD),
         DMI_FIELD(dmi_processor_t, maximum_speed,  WORD),

@@ -10,23 +10,22 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/entity/common.h>
 
-bool dmi_pci_addr_decode(dmi_stream_t *stream, dmi_pci_addr_t *addr)
+bool dmi_pci_addr_decode(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    assert(stream != nullptr);
-    assert(addr != nullptr);
+    assert(data != nullptr);
+    assert(value != nullptr);
 
-    uint16_t segment_group;
-    uint8_t bus_number, device_and_func_number;
+    dmi_unused(field);
 
-    bool status =
-        dmi_stream_decode(stream, dmi_word_t, &segment_group) and
-        dmi_stream_decode(stream, dmi_byte_t, &bus_number) and
-        dmi_stream_decode(stream, dmi_byte_t, &device_and_func_number);
+    dmi_pci_addr_t *addr = value;
 
-    if (not status)
-        return false;
+    uint8_t bus_number             = (uint8_t)((data->number >> 16) & 0xFFu);
+    uint8_t device_and_func_number = (uint8_t)((data->number >> 24) & 0xFFu);
 
-    addr->segment_group = segment_group;
+    addr->segment_group = (uint16_t)(data->number & 0xFFFFu);
     addr->bus_number    = bus_number;
 
     if (bus_number != UINT8_MAX) {
@@ -36,6 +35,33 @@ bool dmi_pci_addr_decode(dmi_stream_t *stream, dmi_pci_addr_t *addr)
         addr->device_number   = UINT8_MAX;
         addr->function_number = UINT8_MAX;
     }
+
+    return true;
+}
+
+bool dmi_pci_addr_encode(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    assert(value != nullptr);
+    assert(data != nullptr);
+
+    dmi_unused(field);
+
+    const dmi_pci_addr_t *addr = value;
+
+    // Addresses of no bus carry no device and function either
+    uintmax_t device_and_func_number = UINT8_MAX;
+
+    if (addr->bus_number != UINT8_MAX) {
+        device_and_func_number = ((addr->device_number & 0x1Fu) << 3) |
+                                 (addr->function_number & 0x07u);
+    }
+
+    data->number = addr->segment_group |
+                   ((uintmax_t)addr->bus_number << 16) |
+                   (device_and_func_number << 24);
 
     return true;
 }

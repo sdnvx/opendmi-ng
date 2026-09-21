@@ -23,7 +23,8 @@ const dmi_entity_spec_t dmi_dell_revisions_spec =
     .fields = DMI_FIELDS({
         // Major and minor numbers are one byte each, in this order
         DMI_FIELD(dmi_dell_revisions_t, impl_version, WORD,
-                  .convert = dmi_dell_revisions_convert_version),
+                  .decode = dmi_dell_revisions_decode_version,
+                  .encode = dmi_dell_revisions_encode_version),
 
         DMI_FIELD(dmi_dell_revisions_t, system_id,         BYTE),
         DMI_FIELD(dmi_dell_revisions_t, hardware_revision, BYTE),

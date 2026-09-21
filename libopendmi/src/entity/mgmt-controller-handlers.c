@@ -8,6 +8,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/log.h>
+#include <opendmi/encoder.h>
 #include <opendmi/internal.h>
 #include <opendmi/stream.h>
 #include <opendmi/lint.h>
@@ -428,4 +429,56 @@ void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
         dmi_free(info->proto_records[i].redfish.service_hostname);
 
     dmi_free(info->proto_records);
+}
+
+//
+// Interface data and protocol records are written as the structure holds
+// them, since the ways they are read again by their types are derived from
+// them. Protocol records are present since SMBIOS 3.2.
+//
+bool dmi_mgmt_controller_encode(dmi_encoder_t *encoder)
+{
+    const dmi_mgmt_controller_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    if (info == nullptr)
+        return false;
+
+    if (not dmi_encoder_put(encoder, dmi_byte_t, info->if_type))
+        return false;
+
+    // Interface data longer than the structure is not read at all, and the
+    // length the source data declares for it is kept
+    dmi_byte_t original = 0;
+
+    if ((info->if_data.length == 0) and dmi_encoder_peek(encoder, &original, sizeof(original)) and
+        (original > dmi_encoder_remaining(encoder) - sizeof(original)))
+        return dmi_encoder_put(encoder, dmi_byte_t, original);
+
+    bool status =
+        dmi_encoder_put(encoder, dmi_byte_t, info->if_data.length) and
+        dmi_encoder_write(encoder, info->if_data.data, info->if_data.length);
+    if (not status)
+        return false;
+
+    bool has_records = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
+                     ? (dmi_encoder_remaining(encoder) > 0)
+                     : (encoder->version >= DMI_VERSION(3, 2, 0));
+
+    if (not has_records)
+        return true;
+
+    if (not dmi_encoder_put(encoder, dmi_byte_t, info->proto_records_count))
+        return false;
+
+    for (size_t i = 0; i < info->proto_records_count; i++) {
+        const dmi_mgmt_proto_record_t *record = &info->proto_records[i];
+
+        status =
+            dmi_encoder_put(encoder, dmi_byte_t, record->type) and
+            dmi_encoder_put(encoder, dmi_byte_t, record->data.length) and
+            dmi_encoder_write(encoder, record->data.data, record->data.length);
+        if (not status)
+            return false;
+    }
+
+    return true;
 }

@@ -23,9 +23,30 @@ extern const dmi_name_set_t dmi_cache_location_names;
 extern const dmi_name_set_t dmi_cache_sram_type_names;
 
 // Operation handlers, see cache-handlers.c
-uintmax_t dmi_cache_convert_level(uintmax_t raw);
-uintmax_t dmi_cache_convert_size(uintmax_t raw);
-uintmax_t dmi_cache_convert_size_ex(uintmax_t raw);
+bool dmi_cache_decode_level(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_cache_decode_size(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_cache_decode_size_ex(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_cache_encode_level(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_cache_encode_size(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+bool dmi_cache_encode_size_ex(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
 
 // Checks the lint rules of the specification perform, see cache-rules.c
 void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity);

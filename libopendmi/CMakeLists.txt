@@ -47,6 +47,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/backend.h
     include/opendmi/context.h
     include/opendmi/defs.h
+    include/opendmi/encoder.h
     include/opendmi/entry.h
     include/opendmi/error.h
     include/opendmi/field.h
@@ -185,13 +186,14 @@ target_sources(opendmi-object
         src/attribute.c
         src/backend.c
         src/context.c
+        src/encoder.c
         src/entity.c
-        src/field.c
-        src/link.c
         src/entry.c
         src/error.c
+        src/field.c
         src/filter.c
         src/locale.c
+        src/link.c
         src/lint.c
         src/lint/entity.c
         src/lint/entry.c
@@ -280,6 +282,7 @@ target_sources(opendmi-object
         src/entity/memory-controller.c
         src/entity/memory-controller-handlers.c
         src/entity/memory-controller-names.c
+        src/entity/memory-controller-rules.c
         src/entity/memory-device.c
         src/entity/memory-device-handlers.c
         src/entity/memory-device-names.c
@@ -310,7 +313,6 @@ target_sources(opendmi-object
         src/entity/onboard-device-handlers.c
         src/entity/onboard-device-names.c
         src/entity/onboard-device-ex.c
-        src/entity/onboard-device-ex-handlers.c
         src/entity/onboard-device-ex-rules.c
         src/entity/oob-remote-access.c
         src/entity/oob-remote-access-names.c
@@ -329,7 +331,6 @@ target_sources(opendmi-object
         src/entity/processor-names.c
         src/entity/processor-rules.c
         src/entity/processor-ex.c
-        src/entity/processor-ex-handlers.c
         src/entity/processor-ex-names.c
         src/entity/slot.c
         src/entity/slot-handlers.c
@@ -659,10 +660,10 @@ install(
 # The test is registered as `<name>`, and its executable target is named
 # `<name>-test` with slashes replaced by dashes. The test is linked with the
 # shared library by default, or with the library target given in LIBRARY
-# (e.g. `opendmi-static`).
+# (e.g. `opendmi-static`), and is run with the arguments given in ARGS.
 #
 function(opendmi_test TEST_NAME)
-    cmake_parse_arguments(PARSE_ARGV 1 TEST "" "LIBRARY" "SOURCES")
+    cmake_parse_arguments(PARSE_ARGV 1 TEST "" "LIBRARY" "SOURCES;ARGS")
 
     string(REPLACE "/" "-" TEST_TARGET "${TEST_NAME}")
     string(APPEND TEST_TARGET "-test")
@@ -682,7 +683,7 @@ function(opendmi_test TEST_NAME)
 
     add_test(
         NAME ${TEST_NAME}
-        COMMAND ${TEST_TARGET}
+        COMMAND ${TEST_TARGET} ${TEST_ARGS}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     )
 
@@ -707,6 +708,13 @@ opendmi_test(dump SOURCES test/dump.c)
 opendmi_test(locale SOURCES test/locale.c)
 opendmi_test(lint SOURCES test/lint.c)
 opendmi_test(stream SOURCES test/stream.c)
+
+# Dumps of the corpus, which the encoder test writes back structure by
+# structure
+file(GLOB_RECURSE OPENDMI_TEST_DUMPS "${PROJECT_SOURCE_DIR}/../data/*.bin")
+list(SORT OPENDMI_TEST_DUMPS)
+
+opendmi_test(encoder SOURCES test/encoder.c ARGS ${OPENDMI_TEST_DUMPS})
 
 opendmi_test(utils/endian SOURCES test/utils/endian.c)
 opendmi_test(utils/codec SOURCES test/utils/codec.c)

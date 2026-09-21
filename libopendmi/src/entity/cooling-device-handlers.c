@@ -19,8 +19,20 @@
 // Speeds are carried in revolutions per minute, with the most significant bit
 // set aside, and the value of exactly 0x8000 stands for "unknown".
 //
-uintmax_t dmi_cooling_device_convert_speed(uintmax_t raw)
+bool dmi_cooling_device_decode_speed(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return (raw != 0x8000u) ? (raw & 0x7FFFu) : raw;
+    return dmi_field_set(field, value, (data->number != 0x8000u) ? (data->number & 0x7FFFu) : data->number);
 }
 
+bool dmi_cooling_device_encode_speed(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    data->number = dmi_field_get(field, value) & 0xFFFFu;
+
+    return true;
+}

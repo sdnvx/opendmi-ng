@@ -19,18 +19,14 @@
 // which the most significant bit of the field tells apart.
 //
 bool dmi_chassis_decode_element_type(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value)
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
     dmi_unused(field);
 
-    dmi_byte_t raw = 0;
-
-    if (not dmi_stream_decode(dmi_entity_stream(entity), dmi_byte_t, &raw))
-        return false;
-
     dmi_chassis_element_t *element = value;
+    dmi_byte_t             raw     = (dmi_byte_t)data->number;
 
     if (raw & 0x80u) {
         element->type       = raw & 0x7Fu;
@@ -47,9 +43,12 @@ bool dmi_chassis_decode_element_type(
 // Elements which may be there in any number carry a maximum of zero, which
 // the specification reserves for saying that there is no maximum.
 //
-uintmax_t dmi_chassis_convert_maximum_count(uintmax_t raw)
+bool dmi_chassis_decode_maximum_count(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
-    return (raw != 0) ? raw : UINTMAX_MAX;
+    return dmi_field_set(field, value, (data->number != 0) ? data->number : UINTMAX_MAX);
 }
 
 void dmi_chassis_cleanup(dmi_entity_t *entity)
@@ -61,4 +60,33 @@ void dmi_chassis_cleanup(dmi_entity_t *entity)
         return;
 
     dmi_free(info->elements);
+}
+
+bool dmi_chassis_encode_element_type(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    dmi_unused(field);
+
+    const dmi_chassis_element_t *element = value;
+
+    if (element->type != DMI_TYPE_INVALID)
+        data->number = 0x80u | ((unsigned)element->type & 0x7Fu);
+    else
+        data->number = (unsigned)element->board_type & 0x7Fu;
+
+    return true;
+}
+
+bool dmi_chassis_encode_maximum_count(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    uintmax_t count = dmi_field_get(field, value);
+
+    data->number = (count != UINTMAX_MAX) ? count : 0;
+
+    return true;
 }

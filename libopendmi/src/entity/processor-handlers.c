@@ -35,25 +35,51 @@ static bool dmi_processor_has_word(const char *str, const char *word);
 // supports, which the most significant bit of it tells apart.
 //
 bool dmi_processor_decode_voltage(
-        dmi_entity_t      *entity,
-        const dmi_field_t *field,
-        void              *value)
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
 {
     dmi_unused(field);
 
-    dmi_processor_voltage_data_t data = {};
-
-    if (not dmi_stream_decode(dmi_entity_stream(entity), dmi_byte_t, &data.__value))
-        return false;
-
     dmi_processor_t *info = value;
 
-    if (data.is_current) {
-        info->voltage = data.value;
+    dmi_processor_voltage_data_t voltage = {
+        .__value = (dmi_byte_t)data->number
+    };
+
+    if (voltage.is_current) {
+        info->voltage = voltage.value;
     } else {
-        info->supported_voltages.__value    = data.value;
+        info->supported_voltages.__value    = voltage.value;
         info->supported_voltages.__reserved = 0;
     }
+
+    return true;
+}
+
+//
+// Voltage is written as the current one whenever there is one, and as the
+// supported ones otherwise.
+//
+bool dmi_processor_encode_voltage(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    dmi_unused(field);
+
+    const dmi_processor_t *info = value;
+
+    dmi_processor_voltage_data_t voltage = {};
+
+    if (info->voltage != 0) {
+        voltage.is_current = 1;
+        voltage.value      = info->voltage & 0x7Fu;
+    } else {
+        voltage.value = info->supported_voltages.__value & 0x7Fu;
+    }
+
+    data->number = voltage.__value;
 
     return true;
 }

@@ -54,9 +54,17 @@ struct dmi_battery
     const char *vendor;
 
     /**
-     * @brief The date on which the battery was manufactured.
+     * @brief The date on which the battery was manufactured: the one the
+     * string of the structure spells, or the one of the SBDS field when the
+     * string spells none.
      */
     dmi_date_t manufacture_date;
+
+    /**
+     * @brief String that holds the manufacture date as the structure carries
+     * it, which is expected to read as `MM/DD/YY` or `MM/DD/YYYY`.
+     */
+    const char *manufacture_date_string;
 
     /**
      * @brief Number of the string that contains the serial number for the
@@ -75,10 +83,17 @@ struct dmi_battery
     dmi_battery_chemistry_t chemistry;
 
     /**
-     * @brief Design capacity of the battery in mWatt-hours. If the value is
-     * unknown, the field contains `0`.
+     * @brief Design capacity of the battery in mWatt-hours, which is the
+     * design capacity the structure carries times its multiplier. If the
+     * value is unknown, the field contains `0`.
      */
     unsigned int capacity;
+
+    /**
+     * @brief Design capacity as the structure carries it, in the units of
+     * `design_capacity_multiplier` mWatt-hours.
+     */
+    unsigned short design_capacity;
 
     /**
      * @brief Design voltage of the battery in mVolts. If the value is unknown,
@@ -111,11 +126,24 @@ struct dmi_battery
     uint16_t sbds_serial_number;
 
     /**
+     * @brief Date the battery was manufactured on, in the packed format of
+     * the Smart Battery Data Specification, which is used when the
+     * manufacture date string is not set.
+     */
+    dmi_date_t sbds_manufacture_date;
+
+    /**
      * @brief String that identifies the battery chemistry (for example,
      * "PbAc"). The device chemistry field must be set to `0x02` (Unknown) for
      * this field to be valid.
      */
     const char *sbds_chemistry;
+
+    /**
+     * @brief Multiplication factor of the design capacity, which is `1` for
+     * the structures carrying none.
+     */
+    uint8_t design_capacity_multiplier;
 
     /**
      * @brief Contains OEM- or firmware vendor-specific information.

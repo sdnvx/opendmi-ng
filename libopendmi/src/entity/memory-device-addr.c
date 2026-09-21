@@ -40,8 +40,12 @@ const dmi_entity_spec_t dmi_memory_device_addr_spec =
     .fields = DMI_FIELDS({
         // Addresses are carried in kilobytes, and the ranges which do not fit
         // into four bytes are carried by the extended fields instead
-        DMI_FIELD(dmi_memory_device_addr_t, start_addr, DWORD, .convert = dmi_field_kilobytes),
-        DMI_FIELD(dmi_memory_device_addr_t, end_addr,   DWORD, .convert = dmi_field_kilobytes),
+        DMI_FIELD(dmi_memory_device_addr_t, start_addr, DWORD,
+                  .decode = dmi_field_decode_kilobytes,
+                  .encode = dmi_field_encode_kilobytes),
+        DMI_FIELD(dmi_memory_device_addr_t, end_addr, DWORD,
+                  .decode = dmi_field_decode_kilobytes,
+                  .encode = dmi_field_encode_kilobytes),
 
         DMI_FIELD(dmi_memory_device_addr_t, device_handle,     WORD),
         DMI_FIELD(dmi_memory_device_addr_t, array_addr_handle, WORD),

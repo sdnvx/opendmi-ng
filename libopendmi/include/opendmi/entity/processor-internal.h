@@ -41,9 +41,13 @@ extern const dmi_name_set_t dmi_processor_x86_feature_names;
 
 // Operation handlers, see processor-handlers.c
 bool dmi_processor_decode_voltage(
-        dmi_entity_t      *entity,
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_processor_encode_voltage(
         const dmi_field_t *field,
-        void              *value);
+        const void        *value,
+        dmi_field_data_t  *data);
 bool dmi_processor_derive(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see processor-rules.c

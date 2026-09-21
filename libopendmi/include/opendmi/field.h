@@ -10,6 +10,7 @@
 #pragma once
 
 #include <opendmi/types.h>
+#include <opendmi/encoder.h>
 #include <opendmi/stream.h>
 #include <opendmi/utils/version.h>
 
@@ -75,11 +76,6 @@ typedef enum dmi_field_type
      */
     DMI_FIELD_TYPE_ARRAY,
 
-    /**
-     * @brief Field read and written by the handlers of the field itself,
-     * which is how the layouts the declaration cannot describe are decoded.
-     */
-    DMI_FIELD_TYPE_CUSTOM,
 
     /**
      * @brief Range of the bits of a byte, a word or a wider unit, which
@@ -123,15 +119,6 @@ typedef enum dmi_field_type
 } dmi_field_type_t;
 
 /**
- * @brief Convert the value read from the data into the one the member holds.
- *
- * @param[in] raw Value as the data carries it.
- *
- * @return Value as the decoded structure holds it.
- */
-typedef uintmax_t dmi_field_convert_fn(uintmax_t raw);
-
-/**
  * @brief Widths of the units the ranges of bits share, in bits.
  */
 #define DMI_FIELD_UNIT_BYTE   8
@@ -140,20 +127,89 @@ typedef uintmax_t dmi_field_convert_fn(uintmax_t raw);
 #define DMI_FIELD_UNIT_QWORD 64
 
 /**
- * @brief Read a field from the data being decoded.
+ * @brief Data a field carries, as the engine reads and writes it.
  *
- * @param[in,out] entity Structure being decoded.
- * @param[in]     field  Field being read.
- * @param[out]    value  Pointer to the member of the decoded structure, or
- *                       @c nullptr if the field has no member of its own.
+ * Handlers of a field deal with values rather than with the bytes of the
+ * structure: the engine reads the bytes the field occupies, resolves the
+ * string a string field refers to, and writes them back, so that a handler
+ * says only what the value means for the decoded structure.
+ */
+typedef struct dmi_field_data
+{
+    /**
+     * @brief Structure the field belongs to, which a decoding handler reports
+     * the values it cannot make sense of against, or @c nullptr when the
+     * value is decoded to be compared rather than kept, and nothing is to be
+     * reported.
+     */
+    const dmi_entity_t *entity;
+
+    /**
+     * @brief Value of an integer field or of a range of bits.
+     */
+    uintmax_t number;
+
+    /**
+     * @brief String a string field refers to, or @c nullptr if it refers to
+     * none.
+     */
+    const char *string;
+
+    /**
+     * @brief Bytes of a binary field.
+     */
+    dmi_binary_t binary;
+
+    /**
+     * @brief Storage for the text or the bytes an encoding handler makes up,
+     * e.g. a date, which `string` or `binary` points at.
+     */
+    dmi_byte_t buffer[32];
+} dmi_field_data_t;
+
+/**
+ * @brief Decode the data a field carries into the member of the decoded
+ * structure, or into the members of the structure a split field names.
  *
- * @return `true` if the field has been read, `false` if the data ends before
- *         it does.
+ * The members a handler writes are a function of the data alone: whatever
+ * combines several fields is derived once all of them have been read, see
+ * `dmi_entity_ops_t::derive`, and goes into the members no field decodes into.
+ * This is what lets the encoder tell whether the data it has decodes into the
+ * value the structure holds.
+ *
+ * @param[in]  field Field being decoded.
+ * @param[in]  data  Data the field carries.
+ * @param[out] value Member the field decodes into, or the structure a split
+ *                   field names.
+ *
+ * @return `true` if the data has been decoded, `false` otherwise.
  */
 typedef bool dmi_field_decode_fn(
-        dmi_entity_t       *entity,
-        const dmi_field_t  *field,
-        void               *value);
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+
+/**
+ * @brief Encode the member of the decoded structure into the data a field
+ * carries, which undoes the decoding handler of the field.
+ *
+ * The data written is the one the specification spells the value with. The
+ * encoder keeps the data the source has whenever it decodes into the same
+ * value, so that a handler has no need to tell the ways a value may be
+ * spelled apart.
+ *
+ * @param[in]  field Field being encoded.
+ * @param[in]  value Member the field has been decoded into, or the structure
+ *                   a split field names.
+ * @param[out] data  Data the field is to carry.
+ *
+ * @return `true` if the value has been encoded, `false` if the field cannot
+ *         carry it.
+ */
+typedef bool dmi_field_encode_fn(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
 
 /**
  * @brief Parameters of a field.
@@ -211,11 +267,6 @@ struct dmi_field_params
      */
     dmi_member_ref_t when;
 
-    /**
-     * @brief Conversion of the value read from the data into the one the
-     * member holds, e.g. of a size in granules into a size in bytes.
-     */
-    dmi_field_convert_fn *convert;
 
     /**
      * @brief Width of a range of bits, or of the unit the bits before a
@@ -292,10 +343,16 @@ struct dmi_field_params
     const dmi_field_t *fields;
 
     /**
-     * @brief Handler reading the field, which the fields of the
-     * `DMI_FIELD_TYPE_CUSTOM` type are read by.
+     * @brief Handler decoding the data the field carries into its member,
+     * which stores the data as it is when left unset.
      */
     dmi_field_decode_fn *decode;
+
+    /**
+     * @brief Handler encoding the member back into the data, which undoes
+     * `decode` and is required along with it for the field to be encoded.
+     */
+    dmi_field_encode_fn *encode;
 
     /**
      * @brief Field carries the value of a member the plain field before it is
@@ -458,6 +515,12 @@ struct dmi_field
 #define DMI_FIELD_LENGTH_REST SIZE_MAX
 
 /**
+ * @brief Length of a binary field which the member holds already, because a
+ * field before it carries the length.
+ */
+#define DMI_FIELD_LENGTH_MEMBER (SIZE_MAX - 1)
+
+/**
  * @brief Bytes the structure holds and nothing reads, which are stepped over.
  */
 #define DMI_FIELD_SKIP(__length)             \
@@ -470,11 +533,11 @@ struct dmi_field
 /**
  * @brief Bytes taken as they are, which the member refers to in place.
  */
-#define DMI_FIELD_BINARY(__entity, __member, __length)  \
-    {                                                   \
-        .member = dmi_member(__entity, __member),       \
-        .type   = DMI_FIELD_TYPE_BINARY,                \
-        .params = { .length = (__length) }              \
+#define DMI_FIELD_BINARY(__entity, __member, __length, ...)   \
+    {                                                        \
+        .member = dmi_member(__entity, __member),            \
+        .type   = DMI_FIELD_TYPE_BINARY,                     \
+        .params = { .length = (__length), __VA_ARGS__ }      \
     }
 
 /**
@@ -497,29 +560,19 @@ struct dmi_field
     }
 
 /**
- * @brief Field whose handler is given the whole structure being decoded
- * rather than one member of it, which is how the fields feeding several
- * members at once are read.
+ * @brief Field whose handlers are given the whole structure being decoded
+ * rather than one member of it, which is how the data feeding several
+ * members at once is decoded.
  *
  * @p __structure is the type the fields belong to: the decoded structure for
  * the fields of a specification, and the element type for the fields of an
- * array.
+ * array. @p __type is the type of the data the field carries.
  */
-#define DMI_FIELD_SPLIT(__structure, ...)          \
+#define DMI_FIELD_SPLIT(__structure, __type, ...)  \
     {                                              \
         .member = { .size = sizeof(__structure) }, \
-        .type   = DMI_FIELD_TYPE_CUSTOM,           \
+        .type   = DMI_FIELD_TYPE_ ## __type,       \
         .params = { __VA_ARGS__ }                  \
-    }
-
-/**
- * @brief Field read by a handler of its own.
- */
-#define DMI_FIELD_CUSTOM(__entity, __member, ...) \
-    {                                             \
-        .member = dmi_member(__entity, __member), \
-        .type   = DMI_FIELD_TYPE_CUSTOM,          \
-        .params = { __VA_ARGS__ }                 \
     }
 
 /**
@@ -592,6 +645,29 @@ __BEGIN_DECLS
 __dmi_api bool dmi_fields_decode(dmi_entity_t *entity);
 
 /**
+ * @brief Encode a structure according to the fields of its specification.
+ *
+ * Fields are written in the order they are declared, after the header the
+ * encoder has written, and every value the decoded structure holds is written
+ * from the structure, undoing the conversions it has been decoded with. How
+ * the bytes the model does not hold are written is up to the mode of the
+ * encoder, see `dmi_encode_mode_t`: in the preserve mode, encoding a structure
+ * which has not been changed gives back the bytes it has been decoded from.
+ *
+ * @param[in,out] encoder Encoder of the structure, see
+ *                        `dmi_encoder_initialize()`.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
+ * @error DMI_ERROR_INVALID_STATE Specification declares no fields, or a field
+ *        it cannot write back, e.g. a conversion without the one undoing it
+ * @error DMI_ERROR_INTERNAL Fields reach another offset than the one declared
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
+ *
+ * @return `true` if the structure has been encoded, `false` otherwise.
+ */
+__dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
+
+/**
  * @brief Get the number of the bytes a field occupies on the wire.
  *
  * Fields of the types which have no fixed width, such as arrays, occupy no
@@ -604,15 +680,45 @@ __dmi_api bool dmi_fields_decode(dmi_entity_t *entity);
 __dmi_api size_t dmi_field_type_size(dmi_field_type_t type);
 
 /**
- * @brief Convert a value carried in kilobytes into the number of the bytes it
+ * @brief Decode a value carried in kilobytes into the number of the bytes it
  * stands for, which is how the specification writes the sizes and the
  * addresses the fields of a structure are too narrow for.
- *
- * @param[in] raw Number of the kilobytes.
- *
- * @return Number of the bytes.
  */
-__dmi_api uintmax_t dmi_field_kilobytes(uintmax_t raw);
+__dmi_api bool dmi_field_decode_kilobytes(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+
+/**
+ * @brief Encode a number of the bytes into the kilobytes a field carries,
+ * which undoes `dmi_field_decode_kilobytes()`.
+ */
+__dmi_api bool dmi_field_encode_kilobytes(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+
+/**
+ * @brief Get the value of the integer member of a field.
+ *
+ * @param[in] field Field whose member is read.
+ * @param[in] value Member of the field.
+ *
+ * @return Value of the member.
+ */
+__dmi_api uintmax_t dmi_field_get(const dmi_field_t *field, const void *value);
+
+/**
+ * @brief Set the value of the integer member of a field, which may be wider
+ * than the data the field carries.
+ *
+ * @param[in]  field  Field whose member is written.
+ * @param[out] value  Member of the field.
+ * @param[in]  number Value to set.
+ *
+ * @return `true` on success, `false` if the member is not an integer.
+ */
+__dmi_api bool dmi_field_set(const dmi_field_t *field, void *value, uintmax_t number);
 
 __END_DECLS
 
