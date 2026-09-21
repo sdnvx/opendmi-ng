@@ -22,20 +22,20 @@ const dmi_entity_spec_t dmi_dell_revisions_spec =
 
     .fields = DMI_FIELDS({
         // Major and minor numbers are one byte each, in this order
-        DMI_FIELD(dmi_dell_revisions_t, impl_version, WORD,
+        DMI_FIELD(dmi_dell_revisions_t, impl_version, dmi_word_t,
                   .decode = dmi_dell_revisions_decode_version,
                   .encode = dmi_dell_revisions_encode_version),
 
-        DMI_FIELD(dmi_dell_revisions_t, system_id,         BYTE),
-        DMI_FIELD(dmi_dell_revisions_t, hardware_revision, BYTE),
+        DMI_FIELD(dmi_dell_revisions_t, system_id,         dmi_byte_t),
+        DMI_FIELD(dmi_dell_revisions_t, hardware_revision, dmi_byte_t),
 
         // Systems whose identifier does not fit into one byte carry it here
         DMI_FIELD_GROUP(),
-        DMI_FIELD_EXTENDED(dmi_dell_revisions_t, system_id, WORD, .when_raw = 0xFEu),
+        DMI_FIELD_EXTENDED(dmi_dell_revisions_t, system_id, dmi_word_t, .when_raw = 0xFEu),
 
         DMI_FIELD_GROUP(),
-        DMI_FIELD(dmi_dell_revisions_t, manufacture_date,   STRING),
-        DMI_FIELD(dmi_dell_revisions_t, first_poweron_date, STRING),
+        DMI_FIELD_STRING(dmi_dell_revisions_t, manufacture_date),
+        DMI_FIELD_STRING(dmi_dell_revisions_t, first_poweron_date),
         {}
     }),
 

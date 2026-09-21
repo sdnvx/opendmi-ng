@@ -32,44 +32,44 @@ const dmi_entity_spec_t dmi_slot_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_slot_t, designator, STRING),
-        DMI_FIELD(dmi_slot_t, type,       BYTE),
-        DMI_FIELD(dmi_slot_t, bus_width,  BYTE),
-        DMI_FIELD(dmi_slot_t, usage,      BYTE),
-        DMI_FIELD(dmi_slot_t, length,     BYTE),
-        DMI_FIELD(dmi_slot_t, ident,      WORD),
-        DMI_FIELD(dmi_slot_t, features,   BYTE),
+        DMI_FIELD_STRING(dmi_slot_t, designator),
+        DMI_FIELD(dmi_slot_t, type,      dmi_byte_t),
+        DMI_FIELD(dmi_slot_t, bus_width, dmi_byte_t),
+        DMI_FIELD(dmi_slot_t, usage,     dmi_byte_t),
+        DMI_FIELD(dmi_slot_t, length,    dmi_byte_t),
+        DMI_FIELD(dmi_slot_t, ident,     dmi_word_t),
+        DMI_FIELD(dmi_slot_t, features,  dmi_byte_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
-        DMI_FIELD(dmi_slot_t, features_ex, BYTE),
+        DMI_FIELD(dmi_slot_t, features_ex, dmi_byte_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 6, 0)),
-        DMI_FIELD(dmi_slot_t, base_address, DWORD,
+        DMI_FIELD(dmi_slot_t, base_address, dmi_dword_t,
                   .decode = dmi_pci_addr_decode,
                   .encode = dmi_pci_addr_encode),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 2, 0)),
-        DMI_FIELD(dmi_slot_t, base_bus_width, BYTE),
+        DMI_FIELD(dmi_slot_t, base_bus_width, dmi_byte_t),
 
         // Peer grouping: a PCI address and the width of the bus of the peer
         // device, which the slot shares its bandwidth with
         DMI_FIELD_ARRAY(dmi_slot_t, peer_groups, peer_group_count,
-            .count_type = DMI_FIELD_TYPE_BYTE,
-            .fields     = DMI_FIELDS({
-                DMI_FIELD(dmi_slot_peer_group_t, address, DWORD,
+            .count_length = sizeof(dmi_byte_t),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD(dmi_slot_peer_group_t, address, dmi_dword_t,
                           .decode = dmi_pci_addr_decode,
                           .encode = dmi_pci_addr_encode),
-                DMI_FIELD(dmi_slot_peer_group_t, bus_width, BYTE),
+                DMI_FIELD(dmi_slot_peer_group_t, bus_width, dmi_byte_t),
                 {}
             })),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 4, 0)),
-        DMI_FIELD(dmi_slot_t, information,    BYTE),
-        DMI_FIELD(dmi_slot_t, physical_width, BYTE),
-        DMI_FIELD(dmi_slot_t, pitch,          WORD),
+        DMI_FIELD(dmi_slot_t, information,    dmi_byte_t),
+        DMI_FIELD(dmi_slot_t, physical_width, dmi_byte_t),
+        DMI_FIELD(dmi_slot_t, pitch,          dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 5, 0)),
-        DMI_FIELD(dmi_slot_t, height, BYTE),
+        DMI_FIELD(dmi_slot_t, height, dmi_byte_t),
         {}
     }),
 

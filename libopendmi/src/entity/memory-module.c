@@ -42,26 +42,26 @@ const dmi_entity_spec_t dmi_memory_module_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_memory_module_t, socket, STRING),
+        DMI_FIELD_STRING(dmi_memory_module_t, socket),
 
         // One byte holding the two banks the module connects to
         DMI_FIELD_BITS(dmi_memory_module_t, bank_connections[0], 4),
         DMI_FIELD_BITS(dmi_memory_module_t, bank_connections[1], 4),
-        DMI_FIELD_PAD(BYTE),
+        DMI_FIELD_PAD(dmi_byte_t),
 
-        DMI_FIELD(dmi_memory_module_t, current_speed, BYTE),
-        DMI_FIELD(dmi_memory_module_t, current_type,  WORD),
+        DMI_FIELD(dmi_memory_module_t, current_speed, dmi_byte_t),
+        DMI_FIELD(dmi_memory_module_t, current_type,  dmi_word_t),
 
         // Sizes are carried as the power of two they are a number of
         // megabytes of, together with the flags of the module
-        DMI_FIELD(dmi_memory_module_t, installed_size, BYTE,
+        DMI_FIELD(dmi_memory_module_t, installed_size, dmi_byte_t,
                   .decode = dmi_memory_module_decode_installed_size,
                   .encode = dmi_memory_module_encode_size),
-        DMI_FIELD(dmi_memory_module_t, enabled_size, BYTE,
+        DMI_FIELD(dmi_memory_module_t, enabled_size, dmi_byte_t,
                   .decode = dmi_memory_module_decode_enabled_size,
                   .encode = dmi_memory_module_encode_size),
 
-        DMI_FIELD(dmi_memory_module_t, error_status, BYTE),
+        DMI_FIELD(dmi_memory_module_t, error_status, dmi_byte_t),
         {}
     }),
 

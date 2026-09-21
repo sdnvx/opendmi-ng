@@ -40,57 +40,57 @@ const dmi_entity_spec_t dmi_chassis_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_chassis_t, vendor, STRING),
+        DMI_FIELD_STRING(dmi_chassis_t, vendor),
 
         // One byte holding the type of the chassis and whether it is locked
         DMI_FIELD_BITS(dmi_chassis_t, type,            7),
         DMI_FIELD_BITS(dmi_chassis_t, is_lock_present, 1),
-        DMI_FIELD_PAD(BYTE),
+        DMI_FIELD_PAD(dmi_byte_t),
 
-        DMI_FIELD(dmi_chassis_t, version,       STRING),
-        DMI_FIELD(dmi_chassis_t, serial_number, STRING),
-        DMI_FIELD(dmi_chassis_t, asset_tag,     STRING),
+        DMI_FIELD_STRING(dmi_chassis_t, version),
+        DMI_FIELD_STRING(dmi_chassis_t, serial_number),
+        DMI_FIELD_STRING(dmi_chassis_t, asset_tag),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
-        DMI_FIELD(dmi_chassis_t, bootup_state,       BYTE),
-        DMI_FIELD(dmi_chassis_t, power_supply_state, BYTE),
-        DMI_FIELD(dmi_chassis_t, thermal_state,      BYTE),
-        DMI_FIELD(dmi_chassis_t, security_status,    BYTE),
+        DMI_FIELD(dmi_chassis_t, bootup_state,       dmi_byte_t),
+        DMI_FIELD(dmi_chassis_t, power_supply_state, dmi_byte_t),
+        DMI_FIELD(dmi_chassis_t, thermal_state,      dmi_byte_t),
+        DMI_FIELD(dmi_chassis_t, security_status,    dmi_byte_t),
 
         // Fields of SMBIOS 2.3 are grouped the way dmidecode groups them
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 3, 0)),
-        DMI_FIELD(dmi_chassis_t, oem_defined, DWORD),
+        DMI_FIELD(dmi_chassis_t, oem_defined, dmi_dword_t),
 
         DMI_FIELD_GROUP(),
-        DMI_FIELD(dmi_chassis_t, height,           BYTE),
-        DMI_FIELD(dmi_chassis_t, power_cord_count, BYTE),
+        DMI_FIELD(dmi_chassis_t, height,           dmi_byte_t),
+        DMI_FIELD(dmi_chassis_t, power_cord_count, dmi_byte_t),
 
         DMI_FIELD_GROUP(),
         DMI_FIELD_ARRAY(dmi_chassis_t, elements, element_count,
-            .count_type     = DMI_FIELD_TYPE_BYTE,
-            .stride_type    = DMI_FIELD_TYPE_BYTE,
+            .count_length   = sizeof(dmi_byte_t),
+            .stride_length  = sizeof(dmi_byte_t),
             .stride_minimum = 3 * sizeof(dmi_byte_t),
             .stride_member  = dmi_member(dmi_chassis_t, element_size),
             .fields         = DMI_FIELDS({
                 // Element is named by either a structure type or a baseboard
                 // type, which the most significant bit tells apart
-                DMI_FIELD_SPLIT(dmi_chassis_element_t, BYTE,
+                DMI_FIELD_SPLIT(dmi_chassis_element_t, dmi_byte_t,
                                 .decode = dmi_chassis_decode_element_type,
                                 .encode = dmi_chassis_encode_element_type),
 
-                DMI_FIELD(dmi_chassis_element_t, minimum_count, BYTE, .unknown_raw = 0xFFu),
-                DMI_FIELD(dmi_chassis_element_t, maximum_count, BYTE,
+                DMI_FIELD(dmi_chassis_element_t, minimum_count, dmi_byte_t, .unknown_raw = 0xFFu),
+                DMI_FIELD(dmi_chassis_element_t, maximum_count, dmi_byte_t,
                           .decode = dmi_chassis_decode_maximum_count,
                           .encode = dmi_chassis_encode_maximum_count),
                 {}
             })),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
-        DMI_FIELD(dmi_chassis_t, sku_number, STRING),
+        DMI_FIELD_STRING(dmi_chassis_t, sku_number),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 9, 0)),
-        DMI_FIELD(dmi_chassis_t, rack_type,   BYTE),
-        DMI_FIELD(dmi_chassis_t, rack_height, BYTE),
+        DMI_FIELD(dmi_chassis_t, rack_type,   dmi_byte_t),
+        DMI_FIELD(dmi_chassis_t, rack_height, dmi_byte_t),
         {}
     }),
 

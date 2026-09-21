@@ -23,18 +23,18 @@ const dmi_entity_spec_t dmi_intel_rsd_network_card_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_intel_rsd_network_card_t, pci_class,        BYTE),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, pci_slot_id,      WORD),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, vendor_id,        WORD),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, device_id,        WORD),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, sub_vendor_id,    WORD),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, sub_device_id,    WORD),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, maximum_speed,    DWORD),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, current_speed,    DWORD),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, port_index,       WORD),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, pci_class,     dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, pci_slot_id,   dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, vendor_id,     dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, device_id,     dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, sub_vendor_id, dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, sub_device_id, dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, maximum_speed, dmi_dword_t),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, current_speed, dmi_dword_t),
+        DMI_FIELD(dmi_intel_rsd_network_card_t, port_index,    dmi_word_t),
         DMI_FIELD_BINARY(dmi_intel_rsd_network_card_t, mac_address,
                          DMI_INTEL_RSD_MAC_ADDRESS_LENGTH),
-        DMI_FIELD(dmi_intel_rsd_network_card_t, firmware_version, STRING),
+        DMI_FIELD_STRING(dmi_intel_rsd_network_card_t, firmware_version),
         {}
     }),
 

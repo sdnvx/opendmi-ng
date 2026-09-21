@@ -33,24 +33,24 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_cooling_device_t, probe_handle, WORD),
+        DMI_FIELD(dmi_cooling_device_t, probe_handle, dmi_word_t),
 
         DMI_FIELD_BITS(dmi_cooling_device_t, type,   5),
         DMI_FIELD_BITS(dmi_cooling_device_t, status, 3),
-        DMI_FIELD_PAD(BYTE),
+        DMI_FIELD_PAD(dmi_byte_t),
 
-        DMI_FIELD(dmi_cooling_device_t, group,       BYTE),
-        DMI_FIELD(dmi_cooling_device_t, oem_defined, DWORD),
+        DMI_FIELD(dmi_cooling_device_t, group,       dmi_byte_t),
+        DMI_FIELD(dmi_cooling_device_t, oem_defined, dmi_dword_t),
 
         // Devices which read nothing of their own carry no speed
         DMI_FIELD_PRESET(dmi_cooling_device_t, nominal_speed, (short)SHRT_MIN),
         DMI_FIELD_GROUP(),
-        DMI_FIELD(dmi_cooling_device_t, nominal_speed, WORD,
+        DMI_FIELD(dmi_cooling_device_t, nominal_speed, dmi_word_t,
                   .decode = dmi_cooling_device_decode_speed,
                   .encode = dmi_cooling_device_encode_speed),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
-        DMI_FIELD(dmi_cooling_device_t, description, STRING),
+        DMI_FIELD_STRING(dmi_cooling_device_t, description),
         {}
     }),
 

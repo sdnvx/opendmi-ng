@@ -22,13 +22,13 @@ const dmi_entity_spec_t dmi_intel_rsd_memory_device_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_intel_rsd_memory_device_t, device_handle,        WORD),
-        DMI_FIELD(dmi_intel_rsd_memory_device_t, memory_type,          BYTE),
-        DMI_FIELD(dmi_intel_rsd_memory_device_t, memory_media,         BYTE),
-        DMI_FIELD(dmi_intel_rsd_memory_device_t, firmware_revision,    STRING),
-        DMI_FIELD(dmi_intel_rsd_memory_device_t, firmware_api_version, STRING),
-        DMI_FIELD(dmi_intel_rsd_memory_device_t, maximum_tdp,          DWORD),
-        DMI_FIELD(dmi_intel_rsd_memory_device_t, smbus_address,        BYTE),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, device_handle, dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, memory_type,   dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, memory_media,  dmi_byte_t),
+        DMI_FIELD_STRING(dmi_intel_rsd_memory_device_t, firmware_revision),
+        DMI_FIELD_STRING(dmi_intel_rsd_memory_device_t, firmware_api_version),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, maximum_tdp,   dmi_dword_t),
+        DMI_FIELD(dmi_intel_rsd_memory_device_t, smbus_address, dmi_byte_t),
         {}
     }),
 

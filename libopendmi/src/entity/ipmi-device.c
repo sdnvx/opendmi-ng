@@ -34,26 +34,25 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_ipmi_device_t, interface_type, BYTE),
+        DMI_FIELD(dmi_ipmi_device_t, interface_type, dmi_byte_t),
 
         // Revision is one nibble of major and one of minor
-        DMI_FIELD(dmi_ipmi_device_t, spec_version, BYTE,
+        DMI_FIELD(dmi_ipmi_device_t, spec_version, dmi_byte_t,
                   .decode = dmi_ipmi_device_decode_version,
                   .encode = dmi_ipmi_device_encode_version),
 
-        DMI_FIELD(dmi_ipmi_device_t, i2c_target_addr, BYTE),
-        DMI_FIELD(dmi_ipmi_device_t, nv_storage_addr, BYTE),
+        DMI_FIELD(dmi_ipmi_device_t, i2c_target_addr, dmi_byte_t),
+        DMI_FIELD(dmi_ipmi_device_t, nv_storage_addr, dmi_byte_t),
 
         // Base address and the byte after it, which holds the modifier of the
         // address along with the interrupt information: the address means
         // what the interface type and the modifier say it does, so the two
         // are read as one
-        DMI_FIELD_SPLIT(dmi_ipmi_device_t, BINARY,
-                        .length = sizeof(dmi_qword_t) + sizeof(dmi_byte_t),
-                        .decode = dmi_ipmi_device_decode_address,
-                        .encode = dmi_ipmi_device_encode_address),
+        DMI_FIELD_SPLIT_BINARY(dmi_ipmi_device_t, sizeof(dmi_qword_t) + sizeof(dmi_byte_t),
+                               .decode = dmi_ipmi_device_decode_address,
+                               .encode = dmi_ipmi_device_encode_address),
 
-        DMI_FIELD(dmi_ipmi_device_t, intr_number, BYTE),
+        DMI_FIELD(dmi_ipmi_device_t, intr_number, dmi_byte_t),
         {}
     }),
 

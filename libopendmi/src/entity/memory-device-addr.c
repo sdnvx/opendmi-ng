@@ -40,24 +40,24 @@ const dmi_entity_spec_t dmi_memory_device_addr_spec =
     .fields = DMI_FIELDS({
         // Addresses are carried in kilobytes, and the ranges which do not fit
         // into four bytes are carried by the extended fields instead
-        DMI_FIELD(dmi_memory_device_addr_t, start_addr, DWORD,
+        DMI_FIELD(dmi_memory_device_addr_t, start_addr, dmi_dword_t,
                   .decode = dmi_field_decode_kilobytes,
                   .encode = dmi_field_encode_kilobytes),
-        DMI_FIELD(dmi_memory_device_addr_t, end_addr, DWORD,
+        DMI_FIELD(dmi_memory_device_addr_t, end_addr, dmi_dword_t,
                   .decode = dmi_field_decode_kilobytes,
                   .encode = dmi_field_encode_kilobytes),
 
-        DMI_FIELD(dmi_memory_device_addr_t, device_handle,     WORD),
-        DMI_FIELD(dmi_memory_device_addr_t, array_addr_handle, WORD),
+        DMI_FIELD(dmi_memory_device_addr_t, device_handle,     dmi_word_t),
+        DMI_FIELD(dmi_memory_device_addr_t, array_addr_handle, dmi_word_t),
 
-        DMI_FIELD(dmi_memory_device_addr_t, partition_pos,    BYTE, .unknown_raw = 0xFFu),
-        DMI_FIELD(dmi_memory_device_addr_t, interleave_pos,   BYTE, .unknown_raw = 0xFFu),
-        DMI_FIELD(dmi_memory_device_addr_t, interleave_depth, BYTE, .unknown_raw = 0xFFu),
+        DMI_FIELD(dmi_memory_device_addr_t, partition_pos,    dmi_byte_t, .unknown_raw = 0xFFu),
+        DMI_FIELD(dmi_memory_device_addr_t, interleave_pos,   dmi_byte_t, .unknown_raw = 0xFFu),
+        DMI_FIELD(dmi_memory_device_addr_t, interleave_depth, dmi_byte_t, .unknown_raw = 0xFFu),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
-        DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, start_addr, QWORD,
+        DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, start_addr, dmi_qword_t,
                            .when_raw = 0xFFFFFFFFu),
-        DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, end_addr, QWORD,
+        DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, end_addr, dmi_qword_t,
                            .when     = dmi_member(dmi_memory_device_addr_t, start_addr),
                            .when_raw = 0xFFFFFFFFu),
         {}

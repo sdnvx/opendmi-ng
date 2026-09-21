@@ -94,10 +94,11 @@ static bool dmi_field_decode_value(
         void              *value,
         uintmax_t         *raw);
 
-static bool dmi_field_read_count(
+static bool dmi_field_read_number(
         dmi_field_state_t *state,
-        dmi_field_type_t   type,
-        size_t            *count);
+        size_t             length,
+        bool               bcd,
+        uintmax_t         *number);
 
 static bool dmi_field_decode_bits(
         dmi_field_state_t *state,
@@ -115,6 +116,8 @@ static bool dmi_field_apply(const dmi_field_t *field, const dmi_field_data_t *da
 static bool dmi_field_store_member(dmi_member_ref_t member, void *value, uintmax_t raw);
 
 static uintmax_t dmi_field_load_member(dmi_member_ref_t member, const void *value);
+
+static size_t dmi_field_width(const dmi_field_t *field);
 
 //
 // Offset of the member whose plain field says that an extended one carries
@@ -158,30 +161,6 @@ bool dmi_field_encode_kilobytes(
     data->number = dmi_field_get(field, value) >> 10;
 
     return true;
-}
-
-size_t dmi_field_type_size(dmi_field_type_t type)
-{
-    switch (type) {
-    case DMI_FIELD_TYPE_BYTE:
-    case DMI_FIELD_TYPE_STRING:
-        return sizeof(dmi_byte_t);
-
-    case DMI_FIELD_TYPE_WORD:
-        return sizeof(dmi_word_t);
-
-    case DMI_FIELD_TYPE_DWORD:
-        return sizeof(dmi_dword_t);
-
-    case DMI_FIELD_TYPE_QWORD:
-        return sizeof(dmi_qword_t);
-
-    case DMI_FIELD_TYPE_UUID:
-        return 16 * sizeof(dmi_byte_t);
-
-    default:
-        return 0;
-    }
 }
 
 bool dmi_fields_decode(dmi_entity_t *entity)
@@ -443,27 +422,8 @@ static bool dmi_field_decode_value(
     // Binary-coded decimals are read by their own decoder, which spells the
     // digits out into the number they stand for
     case DMI_FIELD_TYPE_BCD:
-        switch (field->params.count_type) {
-        case DMI_FIELD_TYPE_BYTE: {
-            dmi_byte_t number = 0;
-            if (not dmi_stream_decode_bcd(state->stream, dmi_byte_t, &number))
-                return false;
-            data.number = number;
-            break;
-        }
-
-        case DMI_FIELD_TYPE_WORD: {
-            dmi_word_t number = 0;
-            if (not dmi_stream_decode_bcd(state->stream, dmi_word_t, &number))
-                return false;
-            data.number = number;
-            break;
-        }
-
-        default:
-            assert(false);
+        if (not dmi_field_read_number(state, field->params.length, true, &data.number))
             return false;
-        }
         break;
 
     case DMI_FIELD_TYPE_BINARY: {
@@ -489,37 +449,10 @@ static bool dmi_field_decode_value(
         break;
     }
 
-    case DMI_FIELD_TYPE_BYTE: {
-        dmi_byte_t number = 0;
-        if (not dmi_stream_decode(state->stream, dmi_byte_t, &number))
+    case DMI_FIELD_TYPE_INTEGER:
+        if (not dmi_field_read_number(state, field->params.length, false, &data.number))
             return false;
-        data.number = number;
         break;
-    }
-
-    case DMI_FIELD_TYPE_WORD: {
-        dmi_word_t number = 0;
-        if (not dmi_stream_decode(state->stream, dmi_word_t, &number))
-            return false;
-        data.number = number;
-        break;
-    }
-
-    case DMI_FIELD_TYPE_DWORD: {
-        dmi_dword_t number = 0;
-        if (not dmi_stream_decode(state->stream, dmi_dword_t, &number))
-            return false;
-        data.number = number;
-        break;
-    }
-
-    case DMI_FIELD_TYPE_QWORD: {
-        dmi_qword_t number = 0;
-        if (not dmi_stream_decode(state->stream, dmi_qword_t, &number))
-            return false;
-        data.number = number;
-        break;
-    }
 
     default:
         assert(false);
@@ -718,20 +651,27 @@ static bool dmi_field_decode_array(
     // which is reported once the whole array has been read
     size_t leftover = 0;
 
-    if (field->params.count_type == DMI_FIELD_TYPE_NONE) {
+    uintmax_t raw = 0;
+
+    if (field->params.count_length == 0) {
         assert(stride != 0);
 
         size_t remaining = dmi_stream_remaining(state->stream);
 
         count    = remaining / stride;
         leftover = remaining % stride;
-    } else if (not dmi_field_read_count(state, field->params.count_type, &count)) {
+    } else if (dmi_field_read_number(state, field->params.count_length, false, &raw)) {
+        count = (size_t)raw;
+    } else {
         return false;
     }
 
-    if ((field->params.stride_type != DMI_FIELD_TYPE_NONE) and
-        not dmi_field_read_count(state, field->params.stride_type, &stride))
-        return false;
+    if (field->params.stride_length != 0) {
+        if (not dmi_field_read_number(state, field->params.stride_length, false, &raw))
+            return false;
+
+        stride = (size_t)raw;
+    }
 
     // Numbers the data declares are worth keeping whenever the structure is
     // allowed to hold fewer elements than it says, or to make them longer
@@ -803,39 +743,34 @@ static bool dmi_field_decode_array(
     return (leftover == 0) or dmi_entity_incomplete(state->entity);
 }
 
-static bool dmi_field_read_count(
+//
+// Read an unsigned integer of the given width, little-endian, or the
+// binary-coded decimal the firmware writes the digits of a number as.
+//
+static bool dmi_field_read_number(
         dmi_field_state_t *state,
-        dmi_field_type_t   type,
-        size_t            *count)
+        size_t             length,
+        bool               bcd,
+        uintmax_t         *number)
 {
     assert(state != nullptr);
-    assert(count != nullptr);
+    assert(number != nullptr);
+    assert((length > 0) and (length <= sizeof(uintmax_t)));
 
-    uintmax_t raw = 0;
+    dmi_byte_t data[sizeof(uintmax_t)];
 
-    switch (type) {
-    case DMI_FIELD_TYPE_BYTE: {
-        dmi_byte_t data = 0;
-        if (not dmi_stream_decode(state->stream, dmi_byte_t, &data))
-            return false;
-        raw = data;
-        break;
-    }
-
-    case DMI_FIELD_TYPE_WORD: {
-        dmi_word_t data = 0;
-        if (not dmi_stream_decode(state->stream, dmi_word_t, &data))
-            return false;
-        raw = data;
-        break;
-    }
-
-    default:
-        assert(false);
+    if (not dmi_stream_read_data(state->stream, data, length))
         return false;
+
+    if (bcd) {
+        *number = __dmi_decode_bcd(data, length);
+        return true;
     }
 
-    *count = (size_t)raw;
+    *number = 0;
+
+    for (size_t i = 0; i < length; i++)
+        *number |= (uintmax_t)data[i] << (i * CHAR_BIT);
 
     return true;
 }
@@ -900,7 +835,7 @@ static bool dmi_field_put_bits(dmi_field_writer_t *writer, uintmax_t raw, unsign
 
 static uintmax_t dmi_field_source_bits(const dmi_field_writer_t *writer, unsigned bits);
 
-static bool dmi_field_put_raw(dmi_field_writer_t *writer, dmi_field_type_t type, uintmax_t raw);
+static bool dmi_field_put_raw(dmi_field_writer_t *writer, size_t width, uintmax_t raw);
 
 static bool dmi_field_put_reserved(dmi_field_writer_t *writer, size_t length);
 
@@ -928,8 +863,6 @@ static bool dmi_field_source_data(const dmi_field_writer_t *writer, const dmi_fi
 
 static bool dmi_field_put_data(dmi_field_writer_t *writer, const dmi_field_t *field, const dmi_field_data_t *data);
 
-
-static size_t dmi_field_width(const dmi_field_t *field);
 
 static size_t dmi_fields_size(const dmi_field_t *fields);
 
@@ -1137,7 +1070,7 @@ static bool dmi_field_encode_one(
         for (unsigned shift = 0; shift < width * CHAR_BIT; shift += 4, number /= 10)
             digits |= (number % 10) << shift;
 
-        return dmi_field_put_raw(writer, field->params.count_type, digits);
+        return dmi_field_put_raw(writer, width, digits);
     }
 
     default:
@@ -1241,7 +1174,7 @@ static bool dmi_field_encode_array(
     // Number of the elements the data declares, which is greater than the
     // number of the decoded ones when the source data ends before the last
     // element does
-    if (field->params.count_type != DMI_FIELD_TYPE_NONE) {
+    if (field->params.count_length != 0) {
         uintmax_t count = counter;
 
         if (dmi_member_is_present(field->params.count_member)) {
@@ -1250,12 +1183,12 @@ static bool dmi_field_encode_array(
         } else if (preserve) {
             uintmax_t original = 0;
 
-            if (dmi_field_peek_raw(writer, dmi_field_type_size(field->params.count_type), &original) and
+            if (dmi_field_peek_raw(writer, field->params.count_length, &original) and
                 (original > counter))
                 count = original;
         }
 
-        if (not dmi_field_put_raw(writer, field->params.count_type, count))
+        if (not dmi_field_put_raw(writer, field->params.count_length, count))
             return false;
     }
 
@@ -1263,7 +1196,7 @@ static bool dmi_field_encode_array(
     // from the source data, or counted from the fields otherwise
     size_t stride = field->params.stride;
 
-    if (field->params.stride_type != DMI_FIELD_TYPE_NONE) {
+    if (field->params.stride_length != 0) {
         uintmax_t length = dmi_fields_size(field->params.fields);
 
         if (dmi_member_is_present(field->params.stride_member)) {
@@ -1272,11 +1205,11 @@ static bool dmi_field_encode_array(
         } else if (preserve) {
             uintmax_t original = 0;
 
-            if (dmi_field_peek_raw(writer, dmi_field_type_size(field->params.stride_type), &original))
+            if (dmi_field_peek_raw(writer, field->params.stride_length, &original))
                 length = original;
         }
 
-        if (not dmi_field_put_raw(writer, field->params.stride_type, length))
+        if (not dmi_field_put_raw(writer, field->params.stride_length, length))
             return false;
 
         stride = (size_t)length;
@@ -1418,9 +1351,8 @@ static uintmax_t dmi_field_source_bits(const dmi_field_writer_t *writer, unsigne
 //
 // Write a value of a fixed width, little-endian.
 //
-static bool dmi_field_put_raw(dmi_field_writer_t *writer, dmi_field_type_t type, uintmax_t raw)
+static bool dmi_field_put_raw(dmi_field_writer_t *writer, size_t width, uintmax_t raw)
 {
-    size_t     width = dmi_field_type_size(type);
     dmi_byte_t data[sizeof(uintmax_t)];
 
     assert((width > 0) and (width <= sizeof(data)));
@@ -1693,7 +1625,7 @@ static bool dmi_field_put_data(dmi_field_writer_t *writer, const dmi_field_t *fi
         return dmi_encoder_write(writer->encoder, data->binary.data, field->params.length);
 
     default:
-        return dmi_field_put_raw(writer, field->type, data->number);
+        return dmi_field_put_raw(writer, dmi_field_width(field), data->number);
     }
 }
 
@@ -1718,14 +1650,21 @@ static uintmax_t dmi_field_load_member(dmi_member_ref_t member, const void *valu
 static size_t dmi_field_width(const dmi_field_t *field)
 {
     switch (field->type) {
+    case DMI_FIELD_TYPE_INTEGER:
     case DMI_FIELD_TYPE_BCD:
-        return dmi_field_type_size(field->params.count_type);
+    case DMI_FIELD_TYPE_STRING:
+    case DMI_FIELD_TYPE_UUID:
+        return field->params.length;
 
     case DMI_FIELD_TYPE_BINARY:
-        return (field->params.length != DMI_FIELD_LENGTH_REST) ? field->params.length : 0;
+        if ((field->params.length == DMI_FIELD_LENGTH_REST) or
+            (field->params.length == DMI_FIELD_LENGTH_MEMBER))
+            return 0;
+
+        return field->params.length;
 
     default:
-        return dmi_field_type_size(field->type);
+        return 0;
     }
 }
 

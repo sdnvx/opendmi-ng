@@ -43,7 +43,7 @@ const dmi_entity_spec_t dmi_system_boot_spec =
         DMI_FIELD_SKIP(6 * sizeof(dmi_byte_t)),
 
         // Boot status has variable length, and starts with the status code
-        DMI_FIELD(dmi_system_boot_t, status, BYTE),
+        DMI_FIELD(dmi_system_boot_t, status, dmi_byte_t),
         DMI_FIELD_BINARY(dmi_system_boot_t, status_data, DMI_FIELD_LENGTH_REST),
         {}
     }),

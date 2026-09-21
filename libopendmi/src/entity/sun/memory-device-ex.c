@@ -28,14 +28,14 @@ const dmi_entity_spec_t dmi_sun_memory_device_ex_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_sun_memory_device_ex_t, memory_device_handle, WORD),
-        DMI_FIELD(dmi_sun_memory_device_ex_t, dram_channel,         BYTE),
+        DMI_FIELD(dmi_sun_memory_device_ex_t, memory_device_handle, dmi_word_t),
+        DMI_FIELD(dmi_sun_memory_device_ex_t, dram_channel,         dmi_byte_t),
 
         DMI_FIELD_ARRAY(dmi_sun_memory_device_ex_t, chip_selects, chip_select_count,
-            .count_type   = DMI_FIELD_TYPE_BYTE,
+            .count_length = sizeof(dmi_byte_t),
             .count_member = dmi_member(dmi_sun_memory_device_ex_t, chip_select_total),
             .fields       = DMI_FIELDS({
-                DMI_FIELD_ELEMENT(dmi_sun_memory_device_ex_t, chip_selects, BYTE),
+                DMI_FIELD_ELEMENT(dmi_sun_memory_device_ex_t, chip_selects, dmi_byte_t),
                 {}
             })),
         {}

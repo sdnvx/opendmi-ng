@@ -37,7 +37,7 @@ const dmi_entity_spec_t dmi_cache_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_cache_t, socket_designator, STRING),
+        DMI_FIELD_STRING(dmi_cache_t, socket_designator),
 
         // One word holding the configuration of the cache
         DMI_FIELD_BITS(dmi_cache_t, level, 3,
@@ -48,33 +48,33 @@ const dmi_entity_spec_t dmi_cache_spec =
         DMI_FIELD_BITS(dmi_cache_t, location, 2),
         DMI_FIELD_BITS(dmi_cache_t, enabled,  1),
         DMI_FIELD_BITS(dmi_cache_t, mode,     2),
-        DMI_FIELD_PAD(WORD),
+        DMI_FIELD_PAD(dmi_word_t),
 
         // Sizes are carried in granules of one or of sixty-four kibibytes,
         // and the caches too large for a word carry them in the extended
         // fields instead
-        DMI_FIELD(dmi_cache_t, maximum_size, WORD,
+        DMI_FIELD(dmi_cache_t, maximum_size, dmi_word_t,
                   .decode = dmi_cache_decode_size,
                   .encode = dmi_cache_encode_size),
-        DMI_FIELD(dmi_cache_t, installed_size, WORD,
+        DMI_FIELD(dmi_cache_t, installed_size, dmi_word_t,
                   .decode = dmi_cache_decode_size,
                   .encode = dmi_cache_encode_size),
 
-        DMI_FIELD(dmi_cache_t, supported_sram, WORD),
-        DMI_FIELD(dmi_cache_t, current_sram,   WORD),
+        DMI_FIELD(dmi_cache_t, supported_sram, dmi_word_t),
+        DMI_FIELD(dmi_cache_t, current_sram,   dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
-        DMI_FIELD(dmi_cache_t, speed,            BYTE),
-        DMI_FIELD(dmi_cache_t, error_correction, BYTE),
-        DMI_FIELD(dmi_cache_t, type,             BYTE),
-        DMI_FIELD(dmi_cache_t, associativity,    BYTE),
+        DMI_FIELD(dmi_cache_t, speed,            dmi_byte_t),
+        DMI_FIELD(dmi_cache_t, error_correction, dmi_byte_t),
+        DMI_FIELD(dmi_cache_t, type,             dmi_byte_t),
+        DMI_FIELD(dmi_cache_t, associativity,    dmi_byte_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 1, 0)),
-        DMI_FIELD_EXTENDED(dmi_cache_t, maximum_size, DWORD,
+        DMI_FIELD_EXTENDED(dmi_cache_t, maximum_size, dmi_dword_t,
                            .when_raw = 0xFFFFu,
                            .decode   = dmi_cache_decode_size_ex,
                            .encode   = dmi_cache_encode_size_ex),
-        DMI_FIELD_EXTENDED(dmi_cache_t, installed_size, DWORD,
+        DMI_FIELD_EXTENDED(dmi_cache_t, installed_size, dmi_dword_t,
                            .when_raw = 0xFFFFu,
                            .decode   = dmi_cache_decode_size_ex,
                            .encode   = dmi_cache_encode_size_ex),

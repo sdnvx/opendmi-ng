@@ -29,13 +29,13 @@ const dmi_entity_spec_t dmi_memory_error_32_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_memory_error_32_t, type,            BYTE),
-        DMI_FIELD(dmi_memory_error_32_t, granularity,     BYTE),
-        DMI_FIELD(dmi_memory_error_32_t, operation,       BYTE),
-        DMI_FIELD(dmi_memory_error_32_t, vendor_syndrome, DWORD),
-        DMI_FIELD(dmi_memory_error_32_t, array_addr,      DWORD),
-        DMI_FIELD(dmi_memory_error_32_t, device_addr,     DWORD),
-        DMI_FIELD(dmi_memory_error_32_t, resolution,      DWORD),
+        DMI_FIELD(dmi_memory_error_32_t, type,            dmi_byte_t),
+        DMI_FIELD(dmi_memory_error_32_t, granularity,     dmi_byte_t),
+        DMI_FIELD(dmi_memory_error_32_t, operation,       dmi_byte_t),
+        DMI_FIELD(dmi_memory_error_32_t, vendor_syndrome, dmi_dword_t),
+        DMI_FIELD(dmi_memory_error_32_t, array_addr,      dmi_dword_t),
+        DMI_FIELD(dmi_memory_error_32_t, device_addr,     dmi_dword_t),
+        DMI_FIELD(dmi_memory_error_32_t, resolution,      dmi_dword_t),
         {}
     }),
 

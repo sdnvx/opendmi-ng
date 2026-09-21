@@ -22,13 +22,13 @@ const dmi_entity_spec_t dmi_ami_type_221_spec =
 
     .fields = DMI_FIELDS({
         DMI_FIELD_ARRAY(dmi_ami_type_221_t, items, item_count,
-            .count_type = DMI_FIELD_TYPE_BYTE,
-            .fields     = DMI_FIELDS({
-                DMI_FIELD(dmi_ami_type_221_item_t, name,      STRING),
-                DMI_FIELD(dmi_ami_type_221_item_t, string,    STRING),
-                DMI_FIELD(dmi_ami_type_221_item_t, unknown_1, BYTE),
-                DMI_FIELD(dmi_ami_type_221_item_t, unknown_2, WORD),
-                DMI_FIELD(dmi_ami_type_221_item_t, unknown_3, WORD),
+            .count_length = sizeof(dmi_byte_t),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD_STRING(dmi_ami_type_221_item_t, name),
+                DMI_FIELD_STRING(dmi_ami_type_221_item_t, string),
+                DMI_FIELD(dmi_ami_type_221_item_t, unknown_1, dmi_byte_t),
+                DMI_FIELD(dmi_ami_type_221_item_t, unknown_2, dmi_word_t),
+                DMI_FIELD(dmi_ami_type_221_item_t, unknown_3, dmi_word_t),
                 {}
             })),
         {}

@@ -21,14 +21,14 @@ const dmi_entity_spec_t dmi_intel_rsd_pcie_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_intel_rsd_pcie_t, pci_class,     BYTE),
-        DMI_FIELD(dmi_intel_rsd_pcie_t, pci_slot_id,   WORD),
-        DMI_FIELD(dmi_intel_rsd_pcie_t, vendor_id,     WORD),
-        DMI_FIELD(dmi_intel_rsd_pcie_t, device_id,     WORD),
-        DMI_FIELD(dmi_intel_rsd_pcie_t, sub_vendor_id, WORD),
-        DMI_FIELD(dmi_intel_rsd_pcie_t, sub_device_id, WORD),
-        DMI_FIELD(dmi_intel_rsd_pcie_t, link_speed,    DWORD),
-        DMI_FIELD(dmi_intel_rsd_pcie_t, link_width,    DWORD),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, pci_class,     dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, pci_slot_id,   dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, vendor_id,     dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, device_id,     dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, sub_vendor_id, dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, sub_device_id, dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, link_speed,    dmi_dword_t),
+        DMI_FIELD(dmi_intel_rsd_pcie_t, link_width,    dmi_dword_t),
         {}
     }),
 

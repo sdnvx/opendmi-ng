@@ -33,7 +33,7 @@ const dmi_entity_spec_t dmi_intel_rsd_phys_device_mapping_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_intel_rsd_phys_device_mapping_t, device_type, BYTE),
+        DMI_FIELD(dmi_intel_rsd_phys_device_mapping_t, device_type, dmi_byte_t),
 
         // Reserved byte
         DMI_FIELD_SKIP(sizeof(dmi_byte_t)),
@@ -43,7 +43,7 @@ const dmi_entity_spec_t dmi_intel_rsd_phys_device_mapping_spec =
         DMI_FIELD_ARRAY(dmi_intel_rsd_phys_device_mapping_t, devices, device_count,
             .stride = DMI_INTEL_RSD_PHYS_DEVICE_SIZE,
             .fields = DMI_FIELDS({
-                DMI_FIELD(dmi_intel_rsd_phys_device_t, handle, WORD),
+                DMI_FIELD(dmi_intel_rsd_phys_device_t, handle, dmi_word_t),
                 DMI_FIELD_BINARY(dmi_intel_rsd_phys_device_t, data, 2 * sizeof(dmi_byte_t)),
                 {}
             })),

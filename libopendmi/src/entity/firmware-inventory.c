@@ -42,23 +42,23 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_firmware_inventory_t, name,           STRING),
-        DMI_FIELD(dmi_firmware_inventory_t, version,        STRING),
-        DMI_FIELD(dmi_firmware_inventory_t, version_format, BYTE),
-        DMI_FIELD(dmi_firmware_inventory_t, ident,          STRING),
-        DMI_FIELD(dmi_firmware_inventory_t, ident_format,   BYTE),
-        DMI_FIELD(dmi_firmware_inventory_t, release_date,   STRING),
-        DMI_FIELD(dmi_firmware_inventory_t, vendor,         STRING),
-        DMI_FIELD(dmi_firmware_inventory_t, lowest_version, STRING),
-        DMI_FIELD(dmi_firmware_inventory_t, image_size,     QWORD),
-        DMI_FIELD(dmi_firmware_inventory_t, features,       WORD),
-        DMI_FIELD(dmi_firmware_inventory_t, state,          BYTE),
+        DMI_FIELD_STRING(dmi_firmware_inventory_t, name),
+        DMI_FIELD_STRING(dmi_firmware_inventory_t, version),
+        DMI_FIELD(dmi_firmware_inventory_t, version_format, dmi_byte_t),
+        DMI_FIELD_STRING(dmi_firmware_inventory_t, ident),
+        DMI_FIELD(dmi_firmware_inventory_t, ident_format, dmi_byte_t),
+        DMI_FIELD_STRING(dmi_firmware_inventory_t, release_date),
+        DMI_FIELD_STRING(dmi_firmware_inventory_t, vendor),
+        DMI_FIELD_STRING(dmi_firmware_inventory_t, lowest_version),
+        DMI_FIELD(dmi_firmware_inventory_t, image_size, dmi_qword_t),
+        DMI_FIELD(dmi_firmware_inventory_t, features,   dmi_word_t),
+        DMI_FIELD(dmi_firmware_inventory_t, state,      dmi_byte_t),
 
         DMI_FIELD_GROUP(),
         DMI_FIELD_ARRAY(dmi_firmware_inventory_t, components, component_count,
-            .count_type = DMI_FIELD_TYPE_BYTE,
-            .fields     = DMI_FIELDS({
-                DMI_FIELD(dmi_firmware_inventory_component_t, handle, WORD),
+            .count_length = sizeof(dmi_byte_t),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD(dmi_firmware_inventory_component_t, handle, dmi_word_t),
                 {}
             })),
         {}

@@ -22,14 +22,14 @@ const dmi_entity_spec_t dmi_intel_rsd_cabled_pcie_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_intel_rsd_cabled_pcie_t, pci_slot_id, WORD),
-        DMI_FIELD(dmi_intel_rsd_cabled_pcie_t, link_width,  BYTE),
+        DMI_FIELD(dmi_intel_rsd_cabled_pcie_t, pci_slot_id, dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_cabled_pcie_t, link_width,  dmi_byte_t),
 
         DMI_FIELD_ARRAY(dmi_intel_rsd_cabled_pcie_t, ports, port_count,
-            .count_type = DMI_FIELD_TYPE_BYTE,
-            .fields     = DMI_FIELDS({
-                DMI_FIELD(dmi_intel_rsd_cabled_pcie_port_t, index,      BYTE),
-                DMI_FIELD(dmi_intel_rsd_cabled_pcie_port_t, start_lane, BYTE),
+            .count_length = sizeof(dmi_byte_t),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD(dmi_intel_rsd_cabled_pcie_port_t, index,      dmi_byte_t),
+                DMI_FIELD(dmi_intel_rsd_cabled_pcie_port_t, start_lane, dmi_byte_t),
                 {}
             })),
         {}

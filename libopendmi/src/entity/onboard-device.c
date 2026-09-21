@@ -45,9 +45,9 @@ const dmi_entity_spec_t dmi_onboard_device_spec =
             .fields = DMI_FIELDS({
                 DMI_FIELD_BITS(dmi_onboard_device_instance_t, type,       7),
                 DMI_FIELD_BITS(dmi_onboard_device_instance_t, is_enabled, 1),
-                DMI_FIELD_PAD(BYTE),
+                DMI_FIELD_PAD(dmi_byte_t),
 
-                DMI_FIELD(dmi_onboard_device_instance_t, description, STRING),
+                DMI_FIELD_STRING(dmi_onboard_device_instance_t, description),
                 {}
             })),
         {}

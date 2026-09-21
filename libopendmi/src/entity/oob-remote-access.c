@@ -33,8 +33,8 @@ const dmi_entity_spec_t dmi_oob_remote_access_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_oob_remote_access_t, vendor,              STRING),
-        DMI_FIELD(dmi_oob_remote_access_t, connections.__value, BYTE),
+        DMI_FIELD_STRING(dmi_oob_remote_access_t, vendor),
+        DMI_FIELD(dmi_oob_remote_access_t, connections.__value, dmi_byte_t),
         {}
     }),
 

@@ -36,18 +36,18 @@ const dmi_entity_spec_t dmi_system_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_system_t, vendor,        STRING),
-        DMI_FIELD(dmi_system_t, product,       STRING),
-        DMI_FIELD(dmi_system_t, version,       STRING),
-        DMI_FIELD(dmi_system_t, serial_number, STRING),
+        DMI_FIELD_STRING(dmi_system_t, vendor),
+        DMI_FIELD_STRING(dmi_system_t, product),
+        DMI_FIELD_STRING(dmi_system_t, version),
+        DMI_FIELD_STRING(dmi_system_t, serial_number),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
-        DMI_FIELD(dmi_system_t, uuid,        UUID),
-        DMI_FIELD(dmi_system_t, wakeup_type, BYTE),
+        DMI_FIELD_UUID(dmi_system_t, uuid),
+        DMI_FIELD(dmi_system_t, wakeup_type, dmi_byte_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 4, 0)),
-        DMI_FIELD(dmi_system_t, sku_number, STRING),
-        DMI_FIELD(dmi_system_t, family,     STRING),
+        DMI_FIELD_STRING(dmi_system_t, sku_number),
+        DMI_FIELD_STRING(dmi_system_t, family),
         {}
     }),
 

@@ -22,16 +22,16 @@ const dmi_entity_spec_t dmi_dell_infrared_port_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_dell_infrared_port_t, location,          STRING),
-        DMI_FIELD(dmi_dell_infrared_port_t, state,             BYTE),
-        DMI_FIELD(dmi_dell_infrared_port_t, speed_limit_state, BYTE),
-        DMI_FIELD(dmi_dell_infrared_port_t, speed_limit,       WORD,
+        DMI_FIELD_STRING(dmi_dell_infrared_port_t, location),
+        DMI_FIELD(dmi_dell_infrared_port_t, state,             dmi_byte_t),
+        DMI_FIELD(dmi_dell_infrared_port_t, speed_limit_state, dmi_byte_t),
+        DMI_FIELD(dmi_dell_infrared_port_t, speed_limit,       dmi_word_t,
                   .decode = dmi_dell_infrared_port_decode_speed,
                   .encode = dmi_dell_infrared_port_encode_speed),
-        DMI_FIELD(dmi_dell_infrared_port_t, physical_port,     STRING),
-        DMI_FIELD(dmi_dell_infrared_port_t, virtual_com_port,  STRING),
-        DMI_FIELD(dmi_dell_infrared_port_t, virtual_lpt_port,  STRING),
-        DMI_FIELD(dmi_dell_infrared_port_t, protocol,          BYTE),
+        DMI_FIELD_STRING(dmi_dell_infrared_port_t, physical_port),
+        DMI_FIELD_STRING(dmi_dell_infrared_port_t, virtual_com_port),
+        DMI_FIELD_STRING(dmi_dell_infrared_port_t, virtual_lpt_port),
+        DMI_FIELD(dmi_dell_infrared_port_t, protocol, dmi_byte_t),
         {}
     }),
 

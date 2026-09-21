@@ -31,9 +31,9 @@ const dmi_entity_spec_t dmi_pointing_device_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_pointing_device_t, type,         BYTE),
-        DMI_FIELD(dmi_pointing_device_t, interface,    BYTE),
-        DMI_FIELD(dmi_pointing_device_t, button_count, BYTE),
+        DMI_FIELD(dmi_pointing_device_t, type,         dmi_byte_t),
+        DMI_FIELD(dmi_pointing_device_t, interface,    dmi_byte_t),
+        DMI_FIELD(dmi_pointing_device_t, button_count, dmi_byte_t),
         {}
     }),
 

@@ -29,13 +29,13 @@ const dmi_entity_spec_t dmi_firmware_language_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_firmware_language_t, language_count, BYTE),
-        DMI_FIELD(dmi_firmware_language_t, flags,          BYTE),
+        DMI_FIELD(dmi_firmware_language_t, language_count, dmi_byte_t),
+        DMI_FIELD(dmi_firmware_language_t, flags,          dmi_byte_t),
 
         // Reserved bytes
         DMI_FIELD_SKIP(15 * sizeof(dmi_byte_t)),
 
-        DMI_FIELD(dmi_firmware_language_t, current_language, STRING),
+        DMI_FIELD_STRING(dmi_firmware_language_t, current_language),
         {}
     }),
 

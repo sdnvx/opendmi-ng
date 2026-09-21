@@ -41,29 +41,29 @@ const dmi_entity_spec_t dmi_baseboard_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_baseboard_t, vendor,        STRING),
-        DMI_FIELD(dmi_baseboard_t, product,       STRING),
-        DMI_FIELD(dmi_baseboard_t, version,       STRING),
-        DMI_FIELD(dmi_baseboard_t, serial_number, STRING),
+        DMI_FIELD_STRING(dmi_baseboard_t, vendor),
+        DMI_FIELD_STRING(dmi_baseboard_t, product),
+        DMI_FIELD_STRING(dmi_baseboard_t, version),
+        DMI_FIELD_STRING(dmi_baseboard_t, serial_number),
 
         // Optional fields are grouped the way dmidecode groups them
         DMI_FIELD_GROUP(),
-        DMI_FIELD(dmi_baseboard_t, asset_tag, STRING),
+        DMI_FIELD_STRING(dmi_baseboard_t, asset_tag),
 
         DMI_FIELD_GROUP(),
-        DMI_FIELD(dmi_baseboard_t, features, BYTE),
+        DMI_FIELD(dmi_baseboard_t, features, dmi_byte_t),
 
         DMI_FIELD_GROUP(),
-        DMI_FIELD(dmi_baseboard_t, location, STRING),
+        DMI_FIELD_STRING(dmi_baseboard_t, location),
         DMI_FIELD_PRESET(dmi_baseboard_t, chassis_handle, DMI_HANDLE_INVALID),
-        DMI_FIELD(dmi_baseboard_t, chassis_handle, WORD),
-        DMI_FIELD(dmi_baseboard_t, type,           BYTE),
+        DMI_FIELD(dmi_baseboard_t, chassis_handle, dmi_word_t),
+        DMI_FIELD(dmi_baseboard_t, type,           dmi_byte_t),
 
         DMI_FIELD_GROUP(),
         DMI_FIELD_ARRAY(dmi_baseboard_t, object_handles, object_count,
-            .count_type = DMI_FIELD_TYPE_BYTE,
-            .fields     = DMI_FIELDS({
-                DMI_FIELD_ELEMENT(dmi_baseboard_t, object_handles, WORD),
+            .count_length = sizeof(dmi_byte_t),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD_ELEMENT(dmi_baseboard_t, object_handles, dmi_word_t),
                 {}
             })),
         {}

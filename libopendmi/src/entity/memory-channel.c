@@ -34,14 +34,14 @@ const dmi_entity_spec_t dmi_memory_channel_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_memory_channel_t, type,         BYTE),
-        DMI_FIELD(dmi_memory_channel_t, maximum_load, BYTE),
+        DMI_FIELD(dmi_memory_channel_t, type,         dmi_byte_t),
+        DMI_FIELD(dmi_memory_channel_t, maximum_load, dmi_byte_t),
 
         DMI_FIELD_ARRAY(dmi_memory_channel_t, devices, device_count,
-            .count_type = DMI_FIELD_TYPE_BYTE,
-            .fields     = DMI_FIELDS({
-                DMI_FIELD(dmi_memory_channel_device_t, load,   BYTE),
-                DMI_FIELD(dmi_memory_channel_device_t, handle, WORD),
+            .count_length = sizeof(dmi_byte_t),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD(dmi_memory_channel_device_t, load,   dmi_byte_t),
+                DMI_FIELD(dmi_memory_channel_device_t, handle, dmi_word_t),
                 {}
             })),
         {}

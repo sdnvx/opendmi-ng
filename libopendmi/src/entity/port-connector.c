@@ -33,11 +33,11 @@ const dmi_entity_spec_t dmi_port_connector_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_port_connector_t, internal_designator, STRING),
-        DMI_FIELD(dmi_port_connector_t, internal_connector,  BYTE),
-        DMI_FIELD(dmi_port_connector_t, external_designator, STRING),
-        DMI_FIELD(dmi_port_connector_t, external_connector,  BYTE),
-        DMI_FIELD(dmi_port_connector_t, port_type,           BYTE),
+        DMI_FIELD_STRING(dmi_port_connector_t, internal_designator),
+        DMI_FIELD(dmi_port_connector_t, internal_connector, dmi_byte_t),
+        DMI_FIELD_STRING(dmi_port_connector_t, external_designator),
+        DMI_FIELD(dmi_port_connector_t, external_connector, dmi_byte_t),
+        DMI_FIELD(dmi_port_connector_t, port_type,          dmi_byte_t),
         {}
     }),
 

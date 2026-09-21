@@ -32,15 +32,15 @@ const dmi_entity_spec_t dmi_group_assoc_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_group_assoc_t, group_name, STRING),
+        DMI_FIELD_STRING(dmi_group_assoc_t, group_name),
 
         // Items run to the end of the structure, which carries no number of
         // them of its own
         DMI_FIELD_ARRAY(dmi_group_assoc_t, items, item_count,
             .stride = sizeof(dmi_byte_t) + sizeof(dmi_handle_t),
             .fields = DMI_FIELDS({
-                DMI_FIELD(dmi_group_assoc_item_t, type,   BYTE),
-                DMI_FIELD(dmi_group_assoc_item_t, handle, WORD),
+                DMI_FIELD(dmi_group_assoc_item_t, type,   dmi_byte_t),
+                DMI_FIELD(dmi_group_assoc_item_t, handle, dmi_word_t),
                 {}
             })),
         {}

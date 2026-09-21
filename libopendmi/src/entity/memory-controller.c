@@ -25,30 +25,30 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_memory_controller_t, error_detection,      BYTE),
-        DMI_FIELD(dmi_memory_controller_t, error_correction,     BYTE),
-        DMI_FIELD(dmi_memory_controller_t, supported_interleave, BYTE),
-        DMI_FIELD(dmi_memory_controller_t, current_interleave,   BYTE),
+        DMI_FIELD(dmi_memory_controller_t, error_detection,      dmi_byte_t),
+        DMI_FIELD(dmi_memory_controller_t, error_correction,     dmi_byte_t),
+        DMI_FIELD(dmi_memory_controller_t, supported_interleave, dmi_byte_t),
+        DMI_FIELD(dmi_memory_controller_t, current_interleave,   dmi_byte_t),
 
         // Module size is carried as the power of two it is a number of
         // megabytes of
-        DMI_FIELD(dmi_memory_controller_t, maximum_module_size, BYTE,
+        DMI_FIELD(dmi_memory_controller_t, maximum_module_size, dmi_byte_t,
                   .decode = dmi_memory_controller_decode_size,
                   .encode = dmi_memory_controller_encode_size),
 
-        DMI_FIELD(dmi_memory_controller_t, supported_speeds,  WORD),
-        DMI_FIELD(dmi_memory_controller_t, supported_types,   WORD),
-        DMI_FIELD(dmi_memory_controller_t, required_voltages, BYTE),
+        DMI_FIELD(dmi_memory_controller_t, supported_speeds,  dmi_word_t),
+        DMI_FIELD(dmi_memory_controller_t, supported_types,   dmi_word_t),
+        DMI_FIELD(dmi_memory_controller_t, required_voltages, dmi_byte_t),
 
         DMI_FIELD_ARRAY(dmi_memory_controller_t, module_handles, slot_count,
-            .count_type = DMI_FIELD_TYPE_BYTE,
-            .fields     = DMI_FIELDS({
-                DMI_FIELD_ELEMENT(dmi_memory_controller_t, module_handles, WORD),
+            .count_length = sizeof(dmi_byte_t),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD_ELEMENT(dmi_memory_controller_t, module_handles, dmi_word_t),
                 {}
             })),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
-        DMI_FIELD(dmi_memory_controller_t, enabled_error_correction, BYTE),
+        DMI_FIELD(dmi_memory_controller_t, enabled_error_correction, dmi_byte_t),
         {}
     }),
 

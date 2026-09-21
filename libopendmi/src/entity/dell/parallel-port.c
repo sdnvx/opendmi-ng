@@ -22,12 +22,12 @@ const dmi_entity_spec_t dmi_dell_parallel_port_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_dell_parallel_port_t, base_addr,            WORD),
-        DMI_FIELD(dmi_dell_parallel_port_t, irq_number,           BYTE),
-        DMI_FIELD(dmi_dell_parallel_port_t, connector,            BYTE),
-        DMI_FIELD(dmi_dell_parallel_port_t, pinout,               BYTE),
-        DMI_FIELD(dmi_dell_parallel_port_t, capabilities.__value, WORD),
-        DMI_FIELD(dmi_dell_parallel_port_t, security,             BYTE),
+        DMI_FIELD(dmi_dell_parallel_port_t, base_addr,            dmi_word_t),
+        DMI_FIELD(dmi_dell_parallel_port_t, irq_number,           dmi_byte_t),
+        DMI_FIELD(dmi_dell_parallel_port_t, connector,            dmi_byte_t),
+        DMI_FIELD(dmi_dell_parallel_port_t, pinout,               dmi_byte_t),
+        DMI_FIELD(dmi_dell_parallel_port_t, capabilities.__value, dmi_word_t),
+        DMI_FIELD(dmi_dell_parallel_port_t, security,             dmi_byte_t),
         {}
     }),
 

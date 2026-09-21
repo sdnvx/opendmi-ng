@@ -36,12 +36,12 @@ const dmi_entity_spec_t dmi_mgmt_device_threshold_spec =
         // Units are unknown until components are linked
         DMI_FIELD_PRESET(dmi_mgmt_device_threshold_t, component_type, DMI_TYPE_INVALID),
 
-        DMI_FIELD(dmi_mgmt_device_threshold_t, lower_non_critical,    WORD),
-        DMI_FIELD(dmi_mgmt_device_threshold_t, upper_non_critical,    WORD),
-        DMI_FIELD(dmi_mgmt_device_threshold_t, lower_critical,        WORD),
-        DMI_FIELD(dmi_mgmt_device_threshold_t, upper_critical,        WORD),
-        DMI_FIELD(dmi_mgmt_device_threshold_t, lower_non_recoverable, WORD),
-        DMI_FIELD(dmi_mgmt_device_threshold_t, upper_non_recoverable, WORD),
+        DMI_FIELD(dmi_mgmt_device_threshold_t, lower_non_critical,    dmi_word_t),
+        DMI_FIELD(dmi_mgmt_device_threshold_t, upper_non_critical,    dmi_word_t),
+        DMI_FIELD(dmi_mgmt_device_threshold_t, lower_critical,        dmi_word_t),
+        DMI_FIELD(dmi_mgmt_device_threshold_t, upper_critical,        dmi_word_t),
+        DMI_FIELD(dmi_mgmt_device_threshold_t, lower_non_recoverable, dmi_word_t),
+        DMI_FIELD(dmi_mgmt_device_threshold_t, upper_non_recoverable, dmi_word_t),
         {}
     }),
 

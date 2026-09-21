@@ -27,13 +27,13 @@ const dmi_entity_spec_t dmi_sun_pcie_root_complex_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_sun_pcie_root_complex_t, baseboard_handle, WORD),
+        DMI_FIELD(dmi_sun_pcie_root_complex_t, baseboard_handle, dmi_word_t),
 
         // Bus, device and function numbers are packed as in PCI routing IDs
         DMI_FIELD_BITS(dmi_sun_pcie_root_complex_t, function_number, 3),
         DMI_FIELD_BITS(dmi_sun_pcie_root_complex_t, device_number,   5),
         DMI_FIELD_BITS(dmi_sun_pcie_root_complex_t, bus_number,      8),
-        DMI_FIELD_PAD(WORD),
+        DMI_FIELD_PAD(dmi_word_t),
         {}
     }),
 

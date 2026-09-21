@@ -27,11 +27,11 @@ const dmi_entity_spec_t dmi_sun_port_ex_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_sun_port_ex_t, chassis_handle, WORD),
-        DMI_FIELD(dmi_sun_port_ex_t, port_handle,    WORD),
-        DMI_FIELD(dmi_sun_port_ex_t, device_type,    BYTE),
-        DMI_FIELD(dmi_sun_port_ex_t, device_handle,  WORD),
-        DMI_FIELD(dmi_sun_port_ex_t, phy,            BYTE),
+        DMI_FIELD(dmi_sun_port_ex_t, chassis_handle, dmi_word_t),
+        DMI_FIELD(dmi_sun_port_ex_t, port_handle,    dmi_word_t),
+        DMI_FIELD(dmi_sun_port_ex_t, device_type,    dmi_byte_t),
+        DMI_FIELD(dmi_sun_port_ex_t, device_handle,  dmi_word_t),
+        DMI_FIELD(dmi_sun_port_ex_t, phy,            dmi_byte_t),
         {}
     }),
 

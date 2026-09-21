@@ -30,7 +30,7 @@ const dmi_entity_spec_t dmi_system_config_opts_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_system_config_opts_t, option_count, BYTE),
+        DMI_FIELD(dmi_system_config_opts_t, option_count, dmi_byte_t),
         {}
     }),
 

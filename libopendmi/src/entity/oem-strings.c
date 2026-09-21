@@ -30,7 +30,7 @@ const dmi_entity_spec_t dmi_oem_strings_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_oem_strings_t, string_count, BYTE),
+        DMI_FIELD(dmi_oem_strings_t, string_count, dmi_byte_t),
         {}
     }),
 

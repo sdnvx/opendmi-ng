@@ -21,7 +21,7 @@ const dmi_entity_spec_t dmi_intel_rsd_txt_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_intel_rsd_txt_t, status, BYTE),
+        DMI_FIELD(dmi_intel_rsd_txt_t, status, dmi_byte_t),
         {}
     }),
 

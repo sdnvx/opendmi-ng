@@ -33,7 +33,7 @@ const dmi_entity_spec_t dmi_hardware_security_spec =
         DMI_FIELD_BITS(dmi_hardware_security_t, admin_password,    2),
         DMI_FIELD_BITS(dmi_hardware_security_t, keyboard_password, 2),
         DMI_FIELD_BITS(dmi_hardware_security_t, poweron_password,  2),
-        DMI_FIELD_PAD(BYTE),
+        DMI_FIELD_PAD(dmi_byte_t),
         {}
     }),
 

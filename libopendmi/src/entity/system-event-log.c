@@ -41,26 +41,26 @@ const dmi_entity_spec_t dmi_system_event_log_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_system_event_log_t, area_length,    WORD),
-        DMI_FIELD(dmi_system_event_log_t, header_offset,  WORD),
-        DMI_FIELD(dmi_system_event_log_t, data_offset,    WORD),
-        DMI_FIELD(dmi_system_event_log_t, access_method,  BYTE),
-        DMI_FIELD(dmi_system_event_log_t, status,         BYTE),
-        DMI_FIELD(dmi_system_event_log_t, change_token,   DWORD),
-        DMI_FIELD(dmi_system_event_log_t, access_address, DWORD),
+        DMI_FIELD(dmi_system_event_log_t, area_length,    dmi_word_t),
+        DMI_FIELD(dmi_system_event_log_t, header_offset,  dmi_word_t),
+        DMI_FIELD(dmi_system_event_log_t, data_offset,    dmi_word_t),
+        DMI_FIELD(dmi_system_event_log_t, access_method,  dmi_byte_t),
+        DMI_FIELD(dmi_system_event_log_t, status,         dmi_byte_t),
+        DMI_FIELD(dmi_system_event_log_t, change_token,   dmi_dword_t),
+        DMI_FIELD(dmi_system_event_log_t, access_address, dmi_dword_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
-        DMI_FIELD(dmi_system_event_log_t, header_format, BYTE),
+        DMI_FIELD(dmi_system_event_log_t, header_format, dmi_byte_t),
 
         // Descriptors are two bytes long, and longer ones are allowed for
         // future extensions, so the next one is found by the declared length
         DMI_FIELD_ARRAY(dmi_system_event_log_t, descriptors, descriptor_count,
-            .count_type     = DMI_FIELD_TYPE_BYTE,
-            .stride_type    = DMI_FIELD_TYPE_BYTE,
+            .count_length   = sizeof(dmi_byte_t),
+            .stride_length  = sizeof(dmi_byte_t),
             .stride_minimum = 2,
             .fields         = DMI_FIELDS({
-                DMI_FIELD(dmi_system_log_type_descriptor_t, type,        BYTE),
-                DMI_FIELD(dmi_system_log_type_descriptor_t, data_format, BYTE),
+                DMI_FIELD(dmi_system_log_type_descriptor_t, type,        dmi_byte_t),
+                DMI_FIELD(dmi_system_log_type_descriptor_t, data_format, dmi_byte_t),
                 {}
             })),
         {}

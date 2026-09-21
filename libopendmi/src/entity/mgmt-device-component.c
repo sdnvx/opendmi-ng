@@ -32,10 +32,10 @@ const dmi_entity_spec_t dmi_mgmt_device_component_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_mgmt_device_component_t, description,      STRING),
-        DMI_FIELD(dmi_mgmt_device_component_t, device_handle,    WORD),
-        DMI_FIELD(dmi_mgmt_device_component_t, component_handle, WORD),
-        DMI_FIELD(dmi_mgmt_device_component_t, threshold_handle, WORD),
+        DMI_FIELD_STRING(dmi_mgmt_device_component_t, description),
+        DMI_FIELD(dmi_mgmt_device_component_t, device_handle,    dmi_word_t),
+        DMI_FIELD(dmi_mgmt_device_component_t, component_handle, dmi_word_t),
+        DMI_FIELD(dmi_mgmt_device_component_t, threshold_handle, dmi_word_t),
         {}
     }),
 

@@ -28,14 +28,14 @@ const dmi_entity_spec_t dmi_sun_processor_ex_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_sun_processor_ex_t, processor_handle, WORD),
-        DMI_FIELD(dmi_sun_processor_ex_t, fru,              BYTE),
+        DMI_FIELD(dmi_sun_processor_ex_t, processor_handle, dmi_word_t),
+        DMI_FIELD(dmi_sun_processor_ex_t, fru,              dmi_byte_t),
 
         DMI_FIELD_ARRAY(dmi_sun_processor_ex_t, apic_ids, apic_id_count,
-            .count_type   = DMI_FIELD_TYPE_BYTE,
+            .count_length = sizeof(dmi_byte_t),
             .count_member = dmi_member(dmi_sun_processor_ex_t, apic_id_total),
             .fields       = DMI_FIELDS({
-                DMI_FIELD_ELEMENT(dmi_sun_processor_ex_t, apic_ids, WORD),
+                DMI_FIELD_ELEMENT(dmi_sun_processor_ex_t, apic_ids, dmi_word_t),
                 {}
             })),
         {}

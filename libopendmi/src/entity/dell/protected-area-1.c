@@ -27,15 +27,15 @@ const dmi_entity_spec_t dmi_dell_protected_area_1_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_dell_protected_area_1_t, token_id,       WORD),
-        DMI_FIELD(dmi_dell_protected_area_1_t, value_length,   BYTE),
-        DMI_FIELD(dmi_dell_protected_area_1_t, value_format,   BYTE),
-        DMI_FIELD(dmi_dell_protected_area_1_t, validation_key, WORD),
-        DMI_FIELD(dmi_dell_protected_area_1_t, index_port,     WORD),
-        DMI_FIELD(dmi_dell_protected_area_1_t, data_port,      WORD),
-        DMI_FIELD(dmi_dell_protected_area_1_t, check_type,     BYTE),
-        DMI_FIELD(dmi_dell_protected_area_1_t, value_start,    BYTE),
-        DMI_FIELD(dmi_dell_protected_area_1_t, check_index,    BYTE),
+        DMI_FIELD(dmi_dell_protected_area_1_t, token_id,       dmi_word_t),
+        DMI_FIELD(dmi_dell_protected_area_1_t, value_length,   dmi_byte_t),
+        DMI_FIELD(dmi_dell_protected_area_1_t, value_format,   dmi_byte_t),
+        DMI_FIELD(dmi_dell_protected_area_1_t, validation_key, dmi_word_t),
+        DMI_FIELD(dmi_dell_protected_area_1_t, index_port,     dmi_word_t),
+        DMI_FIELD(dmi_dell_protected_area_1_t, data_port,      dmi_word_t),
+        DMI_FIELD(dmi_dell_protected_area_1_t, check_type,     dmi_byte_t),
+        DMI_FIELD(dmi_dell_protected_area_1_t, value_start,    dmi_byte_t),
+        DMI_FIELD(dmi_dell_protected_area_1_t, check_index,    dmi_byte_t),
         {}
     }),
 

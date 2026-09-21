@@ -128,70 +128,70 @@ const dmi_entity_spec_t dmi_processor_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_processor_t, socket_designation, STRING),
-        DMI_FIELD(dmi_processor_t, type,               BYTE),
-        DMI_FIELD(dmi_processor_t, family,             BYTE),
-        DMI_FIELD(dmi_processor_t, vendor,             STRING),
+        DMI_FIELD_STRING(dmi_processor_t, socket_designation),
+        DMI_FIELD(dmi_processor_t, type,   dmi_byte_t),
+        DMI_FIELD(dmi_processor_t, family, dmi_byte_t),
+        DMI_FIELD_STRING(dmi_processor_t, vendor),
 
         // Processor identifier is taken as stored, and is read according to
         // the family and the vendor once they are known
         DMI_FIELD_BINARY(dmi_processor_t, id, sizeof(dmi_qword_t)),
 
-        DMI_FIELD(dmi_processor_t, version, STRING),
+        DMI_FIELD_STRING(dmi_processor_t, version),
 
         // One byte holding either the current voltage or the ones supported
-        DMI_FIELD_SPLIT(dmi_processor_t, BYTE,
+        DMI_FIELD_SPLIT(dmi_processor_t, dmi_byte_t,
                         .decode = dmi_processor_decode_voltage,
                         .encode = dmi_processor_encode_voltage),
 
-        DMI_FIELD(dmi_processor_t, external_clock, WORD),
-        DMI_FIELD(dmi_processor_t, maximum_speed,  WORD),
-        DMI_FIELD(dmi_processor_t, current_speed,  WORD),
+        DMI_FIELD(dmi_processor_t, external_clock, dmi_word_t),
+        DMI_FIELD(dmi_processor_t, maximum_speed,  dmi_word_t),
+        DMI_FIELD(dmi_processor_t, current_speed,  dmi_word_t),
 
         // One byte holding the status of the processor and whether the socket
         // it belongs to is populated at all
         DMI_FIELD_BITS(dmi_processor_t, status, 3),
         DMI_FIELD_BITS_SKIP(3),
         DMI_FIELD_BITS(dmi_processor_t, is_populated, 1),
-        DMI_FIELD_PAD(BYTE),
+        DMI_FIELD_PAD(dmi_byte_t),
 
-        DMI_FIELD(dmi_processor_t, upgrade, BYTE),
+        DMI_FIELD(dmi_processor_t, upgrade, dmi_byte_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
         DMI_FIELD_PRESET(dmi_processor_t, l1_cache_handle, DMI_HANDLE_INVALID),
         DMI_FIELD_PRESET(dmi_processor_t, l2_cache_handle, DMI_HANDLE_INVALID),
         DMI_FIELD_PRESET(dmi_processor_t, l3_cache_handle, DMI_HANDLE_INVALID),
-        DMI_FIELD(dmi_processor_t, l1_cache_handle, WORD),
-        DMI_FIELD(dmi_processor_t, l2_cache_handle, WORD),
-        DMI_FIELD(dmi_processor_t, l3_cache_handle, WORD),
+        DMI_FIELD(dmi_processor_t, l1_cache_handle, dmi_word_t),
+        DMI_FIELD(dmi_processor_t, l2_cache_handle, dmi_word_t),
+        DMI_FIELD(dmi_processor_t, l3_cache_handle, dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 3, 0)),
-        DMI_FIELD(dmi_processor_t, serial_number, STRING),
-        DMI_FIELD(dmi_processor_t, asset_tag,     STRING),
-        DMI_FIELD(dmi_processor_t, part_number,   STRING),
+        DMI_FIELD_STRING(dmi_processor_t, serial_number),
+        DMI_FIELD_STRING(dmi_processor_t, asset_tag),
+        DMI_FIELD_STRING(dmi_processor_t, part_number),
 
         // Counts of one byte are too narrow for the processors of today, so
         // the wider ones were added to SMBIOS 3.0
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 5, 0)),
-        DMI_FIELD(dmi_processor_t, core_count,   BYTE),
-        DMI_FIELD(dmi_processor_t, core_enabled, BYTE),
-        DMI_FIELD(dmi_processor_t, thread_count, BYTE),
-        DMI_FIELD(dmi_processor_t, features,     WORD),
+        DMI_FIELD(dmi_processor_t, core_count,   dmi_byte_t),
+        DMI_FIELD(dmi_processor_t, core_enabled, dmi_byte_t),
+        DMI_FIELD(dmi_processor_t, thread_count, dmi_byte_t),
+        DMI_FIELD(dmi_processor_t, features,     dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 6, 0)),
-        DMI_FIELD_EXTENDED(dmi_processor_t, family, WORD,
+        DMI_FIELD_EXTENDED(dmi_processor_t, family, dmi_word_t,
                            .when_raw = DMI_PROCESSOR_FAMILY_EXTENDED),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 0, 0)),
-        DMI_FIELD_EXTENDED(dmi_processor_t, core_count,   WORD, .when_raw = 0xFFu),
-        DMI_FIELD_EXTENDED(dmi_processor_t, core_enabled, WORD, .when_raw = 0xFFu),
-        DMI_FIELD_EXTENDED(dmi_processor_t, thread_count, WORD, .when_raw = 0xFFu),
+        DMI_FIELD_EXTENDED(dmi_processor_t, core_count,   dmi_word_t, .when_raw = 0xFFu),
+        DMI_FIELD_EXTENDED(dmi_processor_t, core_enabled, dmi_word_t, .when_raw = 0xFFu),
+        DMI_FIELD_EXTENDED(dmi_processor_t, thread_count, dmi_word_t, .when_raw = 0xFFu),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 6, 0)),
-        DMI_FIELD(dmi_processor_t, thread_enabled, WORD),
+        DMI_FIELD(dmi_processor_t, thread_enabled, dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 8, 0)),
-        DMI_FIELD(dmi_processor_t, socket_type, STRING),
+        DMI_FIELD_STRING(dmi_processor_t, socket_type),
         {}
     }),
 

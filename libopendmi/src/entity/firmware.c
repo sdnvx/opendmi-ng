@@ -31,42 +31,42 @@ const dmi_entity_spec_t dmi_firmware_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_firmware_t, vendor,       STRING),
-        DMI_FIELD(dmi_firmware_t, version,      STRING),
-        DMI_FIELD(dmi_firmware_t, bios_segment, WORD),
+        DMI_FIELD_STRING(dmi_firmware_t, vendor),
+        DMI_FIELD_STRING(dmi_firmware_t, version),
+        DMI_FIELD(dmi_firmware_t, bios_segment, dmi_word_t),
 
-        DMI_FIELD(dmi_firmware_t, release_date, STRING,
-                  .decode = dmi_firmware_decode_date,
-                  .encode = dmi_firmware_encode_date),
+        DMI_FIELD_STRING(dmi_firmware_t, release_date,
+                         .decode = dmi_firmware_decode_date,
+                         .encode = dmi_firmware_encode_date),
 
         // ROM size is carried as the number of the granules it takes, and the
         // chips too large for one byte carry it in the extended field instead
-        DMI_FIELD(dmi_firmware_t, rom_size, BYTE,
+        DMI_FIELD(dmi_firmware_t, rom_size, dmi_byte_t,
                   .decode = dmi_firmware_decode_rom_size,
                   .encode = dmi_firmware_encode_rom_size),
 
-        DMI_FIELD(dmi_firmware_t, features, QWORD),
+        DMI_FIELD(dmi_firmware_t, features, dmi_qword_t),
 
         // Extension bytes were added one at a time, so the structures of the
         // platforms older than the second one end between them
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
-        DMI_FIELD(dmi_firmware_t, features_ex.__value[0], BYTE),
+        DMI_FIELD(dmi_firmware_t, features_ex.__value[0], dmi_byte_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 3, 0)),
-        DMI_FIELD(dmi_firmware_t, features_ex.__value[1], BYTE),
+        DMI_FIELD(dmi_firmware_t, features_ex.__value[1], dmi_byte_t),
 
         // Versions are one byte of major and one of minor, and the major
         // number of 0xFF says that the platform carries no version at all
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 4, 0)),
-        DMI_FIELD(dmi_firmware_t, platform_version, WORD,
+        DMI_FIELD(dmi_firmware_t, platform_version, dmi_word_t,
                   .decode = dmi_firmware_decode_version,
                   .encode = dmi_firmware_encode_version),
-        DMI_FIELD(dmi_firmware_t, controller_version, WORD,
+        DMI_FIELD(dmi_firmware_t, controller_version, dmi_word_t,
                   .decode = dmi_firmware_decode_version,
                   .encode = dmi_firmware_encode_version),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 1, 0)),
-        DMI_FIELD_EXTENDED(dmi_firmware_t, rom_size, WORD,
+        DMI_FIELD_EXTENDED(dmi_firmware_t, rom_size, dmi_word_t,
                            .when_raw = DMI_FIRMWARE_ROM_SIZE_EXTENDED,
                            .decode   = dmi_firmware_decode_rom_size_ex,
                            .encode   = dmi_firmware_encode_rom_size_ex),

@@ -29,15 +29,15 @@ const dmi_entity_spec_t dmi_bis_entry_point_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_bis_entry_point_t, checksum, BYTE),
+        DMI_FIELD(dmi_bis_entry_point_t, checksum, dmi_byte_t),
 
         // Reserved byte and word the structure carries and nothing reads
         DMI_FIELD_SKIP(sizeof(dmi_byte_t) + sizeof(dmi_word_t)),
 
         // Real mode entry point is stored as offset followed by segment
-        DMI_FIELD(dmi_bis_entry_point_t, entry_point_16.offset,  WORD),
-        DMI_FIELD(dmi_bis_entry_point_t, entry_point_16.segment, WORD),
-        DMI_FIELD(dmi_bis_entry_point_t, entry_point_32,         DWORD),
+        DMI_FIELD(dmi_bis_entry_point_t, entry_point_16.offset,  dmi_word_t),
+        DMI_FIELD(dmi_bis_entry_point_t, entry_point_16.segment, dmi_word_t),
+        DMI_FIELD(dmi_bis_entry_point_t, entry_point_32,         dmi_dword_t),
         {}
     }),
 

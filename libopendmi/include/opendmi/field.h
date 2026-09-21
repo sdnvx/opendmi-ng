@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <limits.h>
+
 #include <opendmi/types.h>
 #include <opendmi/encoder.h>
 #include <opendmi/stream.h>
@@ -25,10 +27,9 @@ typedef struct dmi_field_params dmi_field_params_t;
  * @brief Layout of a field on the wire.
  *
  * Field types name the bytes a field occupies in the SMBIOS data, which is
- * not the same as the type of the member it is decoded into: a width of the
- * `DMI_FIELD_TYPE_WORD` may be decoded into a wider member, so that the value
- * standing for "unknown" does not collide with a value a device may really
- * have.
+ * not the same as the type of the member it is decoded into: an integer of two
+ * bytes may be decoded into a wider member, so that the value standing for
+ * "unknown" does not collide with a value a device may really have.
  */
 typedef enum dmi_field_type
 {
@@ -37,10 +38,10 @@ typedef enum dmi_field_type
      */
     DMI_FIELD_TYPE_NONE,
 
-    DMI_FIELD_TYPE_BYTE,  ///< One byte
-    DMI_FIELD_TYPE_WORD,  ///< Two bytes, little-endian
-    DMI_FIELD_TYPE_DWORD, ///< Four bytes, little-endian
-    DMI_FIELD_TYPE_QWORD, ///< Eight bytes, little-endian
+    /**
+     * @brief Unsigned integer of the width the field declares, little-endian.
+     */
+    DMI_FIELD_TYPE_INTEGER,
 
     /**
      * @brief String reference, decoded into a pointer to the string.
@@ -75,7 +76,6 @@ typedef enum dmi_field_type
      * `dmi_field_params_t`, preceded by the number of them.
      */
     DMI_FIELD_TYPE_ARRAY,
-
 
     /**
      * @brief Range of the bits of a byte, a word or a wider unit, which
@@ -117,14 +117,6 @@ typedef enum dmi_field_type
      */
     DMI_FIELD_TYPE_SKIP
 } dmi_field_type_t;
-
-/**
- * @brief Widths of the units the ranges of bits share, in bits.
- */
-#define DMI_FIELD_UNIT_BYTE   8
-#define DMI_FIELD_UNIT_WORD  16
-#define DMI_FIELD_UNIT_DWORD 32
-#define DMI_FIELD_UNIT_QWORD 64
 
 /**
  * @brief Data a field carries, as the engine reads and writes it.
@@ -275,22 +267,26 @@ struct dmi_field_params
     unsigned int bits;
 
     /**
-     * @brief Number of the bytes of a binary field, or
-     * `DMI_FIELD_LENGTH_REST` for the ones which run to the end of the
-     * structure.
+     * @brief Number of the bytes the field occupies: the width of an integer,
+     * of a binary-coded decimal, of a string reference or of a UUID, the
+     * length of a binary field, or the number of the bytes stepped over.
+     *
+     * Binary fields may declare `DMI_FIELD_LENGTH_REST` for the bytes which
+     * run to the end of the structure, or `DMI_FIELD_LENGTH_MEMBER` for the
+     * ones a field before carries the number of.
      */
     size_t length;
 
     /**
-     * @brief Width of the field holding the number of the elements of an
-     * array, which precedes the elements themselves.
+     * @brief Number of the bytes of the field holding the number of the
+     * elements of an array, which precedes the elements themselves.
      *
-     * `DMI_FIELD_TYPE_NONE` means the data carries no number of its own and
-     * the array runs to the end of the structure, which is how the
-     * specification writes the arrays whose elements are all of one width;
-     * such an array declares that width as `stride`.
+     * Zero means the data carries no number of its own and the array runs to
+     * the end of the structure, which is how the specification writes the
+     * arrays whose elements are all of one width; such an array declares
+     * that width as `stride`.
      */
-    dmi_field_type_t count_type;
+    size_t count_length;
 
     /**
      * @brief Member holding the number of the elements the data declares,
@@ -309,14 +305,14 @@ struct dmi_field_params
     size_t stride;
 
     /**
-     * @brief Width of the field holding the number of the bytes an element of
-     * an array takes, which follows the number of the elements.
+     * @brief Number of the bytes of the field holding the number of the bytes
+     * an element of an array takes, which follows the number of the elements.
      *
      * Elements may be longer than the fields they are known to hold, so the
      * next one is found by that length rather than by what has been read.
      * Left unset for the arrays whose elements are exactly their fields.
      */
-    dmi_field_type_t stride_type;
+    size_t stride_length;
 
     /**
      * @brief Smallest length an element of an array may have, below which the
@@ -390,17 +386,39 @@ struct dmi_field
 };
 
 /**
- * @brief Field read into a member of the decoded structure.
+ * @brief Integer read into a member of the decoded structure.
  *
- * Parameters are given as the designated initializers of
- * `dmi_field_params_t`, e.g. `DMI_FIELD(dmi_slot_t, height, BYTE)` for a
- * field which needs none of them.
+ * @p __type is the type the field is written with, e.g. `dmi_word_t`, whose
+ * size is the width of the field. Parameters are given as the designated
+ * initializers of `dmi_field_params_t`, e.g.
+ * `DMI_FIELD(dmi_slot_t, height, dmi_byte_t)` for a field which needs none
+ * of them.
  */
-#define DMI_FIELD(__entity, __member, __type, ...) \
-    {                                              \
-        .member = dmi_member(__entity, __member),  \
-        .type   = DMI_FIELD_TYPE_ ## __type,       \
-        .params = { __VA_ARGS__ }                  \
+#define DMI_FIELD(__entity, __member, __type, ...)                   \
+    {                                                                \
+        .member = dmi_member(__entity, __member),                    \
+        .type   = DMI_FIELD_TYPE_INTEGER,                            \
+        .params = { .length = sizeof(__type), __VA_ARGS__ }          \
+    }
+
+/**
+ * @brief String reference, read into a pointer to the string it refers to.
+ */
+#define DMI_FIELD_STRING(__entity, __member, ...)                   \
+    {                                                               \
+        .member = dmi_member(__entity, __member),                   \
+        .type   = DMI_FIELD_TYPE_STRING,                            \
+        .params = { .length = sizeof(dmi_string_t), __VA_ARGS__ }   \
+    }
+
+/**
+ * @brief UUID, read into a `dmi_uuid_t`.
+ */
+#define DMI_FIELD_UUID(__entity, __member, ...)                     \
+    {                                                               \
+        .member = dmi_member(__entity, __member),                   \
+        .type   = DMI_FIELD_TYPE_UUID,                              \
+        .params = { .length = 16 * sizeof(dmi_byte_t), __VA_ARGS__ } \
     }
 
 /**
@@ -433,13 +451,13 @@ struct dmi_field
  * @brief Bits left over at the end of a unit the ranges before it share,
  * which the specification reserves.
  *
- * @p __unit is the width of the unit: `BYTE`, `WORD`, `DWORD` or `QWORD`.
+ * @p __type is the type of the unit, e.g. `dmi_word_t`.
  */
-#define DMI_FIELD_PAD(__unit)                           \
-    {                                                   \
-        .member = DMI_MEMBER_NULL,                      \
-        .type   = DMI_FIELD_TYPE_PAD,                   \
-        .params = { .bits = DMI_FIELD_UNIT_ ## __unit } \
+#define DMI_FIELD_PAD(__type)                                 \
+    {                                                         \
+        .member = DMI_MEMBER_NULL,                            \
+        .type   = DMI_FIELD_TYPE_PAD,                         \
+        .params = { .bits = sizeof(__type) * CHAR_BIT }       \
     }
 
 /**
@@ -468,11 +486,11 @@ struct dmi_field
  * structure, while the ones holding plain values have a single field naming
  * the array itself, since the element has no member to name.
  */
-#define DMI_FIELD_ELEMENT(__entity, __member, __type, ...)              \
-    {                                                                   \
-        .member = { .size = dmi_element_size(__entity, __member) },     \
-        .type   = DMI_FIELD_TYPE_ ## __type,                            \
-        .params = { __VA_ARGS__ }                                       \
+#define DMI_FIELD_ELEMENT(__entity, __member, __type, ...)          \
+    {                                                               \
+        .member = { .size = dmi_element_size(__entity, __member) }, \
+        .type   = DMI_FIELD_TYPE_INTEGER,                           \
+        .params = { .length = sizeof(__type), __VA_ARGS__ }         \
     }
 
 /**
@@ -488,24 +506,24 @@ struct dmi_field
  * The extended field is read wherever it is declared even when the plain one
  * does not point at it, since it occupies its bytes either way.
  */
-#define DMI_FIELD_EXTENDED(__entity, __member, __type, ...) \
-    {                                                       \
-        .member = dmi_member(__entity, __member),           \
-        .type   = DMI_FIELD_TYPE_ ## __type,                \
-        .params = { .extended = true, __VA_ARGS__ }         \
+#define DMI_FIELD_EXTENDED(__entity, __member, __type, ...)                   \
+    {                                                                         \
+        .member = dmi_member(__entity, __member),                             \
+        .type   = DMI_FIELD_TYPE_INTEGER,                                     \
+        .params = { .length = sizeof(__type), .extended = true, __VA_ARGS__ } \
     }
 
 /**
  * @brief Binary-coded decimal, which the firmware writes as the digits of the
  * number rather than as the number itself.
  *
- * @p __type is the width of the field: `BYTE`, `WORD`, `DWORD` or `QWORD`.
+ * @p __type is the type the field is written with, e.g. `dmi_byte_t`.
  */
-#define DMI_FIELD_BCD(__entity, __member, __type, ...) \
-    {                                                  \
-        .member = dmi_member(__entity, __member),      \
-        .type   = DMI_FIELD_TYPE_BCD,                  \
-        .params = { .count_type = DMI_FIELD_TYPE_ ## __type, __VA_ARGS__ } \
+#define DMI_FIELD_BCD(__entity, __member, __type, ...)      \
+    {                                                       \
+        .member = dmi_member(__entity, __member),           \
+        .type   = DMI_FIELD_TYPE_BCD,                       \
+        .params = { .length = sizeof(__type), __VA_ARGS__ } \
     }
 
 /**
@@ -523,21 +541,21 @@ struct dmi_field
 /**
  * @brief Bytes the structure holds and nothing reads, which are stepped over.
  */
-#define DMI_FIELD_SKIP(__length)             \
-    {                                        \
-        .member = DMI_MEMBER_NULL,           \
-        .type   = DMI_FIELD_TYPE_SKIP,       \
-        .params = { .length = (__length) }   \
+#define DMI_FIELD_SKIP(__length)           \
+    {                                      \
+        .member = DMI_MEMBER_NULL,         \
+        .type   = DMI_FIELD_TYPE_SKIP,     \
+        .params = { .length = (__length) } \
     }
 
 /**
  * @brief Bytes taken as they are, which the member refers to in place.
  */
-#define DMI_FIELD_BINARY(__entity, __member, __length, ...)   \
-    {                                                        \
-        .member = dmi_member(__entity, __member),            \
-        .type   = DMI_FIELD_TYPE_BINARY,                     \
-        .params = { .length = (__length), __VA_ARGS__ }      \
+#define DMI_FIELD_BINARY(__entity, __member, __length, ...) \
+    {                                                       \
+        .member = dmi_member(__entity, __member),           \
+        .type   = DMI_FIELD_TYPE_BINARY,                    \
+        .params = { .length = (__length), __VA_ARGS__ }     \
     }
 
 /**
@@ -566,13 +584,25 @@ struct dmi_field
  *
  * @p __structure is the type the fields belong to: the decoded structure for
  * the fields of a specification, and the element type for the fields of an
- * array. @p __type is the type of the data the field carries.
+ * array. @p __type is the type the integer the field carries is written
+ * with, e.g. `dmi_byte_t`.
  */
-#define DMI_FIELD_SPLIT(__structure, __type, ...)  \
-    {                                              \
-        .member = { .size = sizeof(__structure) }, \
-        .type   = DMI_FIELD_TYPE_ ## __type,       \
-        .params = { __VA_ARGS__ }                  \
+#define DMI_FIELD_SPLIT(__structure, __type, ...)               \
+    {                                                           \
+        .member = { .size = sizeof(__structure) },              \
+        .type   = DMI_FIELD_TYPE_INTEGER,                       \
+        .params = { .length = sizeof(__type), __VA_ARGS__ }     \
+    }
+
+/**
+ * @brief Field whose handlers are given the whole structure being decoded,
+ * see `DMI_FIELD_SPLIT`, which carries @p __length bytes taken as they are.
+ */
+#define DMI_FIELD_SPLIT_BINARY(__structure, __length, ...)      \
+    {                                                           \
+        .member = { .size = sizeof(__structure) },              \
+        .type   = DMI_FIELD_TYPE_BINARY,                        \
+        .params = { .length = (__length), __VA_ARGS__ }         \
     }
 
 /**
@@ -610,11 +640,11 @@ struct dmi_field
     }
 
 /**
- * @brief List of the fields a structure is laid out as, terminated for the code
- * which walks it.
+ * @brief List of the fields a structure is laid out as.
  *
- * The terminator is added by the macro, so that a list which has lost it
- * cannot be written in the first place.
+ * The list ends with an empty field, `{}`, which the code walking it stops
+ * at. The terminator is written by the list itself rather than added by the
+ * macro, e.g. `DMI_FIELDS({ DMI_FIELD(...), {} })`.
  */
 #define DMI_FIELDS(...) (const dmi_field_t[])__VA_ARGS__
 
@@ -666,18 +696,6 @@ __dmi_api bool dmi_fields_decode(dmi_entity_t *entity);
  * @return `true` if the structure has been encoded, `false` otherwise.
  */
 __dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
-
-/**
- * @brief Get the number of the bytes a field occupies on the wire.
- *
- * Fields of the types which have no fixed width, such as arrays, occupy no
- * bytes of their own.
- *
- * @param[in] type Type of the field.
- *
- * @return Number of the bytes, or zero if the type has no fixed width.
- */
-__dmi_api size_t dmi_field_type_size(dmi_field_type_t type);
 
 /**
  * @brief Decode a value carried in kilobytes into the number of the bytes it

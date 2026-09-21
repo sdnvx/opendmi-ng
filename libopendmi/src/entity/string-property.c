@@ -34,9 +34,9 @@ const dmi_entity_spec_t dmi_string_property_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_string_property_t, ident,         WORD),
-        DMI_FIELD(dmi_string_property_t, value,         STRING),
-        DMI_FIELD(dmi_string_property_t, parent_handle, WORD),
+        DMI_FIELD(dmi_string_property_t, ident, dmi_word_t),
+        DMI_FIELD_STRING(dmi_string_property_t, value),
+        DMI_FIELD(dmi_string_property_t, parent_handle, dmi_word_t),
         {}
     }),
 

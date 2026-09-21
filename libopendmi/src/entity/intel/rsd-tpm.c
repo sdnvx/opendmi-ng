@@ -22,9 +22,9 @@ const dmi_entity_spec_t dmi_intel_rsd_tpm_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_intel_rsd_tpm_t, config_index, BYTE),
-        DMI_FIELD(dmi_intel_rsd_tpm_t, version,      STRING),
-        DMI_FIELD(dmi_intel_rsd_tpm_t, status,       BYTE),
+        DMI_FIELD(dmi_intel_rsd_tpm_t, config_index, dmi_byte_t),
+        DMI_FIELD_STRING(dmi_intel_rsd_tpm_t, version),
+        DMI_FIELD(dmi_intel_rsd_tpm_t, status, dmi_byte_t),
         {}
     }),
 

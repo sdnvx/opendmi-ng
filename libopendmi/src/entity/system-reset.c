@@ -45,12 +45,12 @@ const dmi_entity_spec_t dmi_system_reset_spec =
         DMI_FIELD_BITS(dmi_system_reset_t, boot_on_watchdog, 2),
         DMI_FIELD_BITS(dmi_system_reset_t, boot_on_limit,    2),
         DMI_FIELD_BITS(dmi_system_reset_t, has_watchdog,     1),
-        DMI_FIELD_PAD(BYTE),
+        DMI_FIELD_PAD(dmi_byte_t),
 
-        DMI_FIELD(dmi_system_reset_t, reset_count,    WORD),
-        DMI_FIELD(dmi_system_reset_t, reset_limit,    WORD),
-        DMI_FIELD(dmi_system_reset_t, timer_interval, WORD),
-        DMI_FIELD(dmi_system_reset_t, timeout,        WORD),
+        DMI_FIELD(dmi_system_reset_t, reset_count,    dmi_word_t),
+        DMI_FIELD(dmi_system_reset_t, reset_limit,    dmi_word_t),
+        DMI_FIELD(dmi_system_reset_t, timer_interval, dmi_word_t),
+        DMI_FIELD(dmi_system_reset_t, timeout,        dmi_word_t),
         {}
     }),
 

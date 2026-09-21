@@ -22,37 +22,37 @@ const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_intel_rsd_fpga_t, index,  BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, type,   BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, status, BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, socket, BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, index,  dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, type,   dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, status, dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, socket, dmi_byte_t),
 
-        DMI_FIELD(dmi_intel_rsd_fpga_t, vendor,             STRING),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, family,             STRING),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, model,              STRING),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, bit_stream_version, STRING),
+        DMI_FIELD_STRING(dmi_intel_rsd_fpga_t, vendor),
+        DMI_FIELD_STRING(dmi_intel_rsd_fpga_t, family),
+        DMI_FIELD_STRING(dmi_intel_rsd_fpga_t, model),
+        DMI_FIELD_STRING(dmi_intel_rsd_fpga_t, bit_stream_version),
 
-        DMI_FIELD(dmi_intel_rsd_fpga_t, hps_core_count, BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hps_core_count, dmi_byte_t),
 
         // Offset 0Dh is not defined by the specification
         DMI_FIELD_SKIP(sizeof(dmi_byte_t)),
 
-        DMI_FIELD(dmi_intel_rsd_fpga_t, hps_isa,               BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_config,           BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_port_count,       BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_port_speed,       BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_side_band_config, STRING),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, reconfig_slots,        BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hps_isa,         dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_config,     dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_port_count, dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, hssi_port_speed, dmi_byte_t),
+        DMI_FIELD_STRING(dmi_intel_rsd_fpga_t, hssi_side_band_config),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, reconfig_slots, dmi_byte_t),
 
-        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_slot_id,     WORD),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_bus_number,  BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_device_id,   BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_function_id, BYTE),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_slot_id,     dmi_word_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_bus_number,  dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_device_id,   dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_function_id, dmi_byte_t),
 
-        DMI_FIELD(dmi_intel_rsd_fpga_t, tdp,             DWORD),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_tech,     BYTE),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_capacity, DWORD),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_speed,    WORD),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, tdp,             dmi_dword_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_tech,     dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_capacity, dmi_dword_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, memory_speed,    dmi_word_t),
         {}
     }),
 

@@ -30,7 +30,8 @@ The `dmi_fields_decode` function reads a structure according to the layout its
 specification declares, instead of a decoding handler written for the type.
 
 A specification describes its layout with the `fields` member of
-`dmi_entity_spec_t`, a list of `dmi_field_t` terminated with `DMI_FIELD_NULL`.
+`dmi_entity_spec_t`, a list of `dmi_field_t` written with `DMI_FIELDS` and
+terminated with an empty field.
 Fields are read in the order they are declared, starting at the beginning of
 the structure body. A specification which declares fields and no decoding
 handler is decoded by this function, which `dmi_entity_decode`(3) calls on its
@@ -56,12 +57,23 @@ structure. Ending anywhere else marks the structure as incomplete, except
 within the fields before the first group, which every structure of the type is
 required to carry.
 
-=== Fields which are not described
+=== Integers and other values
 
-A field of the `DMI_FIELD_TYPE_CUSTOM` type is read by a handler of its own,
-declared with `DMI_FIELD_CUSTOM`. This is how the layouts the declaration does
-not describe are decoded, e.g. the ones which hold several values in one byte,
-without the rest of the structure being written by hand.
+An integer field names the type it is written with, e.g.
+`DMI_FIELD(dmi_slot_t, ident, dmi_word_t)`, whose size is the width of the
+field. The member it is decoded into may be wider than the field, so that the
+value standing for "unknown" does not collide with a value a device may really
+have. String references, UUIDs, binary-coded decimals and bytes taken as they
+are have macros of their own: `DMI_FIELD_STRING`, `DMI_FIELD_UUID`,
+`DMI_FIELD_BCD` and `DMI_FIELD_BINARY`.
+
+=== Values which need decoding
+
+A field whose value means something other than the number the data carries
+declares a pair of handlers, `decode` and `encode`, which turn the data into
+the member and back. A field declared with `DMI_FIELD_SPLIT` gives its
+handlers the whole structure instead of one member, which is how the data
+feeding several members at once is decoded.
 
 === Parameters
 
@@ -93,23 +105,23 @@ const dmi_entity_spec_t dmi_slot_spec =
     .code   = "slot",
     .type   = DMI_TYPE(SYSTEM_SLOTS),
     ...
-    .fields = (const dmi_field_t[]){
-        DMI_FIELD(dmi_slot_t, designator, STRING),
-        DMI_FIELD(dmi_slot_t, type,       BYTE),
-        DMI_FIELD(dmi_slot_t, bus_width,  BYTE),
+    .fields = DMI_FIELDS({
+        DMI_FIELD_STRING(dmi_slot_t, designator),
+        DMI_FIELD(dmi_slot_t, type,      dmi_byte_t),
+        DMI_FIELD(dmi_slot_t, bus_width, dmi_byte_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
-        DMI_FIELD(dmi_slot_t, features_ex, BYTE),
+        DMI_FIELD(dmi_slot_t, features_ex, dmi_byte_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 2, 0)),
         DMI_FIELD_ARRAY(dmi_slot_t, peer_groups, peer_group_count,
-            .count_type = DMI_FIELD_TYPE_BYTE,
-            .fields     = (const dmi_field_t[]){
-                DMI_FIELD(dmi_slot_peer_group_t, bus_width, BYTE),
-                DMI_FIELD_NULL
-            }),
-        DMI_FIELD_NULL
-    }
+            .count_length = sizeof(dmi_byte_t),
+            .fields       = DMI_FIELDS({
+                DMI_FIELD(dmi_slot_peer_group_t, bus_width, dmi_byte_t),
+                {}
+            })),
+        {}
+    })
 };
 ----
 

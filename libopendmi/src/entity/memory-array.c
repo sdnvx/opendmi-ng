@@ -36,22 +36,22 @@ const dmi_entity_spec_t dmi_memory_array_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_memory_array_t, location,         BYTE),
-        DMI_FIELD(dmi_memory_array_t, usage,            BYTE),
-        DMI_FIELD(dmi_memory_array_t, error_correction, BYTE),
+        DMI_FIELD(dmi_memory_array_t, location,         dmi_byte_t),
+        DMI_FIELD(dmi_memory_array_t, usage,            dmi_byte_t),
+        DMI_FIELD(dmi_memory_array_t, error_correction, dmi_byte_t),
 
         // Capacity is carried in kilobytes, and arrays of two tebibytes or
         // more carry it in the extended field instead
-        DMI_FIELD(dmi_memory_array_t, maximum_capacity, DWORD,
+        DMI_FIELD(dmi_memory_array_t, maximum_capacity, dmi_dword_t,
                   .unknown_raw = 0x80000000u,
                   .decode      = dmi_field_decode_kilobytes,
                   .encode      = dmi_field_encode_kilobytes),
 
-        DMI_FIELD(dmi_memory_array_t, error_info_handle, WORD),
-        DMI_FIELD(dmi_memory_array_t, device_count,      WORD),
+        DMI_FIELD(dmi_memory_array_t, error_info_handle, dmi_word_t),
+        DMI_FIELD(dmi_memory_array_t, device_count,      dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
-        DMI_FIELD_EXTENDED(dmi_memory_array_t, maximum_capacity, QWORD,
+        DMI_FIELD_EXTENDED(dmi_memory_array_t, maximum_capacity, dmi_qword_t,
                            .when_raw = 0x80000000u),
         {}
     }),

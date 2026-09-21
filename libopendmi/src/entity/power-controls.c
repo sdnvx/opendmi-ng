@@ -36,11 +36,11 @@ const dmi_entity_spec_t dmi_power_controls_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_month,  BYTE),
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_day,    BYTE),
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_hour,   BYTE),
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_minute, BYTE),
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_second, BYTE),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_month,  dmi_byte_t),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_day,    dmi_byte_t),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_hour,   dmi_byte_t),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_minute, dmi_byte_t),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_second, dmi_byte_t),
         {}
     }),
 
