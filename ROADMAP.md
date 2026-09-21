@@ -3,7 +3,6 @@
 ## Release 1.0 (2027-01-01)
 
 * Solaris/Illumos backend.
-* ICU4C support.
 * Additional OEM-specific structured decoders.
 * Unified data serialization API.
 * Better test coverage.
