@@ -18,7 +18,6 @@
 // Operation handlers, see memory-device-addr-handlers.c
 bool dmi_memory_device_addr_validate(dmi_entity_t *entity);
 bool dmi_memory_device_addr_derive(dmi_entity_t *entity);
-bool dmi_memory_device_addr_link(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see memory-device-addr-rules.c
 void dmi_memory_device_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity);

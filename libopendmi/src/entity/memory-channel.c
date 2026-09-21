@@ -75,6 +75,7 @@ const dmi_entity_spec_t dmi_memory_channel_spec =
                     .code = "handle",
                     .name = "Handle",
                     .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE),
+                    .link = dmi_member(dmi_memory_channel_device_t, device)
                 }),
                 {}
             })

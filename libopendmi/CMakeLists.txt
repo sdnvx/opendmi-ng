@@ -187,6 +187,7 @@ target_sources(opendmi-object
         src/context.c
         src/entity.c
         src/field.c
+        src/link.c
         src/entry.c
         src/error.c
         src/filter.c
@@ -320,7 +321,6 @@ target_sources(opendmi-object
         src/entity/power-controls.c
         src/entity/power-controls-rules.c
         src/entity/power-supply.c
-        src/entity/power-supply-handlers.c
         src/entity/power-supply-names.c
         src/entity/power-supply-rules.c
         src/entity/probe-names.c

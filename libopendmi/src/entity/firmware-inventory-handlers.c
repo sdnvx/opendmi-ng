@@ -59,30 +59,6 @@ bool dmi_firmware_inventory_derive(dmi_entity_t *entity)
     return true;
 }
 
-bool dmi_firmware_inventory_link(dmi_entity_t *entity)
-{
-    dmi_firmware_inventory_t *info;
-
-    assert(entity != nullptr);
-
-    info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE_INVENTORY));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_get_registry(context);
-
-    bool success = true;
-    for (size_t i = 0; i < info->component_count; i++) {
-        dmi_firmware_inventory_component_t *component = &info->components[i];
-
-        if (not dmi_registry_resolve(registry, component->handle, DMI_TYPE_ANY, &component->entity))
-            success = false;
-    }
-
-    return success;
-}
-
 void dmi_firmware_inventory_cleanup(dmi_entity_t *entity)
 {
     dmi_firmware_inventory_t *info;

@@ -40,7 +40,6 @@ extern const dmi_name_set_t dmi_firmware_inventory_state_names;
 // Operation handlers, see firmware-inventory-handlers.c
 extern const dmi_attribute_t dmi_firmware_version_number_attrs[];
 bool dmi_firmware_inventory_derive(dmi_entity_t *entity);
-bool dmi_firmware_inventory_link(dmi_entity_t *entity);
 void dmi_firmware_inventory_cleanup(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see firmware-inventory-rules.c

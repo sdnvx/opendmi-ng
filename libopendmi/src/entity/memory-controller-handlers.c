@@ -38,6 +38,11 @@ bool dmi_memory_controller_derive(dmi_entity_t *entity)
     return true;
 }
 
+//
+// Modules of a controller are linked by the attributes, and learn the
+// controller they belong to here, along with the largest size it supports,
+// which the sizes they declare are checked against.
+//
 bool dmi_memory_controller_link(dmi_entity_t *entity)
 {
     dmi_memory_controller_t *info;
@@ -48,20 +53,10 @@ bool dmi_memory_controller_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_get_registry(context);
-
-    info->modules = dmi_alloc_array(context, sizeof(dmi_entity_t *), info->slot_count);
     if (info->modules == nullptr)
-        return false;
+        return true;
 
-    bool success = true;
     for (size_t i = 0; i < info->slot_count; i++) {
-        if (not dmi_registry_resolve(registry, info->module_handles[i], DMI_TYPE(MEMORY_MODULE), &info->modules[i])) {
-            success = false;
-            continue;
-        }
-
         if (info->modules[i] == nullptr)
             continue;
 
@@ -86,7 +81,7 @@ bool dmi_memory_controller_link(dmi_entity_t *entity)
         }
     }
 
-    return success;
+    return true;
 }
 
 void dmi_memory_controller_cleanup(dmi_entity_t *entity)

@@ -57,6 +57,7 @@ const dmi_entity_spec_t dmi_processor_ex_spec =
             .code   = "processor-handle",
             .name   = "Processor handle",
             .targets = dmi_types(DMI_TYPE_PROCESSOR),
+            .link   = dmi_member(dmi_processor_ex_t, processor)
         }),
         DMI_ATTRIBUTE(dmi_processor_ex_t, arch, ENUM, {
             .code   = "architecture",
@@ -68,9 +69,5 @@ const dmi_entity_spec_t dmi_processor_ex_spec =
             .name   = "Processor-specific data"
         }),
         {}
-    }),
-
-    .handlers = {
-        .link   = dmi_processor_ex_link
-    }
+    })
 };

@@ -133,7 +133,8 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
             .attrs   = DMI_ATTRIBUTES({
                 DMI_ATTRIBUTE(dmi_firmware_inventory_component_t, handle, HANDLE, {
                     .code = "handle",
-                    .name = "Handle"
+                    .name = "Handle",
+                    .link = dmi_member(dmi_firmware_inventory_component_t, entity)
                 }),
                 {}
             })
@@ -152,7 +153,6 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
 
     .handlers = {
         .derive  = dmi_firmware_inventory_derive,
-        .link    = dmi_firmware_inventory_link,
         .cleanup = dmi_firmware_inventory_cleanup
     }
 };

@@ -14,6 +14,10 @@
 
 #include <opendmi/entity/memory-channel-internal.h>
 
+//
+// Devices of a channel are linked by the attributes, and learn the channel
+// they belong to here, since nothing in their own data says so.
+//
 bool dmi_memory_channel_link(dmi_entity_t *entity)
 {
     dmi_memory_channel_t *info;
@@ -22,19 +26,8 @@ bool dmi_memory_channel_link(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_get_registry(context);
-
-    bool success = true;
     for (size_t i = 0; i < info->device_count; i++) {
-        dmi_entity_t *device;
-
-        if (not dmi_registry_resolve(registry, info->devices[i].handle, DMI_TYPE(MEMORY_DEVICE), &device)) {
-            success = false;
-            continue;
-        }
-
-        info->devices[i].device = device;
+        dmi_entity_t *device = info->devices[i].device;
         if (device == nullptr)
             continue;
 
@@ -44,7 +37,7 @@ bool dmi_memory_channel_link(dmi_entity_t *entity)
             device_info->channel = entity;
     }
 
-    return success;
+    return true;
 }
 
 void dmi_memory_channel_cleanup(dmi_entity_t *entity)

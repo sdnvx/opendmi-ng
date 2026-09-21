@@ -103,7 +103,8 @@ const dmi_entity_spec_t dmi_baseboard_spec =
             .code    = "chassis-handle",
             .name    = "Chassis handle",
             .targets = dmi_types(DMI_TYPE_CHASSIS),
-            .unspec  = dmi_value_ptr(DMI_HANDLE_INVALID)
+            .unspec  = dmi_value_ptr(DMI_HANDLE_INVALID),
+            .link    = dmi_member(dmi_baseboard_t, chassis)
         }),
         DMI_ATTRIBUTE(dmi_baseboard_t, type, ENUM, {
             .code    = "type",
@@ -114,13 +115,13 @@ const dmi_entity_spec_t dmi_baseboard_spec =
         }),
         DMI_ATTRIBUTE_ARRAY(dmi_baseboard_t, object_handles, object_count, HANDLE, {
             .code    = "contained-objects",
-            .name    = "Contained objects"
+            .name    = "Contained objects",
+            .link    = dmi_member(dmi_baseboard_t, objects)
         }),
         {}
     }),
 
     .handlers = {
-        .link    = dmi_baseboard_link,
         .cleanup = dmi_baseboard_cleanup
     }
 };

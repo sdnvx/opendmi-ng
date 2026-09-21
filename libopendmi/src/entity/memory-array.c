@@ -86,6 +86,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
             .code    = "error-handle",
             .name    = "Memory error information handle",
             .targets = dmi_types(DMI_TYPE_MEMORY_ERROR_32, DMI_TYPE_MEMORY_ERROR_64),
+            .link    = dmi_member(dmi_memory_array_t, error_info)
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, device_count, INTEGER, {
             .code    = "device-count",
@@ -111,9 +112,5 @@ const dmi_entity_spec_t dmi_memory_array_spec =
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}
-    }),
-
-    .handlers = {
-        .link   = dmi_memory_array_link
-    }
+    })
 };

@@ -21,9 +21,6 @@ extern const dmi_name_set_t dmi_memory_device_type_detail_names;
 extern const dmi_name_set_t dmi_memory_device_form_factor_names;
 extern const dmi_name_set_t dmi_memory_device_tech_names;
 
-// Operation handlers, see memory-device-handlers.c
-bool dmi_memory_device_link(dmi_entity_t *entity);
-
 // Sizes are carried in granules of their own, and in a field of the width the
 // plain one is too narrow for, see memory-device-handlers.c
 uintmax_t dmi_memory_device_convert_size(uintmax_t raw);

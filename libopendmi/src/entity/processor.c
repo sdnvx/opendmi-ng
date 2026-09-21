@@ -303,19 +303,22 @@ const dmi_entity_spec_t dmi_processor_spec =
             .code    = "l1-cache-handle",
             .name    = "L1 Cache handle",
             .targets = dmi_types(DMI_TYPE_CACHE),
-            .level   = DMI_VERSION(2, 1, 0)
+            .level   = DMI_VERSION(2, 1, 0),
+            .link    = dmi_member(dmi_processor_t, l1_cache)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, l2_cache_handle, HANDLE, {
             .code    = "l2-cache-handle",
             .name    = "L2 Cache handle",
             .targets = dmi_types(DMI_TYPE_CACHE),
-            .level   = DMI_VERSION(2, 1, 0)
+            .level   = DMI_VERSION(2, 1, 0),
+            .link    = dmi_member(dmi_processor_t, l2_cache)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, l3_cache_handle, HANDLE, {
             .code    = "l3-cache-handle",
             .name    = "L3 Cache handle",
             .targets = dmi_types(DMI_TYPE_CACHE),
-            .level   = DMI_VERSION(2, 1, 0)
+            .level   = DMI_VERSION(2, 1, 0),
+            .link    = dmi_member(dmi_processor_t, l3_cache)
         }),
         DMI_ATTRIBUTE(dmi_processor_t, serial_number, STRING, {
             .code    = "serial-number",
@@ -399,7 +402,6 @@ const dmi_entity_spec_t dmi_processor_spec =
     }),
 
     .handlers = {
-        .derive = dmi_processor_derive,
-        .link   = dmi_processor_link
+        .derive = dmi_processor_derive
     }
 };

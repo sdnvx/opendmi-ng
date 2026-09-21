@@ -58,6 +58,7 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
             .code    = "probe-handle",
             .name    = "Temperature probe handle",
             .targets = dmi_types(DMI_TYPE_TEMPERATURE_PROBE),
+            .link    = dmi_member(dmi_cooling_device_t, probe)
         }),
         DMI_ATTRIBUTE(dmi_cooling_device_t, type, ENUM, {
             .code    = "type",
@@ -103,9 +104,5 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}
-    }),
-
-    .handlers = {
-        .link   = dmi_cooling_device_link
-    }
+    })
 };

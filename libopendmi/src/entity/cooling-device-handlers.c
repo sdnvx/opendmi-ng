@@ -24,16 +24,3 @@ uintmax_t dmi_cooling_device_convert_speed(uintmax_t raw)
     return (raw != 0x8000u) ? (raw & 0x7FFFu) : raw;
 }
 
-bool dmi_cooling_device_link(dmi_entity_t *entity)
-{
-    dmi_cooling_device_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(COOLING_DEVICE));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_get_registry(context);
-
-    return dmi_registry_resolve(registry, info->probe_handle, DMI_TYPE(TEMPERATURE_PROBE), &info->probe);
-}

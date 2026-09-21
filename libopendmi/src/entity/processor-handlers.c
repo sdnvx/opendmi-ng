@@ -75,28 +75,6 @@ bool dmi_processor_derive(dmi_entity_t *entity)
     return true;
 }
 
-bool dmi_processor_link(dmi_entity_t *entity)
-{
-    dmi_processor_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_get_registry(context);
-
-    bool success = true;
-    if (not dmi_registry_resolve(registry, info->l1_cache_handle, DMI_TYPE(CACHE), &info->l1_cache))
-        success = false;
-    if (not dmi_registry_resolve(registry, info->l2_cache_handle, DMI_TYPE(CACHE), &info->l2_cache))
-        success = false;
-    if (not dmi_registry_resolve(registry, info->l3_cache_handle, DMI_TYPE(CACHE), &info->l3_cache))
-        success = false;
-
-    return success;
-}
-
 static void dmi_processor_decode_id(const dmi_entity_t *entity, dmi_processor_t *info)
 {
     info->id_format = DMI_PROCESSOR_ID_FORMAT_RAW;

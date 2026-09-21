@@ -191,7 +191,14 @@ struct dmi_entity_ops
     dmi_entity_derive_fn *derive;
 
     /**
-     * @brief Link handler.
+     * @brief Link handler, called once the references the attributes declare
+     * have been resolved.
+     *
+     * Most references are a handle and the member the referenced structure
+     * goes into, which the attributes say by themselves, see
+     * `dmi_attribute_params_t::link`. This is where the rest is done, e.g.
+     * the references back from the referenced structures, or the ones whose
+     * type another member names.
      */
     dmi_entity_link_fn *link;
 
@@ -528,16 +535,32 @@ __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
  * @internal
  * @brief Link SMBIOS entity.
  *
- * Invokes the type-specific link handler to resolve cross-references between
- * entities (e.g., handle-based references to other structures). If linking has
- * already been performed, this function returns `true` immediately.
+ * Resolves cross-references between entities (e.g., handle-based references
+ * to other structures): first the ones the attributes of the specification
+ * declare, see `dmi_attributes_link()`, and then the ones the type-specific
+ * link handler resolves itself. If linking has already been performed, this
+ * function returns `true` immediately.
  *
  * @param[in] entity Entity descriptor.
  *
- * @return `true` on success, `false` if linking failed or the entity has no
- *         specification or link handler.
+ * @return `true` on success, `false` if linking failed or the entity has
+ *         nothing to link, see `dmi_entity_is_linkable()`.
  */
 __dmi_api bool dmi_entity_link(dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check whether an entity has anything to link.
+ *
+ * An entity is linked when its specification has a link handler, or when any
+ * of its attributes declares the member a referenced structure goes into.
+ * The rest have no references to resolve, and are left unlinked.
+ *
+ * @param[in] entity Entity descriptor.
+ *
+ * @return `true` if the entity has anything to link, `false` otherwise.
+ */
+__dmi_api bool dmi_entity_is_linkable(const dmi_entity_t *entity);
 
 /**
  * @brief Get entity handle.

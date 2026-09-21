@@ -79,22 +79,3 @@ bool dmi_memory_device_addr_derive(dmi_entity_t *entity)
     return true;
 }
 
-bool dmi_memory_device_addr_link(dmi_entity_t *entity)
-{
-    dmi_memory_device_addr_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE_ADDR));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_get_registry(context);
-
-    bool success = true;
-    if (not dmi_registry_resolve(registry, info->device_handle, DMI_TYPE(MEMORY_DEVICE), &info->device))
-        success = false;
-    if (not dmi_registry_resolve(registry, info->array_addr_handle, DMI_TYPE(MEMORY_ARRAY_ADDR), &info->array_addr))
-        success = false;
-
-    return success;
-}

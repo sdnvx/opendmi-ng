@@ -279,15 +279,22 @@ bool dmi_entity_link(dmi_entity_t *entity)
     if (entity == nullptr)
         return false;
 
-    if (entity->spec == nullptr)
-        return false;
-    if (entity->spec->handlers.link == nullptr)
+    if (not dmi_entity_is_linkable(entity))
         return false;
 
     if (entity->state & DMI_ENTITY_STATE_LINKED)
         return true;
 
-    if (not entity->spec->handlers.link(entity)) {
+    // References the attributes declare are resolved first, so that the link
+    // handler, which is left for what they cannot say, finds them resolved.
+    // It is called after a failure too, so that all broken references of the
+    // structure are reported at once
+    bool success = dmi_attributes_link(entity);
+
+    if ((entity->spec->handlers.link != nullptr) and not entity->spec->handlers.link(entity))
+        success = false;
+
+    if (not success) {
         dmi_context_t *context = entity->context;
         dmi_error_raise_ex(context, DMI_ERROR_ENTITY_LINK,
                            "0x%04x (%s)", entity->handle, entity->spec->name);

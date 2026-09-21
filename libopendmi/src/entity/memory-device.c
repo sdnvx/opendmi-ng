@@ -106,11 +106,13 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .code    = "array-handle",
             .name    = "Memory array handle",
             .targets = dmi_types(DMI_TYPE_MEMORY_ARRAY),
+            .link    = dmi_member(dmi_memory_device_t, array)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, error_info_handle, HANDLE, {
             .code    = "error-info-handle",
             .name    = "Memory error information handle",
             .targets = dmi_types(DMI_TYPE_MEMORY_ERROR_32, DMI_TYPE_MEMORY_ERROR_64),
+            .link    = dmi_member(dmi_memory_device_t, error_info)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, total_width, INTEGER, {
             .code    = "total-width",
@@ -356,9 +358,5 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}
-    }),
-
-    .handlers = {
-        .link = dmi_memory_device_link
-    }
+    })
 };

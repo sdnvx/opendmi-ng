@@ -103,6 +103,7 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
             .code   = "module-handles",
             .name   = "Module handles",
             .targets = dmi_types(DMI_TYPE_MEMORY_MODULE),
+            .link   = dmi_member(dmi_memory_controller_t, modules)
         }),
         DMI_ATTRIBUTE(dmi_memory_controller_t, enabled_error_correction, SET, {
             .code   = "enabled-error-correction",

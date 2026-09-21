@@ -23,6 +23,5 @@ bool dmi_processor_ex_decode_data(
         dmi_entity_t      *entity,
         const dmi_field_t *field,
         void              *value);
-bool dmi_processor_ex_link(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_PROCESSOR_EX_INTERNAL_H

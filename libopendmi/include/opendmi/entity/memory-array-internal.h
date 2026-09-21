@@ -35,7 +35,6 @@ size_t dmi_memory_array_devices(
         dmi_lint_t         *lint,
         const dmi_entity_t *entity,
         dmi_size_t         *capacity);
-bool dmi_memory_array_link(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see memory-array-rules.c
 void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *entity);

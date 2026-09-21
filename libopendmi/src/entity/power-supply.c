@@ -132,16 +132,19 @@ const dmi_entity_spec_t dmi_power_supply_spec =
             .code    = "voltage-probe-handle",
             .name    = "Input voltage probe handle",
             .targets = dmi_types(DMI_TYPE_VOLTAGE_PROBE),
+            .link    = dmi_member(dmi_power_supply_t, voltage_probe)
         }),
         DMI_ATTRIBUTE(dmi_power_supply_t, cooling_device_handle, HANDLE, {
             .code    = "cooling-device-handle",
             .name    = "Cooling device handle",
             .targets = dmi_types(DMI_TYPE_COOLING_DEVICE),
+            .link    = dmi_member(dmi_power_supply_t, cooling_device)
         }),
         DMI_ATTRIBUTE(dmi_power_supply_t, current_probe_handle, HANDLE, {
             .code    = "current-probe-handle",
             .name    = "Input current probe handle",
             .targets = dmi_types(DMI_TYPE_CURRENT_PROBE),
+            .link    = dmi_member(dmi_power_supply_t, current_probe)
         }),
         {}
     }),
@@ -153,9 +156,5 @@ const dmi_entity_spec_t dmi_power_supply_spec =
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}
-    }),
-
-    .handlers = {
-        .link = dmi_power_supply_link
-    }
+    })
 };

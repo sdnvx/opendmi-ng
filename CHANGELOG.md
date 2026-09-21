@@ -83,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Split the sources of a structure type into its specification, value names, handlers and lint rules
 - Declare the lint rules of a structure type along with the rest of its specification
 - Decode the structures whose specification declares fields and no decoding handler with the field engine
+- Link the references the attributes declare before calling the link handler, which is left for what they cannot say
 - Add manual pages for the `opendmi` command line tool and all of its commands
 
 ### Fixed

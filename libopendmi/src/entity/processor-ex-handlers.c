@@ -46,19 +46,3 @@ bool dmi_processor_ex_decode_data(
 
     return dmi_stream_decode_bin(stream, length, &info->data);
 }
-
-bool dmi_processor_ex_link(dmi_entity_t *entity)
-{
-    dmi_processor_ex_t *info;
-
-    assert(entity != nullptr);
-
-    info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR_EX));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t  *context  = dmi_entity_context(entity);
-    dmi_registry_t *registry = dmi_get_registry(context);
-
-    return dmi_registry_resolve(registry, info->processor_handle, DMI_TYPE(PROCESSOR), &info->processor);
-}

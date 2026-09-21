@@ -45,7 +45,6 @@ bool dmi_processor_decode_voltage(
         const dmi_field_t *field,
         void              *value);
 bool dmi_processor_derive(dmi_entity_t *entity);
-bool dmi_processor_link(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see processor-rules.c
 void dmi_processor_lint_cores(dmi_lint_t *lint, const dmi_entity_t *entity);

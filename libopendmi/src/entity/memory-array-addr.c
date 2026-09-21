@@ -64,6 +64,7 @@ const dmi_entity_spec_t dmi_memory_array_addr_spec =
             .code   = "array-handle",
             .name   = "Memory array handle",
             .targets = dmi_types(DMI_TYPE_MEMORY_ARRAY),
+            .link   = dmi_member(dmi_memory_array_addr_t, array)
         }),
         DMI_ATTRIBUTE(dmi_memory_array_addr_t, partition_width, INTEGER, {
             .code   = "partition-width",
@@ -88,7 +89,6 @@ const dmi_entity_spec_t dmi_memory_array_addr_spec =
 
     .handlers = {
         .validate = dmi_memory_array_addr_validate,
-        .derive   = dmi_memory_array_addr_derive,
-        .link     = dmi_memory_array_addr_link
+        .derive   = dmi_memory_array_addr_derive
     }
 };

@@ -148,6 +148,18 @@ struct dmi_attribute_params
     const dmi_type_t *targets;
 
     /**
+     * @brief Member the referenced structure is put into once the table is
+     * linked, which is left unset for the handles nothing links.
+     *
+     * Valid only for handles. A handle names a structure by its number, and
+     * this member holds the structure itself: a `dmi_entity_t *` for a single
+     * handle, or a `dmi_entity_t **` for an array of them, which linking
+     * allocates one pointer per handle for. References are resolved against
+     * `targets`, the same types the lint rules check the handle against.
+     */
+    dmi_member_ref_t link;
+
+    /**
      * @brief Smallest and largest values the field may hold, which are both
      * left unset for the fields the specification puts no limits on.
      *
@@ -412,6 +424,30 @@ __dmi_api char *dmi_attribute_format(
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                  pretty);
+
+/**
+ * @brief Link the references a structure declares by its attributes.
+ *
+ * Every handle whose attribute names the member the referenced structure goes
+ * into, see `dmi_attribute_params_t::link`, is resolved against the types the
+ * attribute expects, including the handles of nested structures and arrays.
+ * Linking goes on after a reference fails to resolve, so that all the broken
+ * references of the structure are reported at once.
+ *
+ * This is the part of linking the specifications describe rather than
+ * perform, and the link handler of a specification is called after it, for
+ * what the attributes cannot say.
+ *
+ * @param[in,out] entity Structure to link.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Entity is `nullptr`
+ * @error DMI_ERROR_OUT_OF_MEMORY Structures of an array of handles cannot be allocated
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Handle belongs to no structure of the table
+ * @error DMI_ERROR_INVALID_ENTITY_TYPE Handle refers to a structure of a type the attribute does not expect
+ *
+ * @return `true` if every reference is resolved or not set, `false` otherwise.
+ */
+__dmi_api bool dmi_attributes_link(dmi_entity_t *entity);
 
 __END_DECLS
 

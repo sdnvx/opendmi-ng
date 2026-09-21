@@ -18,9 +18,6 @@
 extern const dmi_name_set_t dmi_power_supply_type_names;
 extern const dmi_name_set_t dmi_range_switching_type_names;
 
-// Operation handlers, see power-supply-handlers.c
-bool dmi_power_supply_link(dmi_entity_t *entity);
-
 // Checks the lint rules of the specification perform, see power-supply-rules.c
 void dmi_power_supply_lint_probes(dmi_lint_t *lint, const dmi_entity_t *entity);
 

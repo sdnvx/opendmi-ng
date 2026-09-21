@@ -496,7 +496,7 @@ bool dmi_registry_link(dmi_registry_t *registry)
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        if ((entity->spec == nullptr) or (entity->spec->handlers.link == nullptr))
+        if (not dmi_entity_is_linkable(entity))
             continue;
 
         // Undecoded entities have no data to link
