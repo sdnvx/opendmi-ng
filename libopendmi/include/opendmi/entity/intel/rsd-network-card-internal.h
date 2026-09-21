@@ -4,7 +4,6 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-
 #ifndef OPENDMI_ENTITY_RSD_NETWORK_CARD_INTERNAL_H
 #define OPENDMI_ENTITY_RSD_NETWORK_CARD_INTERNAL_H
 
