@@ -4,12 +4,17 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <inttypes.h>
+
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
+#include <opendmi/registry.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
+#include <opendmi/entity/memory-device.h>
 #include <opendmi/entity/memory-array.h>
 
 static bool dmi_memory_array_decode(dmi_entity_t *entity);
@@ -127,6 +132,65 @@ static const dmi_name_set_t dmi_memory_array_usage_names =
     }
 };
 
+static void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_memory_array_lint_capacity(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_memory_array_device_count_rule =
+{
+    .code              = "memory-array.device-count",
+    .name              = "Number of the devices matches the ones referring to the array",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_array_lint_device_count
+};
+
+static const dmi_lint_rule_t dmi_memory_array_capacity_rule =
+{
+    .code              = "memory-array.capacity",
+    .name              = "Devices of the array fit its maximum capacity",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_array_lint_capacity
+};
+
+//
+// Sum of the sizes of the devices of an array, along with their number, which
+// both rules of the array are checked against.
+//
+static size_t dmi_memory_array_devices(
+        dmi_lint_t         *lint,
+        const dmi_entity_t *entity,
+        dmi_size_t         *capacity)
+{
+    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
+    dmi_registry_iter_t iter;
+    dmi_entity_t *device;
+
+    size_t count = 0;
+
+    if (not dmi_registry_iter_init(&iter, registry, nullptr))
+        return 0;
+
+    while ((device = dmi_registry_iter_next(&iter)) != nullptr) {
+        if (dmi_entity_type(device) != DMI_TYPE_MEMORY_DEVICE)
+            continue;
+
+        const dmi_memory_device_t *info = dmi_entity_info(device, DMI_TYPE(MEMORY_DEVICE));
+
+        if ((info == nullptr) or (info->array_handle != dmi_entity_handle(entity)))
+            continue;
+
+        count++;
+
+        if ((capacity != nullptr) and (info->size != DMI_SIZE_MAX))
+            *capacity += info->size;
+    }
+
+    return count;
+}
+
 const dmi_entity_spec_t dmi_memory_array_spec =
 {
     .code            = "memory-array",
@@ -178,6 +242,12 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_memory_array_device_count_rule,
+        &dmi_memory_array_capacity_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode = dmi_memory_array_decode,
         .link   = dmi_memory_array_link
@@ -266,4 +336,42 @@ static bool dmi_memory_array_link(dmi_entity_t *entity)
     };
 
     return dmi_registry_resolve_any(registry, info->error_info_handle, error_types, &info->error_info);
+}
+
+static void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
+    if (info == nullptr)
+        return;
+
+    size_t count = dmi_memory_array_devices(lint, entity, nullptr);
+
+    // Devices are counted whether they are populated or not, so the number
+    // is the number of the sockets of the array
+    if (count == info->device_count)
+        return;
+
+    dmi_lint_issue(lint, entity, "device-count", dmi_lint_entity_offset(lint, entity),
+                   "array declares %u devices, while %zu structures refer to it",
+                   info->device_count, count);
+}
+
+static void dmi_memory_array_lint_capacity(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
+
+    if ((info == nullptr) or (info->maximum_capacity == DMI_SIZE_MAX) or
+        (info->maximum_capacity == 0))
+        return;
+
+    dmi_size_t capacity = 0;
+
+    dmi_memory_array_devices(lint, entity, &capacity);
+
+    if (capacity <= info->maximum_capacity)
+        return;
+
+    dmi_lint_issue(lint, entity, "maximum-capacity", dmi_lint_entity_offset(lint, entity),
+                   "devices of the array add up to %" PRIu64 " bytes, while its maximum "
+                   "capacity is %" PRIu64 " bytes", capacity, info->maximum_capacity);
 }

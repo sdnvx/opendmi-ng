@@ -10,7 +10,6 @@
 #pragma once
 
 #include <opendmi/entity.h>
-#include <opendmi/lint.h>
 
 typedef struct dmi_power_controls dmi_power_controls_t;
 
@@ -62,10 +61,5 @@ struct dmi_power_controls
  * @brief System power controls entity specification.
  */
 extern __dmi_api const dmi_entity_spec_t dmi_power_controls_spec;
-
-/**
- * @brief Fields of the next scheduled power-on hold binary-coded decimals.
- */
-extern __dmi_api const dmi_lint_rule_t dmi_power_controls_bcd_rule;
 
 #endif // !OPENDMI_ENTITY_POWER_CONTROLS_H

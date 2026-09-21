@@ -8,6 +8,7 @@
 #include <opendmi/value.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
@@ -54,6 +55,18 @@ static const dmi_name_set_t dmi_battery_chemistry_names =
         },
         DMI_NAME_NULL
     }
+};
+
+static void dmi_battery_lint_sbds(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_battery_sbds_rule =
+{
+    .code              = "portable-battery.sbds",
+    .name              = "Battery carries either its own values or the SBDS ones",
+    .severity          = DMI_LINT_SEVERITY_NOTE,
+    .producer_severity = DMI_LINT_SEVERITY_WARNING,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_battery_lint_sbds
 };
 
 const dmi_entity_spec_t dmi_battery_spec =
@@ -143,6 +156,11 @@ const dmi_entity_spec_t dmi_battery_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_battery_sbds_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode = dmi_battery_decode
     }
@@ -226,4 +244,31 @@ static bool dmi_battery_decode(dmi_entity_t *entity)
         return dmi_entity_incomplete(entity);
 
     return true;
+}
+
+//
+// The specification puts the SBDS values in place of the ones the structure
+// carries itself, so a battery provides either of them, and not both.
+//
+static void dmi_battery_lint_sbds(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+    if (info == nullptr)
+        return;
+
+    size_t offset = dmi_lint_entity_offset(lint, entity);
+
+    bool has_serial = (info->serial_number != nullptr) and (*info->serial_number != 0);
+
+    if (has_serial and (info->sbds_serial_number != 0)) {
+        dmi_lint_issue(lint, entity, "sbds-serial-number", offset,
+                       "battery carries both a serial number and an SBDS one");
+    }
+
+    bool has_chemistry = (info->sbds_chemistry != nullptr) and (*info->sbds_chemistry != 0);
+
+    if (has_chemistry and (info->chemistry != DMI_BATTERY_CHEMISTRY_UNKNOWN)) {
+        dmi_lint_issue(lint, entity, "sbds-chemistry", offset,
+                       "battery carries both a chemistry and an SBDS one");
+    }
 }

@@ -23,7 +23,7 @@ static void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *
  */
 #define DMI_IPMI_DEVICE_REVISION_OFFSET 0x05
 
-const dmi_lint_rule_t dmi_ipmi_device_revision_rule =
+static const dmi_lint_rule_t dmi_ipmi_device_revision_rule =
 {
     .code              = "ipmi-device.revision",
     .name              = "Revision of the IPMI specification is a binary-coded decimal",

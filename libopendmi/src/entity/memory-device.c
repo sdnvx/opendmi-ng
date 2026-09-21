@@ -4,9 +4,13 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <limits.h>
+#include <inttypes.h>
+
 #include <opendmi/context.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -400,6 +404,51 @@ static const dmi_name_set_t dmi_memory_device_tech_names =
     }
 };
 
+static void dmi_memory_device_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_memory_device_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_memory_device_lint_voltage(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_memory_device_lint_sizes(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_memory_device_width_rule =
+{
+    .code              = "memory-device.width",
+    .name              = "Total width of the device covers its data width",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_device_lint_width
+};
+
+static const dmi_lint_rule_t dmi_memory_device_speed_rule =
+{
+    .code              = "memory-device.speed",
+    .name              = "Device is configured no faster than it is capable of",
+    .severity          = DMI_LINT_SEVERITY_NOTE,
+    .producer_severity = DMI_LINT_SEVERITY_WARNING,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_device_lint_speed
+};
+
+static const dmi_lint_rule_t dmi_memory_device_voltage_rule =
+{
+    .code              = "memory-device.voltage",
+    .name              = "Configured voltage of the device is within its limits",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_device_lint_voltage
+};
+
+static const dmi_lint_rule_t dmi_memory_device_sizes_rule =
+{
+    .code              = "memory-device.sizes",
+    .name              = "Volatile and non-volatile sizes fit the size of the device",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_device_lint_sizes
+};
+
 const dmi_entity_spec_t dmi_memory_device_spec =
 {
     .code            = "memory-device",
@@ -641,6 +690,14 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_memory_device_width_rule,
+        &dmi_memory_device_speed_rule,
+        &dmi_memory_device_voltage_rule,
+        &dmi_memory_device_sizes_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode = dmi_memory_device_decode,
         .link   = dmi_memory_device_link,
@@ -879,4 +936,79 @@ static bool dmi_memory_device_link(dmi_entity_t *entity)
         success = false;
 
     return success;
+}
+
+static void dmi_memory_device_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+
+    if ((info == nullptr) or (info->total_width == USHRT_MAX) or (info->data_width == USHRT_MAX))
+        return;
+
+    // Total width covers the data bits and the ones used for error correction
+    if (info->total_width >= info->data_width)
+        return;
+
+    dmi_lint_issue(lint, entity, "total-width", dmi_lint_entity_offset(lint, entity),
+                   "total width of %u bits is less than the data width of %u bits",
+                   info->total_width, info->data_width);
+}
+
+static void dmi_memory_device_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+
+    if ((info == nullptr) or (info->maximum_speed == 0) or (info->configured_speed == 0))
+        return;
+
+    if (info->configured_speed <= info->maximum_speed)
+        return;
+
+    dmi_lint_issue(lint, entity, "configured-speed", dmi_lint_entity_offset(lint, entity),
+                   "device is configured at %lu MT/s, while it is capable of %lu MT/s",
+                   info->configured_speed, info->maximum_speed);
+}
+
+static void dmi_memory_device_lint_voltage(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+
+    if ((info == nullptr) or (info->configured_voltage == 0))
+        return;
+
+    if ((info->minimum_voltage != 0) and (info->configured_voltage < info->minimum_voltage)) {
+        dmi_lint_issue(lint, entity, "configured-voltage", dmi_lint_entity_offset(lint, entity),
+                       "configured voltage of %u mV is below the minimum of %u mV",
+                       info->configured_voltage, info->minimum_voltage);
+    }
+
+    if ((info->maximum_voltage != 0) and (info->configured_voltage > info->maximum_voltage)) {
+        dmi_lint_issue(lint, entity, "configured-voltage", dmi_lint_entity_offset(lint, entity),
+                       "configured voltage of %u mV is above the maximum of %u mV",
+                       info->configured_voltage, info->maximum_voltage);
+    }
+}
+
+static void dmi_memory_device_lint_sizes(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+
+    if ((info == nullptr) or (info->size == 0) or (info->size == DMI_SIZE_MAX))
+        return;
+
+    // Volatile and non-volatile parts are carved out of the device itself
+    dmi_size_t total = 0;
+
+    if ((info->volatile_size != 0) and (info->volatile_size != DMI_SIZE_MAX))
+        total += info->volatile_size;
+
+    if ((info->non_volatile_size != 0) and (info->non_volatile_size != DMI_SIZE_MAX))
+        total += info->non_volatile_size;
+
+    if ((total == 0) or (total <= info->size))
+        return;
+
+    dmi_lint_issue(lint, entity, "size", dmi_lint_entity_offset(lint, entity),
+                   "volatile and non-volatile sizes add up to %" PRIu64 " bytes, while the "
+                   "device is %" PRIu64 " bytes", total, info->size);
 }

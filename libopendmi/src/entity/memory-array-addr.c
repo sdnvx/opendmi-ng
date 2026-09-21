@@ -6,6 +6,9 @@
 //
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
+#include <inttypes.h>
+#include <opendmi/registry.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
@@ -14,6 +17,29 @@
 static bool dmi_memory_array_addr_validate(dmi_entity_t *entity);
 static bool dmi_memory_array_addr_decode(dmi_entity_t *entity);
 static bool dmi_memory_array_addr_link(dmi_entity_t *entity);
+
+static void dmi_memory_array_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_memory_array_addr_lint_overlap(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_memory_array_addr_range_rule =
+{
+    .code              = "memory-array-address.range",
+    .name              = "Mapped address range starts before it ends",
+    .severity          = DMI_LINT_SEVERITY_ERROR,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_array_addr_lint_range
+};
+
+static const dmi_lint_rule_t dmi_memory_array_addr_overlap_rule =
+{
+    .code              = "memory-array-address.overlap",
+    .name              = "Mapped address ranges of the arrays do not overlap",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_array_addr_lint_overlap
+};
 
 const dmi_entity_spec_t dmi_memory_array_addr_spec =
 {
@@ -48,6 +74,12 @@ const dmi_entity_spec_t dmi_memory_array_addr_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_memory_array_addr_range_rule,
+        &dmi_memory_array_addr_overlap_rule,
+        nullptr
+    },
+
     .handlers = {
         .validate = dmi_memory_array_addr_validate,
         .decode   = dmi_memory_array_addr_decode,
@@ -174,4 +206,57 @@ static bool dmi_memory_array_addr_link(dmi_entity_t *entity)
     dmi_registry_t *registry = dmi_get_registry(context);
 
     return dmi_registry_resolve(registry, info->array_handle, DMI_TYPE(MEMORY_ARRAY), &info->array);
+}
+
+static void dmi_memory_array_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
+
+    if ((info == nullptr) or (info->start_addr <= info->end_addr))
+        return;
+
+    dmi_lint_issue(lint, entity, "start-addr", dmi_lint_entity_offset(lint, entity),
+                   "range starts at 0x%" PRIX64 " and ends at 0x%" PRIX64,
+                   info->start_addr, info->end_addr);
+}
+
+//
+// Ranges of the arrays describe the physical address space of the system, so
+// no two of them may claim the same addresses.
+//
+static void dmi_memory_array_addr_lint_overlap(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
+
+    if ((info == nullptr) or (info->start_addr > info->end_addr))
+        return;
+
+    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
+    dmi_registry_iter_t iter;
+    dmi_entity_t *other;
+
+    if (not dmi_registry_iter_init(&iter, registry, nullptr))
+        return;
+
+    while ((other = dmi_registry_iter_next(&iter)) != nullptr) {
+        if ((other == entity) or (dmi_entity_type(other) != DMI_TYPE_MEMORY_ARRAY_ADDR))
+            continue;
+
+        // Every pair is reported once, by the structure which comes later
+        if (dmi_entity_handle(other) >= dmi_entity_handle(entity))
+            continue;
+
+        const dmi_memory_array_addr_t *peer =
+                dmi_entity_info(other, DMI_TYPE(MEMORY_ARRAY_ADDR));
+
+        if ((peer == nullptr) or (peer->start_addr > peer->end_addr))
+            continue;
+
+        if ((info->start_addr > peer->end_addr) or (info->end_addr < peer->start_addr))
+            continue;
+
+        dmi_lint_issue(lint, entity, "start-addr", dmi_lint_entity_offset(lint, entity),
+                       "range 0x%" PRIX64 "-0x%" PRIX64 " overlaps the one of handle 0x%04X",
+                       info->start_addr, info->end_addr, (unsigned)dmi_entity_handle(other));
+    }
 }

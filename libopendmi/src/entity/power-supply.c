@@ -7,6 +7,8 @@
 #include <opendmi/context.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
+#include <opendmi/registry.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -86,6 +88,18 @@ static const dmi_name_set_t dmi_range_switching_type_names =
         },
         DMI_NAME_NULL
     }
+};
+
+static void dmi_power_supply_lint_probes(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_power_supply_probes_rule =
+{
+    .code              = "power-supply.probes",
+    .name              = "Probes of the power supply are of the kinds it measures",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_power_supply_lint_probes
 };
 
 const dmi_entity_spec_t dmi_power_supply_spec =
@@ -184,6 +198,11 @@ const dmi_entity_spec_t dmi_power_supply_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_power_supply_probes_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode = dmi_power_supply_decode,
         .link   = dmi_power_supply_link
@@ -267,4 +286,42 @@ static bool dmi_power_supply_link(dmi_entity_t *entity)
         success = false;
 
     return success;
+}
+
+static void dmi_power_supply_lint_probes(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_power_supply_t *info = dmi_entity_info(entity, DMI_TYPE(POWER_SUPPLY));
+    if (info == nullptr)
+        return;
+
+    const struct
+    {
+        dmi_handle_t handle;
+        dmi_type_t   type;
+        const char  *code;
+    } probes[] =
+    {
+        { info->voltage_probe_handle,  DMI_TYPE_VOLTAGE_PROBE,  "voltage-probe-handle"  },
+        { info->cooling_device_handle, DMI_TYPE_COOLING_DEVICE, "cooling-device-handle" },
+        { info->current_probe_handle,  DMI_TYPE_CURRENT_PROBE,  "current-probe-handle"  }
+    };
+
+    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
+
+    for (size_t i = 0; i < countof(probes); i++) {
+        if ((probes[i].handle == DMI_HANDLE_INVALID) or
+            (probes[i].handle == DMI_HANDLE_UNSUPPORTED))
+            continue;
+
+        const dmi_entity_t *probe =
+                dmi_registry_lookup(registry, probes[i].handle, DMI_TYPE_ANY, true);
+
+        if ((probe == nullptr) or (dmi_entity_type(probe) == probes[i].type))
+            continue;
+
+        dmi_lint_issue(lint, entity, probes[i].code, dmi_lint_entity_offset(lint, entity),
+                       "handle 0x%04X refers to a structure of type %d, expected type %d",
+                       (unsigned)probes[i].handle, (int)dmi_entity_type(probe),
+                       (int)probes[i].type);
+    }
 }

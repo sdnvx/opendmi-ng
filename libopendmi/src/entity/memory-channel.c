@@ -6,6 +6,7 @@
 //
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -36,6 +37,18 @@ static const dmi_name_set_t dmi_memory_channel_type_names =
         },
         DMI_NAME_NULL
     }
+};
+
+static void dmi_memory_channel_lint_load(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_memory_channel_load_rule =
+{
+    .code              = "memory-channel.load",
+    .name              = "Devices of the channel fit the load it supports",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_memory_channel_lint_load
 };
 
 const dmi_entity_spec_t dmi_memory_channel_spec =
@@ -87,6 +100,11 @@ const dmi_entity_spec_t dmi_memory_channel_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_memory_channel_load_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode  = dmi_memory_channel_decode,
         .link    = dmi_memory_channel_link,
@@ -179,4 +197,31 @@ static void dmi_memory_channel_cleanup(dmi_entity_t *entity)
         return;
 
     dmi_free(info->devices);
+}
+
+//
+// Devices of a channel share its capacity, so the load they put on it
+// together fits the maximum it supports.
+//
+static void dmi_memory_channel_lint_load(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_channel_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CHANNEL));
+
+    if ((info == nullptr) or (info->devices == nullptr) or (info->device_count == 0))
+        return;
+
+    if (info->maximum_load == 0)
+        return;
+
+    unsigned total = 0;
+
+    for (size_t i = 0; i < info->device_count; i++)
+        total += info->devices[i].load;
+
+    if (total <= info->maximum_load)
+        return;
+
+    dmi_lint_issue(lint, entity, "load", dmi_lint_entity_offset(lint, entity),
+                   "devices of the channel put a load of %u on it, while it supports %u",
+                   total, info->maximum_load);
 }

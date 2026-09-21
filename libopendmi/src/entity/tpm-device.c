@@ -8,6 +8,7 @@
 #include <opendmi/log.h>
 #include <opendmi/stream.h>
 #include <opendmi/internal.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -43,6 +44,18 @@ static const dmi_name_set_t dmi_tpm_device_feature_names =
         },
         DMI_NAME_NULL
     }
+};
+
+static void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_tpm_device_version_rule =
+{
+    .code              = "tpm-device.version",
+    .name              = "Specification version of the device is one the TCG has published",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_tpm_device_lint_version
 };
 
 const dmi_entity_spec_t dmi_tpm_device_spec =
@@ -110,6 +123,11 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_tpm_device_version_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode = dmi_tpm_device_decode
     }
@@ -207,3 +225,19 @@ static void dmi_tpm_device_decode_vendor(dmi_entity_t *entity, dmi_tpm_device_t 
     info->vendor = (length > 0) ? id : nullptr;
 }
 
+static void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_tpm_device_t *info = dmi_entity_info(entity, DMI_TYPE(TPM_DEVICE));
+    if (info == nullptr)
+        return;
+
+    unsigned major = dmi_version_major(info->spec_version);
+
+    // The TCG has published the 1.2 and the 2.0 specifications, and the
+    // format of the firmware version follows the major one
+    if ((major == 1) or (major == 2))
+        return;
+
+    dmi_lint_issue(lint, entity, "specification-version", dmi_lint_entity_offset(lint, entity),
+                   "device declares TPM %u.%u", major, dmi_version_minor(info->spec_version));
+}

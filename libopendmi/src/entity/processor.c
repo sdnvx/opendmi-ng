@@ -11,10 +11,13 @@
 #include <opendmi/log.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
+#include <opendmi/registry.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
+#include <opendmi/entity/cache.h>
 #include <opendmi/entity/processor.h>
 
 static bool dmi_processor_decode(dmi_entity_t *entity);
@@ -2057,6 +2060,40 @@ static const dmi_attribute_t dmi_processor_soc_id_attrs[] =
     DMI_ATTRIBUTE_NULL
 };
 
+static void dmi_processor_lint_cores(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_processor_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_processor_lint_cache(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_processor_cores_rule =
+{
+    .code              = "processor.cores",
+    .name              = "Enabled cores and threads fit the ones the processor has",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_processor_lint_cores
+};
+
+static const dmi_lint_rule_t dmi_processor_speed_rule =
+{
+    .code              = "processor.speed",
+    .name              = "Processor runs no faster than it is capable of",
+    .severity          = DMI_LINT_SEVERITY_NOTE,
+    .producer_severity = DMI_LINT_SEVERITY_WARNING,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_processor_lint_speed
+};
+
+static const dmi_lint_rule_t dmi_processor_cache_rule =
+{
+    .code              = "processor.cache",
+    .name              = "Cache handles of the processor refer to the caches of their levels",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_processor_lint_cache
+};
+
 const dmi_entity_spec_t dmi_processor_spec =
 {
     .code            = "processor",
@@ -2256,6 +2293,13 @@ const dmi_entity_spec_t dmi_processor_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_processor_cores_rule,
+        &dmi_processor_speed_rule,
+        &dmi_processor_cache_rule,
+        nullptr
+    },
+
     .handlers      = {
         .decode = dmi_processor_decode,
         .link   = dmi_processor_link
@@ -2681,3 +2725,89 @@ static bool dmi_processor_has_word(const char *str, const char *word)
     return false;
 }
 
+static void dmi_processor_lint_cores(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    if (info == nullptr)
+        return;
+
+    size_t offset = dmi_lint_entity_offset(lint, entity);
+
+    if ((info->core_count != 0) and (info->core_enabled != 0) and
+        (info->core_enabled > info->core_count)) {
+        dmi_lint_issue(lint, entity, "core-enabled", offset,
+                       "%u cores are enabled, while the processor has %u",
+                       info->core_enabled, info->core_count);
+    }
+
+    if ((info->thread_count != 0) and (info->thread_enabled != 0) and
+        (info->thread_enabled > info->thread_count)) {
+        dmi_lint_issue(lint, entity, "thread-enabled", offset,
+                       "%u threads are enabled, while the processor has %u",
+                       info->thread_enabled, info->thread_count);
+    }
+
+    // Every core runs at least one thread
+    if ((info->core_count != 0) and (info->thread_count != 0) and
+        (info->thread_count < info->core_count)) {
+        dmi_lint_issue(lint, entity, "thread-count", offset,
+                       "processor has %u threads and %u cores",
+                       info->thread_count, info->core_count);
+    }
+}
+
+static void dmi_processor_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+
+    if ((info == nullptr) or (info->maximum_speed == 0) or (info->current_speed == 0))
+        return;
+
+    if (info->current_speed <= info->maximum_speed)
+        return;
+
+    dmi_lint_issue(lint, entity, "current-speed", dmi_lint_entity_offset(lint, entity),
+                   "processor runs at %u MHz, while its maximum speed is %u MHz",
+                   info->current_speed, info->maximum_speed);
+}
+
+static void dmi_processor_lint_cache(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    if (info == nullptr)
+        return;
+
+    const struct
+    {
+        dmi_handle_t   handle;
+        unsigned short level;
+        const char    *code;
+    } caches[] =
+    {
+        { info->l1_cache_handle, 1, "l1-cache-handle" },
+        { info->l2_cache_handle, 2, "l2-cache-handle" },
+        { info->l3_cache_handle, 3, "l3-cache-handle" }
+    };
+
+    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
+
+    for (size_t i = 0; i < countof(caches); i++) {
+        if ((caches[i].handle == DMI_HANDLE_INVALID) or
+            (caches[i].handle == DMI_HANDLE_UNSUPPORTED))
+            continue;
+
+        const dmi_entity_t *cache =
+                dmi_registry_lookup(registry, caches[i].handle, DMI_TYPE(CACHE), true);
+        if (cache == nullptr)
+            continue;
+
+        const dmi_cache_t *data = dmi_entity_info(cache, DMI_TYPE(CACHE));
+
+        if ((data == nullptr) or (data->level == caches[i].level))
+            continue;
+
+        dmi_lint_issue(lint, entity, caches[i].code, dmi_lint_entity_offset(lint, entity),
+                       "handle 0x%04X refers to a cache of level %u",
+                       (unsigned)caches[i].handle, data->level);
+    }
+}

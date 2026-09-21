@@ -34,7 +34,7 @@ static const struct
     { 0x08, "poweron-second" }
 };
 
-const dmi_lint_rule_t dmi_power_controls_bcd_rule =
+static const dmi_lint_rule_t dmi_power_controls_bcd_rule =
 {
     .code              = "power-controls.bcd",
     .name              = "Fields of the next scheduled power-on hold binary-coded decimals",

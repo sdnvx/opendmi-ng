@@ -8,6 +8,8 @@
 #include <opendmi/value.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
+#include <opendmi/registry.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
@@ -72,6 +74,18 @@ static const dmi_name_set_t dmi_cooling_device_type_names =
     }
 };
 
+static void dmi_cooling_device_lint_probe(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_cooling_device_probe_rule =
+{
+    .code              = "cooling-device.probe",
+    .name              = "Probe of the cooling device is a temperature probe",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_cooling_device_lint_probe
+};
+
 const dmi_entity_spec_t dmi_cooling_device_spec =
 {
     .code            = "cooling-device",
@@ -127,6 +141,11 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_cooling_device_probe_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode = dmi_cooling_device_decode,
         .link   = dmi_cooling_device_link
@@ -202,4 +221,26 @@ static bool dmi_cooling_device_link(dmi_entity_t *entity)
     dmi_registry_t *registry = dmi_get_registry(context);
 
     return dmi_registry_resolve(registry, info->probe_handle, DMI_TYPE(TEMPERATURE_PROBE), &info->probe);
+}
+
+static void dmi_cooling_device_lint_probe(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_cooling_device_t *info = dmi_entity_info(entity, DMI_TYPE(COOLING_DEVICE));
+    if (info == nullptr)
+        return;
+
+    if ((info->probe_handle == DMI_HANDLE_INVALID) or
+        (info->probe_handle == DMI_HANDLE_UNSUPPORTED))
+        return;
+
+    dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
+
+    const dmi_entity_t *probe =
+            dmi_registry_lookup(registry, info->probe_handle, DMI_TYPE_ANY, true);
+    if ((probe == nullptr) or (dmi_entity_type(probe) == DMI_TYPE_TEMPERATURE_PROBE))
+        return;
+
+    dmi_lint_issue(lint, entity, "probe-handle", dmi_lint_entity_offset(lint, entity),
+                   "handle 0x%04X refers to a structure of type %d, expected a temperature probe",
+                   (unsigned)info->probe_handle, (int)dmi_entity_type(probe));
 }

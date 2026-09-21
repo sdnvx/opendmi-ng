@@ -4,9 +4,12 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <inttypes.h>
+
 #include <opendmi/context.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -191,6 +194,29 @@ static const dmi_name_set_t dmi_cache_sram_type_names =
     }
 };
 
+static void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_cache_lint_sram(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_cache_size_rule =
+{
+    .code              = "cache.size",
+    .name              = "Installed size of the cache fits its maximum size",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_cache_lint_size
+};
+
+static const dmi_lint_rule_t dmi_cache_sram_rule =
+{
+    .code              = "cache.sram",
+    .name              = "Current SRAM type of the cache is one of the supported ones",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_cache_lint_sram
+};
+
 const dmi_entity_spec_t dmi_cache_spec =
 {
     .code            = "cache",
@@ -287,6 +313,12 @@ const dmi_entity_spec_t dmi_cache_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_cache_size_rule,
+        &dmi_cache_sram_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode = dmi_cache_decode
     }
@@ -412,4 +444,37 @@ static bool dmi_cache_decode(dmi_entity_t *entity)
         return dmi_entity_incomplete(entity);
 
     return true;
+}
+
+static void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
+
+    if ((info == nullptr) or (info->maximum_size == 0) or (info->maximum_size == DMI_SIZE_MAX))
+        return;
+
+    if ((info->installed_size == DMI_SIZE_MAX) or (info->installed_size <= info->maximum_size))
+        return;
+
+    dmi_lint_issue(lint, entity, "installed-size", dmi_lint_entity_offset(lint, entity),
+                   "installed size of %" PRIu64 " bytes is above the maximum of %" PRIu64
+                   " bytes", info->installed_size, info->maximum_size);
+}
+
+static void dmi_cache_lint_sram(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
+
+    if ((info == nullptr) or (info->current_sram.__value == 0) or
+        (info->supported_sram.__value == 0))
+        return;
+
+    // The cache operates in one of the modes it supports, so the current type
+    // is one of the supported ones
+    if ((info->current_sram.__value & ~info->supported_sram.__value) == 0)
+        return;
+
+    dmi_lint_issue(lint, entity, "current-sram", dmi_lint_entity_offset(lint, entity),
+                   "current SRAM type 0x%04X is not among the supported ones 0x%04X",
+                   (unsigned)info->current_sram.__value, (unsigned)info->supported_sram.__value);
 }

@@ -8,6 +8,8 @@
 #include <opendmi/stream.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
+#include <limits.h>
+#include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -38,6 +40,18 @@ static const dmi_name_set_t dmi_boot_option_names =
         },
         DMI_NAME_NULL
     }
+};
+
+static void dmi_system_reset_lint_limit(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+static const dmi_lint_rule_t dmi_system_reset_limit_rule =
+{
+    .code              = "system-reset.limit",
+    .name              = "Number of the resets fits the limit of them",
+    .severity          = DMI_LINT_SEVERITY_WARNING,
+    .producer_severity = DMI_LINT_SEVERITY_ERROR,
+    .scope             = DMI_LINT_SCOPE_ENTITY,
+    .check             = dmi_system_reset_lint_limit
 };
 
 const dmi_entity_spec_t dmi_system_reset_spec =
@@ -103,6 +117,11 @@ const dmi_entity_spec_t dmi_system_reset_spec =
         }),
         DMI_ATTRIBUTE_NULL
     },
+    .lint_rules      = (const dmi_lint_rule_t *const[]){
+        &dmi_system_reset_limit_rule,
+        nullptr
+    },
+
     .handlers = {
         .decode = dmi_system_reset_decode
     }
@@ -140,4 +159,22 @@ static bool dmi_system_reset_decode(dmi_entity_t *entity)
     info->has_watchdog     = capabilities.has_watchdog;
 
     return true;
+}
+
+static void dmi_system_reset_lint_limit(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_system_reset_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_RESET));
+    if (info == nullptr)
+        return;
+
+    // Both counters hold 0xFFFF when they are unknown
+    if ((info->reset_count == USHRT_MAX) or (info->reset_limit == USHRT_MAX))
+        return;
+
+    if (info->reset_count <= info->reset_limit)
+        return;
+
+    dmi_lint_issue(lint, entity, "reset-count", dmi_lint_entity_offset(lint, entity),
+                   "system has been reset %u times, while the limit is %u",
+                   info->reset_count, info->reset_limit);
 }
