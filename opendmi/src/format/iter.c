@@ -9,6 +9,7 @@
 #include <assert.h>
 
 #include <opendmi/internal.h>
+#include <opendmi/error.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/string.h>
@@ -170,5 +171,34 @@ char *dmi_format_overlay_value(const dmi_entity_t *entity, const dmi_entity_over
     };
 
     return dmi_attribute_format(context, &attr, &overlay->entry->value, pretty);
+}
+
+char *dmi_format_attribute_value(
+        dmi_context_t         *context,
+        const dmi_attribute_t *attr,
+        const void            *value,
+        bool                   pretty)
+{
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    char *text = dmi_attribute_format(context, attr, value, pretty);
+
+    if ((text == nullptr) or not pretty or (attr->params.unit == DMI_UNIT_NONE))
+        return text;
+
+    // Unit follows the value the way the text format prints it
+    char *result = nullptr;
+
+    if (dmi_asprintf(&result, "%s %s", text,
+                     dmi_name_lookup(&dmi_unit_names, attr->params.unit)) < 0)
+    {
+        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+        result = nullptr;
+    }
+
+    dmi_free(text);
+
+    return result;
 }
 

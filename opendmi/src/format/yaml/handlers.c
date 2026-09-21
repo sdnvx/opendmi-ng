@@ -338,9 +338,22 @@ bool dmi_yaml_entity_attr_value(
         const char *tag;
         yaml_scalar_style_t style;
 
-        text = dmi_attribute_format(session->context, attr, value, false);
+        text = dmi_format_attribute_value(session->context, attr, value,
+                                          session->options.pretty);
         if (text == nullptr)
             break;
+
+        // Values formatted for a person are text, whatever they hold: a size
+        // carries its unit, and a boolean reads as a word a reader would
+        // resolve as a value of its own type
+        if (session->options.pretty) {
+            if (not dmi_yaml_scalar(session, text, YAML_STR_TAG,
+                                    YAML_DOUBLE_QUOTED_SCALAR_STYLE))
+                break;
+
+            success = true;
+            break;
+        }
 
         // Only numbers and booleans are written as plain scalars, since
         // other values (e.g. dates, versions or enumeration codes) could be
@@ -476,7 +489,7 @@ bool dmi_yaml_entity_overlays(dmi_yaml_session_t *session, const dmi_entity_t *e
         snprintf(index, sizeof(index), "%zu", overlay->index);
         snprintf(offset, sizeof(offset), "0x%02x", overlay->entry->ref_offset);
 
-        char *value = dmi_format_overlay_value(entity, overlay, false);
+        char *value = dmi_format_overlay_value(entity, overlay, session->options.pretty);
         if (value == nullptr)
             return false;
 

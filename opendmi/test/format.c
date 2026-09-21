@@ -37,8 +37,9 @@ static void test_format_state(void **pstate);
 static void test_format_text_quiet(void **pstate);
 static void test_format_properties(void **pstate);
 static void test_format_overlays(void **pstate);
+static void test_format_pretty(void **pstate);
 
-static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode);
+static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode, bool pretty);
 static bool test_format_has_controls(const char *output);
 
 // Firmware information (SMBIOS 2.0) with PCI support and vendor-reserved
@@ -64,6 +65,18 @@ static const struct {
     { "xml",  "<flag name=\"nec-pc-98\">false</flag>", "<flag name=\"pci-support\">true</flag>" }
 };
 
+// Output of the ROM size of the firmware, which is machine-readable by
+// default and written the way a person reads it with the pretty option
+static const struct {
+    const char *code;
+    const char *plain;
+    const char *pretty;
+} test_pretty_values[] = {
+    { "json", "\"rom-size\": \"65536\"",    "\"rom-size\": \"64 KiB\""    },
+    { "yaml", "rom-size: 65536",            "rom-size: \"64 KiB\""        },
+    { "xml",  "<rom-size>65536</rom-size>", "<rom-size>64 KiB</rom-size>" }
+};
+
 // Number of strings exceeding the range of string references
 static const size_t test_string_count = 300;
 
@@ -86,7 +99,8 @@ int main(void)
         cmocka_unit_test(test_format_state),
         cmocka_unit_test(test_format_text_quiet),
         cmocka_unit_test(test_format_properties),
-        cmocka_unit_test(test_format_overlays)
+        cmocka_unit_test(test_format_overlays),
+        cmocka_unit_test(test_format_pretty)
     };
 
     return cmocka_run_group_tests(tests, test_format_setup, test_format_teardown);
@@ -154,7 +168,7 @@ static void test_format_many_strings(void **pstate)
     // Strings beyond the range of string references are printed, and the
     // first ones are not printed again
     for (const dmi_format_t **pformat = dmi_formats; *pformat != nullptr; pformat++) {
-        char *output = test_format_print(*pformat, state->entity, true, DMI_FORMAT_MODE_NORMAL);
+        char *output = test_format_print(*pformat, state->entity, true, DMI_FORMAT_MODE_NORMAL, false);
         if (output == nullptr)
             fail_msg("Format %s: printing failed", (*pformat)->code);
 
@@ -185,7 +199,7 @@ static void test_format_set_high_bits(void **pstate)
         if (format == nullptr)
             continue;
 
-        char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
+        char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
         if (output == nullptr) {
             dmi_entity_destroy(entity);
             fail_msg("Format %s: printing failed", format->code);
@@ -231,7 +245,7 @@ static void test_format_invalid_utf8(void **pstate)
         if (format == nullptr)
             continue;
 
-        char *output = test_format_print(format, entity, true, DMI_FORMAT_MODE_NORMAL);
+        char *output = test_format_print(format, entity, true, DMI_FORMAT_MODE_NORMAL, false);
         bool valid =
             (output != nullptr) and
             dmi_utf8_is_valid(output) and
@@ -283,7 +297,7 @@ static void test_format_yaml_quoting(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
+    char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
     dmi_entity_destroy(entity);
     assert_non_null(output);
 
@@ -325,7 +339,7 @@ static void test_format_xml_flag_names(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
+    char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
     dmi_entity_destroy(entity);
     assert_non_null(output);
 
@@ -374,7 +388,7 @@ static void test_format_state(void **pstate)
         if (format == nullptr)
             continue;
 
-        char *output = test_format_print(format, entity, false, cases[i].mode);
+        char *output = test_format_print(format, entity, false, cases[i].mode, false);
         bool found = (output != nullptr) and (strstr(output, cases[i].expected) != nullptr);
 
         free(output);
@@ -386,7 +400,7 @@ static void test_format_state(void **pstate)
     }
 
     // States and versions are not shown in text output by default
-    char *output = test_format_print(dmi_format_get("text"), entity, false, DMI_FORMAT_MODE_NORMAL);
+    char *output = test_format_print(dmi_format_get("text"), entity, false, DMI_FORMAT_MODE_NORMAL, false);
     bool found = (output != nullptr) and
         ((strstr(output, ", decoded") != nullptr) or (strstr(output, "information (") != nullptr));
 
@@ -413,8 +427,8 @@ static void test_format_text_quiet(void **pstate)
 
     const dmi_format_t *format = dmi_format_get("text");
 
-    char *normal = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
-    char *quiet  = test_format_print(format, entity, false, DMI_FORMAT_MODE_QUIET);
+    char *normal = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
+    char *quiet  = test_format_print(format, entity, false, DMI_FORMAT_MODE_QUIET, false);
 
     dmi_entity_destroy(entity);
 
@@ -514,7 +528,7 @@ static void test_format_properties(void **pstate)
     assert_true(dmi_entity_decode(parent));
 
     // Properties are not shown if there are none
-    char *output = test_format_print(dmi_format_get("text"), parent, false, DMI_FORMAT_MODE_NORMAL);
+    char *output = test_format_print(dmi_format_get("text"), parent, false, DMI_FORMAT_MODE_NORMAL, false);
     bool found = (output != nullptr) and (strstr(output, "Properties:") != nullptr);
 
     free(output);
@@ -538,7 +552,7 @@ static void test_format_properties(void **pstate)
         if (format == nullptr)
             continue;
 
-        output = test_format_print(format, parent, false, DMI_FORMAT_MODE_NORMAL);
+        output = test_format_print(format, parent, false, DMI_FORMAT_MODE_NORMAL, false);
         if ((output == nullptr) or (strstr(output, cases[i].expected) == nullptr))
             failed = cases[i].code;
 
@@ -548,8 +562,8 @@ static void test_format_properties(void **pstate)
     // Properties are shown even in quiet mode, but not in raw dumps
     const dmi_format_t *format = dmi_format_get("text");
 
-    char *quiet = test_format_print(format, parent, false, DMI_FORMAT_MODE_QUIET);
-    char *dump  = test_format_print(format, parent, true, DMI_FORMAT_MODE_NORMAL);
+    char *quiet = test_format_print(format, parent, false, DMI_FORMAT_MODE_QUIET, false);
+    char *dump  = test_format_print(format, parent, true, DMI_FORMAT_MODE_NORMAL, false);
 
     bool quiet_found = (quiet != nullptr) and (strstr(quiet, "UEFI device path: P") != nullptr);
     bool dump_valid  = (dump != nullptr) and (strstr(dump, "Header and data:") != nullptr);
@@ -664,7 +678,7 @@ static void test_format_overlays(void **pstate)
         if (format == nullptr)
             continue;
 
-        char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL);
+        char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
         if ((output == nullptr) or (strstr(output, cases[i].expected) == nullptr))
             failed = cases[i].code;
 
@@ -680,7 +694,60 @@ static void test_format_overlays(void **pstate)
         fail_msg("Format %s: invalid overlays output", failed);
 }
 
-static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode)
+//
+// Machine-readable formats write the codes of the values, which do not change
+// with the locale, until the pretty option asks for the text a person reads.
+//
+static void test_format_pretty(void **pstate)
+{
+    const test_format_state_t *state = *pstate;
+
+    dmi_entity_t *entity = dmi_entity_create(state->context, test_firmware_data, sizeof(test_firmware_data));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+
+    for (size_t i = 0; i < countof(test_pretty_values); i++) {
+        const dmi_format_t *format = dmi_format_get(test_pretty_values[i].code);
+
+        // Format may be disabled at build time
+        if (format == nullptr)
+            continue;
+
+        char *plain  = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
+        char *pretty = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, true);
+
+        bool valid =
+            (plain != nullptr) and (pretty != nullptr) and
+            (strstr(plain, test_pretty_values[i].plain) != nullptr) and
+            (strstr(pretty, test_pretty_values[i].pretty) != nullptr);
+
+        free(plain);
+        free(pretty);
+
+        if (not valid) {
+            dmi_entity_destroy(entity);
+            fail_msg("Format %s: invalid pretty output", format->code);
+        }
+    }
+
+    // Text output is what the pretty option asks the other formats for, so it
+    // is the same either way
+    const dmi_format_t *text = dmi_format_get("text");
+
+    char *plain  = test_format_print(text, entity, false, DMI_FORMAT_MODE_NORMAL, false);
+    char *pretty = test_format_print(text, entity, false, DMI_FORMAT_MODE_NORMAL, true);
+
+    bool same = (plain != nullptr) and (pretty != nullptr) and (strcmp(plain, pretty) == 0);
+
+    free(plain);
+    free(pretty);
+
+    dmi_entity_destroy(entity);
+
+    assert_true(same);
+}
+
+static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode, bool pretty)
 {
     FILE *stream = tmpfile();
     if (stream == nullptr)
@@ -688,8 +755,9 @@ static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *e
 
     char *output = nullptr;
     const dmi_format_options_t options = {
-        .mode = mode,
-        .dump = dump
+        .mode   = mode,
+        .dump   = dump,
+        .pretty = pretty
     };
 
     dmi_context_t *context = dmi_entity_context(entity);

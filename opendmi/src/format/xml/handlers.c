@@ -405,17 +405,23 @@ bool dmi_xml_entity_attr_value(
         return dmi_xml_entity_attr_set(session, attr, value);
 
     do {
-        text = dmi_attribute_format(session->context, attr, value, false);
+        text = dmi_attribute_format(session->context, attr, value, session->options.pretty);
         if (text == nullptr)
             break;
 
-        // Units are serialized by their code names, which do not change with
-        // the locale
+        // Units have an attribute of their own here, so they stay out of the
+        // value even when it is formatted for a person. They are serialized
+        // by their code names, which do not change with the locale, unless
+        // the output is meant to be read rather than parsed
         if (attr->params.unit != DMI_UNIT_NONE) {
+            const char *unit = session->options.pretty
+                    ? dmi_name_lookup(&dmi_unit_names, attr->params.unit)
+                    : dmi_code_lookup(&dmi_unit_names, attr->params.unit);
+
             if (xmlTextWriterWriteAttribute(
                         session->writer,
                         dmi_xml_string("units"),
-                        dmi_xml_string(dmi_code_lookup(&dmi_unit_names, attr->params.unit))) < 0)
+                        dmi_xml_string(unit)) < 0)
                 break;
         }
 
@@ -551,7 +557,7 @@ static bool dmi_xml_entity_overlay(
 {
     bool success = false;
 
-    char *value = dmi_format_overlay_value(entity, overlay, false);
+    char *value = dmi_format_overlay_value(entity, overlay, session->options.pretty);
     if (value == nullptr)
         return false;
 

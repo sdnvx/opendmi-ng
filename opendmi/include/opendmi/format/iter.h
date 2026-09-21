@@ -239,6 +239,32 @@ const dmi_string_property_t *dmi_format_property_iter_next(dmi_format_property_i
  */
 char *dmi_format_overlay_value(const dmi_entity_t *entity, const dmi_entity_overlay_t *overlay, bool pretty);
 
+/**
+ * @brief Format value of an attribute for the output being written.
+ *
+ * Values are written by their code names, which do not change with the
+ * locale, unless @p pretty asks for the text a person reads, which is what
+ * the text format prints.
+ *
+ * The measurement unit of the attribute is part of the value only when it is
+ * formatted for a person, since a machine-readable value carries the number
+ * alone, and the formats which keep the unit have a place of their own for
+ * it.
+ *
+ * @param[in] context DMI context.
+ * @param[in] attr    Attribute descriptor.
+ * @param[in] value   Pointer to the value.
+ * @param[in] pretty  Format for humans.
+ *
+ * @return Allocated string, which is to be freed with `dmi_free()`, or
+ *         @c nullptr on failure.
+ */
+char *dmi_format_attribute_value(
+        dmi_context_t         *context,
+        const dmi_attribute_t *attr,
+        const void            *value,
+        bool                   pretty);
+
 __END_DECLS
 
 #endif // !OPENDMI_FORMAT_ITER_H

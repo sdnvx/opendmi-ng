@@ -24,7 +24,8 @@ the terminal.
 Fields are named by their codes rather than by their labels, e.g.
 `socket-designation` instead of `Socket Designation`, and enumerated values are
 written as codes as well. Codes are stable across versions and locales, so the
-output can be matched against without parsing human-readable text.
+output can be matched against without parsing human-readable text. *--pretty*
+writes the values for a person instead, leaving the field names alone.
 
 The formats available depend on how the utility was built, since each of them
 needs a library of its own. The formats of a particular build are listed at the
@@ -50,8 +51,12 @@ Set the output format: `text`, `json`, `xml` or `yaml`. The default is `yaml`.
 Export the raw bytes of the structures instead of decoding them.
 
 *-p*, *--pretty*::
-Format the output for reading rather than as compactly as possible. None of the
-formats honour the option yet, since all of them are already written indented.
+Write the values the way a person reads them, as `opendmi-show`(1) prints
+them, instead of by their codes: `DDR4` rather than `ddr4`, `4 GiB` rather
+than `4294967296`, and the measurement unit of a field along with its number.
+Field names stay codes either way, so that the document can still be addressed
+by them, and the text format is unaffected, since it is already what the option
+asks the other formats for.
 
 *-F*, *--force*::
 Overwrite the output file if it exists. Without this option an existing file is
@@ -125,7 +130,7 @@ Export everything to YAML, which is the default format:
 $ opendmi export -o smbios.yaml
 ....
 
-Export to JSON, indented for reading:
+Export to JSON with the values written for a person rather than for a program:
 
 ....
 $ opendmi export -f json --pretty -o smbios.json

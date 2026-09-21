@@ -269,7 +269,7 @@ Export SMBIOS data to external format. Structures are selected with
 | `-o <path>`, `--output=<path>` | Set output file path (default: standard output) |
 | `-f <format>`, `--format=<format>` | Set output format: `text`, `json`, `xml` or `yaml` (default: `yaml`) |
 | `-D`, `--dump` | Export raw structure data instead of decoded fields |
-| `-p`, `--pretty` | Format the output for reading |
+| `-p`, `--pretty` | Write the values for a person (`4 GiB`) instead of by their codes (`4294967296`) |
 | `-F`, `--force` | Overwrite existing files |
 
 #### `dump`
@@ -422,6 +422,14 @@ Export SMBIOS data to JSON:
 
 ```sh
 $ opendmi export -f json -o smbios.json
+```
+
+Export to JSON with the values written for a person rather than for a program,
+so that `"memory-type": "ddr4"` reads as `"memory-type": "DDR4"` and a size
+carries its unit:
+
+```sh
+$ opendmi export -f json --pretty -o smbios.json
 ```
 
 Dump the raw SMBIOS table to a binary file:

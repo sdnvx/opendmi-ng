@@ -331,7 +331,8 @@ bool dmi_json_entity_attr_value(
         return dmi_json_entity_attr_set(session, attr, value);
 
     do {
-        text = dmi_attribute_format(session->context, attr, value, false);
+        text = dmi_format_attribute_value(session->context, attr, value,
+                                          session->options.pretty);
         if (text == nullptr)
             break;
 
@@ -449,7 +450,7 @@ bool dmi_json_entity_overlays(dmi_json_session_t *session, const dmi_entity_t *e
         snprintf(source, sizeof(source), "0x%04hx", overlay->source->handle);
         snprintf(offset, sizeof(offset), "0x%02x", overlay->entry->ref_offset);
 
-        char *value = dmi_format_overlay_value(entity, overlay, false);
+        char *value = dmi_format_overlay_value(entity, overlay, session->options.pretty);
         if (value == nullptr)
             return false;
 
