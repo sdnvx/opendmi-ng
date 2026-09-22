@@ -370,7 +370,7 @@ void dmi_text_entity_attr_value(
     }
 
     if (attr->params.unit != DMI_UNIT_NONE)
-        dmi_text_printf(session, color, "%s %s", text, dmi_name_lookup(&dmi_unit_names, attr->params.unit));
+        dmi_text_printf(session, color, "%s %s", text, dmi_unit_name(attr->params.unit));
     else
         dmi_text_printf(session, color, "%s", text);
 
@@ -405,7 +405,7 @@ void dmi_text_entity_attr_set(
         dmi_tty_color_t color = flag->value ? DMI_TTY_COLOR_LIME : DMI_TTY_COLOR_RED;
 
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s: ", (int)depth, "\t\t\t\t\t\t\t\t", flag->name);
-        dmi_text_printf(session, color, "%s\n", dmi_name_lookup(&dmi_bool_names, flag->value));
+        dmi_text_printf(session, color, "%s\n", dmi_bool_name(flag->value));
     }
 }
 

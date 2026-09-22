@@ -117,17 +117,55 @@ static const dmi_lint_rule_t *const dmi_lint_rule_list[] =
     nullptr
 };
 
-static bool dmi_lint_enabled(const dmi_lint_t *lint, const dmi_lint_rule_t *rule);
-static void dmi_lint_check_scope(dmi_lint_t *lint, dmi_lint_scope_t scope, const dmi_entity_t *entity);
+/**
+ * @internal
+ * @brief Check whether a rule is checked at all: optional rules are left out
+ * unless all checks are enabled, and the caller has the last word.
+ */
+static bool dmi_lint_enabled(
+        const dmi_lint_t      *lint,
+        const dmi_lint_rule_t *rule);
+
+/**
+ * @internal
+ * @brief Check every enabled rule of the scope, keeping the rule being
+ * checked, so that the issues are reported on behalf of it.
+ */
+static void dmi_lint_check_scope(
+        dmi_lint_t         *lint,
+        dmi_lint_scope_t    scope,
+        const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check a list of rules, which the specification of a type provides.
+ */
 static void dmi_lint_check_rules(
         dmi_lint_t            *lint,
         const dmi_lint_rule_t *rules,
         const dmi_entity_t    *entity);
+
+/**
+ * @internal
+ * @brief Check a single rule, keeping it as the one the issues are reported
+ * on behalf of.
+ */
 static void dmi_lint_check_rule(
         dmi_lint_t            *lint,
         const dmi_lint_rule_t *rule,
         const dmi_entity_t    *entity);
+
+/**
+ * @internal
+ * @brief Gather the totals of the table, which every rule is free to use,
+ * whichever part of the data it belongs to.
+ */
 static void dmi_lint_collect(dmi_lint_t *lint);
+
+/**
+ * @internal
+ * @brief Check the rules of every structure of the table.
+ */
 static void dmi_lint_check_entities(dmi_lint_t *lint);
 
 bool dmi_lint(
@@ -308,10 +346,6 @@ dmi_lint_severity_t dmi_lint_rule_severity(const dmi_lint_rule_t *rule, dmi_lint
     return (profile == DMI_LINT_PROFILE_PRODUCER) ? rule->params.producer_severity : rule->params.severity;
 }
 
-//
-// Check whether a rule is checked at all: optional rules are left out unless
-// all checks are enabled, and the caller has the last word.
-//
 static bool dmi_lint_enabled(const dmi_lint_t *lint, const dmi_lint_rule_t *rule)
 {
     if (rule->check == nullptr)
@@ -329,10 +363,6 @@ static bool dmi_lint_enabled(const dmi_lint_t *lint, const dmi_lint_rule_t *rule
     return true;
 }
 
-//
-// Check every enabled rule of the scope, keeping the rule being checked, so
-// that the issues are reported on behalf of it.
-//
 static void dmi_lint_check_scope(dmi_lint_t *lint, dmi_lint_scope_t scope, const dmi_entity_t *entity)
 {
     for (const dmi_lint_rule_t *const *rule = dmi_lint_rule_list; *rule != nullptr; rule++) {
@@ -343,9 +373,6 @@ static void dmi_lint_check_scope(dmi_lint_t *lint, dmi_lint_scope_t scope, const
     }
 }
 
-//
-// Check a list of rules, which the specification of a type provides.
-//
 static void dmi_lint_check_rules(
         dmi_lint_t            *lint,
         const dmi_lint_rule_t *rules,
@@ -358,10 +385,6 @@ static void dmi_lint_check_rules(
         dmi_lint_check_rule(lint, rule, entity);
 }
 
-//
-// Check a single rule, keeping it as the one the issues are reported on
-// behalf of.
-//
 static void dmi_lint_check_rule(
         dmi_lint_t            *lint,
         const dmi_lint_rule_t *rule,
@@ -375,10 +398,6 @@ static void dmi_lint_check_rule(
     lint->rule = nullptr;
 }
 
-//
-// Gather the totals of the table, which every rule is free to use, whichever
-// part of the data it belongs to.
-//
 static void dmi_lint_collect(dmi_lint_t *lint)
 {
     dmi_registry_t *registry = dmi_get_registry(lint->context);
@@ -405,9 +424,6 @@ static void dmi_lint_collect(dmi_lint_t *lint)
     }
 }
 
-//
-// Check the rules of every structure of the table.
-//
 static void dmi_lint_check_entities(dmi_lint_t *lint)
 {
     dmi_registry_t *registry = dmi_get_registry(lint->context);

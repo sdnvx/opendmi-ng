@@ -371,15 +371,15 @@ static char *dmi_attribute_format_string(
     dmi_unused(pretty);
 
     const char *str = *(const char **)value;
-    char *result = nullptr;
 
-    if (str != nullptr) {
-        result = strdup(str);
+    if (str == nullptr)
+        return nullptr;
 
-        if (result == nullptr) {
-            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-            return nullptr;
-        }
+    char *result = strdup(str);
+
+    if (result == nullptr) {
+        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+        return nullptr;
     }
 
     return result;
@@ -394,19 +394,17 @@ static char *dmi_attribute_format_bool(
     assert(attribute != nullptr);
     assert(value != nullptr);
 
-    bool flag =  dmi_deref(bool, value) ? true : false;
-    const char *str = nullptr;
+    bool flag = dmi_deref(bool, value) ? true : false;
+    const char *str  = nullptr;
 
     if (attribute->params.values) {
-        if (pretty)
-            str = dmi_name_lookup(attribute->params.values, flag);
-        else
-            str = dmi_code_lookup(attribute->params.values, flag);
+        str = pretty
+            ? dmi_name_lookup(attribute->params.values, flag)
+            : dmi_code_lookup(attribute->params.values, flag);
     } else {
-        if (pretty)
-            str = dmi_name_lookup(&dmi_bool_names, flag);
-        else
-            str = dmi_code_lookup(&dmi_bool_names, flag);
+        str = pretty
+            ? dmi_bool_name(flag)
+            : dmi_bool_code(flag);
     }
 
     char *result = strdup(str);
@@ -574,7 +572,7 @@ static char *dmi_attribute_format_size(
             size >>= 10;
         }
 
-        rv = dmi_asprintf(&str, "%" PRIu64 " %s", size, dmi_name_lookup(&dmi_unit_names, units[i]));
+        rv = dmi_asprintf(&str, "%" PRIu64 " %s", size, dmi_unit_name(units[i]));
     } else {
         rv = dmi_asprintf(&str, "%" PRIu64, size);
     }

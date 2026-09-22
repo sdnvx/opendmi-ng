@@ -415,8 +415,8 @@ bool dmi_xml_entity_attr_value(
         // the output is meant to be read rather than parsed
         if (attr->params.unit != DMI_UNIT_NONE) {
             const char *unit = session->options.pretty
-                    ? dmi_name_lookup(&dmi_unit_names, attr->params.unit)
-                    : dmi_code_lookup(&dmi_unit_names, attr->params.unit);
+                    ? dmi_unit_name(attr->params.unit)
+                    : dmi_unit_code(attr->params.unit);
 
             if (xmlTextWriterWriteAttribute(
                         session->writer,

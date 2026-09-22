@@ -15,7 +15,6 @@
 
 #include <opendmi/entity/tpm-device-internal.h>
 
-
 //
 // Vendor identifier is four bytes of text, which some firmware stores as a
 // little-endian double word, so that it starts with the terminating zero,

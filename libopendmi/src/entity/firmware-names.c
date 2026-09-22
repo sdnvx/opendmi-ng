@@ -114,7 +114,7 @@ const dmi_name_set_t dmi_firmware_feature_names =
         {
             .id   = 22,
             .code = "floppy-525-360k-support",
-            .name = "Int 13h 5.25\"” / 360 KB floppy services support"
+            .name = "Int 13h 5.25\" / 360 KB floppy services support"
         },
         {
             .id   = 23,

@@ -10,6 +10,11 @@
 #include <opendmi/stream.h>
 #include <opendmi/internal.h>
 
+/**
+ * @brief @internal
+ */
+static bool dmi_stream_advance(dmi_stream_t *stream, size_t position, size_t length);
+
 bool dmi_stream_initialize(dmi_stream_t *stream, const dmi_entity_t *entity)
 {
     if ((stream == nullptr) or (entity == nullptr))
@@ -80,24 +85,6 @@ bool dmi_stream_read_data_at(const dmi_stream_t *stream, void *ptr, size_t offse
     return true;
 }
 
-//
-// Place the cursor at the given number of bytes past the given position,
-// which is what skipping is in either of its forms.
-//
-static bool dmi_stream_advance(dmi_stream_t *stream, size_t position, size_t length)
-{
-    // Written so that the sum of the position and the length cannot overflow
-    size_t body_length = stream->entity->body_length;
-
-    if ((length > body_length) or (position > (body_length - length)))
-        return false;
-
-    stream->position  = position + length;
-    stream->remaining = body_length - stream->position;
-
-    return true;
-}
-
 bool dmi_stream_skip(dmi_stream_t *stream, size_t length)
 {
     if (stream == nullptr)
@@ -111,7 +98,6 @@ bool dmi_stream_skip_ex(dmi_stream_t *stream, dmi_stream_mark_t from, size_t len
     if (stream == nullptr)
         return false;
 
-    // Marks belong to the stream they were taken from
     if ((from.entity == nullptr) or (from.entity != stream->entity))
         return false;
 
@@ -174,4 +160,18 @@ void dmi_stream_reset(dmi_stream_t *stream)
 
     stream->position  = 0;
     stream->remaining = stream->entity->body_length;
+}
+
+static bool dmi_stream_advance(dmi_stream_t *stream, size_t position, size_t length)
+{
+    // Written so that the sum of the position and the length cannot overflow
+    size_t body_length = stream->entity->body_length;
+
+    if ((length > body_length) or (position > (body_length - length)))
+        return false;
+
+    stream->position  = position + length;
+    stream->remaining = body_length - stream->position;
+
+    return true;
 }

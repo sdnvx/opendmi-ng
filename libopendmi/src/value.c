@@ -5,12 +5,12 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/value.h>
+#include <opendmi/utils/name.h>
 
-//
-// Names of measurement units are printed next to the values, so they are the
-// symbols of the units rather than their full names.
-//
-const dmi_name_set_t dmi_unit_names =
+/**
+ * @brief Names of measurement units.
+ */
+static const dmi_name_set_t dmi_unit_names =
 {
     .code  = "unit",
     .name  = "Measurement units",
@@ -66,11 +66,10 @@ const dmi_name_set_t dmi_unit_names =
     })
 };
 
-//
-// Codes of boolean values are the ones the serialization formats use, while
-// the names are the ones printed in text output.
-//
-const dmi_name_set_t dmi_bool_names =
+/**
+ * @brief Names of boolean values.
+ */
+static const dmi_name_set_t dmi_bool_names =
 {
     .code  = "bool",
     .name  = "Boolean values",
@@ -80,3 +79,23 @@ const dmi_name_set_t dmi_bool_names =
         {}
     })
 };
+
+const char *dmi_unit_code(dmi_unit_t value)
+{
+    return dmi_code_lookup(&dmi_unit_names, (int)value);
+}
+
+const char *dmi_unit_name(dmi_unit_t value)
+{
+    return dmi_name_lookup(&dmi_unit_names, (int)value);
+}
+
+const char *dmi_bool_code(bool value)
+{
+    return dmi_code_lookup(&dmi_bool_names, !!value);
+}
+
+const char *dmi_bool_name(bool value)
+{
+    return dmi_name_lookup(&dmi_bool_names, !!value);
+}

@@ -10,7 +10,6 @@
 #pragma once
 
 #include <opendmi/defs.h>
-#include <opendmi/utils/name.h>
 
 /**
  * @brief Measurement units of attribute values.
@@ -70,15 +69,11 @@ typedef enum dmi_unit
 
 __BEGIN_DECLS
 
-/**
- * @brief Names of measurement units.
- */
-extern __dmi_api const dmi_name_set_t dmi_unit_names;
+__dmi_api const char *dmi_unit_code(dmi_unit_t value);
+__dmi_api const char *dmi_unit_name(dmi_unit_t value);
 
-/**
- * @brief Names of boolean values.
- */
-extern __dmi_api const dmi_name_set_t dmi_bool_names;
+__dmi_api const char *dmi_bool_code(bool value);
+__dmi_api const char *dmi_bool_name(bool value);
 
 __END_DECLS
 

@@ -856,12 +856,12 @@ ru_RU {
         socketed-rom { "Микросхема ПЗУ в разъёме" }
         boot-pcmcia-support { "Загрузка с PC Card (PCMCIA)" }
         edd-support { "Поддержка спецификации EDD" }
-        floppy-nec-support { "Int 13h: японские дискеты 1,2 МБ для NEC 9800" }
-        floppy-toshiba-support { "Int 13h: японские дискеты 1,2 МБ для Toshiba" }
-        floppy-525-360k-support { "Int 13h 5.25\\\"” / 360 KB floppy services support" }
-        floppy-525-1m2-support { "Int 13h 5.25\\\" / 1.2 MB floppy services support" }
-        floppy-35-720k-support { "Int 13h 3.5\\\" / 720 KB floppy services support" }
-        floppy-35-2m88-support { "Int 13h 3.5\\\" / 2.88 MB floppy services support" }
+        floppy-nec-support { "Int 13h: японские дискеты 1.2 МБ для NEC 9800" }
+        floppy-toshiba-support { "Int 13h: японские дискеты 1.2 МБ для Toshiba" }
+        floppy-525-360k-support { "Int 13h 5.25\" / 360 KB floppy services support" }
+        floppy-525-1m2-support { "Int 13h 5.25\" / 1.2 MB floppy services support" }
+        floppy-35-720k-support { "Int 13h 3.5\" / 720 KB floppy services support" }
+        floppy-35-2m88-support { "Int 13h 3.5\" / 2.88 MB floppy services support" }
         print-screen-support { "Int 5h: печать экрана" }
         keyboard-support { "Int 9h: служба клавиатуры 8042" }
         serial-support { "Int 14h: служба последовательных портов" }

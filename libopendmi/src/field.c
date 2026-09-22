@@ -33,9 +33,9 @@ typedef struct dmi_field_plain
     uintmax_t raw;
 } dmi_field_plain_t;
 
-//
-// State of a structure being decoded, which the fields are read into.
-//
+/**
+ * @brief State of a structure being decoded, which the fields are read into.
+ */
 typedef struct dmi_field_state
 {
     dmi_entity_t  *entity;
@@ -1630,14 +1630,17 @@ static bool dmi_field_put_data(dmi_field_writer_t *writer, const dmi_field_t *fi
     }
 }
 
-
 static uintmax_t dmi_field_load_member(dmi_member_ref_t member, const void *value)
 {
     switch (member.size) {
-    case sizeof(uint8_t):  return dmi_deref(uint8_t,  value);
-    case sizeof(uint16_t): return dmi_deref(uint16_t, value);
-    case sizeof(uint32_t): return dmi_deref(uint32_t, value);
-    case sizeof(uint64_t): return dmi_deref(uint64_t, value);
+    case sizeof(uint8_t):
+        return dmi_deref(uint8_t,  value);
+    case sizeof(uint16_t):
+        return dmi_deref(uint16_t, value);
+    case sizeof(uint32_t):
+        return dmi_deref(uint32_t, value);
+    case sizeof(uint64_t):
+        return dmi_deref(uint64_t, value);
     default:
         assert(false);
         return 0;
