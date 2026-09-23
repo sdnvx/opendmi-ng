@@ -7,7 +7,7 @@
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
 #include <string.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
@@ -22,13 +22,13 @@
 //
 void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_byte_t value;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, &value, DMI_FIRMWARE_ROM_SIZE_OFFSET, sizeof(value)))
+    if (not dmi_reader_get_bytes_at(&reader, &value, DMI_FIRMWARE_ROM_SIZE_OFFSET, sizeof(value)))
         return;
 
     if (value != DMI_FIRMWARE_ROM_SIZE_EXTENDED)
@@ -50,13 +50,13 @@ void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 //
 void dmi_firmware_lint_release_date(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_string_t index;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, &index, DMI_FIRMWARE_DATE_OFFSET, sizeof(index)))
+    if (not dmi_reader_get_bytes_at(&reader, &index, DMI_FIRMWARE_DATE_OFFSET, sizeof(index)))
         return;
 
     const char *date = dmi_entity_string(entity, index);

@@ -1,4 +1,4 @@
-= dmi_entity_stream(3)
+= dmi_entity_reader(3)
 The OpenDMI contributors
 OpenDMI 0.5.0
 
@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_entity_stream - get data stream of an OpenDMI entity.
+dmi_entity_reader - get data reader of an OpenDMI entity.
 
 == Library
 
@@ -21,5 +21,5 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 ----
 #include <opendmi/entity.h>
 
-dmi_stream_t *dmi_entity_stream(dmi_entity_t *entity);
+dmi_reader_t *dmi_entity_reader(dmi_entity_t *entity);
 ----

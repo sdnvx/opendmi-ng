@@ -6,7 +6,7 @@
 //
 #include <opendmi/context.h>
 #include <opendmi/log.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>

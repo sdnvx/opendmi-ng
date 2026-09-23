@@ -42,10 +42,10 @@ expressions and conditionals.
 * Name a function after the subsystem it belongs to: `dmi_<subsystem>_<name>`,
 where the subsystem is the type the function operates on, e.g.
 `dmi_entity_decode()`, `dmi_registry_lookup()`, `dmi_attribute_format()`,
-`dmi_stream_skip()`.
+`dmi_reader_skip()`.
 
 * Within a subsystem, name a function that returns a property of its object
-after the property itself, without a verb: `dmi_entity_stream()`,
+after the property itself, without a verb: `dmi_entity_reader()`,
 `dmi_entity_context()`, `dmi_attribute_resolve()`. The prefix already tells
 what the function operates on, so there is no ambiguity.
 

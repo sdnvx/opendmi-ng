@@ -10,7 +10,7 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
-#include <opendmi/encoder.h>
+#include <opendmi/writer.h>
 #include <opendmi/entity.h>
 #include <opendmi/error.h>
 #include <opendmi/field.h>
@@ -97,10 +97,10 @@ static void test_encode(
         const dmi_entity_t *entity,
         dmi_encode_mode_t   mode,
         dmi_version_t       version,
-        dmi_encoder_t      *encoder)
+        dmi_writer_t       *writer)
 {
-    assert_true(dmi_encoder_initialize(encoder, entity, mode, version));
-    assert_true(dmi_fields_encode(encoder));
+    assert_true(dmi_writer_initialize(writer, entity, mode, version));
+    assert_true(dmi_fields_encode(writer));
 }
 
 //
@@ -129,18 +129,18 @@ static void test_encoder_reserved_bits(void **pstate)
     assert_non_null(info);
     assert_int_equal(info->type, 4);
 
-    dmi_encoder_t encoder;
+    dmi_writer_t writer;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &encoder);
-    assert_int_equal(encoder.length, 0x16);
-    assert_memory_equal(encoder.data, data, 0x16);
-    dmi_encoder_destroy(&encoder);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &writer);
+    assert_int_equal(writer.length, 0x16);
+    assert_memory_equal(writer.data, data, 0x16);
+    dmi_writer_destroy(&writer);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &encoder);
-    assert_int_equal(encoder.length, 0x16);
-    assert_int_equal(encoder.data[0x0E], 0x93);
-    assert_int_equal(encoder.data[0x0F], 0x11);
-    dmi_encoder_destroy(&encoder);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &writer);
+    assert_int_equal(writer.length, 0x16);
+    assert_int_equal(writer.data[0x0E], 0x93);
+    assert_int_equal(writer.data[0x0F], 0x11);
+    dmi_writer_destroy(&writer);
 
     dmi_entity_destroy(entity);
 }
@@ -171,19 +171,19 @@ static void test_encoder_extended_governed(void **pstate)
     assert_int_equal(info->start_addr, 0x0000010000000000uLL);
     assert_int_equal(info->end_addr,   0x000001FFFFFFFFFFuLL);
 
-    dmi_encoder_t encoder;
+    dmi_writer_t writer;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &encoder);
-    assert_int_equal(encoder.length, 0x1F);
-    assert_memory_equal(encoder.data, test_array_addr_ex, 0x1F);
-    dmi_encoder_destroy(&encoder);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &writer);
+    assert_int_equal(writer.length, 0x1F);
+    assert_memory_equal(writer.data, test_array_addr_ex, 0x1F);
+    dmi_writer_destroy(&writer);
 
     // Starting address fits the plain field, but the ending one does not, so
     // both are carried by the extended fields
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &encoder);
-    assert_int_equal(encoder.length, 0x1F);
-    assert_memory_equal(encoder.data, test_array_addr_ex, 0x1F);
-    dmi_encoder_destroy(&encoder);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &writer);
+    assert_int_equal(writer.length, 0x1F);
+    assert_memory_equal(writer.data, test_array_addr_ex, 0x1F);
+    dmi_writer_destroy(&writer);
 
     dmi_entity_destroy(entity);
 }
@@ -208,23 +208,23 @@ static void test_encoder_extended_canonical(void **pstate)
     const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
     assert_non_null(info);
 
-    dmi_encoder_t encoder;
+    dmi_writer_t writer;
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &encoder);
-    assert_int_equal(encoder.length, 0x1F);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &writer);
+    assert_int_equal(writer.length, 0x1F);
 
     // Plain fields carry the addresses in kilobytes, and the extended ones
     // are left zero
     static const uint8_t plain[] = { 0x00, 0x00, 0x00, 0x40, 0xFF, 0xFF, 0xFF, 0x7F };
-    assert_memory_equal(encoder.data + 0x04, plain, sizeof(plain));
+    assert_memory_equal(writer.data + 0x04, plain, sizeof(plain));
 
     for (size_t i = 0x0F; i < 0x1F; i++)
-        assert_int_equal(encoder.data[i], 0x00);
+        assert_int_equal(writer.data[i], 0x00);
 
     // Structure written this way decodes to the same addresses
     uint8_t encoded[0x1F + 2] = {};
-    memcpy(encoded, encoder.data, 0x1F);
-    dmi_encoder_destroy(&encoder);
+    memcpy(encoded, writer.data, 0x1F);
+    dmi_writer_destroy(&writer);
 
     dmi_entity_t *decoded = test_decode(context, encoded, sizeof(encoded));
 
@@ -256,12 +256,12 @@ static void test_encoder_truncated(void **pstate)
     dmi_entity_t *entity = test_decode(context, data, sizeof(data));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    dmi_encoder_t encoder;
+    dmi_writer_t writer;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &encoder);
-    assert_int_equal(encoder.length, 0x0D);
-    assert_memory_equal(encoder.data, data, 0x0D);
-    dmi_encoder_destroy(&encoder);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &writer);
+    assert_int_equal(writer.length, 0x0D);
+    assert_memory_equal(writer.data, data, 0x0D);
+    dmi_writer_destroy(&writer);
 
     dmi_entity_destroy(entity);
 }
@@ -284,27 +284,26 @@ static const uint8_t test_system_strings[] = {
 static void test_encoder_strings(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_entity_t  *entity  = test_decode(context, test_system_strings, sizeof(test_system_strings));
 
-    dmi_entity_t *entity = test_decode(context, test_system_strings, sizeof(test_system_strings));
+    dmi_writer_t writer;
 
-    dmi_encoder_t encoder;
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &writer);
+    assert_int_equal(writer.length, 0x1B);
+    assert_memory_equal(writer.data, test_system_strings, 0x1B);
+    assert_int_equal(writer.string_count, 4);
+    assert_string_equal(writer.strings[3], "unused");
+    dmi_writer_destroy(&writer);
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &encoder);
-    assert_int_equal(encoder.length, 0x1B);
-    assert_memory_equal(encoder.data, test_system_strings, 0x1B);
-    assert_int_equal(encoder.string_count, 4);
-    assert_string_equal(encoder.strings[3], "unused");
-    dmi_encoder_destroy(&encoder);
-
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &encoder);
-    assert_int_equal(encoder.data[0x04], 1);
-    assert_int_equal(encoder.data[0x05], 2);
-    assert_int_equal(encoder.data[0x06], 1);
-    assert_int_equal(encoder.data[0x07], 0);
-    assert_int_equal(encoder.string_count, 2);
-    assert_string_equal(encoder.strings[0], "A");
-    assert_string_equal(encoder.strings[1], "B");
-    dmi_encoder_destroy(&encoder);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &writer);
+    assert_int_equal(writer.data[0x04], 1);
+    assert_int_equal(writer.data[0x05], 2);
+    assert_int_equal(writer.data[0x06], 1);
+    assert_int_equal(writer.data[0x07], 0);
+    assert_int_equal(writer.string_count, 2);
+    assert_string_equal(writer.strings[0], "A");
+    assert_string_equal(writer.strings[1], "B");
+    dmi_writer_destroy(&writer);
 
     dmi_entity_destroy(entity);
 }
@@ -319,23 +318,23 @@ static void test_encoder_groups(void **pstate)
 
     dmi_entity_t *entity = test_decode(context, test_system_strings, sizeof(test_system_strings));
 
-    dmi_encoder_t encoder;
+    dmi_writer_t writer;
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 1, 0), &encoder);
-    assert_int_equal(encoder.length, 0x19);
-    assert_int_equal(encoder.data[0x01], 0x19);
-    dmi_encoder_destroy(&encoder);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 1, 0), &writer);
+    assert_int_equal(writer.length, 0x19);
+    assert_int_equal(writer.data[0x01], 0x19);
+    dmi_writer_destroy(&writer);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 0, 0), &encoder);
-    assert_int_equal(encoder.length, 0x08);
-    dmi_encoder_destroy(&encoder);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 0, 0), &writer);
+    assert_int_equal(writer.length, 0x08);
+    dmi_writer_destroy(&writer);
 
     dmi_entity_destroy(entity);
 }
 
 //
 // Compare two decoded structures member by member, as far as the fields of
-// their specification describe them, which is the model the encoder writes
+// their specification describe them, which is the model the writer writes
 // from. Members a field splits the data into are not known to the fields,
 // and are left out.
 //
@@ -440,38 +439,38 @@ static bool test_fields_equal(
 //
 static dmi_byte_t *test_canonical_bytes(const dmi_entity_t *entity, dmi_version_t version, size_t *size)
 {
-    dmi_encoder_t encoder;
+    dmi_writer_t writer;
 
-    if (not dmi_encoder_initialize(&encoder, entity, DMI_ENCODE_MODE_CANONICAL, version))
+    if (not dmi_writer_initialize(&writer, entity, DMI_ENCODE_MODE_CANONICAL, version))
         return nullptr;
 
-    if (not dmi_entity_encode(&encoder)) {
-        dmi_encoder_destroy(&encoder);
+    if (not dmi_entity_encode(&writer)) {
+        dmi_writer_destroy(&writer);
         return nullptr;
     }
 
-    *size = encoder.length + 1;
-    for (size_t i = 0; i < encoder.string_count; i++)
-        *size += strlen(encoder.strings[i]) + 1;
-    if (encoder.string_count == 0)
+    *size = writer.length + 1;
+    for (size_t i = 0; i < writer.string_count; i++)
+        *size += strlen(writer.strings[i]) + 1;
+    if (writer.string_count == 0)
         (*size)++;
 
     dmi_byte_t *data = calloc(1, *size);
     if (data == nullptr) {
-        dmi_encoder_destroy(&encoder);
+        dmi_writer_destroy(&writer);
         return nullptr;
     }
 
-    memcpy(data, encoder.data, encoder.length);
+    memcpy(data, writer.data, writer.length);
 
-    size_t position = encoder.length;
-    for (size_t i = 0; i < encoder.string_count; i++) {
-        size_t length = strlen(encoder.strings[i]) + 1;
-        memcpy(data + position, encoder.strings[i], length);
+    size_t position = writer.length;
+    for (size_t i = 0; i < writer.string_count; i++) {
+        size_t length = strlen(writer.strings[i]) + 1;
+        memcpy(data + position, writer.strings[i], length);
         position += length;
     }
 
-    dmi_encoder_destroy(&encoder);
+    dmi_writer_destroy(&writer);
 
     return data;
 }
@@ -534,12 +533,12 @@ static void test_encode_both_ways(dmi_context_t *context, const uint8_t *data, s
 {
     dmi_entity_t *entity = test_decode(context, data, size);
 
-    dmi_encoder_t encoder;
-    assert_true(dmi_encoder_initialize(&encoder, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
-    assert_true(dmi_entity_encode(&encoder));
-    assert_int_equal(encoder.length, entity->body_length);
-    assert_memory_equal(encoder.data, data, encoder.length);
-    dmi_encoder_destroy(&encoder);
+    dmi_writer_t writer;
+    assert_true(dmi_writer_initialize(&writer, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+    assert_true(dmi_entity_encode(&writer));
+    assert_int_equal(writer.length, entity->body_length);
+    assert_memory_equal(writer.data, data, writer.length);
+    dmi_writer_destroy(&writer);
 
     size_t      first_size = 0;
     dmi_byte_t *first      = test_canonical_bytes(entity, DMI_VERSION(3, 9, 0), &first_size);
@@ -643,7 +642,7 @@ static void test_encoder_corpus(void **pstate)
 
     for (int i = 0; i < test_dump_count; i++) {
         // Structures are linked, since linking leaves the members the fields
-        // decode into as they are, and the encoder writes them back
+        // decode into as they are, and the writer writes them back
         dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK);
         assert_non_null(context);
 
@@ -671,32 +670,32 @@ static void test_encoder_corpus(void **pstate)
 
             const char *code = (spec != nullptr) ? spec->code : "unknown";
 
-            dmi_encoder_t encoder;
-            assert_true(dmi_encoder_initialize(&encoder, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+            dmi_writer_t writer;
+            assert_true(dmi_writer_initialize(&writer, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
 
-            if (not dmi_entity_encode(&encoder)) {
+            if (not dmi_entity_encode(&writer)) {
                 const dmi_error_t *error = dmi_error_peek_last(context);
 
                 print_error("%s: handle 0x%04X (%s) cannot be encoded: %s\n",
                             test_dumps[i], entity->handle, code,
                             ((error != nullptr) and (error->message != nullptr)) ? error->message : "");
                 failed++;
-                dmi_encoder_destroy(&encoder);
+                dmi_writer_destroy(&writer);
                 continue;
             }
 
             const dmi_data_t *data = (entity->overlay_data != nullptr) ? entity->overlay_data : entity->data;
 
-            bool matches = (encoder.length == entity->body_length) and
-                           (memcmp(encoder.data, data, encoder.length) == 0) and
-                           (encoder.string_count == entity->string_count);
+            bool matches = (writer.length == entity->body_length) and
+                           (memcmp(writer.data, data, writer.length) == 0) and
+                           (writer.string_count == entity->string_count);
 
-            for (size_t k = 0; matches and (k < encoder.string_count); k++)
-                matches = ((encoder.strings[k] == nullptr) and (entity->strings[k].raw == nullptr)) or
-                          ((encoder.strings[k] != nullptr) and (entity->strings[k].raw != nullptr) and
-                           (strcmp(encoder.strings[k], entity->strings[k].raw) == 0));
+            for (size_t k = 0; matches and (k < writer.string_count); k++)
+                matches = ((writer.strings[k] == nullptr) and (entity->strings[k].raw == nullptr)) or
+                          ((writer.strings[k] != nullptr) and (entity->strings[k].raw != nullptr) and
+                           (strcmp(writer.strings[k], entity->strings[k].raw) == 0));
 
-            dmi_encoder_destroy(&encoder);
+            dmi_writer_destroy(&writer);
 
             if (not matches) {
                 print_error("%s: handle 0x%04X (%s) is encoded into other bytes\n",

@@ -25,7 +25,7 @@ extern const dmi_name_set_t dmi_mgmt_redfish_ip_format_names;
 
 // Operation handlers, see mgmt-controller-handlers.c
 bool dmi_mgmt_controller_decode(dmi_entity_t *entity);
-bool dmi_mgmt_controller_encode(dmi_encoder_t *encoder);
+bool dmi_mgmt_controller_encode(dmi_writer_t *writer);
 void dmi_mgmt_controller_cleanup(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see

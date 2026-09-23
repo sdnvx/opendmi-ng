@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/registry.h>
 #include <opendmi/lint.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
@@ -57,13 +57,13 @@ void dmi_memory_array_lint_capacity(dmi_lint_t *lint, const dmi_entity_t *entity
 
 void dmi_memory_array_lint_extended_capacity(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_dword_t value;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, &value, DMI_MEMORY_ARRAY_CAPACITY_OFFSET, sizeof(value)))
+    if (not dmi_reader_get_bytes_at(&reader, &value, DMI_MEMORY_ARRAY_CAPACITY_OFFSET, sizeof(value)))
         return;
 
     if (dmi_decode(value) != DMI_MEMORY_ARRAY_CAPACITY_OFFSET_EXTENDED)

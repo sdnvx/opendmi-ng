@@ -1,4 +1,4 @@
-= dmi_stream_skip_ex(3)
+= dmi_reader_skip_ex(3)
 The OpenDMI contributors
 OpenDMI 0.5.0
 
@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_stream_skip_ex - advance the stream cursor from a mark.
+dmi_reader_skip_ex - advance the reader cursor from a mark.
 
 == Library
 
@@ -19,18 +19,18 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 [source, c]
 ----
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 
-bool dmi_stream_skip_ex(
-        dmi_stream_t      *stream,
-        dmi_stream_mark_t  from,
+bool dmi_reader_skip_ex(
+        dmi_reader_t      *reader,
+        dmi_reader_mark_t  from,
         size_t             length);
 ----
 
 == Description
 
-The `dmi_stream_skip_ex` function places the stream cursor `length` bytes past
-the position of `from`, a mark taken earlier with `dmi_stream_mark`(3).
+The `dmi_reader_skip_ex` function places the reader cursor `length` bytes past
+the position of `from`, a mark taken earlier with `dmi_reader_mark`(3).
 
 Records of a declared length are stepped over by that length rather than by the
 number of bytes read from them, which is what this expresses: the beginning of
@@ -40,26 +40,26 @@ decoder knows is handled without arithmetic, and adding a field to the decoder
 does not change how the next record is found.
 
 Counting from the current position rather than from a mark is
-`dmi_stream_skip`(3), and coming back to a mark without advancing is
-`dmi_stream_rewind`(3).
+`dmi_reader_skip`(3), and coming back to a mark without advancing is
+`dmi_reader_rewind`(3).
 
 === Parameters
 
-`stream`::
-Stream to advance.
+`reader`::
+Reader to advance.
 
 `from`::
-Mark to count `length` from, taken from the same stream with
-`dmi_stream_mark`(3).
+Mark to count `length` from, taken from the same reader with
+`dmi_reader_mark`(3).
 
 `length`::
 Number of bytes to advance by.
 
 == Return value
 
-Returns `true` on success, `false` if `stream` is `nullptr`, if the resulting
+Returns `true` on success, `false` if `reader` is `nullptr`, if the resulting
 position is beyond the end of the entity body, or if `from` was taken from a
-stream reading another entity.
+reader reading another entity.
 
 == Examples
 
@@ -68,13 +68,13 @@ stream reading another entity.
 // Descriptors are two bytes long, and longer ones are allowed for future
 // extensions, so the next one is found by the declared length
 for (size_t i = 0; i < descriptor_count; i++) {
-    dmi_stream_mark_t start = dmi_stream_mark(stream);
+    dmi_reader_mark_t start = dmi_reader_mark(reader);
 
     bool status =
-        dmi_stream_has(stream, descriptor_length) and
-        dmi_stream_decode(stream, dmi_byte_t, &descriptor->type) and
-        dmi_stream_decode(stream, dmi_byte_t, &descriptor->data_format) and
-        dmi_stream_skip_ex(stream, start, descriptor_length);
+        dmi_reader_has(reader, descriptor_length) and
+        dmi_reader_get(reader, dmi_byte_t, &descriptor->type) and
+        dmi_reader_get(reader, dmi_byte_t, &descriptor->data_format) and
+        dmi_reader_skip_ex(reader, start, descriptor_length);
 
     if (not status)
         return dmi_entity_incomplete(entity);
@@ -83,9 +83,9 @@ for (size_t i = 0; i < descriptor_count; i++) {
 
 == See also
 
-`dmi_stream_mark`(3),
-`dmi_stream_rewind`(3),
-`dmi_stream_seek`(3)
+`dmi_reader_mark`(3),
+`dmi_reader_rewind`(3),
+`dmi_reader_seek`(3)
 
 == Copying
 

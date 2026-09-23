@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <stdio.h>
 #include <string.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>

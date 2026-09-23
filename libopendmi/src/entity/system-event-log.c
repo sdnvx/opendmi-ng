@@ -6,7 +6,7 @@
 //
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 

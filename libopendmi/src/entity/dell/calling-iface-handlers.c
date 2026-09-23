@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <opendmi/encoder.h>
+#include <opendmi/writer.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/module/dell.h>
@@ -40,18 +40,18 @@ bool dmi_dell_calling_iface_decode(dmi_entity_t *entity)
         return false;
 
     dmi_context_t *context = dmi_entity_context(entity);
-    dmi_stream_t  *stream  = dmi_entity_stream(entity);
+    dmi_reader_t  *reader  = dmi_entity_reader(entity);
 
     bool status =
-        dmi_stream_decode(stream, dmi_word_t, &info->cmd_io_address) and
-        dmi_stream_decode(stream, dmi_byte_t, &info->cmd_io_code) and
-        dmi_stream_decode(stream, dmi_dword_t, &info->supported_cmds);
+        dmi_reader_get(reader, dmi_word_t, &info->cmd_io_address) and
+        dmi_reader_get(reader, dmi_byte_t, &info->cmd_io_code) and
+        dmi_reader_get(reader, dmi_dword_t, &info->supported_cmds);
     if (not status)
         return false;
 
     // Tokens are terminated by the end-of-table marker, which may be
     // truncated itself
-    size_t capacity = dmi_stream_remaining(stream) / DMI_DELL_CALLING_IFACE_TOKEN_SIZE;
+    size_t capacity = dmi_reader_remaining(reader) / DMI_DELL_CALLING_IFACE_TOKEN_SIZE;
     if (capacity > 0) {
         info->tokens = dmi_alloc_array(context, sizeof(*info->tokens), capacity);
         if (info->tokens == nullptr)
@@ -61,19 +61,19 @@ bool dmi_dell_calling_iface_decode(dmi_entity_t *entity)
     while (true) {
         dmi_word_t id = 0;
 
-        if (not dmi_stream_decode(stream, dmi_word_t, &id))
+        if (not dmi_reader_get(reader, dmi_word_t, &id))
             return dmi_entity_incomplete(entity);
 
         if (id == DMI_DELL_TOKEN_EOT) {
-            dmi_stream_skip(stream, dmi_stream_remaining(stream));
+            dmi_reader_skip(reader, dmi_reader_remaining(reader));
             break;
         }
 
         dmi_dell_calling_iface_token_t token = { .id = id };
 
         status =
-            dmi_stream_decode(stream, dmi_word_t, &token.location) and
-            dmi_stream_decode(stream, dmi_word_t, &token.value);
+            dmi_reader_get(reader, dmi_word_t, &token.location) and
+            dmi_reader_get(reader, dmi_word_t, &token.value);
         if (not status)
             return dmi_entity_incomplete(entity);
 
@@ -96,28 +96,28 @@ void dmi_dell_calling_iface_cleanup(dmi_entity_t *entity)
 }
 
 static bool dmi_dell_calling_iface_encode_token(
-        dmi_encoder_t                        *encoder,
+        dmi_writer_t                         *writer,
         const dmi_dell_calling_iface_token_t *token)
 {
     return
-        dmi_encoder_put(encoder, dmi_word_t, token->id) and
-        dmi_encoder_put(encoder, dmi_word_t, token->location) and
-        dmi_encoder_put(encoder, dmi_word_t, token->value);
+        dmi_writer_put(writer, dmi_word_t, token->id) and
+        dmi_writer_put(writer, dmi_word_t, token->location) and
+        dmi_writer_put(writer, dmi_word_t, token->value);
 }
 
 //
 // Tokens are written in turn, and are terminated by the end-of-table marker.
 //
-bool dmi_dell_calling_iface_encode(dmi_encoder_t *encoder)
+bool dmi_dell_calling_iface_encode(dmi_writer_t *writer)
 {
-    const dmi_dell_calling_iface_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(DELL_CALLING_IFACE));
+    const dmi_dell_calling_iface_t *info = dmi_entity_info(writer->entity, DMI_TYPE(DELL_CALLING_IFACE));
     if (info == nullptr)
         return false;
 
     bool status =
-        dmi_encoder_put(encoder, dmi_word_t, info->cmd_io_address) and
-        dmi_encoder_put(encoder, dmi_byte_t, info->cmd_io_code) and
-        dmi_encoder_put(encoder, dmi_dword_t, info->supported_cmds);
+        dmi_writer_put(writer, dmi_word_t, info->cmd_io_address) and
+        dmi_writer_put(writer, dmi_byte_t, info->cmd_io_code) and
+        dmi_writer_put(writer, dmi_dword_t, info->supported_cmds);
     if (not status)
         return false;
 
@@ -126,38 +126,38 @@ bool dmi_dell_calling_iface_encode(dmi_encoder_t *encoder)
     // kept as they are, and the rest are written from the model in turn
     size_t next = 0;
 
-    while ((encoder->mode == DMI_ENCODE_MODE_PRESERVE) and (next < info->token_count)) {
+    while ((writer->mode == DMI_ENCODE_MODE_PRESERVE) and (next < info->token_count)) {
         dmi_byte_t id[2];
 
-        if (not dmi_encoder_peek(encoder, id, sizeof(id)))
+        if (not dmi_writer_peek(writer, id, sizeof(id)))
             break;
 
         dmi_word_t original = (dmi_word_t)(id[0] | (id[1] << 8));
 
-        if ((original == DMI_DELL_TOKEN_EOT) or (dmi_encoder_remaining(encoder) < DMI_DELL_CALLING_IFACE_TOKEN_SIZE))
+        if ((original == DMI_DELL_TOKEN_EOT) or (dmi_writer_remaining(writer) < DMI_DELL_CALLING_IFACE_TOKEN_SIZE))
             break;
 
         if (original == DMI_DELL_TOKEN_UNUSED) {
-            if (not dmi_encoder_copy(encoder, DMI_DELL_CALLING_IFACE_TOKEN_SIZE))
+            if (not dmi_writer_copy(writer, DMI_DELL_CALLING_IFACE_TOKEN_SIZE))
                 return false;
             continue;
         }
 
-        if (not dmi_dell_calling_iface_encode_token(encoder, &info->tokens[next++]))
+        if (not dmi_dell_calling_iface_encode_token(writer, &info->tokens[next++]))
             return false;
     }
 
     // Tokens the source data has no records for, and all of them in the
     // canonical mode
     while (next < info->token_count) {
-        if (not dmi_dell_calling_iface_encode_token(encoder, &info->tokens[next++]))
+        if (not dmi_dell_calling_iface_encode_token(writer, &info->tokens[next++]))
             return false;
     }
 
     // Marker ending the tokens is kept along with whatever follows it in the
     // preserve mode, and written in the canonical one
-    if (encoder->mode == DMI_ENCODE_MODE_CANONICAL)
-        return dmi_encoder_put(encoder, dmi_word_t, DMI_DELL_TOKEN_EOT);
+    if (writer->mode == DMI_ENCODE_MODE_CANONICAL)
+        return dmi_writer_put(writer, dmi_word_t, DMI_DELL_TOKEN_EOT);
 
     return true;
 }

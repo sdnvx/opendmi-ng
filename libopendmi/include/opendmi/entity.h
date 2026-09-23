@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/attribute.h>
 #include <opendmi/utils/vector.h>
 #include <opendmi/utils/version.h>
@@ -40,17 +40,17 @@ typedef struct dmi_entity_ops     dmi_entity_ops_t;
     typedef struct dmi_field dmi_field_t;
 #endif // !DMI_FIELD_T
 
-#ifndef DMI_ENCODER_T
-#   define DMI_ENCODER_T
-    typedef struct dmi_encoder dmi_encoder_t;
-#endif // !DMI_ENCODER_T
+#ifndef DMI_WRITER_T
+#   define DMI_WRITER_T
+    typedef struct dmi_writer dmi_writer_t;
+#endif // !DMI_WRITER_T
 
 typedef struct dmi_header         dmi_header_t;
 typedef struct dmi_string_entry   dmi_string_entry_t;
 
 typedef bool dmi_entity_validate_fn(dmi_entity_t *entity);
 typedef bool dmi_entity_decode_fn(dmi_entity_t *entity);
-typedef bool dmi_entity_encode_fn(dmi_encoder_t *encoder);
+typedef bool dmi_entity_encode_fn(dmi_writer_t *writer);
 typedef bool dmi_entity_derive_fn(dmi_entity_t *entity);
 typedef bool dmi_entity_link_fn(dmi_entity_t *entity);
 typedef void dmi_entity_cleanup_fn(dmi_entity_t *entity);
@@ -190,7 +190,7 @@ struct dmi_entity_ops
      * along with it for the structure to be encoded.
      *
      * The handler writes the formatted area after the header, which the
-     * encoder has written, and leaves the bytes after the ones it knows of,
+     * writer has written, and leaves the bytes after the ones it knows of,
      * and the length of the header, to `dmi_entity_encode()`. Specifications
      * which describe their layout rather than decode it themselves are
      * encoded by their fields, and need none.
@@ -208,7 +208,7 @@ struct dmi_entity_ops
      *
      * The handler writes only the members no field decodes into, and leaves
      * the ones of the fields as they have been decoded: they are what the
-     * encoder writes the structure back from.
+     * writer writes the structure back from.
      */
     dmi_entity_derive_fn *derive;
 
@@ -398,9 +398,9 @@ struct dmi_entity
     size_t extra_length;
 
     /**
-     * @brief Data stream.
+     * @brief Data reader.
      */
-    dmi_stream_t stream;
+    dmi_reader_t reader;
 
     /**
      * @brief String data.
@@ -554,7 +554,7 @@ __dmi_api dmi_entity_t *dmi_entity_create(
 __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
 
 /**
- * @brief Encode the SMBIOS structure an encoder has been initialized with.
+ * @brief Encode the SMBIOS structure a writer has been initialized with.
  *
  * Structures whose specification describes their layout are encoded by its
  * fields, see `dmi_fields_encode()`, and the rest by the encoding handler of
@@ -563,18 +563,18 @@ __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
  * are kept as they are in the preserve mode: their bytes are all the model
  * the structure has.
  *
- * @param[in,out] encoder Encoder of the structure, see
- *                        `dmi_encoder_initialize()`.
+ * @param[in,out] writer Writer of the structure, see
+ *                        `dmi_writer_initialize()`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
+ * @error DMI_ERROR_NULL_ARGUMENT Writer is `nullptr`
  * @error DMI_ERROR_INVALID_STATE Structure cannot be encoded: its type has no
  *        specification and the mode is the canonical one, or its
  *        specification decodes it by a handler with no encoding one
- * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the writer cannot grow
  *
  * @return `true` if the structure has been encoded, `false` otherwise.
  */
-__dmi_api bool dmi_entity_encode(dmi_encoder_t *encoder);
+__dmi_api bool dmi_entity_encode(dmi_writer_t *writer);
 
 /**
  * @internal
@@ -627,17 +627,17 @@ __dmi_api dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity);
 __dmi_api dmi_context_t *dmi_entity_context(const dmi_entity_t *entity);
 
 /**
- * @brief Get data stream of an entity.
+ * @brief Get data reader of an entity.
  *
- * The stream is used by decoders to read the structure body, and is reset
+ * The reader is used by decoders to read the structure body, and is reset
  * after decoding.
  *
  * @param[in] entity Entity descriptor.
  *
- * @return Non-owning pointer to the stream, or @c nullptr if @p entity is
+ * @return Non-owning pointer to the reader, or @c nullptr if @p entity is
  *         @c nullptr.
  */
-__dmi_api dmi_stream_t *dmi_entity_stream(dmi_entity_t *entity);
+__dmi_api dmi_reader_t *dmi_entity_reader(dmi_entity_t *entity);
 
 /**
  * @brief Get entity type.

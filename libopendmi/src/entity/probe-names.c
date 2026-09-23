@@ -5,11 +5,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/context.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/internal.h>
+
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
+
 #include <opendmi/entity/probe.h>
 
 const dmi_name_set_t dmi_probe_location_names =

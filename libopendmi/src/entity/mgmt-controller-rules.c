@@ -9,7 +9,7 @@
 #include <opendmi/context.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
@@ -29,13 +29,13 @@
 //
 void dmi_mgmt_controller_lint_records(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_byte_t length;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, &length, DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET,
+    if (not dmi_reader_get_bytes_at(&reader, &length, DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET,
                                     sizeof(length)))
         return;
 
@@ -43,7 +43,7 @@ void dmi_mgmt_controller_lint_records(dmi_lint_t *lint, const dmi_entity_t *enti
     size_t offset = DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET + sizeof(length) + length;
     dmi_byte_t count;
 
-    if (not dmi_stream_read_data_at(&stream, &count, offset, sizeof(count))) {
+    if (not dmi_reader_get_bytes_at(&reader, &count, offset, sizeof(count))) {
         dmi_lint_issue(lint, entity, "if-data", dmi_lint_entity_offset(lint, entity) +
                        DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET,
                        "interface data of %u bytes leaves no room for the protocol records",
@@ -57,7 +57,7 @@ void dmi_mgmt_controller_lint_records(dmi_lint_t *lint, const dmi_entity_t *enti
         dmi_byte_t record[2];
 
         // Every record starts with its type and the length of its data
-        if (dmi_stream_read_data_at(&stream, record, offset, sizeof(record))) {
+        if (dmi_reader_get_bytes_at(&reader, record, offset, sizeof(record))) {
             offset += sizeof(record) + record[1];
 
             if (offset <= entity->body_length)

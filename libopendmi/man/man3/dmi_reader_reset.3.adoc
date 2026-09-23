@@ -1,4 +1,4 @@
-= dmi_stream_reset(3)
+= dmi_reader_reset(3)
 The OpenDMI contributors
 OpenDMI 0.5.0
 
@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_stream_reset - reset the stream cursor to the beginning.
+dmi_reader_reset - reset the reader cursor to the beginning.
 
 == Library
 
@@ -19,26 +19,26 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 [source, c]
 ----
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 
-void dmi_stream_reset(dmi_stream_t *stream);
+void dmi_reader_reset(dmi_reader_t *reader);
 ----
 
 == Description
 
-The `dmi_stream_reset` function repositions the stream cursor back to the
+The `dmi_reader_reset` function repositions the reader cursor back to the
 start of the entity body so that it can be read again from the beginning.
 
 === Parameters
 
-`stream`::
-Stream to reset.
+`reader`::
+Reader to reset.
 
 == See also
 
-`dmi_stream_initialize`(3),
-`dmi_stream_seek`(3),
-`dmi_stream_is_done`(3)
+`dmi_reader_initialize`(3),
+`dmi_reader_seek`(3),
+`dmi_reader_is_done`(3)
 
 == Copying
 

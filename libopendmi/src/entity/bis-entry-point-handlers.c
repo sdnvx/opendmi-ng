@@ -27,7 +27,7 @@ const dmi_attribute_t dmi_bis_real_mode_address_attrs[] =
 };
 
 //
-// Checksum covers the whole structure, as read by the stream.
+// Checksum covers the whole structure, as the data holds it.
 //
 bool dmi_bis_entry_point_derive(dmi_entity_t *entity)
 {
@@ -37,9 +37,9 @@ bool dmi_bis_entry_point_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    const dmi_stream_t *stream = dmi_entity_stream(entity);
+    const dmi_reader_t *reader = dmi_entity_reader(entity);
 
-    info->is_valid = dmi_checksum_test(stream->data, entity->body_length);
+    info->is_valid = dmi_checksum_test(reader->data, entity->body_length);
 
     return true;
 }

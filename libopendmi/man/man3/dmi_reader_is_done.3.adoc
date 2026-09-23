@@ -1,4 +1,4 @@
-= dmi_stream_is_done(3)
+= dmi_reader_is_done(3)
 The OpenDMI contributors
 OpenDMI 0.5.0
 
@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_stream_is_done - check whether all data in the stream has been consumed.
+dmi_reader_is_done - check whether all data in the reader has been consumed.
 
 == Library
 
@@ -19,20 +19,20 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 [source, c]
 ----
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 
-bool dmi_stream_is_done(const dmi_stream_t *stream);
+bool dmi_reader_is_done(const dmi_reader_t *reader);
 ----
 
 == Description
 
-The `dmi_stream_is_done` function checks whether the stream cursor has reached
+The `dmi_reader_is_done` function checks whether the reader cursor has reached
 the end of the entity body, meaning there are no remaining bytes to read.
 
 === Parameters
 
-`stream`::
-Stream to check.
+`reader`::
+Reader to check.
 
 == Return value
 
@@ -40,9 +40,9 @@ Returns `true` if there are no remaining bytes to read, `false` otherwise.
 
 == See also
 
-`dmi_stream_initialize`(3),
-`dmi_stream_seek`(3),
-`dmi_stream_reset`(3)
+`dmi_reader_initialize`(3),
+`dmi_reader_seek`(3),
+`dmi_reader_reset`(3)
 
 == Copying
 

@@ -11,7 +11,7 @@
 #include <opendmi/log.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/registry.h>
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>
@@ -117,13 +117,13 @@ void dmi_processor_lint_cache(dmi_lint_t *lint, const dmi_entity_t *entity)
 
 void dmi_processor_lint_family(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_byte_t value;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, &value, DMI_PROCESSOR_FAMILY_OFFSET, sizeof(value)))
+    if (not dmi_reader_get_bytes_at(&reader, &value, DMI_PROCESSOR_FAMILY_OFFSET, sizeof(value)))
         return;
 
     if (value != DMI_PROCESSOR_FAMILY_EXTENDED)
@@ -151,13 +151,13 @@ void dmi_processor_lint_id(dmi_lint_t *lint, const dmi_entity_t *entity)
     if ((info == nullptr) or (info->id_format != DMI_PROCESSOR_ID_FORMAT_X86))
         return;
 
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_dword_t words[2];
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, words, DMI_PROCESSOR_ID_OFFSET, sizeof(words)))
+    if (not dmi_reader_get_bytes_at(&reader, words, DMI_PROCESSOR_ID_OFFSET, sizeof(words)))
         return;
 
     uint32_t low  = dmi_decode(words[0]);

@@ -19,13 +19,13 @@
 //
 void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_byte_t value;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, &value, DMI_IPMI_DEVICE_REVISION_OFFSET,
+    if (not dmi_reader_get_bytes_at(&reader, &value, DMI_IPMI_DEVICE_REVISION_OFFSET,
                                     sizeof(value)))
         return;
 

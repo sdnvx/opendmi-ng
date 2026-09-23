@@ -6,7 +6,7 @@
 //
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
@@ -45,13 +45,13 @@ void dmi_system_event_log_lint_descriptors(dmi_lint_t *lint, const dmi_entity_t 
 
     // Length of the descriptors is read from the structure itself, since the
     // decoder keeps the descriptors rather than their layout
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_byte_t length;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, &length, DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_OFFSET,
+    if (not dmi_reader_get_bytes_at(&reader, &length, DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_OFFSET,
                                     sizeof(length)))
         return;
 

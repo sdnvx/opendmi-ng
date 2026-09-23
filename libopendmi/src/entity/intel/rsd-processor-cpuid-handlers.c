@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <opendmi/encoder.h>
+#include <opendmi/writer.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/module/intel.h>
@@ -88,13 +88,13 @@ bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
         return false;
 
     dmi_context_t *context = dmi_entity_context(entity);
-    dmi_stream_t  *stream  = dmi_entity_stream(entity);
+    dmi_reader_t  *reader  = dmi_entity_reader(entity);
 
     dmi_byte_t subtype = 0;
 
     bool status =
-        dmi_stream_decode_str(stream, &info->socket_designation) and
-        dmi_stream_decode(stream, dmi_byte_t, &subtype);
+        dmi_reader_get_string(reader, &info->socket_designation) and
+        dmi_reader_get(reader, dmi_byte_t, &subtype);
     if (not status)
         return false;
 
@@ -119,7 +119,7 @@ bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
     // Data of unknown subtypes is shown as stored
     if (inputs == nullptr) {
         info->is_raw = true;
-        return dmi_stream_decode_bin(stream, dmi_stream_remaining(stream), &info->data);
+        return dmi_reader_get_binary(reader, dmi_reader_remaining(reader), &info->data);
     }
 
     info->leaves = dmi_alloc_array(context, sizeof(*info->leaves), count);
@@ -130,10 +130,10 @@ bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
         dmi_intel_rsd_cpuid_leaf_t *leaf = &info->leaves[i];
 
         status =
-            dmi_stream_decode(stream, dmi_dword_t, &leaf->eax) and
-            dmi_stream_decode(stream, dmi_dword_t, &leaf->ebx) and
-            dmi_stream_decode(stream, dmi_dword_t, &leaf->ecx) and
-            dmi_stream_decode(stream, dmi_dword_t, &leaf->edx);
+            dmi_reader_get(reader, dmi_dword_t, &leaf->eax) and
+            dmi_reader_get(reader, dmi_dword_t, &leaf->ebx) and
+            dmi_reader_get(reader, dmi_dword_t, &leaf->ecx) and
+            dmi_reader_get(reader, dmi_dword_t, &leaf->edx);
         if (not status)
             return dmi_entity_incomplete(entity);
 
@@ -165,30 +165,30 @@ void dmi_intel_rsd_processor_cpuid_cleanup(dmi_entity_t *entity)
 // Leaves of the known subtypes are written in the order the subtype lists
 // them, and the data of the unknown ones as it is stored.
 //
-bool dmi_intel_rsd_processor_cpuid_encode(dmi_encoder_t *encoder)
+bool dmi_intel_rsd_processor_cpuid_encode(dmi_writer_t *writer)
 {
     const dmi_intel_rsd_processor_cpuid_t *info =
-            dmi_entity_info(encoder->entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+            dmi_entity_info(writer->entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
     if (info == nullptr)
         return false;
 
     bool status =
-        dmi_encoder_write_str(encoder, info->socket_designation) and
-        dmi_encoder_put(encoder, dmi_byte_t, info->subtype);
+        dmi_writer_put_string(writer, info->socket_designation) and
+        dmi_writer_put(writer, dmi_byte_t, info->subtype);
     if (not status)
         return false;
 
     if (info->is_raw)
-        return dmi_encoder_write(encoder, info->data.data, info->data.length);
+        return dmi_writer_put_bytes(writer, info->data.data, info->data.length);
 
     for (size_t i = 0; i < info->leaf_count; i++) {
         const dmi_intel_rsd_cpuid_leaf_t *leaf = &info->leaves[i];
 
         status =
-            dmi_encoder_put(encoder, dmi_dword_t, leaf->eax) and
-            dmi_encoder_put(encoder, dmi_dword_t, leaf->ebx) and
-            dmi_encoder_put(encoder, dmi_dword_t, leaf->ecx) and
-            dmi_encoder_put(encoder, dmi_dword_t, leaf->edx);
+            dmi_writer_put(writer, dmi_dword_t, leaf->eax) and
+            dmi_writer_put(writer, dmi_dword_t, leaf->ebx) and
+            dmi_writer_put(writer, dmi_dword_t, leaf->ecx) and
+            dmi_writer_put(writer, dmi_dword_t, leaf->edx);
         if (not status)
             return false;
     }

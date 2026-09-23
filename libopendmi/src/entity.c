@@ -10,7 +10,7 @@
 #include <assert.h>
 
 #include <opendmi/context.h>
-#include <opendmi/encoder.h>
+#include <opendmi/writer.h>
 #include <opendmi/entity.h>
 #include <opendmi/field.h>
 #include <opendmi/internal.h>
@@ -234,9 +234,9 @@ bool dmi_entity_decode(dmi_entity_t *entity)
     if (entity->info == nullptr)
         return false;
 
-    // Initialize stream
-    dmi_stream_initialize(&entity->stream, entity);
-    dmi_stream_seek(&entity->stream, sizeof(dmi_header_t));
+    // Initialize reader
+    dmi_reader_initialize(&entity->reader, entity);
+    dmi_reader_seek(&entity->reader, sizeof(dmi_header_t));
 
     // Execute decoder
     bool status = decode(entity);
@@ -269,35 +269,35 @@ bool dmi_entity_decode(dmi_entity_t *entity)
         entity->level = DMI_VERSION_NONE;
     }
 
-    // Reset stream after decoding
-    dmi_stream_reset(&entity->stream);
+    // Reset reader after decoding
+    dmi_reader_reset(&entity->reader);
 
     return status;
 }
 
-bool dmi_entity_encode(dmi_encoder_t *encoder)
+bool dmi_entity_encode(dmi_writer_t *writer)
 {
-    if (encoder == nullptr) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "encoder");
+    if (writer == nullptr) {
+        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "writer");
         return false;
     }
 
-    const dmi_entity_t      *entity = encoder->entity;
+    const dmi_entity_t      *entity = writer->entity;
     const dmi_entity_spec_t *spec   = entity->spec;
 
     // Specifications which describe their layout are encoded by it
     if ((spec != nullptr) and (spec->handlers.decode == nullptr) and (spec->fields != nullptr))
-        return dmi_fields_encode(encoder);
+        return dmi_fields_encode(writer);
 
     if ((spec != nullptr) and (spec->handlers.encode != nullptr)) {
-        if (not spec->handlers.encode(encoder))
+        if (not spec->handlers.encode(writer))
             return false;
     } else if ((spec != nullptr) and (spec->handlers.decode != nullptr)) {
         dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
                            "0x%04x (%s): structure has no encoding handler",
                            entity->handle, spec->code);
         return false;
-    } else if ((spec == nullptr) and (encoder->mode == DMI_ENCODE_MODE_CANONICAL)) {
+    } else if ((spec == nullptr) and (writer->mode == DMI_ENCODE_MODE_CANONICAL)) {
         dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
                            "0x%04x: type %d has no specification to write it by",
                            entity->handle, (int)entity->type);
@@ -307,10 +307,10 @@ bool dmi_entity_encode(dmi_encoder_t *encoder)
     // Bytes after the ones the model holds are the structure's own, and are
     // kept as they are, which is all of them for a structure the model holds
     // nothing of
-    if (not dmi_encoder_copy(encoder, dmi_encoder_remaining(encoder)))
+    if (not dmi_writer_copy(writer, dmi_writer_remaining(writer)))
         return false;
 
-    return dmi_encoder_finish(encoder);
+    return dmi_writer_finish(writer);
 }
 
 bool dmi_entity_link(dmi_entity_t *entity)
@@ -353,12 +353,12 @@ dmi_context_t *dmi_entity_context(const dmi_entity_t *entity)
     return entity->context;
 }
 
-dmi_stream_t *dmi_entity_stream(dmi_entity_t *entity)
+dmi_reader_t *dmi_entity_reader(dmi_entity_t *entity)
 {
     if (entity == nullptr)
         return nullptr;
 
-    return &entity->stream;
+    return &entity->reader;
 }
 
 dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity)
@@ -543,9 +543,9 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
 bool dmi_entity_stop(dmi_entity_t *entity)
 {
     assert(entity != nullptr);
-    assert(dmi_stream_is_done(&entity->stream));
+    assert(dmi_reader_is_done(&entity->reader));
 
-    if (not dmi_stream_is_done(&entity->stream))
+    if (not dmi_reader_is_done(&entity->reader))
         return dmi_entity_incomplete(entity);
 
     entity->state |= DMI_ENTITY_STATE_PARTIAL;
@@ -559,18 +559,18 @@ bool dmi_entity_incomplete(dmi_entity_t *entity)
 
     entity->state |= DMI_ENTITY_STATE_INCOMPLETE;
 
-    size_t remaining = dmi_stream_remaining(&entity->stream);
+    size_t remaining = dmi_reader_remaining(&entity->reader);
 
     if (remaining > 0) {
         dmi_log_notice(entity->context,
                        "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx, %zu byte%s ignored",
                        entity->handle, dmi_type_name(entity->context, entity->type),
-                       entity->stream.position, remaining, (remaining == 1) ? "" : "s");
+                       entity->reader.position, remaining, (remaining == 1) ? "" : "s");
     } else {
         dmi_log_notice(entity->context,
                        "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx",
                        entity->handle, dmi_type_name(entity->context, entity->type),
-                       entity->stream.position);
+                       entity->reader.position);
     }
 
     return true;

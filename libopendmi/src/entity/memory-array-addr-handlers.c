@@ -19,21 +19,21 @@ bool dmi_memory_array_addr_validate(dmi_entity_t *entity)
     if ((entity == nullptr) or (entity->type != DMI_TYPE(MEMORY_ARRAY_ADDR)))
         return false;
 
-    const dmi_stream_t *stream = dmi_entity_stream(entity);
+    const dmi_reader_t *reader = dmi_entity_reader(entity);
 
     uint32_t start_addr = 0, end_addr = 0;
     uint64_t start_addr_ex = 0, end_addr_ex = 0;
 
     bool has_addr =
-        dmi_stream_decode_at(stream, 0x04u, dmi_dword_t, &start_addr) and
-        dmi_stream_decode_at(stream, 0x08u, dmi_dword_t, &end_addr);
+        dmi_reader_get_at(reader, 0x04u, dmi_dword_t, &start_addr) and
+        dmi_reader_get_at(reader, 0x08u, dmi_dword_t, &end_addr);
 
     if (!has_addr)
         return false;
 
     bool has_addr_ex =
-        dmi_stream_decode_at(stream, 0x0Fu, dmi_qword_t, &start_addr_ex) and
-        dmi_stream_decode_at(stream, 0x17u, dmi_qword_t, &end_addr_ex);
+        dmi_reader_get_at(reader, 0x0Fu, dmi_qword_t, &start_addr_ex) and
+        dmi_reader_get_at(reader, 0x17u, dmi_qword_t, &end_addr_ex);
 
     if ((start_addr == 0xFFFFFFFFu) or (end_addr == 0xFFFFFFFFu)) {
         if (start_addr != end_addr)

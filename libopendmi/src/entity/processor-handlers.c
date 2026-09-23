@@ -11,9 +11,10 @@
 #include <opendmi/log.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/registry.h>
 #include <opendmi/lint.h>
+
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>

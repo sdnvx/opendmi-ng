@@ -39,7 +39,7 @@ typedef struct dmi_field_plain
 typedef struct dmi_field_state
 {
     dmi_entity_t  *entity;
-    dmi_stream_t  *stream;
+    dmi_reader_t  *reader;
     dmi_data_t    *info;
 
     // Fields before the first group are required, so the data ending within
@@ -185,7 +185,7 @@ bool dmi_fields_decode(dmi_entity_t *entity)
 
     dmi_field_state_t state = {
         .entity = entity,
-        .stream = dmi_entity_stream(entity),
+        .reader = dmi_entity_reader(entity),
         .info   = info
     };
 
@@ -242,7 +242,7 @@ static bool dmi_field_decode_list(
         // made in every build, since a declaration which does not match the
         // data it describes decodes the rest of the structure into nonsense
         if (field->type == DMI_FIELD_TYPE_OFFSET) {
-            size_t position = dmi_stream_tell(state->stream);
+            size_t position = dmi_reader_tell(state->reader);
 
             if (position != field->params.offset) {
                 dmi_error_raise_ex(dmi_entity_context(state->entity), DMI_ERROR_INTERNAL,
@@ -260,7 +260,7 @@ static bool dmi_field_decode_list(
             continue;
 
         if (field->type == DMI_FIELD_TYPE_GROUP) {
-            if (dmi_stream_is_done(state->stream))
+            if (dmi_reader_is_done(state->reader))
                 return dmi_entity_stop(state->entity);
 
             // Version of the group becomes the level of the structure, while
@@ -405,14 +405,14 @@ static bool dmi_field_decode_value(
 
     switch (field->type) {
     case DMI_FIELD_TYPE_SKIP:
-        return dmi_stream_skip(state->stream, field->params.length);
+        return dmi_reader_skip(state->reader, field->params.length);
 
     case DMI_FIELD_TYPE_UUID:
-        return dmi_stream_decode_uuid(state->stream, (dmi_uuid_t *)value);
+        return dmi_reader_get_uuid(state->reader, (dmi_uuid_t *)value);
 
     case DMI_FIELD_TYPE_STRING: {
         dmi_string_t number = 0;
-        if (not dmi_stream_read(state->stream, &number))
+        if (not dmi_reader_get(state->reader, dmi_string_t, &number))
             return false;
         data.number = number;
         data.string = dmi_entity_string(state->entity, number);
@@ -430,21 +430,21 @@ static bool dmi_field_decode_value(
         size_t length = field->params.length;
 
         if (length == DMI_FIELD_LENGTH_REST)
-            length = dmi_stream_remaining(state->stream);
+            length = dmi_reader_remaining(state->reader);
         else if (length == DMI_FIELD_LENGTH_MEMBER)
             length = ((const dmi_binary_t *)value)->length;
 
         // Bytes a field before declares the number of may not all be there,
         // and the ones which are there are kept
         if ((field->params.length == DMI_FIELD_LENGTH_MEMBER) and
-            (length > dmi_stream_remaining(state->stream))) {
-            dmi_stream_decode_bin(state->stream, dmi_stream_remaining(state->stream), &data.binary);
+            (length > dmi_reader_remaining(state->reader))) {
+            dmi_reader_get_binary(state->reader, dmi_reader_remaining(state->reader), &data.binary);
             dmi_field_apply(field, &data, value);
             state->incomplete = true;
             return false;
         }
 
-        if (not dmi_stream_decode_bin(state->stream, length, &data.binary))
+        if (not dmi_reader_get_binary(state->reader, length, &data.binary))
             return false;
         break;
     }
@@ -467,7 +467,7 @@ static bool dmi_field_decode_value(
 
 //
 // Decode the data a field carries into its member, which is what the decoder
-// does with the data it reads, and what the encoder does with the data it is
+// does with the data it reads, and what the encoding does with the data it is
 // about to write, to tell whether it decodes into the value the structure
 // holds. Data standing for "unknown" becomes the largest value the member can
 // hold, and the rest is up to the handler of the field.
@@ -611,7 +611,7 @@ static bool dmi_field_take_bits(dmi_field_state_t *state, unsigned bits, uintmax
     while (state->bits_count < bits) {
         dmi_byte_t data = 0;
 
-        if (not dmi_stream_decode(state->stream, dmi_byte_t, &data))
+        if (not dmi_reader_get(state->reader, dmi_byte_t, &data))
             return false;
 
         state->bits_value |= (uintmax_t)data << state->bits_count;
@@ -656,7 +656,7 @@ static bool dmi_field_decode_array(
     if (field->params.count_length == 0) {
         assert(stride != 0);
 
-        size_t remaining = dmi_stream_remaining(state->stream);
+        size_t remaining = dmi_reader_remaining(state->reader);
 
         count    = remaining / stride;
         leftover = remaining % stride;
@@ -697,11 +697,11 @@ static bool dmi_field_decode_array(
     // after it begin where the elements end either way
     if ((field->params.stride_minimum != 0) and (stride < field->params.stride_minimum)) {
         size_t length    = count * stride;
-        size_t remaining = dmi_stream_remaining(state->stream);
+        size_t remaining = dmi_reader_remaining(state->reader);
 
         // Elements of a length the structure does not carry say nothing about
         // where the data ends, so whatever is there is stepped over
-        return dmi_stream_skip(state->stream, (length < remaining) ? length : remaining);
+        return dmi_reader_skip(state->reader, (length < remaining) ? length : remaining);
     }
 
     dmi_context_t *context = dmi_entity_context(state->entity);
@@ -718,21 +718,21 @@ static bool dmi_field_decode_array(
     for (size_t i = 0; i < count; i++) {
         dmi_data_t *element = *elements + (i * field->member.size);
 
-        if ((stride != 0) and not dmi_stream_has(state->stream, stride)) {
+        if ((stride != 0) and not dmi_reader_has(state->reader, stride)) {
             state->incomplete = true;
             return false;
         }
 
-        dmi_stream_mark_t start = dmi_stream_mark(state->stream);
+        dmi_reader_mark_t start = dmi_reader_mark(state->reader);
 
         if (not dmi_field_decode_nested(state, field->params.fields, element)) {
             // The data running out stops exactly at the end of the structure,
             // while anything else leaves the element unread for its own reason
-            state->incomplete = dmi_stream_is_done(state->stream);
+            state->incomplete = dmi_reader_is_done(state->reader);
             return false;
         }
 
-        if ((stride != 0) and not dmi_stream_skip_ex(state->stream, start, stride)) {
+        if ((stride != 0) and not dmi_reader_skip_ex(state->reader, start, stride)) {
             state->incomplete = true;
             return false;
         }
@@ -759,7 +759,7 @@ static bool dmi_field_read_number(
 
     dmi_byte_t data[sizeof(uintmax_t)];
 
-    if (not dmi_stream_read_data(state->stream, data, length))
+    if (not dmi_reader_get_bytes(state->reader, data, length))
         return false;
 
     if (bcd) {
@@ -780,9 +780,9 @@ static bool dmi_field_read_number(
 // ranges of bits sharing a unit are gathered before the bytes of the unit are
 // written.
 //
-typedef struct dmi_field_writer
+typedef struct dmi_field_output
 {
-    dmi_encoder_t *encoder;
+    dmi_writer_t *writer;
 
     // Source data ended before the field being written, at the beginning of
     // a group or in the middle of a field, so nothing more is written
@@ -793,7 +793,7 @@ typedef struct dmi_field_writer
     uintmax_t bits_value;
     unsigned  bits_count;
     unsigned  bits_taken;
-} dmi_field_writer_t;
+} dmi_field_output_t;
 
 //
 // Representation chosen for the members an extended field may carry, which
@@ -807,12 +807,12 @@ typedef struct dmi_field_choice
 } dmi_field_choice_t;
 
 static bool dmi_field_encode_list(
-        dmi_field_writer_t *writer,
+        dmi_field_output_t *output,
         const dmi_field_t  *fields,
         const dmi_data_t   *info);
 
 static bool dmi_field_encode_one(
-        dmi_field_writer_t *writer,
+        dmi_field_output_t *output,
         const dmi_field_t  *fields,
         const dmi_field_t  *field,
         const dmi_data_t   *info,
@@ -820,31 +820,31 @@ static bool dmi_field_encode_one(
         unsigned            choice_count);
 
 static bool dmi_field_encode_array(
-        dmi_field_writer_t *writer,
+        dmi_field_output_t *output,
         const dmi_field_t  *field,
         const dmi_data_t   *info);
 
 static bool dmi_field_encode_bits(
-        dmi_field_writer_t *writer,
+        dmi_field_output_t *output,
         const dmi_field_t  *field,
         const void         *value);
 
-static bool dmi_field_encode_pad(dmi_field_writer_t *writer, const dmi_field_t *field);
+static bool dmi_field_encode_pad(dmi_field_output_t *output, const dmi_field_t *field);
 
-static bool dmi_field_put_bits(dmi_field_writer_t *writer, uintmax_t raw, unsigned bits);
+static bool dmi_field_put_bits(dmi_field_output_t *output, uintmax_t raw, unsigned bits);
 
-static uintmax_t dmi_field_source_bits(const dmi_field_writer_t *writer, unsigned bits);
+static uintmax_t dmi_field_source_bits(const dmi_field_output_t *output, unsigned bits);
 
-static bool dmi_field_put_raw(dmi_field_writer_t *writer, size_t width, uintmax_t raw);
+static bool dmi_field_put_raw(dmi_field_output_t *output, size_t width, uintmax_t raw);
 
-static bool dmi_field_put_reserved(dmi_field_writer_t *writer, size_t length);
+static bool dmi_field_put_reserved(dmi_field_output_t *output, size_t length);
 
-static bool dmi_field_peek_raw(const dmi_field_writer_t *writer, size_t width, uintmax_t *raw);
+static bool dmi_field_peek_raw(const dmi_field_output_t *output, size_t width, uintmax_t *raw);
 
 static bool dmi_field_governs(const dmi_field_t *fields, const dmi_field_t *field, size_t offset);
 
 static bool dmi_field_value_data(
-        const dmi_field_writer_t *writer,
+        const dmi_field_output_t *output,
         const dmi_field_t        *field,
         const void               *value,
         const dmi_field_data_t   *original,
@@ -852,35 +852,35 @@ static bool dmi_field_value_data(
         bool                     *exact);
 
 static bool dmi_field_model_data(
-        const dmi_field_writer_t *writer,
+        const dmi_field_output_t *output,
         const dmi_field_t        *field,
         const void               *value,
         dmi_field_data_t         *data);
 
 static bool dmi_field_decodes_into(const dmi_field_t *field, const dmi_field_data_t *data, const void *value);
 
-static bool dmi_field_source_data(const dmi_field_writer_t *writer, const dmi_field_t *field, dmi_field_data_t *data);
+static bool dmi_field_source_data(const dmi_field_output_t *output, const dmi_field_t *field, dmi_field_data_t *data);
 
-static bool dmi_field_put_data(dmi_field_writer_t *writer, const dmi_field_t *field, const dmi_field_data_t *data);
+static bool dmi_field_put_data(dmi_field_output_t *output, const dmi_field_t *field, const dmi_field_data_t *data);
 
 
 static size_t dmi_fields_size(const dmi_field_t *fields);
 
-static bool dmi_field_cannot_encode(const dmi_field_writer_t *writer, const char *reason);
+static bool dmi_field_cannot_encode(const dmi_field_output_t *output, const char *reason);
 
 static dmi_field_choice_t *dmi_field_choice_find(
         dmi_field_choice_t *choices,
         unsigned            count,
         size_t              offset);
 
-bool dmi_fields_encode(dmi_encoder_t *encoder)
+bool dmi_fields_encode(dmi_writer_t *writer)
 {
-    if (encoder == nullptr) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "encoder");
+    if (writer == nullptr) {
+        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "writer");
         return false;
     }
 
-    const dmi_entity_t      *entity = encoder->entity;
+    const dmi_entity_t      *entity = writer->entity;
     const dmi_entity_spec_t *spec   = entity->spec;
 
     if ((spec == nullptr) or (spec->fields == nullptr) or (entity->info == nullptr)) {
@@ -890,21 +890,21 @@ bool dmi_fields_encode(dmi_encoder_t *encoder)
         return false;
     }
 
-    dmi_field_writer_t writer = {
-        .encoder = encoder
+    dmi_field_output_t output = {
+        .writer = writer
     };
 
-    if (not dmi_field_encode_list(&writer, spec->fields, entity->info))
+    if (not dmi_field_encode_list(&output, spec->fields, entity->info))
         return false;
 
     // Bytes after the ones the fields describe are the structure's own, and
     // are kept as they are
-    size_t remaining = dmi_encoder_remaining(encoder);
+    size_t remaining = dmi_writer_remaining(writer);
 
-    if ((remaining > 0) and not dmi_field_put_reserved(&writer, remaining))
+    if ((remaining > 0) and not dmi_field_put_reserved(&output, remaining))
         return false;
 
-    return dmi_encoder_finish(encoder);
+    return dmi_writer_finish(writer);
 }
 
 //
@@ -913,15 +913,15 @@ bool dmi_fields_encode(dmi_encoder_t *encoder)
 // nested structure for the fields of one.
 //
 static bool dmi_field_encode_list(
-        dmi_field_writer_t *writer,
+        dmi_field_output_t *output,
         const dmi_field_t  *fields,
         const dmi_data_t   *info)
 {
-    assert(writer != nullptr);
+    assert(output != nullptr);
     assert(fields != nullptr);
     assert(info != nullptr);
 
-    dmi_encoder_t *encoder = writer->encoder;
+    dmi_writer_t *writer = output->writer;
 
     // Members an extended field may carry the value of, whose representation
     // the plain field governing them decides
@@ -948,17 +948,17 @@ static bool dmi_field_encode_list(
     }
 
     for (const dmi_field_t *field = fields; field->type != DMI_FIELD_TYPE_NONE; field++) {
-        if (writer->stopped)
+        if (output->stopped)
             return true;
 
         if (field->type == DMI_FIELD_TYPE_OFFSET) {
-            size_t position = dmi_encoder_tell(encoder);
+            size_t position = dmi_writer_tell(writer);
 
             if (position != field->params.offset) {
-                dmi_error_raise_ex(dmi_entity_context(encoder->entity), DMI_ERROR_INTERNAL,
+                dmi_error_raise_ex(dmi_entity_context(writer->entity), DMI_ERROR_INTERNAL,
                                    "0x%04hx (%s): fields reach offset 0x%02zX, 0x%02zX declared",
-                                   dmi_entity_handle(encoder->entity),
-                                   encoder->entity->spec->code, position, field->params.offset);
+                                   dmi_entity_handle(writer->entity),
+                                   writer->entity->spec->code, position, field->params.offset);
                 return false;
             }
 
@@ -972,18 +972,18 @@ static bool dmi_field_encode_list(
         // data ends in the preserve mode, and at the first group of a later
         // version than the one written for in the canonical one
         if (field->type == DMI_FIELD_TYPE_GROUP) {
-            bool ends = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
-                      ? (dmi_encoder_remaining(encoder) == 0)
+            bool ends = (writer->mode == DMI_ENCODE_MODE_PRESERVE)
+                      ? (dmi_writer_remaining(writer) == 0)
                       : ((field->params.since != DMI_VERSION_NONE) and
-                         (field->params.since > encoder->version));
+                         (field->params.since > writer->version));
 
             if (ends)
-                writer->stopped = true;
+                output->stopped = true;
 
             continue;
         }
 
-        if (not dmi_field_encode_one(writer, fields, field, info, choices, choice_count))
+        if (not dmi_field_encode_one(output, fields, field, info, choices, choice_count))
             return false;
     }
 
@@ -991,17 +991,17 @@ static bool dmi_field_encode_list(
 }
 
 static bool dmi_field_encode_one(
-        dmi_field_writer_t *writer,
+        dmi_field_output_t *output,
         const dmi_field_t  *fields,
         const dmi_field_t  *field,
         const dmi_data_t   *info,
         dmi_field_choice_t *choices,
         unsigned            choice_count)
 {
-    assert(writer != nullptr);
+    assert(output != nullptr);
     assert(field != nullptr);
 
-    dmi_encoder_t *encoder = writer->encoder;
+    dmi_writer_t *writer = output->writer;
 
     const void *value = dmi_member_is_present(field->member)
             ? (info + field->member.offset)
@@ -1009,23 +1009,23 @@ static bool dmi_field_encode_one(
 
     assert((field->type == DMI_FIELD_TYPE_BITS) or
            (field->type == DMI_FIELD_TYPE_PAD) or
-           (writer->bits_count == 0));
+           (output->bits_count == 0));
 
     switch (field->type) {
     case DMI_FIELD_TYPE_BITS:
-        return dmi_field_encode_bits(writer, field, value);
+        return dmi_field_encode_bits(output, field, value);
 
     case DMI_FIELD_TYPE_PAD:
-        return dmi_field_encode_pad(writer, field);
+        return dmi_field_encode_pad(output, field);
 
     case DMI_FIELD_TYPE_ARRAY:
-        return dmi_field_encode_array(writer, field, info);
+        return dmi_field_encode_array(output, field, info);
 
     case DMI_FIELD_TYPE_STRUCT:
-        return dmi_field_encode_list(writer, field->params.fields, value);
+        return dmi_field_encode_list(output, field->params.fields, value);
 
     case DMI_FIELD_TYPE_SKIP:
-        return dmi_field_put_reserved(writer, field->params.length);
+        return dmi_field_put_reserved(output, field->params.length);
 
     default:
         break;
@@ -1035,12 +1035,12 @@ static bool dmi_field_encode_one(
     // since the model holds nothing of a field it has not read in full
     size_t width = dmi_field_width(field);
 
-    if (encoder->mode == DMI_ENCODE_MODE_PRESERVE) {
-        size_t remaining = dmi_encoder_remaining(encoder);
+    if (writer->mode == DMI_ENCODE_MODE_PRESERVE) {
+        size_t remaining = dmi_writer_remaining(writer);
 
         if (remaining < width) {
-            writer->stopped = true;
-            return dmi_field_put_reserved(writer, remaining);
+            output->stopped = true;
+            return dmi_field_put_reserved(output, remaining);
         }
     }
 
@@ -1048,7 +1048,7 @@ static bool dmi_field_encode_one(
     case DMI_FIELD_TYPE_UUID: {
         dmi_byte_t data[16];
         dmi_uuid_encode(dmi_deref(dmi_uuid_t, value), data);
-        return dmi_encoder_write(encoder, data, sizeof(data));
+        return dmi_writer_put_bytes(writer, data, sizeof(data));
     }
 
     case DMI_FIELD_TYPE_BINARY: {
@@ -1060,7 +1060,7 @@ static bool dmi_field_encode_one(
 
         const dmi_binary_t *binary = value;
 
-        return dmi_encoder_write(encoder, binary->data, binary->length);
+        return dmi_writer_put_bytes(writer, binary->data, binary->length);
     }
 
     case DMI_FIELD_TYPE_BCD: {
@@ -1070,7 +1070,7 @@ static bool dmi_field_encode_one(
         for (unsigned shift = 0; shift < width * CHAR_BIT; shift += 4, number /= 10)
             digits |= (number % 10) << shift;
 
-        return dmi_field_put_raw(writer, width, digits);
+        return dmi_field_put_raw(output, width, digits);
     }
 
     default:
@@ -1081,7 +1081,7 @@ static bool dmi_field_encode_one(
     dmi_field_data_t data     = {};
     bool             exact    = true;
 
-    bool from_source = dmi_field_source_data(writer, field, &original);
+    bool from_source = dmi_field_source_data(output, field, &original);
 
     // Extended field carries the value only when the plain one governing it
     // has chosen so, and holds what the source data had otherwise
@@ -1090,16 +1090,16 @@ static bool dmi_field_encode_one(
 
     if (field->params.extended) {
         if ((choice == nullptr) or not choice->extended)
-            return dmi_field_put_reserved(writer, width);
+            return dmi_field_put_reserved(output, width);
 
-        if (not dmi_field_value_data(writer, field, value, from_source ? &original : nullptr,
+        if (not dmi_field_value_data(output, field, value, from_source ? &original : nullptr,
                                      &data, &exact))
             return false;
 
-        return dmi_field_put_data(writer, field, &data);
+        return dmi_field_put_data(output, field, &data);
     }
 
-    if (not dmi_field_value_data(writer, field, value, from_source ? &original : nullptr,
+    if (not dmi_field_value_data(output, field, value, from_source ? &original : nullptr,
                                  &data, &exact))
         return false;
 
@@ -1119,7 +1119,7 @@ static bool dmi_field_encode_one(
             dmi_field_data_t other_data  = {};
             bool             other_exact = true;
 
-            if (not dmi_field_value_data(writer, other, info + other->member.offset, nullptr,
+            if (not dmi_field_value_data(output, other, info + other->member.offset, nullptr,
                                          &other_data, &other_exact))
                 return false;
 
@@ -1131,7 +1131,7 @@ static bool dmi_field_encode_one(
         if (choice->extended)
             data.number = choice->when_raw;
 
-        return dmi_field_put_data(writer, field, &data);
+        return dmi_field_put_data(output, field, &data);
     }
 
     // Plain field of a member whose extended field another member governs
@@ -1144,8 +1144,8 @@ static bool dmi_field_encode_one(
                 dmi_field_choice_find(choices, choice_count, dmi_field_when_offset(other));
 
         if ((governing != nullptr) and governing->extended) {
-            if (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
-                return dmi_field_put_reserved(writer, width);
+            if (writer->mode == DMI_ENCODE_MODE_PRESERVE)
+                return dmi_field_put_reserved(output, width);
 
             data.number = governing->when_raw;
         }
@@ -1153,19 +1153,19 @@ static bool dmi_field_encode_one(
         break;
     }
 
-    return dmi_field_put_data(writer, field, &data);
+    return dmi_field_put_data(output, field, &data);
 }
 
 static bool dmi_field_encode_array(
-        dmi_field_writer_t *writer,
+        dmi_field_output_t *output,
         const dmi_field_t  *field,
         const dmi_data_t   *info)
 {
-    assert(writer != nullptr);
+    assert(output != nullptr);
     assert(field != nullptr);
 
-    const dmi_encoder_t *encoder = writer->encoder;
-    bool preserve = (encoder->mode == DMI_ENCODE_MODE_PRESERVE);
+    const dmi_writer_t *writer = output->writer;
+    bool preserve = (writer->mode == DMI_ENCODE_MODE_PRESERVE);
 
     size_t counter = dmi_deref(size_t, info + field->params.counter.offset);
 
@@ -1183,12 +1183,12 @@ static bool dmi_field_encode_array(
         } else if (preserve) {
             uintmax_t original = 0;
 
-            if (dmi_field_peek_raw(writer, field->params.count_length, &original) and
+            if (dmi_field_peek_raw(output, field->params.count_length, &original) and
                 (original > counter))
                 count = original;
         }
 
-        if (not dmi_field_put_raw(writer, field->params.count_length, count))
+        if (not dmi_field_put_raw(output, field->params.count_length, count))
             return false;
     }
 
@@ -1205,11 +1205,11 @@ static bool dmi_field_encode_array(
         } else if (preserve) {
             uintmax_t original = 0;
 
-            if (dmi_field_peek_raw(writer, field->params.stride_length, &original))
+            if (dmi_field_peek_raw(output, field->params.stride_length, &original))
                 length = original;
         }
 
-        if (not dmi_field_put_raw(writer, field->params.stride_length, length))
+        if (not dmi_field_put_raw(output, field->params.stride_length, length))
             return false;
 
         stride = (size_t)length;
@@ -1218,27 +1218,27 @@ static bool dmi_field_encode_array(
     // Elements too short for the fields they are known to hold have not been
     // decoded, and are kept as they are
     if ((field->params.stride_minimum != 0) and (stride < field->params.stride_minimum)) {
-        size_t remaining = dmi_encoder_remaining(encoder);
+        size_t remaining = dmi_writer_remaining(writer);
         size_t length    = counter * stride;
 
-        return dmi_field_put_reserved(writer, (length < remaining) ? length : remaining);
+        return dmi_field_put_reserved(output, (length < remaining) ? length : remaining);
     }
 
     for (size_t i = 0; i < counter; i++) {
-        size_t start = dmi_encoder_tell(encoder);
+        size_t start = dmi_writer_tell(writer);
 
-        if (not dmi_field_encode_list(writer, field->params.fields,
+        if (not dmi_field_encode_list(output, field->params.fields,
                                       elements + (i * field->member.size)))
             return false;
 
-        if (writer->stopped)
+        if (output->stopped)
             return true;
 
         // Elements longer than the fields they are known to hold keep the
         // rest of their bytes
-        size_t written = dmi_encoder_tell(encoder) - start;
+        size_t written = dmi_writer_tell(writer) - start;
 
-        if ((stride > written) and not dmi_field_put_reserved(writer, stride - written))
+        if ((stride > written) and not dmi_field_put_reserved(output, stride - written))
             return false;
     }
 
@@ -1246,11 +1246,11 @@ static bool dmi_field_encode_array(
 }
 
 static bool dmi_field_encode_bits(
-        dmi_field_writer_t *writer,
+        dmi_field_output_t *output,
         const dmi_field_t  *field,
         const void         *value)
 {
-    assert(writer != nullptr);
+    assert(output != nullptr);
     assert(field != nullptr);
 
     unsigned bits = field->params.bits;
@@ -1259,47 +1259,47 @@ static bool dmi_field_encode_bits(
     if (value == nullptr) {
         uintmax_t raw = 0;
 
-        if (writer->encoder->mode == DMI_ENCODE_MODE_PRESERVE)
-            raw = dmi_field_source_bits(writer, bits);
+        if (output->writer->mode == DMI_ENCODE_MODE_PRESERVE)
+            raw = dmi_field_source_bits(output, bits);
 
-        return dmi_field_put_bits(writer, raw, bits);
+        return dmi_field_put_bits(output, raw, bits);
     }
 
     dmi_field_data_t original = {};
     dmi_field_data_t data     = {};
     bool             exact    = true;
 
-    bool from_source = dmi_field_source_data(writer, field, &original);
+    bool from_source = dmi_field_source_data(output, field, &original);
 
-    if (not dmi_field_value_data(writer, field, value, from_source ? &original : nullptr,
+    if (not dmi_field_value_data(output, field, value, from_source ? &original : nullptr,
                                  &data, &exact))
         return false;
 
-    return dmi_field_put_bits(writer, data.number, bits);
+    return dmi_field_put_bits(output, data.number, bits);
 }
 
-static bool dmi_field_encode_pad(dmi_field_writer_t *writer, const dmi_field_t *field)
+static bool dmi_field_encode_pad(dmi_field_output_t *output, const dmi_field_t *field)
 {
-    assert(writer != nullptr);
+    assert(output != nullptr);
     assert(field != nullptr);
 
     unsigned unit  = field->params.bits;
-    unsigned taken = writer->bits_taken % unit;
+    unsigned taken = output->bits_taken % unit;
 
     if (taken != 0) {
         unsigned  bits = unit - taken;
         uintmax_t raw  = 0;
 
-        if (writer->encoder->mode == DMI_ENCODE_MODE_PRESERVE)
-            raw = dmi_field_source_bits(writer, bits);
+        if (output->writer->mode == DMI_ENCODE_MODE_PRESERVE)
+            raw = dmi_field_source_bits(output, bits);
 
-        if (not dmi_field_put_bits(writer, raw, bits))
+        if (not dmi_field_put_bits(output, raw, bits))
             return false;
     }
 
-    assert(writer->bits_count == 0);
+    assert(output->bits_count == 0);
 
-    writer->bits_taken = 0;
+    output->bits_taken = 0;
 
     return true;
 }
@@ -1308,22 +1308,22 @@ static bool dmi_field_encode_pad(dmi_field_writer_t *writer, const dmi_field_t *
 // Gather a range of bits, and write the bytes of the unit as they fill up,
 // which is the order the decoder takes them in.
 //
-static bool dmi_field_put_bits(dmi_field_writer_t *writer, uintmax_t raw, unsigned bits)
+static bool dmi_field_put_bits(dmi_field_output_t *output, uintmax_t raw, unsigned bits)
 {
     assert((bits > 0) and (bits <= (sizeof(uintmax_t) * CHAR_BIT) - CHAR_BIT));
 
-    writer->bits_value |= (raw & ((((uintmax_t)1) << bits) - 1)) << writer->bits_count;
-    writer->bits_count += bits;
-    writer->bits_taken += bits;
+    output->bits_value |= (raw & ((((uintmax_t)1) << bits) - 1)) << output->bits_count;
+    output->bits_count += bits;
+    output->bits_taken += bits;
 
-    while (writer->bits_count >= CHAR_BIT) {
-        dmi_byte_t data = (dmi_byte_t)(writer->bits_value & 0xFFu);
+    while (output->bits_count >= CHAR_BIT) {
+        dmi_byte_t data = (dmi_byte_t)(output->bits_value & 0xFFu);
 
-        if (not dmi_encoder_write(writer->encoder, &data, sizeof(data)))
+        if (not dmi_writer_put_bytes(output->writer, &data, sizeof(data)))
             return false;
 
-        writer->bits_value >>= CHAR_BIT;
-        writer->bits_count  -= CHAR_BIT;
+        output->bits_value >>= CHAR_BIT;
+        output->bits_count  -= CHAR_BIT;
     }
 
     return true;
@@ -1333,12 +1333,12 @@ static bool dmi_field_put_bits(dmi_field_writer_t *writer, uintmax_t raw, unsign
 // Take the bits the source data holds at the position of the next range,
 // which starts in the byte not written yet.
 //
-static uintmax_t dmi_field_source_bits(const dmi_field_writer_t *writer, unsigned bits)
+static uintmax_t dmi_field_source_bits(const dmi_field_output_t *output, unsigned bits)
 {
-    size_t     length = (writer->bits_count + bits + CHAR_BIT - 1) / CHAR_BIT;
+    size_t     length = (output->bits_count + bits + CHAR_BIT - 1) / CHAR_BIT;
     dmi_byte_t data[sizeof(uintmax_t)] = {};
 
-    if ((length > sizeof(data)) or not dmi_encoder_peek(writer->encoder, data, length))
+    if ((length > sizeof(data)) or not dmi_writer_peek(output->writer, data, length))
         return 0;
 
     uintmax_t value = 0;
@@ -1346,13 +1346,13 @@ static uintmax_t dmi_field_source_bits(const dmi_field_writer_t *writer, unsigne
     for (size_t i = 0; i < length; i++)
         value |= (uintmax_t)data[i] << (i * CHAR_BIT);
 
-    return (value >> writer->bits_count) & ((((uintmax_t)1) << bits) - 1);
+    return (value >> output->bits_count) & ((((uintmax_t)1) << bits) - 1);
 }
 
 //
 // Write a value of a fixed width, little-endian.
 //
-static bool dmi_field_put_raw(dmi_field_writer_t *writer, size_t width, uintmax_t raw)
+static bool dmi_field_put_raw(dmi_field_output_t *output, size_t width, uintmax_t raw)
 {
     dmi_byte_t data[sizeof(uintmax_t)];
 
@@ -1361,20 +1361,20 @@ static bool dmi_field_put_raw(dmi_field_writer_t *writer, size_t width, uintmax_
     for (size_t i = 0; i < width; i++)
         data[i] = (dmi_byte_t)((raw >> (i * CHAR_BIT)) & 0xFFu);
 
-    return dmi_encoder_write(writer->encoder, data, width);
+    return dmi_writer_put_bytes(output->writer, data, width);
 }
 
 //
 // Read a value of a fixed width the source data holds at the current
 // position, little-endian.
 //
-static bool dmi_field_peek_raw(const dmi_field_writer_t *writer, size_t width, uintmax_t *raw)
+static bool dmi_field_peek_raw(const dmi_field_output_t *output, size_t width, uintmax_t *raw)
 {
     dmi_byte_t data[sizeof(uintmax_t)];
 
     assert(width <= sizeof(data));
 
-    if (not dmi_encoder_peek(writer->encoder, data, width))
+    if (not dmi_writer_peek(output->writer, data, width))
         return false;
 
     *raw = 0;
@@ -1407,9 +1407,9 @@ static bool dmi_field_governs(const dmi_field_t *fields, const dmi_field_t *fiel
 // Write bytes the model does not hold: the ones of the source data in the
 // preserve mode, and zeros in the canonical one.
 //
-static bool dmi_field_put_reserved(dmi_field_writer_t *writer, size_t length)
+static bool dmi_field_put_reserved(dmi_field_output_t *output, size_t length)
 {
-    return dmi_encoder_copy(writer->encoder, length);
+    return dmi_writer_copy(output->writer, length);
 }
 
 //
@@ -1421,7 +1421,7 @@ static bool dmi_field_put_reserved(dmi_field_writer_t *writer, size_t length)
 // which is how a plain field tells a value it cannot carry.
 //
 static bool dmi_field_value_data(
-        const dmi_field_writer_t *writer,
+        const dmi_field_output_t *output,
         const dmi_field_t        *field,
         const void               *value,
         const dmi_field_data_t   *original,
@@ -1433,14 +1433,14 @@ static bool dmi_field_value_data(
     // Handlers are required in pairs even when the source data is there, so
     // that a structure can be written from scratch
     if ((field->params.decode != nullptr) and (field->params.encode == nullptr))
-        return dmi_field_cannot_encode(writer, "no encoding handler");
+        return dmi_field_cannot_encode(output, "no encoding handler");
 
     if ((original != nullptr) and dmi_field_decodes_into(field, original, value)) {
         *data = *original;
         return true;
     }
 
-    if (not dmi_field_model_data(writer, field, value, data))
+    if (not dmi_field_model_data(output, field, value, data))
         return false;
 
     *exact = dmi_field_decodes_into(field, data, value);
@@ -1464,7 +1464,7 @@ static bool dmi_field_value_data(
 // meaning "unknown", and the handler of the field says the rest.
 //
 static bool dmi_field_model_data(
-        const dmi_field_writer_t *writer,
+        const dmi_field_output_t *output,
         const dmi_field_t        *field,
         const void               *value,
         dmi_field_data_t         *data)
@@ -1488,7 +1488,7 @@ static bool dmi_field_model_data(
 
     if (field->params.encode != nullptr) {
         if (not field->params.encode(field, value, data))
-            return dmi_field_cannot_encode(writer, "value the field cannot carry");
+            return dmi_field_cannot_encode(output, "value the field cannot carry");
 
         return true;
     }
@@ -1544,35 +1544,35 @@ static bool dmi_field_decodes_into(const dmi_field_t *field, const dmi_field_dat
 // Data the source carries at the field being written, which only the
 // preserve mode has.
 //
-static bool dmi_field_source_data(const dmi_field_writer_t *writer, const dmi_field_t *field, dmi_field_data_t *data)
+static bool dmi_field_source_data(const dmi_field_output_t *output, const dmi_field_t *field, dmi_field_data_t *data)
 {
-    const dmi_encoder_t *encoder = writer->encoder;
+    const dmi_writer_t *writer = output->writer;
 
-    if (encoder->mode != DMI_ENCODE_MODE_PRESERVE)
+    if (writer->mode != DMI_ENCODE_MODE_PRESERVE)
         return false;
 
     *data = (dmi_field_data_t){};
 
     switch (field->type) {
     case DMI_FIELD_TYPE_BITS: {
-        size_t length = (writer->bits_count + field->params.bits + CHAR_BIT - 1) / CHAR_BIT;
+        size_t length = (output->bits_count + field->params.bits + CHAR_BIT - 1) / CHAR_BIT;
 
-        if (dmi_encoder_remaining(encoder) < length)
+        if (dmi_writer_remaining(writer) < length)
             return false;
 
-        data->number = dmi_field_source_bits(writer, field->params.bits);
+        data->number = dmi_field_source_bits(output, field->params.bits);
         return true;
     }
 
     case DMI_FIELD_TYPE_STRING: {
         dmi_byte_t number = 0;
 
-        if (not dmi_encoder_peek(encoder, &number, sizeof(number)))
+        if (not dmi_writer_peek(writer, &number, sizeof(number)))
             return false;
 
         // String is looked up the way the decoder does, without making it
         // referenced a second time
-        const dmi_entity_t *entity = encoder->entity;
+        const dmi_entity_t *entity = writer->entity;
 
         data->number = number;
 
@@ -1586,11 +1586,11 @@ static bool dmi_field_source_data(const dmi_field_writer_t *writer, const dmi_fi
     case DMI_FIELD_TYPE_BINARY: {
         size_t length = field->params.length;
 
-        if (dmi_encoder_remaining(encoder) < length)
+        if (dmi_writer_remaining(writer) < length)
             return false;
 
         data->binary = (dmi_binary_t){
-            .data   = encoder->source.data + encoder->source.position,
+            .data   = writer->source.data + writer->source.position,
             .length = length
         };
 
@@ -1598,7 +1598,7 @@ static bool dmi_field_source_data(const dmi_field_writer_t *writer, const dmi_fi
     }
 
     default:
-        return dmi_field_peek_raw(writer, dmi_field_width(field), &data->number);
+        return dmi_field_peek_raw(output, dmi_field_width(field), &data->number);
     }
 }
 
@@ -1606,27 +1606,27 @@ static bool dmi_field_source_data(const dmi_field_writer_t *writer, const dmi_fi
 // Write the data a field carries: a string by the number it is referred to,
 // and the rest as it is.
 //
-static bool dmi_field_put_data(dmi_field_writer_t *writer, const dmi_field_t *field, const dmi_field_data_t *data)
+static bool dmi_field_put_data(dmi_field_output_t *output, const dmi_field_t *field, const dmi_field_data_t *data)
 {
     switch (field->type) {
     case DMI_FIELD_TYPE_STRING: {
         // Data taken from the source refers to the string by its number
         if ((data->number != 0) or (data->string == nullptr)) {
             dmi_byte_t number = (dmi_byte_t)data->number;
-            return dmi_encoder_write(writer->encoder, &number, sizeof(number));
+            return dmi_writer_put_bytes(output->writer, &number, sizeof(number));
         }
 
-        return dmi_encoder_write_str(writer->encoder, data->string);
+        return dmi_writer_put_string(output->writer, data->string);
     }
 
     case DMI_FIELD_TYPE_BINARY:
         if (data->binary.length < field->params.length)
-            return dmi_field_cannot_encode(writer, "binary shorter than the field");
+            return dmi_field_cannot_encode(output, "binary shorter than the field");
 
-        return dmi_encoder_write(writer->encoder, data->binary.data, field->params.length);
+        return dmi_writer_put_bytes(output->writer, data->binary.data, field->params.length);
 
     default:
-        return dmi_field_put_raw(writer, dmi_field_width(field), data->number);
+        return dmi_field_put_raw(output, dmi_field_width(field), data->number);
     }
 }
 
@@ -1723,14 +1723,14 @@ static size_t dmi_fields_size(const dmi_field_t *fields)
     return size;
 }
 
-static bool dmi_field_cannot_encode(const dmi_field_writer_t *writer, const char *reason)
+static bool dmi_field_cannot_encode(const dmi_field_output_t *output, const char *reason)
 {
-    const dmi_entity_t *entity = writer->encoder->entity;
+    const dmi_entity_t *entity = output->writer->entity;
 
     dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_INVALID_STATE,
                        "0x%04hx (%s): field at offset 0x%02zX cannot be encoded: %s",
                        dmi_entity_handle(entity), entity->spec->code,
-                       dmi_encoder_tell(writer->encoder), reason);
+                       dmi_writer_tell(output->writer), reason);
 
     return false;
 }

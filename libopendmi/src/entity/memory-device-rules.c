@@ -102,13 +102,13 @@ void dmi_memory_device_lint_sizes(dmi_lint_t *lint, const dmi_entity_t *entity)
 
 void dmi_memory_device_lint_extended_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     dmi_word_t value;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, &value, DMI_MEMORY_DEVICE_SIZE_OFFSET, sizeof(value)))
+    if (not dmi_reader_get_bytes_at(&reader, &value, DMI_MEMORY_DEVICE_SIZE_OFFSET, sizeof(value)))
         return;
 
     if (dmi_decode(value) != DMI_MEMORY_DEVICE_SIZE_OFFSET_EXTENDED)

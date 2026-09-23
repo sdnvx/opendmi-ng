@@ -11,7 +11,7 @@
 
 #include <opendmi/attribute.h>
 #include <opendmi/field.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/utils/name.h>
 
 typedef struct dmi_pci_addr dmi_pci_addr_t;

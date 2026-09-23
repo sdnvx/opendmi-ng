@@ -8,9 +8,9 @@
 
 #include <opendmi/context.h>
 #include <opendmi/log.h>
-#include <opendmi/encoder.h>
+#include <opendmi/writer.h>
 #include <opendmi/internal.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
@@ -90,23 +90,23 @@ static char *dmi_mgmt_utf16_decode(dmi_context_t *context, const dmi_byte_t *dat
 static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_t length)
 {
     dmi_context_t *context = dmi_entity_context(entity);
-    dmi_stream_t  *stream  = dmi_entity_stream(entity);
+    dmi_reader_t  *reader  = dmi_entity_reader(entity);
 
     dmi_byte_t device_type = 0;
 
-    if (not dmi_stream_decode(stream, dmi_byte_t, &device_type))
+    if (not dmi_reader_get(reader, dmi_byte_t, &device_type))
         return true;
 
     nhi->device_type = dmi_cast(nhi->device_type, device_type);
     nhi->format      = DMI_MGMT_NHI_FORMAT_RAW;
 
-    size_t start = stream->position;
+    size_t start = reader->position;
     size_t size  = length - 1;
 
-    if (not dmi_stream_decode_bin(stream, size, &nhi->descriptor))
+    if (not dmi_reader_get_binary(reader, size, &nhi->descriptor))
         return true;
 
-    dmi_stream_seek(stream, start);
+    dmi_reader_seek(reader, start);
 
     // Length of v2 descriptors includes device type and length fields
     dmi_byte_t v2_length = 0;
@@ -119,9 +119,9 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
 
         status =
             (size >= 6) and
-            dmi_stream_decode(stream, dmi_word_t, &usb->vendor_id) and
-            dmi_stream_decode(stream, dmi_word_t, &usb->product_id) and
-            dmi_stream_decode(stream, dmi_byte_t, &serial_length);
+            dmi_reader_get(reader, dmi_word_t, &usb->vendor_id) and
+            dmi_reader_get(reader, dmi_word_t, &usb->product_id) and
+            dmi_reader_get(reader, dmi_byte_t, &serial_length);
         if (not status)
             break;
 
@@ -147,10 +147,10 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
 
         status =
             (size >= 8) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->vendor_id) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->device_id) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->subsys_vendor_id) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->subsys_id);
+            dmi_reader_get(reader, dmi_word_t, &pci->vendor_id) and
+            dmi_reader_get(reader, dmi_word_t, &pci->device_id) and
+            dmi_reader_get(reader, dmi_word_t, &pci->subsys_vendor_id) and
+            dmi_reader_get(reader, dmi_word_t, &pci->subsys_id);
         if (status)
             nhi->format = DMI_MGMT_NHI_FORMAT_PCI;
         break;
@@ -160,13 +160,13 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
         dmi_mgmt_nhi_usb_v2_t *usb = &nhi->usb_v2;
 
         status =
-            dmi_stream_decode(stream, dmi_byte_t, &v2_length) and
+            dmi_reader_get(reader, dmi_byte_t, &v2_length) and
             (v2_length >= 0x0D) and
             (v2_length <= length) and
-            dmi_stream_decode(stream, dmi_word_t, &usb->vendor_id) and
-            dmi_stream_decode(stream, dmi_word_t, &usb->product_id) and
-            dmi_stream_decode_str(stream, &usb->serial_number) and
-            dmi_stream_decode_bin(stream, DMI_MAC_ADDRESS_LENGTH, &usb->mac_address);
+            dmi_reader_get(reader, dmi_word_t, &usb->vendor_id) and
+            dmi_reader_get(reader, dmi_word_t, &usb->product_id) and
+            dmi_reader_get_string(reader, &usb->serial_number) and
+            dmi_reader_get_binary(reader, DMI_MAC_ADDRESS_LENGTH, &usb->mac_address);
         if (not status)
             break;
 
@@ -174,8 +174,8 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
         usb->credential_handle = DMI_HANDLE_INVALID;
         if (v2_length >= 0x11) {
             status =
-                dmi_stream_decode(stream, dmi_word_t, &usb->characteristics) and
-                dmi_stream_decode(stream, dmi_word_t, &usb->credential_handle);
+                dmi_reader_get(reader, dmi_word_t, &usb->characteristics) and
+                dmi_reader_get(reader, dmi_word_t, &usb->credential_handle);
             if (not status)
                 break;
         }
@@ -189,17 +189,17 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
         dmi_byte_t devfn = 0;
 
         status =
-            dmi_stream_decode(stream, dmi_byte_t, &v2_length) and
+            dmi_reader_get(reader, dmi_byte_t, &v2_length) and
             (v2_length >= 0x14) and
             (v2_length <= length) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->vendor_id) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->device_id) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->subsys_vendor_id) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->subsys_id) and
-            dmi_stream_decode_bin(stream, DMI_MAC_ADDRESS_LENGTH, &pci->mac_address) and
-            dmi_stream_decode(stream, dmi_word_t, &pci->segment_group) and
-            dmi_stream_decode(stream, dmi_byte_t, &pci->bus_number) and
-            dmi_stream_decode(stream, dmi_byte_t, &devfn);
+            dmi_reader_get(reader, dmi_word_t, &pci->vendor_id) and
+            dmi_reader_get(reader, dmi_word_t, &pci->device_id) and
+            dmi_reader_get(reader, dmi_word_t, &pci->subsys_vendor_id) and
+            dmi_reader_get(reader, dmi_word_t, &pci->subsys_id) and
+            dmi_reader_get_binary(reader, DMI_MAC_ADDRESS_LENGTH, &pci->mac_address) and
+            dmi_reader_get(reader, dmi_word_t, &pci->segment_group) and
+            dmi_reader_get(reader, dmi_byte_t, &pci->bus_number) and
+            dmi_reader_get(reader, dmi_byte_t, &devfn);
         if (not status)
             break;
 
@@ -210,8 +210,8 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
         pci->credential_handle = DMI_HANDLE_INVALID;
         if (v2_length >= 0x18) {
             status =
-                dmi_stream_decode(stream, dmi_word_t, &pci->characteristics) and
-                dmi_stream_decode(stream, dmi_word_t, &pci->credential_handle);
+                dmi_reader_get(reader, dmi_word_t, &pci->characteristics) and
+                dmi_reader_get(reader, dmi_word_t, &pci->credential_handle);
             if (not status)
                 break;
         }
@@ -229,8 +229,8 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
 
         // Vendor IANA code is stored with the most significant byte first
         status =
-            dmi_stream_read(stream, &vendor_iana) and
-            dmi_stream_decode_bin(stream, size - 4, &oem->vendor_data);
+            dmi_reader_get_bytes(reader, &vendor_iana, sizeof(vendor_iana)) and
+            dmi_reader_get_binary(reader, size - 4, &oem->vendor_data);
         if (not status)
             break;
 
@@ -251,7 +251,7 @@ static bool dmi_mgmt_nhi_decode(dmi_entity_t *entity, dmi_mgmt_nhi_t *nhi, size_
 
 static bool dmi_mgmt_redfish_decode(dmi_entity_t *entity, dmi_mgmt_proto_record_t *record)
 {
-    dmi_stream_t               *stream  = dmi_entity_stream(entity);
+    dmi_reader_t               *reader  = dmi_entity_reader(entity);
     dmi_mgmt_redfish_over_ip_t *redfish = &record->redfish;
 
     dmi_byte_t host_ip_assignment   = 0;
@@ -266,18 +266,18 @@ static bool dmi_mgmt_redfish_decode(dmi_entity_t *entity, dmi_mgmt_proto_record_
         return true;
 
     bool status =
-        dmi_stream_decode_uuid(stream, &redfish->service_uuid) and
-        dmi_stream_decode(stream, dmi_byte_t, &host_ip_assignment) and
-        dmi_stream_decode(stream, dmi_byte_t, &host_ip_format) and
-        dmi_stream_decode_bin(stream, 16, &redfish->host_ip_address) and
-        dmi_stream_decode_bin(stream, 16, &redfish->host_ip_mask) and
-        dmi_stream_decode(stream, dmi_byte_t, &service_ip_discovery) and
-        dmi_stream_decode(stream, dmi_byte_t, &service_ip_format) and
-        dmi_stream_decode_bin(stream, 16, &redfish->service_ip_address) and
-        dmi_stream_decode_bin(stream, 16, &redfish->service_ip_mask) and
-        dmi_stream_decode(stream, dmi_word_t, &redfish->service_ip_port) and
-        dmi_stream_decode(stream, dmi_dword_t, &redfish->service_vlan_id) and
-        dmi_stream_decode(stream, dmi_byte_t, &hostname_length) and
+        dmi_reader_get_uuid(reader, &redfish->service_uuid) and
+        dmi_reader_get(reader, dmi_byte_t, &host_ip_assignment) and
+        dmi_reader_get(reader, dmi_byte_t, &host_ip_format) and
+        dmi_reader_get_binary(reader, 16, &redfish->host_ip_address) and
+        dmi_reader_get_binary(reader, 16, &redfish->host_ip_mask) and
+        dmi_reader_get(reader, dmi_byte_t, &service_ip_discovery) and
+        dmi_reader_get(reader, dmi_byte_t, &service_ip_format) and
+        dmi_reader_get_binary(reader, 16, &redfish->service_ip_address) and
+        dmi_reader_get_binary(reader, 16, &redfish->service_ip_mask) and
+        dmi_reader_get(reader, dmi_word_t, &redfish->service_ip_port) and
+        dmi_reader_get(reader, dmi_dword_t, &redfish->service_vlan_id) and
+        dmi_reader_get(reader, dmi_byte_t, &hostname_length) and
         (hostname_length <= length - 0x5B);
     if (not status)
         return true;
@@ -325,14 +325,14 @@ bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
         return false;
 
     dmi_context_t *context = dmi_entity_context(entity);
-    dmi_stream_t  *stream  = dmi_entity_stream(entity);
+    dmi_reader_t  *reader  = dmi_entity_reader(entity);
 
     dmi_byte_t if_type        = 0;
     dmi_byte_t if_data_length = 0;
 
     bool status =
-        dmi_stream_decode(stream, dmi_byte_t, &if_type) and
-        dmi_stream_decode(stream, dmi_byte_t, &if_data_length);
+        dmi_reader_get(reader, dmi_byte_t, &if_type) and
+        dmi_reader_get(reader, dmi_byte_t, &if_data_length);
     if (not status)
         return false;
 
@@ -340,33 +340,33 @@ bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
 
     // Some implementations use different structure layout (e.g. the one from
     // SMBIOS versions prior to 3.2), so stop decoding there as dmidecode does
-    if (not dmi_stream_has(stream, if_data_length))
+    if (not dmi_reader_has(reader, if_data_length))
         return dmi_entity_incomplete(entity);
 
     // Interface data is read as a whole, and then read again by its type, so
     // the cursor ends up past it either way
-    dmi_stream_mark_t if_data_start = dmi_stream_mark(stream);
+    dmi_reader_mark_t if_data_start = dmi_reader_mark(reader);
 
-    if (not dmi_stream_decode_bin(stream, if_data_length, &info->if_data))
+    if (not dmi_reader_get_binary(reader, if_data_length, &info->if_data))
         return false;
 
     if ((info->if_type == DMI_MGMT_IF_TYPE_NETWORK_HOST_IF) and (if_data_length > 0)) {
-        dmi_stream_rewind(stream, if_data_start);
+        dmi_reader_rewind(reader, if_data_start);
 
         if (not dmi_mgmt_nhi_decode(entity, &info->nhi, if_data_length))
             return false;
 
         info->has_nhi = true;
 
-        dmi_stream_skip_ex(stream, if_data_start, if_data_length);
+        dmi_reader_skip_ex(reader, if_data_start, if_data_length);
     }
 
     // Protocol records are present since SMBIOS 3.2
-    if (dmi_stream_is_done(stream))
+    if (dmi_reader_is_done(reader))
         return dmi_entity_stop(entity);
 
     dmi_byte_t proto_records_count = 0;
-    if (not dmi_stream_decode(stream, dmi_byte_t, &proto_records_count))
+    if (not dmi_reader_get(reader, dmi_byte_t, &proto_records_count))
         return dmi_entity_incomplete(entity);
 
     entity->level = dmi_version(3, 2, 0);
@@ -385,21 +385,21 @@ bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
         dmi_byte_t length = 0;
 
         status =
-            dmi_stream_decode(stream, dmi_byte_t, &type) and
-            dmi_stream_decode(stream, dmi_byte_t, &length) and
-            dmi_stream_has(stream, length);
+            dmi_reader_get(reader, dmi_byte_t, &type) and
+            dmi_reader_get(reader, dmi_byte_t, &length) and
+            dmi_reader_has(reader, length);
         if (not status)
             return dmi_entity_incomplete(entity);
 
         dmi_mgmt_proto_record_t *record = &info->proto_records[i];
-        dmi_stream_mark_t data_start = dmi_stream_mark(stream);
+        dmi_reader_mark_t data_start = dmi_reader_mark(reader);
 
         record->type = dmi_cast(record->type, type);
-        if (not dmi_stream_decode_bin(stream, length, &record->data))
+        if (not dmi_reader_get_binary(reader, length, &record->data))
             return false;
 
         if (record->type == DMI_MGMT_PROTO_REDFISH_OVER_IP) {
-            dmi_stream_rewind(stream, data_start);
+            dmi_reader_rewind(reader, data_start);
 
             if (not dmi_mgmt_redfish_decode(entity, record))
                 return false;
@@ -407,7 +407,7 @@ bool dmi_mgmt_controller_decode(dmi_entity_t *entity)
 
         // Record may be longer than the fields it is known to hold, so the
         // next one is found by the length rather than by counting
-        dmi_stream_skip_ex(stream, data_start, length);
+        dmi_reader_skip_ex(reader, data_start, length);
 
         info->proto_records_count++;
     }
@@ -436,46 +436,46 @@ void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
 // them, since the ways they are read again by their types are derived from
 // them. Protocol records are present since SMBIOS 3.2.
 //
-bool dmi_mgmt_controller_encode(dmi_encoder_t *encoder)
+bool dmi_mgmt_controller_encode(dmi_writer_t *writer)
 {
-    const dmi_mgmt_controller_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(writer->entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
     if (info == nullptr)
         return false;
 
-    if (not dmi_encoder_put(encoder, dmi_byte_t, info->if_type))
+    if (not dmi_writer_put(writer, dmi_byte_t, info->if_type))
         return false;
 
     // Interface data longer than the structure is not read at all, and the
     // length the source data declares for it is kept
     dmi_byte_t original = 0;
 
-    if ((info->if_data.length == 0) and dmi_encoder_peek(encoder, &original, sizeof(original)) and
-        (original > dmi_encoder_remaining(encoder) - sizeof(original)))
-        return dmi_encoder_put(encoder, dmi_byte_t, original);
+    if ((info->if_data.length == 0) and dmi_writer_peek(writer, &original, sizeof(original)) and
+        (original > dmi_writer_remaining(writer) - sizeof(original)))
+        return dmi_writer_put(writer, dmi_byte_t, original);
 
     bool status =
-        dmi_encoder_put(encoder, dmi_byte_t, info->if_data.length) and
-        dmi_encoder_write(encoder, info->if_data.data, info->if_data.length);
+        dmi_writer_put(writer, dmi_byte_t, info->if_data.length) and
+        dmi_writer_put_bytes(writer, info->if_data.data, info->if_data.length);
     if (not status)
         return false;
 
-    bool has_records = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
-                     ? (dmi_encoder_remaining(encoder) > 0)
-                     : (encoder->version >= DMI_VERSION(3, 2, 0));
+    bool has_records = (writer->mode == DMI_ENCODE_MODE_PRESERVE)
+                     ? (dmi_writer_remaining(writer) > 0)
+                     : (writer->version >= DMI_VERSION(3, 2, 0));
 
     if (not has_records)
         return true;
 
-    if (not dmi_encoder_put(encoder, dmi_byte_t, info->proto_records_count))
+    if (not dmi_writer_put(writer, dmi_byte_t, info->proto_records_count))
         return false;
 
     for (size_t i = 0; i < info->proto_records_count; i++) {
         const dmi_mgmt_proto_record_t *record = &info->proto_records[i];
 
         status =
-            dmi_encoder_put(encoder, dmi_byte_t, record->type) and
-            dmi_encoder_put(encoder, dmi_byte_t, record->data.length) and
-            dmi_encoder_write(encoder, record->data.data, record->data.length);
+            dmi_writer_put(writer, dmi_byte_t, record->type) and
+            dmi_writer_put(writer, dmi_byte_t, record->data.length) and
+            dmi_writer_put_bytes(writer, record->data.data, record->data.length);
         if (not status)
             return false;
     }

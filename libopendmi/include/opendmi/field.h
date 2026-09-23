@@ -12,8 +12,8 @@
 #include <limits.h>
 
 #include <opendmi/types.h>
-#include <opendmi/encoder.h>
-#include <opendmi/stream.h>
+#include <opendmi/writer.h>
+#include <opendmi/reader.h>
 #include <opendmi/utils/version.h>
 
 #ifndef DMI_FIELD_T
@@ -166,8 +166,8 @@ typedef struct dmi_field_data
  * The members a handler writes are a function of the data alone: whatever
  * combines several fields is derived once all of them have been read, see
  * `dmi_entity_ops_t::derive`, and goes into the members no field decodes into.
- * This is what lets the encoder tell whether the data it has decodes into the
- * value the structure holds.
+ * This is what lets the encoding tell whether the data it has decodes into
+ * the value the structure holds.
  *
  * @param[in]  field Field being decoded.
  * @param[in]  data  Data the field carries.
@@ -185,8 +185,8 @@ typedef bool dmi_field_decode_fn(
  * @brief Encode the member of the decoded structure into the data a field
  * carries, which undoes the decoding handler of the field.
  *
- * The data written is the one the specification spells the value with. The
- * encoder keeps the data the source has whenever it decodes into the same
+ * The data written is the one the specification spells the value with.
+ * Encoding keeps the data the source has whenever it decodes into the same
  * value, so that a handler has no need to tell the ways a value may be
  * spelled apart.
  *
@@ -678,24 +678,24 @@ __dmi_api bool dmi_fields_decode(dmi_entity_t *entity);
  * @brief Encode a structure according to the fields of its specification.
  *
  * Fields are written in the order they are declared, after the header the
- * encoder has written, and every value the decoded structure holds is written
+ * writer has written, and every value the decoded structure holds is written
  * from the structure, undoing the conversions it has been decoded with. How
  * the bytes the model does not hold are written is up to the mode of the
- * encoder, see `dmi_encode_mode_t`: in the preserve mode, encoding a structure
+ * writer, see `dmi_encode_mode_t`: in the preserve mode, encoding a structure
  * which has not been changed gives back the bytes it has been decoded from.
  *
- * @param[in,out] encoder Encoder of the structure, see
- *                        `dmi_encoder_initialize()`.
+ * @param[in,out] writer Writer of the structure, see
+ *                        `dmi_writer_initialize()`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
+ * @error DMI_ERROR_NULL_ARGUMENT Writer is `nullptr`
  * @error DMI_ERROR_INVALID_STATE Specification declares no fields, or a field
  *        it cannot write back, e.g. a conversion without the one undoing it
  * @error DMI_ERROR_INTERNAL Fields reach another offset than the one declared
- * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the writer cannot grow
  *
  * @return `true` if the structure has been encoded, `false` otherwise.
  */
-__dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
+__dmi_api bool dmi_fields_encode(dmi_writer_t *writer);
 
 /**
  * @brief Decode a value carried in kilobytes into the number of the bytes it

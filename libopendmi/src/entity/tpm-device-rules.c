@@ -6,7 +6,7 @@
 //
 #include <opendmi/context.h>
 #include <opendmi/log.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>
@@ -39,13 +39,13 @@ void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
 //
 void dmi_tpm_device_lint_vendor(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
     char id[4];
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
-    if (not dmi_stream_read_data_at(&stream, id, DMI_TPM_DEVICE_VENDOR_OFFSET, sizeof(id)))
+    if (not dmi_reader_get_bytes_at(&reader, id, DMI_TPM_DEVICE_VENDOR_OFFSET, sizeof(id)))
         return;
 
     if ((id[0] != 0) or (id[3] == 0))

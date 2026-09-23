@@ -127,7 +127,7 @@ const dmi_entity_spec_t dmi_slot_spec =
 
 == See also
 
-`dmi_entity_decode`(3), `dmi_stream_initialize`(3)
+`dmi_entity_decode`(3), `dmi_reader_initialize`(3)
 
 == Copying
 

@@ -1,4 +1,4 @@
-= dmi_stream_decode_uuid(3)
+= dmi_reader_get_uuid(3)
 The OpenDMI contributors
 OpenDMI 0.5.0
 
@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_stream_decode_uuid - read and decode a UUID from the stream at the current position.
+dmi_reader_get_uuid - read and decode a UUID from the reader at the current position.
 
 == Library
 
@@ -19,22 +19,22 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 [source, c]
 ----
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 
-dmi_stream_decode_uuid(stream, pvalue)
+dmi_reader_get_uuid(reader, pvalue)
 ----
 
 == Description
 
-The `dmi_stream_decode_uuid` macro reads 16 bytes from the stream, converts
+The `dmi_reader_get_uuid` macro reads 16 bytes from the reader, converts
 the UUID from SMBIOS byte order into RFC 4122 representation using
 `dmi_uuid_decode`, and stores the result in the variable pointed to by
-`pvalue`. The stream cursor is advanced.
+`pvalue`. The reader cursor is advanced.
 
 === Parameters
 
-`stream`::
-Stream to read from.
+`reader`::
+Reader to read from.
 
 `pvalue`::
 Pointer to a variable that receives the decoded UUID.
@@ -45,8 +45,8 @@ Returns `true` on success, `false` if there are not enough bytes remaining.
 
 == See also
 
-`dmi_stream_decode_uuid_at`(3),
-`dmi_stream_decode`(3),
+`dmi_reader_get_uuid_at`(3),
+`dmi_reader_get`(3),
 `dmi_uuid_decode`(3)
 
 == Copying

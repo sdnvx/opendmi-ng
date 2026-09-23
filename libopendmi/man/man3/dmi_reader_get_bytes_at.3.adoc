@@ -1,4 +1,4 @@
-= dmi_stream_read_data_at(3)
+= dmi_reader_get_bytes_at(3)
 The OpenDMI contributors
 OpenDMI 0.5.0
 
@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_stream_read_data_at - read data from the stream at a given offset.
+dmi_reader_get_bytes_at - read data from the reader at a given offset.
 
 == Library
 
@@ -19,10 +19,10 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 [source, c]
 ----
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 
-bool dmi_stream_read_data_at(
-        const dmi_stream_t *stream,
+bool dmi_reader_get_bytes_at(
+        const dmi_reader_t *reader,
         void               *ptr,
         size_t              offset,
         size_t              length);
@@ -30,15 +30,15 @@ bool dmi_stream_read_data_at(
 
 == Description
 
-The `dmi_stream_read_data_at` function copies `length` bytes starting at
+The `dmi_reader_get_bytes_at` function copies `length` bytes starting at
 `offset` from the beginning of the entity body into the buffer pointed to by
-`ptr`. The stream cursor is not modified. No byte-order conversion is
+`ptr`. The reader cursor is not modified. No byte-order conversion is
 performed.
 
 === Parameters
 
-`stream`::
-Stream to read from.
+`reader`::
+Reader to read from.
 
 `ptr`::
 Buffer that receives the data; must be at least `length` bytes.
@@ -51,14 +51,13 @@ Number of bytes to read.
 
 == Return value
 
-Returns `true` on success, `false` if the requested range exceeds the stream
+Returns `true` on success, `false` if the requested range exceeds the reader
 bounds.
 
 == See also
 
-`dmi_stream_read_at`(3),
-`dmi_stream_read_data`(3),
-`dmi_stream_decode_at`(3)
+`dmi_reader_get_bytes`(3),
+`dmi_reader_get_at`(3)
 
 == Copying
 

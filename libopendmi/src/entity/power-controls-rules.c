@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/lint.h>
-#include <opendmi/stream.h>
+#include <opendmi/reader.h>
 #include <opendmi/utils/codec.h>
 
 #include <opendmi/entity/power-controls-internal.h>
@@ -37,16 +37,16 @@ static const struct
 //
 void dmi_power_controls_lint_bcd(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_stream_t stream;
+    dmi_reader_t reader;
 
-    if (not dmi_stream_initialize(&stream, entity))
+    if (not dmi_reader_initialize(&reader, entity))
         return;
 
     for (size_t i = 0; i < countof(dmi_power_controls_bcd_fields); i++) {
         size_t offset = dmi_power_controls_bcd_fields[i].offset;
         dmi_byte_t value;
 
-        if (not dmi_stream_read_data_at(&stream, &value, offset, sizeof(value)))
+        if (not dmi_reader_get_bytes_at(&reader, &value, offset, sizeof(value)))
             break;
 
         // Fields which are not set hold 0xFF, which is no decimal either

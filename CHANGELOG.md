@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add `lint` command checking the data against the rules of the specification
-- Add `dmi_stream_mark()`, `dmi_stream_rewind()` and `dmi_stream_skip_ex()`, which step over records by their declared length instead of by the bytes read from them
+- Add `dmi_reader_mark()`, `dmi_reader_rewind()` and `dmi_reader_skip_ex()`, which step over records by their declared length instead of by the bytes read from them
 - Add `dmi_field_t` describing the layout of a structure on the wire, and `dmi_fields_decode()` decoding the specifications which declare it
 - Add `dmi_entity_encode()` and `dmi_fields_encode()`, which write a structure back from its specification
 - Describe the layout of nearly every structure type on the wire instead of decoding it by hand
@@ -88,6 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keep the manufacture date string, the SBDS manufacture date, and the design capacity and its multiplier of portable batteries as the structure carries them
 - Report memory modules larger than their controller supports with the `memory-controller.module-size` lint rule instead of marking their sizes invalid when linking
 - Add manual pages for the `opendmi` command line tool and all of its commands
+- Rename `dmi_stream_t` to `dmi_reader_t` and `dmi_entity_stream()` to `dmi_entity_reader()`, and read values with `dmi_reader_get*()` instead of `dmi_stream_decode*()` and `dmi_stream_read*()`
 
 ### Fixed
 
