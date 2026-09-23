@@ -189,7 +189,10 @@ function(opendmi_cli_test TEST_NAME)
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     )
 
-    set_tests_properties(${TEST_FULL_NAME} PROPERTIES SKIP_RETURN_CODE 69)
+    set_tests_properties(${TEST_FULL_NAME} PROPERTIES
+        SKIP_RETURN_CODE 69
+        ENVIRONMENT "LANG=en_US.UTF-8;LC_ALL=C"
+    )
 
     # Windows has no rpath, so the library DLL is looked up via PATH
     if(WIN32)

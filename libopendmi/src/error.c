@@ -70,15 +70,6 @@ const dmi_name_set_t dmi_error_names =
     })
 };
 
-static const dmi_error_t dmi_error_null =
-{
-    .file     = nullptr,
-    .function = nullptr,
-    .line     = 0,
-    .reason   = DMI_ERROR_NONE,
-    .message  = nullptr
-};
-
 const char *dmi_error_message(dmi_error_code_t reason)
 {
     const char *message = dmi_name_lookup(&dmi_error_names, reason);
@@ -247,5 +238,5 @@ static size_t dmi_error_slot_get(dmi_error_queue_t *queue)
 static void dmi_error_slot_clear(dmi_error_queue_t *queue, size_t idx)
 {
     dmi_free(queue->errors[idx].message);
-    queue->errors[idx] = dmi_error_null;
+    queue->errors[idx] = (dmi_error_t){};
 }

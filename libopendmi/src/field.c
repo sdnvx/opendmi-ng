@@ -88,6 +88,12 @@ static bool dmi_field_decode_array(
         const dmi_field_t *field,
         dmi_data_t        *info);
 
+/**
+ * @brief Read a value of a fixed width into a member of the decoded
+ * structure, which may be wider than the field is, so that the values
+ * standing for "unknown" do not collide with the ones a device may
+ * really have.
+ */
 static bool dmi_field_decode_value(
         dmi_field_state_t *state,
         const dmi_field_t *field,
@@ -111,6 +117,13 @@ static bool dmi_field_take_bits(dmi_field_state_t *state, unsigned bits, uintmax
 
 static bool dmi_field_store(const dmi_field_t *field, void *value, uintmax_t raw);
 
+/**
+ * @brief Decode the data a field carries into its member, which is what the
+ * decoder does with the data it reads, and what the encoding does with the
+ * data it is about to write, to tell whether it decodes into the value the
+ * structure holds. Data standing for "unknown" becomes the largest value the
+ * member can hold, and the rest is up to the handler of the field.
+ */
 static bool dmi_field_apply(const dmi_field_t *field, const dmi_field_data_t *data, void *value);
 
 static bool dmi_field_store_member(dmi_member_ref_t member, void *value, uintmax_t raw);
@@ -385,11 +398,6 @@ static dmi_field_plain_t *dmi_field_plain_find(
     return nullptr;
 }
 
-//
-// Read a value of a fixed width into a member of the decoded structure, which
-// may be wider than the field is, so that the values standing for "unknown"
-// do not collide with the ones a device may really have.
-//
 static bool dmi_field_decode_value(
         dmi_field_state_t *state,
         const dmi_field_t *field,
@@ -465,13 +473,6 @@ static bool dmi_field_decode_value(
     return dmi_field_apply(field, &data, value);
 }
 
-//
-// Decode the data a field carries into its member, which is what the decoder
-// does with the data it reads, and what the encoding does with the data it is
-// about to write, to tell whether it decodes into the value the structure
-// holds. Data standing for "unknown" becomes the largest value the member can
-// hold, and the rest is up to the handler of the field.
-//
 static bool dmi_field_apply(const dmi_field_t *field, const dmi_field_data_t *data, void *value)
 {
     assert(field != nullptr);
@@ -862,7 +863,6 @@ static bool dmi_field_decodes_into(const dmi_field_t *field, const dmi_field_dat
 static bool dmi_field_source_data(const dmi_field_output_t *output, const dmi_field_t *field, dmi_field_data_t *data);
 
 static bool dmi_field_put_data(dmi_field_output_t *output, const dmi_field_t *field, const dmi_field_data_t *data);
-
 
 static size_t dmi_fields_size(const dmi_field_t *fields);
 

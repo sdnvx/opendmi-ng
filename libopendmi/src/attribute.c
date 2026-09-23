@@ -938,4 +938,3 @@ static intmax_t dmi_attribute_read_int(const void *ptr, size_t size)
 
     return 0;
 }
-

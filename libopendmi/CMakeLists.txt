@@ -687,12 +687,15 @@ function(opendmi_test TEST_NAME)
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     )
 
-    set_tests_properties(${TEST_NAME} PROPERTIES SKIP_RETURN_CODE 69)
+    set_tests_properties(${TEST_NAME} PROPERTIES
+        SKIP_RETURN_CODE 69
+        ENVIRONMENT "LANG=en_US.UTF-8;LC_ALL=C"
+    )
 
     if(ENABLE_COVERAGE)
-        set_tests_properties(${TEST_NAME} PROPERTIES
-            ENVIRONMENT "LLVM_PROFILE_FILE=${CMAKE_CURRENT_BINARY_DIR}/bin/${TEST_TARGET}.profraw"
-        )
+       set_test_properties(${TEST_NAME} PROPERTIES
+            ENVIRONMENT_MODIFICATION "LLVM_PROFILE_FILE=${CMAKE_CURRENT_BINARY_DIR}/bin/${TEST_TARGET}.profraw"
+       )
     endif()
 endfunction()
 

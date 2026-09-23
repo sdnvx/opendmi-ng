@@ -559,9 +559,7 @@ bool dmi_log(dmi_context_t *context, dmi_log_level_t level, const char *format, 
 
     va_list args;
     va_start(args, format);
-
     bool status = dmi_log_message_va(context->logger, level, format, args);
-
     va_end(args);
 
     return status;
