@@ -499,6 +499,12 @@ build (optimization disabled, debug assertions included):
 $ ./build.sh configure --debug
 ```
 
+Debug and coverage builds use AddressSanitizer when the runtime of the
+toolchain runs on the platform, which is checked while configuring, since a
+runtime the system has outgrown hangs every program before it starts. Pass
+`--without-asan` to build without it, or `--with-asan` to require it and fail
+to configure instead of falling back.
+
 To set the installation prefix:
 
 ```sh

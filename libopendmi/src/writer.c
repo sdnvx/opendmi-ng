@@ -22,8 +22,8 @@
 #define DMI_WRITER_INITIAL_CAPACITY 64
 
 static bool dmi_writer_reserve(dmi_writer_t *writer, size_t length);
-static bool dmi_writer_add_str(dmi_writer_t *writer, const char *value, size_t *index);
-static bool dmi_writer_has_str(const dmi_writer_t *writer, size_t index);
+static bool dmi_writer_add_string(dmi_writer_t *writer, const char *value, size_t *index);
+static bool dmi_writer_has_string(const dmi_writer_t *writer, size_t index);
 
 bool dmi_writer_initialize(
         dmi_writer_t       *writer,
@@ -51,7 +51,7 @@ bool dmi_writer_initialize(
         for (size_t i = 0; i < entity->string_count; i++) {
             size_t index = 0;
 
-            if (not dmi_writer_add_str(writer, entity->strings[i].raw, &index)) {
+            if (not dmi_writer_add_string(writer, entity->strings[i].raw, &index)) {
                 dmi_writer_destroy(writer);
                 return false;
             }
@@ -145,7 +145,7 @@ bool dmi_writer_put_string(dmi_writer_t *writer, const char *value)
         dmi_byte_t original = 0;
 
         if (dmi_writer_peek(writer, &original, sizeof(original)) and
-            (original != 0) and not dmi_writer_has_str(writer, original))
+            (original != 0) and not dmi_writer_has_string(writer, original))
             number = original;
 
         return dmi_writer_put_bytes(writer, &number, sizeof(number));
@@ -173,7 +173,7 @@ bool dmi_writer_put_string(dmi_writer_t *writer, const char *value)
         break;
     }
 
-    if ((index == 0) and not dmi_writer_add_str(writer, value, &index))
+    if ((index == 0) and not dmi_writer_add_string(writer, value, &index))
         return false;
 
     if (index > UINT8_MAX) {
@@ -277,7 +277,7 @@ static bool dmi_writer_reserve(dmi_writer_t *writer, size_t length)
 // Strings written from scratch are shared between the fields referring to
 // the same text, which is how the specification numbers them.
 //
-static bool dmi_writer_add_str(dmi_writer_t *writer, const char *value, size_t *index)
+static bool dmi_writer_add_string(dmi_writer_t *writer, const char *value, size_t *index)
 {
     if (writer->mode == DMI_ENCODE_MODE_CANONICAL) {
         for (size_t i = 0; i < writer->string_count; i++) {
@@ -320,7 +320,7 @@ static bool dmi_writer_add_str(dmi_writer_t *writer, const char *value, size_t *
     return true;
 }
 
-static bool dmi_writer_has_str(const dmi_writer_t *writer, size_t index)
+static bool dmi_writer_has_string(const dmi_writer_t *writer, size_t index)
 {
     return (index > 0) and (index <= writer->string_count) and
            (writer->strings[index - 1] != nullptr);

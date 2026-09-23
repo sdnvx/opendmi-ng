@@ -28,6 +28,8 @@ set(ENABLE_RUST OFF CACHE BOOL "Enable Rust support (libopendmi-rust)")
 set(ENABLE_DBUS OFF CACHE BOOL "Enable D-bus support (opendmi-dbus)")
 set(ENABLE_SYSFS OFF CACHE BOOL "Enable SysFS support (opendmi-sysfs)")
 
+set(ENABLE_ASAN AUTO CACHE BOOL "Build debug binaries with AddressSanitizer")
+
 set(ENABLE_ICU OFF CACHE BOOL "Build ICU4C support")
 set(ENABLE_CURSES AUTO CACHE BOOL "Build with Curses support")
 set(ENABLE_XML AUTO CACHE BOOL "Build with XML support (libxml)")
@@ -35,6 +37,8 @@ set(ENABLE_YAML AUTO CACHE BOOL "Build with YAML support (libyaml)")
 set(ENABLE_JSON AUTO CACHE BOOL "Build with JSON support (libyajl)")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+include(CheckSanitizer)
 
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_EXTENSIONS ON)
@@ -69,8 +73,14 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "")
 endif()
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" OR "${CMAKE_BUILD_TYPE}" STREQUAL "Coverage")
-    add_compile_options(-g -fsanitize=address -fno-omit-frame-pointer)
-    add_link_options(-fsanitize=address)
+    add_compile_options(-g -fno-omit-frame-pointer)
+
+    check_sanitizer(ENABLE_ASAN)
+
+    if(ENABLE_ASAN)
+        add_compile_options(-fsanitize=address)
+        add_link_options(-fsanitize=address)
+    endif()
 else()
     add_compile_options(-O2)
     add_compile_definitions(NDEBUG)

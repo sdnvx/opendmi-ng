@@ -121,6 +121,8 @@ _usage() {
     echo "        --enable-dbus      Build with D-bus support (opendmi-dbus, default=${ENABLE_DBUS})"
     echo "        --enable-sysfs     Build with SysFS support (opendmi-sysfs, default=${ENABLE_SYSFS})"
     echo "    Features:"
+    echo "        --with-asan        Build with AddressSanitizer (debug builds, default=${ENABLE_ASAN})"
+    echo "        --without-asan     Build without AddressSanitizer"
     echo "        --with-icu         Build with ICU4C support (default=${ENABLE_ICU})"
     echo "        --with-curses      Build with Curses support (default=${ENABLE_CURSES})"
     echo "        --with-xml         Build with XML support (default=${ENABLE_XML})"
@@ -190,6 +192,12 @@ _configure() {
             --enable-sysfs)
                 ENABLE_SYSFS=ON
                 ;;
+            --with-asan)
+                ENABLE_ASAN=ON
+                ;;
+            --without-asan)
+                ENABLE_ASAN=OFF
+                ;;
             --with-icu)
                 ENABLE_ICU=ON
                 ;;
@@ -215,6 +223,9 @@ _configure() {
     done
 
     FEATURES=""
+    if [ "${ENABLE_ASAN}" != "AUTO" ]; then
+        FEATURES="${FEATURES} -DENABLE_ASAN=${ENABLE_ASAN}"
+    fi
     if [ "${ENABLE_ICU}" != "AUTO" ]; then
         FEATURES="${FEATURES} -DENABLE_ICU=${ENABLE_ICU}"
     fi
