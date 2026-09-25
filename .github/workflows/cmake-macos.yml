@@ -12,17 +12,28 @@ permissions:
 
 jobs:
   build:
-    name: macos-${{ matrix.c_compiler }}
-    runs-on: macos-latest
+    name: macos-${{ matrix.arch }}-${{ matrix.c_compiler }}
+    runs-on: ${{ matrix.runner }}
 
     strategy:
       fail-fast: false
       matrix:
+        arch: [ arm64, x86_64 ]
         c_compiler: [ gcc, clang ]
         build_type: [ Release ]
+        # Code under x86-only conditions, such as the memory scan of the
+        # generic backend, is compiled on Intel runners alone
+        include:
+          - arch: arm64
+            runner: macos-latest
+          - arch: x86_64
+            runner: macos-26-intel
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Check architecture
+      run: test "$(uname -m)" = "${{ matrix.arch }}"
 
     - name: Configure CMake
       run: >

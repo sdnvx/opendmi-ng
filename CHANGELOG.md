@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add the `ENABLE_ASAN` build option
+- Build and test on Intel macOS runners in CI
 - Add `lint` command checking the data against the rules of the specification
 - Add `dmi_reader_mark()`, `dmi_reader_rewind()` and `dmi_reader_skip_ex()`, which step over records by their declared length instead of by the bytes read from them
 - Add `dmi_buffer_t`, which owns the SMBIOS data everything decoded from it refers to

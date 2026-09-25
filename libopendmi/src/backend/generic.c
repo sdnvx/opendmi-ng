@@ -51,26 +51,28 @@ bool dmi_generic_find_entry_addr(
     const size_t base_addr = 0xF0000;
     const size_t area_size = 0x10000;
 
-    dmi_buffer_t area;
-    bool         found = false;
+    bool found = false;
 
     dmi_log_debug(context, "Running memory scan...");
 
-    if (not dmi_buffer_initialize(&area, context))
+    dmi_buffer_t *area = dmi_buffer_create(context);
+    if (area == nullptr)
         return false;
 
-    if (not dmi_memory_load(&area, device, base_addr, area_size))
+    if (not dmi_memory_load(area, device, base_addr, area_size)) {
+        dmi_buffer_destroy(area);
         return false;
+    }
 
     found =
-        dmi_generic_find_anchor(context, area.data, base_addr, area_size, DMI_ANCHOR_V30, paddr) or
-        dmi_generic_find_anchor(context, area.data, base_addr, area_size, DMI_ANCHOR_V21, paddr) or
-        dmi_generic_find_anchor(context, area.data, base_addr, area_size, DMI_ANCHOR_LEGACY, paddr);
+        dmi_generic_find_anchor(context, area->data, base_addr, area_size, DMI_ANCHOR_V30, paddr) or
+        dmi_generic_find_anchor(context, area->data, base_addr, area_size, DMI_ANCHOR_V21, paddr) or
+        dmi_generic_find_anchor(context, area->data, base_addr, area_size, DMI_ANCHOR_LEGACY, paddr);
 
     if (not found)
         dmi_log_debug(context, "No SMBIOS entry point found");
 
-    dmi_buffer_destroy(&area);
+    dmi_buffer_destroy(area);
 
     return found;
 }
