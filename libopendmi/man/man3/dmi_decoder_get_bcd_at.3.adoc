@@ -1,0 +1,62 @@
+= dmi_decoder_get_bcd_at(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_decoder_get_bcd_at - read and decode a binary-coded decimal of a structure at a given offset.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/decoder.h>
+
+dmi_decoder_get_bcd_at(decoder, offset, type, pvalue)
+----
+
+== Description
+
+The `dmi_decoder_get_bcd_at` macro reads `sizeof(type)` bytes at `offset`
+from the beginning of the body of the structure, decodes the value from BCD
+encoding using `dmi_decode_bcd`, and stores the result in the object pointed
+to by `pvalue`. The cursor is not moved.
+
+=== Parameters
+
+`decoder`::
+Decoder to read from.
+
+`offset`::
+Byte offset from the beginning of the structure.
+
+`type`::
+Wire-format type to read (e.g. `dmi_byte_t`).
+
+`pvalue`::
+Pointer to the variable that receives the decoded value.
+
+== Return value
+
+`true` on success, `false` if the requested range exceeds the structure
+bounds.
+
+== See also
+
+`dmi_decoder_get_bcd`(3),
+`dmi_decoder_get_at`(3),
+`dmi_encoder_put_bcd`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

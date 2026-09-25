@@ -42,7 +42,8 @@ void dmi_tpm_device_lint_vendor(dmi_lint_t *lint, const dmi_entity_t *entity)
     dmi_reader_t reader;
     char id[4];
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, id, DMI_TPM_DEVICE_VENDOR_OFFSET, sizeof(id)))

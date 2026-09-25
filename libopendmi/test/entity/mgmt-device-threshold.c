@@ -14,6 +14,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/mgmt-device-threshold.h>
@@ -84,14 +85,15 @@ static void test_mgmt_device_threshold_units(void **pstate)
     };
 
     // Values are shown as stored, until the component is known
-    dmi_entity_t *entity = dmi_entity_create(context, test_data, sizeof(test_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_string_equal(test_format(entity), "850");
     dmi_entity_destroy(entity);
 
     for (size_t i = 0; i < countof(test_cases); i++) {
-        entity = dmi_entity_create(context, test_data, sizeof(test_data));
+        entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -104,7 +106,11 @@ static void test_mgmt_device_threshold_units(void **pstate)
         assert_true(dmi_attribute_is_unknown(variant, dmi_member_ptr(entity->info, variant->value, dmi_data_t)));
 
         dmi_entity_destroy(entity);
+
+
     }
+
+    dmi_buffer_destroy(entity_buffer);
 
     dmi_destroy(context);
 }
@@ -117,7 +123,9 @@ static void test_mgmt_device_threshold_ambiguous(void **pstate)
     assert_non_null(context);
     dmi_set_logger(context, &test_logger);
 
-    dmi_entity_t *entity = dmi_entity_create(context, test_data, sizeof(test_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -138,5 +146,8 @@ static void test_mgmt_device_threshold_ambiguous(void **pstate)
     assert_string_equal(test_format(entity), "850");
 
     dmi_entity_destroy(entity);
+
+
+    dmi_buffer_destroy(entity_buffer);
     dmi_destroy(context);
 }

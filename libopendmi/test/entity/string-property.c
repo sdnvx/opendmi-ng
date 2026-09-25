@@ -311,8 +311,8 @@ static dmi_context_t *test_create(unsigned int flags)
 
     // String property structures were added in SMBIOS 3.5
     context->state.smbios_version = DMI_VERSION(3, 5, 0);
-    context->state.table_data     = test_table.data;
-    context->state.table_size     = test_table.size;
+    assert_true(((context->state.table = dmi_buffer_create(context)) != nullptr));
+    assert_true(dmi_buffer_assign(context->state.table, test_table.data, test_table.size));
 
     context->state.registry = dmi_registry_create(context, 0);
     if (dmi_get_registry(context) == nullptr) {

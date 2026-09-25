@@ -40,17 +40,22 @@ typedef struct dmi_entity_ops     dmi_entity_ops_t;
     typedef struct dmi_field dmi_field_t;
 #endif // !DMI_FIELD_T
 
-#ifndef DMI_WRITER_T
-#   define DMI_WRITER_T
-    typedef struct dmi_writer dmi_writer_t;
-#endif // !DMI_WRITER_T
+#ifndef DMI_DECODER_T
+#   define DMI_DECODER_T
+    typedef struct dmi_decoder dmi_decoder_t;
+#endif // !DMI_DECODER_T
+
+#ifndef DMI_ENCODER_T
+#   define DMI_ENCODER_T
+    typedef struct dmi_encoder dmi_encoder_t;
+#endif // !DMI_ENCODER_T
 
 typedef struct dmi_header         dmi_header_t;
 typedef struct dmi_string_entry   dmi_string_entry_t;
 
 typedef bool dmi_entity_validate_fn(dmi_entity_t *entity);
-typedef bool dmi_entity_decode_fn(dmi_entity_t *entity);
-typedef bool dmi_entity_encode_fn(dmi_writer_t *writer);
+typedef bool dmi_entity_decode_fn(dmi_decoder_t *decoder);
+typedef bool dmi_entity_encode_fn(dmi_encoder_t *encoder);
 typedef bool dmi_entity_derive_fn(dmi_entity_t *entity);
 typedef bool dmi_entity_link_fn(dmi_entity_t *entity);
 typedef void dmi_entity_cleanup_fn(dmi_entity_t *entity);
@@ -190,7 +195,7 @@ struct dmi_entity_ops
      * along with it for the structure to be encoded.
      *
      * The handler writes the formatted area after the header, which the
-     * writer has written, and leaves the bytes after the ones it knows of,
+     * encoder has written, and leaves the bytes after the ones it knows of,
      * and the length of the header, to `dmi_entity_encode()`. Specifications
      * which describe their layout rather than decode it themselves are
      * encoded by their fields, and need none.
@@ -208,7 +213,7 @@ struct dmi_entity_ops
      *
      * The handler writes only the members no field decodes into, and leaves
      * the ones of the fields as they have been decoded: they are what the
-     * writer writes the structure back from.
+     * encoder writes the structure back from.
      */
     dmi_entity_derive_fn *derive;
 
@@ -377,9 +382,15 @@ struct dmi_entity
     dmi_handle_t handle;
 
     /**
-     * @brief Pointer to raw SMBIOS structure data, including header.
+     * @brief Buffer holding the data of the structure, which the structure
+     * refers to in place, and so do the strings it carries.
      */
-    const dmi_data_t *data;
+    const dmi_buffer_t *buffer;
+
+    /**
+     * @brief Offset the structure begins at within the buffer.
+     */
+    size_t offset;
 
     /**
      * @brief Total length of the SMBIOS structure.
@@ -396,11 +407,6 @@ struct dmi_entity
      * structure is used for passing variable data such as text strings.
      */
     size_t extra_length;
-
-    /**
-     * @brief Data reader.
-     */
-    dmi_reader_t reader;
 
     /**
      * @brief String data.
@@ -449,12 +455,12 @@ struct dmi_entity
 
     /**
      * @brief Copy of the structure body with additional information entries
-     * applied, @c nullptr if there are no entries.
+     * applied, which holds nothing if there are no entries.
      *
-     * Created on decoding and used by the decoder instead of the structure
-     * data. Raw structure data remains unchanged.
+     * Created on decoding and read by the decoder instead of the data of the
+     * structure, which is left as it is.
      */
-    dmi_data_t *overlay_data;
+    dmi_buffer_t *overlay;
 };
 
 /**
@@ -513,23 +519,27 @@ __dmi_api const char *dmi_spec_name(const dmi_entity_spec_t *spec);
  * @internal
  * @brief Create SMBIOS entity.
  *
- * Allocates a new entity descriptor and initializes it from the raw SMBIOS
- * structure data. Parses the structure header, computes the total length
- * (formatted area plus string set), and decodes the string table.
+ * Allocates a new entity descriptor and initializes it from the data of the
+ * structure, which begins at @p offset within @p buffer and runs to the end
+ * of the data the buffer holds. Parses the structure header, computes the
+ * total length (formatted area plus string set), and decodes the string
+ * table.
  *
- * @param[in] context    DMI context handle.
- * @param[in] data       Pointer to raw SMBIOS structure data, starting with the
- *                       structure header.
- * @param[in] max_length Total amount of remaining data in the table area.
+ * The structure refers to the data of the buffer in place, so the buffer is
+ * required to hold it for as long as the entity lives.
+ *
+ * @param[in] context DMI context handle.
+ * @param[in] buffer  Buffer holding the data of the structure.
+ * @param[in] offset  Offset the structure begins at within the buffer.
  *
  * @return A newly allocated entity descriptor on success, or @c nullptr on
  *         failure (e.g., invalid arguments, invalid structure length, or
  *         allocation error).
  */
 __dmi_api dmi_entity_t *dmi_entity_create(
-        dmi_context_t *context,
-        const void    *data,
-        size_t         max_length);
+        dmi_context_t      *context,
+        const dmi_buffer_t *buffer,
+        size_t              offset);
 
 /**
  * @internal
@@ -554,7 +564,7 @@ __dmi_api dmi_entity_t *dmi_entity_create(
 __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
 
 /**
- * @brief Encode the SMBIOS structure a writer has been initialized with.
+ * @brief Encode the SMBIOS structure an encoder has been initialized with.
  *
  * Structures whose specification describes their layout are encoded by its
  * fields, see `dmi_fields_encode()`, and the rest by the encoding handler of
@@ -563,18 +573,18 @@ __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
  * are kept as they are in the preserve mode: their bytes are all the model
  * the structure has.
  *
- * @param[in,out] writer Writer of the structure, see
- *                        `dmi_writer_initialize()`.
+ * @param[in,out] encoder Encoder of the structure, see
+ *                         `dmi_encoder_initialize()`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Writer is `nullptr`
+ * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
  * @error DMI_ERROR_INVALID_STATE Structure cannot be encoded: its type has no
  *        specification and the mode is the canonical one, or its
  *        specification decodes it by a handler with no encoding one
- * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the writer cannot grow
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
  *
  * @return `true` if the structure has been encoded, `false` otherwise.
  */
-__dmi_api bool dmi_entity_encode(dmi_writer_t *writer);
+__dmi_api bool dmi_entity_encode(dmi_encoder_t *encoder);
 
 /**
  * @internal
@@ -627,17 +637,26 @@ __dmi_api dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity);
 __dmi_api dmi_context_t *dmi_entity_context(const dmi_entity_t *entity);
 
 /**
- * @brief Get data reader of an entity.
+ * @brief Get the buffer holding the data of a structure.
  *
- * The reader is used by decoders to read the structure body, and is reset
- * after decoding.
+ * The data read is the copy with additional information applied whenever
+ * there is one, and the data of the structure itself otherwise, so the buffer
+ * is paired with `dmi_entity_offset`(3) rather than taken on its own.
  *
  * @param[in] entity Entity descriptor.
  *
- * @return Non-owning pointer to the reader, or @c nullptr if @p entity is
- *         @c nullptr.
+ * @return Buffer holding the data, or @c nullptr if @p entity is @c nullptr.
  */
-__dmi_api dmi_reader_t *dmi_entity_reader(dmi_entity_t *entity);
+__dmi_api const dmi_buffer_t *dmi_entity_buffer(const dmi_entity_t *entity);
+
+/**
+ * @brief Get the offset the data of a structure begins at within its buffer.
+ *
+ * @param[in] entity Entity descriptor.
+ *
+ * @return Offset of the data, or zero if @p entity is @c nullptr.
+ */
+__dmi_api size_t dmi_entity_offset(const dmi_entity_t *entity);
 
 /**
  * @brief Get entity type.
@@ -759,41 +778,6 @@ __dmi_api bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_pr
  * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
  */
 __dmi_api bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, size_t index);
-
-/**
- * @internal
- * @brief Stop decoding at the end of entity data.
- *
- * Intended for decoders of structures, which were extended in newer
- * specification versions. Called when all entity data has been decoded, but
- * the decoder knows more fields. Marks the entity with
- * `DMI_ENTITY_STATE_PARTIAL`.
- *
- * Entity data must be exhausted. Otherwise, the entity is handled as
- * incomplete (see `dmi_entity_incomplete`).
- *
- * @param[in,out] entity Entity descriptor.
- *
- * @return Always `true`, so that it can be returned by the decoder.
- */
-__dmi_api bool dmi_entity_stop(dmi_entity_t *entity);
-
-/**
- * @internal
- * @brief Stop decoding at incomplete set of entity fields.
- *
- * Intended for decoders of structures, which were extended in newer
- * specification versions. Called when entity data ends in the middle of a set
- * of fields, so the length of entity does not match any specification
- * version. Fields, which are completely present, should be decoded before
- * the call. Marks the entity with `DMI_ENTITY_STATE_INCOMPLETE`, and the
- * remaining data (a part of the next field, if any) is ignored.
- *
- * @param[in,out] entity Entity descriptor.
- *
- * @return Always `true`, so that it can be returned by the decoder.
- */
-__dmi_api bool dmi_entity_incomplete(dmi_entity_t *entity);
 
 /**
  * @brief Destroy entity descriptor.

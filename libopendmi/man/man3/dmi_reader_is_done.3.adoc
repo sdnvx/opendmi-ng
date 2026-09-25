@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_is_done - check whether all data in the reader has been consumed.
+dmi_reader_is_done - check whether all data in a reader has been consumed.
 
 == Library
 
@@ -26,8 +26,8 @@ bool dmi_reader_is_done(const dmi_reader_t *reader);
 
 == Description
 
-The `dmi_reader_is_done` function checks whether the reader cursor has reached
-the end of the entity body, meaning there are no remaining bytes to read.
+The `dmi_reader_is_done` function checks whether the reader cursor has
+reached the end of the range.
 
 === Parameters
 
@@ -36,12 +36,12 @@ Reader to check.
 
 == Return value
 
-Returns `true` if there are no remaining bytes to read, `false` otherwise.
+`true` if there are no remaining bytes to read, `false` otherwise.
 
 == See also
 
-`dmi_reader_initialize`(3),
-`dmi_reader_seek`(3),
+`dmi_reader_remaining`(3),
+`dmi_reader_has`(3),
 `dmi_reader_reset`(3)
 
 == Copying

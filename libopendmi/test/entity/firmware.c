@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/firmware.h>
@@ -24,7 +25,7 @@ static void test_firmware_decode_v20(void **pstate);
 static void test_firmware_decode_v21(void **pstate);
 static void test_firmware_decode_v23(void **pstate);
 
-static dmi_entity_t *test_firmware_create(dmi_context_t *context, uint8_t *data, uint8_t length);
+static dmi_entity_t *test_firmware_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t length);
 static const dmi_attribute_t *test_firmware_attribute(const char *code);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
@@ -80,9 +81,10 @@ static int test_firmware_teardown(void **pstate)
 static void test_firmware_decode_v20(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[TEST_FIRMWARE_SIZE];
-    dmi_entity_t *entity = test_firmware_create(context, data, 0x12);
+    dmi_entity_t *entity = test_firmware_create(entity_buffer, data, 0x12);
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 0, 0));
 
@@ -92,6 +94,8 @@ static void test_firmware_decode_v20(void **pstate)
     assert_false(info->features_ex.acpi_support);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 
     // Features are available since SMBIOS 2.0, extended features are not
     const dmi_attribute_t *features    = test_firmware_attribute("features");
@@ -104,9 +108,10 @@ static void test_firmware_decode_v20(void **pstate)
 static void test_firmware_decode_v21(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[TEST_FIRMWARE_SIZE];
-    dmi_entity_t *entity = test_firmware_create(context, data, 0x13);
+    dmi_entity_t *entity = test_firmware_create(entity_buffer, data, 0x13);
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 1, 0));
 
@@ -118,6 +123,8 @@ static void test_firmware_decode_v21(void **pstate)
 
     dmi_entity_destroy(entity);
 
+    dmi_buffer_destroy(entity_buffer);
+
     // Extension byte 1 is available since SMBIOS 2.1
     const dmi_attribute_t *features_ex = test_firmware_attribute("features-ex");
     assert_true(features_ex->params.level <= DMI_VERSION(2, 1, 0));
@@ -126,10 +133,11 @@ static void test_firmware_decode_v21(void **pstate)
 static void test_firmware_decode_v23(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Extension byte 2 is available since SMBIOS 2.3
     uint8_t data[TEST_FIRMWARE_SIZE];
-    dmi_entity_t *entity = test_firmware_create(context, data, 0x14);
+    dmi_entity_t *entity = test_firmware_create(entity_buffer, data, 0x14);
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
 
@@ -139,9 +147,11 @@ static void test_firmware_decode_v23(void **pstate)
     assert_true(info->features_ex.uefi_spec);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
-static dmi_entity_t *test_firmware_create(dmi_context_t *context, uint8_t *data, uint8_t length)
+static dmi_entity_t *test_firmware_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t length)
 {
     memcpy(data, test_firmware_data, sizeof(test_firmware_data));
     data[1] = length;
@@ -149,7 +159,7 @@ static dmi_entity_t *test_firmware_create(dmi_context_t *context, uint8_t *data,
     // Strings immediately follow the structure
     memcpy(data + length, test_firmware_strings, sizeof(test_firmware_strings));
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, length + sizeof(test_firmware_strings));
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, length + sizeof(test_firmware_strings));
     if (entity == nullptr)
         return nullptr;
 

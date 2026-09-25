@@ -14,6 +14,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/format.h>
 #include <opendmi/entity/string-property.h>
 #include <opendmi/internal.h>
@@ -83,6 +84,7 @@ static const size_t test_string_count = 300;
 typedef struct test_format_state
 {
     dmi_context_t *context;
+    dmi_buffer_t  *buffer;
     dmi_entity_t  *entity;
     dmi_data_t    *data;
     size_t         data_size;
@@ -134,7 +136,11 @@ static int test_format_setup(void **pstate)
     // String set is terminated by an additional NUL
     length++;
 
-    state->entity = dmi_entity_create(state->context, state->data, length);
+    state->buffer = dmi_buffer_create(state->context);
+    if (state->buffer == nullptr)
+        return -1;
+
+    state->entity = dmi_test_entity_create(state->buffer, state->data, length);
     if (state->entity == nullptr)
         return -1;
 
@@ -188,7 +194,9 @@ static void test_format_set_high_bits(void **pstate)
 {
     const test_format_state_t *state = *pstate;
 
-    dmi_entity_t *entity = dmi_entity_create(state->context, test_firmware_data, sizeof(test_firmware_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_firmware_data, sizeof(test_firmware_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -217,6 +225,8 @@ static void test_format_set_high_bits(void **pstate)
     }
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_format_invalid_utf8(void **pstate)
@@ -235,7 +245,9 @@ static void test_format_invalid_utf8(void **pstate)
     // characters
     static const char *codes[] = { "json", "yaml", "xml" };
 
-    dmi_entity_t *entity = dmi_entity_create(state->context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
 
     for (size_t i = 0; i < countof(codes); i++) {
@@ -260,6 +272,8 @@ static void test_format_invalid_utf8(void **pstate)
     }
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_format_yaml_quoting(void **pstate)
@@ -293,12 +307,15 @@ static void test_format_yaml_quoting(void **pstate)
         "level: '2.0'"
     };
 
-    dmi_entity_t *entity = dmi_entity_create(state->context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
     char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
     assert_non_null(output);
 
     const char *missing = nullptr;
@@ -335,12 +352,15 @@ static void test_format_xml_flag_names(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(state->context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
     char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
     assert_non_null(output);
 
     bool found = (strstr(output, "<flag name=\"5v\">true</flag>") != nullptr);
@@ -377,7 +397,8 @@ static void test_format_state(void **pstate)
     };
 
     // Complete SMBIOS 2.0 structure is decoded partially
-    dmi_entity_t *entity = dmi_entity_create(state->context, test_firmware_data, sizeof(test_firmware_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_firmware_data, sizeof(test_firmware_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -406,6 +427,7 @@ static void test_format_state(void **pstate)
 
     free(output);
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
 
     assert_false(found);
 }
@@ -421,7 +443,9 @@ static void test_format_text_quiet(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(state->context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -431,6 +455,8 @@ static void test_format_text_quiet(void **pstate)
     char *quiet  = test_format_print(format, entity, false, DMI_FORMAT_MODE_QUIET, false);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 
     bool normal_header = (normal != nullptr) and (strstr(normal, "Handle 0x0020") != nullptr);
     bool normal_handle = (normal != nullptr) and (strstr(normal, "Memory error information handle") != nullptr);
@@ -523,7 +549,9 @@ static void test_format_properties(void **pstate)
         }
     };
 
-    dmi_entity_t *parent = dmi_entity_create(state->context, parent_data, sizeof(parent_data));
+    dmi_buffer_t *parent_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *parent = dmi_test_entity_create(parent_buffer, parent_data, sizeof(parent_data));
     assert_non_null(parent);
     assert_true(dmi_entity_decode(parent));
 
@@ -535,9 +563,13 @@ static void test_format_properties(void **pstate)
     assert_false(found);
 
     dmi_entity_t *properties[countof(property_data)];
+    dmi_buffer_t *properties_buffers[countof(property_data)];
 
     for (size_t i = 0; i < countof(property_data); i++) {
-        properties[i] = dmi_entity_create(state->context, property_data[i], sizeof(property_data[i]));
+        properties_buffers[i] = dmi_buffer_create(state->context);
+        assert_non_null(properties_buffers[i]);
+
+        properties[i] = dmi_test_entity_create(properties_buffers[i], property_data[i], sizeof(property_data[i]));
         assert_non_null(properties[i]);
         assert_true(dmi_entity_decode(properties[i]));
         assert_true(dmi_entity_add_property(parent, properties[i]->info));
@@ -572,10 +604,14 @@ static void test_format_properties(void **pstate)
     free(quiet);
     free(dump);
 
-    for (size_t i = 0; i < countof(properties); i++)
+    for (size_t i = 0; i < countof(properties); i++) {
         dmi_entity_destroy(properties[i]);
+        dmi_buffer_destroy(properties_buffers[i]);
+    }
 
     dmi_entity_destroy(parent);
+
+    dmi_buffer_destroy(parent_buffer);
 
     if (failed != nullptr)
         fail_msg("Format %s: invalid properties output", failed);
@@ -657,11 +693,15 @@ static void test_format_overlays(void **pstate)
         }
     };
 
-    dmi_entity_t *overlay = dmi_entity_create(state->context, overlay_data, sizeof(overlay_data));
+    dmi_buffer_t *overlay_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *overlay = dmi_test_entity_create(overlay_buffer, overlay_data, sizeof(overlay_data));
     assert_non_null(overlay);
     assert_true(dmi_entity_decode(overlay));
 
-    dmi_entity_t *entity = dmi_entity_create(state->context, test_firmware_data, sizeof(test_firmware_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_firmware_data, sizeof(test_firmware_data));
     assert_non_null(entity);
 
     bool attached =
@@ -686,7 +726,10 @@ static void test_format_overlays(void **pstate)
     }
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
     dmi_entity_destroy(overlay);
+    dmi_buffer_destroy(overlay_buffer);
 
     assert_true(attached);
 
@@ -702,7 +745,9 @@ static void test_format_pretty(void **pstate)
 {
     const test_format_state_t *state = *pstate;
 
-    dmi_entity_t *entity = dmi_entity_create(state->context, test_firmware_data, sizeof(test_firmware_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_firmware_data, sizeof(test_firmware_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -743,6 +788,7 @@ static void test_format_pretty(void **pstate)
     free(pretty);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
 
     assert_true(same);
 }

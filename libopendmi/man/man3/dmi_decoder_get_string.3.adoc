@@ -1,0 +1,62 @@
+= dmi_decoder_get_string(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_decoder_get_string - read a reference to a string and resolve it.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/decoder.h>
+
+bool dmi_decoder_get_string(dmi_decoder_t *decoder, const char **value);
+----
+
+== Description
+
+The `dmi_decoder_get_string` function reads the number a string is referred
+to by and looks the string up among the ones of the structure.
+
+A reference to no string gives `nullptr`, and so does a reference to a
+string the structure does not carry, which raises an error of its own.
+
+=== Parameters
+
+`decoder`::
+Decoder to read from.
+
+`value`::
+String the reference stands for.
+
+== Return value
+
+`true` if the reference has been read, `false` if there are not enough bytes
+remaining.
+
+== Errors
+
+`DMI_ERROR_STRING_NOT_FOUND`::
+Structure carries no such string.
+
+== See also
+
+`dmi_decoder_get`(3),
+`dmi_entity_string`(3),
+`dmi_encoder_put_string`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

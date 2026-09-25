@@ -288,10 +288,10 @@ bool dmi_registry_scan(dmi_registry_t *registry)
     dmi_context_t *context = registry->context;
     dmi_log_debug(context, "Scanning SMBIOS structures...");
 
-    bool success = false;
-    const dmi_data_t *ptr = context->state.table_data;
-    size_t index = 0;
-    size_t count = 0;
+    bool   success = false;
+    size_t offset  = 0;
+    size_t index   = 0;
+    size_t count   = 0;
 
     // Scan table area
     while ((context->state.entity_count == 0) or (index < context->state.entity_count)) {
@@ -300,8 +300,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
         // Get remaining table data size. Actual table data size is always
         // known here, since table data may be shorter than the maximum size
         // specified in the entry point.
-        size_t offset    = (size_t)(ptr - context->state.table_data);
-        size_t remaining = context->state.table_size - offset;
+        size_t remaining = context->state.table->length - offset;
 
         // Check for the end of table area
         if (remaining < sizeof(dmi_header_t) + 2) {
@@ -311,7 +310,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
         }
 
         // Create entity for the structure
-        entity = dmi_entity_create(context, ptr, remaining);
+        entity = dmi_entity_create(context, context->state.table, offset);
         if (entity == nullptr) {
             const dmi_error_t *error = dmi_error_peek_last(context);
 
@@ -350,8 +349,8 @@ bool dmi_registry_scan(dmi_registry_t *registry)
         if (entity->type == DMI_TYPE(END_OF_TABLE))
             break;
 
-        // Update structure pointer and index
-        ptr += entity->total_length;
+        // Update structure offset and index
+        offset += entity->total_length;
         index++;
     }
 
@@ -443,8 +442,8 @@ bool dmi_registry_decode(dmi_registry_t *registry)
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        dmi_log_debug(context, "%p: Handle 0x%04hx, length %zu, type %d (%s)",
-                      entity->data,
+        dmi_log_debug(context, "0x%04zx: Handle 0x%04hx, length %zu, type %d (%s)",
+                      entity->offset,
                       entity->handle,
                       entity->body_length,
                       entity->type,
@@ -503,8 +502,8 @@ bool dmi_registry_link(dmi_registry_t *registry)
         if ((entity->state & DMI_ENTITY_STATE_DECODED) == 0)
             continue;
 
-        dmi_log_debug(context, "%p: Handle 0x%04hx, length %zu, type %d (%s)",
-                      entity->data,
+        dmi_log_debug(context, "0x%04zx: Handle 0x%04hx, length %zu, type %d (%s)",
+                      entity->offset,
                       entity->handle,
                       entity->body_length,
                       entity->type,
@@ -552,10 +551,12 @@ static bool dmi_registry_put(dmi_registry_t *registry, dmi_entity_t *entity)
         registry->index[hash] = entry;
     } else {
         while (true) {
-            if (last->entity->data == entity->data) {
+            if ((last->entity->buffer == entity->buffer) and
+                (last->entity->offset == entity->offset))
+            {
                 dmi_free(entry);
                 dmi_error_raise_ex(registry->context, DMI_ERROR_DUPLICATE_ENTRY,
-                                   "%p (0x%04x)", entity->data, entity->handle);
+                                   "0x%04zx (0x%04x)", entity->offset, entity->handle);
                 return false;
             }
 

@@ -1,0 +1,80 @@
+= dmi_fields_encode(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_fields_encode - encode a structure according to the fields of its specification.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+bool dmi_fields_encode(dmi_encoder_t *encoder);
+----
+
+== Description
+
+The `dmi_fields_encode` function writes a structure according to the layout
+its specification declares, undoing what `dmi_fields_decode`(3) has done.
+
+Fields are written in the order they are declared, after the header the
+encoder has written, so that a structure which has not been changed gives
+back the very bytes it has been decoded from. A specification which declares
+fields and no encoding handler is encoded by this function, which
+`dmi_entity_encode`(3) calls on its own, so it rarely has to be named.
+
+The groups the layout declares decide where the structure ends: in the
+preserve mode it is written as long as it has been read, and in the
+canonical one as long as the version the encoder is given says, see
+`dmi_encoder_initialize`(3).
+
+The bytes the layout does not describe, such as the bits the specification
+reserves and the tails of the records longer than the fields they are known
+to hold, are written with `dmi_encoder_copy`(3): taken from the data the
+structure has been decoded from in the preserve mode, and written as zeros
+in the canonical one.
+
+=== Parameters
+
+`encoder`::
+Encoder of the structure, see `dmi_encoder_initialize`(3).
+
+== Return value
+
+`true` if the structure has been encoded, `false` otherwise.
+
+== Errors
+
+`DMI_ERROR_NULL_ARGUMENT`::
+Encoder is `nullptr`.
+
+`DMI_ERROR_INVALID_STATE`::
+Specification declares no fields.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Buffers of the encoder cannot grow.
+
+== See also
+
+`dmi_fields_decode`(3),
+`dmi_entity_encode`(3),
+`dmi_encoder_initialize`(3),
+`dmi_encoder_copy`(3),
+`dmi_encoder_finish`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

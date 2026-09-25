@@ -55,6 +55,7 @@ typedef struct test_dump_state
     dmi_context_t *context;
     dmi_data_t    *source;
     size_t         source_size;
+    dmi_buffer_t  *buffer;
 } test_dump_state_t;
 
 int main(void)
@@ -89,9 +90,13 @@ static int test_dump_setup(void **pstate)
     dmi_set_logger(state->context, &test_logger);
     dmi_set_log_level(state->context, DMI_LOG_ERROR);
 
-    state->source = dmi_file_get(state->context, test_source_path, -1, &state->source_size);
-    if (state->source == nullptr)
+    state->buffer = dmi_buffer_create(state->context);
+
+    if ((state->buffer == nullptr) or not dmi_file_load(state->buffer, test_source_path, -1, 0))
         return -1;
+
+    state->source      = state->buffer->data;
+    state->source_size = state->buffer->length;
 
     return 0;
 }
@@ -102,7 +107,7 @@ static int test_dump_teardown(void **pstate)
 
     if (state != nullptr) {
         dmi_destroy(state->context);
-        dmi_free(state->source);
+        dmi_buffer_destroy(state->buffer);
         free(state);
     }
 
@@ -123,7 +128,7 @@ static void test_dump_load_valid(void **pstate)
 
     const dmi_registry_t *registry = dmi_get_registry(state->context);
 
-    assert_int_equal(state->context->state.table_size, state->source_size - DMI_ENTRY_MAX_SIZE);
+    assert_int_equal(state->context->state.table->length, state->source_size - DMI_ENTRY_MAX_SIZE);
     assert_int_equal(registry->count, test_source_count);
     assert_false(registry->status & DMI_REGISTRY_STATUS_TRUNCATED);
     assert_true(dmi_close(state->context));
@@ -204,7 +209,7 @@ static void test_dump_load_truncated(void **pstate)
         // Table area size from the entry point is not affected by actual
         // table data size
         assert_int_equal(state->context->state.table_area_max_size, state->source_size - DMI_ENTRY_MAX_SIZE);
-        assert_int_equal(state->context->state.table_size, size - DMI_ENTRY_MAX_SIZE);
+        assert_int_equal(state->context->state.table->length, size - DMI_ENTRY_MAX_SIZE);
 
         // Registry is created anew on every load
         const dmi_registry_t *registry = dmi_get_registry(state->context);
@@ -247,8 +252,7 @@ static void test_dump_load_bad_length(void **pstate)
     assert_true(dmi_close(state->context));
 
     // The same for structures in the middle of the table
-    dmi_entity_t *first = dmi_entity_create(state->context, state->source + DMI_ENTRY_MAX_SIZE,
-                                            state->source_size - DMI_ENTRY_MAX_SIZE);
+    dmi_entity_t *first = dmi_entity_create(state->context, state->buffer, DMI_ENTRY_MAX_SIZE);
     assert_non_null(first);
 
     size_t offset = DMI_ENTRY_MAX_SIZE + first->total_length;

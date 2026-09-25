@@ -10,6 +10,7 @@
 #pragma once
 
 #include <opendmi/types.h>
+#include <opendmi/buffer.h>
 
 __BEGIN_DECLS
 
@@ -89,53 +90,62 @@ __dmi_api uint32_t dmi_ipow32(uint32_t value, unsigned int factor);
 __dmi_api uint64_t dmi_ipow64(uint64_t value, unsigned int factor);
 
 /**
- * @brief Reads the contents of a file into a newly allocated buffer.
+ * @brief Reads the contents of a file into a buffer.
  *
- * Opens the file at @p path, allocates a buffer of the requested size (or
- * sized to the file), reads the contents, and stores the number of bytes read
- * in @p plength. The caller is responsible for freeing the returned buffer
- * with `dmi_free`(3).
+ * Opens the file at @p path and reads its contents into @p buffer, which is
+ * made to hold exactly the bytes read: fewer than requested, when the file
+ * holds fewer. The data the buffer held before is dropped, and so is whatever
+ * has been read when the reading fails.
  *
- * On any failure an error is raised on @p context.
+ * On any failure an error is raised on the context of the buffer.
  *
- * @param context  DMI context.
- * @param path     Path to the file to read.
- * @param offset   Offset to read from, or a negative value to read from the
- *                 beginning of the file.
- * @param plength  On input, the maximum number of bytes to read, or zero to
- *                 read the whole file. On success, receives the number of
- *                 bytes read, which may be less than requested.
- * @return Pointer to a newly allocated buffer containing the file data, or
- *         @c nullptr on failure. @p plength is not modified on failure.
+ * @param buffer  Buffer to read the contents into.
+ * @param path    Path to the file to read.
+ * @param offset  Offset to read from, or a negative value to read from the
+ *                beginning of the file.
+ * @param length  Maximum number of bytes to read, or zero to read the whole
+ *                file.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Path is `nullptr`
+ * @error DMI_ERROR_FILE_OPEN File cannot be opened
+ * @error DMI_ERROR_FILE_STAT Length of the file cannot be told
+ * @error DMI_ERROR_FILE_READ File cannot be read
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffer cannot hold the data
+ *
+ * @return `true` on success, `false` otherwise.
  */
-__dmi_api dmi_data_t *dmi_file_get(
-        dmi_context_t *context,
-        const char    *path,
+__dmi_api bool dmi_file_load(
+        dmi_buffer_t *buffer,
+        const char   *path,
         off_t         offset,
-        size_t       *plength);
+        size_t        length);
 
 #if !defined(_WIN32)
 /**
- * @brief Reads a region of a device or file into a newly allocated buffer.
+ * @brief Reads a region of a device or file into a buffer.
  *
  * Opens @p path, maps @p length bytes starting at physical offset @p base
- * into memory using `mmap`(2), copies the data into an allocated buffer, then
- * unmaps the region. Page alignment is handled internally.
+ * into memory using `mmap`(2), copies the data into @p buffer, then unmaps
+ * the region. Page alignment is handled internally. The data the buffer held
+ * before is dropped, and so is whatever has been read when the reading fails.
  *
- * The caller is responsible for freeing the returned buffer with `dmi_free`(3).
- *
- * On any failure an error is raised on @p context.
+ * On any failure an error is raised on the context of the buffer.
  *
  * @note Not available on Windows.
  *
- * @param context DMI context.
- * @param path    Path to the device or file to read (e.g. `/dev/mem`).
- * @param base    Physical byte offset to start reading from.
- * @param length  Number of bytes to read; must be greater than zero.
- * @return Pointer to a newly allocated buffer containing the requested data,
- *         or @c nullptr on failure.
+ * @param buffer Buffer to read the region into.
+ * @param path   Path to the device or file to read (e.g. `/dev/mem`).
+ * @param base   Physical byte offset to start reading from.
+ * @param length Number of bytes to read; must be greater than zero.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Path is `nullptr`, or length is zero
+ * @error DMI_ERROR_FILE_OPEN Device cannot be opened
+ * @error DMI_ERROR_FILE_MAP Region cannot be mapped
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffer cannot hold the data
+ *
+ * @return `true` on success, `false` otherwise.
  */
-    __dmi_api dmi_data_t *dmi_memory_get(dmi_context_t *context, const char *path, size_t base, size_t length);
+    __dmi_api bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t length);
 #endif // !defined(_WIN32)
 
 __END_DECLS

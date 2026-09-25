@@ -105,7 +105,8 @@ void dmi_memory_device_lint_extended_size(dmi_lint_t *lint, const dmi_entity_t *
     dmi_reader_t reader;
     dmi_word_t value;
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, &value, DMI_MEMORY_DEVICE_SIZE_OFFSET, sizeof(value)))

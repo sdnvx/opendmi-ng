@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/baseboard.h>
@@ -76,7 +77,7 @@ static int test_baseboard_teardown(void **pstate)
 }
 
 // Decode baseboard structure with given formatted area, followed by strings
-static dmi_entity_t *decode_baseboard(dmi_context_t *context, const uint8_t *body, size_t length)
+static dmi_entity_t *decode_baseboard(dmi_buffer_t *buffer, const uint8_t *body, size_t length)
 {
     static uint8_t data[1024];
     static const uint8_t strings[] = { 'V', 'e', 'n', 'd', 'o', 'r', 0, 0 };
@@ -90,7 +91,7 @@ static dmi_entity_t *decode_baseboard(dmi_context_t *context, const uint8_t *bod
     memcpy(data + 4, body, length);
     memcpy(data + 4 + length, strings, sizeof(strings));
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, 4 + length + sizeof(strings));
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, 4 + length + sizeof(strings));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -110,12 +111,13 @@ static const uint8_t test_baseboard_body[] = {
 static void test_baseboard_decode_chassis_handle(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
     dmi_entity_t *entity;
     const dmi_baseboard_t *info;
 
     // Chassis handle is not read partially
     for (uint8_t length = 0x0B; length < 0x0E; length++) {
-        entity = decode_baseboard(context, test_baseboard_body, length - 4);
+        entity = decode_baseboard(entity_buffer, test_baseboard_body, length - 4);
         info = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
         assert_string_equal(info->vendor, "Vendor");
         assert_int_equal(info->chassis_handle, (length == 0x0D) ? 0x0003 : DMI_HANDLE_INVALID);
@@ -124,19 +126,21 @@ static void test_baseboard_decode_chassis_handle(void **pstate)
         dmi_entity_destroy(entity);
     }
 
-    entity = decode_baseboard(context, test_baseboard_body, 0x0E - 4);
+    entity = decode_baseboard(entity_buffer, test_baseboard_body, 0x0E - 4);
     info = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
     assert_int_equal(info->chassis_handle, 0x0003);
     assert_int_equal(info->type, DMI_BASEBOARD_TYPE_MOTHERBOARD);
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_baseboard_decode_objects(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
-    dmi_entity_t *entity = decode_baseboard(context, test_baseboard_body, sizeof(test_baseboard_body));
+    dmi_entity_t *entity = decode_baseboard(entity_buffer, test_baseboard_body, sizeof(test_baseboard_body));
 
     const dmi_baseboard_t *info = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
     assert_non_null(info);
@@ -147,17 +151,20 @@ static void test_baseboard_decode_objects(void **pstate)
     assert_int_equal(info->object_handles[1], 0x0011);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_baseboard_decode_no_objects(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t body[sizeof(test_baseboard_body)];
     memcpy(body, test_baseboard_body, sizeof(body));
     body[0x0E - 4] = 0;
 
-    dmi_entity_t *entity = decode_baseboard(context, body, 0x0F - 4);
+    dmi_entity_t *entity = decode_baseboard(entity_buffer, body, 0x0F - 4);
 
     const dmi_baseboard_t *info = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
     assert_non_null(info);
@@ -166,17 +173,20 @@ static void test_baseboard_decode_no_objects(void **pstate)
     assert_null(info->object_handles);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_baseboard_decode_objects_overflow(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t body[sizeof(test_baseboard_body)];
     memcpy(body, test_baseboard_body, sizeof(body));
 
     // Second handle is missing, the first one is decoded
-    dmi_entity_t *entity = decode_baseboard(context, body, sizeof(body) - 2);
+    dmi_entity_t *entity = decode_baseboard(entity_buffer, body, sizeof(body) - 2);
     const dmi_baseboard_t *info = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
     assert_int_equal(info->type, DMI_BASEBOARD_TYPE_MOTHERBOARD);
     assert_int_equal(info->object_count, 1);
@@ -186,10 +196,11 @@ static void test_baseboard_decode_objects_overflow(void **pstate)
 
     // Number of handles is far beyond structure length
     body[0x0E - 4] = 0xFF;
-    entity = decode_baseboard(context, body, sizeof(body));
+    entity = decode_baseboard(entity_buffer, body, sizeof(body));
     info = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
     assert_int_equal(info->object_count, 2);
     assert_int_equal(info->object_handles[1], 0x0011);
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
 }

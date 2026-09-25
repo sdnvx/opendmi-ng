@@ -120,7 +120,8 @@ void dmi_processor_lint_family(dmi_lint_t *lint, const dmi_entity_t *entity)
     dmi_reader_t reader;
     dmi_byte_t value;
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, &value, DMI_PROCESSOR_FAMILY_OFFSET, sizeof(value)))
@@ -154,7 +155,8 @@ void dmi_processor_lint_id(dmi_lint_t *lint, const dmi_entity_t *entity)
     dmi_reader_t reader;
     dmi_dword_t words[2];
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, words, DMI_PROCESSOR_ID_OFFSET, sizeof(words)))

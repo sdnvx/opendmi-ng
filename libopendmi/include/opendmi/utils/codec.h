@@ -32,6 +32,20 @@ __BEGIN_DECLS
  */
 __dmi_api uintmax_t __dmi_decode_bcd(const dmi_byte_t *value, size_t length);
 
+/**
+ * @internal
+ * @brief Encode an unsigned integer into a BCD-encoded byte buffer.
+ *
+ * Performs the inverse of `__dmi_decode_bcd()`: spells the number out as two
+ * decimal digits per byte, low nibble first, from the lowest address up. The
+ * digits which do not fit into @p length bytes are dropped.
+ *
+ * @param[in]  value  Unsigned integer value.
+ * @param[out] data   Buffer that receives the BCD-encoded bytes.
+ * @param[in]  length Number of bytes in the buffer.
+ */
+__dmi_api void __dmi_encode_bcd(uintmax_t value, dmi_byte_t *data, size_t length);
+
 __END_DECLS
 
 /**
@@ -213,5 +227,24 @@ __dmi_const
  */
 #define dmi_decode_bcd(value) \
         __dmi_decode_bcd((const dmi_byte_t *)&(value), sizeof(value))
+
+/**
+ * @brief Encode a value as a binary-coded decimal.
+ *
+ * Convenience macro that spells @p value out as the decimal digits a value of
+ * the type it is given fits, two per byte, using `__dmi_encode_bcd`. Accepts
+ * any integer type (`uint8_t`, `uint16_t`, `uint32_t`, `uint64_t`), and the
+ * digits which do not fit into it are dropped.
+ *
+ * @param[in] value Unsigned integer value.
+ *
+ * @return BCD-encoded value of the same width.
+ */
+#define dmi_encode_bcd(value)                                              \
+        ({                                                                 \
+            __dmi_typeof(value) __encoded;                                 \
+            __dmi_encode_bcd(value, (dmi_byte_t *)&__encoded, sizeof(__encoded)); \
+            __encoded;                                                     \
+        })
 
 #endif // !OPEDMI_UTILS_CODEC_H

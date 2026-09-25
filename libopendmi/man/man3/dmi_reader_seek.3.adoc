@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_seek - seek to a byte position within the reader.
+dmi_reader_seek - seek to a byte position within a reader.
 
 == Library
 
@@ -27,7 +27,11 @@ bool dmi_reader_seek(dmi_reader_t *reader, size_t position);
 == Description
 
 The `dmi_reader_seek` function repositions the reader cursor to `position`
-bytes from the beginning of the entity body.
+bytes from the beginning of the range.
+
+The end of the range is accepted, since it is where the cursor stands once
+everything has been read, and a range may be read from there with nothing
+left in it.
 
 === Parameters
 
@@ -35,18 +39,19 @@ bytes from the beginning of the entity body.
 Reader to reposition.
 
 `position`::
-Byte offset from the beginning of the entity body.
+Byte offset from the beginning of the range.
 
 == Return value
 
-Returns `true` on success, `false` if `position` is beyond the end of the
-reader.
+`true` on success, `false` if `position` is past the end of the range.
 
 == See also
 
-`dmi_reader_initialize`(3),
+`dmi_reader_tell`(3),
 `dmi_reader_reset`(3),
-`dmi_reader_is_done`(3)
+`dmi_reader_mark`(3),
+`dmi_reader_rewind`(3),
+`dmi_reader_skip`(3)
 
 == Copying
 

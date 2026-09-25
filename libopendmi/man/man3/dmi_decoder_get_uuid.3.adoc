@@ -1,4 +1,4 @@
-= dmi_reader_get_uuid(3)
+= dmi_decoder_get_uuid(3)
 The OpenDMI contributors
 OpenDMI 0.5.0
 
@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_get_uuid - read and decode a UUID from the reader at the current position.
+dmi_decoder_get_uuid - read and decode a UUID of a structure at the current position.
 
 == Library
 
@@ -19,35 +19,36 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 [source, c]
 ----
-#include <opendmi/reader.h>
+#include <opendmi/decoder.h>
 
-dmi_reader_get_uuid(reader, pvalue)
+dmi_decoder_get_uuid(decoder, pvalue)
 ----
 
 == Description
 
-The `dmi_reader_get_uuid` macro reads 16 bytes from the reader, converts
+The `dmi_decoder_get_uuid` macro reads 16 bytes of the structure, converts
 the UUID from SMBIOS byte order into RFC 4122 representation using
 `dmi_uuid_decode`, and stores the result in the variable pointed to by
-`pvalue`. The reader cursor is advanced.
+`pvalue`. The cursor is advanced.
 
 === Parameters
 
-`reader`::
-Reader to read from.
+`decoder`::
+Decoder to read from.
 
 `pvalue`::
-Pointer to a variable that receives the decoded UUID.
+Pointer to a `dmi_uuid_t` that receives the decoded UUID.
 
 == Return value
 
-Returns `true` on success, `false` if there are not enough bytes remaining.
+`true` on success, `false` if there are not enough bytes remaining.
 
 == See also
 
-`dmi_reader_get_uuid_at`(3),
-`dmi_reader_get`(3),
-`dmi_uuid_decode`(3)
+`dmi_decoder_get_uuid_at`(3),
+`dmi_decoder_get`(3),
+`dmi_uuid_decode`(3),
+`dmi_encoder_put_uuid`(3)
 
 == Copying
 

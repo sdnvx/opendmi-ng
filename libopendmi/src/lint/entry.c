@@ -112,12 +112,12 @@ static void dmi_lint_entry_checksum(dmi_lint_t *lint, const dmi_entity_t *entity
     dmi_unused(entity);
 
     const dmi_context_state_t *state = &dmi_lint_context(lint)->state;
-    if ((state->entry_data == nullptr) or (state->entry_spec == nullptr))
+    if ((state->entry == nullptr) or (state->entry_spec == nullptr))
         return;
 
-    const dmi_data_t *data = state->entry_data;
-    size_t length = (state->entry_length < state->entry_data_size)
-            ? state->entry_length : state->entry_data_size;
+    const dmi_data_t *data = state->entry->data;
+    size_t length = (state->entry_length < state->entry->length)
+            ? state->entry_length : state->entry->length;
 
     if ((length > 0) and not dmi_lint_entry_verify(data, length)) {
         dmi_lint_issue(lint, nullptr, nullptr, 0,
@@ -127,7 +127,7 @@ static void dmi_lint_entry_checksum(dmi_lint_t *lint, const dmi_entity_t *entity
     // Entry point of SMBIOS 2.1 carries the intermediate anchor of the legacy
     // entry point, which has a checksum of its own
     if ((strcmp(state->entry_spec->anchor, DMI_ANCHOR_V21) == 0) and
-        (state->entry_data_size >= sizeof(dmi_entry_v21_t)) and
+        (state->entry->length >= sizeof(dmi_entry_v21_t)) and
         not dmi_lint_entry_verify(data + 0x10, 0x0F)) {
         dmi_lint_issue(lint, nullptr, nullptr, 0x10,
                        "checksum of the intermediate anchor does not match its data");
@@ -146,10 +146,10 @@ static void dmi_lint_entry_length(dmi_lint_t *lint, const dmi_entity_t *entity)
         dmi_lint_issue(lint, nullptr, "length", 0,
                        "entry point of format \"%s\" is %zu bytes long, expected at least %zu",
                        state->entry_spec->name, state->entry_length, state->entry_spec->min_length);
-    } else if (state->entry_length > state->entry_data_size) {
+    } else if (state->entry_length > state->entry->length) {
         dmi_lint_issue(lint, nullptr, "length", 0,
                        "entry point declares %zu bytes, but only %zu are available",
-                       state->entry_length, state->entry_data_size);
+                       state->entry_length, state->entry->length);
     }
 }
 
@@ -171,15 +171,15 @@ static void dmi_lint_entry_table_size(dmi_lint_t *lint, const dmi_entity_t *enti
 
     // Entry point of SMBIOS 3.0 declares the maximum size of the table rather
     // than its size, so the table is allowed to be smaller
-    if ((state->table_area_size > 0) and (state->table_area_size != state->table_size)) {
+    if ((state->table_area_size > 0) and (state->table_area_size != state->table->length)) {
         dmi_lint_issue(lint, nullptr, "table-area-size", 0,
                        "entry point declares a table of %zu bytes, but it is %zu bytes long",
-                       state->table_area_size, state->table_size);
+                       state->table_area_size, state->table->length);
     } else if ((state->table_area_max_size > 0) and
-               (state->table_size > state->table_area_max_size)) {
+               (state->table->length > state->table_area_max_size)) {
         dmi_lint_issue(lint, nullptr, "table-area-max-size", 0,
                        "table of %zu bytes is longer than the maximum of %zu bytes",
-                       state->table_size, state->table_area_max_size);
+                       state->table->length, state->table_area_max_size);
     }
 }
 

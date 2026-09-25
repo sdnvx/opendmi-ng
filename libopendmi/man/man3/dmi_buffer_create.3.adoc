@@ -1,0 +1,73 @@
+= dmi_buffer_create(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_buffer_create - create a buffer holding SMBIOS data.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/buffer.h>
+
+dmi_buffer_t *dmi_buffer_create(dmi_context_t *context);
+----
+
+== Description
+
+The `dmi_buffer_create` function creates an empty buffer belonging to
+`context`. No memory for the data is allocated until the buffer is written
+to or grown.
+
+A buffer owns the bytes it holds, whether they have been read from a device,
+from a dump, or written by the framework itself, so that everything reading
+them - the decoded structures, the strings they refer to and the binary
+members referring to the data in place - is valid for as long as the buffer
+is. Buffers live on their own rather than within the scope which makes them,
+because the structures decoded from a buffer outlive whatever has read it
+in.
+
+Data is read and written through `dmi_reader_t` and `dmi_writer_t`, which
+are cursors over a range of a buffer and hold no memory of their own.
+
+The caller is responsible for destroying the buffer with
+`dmi_buffer_destroy`(3) once nothing refers to the data any more.
+
+=== Parameters
+
+`context`::
+DMI context the buffer belongs to, whose memory it holds and whose error
+queue its errors are raised against.
+
+== Return value
+
+On success, returns a pointer to the buffer. On failure, returns `nullptr`.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Buffer cannot be allocated.
+
+== See also
+
+`dmi_buffer_destroy`(3),
+`dmi_buffer_assign`(3),
+`dmi_buffer_context`(3),
+`dmi_reader_initialize`(3),
+`dmi_writer_initialize`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

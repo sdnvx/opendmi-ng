@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add the `ENABLE_ASAN` build option
 - Add `lint` command checking the data against the rules of the specification
 - Add `dmi_reader_mark()`, `dmi_reader_rewind()` and `dmi_reader_skip_ex()`, which step over records by their declared length instead of by the bytes read from them
+- Add `dmi_buffer_t`, which owns the SMBIOS data everything decoded from it refers to
+- Add `dmi_writer_t`, which writes the bytes of a buffer the way `dmi_reader_t` reads them
+- Add `dmi_decoder_t` and `dmi_encoder_t`, which read and write the values of a structure over a reader and a writer
+- Add `dmi_entity_buffer()` and `dmi_entity_offset()`, which tell where the data of a structure is held
 - Add `dmi_field_t` describing the layout of a structure on the wire, and `dmi_fields_decode()` decoding the specifications which declare it
 - Add `dmi_entity_encode()` and `dmi_fields_encode()`, which write a structure back from its specification
 - Describe the layout of nearly every structure type on the wire instead of decoding it by hand
@@ -25,6 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add processor additional information decoder
 - Add tests for BIS entry point, system boot, system event log, TPM device and management device threshold decoders
 - Add tests for additional information overlays and module structure decoders
+- Add tests for the decoder, including the copy it reads with additional information applied
+- Add tests for the buffer and the writer, including the padding which keeps the bytes written already
+- Add tests for the encoder itself, which the corpus reaches only through the field engine
+- Add tests for the field engine, written against specifications of its own rather than against the structure types
 - Add support for binary attributes
 - Add support for variant attributes
 - Add support for string properties (including linking)
@@ -56,6 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Translate error messages and messages of the tool to the locale
 - Translate the texts of unspecified, unknown and invalid values to the locale
 - Translate command line help to the locale
+- Add manual pages for the `opendmi` command line tool and all of its commands
+- Add manual pages for the buffer, reader, writer, decoder and encoder APIs
 
 ### Changed
 
@@ -88,11 +98,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Link the references the attributes declare before calling the link handler, which is left for what they cannot say
 - Keep the manufacture date string, the SBDS manufacture date, and the design capacity and its multiplier of portable batteries as the structure carries them
 - Report memory modules larger than their controller supports with the `memory-controller.module-size` lint rule instead of marking their sizes invalid when linking
-- Add manual pages for the `opendmi` command line tool and all of its commands
-- Rename `dmi_stream_t` to `dmi_reader_t` and `dmi_entity_stream()` to `dmi_entity_reader()`, and read values with `dmi_reader_get*()` instead of `dmi_stream_decode*()` and `dmi_stream_read*()`
+- Rename `dmi_stream_t` to `dmi_reader_t`, and read the values of a structure with `dmi_decoder_get*()` instead of `dmi_stream_decode*()` and `dmi_stream_read*()`
+- Hold the SMBIOS data in the buffers of the context instead of the memory each backend allocates for itself
+- Fill the buffer given to `read_entry()` and `read_table()` in backends instead of allocating the data of the context
+- Take the buffer holding a structure and its offset in `dmi_entity_create()` instead of a pointer to its data
+- Replace `dmi_entity_reader()` with `dmi_decoder_initialize()`, which sets a decoder up over the data of a structure
+- Rename `dmi_entity_stop()` and `dmi_entity_incomplete()` to `dmi_decoder_stop()` and `dmi_decoder_incomplete()`
+- Rename `dmi_file_get()` and `dmi_memory_get()` to `dmi_file_load()` and `dmi_memory_load()`, which fill a buffer instead of allocating the data they read
 
 ### Fixed
 
+- Fix broken escape sequence printed for the text of no color of its own, which leaked into the output of the `lint` command
+- Fix `dmi_reader_seek()` rejecting the end of the range, which kept a decoder from being set up over a structure of nothing but its header
 - Fix `--pretty` option of the `export` command having no effect on any output format
 - Fix portable battery manufacture date being dropped when the date string is malformed and the packed SBDS date is there
 - Fix `explain` command rejecting structure types given by their number

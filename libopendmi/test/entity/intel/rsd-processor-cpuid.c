@@ -15,6 +15,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module.h>
 #include <opendmi/module/intel.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/intel/rsd-processor-cpuid.h>
@@ -101,7 +102,9 @@ static void test_rsd_processor_cpuid_decode(void **pstate)
     uint8_t data[256];
     size_t size = create_cpuid(data, sizeof(data), 1, 14);
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, size);
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, size);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -130,6 +133,8 @@ static void test_rsd_processor_cpuid_decode(void **pstate)
     assert_int_equal(info->leaves[13].leaf, 0x10);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_rsd_processor_cpuid_decode_extended(void **pstate)
@@ -139,7 +144,9 @@ static void test_rsd_processor_cpuid_decode_extended(void **pstate)
     uint8_t data[512];
     size_t size = create_cpuid(data, sizeof(data), 2, 15);
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, size);
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, size);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -154,6 +161,8 @@ static void test_rsd_processor_cpuid_decode_extended(void **pstate)
     assert_int_equal(info->leaves[14].edx, 0xE3);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_rsd_processor_cpuid_decode_truncated(void **pstate)
@@ -164,7 +173,9 @@ static void test_rsd_processor_cpuid_decode_truncated(void **pstate)
     uint8_t data[256];
     size_t size = create_cpuid(data, sizeof(data), 1, 3);
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, size);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, size);
+
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -178,7 +189,7 @@ static void test_rsd_processor_cpuid_decode_truncated(void **pstate)
     // Data of unknown subtype is kept as stored
     size = create_cpuid(data, sizeof(data), 3, 2);
 
-    entity = dmi_entity_create(context, data, size);
+    entity = dmi_test_entity_create(buffer, data, size);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -189,4 +200,5 @@ static void test_rsd_processor_cpuid_decode_truncated(void **pstate)
     assert_int_equal(info->data.length, 32);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }

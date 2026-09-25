@@ -32,8 +32,8 @@
 
 // Operation handlers, see indexed-io-handlers.c
 extern const dmi_attribute_t dmi_dell_indexed_io_token_attrs[];
-bool dmi_dell_indexed_io_decode(dmi_entity_t *entity);
-bool dmi_dell_indexed_io_encode(dmi_writer_t *writer);
+bool dmi_dell_indexed_io_decode(dmi_decoder_t *decoder);
+bool dmi_dell_indexed_io_encode(dmi_encoder_t *encoder);
 void dmi_dell_indexed_io_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_INDEXED_IO_INTERNAL_H

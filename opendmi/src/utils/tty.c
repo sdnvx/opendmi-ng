@@ -115,6 +115,11 @@ void dmi_tty_set_fg_color(dmi_tty_color_t color)
 
     dmi_tty_fg_color = (int)color;
 
+    // Text of no color of its own is left to the terminal, which has no
+    // number to set it to
+    if (color == DMI_TTY_COLOR_NONE)
+        return;
+
 #   ifdef ENABLE_CURSES
         tputs(tparm(tigetstr("setaf"), color), 1, putchar);
 #   endif
@@ -126,6 +131,9 @@ void dmi_tty_set_bg_color(dmi_tty_color_t color)
         return;
 
     dmi_tty_bg_color = (int)color;
+
+    if (color == DMI_TTY_COLOR_NONE)
+        return;
 
 #   ifdef ENABLE_CURSES
         tputs(tparm(tigetstr("setab"), color), 1, putchar);

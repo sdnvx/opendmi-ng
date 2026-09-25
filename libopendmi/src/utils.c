@@ -112,28 +112,25 @@ uint64_t dmi_ipow64(uint64_t value, unsigned int factor)
     return value * result;
 }
 
-dmi_data_t *dmi_file_get(
-        dmi_context_t *context,
-        const char    *path,
-        off_t          offset,
-        size_t        *plength)
+bool dmi_file_load(
+        dmi_buffer_t *buffer,
+        const char   *path,
+        off_t         offset,
+        size_t        length)
 {
-    if (context == nullptr)
-        return nullptr;
+    dmi_context_t *context = dmi_buffer_context(buffer);
 
+    if (buffer == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "buffer");
+        return false;
+    }
     if (path == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
-        return nullptr;
-    }
-    if (plength == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "plength");
-        return nullptr;
+        return false;
     }
 
-    int         fd     = -1;
-    dmi_data_t *data   = nullptr;
-    size_t      length = *plength;
-    ssize_t     nread  = 0;
+    int     fd    = -1;
+    ssize_t nread = 0;
 
     bool success = false;
     do {
@@ -162,19 +159,25 @@ dmi_data_t *dmi_file_get(
             length = st.st_size;
         }
 
-        // Allocate output buffer. Zero-sized allocation may fail on some
-        // platforms, so at least one byte is allocated for empty files.
-        if ((data = dmi_alloc(context, length > 0 ? length : 1)) == nullptr)
+        // Data is read into the buffer itself, which is made long enough for
+        // the whole of it and cut down to what has been read
+        if (not dmi_buffer_resize(buffer, length))
             break;
 
-        // Read data into buffer
-        nread = dmi_file_read(fd, data, offset, length);
+        // An empty file is read by reading nothing at all, and the buffer
+        // holds no data to read into
+        if (length == 0) {
+            success = true;
+            break;
+        }
+
+        nread = dmi_file_read(fd, buffer->data, offset, length);
         if (nread < 0) {
             dmi_error_raise_ex(context, DMI_ERROR_FILE_READ, "%s: %s", path, strerror(errno));
             break;
         }
 
-        success = true;
+        success = dmi_buffer_resize(buffer, (size_t)nread);
     } while (false);
 
     // Cleanup
@@ -183,28 +186,29 @@ dmi_data_t *dmi_file_get(
 
     // Handle errors
     if (not success) {
-        dmi_free(data);
-        return nullptr;
+        dmi_buffer_clear(buffer);
+        return false;
     }
 
-    *plength = (size_t)nread;
-
-    return data;
+    return true;
 }
 
 #if !defined(_WIN32)
-dmi_data_t *dmi_memory_get(dmi_context_t *context, const char *path, size_t base, size_t length)
+bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t length)
 {
-    if (context == nullptr)
-        return nullptr;
+    dmi_context_t *context = dmi_buffer_context(buffer);
 
+    if (buffer == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "buffer");
+        return false;
+    }
     if (path == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
-        return nullptr;
+        return false;
     }
     if (length == 0) {
         dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "length");
-        return nullptr;
+        return false;
     }
 
     bool   success   = false;
@@ -214,7 +218,6 @@ dmi_data_t *dmi_memory_get(dmi_context_t *context, const char *path, size_t base
 
     // cppcheck-suppress constVariablePointer
     dmi_data_t *ptr  = MAP_FAILED;
-    dmi_data_t *data = nullptr;
 
     do {
         fd = open(path, O_RDONLY);
@@ -238,8 +241,9 @@ dmi_data_t *dmi_memory_get(dmi_context_t *context, const char *path, size_t base
             break;
         }
 
-        data = dmi_alloc(context, length);
-        if (data == nullptr)
+        // Data is copied into the buffer, so that the mapping is of no
+        // interest once the region has been read
+        if (not dmi_buffer_resize(buffer, length))
             break;
 
         ptr = mmap(nullptr, offset + length, PROT_READ, MAP_SHARED, fd, base - offset);
@@ -249,7 +253,7 @@ dmi_data_t *dmi_memory_get(dmi_context_t *context, const char *path, size_t base
         }
 
         // cppcheck-suppress nullPointerArithmeticOutOfMemory
-        dmi_memory_get_data(data, ptr + offset, length);
+        dmi_memory_get_data(buffer->data, ptr + offset, length);
 
         success = true;
     } while (false);
@@ -262,11 +266,11 @@ dmi_data_t *dmi_memory_get(dmi_context_t *context, const char *path, size_t base
         dmi_file_close(fd);
 
     if (not success) {
-        dmi_free(data);
-        return nullptr;
+        dmi_buffer_clear(buffer);
+        return false;
     }
 
-    return data;
+    return true;
 }
 
 static void dmi_memory_get_data(dmi_data_t *dst, const dmi_data_t *src, size_t length)

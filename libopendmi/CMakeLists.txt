@@ -45,7 +45,9 @@ target_include_directories(opendmi-object
 set(LIBOPENDMI_HEADERS
     include/opendmi/attribute.h
     include/opendmi/backend.h
+    include/opendmi/buffer.h
     include/opendmi/context.h
+    include/opendmi/decoder.h
     include/opendmi/defs.h
     include/opendmi/entry.h
     include/opendmi/error.h
@@ -57,6 +59,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/log.h
     include/opendmi/module.h
     include/opendmi/registry.h
+    include/opendmi/encoder.h
     include/opendmi/entity.h
     include/opendmi/types.h
     include/opendmi/reader.h
@@ -185,8 +188,11 @@ target_sources(opendmi-object
     PRIVATE
         src/attribute.c
         src/backend.c
+        src/buffer.c
         src/context.c
+        src/decoder.c
         src/writer.c
+        src/encoder.c
         src/entity.c
         src/entry.c
         src/error.c
@@ -710,7 +716,11 @@ opendmi_test(registry SOURCES test/registry.c)
 opendmi_test(dump SOURCES test/dump.c)
 opendmi_test(locale SOURCES test/locale.c)
 opendmi_test(lint SOURCES test/lint.c)
+opendmi_test(buffer SOURCES test/buffer.c)
 opendmi_test(reader SOURCES test/reader.c)
+opendmi_test(writer SOURCES test/writer.c)
+opendmi_test(decoder SOURCES test/decoder.c)
+opendmi_test(field SOURCES test/field.c)
 
 # Dumps of the corpus, which the encoder test writes back structure by
 # structure

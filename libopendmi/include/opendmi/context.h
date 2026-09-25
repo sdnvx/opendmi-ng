@@ -86,12 +86,6 @@ struct dmi_context_state
     uint64_t entry_address;
 
     /**
-     * @brief Size of entry point data, provided by backend. It may differ
-     * from the entry point length.
-     */
-    size_t entry_data_size;
-
-    /**
      * @brief Entry point length, as specified in the entry point.
      */
     size_t entry_length;
@@ -112,9 +106,13 @@ struct dmi_context_state
     const dmi_entry_spec_t *entry_spec;
 
     /**
-     * @brief Pointer to SMBIOS entry point data.
+     * @brief SMBIOS entry point data, as the backend has read it, which may
+     * be longer than the entry point length.
+     *
+     * The data belongs to the context, which holds it for as long as it is
+     * open.
      */
-    void *entry_data;
+    dmi_buffer_t *entry;
 
     /**
      * @brief Total number of SMBIOS structures.
@@ -137,15 +135,13 @@ struct dmi_context_state
     size_t table_area_max_size;
 
     /**
-     * @brief Pointer to SMBIOS table area data.
+     * @brief SMBIOS table area data, as the backend has read it.
+     *
+     * The data belongs to the context, which holds it for as long as it is
+     * open: the decoded structures refer to it in place, and so do the
+     * strings they carry.
      */
-    dmi_data_t *table_data;
-
-    /**
-     * @brief Actual size of SMBIOS table area data, provided by backend. It
-     * may differ from the size specified in the entry point.
-     */
-    size_t table_size;
+    dmi_buffer_t *table;
 
     /**
      * @brief Maximum size of SMBIOS structure.

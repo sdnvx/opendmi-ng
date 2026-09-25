@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <opendmi/writer.h>
+#include <opendmi/encoder.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/module/dell.h>
@@ -49,8 +49,10 @@ const dmi_attribute_t dmi_dell_indexed_io_token_attrs[] =
     {}
 };
 
-bool dmi_dell_indexed_io_decode(dmi_entity_t *entity)
+bool dmi_dell_indexed_io_decode(dmi_decoder_t *decoder)
 {
+    dmi_entity_t *entity = dmi_decoder_entity(decoder);
+
     dmi_dell_indexed_io_t *info;
 
     info = dmi_entity_info(entity, DMI_TYPE(DELL_INDEXED_IO));
@@ -58,17 +60,16 @@ bool dmi_dell_indexed_io_decode(dmi_entity_t *entity)
         return false;
 
     dmi_context_t *context = dmi_entity_context(entity);
-    dmi_reader_t  *reader  = dmi_entity_reader(entity);
 
     dmi_byte_t check_type = 0;
 
     bool status =
-        dmi_reader_get(reader, dmi_word_t, &info->index_port) and
-        dmi_reader_get(reader, dmi_word_t, &info->data_port) and
-        dmi_reader_get(reader, dmi_byte_t, &check_type) and
-        dmi_reader_get(reader, dmi_byte_t, &info->check_start) and
-        dmi_reader_get(reader, dmi_byte_t, &info->check_end) and
-        dmi_reader_get(reader, dmi_byte_t, &info->check_index);
+        dmi_decoder_get(decoder, dmi_word_t, &info->index_port) and
+        dmi_decoder_get(decoder, dmi_word_t, &info->data_port) and
+        dmi_decoder_get(decoder, dmi_byte_t, &check_type) and
+        dmi_decoder_get(decoder, dmi_byte_t, &info->check_start) and
+        dmi_decoder_get(decoder, dmi_byte_t, &info->check_end) and
+        dmi_decoder_get(decoder, dmi_byte_t, &info->check_index);
     if (not status)
         return false;
 
@@ -76,7 +77,7 @@ bool dmi_dell_indexed_io_decode(dmi_entity_t *entity)
 
     // Tokens are terminated by the end-of-table marker, which may be
     // truncated itself
-    size_t capacity = dmi_reader_remaining(reader) / DMI_DELL_INDEXED_IO_TOKEN_SIZE;
+    size_t capacity = dmi_decoder_remaining(decoder) / DMI_DELL_INDEXED_IO_TOKEN_SIZE;
     if (capacity > 0) {
         info->tokens = dmi_alloc_array(context, sizeof(*info->tokens), capacity);
         if (info->tokens == nullptr)
@@ -86,11 +87,11 @@ bool dmi_dell_indexed_io_decode(dmi_entity_t *entity)
     while (true) {
         dmi_word_t id = 0;
 
-        if (not dmi_reader_get(reader, dmi_word_t, &id))
-            return dmi_entity_incomplete(entity);
+        if (not dmi_decoder_get(decoder, dmi_word_t, &id))
+            return dmi_decoder_incomplete(decoder);
 
         if (id == DMI_DELL_TOKEN_EOT) {
-            dmi_reader_skip(reader, dmi_reader_remaining(reader));
+            dmi_decoder_skip(decoder, dmi_decoder_remaining(decoder));
             break;
         }
 
@@ -98,11 +99,11 @@ bool dmi_dell_indexed_io_decode(dmi_entity_t *entity)
         dmi_byte_t value = 0;
 
         status =
-            dmi_reader_get(reader, dmi_byte_t, &token.location) and
-            dmi_reader_get(reader, dmi_byte_t, &token.and_mask) and
-            dmi_reader_get(reader, dmi_byte_t, &value);
+            dmi_decoder_get(decoder, dmi_byte_t, &token.location) and
+            dmi_decoder_get(decoder, dmi_byte_t, &token.and_mask) and
+            dmi_decoder_get(decoder, dmi_byte_t, &value);
         if (not status)
-            return dmi_entity_incomplete(entity);
+            return dmi_decoder_incomplete(decoder);
 
         if (id == DMI_DELL_TOKEN_UNUSED)
             continue;
@@ -132,35 +133,35 @@ void dmi_dell_indexed_io_cleanup(dmi_entity_t *entity)
 }
 
 static bool dmi_dell_indexed_io_encode_token(
-        dmi_writer_t                      *writer,
+        dmi_encoder_t                     *encoder,
         const dmi_dell_indexed_io_token_t *token)
 {
     // String tokens have no mask, and the value is the string length
     dmi_byte_t value = token->is_string ? token->string_length : token->or_value;
 
     return
-        dmi_writer_put(writer, dmi_word_t, token->id) and
-        dmi_writer_put(writer, dmi_byte_t, token->location) and
-        dmi_writer_put(writer, dmi_byte_t, token->and_mask) and
-        dmi_writer_put(writer, dmi_byte_t, value);
+        dmi_encoder_put(encoder, dmi_word_t, token->id) and
+        dmi_encoder_put(encoder, dmi_byte_t, token->location) and
+        dmi_encoder_put(encoder, dmi_byte_t, token->and_mask) and
+        dmi_encoder_put(encoder, dmi_byte_t, value);
 }
 
 //
 // Tokens are written in turn, and are terminated by the end-of-table marker.
 //
-bool dmi_dell_indexed_io_encode(dmi_writer_t *writer)
+bool dmi_dell_indexed_io_encode(dmi_encoder_t *encoder)
 {
-    const dmi_dell_indexed_io_t *info = dmi_entity_info(writer->entity, DMI_TYPE(DELL_INDEXED_IO));
+    const dmi_dell_indexed_io_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(DELL_INDEXED_IO));
     if (info == nullptr)
         return false;
 
     bool status =
-        dmi_writer_put(writer, dmi_word_t, info->index_port) and
-        dmi_writer_put(writer, dmi_word_t, info->data_port) and
-        dmi_writer_put(writer, dmi_byte_t, info->check_type) and
-        dmi_writer_put(writer, dmi_byte_t, info->check_start) and
-        dmi_writer_put(writer, dmi_byte_t, info->check_end) and
-        dmi_writer_put(writer, dmi_byte_t, info->check_index);
+        dmi_encoder_put(encoder, dmi_word_t, info->index_port) and
+        dmi_encoder_put(encoder, dmi_word_t, info->data_port) and
+        dmi_encoder_put(encoder, dmi_byte_t, info->check_type) and
+        dmi_encoder_put(encoder, dmi_byte_t, info->check_start) and
+        dmi_encoder_put(encoder, dmi_byte_t, info->check_end) and
+        dmi_encoder_put(encoder, dmi_byte_t, info->check_index);
     if (not status)
         return false;
 
@@ -169,38 +170,38 @@ bool dmi_dell_indexed_io_encode(dmi_writer_t *writer)
     // kept as they are, and the rest are written from the model in turn
     size_t next = 0;
 
-    while ((writer->mode == DMI_ENCODE_MODE_PRESERVE) and (next < info->token_count)) {
+    while ((encoder->mode == DMI_ENCODE_MODE_PRESERVE) and (next < info->token_count)) {
         dmi_byte_t id[2];
 
-        if (not dmi_writer_peek(writer, id, sizeof(id)))
+        if (not dmi_encoder_peek(encoder, id, sizeof(id)))
             break;
 
         dmi_word_t original = (dmi_word_t)(id[0] | (id[1] << 8));
 
-        if ((original == DMI_DELL_TOKEN_EOT) or (dmi_writer_remaining(writer) < DMI_DELL_INDEXED_IO_TOKEN_SIZE))
+        if ((original == DMI_DELL_TOKEN_EOT) or (dmi_encoder_remaining(encoder) < DMI_DELL_INDEXED_IO_TOKEN_SIZE))
             break;
 
         if (original == DMI_DELL_TOKEN_UNUSED) {
-            if (not dmi_writer_copy(writer, DMI_DELL_INDEXED_IO_TOKEN_SIZE))
+            if (not dmi_encoder_copy(encoder, DMI_DELL_INDEXED_IO_TOKEN_SIZE))
                 return false;
             continue;
         }
 
-        if (not dmi_dell_indexed_io_encode_token(writer, &info->tokens[next++]))
+        if (not dmi_dell_indexed_io_encode_token(encoder, &info->tokens[next++]))
             return false;
     }
 
     // Tokens the source data has no records for, and all of them in the
     // canonical mode
     while (next < info->token_count) {
-        if (not dmi_dell_indexed_io_encode_token(writer, &info->tokens[next++]))
+        if (not dmi_dell_indexed_io_encode_token(encoder, &info->tokens[next++]))
             return false;
     }
 
     // Marker ending the tokens is kept along with whatever follows it in the
     // preserve mode, and written in the canonical one
-    if (writer->mode == DMI_ENCODE_MODE_CANONICAL)
-        return dmi_writer_put(writer, dmi_word_t, DMI_DELL_TOKEN_EOT);
+    if (encoder->mode == DMI_ENCODE_MODE_CANONICAL)
+        return dmi_encoder_put(encoder, dmi_word_t, DMI_DELL_TOKEN_EOT);
 
     return true;
 }

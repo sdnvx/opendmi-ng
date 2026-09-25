@@ -15,6 +15,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module.h>
 #include <opendmi/module/intel.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/intel/rsd-fpga.h>
@@ -92,7 +93,9 @@ static void test_rsd_fpga_decode(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    dmi_entity_t *entity = dmi_entity_create(context, test_data, sizeof(test_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_int_equal(entity->body_length, 0x24);
     assert_true(dmi_entity_decode(entity));
@@ -124,6 +127,8 @@ static void test_rsd_fpga_decode(void **pstate)
     assert_int_equal(info->memory_speed, 3200);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_rsd_fpga_decode_short(void **pstate)
@@ -136,9 +141,13 @@ static void test_rsd_fpga_decode_short(void **pstate)
     data[1] = 0x23;
     memmove(data + 0x23, test_data + 0x24, sizeof(test_data) - 0x24);
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data) - 1);
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data) - 1);
     assert_non_null(entity);
     assert_false(dmi_entity_decode(entity));
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }

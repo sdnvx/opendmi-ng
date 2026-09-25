@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/processor-ex.h>
@@ -65,7 +66,9 @@ static void test_processor_ex_decode(void **pstate)
         data[test_cases[i].length]     = 0;
         data[test_cases[i].length + 1] = 0;
 
-        dmi_entity_t *entity = dmi_entity_create(context, data, test_cases[i].length + 2);
+        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, test_cases[i].length + 2);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
         assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, test_cases[i].incomplete);
@@ -77,13 +80,16 @@ static void test_processor_ex_decode(void **pstate)
         assert_int_equal(info->data.length, test_cases[i].data_length);
 
         if (test_cases[i].data_length > 0) {
-            assert_ptr_equal(info->data.data, entity->data + 0x08);
+            assert_ptr_equal(info->data.data,
+                             dmi_buffer_at(entity->buffer, entity->offset, entity->total_length) + 0x08);
             assert_int_equal(info->data.data[0], 0x11);
         } else {
             assert_null(info->data.data);
         }
 
         dmi_entity_destroy(entity);
+
+        dmi_buffer_destroy(entity_buffer);
     }
 
     dmi_destroy(context);

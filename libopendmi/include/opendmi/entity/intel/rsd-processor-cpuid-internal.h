@@ -25,8 +25,8 @@ extern const dmi_name_set_t dmi_intel_rsd_cpuid_subtype_names;
 
 // Operation handlers, see rsd-processor-cpuid-handlers.c
 extern const dmi_attribute_t dmi_intel_rsd_cpuid_leaf_attrs[];
-bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity);
-bool dmi_intel_rsd_processor_cpuid_encode(dmi_writer_t *writer);
+bool dmi_intel_rsd_processor_cpuid_decode(dmi_decoder_t *decoder);
+bool dmi_intel_rsd_processor_cpuid_encode(dmi_encoder_t *encoder);
 void dmi_intel_rsd_processor_cpuid_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_RSD_PROCESSOR_CPUID_INTERNAL_H

@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/cache.h>
@@ -141,7 +142,9 @@ static void decode_cache_size(
     data[length]     = 0;
     data[length + 1] = 0;
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, length + 2);
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, length + 2);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -152,6 +155,7 @@ static void decode_cache_size(
     *result = *info;
     *state  = entity->state;
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_cache_decode_size(void **pstate)
@@ -231,7 +235,9 @@ static void test_cache_decode_v21(void **pstate)
 
         memcpy(data + length, "L1\0\0", 4);
 
-        dmi_entity_t *entity = dmi_entity_create(context, data, length + 4);
+        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, length + 4);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -256,6 +262,8 @@ static void test_cache_decode_v21(void **pstate)
         assert_int_equal(info->associativity, (fields > 3) ? 0x07 : 0);
 
         dmi_entity_destroy(entity);
+
+        dmi_buffer_destroy(entity_buffer);
     }
 
     dmi_destroy(context);

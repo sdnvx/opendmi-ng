@@ -14,6 +14,7 @@
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/bis-entry-point.h>
@@ -53,7 +54,9 @@ static void test_bis_entry_point_decode(void **pstate)
         if (not valid)
             data[0x04]++;
 
-        dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -67,6 +70,8 @@ static void test_bis_entry_point_decode(void **pstate)
         assert_int_equal(info->is_valid, valid);
 
         dmi_entity_destroy(entity);
+
+        dmi_buffer_destroy(entity_buffer);
     }
 
     dmi_destroy(context);

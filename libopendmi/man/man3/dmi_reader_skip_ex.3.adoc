@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_skip_ex - advance the reader cursor from a mark.
+dmi_reader_skip_ex - advance a reader cursor from a mark taken earlier.
 
 == Library
 
@@ -29,19 +29,15 @@ bool dmi_reader_skip_ex(
 
 == Description
 
-The `dmi_reader_skip_ex` function places the reader cursor `length` bytes past
-the position of `from`, a mark taken earlier with `dmi_reader_mark`(3).
+The `dmi_reader_skip_ex` function advances the reader cursor to `length`
+bytes past the mark `from`.
 
-Records of a declared length are stepped over by that length rather than by the
-number of bytes read from them, which is what this expresses: the beginning of
-the record is marked, the fields the record is known to hold are read, and the
-cursor is then placed at the next record. A record longer than the fields the
-decoder knows is handled without arithmetic, and adding a field to the decoder
-does not change how the next record is found.
+Records of a declared length are stepped over by that length rather than by
+the number of bytes read from them: mark the beginning of the record with
+`dmi_reader_mark`(3), read whatever fields it is known to hold, then advance
+by the length of the record from the mark.
 
-Counting from the current position rather than from a mark is
-`dmi_reader_skip`(3), and coming back to a mark without advancing is
-`dmi_reader_rewind`(3).
+Counting from the current position is what `dmi_reader_skip`(3) does.
 
 === Parameters
 
@@ -57,35 +53,15 @@ Number of bytes to advance by.
 
 == Return value
 
-Returns `true` on success, `false` if `reader` is `nullptr`, if the resulting
-position is beyond the end of the entity body, or if `from` was taken from a
-reader reading another entity.
-
-== Examples
-
-[source, c]
-----
-// Descriptors are two bytes long, and longer ones are allowed for future
-// extensions, so the next one is found by the declared length
-for (size_t i = 0; i < descriptor_count; i++) {
-    dmi_reader_mark_t start = dmi_reader_mark(reader);
-
-    bool status =
-        dmi_reader_has(reader, descriptor_length) and
-        dmi_reader_get(reader, dmi_byte_t, &descriptor->type) and
-        dmi_reader_get(reader, dmi_byte_t, &descriptor->data_format) and
-        dmi_reader_skip_ex(reader, start, descriptor_length);
-
-    if (not status)
-        return dmi_entity_incomplete(entity);
-}
-----
+`true` on success, `false` if the resulting position is beyond the end of
+the range, or if `from` was taken from a reader reading another range.
 
 == See also
 
+`dmi_reader_skip`(3),
 `dmi_reader_mark`(3),
 `dmi_reader_rewind`(3),
-`dmi_reader_seek`(3)
+`dmi_writer_skip_ex`(3)
 
 == Copying
 

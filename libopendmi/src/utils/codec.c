@@ -26,3 +26,16 @@ uintmax_t __dmi_decode_bcd(const dmi_byte_t *value, size_t length)
 
     return result;
 }
+
+void __dmi_encode_bcd(uintmax_t value, dmi_byte_t *data, size_t length)
+{
+    assert(data != nullptr);
+    assert(length > 0);
+
+    while (length > 0) {
+        *data = (dmi_byte_t)((value % 10) | (((value / 10) % 10) << 4));
+        value /= 100;
+
+        length--, data++;
+    }
+}

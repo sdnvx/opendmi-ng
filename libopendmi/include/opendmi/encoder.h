@@ -1,0 +1,362 @@
+//
+// OpenDMI: Cross-platform DMI/SMBIOS framework
+// Copyright (c) 2025-2026, The OpenDMI contributors
+//
+// SPDX-License-Identifier: BSD-3-Clause
+//
+#ifndef OPENDMI_ENCODER_H
+#define OPENDMI_ENCODER_H
+
+#pragma once
+
+#include <opendmi/types.h>
+#include <opendmi/reader.h>
+#include <opendmi/writer.h>
+#include <opendmi/utils/version.h>
+
+#ifndef DMI_ENCODER_T
+#   define DMI_ENCODER_T
+    typedef struct dmi_encoder dmi_encoder_t;
+#endif // !DMI_ENCODER_T
+
+/**
+ * @brief How the bytes the model does not hold are written.
+ *
+ * Every value the decoded structure holds is written from the structure in
+ * either mode, so that the bytes are derived from the model rather than
+ * copied. The modes differ in the rest: the bits the specification reserves,
+ * the choice between a plain field and its extended one, the numbers of the
+ * strings, the tails of the records longer than the fields they are known to
+ * hold, and where the structure ends.
+ */
+typedef enum dmi_encode_mode
+{
+    /**
+     * @brief The bytes the model does not hold are taken from the data the
+     * structure has been decoded from, so that encoding a structure which has
+     * not been changed gives back the very bytes it has been decoded from.
+     */
+    DMI_ENCODE_MODE_PRESERVE,
+
+    /**
+     * @brief The bytes the model does not hold are written the way the
+     * specification says they are, for the version the encoder is given,
+     * which is how a structure is repaired or built from scratch.
+     */
+    DMI_ENCODE_MODE_CANONICAL
+} dmi_encode_mode_t;
+
+/**
+ * @brief Writing of a structure, as its encoder sees it.
+ *
+ * An encoder writes one structure back into the bytes it is made of:
+ * `dmi_writer_t` puts the bytes into a buffer, and the structure being
+ * encoded says what they are to carry. In the preserve mode a reader of the
+ * data the structure has been decoded from goes alongside, in step with what
+ * is written, so that the bytes the model does not hold are found at the
+ * position they are written at.
+ *
+ * @note All fields are maintained internally. Do not modify them directly;
+ *       use the encoder API instead.
+ */
+struct dmi_encoder
+{
+    /**
+     * @brief Structure being encoded.
+     */
+    const dmi_entity_t *entity;
+
+    /**
+     * @brief How the bytes the model does not hold are written.
+     */
+    dmi_encode_mode_t mode;
+
+    /**
+     * @brief Version of the specification the canonical mode writes the
+     * structure for, which decides the groups of the fields it carries.
+     */
+    dmi_version_t version;
+
+    /**
+     * @brief Writer of the data being written.
+     */
+    dmi_writer_t writer;
+
+    /**
+     * @brief Reader of the data the structure has been decoded from, which
+     * the preserve mode reads at the position it writes at.
+     */
+    dmi_reader_t source;
+
+    /**
+     * @brief Strings the structure refers to, numbered from one, which are
+     * copies the encoder owns.
+     */
+    char       **strings;
+    size_t       string_count;
+    size_t       string_capacity;
+};
+
+__BEGIN_DECLS
+
+/**
+ * @brief Initialize an encoder of a structure, and write its header.
+ *
+ * The structure is written into @p buffer, starting at the end of the data it
+ * holds, so that the structures of a table are written one after another. The
+ * length of the header is left for `dmi_encoder_finish()` to fill in, once
+ * the length of the formatted area is known.
+ *
+ * In the preserve mode, the strings of the structure are taken over as they
+ * are numbered, so that the fields referring to them keep their numbers, and
+ * the strings nothing refers to are kept too.
+ *
+ * @param[out]    encoder Encoder to initialize.
+ * @param[in,out] buffer  Buffer to write the structure into.
+ * @param[in]     entity  Structure to encode.
+ * @param[in]     mode    How the bytes the model does not hold are written.
+ * @param[in]     version Version of the specification the canonical mode
+ *                        writes the structure for, ignored in the preserve
+ *                        mode.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Encoder, buffer or entity is `nullptr`
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot be allocated
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+__dmi_api bool dmi_encoder_initialize(
+        dmi_encoder_t      *encoder,
+        dmi_buffer_t       *buffer,
+        const dmi_entity_t *entity,
+        dmi_encode_mode_t   mode,
+        dmi_version_t       version);
+
+/**
+ * @brief Free the strings an encoder holds.
+ *
+ * The data written belongs to the buffer it has been written into, and is
+ * left as it is, so an encoder is finished with rather than destroyed.
+ *
+ * @param[in,out] encoder Encoder to finalize, or @c nullptr.
+ */
+__dmi_api void dmi_encoder_finalize(dmi_encoder_t *encoder);
+
+/**
+ * @brief Get the structure being encoded.
+ *
+ * @param[in] encoder Encoder to query.
+ *
+ * @return Structure being encoded, or @c nullptr if @p encoder is @c nullptr.
+ */
+__dmi_api const dmi_entity_t *dmi_encoder_entity(const dmi_encoder_t *encoder);
+
+/**
+ * @brief Get the writer of the data being written.
+ *
+ * @param[in] encoder Encoder to query.
+ *
+ * @return Writer of the data, or @c nullptr if @p encoder is @c nullptr.
+ */
+__dmi_api dmi_writer_t *dmi_encoder_writer(dmi_encoder_t *encoder);
+
+/**
+ * @brief Write bytes at the current position.
+ *
+ * The position in the source data advances by the same number of bytes, so
+ * that the two stay in step, as long as there are bytes left in it.
+ *
+ * @param[in,out] encoder Encoder to write to.
+ * @param[in]     ptr     Bytes to write.
+ * @param[in]     length  Number of the bytes.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+__dmi_api bool dmi_encoder_put_bytes(dmi_encoder_t *encoder, const void *ptr, size_t length);
+
+/**
+ * @brief Write bytes at a given offset without moving the position.
+ *
+ * Only the bytes written already may be written again, which is how a value
+ * the rest of the structure decides, such as a length, is filled in once it
+ * is known.
+ *
+ * @param[in,out] encoder Encoder to write to.
+ * @param[in]     ptr     Bytes to write.
+ * @param[in]     offset  Byte offset from the beginning of the structure.
+ * @param[in]     length  Number of the bytes.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+__dmi_api bool dmi_encoder_put_bytes_at(
+        dmi_encoder_t *encoder,
+        const void    *ptr,
+        size_t         offset,
+        size_t         length);
+
+/**
+ * @brief Write bytes the model does not hold at the current position: the
+ * ones the source data has there in the preserve mode, and zeros in the
+ * canonical one, or wherever the source data ends before them.
+ *
+ * @param[in,out] encoder Encoder to write to.
+ * @param[in]     length  Number of the bytes.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+__dmi_api bool dmi_encoder_copy(dmi_encoder_t *encoder, size_t length);
+
+/**
+ * @brief Write a reference to a string at the current position.
+ *
+ * The string is looked up among the ones the structure has been decoded
+ * with, so that a field keeps the number of the string it refers to, and is
+ * added to the strings of the encoder otherwise. A missing string is written
+ * as zero.
+ *
+ * @param[in,out] encoder Encoder to write to.
+ * @param[in]     value   String to refer to, or @c nullptr.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
+ * @error DMI_ERROR_INVALID_ARGUMENT Structure refers to more strings than a
+ *        byte can number
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+__dmi_api bool dmi_encoder_put_string(dmi_encoder_t *encoder, const char *value);
+
+/**
+ * @brief Read the source data at the current position without advancing.
+ *
+ * @param[in]  encoder Encoder to read from.
+ * @param[out] ptr     Bytes the source holds at the position.
+ * @param[in]  length  Number of the bytes to read.
+ *
+ * @return `true` if the source holds the bytes, `false` if it has none, e.g.
+ *         in the canonical mode, or ends before them.
+ */
+__dmi_api bool dmi_encoder_peek(const dmi_encoder_t *encoder, void *ptr, size_t length);
+
+/**
+ * @brief Get the number of the bytes of the source left at the current
+ * position, which is zero in the canonical mode.
+ *
+ * @param[in] encoder Encoder to query.
+ *
+ * @return Number of the bytes.
+ */
+__dmi_api size_t dmi_encoder_remaining(const dmi_encoder_t *encoder);
+
+/**
+ * @brief Get the current position, counted from the beginning of the
+ * structure the way the specification counts it.
+ *
+ * @param[in] encoder Encoder to query.
+ *
+ * @return Position of the next byte to write.
+ */
+__dmi_api size_t dmi_encoder_tell(const dmi_encoder_t *encoder);
+
+/**
+ * @brief Complete the formatted area by filling in the length of the header.
+ *
+ * @param[in,out] encoder Encoder to complete.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Formatted area is longer than a byte can
+ *        count
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+__dmi_api bool dmi_encoder_finish(dmi_encoder_t *encoder);
+
+__END_DECLS
+
+/**
+ * @def dmi_encoder_put(__encoder, __type, __value)
+ * @brief Encode a value into SMBIOS wire format and write it at the current
+ *        position.
+ *
+ * Converts @p __value into `__type` in wire format (little-endian) using
+ * `dmi_encode` and writes `sizeof(__type)` bytes. The cursor is advanced.
+ *
+ * @param[in,out] __encoder Encoder to write to.
+ * @param[in]     __type   Wire-format type to write (e.g., `dmi_word_t`).
+ * @param[in]     __value  Value to write.
+ *
+ * @return `true` on success, `false` if the buffer cannot grow.
+ */
+#define dmi_encoder_put(__encoder, __type, __value)                       \
+        ({                                                              \
+            __type __encoded = dmi_encode((__type)(__value));           \
+            dmi_encoder_put_bytes(__encoder, &__encoded, sizeof(__type)); \
+        })
+
+/**
+ * @def dmi_encoder_put_bcd(__encoder, __type, __value)
+ * @brief Encode a value as a binary-coded decimal and write it at the current
+ *        position.
+ *
+ * Spells @p __value out as the decimal digits `sizeof(__type)` bytes hold,
+ * two per byte, using `dmi_encode_bcd`, and writes them. The cursor is
+ * advanced.
+ *
+ * @param[in,out] __encoder Encoder to write to.
+ * @param[in]     __type   Wire-format type to write (e.g., `dmi_byte_t`).
+ * @param[in]     __value  Value to write.
+ *
+ * @return `true` on success, `false` if the buffer cannot grow.
+ */
+#define dmi_encoder_put_bcd(__encoder, __type, __value)                   \
+        ({                                                              \
+            __type __encoded = dmi_encode_bcd((__type)(__value));       \
+            dmi_encoder_put_bytes(__encoder, &__encoded, sizeof(__type)); \
+        })
+
+/**
+ * @def dmi_encoder_put_uuid(__encoder, __value)
+ * @brief Encode a UUID into SMBIOS byte order and write it at the current
+ *        position.
+ *
+ * Converts @p __value from the RFC 4122 representation using
+ * `dmi_uuid_encode` and writes 16 bytes. The cursor is advanced.
+ *
+ * @param[in,out] __encoder Encoder to write to.
+ * @param[in]     __value  `dmi_uuid_t` to write.
+ *
+ * @return `true` on success, `false` if the buffer cannot grow.
+ */
+#define dmi_encoder_put_uuid(__encoder, __value)                                \
+        ({                                                                    \
+            dmi_byte_t __encoded[16];                                         \
+            dmi_uuid_encode(__value, __encoded);                              \
+            dmi_encoder_put_bytes(__encoder, __encoded, sizeof(__encoded));     \
+        })
+
+/**
+ * @def dmi_encoder_put_at(__encoder, __offset, __type, __value)
+ * @brief Encode a value into SMBIOS wire format and write it at a given
+ *        offset.
+ *
+ * Converts @p __value into `__type` in wire format (little-endian) using
+ * `dmi_encode` and writes `sizeof(__type)` bytes at @p __offset from the
+ * beginning of the range. The cursor is not moved.
+ *
+ * @param[in,out] __encoder Encoder to write to.
+ * @param[in]     __offset Byte offset from the beginning of the range.
+ * @param[in]     __type   Wire-format type to write (e.g., `dmi_word_t`).
+ * @param[in]     __value  Value to write.
+ *
+ * @return `true` on success, `false` if the bytes do not fit into the range.
+ */
+#define dmi_encoder_put_at(__encoder, __offset, __type, __value)                       \
+        ({                                                                           \
+            __type __encoded = dmi_encode((__type)(__value));                        \
+            dmi_encoder_put_bytes_at(__encoder, &__encoded, __offset, sizeof(__type)); \
+        })
+
+#endif // !OPENDMI_ENCODER_H

@@ -403,11 +403,11 @@ table:
     installed-size:
       size: 562949953421312
       bank-count: 1
-      status: invalid
+      status: present
     enabled-size:
       size: 562949953421312
       bank-count: 1
-      status: invalid
+      status: present
     error-status:
       uncorrectable: false
       correctable: false
@@ -439,11 +439,11 @@ table:
     installed-size:
       size: 562949953421312
       bank-count: 1
-      status: invalid
+      status: present
     enabled-size:
       size: 562949953421312
       bank-count: 1
-      status: invalid
+      status: present
     error-status:
       uncorrectable: false
       correctable: false
@@ -475,11 +475,11 @@ table:
     installed-size:
       size: 562949953421312
       bank-count: 1
-      status: invalid
+      status: present
     enabled-size:
       size: 562949953421312
       bank-count: 1
-      status: invalid
+      status: present
     error-status:
       uncorrectable: false
       correctable: false
@@ -511,11 +511,11 @@ table:
     installed-size:
       size: 562949953421312
       bank-count: 1
-      status: invalid
+      status: present
     enabled-size:
       size: 562949953421312
       bank-count: 1
-      status: invalid
+      status: present
     error-status:
       uncorrectable: false
       correctable: false

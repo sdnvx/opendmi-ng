@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/additional-info.h>
@@ -26,7 +27,7 @@ static void test_additional_info_short_entry(void **pstate);
 static void test_additional_info_truncated_value(void **pstate);
 
 static dmi_entity_t *test_additional_info_create(
-        dmi_context_t *context, dmi_data_t *data, size_t count,
+        dmi_buffer_t *buffer, dmi_data_t *data, size_t count,
         const dmi_data_t *entries, size_t length);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
@@ -74,6 +75,7 @@ static int test_additional_info_teardown(void **pstate)
 static void test_additional_info_decode(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Slot type with unchanged value, and a word value without string
     static const dmi_data_t entries[] = {
@@ -82,7 +84,7 @@ static void test_additional_info_decode(void **pstate)
     };
 
     dmi_data_t data[sizeof(entries) + TEST_ADDITIONAL_INFO_OVERHEAD];
-    dmi_entity_t *entity = test_additional_info_create(context, data, 2, entries, sizeof(entries));
+    dmi_entity_t *entity = test_additional_info_create(entity_buffer, data, 2, entries, sizeof(entries));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -97,11 +99,14 @@ static void test_additional_info_decode(void **pstate)
     assert_int_equal(entry->value.length, 1);
     assert_int_equal(entry->value.data[0], 0xAA);
 
-    // Value is referenced in the structure data
+    // Value is referenced in the data of the structure, which the buffer of
+    // the entity holds
     entry = &info->entries[1];
     assert_int_equal(entry->ref_handle, 0x0000);
     assert_int_equal(entry->value.length, 2);
-    assert_ptr_equal(entry->value.data, data + sizeof(dmi_header_t) + 1 + 6 + DMI_ADDITIONAL_INFO_ENTRY_HEADER);
+    assert_ptr_equal(entry->value.data,
+                     dmi_buffer_at(entity->buffer, entity->offset, entity->total_length) +
+                         sizeof(dmi_header_t) + 1 + 6 + DMI_ADDITIONAL_INFO_ENTRY_HEADER);
     assert_int_equal(entry->value.data[0], 0xDC);
     assert_int_equal(entry->value.data[1], 0x05);
 
@@ -111,6 +116,7 @@ static void test_additional_info_decode(void **pstate)
 static void test_additional_info_long_value(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Value length is not limited
     dmi_data_t entries[DMI_ADDITIONAL_INFO_ENTRY_HEADER + TEST_LONG_VALUE_LENGTH] = {
@@ -121,7 +127,7 @@ static void test_additional_info_long_value(void **pstate)
         entries[DMI_ADDITIONAL_INFO_ENTRY_HEADER + i] = (dmi_data_t)i;
 
     dmi_data_t data[sizeof(entries) + TEST_ADDITIONAL_INFO_OVERHEAD];
-    dmi_entity_t *entity = test_additional_info_create(context, data, 1, entries, sizeof(entries));
+    dmi_entity_t *entity = test_additional_info_create(entity_buffer, data, 1, entries, sizeof(entries));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -137,6 +143,7 @@ static void test_additional_info_long_value(void **pstate)
 static void test_additional_info_short_entry(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Entry shorter than its header, and entry without value
     static const dmi_data_t lengths[] = { 0x00, 0x03, DMI_ADDITIONAL_INFO_ENTRY_HEADER };
@@ -145,7 +152,7 @@ static void test_additional_info_short_entry(void **pstate)
         const dmi_data_t entries[] = { lengths[i], 0x1E, 0x00, 0x05, 0x00, 0xAA };
 
         dmi_data_t data[sizeof(entries) + TEST_ADDITIONAL_INFO_OVERHEAD];
-        dmi_entity_t *entity = test_additional_info_create(context, data, 1, entries, sizeof(entries));
+        dmi_entity_t *entity = test_additional_info_create(entity_buffer, data, 1, entries, sizeof(entries));
         assert_non_null(entity);
 
         bool decoded = dmi_entity_decode(entity);
@@ -159,12 +166,13 @@ static void test_additional_info_short_entry(void **pstate)
 static void test_additional_info_truncated_value(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Value is shorter than specified by entry length, the rest is kept
     static const dmi_data_t entries[] = { 0x09, 0x1E, 0x00, 0x05, 0x00, 0xAA, 0xBB };
 
     dmi_data_t data[sizeof(entries) + TEST_ADDITIONAL_INFO_OVERHEAD];
-    dmi_entity_t *entity = test_additional_info_create(context, data, 1, entries, sizeof(entries));
+    dmi_entity_t *entity = test_additional_info_create(entity_buffer, data, 1, entries, sizeof(entries));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -177,7 +185,7 @@ static void test_additional_info_truncated_value(void **pstate)
 }
 
 static dmi_entity_t *test_additional_info_create(
-        dmi_context_t *context, dmi_data_t *data, size_t count,
+        dmi_buffer_t *buffer, dmi_data_t *data, size_t count,
         const dmi_data_t *entries, size_t length)
 {
     const size_t body_length = sizeof(dmi_header_t) + 1 + length;
@@ -191,5 +199,5 @@ static dmi_entity_t *test_additional_info_create(
     data[body_length]     = 0;
     data[body_length + 1] = 0;
 
-    return dmi_entity_create(context, data, body_length + 2);
+    return dmi_test_entity_create(buffer, data, body_length + 2);
 }

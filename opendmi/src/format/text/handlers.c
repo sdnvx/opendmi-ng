@@ -142,7 +142,7 @@ bool dmi_text_entry(dmi_text_session_t *session)
         dmi_text_message(session, "entry", "size", "{0} structures occupying {1} bytes",
                          (const dmi_message_arg_t[]){
                              DMI_MESSAGE_NUMBER(entity_count),
-                             DMI_MESSAGE_NUMBER(context->state.table_size)
+                             DMI_MESSAGE_NUMBER(context->state.table->length)
                          }, 2) and
         dmi_text_message(session, "entry", "address", "Table at {0}",
                          (const dmi_message_arg_t[]){ DMI_MESSAGE_TEXT(address) }, 1);
@@ -479,7 +479,7 @@ bool dmi_text_entity_data(dmi_text_session_t *session, const dmi_entity_t *entit
     assert(entity != nullptr);
 
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tHeader and data:\n");
-    dmi_text_hex_data(session, entity->data, entity->body_length);
+    dmi_text_hex_data(session, dmi_entity_data(entity, DMI_TYPE_ANY), entity->body_length);
 
     return true;
 }

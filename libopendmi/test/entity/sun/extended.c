@@ -15,6 +15,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module.h>
 #include <opendmi/module/sun.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/sun/processor-ex.h>
@@ -87,7 +88,9 @@ static void test_sun_processor_ex_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -103,6 +106,8 @@ static void test_sun_processor_ex_decode(void **pstate)
     assert_int_equal(info->apic_ids[1], 1);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_sun_port_ex_decode(void **pstate)
@@ -115,7 +120,9 @@ static void test_sun_port_ex_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -129,6 +136,8 @@ static void test_sun_port_ex_decode(void **pstate)
     assert_int_equal(info->phy, 5);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_sun_pcie_root_complex_decode(void **pstate)
@@ -142,7 +151,9 @@ static void test_sun_pcie_root_complex_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -155,6 +166,8 @@ static void test_sun_pcie_root_complex_decode(void **pstate)
     assert_int_equal(info->function_number, 1);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_sun_memory_array_ex_decode(void **pstate)
@@ -167,7 +180,9 @@ static void test_sun_memory_array_ex_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -181,6 +196,8 @@ static void test_sun_memory_array_ex_decode(void **pstate)
     assert_int_equal(info->function_number, 2);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_sun_memory_device_ex_decode(void **pstate)
@@ -193,7 +210,9 @@ static void test_sun_memory_device_ex_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -209,4 +228,6 @@ static void test_sun_memory_device_ex_decode(void **pstate)
     assert_int_equal(info->chip_selects[1], 1);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }

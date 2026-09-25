@@ -25,7 +25,8 @@ void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity)
     dmi_reader_t reader;
     dmi_byte_t value;
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, &value, DMI_FIRMWARE_ROM_SIZE_OFFSET, sizeof(value)))
@@ -53,7 +54,8 @@ void dmi_firmware_lint_release_date(dmi_lint_t *lint, const dmi_entity_t *entity
     dmi_reader_t reader;
     dmi_string_t index;
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, &index, DMI_FIRMWARE_DATE_OFFSET, sizeof(index)))

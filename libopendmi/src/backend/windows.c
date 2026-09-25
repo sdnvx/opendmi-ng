@@ -51,7 +51,7 @@ typedef struct _SYSTEM_FIRMWARE_TABLE_INFORMATION
 } SYSTEM_FIRMWARE_TABLE_INFORMATION, *PSYSTEM_FIRMWARE_TABLE_INFORMATION;
 
 static bool dmi_windows_open(dmi_context_t *context, const char *path);
-static dmi_data_t *dmi_windows_read_table(dmi_context_t *context, size_t *plength);
+static bool dmi_windows_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
 static bool dmi_windows_close(dmi_context_t *context);
 
 dmi_backend_t dmi_windows_backend =
@@ -100,13 +100,12 @@ static bool dmi_windows_open(dmi_context_t *context, const char *path)
     return true;
 }
 
-static dmi_data_t *dmi_windows_read_table(dmi_context_t *context, size_t *plength)
+static bool dmi_windows_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
 {
     SYSTEM_FIRMWARE_TABLE_INFORMATION *session = dmi_cast(session, context->state.session);
     RAW_SMBIOS_DATA *data = dmi_cast(data, session->TableBuffer);
 
-    *plength = data->Length;
-    return data->SMBIOSTableData;
+    return dmi_buffer_assign(buffer, data->SMBIOSTableData, data->Length);
 }
 
 static bool dmi_windows_close(dmi_context_t *context)

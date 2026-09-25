@@ -182,21 +182,21 @@ static void test_file_get(void **pstate)
 
     test_file_create(test_path, test_data, sizeof(test_data));
 
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+
+    assert_non_null(buffer);
+
     // Whole file
-    size_t length = 0;
-    dmi_data_t *data = dmi_file_get(state->context, test_path, -1, &length);
-    assert_non_null(data);
-    assert_int_equal(length, sizeof(test_data));
-    assert_memory_equal(data, test_data, sizeof(test_data));
-    dmi_free(data);
+    assert_true(dmi_file_load(buffer, test_path, -1, 0));
+    assert_int_equal(buffer->length, sizeof(test_data));
+    assert_memory_equal(buffer->data, test_data, sizeof(test_data));
 
     // Region from offset
-    length = 4;
-    data = dmi_file_get(state->context, test_path, 10, &length);
-    assert_non_null(data);
-    assert_int_equal(length, 4);
-    assert_memory_equal(data, "ABCD", 4);
-    dmi_free(data);
+    assert_true(dmi_file_load(buffer, test_path, 10, 4));
+    assert_int_equal(buffer->length, 4);
+    assert_memory_equal(buffer->data, "ABCD", 4);
+
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_file_get_partial(void **pstate)
@@ -208,13 +208,16 @@ static void test_file_get_partial(void **pstate)
 
     test_file_create(test_path, test_data, sizeof(test_data));
 
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+
+    assert_non_null(buffer);
+
     // Requested region exceeds the end of file
-    size_t length = 8;
-    dmi_data_t *data = dmi_file_get(state->context, test_path, 12, &length);
-    assert_non_null(data);
-    assert_int_equal(length, sizeof(test_data) - 12);
-    assert_memory_equal(data, "CDEF", 5);
-    dmi_free(data);
+    assert_true(dmi_file_load(buffer, test_path, 12, 8));
+    assert_int_equal(buffer->length, sizeof(test_data) - 12);
+    assert_memory_equal(buffer->data, "CDEF", 5);
+
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_file_get_empty(void **pstate)
@@ -223,36 +226,42 @@ static void test_file_get_empty(void **pstate)
 
     test_file_create(test_empty_path, test_data, 0);
 
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+
+    assert_non_null(buffer);
+
     // Empty file is not an error
-    size_t length = 0;
     dmi_error_clear(state->context);
-    dmi_data_t *data = dmi_file_get(state->context, test_empty_path, -1, &length);
-    assert_non_null(data);
-    assert_int_equal(length, 0);
+    assert_true(dmi_file_load(buffer, test_empty_path, -1, 0));
+    assert_int_equal(buffer->length, 0);
     assert_null(dmi_error_peek_last(state->context));
-    dmi_free(data);
+
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_file_get_errors(void **pstate)
 {
     test_file_state_t *state = *pstate;
-    size_t length = 0;
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+
+    assert_non_null(buffer);
 
     // Missing file
     dmi_error_clear(state->context);
-    assert_null(dmi_file_get(state->context, "file-test-missing.bin", -1, &length));
+    assert_false(dmi_file_load(buffer, "file-test-missing.bin", -1, 0));
     assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_FILE_OPEN);
+
+    // Failure leaves the buffer holding nothing
+    assert_true(dmi_buffer_is_empty(buffer));
 
     // Invalid arguments
     dmi_error_clear(state->context);
-    assert_null(dmi_file_get(state->context, nullptr, -1, &length));
+    assert_false(dmi_file_load(buffer, nullptr, -1, 0));
     assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_NULL_ARGUMENT);
 
-    dmi_error_clear(state->context);
-    assert_null(dmi_file_get(state->context, test_path, -1, nullptr));
-    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_NULL_ARGUMENT);
+    assert_false(dmi_file_load(nullptr, test_path, -1, 0));
 
-    assert_null(dmi_file_get(nullptr, test_path, -1, &length));
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_file_create(const char *path, const dmi_data_t *data, size_t size)

@@ -16,6 +16,7 @@
 #include <opendmi/module.h>
 #include <opendmi/module/intel.h>
 #include <opendmi/utils.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/intel/rsd-network-card.h>
@@ -95,7 +96,9 @@ static void test_rsd_network_card_decode(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    dmi_entity_t *entity = dmi_entity_create(context, test_data, sizeof(test_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -112,7 +115,9 @@ static void test_rsd_network_card_decode(void **pstate)
 
     // MAC address is referenced in the structure data
     assert_int_equal(info->mac_address.length, DMI_INTEL_RSD_MAC_ADDRESS_LENGTH);
-    assert_ptr_equal(info->mac_address.data, entity->data + TEST_MAC_ADDRESS_OFFSET);
+    assert_ptr_equal(info->mac_address.data,
+                     dmi_buffer_at(entity->buffer, entity->offset, entity->total_length) +
+                         TEST_MAC_ADDRESS_OFFSET);
     assert_int_equal(info->mac_address.data[1], 0x1B);
 
     // MAC address is formatted without padding
@@ -129,6 +134,8 @@ static void test_rsd_network_card_decode(void **pstate)
     assert_true(valid);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_rsd_network_card_decode_short(void **pstate)
@@ -145,9 +152,13 @@ static void test_rsd_network_card_decode_short(void **pstate)
     data[TEST_MAC_ADDRESS_OFFSET + 6]     = 0;
     data[TEST_MAC_ADDRESS_OFFSET + 6 + 1] = 0;
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_false(dmi_entity_decode(entity));
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }

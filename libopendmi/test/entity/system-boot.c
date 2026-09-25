@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/system-boot.h>
@@ -63,7 +64,9 @@ static void test_system_boot_status(void **pstate)
         data[test_cases[i].length]     = 0;
         data[test_cases[i].length + 1] = 0;
 
-        dmi_entity_t *entity = dmi_entity_create(context, data, test_cases[i].length + 2);
+        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, test_cases[i].length + 2);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -74,7 +77,8 @@ static void test_system_boot_status(void **pstate)
         assert_int_equal(info->has_status_data, test_cases[i].has_data);
 
         if (test_cases[i].data_length > 0) {
-            assert_ptr_equal(info->status_data.data, entity->data + 0x0B);
+            assert_ptr_equal(info->status_data.data,
+                             dmi_buffer_at(entity->buffer, entity->offset, entity->total_length) + 0x0B);
             assert_int_equal(info->status_data.data[8], 0x09);
         }
 
@@ -87,6 +91,8 @@ static void test_system_boot_status(void **pstate)
         assert_int_equal(dmi_attribute_resolve(attr, entity->info) != nullptr, test_cases[i].has_data);
 
         dmi_entity_destroy(entity);
+
+        dmi_buffer_destroy(entity_buffer);
     }
 
     dmi_destroy(context);

@@ -21,7 +21,7 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 ----
 #include <opendmi/utils/file.h>
 
-ssize_t dmi_file_write(int fd, dmi_data_t *data, size_t size);
+ssize_t dmi_file_write(int fd, const dmi_data_t *data, size_t size);
 ----
 
 == Description

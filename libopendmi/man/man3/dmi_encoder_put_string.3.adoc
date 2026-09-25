@@ -1,0 +1,65 @@
+= dmi_encoder_put_string(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_encoder_put_string - write a reference to a string at the current position.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/encoder.h>
+
+bool dmi_encoder_put_string(dmi_encoder_t *encoder, const char *value);
+----
+
+== Description
+
+The `dmi_encoder_put_string` function writes the number the string is
+referred to by.
+
+The string is looked up among the ones the structure has been decoded with,
+so that a field keeps the number of the string it refers to, and is added to
+the strings of the encoder otherwise. A missing string is written as zero.
+
+=== Parameters
+
+`encoder`::
+Encoder to write to.
+
+`value`::
+String to refer to, or `nullptr`.
+
+== Return value
+
+`true` on success, `false` otherwise.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Buffers of the encoder cannot grow.
+
+`DMI_ERROR_INVALID_ARGUMENT`::
+Structure refers to more strings than a byte can number.
+
+== See also
+
+`dmi_encoder_put`(3),
+`dmi_encoder_finish`(3),
+`dmi_decoder_get_string`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

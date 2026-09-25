@@ -1,0 +1,85 @@
+= dmi_writer_initialize(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_writer_initialize - initialize a writer of a range of a buffer.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/writer.h>
+
+bool dmi_writer_initialize(
+        dmi_writer_t *writer,
+        dmi_buffer_t *buffer,
+        size_t        offset,
+        ssize_t       length);
+----
+
+== Description
+
+The `dmi_writer_initialize` function sets the writer up over the range
+beginning at `offset` within `buffer`. The cursor is positioned at the
+beginning of the range, which the data is written into and past: a range
+beginning at the end of the buffer appends to it, and one beginning within
+the data written already writes over it.
+
+A writer writes bytes into a range of a `dmi_buffer_t`, which holds them,
+the way `dmi_reader_t` reads them out of one. What the bytes stand for is of
+no concern to the writer: the caller writes the structures, the entry points
+and whatever else the data is made of. Writing the values of a structure is
+what `dmi_encoder_t` does over a writer, see `dmi_encoder_initialize`(3).
+
+A range of a length of its own is one which something else follows, such as
+a record of a declared length or an area of a fixed size, and the writer
+refuses to write past it rather than writing over whatever comes next. A
+negative `length` gives a range bounded by nothing but the data itself.
+
+The writer holds no memory of its own, so there is nothing to destroy: the
+data belongs to the buffer and outlives the writers of it.
+
+=== Parameters
+
+`writer`::
+Writer to initialize.
+
+`buffer`::
+Buffer to write the data into.
+
+`offset`::
+Offset the range begins at within the buffer.
+
+`length`::
+Number of the bytes the range holds at most, or a negative number for a
+range of no length of its own.
+
+== Return value
+
+`true` on success, `false` if `writer` or `buffer` is `nullptr`, or if the
+buffer holds fewer bytes than `offset`.
+
+== See also
+
+`dmi_writer_reset`(3),
+`dmi_writer_put_bytes`(3),
+`dmi_writer_seek`(3),
+`dmi_encoder_initialize`(3),
+`dmi_reader_initialize`(3),
+`dmi_buffer_create`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

@@ -11,6 +11,8 @@
 
 #include <opendmi/context.h>
 #include <opendmi/writer.h>
+#include <opendmi/decoder.h>
+#include <opendmi/encoder.h>
 #include <opendmi/entity.h>
 #include <opendmi/field.h>
 #include <opendmi/internal.h>
@@ -99,19 +101,22 @@ static bool dmi_entity_decode_strings(dmi_entity_t *entity);
 static char *dmi_entity_string_trim(dmi_context_t *context, const char *ptr);
 
 dmi_entity_t *dmi_entity_create(
-        dmi_context_t *context,
-        const void    *data,
-        size_t         max_length)
+        dmi_context_t      *context,
+        const dmi_buffer_t *buffer,
+        size_t              offset)
 {
     dmi_entity_t *entity = nullptr;
 
     if (context == nullptr)
         return nullptr;
 
-    if (data == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "data");
+    if (buffer == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "buffer");
         return nullptr;
     }
+
+    // Structure is read to the end of the data, which is where the table ends
+    size_t max_length = (offset < buffer->length) ? buffer->length - offset : 0;
 
     // Structure header must be followed by at least two bytes of string set
     if (max_length < sizeof(dmi_header_t) + 2) {
@@ -120,14 +125,15 @@ dmi_entity_t *dmi_entity_create(
         return nullptr;
     }
 
-    dmi_header_t *header = dmi_cast(header, data);
+    const dmi_data_t *data = dmi_buffer_at(buffer, offset, max_length);
+    const dmi_header_t *header = dmi_cast(header, data);
     dmi_type_t    type   = dmi_cast(type, dmi_decode(header->type));
     size_t        length = dmi_decode(header->length);
     dmi_handle_t  handle = dmi_decode(header->handle);
 
     dmi_log_debug(context,
-                  "%p: Handle 0x%04x, length %zu, type %d (%s)",
-                  data, handle, length, (int)header->type,
+                  "0x%04zx: Handle 0x%04x, length %zu, type %d (%s)",
+                  offset, handle, length, (int)header->type,
                   dmi_type_name(context, type));
 
     // Check structure length
@@ -158,7 +164,8 @@ dmi_entity_t *dmi_entity_create(
     entity->type        = type;
     entity->body_length = length;
     entity->handle      = handle;
-    entity->data        = data;
+    entity->buffer      = buffer;
+    entity->offset      = offset;
 
     // Decode structure data
     bool success = false;
@@ -224,7 +231,7 @@ bool dmi_entity_decode(dmi_entity_t *entity)
 
     // Decoder reads the copy of structure body with additional information
     // applied, if there is any
-    if ((entity->overlays != nullptr) and (entity->overlay_data == nullptr)) {
+    if ((entity->overlays != nullptr) and (entity->overlay == nullptr)) {
         if (not dmi_entity_apply_overlays(entity))
             return false;
     }
@@ -234,12 +241,15 @@ bool dmi_entity_decode(dmi_entity_t *entity)
     if (entity->info == nullptr)
         return false;
 
-    // Initialize reader
-    dmi_reader_initialize(&entity->reader, entity);
-    dmi_reader_seek(&entity->reader, sizeof(dmi_header_t));
+    // Structure is read through a decoder of its own, which gives the bytes
+    // to the handler and tells it what they refer to
+    dmi_decoder_t decoder;
+
+    if (not dmi_decoder_initialize(&decoder, entity))
+        return false;
 
     // Execute decoder
-    bool status = decode(entity);
+    bool status = decode(&decoder);
 
     // Members which are computed rather than read are filled in once the
     // fields are there, including when the data ended early: whatever has
@@ -269,35 +279,32 @@ bool dmi_entity_decode(dmi_entity_t *entity)
         entity->level = DMI_VERSION_NONE;
     }
 
-    // Reset reader after decoding
-    dmi_reader_reset(&entity->reader);
-
     return status;
 }
 
-bool dmi_entity_encode(dmi_writer_t *writer)
+bool dmi_entity_encode(dmi_encoder_t *encoder)
 {
-    if (writer == nullptr) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "writer");
+    if (encoder == nullptr) {
+        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "encoder");
         return false;
     }
 
-    const dmi_entity_t      *entity = writer->entity;
+    const dmi_entity_t      *entity = dmi_encoder_entity(encoder);
     const dmi_entity_spec_t *spec   = entity->spec;
 
     // Specifications which describe their layout are encoded by it
     if ((spec != nullptr) and (spec->handlers.decode == nullptr) and (spec->fields != nullptr))
-        return dmi_fields_encode(writer);
+        return dmi_fields_encode(encoder);
 
     if ((spec != nullptr) and (spec->handlers.encode != nullptr)) {
-        if (not spec->handlers.encode(writer))
+        if (not spec->handlers.encode(encoder))
             return false;
     } else if ((spec != nullptr) and (spec->handlers.decode != nullptr)) {
         dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
                            "0x%04x (%s): structure has no encoding handler",
                            entity->handle, spec->code);
         return false;
-    } else if ((spec == nullptr) and (writer->mode == DMI_ENCODE_MODE_CANONICAL)) {
+    } else if ((spec == nullptr) and (encoder->mode == DMI_ENCODE_MODE_CANONICAL)) {
         dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
                            "0x%04x: type %d has no specification to write it by",
                            entity->handle, (int)entity->type);
@@ -307,10 +314,10 @@ bool dmi_entity_encode(dmi_writer_t *writer)
     // Bytes after the ones the model holds are the structure's own, and are
     // kept as they are, which is all of them for a structure the model holds
     // nothing of
-    if (not dmi_writer_copy(writer, dmi_writer_remaining(writer)))
+    if (not dmi_encoder_copy(encoder, dmi_encoder_remaining(encoder)))
         return false;
 
-    return dmi_writer_finish(writer);
+    return dmi_encoder_finish(encoder);
 }
 
 bool dmi_entity_link(dmi_entity_t *entity)
@@ -353,12 +360,22 @@ dmi_context_t *dmi_entity_context(const dmi_entity_t *entity)
     return entity->context;
 }
 
-dmi_reader_t *dmi_entity_reader(dmi_entity_t *entity)
+const dmi_buffer_t *dmi_entity_buffer(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
         return nullptr;
 
-    return &entity->reader;
+    // Data read is the copy with additional information applied whenever
+    // there is one, and the data of the structure itself otherwise
+    return (entity->overlay != nullptr) ? entity->overlay : entity->buffer;
+}
+
+size_t dmi_entity_offset(const dmi_entity_t *entity)
+{
+    if (entity == nullptr)
+        return 0;
+
+    return (entity->overlay != nullptr) ? 0 : entity->offset;
 }
 
 dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity)
@@ -395,7 +412,7 @@ const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type)
         return nullptr;
     }
 
-    return entity->data;
+    return dmi_buffer_at(entity->buffer, entity->offset, entity->total_length);
 }
 
 void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type)
@@ -540,42 +557,6 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
     return true;
 }
 
-bool dmi_entity_stop(dmi_entity_t *entity)
-{
-    assert(entity != nullptr);
-    assert(dmi_reader_is_done(&entity->reader));
-
-    if (not dmi_reader_is_done(&entity->reader))
-        return dmi_entity_incomplete(entity);
-
-    entity->state |= DMI_ENTITY_STATE_PARTIAL;
-
-    return true;
-}
-
-bool dmi_entity_incomplete(dmi_entity_t *entity)
-{
-    assert(entity != nullptr);
-
-    entity->state |= DMI_ENTITY_STATE_INCOMPLETE;
-
-    size_t remaining = dmi_reader_remaining(&entity->reader);
-
-    if (remaining > 0) {
-        dmi_log_notice(entity->context,
-                       "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx, %zu byte%s ignored",
-                       entity->handle, dmi_type_name(entity->context, entity->type),
-                       entity->reader.position, remaining, (remaining == 1) ? "" : "s");
-    } else {
-        dmi_log_notice(entity->context,
-                       "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx",
-                       entity->handle, dmi_type_name(entity->context, entity->type),
-                       entity->reader.position);
-    }
-
-    return true;
-}
-
 void dmi_entity_destroy(dmi_entity_t *entity)
 {
     if (entity == nullptr)
@@ -608,7 +589,7 @@ void dmi_entity_destroy(dmi_entity_t *entity)
         node = next;
     }
 
-    dmi_free(entity->overlay_data);
+    dmi_buffer_destroy(entity->overlay);
     dmi_free(entity);
 }
 
@@ -617,9 +598,8 @@ static bool dmi_entity_decode_length(
         size_t        max_length)
 {
     assert(entity != nullptr);
-    assert(entity->data != nullptr);
 
-    const char *data  = dmi_cast(data, entity->data);
+    const char *data  = dmi_cast(data, dmi_buffer_at(entity->buffer, entity->offset, max_length));
     size_t      start = entity->body_length;
     size_t      pos   = start;
     size_t      count = 0;
@@ -658,7 +638,6 @@ static bool dmi_entity_decode_length(
 static bool dmi_entity_decode_strings(dmi_entity_t *entity)
 {
     assert(entity != nullptr);
-    assert(entity->data != nullptr);
 
     bool success = true;
     dmi_string_entry_t *strings = nullptr;
@@ -670,7 +649,9 @@ static bool dmi_entity_decode_strings(dmi_entity_t *entity)
 
     // Fetch string pointers. String set bounds and number of strings are
     // already validated by dmi_entity_decode_length().
-    const char *ptr = dmi_cast(ptr, entity->data) + entity->body_length;
+    const char *ptr = dmi_cast(ptr, dmi_buffer_at(entity->buffer,
+                                                  entity->offset + entity->body_length,
+                                                  entity->extra_length));
 
     for (size_t i = 0; i < entity->string_count; i++) {
         strings[i].raw    = ptr;
@@ -732,11 +713,14 @@ static bool dmi_entity_apply_overlays(dmi_entity_t *entity)
 {
     dmi_context_t *context = entity->context;
 
-    entity->overlay_data = dmi_alloc(context, entity->body_length);
-    if (entity->overlay_data == nullptr)
+    entity->overlay = dmi_buffer_create(context);
+    if (entity->overlay == nullptr)
         return false;
 
-    memcpy(entity->overlay_data, entity->data, entity->body_length);
+    if (not dmi_buffer_assign(entity->overlay,
+                              dmi_buffer_at(entity->buffer, entity->offset, entity->body_length),
+                              entity->body_length))
+        return false;
 
     // Entries have been checked when attached, later ones take precedence
     for (const dmi_entity_overlay_t *node = entity->overlays; node != nullptr; node = node->next) {
@@ -745,7 +729,9 @@ static bool dmi_entity_apply_overlays(dmi_entity_t *entity)
         dmi_log_debug(context, "0x%04x: Applying %zu bytes at offset 0x%02x",
                       entity->handle, entry->value.length, entry->ref_offset);
 
-        memcpy(entity->overlay_data + entry->ref_offset, entry->value.data, entry->value.length);
+        if (not dmi_buffer_write(entity->overlay, entry->value.data,
+                                 entry->ref_offset, entry->value.length))
+            return false;
     }
 
     return true;

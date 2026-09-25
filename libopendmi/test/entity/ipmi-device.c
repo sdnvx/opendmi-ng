@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/ipmi-device.h>
@@ -62,7 +63,9 @@ static void decode_ipmi_device(
     data[0x10] = modifier;
     data[0x11] = 0x00;                      // Interrupt number
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -72,6 +75,8 @@ static void decode_ipmi_device(
     *result = *info;
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
     dmi_destroy(context);
 }
 

@@ -10,7 +10,7 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
-#include <opendmi/writer.h>
+#include <opendmi/encoder.h>
 #include <opendmi/entity.h>
 #include <opendmi/error.h>
 #include <opendmi/field.h>
@@ -18,6 +18,7 @@
 #include <opendmi/module.h>
 #include <opendmi/registry.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/memory-array-addr.h>
@@ -35,6 +36,24 @@ static void test_encoder_strings(void **pstate);
 static void test_encoder_groups(void **pstate);
 static void test_encoder_modules(void **pstate);
 static void test_encoder_corpus(void **pstate);
+
+static void test_encoder_null_arguments(void **pstate);
+static void test_encoder_header(void **pstate);
+static void test_encoder_appends(void **pstate);
+static void test_encoder_put(void **pstate);
+static void test_encoder_put_at(void **pstate);
+static void test_encoder_source_in_step(void **pstate);
+static void test_encoder_no_source(void **pstate);
+static void test_encoder_copy(void **pstate);
+static void test_encoder_copy_past_source(void **pstate);
+static void test_encoder_string_preserve(void **pstate);
+static void test_encoder_string_missing(void **pstate);
+static void test_encoder_string_canonical(void **pstate);
+static void test_encoder_string_raw(void **pstate);
+static void test_encoder_finish(void **pstate);
+static void test_encoder_finish_too_long(void **pstate);
+static void test_encoder_finish_end_of_table(void **pstate);
+static void test_encoder_finalize(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -55,6 +74,24 @@ int main(int argc, char **argv)
         cmocka_unit_test_setup_teardown(test_encoder_strings, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_groups, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_modules, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_null_arguments, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_header, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_appends, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_put, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_put_at, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_source_in_step, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_no_source, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_copy, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_copy_past_source, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_string_preserve, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_string_missing, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_string_canonical, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_string_raw, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_finish, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_finish_too_long, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_finish_end_of_table, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_finalize, test_encoder_setup, test_encoder_teardown),
+
         cmocka_unit_test(test_encoder_corpus)
     };
 
@@ -83,9 +120,12 @@ static int test_encoder_teardown(void **pstate)
 }
 
 // Create a structure from its bytes, and decode it
-static dmi_entity_t *test_decode(dmi_context_t *context, const uint8_t *data, size_t size)
+static dmi_entity_t *test_decode(
+        dmi_buffer_t  *buffer,
+        const uint8_t *data,
+        size_t         size)
 {
-    dmi_entity_t *entity = dmi_entity_create(context, data, size);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, size);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -97,10 +137,13 @@ static void test_encode(
         const dmi_entity_t *entity,
         dmi_encode_mode_t   mode,
         dmi_version_t       version,
-        dmi_writer_t       *writer)
+        dmi_buffer_t       *buffer,
+        dmi_encoder_t      *encoder)
 {
-    assert_true(dmi_writer_initialize(writer, entity, mode, version));
-    assert_true(dmi_fields_encode(writer));
+    dmi_buffer_clear(buffer);
+
+    assert_true(dmi_encoder_initialize(encoder, buffer, entity, mode, version));
+    assert_true(dmi_fields_encode(encoder));
 }
 
 //
@@ -110,6 +153,7 @@ static void test_encode(
 static void test_encoder_reserved_bits(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Power supply whose characteristics set the two reserved bits on top of
     // the ones carrying the fields
@@ -123,26 +167,29 @@ static void test_encoder_reserved_bits(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = test_decode(context, data, sizeof(data));
+    dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
 
     const dmi_power_supply_t *info = dmi_entity_info(entity, DMI_TYPE(POWER_SUPPLY));
     assert_non_null(info);
     assert_int_equal(info->type, 4);
 
-    dmi_writer_t writer;
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &writer);
-    assert_int_equal(writer.length, 0x16);
-    assert_memory_equal(writer.data, data, 0x16);
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
+    assert_int_equal(buffer->length, 0x16);
+    assert_memory_equal(buffer->data, data, 0x16);
+    dmi_encoder_finalize(&encoder);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &writer);
-    assert_int_equal(writer.length, 0x16);
-    assert_int_equal(writer.data[0x0E], 0x93);
-    assert_int_equal(writer.data[0x0F], 0x11);
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
+    assert_int_equal(buffer->length, 0x16);
+    assert_int_equal(buffer->data[0x0E], 0x93);
+    assert_int_equal(buffer->data[0x0F], 0x11);
+    dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 //
@@ -163,29 +210,33 @@ static const uint8_t test_array_addr_ex[] = {
 static void test_encoder_extended_governed(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
-    dmi_entity_t *entity = test_decode(context, test_array_addr_ex, sizeof(test_array_addr_ex));
+    dmi_entity_t *entity = test_decode(entity_buffer, test_array_addr_ex, sizeof(test_array_addr_ex));
 
     const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
     assert_non_null(info);
     assert_int_equal(info->start_addr, 0x0000010000000000uLL);
     assert_int_equal(info->end_addr,   0x000001FFFFFFFFFFuLL);
 
-    dmi_writer_t writer;
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &writer);
-    assert_int_equal(writer.length, 0x1F);
-    assert_memory_equal(writer.data, test_array_addr_ex, 0x1F);
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
+    assert_int_equal(buffer->length, 0x1F);
+    assert_memory_equal(buffer->data, test_array_addr_ex, 0x1F);
+    dmi_encoder_finalize(&encoder);
 
     // Starting address fits the plain field, but the ending one does not, so
     // both are carried by the extended fields
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &writer);
-    assert_int_equal(writer.length, 0x1F);
-    assert_memory_equal(writer.data, test_array_addr_ex, 0x1F);
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
+    assert_int_equal(buffer->length, 0x1F);
+    assert_memory_equal(buffer->data, test_array_addr_ex, 0x1F);
+    dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 //
@@ -195,6 +246,7 @@ static void test_encoder_extended_governed(void **pstate)
 static void test_encoder_extended_canonical(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[sizeof(test_array_addr_ex)];
     memcpy(data, test_array_addr_ex, sizeof(data));
@@ -203,30 +255,32 @@ static void test_encoder_extended_canonical(void **pstate)
     data[0x17] = 0x00;
     data[0x18] = 0xFC;
 
-    dmi_entity_t *entity = test_decode(context, data, sizeof(data));
+    dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
 
     const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
     assert_non_null(info);
 
-    dmi_writer_t writer;
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &writer);
-    assert_int_equal(writer.length, 0x1F);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
+    assert_int_equal(buffer->length, 0x1F);
 
     // Plain fields carry the addresses in kilobytes, and the extended ones
     // are left zero
     static const uint8_t plain[] = { 0x00, 0x00, 0x00, 0x40, 0xFF, 0xFF, 0xFF, 0x7F };
-    assert_memory_equal(writer.data + 0x04, plain, sizeof(plain));
+    assert_memory_equal(buffer->data + 0x04, plain, sizeof(plain));
 
     for (size_t i = 0x0F; i < 0x1F; i++)
-        assert_int_equal(writer.data[i], 0x00);
+        assert_int_equal(buffer->data[i], 0x00);
 
     // Structure written this way decodes to the same addresses
     uint8_t encoded[0x1F + 2] = {};
-    memcpy(encoded, writer.data, 0x1F);
-    dmi_writer_destroy(&writer);
+    memcpy(encoded, buffer->data, 0x1F);
+    dmi_encoder_finalize(&encoder);
 
-    dmi_entity_t *decoded = test_decode(context, encoded, sizeof(encoded));
+    dmi_buffer_t *decoded_buffer = dmi_buffer_create(context);
+    dmi_entity_t *decoded = test_decode(decoded_buffer, encoded, sizeof(encoded));
 
     const dmi_memory_array_addr_t *decoded_info = dmi_entity_info(decoded, DMI_TYPE(MEMORY_ARRAY_ADDR));
     assert_non_null(decoded_info);
@@ -234,7 +288,10 @@ static void test_encoder_extended_canonical(void **pstate)
     assert_int_equal(decoded_info->end_addr,   info->end_addr);
 
     dmi_entity_destroy(decoded);
+
+    dmi_buffer_destroy(decoded_buffer);
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
 }
 
 //
@@ -244,6 +301,7 @@ static void test_encoder_extended_canonical(void **pstate)
 static void test_encoder_truncated(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // System information ending in the middle of the UUID
     static const uint8_t data[] = {
@@ -253,17 +311,20 @@ static void test_encoder_truncated(void **pstate)
         'A', 0x00, 0x00
     };
 
-    dmi_entity_t *entity = test_decode(context, data, sizeof(data));
+    dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    dmi_writer_t writer;
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &writer);
-    assert_int_equal(writer.length, 0x0D);
-    assert_memory_equal(writer.data, data, 0x0D);
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
+    assert_int_equal(buffer->length, 0x0D);
+    assert_memory_equal(buffer->data, data, 0x0D);
+    dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 //
@@ -284,28 +345,32 @@ static const uint8_t test_system_strings[] = {
 static void test_encoder_strings(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_entity_t  *entity  = test_decode(context, test_system_strings, sizeof(test_system_strings));
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+    dmi_entity_t  *entity  = test_decode(entity_buffer, test_system_strings, sizeof(test_system_strings));
 
-    dmi_writer_t writer;
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, &writer);
-    assert_int_equal(writer.length, 0x1B);
-    assert_memory_equal(writer.data, test_system_strings, 0x1B);
-    assert_int_equal(writer.string_count, 4);
-    assert_string_equal(writer.strings[3], "unused");
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
+    assert_int_equal(buffer->length, 0x1B);
+    assert_memory_equal(buffer->data, test_system_strings, 0x1B);
+    assert_int_equal(encoder.string_count, 4);
+    assert_string_equal(encoder.strings[3], "unused");
+    dmi_encoder_finalize(&encoder);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), &writer);
-    assert_int_equal(writer.data[0x04], 1);
-    assert_int_equal(writer.data[0x05], 2);
-    assert_int_equal(writer.data[0x06], 1);
-    assert_int_equal(writer.data[0x07], 0);
-    assert_int_equal(writer.string_count, 2);
-    assert_string_equal(writer.strings[0], "A");
-    assert_string_equal(writer.strings[1], "B");
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
+    assert_int_equal(buffer->data[0x04], 1);
+    assert_int_equal(buffer->data[0x05], 2);
+    assert_int_equal(buffer->data[0x06], 1);
+    assert_int_equal(buffer->data[0x07], 0);
+    assert_int_equal(encoder.string_count, 2);
+    assert_string_equal(encoder.strings[0], "A");
+    assert_string_equal(encoder.strings[1], "B");
+    dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 //
@@ -315,21 +380,25 @@ static void test_encoder_strings(void **pstate)
 static void test_encoder_groups(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
-    dmi_entity_t *entity = test_decode(context, test_system_strings, sizeof(test_system_strings));
+    dmi_entity_t *entity = test_decode(entity_buffer, test_system_strings, sizeof(test_system_strings));
 
-    dmi_writer_t writer;
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 1, 0), &writer);
-    assert_int_equal(writer.length, 0x19);
-    assert_int_equal(writer.data[0x01], 0x19);
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 1, 0), buffer, &encoder);
+    assert_int_equal(buffer->length, 0x19);
+    assert_int_equal(buffer->data[0x01], 0x19);
+    dmi_encoder_finalize(&encoder);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 0, 0), &writer);
-    assert_int_equal(writer.length, 0x08);
-    dmi_writer_destroy(&writer);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 0, 0), buffer, &encoder);
+    assert_int_equal(buffer->length, 0x08);
+    dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 //
@@ -439,38 +508,43 @@ static bool test_fields_equal(
 //
 static dmi_byte_t *test_canonical_bytes(const dmi_entity_t *entity, dmi_version_t version, size_t *size)
 {
-    dmi_writer_t writer;
+    dmi_buffer_t *buffer = dmi_buffer_create(dmi_entity_context(entity));
+    dmi_encoder_t encoder;
 
-    if (not dmi_writer_initialize(&writer, entity, DMI_ENCODE_MODE_CANONICAL, version))
-        return nullptr;
+    assert_non_null(buffer);
 
-    if (not dmi_entity_encode(&writer)) {
-        dmi_writer_destroy(&writer);
+    if (not dmi_encoder_initialize(&encoder, buffer, entity, DMI_ENCODE_MODE_CANONICAL, version)) {
         return nullptr;
     }
 
-    *size = writer.length + 1;
-    for (size_t i = 0; i < writer.string_count; i++)
-        *size += strlen(writer.strings[i]) + 1;
-    if (writer.string_count == 0)
+    if (not dmi_entity_encode(&encoder)) {
+        dmi_encoder_finalize(&encoder);
+        return nullptr;
+    }
+
+    *size = buffer->length + 1;
+    for (size_t i = 0; i < encoder.string_count; i++)
+        *size += strlen(encoder.strings[i]) + 1;
+    if (encoder.string_count == 0)
         (*size)++;
 
     dmi_byte_t *data = calloc(1, *size);
     if (data == nullptr) {
-        dmi_writer_destroy(&writer);
+        dmi_encoder_finalize(&encoder);
         return nullptr;
     }
 
-    memcpy(data, writer.data, writer.length);
+    memcpy(data, buffer->data, buffer->length);
 
-    size_t position = writer.length;
-    for (size_t i = 0; i < writer.string_count; i++) {
-        size_t length = strlen(writer.strings[i]) + 1;
-        memcpy(data + position, writer.strings[i], length);
+    size_t position = buffer->length;
+    for (size_t i = 0; i < encoder.string_count; i++) {
+        size_t length = strlen(encoder.strings[i]) + 1;
+        memcpy(data + position, encoder.strings[i], length);
         position += length;
     }
 
-    dmi_writer_destroy(&writer);
+    dmi_encoder_finalize(&encoder);
+    dmi_buffer_destroy(buffer);
 
     return data;
 }
@@ -497,7 +571,9 @@ static bool test_canonical_roundtrip(dmi_context_t *context, const dmi_entity_t 
 
     *where = "decoding";
 
-    dmi_entity_t *decoded = dmi_entity_create(context, data, size);
+    dmi_buffer_t *decoded_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *decoded = dmi_test_entity_create(decoded_buffer, data, size);
     if ((decoded != nullptr) and dmi_entity_decode(decoded)) {
         const dmi_entity_spec_t *spec = entity->spec;
 
@@ -517,6 +593,7 @@ static bool test_canonical_roundtrip(dmi_context_t *context, const dmi_entity_t 
     }
 
     dmi_entity_destroy(decoded);
+
     free(data);
 
     return equal;
@@ -531,14 +608,17 @@ static bool test_canonical_roundtrip(dmi_context_t *context, const dmi_entity_t 
 static void test_encode_both_ways(dmi_context_t *context, const uint8_t *data, size_t size,
                                   size_t canonical_length)
 {
-    dmi_entity_t *entity = test_decode(context, data, size);
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_decode(entity_buffer, data, size);
 
-    dmi_writer_t writer;
-    assert_true(dmi_writer_initialize(&writer, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
-    assert_true(dmi_entity_encode(&writer));
-    assert_int_equal(writer.length, entity->body_length);
-    assert_memory_equal(writer.data, data, writer.length);
-    dmi_writer_destroy(&writer);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
+
+    assert_true(dmi_encoder_initialize(&encoder, buffer, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+    assert_true(dmi_entity_encode(&encoder));
+    assert_int_equal(buffer->length, entity->body_length);
+    assert_memory_equal(buffer->data, data, buffer->length);
+    dmi_encoder_finalize(&encoder);
 
     size_t      first_size = 0;
     dmi_byte_t *first      = test_canonical_bytes(entity, DMI_VERSION(3, 9, 0), &first_size);
@@ -547,7 +627,8 @@ static void test_encode_both_ways(dmi_context_t *context, const uint8_t *data, s
     if (canonical_length != 0)
         assert_int_equal(first[1], canonical_length);
 
-    dmi_entity_t *decoded = test_decode(context, first, first_size);
+    dmi_buffer_t *decoded_buffer = dmi_buffer_create(context);
+    dmi_entity_t *decoded = test_decode(decoded_buffer, first, first_size);
 
     size_t      second_size = 0;
     dmi_byte_t *second      = test_canonical_bytes(decoded, DMI_VERSION(3, 9, 0), &second_size);
@@ -557,8 +638,10 @@ static void test_encode_both_ways(dmi_context_t *context, const uint8_t *data, s
 
     free(second);
     dmi_entity_destroy(decoded);
+    dmi_buffer_destroy(decoded_buffer);
     free(first);
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
 }
 
 //
@@ -670,32 +753,36 @@ static void test_encoder_corpus(void **pstate)
 
             const char *code = (spec != nullptr) ? spec->code : "unknown";
 
-            dmi_writer_t writer;
-            assert_true(dmi_writer_initialize(&writer, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+            dmi_buffer_t *buffer = dmi_buffer_create(context);
+            dmi_encoder_t encoder;
 
-            if (not dmi_entity_encode(&writer)) {
+                    assert_true(dmi_encoder_initialize(&encoder, buffer, entity,
+                                               DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+
+            if (not dmi_entity_encode(&encoder)) {
                 const dmi_error_t *error = dmi_error_peek_last(context);
 
                 print_error("%s: handle 0x%04X (%s) cannot be encoded: %s\n",
                             test_dumps[i], entity->handle, code,
                             ((error != nullptr) and (error->message != nullptr)) ? error->message : "");
                 failed++;
-                dmi_writer_destroy(&writer);
+                dmi_encoder_finalize(&encoder);
                 continue;
             }
 
-            const dmi_data_t *data = (entity->overlay_data != nullptr) ? entity->overlay_data : entity->data;
+            const dmi_data_t *data = dmi_buffer_at(dmi_entity_buffer(entity),
+                                                  dmi_entity_offset(entity), entity->body_length);
 
-            bool matches = (writer.length == entity->body_length) and
-                           (memcmp(writer.data, data, writer.length) == 0) and
-                           (writer.string_count == entity->string_count);
+            bool matches = (buffer->length == entity->body_length) and
+                           (memcmp(buffer->data, data, buffer->length) == 0) and
+                           (encoder.string_count == entity->string_count);
 
-            for (size_t k = 0; matches and (k < writer.string_count); k++)
-                matches = ((writer.strings[k] == nullptr) and (entity->strings[k].raw == nullptr)) or
-                          ((writer.strings[k] != nullptr) and (entity->strings[k].raw != nullptr) and
-                           (strcmp(writer.strings[k], entity->strings[k].raw) == 0));
+            for (size_t k = 0; matches and (k < encoder.string_count); k++)
+                matches = ((encoder.strings[k] == nullptr) and (entity->strings[k].raw == nullptr)) or
+                          ((encoder.strings[k] != nullptr) and (entity->strings[k].raw != nullptr) and
+                           (strcmp(encoder.strings[k], entity->strings[k].raw) == 0));
 
-            dmi_writer_destroy(&writer);
+            dmi_encoder_finalize(&encoder);
 
             if (not matches) {
                 print_error("%s: handle 0x%04X (%s) is encoded into other bytes\n",
@@ -727,4 +814,555 @@ static void test_encoder_corpus(void **pstate)
 
     assert_int_equal(failed, 0);
     assert_true(encoded > 0);
+}
+
+//
+// Tests of the encoder itself, which the ones above reach only through the
+// field engine: the header it writes, the source it keeps in step with what
+// is written, and the strings it numbers.
+//
+
+// Inactive structure, which has no fields of its own, carrying the bytes the
+// tests read as a source and two strings the references name
+static const dmi_byte_t test_source[] = {
+    DMI_TYPE_INACTIVE, 0x0A, 0x34, 0x12,    // Header
+    0x11, 0x22, 0x33, 0x44,                 // Bytes the model does not hold
+    0x02,                                   // Reference to the second string
+    0x09,                                   // Reference to a string which is not there
+
+    ' ', 'A', ' ', 0x00,
+    'B', 0x00,
+    0x00
+};
+
+#define TEST_SOURCE_BODY   0x0A
+#define TEST_SOURCE_VALUES 0x04
+#define TEST_SOURCE_STRING 0x08
+
+// End-of-table structure as the firmware writes it: a header of no length,
+// which stands for the end of the table whatever type it names
+static const dmi_byte_t test_end_of_table[] = {
+    0x7F, 0x00, 0x00, 0x00,
+    0x00, 0x00
+};
+
+typedef struct test_encoder_fixture test_encoder_fixture_t;
+
+struct test_encoder_fixture
+{
+    dmi_buffer_t *source;
+    dmi_buffer_t *buffer;
+    dmi_entity_t *entity;
+    dmi_encoder_t encoder;
+};
+
+// Set an encoder up over a structure built out of the given bytes
+static void test_encoder_open(
+        dmi_context_t          *context,
+        test_encoder_fixture_t *fixture,
+        const dmi_byte_t       *data,
+        size_t                  length,
+        dmi_encode_mode_t       mode)
+{
+    fixture->source = dmi_buffer_create(context);
+    fixture->buffer = dmi_buffer_create(context);
+
+    assert_non_null(fixture->source);
+    assert_non_null(fixture->buffer);
+
+    fixture->entity = dmi_test_entity_create(fixture->source, data, length);
+    assert_non_null(fixture->entity);
+
+    assert_true(dmi_encoder_initialize(&fixture->encoder, fixture->buffer,
+                                       fixture->entity, mode, DMI_VERSION(3, 9, 0)));
+}
+
+static void test_encoder_close(test_encoder_fixture_t *fixture)
+{
+    dmi_encoder_finalize(&fixture->encoder);
+    dmi_entity_destroy(fixture->entity);
+
+    dmi_buffer_destroy(fixture->buffer);
+    dmi_buffer_destroy(fixture->source);
+}
+
+static void test_encoder_null_arguments(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *buffer  = dmi_buffer_create(context);
+
+    assert_non_null(buffer);
+
+    dmi_encoder_t encoder;
+
+    assert_false(dmi_encoder_initialize(nullptr, buffer, nullptr,
+                                        DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE));
+
+    const dmi_error_t *error = dmi_error_get_last(context);
+    assert_non_null(error);
+    assert_int_equal(error->reason, DMI_ERROR_NULL_ARGUMENT);
+
+    assert_false(dmi_encoder_initialize(&encoder, nullptr, nullptr,
+                                        DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE));
+
+    assert_null(dmi_encoder_entity(nullptr));
+    assert_null(dmi_encoder_writer(nullptr));
+
+    // Encoder which holds no strings is finished with all the same
+    dmi_encoder_finalize(nullptr);
+
+    dmi_buffer_destroy(buffer);
+}
+
+//
+// Header of the structure is written on initialization, and its length is
+// left for `dmi_encoder_finish()` to fill in.
+//
+static void test_encoder_header(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_PRESERVE);
+
+    assert_uint_equal(fixture.buffer->length, sizeof(dmi_header_t));
+    assert_uint_equal(dmi_encoder_tell(&fixture.encoder), sizeof(dmi_header_t));
+
+    assert_int_equal(fixture.buffer->data[0x00], DMI_TYPE_INACTIVE);
+    assert_int_equal(fixture.buffer->data[0x01], 0x00);
+    assert_int_equal(fixture.buffer->data[0x02], 0x34);
+    assert_int_equal(fixture.buffer->data[0x03], 0x12);
+
+    assert_ptr_equal(dmi_encoder_entity(&fixture.encoder), fixture.entity);
+    assert_ptr_equal(dmi_encoder_writer(&fixture.encoder), &fixture.encoder.writer);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Structure is written at the end of the data the buffer holds, so that the
+// structures of a table follow one another.
+//
+static void test_encoder_appends(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *source  = dmi_buffer_create(context);
+    dmi_buffer_t  *buffer  = dmi_buffer_create(context);
+
+    assert_non_null(source);
+    assert_non_null(buffer);
+    assert_true(dmi_buffer_assign(buffer, test_source, sizeof(test_source)));
+
+    dmi_entity_t *entity = dmi_test_entity_create(source, test_source, sizeof(test_source));
+    assert_non_null(entity);
+
+    dmi_encoder_t encoder;
+    assert_true(dmi_encoder_initialize(&encoder, buffer, entity,
+                                       DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0)));
+
+    // Data which was there is left alone, and the structure begins past it
+    assert_uint_equal(dmi_encoder_tell(&encoder), sizeof(dmi_header_t));
+    assert_uint_equal(buffer->length, sizeof(test_source) + sizeof(dmi_header_t));
+    assert_memory_equal(buffer->data, test_source, sizeof(test_source));
+    assert_int_equal(buffer->data[sizeof(test_source)], DMI_TYPE_INACTIVE);
+
+    dmi_encoder_finalize(&encoder);
+    dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(buffer);
+    dmi_buffer_destroy(source);
+}
+
+//
+// Values are written into the wire format the specification stores them in.
+//
+static void test_encoder_put(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_true(dmi_encoder_put(encoder, dmi_word_t, 0x3456));
+    assert_true(dmi_encoder_put(encoder, dmi_dword_t, 0x789ABCDEuL));
+    assert_true(dmi_encoder_put_bcd(encoder, dmi_byte_t, 42));
+    assert_true(dmi_encoder_put_uuid(encoder, dmi_uuid_decode(test_source)));
+
+    static const dmi_byte_t expected[] = {
+        0x56, 0x34,
+        0xDE, 0xBC, 0x9A, 0x78,
+        0x42
+    };
+
+    assert_memory_equal(fixture.buffer->data + sizeof(dmi_header_t), expected, sizeof(expected));
+    assert_memory_equal(fixture.buffer->data + sizeof(dmi_header_t) + sizeof(expected),
+                        test_source, 16);
+
+    assert_uint_equal(dmi_encoder_tell(encoder), sizeof(dmi_header_t) + sizeof(expected) + 16);
+
+    // Nothing to write leaves the position where it is
+    assert_true(dmi_encoder_put_bytes(encoder, nullptr, 0));
+    assert_uint_equal(dmi_encoder_tell(encoder), sizeof(dmi_header_t) + sizeof(expected) + 16);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Value the rest of the structure decides, such as a length, is filled in
+// once it is known, without the position being moved.
+//
+static void test_encoder_put_at(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_true(dmi_encoder_put(encoder, dmi_word_t, 0x0000));
+    assert_true(dmi_encoder_put(encoder, dmi_word_t, 0x1111));
+
+    size_t position = dmi_encoder_tell(encoder);
+
+    assert_true(dmi_encoder_put_at(encoder, sizeof(dmi_header_t), dmi_word_t, 0x3456));
+
+    assert_uint_equal(dmi_encoder_tell(encoder), position);
+    assert_int_equal(fixture.buffer->data[sizeof(dmi_header_t)], 0x56);
+    assert_int_equal(fixture.buffer->data[sizeof(dmi_header_t) + 1], 0x34);
+    assert_int_equal(fixture.buffer->data[sizeof(dmi_header_t) + 2], 0x11);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Source goes alongside in step with what is written, so that the bytes the
+// model does not hold are found at the position they are written at.
+//
+static void test_encoder_source_in_step(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_PRESERVE);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    // Header has been written, so the source stands at the first value
+    assert_uint_equal(dmi_encoder_remaining(encoder), TEST_SOURCE_BODY - sizeof(dmi_header_t));
+
+    dmi_byte_t value = 0;
+
+    assert_true(dmi_encoder_peek(encoder, &value, sizeof(value)));
+    assert_int_equal(value, test_source[TEST_SOURCE_VALUES]);
+
+    // Peeking reads the source without advancing it
+    assert_true(dmi_encoder_peek(encoder, &value, sizeof(value)));
+    assert_int_equal(value, test_source[TEST_SOURCE_VALUES]);
+
+    assert_true(dmi_encoder_put(encoder, dmi_byte_t, 0xFF));
+
+    assert_true(dmi_encoder_peek(encoder, &value, sizeof(value)));
+    assert_int_equal(value, test_source[TEST_SOURCE_VALUES + 1]);
+    assert_uint_equal(dmi_encoder_remaining(encoder), TEST_SOURCE_BODY - sizeof(dmi_header_t) - 1);
+
+    // Source ends with the structure it has been read from, and reading past
+    // it gives nothing rather than the bytes which follow
+    assert_true(dmi_encoder_put_bytes(encoder, test_source, TEST_SOURCE_BODY));
+    assert_uint_equal(dmi_encoder_remaining(encoder), 0);
+    assert_false(dmi_encoder_peek(encoder, &value, sizeof(value)));
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Canonical mode reads no source at all, so the bytes the model does not
+// hold are written as zeros.
+//
+static void test_encoder_no_source(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    dmi_byte_t value = 0xFF;
+
+    assert_uint_equal(dmi_encoder_remaining(encoder), 0);
+    assert_false(dmi_encoder_peek(encoder, &value, sizeof(value)));
+    assert_int_equal(value, 0xFF);
+
+    static const dmi_byte_t zeros[4] = {};
+
+    assert_true(dmi_encoder_copy(encoder, sizeof(zeros)));
+    assert_memory_equal(fixture.buffer->data + sizeof(dmi_header_t), zeros, sizeof(zeros));
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Preserve mode takes the bytes the model does not hold from the data the
+// structure has been decoded from.
+//
+static void test_encoder_copy(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_PRESERVE);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_true(dmi_encoder_copy(encoder, 4));
+
+    assert_memory_equal(fixture.buffer->data + sizeof(dmi_header_t),
+                        test_source + TEST_SOURCE_VALUES, 4);
+    assert_uint_equal(dmi_encoder_tell(encoder), sizeof(dmi_header_t) + 4);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Bytes past the end of the source are written as zeros, the way the
+// canonical mode writes all of them.
+//
+static void test_encoder_copy_past_source(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_PRESERVE);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    static const dmi_byte_t zeros[4] = {};
+
+    assert_true(dmi_encoder_copy(encoder, TEST_SOURCE_BODY - sizeof(dmi_header_t) + 4));
+
+    assert_memory_equal(fixture.buffer->data + sizeof(dmi_header_t),
+                        test_source + TEST_SOURCE_VALUES,
+                        TEST_SOURCE_BODY - sizeof(dmi_header_t));
+    assert_memory_equal(fixture.buffer->data + TEST_SOURCE_BODY, zeros, sizeof(zeros));
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Preserve mode takes the strings of the structure over as they are
+// numbered, so that a field keeps the number of the string it refers to.
+//
+static void test_encoder_string_preserve(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_PRESERVE);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_uint_equal(encoder->string_count, 2);
+    assert_string_equal(encoder->strings[0], " A ");
+    assert_string_equal(encoder->strings[1], "B");
+
+    assert_true(dmi_encoder_copy(encoder, TEST_SOURCE_STRING - sizeof(dmi_header_t)));
+    assert_true(dmi_encoder_put_string(encoder, dmi_entity_string(fixture.entity, 2)));
+
+    assert_int_equal(fixture.buffer->data[TEST_SOURCE_STRING], 2);
+    assert_uint_equal(encoder->string_count, 2);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Reference to a string the structure does not have is kept as it is, since
+// the model says nothing about the number it carried.
+//
+static void test_encoder_string_missing(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_PRESERVE);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_true(dmi_encoder_copy(encoder, TEST_SOURCE_STRING + 1 - sizeof(dmi_header_t)));
+    assert_true(dmi_encoder_put_string(encoder, nullptr));
+
+    assert_int_equal(fixture.buffer->data[TEST_SOURCE_STRING + 1], 0x09);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Canonical mode numbers the strings as they are written, and the fields
+// referring to the same text share a number.
+//
+static void test_encoder_string_canonical(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_uint_equal(encoder->string_count, 0);
+
+    assert_true(dmi_encoder_put_string(encoder, "One"));
+    assert_true(dmi_encoder_put_string(encoder, "Two"));
+    assert_true(dmi_encoder_put_string(encoder, "One"));
+
+    // Missing string has no number of its own to keep
+    assert_true(dmi_encoder_put_string(encoder, nullptr));
+
+    assert_uint_equal(encoder->string_count, 2);
+    assert_int_equal(fixture.buffer->data[sizeof(dmi_header_t) + 0], 1);
+    assert_int_equal(fixture.buffer->data[sizeof(dmi_header_t) + 1], 2);
+    assert_int_equal(fixture.buffer->data[sizeof(dmi_header_t) + 2], 1);
+    assert_int_equal(fixture.buffer->data[sizeof(dmi_header_t) + 3], 0);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Strings are written as they were stored, rather than as they are printed.
+//
+static void test_encoder_string_raw(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    const char *pretty = dmi_entity_string(fixture.entity, 1);
+    assert_string_equal(pretty, "A");
+
+    assert_true(dmi_encoder_put_string(encoder, pretty));
+
+    assert_uint_equal(encoder->string_count, 1);
+    assert_string_equal(encoder->strings[0], " A ");
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Formatted area is completed by filling in the length of the header.
+//
+static void test_encoder_finish(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_true(dmi_encoder_copy(encoder, 6));
+    assert_true(dmi_encoder_finish(encoder));
+
+    assert_int_equal(fixture.buffer->data[0x01], sizeof(dmi_header_t) + 6);
+
+    test_encoder_close(&fixture);
+}
+
+static void test_encoder_finish_too_long(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_true(dmi_encoder_copy(encoder, UINT8_MAX));
+    assert_false(dmi_encoder_finish(encoder));
+
+    const dmi_error_t *error = dmi_error_get_last(context);
+    assert_non_null(error);
+    assert_int_equal(error->reason, DMI_ERROR_INVALID_ARGUMENT);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Header the source data has is kept whenever it reads as the one written:
+// a header of no length stands for the end of the table, whatever type it
+// names, and is written back as it was.
+//
+static void test_encoder_finish_end_of_table(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_end_of_table, sizeof(test_end_of_table),
+                      DMI_ENCODE_MODE_PRESERVE);
+
+    assert_int_equal(fixture.entity->type, DMI_TYPE(END_OF_TABLE));
+    assert_uint_equal(fixture.entity->body_length, sizeof(dmi_header_t));
+
+    assert_true(dmi_encoder_finish(&fixture.encoder));
+    assert_memory_equal(fixture.buffer->data, test_end_of_table, sizeof(dmi_header_t));
+
+    test_encoder_close(&fixture);
+
+    // Canonical mode has no source to keep, and writes the length the
+    // structure takes
+    test_encoder_open(context, &fixture, test_end_of_table, sizeof(test_end_of_table),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    assert_true(dmi_encoder_finish(&fixture.encoder));
+    assert_int_equal(fixture.buffer->data[0x01], sizeof(dmi_header_t));
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Strings an encoder holds are freed once it is finished with, and the data
+// written belongs to the buffer it has been written into.
+//
+static void test_encoder_finalize(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_PRESERVE);
+
+    assert_uint_equal(fixture.encoder.string_count, 2);
+
+    dmi_encoder_finalize(&fixture.encoder);
+
+    assert_null(fixture.encoder.strings);
+    assert_uint_equal(fixture.encoder.string_count, 0);
+    assert_uint_equal(fixture.encoder.string_capacity, 0);
+
+    // Encoder which has been finished with is finished with again safely
+    dmi_encoder_finalize(&fixture.encoder);
+
+    assert_uint_equal(fixture.buffer->length, sizeof(dmi_header_t));
+
+    dmi_entity_destroy(fixture.entity);
+
+    dmi_buffer_destroy(fixture.buffer);
+    dmi_buffer_destroy(fixture.source);
 }

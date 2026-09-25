@@ -484,7 +484,7 @@ bool dmi_json_entity_data(dmi_json_session_t *session, const dmi_entity_t *entit
     bool result;
     char *data;
 
-    data = dmi_base64_encode(entity->data, entity->body_length, nullptr);
+    data = dmi_base64_encode(dmi_entity_data(entity, DMI_TYPE_ANY), entity->body_length, nullptr);
     if (data == nullptr)
         return false;
 

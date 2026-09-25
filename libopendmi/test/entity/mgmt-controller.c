@@ -15,6 +15,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/error.h>
 #include <opendmi/log.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/mgmt-controller.h>
@@ -73,7 +74,7 @@ static int test_mgmt_controller_teardown(void **pstate)
 }
 
 // Create entity from structure body, followed by empty string set
-static dmi_entity_t *create_entity(dmi_context_t *context, const uint8_t *body, size_t length)
+static dmi_entity_t *create_entity(dmi_buffer_t *buffer, const uint8_t *body, size_t length)
 {
     static uint8_t data[256];
 
@@ -87,7 +88,7 @@ static dmi_entity_t *create_entity(dmi_context_t *context, const uint8_t *body, 
     data[length + 4] = 0;
     data[length + 5] = 0;
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, length + 6);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, length + 6);
     assert_non_null(entity);
 
     return entity;
@@ -96,13 +97,14 @@ static dmi_entity_t *create_entity(dmi_context_t *context, const uint8_t *body, 
 static void test_mgmt_controller_decode_v30(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // SMBIOS 3.0 structure without protocol records
     static const uint8_t body[] = {
         0x40, 0x03, 0xAA, 0xBB, 0xCC
     };
 
-    dmi_entity_t *entity = create_entity(context, body, sizeof(body));
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
     const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -115,11 +117,14 @@ static void test_mgmt_controller_decode_v30(void **pstate)
     assert_null(info->proto_records);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_mgmt_controller_decode_records(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     static const uint8_t body[] = {
         0x40, 0x02, 0x11, 0x22,         // Interface type and data
@@ -128,7 +133,7 @@ static void test_mgmt_controller_decode_records(void **pstate)
         0xF0, 0x00                      // OEM record without data
     };
 
-    dmi_entity_t *entity = create_entity(context, body, sizeof(body));
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
     const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -146,16 +151,19 @@ static void test_mgmt_controller_decode_records(void **pstate)
     assert_int_equal(info->proto_records[1].data.length, 0);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_mgmt_controller_decode_no_records(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Zero interface data length and zero protocol records
     static const uint8_t body[] = { 0x40, 0x00, 0x00 };
 
-    dmi_entity_t *entity = create_entity(context, body, sizeof(body));
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
     const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -166,16 +174,19 @@ static void test_mgmt_controller_decode_no_records(void **pstate)
     assert_int_equal(info->proto_records_count, 0);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_mgmt_controller_decode_truncated(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
     const dmi_mgmt_controller_t *info;
     dmi_entity_t *entity;
 
     // Interface data length exceeds structure length (seen in real firmware)
-    entity = create_entity(context, (const uint8_t[]){ 0x02, 0xFF, 0x01, 0x02, 0xFF, 0xFF, 0xFF, 0xFF }, 8);
+    entity = create_entity(entity_buffer, (const uint8_t[]){ 0x02, 0xFF, 0x01, 0x02, 0xFF, 0xFF, 0xFF, 0xFF }, 8);
     assert_true(dmi_entity_decode(entity));
 
     info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -188,7 +199,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     dmi_entity_destroy(entity);
 
     // Number of protocol records exceeds structure length
-    entity = create_entity(context, (const uint8_t[]){ 0x40, 0x00, 0xFF, 0x04, 0x00 }, 5);
+    entity = create_entity(entity_buffer, (const uint8_t[]){ 0x40, 0x00, 0xFF, 0x04, 0x00 }, 5);
     assert_true(dmi_entity_decode(entity));
 
     info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -200,7 +211,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     dmi_entity_destroy(entity);
 
     // Protocol record header is truncated
-    entity = create_entity(context, (const uint8_t[]){ 0x40, 0x00, 0x01, 0x04 }, 4);
+    entity = create_entity(entity_buffer, (const uint8_t[]){ 0x40, 0x00, 0x01, 0x04 }, 4);
     assert_true(dmi_entity_decode(entity));
 
     info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -210,7 +221,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     dmi_entity_destroy(entity);
 
     // Protocol record data exceeds structure length
-    entity = create_entity(context, (const uint8_t[]){
+    entity = create_entity(entity_buffer, (const uint8_t[]){
         0x40, 0x01, 0x11, 0x02, 0x04, 0x01, 0xAA, 0x03, 0xFF, 0xBB
     }, 10);
     assert_true(dmi_entity_decode(entity));
@@ -224,11 +235,14 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     assert_int_equal(info->proto_records[0].data.data[0], 0xAA);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_mgmt_controller_decode_nhi_usb(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // USB network interface, the example from DSP0270
     static const uint8_t body[] = {
@@ -238,7 +252,7 @@ static void test_mgmt_controller_decode_nhi_usb(void **pstate)
         0x00
     };
 
-    dmi_entity_t *entity = create_entity(context, body, sizeof(body));
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
     const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -261,7 +275,7 @@ static void test_mgmt_controller_decode_nhi_usb(void **pstate)
         0x40, 0x07, 0x02, 0xBB, 0xAA, 0xDD, 0xCC, 0x20, 0x03, 0x00
     };
 
-    entity = create_entity(context, malformed, sizeof(malformed));
+    entity = create_entity(entity_buffer, malformed, sizeof(malformed));
     assert_true(dmi_entity_decode(entity));
 
     info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -273,11 +287,14 @@ static void test_mgmt_controller_decode_nhi_usb(void **pstate)
     assert_null(info->nhi.usb.serial_number);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_mgmt_controller_decode_nhi_usb_v2(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // USB network interface v2, DSP0270 1.2 layout without characteristics
     static const uint8_t body[] = {
@@ -287,7 +304,7 @@ static void test_mgmt_controller_decode_nhi_usb_v2(void **pstate)
         0x00
     };
 
-    dmi_entity_t *entity = create_entity(context, body, sizeof(body));
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
     const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -304,11 +321,14 @@ static void test_mgmt_controller_decode_nhi_usb_v2(void **pstate)
     assert_int_equal(info->nhi.usb_v2.credential_handle, DMI_HANDLE_INVALID);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // PCI/PCIe network interface v2 with Redfish over IP record
     static const uint8_t body[] = {
@@ -343,7 +363,7 @@ static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate)
         0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF
     };
 
-    dmi_entity_t *entity = create_entity(context, body, sizeof(body));
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
     const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -396,11 +416,14 @@ static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate)
     assert_string_equal(redfish->service_hostname, "bmc.lan");
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_mgmt_controller_decode_nhi_oem(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // OEM device with truncated Redfish over IP record and OEM record
     static const uint8_t body[] = {
@@ -410,7 +433,7 @@ static void test_mgmt_controller_decode_nhi_oem(void **pstate)
         0xF0, 0x01, 0xFF
     };
 
-    dmi_entity_t *entity = create_entity(context, body, sizeof(body));
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
     const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
@@ -432,4 +455,6 @@ static void test_mgmt_controller_decode_nhi_oem(void **pstate)
     assert_int_equal(info->proto_records[1].data.length, 1);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }

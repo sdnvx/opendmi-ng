@@ -14,6 +14,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/battery.h>
@@ -27,7 +28,7 @@ static void test_battery_decode_v22(void **pstate);
 static void test_battery_decode_short(void **pstate);
 static void test_battery_decode_incomplete(void **pstate);
 
-static dmi_entity_t *test_battery_create(dmi_context_t *context, uint8_t *data, uint8_t length);
+static dmi_entity_t *test_battery_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t length);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -96,9 +97,10 @@ static void test_battery_chemistry_name(void **pstate)
 static void test_battery_decode_v21(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[TEST_BATTERY_SIZE];
-    dmi_entity_t *entity = test_battery_create(context, data, 0x10);
+    dmi_entity_t *entity = test_battery_create(entity_buffer, data, 0x10);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 1, 0));
@@ -123,9 +125,10 @@ static void test_battery_decode_v21(void **pstate)
 static void test_battery_decode_v22(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[TEST_BATTERY_SIZE];
-    dmi_entity_t *entity = test_battery_create(context, data, 0x1A);
+    dmi_entity_t *entity = test_battery_create(entity_buffer, data, 0x1A);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 2, 0));
@@ -147,10 +150,11 @@ static void test_battery_decode_v22(void **pstate)
 static void test_battery_decode_short(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // SMBIOS 2.1 fields are mandatory
     uint8_t data[TEST_BATTERY_SIZE];
-    dmi_entity_t *entity = test_battery_create(context, data, 0x0F);
+    dmi_entity_t *entity = test_battery_create(entity_buffer, data, 0x0F);
     assert_non_null(entity);
     assert_false(dmi_entity_decode(entity));
 
@@ -160,10 +164,11 @@ static void test_battery_decode_short(void **pstate)
 static void test_battery_decode_incomplete(void **pstate)
 {
     dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Only completely present SMBIOS 2.2 fields are decoded
     uint8_t data[TEST_BATTERY_SIZE];
-    dmi_entity_t *entity = test_battery_create(context, data, 0x15);
+    dmi_entity_t *entity = test_battery_create(entity_buffer, data, 0x15);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 2, 0));
@@ -181,7 +186,7 @@ static void test_battery_decode_incomplete(void **pstate)
     dmi_entity_destroy(entity);
 }
 
-static dmi_entity_t *test_battery_create(dmi_context_t *context, uint8_t *data, uint8_t length)
+static dmi_entity_t *test_battery_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t length)
 {
     memcpy(data, test_battery_data, sizeof(test_battery_data));
     data[1] = length;
@@ -189,5 +194,5 @@ static dmi_entity_t *test_battery_create(dmi_context_t *context, uint8_t *data, 
     // Strings immediately follow the structure
     memcpy(data + length, test_battery_strings, sizeof(test_battery_strings));
 
-    return dmi_entity_create(context, data, length + sizeof(test_battery_strings));
+    return dmi_test_entity_create(buffer, data, length + sizeof(test_battery_strings));
 }

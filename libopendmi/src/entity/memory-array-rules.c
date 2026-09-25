@@ -60,7 +60,8 @@ void dmi_memory_array_lint_extended_capacity(dmi_lint_t *lint, const dmi_entity_
     dmi_reader_t reader;
     dmi_dword_t value;
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, &value, DMI_MEMORY_ARRAY_CAPACITY_OFFSET, sizeof(value)))

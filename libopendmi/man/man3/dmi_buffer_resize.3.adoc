@@ -1,0 +1,61 @@
+= dmi_buffer_resize(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_buffer_resize - set the number of the bytes a buffer holds.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/buffer.h>
+
+bool dmi_buffer_resize(dmi_buffer_t *buffer, size_t length);
+----
+
+== Description
+
+The `dmi_buffer_resize` function sets the number of the bytes the buffer
+holds. The bytes a longer buffer gains are set to zero, and the ones a
+shorter buffer loses are dropped without the memory being given back, so
+that the buffer emptied with a length of zero writes the data next without
+allocating again.
+
+=== Parameters
+
+`buffer`::
+Buffer to resize.
+
+`length`::
+Number of the bytes the buffer is to hold.
+
+== Return value
+
+`true` on success, `false` otherwise.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory of the buffer cannot grow.
+
+== See also
+
+`dmi_buffer_clear`(3),
+`dmi_buffer_write`(3),
+`dmi_buffer_is_empty`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

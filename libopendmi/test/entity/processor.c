@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/processor.h>
@@ -104,7 +105,9 @@ static void test_processor_decode_status(void **pstate)
         memcpy(data, test_processor_data, sizeof(data));
         data[test_status_offset] = cases[i].value;
 
-        dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -114,6 +117,8 @@ static void test_processor_decode_status(void **pstate)
         assert_int_equal(info->status, cases[i].status);
 
         dmi_entity_destroy(entity);
+
+        dmi_buffer_destroy(entity_buffer);
     }
 
     dmi_destroy(context);
@@ -150,7 +155,9 @@ static void test_processor_decode_voltage(void **pstate)
         memcpy(data, test_processor_data, sizeof(data));
         data[test_voltage_offset] = cases[i].value;
 
-        dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -160,6 +167,8 @@ static void test_processor_decode_voltage(void **pstate)
         assert_int_equal(info->supported_voltages.__value, cases[i].supported_voltages);
 
         dmi_entity_destroy(entity);
+
+        dmi_buffer_destroy(entity_buffer);
     }
 
     dmi_destroy(context);
@@ -173,7 +182,9 @@ static void test_processor_decode_version(void **pstate)
     assert_non_null(context);
     dmi_set_logger(context, &test_logger);
 
-    dmi_entity_t *entity = dmi_entity_create(context, test_processor_data, sizeof(test_processor_data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_processor_data, sizeof(test_processor_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -190,6 +201,8 @@ static void test_processor_decode_version(void **pstate)
     assert_int_equal(info->l3_cache_handle, DMI_HANDLE_INVALID);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
     dmi_destroy(context);
 }
 
@@ -210,7 +223,9 @@ static void test_processor_decode_incomplete(void **pstate)
     memcpy(data + length + 4, test_processor_data + length, sizeof(test_processor_data) - length);
     data[1] = (uint8_t)(length + 4);
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -226,6 +241,8 @@ static void test_processor_decode_incomplete(void **pstate)
     assert_int_equal(info->l3_cache_handle, DMI_HANDLE_INVALID);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
     dmi_destroy(context);
 }
 
@@ -309,7 +326,9 @@ static void test_processor_decode_id(void **pstate)
 
         data[length++] = 0;
 
-        dmi_entity_t *entity = dmi_entity_create(context, data, length);
+        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, length);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -342,6 +361,8 @@ static void test_processor_decode_id(void **pstate)
         }
 
         dmi_entity_destroy(entity);
+
+        dmi_buffer_destroy(entity_buffer);
     }
 
     dmi_destroy(context);

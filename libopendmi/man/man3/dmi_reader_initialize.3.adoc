@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_initialize - initialize a reader for reading an entity's body data.
+dmi_reader_initialize - initialize a reader of a range of a buffer.
 
 == Library
 
@@ -21,33 +21,56 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 ----
 #include <opendmi/reader.h>
 
-bool dmi_reader_initialize(dmi_reader_t *reader, const dmi_entity_t *entity);
+bool dmi_reader_initialize(
+        dmi_reader_t       *reader,
+        const dmi_buffer_t *buffer,
+        size_t              offset,
+        size_t              length);
 ----
 
 == Description
 
-The `dmi_reader_initialize` function sets up the reader to read the body of
-`entity`, positioning the cursor at the beginning of the body (past the SMBIOS
-structure header).
+The `dmi_reader_initialize` function sets the reader up over `length` bytes
+at `offset` within `buffer`. The cursor is positioned at the beginning of
+the range, and the reader reads nothing outside it.
+
+A reader reads bytes out of a range of a `dmi_buffer_t`, which holds them,
+the way `dmi_writer_t` writes them into one. What the bytes stand for is of
+no concern to the reader: the range it is given is a structure body, an
+entry point or whatever else the caller reads. Reading the values of a
+structure is what `dmi_decoder_t` does over a reader, see
+`dmi_decoder_initialize`(3).
+
+The reader holds no memory of its own, so there is nothing to destroy: the
+data belongs to the buffer and outlives the readers of it.
 
 === Parameters
 
 `reader`::
 Reader to initialize.
 
-`entity`::
-Entity whose body data will be read.
+`buffer`::
+Buffer holding the data to read.
+
+`offset`::
+Offset the range begins at within the buffer.
+
+`length`::
+Number of the bytes of the range.
 
 == Return value
 
-Returns `true` on success, `false` if `reader` or `entity` is `nullptr`.
+`true` on success, `false` if `reader` or `buffer` is `nullptr`, or if the
+buffer holds fewer bytes than the range.
 
 == See also
 
-`dmi_reader_seek`(3),
 `dmi_reader_reset`(3),
+`dmi_reader_seek`(3),
 `dmi_reader_get_bytes`(3),
-`dmi_reader_is_done`(3)
+`dmi_decoder_initialize`(3),
+`dmi_writer_initialize`(3),
+`dmi_buffer_create`(3)
 
 == Copying
 

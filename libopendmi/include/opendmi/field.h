@@ -12,7 +12,8 @@
 #include <limits.h>
 
 #include <opendmi/types.h>
-#include <opendmi/writer.h>
+#include <opendmi/decoder.h>
+#include <opendmi/encoder.h>
 #include <opendmi/reader.h>
 #include <opendmi/utils/version.h>
 
@@ -664,38 +665,40 @@ __BEGIN_DECLS
  * This is the decoding handler of the specifications which describe their
  * layout rather than decode it themselves.
  *
- * @param[in,out] entity Structure to decode.
+ * @param[in,out] decoder Decoder of the structure, see
+ *                        `dmi_decoder_initialize()`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Entity is `nullptr`
+ * @error DMI_ERROR_NULL_ARGUMENT Decoder is `nullptr`
  * @error DMI_ERROR_INVALID_STATE Specification declares no fields
  * @error DMI_ERROR_OUT_OF_MEMORY Elements of an array cannot be allocated
  *
  * @return `true` if the structure has been decoded, `false` if it cannot be.
  */
-__dmi_api bool dmi_fields_decode(dmi_entity_t *entity);
+__dmi_api bool dmi_fields_decode(dmi_decoder_t *decoder);
 
 /**
  * @brief Encode a structure according to the fields of its specification.
  *
  * Fields are written in the order they are declared, after the header the
- * writer has written, and every value the decoded structure holds is written
+ * encoder has written, and every value the decoded structure holds is written
  * from the structure, undoing the conversions it has been decoded with. How
  * the bytes the model does not hold are written is up to the mode of the
- * writer, see `dmi_encode_mode_t`: in the preserve mode, encoding a structure
- * which has not been changed gives back the bytes it has been decoded from.
+ * encoder, see `dmi_encode_mode_t`: in the preserve mode, encoding a
+ * structure which has not been changed gives back the bytes it has been
+ * decoded from.
  *
- * @param[in,out] writer Writer of the structure, see
- *                        `dmi_writer_initialize()`.
+ * @param[in,out] encoder Encoder of the structure, see
+ *                        `dmi_encoder_initialize()`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Writer is `nullptr`
+ * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
  * @error DMI_ERROR_INVALID_STATE Specification declares no fields, or a field
  *        it cannot write back, e.g. a conversion without the one undoing it
  * @error DMI_ERROR_INTERNAL Fields reach another offset than the one declared
- * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the writer cannot grow
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
  *
  * @return `true` if the structure has been encoded, `false` otherwise.
  */
-__dmi_api bool dmi_fields_encode(dmi_writer_t *writer);
+__dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
 
 /**
  * @brief Decode a value carried in kilobytes into the number of the bytes it

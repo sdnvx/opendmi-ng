@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_rewind - reposition the reader cursor to a mark.
+dmi_reader_rewind - reposition a reader cursor to a mark taken earlier.
 
 == Library
 
@@ -26,16 +26,8 @@ bool dmi_reader_rewind(dmi_reader_t *reader, dmi_reader_mark_t mark);
 
 == Description
 
-The `dmi_reader_rewind` function repositions the reader cursor to a mark taken
-earlier with `dmi_reader_mark`(3), so that the data between the mark and the
-current position can be read again. It is how a field read as raw bytes is then
-read again as the structure it holds.
-
-Unlike `dmi_reader_seek`(3), a mark taken at the end of the entity body is
-accepted, since the cursor has already been there.
-
-Coming back to a mark and then advancing by a length is
-`dmi_reader_skip_ex`(3).
+The `dmi_reader_rewind` function repositions the reader cursor to a mark
+taken with `dmi_reader_mark`(3).
 
 === Parameters
 
@@ -47,36 +39,14 @@ Mark taken from the same reader with `dmi_reader_mark`(3).
 
 == Return value
 
-Returns `true` on success, `false` if `reader` is `nullptr` or if `mark` was
-taken from a reader reading another entity.
-
-== Examples
-
-[source, c]
-----
-dmi_reader_mark_t start = dmi_reader_mark(reader);
-
-// Read the interface data as a whole
-if (not dmi_reader_get_binary(reader, length, &info->data))
-    return false;
-
-// Then read the same bytes again as the structure they hold
-if (info->type == DMI_MGMT_IF_TYPE_NETWORK_HOST_IF) {
-    dmi_reader_rewind(reader, start);
-
-    if (not dmi_mgmt_nhi_decode(entity, &info->nhi, length))
-        return false;
-
-    dmi_reader_skip_ex(reader, start, length);
-}
-----
+`true` on success, `false` if the mark was taken from a reader reading
+another range.
 
 == See also
 
 `dmi_reader_mark`(3),
 `dmi_reader_skip_ex`(3),
-`dmi_reader_seek`(3),
-`dmi_reader_reset`(3)
+`dmi_reader_seek`(3)
 
 == Copying
 

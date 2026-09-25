@@ -38,7 +38,7 @@ static void test_context_dump_save_generated(void **pstate);
 static void test_context_add_extension(void **pstate);
 static void test_context_add_extension_duplicate(void **pstate);
 
-static dmi_data_t *test_dump_relocate(dmi_context_t *context, const char *path, bool legacy, size_t *psize);
+static bool test_dump_relocate(dmi_buffer_t *buffer, const char *path, bool legacy);
 static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, size_t table_size);
 static void test_dump_write(const char *path, const dmi_data_t *data, size_t size);
 static void test_checksum_fix(dmi_data_t *data, size_t checksum_offset, size_t start, size_t length);
@@ -111,22 +111,20 @@ static void test_context_close_resets_state(void **pstate)
     assert_non_null(context->state.backend);
     assert_non_null(context->state.session);
     assert_non_null(dmi_get_registry(context));
-    assert_non_null(context->state.entry_data);
-    assert_non_null(context->state.table_data);
+    assert_non_null(context->state.entry->data);
+    assert_non_null(context->state.table->data);
     assert_int_not_equal(context->state.smbios_version, 0);
 
     assert_true(dmi_close(context));
     assert_null(context->state.backend);
     assert_null(context->state.session);
     assert_null(dmi_get_registry(context));
-    assert_null(context->state.entry_data);
+    assert_null(context->state.entry);
     assert_null(context->state.entry_spec);
-    assert_null(context->state.table_data);
+    assert_null(context->state.table);
     assert_null(context->state.vendor_name);
-    assert_int_equal(context->state.entry_data_size, 0);
     assert_int_equal(context->state.entry_length, 0);
     assert_int_equal(context->state.table_area_size, 0);
-    assert_int_equal(context->state.table_size, 0);
     assert_int_equal(context->state.smbios_version, 0);
     assert_int_equal(context->state.vendor, DMI_VENDOR_OTHER);
 
@@ -241,9 +239,14 @@ static void test_context_dump_save_relocated(void **pstate)
     };
 
     for (size_t i = 0; i < countof(sources); i++) {
-        size_t size = 0;
-        dmi_data_t *source = test_dump_relocate(context, sources[i].path, sources[i].legacy, &size);
-        test_dump_write(test_source_path, source, size);
+        dmi_buffer_t *source = dmi_buffer_create(context);
+
+        assert_non_null(source);
+        assert_true(test_dump_relocate(source, sources[i].path, sources[i].legacy));
+
+        size_t size = source->length;
+
+        test_dump_write(test_source_path, source->data, size);
 
         // Table address from the entry point is replaced on save
         assert_true(dmi_load(context, test_source_path));
@@ -255,7 +258,7 @@ static void test_context_dump_save_relocated(void **pstate)
         assert_true(dmi_save(context, test_save_path, true));
         assert_true(dmi_close(context));
 
-        test_dump_verify(context, source + DMI_ENTRY_MAX_SIZE, size - DMI_ENTRY_MAX_SIZE);
+        test_dump_verify(context, source->data + DMI_ENTRY_MAX_SIZE, size - DMI_ENTRY_MAX_SIZE);
 
         // Saved dump is loaded the same way as the source one
         assert_true(dmi_load(context, test_save_path));
@@ -264,7 +267,7 @@ static void test_context_dump_save_relocated(void **pstate)
         assert_int_equal(dmi_get_registry(context)->count, count);
         assert_true(dmi_close(context));
 
-        dmi_free(source);
+        dmi_buffer_destroy(source);
     }
 
     remove(test_source_path);
@@ -281,16 +284,16 @@ static void test_context_dump_save_generated(void **pstate)
     size_t count = dmi_get_registry(context)->count;
 
     // Simulate backend without entry point data, like the Windows one
-    context->state.entry_data = nullptr;
-    context->state.entry_data_size = 0;
+    dmi_buffer_destroy(context->state.entry);
+    context->state.entry = nullptr;
     context->state.entry_spec = nullptr;
 
     assert_true(dmi_save(context, test_save_path, true));
 
-    size_t table_size = context->state.table_size;
+    size_t table_size = context->state.table->length;
     dmi_data_t *table = dmi_alloc(context, table_size);
     assert_non_null(table);
-    memcpy(table, context->state.table_data, table_size);
+    memcpy(table, context->state.table->data, table_size);
 
     assert_true(dmi_close(context));
 
@@ -385,11 +388,12 @@ static void test_context_add_extension_duplicate(void **pstate)
 // was read from firmware. Optionally, SMBIOS 2.1+ entry point is converted to
 // the legacy one.
 //
-static dmi_data_t *test_dump_relocate(dmi_context_t *context, const char *path, bool legacy, size_t *psize)
+static bool test_dump_relocate(dmi_buffer_t *buffer, const char *path, bool legacy)
 {
-    dmi_data_t *data = dmi_file_get(context, path, -1, psize);
-    assert_non_null(data);
-    assert_true(*psize > DMI_ENTRY_MAX_SIZE);
+    assert_true(dmi_file_load(buffer, path, -1, 0));
+    assert_true(buffer->length > DMI_ENTRY_MAX_SIZE);
+
+    dmi_data_t *data = buffer->data;
 
     if (memcmp(data, DMI_ANCHOR_V30, strlen(DMI_ANCHOR_V30)) == 0) {
         test_address_set(data + 0x10, 8, test_table_address);
@@ -410,7 +414,7 @@ static dmi_data_t *test_dump_relocate(dmi_context_t *context, const char *path, 
         test_checksum_fix(data, 0x04, 0x00, data[0x05]);
     }
 
-    return data;
+    return true;
 }
 
 //
@@ -419,10 +423,13 @@ static dmi_data_t *test_dump_relocate(dmi_context_t *context, const char *path, 
 //
 static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, size_t table_size)
 {
-    size_t size = 0;
-    dmi_data_t *data = dmi_file_get(context, test_save_path, -1, &size);
-    assert_non_null(data);
-    assert_int_equal(size, DMI_ENTRY_MAX_SIZE + table_size);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+
+    assert_non_null(buffer);
+    assert_true(dmi_file_load(buffer, test_save_path, -1, 0));
+    assert_int_equal(buffer->length, DMI_ENTRY_MAX_SIZE + table_size);
+
+    dmi_data_t *data = buffer->data;
 
     size_t length = 0;
     uint64_t address = 0;
@@ -454,7 +461,7 @@ static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, si
 
     assert_memory_equal(data + address, table, table_size);
 
-    dmi_free(data);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_dump_write(const char *path, const dmi_data_t *data, size_t size)

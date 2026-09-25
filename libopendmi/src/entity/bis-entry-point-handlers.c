@@ -37,9 +37,10 @@ bool dmi_bis_entry_point_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    const dmi_reader_t *reader = dmi_entity_reader(entity);
+    // Checksum covers the whole structure, as the data holds it
+    const dmi_data_t *data = dmi_buffer_at(entity->buffer, entity->offset, entity->body_length);
 
-    info->is_valid = dmi_checksum_test(reader->data, entity->body_length);
+    info->is_valid = (data != nullptr) and dmi_checksum_test(data, entity->body_length);
 
     return true;
 }

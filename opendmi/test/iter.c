@@ -11,6 +11,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/entity/string-property.h>
@@ -169,7 +170,8 @@ static void test_iter_strings(void **pstate)
         0
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     dmi_format_string_iter_t iter;
@@ -224,7 +226,9 @@ static void test_iter_properties(void **pstate)
         { 0xC001,                           nullptr }
     };
 
-    dmi_entity_t *parent = dmi_entity_create(context, parent_data, sizeof(parent_data));
+    dmi_buffer_t *parent_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *parent = dmi_test_entity_create(parent_buffer, parent_data, sizeof(parent_data));
     assert_non_null(parent);
 
     dmi_format_property_iter_t iter;
@@ -235,9 +239,14 @@ static void test_iter_properties(void **pstate)
     assert_null(dmi_format_property_iter_next(&iter));
 
     dmi_entity_t *properties[countof(property_data)];
+    dmi_buffer_t *property_buffers[countof(property_data)];
 
     for (size_t i = 0; i < countof(property_data); i++) {
-        properties[i] = dmi_entity_create(context, property_data[i], sizeof(property_data[i]));
+        property_buffers[i] = dmi_buffer_create(context);
+        assert_non_null(property_buffers[i]);
+
+        properties[i] = dmi_test_entity_create(property_buffers[i],
+                                               property_data[i], sizeof(property_data[i]));
         assert_non_null(properties[i]);
         assert_true(dmi_entity_decode(properties[i]));
         assert_true(dmi_entity_add_property(parent, properties[i]->info));
@@ -263,9 +272,12 @@ static void test_iter_properties(void **pstate)
     assert_int_equal(count, countof(expected));
     assert_null(dmi_format_property_iter_next(&iter));
 
-    for (size_t i = 0; i < countof(properties); i++)
+    for (size_t i = 0; i < countof(properties); i++) {
         dmi_entity_destroy(properties[i]);
+        dmi_buffer_destroy(property_buffers[i]);
+    }
 
     dmi_entity_destroy(parent);
+    dmi_buffer_destroy(parent_buffer);
     dmi_destroy(context);
 }

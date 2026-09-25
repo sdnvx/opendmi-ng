@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <opendmi/writer.h>
+#include <opendmi/encoder.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/module/intel.h>
@@ -79,8 +79,10 @@ const dmi_attribute_t dmi_intel_rsd_cpuid_leaf_attrs[] =
     {}
 };
 
-bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
+bool dmi_intel_rsd_processor_cpuid_decode(dmi_decoder_t *decoder)
 {
+    dmi_entity_t *entity = dmi_decoder_entity(decoder);
+
     dmi_intel_rsd_processor_cpuid_t *info;
 
     info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
@@ -88,15 +90,17 @@ bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
         return false;
 
     dmi_context_t *context = dmi_entity_context(entity);
-    dmi_reader_t  *reader  = dmi_entity_reader(entity);
 
-    dmi_byte_t subtype = 0;
+    dmi_byte_t   subtype = 0;
+    dmi_string_t number  = 0;
 
     bool status =
-        dmi_reader_get_string(reader, &info->socket_designation) and
-        dmi_reader_get(reader, dmi_byte_t, &subtype);
+        dmi_decoder_get(decoder, dmi_string_t, &number) and
+        dmi_decoder_get(decoder, dmi_byte_t, &subtype);
     if (not status)
         return false;
+
+    info->socket_designation = dmi_entity_string(entity, number);
 
     info->subtype = dmi_cast(info->subtype, subtype);
 
@@ -119,7 +123,7 @@ bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
     // Data of unknown subtypes is shown as stored
     if (inputs == nullptr) {
         info->is_raw = true;
-        return dmi_reader_get_binary(reader, dmi_reader_remaining(reader), &info->data);
+        return dmi_decoder_get_binary(decoder, dmi_decoder_remaining(decoder), &info->data);
     }
 
     info->leaves = dmi_alloc_array(context, sizeof(*info->leaves), count);
@@ -130,12 +134,12 @@ bool dmi_intel_rsd_processor_cpuid_decode(dmi_entity_t *entity)
         dmi_intel_rsd_cpuid_leaf_t *leaf = &info->leaves[i];
 
         status =
-            dmi_reader_get(reader, dmi_dword_t, &leaf->eax) and
-            dmi_reader_get(reader, dmi_dword_t, &leaf->ebx) and
-            dmi_reader_get(reader, dmi_dword_t, &leaf->ecx) and
-            dmi_reader_get(reader, dmi_dword_t, &leaf->edx);
+            dmi_decoder_get(decoder, dmi_dword_t, &leaf->eax) and
+            dmi_decoder_get(decoder, dmi_dword_t, &leaf->ebx) and
+            dmi_decoder_get(decoder, dmi_dword_t, &leaf->ecx) and
+            dmi_decoder_get(decoder, dmi_dword_t, &leaf->edx);
         if (not status)
-            return dmi_entity_incomplete(entity);
+            return dmi_decoder_incomplete(decoder);
 
         leaf->leaf        = inputs[i].leaf;
         leaf->has_subleaf = inputs[i].has_subleaf;
@@ -165,30 +169,30 @@ void dmi_intel_rsd_processor_cpuid_cleanup(dmi_entity_t *entity)
 // Leaves of the known subtypes are written in the order the subtype lists
 // them, and the data of the unknown ones as it is stored.
 //
-bool dmi_intel_rsd_processor_cpuid_encode(dmi_writer_t *writer)
+bool dmi_intel_rsd_processor_cpuid_encode(dmi_encoder_t *encoder)
 {
     const dmi_intel_rsd_processor_cpuid_t *info =
-            dmi_entity_info(writer->entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+            dmi_entity_info(encoder->entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
     if (info == nullptr)
         return false;
 
     bool status =
-        dmi_writer_put_string(writer, info->socket_designation) and
-        dmi_writer_put(writer, dmi_byte_t, info->subtype);
+        dmi_encoder_put_string(encoder, info->socket_designation) and
+        dmi_encoder_put(encoder, dmi_byte_t, info->subtype);
     if (not status)
         return false;
 
     if (info->is_raw)
-        return dmi_writer_put_bytes(writer, info->data.data, info->data.length);
+        return dmi_encoder_put_bytes(encoder, info->data.data, info->data.length);
 
     for (size_t i = 0; i < info->leaf_count; i++) {
         const dmi_intel_rsd_cpuid_leaf_t *leaf = &info->leaves[i];
 
         status =
-            dmi_writer_put(writer, dmi_dword_t, leaf->eax) and
-            dmi_writer_put(writer, dmi_dword_t, leaf->ebx) and
-            dmi_writer_put(writer, dmi_dword_t, leaf->ecx) and
-            dmi_writer_put(writer, dmi_dword_t, leaf->edx);
+            dmi_encoder_put(encoder, dmi_dword_t, leaf->eax) and
+            dmi_encoder_put(encoder, dmi_dword_t, leaf->ebx) and
+            dmi_encoder_put(encoder, dmi_dword_t, leaf->ecx) and
+            dmi_encoder_put(encoder, dmi_dword_t, leaf->edx);
         if (not status)
             return false;
     }

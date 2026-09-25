@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_reset - reset the reader cursor to the beginning.
+dmi_reader_reset - reset a reader cursor to the beginning of its range.
 
 == Library
 
@@ -27,7 +27,7 @@ void dmi_reader_reset(dmi_reader_t *reader);
 == Description
 
 The `dmi_reader_reset` function repositions the reader cursor back to the
-start of the entity body so that it can be read again from the beginning.
+start of the range so that it can be read again from the beginning.
 
 === Parameters
 
@@ -36,9 +36,9 @@ Reader to reset.
 
 == See also
 
-`dmi_reader_initialize`(3),
 `dmi_reader_seek`(3),
-`dmi_reader_is_done`(3)
+`dmi_reader_initialize`(3),
+`dmi_writer_reset`(3)
 
 == Copying
 

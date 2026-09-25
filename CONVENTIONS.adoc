@@ -45,7 +45,7 @@ where the subsystem is the type the function operates on, e.g.
 `dmi_reader_skip()`.
 
 * Within a subsystem, name a function that returns a property of its object
-after the property itself, without a verb: `dmi_entity_reader()`,
+after the property itself, without a verb: `dmi_entity_buffer()`,
 `dmi_entity_context()`, `dmi_attribute_resolve()`. The prefix already tells
 what the function operates on, so there is no ambiguity.
 

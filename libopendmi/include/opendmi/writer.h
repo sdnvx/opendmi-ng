@@ -9,50 +9,30 @@
 
 #pragma once
 
-#include <opendmi/types.h>
-#include <opendmi/reader.h>
+#include <opendmi/buffer.h>
 #include <opendmi/utils/codec.h>
-#include <opendmi/utils/version.h>
 
 #ifndef DMI_WRITER_T
 #   define DMI_WRITER_T
     typedef struct dmi_writer dmi_writer_t;
 #endif // !DMI_WRITER_T
 
-/**
- * @brief How the bytes the model does not hold are written.
- *
- * Every value the decoded structure holds is written from the structure in
- * either mode, so that the bytes are derived from the model rather than
- * copied. The modes differ in the rest: the bits the specification reserves,
- * the choice between a plain field and its extended one, the numbers of the
- * strings, the tails of the records longer than the fields they are known to
- * hold, and where the structure ends.
- */
-typedef enum dmi_encode_mode
-{
-    /**
-     * @brief The bytes the model does not hold are taken from the data the
-     * structure has been decoded from, so that encoding a structure which has
-     * not been changed gives back the very bytes it has been decoded from.
-     */
-    DMI_ENCODE_MODE_PRESERVE,
-
-    /**
-     * @brief The bytes the model does not hold are written the way the
-     * specification says they are, for the version the writer is given,
-     * which is how a structure is repaired or built from scratch.
-     */
-    DMI_ENCODE_MODE_CANONICAL
-} dmi_encode_mode_t;
+#ifndef DMI_WRITER_MARK_T
+#   define DMI_WRITER_MARK_T
+    typedef struct dmi_writer_mark dmi_writer_mark_t;
+#endif // !DMI_WRITER_MARK_T
 
 /**
- * @brief Sequential writer of an SMBIOS structure.
+ * @brief Sequential writer of SMBIOS data.
  *
- * Writes the formatted area of a structure, header included, and collects
- * the strings it refers to. In the preserve mode, the writer reads the data
- * the structure has been decoded from alongside, so that the bytes the model
- * does not hold are found at the position they are written at.
+ * Writes bytes into a range of a `dmi_buffer_t`, which holds them, the way
+ * `dmi_reader_t` reads them out of one. What the bytes stand for is of no
+ * concern to the writer: the caller writes the structures, the entry points
+ * and whatever else the data is made of.
+ *
+ * The cursor may be moved back over the bytes written already, so that a
+ * value the rest of the data decides, such as a length or a checksum, is
+ * written once it is known.
  *
  * @note All fields are maintained internally. Do not modify them directly;
  *       use the writer API instead.
@@ -60,188 +40,234 @@ typedef enum dmi_encode_mode
 struct dmi_writer
 {
     /**
-     * @brief Structure being encoded.
+     * @brief Buffer holding the data being written.
      */
-    const dmi_entity_t *entity;
+    dmi_buffer_t *buffer;
 
     /**
-     * @brief How the bytes the model does not hold are written.
+     * @brief Offset the range being written begins at within the buffer.
      */
-    dmi_encode_mode_t mode;
+    size_t base;
 
     /**
-     * @brief Version of the specification the canonical mode writes the
-     * structure for, which decides the groups of the fields it carries.
+     * @brief Number of the bytes the range holds at most, or a negative
+     * number when the range is bounded by nothing but the data itself.
+     *
+     * A range of a length of its own is one which something else follows,
+     * such as a record of a declared length or an area of a fixed size, and
+     * the writer refuses to write past it rather than writing over whatever
+     * comes next.
      */
-    dmi_version_t version;
+    ssize_t length;
 
     /**
-     * @brief Data the structure has been decoded from, which the preserve
-     * mode reads at the position it writes at.
+     * @brief Offset the next byte is written at, counted from the beginning
+     * of the range.
+     *
+     * Advanced by sequential writes, and repositioned over the bytes written
+     * already with `dmi_writer_seek`(3).
      */
-    dmi_reader_t source;
+    size_t position;
+};
+
+/**
+ * @brief Position of a writer cursor, taken with `dmi_writer_mark`(3).
+ *
+ * Marks are values: they are copied rather than allocated, nest without any
+ * bookkeeping, and need no release. A mark stays valid for as long as the
+ * writer holds the data it was taken over.
+ *
+ * @note All fields are maintained internally. Do not read or modify them
+ *       directly; pass the mark to `dmi_writer_rewind`(3) instead.
+ */
+struct dmi_writer_mark
+{
+    /**
+     * @brief Buffer the writer was writing into when the mark was taken.
+     */
+    const dmi_buffer_t *buffer;
 
     /**
-     * @brief Formatted area written so far, including the header.
+     * @brief Offset the range being written begins at, which tells the marks
+     * of the writers of different ranges apart.
      */
-    dmi_byte_t *data;
-    size_t      length;
-    size_t      capacity;
+    size_t base;
 
     /**
-     * @brief Strings the formatted area refers to, numbered from one, which
-     * are copies the writer owns.
+     * @brief Cursor position the mark was taken at.
      */
-    char       **strings;
-    size_t       string_count;
-    size_t       string_capacity;
+    size_t position;
 };
 
 __BEGIN_DECLS
 
 /**
- * @brief Initialize a writer of a structure, and write its header.
+ * @brief Initialize a writer of a range of a buffer.
  *
- * The length of the header is left for `dmi_writer_finish()` to fill in,
- * once the length of the formatted area is known. In the preserve mode, the
- * strings of the structure are taken over as they are numbered, so that the
- * fields referring to them keep their numbers, and the strings nothing refers
- * to are kept too.
+ * The cursor is positioned at the beginning of the range, which the data is
+ * written into and past: a range beginning at the end of the buffer appends
+ * to it, and one beginning within the data written already writes over it.
  *
- * @param[out] writer  Writer to initialize.
- * @param[in]  entity  Structure to encode.
- * @param[in]  mode    How the bytes the model does not hold are written.
- * @param[in]  version Version of the specification the canonical mode writes
- *                     the structure for, ignored in the preserve mode.
+ * The writer holds no memory of its own, so there is nothing to destroy: the
+ * data belongs to the buffer and outlives the writers of it.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Writer or entity is `nullptr`
- * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the writer cannot be allocated
+ * @param[out] writer Writer to initialize.
+ * @param[in]  buffer Buffer to write the data into.
+ * @param[in]  offset Offset the range begins at within the buffer.
+ * @param[in]  length Number of the bytes the range holds at most, or a
+ *                    negative number for a range of no length of its own.
  *
- * @return `true` on success, `false` otherwise.
+ * @return `true` on success, `false` if @p writer or @p buffer is @c nullptr,
+ *         or if the buffer holds fewer bytes than @p offset.
  */
 __dmi_api bool dmi_writer_initialize(
-        dmi_writer_t       *writer,
-        const dmi_entity_t *entity,
-        dmi_encode_mode_t   mode,
-        dmi_version_t       version);
+        dmi_writer_t *writer,
+        dmi_buffer_t *buffer,
+        size_t        offset,
+        ssize_t       length);
 
 /**
- * @brief Free the buffers of a writer.
+ * @brief Seek to a byte position within the range written so far.
  *
- * @param[in,out] writer Writer to destroy, or @c nullptr.
+ * The bytes at the position are written over, and the ones after them are
+ * left as they are, which is how a value the rest of the data decides is
+ * filled in once it is known.
+ *
+ * @param[in,out] writer   Writer to reposition.
+ * @param[in]     position Byte offset from the beginning of the data.
+ *
+ * @return `true` on success, `false` if @p position is past the bytes of the
+ *         range written so far.
  */
-__dmi_api void dmi_writer_destroy(dmi_writer_t *writer);
+__dmi_api bool dmi_writer_seek(dmi_writer_t *writer, size_t position);
 
 /**
- * @brief Write bytes at the current position.
+ * @brief Take a mark of the current position of the writer cursor.
  *
- * The position in the source data advances by the same number of bytes, so
- * that the two stay in step, as long as there are bytes left in it.
+ * Marks name a place to come back to without counting the bytes written in
+ * between, which is what the values written last need: mark the place, write
+ * whatever the value is counted over, then rewind and write it.
+ *
+ * @param[in] writer Writer to mark.
+ *
+ * @return Mark of the current position, which is rejected by
+ *         `dmi_writer_rewind`(3) if @p writer is @c nullptr.
+ */
+__dmi_api dmi_writer_mark_t dmi_writer_mark(const dmi_writer_t *writer);
+
+/**
+ * @brief Reposition the writer cursor to a mark taken earlier.
+ *
+ * @param[in,out] writer Writer to reposition.
+ * @param[in]     mark   Mark taken from the same writer with
+ *                       `dmi_writer_mark`(3).
+ *
+ * @return `true` on success, `false` if the mark was taken of another writer,
+ *         or over data which has been discarded since.
+ */
+__dmi_api bool dmi_writer_rewind(dmi_writer_t *writer, dmi_writer_mark_t mark);
+
+/**
+ * @brief Write data at the current position.
  *
  * @param[in,out] writer Writer to write to.
- * @param[in]     data   Bytes to write.
- * @param[in]     length Number of the bytes.
+ * @param[in]     ptr    Data to write.
+ * @param[in]     length Number of bytes to write.
  *
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
  *
- * @return `true` on success, `false` otherwise.
+ * @return `true` on success, `false` if the bytes do not fit into the range.
  */
-__dmi_api bool dmi_writer_put_bytes(dmi_writer_t *writer, const void *data, size_t length);
+__dmi_api bool dmi_writer_put_bytes(dmi_writer_t *writer, const void *ptr, size_t length);
 
 /**
- * @brief Write bytes the model does not hold at the current position: the
- * ones the source data has there in the preserve mode, and zeros in the
- * canonical one, or wherever the source data ends before them.
+ * @brief Write data at a given offset without moving the cursor.
+ *
+ * The data grows if the bytes are written past its end, and the ones between
+ * the end and @p offset are made up as zeros, the way the ones which are
+ * padded over are.
  *
  * @param[in,out] writer Writer to write to.
- * @param[in]     length Number of the bytes.
+ * @param[in]     ptr    Data to write.
+ * @param[in]     offset Byte offset from the beginning of the range.
+ * @param[in]     length Number of bytes to write.
  *
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
  *
- * @return `true` on success, `false` otherwise.
+ * @return `true` on success, `false` if the bytes do not fit into the range.
  */
-__dmi_api bool dmi_writer_copy(dmi_writer_t *writer, size_t length);
+__dmi_api bool dmi_writer_put_bytes_at(
+        dmi_writer_t *writer,
+        const void   *ptr,
+        size_t        offset,
+        size_t        length);
 
 /**
- * @brief Write a reference to a string at the current position.
+ * @brief Pad the data up to @p length bytes from the current position.
  *
- * The string is looked up among the ones the structure has been decoded
- * with, so that a field keeps the number of the string it refers to, and is
- * added to the strings of the writer otherwise. A missing string is written
- * as zero.
+ * Only the bytes past the end of the data are made up, as zeros, which is
+ * what the bytes a structure holds and nothing reads are left as. The ones
+ * written already are stepped over rather than written over, so that padding
+ * over a part of the data which is being written again keeps it.
  *
  * @param[in,out] writer Writer to write to.
- * @param[in]     value  String to refer to, or @c nullptr.
+ * @param[in]     length Number of bytes to pad with.
  *
- * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the writer cannot grow
- * @error DMI_ERROR_INVALID_ARGUMENT Structure refers to more strings than a
- *        byte can number
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
  *
- * @return `true` on success, `false` otherwise.
+ * @return `true` on success, `false` if the padding does not fit into the
+ *         range.
  */
-__dmi_api bool dmi_writer_put_string(dmi_writer_t *writer, const char *value);
+__dmi_api bool dmi_writer_skip(dmi_writer_t *writer, size_t length);
 
 /**
- * @brief Read the source data at the current position without advancing.
+ * @brief Write padding up to a length counted from a mark taken earlier.
  *
- * @param[in]  writer Writer to read from.
- * @param[out] data   Bytes the source holds at the position.
- * @param[in]  length Number of the bytes to read.
+ * Records of a declared length are padded out to that length rather than to
+ * the number of bytes written into them: mark the beginning of the record,
+ * write whatever fields it holds, then pad it out to the length of the record
+ * from the mark. The bytes written already are stepped over, the way
+ * `dmi_writer_skip`(3) steps over them.
  *
- * @return `true` if the source holds the bytes, `false` if it has none, e.g.
- *         in the canonical mode, or ends before them.
+ * Counting from the current position is what `dmi_writer_skip`(3) does.
+ *
+ * @param[in,out] writer Writer to write to.
+ * @param[in]     from   Mark to count @p length from, taken from the same
+ *                       writer with `dmi_writer_mark`(3).
+ * @param[in]     length Number of bytes the record takes.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
+ *
+ * @return `true` on success, `false` if the record is written past its own
+ *         length already, if the padding does not fit into the range, or if
+ *         @p from was taken of another writer.
  */
-__dmi_api bool dmi_writer_peek(const dmi_writer_t *writer, void *data, size_t length);
+__dmi_api bool dmi_writer_skip_ex(
+        dmi_writer_t      *writer,
+        dmi_writer_mark_t  from,
+        size_t             length);
 
 /**
- * @brief Get the number of the bytes of the source left at the current
- * position, which is zero in the canonical mode.
+ * @brief Return the current position of the writer cursor.
  *
  * @param[in] writer Writer to query.
  *
- * @return Number of the bytes.
- */
-__dmi_api size_t dmi_writer_remaining(const dmi_writer_t *writer);
-
-/**
- * @brief Get the current position, counted from the beginning of the
- * structure the way the specification counts it.
- *
- * @param[in] writer Writer to query.
- *
- * @return Position of the next byte to write.
+ * @return Offset the next byte is written at, counted from the beginning of
+ *         the range, or zero if @p writer is @c nullptr.
  */
 __dmi_api size_t dmi_writer_tell(const dmi_writer_t *writer);
 
 /**
- * @brief Complete the formatted area by filling in the length of the header.
+ * @brief Reposition the writer cursor to the beginning of its range, so that
+ * the data is written again from there.
  *
- * @param[in,out] writer Writer to complete.
+ * The data written already is kept until it is written over, the way the data
+ * of a buffer is kept until it is.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Formatted area is longer than a byte can
- *        count
- *
- * @return `true` on success, `false` otherwise.
+ * @param[in,out] writer Writer to reset.
  */
-__dmi_api bool dmi_writer_finish(dmi_writer_t *writer);
+__dmi_api void dmi_writer_reset(dmi_writer_t *writer);
 
 __END_DECLS
-
-/**
- * @def dmi_writer_put(__writer, __type, __value)
- * @brief Encode a value of the wire-format type and write it at the current
- *        position.
- *
- * @param[in,out] __writer Writer to write to.
- * @param[in]     __type   Wire-format type to write (e.g., `dmi_word_t`).
- * @param[in]     __value  Value to write.
- *
- * @return `true` on success, `false` otherwise.
- */
-#define dmi_writer_put(__writer, __type, __value)                       \
-        ({                                                              \
-            __type __encoded = dmi_encode((__type)(__value));           \
-            dmi_writer_put_bytes(__writer, &__encoded, sizeof(__type)); \
-        })
 
 #endif // !OPENDMI_WRITER_H

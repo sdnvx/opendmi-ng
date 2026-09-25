@@ -286,10 +286,13 @@ static void test_lint_raw_data(void **pstate)
 {
     test_lint_state_t *state = *pstate;
 
-    size_t size = 0;
-    dmi_data_t *data = dmi_file_get(state->context, test_ipmi_path, -1, &size);
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
 
-    assert_non_null(data);
+    assert_non_null(buffer);
+    assert_true(dmi_file_load(buffer, test_ipmi_path, -1, 0));
+
+    size_t      size = buffer->length;
+    dmi_data_t *data = buffer->data;
 
     // Structures follow the entry point, which is no longer than its maximum
     size_t offset = DMI_ENTRY_MAX_SIZE;
@@ -328,7 +331,7 @@ static void test_lint_raw_data(void **pstate)
         fail_msg("Unable to create file %s", test_broken_path);
     }
 
-    dmi_free(data);
+    dmi_buffer_destroy(buffer);
 
     dmi_lint_severity_t severity = DMI_LINT_SEVERITY_NONE;
     size_t count = test_lint_count_rule(state, test_broken_path, "ipmi-device.revision",

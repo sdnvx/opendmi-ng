@@ -1,0 +1,60 @@
+= dmi_decoder_get_bytes(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_decoder_get_bytes - read bytes of a structure at the current position.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/decoder.h>
+
+bool dmi_decoder_get_bytes(dmi_decoder_t *decoder, void *ptr, size_t length);
+----
+
+== Description
+
+The `dmi_decoder_get_bytes` function copies `length` bytes of the structure
+into `ptr` and advances the cursor.
+
+Referring to the bytes in place, rather than copying them, is what
+`dmi_decoder_get_binary`(3) does.
+
+=== Parameters
+
+`decoder`::
+Decoder to read from.
+
+`ptr`::
+Buffer that receives the bytes; must be at least `length` bytes.
+
+`length`::
+Number of the bytes to read.
+
+== Return value
+
+`true` on success, `false` if there are not enough bytes remaining.
+
+== See also
+
+`dmi_decoder_get_bytes_at`(3),
+`dmi_decoder_get_binary`(3),
+`dmi_decoder_get`(3),
+`dmi_decoder_skip`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

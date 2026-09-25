@@ -429,8 +429,8 @@ static void test_registry_decode_all_strict(void **pstate)
     dmi_set_logger(context, &test_logger);
 
     context->state.smbios_version = DMI_VERSION(2, 7, 0);
-    context->state.table_data     = test_all_malformed_table;
-    context->state.table_size     = sizeof(test_all_malformed_table);
+    assert_true(((context->state.table = dmi_buffer_create(context)) != nullptr));
+    assert_true(dmi_buffer_assign(context->state.table, test_all_malformed_table, sizeof(test_all_malformed_table)));
     context->state.registry       = dmi_registry_create(context, 0);
 
     dmi_registry_t *registry = dmi_get_registry(context);
@@ -492,7 +492,7 @@ static void test_registry_overlay(void **pstate)
     const dmi_entity_overlay_t *first  = array->overlays;
     const dmi_entity_overlay_t *second = (first != nullptr) ? first->next : nullptr;
     bool applied = (second != nullptr) and (second->next == nullptr);
-    dmi_data_t raw = array->data[0x05];
+    dmi_data_t raw = dmi_buffer_at(array->buffer, array->offset, array->body_length)[0x05];
 
     // Entries are listed in the order they are applied
     bool first_valid =
@@ -537,7 +537,7 @@ static void test_registry_overlay_disabled(void **pstate)
 
     bool decoded = (info != nullptr);
     dmi_memory_array_usage_t usage = decoded ? info->usage : 0;
-    bool overlaid = (array != nullptr) and (array->overlay_data != nullptr);
+    bool overlaid = (array != nullptr) and (array->overlay != nullptr);
 
     dmi_destroy(context);
 
@@ -676,8 +676,8 @@ static dmi_context_t *test_registry_open(unsigned int flags, dmi_data_t *table, 
     dmi_set_logger(context, &test_logger);
 
     context->state.smbios_version = DMI_VERSION(2, 7, 0);
-    context->state.table_data     = table;
-    context->state.table_size     = size;
+    assert_true(((context->state.table = dmi_buffer_create(context)) != nullptr));
+    assert_true(dmi_buffer_assign(context->state.table, table, size));
 
     context->state.registry = dmi_registry_create(context, 0);
 

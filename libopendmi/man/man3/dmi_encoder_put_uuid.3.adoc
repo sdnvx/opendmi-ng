@@ -1,0 +1,54 @@
+= dmi_encoder_put_uuid(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_encoder_put_uuid - encode a UUID and write it at the current position.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/encoder.h>
+
+dmi_encoder_put_uuid(encoder, value)
+----
+
+== Description
+
+The `dmi_encoder_put_uuid` macro converts `value` from the RFC 4122
+representation into SMBIOS byte order using `dmi_uuid_encode` and writes 16
+bytes. The cursor is advanced.
+
+=== Parameters
+
+`encoder`::
+Encoder to write to.
+
+`value`::
+`dmi_uuid_t` to write.
+
+== Return value
+
+`true` on success, `false` if the buffer cannot grow.
+
+== See also
+
+`dmi_encoder_put`(3),
+`dmi_uuid_encode`(3),
+`dmi_decoder_get_uuid`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

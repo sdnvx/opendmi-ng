@@ -45,11 +45,16 @@ def load_yaml(path: str):
         return None
 
 def load_dump(dump_path: str):
+    env = os.environ.copy()
+    env["LANG"] = "en_US.UTF-8"
+    env["LC_ALL"] = "C"
+
     try:
         process = subprocess.Popen(
             [f"{build_dir}/bin/opendmi", "--file", dump_path, "export", "--all", "--format=yaml"],
             stdout = subprocess.PIPE,
-            stderr = subprocess.PIPE
+            stderr = subprocess.PIPE,
+            env=env
         )
         stdout, stderr = process.communicate()
 

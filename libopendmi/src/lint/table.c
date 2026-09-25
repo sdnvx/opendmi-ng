@@ -145,7 +145,7 @@ static void dmi_lint_table_trailing_data(dmi_lint_t *lint, const dmi_entity_t *e
         return;
 
     size_t end  = offset + terminator->total_length;
-    size_t size = dmi_lint_context(lint)->state.table_size;
+    size_t size = dmi_lint_context(lint)->state.table->length;
 
     if (size > end) {
         dmi_lint_issue(lint, nullptr, nullptr, end,

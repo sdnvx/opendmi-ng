@@ -21,15 +21,24 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 ----
 #include <opendmi/entity.h>
 
-dmi_entity_t *dmi_entity_create(dmi_context_t *context, const void *data);
+dmi_entity_t *dmi_entity_create(
+        dmi_context_t      *context,
+        const dmi_buffer_t *buffer,
+        size_t              offset);
 ----
 
 == Description
 
 The `dmi_entity_create` function allocates a new entity descriptor and
-initializes it from the raw SMBIOS structure data pointed to by `data`. It
-parses the structure header, computes the total length (formatted area plus
-string set), and decodes the string table.
+initializes it from the data of the structure, which begins at `offset`
+within `buffer` and runs to the end of the data the buffer holds. It parses
+the structure header, computes the total length (formatted area plus string
+set), and decodes the string table.
+
+The structure refers to the data of the buffer in place rather than holding
+a copy of it, so the buffer is required to hold that data for as long as the
+entity lives. The structures read from a table all refer to the buffer of
+the table, which the context holds until it is closed.
 
 The caller is responsible for destroying the returned entity descriptor with
 `dmi_entity_destroy`(3) when it is no longer needed.
@@ -39,14 +48,17 @@ The caller is responsible for destroying the returned entity descriptor with
 `context`::
 DMI context handle.
 
-`data`::
-Pointer to raw SMBIOS structure data, starting with the structure header.
+`buffer`::
+Buffer holding the data of the structure.
+
+`offset`::
+Offset the structure begins at within the buffer.
 
 == Return value
 
 On success, returns a pointer to a newly allocated entity descriptor. On
-failure, returns `nullptr` (e.g., if `context` or `data` is `nullptr`, the structure
-length is invalid, or a memory allocation fails).
+failure, returns `nullptr` (e.g. if `context` or `buffer` is `nullptr`, the
+structure length is invalid, or a memory allocation fails).
 
 == Errors
 
@@ -56,7 +68,9 @@ On failure, an error is raised on `context`.
 
 `dmi_entity_decode`(3),
 `dmi_entity_link`(3),
-`dmi_entity_destroy`(3)
+`dmi_entity_destroy`(3),
+`dmi_entity_buffer`(3),
+`dmi_buffer_create`(3)
 
 == Copying
 

@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/tpm-device.h>
@@ -20,8 +21,8 @@
 static void test_tpm_device_firmware_version(void **pstate);
 static void test_tpm_device_vendor(void **pstate);
 
-static dmi_entity_t *test_create(dmi_context_t *context, uint8_t *data, uint8_t major, uint8_t minor);
-static dmi_entity_t *test_create_vendor(dmi_context_t *context, uint8_t *data, const char vendor[4]);
+static dmi_entity_t *test_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t major, uint8_t minor);
+static dmi_entity_t *test_create_vendor(dmi_buffer_t *buffer, uint8_t *data, const char vendor[4]);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -44,12 +45,14 @@ static void test_tpm_device_firmware_version(void **pstate)
 
     dmi_context_t *context = dmi_create(0);
     assert_non_null(context);
+
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
     dmi_set_logger(context, &test_logger);
 
     uint8_t data[TEST_TPM_DEVICE_SIZE];
 
     // TPM 1.2: revision of TCPA_VERSION structure
-    dmi_entity_t *entity = test_create(context, data, 1, 2);
+    dmi_entity_t *entity = test_create(entity_buffer, data, 1, 2);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -62,7 +65,7 @@ static void test_tpm_device_firmware_version(void **pstate)
     dmi_entity_destroy(entity);
 
     // TPM 2.0: major and minor version in the first double word
-    entity = test_create(context, data, 2, 0);
+    entity = test_create(entity_buffer, data, 2, 0);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -76,7 +79,7 @@ static void test_tpm_device_firmware_version(void **pstate)
     dmi_entity_destroy(entity);
 
     // Unknown TPM version: raw value
-    entity = test_create(context, data, 3, 0);
+    entity = test_create(entity_buffer, data, 3, 0);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -95,6 +98,8 @@ static void test_tpm_device_vendor(void **pstate)
 
     dmi_context_t *context = dmi_create(0);
     assert_non_null(context);
+
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
     dmi_set_logger(context, &test_logger);
 
     static const struct {
@@ -113,7 +118,7 @@ static void test_tpm_device_vendor(void **pstate)
     uint8_t data[TEST_TPM_DEVICE_SIZE];
 
     for (size_t i = 0; i < countof(test_cases); i++) {
-        dmi_entity_t *entity = test_create_vendor(context, data, test_cases[i].vendor);
+        dmi_entity_t *entity = test_create_vendor(entity_buffer, data, test_cases[i].vendor);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -131,9 +136,9 @@ static void test_tpm_device_vendor(void **pstate)
     dmi_destroy(context);
 }
 
-static dmi_entity_t *test_create_vendor(dmi_context_t *context, uint8_t *data, const char vendor[4])
+static dmi_entity_t *test_create_vendor(dmi_buffer_t *buffer, uint8_t *data, const char vendor[4])
 {
-    dmi_entity_t *entity = test_create(context, data, 2, 0);
+    dmi_entity_t *entity = test_create(buffer, data, 2, 0);
     if (entity == nullptr)
         return nullptr;
 
@@ -143,10 +148,10 @@ static dmi_entity_t *test_create_vendor(dmi_context_t *context, uint8_t *data, c
     // creating the entity
     memcpy(data + 4, vendor, 4);
 
-    return dmi_entity_create(context, data, TEST_TPM_DEVICE_SIZE);
+    return dmi_test_entity_create(buffer, data, TEST_TPM_DEVICE_SIZE);
 }
 
-static dmi_entity_t *test_create(dmi_context_t *context, uint8_t *data, uint8_t major, uint8_t minor)
+static dmi_entity_t *test_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t major, uint8_t minor)
 {
     const uint8_t header[] = {
         43, 0x1F, 0x00, 0x30,               // Header
@@ -163,5 +168,5 @@ static dmi_entity_t *test_create(dmi_context_t *context, uint8_t *data, uint8_t 
     memcpy(data, header, sizeof(header));
     memcpy(data + sizeof(header), "TPM\0\0", 5);
 
-    return dmi_entity_create(context, data, TEST_TPM_DEVICE_SIZE);
+    return dmi_test_entity_create(buffer, data, TEST_TPM_DEVICE_SIZE);
 }

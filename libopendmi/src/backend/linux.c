@@ -23,15 +23,13 @@ typedef struct dmi_linux_session dmi_linux_session_t;
 
 typedef struct dmi_linux_session
 {
-    dmi_data_t *entry;
-    size_t entry_size;
-    dmi_data_t *table;
-    size_t table_size;
+    char *entry_path;
+    char *table_path;
 } dmi_linux_session_t;
 
 static bool dmi_linux_open(dmi_context_t *context, const char *path);
-static dmi_data_t *dmi_linux_read_entry(dmi_context_t *context, size_t *plength);
-static dmi_data_t *dmi_linux_read_table(dmi_context_t *context, size_t *plength);
+static bool dmi_linux_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
+static bool dmi_linux_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
 static bool dmi_linux_close(dmi_context_t *context);
 static void dmi_linux_session_free(dmi_linux_session_t *session);
 
@@ -65,8 +63,6 @@ static bool dmi_linux_open(dmi_context_t *context, const char *path)
 {
     bool success = false;
     dmi_linux_session_t *session = nullptr;
-    char *entry_path = nullptr;
-    char *table_path = nullptr;
 
     assert(context != nullptr);
     assert(context->state.session == nullptr);
@@ -78,27 +74,20 @@ static bool dmi_linux_open(dmi_context_t *context, const char *path)
         return false;
 
     do {
-        if (asprintf(&entry_path, "%s/%s", dmi_linux_sysfs_path, dmi_linux_entry_file) < 0)
+        // Path is left as it was when it cannot be made up, so that the
+        // session is disposed of by what it holds
+        if (asprintf(&session->entry_path, "%s/%s", dmi_linux_sysfs_path, dmi_linux_entry_file) < 0) {
+            session->entry_path = nullptr;
             break;
-        if (asprintf(&table_path, "%s/%s", dmi_linux_sysfs_path, dmi_linux_table_file) < 0)
+        }
+        if (asprintf(&session->table_path, "%s/%s", dmi_linux_sysfs_path, dmi_linux_table_file) < 0) {
+            session->table_path = nullptr;
             break;
-
-        session->entry_size = 0;
-        session->entry = dmi_file_get(context, entry_path, -1, &session->entry_size);
-        if (session->entry == nullptr)
-            break;
-
-        session->table_size = 0;
-        session->table = dmi_file_get(context, table_path, -1, &session->table_size);
-        if (session->table == nullptr)
-            break;
+        }
 
         context->state.session = session;
         success = true;
     } while (false);
-
-    dmi_free(entry_path);
-    dmi_free(table_path);
 
     if (not success)
         dmi_linux_session_free(session);
@@ -106,30 +95,26 @@ static bool dmi_linux_open(dmi_context_t *context, const char *path)
     return success;
 }
 
-static dmi_data_t *dmi_linux_read_entry(dmi_context_t *context, size_t *plength)
+static bool dmi_linux_read_entry(dmi_context_t *context, dmi_buffer_t *buffer)
 {
     assert(context != nullptr);
     assert(context->state.session != nullptr);
-    assert(plength != nullptr);
+    assert(buffer != nullptr);
 
     dmi_linux_session_t *session = dmi_cast(session, context->state.session);
 
-    *plength = session->entry_size;
-
-    return session->entry;
+    return dmi_file_load(buffer, session->entry_path, -1, 0);
 }
 
-static dmi_data_t *dmi_linux_read_table(dmi_context_t *context, size_t *plength)
+static bool dmi_linux_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
 {
     assert(context != nullptr);
     assert(context->state.session != nullptr);
-    assert(plength != nullptr);
+    assert(buffer != nullptr);
 
     dmi_linux_session_t *session = dmi_cast(session, context->state.session);
 
-    *plength = session->table_size;
-
-    return session->table;
+    return dmi_file_load(buffer, session->table_path, -1, 0);
 }
 
 static bool dmi_linux_close(dmi_context_t *context)
@@ -147,8 +132,8 @@ static void dmi_linux_session_free(dmi_linux_session_t *session)
     if (session == nullptr)
         return;
 
-    dmi_free(session->entry);
-    dmi_free(session->table);
+    dmi_free(session->entry_path);
+    dmi_free(session->table_path);
 
     dmi_free(session);
 }

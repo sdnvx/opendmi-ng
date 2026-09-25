@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_get_bytes - read data from the reader at the current position.
+dmi_reader_get_bytes - read data from a reader at the current position.
 
 == Library
 
@@ -26,9 +26,11 @@ bool dmi_reader_get_bytes(dmi_reader_t *reader, void *ptr, size_t length);
 
 == Description
 
-The `dmi_reader_get_bytes` function copies `length` bytes from the reader into
-the buffer pointed to by `ptr` and advances the reader cursor. No byte-order
-conversion is performed.
+The `dmi_reader_get_bytes` function copies `length` bytes from the reader
+into the buffer pointed to by `ptr` and advances the reader cursor.
+
+Referring to the bytes of the buffer in place, rather than copying them, is
+what `dmi_reader_ref_bytes`(3) does.
 
 === Parameters
 
@@ -43,13 +45,16 @@ Number of bytes to read.
 
 == Return value
 
-Returns `true` on success, `false` if there are fewer than `length` bytes
-remaining in the reader.
+`true` on success, `false` if there are fewer than `length` bytes remaining
+in the reader.
 
 == See also
 
 `dmi_reader_get_bytes_at`(3),
-`dmi_reader_get`(3)
+`dmi_reader_ref_bytes`(3),
+`dmi_reader_skip`(3),
+`dmi_reader_has`(3),
+`dmi_decoder_get`(3)
 
 == Copying
 

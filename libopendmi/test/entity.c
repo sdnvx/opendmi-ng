@@ -9,6 +9,8 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
+#include <opendmi/decoder.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/entity.h>
 #include <opendmi/error.h>
 #include <opendmi/log.h>
@@ -77,11 +79,15 @@ static int test_entity_teardown(void **pstate)
 
 static void assert_entity_truncated(dmi_context_t *context, const void *data, size_t max_length)
 {
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+
     dmi_error_clear(context);
 
-    assert_null(dmi_entity_create(context, data, max_length));
+    assert_null(dmi_test_entity_create(buffer, data, max_length));
     assert_non_null(dmi_error_peek_last(context));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ENTITY_TRUNCATED);
+
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_entity_create_fits_exactly(void **pstate)
@@ -94,7 +100,8 @@ static void test_entity_create_fits_exactly(void **pstate)
         'A', 0, 'B', 'C', 0, 0
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     assert_int_equal(entity->handle, 0x1234);
@@ -106,6 +113,7 @@ static void test_entity_create_fits_exactly(void **pstate)
     assert_string_equal(dmi_entity_string(entity, 2), "BC");
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_entity_create_no_strings(void **pstate)
@@ -114,7 +122,8 @@ static void test_entity_create_no_strings(void **pstate)
 
     static const uint8_t data[] = { 126, 4, 0x01, 0x00, 0, 0 };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     assert_int_equal(entity->extra_length, 2);
@@ -122,6 +131,7 @@ static void test_entity_create_no_strings(void **pstate)
     assert_int_equal(entity->string_count, 0);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_entity_create_end_of_table(void **pstate)
@@ -131,13 +141,15 @@ static void test_entity_create_end_of_table(void **pstate)
     // Zero length is treated as end-of-table marker
     static const uint8_t data[] = { 0, 0, 0xFF, 0xFE, 0, 0 };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     assert_int_equal(entity->type, DMI_TYPE(END_OF_TABLE));
     assert_int_equal(entity->total_length, sizeof(data));
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_entity_create_strings(void **pstate)
@@ -150,7 +162,8 @@ static void test_entity_create_strings(void **pstate)
         ' ', 'A', ' ', 0, 'B', 'C', 0, 0, 'D', 0, 0
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     assert_int_equal(entity->string_count, 2);
@@ -162,6 +175,7 @@ static void test_entity_create_strings(void **pstate)
     assert_null(dmi_entity_string_ex(entity, 3, false));
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_entity_create_leading_nul(void **pstate)
@@ -172,7 +186,8 @@ static void test_entity_create_leading_nul(void **pstate)
     // extends up to the first double NUL
     static const uint8_t data[] = { 126, 4, 0x01, 0x00, 0, 'A', 0, 0 };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     assert_int_equal(entity->string_count, 0);
@@ -180,6 +195,7 @@ static void test_entity_create_leading_nul(void **pstate)
     assert_null(dmi_entity_string_ex(entity, 1, false));
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 
     // Terminator must still fit into available data
     assert_entity_truncated(context, data, sizeof(data) - 1);
@@ -241,9 +257,11 @@ static void test_entity_create_unterminated_string_set(void **pstate)
 
     assert_entity_truncated(context, data, 6);
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_entity_stop(void **pstate)
@@ -255,18 +273,22 @@ static void test_entity_stop(void **pstate)
         0, 0
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     // All data has been read, but decoder knows more fields
-    dmi_reader_initialize(dmi_entity_reader(entity), entity);
-    assert_true(dmi_reader_skip(dmi_entity_reader(entity), sizeof(data) - 2));
+    dmi_decoder_t decoder;
 
-    assert_true(dmi_entity_stop(entity));
+    assert_true(dmi_decoder_initialize(&decoder, entity));
+    assert_true(dmi_decoder_skip(&decoder, sizeof(data) - 2 - sizeof(dmi_header_t)));
+
+    assert_true(dmi_decoder_stop(&decoder));
     assert_true(entity->state & DMI_ENTITY_STATE_PARTIAL);
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_entity_incomplete(void **pstate)
@@ -278,16 +300,20 @@ static void test_entity_incomplete(void **pstate)
         0, 0
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     // Remaining data is shorter than the next set of fields
-    dmi_reader_initialize(dmi_entity_reader(entity), entity);
-    assert_true(dmi_reader_skip(dmi_entity_reader(entity), sizeof(dmi_header_t) + 1));
+    dmi_decoder_t decoder;
 
-    assert_true(dmi_entity_incomplete(entity));
+    assert_true(dmi_decoder_initialize(&decoder, entity));
+    assert_true(dmi_decoder_skip(&decoder, 1));
+
+    assert_true(dmi_decoder_incomplete(&decoder));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
     assert_false(entity->state & DMI_ENTITY_STATE_PARTIAL);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }

@@ -1,0 +1,51 @@
+= dmi_reader_remaining(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_reader_remaining - return the number of unread bytes in a reader.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/reader.h>
+
+size_t dmi_reader_remaining(const dmi_reader_t *reader);
+----
+
+== Description
+
+The `dmi_reader_remaining` function returns the number of bytes from the
+current cursor position to the end of the range.
+
+=== Parameters
+
+`reader`::
+Reader to query.
+
+== Return value
+
+Number of bytes left to read, or zero if `reader` is `nullptr`.
+
+== See also
+
+`dmi_reader_has`(3),
+`dmi_reader_is_done`(3),
+`dmi_reader_tell`(3),
+`dmi_decoder_remaining`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

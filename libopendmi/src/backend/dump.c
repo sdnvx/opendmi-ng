@@ -18,14 +18,19 @@ typedef struct dmi_dump_session dmi_dump_session_t;
 
 struct dmi_dump_session
 {
-    dmi_data_t *data;
-    size_t data_size;
+    dmi_buffer_t *data;
 };
 
 static bool dmi_dump_open(dmi_context_t *context, const char *path);
 static bool dmi_dump_check(dmi_context_t *context, const char *path, const dmi_data_t *data, size_t size);
-static dmi_data_t *dmi_dump_read_entry(dmi_context_t *context, size_t *plength);
-static dmi_data_t *dmi_dump_read_table(dmi_context_t *context, size_t *plength);
+static bool dmi_dump_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
+static bool dmi_dump_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Dump file starts with entry point structure padded to its maximum
+ * size, and is followed by the structure table.
+ */
 static bool dmi_dump_close(dmi_context_t *context);
 
 dmi_backend_t dmi_dump_backend =
@@ -54,18 +59,19 @@ static bool dmi_dump_open(dmi_context_t *context, const char *path)
         return false;
 
     do {
-        session->data_size = 0;
-        session->data = dmi_file_get(context, (const char *)path, -1, &session->data_size);
+        session->data = dmi_buffer_create(context);
         if (session->data == nullptr)
             break;
-        if (not dmi_dump_check(context, path, session->data, session->data_size))
+        if (not dmi_file_load(session->data, path, -1, 0))
+            break;
+        if (not dmi_dump_check(context, path, session->data->data, session->data->length))
             break;
 
         success = true;
     } while (false);
 
     if (not success) {
-        dmi_free(session->data);
+        dmi_buffer_destroy(session->data);
         dmi_free(session);
 
         return false;
@@ -76,16 +82,14 @@ static bool dmi_dump_open(dmi_context_t *context, const char *path)
     return true;
 }
 
-static dmi_data_t *dmi_dump_read_entry(dmi_context_t *context, size_t *plength)
+static bool dmi_dump_read_entry(dmi_context_t *context, dmi_buffer_t *buffer)
 {
     dmi_dump_session_t *session = dmi_cast(session, context->state.session);
 
-    *plength = DMI_ENTRY_MAX_SIZE;
-
-    return session->data;
+    return dmi_buffer_assign(buffer, session->data->data, DMI_ENTRY_MAX_SIZE);
 }
 
-static dmi_data_t *dmi_dump_read_table(dmi_context_t *context, size_t *plength)
+static bool dmi_dump_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
 {
     dmi_dump_session_t *session = dmi_cast(session, context->state.session);
 
@@ -96,26 +100,20 @@ static dmi_data_t *dmi_dump_read_table(dmi_context_t *context, size_t *plength)
                         (unsigned long long)context->state.table_area_addr);
     }
 
-    *plength = session->data_size - DMI_ENTRY_MAX_SIZE;
-
-    return session->data + DMI_ENTRY_MAX_SIZE;
+    return dmi_buffer_assign(buffer, session->data->data + DMI_ENTRY_MAX_SIZE,
+                             session->data->length - DMI_ENTRY_MAX_SIZE);
 }
 
 static bool dmi_dump_close(dmi_context_t *context)
 {
     dmi_dump_session_t *session = dmi_cast(session, context->state.session);
 
-    dmi_free(session->data);
+    dmi_buffer_destroy(session->data);
     dmi_free(session);
 
     return true;
 }
 
-/**
- * @internal
- * @brief Dump file starts with entry point structure padded to its maximum
- * size, and is followed by the structure table.
- */
 static bool dmi_dump_check(dmi_context_t *context, const char *path, const dmi_data_t *data, size_t size)
 {
     static const char *anchors[] = {

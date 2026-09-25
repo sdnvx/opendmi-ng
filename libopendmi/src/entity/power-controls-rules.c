@@ -39,7 +39,8 @@ void dmi_power_controls_lint_bcd(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_reader_t reader;
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     for (size_t i = 0; i < countof(dmi_power_controls_bcd_fields); i++) {

@@ -16,8 +16,8 @@
 #include <opendmi/entity/additional-info.h>
 
 // Operation handlers, see additional-info-handlers.c
-bool dmi_additional_info_decode(dmi_entity_t *entity);
-bool dmi_additional_info_encode(dmi_writer_t *writer);
+bool dmi_additional_info_decode(dmi_decoder_t *decoder);
+bool dmi_additional_info_encode(dmi_encoder_t *encoder);
 void dmi_additional_info_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_ADDITIONAL_INFO_INTERNAL_H

@@ -28,15 +28,11 @@ typedef struct dmi_netbsd_session dmi_netbsd_session_t;
 struct dmi_netbsd_session
 {
     const char *device;
-    dmi_data_t *entry;
-    size_t entry_size;
-    dmi_data_t *table;
-    size_t table_size;
 };
 
 static bool dmi_netbsd_open(dmi_context_t *context, const char *path);
-static dmi_data_t *dmi_netbsd_read_entry(dmi_context_t *context, size_t *plength);
-static dmi_data_t *dmi_netbsd_read_table(dmi_context_t *context, size_t *plength);
+static bool dmi_netbsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
+static bool dmi_netbsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
 static bool dmi_netbsd_close(dmi_context_t *context);
 static void dmi_netbsd_session_free(dmi_netbsd_session_t *session);
 
@@ -69,65 +65,48 @@ static bool dmi_netbsd_open(dmi_context_t *context, const char *path)
     return true;
 }
 
-static dmi_data_t *dmi_netbsd_read_entry(dmi_context_t *context, size_t *plength)
+static bool dmi_netbsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer)
 {
     assert(context != nullptr);
     assert(context->state.session != nullptr);
-    assert(plength != nullptr);
+    assert(buffer != nullptr);
 
     dmi_netbsd_session_t *session = dmi_cast(session, context->state.session);
 
-    if (session->entry == nullptr) {
-        const char *device = DMI_NETBSD_DEV_SMBIOS;
-        size_t      addr   = 0;
-        bool        found  = false;
+    const char *device = DMI_NETBSD_DEV_SMBIOS;
+    size_t      addr   = 0;
+    bool        found  = false;
 
-        found = dmi_netbsd_get_entry_addr(context, &addr);
-#       if defined(__i386__) || defined(__x86_64__)
-            if (not found) {
-                device = DMI_NETBSD_DEV_MEMORY;
-                found  = dmi_generic_find_entry_addr(context, DMI_NETBSD_DEV_MEMORY, &addr);
-            }
-#       endif
-
+    found = dmi_netbsd_get_entry_addr(context, &addr);
+#   if defined(__i386__) || defined(__x86_64__)
         if (not found) {
-            dmi_error_raise(context, DMI_ERROR_EPS_NOT_FOUND);
-            return nullptr;
+            device = DMI_NETBSD_DEV_MEMORY;
+            found  = dmi_generic_find_entry_addr(context, DMI_NETBSD_DEV_MEMORY, &addr);
         }
+#   endif
 
-        session->device = device;
-        session->entry_size = DMI_ENTRY_MAX_SIZE;
-        session->entry = dmi_file_get(context, device, addr, &session->entry_size);
-
-        if (session->entry == nullptr)
-            return nullptr;
+    if (not found) {
+        dmi_error_raise(context, DMI_ERROR_EPS_NOT_FOUND);
+        return false;
     }
 
-    *plength = session->entry_size;
+    // Device the entry point has been read from is the one the table is read
+    // from as well
+    session->device = device;
 
-    return session->entry;
+    return dmi_file_load(buffer, device, (off_t)addr, DMI_ENTRY_MAX_SIZE);
 }
 
-static dmi_data_t *dmi_netbsd_read_table(dmi_context_t *context, size_t *plength)
+static bool dmi_netbsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
 {
     assert(context != nullptr);
     assert(context->state.session != nullptr);
-    assert(plength != nullptr);
+    assert(buffer != nullptr);
 
     dmi_netbsd_session_t *session = dmi_cast(session, context->state.session);
 
-    if (session->table == nullptr) {
-        session->table_size = context->state.table_area_max_size;
-        session->table = dmi_file_get(context, session->device,
-                                      context->state.table_area_addr, &session->table_size);
-        if (session->table == nullptr)
-            return nullptr;
-
-    }
-
-    *plength = session->table_size;
-
-    return session->table;
+    return dmi_file_load(buffer, session->device, (off_t)context->state.table_area_addr,
+                         context->state.table_area_max_size);
 }
 
 static bool dmi_netbsd_close(dmi_context_t *context)
@@ -142,12 +121,6 @@ static bool dmi_netbsd_close(dmi_context_t *context)
 
 static void dmi_netbsd_session_free(dmi_netbsd_session_t *session)
 {
-    if (session == nullptr)
-        return;
-
-    dmi_free(session->entry);
-    dmi_free(session->table);
-
     dmi_free(session);
 }
 

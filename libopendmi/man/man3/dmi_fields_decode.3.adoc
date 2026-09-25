@@ -21,7 +21,7 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 ----
 #include <opendmi/field.h>
 
-bool dmi_fields_decode(dmi_entity_t *entity);
+bool dmi_fields_decode(dmi_decoder_t *decoder);
 ----
 
 == Description
@@ -35,7 +35,8 @@ terminated with an empty field.
 Fields are read in the order they are declared, starting at the beginning of
 the structure body. A specification which declares fields and no decoding
 handler is decoded by this function, which `dmi_entity_decode`(3) calls on its
-own, so it rarely has to be named.
+own, so it rarely has to be named. The bytes are read through the decoder the
+structure is being decoded with, see `dmi_decoder_initialize`(3).
 
 Fields describe the bytes, while the attributes of `dmi_attribute_t` describe
 the values they are decoded into. The two are joined by the member of the
@@ -77,8 +78,9 @@ feeding several members at once is decoded.
 
 === Parameters
 
-`entity`::
-Structure to decode, which is decoded into the structure of its type.
+`decoder`::
+Decoder of the structure, see `dmi_decoder_initialize`(3). The structure is
+decoded into the structure of its type.
 
 == Return value
 
@@ -88,7 +90,7 @@ structures the data ends within, and `false` if it cannot be.
 == Errors
 
 `DMI_ERROR_NULL_ARGUMENT`::
-Entity is `nullptr`.
+Decoder is `nullptr`.
 
 `DMI_ERROR_INVALID_STATE`::
 Specification declares no fields.
@@ -127,7 +129,9 @@ const dmi_entity_spec_t dmi_slot_spec =
 
 == See also
 
-`dmi_entity_decode`(3), `dmi_reader_initialize`(3)
+`dmi_fields_encode`(3),
+`dmi_entity_decode`(3),
+`dmi_decoder_initialize`(3)
 
 == Copying
 

@@ -48,7 +48,8 @@ void dmi_system_event_log_lint_descriptors(dmi_lint_t *lint, const dmi_entity_t 
     dmi_reader_t reader;
     dmi_byte_t length;
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, &length, DMI_SYSTEM_EVENT_LOG_DESCRIPTOR_OFFSET,

@@ -177,7 +177,7 @@ bool dmi_lint(
     if (context == nullptr)
         return false;
 
-    if (context->state.table_data == nullptr) {
+    if (context->state.table == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
         return false;
     }
@@ -264,12 +264,12 @@ size_t dmi_lint_entity_offset(const dmi_lint_t *lint, const dmi_entity_t *entity
     if ((lint == nullptr) or (entity == nullptr))
         return DMI_LINT_NO_OFFSET;
 
-    const dmi_data_t *table = lint->context->state.table_data;
-
-    if ((table == nullptr) or (entity->data == nullptr) or (entity->data < table))
+    // Offsets are of the table the context holds, so a structure read from
+    // anywhere else has none to report
+    if (entity->buffer != lint->context->state.table)
         return DMI_LINT_NO_OFFSET;
 
-    return (size_t)(entity->data - table);
+    return entity->offset;
 }
 
 size_t dmi_lint_string_offset(const dmi_lint_t *lint, const dmi_entity_t *entity, size_t num)

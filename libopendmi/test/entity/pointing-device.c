@@ -11,6 +11,7 @@
 #include <opendmi/context.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/pointing-device.h>
@@ -21,6 +22,7 @@ typedef struct test_pointing_device test_pointing_device_t;
 struct test_state
 {
     dmi_context_t *context;
+    dmi_buffer_t  *buffer;
     dmi_entity_t  *entity;
 };
 
@@ -176,7 +178,9 @@ static void test_pointing_device_decode_min_length(void **pstate)
         .terminator = 0
     };
 
-    state->entity = dmi_entity_create(state->context, &envelope, sizeof(envelope));
+    state->buffer = dmi_buffer_create(state->context);
+
+    state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
     assert_non_null(state->entity);
     assert_false(dmi_entity_decode(state->entity));
@@ -199,7 +203,9 @@ static void test_pointing_device_decode_empty(void **pstate)
         .terminator = 0
     };
 
-    state->entity = dmi_entity_create(state->context, &envelope, sizeof(envelope));
+    state->buffer = dmi_buffer_create(state->context);
+
+    state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
     assert_non_null(state->entity);
     assert_true(dmi_entity_decode(state->entity));
@@ -238,7 +244,9 @@ static void test_pointing_device_decode_type(void **pstate)
             .terminator = 0
         };
 
-        state->entity = dmi_entity_create(state->context, &envelope, sizeof(envelope));
+        state->buffer = dmi_buffer_create(state->context);
+
+        state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
         assert_non_null(state->entity);
         assert_true(dmi_entity_decode(state->entity));
@@ -273,7 +281,9 @@ static void test_pointing_device_decode_interface(void **pstate)
             .terminator = 0
         };
 
-        state->entity = dmi_entity_create(state->context, &envelope, sizeof(envelope));
+        state->buffer = dmi_buffer_create(state->context);
+
+        state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
         assert_non_null(state->entity);
         assert_true(dmi_entity_decode(state->entity));
@@ -304,7 +314,9 @@ static void test_pointing_device_decode_button_count(void **pstate)
             .terminator = 0
         };
 
-        state->entity = dmi_entity_create(state->context, &envelope, sizeof(envelope));
+        state->buffer = dmi_buffer_create(state->context);
+
+        state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
         assert_non_null(state->entity);
         assert_true(dmi_entity_decode(state->entity));

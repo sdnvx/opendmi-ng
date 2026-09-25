@@ -165,7 +165,7 @@ bool dmi_xml_entry(dmi_xml_session_t *session)
         if (xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("table-area-size"),
-                    "%zu", context->state.table_size) < 0)
+                    "%zu", context->state.table->length) < 0)
             break;
 
         if (xmlTextWriterEndElement(session->writer) < 0)
@@ -654,7 +654,7 @@ bool dmi_xml_entity_data(dmi_xml_session_t *session, const dmi_entity_t *entity)
                     nullptr) < 0)
             break;
 
-        if (not dmi_xml_data(session, entity->data, entity->body_length))
+        if (not dmi_xml_data(session, dmi_entity_data(entity, DMI_TYPE_ANY), entity->body_length))
             break;
 
         if (xmlTextWriterFullEndElement(session->writer) < 0)

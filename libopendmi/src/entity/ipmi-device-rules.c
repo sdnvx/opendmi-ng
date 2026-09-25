@@ -22,7 +22,8 @@ void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *entity)
     dmi_reader_t reader;
     dmi_byte_t value;
 
-    if (not dmi_reader_initialize(&reader, entity))
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
         return;
 
     if (not dmi_reader_get_bytes_at(&reader, &value, DMI_IPMI_DEVICE_REVISION_OFFSET,

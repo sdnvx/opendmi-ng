@@ -15,6 +15,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module.h>
 #include <opendmi/module/intel.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/intel/rsd-phys-device-mapping.h>
@@ -79,7 +80,9 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -101,6 +104,8 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
     assert_int_equal(info->devices[1].secondary_number, 2);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }
 
 static void test_rsd_phys_device_mapping_decode_unknown(void **pstate)
@@ -115,7 +120,9 @@ static void test_rsd_phys_device_mapping_decode_unknown(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = dmi_entity_create(context, data, sizeof(data));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -129,4 +136,6 @@ static void test_rsd_phys_device_mapping_decode_unknown(void **pstate)
     assert_memory_equal(info->devices[0].data.data, data + 8, 2);
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
 }

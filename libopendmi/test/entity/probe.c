@@ -15,6 +15,7 @@
 #include <opendmi/log.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/probe.h>
@@ -82,7 +83,9 @@ static void assert_probe_values(dmi_type_t type, const test_probe_value_t *expec
     memcpy(buffer, data, sizeof(data));
     buffer[0] = (uint8_t)type;
 
-    dmi_entity_t *entity = dmi_entity_create(context, buffer, sizeof(buffer));
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, buffer, sizeof(buffer));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_non_null(entity->spec);
@@ -111,6 +114,8 @@ static void assert_probe_values(dmi_type_t type, const test_probe_value_t *expec
     }
 
     dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
     dmi_destroy(context);
 }
 

@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/firmware-inventory.h>
@@ -24,7 +25,7 @@ static void test_firmware_inventory_parse_ident(void **pstate);
 static void test_firmware_inventory_variants(void **pstate);
 
 static dmi_entity_t *test_create(
-        dmi_context_t *context,
+        dmi_buffer_t  *buffer,
         uint8_t        version_format,
         const char    *version,
         uint8_t        ident_format,
@@ -101,7 +102,9 @@ static void test_firmware_inventory_decode_ident_format(void **pstate)
 
         data[length++] = 0;
 
-        dmi_entity_t *entity = dmi_entity_create(context, data, length);
+        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, length);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -114,6 +117,8 @@ static void test_firmware_inventory_decode_ident_format(void **pstate)
         assert_int_equal(info->state, DMI_FIRMWARE_INVENTORY_STATE_ENABLED);
 
         dmi_entity_destroy(entity);
+
+        dmi_buffer_destroy(entity_buffer);
     }
 
     dmi_destroy(context);
@@ -125,6 +130,8 @@ static void test_firmware_inventory_parse_version(void **pstate)
 
     dmi_context_t *context = dmi_create(0);
     assert_non_null(context);
+
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
     dmi_set_logger(context, &test_logger);
 
     static const struct {
@@ -161,7 +168,7 @@ static void test_firmware_inventory_parse_version(void **pstate)
     };
 
     for (size_t i = 0; i < countof(test_data); i++) {
-        dmi_entity_t *entity = test_create(context, test_data[i].format, test_data[i].version, 0x00, nullptr);
+        dmi_entity_t *entity = test_create(entity_buffer, test_data[i].format, test_data[i].version, 0x00, nullptr);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -184,7 +191,10 @@ static void test_firmware_inventory_parse_version(void **pstate)
         }
 
         dmi_entity_destroy(entity);
+
     }
+
+    dmi_buffer_destroy(entity_buffer);
 
     dmi_destroy(context);
 }
@@ -195,6 +205,8 @@ static void test_firmware_inventory_parse_ident(void **pstate)
 
     dmi_context_t *context = dmi_create(0);
     assert_non_null(context);
+
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
     dmi_set_logger(context, &test_logger);
 
     static const dmi_byte_t guid[16] = {
@@ -217,7 +229,7 @@ static void test_firmware_inventory_parse_ident(void **pstate)
     };
 
     for (size_t i = 0; i < countof(test_data); i++) {
-        dmi_entity_t *entity = test_create(context, DMI_VERSION_FORMAT_FREE, nullptr,
+        dmi_entity_t *entity = test_create(entity_buffer, DMI_VERSION_FORMAT_FREE, nullptr,
                                            test_data[i].format, test_data[i].ident);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
@@ -232,7 +244,10 @@ static void test_firmware_inventory_parse_ident(void **pstate)
             assert_memory_equal(info->parsed_ident.guid.__value, guid, sizeof(guid));
 
         dmi_entity_destroy(entity);
+
     }
+
+    dmi_buffer_destroy(entity_buffer);
 
     dmi_destroy(context);
 }
@@ -243,6 +258,8 @@ static void test_firmware_inventory_variants(void **pstate)
 
     dmi_context_t *context = dmi_create(0);
     assert_non_null(context);
+
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
     dmi_set_logger(context, &test_logger);
 
     static const struct {
@@ -257,7 +274,7 @@ static void test_firmware_inventory_variants(void **pstate)
     };
 
     for (size_t i = 0; i < countof(test_data); i++) {
-        dmi_entity_t *entity = test_create(context, test_data[i].format, test_data[i].version,
+        dmi_entity_t *entity = test_create(entity_buffer, test_data[i].format, test_data[i].version,
                                            DMI_FIRMWARE_IDENT_FORMAT_GUID, "1624a9df-5e13-47fc-874a-df3aff143089");
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
@@ -288,13 +305,16 @@ static void test_firmware_inventory_variants(void **pstate)
         assert_int_equal(variant->type, DMI_ATTRIBUTE_TYPE_UUID);
 
         dmi_entity_destroy(entity);
+
     }
+
+    dmi_buffer_destroy(entity_buffer);
 
     dmi_destroy(context);
 }
 
 static dmi_entity_t *test_create(
-        dmi_context_t *context,
+        dmi_buffer_t  *buffer,
         uint8_t        version_format,
         const char    *version,
         uint8_t        ident_format,
@@ -331,7 +351,7 @@ static dmi_entity_t *test_create(
 
     data[length++] = 0;
 
-    return dmi_entity_create(context, data, length);
+    return dmi_test_entity_create(buffer, data, length);
 }
 
 static const dmi_attribute_t *test_attribute(const dmi_entity_t *entity, const char *code)

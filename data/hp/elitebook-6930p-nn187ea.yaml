@@ -523,7 +523,7 @@ table:
   attributes:
     location: Primary
     vendor: SDI - SDI
-    manufacture-date: null
+    manufacture-date: '2008-08-18'
     serial-number: '0720'
     name: TD06055
     chemistry: unknown

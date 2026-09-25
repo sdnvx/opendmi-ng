@@ -9,7 +9,7 @@ OpenDMI 0.5.0
 
 == Name
 
-dmi_reader_get_bytes_at - read data from the reader at a given offset.
+dmi_reader_get_bytes_at - read data from a reader at a given offset.
 
 == Library
 
@@ -31,9 +31,8 @@ bool dmi_reader_get_bytes_at(
 == Description
 
 The `dmi_reader_get_bytes_at` function copies `length` bytes starting at
-`offset` from the beginning of the entity body into the buffer pointed to by
-`ptr`. The reader cursor is not modified. No byte-order conversion is
-performed.
+`offset` from the beginning of the range into the buffer pointed to by
+`ptr`. The reader cursor is not modified.
 
 === Parameters
 
@@ -44,20 +43,20 @@ Reader to read from.
 Buffer that receives the data; must be at least `length` bytes.
 
 `offset`::
-Byte offset from the beginning of the entity body.
+Byte offset from the beginning of the range.
 
 `length`::
 Number of bytes to read.
 
 == Return value
 
-Returns `true` on success, `false` if the requested range exceeds the reader
-bounds.
+`true` on success, `false` if the requested range exceeds the reader bounds.
 
 == See also
 
 `dmi_reader_get_bytes`(3),
-`dmi_reader_get_at`(3)
+`dmi_reader_ref_bytes`(3),
+`dmi_decoder_get_at`(3)
 
 == Copying
 

@@ -1,0 +1,61 @@
+= dmi_encoder_peek(3)
+The OpenDMI contributors
+OpenDMI 0.5.0
+
+:doctype: manpage
+:release-version: 0.5.0
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+== Name
+
+dmi_encoder_peek - read the source data of an encoder at the current position.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/encoder.h>
+
+bool dmi_encoder_peek(const dmi_encoder_t *encoder, void *ptr, size_t length);
+----
+
+== Description
+
+The `dmi_encoder_peek` function copies `length` bytes the source data holds
+at the current position into `ptr`, without advancing.
+
+This is what the bits a field shares with the ones the specification
+reserves are read with, so that the reserved ones are written back as the
+structure has been decoded with them.
+
+=== Parameters
+
+`encoder`::
+Encoder to read from.
+
+`ptr`::
+Bytes the source holds at the position.
+
+`length`::
+Number of the bytes to read.
+
+== Return value
+
+`true` if the source holds the bytes, `false` if it has none, e.g. in the
+canonical mode, or ends before them.
+
+== See also
+
+`dmi_encoder_remaining`(3),
+`dmi_encoder_copy`(3),
+`dmi_encoder_tell`(3)
+
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.

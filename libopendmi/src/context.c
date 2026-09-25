@@ -412,11 +412,15 @@ bool dmi_save(dmi_context_t *context, const char *path, bool overwrite)
         dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
         return false;
     }
-    if (context->state.table_data == nullptr) {
+    if (context->state.table == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
         return false;
     }
-    if (context->state.entry_data_size > DMI_ENTRY_MAX_SIZE) {
+    // Backends which have no access to the entry point leave the context
+    // without one, and its data is generated on saving
+    if ((context->state.entry != nullptr) and
+        (context->state.entry->length > DMI_ENTRY_MAX_SIZE))
+    {
         dmi_error_raise(context, DMI_ERROR_INVALID_EPS_LENGTH);
         return false;
     }
@@ -446,7 +450,7 @@ bool dmi_save(dmi_context_t *context, const char *path, bool overwrite)
     do {
         if (not dmi_dump_write(context, fd, path, entry, sizeof(entry)))
             break;
-        if (not dmi_dump_write(context, fd, path, context->state.table_data, context->state.table_size))
+        if (not dmi_dump_write(context, fd, path, context->state.table->data, context->state.table->length))
             break;
 
         success = true;
@@ -593,6 +597,11 @@ bool dmi_close(dmi_context_t *context)
     if ((context->state.backend != nullptr) and (context->state.session != nullptr))
         context->state.backend->close(context);
 
+    // Data of the platform is held by the context rather than by the backend,
+    // and nothing which refers to it outlives the context being closed
+    dmi_buffer_destroy(context->state.entry);
+    dmi_buffer_destroy(context->state.table);
+
     memset(&context->state, 0, sizeof(context->state));
     context->state.vendor = DMI_VENDOR_OTHER;
 
@@ -633,6 +642,12 @@ static bool dmi_open_ex(
     do {
         context->state.backend = backend;
 
+        // Data the backend reads belongs to the context, which holds it for
+        // as long as it is open
+        context->state.table = dmi_buffer_create(context);
+        if (context->state.table == nullptr)
+            break;
+
         // Initialize backend
         if (not context->state.backend->open(context, device)) {
             dmi_error_raise_ex(context, DMI_ERROR_BACKEND_INIT, "%s", backend->name);
@@ -642,12 +657,18 @@ static bool dmi_open_ex(
         // Read and decode entry point, if backend provides it
         if (backend->read_entry != nullptr) {
             dmi_log_info(context, "Reading DMI entry point...");
-            context->state.entry_data = backend->read_entry(context, &context->state.entry_data_size);
-            if (context->state.entry_data == nullptr)
+
+            // Backends which have no access to the entry point leave the
+            // context without one at all
+            context->state.entry = dmi_buffer_create(context);
+            if (context->state.entry == nullptr)
+                break;
+
+            if (not backend->read_entry(context, context->state.entry))
                 break;
 
             dmi_log_info(context, "Decoding DMI entry point...");
-            if (not dmi_entry_decode(context, context->state.entry_data, context->state.entry_data_size))
+            if (not dmi_entry_decode(context, context->state.entry->data, context->state.entry->length))
                 break;
         }
 
@@ -660,12 +681,11 @@ static bool dmi_open_ex(
 
         // Read and decode SMBIOS structures
         dmi_log_info(context, "Reading DMI structures...");
-        context->state.table_data = context->state.backend->read_table(context, &context->state.table_size);
-        if (context->state.table_data == nullptr)
+        if (not context->state.backend->read_table(context, context->state.table))
             break;
 
         // Table data size is used for bounds checking while scanning
-        if (context->state.table_size == 0) {
+        if (context->state.table->length == 0) {
             dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TRUNCATED, "SMBIOS table area is empty");
             break;
         }
@@ -814,10 +834,10 @@ static bool dmi_dump_entry_build(dmi_context_t *context, dmi_byte_t *entry)
     memset(entry, 0, DMI_ENTRY_MAX_SIZE);
 
     // Entry point data is optional, Windows backend does not provide it
-    if ((context->state.entry_data == nullptr) or (spec == nullptr))
+    if ((context->state.entry == nullptr) or (spec == nullptr))
         return dmi_dump_entry_generate(context, entry);
 
-    memcpy(entry, context->state.entry_data, context->state.entry_data_size);
+    memcpy(entry, context->state.entry->data, context->state.entry->length);
 
     if (spec->version >= DMI_VERSION(3, 0, 0)) {
         dmi_entry_v30_t *eps = dmi_cast(eps, entry);
@@ -861,9 +881,9 @@ static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry)
 {
     dmi_version_t version = context->state.smbios_version;
 
-    if (context->state.table_size > UINT32_MAX) {
+    if (context->state.table->length > UINT32_MAX) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
-                           "SMBIOS table is too large: %zu bytes", context->state.table_size);
+                           "SMBIOS table is too large: %zu bytes", context->state.table->length);
         return false;
     }
 
@@ -875,7 +895,7 @@ static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry)
         .version_minor       = dmi_encode_byte((uint8_t)dmi_version_minor(version)),
         .version_rev         = dmi_encode_byte((uint8_t)dmi_version_revision(version)),
         .revision            = dmi_encode_byte(0x01), // SMBIOS 3.0 entry point
-        .table_area_max_size = dmi_encode_dword((uint32_t)context->state.table_size),
+        .table_area_max_size = dmi_encode_dword((uint32_t)context->state.table->length),
         .table_area_addr     = dmi_encode_qword(DMI_ENTRY_MAX_SIZE)
     };
 
