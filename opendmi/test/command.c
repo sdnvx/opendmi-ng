@@ -10,6 +10,8 @@
 #include <cmocka.h>
 
 #include <opendmi/command.h>
+#include <opendmi/command/explain.h>
+#include <opendmi/context.h>
 #include <opendmi/internal.h>
 #include <opendmi/test/helpers.h>
 
@@ -19,6 +21,7 @@ static void test_command_names(void **pstate);
 static void test_command_find(void **pstate);
 static void test_command_global_options(void **pstate);
 static void test_command_options(void **pstate);
+static void test_command_explain_detached(void **pstate);
 
 int main(void)
 {
@@ -26,7 +29,8 @@ int main(void)
         cmocka_unit_test(test_command_names),
         cmocka_unit_test(test_command_find),
         cmocka_unit_test(test_command_global_options),
-        cmocka_unit_test(test_command_options)
+        cmocka_unit_test(test_command_options),
+        cmocka_unit_test(test_command_explain_detached)
     };
 
     return cmocka_run_group_tests(tests, test_command_setup, nullptr);
@@ -90,4 +94,26 @@ static void test_command_options(void **pstate)
         if (dmi_test_option_duplicates(command->options) > 0)
             fail_msg("Command %s has duplicate options", command->name);
     }
+}
+
+static void test_command_explain_detached(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_RELAXED);
+    assert_non_null(context);
+
+    // Explanations come from the specifications, so the command must not load
+    // the SMBIOS data, which may be unreadable without privileges or missing
+    // on the system altogether
+    char type[] = "memory-device";
+    char *argv[] = { type, nullptr };
+
+    dmi_global_config.input_path = OPENDMI_TEST_DATA "/nonexistent.bin";
+    int rv = dmi_command_run(&dmi_explain_command, context, 1, argv);
+    dmi_global_config.input_path = nullptr;
+
+    assert_int_equal(rv, EXIT_SUCCESS);
+
+    dmi_destroy(context);
 }

@@ -24,7 +24,8 @@ Use `opendmi-types`(1) to see the types and their codes, and `--` before the
 argument if it could be read as an option.
 
 Types described by extension modules are explained as well, once the module is
-enabled with the global *--module* option.
+enabled with the global *--module* option. The command reads no SMBIOS data,
+so it works without access to the platform.
 
 The command has no options of its own.
 
@@ -39,7 +40,7 @@ Print help and exit.
 Type has been explained.
 
 *1*::
-Type is unknown, or the data could not be read.
+Type is unknown.
 
 *2*::
 Command line is invalid.

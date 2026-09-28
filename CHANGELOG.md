@@ -116,6 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix `--pretty` option of the `export` command having no effect on any output format
 - Fix portable battery manufacture date being dropped when the date string is malformed and the packed SBDS date is there
 - Fix `explain` command rejecting structure types given by their number
+- Fix `explain` command requiring the SMBIOS data of the system
 - Fix name of string property value attribute
 - Fix false errors on memory device references to handle 0x0000 used as unspecified value
 - Fix crash on memory controller referring to undecoded memory module
