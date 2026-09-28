@@ -83,7 +83,7 @@ described.
 | Checksum Type
 | `BYTE`
 | `ENUM`
-| See <<dell-check-types>> for details
+| See xref:specs/dell/indexed-io.adoc#dell-check-types[Checksum types] for details
 
 | `0x0F`
 | 2.0+
@@ -104,7 +104,7 @@ described.
 | Range Checksum Type
 | `BYTE`
 | `ENUM`
-| See <<dell-check-types>> for details
+| See xref:specs/dell/indexed-io.adoc#dell-check-types[Checksum types] for details
 
 | `0x12`
 | 2.0+

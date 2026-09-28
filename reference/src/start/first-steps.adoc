@@ -1,0 +1,98 @@
+= First steps
+:sectnums:
+:sectlinks:
+
+This chapter goes through the commands of the `opendmi` tool most often used.
+Every command is described in full in the part of this manual about the command
+line tool, and is explained by `opendmi <command> --help` too.
+
+== Reading the data of the system
+
+The structures of the system the tool runs on are shown with:
+
+[source,shell]
+----
+$ opendmi show
+----
+
+Reading the data of a platform usually requires privileges, because the table
+is taken from physical memory or from an interface the kernel restricts, so the
+tool is often run as the superuser.
+
+Structures are selected by type, given by number or by code, or by handle:
+
+[source,shell]
+----
+$ opendmi show -t processor
+$ opendmi show -t 17
+$ opendmi show -H 0x0002
+----
+
+The structures the table holds are listed, with their handles and types, with:
+
+[source,shell]
+----
+$ opendmi list
+----
+
+A structure type is explained, with the attributes its structures have, with:
+
+[source,shell]
+----
+$ opendmi explain memory-device
+----
+
+== Exporting the data
+
+The data is exported for a program to read, with every value addressed by a
+stable code, in JSON, XML or YAML:
+
+[source,shell]
+----
+$ opendmi export -f json -o smbios.json
+----
+
+The values are written by their codes, e.g. `4294967296` for a size, and are
+written for a person to read instead, e.g. `4 GiB`, with `--pretty`.
+
+== Working with dumps
+
+The table is dumped into a file, which is read in place of the system with the
+`-i` option, on any system and without privileges:
+
+[source,shell]
+----
+$ opendmi dump -o smbios.bin
+$ opendmi -i smbios.bin show
+----
+
+Dump files are interchangeable with the ones `dmidecode --dump-bin` writes and
+`dmidecode --from-dump` reads.
+
+== Checking the data
+
+The data is checked against the rules of the specification with:
+
+[source,shell]
+----
+$ opendmi -i smbios.bin lint
+----
+
+Every issue found is reported with its offset within the data, the structure
+and the attribute it belongs to, and the rule which has found it:
+
+[source]
+----
+0x00F3: note: baseboard@0x0002 (Baseboard or module information): string 4 holds whitespace only [string.blank]
+----
+
+== Structures the vendors define
+
+Structures of the types the vendors define are decoded once the module of the
+vendor is enabled. The modules available are listed with `opendmi modules`,
+and one is enabled with the `-m` option:
+
+[source,shell]
+----
+$ opendmi -m dell show
+----

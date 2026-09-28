@@ -52,7 +52,7 @@ accessed through the indexed I/O ports, and its checksum.
 | Value Format
 | `BYTE`
 | `ENUM`
-| See <<dell-value-formats>> for details
+| See xref:specs/dell/protected-area-2.adoc#dell-value-formats[Value formats] for details
 
 | `0x08`
 | 2.0+
@@ -80,7 +80,7 @@ accessed through the indexed I/O ports, and its checksum.
 | Checksum Type
 | `BYTE`
 | `ENUM`
-| See <<dell-check-types>> for details
+| See xref:specs/dell/indexed-io.adoc#dell-check-types[Checksum types] for details
 
 | `0x0F`
 | 2.0+
@@ -97,5 +97,7 @@ accessed through the indexed I/O ports, and its checksum.
 | CMOS index of the checksum of the value
 |===
 
-Checksum types are the same as in <<dell-check-types>>. Value formats are
-described in <<dell-value-formats>>.
+Checksum types are the same as in
+xref:specs/dell/indexed-io.adoc#dell-check-types[Checksum types]. Value
+formats are described in
+xref:specs/dell/protected-area-2.adoc#dell-value-formats[Value formats].

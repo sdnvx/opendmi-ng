@@ -1,0 +1,126 @@
+= Building from sources
+:sectnums:
+:sectlinks:
+
+OpenDMI is built from sources with CMake, either through the `build.sh` script
+in the root of the sources, which keeps the options of the build in a file of
+its own, or with CMake directly.
+
+== Prerequisites
+
+* A C compiler supporting C23: GCC, Clang or MSVC.
+* CMake 3.25 or newer.
+
+The library depends on nothing but the system. The rest of the dependencies are
+optional, and enable the features listed below when they are found:
+
+[cols="1,3"]
+|===
+| Dependency | Feature
+
+| `libxml2`
+| XML output of the command line tool
+
+| `libyaml`
+| YAML output of the command line tool
+
+| `libyajl`
+| JSON output of the command line tool
+
+| Curses
+| Colors in the output of the command line tool
+
+| ICU4C
+| Translations of the messages and the names of the values
+
+| AsciiDoctor
+| Manual pages
+
+| AsciiDoctor PDF
+| This manual as a PDF
+
+| CppCheck
+| Static analysis while building
+|===
+
+CMocka, which the tests are written with, is fetched while configuring, and is
+not installed along with OpenDMI.
+
+== Configuring
+
+The build is configured with:
+
+[source,shell]
+----
+$ ./build.sh configure
+----
+
+This configures a release build to be installed into `/opt/opendmi`. The most
+common options are:
+
+`--prefix <path>`::
+Installation prefix.
+
+`--debug`::
+Debug build, with optimization disabled and assertions enabled. Debug builds
+use AddressSanitizer when the toolchain supports it, which `--without-asan`
+turns off.
+
+`--with-json`, `--with-xml`, `--with-yaml`::
+Require the output formats, and fail to configure instead of building without
+them.
+
+`--with-icu`::
+Build with the translations.
+
+`--enable-dbus`, `--enable-python`, `--enable-golang`, `--enable-rust`::
+Build the optional components.
+
+`--enable-website`::
+Build the website of the project.
+
+All of the options are listed by `./build.sh --help`. The defaults are kept in
+`build.conf.dist`, and are overridden by a `build.conf` file in the root of the
+sources, which is not a part of the sources.
+
+== Building and testing
+
+The configured build is built and tested with:
+
+[source,shell]
+----
+$ ./build.sh build
+$ ./build.sh test
+----
+
+The number of the parallel jobs is set with `-j`, and the build directory with
+`-b`, e.g. `./build.sh -j 4 -b /tmp/opendmi build`.
+
+== Installing
+
+The build is installed into the configured prefix with:
+
+[source,shell]
+----
+$ ./build.sh install
+----
+
+The library, its headers, the command line tool, the manual pages, and the
+files which find the library with CMake and `pkg-config` are installed.
+
+== Building with CMake directly
+
+`build.sh` passes the options to CMake as the variables of the same names, so
+the same build is configured by CMake itself as well:
+
+[source,shell]
+----
+$ cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
+$ cmake --build build
+$ ctest --test-dir build
+$ cmake --install build
+----
+
+Optional components are enabled by `-DENABLE_<COMPONENT>=ON`, e.g.
+`-DENABLE_DBUS=ON`, and features are required by `-DENABLE_<FEATURE>=ON` or
+turned off by `-DENABLE_<FEATURE>=OFF`, e.g. `-DENABLE_JSON=ON`.

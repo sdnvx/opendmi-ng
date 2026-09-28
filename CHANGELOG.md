@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `targets`, `minimum` and `maximum` attribute parameters, which lint rules check the data against
 - Add basic C++ API
 - Add SysFS module skeleton
+- Include the manual pages of the tool and the library into the reference manual
+- Add Getting started part to the reference manual
 - Add Boot Integrity Services (BIS) entry point information decoder
 - Add processor additional information decoder
 - Add tests for BIS entry point, system boot, system event log, TPM device and management device threshold decoders

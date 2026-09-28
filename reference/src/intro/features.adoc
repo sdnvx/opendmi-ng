@@ -1,0 +1,114 @@
+= Features
+:sectnums:
+:sectlinks:
+
+Features marked as _(in progress)_ are partly implemented, and the ones marked
+as _(planned)_ are scheduled for the 1.0 release.
+
+== SMBIOS support
+
+* All standard structure types of the SMBIOS specification up to version 3.9
+  are decoded field by field.
+* Entry points of all kinds are read: the legacy DMI one (`+_DMI_+`), the
+  32-bit SMBIOS 2.1 one (`+_SM_+`) and the 64-bit SMBIOS 3.0 one (`+_SM3_+`).
+* Values are decoded to their meaning rather than left as numbers:
+  enumerations, sets of flags, sizes and other measures with their units,
+  versions, dates and UUIDs, with the format of a value chosen by the fields
+  that define it.
+* Structures are linked together: handles are resolved into references to the
+  structures they point at, string properties (type 46) are attached to the
+  structures they describe, and additional information (type 40) can be
+  applied to the structures it amends.
+* Structures written for older versions of the specification are decoded as
+  far as they go, and every structure carries its state, e.g. `partial` for a
+  structure of an older version, or `incomplete` for one ending in the middle
+  of its fields.
+* Broken firmware does not stop decoding: malformed structures are reported and
+  skipped, errors are collected rather than ending the table, and a strict mode
+  is available when correctness matters more than completeness.
+* Known defects of the firmware, such as swapped words of the processor ID or
+  reversed TPM vendor identifiers, are handled.
+
+== Vendor-specific structures
+
+* Structures the vendors define are decoded by extension modules for Acer, AMI,
+  Apple, Dell, HP/HPE, Intel, IBM/Lenovo and Sun, and their layouts are
+  described in the specifications part of this manual.
+* Modules are enabled on demand, so that a type number a vendor reuses is
+  decoded the way that vendor defines it.
+* Structure types are described by their layout on the wire rather than
+  decoded by hand, which is how new ones are added.
+* Decoders of more vendor-specific structures _(planned)_.
+
+== Platforms
+
+* Linux, through the SMBIOS tables the kernel exposes in SysFS, falling back
+  to the memory device.
+* FreeBSD, through the entry point address the kernel environment holds, and
+  NetBSD, through the one `sysctl` gives.
+* macOS, through the `AppleSMBIOS` service of the I/O Kit.
+* Windows, through the firmware tables the system provides.
+* Scan of the legacy BIOS area for the entry point on FreeBSD and NetBSD for
+  x86, when the kernel gives no address of it.
+* Dump files, which are interchangeable with `dmidecode --dump-bin` and
+  `dmidecode --from-dump` in both directions.
+* Solaris and illumos _(planned)_.
+
+== Command line tool
+
+* Structures are shown, listed, explained and exported with the `opendmi` tool,
+  and the table can be dumped to a file.
+* Structures are selected by handle, by type, by the module providing them and
+  by state.
+* Output is text for a person, with colors and a pager, or JSON, XML and YAML
+  for a program, where every value is addressed by a stable code.
+* Messages and the names of the structures and their values are translated to
+  English and Russian, when built with ICU4C.
+* Import of the data from JSON, XML and YAML _(planned)_.
+
+== Validation
+
+* Data is checked against the rules of the specification, from the checksum of
+  the entry point to the values of individual fields, with the `lint` command.
+* Findings are reported the way a compiler reports diagnostics: with the
+  offset within the data, the structure and the attribute they belong to, and
+  the rule that has found them.
+* Rules are grouped and can be enabled or disabled one by one or by group.
+* Data can be checked as read from a platform, where the defects of the
+  firmware are nothing the reader can fix, or as produced, where the same
+  defects are errors.
+
+== Library
+
+* The `libopendmi` library gives access to the decoded structures as plain C
+  types, and to every value through its attribute, which carries its code, type
+  and unit, for the code which handles the structures generically.
+* Structures can be encoded back into their bytes, either keeping the bytes the
+  structure has been decoded from, or writing them the way the specification
+  does.
+* Errors are collected in a queue of the context, and logging is directed to a
+  handler of the application.
+* The library depends on nothing but the system, and on ICU4C for the
+  translations when built with it. Libraries of the output formats are the
+  dependencies of the command line tool alone.
+* Writing of the whole SMBIOS table _(planned)_.
+* Unified API for the serialization of the data _(planned)_.
+* Stable API _(planned)_.
+
+== Other languages and services
+
+* C++ API _(in progress)_.
+* Python bindings _(in progress)_.
+* Go bindings _(planned)_.
+* Rust bindings _(planned)_.
+* D-Bus service giving access to the data _(in progress)_.
+* Linux kernel module exposing the data through SysFS _(planned)_.
+* Packages for the major Linux distributions _(planned)_.
+
+== Quality
+
+* Decoders are tested against a collection of dumps taken from real machines,
+  which every structure is also encoded back from and compared.
+* Every change is built and tested on Linux, FreeBSD, NetBSD, macOS and Windows,
+  and checked by static analysis.
+* Debug builds use AddressSanitizer wherever the toolchain supports it.

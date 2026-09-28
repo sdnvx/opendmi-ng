@@ -2,6 +2,8 @@
 :sectnums:
 :sectlinks:
 
+include::layouts.adoc[leveloffset=1]
+
 == Common structures
 
 == Dell-specific structures

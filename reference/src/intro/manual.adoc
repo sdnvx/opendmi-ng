@@ -1,0 +1,51 @@
+= About this manual
+:sectnums:
+:sectlinks:
+
+This manual covers OpenDMI as a whole, from the command line tool and the
+interfaces for the programming languages to the layouts of the structures it
+decodes.
+
+== Organization
+
+The manual is divided into parts:
+
+Introduction::
+What OpenDMI is, what the data it reads is made of, and how to read this
+manual.
+
+Getting started::
+How to build OpenDMI from sources, the commands of the tool most often used,
+and how a program reads the data through the library.
+
+Command line tool::
+The `opendmi` tool and its commands.
+
+C library::
+The functions of the `libopendmi` library, grouped by the headers declaring
+them. The interfaces for the other programming languages are given parts of
+their own as they are completed.
+
+Specifications::
+The layouts of the structures OpenDMI decodes, field by field, including the
+ones the vendors define.
+
+The pages of the command line tool and of the library are the manual pages
+installed along with them, and are read with `man`(1) as well. The manual itself
+is available as a PDF and on the website of the project.
+
+== Conventions
+
+Code, commands, file names and literal values are set in `monospace`. Manual
+pages are referred to by their names and sections, e.g. `opendmi`(1) or
+`dmi_open`(3).
+
+Numbers written with the `0x` prefix, e.g. `0x1F`, are hexadecimal, and the
+rest are decimal.
+
+Features which are partly implemented are marked as _(in progress)_, and the
+ones scheduled for a later release as _(planned)_.
+
+The way the layouts of the structures are given is explained at the beginning
+of the specifications, see
+xref:specs/layouts.adoc#reading-the-layouts[Reading the layouts].

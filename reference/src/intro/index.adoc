@@ -1,5 +1,10 @@
-= Overview
+= Introduction
 :sectnums:
 :sectlinks:
 
-== Features
+include::about.adoc[leveloffset=1]
+include::manual.adoc[leveloffset=1]
+include::smbios.adoc[leveloffset=1]
+include::features.adoc[leveloffset=1]
+include::terminology.adoc[leveloffset=1]
+include::references.adoc[leveloffset=1]

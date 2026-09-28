@@ -1,0 +1,20 @@
+= Command line tool
+:sectnums!:
+:sectlinks:
+
+== Tool
+
+include::../../../opendmi/man/man1/opendmi.1.adoc[leveloffset=2]
+
+== Commands
+
+include::../../../opendmi/man/man1/opendmi-dump.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-entry.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-explain.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-export.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-import.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-lint.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-list.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-modules.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-show.1.adoc[leveloffset=2]
+include::../../../opendmi/man/man1/opendmi-types.1.adoc[leveloffset=2]

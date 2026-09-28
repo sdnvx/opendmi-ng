@@ -1,6 +1,8 @@
-= Introduction
+= Terminology
+:sectnums:
+:sectlinks:
 
-== Terminology
+Abbreviations used throughout this manual and the specifications it follows.
 
 [horizontal]
 AC:: Alternating Current.
@@ -84,5 +86,3 @@ UUID:: Universally Unique Identifier.
 VESA:: Video Electronics Standards Association.
 VL-VESA:: VESA Video Local Bus.
 ZIF:: Zero Insertion Force.
-
-== Reference Documents

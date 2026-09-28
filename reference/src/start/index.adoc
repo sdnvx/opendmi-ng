@@ -1,0 +1,7 @@
+= Getting started
+:sectnums:
+:sectlinks:
+
+include::building.adoc[leveloffset=1]
+include::first-steps.adoc[leveloffset=1]
+include::library.adoc[leveloffset=1]

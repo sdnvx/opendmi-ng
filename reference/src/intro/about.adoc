@@ -1,0 +1,60 @@
+= About OpenDMI
+:sectnums:
+:sectlinks:
+
+OpenDMI is a cross-platform framework for reading, decoding and checking
+DMI/SMBIOS data: the description of a computer its firmware provides, from the
+vendor and the serial number of the system to its processors, memory modules,
+slots and ports.
+
+The data is binary, and the specification describing it has grown for three
+decades, along with the extensions every vendor has added of its own.
+OpenDMI decodes it into structured data instead of text to parse: every value
+has a stable code, a type and a unit, so that it reads the same way in the
+terminal, in JSON and through the API, and a program handling it depends on
+neither the wording nor the layout of what a person is shown.
+
+== Components
+
+OpenDMI is made of the components listed below, which are built from the same
+sources and share the decoding done by the library.
+
+[cols="1,3,2"]
+|===
+| Component | Description | Status
+
+| `libopendmi`
+| C library providing access to DMI/SMBIOS data, and the C++ API built on it
+| Usable, API not frozen until 1.0
+
+| `opendmi`
+| Command line tool to query and check DMI/SMBIOS data
+| Usable, `import` command is planned
+
+| `libopendmi-python`
+| Python bindings for `libopendmi`
+| In progress
+
+| `opendmi-dbus`
+| D-Bus service providing access to DMI/SMBIOS data
+| In progress
+
+| `opendmi-sysfs`
+| Linux kernel module providing DMI/SMBIOS data through SysFS
+| Planned
+
+| `libopendmi-go`
+| Go bindings for `libopendmi`
+| Planned
+
+| `libopendmi-rust`
+| Rust bindings for `libopendmi`
+| Planned
+|===
+
+Everything which is planned is scheduled for the 1.0 release.
+
+== License
+
+OpenDMI is free software, distributed under the terms of the BSD 3-Clause
+License. So is this manual.

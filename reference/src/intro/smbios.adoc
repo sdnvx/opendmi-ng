@@ -1,0 +1,76 @@
+= DMI and SMBIOS
+:sectnums:
+:sectlinks:
+
+The System Management BIOS (SMBIOS) specification, published by the DMTF as
+DSP0134, defines the data structures the firmware of a computer describes the
+computer with. The specification has grown out of the Desktop Management
+Interface (DMI), and the data is still commonly called DMI data, which is why
+both names are in use: operating systems and tools often say DMI where the
+specification says SMBIOS.
+
+The data is laid out by the firmware in memory, where the operating system
+finds it and usually provides it to the applications, e.g. through SysFS on
+Linux or the firmware tables on Windows. It is made of an entry point and a
+table of structures.
+
+== Entry point
+
+The entry point is a small structure, which tells where the table is, how long
+it is, and which version of the specification the data follows. It comes in
+several formats:
+
+* The 64-bit entry point of SMBIOS 3.0 and later, anchored by the `+_SM3_+`
+  string, gives the address of the table and the maximum size of the area it
+  occupies. The end of the table is found by reading it.
+* The 32-bit entry point of SMBIOS 2.1 and later, anchored by the `+_SM_+`
+  string, gives the address and the length of the table, and the number of the
+  structures it holds.
+* The legacy entry point, anchored by the `+_DMI_+` string, is the one the
+  32-bit entry point embeds, and is found on its own on the oldest systems.
+
+== Structures
+
+The table is a sequence of structures, each of which describes a component of
+the system: the firmware, the system itself, a baseboard, a processor, a memory
+device, a slot, a port and so on. Every structure is made of:
+
+* A header of four bytes, which holds the type of the structure, the length of
+  its formatted area, header included, and its handle.
+* The rest of the formatted area, which holds the fields the type defines.
+* A set of strings, which follows the formatted area. Every string ends with a
+  null byte, and the set ends with another one, so that a structure with no
+  strings ends with two null bytes. Fields refer to the strings by their
+  numbers, counted from one, and zero stands for no string.
+
+The table ends with the end-of-table structure of type 127.
+
+== Types
+
+Types 0 to 127 are defined by the specification. Type 126 marks a structure as
+inactive, which is left in place but describes nothing, and type 127 ends the
+table.
+
+Types 128 to 255 are left to the vendors, who define structures of their own.
+Different vendors use the same numbers for different structures, so the
+structures of these types are decoded by the extension modules of their
+vendors, which are enabled on demand.
+
+== Handles
+
+Every structure has a handle, a number unique within the table, which the other
+structures refer to it by. Memory devices refer to the memory array holding
+them, cooling devices to the temperature probes watching them, and so on.
+References are resolved into the structures they point at when the table is
+linked, and the ones pointing at no structure are reported.
+
+== Versions
+
+Every version of the specification may add fields to the end of the structures
+defined earlier, so the length of a structure tells which version it has been
+written for. A structure written for an older version is shorter, and carries
+the fields of that version only. The fields a later version has added are
+absent rather than zero, and OpenDMI keeps them apart: such a structure is
+marked as partial. A structure whose length matches no version, and which ends
+in the middle of the fields of one, is marked as incomplete, and the fields it
+carries in full are decoded all the same.

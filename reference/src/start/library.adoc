@@ -1,0 +1,97 @@
+= Using the library
+:sectnums:
+:sectlinks:
+
+This chapter shows how a program reads the data through the `libopendmi`
+library. Every function is described in full in the part of this manual about
+the C library.
+
+== Finding the library
+
+The installed library is found with CMake, by the package it installs:
+
+[source,cmake]
+----
+find_package(OpenDMI 0.5 REQUIRED)
+target_link_libraries(example PRIVATE OpenDMI::opendmi)
+----
+
+`OpenDMI::opendmi` and `OpenDMI::shared` refer to the shared library, and
+`OpenDMI::static` to the static one. Binary compatibility is not kept between
+the minor versions before 1.0, so the package is compatible with the same minor
+version only.
+
+The library is found with `pkg-config` too:
+
+[source,shell]
+----
+$ cc example.c $(pkg-config --cflags --libs opendmi)
+----
+
+== Reading the data
+
+A program creates a context, which holds the data and everything decoded from
+it, opens the data of the system, and looks up the structures it needs in the
+registry of the context. Decoded structures are plain C types, one for each
+structure type:
+
+[source,c]
+----
+#include <stdio.h>
+
+#include <opendmi/context.h>
+#include <opendmi/registry.h>
+#include <opendmi/entity.h>
+#include <opendmi/entity/system.h>
+
+int main(void)
+{
+    dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK);
+
+    if (context == nullptr)
+        return 1;
+
+    if (dmi_open(context, nullptr)) {
+        dmi_registry_t *registry = dmi_get_registry(context);
+        dmi_entity_t   *entity   = dmi_registry_lookup_first(registry, DMI_TYPE(SYSTEM), false);
+        dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(SYSTEM));
+
+        if (system != nullptr)
+            printf("%s %s\n", system->vendor, system->product);
+    }
+
+    dmi_destroy(context);
+
+    return 0;
+}
+----
+
+`dmi_open`(3) reads the data of the system, and requires the same privileges
+the command line tool does. `dmi_load`(3) reads a dump file instead, which is
+how a program is tried out on the data of another machine:
+
+[source,c]
+----
+if (dmi_load(context, "smbios.bin")) {
+    ...
+}
+----
+
+== Handling errors
+
+Functions which fail return `false` or `nullptr`, and leave the reason in the
+error queue of the context, where `dmi_error_get_last`(3) takes it from:
+
+[source,c]
+----
+if (!dmi_open(context, nullptr)) {
+    const dmi_error_t *error = dmi_error_get_last(context);
+
+    if (error != nullptr)
+        fprintf(stderr, "%s\n", dmi_error_message(error->reason));
+}
+----
+
+The last error is the one the failed call has raised itself. The errors raised
+on the way to it, such as the file which could not be opened, precede it in
+the queue, and are taken from its beginning with `dmi_error_get_first`(3).

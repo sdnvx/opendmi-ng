@@ -1,0 +1,183 @@
+= C library
+:sectnums!:
+:sectlinks:
+
+== `<opendmi/context.h>`
+
+include::../../../../libopendmi/man/man3/dmi_close.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_create.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_get_log_level.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_get_logger.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_get_registry.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_load.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_log.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_open.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_save.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_set_log_level.3.adoc[leveloffset=2]
+
+== `<opendmi/error.h>`
+
+include::../../../../libopendmi/man/man3/dmi_error_clear.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_error_get_first.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_error_get_last.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_error_message.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_error_peek_first.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_error_peek_last.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_error_raise.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_error_raise_ex.3.adoc[leveloffset=2]
+
+== `<opendmi/log.h>`
+
+include::../../../../libopendmi/man/man3/dmi_log_message_va.3.adoc[leveloffset=2]
+
+== `<opendmi/entity.h>`
+
+include::../../../../libopendmi/man/man3/dmi_entity_buffer.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_context.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_create.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_data.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_decode.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_destroy.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_encode.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_handle.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_info.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_link.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_name.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_offset.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_string_ex.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/cooling-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_cooling_device.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-array-addr.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_array_addr.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/pointing-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_pointing_device.3.adoc[leveloffset=2]
+
+== `<opendmi/field.h>`
+
+include::../../../../libopendmi/man/man3/dmi_fields_decode.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_fields_encode.3.adoc[leveloffset=2]
+
+== `<opendmi/buffer.h>`
+
+include::../../../../libopendmi/man/man3/dmi_buffer_assign.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_clear.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_context.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_create.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_destroy.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_is_empty.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_read.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_resize.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_buffer_write.3.adoc[leveloffset=2]
+
+== `<opendmi/reader.h>`
+
+include::../../../../libopendmi/man/man3/dmi_reader_get_bytes.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_get_bytes_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_has.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_initialize.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_is_done.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_mark.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_ref_bytes.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_remaining.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_reset.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_rewind.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_seek.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_skip.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_skip_ex.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_reader_tell.3.adoc[leveloffset=2]
+
+== `<opendmi/writer.h>`
+
+include::../../../../libopendmi/man/man3/dmi_writer_initialize.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_mark.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_put_bytes.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_put_bytes_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_reset.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_rewind.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_seek.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_skip.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_skip_ex.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_writer_tell.3.adoc[leveloffset=2]
+
+== `<opendmi/decoder.h>`
+
+include::../../../../libopendmi/man/man3/dmi_decoder_context.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_entity.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_bcd.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_bcd_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_binary.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_bytes.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_bytes_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_string.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_uuid.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_get_uuid_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_incomplete.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_initialize.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_reader.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_remaining.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_skip.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_decoder_stop.3.adoc[leveloffset=2]
+
+== `<opendmi/encoder.h>`
+
+include::../../../../libopendmi/man/man3/dmi_encoder_copy.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_entity.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_finalize.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_finish.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_initialize.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_peek.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_put.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_put_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_put_bcd.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_put_bytes.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_put_bytes_at.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_put_string.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_put_uuid.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_remaining.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_tell.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_encoder_writer.3.adoc[leveloffset=2]
+
+== `<opendmi/utils.h>`
+
+include::../../../../libopendmi/man/man3/dmi_file_load.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_load.3.adoc[leveloffset=2]
+
+== `<opendmi/utils/base64.h>`
+
+include::../../../../libopendmi/man/man3/dmi_base64_decode.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_base64_encode.3.adoc[leveloffset=2]
+
+== `<opendmi/utils/endian.h>`
+
+include::../../../../libopendmi/man/man3/dmi_bswap.3.adoc[leveloffset=2]
+
+== `<opendmi/utils/file.h>`
+
+include::../../../../libopendmi/man/man3/dmi_file_close.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_file_lock.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_file_read.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_file_seek.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_file_stat.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_file_tell.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_file_unlock.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_file_write.3.adoc[leveloffset=2]
+
+== `<opendmi/utils/uuid.h>`
+
+include::../../../../libopendmi/man/man3/dmi_uuid_decode.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_uuid_encode.3.adoc[leveloffset=2]
+
+== `<opendmi/utils/version.h>`
+
+include::../../../../libopendmi/man/man3/dmi_version_format.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_version_format_ex.3.adoc[leveloffset=2]

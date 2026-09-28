@@ -1,0 +1,40 @@
+= Reading the layouts
+:sectnums:
+:sectlinks:
+
+[#reading-the-layouts]
+The layout of a structure is given by a table with a row per field:
+
+Offset::
+Offset of the field, counted from the beginning of the structure, header
+included, the way the specification counts it.
+
+Version::
+Version of the specification the field appears in, e.g. `2.1+`. The data of
+the platforms following an older version ends before the field.
+
+Name::
+Name of the field.
+
+Length::
+Size of the field: `BYTE`, `WORD`, `DWORD` and `QWORD` stand for 8-, 16-, 32-
+and 64-bit values, stored in the little-endian byte order. `n BYTEs` gives the
+size through the number `n` a field before it holds, e.g. `2n BYTEs` for `n`
+values of a `WORD` each, and `Varies` stands for a field whose size depends on
+the data.
+
+Value::
+Kind of the value the field holds: `NUMBER` for a number, `ENUM` for one of
+the values an enumeration defines, `BITFIELD` for a set of bits, `STRING` for
+the number of a string of the structure, `HANDLE` for the handle of another
+structure, `ADDRESS` for an address in memory or in the I/O space, and
+`SPEED` for a speed, in the units the description gives. A number stands for
+the fixed value of the field, e.g. the type of the structure, and `Varies`
+for a value the description explains.
+
+Description::
+Meaning of the field.
+
+Values of the enumerations are given by tables of their hexadecimal and decimal
+values and their meanings, and the bits of the sets of bits by tables of their
+positions and meanings.

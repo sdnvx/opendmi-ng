@@ -1,7 +1,6 @@
 = dmi_log_message_va(3)
-The OpenDMI contributors
-OpenDMI 0.5.0
 
+:author: The OpenDMI contributors
 :doctype: manpage
 :release-version: 0.5.0
 :manmanual: OpenDMI Manual

@@ -25,3 +25,18 @@ codespan:
   font-family: $code-font-family
 page:
   size: A4
+# Title page has no place of its own for the copyright, and the authors are
+# the only part of it the theme gives the content of. The revision is written
+# there too, so that the copyright goes last, the way it does on the title
+# pages of books. Holder and years come from the copyright attribute of the
+# book. Lines of the attributes the book does not set are left out, so the
+# notice is kept on a single line of its own, breaking inside the smaller
+# text, and goes as a whole rather than leaving half of the markup behind
+title-page:
+  authors:
+    content: "{author} +\n{version-label} {revnumber}, {revdate} +\n +\n[.copyright]#Copyright {copyright}.pass:[<br>]Free use of this software is granted under the terms of the BSD 3-Clause License.#"
+  revision:
+    display: none
+role:
+  copyright:
+    font-size: 8

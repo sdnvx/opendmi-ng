@@ -1,0 +1,47 @@
+= References
+:sectnums:
+:sectlinks:
+
+== Specifications
+
+DMTF DSP0134::
+System Management BIOS (SMBIOS) Reference Specification. Defines the entry
+points, the structures of the standard types and their fields, which OpenDMI
+decodes up to version 3.9.
+
+DMTF DSP0270::
+Redfish Host Interface Specification. Defines the protocol records of the
+management controller host interface structures.
+
+DMTF DSP0266::
+Redfish Specification. Defines the format of the dates and times firmware
+inventory structures carry.
+
+Intelligent Platform Management Interface (IPMI) Specification::
+Defines the interfaces of the baseboard management controllers IPMI device
+structures describe.
+
+Intel(R) RSD Firmware Extension Specification Software v2.3.2::
+Document 337201-003US. Defines the structures of Intel Rack Scale Design
+platforms.
+
+== Other sources
+
+Structures some vendors define have no public specification, and their layouts
+come from the software of the vendors which reads them:
+
+Dell `libsmbios`::
+Structures of Dell platforms.
+
+illumos::
+Structures of Sun platforms, as defined in
+`usr/src/uts/common/sys/smbios_impl.h`.
+
+Where it is known, the source of the layout of a vendor-specific structure is
+given along with it in the specifications part of this manual.
+
+== Related software
+
+`dmidecode`::
+Reference tool for reading DMI/SMBIOS data on Linux and other systems. Dump
+files are interchangeable between `dmidecode` and OpenDMI.

@@ -1,7 +1,6 @@
 = dmi_error_peek_first(3)
-The OpenDMI contributors
-OpenDMI 0.5.0
 
+:author: The OpenDMI contributors
 :doctype: manpage
 :release-version: 0.5.0
 :manmanual: OpenDMI Manual
@@ -48,7 +47,9 @@ Returns a pointer to the oldest `dmi_error_t` in the queue, or `nullptr` if
 `dmi_error_clear`(3),
 `dmi_error_raise`(3)
 
+ifdef::backend-manpage[]
 == Copying
 
 Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
 is granted under the terms of the BSD 3-Clause License.
+endif::[]

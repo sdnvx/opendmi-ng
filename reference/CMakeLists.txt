@@ -8,7 +8,12 @@ project(opendmi-reference)
 
 if(ASCIIDOCTOR_PDF_FOUND)
     set(REFERENCE_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/reference.pdf)
-    file(GLOB_RECURSE REFERENCE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.adoc)
+    # Book includes the manual pages of the tool and the library
+    file(GLOB_RECURSE REFERENCE_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.adoc
+        ${CMAKE_SOURCE_DIR}/opendmi/man/*.adoc
+        ${CMAKE_SOURCE_DIR}/libopendmi/man/*.adoc
+    )
 
     add_custom_command(
         OUTPUT ${REFERENCE_OUTPUT}
