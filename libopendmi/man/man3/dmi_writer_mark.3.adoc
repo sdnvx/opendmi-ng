@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_writer_mark(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_writer_mark
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_writer_mark - take a mark of the current position of a writer cursor.
@@ -13,6 +16,7 @@ dmi_writer_mark - take a mark of the current position of a writer cursor.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -47,6 +51,10 @@ Writer to mark.
 
 Mark of the current position, which is rejected by `dmi_writer_rewind`(3) if
 `writer` is `nullptr`.
+
+== Errors
+
+None.
 
 == See also
 

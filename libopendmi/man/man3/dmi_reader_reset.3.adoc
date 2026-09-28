@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_reader_reset(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_reader_reset
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_reader_reset - reset a reader cursor to the beginning of its range.
@@ -13,6 +16,7 @@ dmi_reader_reset - reset a reader cursor to the beginning of its range.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -32,6 +36,10 @@ start of the range so that it can be read again from the beginning.
 
 `reader`::
 Reader to reset.
+
+== Errors
+
+None.
 
 == See also
 

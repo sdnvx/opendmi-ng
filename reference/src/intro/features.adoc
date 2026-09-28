@@ -42,8 +42,7 @@ as _(planned)_ are scheduled for the 1.0 release.
 
 == Platforms
 
-* Linux, through the SMBIOS tables the kernel exposes in SysFS, falling back
-  to the memory device.
+* Linux, through the SMBIOS tables the kernel exposes in SysFS.
 * FreeBSD, through the entry point address the kernel environment holds, and
   NetBSD, through the one `sysctl` gives.
 * macOS, through the `AppleSMBIOS` service of the I/O Kit.
@@ -52,6 +51,8 @@ as _(planned)_ are scheduled for the 1.0 release.
   x86, when the kernel gives no address of it.
 * Dump files, which are interchangeable with `dmidecode --dump-bin` and
   `dmidecode --from-dump` in both directions.
+* Reading the memory device on Linux, where SysFS gives no access to the
+  tables _(planned)_.
 * Solaris and illumos _(planned)_.
 
 == Command line tool

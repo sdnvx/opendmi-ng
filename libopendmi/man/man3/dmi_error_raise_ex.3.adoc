@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_error_raise_ex(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_error_raise_ex
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_error_raise_ex - raise an error with an additional formatted message and add it to the error queue.
@@ -13,6 +16,7 @@ dmi_error_raise_ex - raise an error with an additional formatted message and add
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -58,6 +62,12 @@ Format arguments.
 
 Returns `true` on success. Returns `false` if `context` is `nullptr` or if
 memory allocation for the formatted message fails.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Message cannot be formatted. Raised after the error itself, which is
+left without a message.
 
 == Examples
 

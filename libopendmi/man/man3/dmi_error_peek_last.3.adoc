@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_error_peek_last(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_error_peek_last
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_error_peek_last - return the newest error descriptor from the error queue without removing it.
@@ -13,6 +16,7 @@ dmi_error_peek_last - return the newest error descriptor from the error queue wi
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -38,6 +42,10 @@ DMI context.
 
 Returns a pointer to the newest `dmi_error_t` in the queue, or `nullptr` if
 `context` is `nullptr` or the error queue is empty.
+
+== Errors
+
+None.
 
 == See also
 

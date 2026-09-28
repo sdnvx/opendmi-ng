@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_buffer_clear(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_buffer_clear
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_buffer_clear - drop the data of a buffer, keeping its memory.
@@ -13,6 +16,7 @@ dmi_buffer_clear - drop the data of a buffer, keeping its memory.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -37,6 +41,10 @@ afterwards.
 
 `buffer`::
 Buffer to clear.
+
+== Errors
+
+None.
 
 == See also
 

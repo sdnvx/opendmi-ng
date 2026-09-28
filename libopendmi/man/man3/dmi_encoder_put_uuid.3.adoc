@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_encoder_put_uuid(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_encoder_put_uuid
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_encoder_put_uuid - encode a UUID and write it at the current position.
@@ -13,6 +16,7 @@ dmi_encoder_put_uuid - encode a UUID and write it at the current position.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -40,6 +44,11 @@ Encoder to write to.
 == Return value
 
 `true` on success, `false` if the buffer cannot grow.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Buffer of the writer cannot grow.
 
 == See also
 

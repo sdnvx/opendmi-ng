@@ -23,6 +23,8 @@ if(ASCIIDOCTOR_PDF_FOUND)
             --attribute pdf-themesdir=${CMAKE_CURRENT_SOURCE_DIR}/themes
             --attribute pdf-fontsdir=${CMAKE_CURRENT_SOURCE_DIR}/fonts
             --theme opendmi
+            --attribute release-version=${OPENDMI_VERSION}
+            --attribute soversion=${LIBOPENDMI_SOVERSION}
             --out-file ${REFERENCE_OUTPUT}
             ${CMAKE_CURRENT_SOURCE_DIR}/src/index.adoc
         DEPENDS

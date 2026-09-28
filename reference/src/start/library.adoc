@@ -10,23 +10,99 @@ the C library.
 
 The installed library is found with CMake, by the package it installs:
 
+[source,cmake,subs="+attributes"]
+----
+find_package(OpenDMI {soversion} REQUIRED)
+----
+
+Binary compatibility is not kept between the minor versions before 1.0, so the
+package is compatible with the same minor version only.
+
+The library is found with `pkg-config` too, by the `opendmi` package.
+
+A library installed outside the directories CMake and `pkg-config` look in,
+such as the default `/opt/opendmi` prefix of `build.sh`, is found through the
+prefix given to CMake, and the directory of the package given to `pkg-config`:
+
+[source,shell]
+----
+$ cmake -B build -DCMAKE_PREFIX_PATH=/opt/opendmi
+$ export PKG_CONFIG_PATH=/opt/opendmi/lib/pkgconfig
+----
+
+The directory of the libraries is `lib` in the examples of this chapter, and
+is `lib64` on some systems.
+
+== Linking
+
+The library is built both as a shared library and as a static one, and a
+program is linked with either.
+
+=== Linking with the shared library
+
+The shared library is what a program is linked with by default:
+
 [source,cmake]
 ----
-find_package(OpenDMI 0.5 REQUIRED)
 target_link_libraries(example PRIVATE OpenDMI::opendmi)
 ----
 
-`OpenDMI::opendmi` and `OpenDMI::shared` refer to the shared library, and
-`OpenDMI::static` to the static one. Binary compatibility is not kept between
-the minor versions before 1.0, so the package is compatible with the same minor
-version only.
-
-The library is found with `pkg-config` too:
+`OpenDMI::opendmi` and `OpenDMI::shared` are the same library. Without CMake,
+the flags come from `pkg-config`:
 
 [source,shell]
 ----
 $ cc example.c $(pkg-config --cflags --libs opendmi)
 ----
+
+The library is looked up again when the program starts. A library installed
+outside the directories the system looks in is found by the path the program is
+linked with:
+
+[source,shell]
+----
+$ cc example.c $(pkg-config --cflags --libs opendmi) -Wl,-rpath,/opt/opendmi/lib
+----
+
+CMake gives that path to the programs in its build tree by itself, and to the
+installed ones through the `INSTALL_RPATH` property. The shared library is named
+after the minor version before 1.0, e.g. `libopendmi.so.{soversion}` on Linux
+and `libopendmi.{soversion}.dylib` on macOS, so that a program is not started
+with a library it is incompatible with.
+
+=== Linking with the static library
+
+The static library makes a program which needs no OpenDMI installed to run:
+
+[source,cmake]
+----
+target_link_libraries(example PRIVATE OpenDMI::static)
+----
+
+The target brings along everything the static library needs, which the other
+ways of linking give by hand.
+
+The static library is `libopendmi.a`, and `opendmi-static.lib` with MSVC. It is
+linked by its path, because `-lopendmi` is resolved to the shared library
+whenever one is installed next to it. The libraries it depends on are linked
+along with it: none on Linux and the BSDs, the CoreFoundation and IOKit
+frameworks on macOS, and `ntdll` on Windows, along with ICU4C when the library
+is built with the translations. `pkg-config --static --libs opendmi` lists them,
+after the `-lopendmi` the path stands for:
+
+[source,shell]
+----
+$ cc $(pkg-config --cflags opendmi) example.c /opt/opendmi/lib/libopendmi.a
+$ cc $(pkg-config --cflags opendmi) example.c /opt/opendmi/lib/libopendmi.a \
+    -framework CoreFoundation -framework IOKit
+----
+
+The first command links the program on Linux, and the second on macOS.
+
+On Windows, the program linked with the static library defines `DMI_STATIC`,
+so that the functions of the library are not taken for the ones a DLL imports.
+`OpenDMI::static` defines it by itself, and `pkg-config --static --cflags
+opendmi` gives it there too.
 
 == Reading the data
 

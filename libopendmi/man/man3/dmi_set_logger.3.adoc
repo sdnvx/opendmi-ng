@@ -1,0 +1,107 @@
+ifdef::backend-manpage[]
+= dmi_set_logger(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_set_logger
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_set_logger - set the logging handler of an OpenDMI context.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/context.h>
+
+bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger);
+----
+
+== Description
+
+The `dmi_set_logger` function sets the handler the messages of the context
+are written to, see `dmi_log`(3). A context has no handler until one is set,
+and logs nothing.
+
+The handler is a structure whose `handler` member is the function the
+messages are given to:
+
+[source, c]
+----
+typedef void dmi_log_handler_fn(
+        dmi_log_t       *target,
+        dmi_log_level_t  level,
+        const char      *format,
+        va_list          args);
+
+struct dmi_log
+{
+    dmi_log_handler_fn *handler;
+};
+----
+
+The function receives the handler it belongs to, so that a handler needing
+data of its own, such as a level of its own or a file to write to, embeds
+`dmi_log_t` as the first member of a structure of its own, and takes the
+rest of it from `target`.
+
+The handler belongs to the caller, which keeps it valid for as long as the
+context uses it, and is not freed along with the context.
+
+=== Parameters
+
+`context`::
+Context to set the handler of.
+
+`logger`::
+Logging handler, or `nullptr` to stop logging.
+
+== Return value
+
+Returns `true`, or `false` if `context` is `nullptr`.
+
+== Errors
+
+None.
+
+== Examples
+
+[source, c]
+----
+static void write_message(dmi_log_t *target, dmi_log_level_t level,
+                          const char *format, va_list args)
+{
+    (void)target;
+
+    fprintf(stderr, "%s: ", dmi_log_level_name(level));
+    vfprintf(stderr, format, args);
+    fputc('\n', stderr);
+}
+
+static dmi_log_t logger = { write_message };
+
+dmi_set_logger(context, &logger);
+----
+
+== See also
+
+`dmi_get_logger`(3),
+`dmi_log`(3),
+`dmi_set_log_level`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

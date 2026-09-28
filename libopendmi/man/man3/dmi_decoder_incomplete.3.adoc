@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_decoder_incomplete(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_decoder_incomplete
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_decoder_incomplete - stop decoding at an incomplete set of the fields of a structure.
@@ -13,6 +16,7 @@ dmi_decoder_incomplete - stop decoding at an incomplete set of the fields of a s
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -43,6 +47,10 @@ Decoder of the structure.
 == Return value
 
 Always `true`, so that it can be returned by the decoder.
+
+== Errors
+
+None.
 
 == See also
 

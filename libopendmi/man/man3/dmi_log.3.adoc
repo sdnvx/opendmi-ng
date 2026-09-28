@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_log(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_log
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_log - write a message to the logging handler of an OpenDMI context.
@@ -13,6 +16,7 @@ dmi_log - write a message to the logging handler of an OpenDMI context.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -22,3 +26,63 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 bool dmi_log(dmi_context_t *context, dmi_log_level_t level, const char *format, ...);
 ----
+
+== Description
+
+The `dmi_log` function writes a message, formatted the way `printf`(3)
+formats its arguments, to the handler of the context, see
+`dmi_set_logger`(3).
+
+The message is dropped if its level is less severe than the level of the
+context, see `dmi_set_log_level`(3), or if the context has no handler. The
+handler may drop it by a level of its own.
+
+Levels are ordered from the most severe one to the least: `DMI_LOG_ERROR`,
+`DMI_LOG_WARNING`, `DMI_LOG_NOTICE`, `DMI_LOG_INFO` and `DMI_LOG_DEBUG`.
+
+The functions of the library write their messages this way, and so may the
+extensions and the applications using the context.
+
+The macros `dmi_log_error`, `dmi_log_warning`, `dmi_log_notice`,
+`dmi_log_info` and `dmi_log_debug` write a message of the level they are
+named after, and take the same arguments but the level.
+
+=== Parameters
+
+`context`::
+Context to write the message to.
+
+`level`::
+Level of the message.
+
+`format`::
+Format of the message, followed by the values it refers to.
+
+== Return value
+
+Returns `true` if the message has been given to the handler, and `false`
+otherwise.
+
+== Errors
+
+None.
+
+== Examples
+
+[source, c]
+----
+dmi_log_warning(context, "Unexpected value 0x%02x at offset 0x%02zx", value, offset);
+----
+
+== See also
+
+`dmi_set_logger`(3),
+`dmi_set_log_level`(3),
+`dmi_log_message`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

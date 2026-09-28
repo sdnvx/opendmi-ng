@@ -1,18 +1,22 @@
+ifdef::backend-manpage[]
 = dmi_set_log_level(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_set_log_level
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
-dmi_set_log_level - set logging level of an OpenDMI context.
+dmi_set_log_level - set the logging level of an OpenDMI context.
 
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -22,3 +26,46 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 bool dmi_set_log_level(dmi_context_t *context, dmi_log_level_t level);
 ----
+
+== Description
+
+The `dmi_set_log_level` function sets the least severe level of the messages
+the context writes to its handler. Messages of the levels less severe than
+`level` are dropped before they reach the handler, which may drop more of
+them by a level of its own.
+
+Levels are ordered from the most severe one to the least: `DMI_LOG_ERROR`,
+`DMI_LOG_WARNING`, `DMI_LOG_NOTICE`, `DMI_LOG_INFO` and `DMI_LOG_DEBUG`.
+
+The level of a new context is `DMI_LOG_DEBUG`, so that every message reaches
+the handler.
+
+=== Parameters
+
+`context`::
+Context to set the level of.
+
+`level`::
+Least severe level of the messages written.
+
+== Return value
+
+Returns `true`, or `false` if `context` is `nullptr` or `level` is
+`DMI_LOG_INVALID`.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_get_log_level`(3),
+`dmi_log`(3),
+`dmi_set_logger`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

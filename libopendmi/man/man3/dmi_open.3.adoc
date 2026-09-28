@@ -1,18 +1,22 @@
+ifdef::backend-manpage[]
 = dmi_open(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_open
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
-dmi_open - open OpenDMI context.
+dmi_open - read the SMBIOS data of the system into a context.
 
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -22,3 +26,93 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 bool dmi_open(dmi_context_t *context, const char *device);
 ----
+
+== Description
+
+The `dmi_open` function reads the SMBIOS data of the system the program runs
+on into a closed context, through the backend of the platform, and decodes
+it the way the flags of the context say, see `dmi_create`(3):
+
+The entry point is read and decoded, on the platforms which give access to
+it. The structures of the table are found, and the ones of the types the
+context knows are decoded, with additional information applied when the
+context has `DMI_CONTEXT_FLAG_OVERLAY`. The references between the
+structures are resolved when it has `DMI_CONTEXT_FLAG_LINK`.
+
+Reading the data of a platform usually requires privileges, because the
+table is taken from physical memory or from an interface the kernel
+restricts. A dump of the data is read with `dmi_load`(3) instead, with the
+privileges of the file itself.
+
+The structures of the types the vendors define are decoded once the
+extension modules of the vendors are added to the context before it is
+opened.
+
+The context stays open until it is closed with `dmi_close`(3), and the
+structures are reached through its registry, see `dmi_get_registry`(3).
+
+A context which fails to open is left closed, with the errors telling why in
+its error queue. A context which is open already is left as it is.
+
+=== Parameters
+
+`context`::
+Context to open, which is required to be closed.
+
+`device`::
+Path to the memory device the table is read from on the platforms which read
+physical memory. It is not used at the moment, since every backend reads the
+data from where its platform provides it, and is passed as `nullptr`.
+
+== Return value
+
+Returns `true` if the context has been opened, and `false` otherwise.
+
+== Errors
+
+`DMI_ERROR_INVALID_STATE`::
+Context is open already.
+
+`DMI_ERROR_BACKEND_INIT`::
+Data of the platform cannot be accessed, e.g. for the lack of privileges.
+
+`DMI_ERROR_ENTITY_TRUNCATED`::
+Table area is empty, or a structure runs past its end.
+
+`DMI_ERROR_MISSING_FIRMWARE_INFO`::
+Table holds no platform firmware information structure, in the strict mode
+only.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory is exhausted.
+
+`DMI_ERROR_CONTEXT_OPEN`::
+Context cannot be opened. Raised last on every failure but the one of a
+context which is open already, after the errors telling why.
+
+== Examples
+
+[source, c]
+----
+if (!dmi_open(context, nullptr)) {
+    const dmi_error_t *error;
+
+    while ((error = dmi_error_get_first(context)) != nullptr)
+        fprintf(stderr, "%s\n", dmi_error_message(error->reason));
+}
+----
+
+== See also
+
+`dmi_load`(3),
+`dmi_close`(3),
+`dmi_create`(3),
+`dmi_get_registry`(3),
+`dmi_error_get_first`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

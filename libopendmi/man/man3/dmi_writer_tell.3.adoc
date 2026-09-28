@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_writer_tell(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_writer_tell
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_writer_tell - return the current position of a writer cursor.
@@ -13,6 +16,7 @@ dmi_writer_tell - return the current position of a writer cursor.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -38,6 +42,10 @@ Writer to query.
 
 Offset the next byte is written at, counted from the beginning of the range,
 or zero if `writer` is `nullptr`.
+
+== Errors
+
+None.
 
 == See also
 

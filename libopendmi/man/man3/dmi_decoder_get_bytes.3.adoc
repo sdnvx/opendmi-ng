@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_decoder_get_bytes(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_decoder_get_bytes
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_decoder_get_bytes - read bytes of a structure at the current position.
@@ -13,6 +16,7 @@ dmi_decoder_get_bytes - read bytes of a structure at the current position.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -45,6 +49,10 @@ Number of the bytes to read.
 == Return value
 
 `true` on success, `false` if there are not enough bytes remaining.
+
+== Errors
+
+None.
 
 == See also
 

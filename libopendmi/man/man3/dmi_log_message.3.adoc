@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_log_message_va(3)
+= dmi_log_message(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_log_message_va
+= dmi_log_message
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_log_message_va - write a message to a logging handler, with the arguments given as a list.
+dmi_log_message - write a message to a logging handler.
 
 == Library
 
@@ -24,22 +24,21 @@ endif::[]
 ----
 #include <opendmi/log.h>
 
-bool dmi_log_message_va(
+bool dmi_log_message(
         dmi_log_t       *target,
         dmi_log_level_t  level,
         const char      *format,
-        va_list          args);
+        ...);
 ----
 
 == Description
 
-The `dmi_log_message_va` function is the equivalent of `dmi_log_message`(3)
-which takes the arguments of the format as a `va_list`, so that a function
-taking a variable number of arguments passes its own on, the way
-`vprintf`(3) does for `printf`(3).
+The `dmi_log_message` function writes a message, formatted the way
+`printf`(3) formats its arguments, to the given handler.
 
-It checks no logging level: every message is given to the handler, which
-drops the ones it has no use for.
+Unlike `dmi_log`(3), which writes to the handler of a context, it takes the
+handler itself, and checks no logging level: every message is given to the
+handler, which drops the ones it has no use for.
 
 === Parameters
 
@@ -50,10 +49,7 @@ Logging handler to write the message to.
 Level of the message.
 
 `format`::
-Format of the message.
-
-`args`::
-Values the format refers to.
+Format of the message, followed by the values it refers to.
 
 == Return value
 
@@ -66,7 +62,7 @@ None.
 
 == See also
 
-`dmi_log_message`(3),
+`dmi_log_message_va`(3),
 `dmi_log`(3),
 `dmi_set_logger`(3)
 

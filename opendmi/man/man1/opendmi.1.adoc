@@ -1,14 +1,18 @@
+ifdef::backend-manpage[]
 = opendmi(1)
-
+endif::[]
+ifndef::backend-manpage[]
+= opendmi
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 opendmi - read and check DMI/SMBIOS data.
+endif::[]
 
 == Synopsis
 

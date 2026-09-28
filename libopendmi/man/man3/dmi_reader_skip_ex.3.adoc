@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_reader_skip_ex(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_reader_skip_ex
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_reader_skip_ex - advance a reader cursor from a mark taken earlier.
@@ -13,6 +16,7 @@ dmi_reader_skip_ex - advance a reader cursor from a mark taken earlier.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -54,6 +58,10 @@ Number of bytes to advance by.
 
 `true` on success, `false` if the resulting position is beyond the end of
 the range, or if `from` was taken from a reader reading another range.
+
+== Errors
+
+None.
 
 == See also
 

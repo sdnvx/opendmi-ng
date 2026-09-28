@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_entity_name(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_entity_name
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_entity_name - get entity type name.
@@ -13,6 +16,7 @@ dmi_entity_name - get entity type name.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -39,6 +43,10 @@ Entity descriptor.
 Returns a pointer to a string containing the type name. The returned string
 must not be modified or freed by the caller. If `entity` is `nullptr`, returns
 `nullptr`.
+
+== Errors
+
+None.
 
 == See also
 

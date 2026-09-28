@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_version_format_ex(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_version_format_ex
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_version_format_ex - format SMBIOS version as a string with explicit detail level.
@@ -13,6 +16,7 @@ dmi_version_format_ex - format SMBIOS version as a string with explicit detail l
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -57,6 +61,10 @@ formatted string.
 On success, returns a newly allocated null-terminated string containing the
 formatted version. On failure (e.g., allocation error or invalid `level`),
 returns `nullptr`.
+
+== Errors
+
+None.
 
 == Examples
 

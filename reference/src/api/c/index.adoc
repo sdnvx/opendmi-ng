@@ -6,6 +6,7 @@
 
 include::../../../../libopendmi/man/man3/dmi_close.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_create.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_destroy.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_log_level.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_logger.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_registry.3.adoc[leveloffset=2]
@@ -14,6 +15,7 @@ include::../../../../libopendmi/man/man3/dmi_log.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_open.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_save.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_set_log_level.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_set_logger.3.adoc[leveloffset=2]
 
 == `<opendmi/error.h>`
 
@@ -28,6 +30,7 @@ include::../../../../libopendmi/man/man3/dmi_error_raise_ex.3.adoc[leveloffset=2
 
 == `<opendmi/log.h>`
 
+include::../../../../libopendmi/man/man3/dmi_log_message.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_log_message_va.3.adoc[leveloffset=2]
 
 == `<opendmi/entity.h>`

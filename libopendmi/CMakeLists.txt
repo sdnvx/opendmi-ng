@@ -505,15 +505,6 @@ endif()
 target_compile_definitions(opendmi-object PRIVATE DMI_BUILD)
 set_target_properties(opendmi-object PROPERTIES C_VISIBILITY_PRESET hidden)
 
-# Binary compatibility is not guaranteed between minor versions before 1.0
-if(OPENDMI_VERSION_MAJOR EQUAL 0)
-    set(LIBOPENDMI_SOVERSION ${OPENDMI_VERSION_MAJOR}.${OPENDMI_VERSION_MINOR})
-    set(LIBOPENDMI_COMPATIBILITY SameMinorVersion)
-else()
-    set(LIBOPENDMI_SOVERSION ${OPENDMI_VERSION_MAJOR})
-    set(LIBOPENDMI_COMPATIBILITY SameMajorVersion)
-endif()
-
 target_sources(opendmi-static
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include

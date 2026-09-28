@@ -1,18 +1,22 @@
+ifdef::backend-manpage[]
 = dmi_load(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_load
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
-dmi_load - load SMBIOS dump into context.
+dmi_load - read the SMBIOS data of a dump file into a context.
 
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -22,3 +26,89 @@ OpenDMI C library (`libopendmi`, `-lopendmi`)
 
 bool dmi_load(dmi_context_t *context, const char *path);
 ----
+
+== Description
+
+The `dmi_load` function reads a dump of SMBIOS data into a closed context,
+and decodes it the way `dmi_open`(3) decodes the data of the system, so that
+the data of another machine is read on any system and without privileges.
+
+Dump files are the ones `dmi_save`(3) and `opendmi dump` write, and are
+interchangeable with the ones `dmidecode --dump-bin` writes and `dmidecode
+--from-dump` reads: the entry point, padded with zeros, followed by the
+table.
+
+A context which fails to load the dump is left closed, with the errors
+telling why in its error queue. A context which is open already is left as
+it is.
+
+=== Parameters
+
+`context`::
+Context to open, which is required to be closed.
+
+`path`::
+Path to the dump file.
+
+== Return value
+
+Returns `true` if the dump has been loaded, and `false` otherwise.
+
+== Errors
+
+`DMI_ERROR_NULL_ARGUMENT`::
+Path is `nullptr`.
+
+`DMI_ERROR_INVALID_STATE`::
+Context is open already.
+
+`DMI_ERROR_FILE_OPEN`::
+Dump file cannot be opened.
+
+`DMI_ERROR_INVALID_DUMP`::
+File is not a dump of SMBIOS data.
+
+`DMI_ERROR_BACKEND_INIT`::
+Dump file cannot be read.
+
+`DMI_ERROR_ENTITY_TRUNCATED`::
+Table area is empty, or a structure runs past its end.
+
+`DMI_ERROR_MISSING_FIRMWARE_INFO`::
+Table holds no platform firmware information structure, in the strict mode
+only.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory is exhausted.
+
+`DMI_ERROR_CONTEXT_OPEN`::
+Context cannot be opened. Raised last on every failure but the one of a
+context which is open already, after the errors telling why.
+
+== Examples
+
+[source, c]
+----
+dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK);
+
+if (dmi_load(context, "smbios.bin")) {
+    ...
+}
+
+dmi_destroy(context);
+----
+
+== See also
+
+`dmi_open`(3),
+`dmi_save`(3),
+`dmi_close`(3),
+`dmi_create`(3),
+`dmi_error_get_first`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

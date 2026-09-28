@@ -1,11 +1,14 @@
+ifdef::backend-manpage[]
 = dmi_error_message(3)
-
+endif::[]
+ifndef::backend-manpage[]
+= dmi_error_message
+endif::[]
 :author: The OpenDMI contributors
-:doctype: manpage
-:release-version: 0.5.0
 :manmanual: OpenDMI Manual
 :mansource: OpenDMI {release-version}
 
+ifdef::backend-manpage[]
 == Name
 
 dmi_error_message - get the human-readable message for an error reason code.
@@ -13,6 +16,7 @@ dmi_error_message - get the human-readable message for an error reason code.
 == Library
 
 OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
 
 == Synopsis
 
@@ -40,6 +44,10 @@ Error reason code.
 == Return value
 
 Returns a pointer to a static null-terminated string. Never returns `nullptr`.
+
+== Errors
+
+None.
 
 == Examples
 

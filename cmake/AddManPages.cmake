@@ -35,7 +35,9 @@ function(add_manpages TARGET_NAME SOURCE_DIR)
         file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/man/${SECTION_DIR}")
 
         set(COMMANDS
-            COMMAND ${ASCIIDOCTOR_EXECUTABLE} --backend manpage --out-file ${MANPAGE_PATH} ${SOURCE_PATH}
+            COMMAND ${ASCIIDOCTOR_EXECUTABLE} --backend manpage
+                --attribute release-version=${OPENDMI_VERSION}
+                --out-file ${MANPAGE_PATH} ${SOURCE_PATH}
         )
 
         # Compressed page replaces the generated one
