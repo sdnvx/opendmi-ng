@@ -24,7 +24,8 @@ endif::[]
 ----
 #include <opendmi/writer.h>
 
-bool dmi_writer_put_bytes(dmi_writer_t *writer, const void *ptr, size_t length);
+bool dmi_writer_put_bytes(dmi_writer_t *writer, const void *ptr,
+                          size_t length);
 ----
 
 == Description

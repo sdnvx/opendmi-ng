@@ -19,8 +19,12 @@ font:
 base:
   font-family: IBM Plex Serif
   font-size: 10
+# Size of the code blocks is derived from the base font size in the default
+# theme, and is fixed there before the base size is overridden. Plex Mono has
+# the same x-height as Plex Serif, so the same size makes them look even
 code:
   font-family: IBM Plex Mono
+  font-size: $base-font-size
 codespan:
   font-family: $code-font-family
 page:

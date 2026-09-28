@@ -24,7 +24,8 @@ endif::[]
 ----
 #include <opendmi/encoder.h>
 
-bool dmi_encoder_put_bytes(dmi_encoder_t *encoder, const void *ptr, size_t length);
+bool dmi_encoder_put_bytes(dmi_encoder_t *encoder, const void *ptr,
+                           size_t length);
 ----
 
 == Description

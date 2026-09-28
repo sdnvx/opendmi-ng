@@ -24,7 +24,8 @@ endif::[]
 ----
 #include <opendmi/context.h>
 
-bool dmi_log(dmi_context_t *context, dmi_log_level_t level, const char *format, ...);
+bool dmi_log(dmi_context_t *context, dmi_log_level_t level,
+             const char *format, ...);
 ----
 
 == Description
@@ -71,7 +72,8 @@ None.
 
 [source, c]
 ----
-dmi_log_warning(context, "Unexpected value 0x%02x at offset 0x%02zx", value, offset);
+dmi_log_warning(context, "Unexpected value 0x%02x at offset 0x%02zx",
+                value, offset);
 ----
 
 == See also

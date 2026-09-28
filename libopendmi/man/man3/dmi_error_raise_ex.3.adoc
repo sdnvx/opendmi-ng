@@ -25,7 +25,7 @@ endif::[]
 #include <opendmi/error.h>
 
 bool dmi_error_raise_ex(dmi_context_t *context, dmi_error_code_t reason,
-                        const char *message, ...);                        /* macro */
+                        const char *message, ...);  /* macro */
 ----
 
 == Description

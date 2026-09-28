@@ -142,7 +142,8 @@ $ opendmi export -f json --pretty -o smbios.json
 Export the processors alone, and read a field out of the result:
 
 ....
-$ opendmi export -f json -t processor | jq '.table[].attributes."socket-designation"'
+$ opendmi export -f json -t processor |
+    jq '.table[].attributes."socket-designation"'
 ....
 
 == See also

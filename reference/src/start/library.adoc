@@ -61,7 +61,8 @@ linked with:
 
 [source,shell]
 ----
-$ cc example.c $(pkg-config --cflags --libs opendmi) -Wl,-rpath,/opt/opendmi/lib
+$ cc example.c $(pkg-config --cflags --libs opendmi) \
+    -Wl,-rpath,/opt/opendmi/lib
 ----
 
 CMake gives that path to the programs in its build tree by itself, and to the
@@ -129,7 +130,9 @@ int main(void)
 
     if (dmi_open(context, nullptr)) {
         dmi_registry_t *registry = dmi_get_registry(context);
-        dmi_entity_t   *entity   = dmi_registry_lookup_first(registry, DMI_TYPE(SYSTEM), false);
+        dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                                                             DMI_TYPE(SYSTEM),
+                                                             false);
         dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(SYSTEM));
 
         if (system != nullptr)
