@@ -11,12 +11,39 @@
 #include <opendmi/entity/intel/rsd-phys-device-mapping-internal.h>
 
 // Location numbers are named according to the device type, and the data of
-// unknown device types is shown as stored
+// unknown device types is shown as stored. Handles refer to the structures of
+// the type the device type names, and the variants carry the code of the
+// attribute along for the rules which check them.
 const dmi_attribute_t dmi_intel_rsd_phys_device_attrs[] =
 {
-    DMI_ATTRIBUTE(dmi_intel_rsd_phys_device_t, handle, HANDLE, {
-        .code = "handle",
-        .name = "Structure handle"
+    DMI_ATTRIBUTE_VARIANT(dmi_intel_rsd_phys_device_t, type, {
+        .code     = "handle",
+        .name     = "Structure handle",
+        .variants = DMI_VARIANTS({
+            DMI_VARIANT(DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PROCESSOR,
+                        dmi_intel_rsd_phys_device_t, handle, HANDLE, {
+                .code    = "handle",
+                .name    = "Structure handle",
+                .targets = dmi_types(DMI_TYPE_PROCESSOR)
+            }),
+            DMI_VARIANT(DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PCIE_SLOT,
+                        dmi_intel_rsd_phys_device_t, handle, HANDLE, {
+                .code    = "handle",
+                .name    = "Structure handle",
+                .targets = dmi_types(DMI_TYPE_SYSTEM_SLOTS)
+            }),
+            DMI_VARIANT(DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY,
+                        dmi_intel_rsd_phys_device_t, handle, HANDLE, {
+                .code    = "handle",
+                .name    = "Structure handle",
+                .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE)
+            }),
+            DMI_VARIANT_DEFAULT(dmi_intel_rsd_phys_device_t, handle, HANDLE, {
+                .code    = "handle",
+                .name    = "Structure handle"
+            }),
+            {}
+        })
     }),
     DMI_ATTRIBUTE_VARIANT(dmi_intel_rsd_phys_device_t, type, {
         .code     = "socket-number",

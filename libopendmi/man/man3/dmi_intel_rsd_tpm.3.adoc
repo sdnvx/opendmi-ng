@@ -50,7 +50,8 @@ has been decoded in.
 
 `config_index`::
 One-based index of the configuration, the one the pod manager (PSME) passes
-to the IPMI Set TPM Configuration command to select it.
+to the IPMI Set TPM Configuration command to select it. The `value.range` lint
+rule reports a structure which holds 0.
 
 `version`::
 Version of the TPM, `nullptr` if the structure does not carry it.

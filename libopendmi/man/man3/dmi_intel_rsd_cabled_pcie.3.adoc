@@ -61,7 +61,9 @@ Link width of the port, in lanes: 4 for a x4 port, 8 for a x8 port, and so on.
 
 `port_count`::
 Number of elements of `ports`: the cable indices the structure holds
-completely.
+completely. The specification lays out four of them at most, and the
+`intel-rsd-cabled-pcie.cable-count` lint rule reports a structure which
+declares more.
 
 `ports`::
 Cable indices of the port, an array of `port_count` elements (see

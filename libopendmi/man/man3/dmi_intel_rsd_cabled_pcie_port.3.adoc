@@ -47,7 +47,8 @@ field of the port. The BMC uses the same number, for example to read the
 EEPROM of the cable over IPMI.
 
 `start_lane`::
-First lane of the group of four lanes the cable carries: 0, 4, 8 or 12.
+First lane of the group of four lanes the cable carries: 0, 4, 8 or 12. The
+`intel-rsd-cabled-pcie.start-lane` lint rule reports any other value.
 
 == See also
 

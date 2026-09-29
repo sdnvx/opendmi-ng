@@ -1,0 +1,96 @@
+= Intel RSD PCIe Information (Type 192)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.2.
+
+Declares a PCIe device present and enabled in the system, with its PCI
+identifiers and the state of its link.
+
+.Intel RSD PCIe Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `192`
+| PCIe Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| PCI Class Code
+| `BYTE`
+| `NUMBER`
+| PCI base class of the device, which tells its general function
+
+| `0x05`
+| 2.0+
+| Slot Number
+| `WORD`
+| `NUMBER`
+| Physical number of the slot connected to the PCIe port of the device. It
+is the slot ID of the system slot structure (type 9) of the slot the device is
+in.
+
+| `0x07`
+| 2.0+
+| Vendor ID
+| `WORD`
+| `NUMBER`
+| PCI vendor identifier of the device
+
+| `0x09`
+| 2.0+
+| Device ID
+| `WORD`
+| `NUMBER`
+| PCI device identifier of the device
+
+| `0x0B`
+| 2.0+
+| SubVendor ID
+| `WORD`
+| `NUMBER`
+| PCI subsystem vendor identifier, which tells the model of the device along
+with the subsystem identifier
+
+| `0x0D`
+| 2.0+
+| SubDevice ID
+| `WORD`
+| `NUMBER`
+| PCI subsystem identifier, which tells the model of the device along with
+the subsystem vendor identifier
+
+| `0x0F`
+| 2.0+
+| Link Speed
+| `DWORD`
+| `NUMBER`
+| Current speed of the link. The specification gives no unit or encoding of
+the value.
+
+| `0x13`
+| 2.0+
+| Link Width
+| `DWORD`
+| `NUMBER`
+| Current number of the lanes of the link, e.g. 1, 2, 4, 8 or 16
+|===

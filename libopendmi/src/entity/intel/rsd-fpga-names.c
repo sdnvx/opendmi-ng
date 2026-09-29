@@ -53,7 +53,7 @@ const dmi_name_set_t dmi_intel_rsd_fpga_status_names =
 
 const dmi_name_set_t dmi_intel_rsd_fpga_hps_isa_names =
 {
-    .code  = "intel-rsd-fpga-isa",
+    .code  = "intel-rsd-fpga-hps-isa",
     .names = DMI_NAMES({
         {
             .id   = DMI_INTEL_RSD_FPGA_HPS_ISA_X86,
@@ -101,7 +101,7 @@ const dmi_name_set_t dmi_intel_rsd_fpga_hps_isa_names =
 
 const dmi_name_set_t dmi_intel_rsd_fpga_hssi_config_names =
 {
-    .code  = "intel-rsd-fpga-config",
+    .code  = "intel-rsd-fpga-hssi-config",
     .names = DMI_NAMES({
         {
             .id   = DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING,

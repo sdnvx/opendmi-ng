@@ -45,9 +45,9 @@ const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
         DMI_FIELD(dmi_intel_rsd_fpga_t, reconfig_slots, dmi_byte_t),
 
         DMI_FIELD(dmi_intel_rsd_fpga_t, pci_slot_id,     dmi_word_t),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_bus_number,  dmi_byte_t),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_device_id,   dmi_byte_t),
-        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_function_id, dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_bus_number,      dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_device_number,   dmi_byte_t),
+        DMI_FIELD(dmi_intel_rsd_fpga_t, pci_function_number, dmi_byte_t),
 
         DMI_FIELD(dmi_intel_rsd_fpga_t, tdp,             dmi_dword_t),
         DMI_FIELD(dmi_intel_rsd_fpga_t, memory_tech,     dmi_byte_t),
@@ -58,8 +58,9 @@ const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, index, INTEGER, {
-            .code   = "index",
-            .name   = "Index"
+            .code    = "index",
+            .name    = "Index",
+            .minimum = dmi_value_ptr((unsigned short)1)
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, type, ENUM, {
             .code   = "type",
@@ -71,9 +72,14 @@ const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
             .name   = "Status",
             .values = &dmi_intel_rsd_fpga_status_names
         }),
-        DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, socket, INTEGER, {
-            .code   = "socket",
-            .name   = "Socket identifier"
+        // Socket means something for an integrated FPGA only
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_rsd_fpga_t, type, {
+            .code     = "socket",
+            .name     = "Socket identifier",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(DMI_INTEL_RSD_FPGA_TYPE_INTEGRATED, dmi_intel_rsd_fpga_t, socket, INTEGER, {}),
+                {}
+            })
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, vendor, STRING, {
             .code   = "vendor",
@@ -105,37 +111,55 @@ const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
             .name   = "HSSI configuration",
             .values = &dmi_intel_rsd_fpga_hssi_config_names
         }),
-        DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, hssi_port_count, INTEGER, {
-            .code   = "hssi-port-count",
-            .name   = "HSSI port count"
+        // Rest of the interface is to be ignored when the configuration is
+        // not available, and means nothing for the configurations the
+        // specification does not define
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_rsd_fpga_t, hssi_config, {
+            .code     = "hssi-port-count",
+            .name     = "HSSI port count",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING, dmi_intel_rsd_fpga_t, hssi_port_count, INTEGER, {}),
+                DMI_VARIANT(DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE, dmi_intel_rsd_fpga_t, hssi_port_count, INTEGER, {}),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, hssi_port_speed, INTEGER, {
-            .code   = "hssi-port-speed",
-            .name   = "HSSI port speed"
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_rsd_fpga_t, hssi_config, {
+            .code     = "hssi-port-speed",
+            .name     = "HSSI port speed",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING, dmi_intel_rsd_fpga_t, hssi_port_speed, INTEGER, {}),
+                DMI_VARIANT(DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE, dmi_intel_rsd_fpga_t, hssi_port_speed, INTEGER, {}),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, hssi_side_band_config, STRING, {
-            .code   = "hssi-side-band-config",
-            .name   = "HSSI side-band configuration"
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_rsd_fpga_t, hssi_config, {
+            .code     = "hssi-side-band-config",
+            .name     = "HSSI side-band configuration",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING, dmi_intel_rsd_fpga_t, hssi_side_band_config, STRING, {}),
+                DMI_VARIANT(DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE, dmi_intel_rsd_fpga_t, hssi_side_band_config, STRING, {}),
+                {}
+            })
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, reconfig_slots, INTEGER, {
             .code   = "reconfig-slots",
             .name   = "Partial Reconfiguration (PR) slots"
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, pci_slot_id, INTEGER, {
-            .code   = "pcie-slot-id",
-            .name   = "PCIe slot ID"
+            .code   = "pci-slot-id",
+            .name   = "PCI slot ID"
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, pci_bus_number, INTEGER, {
-            .code   = "pcie-bus-number",
-            .name   = "PCIe bus number"
+            .code   = "pci-bus-number",
+            .name   = "PCI bus number"
         }),
-        DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, pci_device_id, INTEGER, {
-            .code   = "pcie-device-id",
-            .name   = "PCIe device ID"
+        DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, pci_device_number, INTEGER, {
+            .code   = "pci-device-number",
+            .name   = "PCI device number"
         }),
-        DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, pci_function_id, INTEGER, {
-            .code   = "pcie-function-id",
-            .name   = "PCIe function ID"
+        DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, pci_function_number, INTEGER, {
+            .code   = "pci-function-number",
+            .name   = "PCI function number"
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, tdp, DECIMAL, {
             .code   = "tdp",

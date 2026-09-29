@@ -34,8 +34,9 @@ const dmi_entity_spec_t dmi_intel_rsd_memory_device_spec =
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_intel_rsd_memory_device_t, device_handle, HANDLE, {
-            .code = "device-handle",
-            .name = "Device handle"
+            .code    = "device-handle",
+            .name    = "Device handle",
+            .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE)
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_memory_device_t, memory_type, ENUM, {
             .code   = "memory-type",

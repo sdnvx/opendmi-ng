@@ -43,8 +43,8 @@ typedef struct dmi_intel_rsd_fpga {
     unsigned short reconfig_slots;
     dmi_pci_slot_t pci_slot_id;
     uint8_t pci_bus_number;
-    uint8_t pci_device_id;
-    uint8_t pci_function_id;
+    uint8_t pci_device_number;
+    uint8_t pci_function_number;
     uint32_t tdp;
     dmi_intel_rsd_fpga_memory_tech_t memory_tech;
     uint32_t memory_capacity;
@@ -70,7 +70,8 @@ has been decoded in.
 === Fields
 
 `index`::
-One-based number of the FPGA on the platform.
+One-based number of the FPGA on the platform. The `value.range` lint rule
+reports a structure which holds 0.
 
 `type`::
 How the FPGA is attached: integrated into a processor package, or discrete
@@ -81,7 +82,7 @@ Whether the FPGA is enabled (see `dmi_intel_rsd_fpga_status`(3)).
 
 `socket`::
 Processor socket the FPGA is integrated into. Meaningful for integrated FPGAs
-only.
+only, and not shown for the other ones.
 
 `vendor`::
 Vendor of the FPGA, as a name or, for a discrete FPGA, as its PCI vendor
@@ -110,7 +111,11 @@ Configuration the high-speed serial interfaces support: networking or PCIe
 
 `hssi_port_count`::
 Number of ports of that configuration: 2 for 2x10G or 2x40G networking, 2 for
-two x16 PCIe links, and so on.
+two x16 PCIe links, and so on. Like `hssi_port_speed` and
+`hssi_side_band_config`, it is not shown when the configuration is not
+available (`DMI_INTEL_RSD_FPGA_HSSI_CONFIG_UNAVAILABLE`), which the
+specification says to ignore them for, or is one the specification does not
+define.
 
 `hssi_port_speed`::
 Speed of each port in Gbps for networking, or its number of lanes for PCIe:
@@ -131,10 +136,10 @@ through.
 `pci_bus_number`::
 PCIe bus number the FPGA is reached at.
 
-`pci_device_id`::
+`pci_device_number`::
 PCIe device number the FPGA is reached at.
 
-`pci_function_id`::
+`pci_function_number`::
 PCIe function number the FPGA is reached at.
 
 `tdp`::

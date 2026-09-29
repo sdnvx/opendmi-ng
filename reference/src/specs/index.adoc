@@ -20,7 +20,22 @@ include::dell/calling-iface.adoc[leveloffset=2]
 
 == Intel-specific structures
 
+The structures of Intel Rack Scale Design (RSD) describe the devices of a
+system to the management software of the rack, which reads them from the
+management controller the firmware passes the table on to. The specification
+reserves types 190 to 209 for them, of which it defines types 190 and 192 to
+200. Memory is described by the standard memory structures (types 17 to 20),
+which type 197 extends.
+
+include::intel/rsd-network-card.adoc[leveloffset=2]
+include::intel/rsd-pcie.adoc[leveloffset=2]
 include::intel/rsd-processor-cpuid.adoc[leveloffset=2]
+include::intel/rsd-storage-device.adoc[leveloffset=2]
+include::intel/rsd-tpm.adoc[leveloffset=2]
+include::intel/rsd-txt.adoc[leveloffset=2]
+include::intel/rsd-memory-device.adoc[leveloffset=2]
+include::intel/rsd-fpga.adoc[leveloffset=2]
+include::intel/rsd-cabled-pcie.adoc[leveloffset=2]
 include::intel/rsd-phys-device-mapping.adoc[leveloffset=2]
 
 == Sun-specific structures

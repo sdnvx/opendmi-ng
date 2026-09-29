@@ -1,0 +1,54 @@
+= Intel RSD TXT Information (Type 196)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.7.
+
+Declares the state of Intel Trusted Execution Technology (TXT). The structure
+is present only if the system supports TXT, even when it is disabled.
+
+.Intel RSD TXT Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `196`
+| TXT Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| TXT Status
+| `BYTE`
+| `ENUM`
+| Current state of TXT, see <<intel-rsd-txt-status>>
+|===
+
+[#intel-rsd-txt-status, reftext=TXT status]
+== Intel RSD TXT -- Status
+
+.Intel RSD TXT: TXT status field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Disabled
+| `0x01` | `1` | Enabled
+|===

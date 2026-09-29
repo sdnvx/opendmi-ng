@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
 
@@ -30,8 +31,9 @@ const dmi_entity_spec_t dmi_intel_rsd_tpm_spec =
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_intel_rsd_tpm_t, config_index, INTEGER, {
-            .code   = "config-index",
-            .name   = "Configuration index"
+            .code    = "config-index",
+            .name    = "Configuration index",
+            .minimum = dmi_value_ptr((uint8_t)1)
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_tpm_t, version, STRING, {
             .code   = "version",

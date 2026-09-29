@@ -103,6 +103,44 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
     assert_int_equal(info->devices[1].primary_number, 1);
     assert_int_equal(info->devices[1].secondary_number, 2);
 
+    // Handles refer to the structures of the type the device type names, and
+    // to any structure for the device types the specification leaves out
+    static const struct {
+        dmi_intel_rsd_phys_device_type_t device_type;
+        dmi_type_t                       target;
+    } test_targets[] = {
+        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PROCESSOR, DMI_TYPE_PROCESSOR      },
+        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PCIE_SLOT, DMI_TYPE_SYSTEM_SLOTS   },
+        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY,    DMI_TYPE_MEMORY_DEVICE  },
+        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID,   DMI_TYPE_INVALID        }
+    };
+
+    const dmi_attribute_t *devices = entity->spec->attributes;
+    while ((devices->params.code != nullptr) and (strcmp(devices->params.code, "devices") != 0))
+        devices++;
+
+    assert_non_null(devices->params.code);
+
+    const dmi_attribute_t *handle = devices->params.attrs;
+    assert_string_equal(handle->params.code, "handle");
+
+    for (size_t i = 0; i < countof(test_targets); i++) {
+        dmi_intel_rsd_phys_device_t device = { .type = test_targets[i].device_type };
+
+        const dmi_attribute_t *resolved = dmi_attribute_resolve(handle, &device);
+        assert_non_null(resolved);
+        assert_int_equal(resolved->type, DMI_ATTRIBUTE_TYPE_HANDLE);
+        assert_string_equal(resolved->params.code, "handle");
+
+        if (test_targets[i].target == DMI_TYPE_INVALID) {
+            assert_null(resolved->params.targets);
+        } else {
+            assert_non_null(resolved->params.targets);
+            assert_int_equal(resolved->params.targets[0], test_targets[i].target);
+            assert_int_equal(resolved->params.targets[1], DMI_TYPE_INVALID);
+        }
+    }
+
     dmi_entity_destroy(entity);
 
     dmi_buffer_destroy(entity_buffer);

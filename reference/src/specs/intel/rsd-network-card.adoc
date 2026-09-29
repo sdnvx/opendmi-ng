@@ -1,0 +1,116 @@
+= Intel RSD Network Interface Card Information (Type 190)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.1.
+
+Declares a network interface card present or configured in the system, with
+its PCI identifiers, its speeds and the address of its network port.
+
+.Intel RSD Network Interface Card Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `190`
+| Network Interface Card Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| PCI Class Code
+| `BYTE`
+| `NUMBER`
+| PCI base class of the device, which tells its general function
+
+| `0x05`
+| 2.0+
+| Slot Number
+| `WORD`
+| `NUMBER`
+| Physical number of the slot connected to the PCIe port of the card
+
+| `0x07`
+| 2.0+
+| Vendor ID
+| `WORD`
+| `NUMBER`
+| PCI vendor identifier of the card
+
+| `0x09`
+| 2.0+
+| Device ID
+| `WORD`
+| `NUMBER`
+| PCI device identifier of the card
+
+| `0x0B`
+| 2.0+
+| SubVendor ID
+| `WORD`
+| `NUMBER`
+| PCI subsystem vendor identifier, which tells the model of the card along
+with the subsystem identifier
+
+| `0x0D`
+| 2.0+
+| SubDevice ID
+| `WORD`
+| `NUMBER`
+| PCI subsystem identifier, which tells the model of the card along with the
+subsystem vendor identifier
+
+| `0x0F`
+| 2.0+
+| Maximum Speed
+| `DWORD`
+| `SPEED`
+| Highest speed of the card, in Mbit/s, e.g. 10000 for 10 Gbit/s
+
+| `0x13`
+| 2.0+
+| Current Speed
+| `DWORD`
+| `SPEED`
+| Speed the card currently works at, in Mbit/s
+
+| `0x17`
+| 2.0+
+| Port Index
+| `WORD`
+| `NUMBER`
+| Index of the port in the system. It is the value the firmware gives to the
+device instance selector of the boot flags (parameter 5, data byte 5) of the
+IPMI Get/Set System Boot Options commands.
+
+| `0x19`
+| 2.0+
+| MAC Address
+| 32 BYTEs
+| Varies
+| Network MAC address of the port
+
+| `0x39`
+| 2.0+
+| Firmware Version
+| `BYTE`
+| `STRING`
+| Version of the firmware installed on the card
+|===

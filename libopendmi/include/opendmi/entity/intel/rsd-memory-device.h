@@ -32,8 +32,8 @@ typedef enum dmi_intel_rsd_memory_media
 {
     DMI_INTEL_RSD_MEMORY_MEDIA_DRAM        = 0x00, ///< DRAM
     DMI_INTEL_RSD_MEMORY_MEDIA_NAND        = 0x01, ///< NAND
-    DMI_INTEL_RSD_MEMORY_MEDIA_PROPRIETARY = 0x02, ///< Proprietary
-    __DMI_INTEL_RSD_MEMORY_MEDIA_COUNT
+    // Not defined by the specification: 0x02
+    DMI_INTEL_RSD_MEMORY_MEDIA_PROPRIETARY = 0x03  ///< Proprietary
 } dmi_intel_rsd_memory_media_t;
 
 /**

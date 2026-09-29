@@ -25,6 +25,9 @@ static int test_rsd_fpga_teardown(void **pstate);
 
 static void test_rsd_fpga_decode(void **pstate);
 static void test_rsd_fpga_decode_short(void **pstate);
+static void test_rsd_fpga_variants(void **pstate);
+
+static const dmi_attribute_t *test_attribute(const dmi_entity_t *entity, const char *code);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -55,7 +58,8 @@ int main(void)
 {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test_setup_teardown(test_rsd_fpga_decode, test_rsd_fpga_setup, test_rsd_fpga_teardown),
-        cmocka_unit_test_setup_teardown(test_rsd_fpga_decode_short, test_rsd_fpga_setup, test_rsd_fpga_teardown)
+        cmocka_unit_test_setup_teardown(test_rsd_fpga_decode_short, test_rsd_fpga_setup, test_rsd_fpga_teardown),
+        cmocka_unit_test_setup_teardown(test_rsd_fpga_variants, test_rsd_fpga_setup, test_rsd_fpga_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -119,8 +123,8 @@ static void test_rsd_fpga_decode(void **pstate)
     assert_int_equal(info->reconfig_slots, 2);
     assert_int_equal(info->pci_slot_id, 3);
     assert_int_equal(info->pci_bus_number, 0x3B);
-    assert_int_equal(info->pci_device_id, 0x00);
-    assert_int_equal(info->pci_function_id, 0x01);
+    assert_int_equal(info->pci_device_number, 0x00);
+    assert_int_equal(info->pci_function_number, 0x01);
     assert_int_equal(info->tdp, 10000);
     assert_int_equal(info->memory_tech, DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM2);
     assert_int_equal(info->memory_capacity, 8192);
@@ -158,4 +162,66 @@ static void test_rsd_fpga_decode_short(void **pstate)
     dmi_entity_destroy(entity);
 
     dmi_buffer_destroy(entity_buffer);
+}
+
+//
+// Socket is shown for an integrated FPGA only, and the high-speed serial
+// interface for the configurations the specification defines only.
+//
+static void test_rsd_fpga_variants(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    static const struct {
+        uint8_t type;
+        uint8_t hssi_config;
+        bool    has_socket;
+        bool    has_hssi;
+    } test_cases[] = {
+        { DMI_INTEL_RSD_FPGA_TYPE_INTEGRATED,   DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING,  true,  true  },
+        { DMI_INTEL_RSD_FPGA_TYPE_DISCRETE,     DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE,        false, true  },
+        { DMI_INTEL_RSD_FPGA_TYPE_DISCRETE_SOC, DMI_INTEL_RSD_FPGA_HSSI_CONFIG_UNAVAILABLE, false, false },
+        { DMI_INTEL_RSD_FPGA_TYPE_INTEGRATED,   0x02,                                       true,  false }
+    };
+
+    static const char *hssi_codes[] = {
+        "hssi-port-count", "hssi-port-speed", "hssi-side-band-config"
+    };
+
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+
+    for (size_t i = 0; i < countof(test_cases); i++) {
+        uint8_t data[sizeof(test_data)];
+        memcpy(data, test_data, sizeof(data));
+        data[0x05] = test_cases[i].type;
+        data[0x0F] = test_cases[i].hssi_config;
+
+        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
+        assert_non_null(entity);
+        assert_true(dmi_entity_decode(entity));
+
+        const dmi_attribute_t *attr = test_attribute(entity, "socket");
+        assert_non_null(attr);
+        assert_int_equal(dmi_attribute_resolve(attr, entity->info) != nullptr, test_cases[i].has_socket);
+
+        for (size_t j = 0; j < countof(hssi_codes); j++) {
+            attr = test_attribute(entity, hssi_codes[j]);
+            assert_non_null(attr);
+            assert_int_equal(dmi_attribute_resolve(attr, entity->info) != nullptr, test_cases[i].has_hssi);
+        }
+
+        dmi_entity_destroy(entity);
+    }
+
+    dmi_buffer_destroy(entity_buffer);
+}
+
+static const dmi_attribute_t *test_attribute(const dmi_entity_t *entity, const char *code)
+{
+    for (const dmi_attribute_t *attr = entity->spec->attributes; attr->params.name != nullptr; attr++) {
+        if (strcmp(attr->params.code, code) == 0)
+            return attr;
+    }
+
+    return nullptr;
 }

@@ -51,7 +51,9 @@ mapping has been decoded in.
 `handle`::
 Handle of the structure describing the device: a processor (type 4), system
 slot (type 9) or memory device (type 17) structure, as `type` tells. The
-handle is not resolved to an entity.
+handle is not resolved to an entity, and the `link.wrong-type` lint rule
+reports one which refers to a structure of another type than the one `type`
+names.
 
 `type`::
 Type of the device, the `device_type` field of the mapping structure.

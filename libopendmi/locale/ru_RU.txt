@@ -250,12 +250,11 @@ ru_RU {
         part-number { "Артикул" }
         partition-pos { "Позиция строки раздела" }
         partition-width { "Ширина раздела" }
+        pci-bus-number { "Номер шины PCI" }
         pci-class { "Класс PCI" }
+        pci-device-number { "Номер устройства PCI" }
+        pci-function-number { "Номер функции PCI" }
         pci-slot-id { "Идентификатор слота PCI" }
-        pcie-bus-number { "Номер шины PCIe" }
-        pcie-device-id { "Идентификатор устройства PCIe" }
-        pcie-function-id { "Идентификатор функции PCIe" }
-        pcie-slot-id { "Идентификатор слота PCIe" }
         peer-groups { "Смежные группы" }
         phy { "Номер PHY" }
         physical-port { "Физический порт" }
@@ -953,12 +952,7 @@ ru_RU {
         }
         name { "ПЛИС Intel RSD" }
     }
-    intel-rsd-fpga-config {
-        networking { "Сетевая" }
-        pcie { "PCIe" }
-        unavailable { "Сведения недоступны" }
-    }
-    intel-rsd-fpga-isa {
+    intel-rsd-fpga-hps-isa {
         x86 { "x86" }
         x86-64 { "x86-64" }
         ia-64 { "IA-64" }
@@ -967,6 +961,11 @@ ru_RU {
         mips32 { "MIPS32" }
         mips64 { "MIPS64" }
         oem { "OEM" }
+    }
+    intel-rsd-fpga-hssi-config {
+        networking { "Сетевая" }
+        pcie { "PCIe" }
+        unavailable { "Сведения недоступны" }
     }
     intel-rsd-fpga-memory-tech {
         none { "Нет" }

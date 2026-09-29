@@ -13,6 +13,7 @@
 #include <opendmi/entity/chassis.h>
 #include <opendmi/entity/dell/common.h>
 #include <opendmi/entity/intel/rsd-fpga.h>
+#include <opendmi/entity/intel/rsd-memory-device.h>
 #include <opendmi/entity/intel/rsd-phys-device-mapping.h>
 #include <opendmi/entity/intel/rsd-processor-cpuid.h>
 #include <opendmi/entity/mgmt-controller.h>
@@ -21,11 +22,13 @@
 #include <opendmi/entity/system-event-log.h>
 
 static void test_entity_value_names(void **pstate);
+static void test_intel_rsd_memory_media_names(void **pstate);
 
 int main(void)
 {
     const struct CMUnitTest tests[] = {
-        cmocka_unit_test(test_entity_value_names)
+        cmocka_unit_test(test_entity_value_names),
+        cmocka_unit_test(test_intel_rsd_memory_media_names)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -84,4 +87,18 @@ static void test_entity_value_names(void **pstate)
     assert_null(dmi_rack_type_name((dmi_rack_type_t)0x100));
     assert_null(dmi_system_log_access_method_name((dmi_system_log_access_method_t)0x100));
     assert_null(dmi_system_log_header_format_name((dmi_system_log_header_format_t)0x100));
+}
+
+//
+// Values of the Intel RSD memory media skip 0x02, so the raw values are
+// checked rather than the constants, which would follow any mistake.
+//
+static void test_intel_rsd_memory_media_names(void **pstate)
+{
+    dmi_unused(pstate);
+
+    assert_string_equal(dmi_intel_rsd_memory_media_name((dmi_intel_rsd_memory_media_t)0x00), "DRAM");
+    assert_string_equal(dmi_intel_rsd_memory_media_name((dmi_intel_rsd_memory_media_t)0x01), "NAND");
+    assert_null(dmi_intel_rsd_memory_media_name((dmi_intel_rsd_memory_media_t)0x02));
+    assert_string_equal(dmi_intel_rsd_memory_media_name((dmi_intel_rsd_memory_media_t)0x03), "Proprietary");
 }

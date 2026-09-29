@@ -757,6 +757,62 @@ static void test_encoder_modules(void **pstate)
 
         test_encode_both_ways(context, data, sizeof(data), length);
     }
+
+    // Structures of Intel RSD which the field engine writes on its own
+    static const uint8_t rsd_pcie[] = {
+        192, 0x17, 0x00, 0x30,
+        0x01, 0x05, 0x00, 0x86, 0x80, 0x53, 0x09, 0x86, 0x80, 0x70, 0x37,
+        0x03, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00,
+        0, 0
+    };
+
+    test_encode_both_ways(context, rsd_pcie, sizeof(rsd_pcie), 0x17);
+
+    static const uint8_t rsd_storage_device[] = {
+        194, 0x1B, 0x00, 0x31,
+        0x01, 0x02, 0x03, 0x03, 0x02, 0xE8, 0x03, 0x00, 0x00, 0x00, 0x00,
+        0x02, 0x03, 0x01, 0x86, 0x80, 0x53, 0x09, 0x86, 0x80, 0x70, 0x37, 0x04,
+        'P', 'o', 'r', 't', 0, 'M', 'o', 'd', 'e', 'l', 0, 'S', 'N', 0, 'F', 'W', 0,
+        0
+    };
+
+    test_encode_both_ways(context, rsd_storage_device, sizeof(rsd_storage_device), 0x1B);
+
+    static const uint8_t rsd_tpm[] = {
+        195, 0x07, 0x00, 0x32,
+        0x01, 0x01, 0x01,
+        'T', 'P', 'M', ' ', '2', '.', '0', 0,
+        0
+    };
+
+    test_encode_both_ways(context, rsd_tpm, sizeof(rsd_tpm), 0x07);
+
+    static const uint8_t rsd_txt[] = {
+        196, 0x05, 0x00, 0x33,
+        0x01,
+        0, 0
+    };
+
+    test_encode_both_ways(context, rsd_txt, sizeof(rsd_txt), 0x05);
+
+    static const uint8_t rsd_memory_device[] = {
+        197, 0x0F, 0x00, 0x34,
+        0x11, 0x00, 0x01, 0x03, 0x01, 0x02, 0x98, 0x3A, 0x00, 0x00, 0xA0,
+        '0', '1', '.', '0', '2', 0, '1', '.', '0', 0,
+        0
+    };
+
+    test_encode_both_ways(context, rsd_memory_device, sizeof(rsd_memory_device), 0x0F);
+
+    // Cable indices follow their number, which the canonical mode writes from
+    // the indices it has
+    static const uint8_t rsd_cabled_pcie[] = {
+        199, 0x0C, 0x00, 0x35,
+        0x02, 0x00, 0x08, 0x02, 0x00, 0x00, 0x01, 0x04,
+        0, 0
+    };
+
+    test_encode_both_ways(context, rsd_cabled_pcie, sizeof(rsd_cabled_pcie), 0x0C);
 }
 
 //

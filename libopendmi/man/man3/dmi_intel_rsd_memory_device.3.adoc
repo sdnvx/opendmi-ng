@@ -57,7 +57,8 @@ has been decoded in.
 
 `device_handle`::
 Handle of the memory device structure (type 17) the structure extends. The
-handle is not resolved to an entity.
+handle is not resolved to an entity, and the `link.wrong-type` lint rule
+reports one which refers to a structure of another type.
 
 `memory_type`::
 Kind of the module: a conventional DIMM or one of the NVDIMM kinds (see

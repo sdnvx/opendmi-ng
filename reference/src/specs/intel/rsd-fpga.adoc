@@ -1,0 +1,287 @@
+= Intel RSD FPGA Information (Type 198)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.9.
+
+Declares a field-programmable gate array (FPGA) of the system: what it is,
+its hard processor subsystem (HPS), its high-speed serial interface (HSSI),
+where it is reached on PCIe, and the memory on its package. The structure is
+present only if the system has FPGAs.
+
+.Intel RSD FPGA Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `198`
+| FPGA Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| FPGA Index
+| `BYTE`
+| `NUMBER`
+| One-based index of the FPGA in the system
+
+| `0x05`
+| 2.0+
+| FPGA Type
+| `BYTE`
+| `ENUM`
+| Kind of the FPGA, see <<intel-rsd-fpga-types>>
+
+| `0x06`
+| 2.0+
+| FPGA Status
+| `BYTE`
+| `ENUM`
+| Current state of the FPGA, see <<intel-rsd-fpga-status>>
+
+| `0x07`
+| 2.0+
+| Socket Identifier
+| `BYTE`
+| `NUMBER`
+| Socket the FPGA is integrated into. Meaningful for an integrated FPGA only.
+
+| `0x08`
+| 2.0+
+| FPGA Vendor
+| `BYTE`
+| `STRING`
+| Vendor of the FPGA, as a name or, for a discrete FPGA, as the vendor
+identifier of its PCI configuration space
+
+| `0x09`
+| 2.0+
+| FPGA Family
+| `BYTE`
+| `STRING`
+| Family of the FPGA
+
+| `0x0A`
+| 2.0+
+| FPGA Model
+| `BYTE`
+| `STRING`
+| Model of the FPGA
+
+| `0x0B`
+| 2.0+
+| FPGA Bit Stream Version
+| `BYTE`
+| `STRING`
+| Version of the bit stream loaded into the FPGA
+
+| `0x0C`
+| 2.0+
+| FPGA HPS Core Count
+| `BYTE`
+| `NUMBER`
+| Number of the cores of the hard processor subsystem, if the FPGA has one
+
+| `0x0D`
+| 2.0+
+| --
+| `BYTE`
+| Varies
+| Not defined by the specification, which goes on from the core count to the
+next field at `0x0E`
+
+| `0x0E`
+| 2.0+
+| FPGA HPS ISA
+| `BYTE`
+| `ENUM`
+| Instruction set of the cores of the hard processor subsystem, see
+<<intel-rsd-fpga-hps-isa>>
+
+| `0x0F`
+| 2.0+
+| FPGA HSSI Configuration
+| `BYTE`
+| `ENUM`
+| What the high-speed serial interface of the FPGA is configured for, see
+<<intel-rsd-fpga-hssi-config>>
+
+| `0x10`
+| 2.0+
+| FPGA HSSI Port Count
+| `BYTE`
+| `NUMBER`
+| Number of the ports of the high-speed serial interface, e.g. 4 for "4x10G"
+or 2 for "2x16 PCIe"
+
+| `0x11`
+| 2.0+
+| FPGA HSSI Port Speed
+| `BYTE`
+| `NUMBER`
+| Speed of a port of the high-speed serial interface, in Gbit/s, or its
+number of the lanes for PCIe, e.g. 10 for "2x10G" or 16 for "2x16 PCIe"
+
+| `0x12`
+| 2.0+
+| FPGA HSSI Side Band Configuration
+| `BYTE`
+| `STRING`
+| Side band the high-speed serial interface is configured through, e.g.
+"SPI", "I2C-0" or "SMBus"
+
+| `0x13`
+| 2.0+
+| FPGA Reconfiguration Slots
+| `BYTE`
+| `NUMBER`
+| Number of the partial reconfiguration (PR) slots of the FPGA
+
+| `0x14`
+| 2.0+
+| PCIe Slot Number
+| `WORD`
+| `NUMBER`
+| Physical number of the slot connected to the PCIe port the FPGA is reached
+at
+
+| `0x16`
+| 2.0+
+| PCIe Bus Identifier
+| `BYTE`
+| `NUMBER`
+| PCI bus number the FPGA is reached at
+
+| `0x17`
+| 2.0+
+| PCIe Device Identifier
+| `BYTE`
+| `NUMBER`
+| PCI device number the FPGA is reached at
+
+| `0x18`
+| 2.0+
+| PCIe Function Identifier
+| `BYTE`
+| `NUMBER`
+| PCI function number the FPGA is reached at
+
+| `0x19`
+| 2.0+
+| Thermal Design Power
+| `DWORD`
+| `NUMBER`
+| Thermal design power of the FPGA, in milliwatts
+
+| `0x1D`
+| 2.0+
+| On Package Memory Technology
+| `BYTE`
+| `ENUM`
+| Technology of the memory on the package of the FPGA, see
+<<intel-rsd-fpga-memory-tech>>
+
+| `0x1E`
+| 2.0+
+| On Package Memory Capacity
+| `DWORD`
+| `NUMBER`
+| Capacity of the memory on the package, in MB of 2^20^ bytes each, the way
+the memory sizes of SMBIOS are given
+
+| `0x22`
+| 2.0+
+| On Package Memory Speed
+| `WORD`
+| `SPEED`
+| Speed of the memory on the package, in MHz
+|===
+
+[#intel-rsd-fpga-types, reftext=FPGA types]
+== Intel RSD FPGA -- Types
+
+.Intel RSD FPGA: FPGA type field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Integrated
+| `0x01` | `1` | Discrete
+| `0x02` | `2` | Discrete, with a system on chip (SoC) or a hard processor
+subsystem (HPS)
+|===
+
+[#intel-rsd-fpga-status, reftext=FPGA status]
+== Intel RSD FPGA -- Status
+
+.Intel RSD FPGA: FPGA status field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Disabled
+| `0x01` | `1` | Enabled
+|===
+
+[#intel-rsd-fpga-hps-isa, reftext=HPS instruction sets]
+== Intel RSD FPGA -- HPS instruction sets
+
+.Intel RSD FPGA: FPGA HPS ISA field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | x86
+| `0x01` | `1` | x86-64
+| `0x02` | `2` | IA-64
+| `0x03` | `3` | ARM A32
+| `0x04` | `4` | ARM A64
+| `0x05` | `5` | MIPS32
+| `0x06` | `6` | MIPS64
+| `0x07` | `7` | OEM-specific
+|===
+
+[#intel-rsd-fpga-hssi-config, reftext=HSSI configurations]
+== Intel RSD FPGA -- HSSI configurations
+
+.Intel RSD FPGA: FPGA HSSI configuration field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Networking
+| `0x01` | `1` | PCIe
+| `0xFF` | `255` | Information not available. The other fields of the
+high-speed serial interface are to be ignored.
+|===
+
+[#intel-rsd-fpga-memory-tech, reftext=Memory technologies]
+== Intel RSD FPGA -- Memory technologies
+
+.Intel RSD FPGA: On package memory technology field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | None, the FPGA has no memory attached
+| `0x01` | `1` | Embedded DRAM (eDRAM)
+| `0x02` | `2` | High Bandwidth Memory (HBM)
+| `0x03` | `3` | High Bandwidth Memory of the second generation (HBM2)
+|===

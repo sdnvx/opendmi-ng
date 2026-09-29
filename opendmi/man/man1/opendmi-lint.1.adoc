@@ -660,6 +660,19 @@ Severity: warning, or error with *--producer*.
 Version of the firmware is no older than the lowest supported version, when
 both are written in the same format other than a free-form one.
 
+`intel-rsd-cabled-pcie.start-lane`::
+Severity: warning, or error with *--producer*.
++
+Cable indices of an Intel RSD cabled PCIe port start at lane 0, 4, 8 or 12,
+since every cable carries a group of four lanes. Checked with the `intel`
+module enabled.
+
+`intel-rsd-cabled-pcie.cable-count`::
+Severity: warning, or error with *--producer*.
++
+Intel RSD cabled PCIe port declares no more than the four cable indices the
+specification lays out. Checked with the `intel` module enabled.
+
 == Exit status
 
 *0*::

@@ -1,0 +1,99 @@
+= Intel RSD Cabled PCIe Port Information (Type 199)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.10.
+
+Declares a cabled PCIe port on the fixed side of a system: a port which
+carries PCIe lanes over a cable, usually through an adapter on the board or in
+a PCIe slot. A structure describes a cable management interface (CMI)
+controller of the port, and is present only if the system has cabled PCIe
+ports. The ports follow the PCI Express External Cabling Specification,
+revision 3.0, and are reached by the management controller over SMBus to
+identify and manage the cables.
+
+The firmware and the management controller give the same slot ID to a
+physical slot. How they agree on it, and on the slots and link widths of the
+ports, is left out of the specification.
+
+.Intel RSD Cabled PCIe Port Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `199`
+| Cabled PCIe Port Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Slot ID
+| `WORD`
+| `NUMBER`
+| Slot the port is connected to. It is the slot ID of the system slot
+structure (type 9) of the slot, and the one the management controller uses
+for it, which is given to the Get Cable EEPROM Data IPMI command to choose the
+port.
+
+| `0x06`
+| 2.0+
+| Cable Port Link Width
+| `BYTE`
+| `NUMBER`
+| Number of the lanes of the port, e.g. 4 for a x4 port or 8 for a x8 port
+
+| `0x07`
+| 2.0+
+| Cable Index Count
+| `BYTE`
+| `NUMBER`
+| Number `n` of the cable indices of the port, with the lanes they cover
+
+| `0x08`
+| 2.0+
+| Cable Port Indices
+| 2n BYTEs
+| Varies
+| Cable indices of the port, 2 bytes each, see <<intel-rsd-cable-port-index>>.
+The specification lays out four of them at most, up to offset `0x0F`.
+|===
+
+[#intel-rsd-cable-port-index, reftext=Cable port index]
+== Intel RSD Cabled PCIe Port -- Cable port index
+
+.Intel RSD Cabled PCIe Port: Cable port index
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| Cable Port Index
+| `BYTE`
+| `NUMBER`
+| Zero-based index of the cable within the slot, which the management
+controller uses for it too. It is given to the Get Cable EEPROM Data IPMI
+command along with the slot ID to choose the cable.
+
+| `0x01`
+| Cable Port Index Start Lane
+| `BYTE`
+| `NUMBER`
+| First lane of the four lanes the cable carries: 0, 4, 8 or 12
+|===

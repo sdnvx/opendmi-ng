@@ -1,0 +1,194 @@
+= Intel RSD Storage Device Information (Type 194)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.5.
+
+Declares a storage device of the system: where it is connected, how it is
+accessed, what it is, and, for a PCIe device, its PCI identifiers.
+
+.Intel RSD Storage Device Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `194`
+| Storage Device Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Port Designation
+| `BYTE`
+| `STRING`
+| Physically labelled port or board position of the device, e.g.
+"SATA Port 0" or "PCIe Port 1"
+
+| `0x05`
+| 2.0+
+| Device Index
+| `BYTE`
+| `NUMBER`
+| Index of the device in the IPMI Get/Set System Boot Options commands, as
+the firmware gives it. The management software uses it to choose the device
+to boot from.
+
+| `0x06`
+| 2.0+
+| Connector Type
+| `BYTE`
+| `ENUM`
+| Connector of the device, see <<intel-rsd-storage-connectors>>
+
+| `0x07`
+| 2.0+
+| Device Protocol
+| `BYTE`
+| `ENUM`
+| Protocol the device is accessed with, see <<intel-rsd-storage-protocols>>
+
+| `0x08`
+| 2.0+
+| Device Type
+| `BYTE`
+| `ENUM`
+| Type of the device, see <<intel-rsd-storage-types>>
+
+| `0x09`
+| 2.0+
+| Device Capacity
+| `DWORD`
+| `NUMBER`
+| Capacity of the device, in GB
+
+| `0x0D`
+| 2.0+
+| Device RPM
+| `WORD`
+| `SPEED`
+| Rotational speed of a hard disk drive, in revolutions per minute, or 0 for
+any other device
+
+| `0x0F`
+| 2.0+
+| Device Model
+| `BYTE`
+| `STRING`
+| Model of the device
+
+| `0x10`
+| 2.0+
+| Device Serial
+| `BYTE`
+| `STRING`
+| Serial number of the device
+
+| `0x11`
+| 2.0+
+| PCI Class Code
+| `BYTE`
+| `NUMBER`
+| PCI base class of a PCIe device, or 0 for any other device
+
+| `0x12`
+| 2.0+
+| Vendor ID
+| `WORD`
+| `NUMBER`
+| PCI vendor identifier of a PCIe device, or 0 for any other device
+
+| `0x14`
+| 2.0+
+| Device ID
+| `WORD`
+| `NUMBER`
+| PCI device identifier of a PCIe device, or 0 for any other device
+
+| `0x16`
+| 2.0+
+| Sub Vendor ID
+| `WORD`
+| `NUMBER`
+| PCI subsystem vendor identifier of a PCIe device, or 0 for any other device
+
+| `0x18`
+| 2.0+
+| Sub Device ID
+| `WORD`
+| `NUMBER`
+| PCI subsystem identifier of a PCIe device, or 0 for any other device
+
+| `0x1A`
+| 2.0+
+| Firmware Version
+| `BYTE`
+| `STRING`
+| Version of the firmware of the device
+|===
+
+[#intel-rsd-storage-connectors, reftext=Connector types]
+== Intel RSD Storage Device -- Connector types
+
+.Intel RSD Storage Device: Connector type field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Unknown
+| `0x01` | `1` | SATA
+| `0x02` | `2` | SAS
+| `0x03` | `3` | PCIe
+| `0x04` | `4` | M.2
+| `0x05` | `5` | USB
+| `0x06` | `6` | U.2
+|===
+
+[#intel-rsd-storage-protocols, reftext=Device protocols]
+== Intel RSD Storage Device -- Device protocols
+
+.Intel RSD Storage Device: Device protocol field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Unknown
+| `0x01` | `1` | IDE
+| `0x02` | `2` | AHCI
+| `0x03` | `3` | NVMe
+| `0x04` | `4` | USB
+|===
+
+[#intel-rsd-storage-types, reftext=Device types]
+== Intel RSD Storage Device -- Device types
+
+.Intel RSD Storage Device: Device type field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x01` | `1` | Hard disk drive (HDD)
+| `0x02` | `2` | Solid-state drive (SSD)
+| `0x03` | `3` | Optical, DVD
+| `0x04` | `4` | Optical, Blu-ray
+| `0x05` | `5` | USB
+|===
+
+The specification defines no value `0x00` for the device type, unlike for the
+connector type and the device protocol.

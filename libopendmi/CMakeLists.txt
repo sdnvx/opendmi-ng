@@ -400,6 +400,7 @@ target_sources(opendmi-object
         src/module/intel.c
         src/entity/intel/rsd-cabled-pcie.c
         src/entity/intel/rsd-cabled-pcie-handlers.c
+        src/entity/intel/rsd-cabled-pcie-rules.c
         src/entity/intel/rsd-fpga.c
         src/entity/intel/rsd-fpga-names.c
         src/entity/intel/rsd-memory-device.c
@@ -751,10 +752,17 @@ opendmi_test(entity/ipmi-device SOURCES test/entity/ipmi-device.c)
 opendmi_test(entity/firmware-inventory SOURCES test/entity/firmware-inventory.c)
 opendmi_test(entity/names SOURCES test/entity/names.c)
 opendmi_test(entity/mgmt-controller SOURCES test/entity/mgmt-controller.c)
+opendmi_test(entity/intel/rsd-cabled-pcie SOURCES test/entity/intel/rsd-cabled-pcie.c)
 opendmi_test(entity/intel/rsd-fpga SOURCES test/entity/intel/rsd-fpga.c)
+opendmi_test(entity/intel/rsd-memory-device SOURCES test/entity/intel/rsd-memory-device.c)
 opendmi_test(entity/intel/rsd-network-card SOURCES test/entity/intel/rsd-network-card.c)
+opendmi_test(entity/intel/rsd-pcie SOURCES test/entity/intel/rsd-pcie.c)
 opendmi_test(entity/intel/rsd-phys-device-mapping SOURCES test/entity/intel/rsd-phys-device-mapping.c)
 opendmi_test(entity/intel/rsd-processor-cpuid SOURCES test/entity/intel/rsd-processor-cpuid.c)
+opendmi_test(entity/intel/rsd-rules SOURCES test/entity/intel/rsd-rules.c)
+opendmi_test(entity/intel/rsd-storage-device SOURCES test/entity/intel/rsd-storage-device.c)
+opendmi_test(entity/intel/rsd-tpm SOURCES test/entity/intel/rsd-tpm.c)
+opendmi_test(entity/intel/rsd-txt SOURCES test/entity/intel/rsd-txt.c)
 opendmi_test(entity/dell/calling-iface SOURCES test/entity/dell/calling-iface.c)
 opendmi_test(entity/dell/indexed-io SOURCES test/entity/dell/indexed-io.c)
 opendmi_test(entity/dell/protected-area SOURCES test/entity/dell/protected-area.c)

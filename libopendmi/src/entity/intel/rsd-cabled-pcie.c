@@ -64,5 +64,19 @@ const dmi_entity_spec_t dmi_intel_rsd_cabled_pcie_spec =
 
     .handlers = {
         .cleanup = dmi_intel_rsd_cabled_pcie_cleanup
-    }
+    },
+
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("intel-rsd-cabled-pcie.start-lane", dmi_intel_rsd_cabled_pcie_lint_start_lane, {
+            .name              = "Cable indices start at a lane which is a multiple of four",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        DMI_LINT_RULE("intel-rsd-cabled-pcie.cable-count", dmi_intel_rsd_cabled_pcie_lint_count, {
+            .name              = "Ports have no more than four cable indices",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        {}
+    })
 };

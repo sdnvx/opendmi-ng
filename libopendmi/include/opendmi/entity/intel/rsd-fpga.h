@@ -99,7 +99,7 @@ struct dmi_intel_rsd_fpga
     /**
      * @brief Identifies the specific socket the FPGA is integrated into.
      * Applicable only for integrated FPGA type. Otherwise, this field is not
-     * applicable.
+     * applicable, and is not shown.
      */
     unsigned short socket;
 
@@ -145,6 +145,8 @@ struct dmi_intel_rsd_fpga
 
     /**
      * @brief Number of ports supported for the available HSSI configuration.
+     * Like the other HSSI fields, it is not shown when the configuration is
+     * not available or is not defined by the specification.
      * E.g. `2` for "2x10G", `4` for "4x10G", `2` for "2x40G", `2` for "2 x16
      * PCIe" etc.
      */
@@ -183,12 +185,12 @@ struct dmi_intel_rsd_fpga
     /**
      * @brief PCIe device number where this FPGA can be accessed.
      */
-    uint8_t pci_device_id;
+    uint8_t pci_device_number;
 
     /**
      * @brief PCIe function number where this FPGA can be accessed.
      */
-    uint8_t pci_function_id;
+    uint8_t pci_function_number;
 
     /**
      * @brief Thermal design power of the FPGA device in mW.

@@ -1,0 +1,118 @@
+= Intel RSD Memory Device Extended Information (Type 197)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.8.
+
+Extends the memory device information (type 17) with the kind of the memory
+module, its firmware, its power and the SMBus address it is managed at. Every
+structure belongs to a memory device structure of the table.
+
+.Intel RSD Memory Device Extended Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `197`
+| Memory Device Extended Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Memory Device Handle
+| `WORD`
+| `HANDLE`
+| Memory device structure (type 17) the structure extends
+
+| `0x06`
+| 2.0+
+| Memory Type
+| `BYTE`
+| `ENUM`
+| Kind of the memory module, see <<intel-rsd-memory-types>>
+
+| `0x07`
+| 2.0+
+| Memory Media
+| `BYTE`
+| `ENUM`
+| Media the memory is built on, see <<intel-rsd-memory-media>>
+
+| `0x08`
+| 2.0+
+| Memory Firmware Revision
+| `BYTE`
+| `STRING`
+| Revision of the firmware of the memory module
+
+| `0x09`
+| 2.0+
+| Memory Firmware API Version
+| `BYTE`
+| `STRING`
+| Version of the interface the firmware of the memory module provides
+
+| `0x0A`
+| 2.0+
+| Max TDP
+| `DWORD`
+| `NUMBER`
+| Highest power the memory module consumes, its thermal design power, in
+milliwatts
+
+| `0x0E`
+| 2.0+
+| Memory System Management Model (SMBus) Address
+| `BYTE`
+| `NUMBER`
+| SMBus address of the memory module, which gives access to its serial
+presence detect (SPD) data or to the firmware interface of a 3D XPoint
+module. The management software passes it on to Intel Intelligent Power Node
+Manager to query the memory subsystem.
+|===
+
+[#intel-rsd-memory-types, reftext=Memory types]
+== Intel RSD Memory Device Extended -- Memory types
+
+.Intel RSD Memory Device Extended: Memory type field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | DIMM
+| `0x01` | `1` | NVDIMM-N, persistent memory accessed by bytes
+| `0x02` | `2` | NVDIMM-F, persistent memory accessed by blocks
+| `0x03` | `3` | NVDIMM-P
+|===
+
+[#intel-rsd-memory-media, reftext=Memory media]
+== Intel RSD Memory Device Extended -- Memory media
+
+.Intel RSD Memory Device Extended: Memory media field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | DRAM
+| `0x01` | `1` | NAND
+| `0x03` | `3` | Proprietary
+|===
+
+The specification defines no value `0x02` for the memory media.

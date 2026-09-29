@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add manual pages for the structures, unions and enumerations of the entity types
 - Document every member of the entity types in their headers
 - Add Behind the scenes part to the reference manual
+- Describe Intel RSD Firmware Extension structures in the reference manual
 - Add Boot Integrity Services (BIS) entry point information decoder
 - Add processor additional information decoder
 - Add tests for BIS entry point, system boot, system event log, TPM device and management device threshold decoders
@@ -45,6 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add tests for the buffer and the writer, including the padding which keeps the bytes written already
 - Add tests for the encoder itself, which the corpus reaches only through the field engine
 - Add tests for the field engine, written against specifications of its own rather than against the structure types
+- Add tests for Intel RSD PCIe, storage device, TPM, TXT, memory device extended and cabled PCIe port decoders, and for the lint rules of Intel RSD structures
+- Add `intel-rsd-cabled-pcie.start-lane` and `intel-rsd-cabled-pcie.cable-count` lint rules
 - Add support for binary attributes
 - Add support for variant attributes
 - Add support for string properties (including linking)
@@ -123,6 +126,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename misspelled codes to `multi-system`, `wireless-lan`, `hardware-thread`, `pmic0-vendor-id` and `dil-25pin`
 - Rename `dmi_version_format_t` to `dmi_firmware_version_format_t`
 - Rename `dmi_system_log_header_fmt_t` to `dmi_system_log_header_format_t`
+- Rename `pci_device_id` and `pci_function_id` of `dmi_intel_rsd_fpga_t` to `pci_device_number` and `pci_function_number`
+- Rename codes of Intel RSD FPGA attributes from `pcie-*` to `pci-*`, the way the other Intel RSD structures name them, and of its name sets to `intel-rsd-fpga-hps-isa` and `intel-rsd-fpga-hssi-config`
+- Show socket of Intel RSD FPGAs for integrated ones only, and their high-speed serial interface for the defined configurations only
 - Give the end of a mapped address range carried in kilobytes as its last byte, the way the extended fields do
 - Name slot type 0x0B as the specification does, "Proprietary memory card slot"
 - Remove the declaration of `dmi_pointing_device_decode()`, which is defined nowhere, and the typedefs of the structures which do not exist
@@ -161,6 +167,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix `<opendmi/entity/memory-error-32.h>` and `<opendmi/entity/memory-error-64.h>` not compiling on their own
 - Fix fields of the next scheduled power-on which are not set decoded as 165 instead of unknown
 - Fix memory capacity units of Intel RSD FPGAs
+- Fix proprietary memory media of Intel RSD memory devices taken as 0x02 instead of 0x03
+- Fix handles of Intel RSD memory device extended information and physical device mapping not checked against the types they refer to
+- Fix zero indices of Intel RSD TPM configurations and FPGAs not reported by lint
 
 ## [0.4.1] - September 18, 2026
 

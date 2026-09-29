@@ -1,0 +1,70 @@
+= Intel RSD TPM Information (Type 195)
+:sectnums:
+:sectlinks:
+
+Source: Intel(R) RSD Firmware Extension Specification Software v2.3.2 (document 337201-003US), section 3.6.
+
+Declares a Trusted Platform Module (TPM) configuration the system can be set
+to. The structure is present only if the system has a TPM, even a disabled
+one, and the system has a structure for every TPM version it can work with.
+
+.Intel RSD TPM Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `195`
+| TPM Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| TPM Configuration Index
+| `BYTE`
+| `NUMBER`
+| One-based index of the configuration, which the management software gives
+to the Set TPM Configuration IPMI command to choose it
+
+| `0x05`
+| 2.0+
+| TPM Version
+| `BYTE`
+| `STRING`
+| Version of the TPM, e.g. "TPM 2.0"
+
+| `0x06`
+| 2.0+
+| TPM Status
+| `BYTE`
+| `ENUM`
+| Current state of the TPM, see <<intel-rsd-tpm-status>>
+|===
+
+[#intel-rsd-tpm-status, reftext=TPM status]
+== Intel RSD TPM -- Status
+
+.Intel RSD TPM: TPM status field
+[width=100%, cols="1,1,4"]
+|===
+| Hex Value | Dec Value | Meaning
+
+| `0x00` | `0` | Disabled
+| `0x01` | `1` | Enabled
+|===
