@@ -30,7 +30,7 @@ jobs:
             runner: macos-26-intel
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Check architecture
       run: test "$(uname -m)" = "${{ matrix.arch }}"

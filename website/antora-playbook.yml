@@ -4,9 +4,10 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 #
+# Home page is the index page of the root component, which is published at the
+# root of the site as it is, so the site needs no start page to redirect to
 site:
   title: OpenDMI
-  start_page: opendmi::index.adoc
 
 # Site is built from the repository it lives in, including the changes which
 # are not committed yet

@@ -43,9 +43,9 @@ jobs:
       pages: read
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v7
       with:
         node-version: 22
         cache: npm
@@ -67,7 +67,7 @@ jobs:
     - name: Configure GitHub Pages
       id: pages
       if: github.event_name != 'pull_request'
-      uses: actions/configure-pages@v5
+      uses: actions/configure-pages@v6
 
     # Address of the site gives the canonical links, the sitemap and the page
     # of the missing pages, which the site is built without when it is unknown
@@ -79,7 +79,7 @@ jobs:
 
     - name: Upload website
       if: github.event_name != 'pull_request'
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v5
       with:
         path: website/build/site
 
@@ -100,4 +100,4 @@ jobs:
     steps:
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5

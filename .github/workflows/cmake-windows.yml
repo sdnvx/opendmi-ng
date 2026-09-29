@@ -35,7 +35,7 @@ jobs:
             build_type: Release
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: setup-msys2
       uses: msys2/setup-msys2@v2

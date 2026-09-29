@@ -4,7 +4,9 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 #
-name: opendmi
+# Site has a single component, which is the root one, so that its pages are
+# published at the root of the site rather than under a directory of its name
+name: ROOT
 title: OpenDMI
 version: ~
 
