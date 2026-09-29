@@ -70,12 +70,18 @@ jobs:
       uses: actions/configure-pages@v6
 
     # Address of the site gives the canonical links, the sitemap and the page
-    # of the missing pages, which the site is built without when it is unknown
+    # of the missing pages, which the site is built without when it is unknown.
+    # The site is analyzed only where it is published, so that the builds made
+    # anywhere else count no visits
     - name: Build website
       working-directory: website
       env:
         SITE_URL: ${{ steps.pages.outputs.base_url }}
-      run: npx antora ${SITE_URL:+--url "$SITE_URL"} antora-playbook.yml
+        GOOGLE_ANALYTICS_ID: G-0BVZRK3HDP
+      run: >
+        npx antora
+        ${SITE_URL:+--url "$SITE_URL" --key "google_analytics=$GOOGLE_ANALYTICS_ID"}
+        antora-playbook.yml
 
     - name: Upload website
       if: github.event_name != 'pull_request'

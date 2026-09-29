@@ -1,0 +1,6 @@
+    {{!-- Google Analytics is loaded by the consent script once the visitor
+          has accepted its cookies, rather than right away the way the default
+          UI loads it --}}
+    {{#with site.keys.googleAnalytics}}
+    <script defer src="{{{@root.uiRootPath}}}/js/opendmi-consent.js" data-analytics-id="{{this}}" data-privacy-url="{{{@root.siteRootPath}}}/privacy.html"></script>
+    {{/with}}

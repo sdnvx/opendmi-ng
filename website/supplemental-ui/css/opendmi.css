@@ -493,3 +493,87 @@ footer.footer::before {
 .footer a {
     color: var(--opendmi-stripe-1);
 }
+
+/*
+ * Banner asking for the consent to the cookies of the analytics, which stands
+ * at the foot of the window until the choice is made. Declining is offered as
+ * plainly as accepting
+ */
+.opendmi-consent {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 1rem;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--opendmi-ink);
+    color: var(--opendmi-paper);
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    box-shadow: 0 8px 24px rgba(15, 26, 28, 0.35);
+}
+
+.opendmi-consent::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+    background: var(--opendmi-stripes);
+}
+
+.opendmi-consent-text {
+    flex: 1 1 20rem;
+    margin: 0;
+}
+
+.opendmi-consent-text a {
+    color: var(--opendmi-stripe-1);
+}
+
+.opendmi-consent-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.opendmi-consent button {
+    padding: 0.4rem 1.1rem;
+    border: 1px solid var(--opendmi-stripe-1);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.opendmi-consent .opendmi-consent-accept {
+    background: var(--opendmi-stripe-1);
+    color: var(--opendmi-ink);
+}
+
+.opendmi-consent .opendmi-consent-decline {
+    background: transparent;
+    color: var(--opendmi-stripe-1);
+}
+
+.opendmi-consent button:hover {
+    border-color: var(--opendmi-paper);
+}
+
+.opendmi-consent .opendmi-consent-accept:hover {
+    background: var(--opendmi-paper);
+}
+
+.opendmi-consent .opendmi-consent-decline:hover {
+    color: var(--opendmi-paper);
+}

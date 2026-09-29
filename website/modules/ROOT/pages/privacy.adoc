@@ -1,0 +1,59 @@
+= Privacy
+:navtitle: Privacy
+
+This page tells what this site learns about its visitors, and how a visitor
+decides on it. The site is published by the OpenDMI contributors, who are
+reached at mailto:dsedneff@gmail.com[dsedneff@gmail.com] for anything about
+the data of the visitors, and through the {url-repo}/issues[issues of the
+project] on GitHub for anything else.
+
+== Hosting
+
+The site is hosted on GitHub Pages. GitHub keeps logs of the requests made to
+the sites it hosts, including the IP addresses of the visitors, to keep its
+service secure, as the
+https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement[GitHub
+General Privacy Statement] describes. The OpenDMI contributors have no access
+to these logs.
+
+Everything the pages are made of, the fonts, the styles and the scripts, is
+served by the site itself, so opening a page makes no requests to any other
+site.
+
+== Analytics
+
+The site counts its visits with Google Analytics, only if the visitor accepts
+its cookies: until then, the script of Google Analytics is not loaded at all.
+
+Once accepted, Google Analytics learns the pages visited, the page the visitor
+has come from, the browser, the device and the approximate location, which it
+derives from the IP address without storing the address itself. The OpenDMI
+contributors see these in aggregate, as numbers of visits, and use them to
+learn which parts of the documentation are read, and nothing else. Google
+processes the data as the https://policies.google.com/privacy[Google Privacy
+Policy] describes.
+
+Google Analytics sets two cookies, which are kept for up to two years:
+
+`_ga`::
+Tells visits of the same browser apart from visits of other ones.
+
+`_ga_` followed by the identifier of the site::
+Keeps the state of the current visit.
+
+The data is processed on the basis of the consent of the visitor.
+
+== Your choice
+
+The site asks for the choice the first time it is opened, and remembers it in
+the browser, in its local storage rather than in a cookie, so that it is not
+asked for again. The choice is sent nowhere.
+
+The choice is changed at any time through the *Cookie settings* link at the
+foot of every page. Declining after accepting stops Google Analytics and
+removes its cookies.
+
+Visitors have the rights the data protection laws give them, such as to
+access the data held about them and to have it erased, which they exercise by
+writing to mailto:dsedneff@gmail.com[dsedneff@gmail.com], and to lodge a
+complaint with a data protection authority.
