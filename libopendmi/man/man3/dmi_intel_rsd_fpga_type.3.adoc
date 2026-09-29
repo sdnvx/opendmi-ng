@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_intel_rsd_fpga_type - Intel RSD FPGA types
+dmi_intel_rsd_fpga_type, dmi_intel_rsd_fpga_type_name - Intel RSD FPGA types
 
 == Library
 
@@ -29,6 +29,8 @@ typedef enum dmi_intel_rsd_fpga_type {
     DMI_INTEL_RSD_FPGA_TYPE_DISCRETE     = 0x01,
     DMI_INTEL_RSD_FPGA_TYPE_DISCRETE_SOC = 0x02
 } dmi_intel_rsd_fpga_type_t;
+
+const char *dmi_intel_rsd_fpga_type_name(dmi_intel_rsd_fpga_type_t value);
 ----
 
 == Description
@@ -37,6 +39,11 @@ The `dmi_intel_rsd_fpga_type_t` enumeration tells how an FPGA is attached to
 the system, and is the type of the `type` field of `dmi_intel_rsd_fpga_t`. The
 field holds the value the firmware reports, which may be none of the ones
 listed.
+
+The `dmi_intel_rsd_fpga_type_name` function returns the printable name of a
+value, as the command line tool shows it. The name is translated to the locale
+set with `dmi_set_locale`, when the library is built with ICU4C support and has
+a translation of it.
 
 === Values
 
@@ -48,6 +55,16 @@ Discrete FPGA device.
 
 `DMI_INTEL_RSD_FPGA_TYPE_DISCRETE_SOC`::
 Discrete FPGA with a system on chip, the hard processor subsystem (HPS).
+
+== Return value
+
+`dmi_intel_rsd_fpga_type_name` returns the name of the value, or `nullptr` if
+the value has no name. The name is a static string, which must not be modified
+or freed.
+
+== Errors
+
+None.
 
 == See also
 

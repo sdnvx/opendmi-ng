@@ -63,7 +63,7 @@ bool dmi_memory_array_addr_validate(dmi_entity_t *entity)
 
 //
 // Size of the range is what its bounds say, in whichever order the data
-// happens to carry them.
+// happens to carry them, and both of the bounds belong to the range.
 //
 bool dmi_memory_array_addr_derive(dmi_entity_t *entity)
 {
@@ -74,9 +74,9 @@ bool dmi_memory_array_addr_derive(dmi_entity_t *entity)
         return false;
 
     if (info->end_addr > info->start_addr)
-        info->range_size = info->end_addr - info->start_addr;
+        info->range_size = info->end_addr - info->start_addr + 1;
     else
-        info->range_size = info->start_addr - info->end_addr;
+        info->range_size = info->start_addr - info->end_addr + 1;
 
     return true;
 }

@@ -406,4 +406,86 @@ struct dmi_mgmt_proto_record
  */
 extern __dmi_api const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec;
 
+__BEGIN_DECLS
+
+/**
+ * @brief Get management controller interface type name.
+ *
+ * Returns the name of the management controller interface type, as the command
+ * line tool shows it, translated into the locale when the library is built
+ * with the translations.
+ *
+ * @param[in] value Management controller interface type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_mgmt_if_type_name(dmi_mgmt_if_type_t value);
+
+/**
+ * @brief Get network host interface device characteristic name.
+ *
+ * Returns the name of the network host interface device characteristic, as the
+ * command line tool shows it, translated into the locale when the library is
+ * built with the translations.
+ *
+ * @param[in] value Network host interface device characteristic value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_mgmt_nhi_characteristic_name(dmi_mgmt_nhi_characteristic_t value);
+
+/**
+ * @brief Get network host interface device type name.
+ *
+ * Returns the name of the network host interface device type, as the command
+ * line tool shows it, translated into the locale when the library is built
+ * with the translations.
+ *
+ * @param[in] value Network host interface device type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_mgmt_nhi_device_type_name(dmi_mgmt_nhi_device_type_t value);
+
+/**
+ * @brief Get management protocol type name.
+ *
+ * Returns the name of the management protocol type, as the command line tool
+ * shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Management protocol type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_mgmt_proto_name(dmi_mgmt_proto_t value);
+
+/**
+ * @brief Get Redfish IP address assignment type name.
+ *
+ * Returns the name of the Redfish IP address assignment type, as the command
+ * line tool shows it, translated into the locale when the library is built
+ * with the translations.
+ *
+ * @param[in] value Redfish IP address assignment type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_mgmt_redfish_ip_assignment_name(dmi_mgmt_redfish_ip_assignment_t value);
+
+/**
+ * @brief Get Redfish IP address format name.
+ *
+ * Returns the name of the Redfish IP address format, as the command line tool
+ * shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Redfish IP address format value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_mgmt_redfish_ip_format_name(dmi_mgmt_redfish_ip_format_t value);
+
+__END_DECLS
+
 #endif // !OPENDMI_ENTITY_MGMT_CONTROLLER_H

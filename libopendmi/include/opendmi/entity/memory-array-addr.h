@@ -30,16 +30,16 @@ struct dmi_memory_array_addr
     uint64_t start_addr;
 
     /**
-     * @brief Physical ending address, in bytes, of the last of a range of
-     * addresses mapped to the specified physical memory array. When the
-     * structure gives the address in kilobytes, this is the address of the
-     * start of the last kilobyte.
+     * @brief Physical address, in bytes, of the last byte of a range of
+     * memory mapped to the specified physical memory array. When the
+     * structure gives the address in kilobytes, this is the last byte of the
+     * last kilobyte of the range.
      */
     uint64_t end_addr;
 
     /**
-     * @brief Mapped address range size in bytes, computed as the difference
-     * between the ending and the starting addresses.
+     * @brief Mapped address range size in bytes, computed from the starting
+     * and the ending addresses, both of which belong to the range.
      */
     uint64_t range_size;
 

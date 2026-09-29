@@ -163,13 +163,15 @@ struct dmi_memory_controller
 
     /**
      * @brief Size of the largest memory module supported (per slot), in
-     * bytes.
+     * bytes, or `DMI_SIZE_MAX` if the structure gives a size too large for
+     * any module.
      */
     uint64_t maximum_module_size;
 
     /**
      * @brief Maximum memory size, in bytes: the largest module size times
-     * the number of slots.
+     * the number of slots, or `DMI_SIZE_MAX` if either is too large for the
+     * product to be counted.
      */
     uint64_t maximum_memory_size;
 

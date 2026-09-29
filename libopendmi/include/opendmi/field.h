@@ -713,8 +713,23 @@ __dmi_api bool dmi_field_decode_kilobytes(
         void                   *value);
 
 /**
+ * @brief Decode the address of the last kilobyte of a range, carried in
+ * kilobytes, into the address of the last byte of the range, which is what
+ * the extended fields of the specification carry.
+ *
+ * Ranges are given by their first and last kilobytes, so that the last
+ * kilobyte belongs to the range as a whole; `dmi_field_encode_kilobytes()`
+ * undoes the decoding.
+ */
+__dmi_api bool dmi_field_decode_kilobytes_last(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+
+/**
  * @brief Encode a number of the bytes into the kilobytes a field carries,
- * which undoes `dmi_field_decode_kilobytes()`.
+ * which undoes `dmi_field_decode_kilobytes()` and
+ * `dmi_field_decode_kilobytes_last()`.
  */
 __dmi_api bool dmi_field_encode_kilobytes(
         const dmi_field_t *field,

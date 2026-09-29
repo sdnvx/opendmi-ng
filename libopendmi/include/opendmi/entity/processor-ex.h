@@ -413,4 +413,21 @@ struct dmi_processor_ex
  */
 extern __dmi_api const dmi_entity_spec_t dmi_processor_ex_spec;
 
+__BEGIN_DECLS
+
+/**
+ * @brief Get processor architecture name.
+ *
+ * Returns the name of the processor architecture, as the command line tool
+ * shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Processor architecture value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_processor_arch_name(dmi_processor_arch_t value);
+
+__END_DECLS
+
 #endif // !OPENDMI_ENTITY_PROCESSOR_EX_H

@@ -93,7 +93,7 @@ dmi_packed_union(dmi_cache_sram_type)
         dmi_word_t non_burst      : 1; ///< Non-burst
         dmi_word_t burst          : 1; ///< Burst
         dmi_word_t pipeline_burst : 1; ///< Pipeline burst
-        dmi_word_t synchonous     : 1; ///< Synchronous
+        dmi_word_t synchronous    : 1; ///< Synchronous
         dmi_word_t asynchronous   : 1; ///< Asynchronous
     };
 };

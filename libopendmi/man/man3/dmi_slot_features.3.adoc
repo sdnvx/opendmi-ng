@@ -33,7 +33,7 @@ typedef union dmi_slot_features {
         dmi_byte_t has_shared_opening            : 1;
         dmi_byte_t has_pccard_16_support         : 1;
         dmi_byte_t has_cardbus_support           : 1;
-        dmi_byte_t has_zoom_video_supoort        : 1;
+        dmi_byte_t has_zoom_video_support        : 1;
         dmi_byte_t has_modem_ring_resume_support : 1;
     };
 } dmi_slot_features_t;
@@ -70,9 +70,8 @@ The PC Card slot takes 16-bit PC Cards.
 `has_cardbus_support`::
 The PC Card slot supports CardBus.
 
-`has_zoom_video_supoort`::
-The PC Card slot supports Zoom Video. The member is spelled this way in the
-header.
+`has_zoom_video_support`::
+The PC Card slot supports Zoom Video.
 
 `has_modem_ring_resume_support`::
 The PC Card slot supports Modem Ring Resume.

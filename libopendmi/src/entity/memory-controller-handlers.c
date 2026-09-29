@@ -30,7 +30,9 @@ bool dmi_memory_controller_decode_size(
 
 //
 // Memory the controller supports is what its slots hold when every one of
-// them carries a module of the largest size.
+// them carries a module of the largest size. A module size too large for any
+// module, and a total too large for the member, leave the size unknown rather
+// than wrapped around.
 //
 bool dmi_memory_controller_derive(dmi_entity_t *entity)
 {
@@ -40,7 +42,11 @@ bool dmi_memory_controller_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    info->maximum_memory_size = info->maximum_module_size * info->slot_count;
+    if ((info->maximum_module_size == DMI_SIZE_MAX) or
+        ((info->slot_count != 0) and (info->maximum_module_size > DMI_SIZE_MAX / info->slot_count)))
+        info->maximum_memory_size = DMI_SIZE_MAX;
+    else
+        info->maximum_memory_size = info->maximum_module_size * info->slot_count;
 
     return true;
 }

@@ -119,8 +119,8 @@ typedef enum dmi_type
     DMI_TYPE_BASEBOARD               = 2,   ///< Baseboard or module information
     DMI_TYPE_CHASSIS                 = 3,   ///< System enclosure or chassis
     DMI_TYPE_PROCESSOR               = 4,   ///< Processor information
-    DMI_TYPE_MEMORY_CONTROLLER       = 5,   ///< Memory controller information (obsolette)
-    DMI_TYPE_MEMORY_MODULE           = 6,   ///< Memory module information (obsolette)
+    DMI_TYPE_MEMORY_CONTROLLER       = 5,   ///< Memory controller information (obsolete)
+    DMI_TYPE_MEMORY_MODULE           = 6,   ///< Memory module information (obsolete)
     DMI_TYPE_CACHE                   = 7,   ///< Cache information
     DMI_TYPE_PORT_CONNECTOR          = 8,   ///< Port connector information
     DMI_TYPE_SYSTEM_SLOTS            = 9,   ///< System slots

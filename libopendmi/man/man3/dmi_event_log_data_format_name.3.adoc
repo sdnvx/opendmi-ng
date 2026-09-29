@@ -1,0 +1,1 @@
+dmi_event_log_data_format.3.adoc

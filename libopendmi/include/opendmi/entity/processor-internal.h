@@ -17,13 +17,6 @@
 
 /**
  * @internal
- * @brief Value of the family telling that the actual one is in the extended
- * field, which the names, the decoder and the rules all go by.
- */
-#define DMI_PROCESSOR_FAMILY_EXTENDED 0xFE
-
-/**
- * @internal
  * @brief Bits of a CPUID signature which are reserved, and thus zero in a
  * valid one. The decoder puts swapped identifier words back in place by
  * them, and the rule reports the same condition.

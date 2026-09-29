@@ -153,8 +153,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 8589933568
-    range-size: 8589933568
+    end-addr: 8589934591
+    range-size: 8589934592
     array-handle: 3
     partition-width: 2
 - handle: 7
@@ -337,7 +337,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -346,7 +346,6 @@ table:
     core-count: 4
     core-enabled: 4
     thread-count: 8
-    socket-type: null
 - handle: 11
   type: 0
   length: 60
@@ -972,9 +971,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 50
   type: 21
   length: 9

@@ -65,7 +65,7 @@ typedef enum dmi_slot_type {
     DMI_SLOT_TYPE_PCI_E_G5_SFF8639      = 0x25,
     DMI_SLOT_TYPE_OCP_NIC_30_SFF        = 0x26,
     DMI_SLOT_TYPE_OCP_NIC_30_LFF        = 0x27,
-    DMI_SLOT_TYPP_OCP_NIC_LEGACY        = 0x28,
+    DMI_SLOT_TYPE_OCP_NIC_LEGACY        = 0x28,
     DMI_SLOT_TYPE_CXL_FLEXBUS_10        = 0x30,
     DMI_SLOT_TYPE_PC_98_C20             = 0xA0,
     DMI_SLOT_TYPE_PC_98_C24             = 0xA1,
@@ -250,7 +250,7 @@ OCP NIC 3.0, small form factor (SFF).
 `DMI_SLOT_TYPE_OCP_NIC_30_LFF`::
 OCP NIC 3.0, large form factor (LFF).
 
-`DMI_SLOT_TYPP_OCP_NIC_LEGACY`::
+`DMI_SLOT_TYPE_OCP_NIC_LEGACY`::
 OCP NIC older than 3.0.
 
 `DMI_SLOT_TYPE_CXL_FLEXBUS_10`::

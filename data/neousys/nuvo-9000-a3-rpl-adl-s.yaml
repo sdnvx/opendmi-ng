@@ -198,7 +198,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -208,7 +208,6 @@ table:
     core-enabled: 24
     thread-count: 32
     thread-enabled: unknown
-    socket-type: null
 - handle: 5
   type: 7
   length: 37
@@ -1180,8 +1179,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 68719475712
-    range-size: 68719475712
+    end-addr: 68719476735
+    range-size: 68719476736
     array-handle: 40
     partition-width: 2
 - handle: 44
@@ -1194,8 +1193,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 34359737344
-    range-size: 34359737344
+    end-addr: 34359738367
+    range-size: 34359738368
     device-handle: 41
     array-addr-handle: 43
     partition-pos: unknown
@@ -1211,8 +1210,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 34359737344
-    range-size: 34359737344
+    end-addr: 34359738367
+    range-size: 34359738368
     device-handle: 42
     array-addr-handle: 43
     partition-pos: unknown
@@ -1387,7 +1386,7 @@ table:
 - handle: 56
   type: 43
   length: 43
-  level: '2.0'
+  level: '3.1'
   state:
   - decoded
   description: TPM device

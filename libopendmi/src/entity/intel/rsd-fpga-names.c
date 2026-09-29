@@ -149,3 +149,28 @@ const dmi_name_set_t dmi_intel_rsd_fpga_memory_tech_names =
         {}
     })
 };
+
+const char *dmi_intel_rsd_fpga_hps_isa_name(dmi_intel_rsd_fpga_hps_isa_t value)
+{
+    return dmi_name_lookup(&dmi_intel_rsd_fpga_hps_isa_names, (int)value);
+}
+
+const char *dmi_intel_rsd_fpga_hssi_config_name(dmi_intel_rsd_fpga_hssi_config_t value)
+{
+    return dmi_name_lookup(&dmi_intel_rsd_fpga_hssi_config_names, (int)value);
+}
+
+const char *dmi_intel_rsd_fpga_memory_tech_name(dmi_intel_rsd_fpga_memory_tech_t value)
+{
+    return dmi_name_lookup(&dmi_intel_rsd_fpga_memory_tech_names, (int)value);
+}
+
+const char *dmi_intel_rsd_fpga_status_name(dmi_intel_rsd_fpga_status_t value)
+{
+    return dmi_name_lookup(&dmi_intel_rsd_fpga_status_names, (int)value);
+}
+
+const char *dmi_intel_rsd_fpga_type_name(dmi_intel_rsd_fpga_type_t value)
+{
+    return dmi_name_lookup(&dmi_intel_rsd_fpga_type_names, (int)value);
+}

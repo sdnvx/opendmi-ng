@@ -201,7 +201,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -210,7 +210,6 @@ table:
     core-count: 4
     core-enabled: 4
     thread-count: 8
-    socket-type: null
 - handle: 5
   type: 5
   length: 22
@@ -1220,9 +1219,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 44
   type: 18
   length: 25
@@ -1235,9 +1234,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 45
   type: 18
   length: 25
@@ -1250,9 +1249,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 46
   type: 19
   length: 33
@@ -1263,8 +1262,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 17179868160
-    range-size: 17179868160
+    end-addr: 17179869183
+    range-size: 17179869184
     array-handle: 40
     partition-width: 2
 - handle: 47
@@ -1277,8 +1276,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 8589933568
-    range-size: 8589933568
+    end-addr: 8589934591
+    range-size: 8589934592
     device-handle: 41
     array-addr-handle: 46
     partition-pos: unknown
@@ -1294,8 +1293,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 8589933568
-    range-size: 8589933568
+    end-addr: 8589934591
+    range-size: 8589934592
     device-handle: 42
     array-addr-handle: 46
     partition-pos: unknown

@@ -32,18 +32,17 @@ struct dmi_memory_device_addr
     uint64_t start_addr;
 
     /**
-     * @brief Physical ending address, in bytes, of the last of a range of
-     * addresses mapped to the referenced memory device.
+     * @brief Physical address, in bytes, of the last byte of a range of
+     * memory mapped to the referenced memory device.
      *
      * When taken from the SMBIOS 2.1 field, which counts in kibibytes, this
-     * is the address of the last kibibyte of the range rather than of its
-     * last byte.
+     * is the last byte of the last kibibyte of the range.
      */
     uint64_t end_addr;
 
     /**
-     * @brief Address range size in bytes, the difference between the ending
-     * and the starting addresses.
+     * @brief Address range size in bytes, computed from the starting and the
+     * ending addresses, both of which belong to the range.
      */
     uint64_t range_size;
 

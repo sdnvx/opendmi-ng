@@ -70,6 +70,32 @@ __BEGIN_DECLS
 __dmi_api const char *dmi_dell_enable_state_name(dmi_dell_enable_state_t value);
 __dmi_api const char *dmi_dell_port_security_name(dmi_dell_port_security_t value);
 
+/**
+ * @brief Get Dell checksum type name.
+ *
+ * Returns the name of the Dell checksum type, as the command line tool shows
+ * it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Dell checksum type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_dell_check_type_name(dmi_dell_check_type_t value);
+
+/**
+ * @brief Get Dell protected value format name.
+ *
+ * Returns the name of the Dell protected value format, as the command line
+ * tool shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Dell protected value format value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_dell_value_format_name(dmi_dell_value_format_t value);
+
 __END_DECLS
 
 #endif // !OPENDMI_ENTITY_DELL_COMMON_H

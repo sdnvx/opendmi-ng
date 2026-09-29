@@ -11,7 +11,8 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_mgmt_redfish_ip_format - Redfish IP address formats
+dmi_mgmt_redfish_ip_format, dmi_mgmt_redfish_ip_format_name - Redfish IP
+address formats
 
 == Library
 
@@ -29,6 +30,9 @@ typedef enum dmi_mgmt_redfish_ip_format {
     DMI_MGMT_REDFISH_IP_FORMAT_IPV4    = 0x01,
     DMI_MGMT_REDFISH_IP_FORMAT_IPV6    = 0x02
 } dmi_mgmt_redfish_ip_format_t;
+
+const char *dmi_mgmt_redfish_ip_format_name(
+        dmi_mgmt_redfish_ip_format_t value);
 ----
 
 == Description
@@ -38,6 +42,11 @@ addresses and masks of a Redfish over IP protocol record, and is the type of
 the `host_ip_format` and `service_ip_format` fields of
 `dmi_mgmt_redfish_over_ip_t`. The values the enumeration does not name are
 reserved.
+
+The `dmi_mgmt_redfish_ip_format_name` function returns the printable name of a
+value, as the command line tool shows it. The name is translated to the locale
+set with `dmi_set_locale`, when the library is built with ICU4C support and has
+a translation of it.
 
 === Values
 
@@ -49,6 +58,16 @@ IPv4. The address and the mask take 4 bytes.
 
 `DMI_MGMT_REDFISH_IP_FORMAT_IPV6`::
 IPv6. The address and the mask take 16 bytes.
+
+== Return value
+
+`dmi_mgmt_redfish_ip_format_name` returns the name of the value, or `nullptr`
+if the value has no name. The name is a static string, which must not be
+modified or freed.
+
+== Errors
+
+None.
 
 == See also
 

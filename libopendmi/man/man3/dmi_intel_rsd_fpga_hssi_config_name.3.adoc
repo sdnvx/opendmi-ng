@@ -1,0 +1,1 @@
+dmi_intel_rsd_fpga_hssi_config.3.adoc

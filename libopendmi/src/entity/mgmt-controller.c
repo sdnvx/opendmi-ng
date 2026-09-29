@@ -285,7 +285,7 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
     },
     .type            = DMI_TYPE(MGMT_CONTROLLER_HOST_IF),
     .params = {
-        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_version = DMI_VERSION(2, 7, 0),
         .minimum_length  = 0x06,
         .decoded_length  = sizeof(dmi_mgmt_controller_t)
     },

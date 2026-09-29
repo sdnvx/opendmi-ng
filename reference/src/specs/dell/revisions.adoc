@@ -48,7 +48,7 @@
 | `BYTE`
 | `NUMBER`
 | A value of `0xFE` indicates that the actual system ID is stored in the system
-ID extensio field.
+ID extension field.
 
 | `0x07`
 | 2.2+

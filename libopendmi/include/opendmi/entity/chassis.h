@@ -273,6 +273,18 @@ __dmi_api const char *dmi_chassis_type_name(dmi_chassis_type_t value);
  */
 __dmi_api const char *dmi_chassis_security_status_name(dmi_chassis_security_status_t value);
 
+/**
+ * @brief Get rack type name.
+ *
+ * Returns the name of the rack type, as the command line tool shows it,
+ * translated into the locale when the library is built with the translations.
+ *
+ * @param[in] value Rack type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_rack_type_name(dmi_rack_type_t value);
+
 __END_DECLS
 
 #endif // !OPENDMI_ENTITY_CHASSIS_H

@@ -74,12 +74,14 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
             .values = &dmi_memory_interleave_names
         }),
         DMI_ATTRIBUTE(dmi_memory_controller_t, maximum_module_size, SIZE, {
-            .code   = "maximum-module-size",
-            .name   = "Maximum module size"
+            .code    = "maximum-module-size",
+            .name    = "Maximum module size",
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX)
         }),
         DMI_ATTRIBUTE(dmi_memory_controller_t, maximum_memory_size, SIZE, {
-            .code   = "maximum-memory-size",
-            .name   = "Maximum memory size"
+            .code    = "maximum-memory-size",
+            .name    = "Maximum memory size",
+            .unknown = dmi_value_ptr(DMI_SIZE_MAX)
         }),
         DMI_ATTRIBUTE(dmi_memory_controller_t, supported_speeds, SET, {
             .code   = "supported-speeds",

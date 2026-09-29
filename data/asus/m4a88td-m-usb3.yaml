@@ -198,7 +198,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -207,7 +207,6 @@ table:
     core-count: 6
     core-enabled: 6
     thread-count: unknown
-    socket-type: null
 - handle: 5
   type: 7
   length: 29
@@ -744,7 +743,7 @@ table:
   description: Port connector information
   attributes:
     internal-designator: LPT
-    internal-connector: dil-25-pin
+    internal-connector: dil-25pin
     external-designator: null
     external-connector: none
     port-type: other
@@ -1059,8 +1058,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 15837690880
-    range-size: 15837690880
+    end-addr: 15837691903
+    range-size: 15837691904
     array-handle: 52
     partition-width: 1
 - handle: 54
@@ -1116,8 +1115,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 4294966272
-    range-size: 4294966272
+    end-addr: 4294967295
+    range-size: 4294967296
     device-handle: 54
     array-addr-handle: 53
     partition-pos: 1
@@ -1176,8 +1175,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 4294967296
-    end-addr: 8589933568
-    range-size: 4294966272
+    end-addr: 8589934591
+    range-size: 4294967296
     device-handle: 56
     array-addr-handle: 53
     partition-pos: 1
@@ -1236,8 +1235,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 8589934592
-    end-addr: 12884900864
-    range-size: 4294966272
+    end-addr: 12884901887
+    range-size: 4294967296
     device-handle: 58
     array-addr-handle: 53
     partition-pos: 1
@@ -1296,8 +1295,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 12884901888
-    end-addr: 15032384512
-    range-size: 2147482624
+    end-addr: 15032385535
+    range-size: 2147483648
     device-handle: 60
     array-addr-handle: 53
     partition-pos: 1

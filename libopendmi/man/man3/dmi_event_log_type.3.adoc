@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_event_log_type - event log types
+dmi_event_log_type, dmi_event_log_type_name - event log types
 
 == Library
 
@@ -49,6 +49,8 @@ typedef enum dmi_event_log_type {
     DMI_EVENT_LOG_TYPE_SYSTEM_BOOT           = 0x17,
     DMI_EVENT_LOG_TYPE_END_OF_LOG            = 0xFF,
 } dmi_event_log_type_t;
+
+const char *dmi_event_log_type_name(dmi_event_log_type_t value);
 ----
 
 == Description
@@ -60,6 +62,11 @@ values 0x18 to 0x7F are left for future use by the specification, and
 values 0x80 to 0xFE are specific to the system or the OEM. The enumeration
 also has private members, starting with two underscores, which mark the
 bounds of these ranges.
+
+The `dmi_event_log_type_name` function returns the printable name of a value,
+as the command line tool shows it. The name is translated to the locale set
+with `dmi_set_locale`, when the library is built with ICU4C support and has a
+translation of it.
 
 === Values
 
@@ -134,6 +141,16 @@ every boot.
 
 `DMI_EVENT_LOG_TYPE_END_OF_LOG`::
 End of the log: a record of this type follows the last event.
+
+== Return value
+
+`dmi_event_log_type_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is a static string, which must not be modified or
+freed.
+
+== Errors
+
+None.
 
 == See also
 

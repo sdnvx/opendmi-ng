@@ -158,7 +158,6 @@ table:
     l1-cache-handle: 1814
     l2-cache-handle: 1830
     l3-cache-handle: null
-    socket-type: null
 - handle: 1030
   type: 4
   length: 44
@@ -221,7 +220,6 @@ table:
     l1-cache-handle: 1812
     l2-cache-handle: 1828
     l3-cache-handle: null
-    socket-type: null
 - handle: 1814
   type: 7
   length: 45
@@ -986,8 +984,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 2147482624
-    range-size: 2147482624
+    end-addr: 2147483647
+    range-size: 2147483648
     array-handle: 4096
     partition-width: 4
 - handle: 4865
@@ -1001,8 +999,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 2147483648
-    end-addr: 4294966272
-    range-size: 2147482624
+    end-addr: 4294967295
+    range-size: 2147483648
     array-handle: 4096
     partition-width: 4
 - handle: 5120
@@ -1016,8 +1014,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 2147482624
-    range-size: 2147482624
+    end-addr: 2147483647
+    range-size: 2147483648
     device-handle: 4352
     array-addr-handle: 4864
     partition-pos: 1
@@ -1034,8 +1032,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 2147482624
-    range-size: 2147482624
+    end-addr: 2147483647
+    range-size: 2147483648
     device-handle: 4353
     array-addr-handle: 4864
     partition-pos: 1
@@ -1052,8 +1050,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 2147482624
-    range-size: 2147482624
+    end-addr: 2147483647
+    range-size: 2147483648
     device-handle: 4354
     array-addr-handle: 4864
     partition-pos: 1
@@ -1070,8 +1068,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 2147482624
-    range-size: 2147482624
+    end-addr: 2147483647
+    range-size: 2147483648
     device-handle: 4355
     array-addr-handle: 4864
     partition-pos: 1
@@ -1088,8 +1086,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 0
-    range-size: 0
+    end-addr: 1023
+    range-size: 1024
     device-handle: 4356
     array-addr-handle: 4865
     partition-pos: 1
@@ -1106,8 +1104,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 0
-    range-size: 0
+    end-addr: 1023
+    range-size: 1024
     device-handle: 4357
     array-addr-handle: 4865
     partition-pos: 1
@@ -1124,8 +1122,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
-    end-addr: 4294966272
-    range-size: 2147482624
+    end-addr: 4294967295
+    range-size: 2147483648
     device-handle: 4358
     array-addr-handle: 4865
     partition-pos: 1
@@ -1142,8 +1140,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 2147483648
-    end-addr: 4294966272
-    range-size: 2147482624
+    end-addr: 4294967295
+    range-size: 2147483648
     device-handle: 4359
     array-addr-handle: 4865
     partition-pos: 1

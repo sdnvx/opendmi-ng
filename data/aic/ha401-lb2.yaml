@@ -199,7 +199,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -208,7 +208,6 @@ table:
     core-count: 8
     core-enabled: 8
     thread-count: 16
-    socket-type: null
 - handle: 5
   type: 4
   length: 119
@@ -278,7 +277,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -287,7 +286,6 @@ table:
     core-count: 8
     core-enabled: 8
     thread-count: 16
-    socket-type: null
 - handle: 6
   type: 7
   length: 29
@@ -1325,8 +1323,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 137438952448
-    range-size: 137438952448
+    end-addr: 137438953471
+    range-size: 137438953472
     array-handle: 14
     partition-width: 16
 - handle: 32
@@ -1339,8 +1337,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 34358688768
-    range-size: 34358688768
+    end-addr: 34358689791
+    range-size: 34358689792
     device-handle: 15
     array-addr-handle: 31
     partition-pos: unknown
@@ -1356,8 +1354,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 70866960384
-    end-addr: 105225649152
-    range-size: 34358688768
+    end-addr: 105225650175
+    range-size: 34358689792
     device-handle: 16
     array-addr-handle: 31
     partition-pos: unknown
@@ -1373,8 +1371,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 34358688768
-    range-size: 34358688768
+    end-addr: 34358689791
+    range-size: 34358689792
     device-handle: 27
     array-addr-handle: 31
     partition-pos: unknown
@@ -1390,8 +1388,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 34358688768
-    range-size: 34358688768
+    end-addr: 34358689791
+    range-size: 34358689792
     device-handle: 28
     array-addr-handle: 31
     partition-pos: unknown
@@ -1400,7 +1398,7 @@ table:
 - handle: 36
   type: 38
   length: 20
-  level: '2.0'
+  level: '2.3'
   state:
   - decoded
   description: IPMI device information

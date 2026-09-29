@@ -39,6 +39,21 @@ const dmi_name_set_t dmi_version_format_names =
             .name = "Hexadecimal (64-bit)"
         },
         {}
+    }),
+    .ranges = DMI_NAME_RANGES({
+        {
+            .start_id = __DMI_VERSION_FORMAT_RESERVED_START,
+            .end_id   = __DMI_VERSION_FORMAT_RESERVED_END,
+            .code     = "reserved",
+            .name     = "Reserved"
+        },
+        {
+            .start_id = __DMI_VERSION_FORMAT_VENDOR_SPECIFIC_START,
+            .end_id   = __DMI_VERSION_FORMAT_VENDOR_SPECIFIC_END,
+            .code     = "vendor-specific",
+            .name     = "Vendor/OEM-specific"
+        },
+        {}
     })
 };
 

@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_processor_arch - processor architecture types
+dmi_processor_arch, dmi_processor_arch_name - processor architecture types
 
 == Library
 
@@ -37,6 +37,8 @@ typedef enum dmi_processor_arch {
     DMI_PROCESSOR_ARCH_LOONG_ARCH32 = 0x09,
     DMI_PROCESSOR_ARCH_LOONG_ARCH64 = 0x0A,
 } dmi_processor_arch_t;
+
+const char *dmi_processor_arch_name(dmi_processor_arch_t value);
 ----
 
 == Description
@@ -46,7 +48,10 @@ processor-specific data of a processor additional information structure, and so
 their format. It is the type of the `arch` field of `dmi_processor_ex_t`, and
 the values of the `arch` field of `dmi_processor_specific_block_t`.
 
-The library has no function returning the names of the values.
+The `dmi_processor_arch_name` function returns the printable name of a value,
+as the command line tool shows it. The name is translated to the locale set
+with `dmi_set_locale`, when the library is built with ICU4C support and has a
+translation of it.
 
 === Values
 
@@ -82,6 +87,16 @@ Intel Itanium.
 
 `DMI_PROCESSOR_ARCH_LOONG_ARCH64`::
 64-bit LoongArch (LoongArch64).
+
+== Return value
+
+`dmi_processor_arch_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is a static string, which must not be modified or
+freed.
+
+== Errors
+
+None.
 
 == See also
 

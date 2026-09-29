@@ -12,8 +12,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
-typedef struct dmi_cooling_device      dmi_cooling_device_t;
-typedef struct dmi_cooling_device_data dmi_cooling_device_data_t;
+typedef struct dmi_cooling_device dmi_cooling_device_t;
 
 /**
  * @brief Cooling device types.

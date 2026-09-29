@@ -120,7 +120,7 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
             .code    = "state",
             .name    = "State",
             .unspec  = dmi_value_ptr(DMI_FIRMWARE_INVENTORY_STATE_UNSPEC),
-            .unknown = dmi_value_ptr(DMI_FIRMWARE_INVENTORY_STATE_UNSPEC),
+            .unknown = dmi_value_ptr(DMI_FIRMWARE_INVENTORY_STATE_UNKNOWN),
             .values  = &dmi_firmware_inventory_state_names
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, component_count, INTEGER, {

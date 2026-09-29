@@ -1,0 +1,1 @@
+dmi_intel_rsd_fpga_hps_isa.3.adoc

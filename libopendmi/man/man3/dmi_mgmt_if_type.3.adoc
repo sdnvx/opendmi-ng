@@ -11,7 +11,8 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_mgmt_if_type - management controller host interface types
+dmi_mgmt_if_type, dmi_mgmt_if_type_name - management controller host interface
+types
 
 == Library
 
@@ -42,6 +43,8 @@ typedef enum dmi_mgmt_if_type {
     DMI_MGMT_IF_TYPE_NETWORK_HOST_IF = 0x40,
     DMI_MGMT_IF_TYPE_OEM             = 0xF0
 } dmi_mgmt_if_type_t;
+
+const char *dmi_mgmt_if_type_name(dmi_mgmt_if_type_t value);
 ----
 
 == Description
@@ -52,6 +55,11 @@ host interface, and is the type of the `if_type` field of
 types, which the MCTP host interface specification (DSP0239) assigns; the
 enumeration names the ones assigned so far. Every value the enumeration does
 not name is reserved, and the field holds it as the structure carries it.
+
+The `dmi_mgmt_if_type_name` function returns the printable name of a value, as
+the command line tool shows it. The name is translated to the locale set with
+`dmi_set_locale`, when the library is built with ICU4C support and has a
+translation of it.
 
 === Values
 
@@ -103,6 +111,16 @@ Network host interface, defined by the Redfish host interface specification
 
 `DMI_MGMT_IF_TYPE_OEM`::
 OEM-defined interface.
+
+== Return value
+
+`dmi_mgmt_if_type_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is a static string, which must not be modified or
+freed.
+
+== Errors
+
+None.
 
 == See also
 

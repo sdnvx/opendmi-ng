@@ -197,7 +197,6 @@ table:
     serial-number: To Be Filled By O.E.M.
     asset-tag: To Be Filled By O.E.M.
     part-number: To Be Filled By O.E.M.
-    socket-type: null
 - handle: 5
   type: 7
   length: 29
@@ -831,8 +830,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 0
-    range-size: 0
+    end-addr: 1023
+    range-size: 1024
     array-handle: 37
     partition-width: 0
 - handle: 39
@@ -888,8 +887,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 0
-    range-size: 0
+    end-addr: 1023
+    range-size: 1024
     device-handle: 39
     array-addr-handle: 38
     partition-pos: 1
@@ -948,8 +947,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 0
-    range-size: 0
+    end-addr: 1023
+    range-size: 1024
     device-handle: 41
     array-addr-handle: 38
     partition-pos: 1

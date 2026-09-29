@@ -97,4 +97,21 @@ extern __dmi_api const dmi_name_set_t dmi_intel_rsd_phys_device_type_names;
  */
 extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_phys_device_mapping_spec;
 
+__BEGIN_DECLS
+
+/**
+ * @brief Get Intel RSD physical device type name.
+ *
+ * Returns the name of the Intel RSD physical device type, as the command line
+ * tool shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Intel RSD physical device type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_intel_rsd_phys_device_type_name(dmi_intel_rsd_phys_device_type_t value);
+
+__END_DECLS
+
 #endif // !DMI_ENTITY_INTEL_RSD_PHYS_DEVICE_MAPPING_H

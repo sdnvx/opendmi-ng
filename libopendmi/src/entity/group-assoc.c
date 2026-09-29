@@ -19,7 +19,7 @@ const dmi_entity_spec_t dmi_group_assoc_spec =
         "The Group Associations structure is provided for OEMs who want to "
         "specify the arrangement or hierarchy of certain components (including "
         "other Group Associations) within the system. For example, you can use "
-        " the Group Associations structure to indicate that two CPUs share a "
+        "the Group Associations structure to indicate that two CPUs share a "
         "common external cache system.",
         //
         nullptr

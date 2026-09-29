@@ -27,3 +27,8 @@ const dmi_name_set_t dmi_intel_rsd_cpuid_subtype_names =
         {}
     })
 };
+
+const char *dmi_intel_rsd_cpuid_subtype_name(dmi_intel_rsd_cpuid_subtype_t value)
+{
+    return dmi_name_lookup(&dmi_intel_rsd_cpuid_subtype_names, (int)value);
+}

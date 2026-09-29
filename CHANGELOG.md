@@ -78,6 +78,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Translate command line help to the locale
 - Add manual pages for the `opendmi` command line tool and all of its commands
 - Add manual pages for the buffer, reader, writer, decoder and encoder APIs
+- Add missing `*_name()` functions for the enumerations
+- Add processor upgrade value 0xFF of SMBIOS 3.8, which refers to the socket type
 
 ### Changed
 
@@ -117,6 +119,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `dmi_entity_reader()` with `dmi_decoder_initialize()`, which sets a decoder up over the data of a structure
 - Rename `dmi_entity_stop()` and `dmi_entity_incomplete()` to `dmi_decoder_stop()` and `dmi_decoder_incomplete()`
 - Rename `dmi_file_get()` and `dmi_memory_get()` to `dmi_file_load()` and `dmi_memory_load()`, which fill a buffer instead of allocating the data they read
+- Rename misspelled `DMI_SLOT_TYPP_OCP_NIC_LEGACY`, `DMI_PROCESSOR_FAMILT_STRONGARM`, `synchonous` and `has_zoom_video_supoort` to `DMI_SLOT_TYPE_OCP_NIC_LEGACY`, `DMI_PROCESSOR_FAMILY_STRONGARM`, `synchronous` and `has_zoom_video_support`
+- Rename misspelled codes to `multi-system`, `wireless-lan`, `hardware-thread`, `pmic0-vendor-id` and `dil-25pin`
+- Give the end of a mapped address range carried in kilobytes as its last byte, the way the extended fields do
+- Name slot type 0x0B as the specification does, "Proprietary memory card slot"
+- Remove the declaration of `dmi_pointing_device_decode()`, which is defined nowhere, and the typedefs of the structures which do not exist
 
 ### Fixed
 
@@ -140,6 +147,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix indentation of nested flags in text output
 - Fix ICU4C initialization
 - Remove trailing spaces in text output
+- Fix sizes of the mapped address ranges falling one kilobyte, or one byte, short of the range
+- Fix unknown error correction type of physical memory arrays and unknown state of firmware inventories taken for unspecified ones
+- Fix unknown addresses and resolutions of memory error information shown as values
+- Fix maximum memory size of memory controllers wrapping around instead of being unknown
+- Fix number of the ports of Intel RSD cabled PCIe port information decoded into a member narrower than the counter the field engine writes
+- Fix `firmware-inventory.version` lint rule never reporting semantic versions
+- Fix minimum SMBIOS versions of the IPMI device, management controller host interface, TPM device and processor additional information structures
+- Fix socket type shown for the processors of structures older than SMBIOS 3.8
+- Fix missing names of the reserved and vendor-specific version formats of firmware inventories and of the OEM-specific access methods of system event logs
+- Fix `<opendmi/entity/memory-error-32.h>` and `<opendmi/entity/memory-error-64.h>` not compiling on their own
 
 ## [0.4.1] - September 18, 2026
 

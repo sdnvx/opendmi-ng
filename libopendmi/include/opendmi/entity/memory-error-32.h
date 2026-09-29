@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <opendmi/entity.h>
 #include <opendmi/entity/memory-error.h>
 
 typedef struct dmi_memory_error_32 dmi_memory_error_32_t;

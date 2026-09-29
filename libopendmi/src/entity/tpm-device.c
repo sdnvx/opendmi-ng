@@ -22,7 +22,7 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
     .type = DMI_TYPE(TPM_DEVICE),
 
     .params = {
-        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_version = DMI_VERSION(3, 1, 0),
         .minimum_length  = 0x1F,
         .decoded_length  = sizeof(dmi_tpm_device_t)
     },

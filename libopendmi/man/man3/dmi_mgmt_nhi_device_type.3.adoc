@@ -11,7 +11,8 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_mgmt_nhi_device_type - network host interface device types
+dmi_mgmt_nhi_device_type, dmi_mgmt_nhi_device_type_name - network host
+interface device types
 
 == Library
 
@@ -32,6 +33,8 @@ typedef enum dmi_mgmt_nhi_device_type {
     DMI_MGMT_NHI_DEVICE_TYPE_OEM_START = 0x80,
     DMI_MGMT_NHI_DEVICE_TYPE_OEM_END   = 0xFF
 } dmi_mgmt_nhi_device_type_t;
+
+const char *dmi_mgmt_nhi_device_type_name(dmi_mgmt_nhi_device_type_t value);
 ----
 
 == Description
@@ -41,6 +44,11 @@ through which the host reaches the management controller over a network host
 interface, and is the type of the `device_type` field of `dmi_mgmt_nhi_t`. The
 values from 0x80 to 0xFF are OEM-defined, and the other values the enumeration
 does not name are reserved.
+
+The `dmi_mgmt_nhi_device_type_name` function returns the printable name of a
+value, as the command line tool shows it. The name is translated to the locale
+set with `dmi_set_locale`, when the library is built with ICU4C support and has
+a translation of it.
 
 === Values
 
@@ -63,6 +71,16 @@ First OEM-defined device type, see `dmi_mgmt_nhi_oem`(3).
 
 `DMI_MGMT_NHI_DEVICE_TYPE_OEM_END`::
 Last OEM-defined device type.
+
+== Return value
+
+`dmi_mgmt_nhi_device_type_name` returns the name of the value, or `nullptr` if
+the value has no name. The name is a static string, which must not be modified
+or freed.
+
+== Errors
+
+None.
 
 == See also
 

@@ -13,7 +13,6 @@
 #include <opendmi/utils/uuid.h>
 
 typedef struct dmi_firmware_inventory           dmi_firmware_inventory_t;
-typedef struct dmi_firmware_inventory_data      dmi_firmware_inventory_data_t;
 typedef union  dmi_firmware_inventory_features  dmi_firmware_inventory_features_t;
 typedef struct dmi_firmware_inventory_component dmi_firmware_inventory_component_t;
 typedef struct dmi_firmware_version_number      dmi_firmware_version_number_t;
@@ -50,7 +49,12 @@ typedef enum dmi_version_format
      * 64-bit numeric value of the version, in the format of `"0xhhhhhhhhhhhhhhhh"`.
      * Each `h` represents a hexadecimal digit (0-f). Example: `"0x000000010000002d"`.
      */
-    DMI_VERSION_FORMAT_HEX_64 = 0x03
+    DMI_VERSION_FORMAT_HEX_64 = 0x03,
+
+    __DMI_VERSION_FORMAT_RESERVED_START        = 0x04,
+    __DMI_VERSION_FORMAT_RESERVED_END          = 0x7F,
+    __DMI_VERSION_FORMAT_VENDOR_SPECIFIC_START = 0x80,
+    __DMI_VERSION_FORMAT_VENDOR_SPECIFIC_END   = 0xFF
 } dmi_version_format_t;
 
 /**

@@ -237,7 +237,7 @@ typedef enum dmi_processor_family {
     DMI_PROCESSOR_FAMILY_HITACHI_SH_3            = 0x104,
     DMI_PROCESSOR_FAMILY_HITACHI_SH_4            = 0x105,
     DMI_PROCESSOR_FAMILY_ARM                     = 0x118,
-    DMI_PROCESSOR_FAMILT_STRONGARM               = 0x119,
+    DMI_PROCESSOR_FAMILY_STRONGARM               = 0x119,
     DMI_PROCESSOR_FAMILY_CYRIX_6X86              = 0x12C,
     DMI_PROCESSOR_FAMILY_CYRIX_MEDIAGX           = 0x12D,
     DMI_PROCESSOR_FAMILY_CYRIX_M2                = 0x12E,
@@ -932,8 +932,8 @@ Hitachi SH-4.
 `DMI_PROCESSOR_FAMILY_ARM`::
 ARM.
 
-`DMI_PROCESSOR_FAMILT_STRONGARM`::
-StrongARM. The name of the enumerator is misspelled.
+`DMI_PROCESSOR_FAMILY_STRONGARM`::
+StrongARM.
 
 `DMI_PROCESSOR_FAMILY_CYRIX_6X86`::
 Cyrix 6x86.

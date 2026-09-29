@@ -32,7 +32,7 @@ typedef enum dmi_slot_type
     DMI_SLOT_TYPE_VESA                  = 0x08, ///< VL-VESA
     DMI_SLOT_TYPE_PROPRIETARY           = 0x09, ///< Proprietary
     DMI_SLOT_TYPE_PROCESSOR_CARD        = 0x0A, ///< Processor card slot
-    DMI_SLOT_TYPE_MEMORY_CARD           = 0x0B, ///< Memory card slot
+    DMI_SLOT_TYPE_MEMORY_CARD           = 0x0B, ///< Proprietary memory card slot
     DMI_SLOT_TYPE_IO_RISER_CARD         = 0x0C, ///< I/O riser card slot
     DMI_SLOT_TYPE_NUBUS                 = 0x0D, ///< NuBus
     DMI_SLOT_TYPE_PCI_66                = 0x0E, ///< PCI 66 Mhz
@@ -61,7 +61,7 @@ typedef enum dmi_slot_type
     DMI_SLOT_TYPE_PCI_E_G5_SFF8639      = 0x25, ///< PCI Express Gen 5 SFF-8639 (U.2)
     DMI_SLOT_TYPE_OCP_NIC_30_SFF        = 0x26, ///< OCP NIC 3.0 Small Form Factor (SFF)
     DMI_SLOT_TYPE_OCP_NIC_30_LFF        = 0x27, ///< OCP NIC 3.0 Large Form Factor (LFF)
-    DMI_SLOT_TYPP_OCP_NIC_LEGACY        = 0x28, ///< OCP NIC prior to 3.0
+    DMI_SLOT_TYPE_OCP_NIC_LEGACY        = 0x28, ///< OCP NIC prior to 3.0
     // Unassigned: 0x29 .. 0x2F
     DMI_SLOT_TYPE_CXL_FLEXBUS_10        = 0x30, ///< CXL FlexBus 1.0
     DMI_SLOT_TYPE_PC_98_C20             = 0xA0, ///< PC-98/C20
@@ -217,7 +217,7 @@ dmi_packed_union(dmi_slot_features)
         /**
          * @brief PC Card slot supports Zoom Video.
          */
-        dmi_byte_t has_zoom_video_supoort : 1;
+        dmi_byte_t has_zoom_video_support : 1;
 
         /**
          * @brief PC Card slot supports Modem Ring Resume.

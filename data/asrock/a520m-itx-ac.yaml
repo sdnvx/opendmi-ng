@@ -423,7 +423,7 @@ table:
 - handle: 13
   type: 44
   length: 11
-  level: '2.0'
+  level: '3.3'
   state:
   - decoded
   - linked
@@ -444,9 +444,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 15
   type: 16
   length: 25
@@ -472,8 +472,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 68719475712
-    range-size: 68719475712
+    end-addr: 68719476735
+    range-size: 68719476736
     array-handle: 15
     partition-width: 2
 - handle: 17
@@ -653,7 +653,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -662,7 +662,6 @@ table:
     core-count: 8
     core-enabled: 8
     thread-count: 16
-    socket-type: null
 - handle: 21
   type: 18
   length: 25
@@ -675,9 +674,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 22
   type: 17
   length: 154
@@ -746,8 +745,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 68719475712
-    range-size: 68719475712
+    end-addr: 68719476735
+    range-size: 68719476736
     device-handle: 22
     array-addr-handle: 16
     partition-pos: unknown
@@ -765,9 +764,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 25
   type: 17
   length: 154
@@ -836,8 +835,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 68719475712
-    range-size: 68719475712
+    end-addr: 68719476735
+    range-size: 68719476736
     device-handle: 25
     array-addr-handle: 16
     partition-pos: unknown

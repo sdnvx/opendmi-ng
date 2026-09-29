@@ -61,7 +61,7 @@ const dmi_name_set_t dmi_onboard_device_type_names =
         },
         {
             .id   = DMI_ONBOARD_DEVICE_TYPE_WIRELESS_LAN,
-            .code = "wireless lan",
+            .code = "wireless-lan",
             .name = "Wireless LAN"
         },
         {

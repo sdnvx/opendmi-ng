@@ -235,4 +235,59 @@ struct dmi_system_event_log
  */
 extern __dmi_api const dmi_entity_spec_t dmi_system_event_log_spec;
 
+__BEGIN_DECLS
+
+/**
+ * @brief Get event log variable data format name.
+ *
+ * Returns the name of the event log variable data format, as the command line
+ * tool shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Event log variable data format value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_event_log_data_format_name(dmi_event_log_data_format_t value);
+
+/**
+ * @brief Get event log type name.
+ *
+ * Returns the name of the event log type, as the command line tool shows it,
+ * translated into the locale when the library is built with the translations.
+ *
+ * @param[in] value Event log type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_event_log_type_name(dmi_event_log_type_t value);
+
+/**
+ * @brief Get system event log access method name.
+ *
+ * Returns the name of the system event log access method, as the command line
+ * tool shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value System event log access method value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_system_log_access_method_name(dmi_system_log_access_method_t value);
+
+/**
+ * @brief Get system event log header format name.
+ *
+ * Returns the name of the system event log header format, as the command line
+ * tool shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value System event log header format value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_system_log_header_fmt_name(dmi_system_log_header_fmt_t value);
+
+__END_DECLS
+
 #endif // !OPENDMI_ENTITY_SYSTEM_EVENT_LOG_H

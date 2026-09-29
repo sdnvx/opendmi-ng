@@ -61,7 +61,7 @@
 | Capabilities
 | `WORD`
 | `BITFIELD`
-| See <dell-parallel-port-capabilities>> for details
+| See <<dell-parallel-port-capabilities>> for details
 
 | `0x0B`
 | 2.2+
@@ -115,7 +115,7 @@
 [#dell-parallel-port-capabilities, reftext=Capabilities]
 == Dell Parallel Port -- Capabilities
 
-.Dell Parallel Port: Connector pin-out field
+.Dell Parallel Port: Capabilities field
 [width=100%, cols="2,4"]
 |===
 | Word Bit Position | Meaning

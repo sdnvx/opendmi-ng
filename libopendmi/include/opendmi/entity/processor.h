@@ -367,7 +367,7 @@ typedef enum dmi_processor_family
     DMI_PROCESSOR_FAMILY_HITACHI_SH_4            = 0x105, ///< Hitachi SH-4
     // Unassigned: 0x106 .. 0x117
     DMI_PROCESSOR_FAMILY_ARM                     = 0x118, ///< ARM
-    DMI_PROCESSOR_FAMILT_STRONGARM               = 0x119, ///< StrongARM
+    DMI_PROCESSOR_FAMILY_STRONGARM               = 0x119, ///< StrongARM
     // Unassigned: 0x11A .. 0x12B
     DMI_PROCESSOR_FAMILY_CYRIX_6X86              = 0x12C, ///< Cyrix 6x86
     DMI_PROCESSOR_FAMILY_CYRIX_MEDIAGX           = 0x12D, ///< Cyrix MediaGX
@@ -505,6 +505,7 @@ typedef enum dmi_processor_upgrade
     DMI_PROCESSOR_UPGRADE_SOCKET_LGA1851   = 0x55, ///< Socket LGA1851
     DMI_PROCESSOR_UPGRADE_SOCKET_BGA2114   = 0x56, ///< Socket BGA2114
     DMI_PROCESSOR_UPGRADE_SOCKET_BGA2833   = 0x57, ///< Socket BGA2833
+    DMI_PROCESSOR_UPGRADE_SEE_SOCKET_TYPE  = 0xFF  ///< No other value applies, see the socket type
 } dmi_processor_upgrade_t;
 
 /**

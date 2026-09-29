@@ -133,7 +133,7 @@ const dmi_name_set_t dmi_chassis_type_names =
         },
         {
             .id   = DMI_CHASSIS_TYPE_MULTI_SYSTEM,
-            .code = "multy-system",
+            .code = "multi-system",
             .name = "Multi-system chassis"
         },
         {
@@ -239,4 +239,9 @@ const char *dmi_chassis_type_name(dmi_chassis_type_t value)
 const char *dmi_chassis_security_status_name(dmi_chassis_security_status_t value)
 {
     return dmi_name_lookup(&dmi_chassis_security_status_names, (int)value);
+}
+
+const char *dmi_rack_type_name(dmi_rack_type_t value)
+{
+    return dmi_name_lookup(&dmi_rack_type_names, (int)value);
 }

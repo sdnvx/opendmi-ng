@@ -498,14 +498,14 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 17179868160
-    range-size: 17179868160
+    end-addr: 17179869183
+    range-size: 17179869184
     array-handle: 1
     partition-width: 1
 - handle: 11
   type: 43
   length: 96
-  level: '2.0'
+  level: '3.1'
   state:
   - decoded
   description: TPM device
@@ -963,7 +963,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -972,7 +972,6 @@ table:
     core-count: 10
     core-enabled: 10
     thread-count: 12
-    socket-type: null
 - handle: 27
   type: 0
   length: 62
@@ -1501,9 +1500,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 63
   type: 21
   length: 9

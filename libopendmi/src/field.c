@@ -167,6 +167,14 @@ bool dmi_field_decode_kilobytes(
     return dmi_field_set(field, value, data->number << 10);
 }
 
+bool dmi_field_decode_kilobytes_last(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
+{
+    return dmi_field_set(field, value, (data->number << 10) | 0x3FFu);
+}
+
 bool dmi_field_encode_kilobytes(
         const dmi_field_t *field,
         const void        *value,
@@ -689,6 +697,10 @@ static bool dmi_field_decode_array(
         not dmi_field_store_member(field->params.stride_member,
                                    info + field->params.stride_member.offset, stride))
         return false;
+
+    // Number of the decoded elements is counted in place, so the member
+    // holding it is a size_t, the way every counter of an array is declared
+    assert(field->params.counter.size == sizeof(size_t));
 
     size_t *counter = (size_t *)(info + field->params.counter.offset);
     *counter = 0;

@@ -304,7 +304,7 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .level   = DMI_VERSION(3, 2, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, pmic0_vendor_id, INTEGER, {
-            .code    = "pmi0-vendor-id",
+            .code    = "pmic0-vendor-id",
             .name    = "PMIC0 manufacturer ID",
             .unknown = dmi_value_ptr((uint16_t)0),
             .flags   = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_JEP106,

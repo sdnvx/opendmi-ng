@@ -11,7 +11,8 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_intel_rsd_cpuid_subtype - Intel RSD processor CPUID information subtypes
+dmi_intel_rsd_cpuid_subtype, dmi_intel_rsd_cpuid_subtype_name - Intel RSD
+processor CPUID information subtypes
 
 == Library
 
@@ -28,6 +29,9 @@ typedef enum dmi_intel_rsd_cpuid_subtype {
     DMI_INTEL_RSD_CPUID_SUBTYPE_BASIC    = 0x01,
     DMI_INTEL_RSD_CPUID_SUBTYPE_EXTENDED = 0x02
 } dmi_intel_rsd_cpuid_subtype_t;
+
+const char *dmi_intel_rsd_cpuid_subtype_name(
+        dmi_intel_rsd_cpuid_subtype_t value);
 ----
 
 == Description
@@ -37,6 +41,11 @@ leaves a processor CPUID information structure holds, and is the type of the
 `subtype` field of `dmi_intel_rsd_processor_cpuid_t`. The data of structures
 of other subtypes is kept as stored.
 
+The `dmi_intel_rsd_cpuid_subtype_name` function returns the printable name of a
+value, as the command line tool shows it. The name is translated to the locale
+set with `dmi_set_locale`, when the library is built with ICU4C support and has
+a translation of it.
+
 === Values
 
 `DMI_INTEL_RSD_CPUID_SUBTYPE_BASIC`::
@@ -44,6 +53,16 @@ Leaves 00h to 10h.
 
 `DMI_INTEL_RSD_CPUID_SUBTYPE_EXTENDED`::
 Leaves 14h to 80000008h.
+
+== Return value
+
+`dmi_intel_rsd_cpuid_subtype_name` returns the name of the value, or `nullptr`
+if the value has no name. The name is a static string, which must not be
+modified or freed.
+
+== Errors
+
+None.
 
 == See also
 

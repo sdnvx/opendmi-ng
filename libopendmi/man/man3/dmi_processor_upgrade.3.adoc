@@ -112,7 +112,8 @@ typedef enum dmi_processor_upgrade {
     DMI_PROCESSOR_UPGRADE_SOCKET_BGA2551   = 0x54,
     DMI_PROCESSOR_UPGRADE_SOCKET_LGA1851   = 0x55,
     DMI_PROCESSOR_UPGRADE_SOCKET_BGA2114   = 0x56,
-    DMI_PROCESSOR_UPGRADE_SOCKET_BGA2833   = 0x57
+    DMI_PROCESSOR_UPGRADE_SOCKET_BGA2833   = 0x57,
+    DMI_PROCESSOR_UPGRADE_SEE_SOCKET_TYPE  = 0xFF
 } dmi_processor_upgrade_t;
 
 const char *dmi_processor_upgrade_name(dmi_processor_upgrade_t value);
@@ -396,6 +397,10 @@ Socket BGA2114.
 
 `DMI_PROCESSOR_UPGRADE_SOCKET_BGA2833`::
 Socket BGA2833.
+
+`DMI_PROCESSOR_UPGRADE_SEE_SOCKET_TYPE`::
+No other value applies, and the `socket_type` string of the processor names
+the socket. Defined since SMBIOS 3.8.
 
 == Return value
 

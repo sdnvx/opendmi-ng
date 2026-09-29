@@ -1,0 +1,1 @@
+dmi_mgmt_redfish_ip_assignment.3.adoc

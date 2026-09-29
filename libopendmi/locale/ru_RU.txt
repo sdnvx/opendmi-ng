@@ -5,6 +5,7 @@ ru_RU {
         indexed-io-16bit { "Индексный ввод-вывод: один 16-битный индексный порт, один 8-битный порт данных" }
         memory-mapped-32bit-address { "Физический 32-битный адрес в памяти" }
         data-functions { "Функции энергонезависимых данных общего назначения" }
+        oem-specific { "Специфичный для производителя" }
     }
     additional-info {
         name { "Дополнительные сведения" }
@@ -262,7 +263,7 @@ ru_RU {
         pinout { "Распиновка разъёма" }
         pitch { "Шаг" }
         platform-version { "Версия прошивки платформы" }
-        pmi0-vendor-id { "Идентификатор производителя PMIC0" }
+        pmic0-vendor-id { "Идентификатор производителя PMIC0" }
         pmic0-revision { "Ревизия PMIC0" }
         port { "Обозначение порта" }
         port-handle { "Дескриптор разъёма порта" }
@@ -547,7 +548,7 @@ ru_RU {
         raid { "Корпус RAID" }
         rack-mount { "Стоечный корпус" }
         sealed-case-pc { "Герметичный корпус" }
-        multy-system { "Многосистемный корпус" }
+        multi-system { "Многосистемный корпус" }
         compact-pci { "Compact PCI" }
         advanced-tca { "Advanced TCA" }
         blade { "Лезвие" }
@@ -1534,7 +1535,7 @@ ru_RU {
         pata-controller { "Контроллер PATA" }
         sata-controller { "Контроллер SATA" }
         sas-controller { "Контроллер SAS" }
-        wireless lan { "Беспроводная сеть" }
+        wireless-lan { "Беспроводная сеть" }
         bluetooth { "Bluetooth" }
         wireless-wan { "Беспроводная сеть WAN" }
         emm-controller { "Контроллер eMMC" }
@@ -1608,7 +1609,7 @@ ru_RU {
         onboard-ide { "On Board IDE" }
         onboard-floppy { "On Board Floppy" }
         dil-9pin { "9-pin Dual Inline (pin 10 cut)" }
-        dil-25-pin { "25-pin Dual Inline (pin 26 cut)" }
+        dil-25pin { "25-pin Dual Inline (pin 26 cut)" }
         dil-50pin { "50-pin Dual Inline" }
         dil-68pin { "68-pin Dual Inline" }
         onboard-sound { "On Board Sound Input from CD-ROM" }
@@ -1990,7 +1991,7 @@ ru_RU {
         unknown { "Неизвестный" }
         capable-64bit { "Поддержка 64 бит" }
         multicore { "Многоядерный" }
-        hardware_thread { "Аппаратные потоки" }
+        hardware-thread { "Аппаратные потоки" }
         execute-protection { "Защита исполнения" }
         enhanced-virtualization { "Расширенная виртуализация" }
         power-perf-control { "Управление питанием и производительностью" }
@@ -2103,6 +2104,7 @@ ru_RU {
         socket-lga1851 { "Socket LGA1851" }
         socket-bga2114 { "Socket BGA2114" }
         socket-bga2833 { "Socket BGA2833" }
+        see-socket-type { "См. тип разъёма" }
     }
     processor-voltage {
         "5v" { "5V" }
@@ -2216,7 +2218,7 @@ ru_RU {
         vesa { "VL-VESA" }
         proprietary { "Проприетарный" }
         processor-card { "Слот платы процессора" }
-        memory-card { "Слот платы памяти" }
+        memory-card { "Проприетарный слот платы памяти" }
         io-riser-card { "I/O riser card slot" }
         nubus { "NuBus" }
         pci-66 { "PCI 66 Mhz" }
@@ -2472,6 +2474,8 @@ ru_RU {
         semantic { "Семантический" }
         hexadecimal-32 { "Шестнадцатеричный (32 бита)" }
         hexadecimal-64 { "Шестнадцатеричный (64 бита)" }
+        reserved { "Зарезервирован" }
+        vendor-specific { "Специфичный для производителя" }
     }
     voltage-probe {
         name { "Датчик напряжения" }

@@ -238,3 +238,33 @@ const dmi_name_set_t dmi_mgmt_redfish_ip_format_names =
         {}
     })
 };
+
+const char *dmi_mgmt_if_type_name(dmi_mgmt_if_type_t value)
+{
+    return dmi_name_lookup(&dmi_mgmt_if_type_names, (int)value);
+}
+
+const char *dmi_mgmt_nhi_characteristic_name(dmi_mgmt_nhi_characteristic_t value)
+{
+    return dmi_name_lookup(&dmi_mgmt_nhi_characteristic_names, (int)value);
+}
+
+const char *dmi_mgmt_nhi_device_type_name(dmi_mgmt_nhi_device_type_t value)
+{
+    return dmi_name_lookup(&dmi_mgmt_nhi_device_type_names, (int)value);
+}
+
+const char *dmi_mgmt_proto_name(dmi_mgmt_proto_t value)
+{
+    return dmi_name_lookup(&dmi_mgmt_proto_names, (int)value);
+}
+
+const char *dmi_mgmt_redfish_ip_assignment_name(dmi_mgmt_redfish_ip_assignment_t value)
+{
+    return dmi_name_lookup(&dmi_mgmt_redfish_ip_assignment_names, (int)value);
+}
+
+const char *dmi_mgmt_redfish_ip_format_name(dmi_mgmt_redfish_ip_format_t value)
+{
+    return dmi_name_lookup(&dmi_mgmt_redfish_ip_format_names, (int)value);
+}

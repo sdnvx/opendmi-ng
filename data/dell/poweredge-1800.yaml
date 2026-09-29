@@ -200,7 +200,6 @@ table:
     serial-number: null
     asset-tag: null
     part-number: null
-    socket-type: null
 - handle: 1025
   type: 4
   length: 49
@@ -266,7 +265,6 @@ table:
     serial-number: null
     asset-tag: null
     part-number: null
-    socket-type: null
 - handle: 1792
   type: 7
   length: 21
@@ -1234,8 +1232,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 1073740800
-    range-size: 1073740800
+    end-addr: 1073741823
+    range-size: 1073741824
     array-handle: 4096
     partition-width: 2
 - handle: 4865
@@ -1257,8 +1255,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 1073740800
-    range-size: 1073740800
+    end-addr: 1073741823
+    range-size: 1073741824
     device-handle: 4352
     array-addr-handle: 4864
     partition-pos: 1
@@ -1275,8 +1273,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 1073740800
-    range-size: 1073740800
+    end-addr: 1073741823
+    range-size: 1073741824
     device-handle: 4353
     array-addr-handle: 4864
     partition-pos: 2
@@ -1486,7 +1484,7 @@ table:
 - handle: 9728
   type: 38
   length: 20
-  level: '2.0'
+  level: '2.3'
   state:
   - decoded
   description: IPMI device information

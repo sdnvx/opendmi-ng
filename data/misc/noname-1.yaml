@@ -175,7 +175,7 @@ table:
 - handle: 8
   type: 43
   length: 44
-  level: '2.0'
+  level: '3.1'
   state:
   - decoded
   description: TPM device
@@ -205,9 +205,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 10
   type: 16
   length: 25
@@ -233,8 +233,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 17179868160
-    range-size: 17179868160
+    end-addr: 17179869183
+    range-size: 17179869184
     array-handle: 10
     partition-width: 2
 - handle: 12
@@ -414,7 +414,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -423,7 +423,6 @@ table:
     core-count: 6
     core-enabled: 6
     thread-count: 6
-    socket-type: null
 - handle: 16
   type: 18
   length: 25
@@ -436,9 +435,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 17
   type: 17
   length: 152
@@ -507,8 +506,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 17179868160
-    range-size: 17179868160
+    end-addr: 17179869183
+    range-size: 17179869184
     device-handle: 17
     array-addr-handle: 11
     partition-pos: unknown
@@ -526,9 +525,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 20
   type: 17
   length: 152
@@ -597,8 +596,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 17179868160
-    range-size: 17179868160
+    end-addr: 17179869183
+    range-size: 17179869184
     device-handle: 20
     array-addr-handle: 11
     partition-pos: unknown

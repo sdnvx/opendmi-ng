@@ -69,16 +69,19 @@ const dmi_entity_spec_t dmi_memory_error_64_spec =
         DMI_ATTRIBUTE(dmi_memory_error_64_t, array_addr, ADDRESS, {
             .code    = "array-addr",
             .name    = "Array-relative address",
+            .unknown = dmi_value_ptr((uint64_t)0x8000000000000000uLL),
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
         DMI_ATTRIBUTE(dmi_memory_error_64_t, device_addr, ADDRESS, {
             .code    = "device-addr",
             .name    = "Device-relative address",
+            .unknown = dmi_value_ptr((uint64_t)0x8000000000000000uLL),
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
         DMI_ATTRIBUTE(dmi_memory_error_64_t, resolution, SIZE, {
             .code    = "resolution",
-            .name    = "Resolution"
+            .name    = "Resolution",
+            .unknown = dmi_value_ptr((uint32_t)0x80000000u)
         }),
         {}
     }),

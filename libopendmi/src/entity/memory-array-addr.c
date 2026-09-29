@@ -29,12 +29,14 @@ const dmi_entity_spec_t dmi_memory_array_addr_spec =
 
     .fields = DMI_FIELDS({
         // Addresses are carried in kilobytes, and the ranges which do not fit
-        // into four bytes are carried by the extended fields instead
+        // into four bytes are carried by the extended fields instead. The end
+        // is the last kilobyte of the range, and is decoded into its last
+        // byte, which is what the extended field carries
         DMI_FIELD(dmi_memory_array_addr_t, start_addr, dmi_dword_t,
                   .decode = dmi_field_decode_kilobytes,
                   .encode = dmi_field_encode_kilobytes),
         DMI_FIELD(dmi_memory_array_addr_t, end_addr, dmi_dword_t,
-                  .decode = dmi_field_decode_kilobytes,
+                  .decode = dmi_field_decode_kilobytes_last,
                   .encode = dmi_field_encode_kilobytes),
 
         DMI_FIELD(dmi_memory_array_addr_t, array_handle,    dmi_word_t),

@@ -1,0 +1,1 @@
+dmi_mgmt_redfish_ip_format.3.adoc

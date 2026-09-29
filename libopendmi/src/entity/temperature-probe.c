@@ -26,7 +26,7 @@ const dmi_entity_spec_t dmi_temperature_probe_spec =
     .params = {
         .minimum_version = DMI_VERSION(2, 2, 0),
         .minimum_length  = 0x14,
-        .decoded_length  = sizeof(dmi_probe_t)
+        .decoded_length  = sizeof(dmi_temperature_probe_t)
     },
 
     .fields = dmi_probe_fields(dmi_temperature_probe_t),

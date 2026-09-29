@@ -308,7 +308,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: false
       power-perf-control: false
@@ -317,7 +317,6 @@ table:
     core-count: 2
     core-enabled: 2
     thread-count: unknown
-    socket-type: null
 - handle: 8
   type: 7
   length: 37
@@ -498,7 +497,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: false
       power-perf-control: false
@@ -507,7 +506,6 @@ table:
     core-count: 2
     core-enabled: 2
     thread-count: unknown
-    socket-type: null
 - handle: 12
   type: 7
   length: 37
@@ -688,7 +686,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: false
       power-perf-control: false
@@ -697,7 +695,6 @@ table:
     core-count: 2
     core-enabled: 2
     thread-count: unknown
-    socket-type: null
 - handle: 16
   type: 7
   length: 37
@@ -878,7 +875,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: false
       power-perf-control: false
@@ -887,7 +884,6 @@ table:
     core-count: 2
     core-enabled: 2
     thread-count: unknown
-    socket-type: null
 - handle: 20
   type: 7
   length: 37
@@ -1068,7 +1064,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: false
       power-perf-control: false
@@ -1077,7 +1073,6 @@ table:
     core-count: 2
     core-enabled: 2
     thread-count: unknown
-    socket-type: null
 - handle: 24
   type: 7
   length: 37
@@ -1258,7 +1253,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: false
       power-perf-control: false
@@ -1267,7 +1262,6 @@ table:
     core-count: 2
     core-enabled: 2
     thread-count: unknown
-    socket-type: null
 - handle: 28
   type: 7
   length: 37
@@ -1448,7 +1442,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: false
       power-perf-control: false
@@ -1457,7 +1451,6 @@ table:
     core-count: 2
     core-enabled: 2
     thread-count: unknown
-    socket-type: null
 - handle: 32
   type: 7
   length: 37
@@ -1638,7 +1631,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: false
       power-perf-control: false
@@ -1647,7 +1640,6 @@ table:
     core-count: 2
     core-enabled: 2
     thread-count: unknown
-    socket-type: null
 - handle: 36
   type: 4
   length: 73
@@ -1685,7 +1677,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -1694,7 +1686,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 37
   type: 4
   length: 73
@@ -1732,7 +1723,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -1741,7 +1732,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 38
   type: 4
   length: 74
@@ -1779,7 +1769,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -1788,7 +1778,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 39
   type: 4
   length: 74
@@ -1826,7 +1815,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -1835,7 +1824,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 40
   type: 4
   length: 74
@@ -1873,7 +1861,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -1882,7 +1870,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 41
   type: 4
   length: 74
@@ -1920,7 +1907,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -1929,7 +1916,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 42
   type: 4
   length: 74
@@ -1967,7 +1953,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -1976,7 +1962,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 43
   type: 4
   length: 74
@@ -2014,7 +1999,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2023,7 +2008,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 44
   type: 4
   length: 74
@@ -2061,7 +2045,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2070,7 +2054,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 45
   type: 4
   length: 74
@@ -2108,7 +2091,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2117,7 +2100,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 46
   type: 4
   length: 74
@@ -2155,7 +2137,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2164,7 +2146,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 47
   type: 4
   length: 74
@@ -2202,7 +2183,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2211,7 +2192,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 48
   type: 4
   length: 74
@@ -2249,7 +2229,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2258,7 +2238,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 49
   type: 4
   length: 74
@@ -2296,7 +2275,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2305,7 +2284,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 50
   type: 4
   length: 74
@@ -2343,7 +2321,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2352,7 +2330,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 51
   type: 4
   length: 74
@@ -2390,7 +2367,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2399,7 +2376,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 52
   type: 4
   length: 74
@@ -2437,7 +2413,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2446,7 +2422,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 53
   type: 4
   length: 74
@@ -2484,7 +2459,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2493,7 +2468,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 54
   type: 4
   length: 74
@@ -2531,7 +2505,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2540,7 +2514,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 55
   type: 4
   length: 74
@@ -2578,7 +2551,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2587,7 +2560,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 56
   type: 4
   length: 74
@@ -2625,7 +2597,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2634,7 +2606,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 57
   type: 4
   length: 74
@@ -2672,7 +2643,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2681,7 +2652,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 58
   type: 4
   length: 74
@@ -2719,7 +2689,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2728,7 +2698,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 59
   type: 4
   length: 74
@@ -2766,7 +2735,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2775,7 +2744,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 60
   type: 4
   length: 74
@@ -2813,7 +2781,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2822,7 +2790,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 61
   type: 4
   length: 74
@@ -2860,7 +2827,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2869,7 +2836,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 62
   type: 4
   length: 74
@@ -2907,7 +2873,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2916,7 +2882,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 63
   type: 4
   length: 74
@@ -2954,7 +2919,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -2963,7 +2928,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 64
   type: 4
   length: 74
@@ -3001,7 +2965,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3010,7 +2974,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 65
   type: 4
   length: 74
@@ -3048,7 +3011,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3057,7 +3020,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 66
   type: 4
   length: 74
@@ -3095,7 +3057,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3104,7 +3066,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 67
   type: 4
   length: 74
@@ -3142,7 +3103,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3151,7 +3112,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 68
   type: 4
   length: 74
@@ -3189,7 +3149,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3198,7 +3158,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 69
   type: 4
   length: 74
@@ -3236,7 +3195,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3245,7 +3204,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 70
   type: 4
   length: 74
@@ -3283,7 +3241,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3292,7 +3250,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 71
   type: 4
   length: 74
@@ -3330,7 +3287,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3339,7 +3296,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 72
   type: 4
   length: 74
@@ -3377,7 +3333,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3386,7 +3342,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 73
   type: 4
   length: 74
@@ -3424,7 +3379,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3433,7 +3388,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 74
   type: 4
   length: 74
@@ -3471,7 +3425,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3480,7 +3434,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 75
   type: 4
   length: 74
@@ -3518,7 +3471,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3527,7 +3480,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 76
   type: 4
   length: 74
@@ -3565,7 +3517,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3574,7 +3526,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 77
   type: 4
   length: 74
@@ -3612,7 +3563,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3621,7 +3572,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 78
   type: 4
   length: 74
@@ -3659,7 +3609,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3668,7 +3618,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 79
   type: 4
   length: 74
@@ -3706,7 +3655,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3715,7 +3664,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 80
   type: 4
   length: 74
@@ -3753,7 +3701,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3762,7 +3710,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 81
   type: 4
   length: 74
@@ -3800,7 +3747,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3809,7 +3756,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 82
   type: 4
   length: 74
@@ -3847,7 +3793,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3856,7 +3802,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 83
   type: 4
   length: 74
@@ -3894,7 +3839,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3903,7 +3848,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 84
   type: 4
   length: 74
@@ -3941,7 +3885,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3950,7 +3894,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 85
   type: 4
   length: 74
@@ -3988,7 +3931,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -3997,7 +3940,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 86
   type: 4
   length: 74
@@ -4035,7 +3977,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4044,7 +3986,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 87
   type: 4
   length: 74
@@ -4082,7 +4023,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4091,7 +4032,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 88
   type: 4
   length: 74
@@ -4129,7 +4069,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4138,7 +4078,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 89
   type: 4
   length: 74
@@ -4176,7 +4115,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4185,7 +4124,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 90
   type: 4
   length: 74
@@ -4223,7 +4161,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4232,7 +4170,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 91
   type: 4
   length: 74
@@ -4270,7 +4207,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4279,7 +4216,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 92
   type: 4
   length: 74
@@ -4317,7 +4253,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4326,7 +4262,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 93
   type: 4
   length: 74
@@ -4364,7 +4299,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4373,7 +4308,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 94
   type: 4
   length: 74
@@ -4411,7 +4345,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4420,7 +4354,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 95
   type: 4
   length: 74
@@ -4458,7 +4391,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4467,7 +4400,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 96
   type: 4
   length: 74
@@ -4505,7 +4437,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4514,7 +4446,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 97
   type: 4
   length: 74
@@ -4552,7 +4483,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4561,7 +4492,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 98
   type: 4
   length: 74
@@ -4599,7 +4529,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4608,7 +4538,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 99
   type: 4
   length: 74
@@ -4646,7 +4575,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4655,7 +4584,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 100
   type: 4
   length: 74
@@ -4693,7 +4621,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4702,7 +4630,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 101
   type: 4
   length: 74
@@ -4740,7 +4667,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4749,7 +4676,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 102
   type: 4
   length: 74
@@ -4787,7 +4713,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4796,7 +4722,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 103
   type: 4
   length: 74
@@ -4834,7 +4759,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4843,7 +4768,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 104
   type: 4
   length: 74
@@ -4881,7 +4805,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4890,7 +4814,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 105
   type: 4
   length: 74
@@ -4928,7 +4851,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4937,7 +4860,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 106
   type: 4
   length: 74
@@ -4975,7 +4897,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -4984,7 +4906,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 107
   type: 4
   length: 74
@@ -5022,7 +4943,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5031,7 +4952,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 108
   type: 4
   length: 74
@@ -5069,7 +4989,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5078,7 +4998,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 109
   type: 4
   length: 74
@@ -5116,7 +5035,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5125,7 +5044,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 110
   type: 4
   length: 74
@@ -5163,7 +5081,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5172,7 +5090,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 111
   type: 4
   length: 74
@@ -5210,7 +5127,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5219,7 +5136,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 112
   type: 4
   length: 74
@@ -5257,7 +5173,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5266,7 +5182,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 113
   type: 4
   length: 74
@@ -5304,7 +5219,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5313,7 +5228,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 114
   type: 4
   length: 74
@@ -5351,7 +5265,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5360,7 +5274,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 115
   type: 4
   length: 74
@@ -5398,7 +5311,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5407,7 +5320,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 116
   type: 4
   length: 74
@@ -5445,7 +5357,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5454,7 +5366,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 117
   type: 4
   length: 74
@@ -5492,7 +5403,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5501,7 +5412,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 118
   type: 4
   length: 74
@@ -5539,7 +5449,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5548,7 +5458,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 119
   type: 4
   length: 74
@@ -5586,7 +5495,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5595,7 +5504,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 120
   type: 4
   length: 74
@@ -5633,7 +5541,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5642,7 +5550,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 121
   type: 4
   length: 74
@@ -5680,7 +5587,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5689,7 +5596,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 122
   type: 4
   length: 74
@@ -5727,7 +5633,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5736,7 +5642,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 123
   type: 4
   length: 74
@@ -5774,7 +5679,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5783,7 +5688,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 124
   type: 4
   length: 74
@@ -5821,7 +5725,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5830,7 +5734,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 125
   type: 4
   length: 74
@@ -5868,7 +5771,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5877,7 +5780,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 126
   type: 4
   length: 74
@@ -5915,7 +5817,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5924,7 +5826,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 127
   type: 4
   length: 74
@@ -5962,7 +5863,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -5971,7 +5872,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 128
   type: 4
   length: 75
@@ -6009,7 +5909,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6018,7 +5918,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 129
   type: 4
   length: 75
@@ -6056,7 +5955,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6065,7 +5964,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 130
   type: 4
   length: 75
@@ -6103,7 +6001,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6112,7 +6010,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 131
   type: 4
   length: 75
@@ -6150,7 +6047,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6159,7 +6056,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 132
   type: 4
   length: 75
@@ -6197,7 +6093,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6206,7 +6102,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 133
   type: 4
   length: 75
@@ -6244,7 +6139,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6253,7 +6148,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 134
   type: 4
   length: 75
@@ -6291,7 +6185,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6300,7 +6194,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 135
   type: 4
   length: 75
@@ -6338,7 +6231,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6347,7 +6240,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 136
   type: 4
   length: 75
@@ -6385,7 +6277,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6394,7 +6286,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 137
   type: 4
   length: 75
@@ -6432,7 +6323,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6441,7 +6332,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 138
   type: 4
   length: 75
@@ -6479,7 +6369,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6488,7 +6378,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 139
   type: 4
   length: 75
@@ -6526,7 +6415,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6535,7 +6424,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 140
   type: 4
   length: 75
@@ -6573,7 +6461,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6582,7 +6470,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 141
   type: 4
   length: 75
@@ -6620,7 +6507,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6629,7 +6516,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 142
   type: 4
   length: 75
@@ -6667,7 +6553,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6676,7 +6562,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 143
   type: 4
   length: 75
@@ -6714,7 +6599,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6723,7 +6608,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 144
   type: 4
   length: 75
@@ -6761,7 +6645,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6770,7 +6654,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 145
   type: 4
   length: 75
@@ -6808,7 +6691,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6817,7 +6700,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 146
   type: 4
   length: 75
@@ -6855,7 +6737,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6864,7 +6746,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 147
   type: 4
   length: 75
@@ -6902,7 +6783,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6911,7 +6792,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 148
   type: 4
   length: 75
@@ -6949,7 +6829,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -6958,7 +6838,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 149
   type: 4
   length: 75
@@ -6996,7 +6875,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -7005,7 +6884,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 150
   type: 4
   length: 75
@@ -7043,7 +6921,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -7052,7 +6930,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 151
   type: 4
   length: 75
@@ -7090,7 +6967,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -7099,7 +6976,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 152
   type: 4
   length: 75
@@ -7137,7 +7013,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -7146,7 +7022,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 153
   type: 4
   length: 75
@@ -7184,7 +7059,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -7193,7 +7068,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 154
   type: 4
   length: 75
@@ -7231,7 +7105,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -7240,7 +7114,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 155
   type: 4
   length: 75
@@ -7278,7 +7151,7 @@ table:
       unknown: false
       capable-64bit: false
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -7287,7 +7160,6 @@ table:
     core-count: unknown
     core-enabled: unknown
     thread-count: unknown
-    socket-type: null
 - handle: 156
   type: 8
   length: 20
@@ -7310,7 +7182,7 @@ table:
   description: Port connector information
   attributes:
     internal-designator: J23
-    internal-connector: dil-25-pin
+    internal-connector: dil-25pin
     external-designator: Parallel
     external-connector: db-25-f
     port-type: parallel-ecp-epp
@@ -14373,8 +14245,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
+    array-addr: unknown
+    device-addr: unknown
     resolution: 8388608
 - handle: 298
   type: 19
@@ -14386,8 +14258,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 654336
-    range-size: 654336
+    end-addr: 655359
+    range-size: 655360
     array-handle: 168
     partition-width: 0
 - handle: 299
@@ -14400,8 +14272,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 1048576
-    end-addr: 268434432
-    range-size: 267385856
+    end-addr: 268435455
+    range-size: 267386880
     array-handle: 168
     partition-width: 0
 - handle: 300
@@ -14414,8 +14286,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 654336
-    range-size: 654336
+    end-addr: 655359
+    range-size: 655360
     device-handle: 169
     array-addr-handle: 298
     partition-pos: unknown
@@ -14431,8 +14303,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 1048576
-    end-addr: 268434432
-    range-size: 267385856
+    end-addr: 268435455
+    range-size: 267386880
     device-handle: 169
     array-addr-handle: 299
     partition-pos: unknown
@@ -14499,9 +14371,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 9223372036854775808
-    device-addr: 9223372036854775808
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 307
   type: 126
   length: 6

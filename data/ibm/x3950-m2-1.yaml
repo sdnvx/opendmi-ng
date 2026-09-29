@@ -528,7 +528,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -537,7 +537,6 @@ table:
     core-count: 4
     core-enabled: 4
     thread-count: 4
-    socket-type: null
 - handle: 163
   type: 4
   length: 92
@@ -606,7 +605,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -615,7 +614,6 @@ table:
     core-count: 4
     core-enabled: 4
     thread-count: 4
-    socket-type: null
 - handle: 164
   type: 4
   length: 92
@@ -684,7 +682,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -693,7 +691,6 @@ table:
     core-count: 4
     core-enabled: 4
     thread-count: 4
-    socket-type: null
 - handle: 165
   type: 4
   length: 92
@@ -762,7 +759,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -771,7 +768,6 @@ table:
     core-count: 4
     core-enabled: 4
     thread-count: 4
-    socket-type: null
 - handle: 194
   type: 8
   length: 24
@@ -2752,8 +2748,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 51539606528
-    range-size: 51539606528
+    end-addr: 51539607551
+    range-size: 51539607552
     array-handle: 369
     partition-width: 2
 - handle: 627
@@ -2768,7 +2764,7 @@ table:
 - handle: 628
   type: 38
   length: 20
-  level: '2.0'
+  level: '2.3'
   state:
   - decoded
   description: IPMI device information

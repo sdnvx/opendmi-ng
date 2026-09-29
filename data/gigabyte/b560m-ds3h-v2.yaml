@@ -1032,7 +1032,7 @@ table:
 - handle: 58
   type: 44
   length: 11
-  level: '2.0'
+  level: '3.3'
   state:
   - decoded
   - linked
@@ -1044,7 +1044,7 @@ table:
 - handle: 59
   type: 43
   length: 46
-  level: '2.0'
+  level: '3.1'
   state:
   - decoded
   description: TPM device
@@ -1087,8 +1087,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 51539606528
-    range-size: 51539606528
+    end-addr: 51539607551
+    range-size: 51539607552
     array-handle: 60
     partition-width: 4
 - handle: 66
@@ -1333,8 +1333,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 17179868160
-    range-size: 17179868160
+    end-addr: 17179869183
+    range-size: 17179869184
     device-handle: 66
     array-addr-handle: 65
     partition-pos: unknown
@@ -1350,8 +1350,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 34359738368
-    end-addr: 42949671936
-    range-size: 8589933568
+    end-addr: 42949672959
+    range-size: 8589934592
     device-handle: 67
     array-addr-handle: 65
     partition-pos: unknown
@@ -1367,8 +1367,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 17179869184
-    end-addr: 34359737344
-    range-size: 17179868160
+    end-addr: 34359738367
+    range-size: 17179869184
     device-handle: 68
     array-addr-handle: 65
     partition-pos: unknown
@@ -1384,8 +1384,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 42949672960
-    end-addr: 51539606528
-    range-size: 8589933568
+    end-addr: 51539607551
+    range-size: 8589934592
     device-handle: 69
     array-addr-handle: 65
     partition-pos: unknown
@@ -1677,7 +1677,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -1686,7 +1686,6 @@ table:
     core-count: 6
     core-enabled: 6
     thread-count: 12
-    socket-type: null
 - handle: 84
   type: 131
   length: 66

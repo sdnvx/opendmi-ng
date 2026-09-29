@@ -139,7 +139,7 @@ const dmi_name_set_t dmi_connector_type_names =
         },
         {
             .id   = DMI_CONNECTOR_TYPE_DIL_25PIN,
-            .code = "dil-25-pin",
+            .code = "dil-25pin",
             .name = "25-pin Dual Inline (pin 26 cut)"
         },
         {

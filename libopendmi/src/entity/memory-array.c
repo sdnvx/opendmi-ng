@@ -75,7 +75,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
             .code    = "error-correction",
             .name    = "Memory error correction",
             .unspec  = dmi_value_ptr(DMI_ERROR_CORRECT_TYPE_UNSPEC),
-            .unknown = dmi_value_ptr(DMI_ERROR_CORRECT_TYPE_UNSPEC),
+            .unknown = dmi_value_ptr(DMI_ERROR_CORRECT_TYPE_UNKNOWN),
             .values  = &dmi_error_correct_type_names
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, maximum_capacity, SIZE, {

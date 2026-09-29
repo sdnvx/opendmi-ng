@@ -369,7 +369,8 @@ const dmi_entity_spec_t dmi_processor_spec =
         }),
         DMI_ATTRIBUTE(dmi_processor_t, socket_type, STRING, {
             .code    = "socket-type",
-            .name    = "Socket type"
+            .name    = "Socket type",
+            .level   = DMI_VERSION(3, 8, 0)
         }),
         {}
     }),

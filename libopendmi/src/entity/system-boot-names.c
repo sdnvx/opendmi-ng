@@ -84,3 +84,8 @@ const dmi_name_set_t dmi_system_boot_status_names =
         {}
     })
 };
+
+const char *dmi_boot_status_name(dmi_boot_status_t value)
+{
+    return dmi_name_lookup(&dmi_system_boot_status_names, (int)value);
+}

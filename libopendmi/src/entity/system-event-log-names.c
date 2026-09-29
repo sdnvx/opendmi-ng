@@ -42,6 +42,15 @@ const dmi_name_set_t dmi_system_log_access_method_names =
             .name = "General-purpose non-volatile data functions"
         },
         {}
+    }),
+    .ranges = DMI_NAME_RANGES({
+        {
+            .start_id = DMI_SYSTEM_LOG_ACCESS_METHOD_OEM_START,
+            .end_id   = DMI_SYSTEM_LOG_ACCESS_METHOD_OEM_END,
+            .code     = "oem-specific",
+            .name     = "OEM-specific"
+        },
+        {}
     })
 };
 
@@ -285,3 +294,23 @@ const dmi_name_set_t dmi_event_log_data_format_names =
         {}
     })
 };
+
+const char *dmi_event_log_data_format_name(dmi_event_log_data_format_t value)
+{
+    return dmi_name_lookup(&dmi_event_log_data_format_names, (int)value);
+}
+
+const char *dmi_event_log_type_name(dmi_event_log_type_t value)
+{
+    return dmi_name_lookup(&dmi_event_log_type_names, (int)value);
+}
+
+const char *dmi_system_log_access_method_name(dmi_system_log_access_method_t value)
+{
+    return dmi_name_lookup(&dmi_system_log_access_method_names, (int)value);
+}
+
+const char *dmi_system_log_header_fmt_name(dmi_system_log_header_fmt_t value)
+{
+    return dmi_name_lookup(&dmi_system_log_header_format_names, (int)value);
+}

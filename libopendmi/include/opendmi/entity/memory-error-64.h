@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <opendmi/entity.h>
 #include <opendmi/entity/memory-error.h>
 
 typedef struct dmi_memory_error_64 dmi_memory_error_64_t;
@@ -63,8 +64,6 @@ struct dmi_memory_error_64
      */
     uint32_t resolution;
 };
-
-typedef struct dmi_memory_error_64_data dmi_memory_error_64_data_t;
 
 /**
  * @brief 64-bit memory error information entity specification.

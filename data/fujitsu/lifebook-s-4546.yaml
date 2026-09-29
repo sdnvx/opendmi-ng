@@ -183,7 +183,6 @@ table:
     l1-cache-handle: 7
     l2-cache-handle: 8
     l3-cache-handle: null
-    socket-type: null
 - handle: 5
   type: 5
   length: 20
@@ -788,8 +787,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 268434432
-    range-size: 268434432
+    end-addr: 268435455
+    range-size: 268435456
     array-handle: 32
     partition-width: 4
 - handle: 35
@@ -803,8 +802,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 268434432
-    range-size: 268434432
+    end-addr: 268435455
+    range-size: 268435456
     device-handle: 33
     array-addr-handle: 34
     partition-pos: 1

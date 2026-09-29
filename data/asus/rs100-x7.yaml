@@ -852,7 +852,7 @@ table:
 - handle: 45
   type: 38
   length: 20
-  level: '2.0'
+  level: '2.3'
   state:
   - decoded
   description: IPMI device information
@@ -1066,7 +1066,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: false
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: false
       enhanced-virtualization: false
       power-perf-control: false
@@ -1075,7 +1075,6 @@ table:
     core-count: 4
     core-enabled: 4
     thread-count: 8
-    socket-type: null
 - handle: 51
   type: 15
   length: 77
@@ -1245,8 +1244,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 8589933568
-    range-size: 8589933568
+    end-addr: 8589934591
+    range-size: 8589934592
     device-handle: 53
     array-addr-handle: 58
     partition-pos: unknown
@@ -1350,8 +1349,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 8589934592
-    end-addr: 17179868160
-    range-size: 8589933568
+    end-addr: 17179869183
+    range-size: 8589934592
     device-handle: 56
     array-addr-handle: 58
     partition-pos: unknown
@@ -1367,8 +1366,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 17179868160
-    range-size: 17179868160
+    end-addr: 17179869183
+    range-size: 17179869184
     array-handle: 49
     partition-width: 4
 - handle: 60

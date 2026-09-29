@@ -34,7 +34,7 @@ const dmi_name_set_t dmi_battery_chemistry_names =
         {
             .id   = DMI_BATTERY_CHEMISTRY_NI_MH,
             .code = "ni-mh",
-            .name = "Nickel metal hyrdide"
+            .name = "Nickel metal hydride"
         },
         {
             .id   = DMI_BATTERY_CHEMISTRY_LI_ION,

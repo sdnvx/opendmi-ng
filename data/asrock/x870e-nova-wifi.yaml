@@ -175,7 +175,7 @@ table:
 - handle: 8
   type: 44
   length: 11
-  level: '2.0'
+  level: '3.3'
   state:
   - decoded
   - linked
@@ -187,7 +187,7 @@ table:
 - handle: 9
   type: 43
   length: 44
-  level: '2.0'
+  level: '3.1'
   state:
   - decoded
   description: TPM device
@@ -382,7 +382,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -391,11 +391,10 @@ table:
     core-count: 16
     core-enabled: 16
     thread-count: 32
-    socket-type: null
 - handle: 14
   type: 44
   length: 11
-  level: '2.0'
+  level: '3.3'
   state:
   - decoded
   - linked
@@ -416,9 +415,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 16
   type: 16
   length: 25
@@ -444,8 +443,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 137438952448
-    range-size: 137438952448
+    end-addr: 137438953471
+    range-size: 137438953472
     array-handle: 16
     partition-width: 2
 - handle: 18
@@ -460,9 +459,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 19
   type: 17
   length: 145
@@ -533,9 +532,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 21
   type: 17
   length: 169
@@ -604,8 +603,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 68719475712
-    range-size: 68719475712
+    end-addr: 68719476735
+    range-size: 68719476736
     device-handle: 21
     array-addr-handle: 17
     partition-pos: unknown
@@ -623,9 +622,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 24
   type: 17
   length: 145
@@ -696,9 +695,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 26
   type: 17
   length: 169
@@ -767,8 +766,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 68719476736
-    end-addr: 137438952448
-    range-size: 68719475712
+    end-addr: 137438953471
+    range-size: 68719476736
     device-handle: 26
     array-addr-handle: 17
     partition-pos: unknown

@@ -33,7 +33,7 @@ typedef union dmi_cache_sram_type {
         dmi_word_t non_burst      : 1;
         dmi_word_t burst          : 1;
         dmi_word_t pipeline_burst : 1;
-        dmi_word_t synchonous     : 1;
+        dmi_word_t synchronous    : 1;
         dmi_word_t asynchronous   : 1;
     };
 } dmi_cache_sram_type_t;
@@ -67,8 +67,8 @@ Burst SRAM.
 `pipeline_burst`::
 Pipeline burst SRAM.
 
-`synchonous`::
-Synchronous SRAM. The name of the member lacks an "r".
+`synchronous`::
+Synchronous SRAM.
 
 `asynchronous`::
 Asynchronous SRAM.

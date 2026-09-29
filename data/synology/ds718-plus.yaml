@@ -200,7 +200,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: false
+      hardware-thread: false
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -209,7 +209,6 @@ table:
     core-count: 4
     core-enabled: 4
     thread-count: 4
-    socket-type: null
 - handle: 5
   type: 7
   length: 29
@@ -922,8 +921,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 6442449920
-    range-size: 6442449920
+    end-addr: 6442450943
+    range-size: 6442450944
     array-handle: 35
     partition-width: 4
 - handle: 39
@@ -936,8 +935,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 2147482624
-    range-size: 2147482624
+    end-addr: 2147483647
+    range-size: 2147483648
     device-handle: 36
     array-addr-handle: 38
     partition-pos: unknown
@@ -953,8 +952,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 4294966272
-    range-size: 4294966272
+    end-addr: 4294967295
+    range-size: 4294967296
     device-handle: 37
     array-addr-handle: 38
     partition-pos: unknown

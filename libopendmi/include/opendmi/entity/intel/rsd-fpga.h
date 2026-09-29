@@ -216,4 +216,73 @@ struct dmi_intel_rsd_fpga
  */
 extern __dmi_api const dmi_entity_spec_t dmi_intel_rsd_fpga_spec;
 
+__BEGIN_DECLS
+
+/**
+ * @brief Get Intel RSD FPGA HPS instruction set architecture name.
+ *
+ * Returns the name of the Intel RSD FPGA HPS instruction set architecture, as
+ * the command line tool shows it, translated into the locale when the library
+ * is built with the translations.
+ *
+ * @param[in] value Intel RSD FPGA HPS instruction set architecture value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_intel_rsd_fpga_hps_isa_name(dmi_intel_rsd_fpga_hps_isa_t value);
+
+/**
+ * @brief Get Intel RSD FPGA HSSI configuration name.
+ *
+ * Returns the name of the Intel RSD FPGA HSSI configuration, as the command
+ * line tool shows it, translated into the locale when the library is built
+ * with the translations.
+ *
+ * @param[in] value Intel RSD FPGA HSSI configuration value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_intel_rsd_fpga_hssi_config_name(dmi_intel_rsd_fpga_hssi_config_t value);
+
+/**
+ * @brief Get Intel RSD FPGA memory technology name.
+ *
+ * Returns the name of the Intel RSD FPGA memory technology, as the command
+ * line tool shows it, translated into the locale when the library is built
+ * with the translations.
+ *
+ * @param[in] value Intel RSD FPGA memory technology value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_intel_rsd_fpga_memory_tech_name(dmi_intel_rsd_fpga_memory_tech_t value);
+
+/**
+ * @brief Get Intel RSD FPGA status name.
+ *
+ * Returns the name of the Intel RSD FPGA status, as the command line tool
+ * shows it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Intel RSD FPGA status value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_intel_rsd_fpga_status_name(dmi_intel_rsd_fpga_status_t value);
+
+/**
+ * @brief Get Intel RSD FPGA type name.
+ *
+ * Returns the name of the Intel RSD FPGA type, as the command line tool shows
+ * it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value Intel RSD FPGA type value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_intel_rsd_fpga_type_name(dmi_intel_rsd_fpga_type_t value);
+
+__END_DECLS
+
 #endif // !DMI_ENTITY_INTEL_RSD_FPGA_H

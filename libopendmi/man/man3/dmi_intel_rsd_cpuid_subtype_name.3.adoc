@@ -1,0 +1,1 @@
+dmi_intel_rsd_cpuid_subtype.3.adoc

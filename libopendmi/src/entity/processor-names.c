@@ -1105,7 +1105,7 @@ const dmi_name_set_t dmi_processor_family_names =
             .name = "ARM"
         },
         {
-            .id   = DMI_PROCESSOR_FAMILT_STRONGARM,
+            .id   = DMI_PROCESSOR_FAMILY_STRONGARM,
             .code = "strongarm",
             .name = "StrongARM"
         },
@@ -1764,6 +1764,11 @@ const dmi_name_set_t dmi_processor_upgrade_names =
             .code = "socket-bga2833",
             .name = "Socket BGA2833"
         },
+        {
+            .id   = DMI_PROCESSOR_UPGRADE_SEE_SOCKET_TYPE,
+            .code = "see-socket-type",
+            .name = "See socket type"
+        },
         {}
     })
 };
@@ -1785,7 +1790,7 @@ const dmi_name_set_t dmi_processor_features_names =
         },
         {
             .id   = 4,
-            .code = "hardware_thread",
+            .code = "hardware-thread",
             .name = "Hardware Thread"
         },
         {

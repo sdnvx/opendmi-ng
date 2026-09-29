@@ -55,7 +55,7 @@ struct dmi_intel_rsd_cabled_pcie
      * @brief Number of cable indices and corresponding PCIe lane ranges
      * available within this Cable Port.
      */
-    unsigned port_count;
+    size_t port_count;
 
     /**
      * @brief Cable indices properties, an array of `port_count` elements.

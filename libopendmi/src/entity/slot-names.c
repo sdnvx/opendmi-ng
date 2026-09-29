@@ -59,7 +59,7 @@ const dmi_name_set_t dmi_slot_type_names =
         {
             .id   = DMI_SLOT_TYPE_MEMORY_CARD,
             .code = "memory-card",
-            .name = "Memory card slot"
+            .name = "Proprietary memory card slot"
         },
         {
             .id   = DMI_SLOT_TYPE_IO_RISER_CARD,
@@ -202,7 +202,7 @@ const dmi_name_set_t dmi_slot_type_names =
             .name = "OCP NIC 3.0 Large Form Factor (LFF)"
         },
         {
-            .id   = DMI_SLOT_TYPP_OCP_NIC_LEGACY,
+            .id   = DMI_SLOT_TYPE_OCP_NIC_LEGACY,
             .code = "ocp-nic-legacy",
             .name = "OCP NIC prior to 3.0"
         },

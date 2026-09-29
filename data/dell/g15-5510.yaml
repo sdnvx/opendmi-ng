@@ -360,7 +360,7 @@ table:
       unknown: false
       capable-64bit: true
       multicore: true
-      hardware_thread: true
+      hardware-thread: true
       execute-protection: true
       enhanced-virtualization: true
       power-perf-control: true
@@ -369,7 +369,6 @@ table:
     core-count: 6
     core-enabled: 6
     thread-count: 12
-    socket-type: null
 - handle: 1792
   type: 7
   length: 37
@@ -1002,8 +1001,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 17179868160
-    range-size: 17179868160
+    end-addr: 17179869183
+    range-size: 17179869184
     array-handle: 4096
     partition-width: 2
 - handle: 5376

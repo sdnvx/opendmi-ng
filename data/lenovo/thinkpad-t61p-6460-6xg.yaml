@@ -215,7 +215,6 @@ table:
     serial-number: null
     asset-tag: null
     part-number: null
-    socket-type: null
 - handle: 7
   type: 5
   length: 22
@@ -1017,9 +1016,9 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: 2147483648
-    device-addr: 2147483648
-    resolution: 2147483648
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
 - handle: 47
   type: 19
   length: 17
@@ -1031,8 +1030,8 @@ table:
   description: Memory array mapped address
   attributes:
     start-addr: 0
-    end-addr: 2147482624
-    range-size: 2147482624
+    end-addr: 2147483647
+    range-size: 2147483648
     array-handle: 43
     partition-width: 2
 - handle: 48
@@ -1046,8 +1045,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 0
-    end-addr: 1073740800
-    range-size: 1073740800
+    end-addr: 1073741823
+    range-size: 1073741824
     device-handle: 44
     array-addr-handle: 47
     partition-pos: 1
@@ -1064,8 +1063,8 @@ table:
   description: Memory device mapped address
   attributes:
     start-addr: 1073741824
-    end-addr: 2147482624
-    range-size: 1073740800
+    end-addr: 2147483647
+    range-size: 1073741824
     device-handle: 45
     array-addr-handle: 47
     partition-pos: 1

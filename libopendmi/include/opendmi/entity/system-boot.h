@@ -67,4 +67,21 @@ struct dmi_system_boot
  */
 extern __dmi_api const dmi_entity_spec_t dmi_system_boot_spec;
 
+__BEGIN_DECLS
+
+/**
+ * @brief Get system boot status name.
+ *
+ * Returns the name of the system boot status, as the command line tool shows
+ * it, translated into the locale when the library is built with the
+ * translations.
+ *
+ * @param[in] value System boot status value.
+ *
+ * @return The name of the value, or @c nullptr if @p value has no name.
+ */
+__dmi_api const char *dmi_boot_status_name(dmi_boot_status_t value);
+
+__END_DECLS
+
 #endif // !OPENDMI_ENTITY_SYSTEM_BOOT_H
