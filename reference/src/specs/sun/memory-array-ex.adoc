@@ -56,4 +56,8 @@ component and the PCI address of the memory controller.
 |===
 
 Bus, device and function numbers are packed as in PCI routing IDs: bus number
-in bits 15:8, device number in bits 7:3, function number in bits 2:0.
+in bits 15:8, device number in bits 7:3, function number in bits 2:0. The
+structure definition leaves the packing out, and it is known from how illumos
+uses the field: the `x86pi` topology module matches it against the bits 23:8
+of the `reg` property of PCI devices, see `x86pi_bdf` in
+`usr/src/lib/fm/topo/modules/i86pc/x86pi/x86pi_subr.c`.
