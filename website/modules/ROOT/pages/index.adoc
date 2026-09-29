@@ -1,0 +1,32 @@
+= OpenDMI
+:navtitle: Home
+:page-role: home
+
+image::opendmi-logo.svg[OpenDMI: desktop management interface,role=opendmi-hero]
+
+OpenDMI reads DMI/SMBIOS data and gives it back as structured data instead of
+text to parse: a C library, command line tools, machine-readable output and
+bindings for Go, Python and Rust. Every field has a code, a type and a unit, so
+the same data reads the same way in the terminal, in JSON and through the API.
+
+== Reference manual
+
+The xref:reference:index.adoc[reference manual] covers OpenDMI as a whole, and
+is available as a xref:reference:attachment$opendmi-reference.pdf[PDF] too:
+
+xref:reference:intro/index.adoc[Introduction]::
+What OpenDMI is, what DMI/SMBIOS data is made of, and how to read the manual.
+
+xref:reference:start/index.adoc[Getting started]::
+Building OpenDMI from sources, and the first steps with the tool and the
+library.
+
+xref:reference:cli/index.adoc[Command line tool]::
+The `opendmi` tool and its commands.
+
+xref:reference:api/c/index.adoc[C library]::
+Functions of the `libopendmi` library, grouped by the headers declaring them.
+
+xref:reference:specs/index.adoc[Specifications]::
+Layout of the structures OpenDMI decodes, field by field, including the ones
+the vendors define.

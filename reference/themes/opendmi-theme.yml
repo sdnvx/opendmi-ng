@@ -2,33 +2,115 @@ extends: default
 font:
   catalog:
     IBM Plex Serif:
-      normal: ibm-plex-serif/IBMPlexSerif-Regular.otf
-      bold: ibm-plex-serif/IBMPlexSerif-SemiBold.otf
-      italic: ibm-plex-serif/IBMPlexSerif-Italic.otf
-      bold_italic: ibm-plex-serif/IBMPlexSerif-SemiBoldItalic.otf
+      normal: ibm-plex-serif/IBMPlexSerif-Regular.ttf
+      bold: ibm-plex-serif/IBMPlexSerif-SemiBold.ttf
+      italic: ibm-plex-serif/IBMPlexSerif-Italic.ttf
+      bold_italic: ibm-plex-serif/IBMPlexSerif-SemiBoldItalic.ttf
     IBM Plex Sans:
-      normal: ibm-plex-sans/IBMPlexSans-Regular.otf
-      bold: ibm-plex-sans/IBMPlexSans-SemiBold.otf
-      italic: ibm-plex-sans/IBMPlexSans-Italic.otf
-      bold_italic: ibm-plex-sans/IBMPlexSans-SemiBoldItalic.otf
+      normal: ibm-plex-sans/IBMPlexSans-Regular.ttf
+      bold: ibm-plex-sans/IBMPlexSans-SemiBold.ttf
+      italic: ibm-plex-sans/IBMPlexSans-Italic.ttf
+      bold_italic: ibm-plex-sans/IBMPlexSans-SemiBoldItalic.ttf
     IBM Plex Mono:
-      normal: ibm-plex-mono/IBMPlexMono-Regular.otf
-      bold: ibm-plex-mono/IBMPlexMono-SemiBold.otf
-      italic: ibm-plex-mono/IBMPlexMono-Italic.otf
-      bold_italic: ibm-plex-mono/IBMPlexMono-SemiBoldItalic.otf
+      normal: ibm-plex-mono/IBMPlexMono-Regular.ttf
+      bold: ibm-plex-mono/IBMPlexMono-SemiBold.ttf
+      italic: ibm-plex-mono/IBMPlexMono-Italic.ttf
+      bold_italic: ibm-plex-mono/IBMPlexMono-SemiBoldItalic.ttf
+# Colors of the logo, which the site is painted in as well. The default theme
+# resolves the colors it derives from one another before they are overridden,
+# so each of them is given here
 base:
   font-family: IBM Plex Serif
   font-size: 10
+  font-color: 1B2729
+  border-color: D5E3DE
+# Headings are set in the sans variant of the family, the way the site sets
+# them, except for the titles of the parts, which are the only headings of the
+# first level in the book, and open the parts in the serif variant
+heading:
+  font-family: IBM Plex Sans
+  font-color: 0F1A1C
+  h1-font-family: IBM Plex Serif
+  h1-font-size: 34
+  # Parts open on pages of their own, laid out by the converter of the manual:
+  # the label is the signifier and the number of the part, which go above its
+  # name, and the stripes of the logo go below the name
+  part:
+    label:
+      font-family: IBM Plex Sans
+      font-style: bold
+      font-size: 11
+      font-color: 147A8C
+      text-transform: uppercase
+      character-spacing: 1.5
+    stripes:
+      margin-top: 18
+link:
+  font-color: 147A8C
 # Size of the code blocks is derived from the base font size in the default
 # theme, and is fixed there before the base size is overridden. Plex Mono has
 # the same x-height as Plex Serif, so the same size makes them look even
 code:
   font-family: IBM Plex Mono
   font-size: $base-font-size
+  font-color: 1B2729
+  background-color: F2F7F5
+  border-color: D5E3DE
+# Monospaced text is told from the links by its background rather than by its
+# color, the way it is on the site
 codespan:
   font-family: $code-font-family
+  font-color: 0F1A1C
+  background-color: EAF2EE
+  border-offset: 1.25
+  border-radius: 2
+conum:
+  font-color: 0F5470
+kbd:
+  background-color: F2F7F5
+  border-color: D5E3DE
+menu:
+  caret-content: " <font size=\"1.15em\" color=\"#1FA0A3\">\u203a</font> "
+admonition:
+  column-rule-color: 1FA0A3
+  label:
+    font-color: 0F1A1C
+quote:
+  border-color: 1FA0A3
+verse:
+  border-color: 1FA0A3
+example:
+  border-color: D5E3DE
+sidebar:
+  background-color: E3EEEA
+  border-color: D5E3DE
+  title:
+    font-family: IBM Plex Sans
+    font-color: 0F1A1C
+thematic-break:
+  border-color: D5E3DE
+table:
+  border-color: D5E3DE
+  head:
+    background-color: E3EEEA
+  body:
+    stripe-background-color: F2F7F5
+  foot:
+    background-color: E3EEEA
+toc:
+  dot-leader:
+    font-color: 9FB5B0
+footer:
+  border-color: D5E3DE
+  font-color: 56686A
 page:
   size: A4
+  # Pages are numbered from the first part on, after the title page, the
+  # legal notice and the contents
+  numbering:
+    start-at: after-toc
+running-content:
+  start-at: after-toc
 # Title page has no place of its own for the copyright, and the authors are
 # the only part of it the theme gives the content of. The revision is written
 # there too, so that the copyright goes last, the way it does on the title
@@ -37,10 +119,36 @@ page:
 # notice is kept on a single line of its own, breaking inside the smaller
 # text, and goes as a whole rather than leaving half of the markup behind
 title-page:
+  background-color: 0F1A1C
+  text-align: center
+  font-color: EAF2EE
+  # Page is painted in the background of the logo, so the logo goes without
+  # one of its own, and without the tagline, which the title below it takes
+  # the place of
+  logo:
+    image: image:../../common/opendmi-logo-square-compact.svg[pdfwidth=60%]
+    top: 20%
+    align: center
+  # Title of the book is the name the logo carries, and the subtitle is what
+  # the book is
+  title:
+    display: none
+    top: 63%
+  subtitle:
+    font-family: IBM Plex Sans
+    font-color: EAF2EE
+    font-size: 22
+    font-style: bold_italic
   authors:
+    font-family: IBM Plex Sans
+    font-color: A9C4BE
+    margin-top: 28
     content: "{author} +\n{version-label} {revnumber}, {revdate} +\n +\n[.copyright]#Copyright {copyright}.pass:[<br>]Free use of this software is granted under the terms of the BSD 3-Clause License.#"
   revision:
     display: none
 role:
+  legal:
+    font-size: 8
   copyright:
     font-size: 8
+    font-color: 7F9994

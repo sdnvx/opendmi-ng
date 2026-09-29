@@ -1,0 +1,27 @@
+#
+# OpenDMI: Cross-platform DMI/SMBIOS framework
+# Copyright (c) 2025-2026, The OpenDMI contributors
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+name: opendmi
+title: OpenDMI
+version: ~
+
+# Pages of the project go around the reference manual: the ones a visitor
+# looks for first above it, and the ones about the project itself below it
+nav:
+- modules/ROOT/nav.adoc
+- modules/reference/nav.adoc
+- modules/ROOT/nav-end.adoc
+
+# Reference manual keeps the layout of the book the PDF is built from, and
+# includes the manual pages from next to the sources they describe, so it is
+# imported into the component while the site is built rather than kept here.
+# So are the attributes of the component, which follow the build
+ext:
+  collector:
+    run:
+      command: node website/collect.js
+    scan:
+      dir: website/build/collect

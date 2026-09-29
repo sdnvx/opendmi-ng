@@ -120,6 +120,7 @@ _usage() {
     echo "        --enable-rust      Build with Rust support (libopendmi-rust, default=${ENABLE_RUST})"
     echo "        --enable-dbus      Build with D-bus support (opendmi-dbus, default=${ENABLE_DBUS})"
     echo "        --enable-sysfs     Build with SysFS support (opendmi-sysfs, default=${ENABLE_SYSFS})"
+    echo "        --enable-website   Build project website (website, default=${ENABLE_WEBSITE})"
     echo "    Features:"
     echo "        --with-asan        Build with AddressSanitizer (debug builds, default=${ENABLE_ASAN})"
     echo "        --without-asan     Build without AddressSanitizer"
@@ -191,6 +192,9 @@ _configure() {
                 ;;
             --enable-sysfs)
                 ENABLE_SYSFS=ON
+                ;;
+            --enable-website)
+                ENABLE_WEBSITE=ON
                 ;;
             --with-asan)
                 ENABLE_ASAN=ON
@@ -267,6 +271,7 @@ _configure() {
         -DENABLE_RUST=${ENABLE_RUST} \
         -DENABLE_DBUS=${ENABLE_DBUS} \
         -DENABLE_SYSFS=${ENABLE_SYSFS} \
+        -DENABLE_WEBSITE=${ENABLE_WEBSITE} \
         ${FEATURES}
 }
 

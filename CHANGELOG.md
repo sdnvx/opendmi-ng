@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add SysFS module skeleton
 - Include the manual pages of the tool and the library into the reference manual
 - Add Getting started part to the reference manual
+- Add legal notice to the reference manual
+- Add project website built from the reference manual and published on GitHub Pages
+- Describe the errors every function of the library raises in its manual page
+- Add manual pages for `dmi_destroy()`, `dmi_set_logger()` and `dmi_log_message()`
+- Complete the manual pages which held nothing but the synopsis
 - Add Boot Integrity Services (BIS) entry point information decoder
 - Add processor additional information decoder
 - Add tests for BIS entry point, system boot, system event log, TPM device and management device threshold decoders
@@ -111,6 +116,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix text of the reference manual garbled in PDF viewers based on poppler
+- Fix code in the reference manual set larger than the text around it
 - Fix broken escape sequence printed for the text of no color of its own, which leaked into the output of the `lint` command
 - Fix `dmi_reader_seek()` rejecting the end of the range, which kept a decoder from being set up over a structure of nothing but its header
 - Fix `--pretty` option of the `export` command having no effect on any output format

@@ -1,0 +1,103 @@
+name: Website
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "website/**"
+      - "reference/**"
+      - "libopendmi/man/**"
+      - "opendmi/man/**"
+      - "CHANGELOG.md"
+      - "CMakeLists.txt"
+      - ".github/workflows/website.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "website/**"
+      - "reference/**"
+      - "libopendmi/man/**"
+      - "opendmi/man/**"
+      - "CHANGELOG.md"
+      - "CMakeLists.txt"
+      - ".github/workflows/website.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Deployments go one after another, and the one in progress is finished rather
+# than cancelled, so that the site is never left half published
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    # Address of the site is read from the settings of GitHub Pages
+    permissions:
+      contents: read
+      pages: read
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: npm
+        cache-dependency-path: website/package-lock.json
+
+    # Site offers the reference manual as a PDF, which is built along with it
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "3.3"
+
+    - name: Install AsciiDoctor PDF
+      run: gem install --no-document asciidoctor-pdf --version 2.3.15
+
+    - name: Install Antora
+      working-directory: website
+      run: npm ci
+
+    # Pull requests only check that the site builds, and are not published
+    - name: Configure GitHub Pages
+      id: pages
+      if: github.event_name != 'pull_request'
+      uses: actions/configure-pages@v5
+
+    # Address of the site gives the canonical links, the sitemap and the page
+    # of the missing pages, which the site is built without when it is unknown
+    - name: Build website
+      working-directory: website
+      env:
+        SITE_URL: ${{ steps.pages.outputs.base_url }}
+      run: npx antora ${SITE_URL:+--url "$SITE_URL"} antora-playbook.yml
+
+    - name: Upload website
+      if: github.event_name != 'pull_request'
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: website/build/site
+
+  deploy:
+    name: deploy
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

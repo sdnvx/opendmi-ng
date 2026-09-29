@@ -1,0 +1,39 @@
+/* OpenDMI logo */
+.opendmi-logo {
+  /* Change these to restyle the logo */
+  --opendmi-logo-height: 40px;      /* overall height; width scales automatically */
+  --opendmi-logo-ink: #EAF2EE;      /* "open", "DMI" and the tagline */
+  --opendmi-logo-band-1: #9FE3D4;
+  --opendmi-logo-band-2: #4FC4B8;
+  --opendmi-logo-band-3: #1FA0A3;
+  --opendmi-logo-band-4: #147A8C;
+  --opendmi-logo-band-5: #0F5470;
+
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  text-decoration: none;
+}
+
+.opendmi-logo__svg {
+  display: block;
+  height: var(--opendmi-logo-height);
+  width: auto;
+}
+
+.opendmi-logo__ink { fill: var(--opendmi-logo-ink); }
+.opendmi-logo__band--1 { fill: var(--opendmi-logo-band-1); }
+.opendmi-logo__band--2 { fill: var(--opendmi-logo-band-2); }
+.opendmi-logo__band--3 { fill: var(--opendmi-logo-band-3); }
+.opendmi-logo__band--4 { fill: var(--opendmi-logo-band-4); }
+.opendmi-logo__band--5 { fill: var(--opendmi-logo-band-5); }
+
+/* Slightly smaller logo on narrow screens */
+@media (max-width: 480px) {
+  .opendmi-logo { --opendmi-logo-height: 32px; }
+}
+
+/* Light theme variant: add class "opendmi-logo--light" to the <a> */
+.opendmi-logo--light {
+  --opendmi-logo-ink: #0F1A1C;
+}

@@ -1,0 +1,35 @@
+= Download
+include::partial$release.adoc[]
+
+== Latest release
+
+OpenDMI {latest-release-version} was released on {latest-release-date}.
+
+* link:{url-repo}/releases/tag/v{latest-release-version}[Release notes and sources of OpenDMI {latest-release-version}]
+* link:{url-repo}/releases[All releases]
+
+OpenDMI is built from the sources, see
+xref:reference:start/building.adoc[Building from sources].
+
+== Packages
+
+There are no packages of OpenDMI yet. Packages for the major Linux
+distributions are planned for the 1.0 release.
+
+== Development version
+
+The development version is taken from the repository:
+
+[source,shell,subs="+attributes"]
+----
+$ git clone {url-repo}.git
+----
+
+The documentation on this site describes the development version, which has
+changes the latest release does not have yet.
+
+== Reference manual
+
+The xref:reference:index.adoc[reference manual] is available as a
+xref:reference:attachment$opendmi-reference.pdf[PDF] too, for the development
+version.

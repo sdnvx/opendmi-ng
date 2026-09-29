@@ -3,11 +3,25 @@ The OpenDMI contributors
 Version {release-version}, {docdate}
 :doctype: book
 :copyright: © 2025-2026, The OpenDMI contributors
-:toc: auto
+:toc: macro
 :toc-title: Contents
 :partnums:
 :part-signifier: Part
 :sectnums:
+
+// Legal notice goes on a page of its own after the title page, without a
+// heading and in a smaller type at the foot of the page, the way books carry
+// it, so the contents are placed after it rather than right after the title
+// page. The notice is the license the sources carry, with the copyright line
+// of the book, whose sign the license spells out in letters
+[.legal]
+--
+Copyright {copyright}
+
+include::../../LICENSE.md[lines=5..28]
+--
+
+toc::[]
 
 include::intro/index.adoc[]
 include::start/index.adoc[]

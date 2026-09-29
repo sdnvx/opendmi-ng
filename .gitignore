@@ -20,3 +20,4 @@ Testing
 _CPack_Packages
 *.tar.gz
 .cache
+node_modules

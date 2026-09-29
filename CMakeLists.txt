@@ -36,6 +36,7 @@ set(ENABLE_PYTHON OFF CACHE BOOL "Enable Python support (libopendmi-python)")
 set(ENABLE_RUST OFF CACHE BOOL "Enable Rust support (libopendmi-rust)")
 set(ENABLE_DBUS OFF CACHE BOOL "Enable D-bus support (opendmi-dbus)")
 set(ENABLE_SYSFS OFF CACHE BOOL "Enable SysFS support (opendmi-sysfs)")
+set(ENABLE_WEBSITE OFF CACHE BOOL "Build project website (website)")
 
 set(ENABLE_ASAN AUTO CACHE BOOL "Build debug binaries with AddressSanitizer")
 
@@ -180,6 +181,13 @@ if(LINUX AND ENABLE_SYSFS)
     add_subdirectory(opendmi-sysfs)
 else()
     message(STATUS "SysFS support is disabled")
+endif()
+
+if(ENABLE_WEBSITE)
+    message(STATUS "Website generation is enabled")
+    add_subdirectory(website)
+else()
+    message(STATUS "Website generation is disabled")
 endif()
 
 include(CPack)
