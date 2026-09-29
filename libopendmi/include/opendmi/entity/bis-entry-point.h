@@ -32,6 +32,9 @@ struct dmi_bis_real_mode_address
 
 /**
  * @brief Boot Integrity Services (BIS) entry point structure (type 31).
+ *
+ * Gives the entry points of the Boot Integrity Services, which the BIS API
+ * specification defines.
  */
 struct dmi_bis_entry_point
 {

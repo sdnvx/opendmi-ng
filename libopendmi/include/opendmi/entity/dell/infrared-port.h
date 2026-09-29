@@ -18,12 +18,12 @@ typedef struct dmi_dell_infrared_port dmi_dell_infrared_port_t;
  * @brief Dell infrared port protocols.
  */
 typedef enum dmi_dell_infrared_proto {
-    DMI_DELL_INFRARED_PROTO_UNSPEC  = 0x00,
-    DMI_DELL_INFRARED_PROTO_OTHER   = 0x01,
-    DMI_DELL_INFRARED_PROTO_UNKNOWN = 0x02,
-    DMI_DELL_INFRARED_PROTO_SIR     = 0x03,
-    DMI_DELL_INFRARED_PROTO_FIR     = 0x04,
-    DMI_DELL_INFRARED_PROTO_MIR     = 0x05,
+    DMI_DELL_INFRARED_PROTO_UNSPEC  = 0x00, ///< Unspecified
+    DMI_DELL_INFRARED_PROTO_OTHER   = 0x01, ///< Other
+    DMI_DELL_INFRARED_PROTO_UNKNOWN = 0x02, ///< Unknown
+    DMI_DELL_INFRARED_PROTO_SIR     = 0x03, ///< SIR (Standard IR)
+    DMI_DELL_INFRARED_PROTO_FIR     = 0x04, ///< FIR (Fast IR)
+    DMI_DELL_INFRARED_PROTO_MIR     = 0x05, ///< MIR (Medium Speed IR)
 } dmi_dell_infrared_proto_t;
 
 /**
@@ -47,7 +47,7 @@ struct dmi_dell_infrared_port
     dmi_dell_enable_state_t speed_limit_state;
 
     /**
-     * @brief Speed limit.
+     * @brief Speed limit, in bits per second.
      */
     uint32_t speed_limit;
 

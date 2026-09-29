@@ -24,10 +24,14 @@ typedef enum dmi_hardware_security_status
     DMI_HARDWARE_SECURITY_STATUS_UNKNOWN         = 0x03, ///< Unknown
 } dmi_hardware_security_status_t;
 
+/**
+ * @brief Hardware security structure (type 24).
+ * @since SMBIOS 2.2
+ */
 struct dmi_hardware_security
 {
         /**
-         * @brief front panel reset status.
+         * @brief Front panel reset status.
          */
         dmi_hardware_security_status_t front_panel_reset;
 

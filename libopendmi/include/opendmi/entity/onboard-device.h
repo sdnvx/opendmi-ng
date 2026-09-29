@@ -39,6 +39,9 @@ typedef enum dmi_onboard_device_type
     __DMI_ONBOARD_DEVICE_TYPE_COUNT
 } dmi_onboard_device_type_t;
 
+/**
+ * @brief Onboard device of the onboard devices information structure.
+ */
 struct dmi_onboard_device_instance
 {
     /**
@@ -58,7 +61,7 @@ struct dmi_onboard_device_instance
 };
 
 /**
- * @brief Onboard devices information structure (type 10, obsolette).
+ * @brief Onboard devices information structure (type 10, obsolete).
  *
  * The information in this structure defines the attributes of devices that are
  * onboard (soldered onto) a system element, usually the baseboard. In general,
@@ -81,7 +84,7 @@ struct dmi_onboard_device
     size_t instance_count;
 
     /**
-     * @brief Device instances.
+     * @brief Device instances, an array of `instance_count` elements.
      */
     dmi_onboard_device_instance_t *instances;
 };

@@ -24,7 +24,7 @@ typedef enum dmi_battery_chemistry
     DMI_BATTERY_CHEMISTRY_UNKNOWN   = 0x02, ///< Unknown
     DMI_BATTERY_CHEMISTRY_LEAD_ACID = 0x03, ///< Lead acid
     DMI_BATTERY_CHEMISTRY_NI_CD     = 0x04, ///< Nickel cadmium
-    DMI_BATTERY_CHEMISTRY_NI_MH     = 0x05, ///< Nickel metal hyrdide
+    DMI_BATTERY_CHEMISTRY_NI_MH     = 0x05, ///< Nickel metal hydride
     DMI_BATTERY_CHEMISTRY_LI_ION    = 0x06, ///< Lithium-ion
     DMI_BATTERY_CHEMISTRY_ZN_AIR    = 0x07, ///< Zinc air
     DMI_BATTERY_CHEMISTRY_LI_PO     = 0x08, ///< Lithium polymer
@@ -32,7 +32,7 @@ typedef enum dmi_battery_chemistry
 } dmi_battery_chemistry_t;
 
 /**
- * @brief Portable battery structure.
+ * @brief Portable battery structure (type 22).
  *
  * This structure describes the attributes of the portable battery or batteries
  * for the system. The structure contains the static attributes for the group.
@@ -67,8 +67,8 @@ struct dmi_battery
     const char *manufacture_date_string;
 
     /**
-     * @brief Number of the string that contains the serial number for the
-     * battery.
+     * @brief Serial number of the battery. Smart batteries carry none, and
+     * give it in `sbds_serial_number` instead.
      */
     const char *serial_number;
 

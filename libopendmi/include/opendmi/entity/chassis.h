@@ -12,8 +12,15 @@
 #include <opendmi/entity/common.h>
 #include <opendmi/entity/baseboard.h>
 
-typedef struct dmi_chassis           dmi_chassis_t;
-typedef struct dmi_chassis_element   dmi_chassis_element_t;
+#ifndef DMI_CHASSIS_T
+#   define DMI_CHASSIS_T
+    typedef struct dmi_chassis           dmi_chassis_t;
+#endif // !DMI_CHASSIS_T
+
+#ifndef DMI_CHASSIS_ELEMENT_T
+#   define DMI_CHASSIS_ELEMENT_T
+    typedef struct dmi_chassis_element   dmi_chassis_element_t;
+#endif // !DMI_CHASSIS_ELEMENT_T
 
 /**
  * @brief System enclosure or chassis types.
@@ -60,6 +67,9 @@ typedef enum dmi_chassis_type
     __DMI_CHASSIS_TYPE_COUNT
 } dmi_chassis_type_t;
 
+/**
+ * @brief Physical security statuses of system enclosures or chassis.
+ */
 typedef enum dmi_chassis_security_status
 {
     DMI_CHASSIS_SECURITY_STATUS_UNSPEC         = 0x00, ///< Unspecified
@@ -71,13 +81,23 @@ typedef enum dmi_chassis_security_status
     __DMI_CHASSIS_SECURITY_STATUS_COUNT
 } dmi_chassis_security_status_t;
 
+/**
+ * @brief Rack types, which give the unit of the rack height of a chassis.
+ */
 typedef enum dmi_rack_type
 {
     DMI_RACK_TYPE_UNSPEC = 0x00, ///< Unspecified
-    DMI_RACK_TYPE_OPEN   = 0x01, ///< Open Rack,
+    DMI_RACK_TYPE_OPEN   = 0x01, ///< Open Rack, height in OU
     __DMI_RACK_TYPE_COUNT
 } dmi_rack_type_t;
 
+/**
+ * @brief System enclosure or chassis structure (type 3).
+ *
+ * The structure describes a mechanical enclosure of the system. A system with
+ * several enclosures, such as a separate one for its peripherals, has one
+ * structure for each of them.
+ */
 struct dmi_chassis
 {
     /**
@@ -85,8 +105,15 @@ struct dmi_chassis
      */
     const char *vendor;
 
+    /**
+     * @brief Type of the enclosure.
+     */
     dmi_chassis_type_t type;
 
+    /**
+     * @brief Whether the enclosure has a lock. False when there is none, or
+     * when it is not known whether there is one.
+     */
     bool is_lock_present;
 
     /**
@@ -105,33 +132,33 @@ struct dmi_chassis
     const char *asset_tag;
 
     /**
-     * @since State of the enclosure when it was last booted.
+     * @brief State of the enclosure when it was last booted.
      */
     dmi_status_t bootup_state;
 
     /**
-     * @since State of the enclosure’s power supply (or supplies) when last
+     * @brief State of the enclosure’s power supply (or supplies) when last
      * booted.
      */
     dmi_status_t power_supply_state;
 
     /**
-     * @since Thermal state of the enclosure when last booted.
+     * @brief Thermal state of the enclosure when last booted.
      */
     dmi_status_t thermal_state;
 
     /**
-     * @since Physical security status of the enclosure when last booted.
+     * @brief Physical security status of the enclosure when last booted.
      */
     dmi_chassis_security_status_t security_status;
 
     /**
-     * @since OEM- or firmware vendor-specific information.
+     * @brief OEM- or firmware vendor-specific information.
      */
     uint32_t oem_defined;
 
     /**
-     * @since Height of the enclosure, in 'U's.
+     * @brief Height of the enclosure, in 'U's.
      *
      * A U is a standard unit of measure for the height of a rack or rack-
      * mountable component and is equal to 1.75 inches or 4.445 cm. A value of
@@ -142,23 +169,24 @@ struct dmi_chassis
     unsigned short height;
 
     /**
-     * @since Number of power cords associated with the enclosure or chassis.
+     * @brief Number of power cords associated with the enclosure or chassis.
      * A value of `0x00` indicates that the number is unspecified.
      */
     unsigned short power_cord_count;
 
     /**
-     * @since Element count.
+     * @brief Number of contained elements.
      */
     size_t element_count;
 
     /**
-     * @since Element data size;.
+     * @brief Size of each contained element record, in bytes.
      */
     size_t element_size;
 
     /**
-     * @brief Contained elements.
+     * @brief Contained elements, an array of `element_count` items, or
+     * `nullptr` if there is none.
      */
     dmi_chassis_element_t *elements;
 
@@ -168,16 +196,22 @@ struct dmi_chassis
     const char *sku_number;
 
     /**
-     * @brief Rack type.
+     * @brief Rack type, which gives the unit of `rack_height`.
      */
     dmi_rack_type_t rack_type;
 
     /**
-     * @brief Rack height.
+     * @brief Height of the enclosure, in the unit of `rack_type`.
      */
     unsigned short rack_height;
 };
 
+/**
+ * @brief Element contained in a system enclosure or chassis.
+ *
+ * An element is named either by the type of the SMBIOS structures describing
+ * it, or by a baseboard type.
+ */
 struct dmi_chassis_element
 {
     /**
@@ -210,7 +244,7 @@ struct dmi_chassis_element
 };
 
 /**
- * @brief System enclosure or chasis entity specification.
+ * @brief System enclosure or chassis entity specification.
  */
 extern __dmi_api const dmi_entity_spec_t dmi_chassis_spec;
 

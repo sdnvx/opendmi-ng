@@ -14,6 +14,9 @@
 typedef struct dmi_ami_type_221 dmi_ami_type_221_t;
 typedef struct dmi_ami_type_221_item dmi_ami_type_221_item_t;
 
+/**
+ * @brief Item of AMI type 221 structure.
+ */
 struct dmi_ami_type_221_item
 {
     /**
@@ -47,7 +50,14 @@ struct dmi_ami_type_221_item
  */
 struct dmi_ami_type_221
 {
+    /**
+     * @brief Number of items.
+     */
     size_t item_count;
+
+    /**
+     * @brief Items.
+     */
     dmi_ami_type_221_item_t *items;
 };
 

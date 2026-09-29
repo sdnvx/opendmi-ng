@@ -13,6 +13,12 @@
 
 typedef struct dmi_mgmt_device_component dmi_mgmt_device_component_t;
 
+/**
+ * @brief Management device component structure (type 35).
+ *
+ * The structure associates a probe or a cooling device with the management
+ * device controlling it and, optionally, with its thresholds.
+ */
 struct dmi_mgmt_device_component
 {
     /**
@@ -57,7 +63,7 @@ struct dmi_mgmt_device_component
 };
 
 /**
- * @brief Manangement device component entity specification.
+ * @brief Management device component entity specification.
  */
 extern __dmi_api const dmi_entity_spec_t dmi_mgmt_device_component_spec;
 

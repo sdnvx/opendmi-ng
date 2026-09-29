@@ -37,14 +37,17 @@ typedef enum dmi_intel_rsd_memory_media
 } dmi_intel_rsd_memory_media_t;
 
 /**
- * @brief f Intel RSD memory device extended information (type 197).
+ * @brief Intel RSD memory device extended information (type 197).
  *
+ * Intel Rack Scale Design (RSD) OEM structure adding details to a memory
+ * device structure (type 17): the kind of the module, its media, firmware
+ * and power, and how the BMC reaches it.
  */
 struct dmi_intel_rsd_memory_device
 {
     /**
-     * @brief Handle, or instance number, of the memory device SMBIOS OEM
-     * record (type 17) that this extended information represents.
+     * @brief Handle, or instance number, of the memory device structure
+     * (type 17) that this extended information represents.
      */
     dmi_handle_t device_handle;
 
@@ -71,7 +74,7 @@ struct dmi_intel_rsd_memory_device
     const char *firmware_api_version;
 
     /**
-     * @brief Maximum thermal design power (TDP) in mWs that this memory
+     * @brief Maximum thermal design power (TDP) in mW that this memory
      * device will consume.
      */
     uint32_t maximum_tdp;

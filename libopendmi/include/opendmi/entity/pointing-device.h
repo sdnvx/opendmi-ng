@@ -57,6 +57,10 @@ typedef enum dmi_pointing_device_iface
 
 /**
  * @brief Built-in pointing device structure (type 21).
+ *
+ * Describes the pointing device built into the system, such as the touch pad
+ * of a laptop. The structure being present does not mean the device is in
+ * use.
  */
 struct dmi_pointing_device
 {

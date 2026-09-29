@@ -118,6 +118,9 @@ struct dmi_processor_soc_id
     uint32_t soc_revision;
 };
 
+/**
+ * @brief Processor types.
+ */
 typedef enum dmi_processor_type
 {
     DMI_PROCESSOR_TYPE_UNSPEC  = 0x00, ///< Unspecified
@@ -130,6 +133,13 @@ typedef enum dmi_processor_type
     __DMI_PROCESSOR_TYPE_COUNT
 } dmi_processor_type_t;
 
+/**
+ * @brief Processor families.
+ *
+ * Values up to 0xFD come from the one-byte family field. Values of 0x100 and
+ * above only fit the two-byte family field added in SMBIOS 2.6, which the
+ * one-byte field refers to with `DMI_PROCESSOR_FAMILY_EXTENDED`.
+ */
 typedef enum dmi_processor_family
 {
     DMI_PROCESSOR_FAMILY_UNSPEC                  = 0x00, ///< Unspecified
@@ -402,6 +412,9 @@ typedef enum dmi_processor_family
     DMI_PROCESSOR_FAMILY_INTEL_CORE_ULTRA_9      = 0x307, ///< Intel Core Ultra 9
 } dmi_processor_family_t;
 
+/**
+ * @brief Processor upgrade methods, most of them processor socket types.
+ */
 typedef enum dmi_processor_upgrade
 {
     DMI_PROCESSOR_UPGRADE_UNSPEC           = 0x00, ///< Unspecified
@@ -494,6 +507,9 @@ typedef enum dmi_processor_upgrade
     DMI_PROCESSOR_UPGRADE_SOCKET_BGA2833   = 0x57, ///< Socket BGA2833
 } dmi_processor_upgrade_t;
 
+/**
+ * @brief Processor states.
+ */
 typedef enum dmi_processor_status
 {
     DMI_PROCESSOR_STATUS_UNKNOWN          = 0x00, ///< Unknown
@@ -545,9 +561,9 @@ dmi_packed_union(dmi_processor_voltages)
 
     dmi_packed_struct()
     {
-        dmi_byte_t is_5v  : 1;
-        dmi_byte_t is_3v3 : 1;
-        dmi_byte_t is_2v9 : 1;
+        dmi_byte_t is_5v  : 1; ///< 5 V supported
+        dmi_byte_t is_3v3 : 1; ///< 3.3 V supported
+        dmi_byte_t is_2v9 : 1; ///< 2.9 V supported
 
         /**
          * @brief Reserved for future use.
@@ -558,6 +574,12 @@ dmi_packed_union(dmi_processor_voltages)
 
 dmi_static_assert_value_union(dmi_processor_voltages);
 
+/**
+ * @brief Processor characteristics.
+ *
+ * Tell what the processor is capable of, not which of the capabilities are
+ * currently enabled.
+ */
 dmi_packed_union(dmi_processor_features)
 {
     uint16_t __value;
@@ -566,15 +588,15 @@ dmi_packed_union(dmi_processor_features)
     {
         uint16_t __reserved : 1;
 
-        uint16_t is_unknown              : 1;
-        uint16_t capable_64bit           : 1;
-        uint16_t multicore               : 1;
-        uint16_t hardware_thread         : 1;
-        uint16_t execute_protection      : 1;
-        uint16_t enhanced_virtualization : 1;
-        uint16_t power_perf_control      : 1;
-        uint16_t capable_128bit          : 1;
-        uint16_t arm64_soc_id            : 1;
+        uint16_t is_unknown              : 1; ///< Characteristics are unknown
+        uint16_t capable_64bit           : 1; ///< 64-bit capable
+        uint16_t multicore               : 1; ///< More than one core
+        uint16_t hardware_thread         : 1; ///< Several hardware threads per core
+        uint16_t execute_protection      : 1; ///< Non-executable memory regions (NX, XD)
+        uint16_t enhanced_virtualization : 1; ///< Enhanced virtualization instructions
+        uint16_t power_perf_control      : 1; ///< Load-based power savings
+        uint16_t capable_128bit          : 1; ///< 128-bit capable
+        uint16_t arm64_soc_id            : 1; ///< SoC ID available through SMCCC_ARCH_SOC_ID
 
         uint16_t __reserved2 : 6;
     };
@@ -582,14 +604,35 @@ dmi_packed_union(dmi_processor_features)
 
 dmi_static_assert_value_union(dmi_processor_features);
 
+/**
+ * @brief Processor information structure (type 4).
+ *
+ * Describes one processor socket or slot, whether populated or not, so that
+ * the number of these structures gives the maximum number of processors of
+ * the system. Coprocessors are described by structures of their own.
+ */
 struct dmi_processor
 {
+    /**
+     * @brief Reference designation of the processor socket, for example
+     * "J202".
+     */
     const char *socket_designation;
 
+    /**
+     * @brief Processor type.
+     */
     dmi_processor_type_t type;
 
+    /**
+     * @brief Processor family, taken from the two-byte family field when the
+     * one-byte field refers to it.
+     */
     dmi_processor_family_t family;
 
+    /**
+     * @brief Processor manufacturer.
+     */
     const char *vendor;
 
     /**
@@ -618,6 +661,9 @@ struct dmi_processor
      */
     dmi_processor_soc_id_t soc_id;
 
+    /**
+     * @brief Processor version.
+     */
     const char *version;
 
     /**
@@ -633,10 +679,20 @@ struct dmi_processor
      */
     dmi_processor_voltages_t supported_voltages;
 
+    /**
+     * @brief External clock frequency, in MHz, 0 if unknown.
+     */
     uint16_t external_clock;
 
+    /**
+     * @brief Maximum processor speed the system supports in this socket, in
+     * MHz, 0 if unknown.
+     */
     uint16_t maximum_speed;
 
+    /**
+     * @brief Processor speed at system boot, in MHz, 0 if unknown.
+     */
     uint16_t current_speed;
 
     /**
@@ -649,33 +705,122 @@ struct dmi_processor
      */
     dmi_processor_status_t status;
 
+    /**
+     * @brief Processor upgrade method, usually the socket type.
+     */
     dmi_processor_upgrade_t upgrade;
 
+    /**
+     * @brief Handle of the cache information structure describing the
+     * level 1 cache of this processor, `DMI_HANDLE_INVALID` if there is none.
+     *
+     * @since SMBIOS 2.1
+     */
     dmi_handle_t l1_cache_handle;
+
+    /**
+     * @brief Level 1 cache entity, linked by handle, or `nullptr`.
+     *
+     * @since SMBIOS 2.1
+     */
     dmi_entity_t *l1_cache;
 
+    /**
+     * @brief Handle of the cache information structure describing the
+     * level 2 cache of this processor, `DMI_HANDLE_INVALID` if there is none.
+     *
+     * @since SMBIOS 2.1
+     */
     dmi_handle_t l2_cache_handle;
+
+    /**
+     * @brief Level 2 cache entity, linked by handle, or `nullptr`.
+     *
+     * @since SMBIOS 2.1
+     */
     dmi_entity_t *l2_cache;
 
+    /**
+     * @brief Handle of the cache information structure describing the
+     * level 3 cache of this processor, `DMI_HANDLE_INVALID` if there is none.
+     *
+     * @since SMBIOS 2.1
+     */
     dmi_handle_t l3_cache_handle;
+
+    /**
+     * @brief Level 3 cache entity, linked by handle, or `nullptr`.
+     *
+     * @since SMBIOS 2.1
+     */
     dmi_entity_t *l3_cache;
 
+    /**
+     * @brief Serial number of the processor.
+     *
+     * @since SMBIOS 2.3
+     */
     const char *serial_number;
 
+    /**
+     * @brief Asset tag of the processor.
+     *
+     * @since SMBIOS 2.3
+     */
     const char *asset_tag;
 
+    /**
+     * @brief Part number of the processor.
+     *
+     * @since SMBIOS 2.3
+     */
     const char *part_number;
 
+    /**
+     * @brief Processor characteristics.
+     *
+     * @since SMBIOS 2.5
+     */
     dmi_processor_features_t features;
 
+    /**
+     * @brief Number of cores the firmware detected in the socket, 0 if
+     * unknown. Counts above 255 come from the two-byte field added in
+     * SMBIOS 3.0.
+     *
+     * @since SMBIOS 2.5
+     */
     uint16_t core_count;
 
+    /**
+     * @brief Number of cores the firmware enabled, 0 if unknown. Counts above
+     * 255 come from the two-byte field added in SMBIOS 3.0.
+     *
+     * @since SMBIOS 2.5
+     */
     uint16_t core_enabled;
 
+    /**
+     * @brief Number of threads the firmware detected in the socket, for the
+     * whole processor, 0 if unknown. Counts above 255 come from the two-byte
+     * field added in SMBIOS 3.0.
+     *
+     * @since SMBIOS 2.5
+     */
     uint16_t thread_count;
 
+    /**
+     * @brief Number of threads the firmware enabled, 0 if unknown.
+     *
+     * @since SMBIOS 3.6
+     */
     uint16_t thread_enabled;
 
+    /**
+     * @brief Processor socket type, for example "Socket LGA4710".
+     *
+     * @since SMBIOS 3.8
+     */
     const char *socket_type;
 };
 

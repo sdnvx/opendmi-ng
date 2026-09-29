@@ -16,6 +16,9 @@ typedef union  dmi_memory_module_speed     dmi_memory_module_speed_t;
 typedef union  dmi_memory_module_voltage   dmi_memory_module_voltage_t;
 typedef union  dmi_error_correct_caps      dmi_error_correct_caps_t;
 
+/**
+ * @brief Error detecting methods of a memory controller.
+ */
 typedef enum dmi_error_detect_method
 {
     DMI_ERROR_DETECT_METHOD_UNSPEC  = 0x00, ///< Unspecified
@@ -30,6 +33,9 @@ typedef enum dmi_error_detect_method
     __DMI_ERROR_DETECT_METHOD_COUNT
 } dmi_error_detect_method_t;
 
+/**
+ * @brief Memory interleave modes of a memory controller.
+ */
 typedef enum dmi_memory_interleave
 {
     DMI_MEMORY_INTERLEAVE_UNSPEC  = 0x00, ///< Unspecified
@@ -43,6 +49,9 @@ typedef enum dmi_memory_interleave
     __DMI_MEMORY_INTERLEAVE_COUNT
 } dmi_memory_interleave_t;
 
+/**
+ * @brief Error correcting capabilities of a memory controller.
+ */
 dmi_packed_union(dmi_error_correct_caps)
 {
     /**
@@ -102,9 +111,9 @@ dmi_packed_union(dmi_memory_module_voltage)
 
     dmi_packed_struct()
     {
-        dmi_byte_t is_5v  : 1;
-        dmi_byte_t is_3v3 : 1;
-        dmi_byte_t is_2v9 : 1;
+        dmi_byte_t is_5v  : 1; ///< 5 V
+        dmi_byte_t is_3v3 : 1; ///< 3.3 V
+        dmi_byte_t is_2v9 : 1; ///< 2.9 V
 
         /**
          * @brief Reserved for future use.
@@ -133,7 +142,7 @@ dmi_static_assert_value_union(dmi_memory_module_voltage);
 struct dmi_memory_controller
 {
     /**
-     * @brief Error detectibg method.
+     * @brief Error detecting method.
      */
     dmi_error_detect_method_t error_detection;
 
@@ -153,12 +162,14 @@ struct dmi_memory_controller
     dmi_memory_interleave_t current_interleave;
 
     /**
-     * @brief Size of the largest memory module supported (per slot).
+     * @brief Size of the largest memory module supported (per slot), in
+     * bytes.
      */
     uint64_t maximum_module_size;
 
     /**
-     * @brief Maximum memory size.
+     * @brief Maximum memory size, in bytes: the largest module size times
+     * the number of slots.
      */
     uint64_t maximum_memory_size;
 
@@ -179,8 +190,8 @@ struct dmi_memory_controller
     dmi_memory_module_voltage_t required_voltages;
 
     /**
-     * @brief Defines how many of the memory module Information blocks are
-     * controlled by this controller.
+     * @brief Number of memory module handles in `module_handles`, as many
+     * as the structure holds in full.
      */
     size_t slot_count;
 
@@ -190,6 +201,10 @@ struct dmi_memory_controller
      */
     dmi_handle_t *module_handles;
 
+    /**
+     * @brief Memory module information structures controlled by this
+     * controller, one per handle of `module_handles`.
+     */
     dmi_entity_t **modules;
 
     /**

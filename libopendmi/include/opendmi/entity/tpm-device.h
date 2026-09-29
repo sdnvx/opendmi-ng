@@ -47,7 +47,7 @@ struct dmi_tpm_firmware_version
 };
 
 /**
- * @brief TPM device characteristics structure (type 43).
+ * @brief TPM device characteristics.
  */
 dmi_packed_union(dmi_tpm_device_features)
 {
@@ -96,7 +96,12 @@ dmi_packed_union(dmi_tpm_device_features)
 dmi_static_assert_value_union(dmi_tpm_device_features);
 
 /**
- * @brief TPM device.
+ * @brief TPM device structure (type 43).
+ *
+ * Describes a Trusted Platform Module (TPM) of the system: its vendor, the
+ * version of the TPM specification it implements, and its firmware version.
+ *
+ * @since SMBIOS 3.1
  */
 struct dmi_tpm_device
 {
@@ -119,8 +124,9 @@ struct dmi_tpm_device
     dmi_version_t spec_version;
 
     /**
-     * @brief TPM vendor-specific value for firmware version, both double
-     * words as they are stored.
+     * @brief TPM vendor-specific value for firmware version, as stored: the
+     * first double word (firmware version 1) in the upper half, the second
+     * one (firmware version 2) in the lower half.
      */
     uint64_t firmware_version;
 
@@ -142,7 +148,7 @@ struct dmi_tpm_device
     dmi_tpm_firmware_version_t firmware_version_2;
 
     /**
-     * @brief descriptive information of the TPM device.
+     * @brief Descriptive information of the TPM device.
      */
     const char *description;
 

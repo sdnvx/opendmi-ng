@@ -73,7 +73,8 @@ typedef uint16_t dmi_pci_device_id_t;
 struct dmi_pci_addr
 {
     /**
-     * @brief Segment group. The value is 0 for a single-segment topology.
+     * @brief Segment group. The value is 0 for a single-segment topology,
+     * and `UINT16_MAX` if not applicable.
      */
     uint16_t segment_group;
 

@@ -15,6 +15,12 @@ typedef struct dmi_memory_device_addr dmi_memory_device_addr_t;
 
 /**
  * @brief Memory device mapped address structure (type 20).
+ *
+ * Maps a contiguous range of the physical address space to a memory device,
+ * as a part of the range of a memory array mapped address structure. There
+ * is one structure for each range, and only for the devices which have an
+ * address mapped.
+ *
  * @since SMBIOS 2.1
  */
 struct dmi_memory_device_addr
@@ -28,25 +34,30 @@ struct dmi_memory_device_addr
     /**
      * @brief Physical ending address, in bytes, of the last of a range of
      * addresses mapped to the referenced memory device.
+     *
+     * When taken from the SMBIOS 2.1 field, which counts in kibibytes, this
+     * is the address of the last kibibyte of the range rather than of its
+     * last byte.
      */
     uint64_t end_addr;
 
     /**
-     * @brief Address range size in bytes.
+     * @brief Address range size in bytes, the difference between the ending
+     * and the starting addresses.
      */
     uint64_t range_size;
 
     /**
      * @brief Handle, or instance number, associated with the memory device
-     * structure to which this address range is mapped Multiple address ranges
-     * can be mapped to a single memory device.
+     * structure to which this address range is mapped. Multiple address
+     * ranges can be mapped to a single memory device.
      */
     dmi_handle_t device_handle;
 
     /**
-     * @brief Reference to he memory device structure to which this address
-     * range is mapped Multiple address ranges can be mapped to a single memory
-     * device.
+     * @brief Reference to the memory device structure to which this address
+     * range is mapped, @c nullptr if the handle does not refer to one.
+     * Multiple address ranges can be mapped to a single memory device.
      */
     dmi_entity_t *device;
 
@@ -60,8 +71,9 @@ struct dmi_memory_device_addr
 
     /**
      * @brief Reference to the memory array mapped address structure to which
-     * this device address range is mapped. Multiple address ranges can be
-     * mapped to a single memory array mapped address.
+     * this device address range is mapped, @c nullptr if the handle does not
+     * refer to one. Multiple address ranges can be mapped to a single memory
+     * array mapped address.
      */
     dmi_entity_t *array_addr;
 

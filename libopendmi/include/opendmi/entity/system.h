@@ -14,6 +14,9 @@
 
 typedef struct dmi_system dmi_system_t;
 
+/**
+ * @brief System wake-up types.
+ */
 typedef enum dmi_system_wakeup_type
 {
     DMI_SYSTEM_WAKEUP_TYPE_RESERVED      = 0x00, ///< Reserved

@@ -34,6 +34,10 @@ typedef enum dmi_intel_rsd_fpga_status
     DMI_INTEL_RSD_FPGA_STATUS_ENABLED  = 0x01, ///< Enabled
 } dmi_intel_rsd_fpga_status_t;
 
+/**
+ * @brief Instruction set architectures of the Intel RSD FPGA hard processor
+ * subsystem (HPS).
+ */
 typedef enum dmi_intel_rsd_fpga_hps_isa
 {
     DMI_INTEL_RSD_FPGA_HPS_ISA_X86     = 0x00, ///< x86
@@ -57,12 +61,15 @@ typedef enum dmi_intel_rsd_fpga_hssi_config
     DMI_INTEL_RSD_FPGA_HSSI_CONFIG_UNAVAILABLE = 0xFF, ///< Information not available
 } dmi_intel_rsd_fpga_hssi_config_t;
 
+/**
+ * @brief Technologies of the memory attached to an Intel RSD FPGA.
+ */
 typedef enum dmi_intel_rsd_fpga_memory_tech
 {
-    DMI_INTEL_RSD_FPGA_MEMORY_TECH_NONE  = 0x00,
-    DMI_INTEL_RSD_FPGA_MEMORY_TECH_EDRAM = 0x01,
-    DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM   = 0x02,
-    DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM2  = 0x03
+    DMI_INTEL_RSD_FPGA_MEMORY_TECH_NONE  = 0x00, ///< No attached memory
+    DMI_INTEL_RSD_FPGA_MEMORY_TECH_EDRAM = 0x01, ///< Embedded DRAM (eDRAM)
+    DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM   = 0x02, ///< High Bandwidth Memory (HBM)
+    DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM2  = 0x03  ///< High Bandwidth Memory 2 (HBM2)
 } dmi_intel_rsd_fpga_memory_tech_t;
 
 /**
@@ -145,7 +152,7 @@ struct dmi_intel_rsd_fpga
 
     /**
      * @brief Speed in Gbps or number of lanes supported by the HSSI
-     * configuration. E.g. `10` for "2x10G", `40 for "2x40G", `16` for "x16
+     * configuration. E.g. `10` for "2x10G", `40` for "2x40G", `16` for "x16
      * PCIe" etc.
      */
     unsigned short hssi_port_speed;

@@ -38,7 +38,7 @@ typedef enum dmi_dell_parallel_port_connector_type
  */
 typedef enum dmi_dell_parallel_port_connector_pinout
 {
-    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_UNSPEC       = 0x00, ///< Unspecied
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_UNSPEC       = 0x00, ///< Unspecified
     DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_OTHER        = 0x01, ///< Other
     DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_UNKNOWN      = 0x02, ///< Unknown
     DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_XT_AT        = 0x03, ///< XT/AT
@@ -53,7 +53,7 @@ typedef enum dmi_dell_parallel_port_connector_pinout
 } dmi_dell_parallel_port_connector_pinout_t;
 
 /**
- * @brief Dell parallell port capabilities.
+ * @brief Dell parallel port capabilities.
  */
 dmi_packed_union(dmi_dell_parallel_port_caps)
 {
@@ -75,6 +75,9 @@ dmi_packed_union(dmi_dell_parallel_port_caps)
 
 dmi_static_assert_value_union(dmi_dell_parallel_port_caps);
 
+/**
+ * @brief Dell parallel port structure (type 209).
+ */
 struct dmi_dell_parallel_port
 {
     /**

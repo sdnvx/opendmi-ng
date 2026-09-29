@@ -49,7 +49,7 @@ typedef enum dmi_mgmt_if_type {
  */
 typedef enum dmi_mgmt_proto {
     DMI_MGMT_PROTO_IPMI            = 0x02, ///< IPMI: Intelligent Platform Management Interface
-    DMI_MGMT_PROTO_MCTP            = 0x03, ///< MCTP: Management Component Transport Protoco
+    DMI_MGMT_PROTO_MCTP            = 0x03, ///< MCTP: Management Component Transport Protocol
     DMI_MGMT_PROTO_REDFISH_OVER_IP = 0x04, ///< Redfish over IP
     DMI_MGMT_PROTO_OEM             = 0xF0  ///< OEM-defined
 } dmi_mgmt_proto_t;

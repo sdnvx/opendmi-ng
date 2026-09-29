@@ -17,6 +17,9 @@ typedef struct dmi_processor_aarch64_data          dmi_processor_aarch64_data_t;
 typedef union  dmi_processor_revision              dmi_processor_revision_t;
 typedef struct dmi_processor_amd64_attribute       dmi_processor_amd64_attribute_t;
 
+/**
+ * @brief Processor architecture types.
+ */
 typedef enum dmi_processor_arch
 {
     DMI_PROCESSOR_ARCH_RESERVED     = 0x00, ///< Reserved
@@ -33,8 +36,11 @@ typedef enum dmi_processor_arch
 } dmi_processor_arch_t;
 
 /**
- * @brief The Processor-specific Block is the standard container of
- * processor-specific data.
+ * @brief Processor-specific block of the processor additional information
+ * structure (type 44).
+ *
+ * The block is a header naming the length and the architecture of the data,
+ * followed by the data, whose format depends on the architecture.
  */
 dmi_packed_struct(dmi_processor_specific_block)
 {
@@ -44,17 +50,20 @@ dmi_packed_struct(dmi_processor_specific_block)
     dmi_byte_t length;
 
     /**
-     * @brief The processor architecture delineated by this
-     * processor-specific block.
+     * @brief Processor architecture the data is about, one of the
+     * `dmi_processor_arch_t` values.
      */
     dmi_byte_t arch;
 
     /**
-     * @brief Raw processor-specific data.
+     * @brief Raw processor-specific data, `length` bytes.
      */
     dmi_byte_t __data[];
 };
 
+/**
+ * @brief Sub-types of the 64-bit Arm (AArch64) processor-specific data.
+ */
 typedef enum dmi_processor_aarch64_data_subtype
 {
     DMI_PROCESSOR_AARCH64_DATA_SUBTYPE_AARCH64          = 0x00, ///< AArch64 Architecture data
@@ -71,6 +80,9 @@ dmi_packed_union(dmi_processor_revision)
      */
     dmi_word_t __value;
 
+    /**
+     * @brief Revision split into its minor and major numbers.
+     */
     dmi_packed_struct()
     {
         /**
@@ -97,6 +109,10 @@ dmi_packed_struct(dmi_processor_aarch64_data)
      */
     dmi_processor_revision_t revision;
 
+    /**
+     * @brief Length of the processor-specific data, in bytes: 8 bytes of
+     * this header and the length of the sub-type specific data.
+     */
     dmi_byte_t length;
 
     /**
@@ -105,10 +121,18 @@ dmi_packed_struct(dmi_processor_aarch64_data)
     dmi_byte_t __reserved;
 
     /**
+     * @brief JEP-106 code of the processor vendor or silicon provider: the
+     * bank index in bits 14:8, and the identification code with its parity
+     * bit in bits 7:0. Bit 15 is zero.
+     *
      * @todo It's a way more complex field.
      */
     dmi_word_t vendor_id;
 
+    /**
+     * @brief Sub-type of the data, one of the
+     * `dmi_processor_aarch64_data_subtype_t` values.
+     */
     dmi_byte_t subtype;
 
     /**
@@ -116,9 +140,21 @@ dmi_packed_struct(dmi_processor_aarch64_data)
      */
     dmi_byte_t __reserved2;
 
+    /**
+     * @brief Data of the sub-type: AArch64 architecture data
+     * (`struct dmi_processor_aarch64_arch_data`), or data defined by the
+     * vendor.
+     */
     dmi_byte_t subtype_specific_data[];
 };
 
+/**
+ * @brief AArch64 architecture data, the sub-type 0 of the 64-bit Arm
+ * (AArch64) processor-specific data.
+ *
+ * The data holds the values of the AArch64 identification registers. The
+ * bit fields of the registers are defined by the Arm A-profile architecture.
+ */
 dmi_packed_struct(dmi_processor_aarch64_arch_data)
 {
     /**
@@ -217,14 +253,12 @@ dmi_packed_struct(dmi_processor_aarch64_arch_data)
     dmi_qword_t id_aa64mmfr4_el1;
 
     /**
-     * @brief Processor Feature Register 0, see Arm A-profile Architecture for
-     * the bit-field definitions.
+     * @brief Processor feature register 0.
      */
     dmi_qword_t id_aa64pfr0_el1;
 
     /**
-     * @brief Processor feature register 1, see Arm A-profile Architecture for
-     * the bit-field definitions.
+     * @brief Processor feature register 1.
      */
     dmi_qword_t id_aa64pfr1_el1;
 
@@ -244,26 +278,37 @@ dmi_packed_struct(dmi_processor_aarch64_arch_data)
     dmi_qword_t id_aa64zfr0_el1;
 };
 
+/**
+ * @brief Use conditions of x64 processors.
+ */
 typedef enum dmi_processor_amd64_use_condition {
-    DMI_PROCESSOR_AMD64_USE_CONDITION_CLIENT     = 0x00,
-    DMI_PROCESSOR_AMD64_USE_CONDITION_EMBEDDED   = 0x01,
-    DMI_PROCESSOR_AMD64_USE_CONDITION_INDUSTRIAL = 0x02
+    DMI_PROCESSOR_AMD64_USE_CONDITION_CLIENT     = 0x00, ///< Client
+    DMI_PROCESSOR_AMD64_USE_CONDITION_EMBEDDED   = 0x01, ///< Embedded
+    DMI_PROCESSOR_AMD64_USE_CONDITION_INDUSTRIAL = 0x02  ///< Industrial
 } dmi_processor_amd64_use_condition_t;
 
+/**
+ * @brief Temperature ranges of x64 processors.
+ */
 typedef enum dmi_processor_amd64_temperature_range {
-    DMI_PROCESSOR_AMD64_TEMPERATURE_RANGE_COMMERCIAL = 0x00,
-    DMI_PROCESSOR_AMD64_TEMPERATURE_RANGE_EXTENDED   = 0x01
+    DMI_PROCESSOR_AMD64_TEMPERATURE_RANGE_COMMERCIAL = 0x00, ///< Commercial
+    DMI_PROCESSOR_AMD64_TEMPERATURE_RANGE_EXTENDED   = 0x01  ///< Extended
 } dmi_processor_amd64_temperature_range_t;
 
+/**
+ * @brief Attributes of the x64 processor use condition data.
+ */
 dmi_packed_struct(dmi_processor_amd64_attribute)
 {
     /**
-     * @brief Bits 7:0 Processor use condition.
+     * @brief Bits 7:0 Processor use condition, one of the
+     * `dmi_processor_amd64_use_condition_t` values.
      */
     dmi_byte_t use_condition;
 
     /**
-     * @brief Bits 15:0 Temperature range.
+     * @brief Bits 15:8 Temperature range, one of the
+     * `dmi_processor_amd64_temperature_range_t` values.
      */
     dmi_byte_t temperature_range;
 
@@ -274,6 +319,8 @@ dmi_packed_struct(dmi_processor_amd64_attribute)
 };
 
 /**
+ * @brief Processor use condition data of the x64 processor-specific data.
+ *
  * @todo Make sure this structure is correct.
  */
 dmi_packed_struct(dmi_processor_amd64_data)
@@ -288,21 +335,47 @@ dmi_packed_struct(dmi_processor_amd64_data)
      */
     dmi_byte_t length;
 
+    /**
+     * @brief Revision of the processor use condition data.
+     */
     dmi_processor_revision_t revision;
 
+    /**
+     * @brief Use condition and temperature range of the processor.
+     */
     dmi_processor_amd64_attribute_t attr;
 };
 
+/**
+ * @brief RISC-V processor-specific data.
+ */
 dmi_packed_struct(dmi_processor_rv64_data)
 {
+    /**
+     * @brief Revision of the RISC-V processor-specific data.
+     */
     dmi_processor_revision_t revision;
 
+    /**
+     * @brief Identifier of the hardware thread (hart) described.
+     */
     dmi_qword_t hart_id;
 
+    /**
+     * @brief Vendor of the core, as the `mvendorid` register holds it.
+     */
     dmi_qword_t vendor_id;
 
+    /**
+     * @brief Base microarchitecture of the hart, as the `marchid` register
+     * holds it.
+     */
     dmi_qword_t arch_id;
 
+    /**
+     * @brief Version of the processor implementation, as the `mimpid`
+     * register holds it.
+     */
     dmi_qword_t machine_impl_id;
 };
 
@@ -318,7 +391,8 @@ struct dmi_processor_ex
     dmi_handle_t processor_handle;
 
     /**
-     * @brief Processor structure (type 4). Set when linking.
+     * @brief Processor structure (type 4). Set when linking, `nullptr` if
+     * the handle refers to no structure.
      */
     dmi_entity_t *processor;
 

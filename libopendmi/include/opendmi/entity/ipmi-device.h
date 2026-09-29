@@ -14,6 +14,9 @@
 typedef struct dmi_ipmi_device         dmi_ipmi_device_t;
 typedef union  dmi_ipmi_device_details dmi_ipmi_device_details_t;
 
+/**
+ * @brief Baseboard management controller (BMC) interface types.
+ */
 typedef enum dmi_ipmi_interface
 {
     DMI_IPMI_INTERFACE_UNKNOWN = 0x00, ///< Unknown
@@ -23,6 +26,9 @@ typedef enum dmi_ipmi_interface
     DMI_IPMI_INTERFACE_SSIF    = 0x04, ///< SSIF: SMBus System Interface
 } dmi_ipmi_interface_t;
 
+/**
+ * @brief Address spaces of the BMC base address.
+ */
 typedef enum dmi_ipmi_addr_type
 {
     DMI_IPMI_ADDR_TYPE_MEMORY = 0x0, ///< Memory-mapped
@@ -30,6 +36,9 @@ typedef enum dmi_ipmi_addr_type
     DMI_IPMI_ADDR_TYPE_SMBUS  = 0x2  ///< SMBus target address (SSIF interface)
 } dmi_ipmi_addr_type_t;
 
+/**
+ * @brief Interrupt trigger modes.
+ */
 typedef enum dmi_ipmi_intr_trigger
 {
     DMI_IPMI_INTR_TRIGGER_UNSPEC = 0x0, ///< Unspecified
@@ -37,6 +46,9 @@ typedef enum dmi_ipmi_intr_trigger
     DMI_IPMI_INTR_TRIGGER_LEVEL  = 0x2  ///< Level
 } dmi_ipmi_intr_trigger_t;
 
+/**
+ * @brief Interrupt polarities.
+ */
 typedef enum dmi_ipmi_intr_polarity
 {
     DMI_IPMI_INTR_POLARITY_UNSPEC = 0x0, ///< Unspecified
@@ -44,6 +56,9 @@ typedef enum dmi_ipmi_intr_polarity
     DMI_IPMI_INTR_POLARITY_HIGH   = 0x2  ///< Active high
 } dmi_ipmi_intr_polarity_t;
 
+/**
+ * @brief Register spacing codes of the base address modifier.
+ */
 typedef enum dmi_ipmi_register_spacing
 {
     DMI_IPMI_REGISTER_SPACING_1        = 0x0, ///< 1 byte
@@ -52,6 +67,11 @@ typedef enum dmi_ipmi_register_spacing
     DMI_IPMI_REGISTER_SPACING_RESERVED = 0x3, ///< Reserved
 } dmi_ipmi_register_spacing_t;
 
+/**
+ * @brief Base address modifier and interrupt information byte.
+ *
+ * The decoder spreads this byte over the fields of `dmi_ipmi_device_t`.
+ */
 dmi_packed_union(dmi_ipmi_device_details)
 {
     /**
@@ -61,18 +81,26 @@ dmi_packed_union(dmi_ipmi_device_details)
 
     dmi_packed_struct()
     {
-        uint8_t is_intr_level_triggered : 1;
-        uint8_t is_intr_active_high     : 1;
+        uint8_t is_intr_level_triggered : 1; ///< Interrupt is level-triggered, edge-triggered if clear
+        uint8_t is_intr_active_high     : 1; ///< Interrupt is active high, active low if clear
         uint8_t __reserved_1            : 1; ///< Reserved for future use, set to 0.
-        uint8_t is_intr_info_specified  : 1;
-        uint8_t base_addr_lsb           : 1;
+        uint8_t is_intr_info_specified  : 1; ///< Interrupt trigger mode and polarity are specified
+        uint8_t base_addr_lsb           : 1; ///< Least-significant bit of the base address
         uint8_t __reserved_2            : 1; ///< Reserved for future use, set to 0.
-        uint8_t register_spacing        : 2;
+        uint8_t register_spacing        : 2; ///< Register spacing, see dmi_ipmi_register_spacing_t
     };
 };
 
 dmi_static_assert_value_union(dmi_ipmi_device_details);
 
+/**
+ * @brief IPMI device information structure (type 38).
+ *
+ * Describes the IPMI baseboard management controller (BMC) of the system and
+ * how its system interface is reached.
+ *
+ * @since SMBIOS 2.3
+ */
 struct dmi_ipmi_device
 {
     /**

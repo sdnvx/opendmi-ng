@@ -16,6 +16,9 @@ typedef struct dmi_group_assoc_item dmi_group_assoc_item_t;
 
 /**
  * @brief Group associations structure (type 14).
+ *
+ * Groups a set of other structures under a name, to show how components of
+ * the system are arranged, for example two processors sharing one cache.
  */
 struct dmi_group_assoc
 {
@@ -30,11 +33,14 @@ struct dmi_group_assoc
     size_t item_count;
 
     /**
-     * @brief Item (structure) type of this member.
+     * @brief Items (structures) of the group.
      */
     dmi_group_assoc_item_t *items;
 };
 
+/**
+ * @brief Group association item.
+ */
 struct dmi_group_assoc_item
 {
     /**

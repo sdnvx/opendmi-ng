@@ -363,7 +363,7 @@ struct dmi_slot
     dmi_slot_peer_group_t *peer_groups;
 
     /**
-     * @brief Slot informatiom.
+     * @brief Slot information.
      *
      * The contents of this field depend on what is contained in the Slot Type
      * field. For Slot Type of `0xC4` this field must contain the numeric value

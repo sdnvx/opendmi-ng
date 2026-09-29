@@ -11,7 +11,14 @@
 
 #include <opendmi/entity/probe.h>
 
-typedef struct dmi_probe dmi_current_probe_t;
+/**
+ * @brief Electrical current probe structure (type 29), decoded into
+ * `dmi_probe_t`, which all the probe types share.
+ */
+#ifndef DMI_CURRENT_PROBE_T
+#   define DMI_CURRENT_PROBE_T
+    typedef struct dmi_probe dmi_current_probe_t;
+#endif // !DMI_CURRENT_PROBE_T
 
 /**
  * @brief Electrical current probe entity specification.

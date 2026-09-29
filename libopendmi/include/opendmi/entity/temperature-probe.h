@@ -11,6 +11,10 @@
 
 #include <opendmi/entity/probe.h>
 
+/**
+ * @brief Temperature probe structure (type 28), decoded into `dmi_probe_t`,
+ * which all the probe types share.
+ */
 typedef struct dmi_probe dmi_temperature_probe_t;
 
 /**

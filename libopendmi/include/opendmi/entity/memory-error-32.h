@@ -59,7 +59,7 @@ struct dmi_memory_error_32
     /**
      * @brief Range, in bytes, within which the error can be determined, when
      * an error address is given. If the range is unknown, this field contains
-     * `0`
+     * `0x80000000`.
      */
     uint32_t resolution;
 };

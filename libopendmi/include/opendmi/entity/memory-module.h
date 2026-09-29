@@ -70,8 +70,8 @@ dmi_packed_union(dmi_memory_module_error)
         dmi_byte_t has_correctable : 1;
 
         /**
-         * @brief If set, the error status information should be obtained from
-         * the event log; bits 1and 0 are reserved.
+         * @brief If set, the error status is to be read from the event log,
+         * and the two bits above carry no information.
          */
         dmi_byte_t has_event_log : 1;
 
@@ -84,6 +84,9 @@ dmi_packed_union(dmi_memory_module_error)
 
 dmi_static_assert_value_union(dmi_memory_module_error);
 
+/**
+ * @brief Memory module size statuses.
+ */
 typedef enum dmi_memory_module_size_status
 {
     DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT,          ///< Present
@@ -94,33 +97,44 @@ typedef enum dmi_memory_module_size_status
 } dmi_memory_module_size_status_t;
 
 /**
- * @brief Memory mode size.
+ * @brief Memory module size.
  */
 struct dmi_memory_module_size
 {
     /**
-     * @brief Size of module in bytes, if applicable.
+     * @brief Size of the module, in bytes. The value is 0 unless the status
+     * is `DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT`.
      */
     dmi_size_t value;
 
     /**
-     * @brief Number of bank connections per module.
+     * @brief Number of bank connections of the module: 1 for a single-bank
+     * connection, 2 for a double-bank one.
      */
     unsigned bank_count;
 
     /**
-     * @brief Status.
+     * @brief Status of the size: whether it is known, and why not if it is
+     * not.
      */
     dmi_memory_module_size_status_t status;
 };
 
 /**
  * @brief Memory module information structure (type 6, obsolete).
+ *
+ * Describes one memory module socket: the speed, type, size and error status
+ * of the module installed in it. A table carries one such structure for each
+ * socket, and the memory controller information structure (type 5) lists
+ * them. Both structures are obsolete since SMBIOS 2.1, which replaces them
+ * with the physical memory array (type 16) and memory device (type 17)
+ * structures.
  */
 struct dmi_memory_module
 {
     /**
-     * @brief Memory controller entity.
+     * @brief Memory controller (type 5) listing this module, or `nullptr` if
+     * no memory controller lists it.
      */
     dmi_entity_t *controller;
 
@@ -130,12 +144,12 @@ struct dmi_memory_module
     const char *socket;
 
     /**
-     * @brief Each nibble indicates a bank (RAS#) connection. 0x0F means no
-     * connection.
+     * @brief Bank (RAS#) connections of the socket, one per element, taken
+     * from the low and the high nibble of the data. 0x0F means no connection.
      *
-     * Example: If banks 1 & 3 (RAS# 1 & 3) were connected to a SIMM socket
-     * the values for that socket would be { 1, 3 }. If only bank 2 (RAS# 2)
-     * were connected, the values for that socket would be { USHRT_MAX, 2 }.
+     * Example: a socket connected to banks 1 and 3 (data 0x13) gives
+     * { 3, 1 }, and a socket connected to bank 2 only (data 0x2F) gives
+     * { 0x0F, 2 }.
      */
     unsigned short bank_connections[2];
 

@@ -35,6 +35,14 @@ typedef enum dmi_cooling_device_type
     __DMI_COOLING_DEVICE_TYPE_COUNT
 } dmi_cooling_device_type_t;
 
+/**
+ * @brief Cooling device structure (type 27).
+ *
+ * Describes one cooling device of the system, such as a fan or a heat pipe:
+ * its type, status, redundancy group and nominal speed, and the temperature
+ * probe monitoring it. A table carries one such structure for each cooling
+ * device.
+ */
 struct dmi_cooling_device
 {
     /**
@@ -44,7 +52,9 @@ struct dmi_cooling_device
     dmi_handle_t probe_handle;
 
     /**
-     * @brief Reference to the temperature probe monitoring this cooling device.
+     * @brief Temperature probe (type 28) monitoring this cooling device, or
+     * `nullptr` if the handle is not set or does not refer to a temperature
+     * probe.
      */
     dmi_entity_t *probe;
 
@@ -77,13 +87,15 @@ struct dmi_cooling_device
     /**
      * @brief Nominal value for the cooling device’s rotational speed, in
      * revolutions-per-minute (rpm). If the value is unknown or the cooling
-     * device is non-rotating, the field is set to `SHRT_MIN`
+     * device is non-rotating, the field is set to `SHRT_MIN`.
      */
     short nominal_speed;
 
     /**
      * @brief Additional descriptive information about the cooling device or
-     * its location.
+     * its location, or `nullptr` if absent.
+     *
+     * @since SMBIOS 2.7
      */
     const char *description;
 };

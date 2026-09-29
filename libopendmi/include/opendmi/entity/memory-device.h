@@ -56,7 +56,7 @@ typedef enum dmi_memory_device_type
     DMI_MEMORY_DEVICE_TYPE_DDR5        = 0x22, ///< DDR5
     DMI_MEMORY_DEVICE_TYPE_LPDDR5      = 0x23, ///< LPDDR5
     DMI_MEMORY_DEVICE_TYPE_HBM3        = 0x24, ///< HBM3 (High Bandwidth Memory Generation 3)
-    DMI_MEMORY_DEVICE_TYPE_MRDIMM      = 0x25, ///< MDRIMM
+    DMI_MEMORY_DEVICE_TYPE_MRDIMM      = 0x25, ///< MRDIMM
     __DMI_MEMORY_DEVICE_TYPE_COUNT
 } dmi_memory_device_type_t;
 
@@ -152,13 +152,54 @@ struct dmi_memory_device
      * memory array to which this device belongs.
      */
     dmi_handle_t array_handle;
+
+    /**
+     * @brief Physical memory array entity, linked by handle, or `nullptr`.
+     */
     dmi_entity_t *array;
+
+    /**
+     * @brief Handle of the memory error information structure (type 18 or
+     * 33) describing the last error detected in the device. 0xFFFE if the
+     * firmware provides no error information, `DMI_HANDLE_INVALID` if no
+     * error has been detected.
+     */
     dmi_handle_t error_info_handle;
+
+    /**
+     * @brief Memory error information entity, linked by handle, or
+     * `nullptr`.
+     */
     dmi_entity_t *error_info;
+
+    /**
+     * @brief Total width of the device, in bits, error-correction bits
+     * included. `USHRT_MAX` if unknown.
+     */
     unsigned short total_width;
+
+    /**
+     * @brief Data width of the device, in bits. `USHRT_MAX` if unknown.
+     */
     unsigned short data_width;
+
+    /**
+     * @brief Size of the device, in bytes. 0 if the socket is empty,
+     * `DMI_SIZE_MAX` if unknown. Sizes of 32 GiB - 1 MiB and above come from
+     * the extended size field added in SMBIOS 2.7.
+     */
     dmi_size_t size;
+
+    /**
+     * @brief Form factor of the device.
+     */
     dmi_memory_device_form_factor_t form_factor;
+
+    /**
+     * @brief Number of the set of devices which must be populated with
+     * devices of the same type and size, 0 if the device belongs to no set,
+     * `USHRT_MAX` if unknown.
+     */
     unsigned short device_set;
 
     /**
@@ -177,44 +218,151 @@ struct dmi_memory_device
      * @brief Type of memory used in this device.
      */
     dmi_memory_device_type_t memory_type;
+
+    /**
+     * @brief Additional details on the memory type.
+     */
     dmi_memory_device_type_detail_t memory_type_detail;
+
+    /**
+     * @brief Maximum speed the device is capable of, in megatransfers per
+     * second (MT/s), 0 if unknown. Speeds of 65535 MT/s and above come from
+     * the extended speed field added in SMBIOS 3.3.
+     *
+     * @since SMBIOS 2.3
+     */
     unsigned long maximum_speed;
+
+    /**
+     * @brief Manufacturer of the device.
+     *
+     * @since SMBIOS 2.3
+     */
     const char *vendor;
 
     /**
      * @brief Serial number of this memory device. This value is set by the
      * manufacturer and normally is not changeable.
+     *
+     * @since SMBIOS 2.3
      */
     const char *serial_number;
 
     /**
      * @brief Asset tag of this memory device.
+     *
+     * @since SMBIOS 2.3
      */
     const char *asset_tag;
 
     /**
      * @brief Part number of this memory device. This value is set by the
      * manufacturer and normally is not changeable.
+     *
+     * @since SMBIOS 2.3
      */
     const char *part_number;
 
+    /**
+     * @brief Rank of the device, 1 to 15, 0 if unknown.
+     *
+     * @since SMBIOS 2.6
+     */
     unsigned short rank;
+
+    /**
+     * @brief Speed the device is configured to run at, in megatransfers per
+     * second (MT/s), 0 if unknown. Speeds of 65535 MT/s and above come from
+     * the extended configured speed field added in SMBIOS 3.3.
+     *
+     * @since SMBIOS 2.7
+     */
     unsigned long configured_speed;
+
+    /**
+     * @brief Minimum operating voltage of the device, in millivolts, 0 if
+     * unknown.
+     *
+     * @since SMBIOS 2.8
+     */
     unsigned short minimum_voltage;
+
+    /**
+     * @brief Maximum operating voltage of the device, in millivolts, 0 if
+     * unknown.
+     *
+     * @since SMBIOS 2.8
+     */
     unsigned short maximum_voltage;
+
+    /**
+     * @brief Voltage the device is configured to run at, in millivolts, 0 if
+     * unknown.
+     *
+     * @since SMBIOS 2.8
+     */
     unsigned short configured_voltage;
+
+    /**
+     * @brief Memory technology of the device.
+     *
+     * @since SMBIOS 3.2
+     */
     dmi_memory_device_tech_t memory_tech;
+
+    /**
+     * @brief Operating modes the device supports, as stored: bit 1 other,
+     * bit 2 unknown, bit 3 volatile memory, bit 4 byte-accessible persistent
+     * memory, bit 5 block-accessible persistent memory.
+     *
+     * @since SMBIOS 3.2
+     */
     uint16_t memory_mode_caps;
+
+    /**
+     * @brief Firmware version of the device.
+     *
+     * @since SMBIOS 3.2
+     */
     const char *firmware_version;
+
+    /**
+     * @brief JEDEC JEP106 manufacturer ID of the module, as read from its
+     * SPD, 0 if unknown.
+     *
+     * @since SMBIOS 3.2
+     */
     uint16_t module_vendor_id;
+
+    /**
+     * @brief Product ID of the module, as read from its SPD, 0 if unknown.
+     *
+     * @since SMBIOS 3.2
+     */
     uint16_t module_product_id;
+
+    /**
+     * @brief JEDEC JEP106 manufacturer ID of the memory subsystem controller,
+     * as read from the SPD, 0 if unknown.
+     *
+     * @since SMBIOS 3.2
+     */
     uint16_t controller_vendor_id;
+
+    /**
+     * @brief Product ID of the memory subsystem controller, as read from the
+     * SPD, 0 if unknown.
+     *
+     * @since SMBIOS 3.2
+     */
     uint16_t controller_product_id;
 
     /**
      * @brief Size of the non-volatile portion of the memory device in bytes,
      * if any. If the value is 0, there is no non-volatile portion. If the
      * non-volatile Size is unknown, the field is set to `DMI_SIZE_MAX`.
+     *
+     * @since SMBIOS 3.2
      */
     dmi_size_t non_volatile_size;
 
@@ -222,6 +370,8 @@ struct dmi_memory_device
      * @brief Size of the volatile portion of the memory device in bytes, if
      * any. If the value is 0, there is no volatile portion. If the volatile
      * size is unknown, the field is set to `DMI_SIZE_MAX`.
+     *
+     * @since SMBIOS 3.2
      */
     dmi_size_t volatile_size;
 
@@ -229,41 +379,56 @@ struct dmi_memory_device
      * @brief Size of the cache portion of the memory device in bytes, if any.
      * If the value is 0, there is no cache portion. If the cache size is
      * unknown, the field is set to `DMI_SIZE_MAX`.
+     *
+     * @since SMBIOS 3.2
      */
     dmi_size_t cache_size;
 
     /**
      * @brief Size of the logical memory device in bytes. If the size is
      * unknown, the field is set to `DMI_SIZE_MAX`.
+     *
+     * @since SMBIOS 3.2
      */
     dmi_size_t logical_size;
 
     /**
      * @brief The two-byte PMIC0 manufacturer ID found in the SPD of this
-     * memory device, LSB first.
+     * memory device, LSB first. 0 if unknown.
+     *
+     * @since SMBIOS 3.7
      */
     uint16_t pmic0_vendor_id;
 
     /**
      * @brief The PMIC 0 Revision Number found in the SPD of this memory
-     * device.
+     * device. 0xFF00 if unknown.
+     *
+     * @since SMBIOS 3.7
      */
     uint16_t pmic0_revision;
 
     /**
      * @brief The two-byte RCD manufacturer ID found in the SPD of this memory
-     * device.
+     * device, LSB first. 0 if unknown.
+     *
+     * @since SMBIOS 3.7
      */
     uint16_t rcd_vendor_id;
 
     /**
      * @brief The RCD Revision Number found in the SPD of this memory device.
+     * 0xFF00 if unknown.
+     *
+     * @since SMBIOS 3.7
      */
     uint16_t rcd_revision;
 
     /**
      * @brief Reference to the structure that identifies the memory channel
-     * to which this device is connected.
+     * to which this device is connected, set when the memory channel
+     * structures (type 37) are linked, `nullptr` if no channel lists the
+     * device.
      */
     dmi_entity_t *channel;
 };

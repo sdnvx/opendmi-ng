@@ -18,25 +18,28 @@ typedef struct dmi_system_boot dmi_system_boot_t;
  */
 typedef enum dmi_boot_status
 {
-    DMI_BOOT_STATUS_NO_ERRORS_DETECTED         = 0x00,
-    DMI_BOOT_STATUS_NO_BOOTABLE_MEDIA          = 0x01,
-    DMI_BOOT_STATUS_OS_FAILED_TO_LOAD          = 0x02,
-    DMI_BOOT_STATUS_FW_DETECTED_HW_FAILURE     = 0x03,
-    DMI_BOOT_STATUS_OS_DETECTED_HW_FAILURE     = 0x04,
-    DMI_BOOT_STATUS_USER_REQUESTED_BOOT        = 0x05,
-    DMI_BOOT_STATUS_SYSTEM_SECURITY_VIOLATION  = 0x06,
-    DMI_BOOT_STATUS_PREVIOUSLY_REQUESTED_IMAGE = 0x07,
-    DMI_BOOT_STATUS_SYSTEM_WDT_EXPIRED         = 0x08,
-    __DMI_BOOT_STATUS_RESERVED_START           = 0x09,
-    __DMI_BOOT_STATUS_RESERVED_END             = 0x7F,
-    __DMI_BOOT_STATUS_VENDOR_SPECIFIC_START    = 0x80,
-    __DMI_BOOT_STATUS_VENDOR_SPECIFIC_END      = 0xBF,
-    __DMI_BOOT_STATUS_PRODUCT_SPECIFIC_START   = 0xC0,
-    __DMI_BOOT_STATUS_PRODUCT_SPECIFIC_END     = 0xFF
+    DMI_BOOT_STATUS_NO_ERRORS_DETECTED         = 0x00, ///< No errors detected
+    DMI_BOOT_STATUS_NO_BOOTABLE_MEDIA          = 0x01, ///< No bootable media
+    DMI_BOOT_STATUS_OS_FAILED_TO_LOAD          = 0x02, ///< Operating system failed to load
+    DMI_BOOT_STATUS_FW_DETECTED_HW_FAILURE     = 0x03, ///< Hardware failure detected by the firmware
+    DMI_BOOT_STATUS_OS_DETECTED_HW_FAILURE     = 0x04, ///< Hardware failure detected by the operating system
+    DMI_BOOT_STATUS_USER_REQUESTED_BOOT        = 0x05, ///< Boot requested by the user
+    DMI_BOOT_STATUS_SYSTEM_SECURITY_VIOLATION  = 0x06, ///< System security violation
+    DMI_BOOT_STATUS_PREVIOUSLY_REQUESTED_IMAGE = 0x07, ///< Boot image requested earlier
+    DMI_BOOT_STATUS_SYSTEM_WDT_EXPIRED         = 0x08, ///< System watchdog timer expired
+    __DMI_BOOT_STATUS_RESERVED_START           = 0x09, ///< First reserved code
+    __DMI_BOOT_STATUS_RESERVED_END             = 0x7F, ///< Last reserved code
+    __DMI_BOOT_STATUS_VENDOR_SPECIFIC_START    = 0x80, ///< First vendor/OEM-specific code
+    __DMI_BOOT_STATUS_VENDOR_SPECIFIC_END      = 0xBF, ///< Last vendor/OEM-specific code
+    __DMI_BOOT_STATUS_PRODUCT_SPECIFIC_START   = 0xC0, ///< First product-specific code
+    __DMI_BOOT_STATUS_PRODUCT_SPECIFIC_END     = 0xFF  ///< Last product-specific code
 } dmi_boot_status_t;
 
 /**
  * @brief System boot information structure (type 32).
+ *
+ * Tells the boot image or the management software why the system has
+ * booted, for example after a hardware failure.
  */
 struct dmi_system_boot
 {

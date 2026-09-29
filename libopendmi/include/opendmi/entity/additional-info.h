@@ -42,8 +42,8 @@ struct dmi_additional_info_entry
     unsigned ref_offset;
 
     /**
-     * @brief Number of the optional string to be associated with the field
-     * referenced by the referenced offset.
+     * @brief Optional string associated with the field referenced by the
+     * referenced offset, @c nullptr if there is none.
      */
     const char *string;
 
@@ -64,6 +64,11 @@ struct dmi_additional_info_entry
 
 /**
  * @brief Additional information structure (type 40).
+ *
+ * Carries values for fields of other structures which the specification had
+ * no way to express yet: new enumerated values, or updated field contents.
+ *
+ * @since SMBIOS 2.6
  */
 struct dmi_additional_info
 {

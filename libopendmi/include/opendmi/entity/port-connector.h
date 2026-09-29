@@ -13,6 +13,9 @@
 
 typedef struct dmi_port_connector dmi_port_connector_t;
 
+/**
+ * @brief Port connector types.
+ */
 typedef enum dmi_connector_type
 {
     DMI_CONNECTOR_TYPE_NONE             = 0x00, ///< None

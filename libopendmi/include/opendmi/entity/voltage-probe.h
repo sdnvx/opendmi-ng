@@ -11,6 +11,10 @@
 
 #include <opendmi/entity/probe.h>
 
+/**
+ * @brief Voltage probe structure (type 26), decoded into `dmi_probe_t`,
+ * which all the probe types share.
+ */
 typedef struct dmi_probe dmi_voltage_probe_t;
 
 /**

@@ -16,23 +16,34 @@ typedef union  dmi_system_log_status   dmi_system_log_status_t;
 typedef struct dmi_system_log_io_ports dmi_system_log_io_ports_t;
 typedef struct dmi_system_log_type_descriptor dmi_system_log_type_descriptor_t;
 
+/**
+ * @brief System event log access methods.
+ *
+ * Tells how software reaches the log area, and how the access method address
+ * is to be read.
+ */
 typedef enum dmi_system_log_access_method {
-    DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_8BIT_1_1 = 0x00, // Indexed I/O: 1 8-bit index port, 1 8-bit data port
-    DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_8BIT_2_1 = 0x01, // Indexed I/O: 2 8-bit index ports, 1 8-bit data port
-    DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_16BIT    = 0x02, // Indexed I/O: 1 16-bit index port, 1 8-bit data port
-    DMI_SYSTEM_LOG_ACCESS_METHOD_MMAP_32BIT_ADDR     = 0x03, // Memory-mapped physical 32-bit address
-    DMI_SYSTEM_LOG_ACCESS_METHOD_DATA_FUNCTIONS      = 0x04, // Available through general-purpose non-volatile data functions
-    // Reserved: 0x05 .. 0x7H
-    DMI_SYSTEM_LOG_ACCESS_METHOD_OEM_START           = 0x80, // 0x80 .. 0xFF Firmware vendor/OEM-specific
-    DMI_SYSTEM_LOG_ACCESS_METHOD_OEM_END             = 0xFF, // 0x80 .. 0xFF Firmware vendor/OEM-specific
+    DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_8BIT_1_1 = 0x00, ///< Indexed I/O: 1 8-bit index port, 1 8-bit data port
+    DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_8BIT_2_1 = 0x01, ///< Indexed I/O: 2 8-bit index ports, 1 8-bit data port
+    DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_16BIT    = 0x02, ///< Indexed I/O: 1 16-bit index port, 1 8-bit data port
+    DMI_SYSTEM_LOG_ACCESS_METHOD_MMAP_32BIT_ADDR     = 0x03, ///< Memory-mapped physical 32-bit address
+    DMI_SYSTEM_LOG_ACCESS_METHOD_DATA_FUNCTIONS      = 0x04, ///< Available through general-purpose non-volatile data functions
+    // Reserved: 0x05 .. 0x7F
+    DMI_SYSTEM_LOG_ACCESS_METHOD_OEM_START           = 0x80, ///< First firmware vendor/OEM-specific value
+    DMI_SYSTEM_LOG_ACCESS_METHOD_OEM_END             = 0xFF, ///< Last firmware vendor/OEM-specific value
 } dmi_system_log_access_method_t;
 
+/**
+ * @brief System event log header formats.
+ *
+ * @since SMBIOS 2.1
+ */
 typedef enum dmi_system_log_header_fmt {
-    DMI_SYSTEM_LOG_HEADER_FMT_NO_HEADER = 0x00, // No header
-    DMI_SYSTEM_LOG_HEADER_FMT_TYPE_1    = 0x01, // Type 1 log header
-    // Reserved: 0x02 .. 0x7EH
-    DMI_SYSTEM_LOG_HEADER_FMT_OEM_START = 0x80, // 0x80 .. 0xFF Firmware OEM-specific format
-    DMI_SYSTEM_LOG_HEADER_FMT_OEM_END   = 0xFF, // 0x80 .. 0xFF Firmware OEM-specific format
+    DMI_SYSTEM_LOG_HEADER_FMT_NO_HEADER = 0x00, ///< No header
+    DMI_SYSTEM_LOG_HEADER_FMT_TYPE_1    = 0x01, ///< Type 1 log header
+    // Reserved: 0x02 .. 0x7F
+    DMI_SYSTEM_LOG_HEADER_FMT_OEM_START = 0x80, ///< First firmware vendor/OEM-specific format
+    DMI_SYSTEM_LOG_HEADER_FMT_OEM_END   = 0xFF, ///< Last firmware vendor/OEM-specific format
 } dmi_system_log_header_fmt_t;
 
 /**
@@ -105,16 +116,22 @@ struct dmi_system_log_type_descriptor
     dmi_event_log_data_format_t data_format;
 };
 
+/**
+ * @brief System event log status.
+ */
 dmi_packed_union(dmi_system_log_status)
 {
+    /**
+     * @brief Raw value.
+     */
     dmi_byte_t __value;
 
     dmi_packed_struct()
     {
-        dmi_byte_t is_log_area_valid : 1;
-        dmi_byte_t is_log_area_full  : 1;
+        dmi_byte_t is_log_area_valid : 1; ///< Log area is valid
+        dmi_byte_t is_log_area_full  : 1; ///< Log area is full
 
-        dmi_byte_t __reserved : 6;
+        dmi_byte_t __reserved : 6; ///< Reserved, set to 0
     };
 };
 
@@ -138,6 +155,9 @@ struct dmi_system_log_io_ports
 
 /**
  * @brief System event log structure (type 15).
+ *
+ * Describes where the event log of the system is kept in non-volatile
+ * storage, how to reach it, and which kinds of events it records.
  */
 struct dmi_system_event_log
 {
@@ -156,8 +176,14 @@ struct dmi_system_event_log
      */
     uint16_t data_offset;
 
+    /**
+     * @brief Method used to access the log area.
+     */
     dmi_system_log_access_method_t access_method;
 
+    /**
+     * @brief Status of the log area.
+     */
     dmi_system_log_status_t status;
 
     /**

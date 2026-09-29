@@ -24,7 +24,7 @@ struct dmi_system_config_opts
     size_t option_count;
 
     /**
-     * @brief Option names.
+     * @brief Option strings, one per option.
      */
     const char **options;
 };

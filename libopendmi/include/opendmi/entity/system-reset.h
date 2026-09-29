@@ -26,6 +26,10 @@ typedef enum dmi_boot_option
 
 /**
  * @brief System reset information (type 23).
+ *
+ * Describes the automatic system reset function: whether it is enabled,
+ * whether the system has a watchdog timer, and what the system does when the
+ * timer expires or the resets reach their limit.
  */
 struct dmi_system_reset
 {
@@ -36,14 +40,13 @@ struct dmi_system_reset
     bool is_enabled;
 
     /**
-     * @brief Boot option. Indicates one of the following actions to be
-     * taken after a watchdog reset.
+     * @brief Boot option: action the system takes after a watchdog reset.
      */
     dmi_boot_option_t boot_on_watchdog;
 
     /**
-     * @brief Boot option on limit. Identifies one of the following system
-     * actions to be taken when the reset limit is reached.
+     * @brief Boot option on limit: action the system takes when the reset
+     * limit is reached.
      */
     dmi_boot_option_t boot_on_limit;
 

@@ -45,7 +45,8 @@ struct dmi_string_property
     dmi_handle_t parent_handle;
 
     /**
-     * @brief The entity this string property applies to.
+     * @brief The entity this string property applies to, @c nullptr if the
+     * parent handle does not refer to a structure which can have properties.
      */
     dmi_entity_t *parent;
 };

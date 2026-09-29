@@ -15,6 +15,10 @@ typedef struct dmi_memory_array_addr dmi_memory_array_addr_t;
 
 /**
  * @brief Memory array mapped address structure (type 19).
+ *
+ * Maps one contiguous range of physical addresses to a physical memory
+ * array. There is one such structure for each range.
+ *
  * @since SMBIOS 2.1
  */
 struct dmi_memory_array_addr
@@ -27,12 +31,15 @@ struct dmi_memory_array_addr
 
     /**
      * @brief Physical ending address, in bytes, of the last of a range of
-     * addresses mapped to the specified physical memory array.
+     * addresses mapped to the specified physical memory array. When the
+     * structure gives the address in kilobytes, this is the address of the
+     * start of the last kilobyte.
      */
     uint64_t end_addr;
 
     /**
-     * @brief Mapped address range size in bytes.
+     * @brief Mapped address range size in bytes, computed as the difference
+     * between the ending and the starting addresses.
      */
     uint64_t range_size;
 

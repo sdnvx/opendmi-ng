@@ -64,7 +64,7 @@ struct dmi_dell_serial_port
     uint16_t base_addr;
 
     /**
-     * @brief IRQ number;
+     * @brief IRQ number.
      */
     uint8_t irq_number;
 
@@ -79,7 +79,7 @@ struct dmi_dell_serial_port
     dmi_dell_serial_port_caps_t capabilities;
 
     /**
-     * @brief Maximum BIOS speed.
+     * @brief Maximum speed the BIOS supports, in bits per second.
      */
     uint32_t maximum_speed;
 

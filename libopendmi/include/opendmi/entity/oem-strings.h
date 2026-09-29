@@ -14,7 +14,10 @@
 typedef struct dmi_oem_strings dmi_oem_strings_t;
 
 /**
- * @brief OEM strings.
+ * @brief OEM strings structure (type 11).
+ *
+ * Holds free-form strings defined by the OEM, such as part numbers of
+ * reference documents or contact information of the manufacturer.
  */
 struct dmi_oem_strings
 {
@@ -24,7 +27,9 @@ struct dmi_oem_strings
     size_t string_count;
 
     /**
-     * @brief String values.
+     * @brief Array of `string_count` strings, in the order of their numbers,
+     * or `nullptr` if there are no strings. An element is `nullptr` if the
+     * structure lacks the string.
      */
     const char **strings;
 };

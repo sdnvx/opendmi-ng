@@ -56,7 +56,7 @@ typedef enum dmi_memory_array_usage
 } dmi_memory_array_usage_t;
 
 /**
- * @brief Physical memory array entity.
+ * @brief Physical memory array structure (type 16).
  */
 struct dmi_memory_array
 {
@@ -99,7 +99,7 @@ struct dmi_memory_array
     dmi_entity_t *error_info;
 
     /**
-     * @brief @brief Number of slots or sockets available for memory devices in this
+     * @brief Number of slots or sockets available for memory devices in this
      * array.
      *
      * This value represents the number of memory device structures that

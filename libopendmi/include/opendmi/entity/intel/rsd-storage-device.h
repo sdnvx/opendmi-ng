@@ -92,7 +92,7 @@ struct dmi_intel_rsd_storage_device
     dmi_intel_rsd_storage_device_type_t type;
 
     /**
-     * @brief Device capacity in Gb.
+     * @brief Device capacity, in gigabytes.
      */
     uint32_t capacity;
 

@@ -54,7 +54,7 @@ typedef enum dmi_version_format
 } dmi_version_format_t;
 
 /**
- * @enum Firmware identifier formats.
+ * @brief Firmware identifier formats.
  */
 typedef enum dmi_firmware_ident_format
 {
@@ -155,7 +155,7 @@ dmi_packed_union(dmi_firmware_inventory_features)
         dmi_word_t is_write_protected : 1;
 
         /**
-         * @brief Reserved for future user.
+         * @brief Reserved for future use.
          */
         dmi_word_t __reserved : 14;
     };
@@ -237,7 +237,12 @@ struct dmi_firmware_ident
 };
 
 /**
- * @brief Firmware inventory information.
+ * @brief Firmware inventory information structure (type 45).
+ *
+ * Describes one firmware component of the system, such as the platform
+ * firmware or the firmware of a BMC or of another device: its name, version,
+ * identifier, vendor, state and the structures of the devices it belongs to.
+ * A table carries one such structure for each firmware component.
  */
 struct dmi_firmware_inventory
 {
@@ -248,7 +253,7 @@ struct dmi_firmware_inventory
 
     /**
      * @brief The firmware version of this firmware. The format of this value
-     * is defined by the fersion format.
+     * is defined by the version format.
      */
     const char *version;
 

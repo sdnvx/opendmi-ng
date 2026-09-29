@@ -40,6 +40,13 @@ typedef enum dmi_probe_location
     __DMI_PROBE_LOCATION_COUNT
 } dmi_probe_location_t;
 
+/**
+ * @brief Voltage, temperature and electrical current probe structure (types
+ * 26, 28 and 29).
+ *
+ * The three types of probes are laid out the same way, and differ only in the
+ * units of the values they carry.
+ */
 struct dmi_probe
 {
     /**

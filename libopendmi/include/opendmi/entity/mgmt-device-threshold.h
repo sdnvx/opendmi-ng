@@ -30,6 +30,14 @@ __dmi_api void dmi_mgmt_device_threshold_set_component(dmi_entity_t *entity, dmi
 
 __END_DECLS
 
+/**
+ * @brief Management device threshold data structure (type 36).
+ *
+ * Holds the thresholds of a probe or cooling device of a management device.
+ * The units of the values are the ones of the component using them:
+ * millivolts, milliamperes, tenths of degree Celsius, or revolutions per
+ * minute. A value is `SHRT_MIN` if the threshold is not available.
+ */
 struct dmi_mgmt_device_threshold
 {
     /**

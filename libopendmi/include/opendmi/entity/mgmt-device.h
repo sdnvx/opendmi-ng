@@ -47,6 +47,13 @@ typedef enum dmi_mgmt_device_addr_type
     __DMI_MGMT_DEVICE_ADDR_TYPE_COUNT
 } dmi_mgmt_device_addr_type_t;
 
+/**
+ * @brief Management device structure (type 34).
+ *
+ * The structure describes a hardware device, such as a sensor chip, which
+ * controls probes or cooling devices, which management device component
+ * structures (type 35) associate with it.
+ */
 struct dmi_mgmt_device
 {
     /**
