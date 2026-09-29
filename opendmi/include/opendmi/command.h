@@ -51,6 +51,17 @@ typedef int dmi_command_main_fn(dmi_context_t *context, int argc, char *argv[]);
  */
 typedef void dmi_command_cleanup_fn(dmi_context_t *context);
 
+/**
+ * @brief Command detachment handler.
+ *
+ * Tells whether the command works without the SMBIOS data with the options it
+ * has been given, e.g. when it only lists what it knows. Called after the
+ * options of the command are parsed, and before the data is loaded.
+ *
+ * @return `true` if the command needs no SMBIOS data, `false` otherwise.
+ */
+typedef bool dmi_command_detached_fn(void);
+
 struct dmi_global_config
 {
     bool  show_version;
@@ -82,6 +93,14 @@ struct dmi_command_ops
     dmi_command_usage_fn *usage;
     dmi_command_main_fn *main;
     dmi_command_cleanup_fn *cleanup;
+
+    /**
+     * @brief Tells whether the command needs no SMBIOS data with the options
+     * it has been given, for the commands which need it otherwise. Commands
+     * which never need the data have the `DMI_COMMAND_FLAG_DETACHED` flag
+     * instead.
+     */
+    dmi_command_detached_fn *detached;
 };
 
 /**

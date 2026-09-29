@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add legal notice to the reference manual
 - Add project website built from the reference manual and published on GitHub Pages
 - Describe the errors every function of the library raises in its manual page
+- Describe lint rules and its severities in the manual page of the `lint` command
 - Add manual pages for `dmi_destroy()`, `dmi_set_logger()` and `dmi_log_message()`
 - Complete the manual pages which held nothing but the synopsis
 - Add Boot Integrity Services (BIS) entry point information decoder
@@ -116,6 +117,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix `lint --list-rules` requiring the SMBIOS data of the system
+- Fix `lint --list-rules` showing the severities of the default profile with `--producer`
 - Fix text of the reference manual garbled in PDF viewers based on poppler
 - Fix code in the reference manual set larger than the text around it
 - Fix broken escape sequence printed for the text of no color of its own, which leaked into the output of the `lint` command

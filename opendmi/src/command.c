@@ -374,8 +374,13 @@ int dmi_command_run(
             break;
         }
 
-        // Load SMBIOS data
-        if ((command->flags & DMI_COMMAND_FLAG_DETACHED) == 0) {
+        // Load SMBIOS data, unless the command needs none, either at all or
+        // with the options it has been given
+        bool detached = command->flags & DMI_COMMAND_FLAG_DETACHED;
+        if (command->handlers.detached != nullptr)
+            detached = detached or command->handlers.detached();
+
+        if (not detached) {
             bool status;
 
             if (dmi_global_config.input_path != nullptr)

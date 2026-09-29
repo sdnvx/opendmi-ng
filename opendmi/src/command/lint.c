@@ -52,6 +52,7 @@ typedef struct dmi_lint_config
 
 static void dmi_lint_usage(void);
 static int dmi_lint_main(dmi_context_t *context, int argc, char *argv[]);
+static bool dmi_lint_detached(void);
 
 static bool dmi_lint_config_enable(dmi_context_t *context, const char *value);
 static bool dmi_lint_config_disable(dmi_context_t *context, const char *value);
@@ -61,8 +62,8 @@ static bool dmi_lint_rule_matches(const dmi_vector_t *codes, const dmi_lint_rule
 static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue);
 static void dmi_lint_summary(const dmi_lint_report_t *report);
 static void dmi_lint_pad(const char *text, size_t width);
-static void dmi_lint_rule_print(const dmi_lint_rule_t *rule);
-static void dmi_lint_rules_print(dmi_context_t *context);
+static void dmi_lint_rule_print(const dmi_lint_rule_t *rule, dmi_lint_profile_t profile);
+static void dmi_lint_rules_print(dmi_context_t *context, dmi_lint_profile_t profile);
 static dmi_tty_color_t dmi_lint_severity_color(dmi_lint_severity_t severity);
 
 static dmi_lint_config_t dmi_lint_config;
@@ -140,8 +141,9 @@ const dmi_command_t dmi_lint_command =
     .options     = dmi_options(&dmi_lint_options),
     .flags       = DMI_COMMAND_FLAG_PAGER,
     .handlers    = {
-        .usage = dmi_lint_usage,
-        .main  = dmi_lint_main
+        .usage    = dmi_lint_usage,
+        .main     = dmi_lint_main,
+        .detached = dmi_lint_detached
     }
 };
 
@@ -159,15 +161,17 @@ static int dmi_lint_main(dmi_context_t *context, int argc, char *argv[])
         return EXIT_USAGE;
     }
 
+    dmi_lint_profile_t profile = dmi_lint_config.producer
+            ? DMI_LINT_PROFILE_PRODUCER : DMI_LINT_PROFILE_READER;
+
     if (dmi_lint_config.list_rules) {
-        dmi_lint_rules_print(context);
+        dmi_lint_rules_print(context, profile);
         return EXIT_SUCCESS;
     }
 
     const dmi_lint_options_t options =
     {
-        .profile = dmi_lint_config.producer
-                ? DMI_LINT_PROFILE_PRODUCER : DMI_LINT_PROFILE_READER,
+        .profile          = profile,
         .all              = dmi_lint_config.check_all,
         .rule_filter      = dmi_lint_rule_filter,
         .rule_filter_data = &dmi_lint_config
@@ -191,6 +195,15 @@ static int dmi_lint_main(dmi_context_t *context, int argc, char *argv[])
         return EXIT_FAILURE;
 
     return EXIT_SUCCESS;
+}
+
+//
+// Listing the rules needs no data, since the rules are the ones of the library
+// and of the modules which are enabled.
+//
+static bool dmi_lint_detached(void)
+{
+    return dmi_lint_config.list_rules;
 }
 
 static bool dmi_lint_config_enable(dmi_context_t *context, const char *value)
@@ -347,9 +360,9 @@ static void dmi_lint_pad(const char *text, size_t width)
         printf(" ");
 }
 
-static void dmi_lint_rule_print(const dmi_lint_rule_t *rule)
+static void dmi_lint_rule_print(const dmi_lint_rule_t *rule, dmi_lint_profile_t profile)
 {
-    dmi_lint_severity_t severity = dmi_lint_rule_severity(rule, DMI_LINT_PROFILE_READER);
+    dmi_lint_severity_t severity = dmi_lint_rule_severity(rule, profile);
     const char *name = dmi_name_lookup(&dmi_lint_severity_names, severity);
 
     dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%4s%s", "", rule->code);
@@ -366,12 +379,12 @@ static void dmi_lint_rule_print(const dmi_lint_rule_t *rule)
     printf("\n");
 }
 
-static void dmi_lint_rules_print(dmi_context_t *context)
+static void dmi_lint_rules_print(dmi_context_t *context, dmi_lint_profile_t profile)
 {
     dmi_tty_header("%s:", dmi_tool_string("Rules"));
 
     for (const dmi_lint_rule_t *const *rule = dmi_lint_rules(); *rule != nullptr; rule++)
-        dmi_lint_rule_print(*rule);
+        dmi_lint_rule_print(*rule, profile);
 
     printf("\n");
 
@@ -386,7 +399,7 @@ static void dmi_lint_rules_print(dmi_context_t *context)
             continue;
 
         for (const dmi_lint_rule_t *rule = spec->lint_rules; rule->code != nullptr; rule++)
-            dmi_lint_rule_print(rule);
+            dmi_lint_rule_print(rule, profile);
     }
 
     printf("\n");

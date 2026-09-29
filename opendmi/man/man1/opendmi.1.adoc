@@ -39,7 +39,9 @@ argument (*-i* _path_, *--file* _path_) or attached to the option
 
 Reading the data of a platform usually requires privileges, because the table
 is taken from physical memory or from an interface the kernel restricts. Dump
-files are read with the privileges of the file itself.
+files are read with the privileges of the file itself. The commands which read
+no data, *explain*, *modules*, *types* and *lint* listing its rules, need no
+privileges at all.
 
 == Commands
 

@@ -62,12 +62,13 @@ specification is violated, and the data cannot be trusted. A *warning* means a
 recommendation is not followed. A *note* points out a peculiarity of the data
 which is not a defect in itself.
 
-=== Rules
+=== Selecting the rules
 
 Rules are named _group_._rule_, e.g. `entry.checksum` or `processor.cores`. The
 groups which apply to any structure are `entry`, `table`, `entity`, `string`,
 `value`, `link`, `overlay` and `quality`; the rest of the groups are named
-after the structure types the rules belong to.
+after the structure types the rules belong to. Every rule is described in the
+Rules section below.
 
 *--enable* and *--disable* take either a full name or a group name, which
 stands for every rule in it. Naming rules with *--enable* leaves the rest of
@@ -119,8 +120,545 @@ Report the errors only, leaving the warnings and the notes out. They are still
 counted in the summary.
 
 *-R*, *--list-rules*::
-List the rules with their severities and descriptions, and exit without
-checking anything.
+List the rules with their descriptions and their severities in the profile
+*--producer* selects, and exit without checking anything. Listing the rules
+reads no SMBIOS data, so it works without access to the platform; the rules of
+the structure types are the ones of the modules which are enabled.
+
+== Rules
+
+Rules are listed by their groups, in the order *--list-rules* lists them. Every rule is
+stated as what the data is expected to be, and an issue is reported where the
+data is not. The severity of a rule is given for the default profile and for
+*--producer*.
+
+=== Entry point
+
+`entry.checksum`::
+Severity: warning, or error with *--producer*.
++
+Bytes of the entry point add up to zero, which is what its checksum is for.
+The entry point of SMBIOS 2.1 is checked twice, as a whole and for the
+intermediate anchor it carries, which has a checksum of its own.
+
+`entry.length`::
+Severity: warning, or error with *--producer*.
++
+Length the entry point declares is at least the length of its format, and is
+no longer than the data the entry point has been read from.
+
+`entry.table-address`::
+Severity: warning, or error with *--producer*.
++
+Entry point declares the address of the table, rather than an address of
+zero.
+
+`entry.table-size`::
+Severity: warning, or error with *--producer*.
++
+Table is as long as the entry point declares it. The entry point of SMBIOS 3.0
+declares the maximum size of the table rather than its size, and the table is
+then no longer than that.
+
+`entry.entity-count`::
+Severity: warning, or error with *--producer*.
++
+Table holds as many structures as the entry point declares. Only the entry
+points of SMBIOS 2.1 and earlier declare the number.
+
+`entry.entity-max-size`::
+Severity: warning, or error with *--producer*.
++
+No structure is longer than the size of the largest structure the entry point
+declares.
+
+=== Table
+
+`table.truncated`::
+Severity: error.
++
+Table ends after a whole structure, rather than in the middle of one.
+
+`table.terminator`::
+Severity: warning, or error with *--producer*.
++
+Table ends with an end-of-table structure.
+
+`table.trailing-data`::
+Severity: note, or error with *--producer*.
++
+No data follows the end-of-table structure within the table. The issue tells
+how many bytes follow it.
+
+`table.missing-required`::
+Severity: warning, or error with *--producer*.
++
+Table has a structure of every type the specification requires for the
+version the entry point declares. Since SMBIOS 2.3, these are the platform
+firmware information, the system information, the system enclosure, the
+processor, the cache, the physical memory array, the memory device, the memory
+array mapped address and the system boot information.
+
+`table.missing-recommended`::
+Severity: note, or warning with *--producer*. Checked with *--all-checks* only.
++
+Table has a structure of every type the specification recommends for the
+version the entry point declares. Since SMBIOS 2.3, these are the port
+connector information and the system slots.
+
+`table.duplicate-singleton`::
+Severity: warning, or error with *--producer*.
++
+Table has one structure at most of every type the specification allows only
+one of, which are the platform firmware information and the system
+information.
+
+`table.reserved-handle`::
+Severity: warning, or error with *--producer*.
++
+No structure has a handle of the range from 0xFF00 to 0xFFFF, which the
+specification reserves. The end-of-table structure is left out, since firmware
+commonly gives it a handle of that range.
+
+=== Structures
+
+`entity.below-minimum`::
+Severity: error.
++
+Structure is at least as long as the minimum length of its type. A structure
+which is shorter is not decoded.
+
+`entity.unknown-length`::
+Severity: warning, or error with *--producer*.
++
+Structure ends where a version of the specification of its type ends it,
+rather than in the middle of a set of fields. The fields of such a structure
+are decoded up to where it ends.
+
+`entity.undecoded`::
+Severity: warning, or error with *--producer*.
++
+Structure of a type which has fields to decode has been decoded.
+
+`entity.newer-fields`::
+Severity: note, or error with *--producer*.
++
+Structure has no fields added by a version of the specification newer than
+the one the entry point declares.
+
+`entity.newer-type`::
+Severity: warning, or error with *--producer*.
++
+Type of the structure is defined by the version of the specification the entry
+point declares, or by an earlier one.
+
+`entity.unknown-type`::
+Severity: note, or warning with *--producer*. Checked with *--all-checks* only.
++
+Type of the structure is described by the specification or by an enabled
+module. The type of an OEM-specific structure, from 128 to 255, is known to
+the module of its vendor only, which may be disabled rather than missing.
+
+`entity.obsolete`::
+Severity: note, or warning with *--producer*. Checked with *--all-checks* only.
++
+Structure is not of a type the specification has made obsolete, which are the
+memory controller information, the memory module information and the on
+board devices information.
+
+=== Strings
+
+`string.too-long`::
+Severity: warning, or error with *--producer*.
++
+No string is longer than 64 characters.
+
+`string.non-printable`::
+Severity: warning, or error with *--producer*.
++
+Strings hold printable characters only. A control character is data which has
+ended up in the strings rather than text. Characters above 0x7F are taken for
+text in an encoding other than ASCII.
+
+`string.blank`::
+Severity: note, or warning with *--producer*.
++
+No string holds whitespace only.
+
+`string.padded`::
+Severity: note, or warning with *--producer*. Checked with *--all-checks* only.
++
+No string has leading or trailing whitespace.
+
+`string.unreferenced`::
+Severity: note, or warning with *--producer*. Checked with *--all-checks* only.
++
+Every string of a decoded structure is referenced by one of its fields, rather
+than taking up space nothing reads.
+
+=== Values
+
+Rules of the values check the fields of the decoded structures, including the
+ones of the nested structures and of the arrays. Values which stand for an
+unknown or an unspecified one are left out.
+
+`value.invalid-enum`::
+Severity: warning, or error with *--producer*.
++
+Fields of enumerated values hold values defined by a version of the
+specification.
+
+`value.reserved`::
+Severity: note, or error with *--producer*.
++
+Fields of enumerated values hold no values the specification reserves.
+
+`value.reserved-bits`::
+Severity: note, or error with *--producer*.
++
+Bit fields have no bits set which the specification reserves between the ones
+it defines. Bits above the highest one it defines are left to the vendors,
+e.g. the bits 32 to 63 of the firmware characteristics, and are not reported.
+
+`value.bcd`::
+Severity: warning, or error with *--producer*.
++
+Fields the specification encodes as binary-coded decimals hold a decimal digit
+in every nibble.
+
+`value.range`::
+Severity: warning, or error with *--producer*.
++
+Fields hold values within the limits the specification sets for them.
+
+`value.jep106`::
+Severity: warning, or error with *--producer*.
++
+Manufacturer identification codes of JEDEC lead to one of the nine banks
+JEP106 defines, and have an odd number of bits set in their identifier byte,
+whose highest bit is a parity bit.
+
+`value.uuid`::
+Severity: note, or warning with *--producer*. Checked with *--all-checks* only.
++
+UUIDs identify something. A UUID of all zeroes stands for one which is not
+set, and a UUID of all ones for one which is not present: the specification
+allows both, but they identify nothing.
+
+=== References
+
+Rules of the references check the fields holding the handles of other
+structures. Handles 0xFFFE and 0xFFFF stand for no reference, and are left
+out.
+
+`link.dangling`::
+Severity: warning, or error with *--producer*.
++
+References point to structures of the table.
+
+`link.wrong-type`::
+Severity: warning, or error with *--producer*.
++
+References point to structures of the types the fields expect, e.g. the cache
+handles of a processor to caches.
+
+`link.self`::
+Severity: warning, or error with *--producer*.
++
+No structure references itself.
+
+`link.orphan`::
+Severity: note. Checked with *--all-checks* only.
++
+Structures which describe a part of another one are referenced by a structure
+of the table. These are the caches, the voltage, temperature and current
+probes, the management devices and the thresholds of the management devices.
+
+=== Additional information
+
+Rules of the additional information check the entries of the additional
+information structures, which put values in place of the fields of other
+structures.
+
+`overlay.dangling`::
+Severity: warning, or error with *--producer*.
++
+Entries refer to structures of the table.
+
+`overlay.out-of-bounds`::
+Severity: warning, or error with *--producer*.
++
+Entries refer to fields of the structures: the offset they refer to is past
+the header of the structure, and the value they carry ends within it.
+
+`overlay.empty`::
+Severity: note, or warning with *--producer*. Checked with *--all-checks* only.
++
+Entries carry a value or a string.
+
+=== Data quality
+
+`quality.placeholder`::
+Severity: note, or warning with *--producer*. Checked with *--all-checks* only.
++
+Strings hold data rather than the placeholders firmware vendors leave in
+place, e.g. `To Be Filled By O.E.M.`, `Default string`, `System Serial Number`
+or `N/A`, which are compared regardless of case.
+
+=== Structure types
+
+Rules of the structure types are named after the codes of the types they
+belong to.
+
+`firmware.rom-size`::
+Severity: warning, or error with *--producer*.
++
+ROM size of 0xFF, which refers to the extended ROM size, is used only by the
+structures of SMBIOS 3.1 and later, which carry it.
+
+`firmware.release-date`::
+Severity: note, or warning with *--producer*.
++
+Release date is written as _mm/dd/yyyy_, the way the specification requires
+since SMBIOS 2.3, rather than with a year of two digits.
+
+`processor.family`::
+Severity: warning, or error with *--producer*.
++
+Processor family of 0xFE, which refers to the second processor family field,
+is used only by the structures of SMBIOS 2.6 and later, which carry it.
+
+`processor.id`::
+Severity: note, or error with *--producer*.
++
+Signature and feature flags of the identifier of an x86 processor are stored
+in the order of the specification, the signature first. Firmware of some
+vendors stores them the other way round, which the decoder puts back in
+place, and which is told by the bits the signature reserves.
+
+`processor.cores`::
+Severity: warning, or error with *--producer*.
++
+Enabled cores and threads are no more than the ones the processor has, and
+the processor has at least as many threads as cores.
+
+`processor.speed`::
+Severity: note, or warning with *--producer*.
++
+Current speed of the processor is no higher than its maximum speed.
+
+`processor.cache`::
+Severity: warning, or error with *--producer*.
++
+L1, L2 and L3 cache handles of the processor refer to caches of those levels.
+
+`memory-controller.module-size`::
+Severity: warning, or error with *--producer*.
++
+Installed and enabled sizes of the memory modules of the controller are no
+larger than the largest module the controller supports.
+
+`cache.size`::
+Severity: warning, or error with *--producer*.
++
+Installed size of the cache is no larger than its maximum size.
+
+`cache.sram`::
+Severity: warning, or error with *--producer*.
++
+Current SRAM type of the cache is one of the SRAM types it supports.
+
+`slot.width`::
+Severity: warning, or error with *--producer*.
++
+Physical width of the slot is at least the width of its bus, since a card as
+wide as the bus has to fit the slot.
+
+`system-event-log.area`::
+Severity: warning, or error with *--producer*.
++
+Header and data of the log start within the area of the log.
+
+`system-event-log.descriptors`::
+Severity: warning, or error with *--producer*.
++
+Descriptors of the supported log types are 2 bytes long, which is the length
+the specification defines.
+
+`memory-array.extended-capacity`::
+Severity: warning, or error with *--producer*.
++
+Maximum capacity of 0x80000000, which refers to the extended maximum
+capacity, is used only by the structures long enough to carry it.
+
+`memory-array.device-count`::
+Severity: warning, or error with *--producer*.
++
+Number of the memory devices the array declares matches the number of the
+memory device structures referring to it, which are counted whether they are
+populated or not.
+
+`memory-array.capacity`::
+Severity: warning, or error with *--producer*.
++
+Sizes of the memory devices of the array add up to no more than its maximum
+capacity.
+
+`memory-device.extended-size`::
+Severity: warning, or error with *--producer*.
++
+Size of 0x7FFF, which refers to the extended size, is used only by the
+structures long enough to carry it.
+
+`memory-device.width`::
+Severity: warning, or error with *--producer*.
++
+Total width of the device, which covers the data bits and the bits of error
+correction, is at least its data width.
+
+`memory-device.speed`::
+Severity: note, or warning with *--producer*.
++
+Configured speed of the device is no higher than its maximum speed.
+
+`memory-device.voltage`::
+Severity: warning, or error with *--producer*.
++
+Configured voltage of the device is within its minimum and maximum voltages.
+
+`memory-device.sizes`::
+Severity: warning, or error with *--producer*.
++
+Volatile and non-volatile sizes of the device add up to no more than its
+size.
+
+`memory-array-address.range`::
+Severity: error.
++
+Mapped address range starts no later than it ends.
+
+`memory-array-address.overlap`::
+Severity: warning, or error with *--producer*.
++
+Mapped address ranges of the memory arrays do not overlap, since they describe
+the physical address space of the system. Every pair of the ranges is reported
+once, by the structure of the higher handle.
+
+`memory-device-address.range`::
+Severity: error.
++
+Mapped address range starts no later than it ends.
+
+`memory-device-address.bounds`::
+Severity: warning, or error with *--producer*.
++
+Mapped address range of the device lies within the mapped address range of
+the memory array it belongs to.
+
+`portable-battery.sbds`::
+Severity: note, or warning with *--producer*.
++
+Battery carries either its own serial number and chemistry or the SBDS ones,
+rather than both, since the specification puts the SBDS values in place of
+the others.
+
+`system-reset.limit`::
+Severity: warning, or error with *--producer*.
++
+Number of the resets is no higher than the limit of them.
+
+`power-controls.bcd`::
+Severity: warning, or error with *--producer*.
++
+Month, day, hour, minute and second of the next scheduled power-on are
+binary-coded decimals. Fields which are not set hold 0xFF, and are left out.
+
+`voltage-probe.range`::
+Severity: warning, or error with *--producer*.
++
+Minimum value of the probe is no higher than its maximum value, and its
+nominal value is within them.
+
+`cooling-device.probe`::
+Severity: warning, or error with *--producer*.
++
+Temperature probe handle of the cooling device refers to a temperature probe.
+
+`temperature-probe.range`::
+Severity: warning, or error with *--producer*.
++
+Minimum value of the probe is no higher than its maximum value, and its
+nominal value is within them.
+
+`current-probe.range`::
+Severity: warning, or error with *--producer*.
++
+Minimum value of the probe is no higher than its maximum value, and its
+nominal value is within them.
+
+`mgmt-device-threshold.order`::
+Severity: warning, or error with *--producer*.
++
+Lower thresholds grow from the non-recoverable one to the critical and the
+non-critical ones, and the upper ones grow from the non-critical one to the
+critical and the non-recoverable ones. Thresholds left as a template are
+reported by `mgmt-device-threshold.template` instead.
+
+`mgmt-device-threshold.template`::
+Severity: note, or error with *--producer*.
++
+Thresholds hold values rather than the ordinals of the fields holding them,
+which firmware leaves in place from the template of the structure.
+
+`memory-channel.load`::
+Severity: warning, or error with *--producer*.
++
+Loads of the memory devices of the channel add up to no more than the maximum
+load it supports.
+
+`ipmi-device.revision`::
+Severity: warning, or error with *--producer*.
++
+Revision of the IPMI specification is a binary-coded decimal, e.g. 0x20 for
+IPMI 2.0.
+
+`power-supply.probes`::
+Severity: warning, or error with *--producer*.
++
+Voltage probe, cooling device and current probe handles of the power supply
+refer to structures of those types.
+
+`onboard-device-ex.instance`::
+Severity: warning, or error with *--producer*.
++
+No two onboard devices of the same type share an instance number, which is
+what tells them apart. Every pair is reported once, by the structure of the
+higher handle.
+
+`mgmt-controller-host-if.records`::
+Severity: warning, or error with *--producer*.
++
+Interface-specific data leaves room for the protocol records, and every
+protocol record fits the structure.
+
+`tpm-device.vendor`::
+Severity: note, or error with *--producer*.
++
+Vendor identifier is stored in the order of the specification, rather than as
+a little-endian double word, which starts with the terminating zero, e.g.
+`\0XFI` for `IFX`. The decoder puts the identifier back in place.
+
+`tpm-device.version`::
+Severity: warning, or error with *--producer*.
++
+Specification version of the device is a version of the TPM specifications
+the TCG has published, 1.x or 2.x.
+
+`firmware-inventory.version`::
+Severity: warning, or error with *--producer*.
++
+Version of the firmware is no older than the lowest supported version, when
+both are written in the same format other than a free-form one.
 
 == Exit status
 
@@ -178,6 +716,12 @@ List the rules and what they check:
 
 ....
 $ opendmi lint -R
+....
+
+List the rules with the severities they have for the data being written:
+
+....
+$ opendmi lint -R -P
 ....
 
 == See also
