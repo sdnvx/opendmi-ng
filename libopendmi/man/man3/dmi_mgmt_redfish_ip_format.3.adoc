@@ -1,0 +1,68 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_redfish_ip_format(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_redfish_ip_format
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_redfish_ip_format - Redfish IP address formats
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef enum dmi_mgmt_redfish_ip_format {
+    DMI_MGMT_REDFISH_IP_FORMAT_UNKNOWN = 0x00,
+    DMI_MGMT_REDFISH_IP_FORMAT_IPV4    = 0x01,
+    DMI_MGMT_REDFISH_IP_FORMAT_IPV6    = 0x02
+} dmi_mgmt_redfish_ip_format_t;
+----
+
+== Description
+
+The `dmi_mgmt_redfish_ip_format_t` enumeration tells the format of the IP
+addresses and masks of a Redfish over IP protocol record, and is the type of
+the `host_ip_format` and `service_ip_format` fields of
+`dmi_mgmt_redfish_over_ip_t`. The values the enumeration does not name are
+reserved.
+
+=== Values
+
+`DMI_MGMT_REDFISH_IP_FORMAT_UNKNOWN`::
+Unknown. The address and the mask take 16 bytes.
+
+`DMI_MGMT_REDFISH_IP_FORMAT_IPV4`::
+IPv4. The address and the mask take 4 bytes.
+
+`DMI_MGMT_REDFISH_IP_FORMAT_IPV6`::
+IPv6. The address and the mask take 16 bytes.
+
+== See also
+
+`dmi_mgmt_redfish_over_ip`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), which defines this data of
+the management controller host interface structure (type 42) of the DMTF SMBIOS
+Specification (DSP0134).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

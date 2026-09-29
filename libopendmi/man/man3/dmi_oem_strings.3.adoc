@@ -1,0 +1,83 @@
+ifdef::backend-manpage[]
+= dmi_oem_strings(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_oem_strings
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_oem_strings - OEM strings structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/oem-strings.h>
+
+typedef struct dmi_oem_strings {
+    size_t string_count;
+    const char **strings;
+} dmi_oem_strings_t;
+----
+
+== Description
+
+The `dmi_oem_strings_t` structure holds the decoded OEM strings structure
+(type 11) of SMBIOS: free-form strings defined by the OEM, such as part
+numbers of reference documents or contact information of the manufacturer.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(OEM_STRINGS)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`string_count`::
+Number of strings the structure declares.
+
+`strings`::
+Array of `string_count` strings, element `i` holding the string number `i +
+1`, or `nullptr` if `string_count` is 0. An element is `nullptr` if the
+structure has fewer strings than it declares.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t    *registry = dmi_get_registry(context);
+dmi_entity_t      *entity   = dmi_registry_lookup_first(registry,
+                                  DMI_TYPE(OEM_STRINGS), false);
+dmi_oem_strings_t *oem      = dmi_entity_info(entity,
+                                  DMI_TYPE(OEM_STRINGS));
+
+if (oem != nullptr) {
+    for (size_t i = 0; i < oem->string_count; i++)
+        printf("%zu: %s\n", i + 1, oem->strings[i] ? oem->strings[i] : "");
+}
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_entity_string`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

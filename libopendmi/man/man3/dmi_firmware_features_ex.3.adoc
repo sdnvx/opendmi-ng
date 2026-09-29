@@ -1,0 +1,126 @@
+ifdef::backend-manpage[]
+= dmi_firmware_features_ex(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_features_ex
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_features_ex - platform firmware extended features
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware.h>
+
+typedef union dmi_firmware_features_ex {
+    dmi_byte_t __value[2];
+    struct {
+        bool acpi_support         : 1;
+        bool usb_legacy_support   : 1;
+        bool agp_support          : 1;
+        bool boot_i2o             : 1;
+        bool boot_ls120           : 1;
+        bool boot_atapi_zip       : 1;
+        bool boot_ieee1394        : 1;
+        bool smart_battery        : 1;
+
+        bool bios_boot_spec       : 1;
+        bool boot_network_fn_key  : 1;
+        bool content_distribution : 1;
+        bool uefi_spec            : 1;
+        bool virtual_machine      : 1;
+        bool mfg_mode_support     : 1;
+        bool mfg_mode_enabled     : 1;
+    };
+} dmi_firmware_features_ex_t;
+----
+
+== Description
+
+The `dmi_firmware_features_ex_t` union holds the features of the platform
+firmware which the extension bytes of the platform firmware information
+structure (type 0) of SMBIOS give. It is the type of the `features_ex` field
+of `dmi_firmware_t`. Each bit, when set, tells that the feature is supported.
+
+The first byte is present since SMBIOS 2.1, and the second one since
+SMBIOS 2.3; the bits of a byte the structure does not carry are 0.
+
+=== Fields
+
+`__value`::
+Both bytes, as stored.
+
+`acpi_support`::
+ACPI.
+
+`usb_legacy_support`::
+USB legacy support.
+
+`agp_support`::
+AGP.
+
+`boot_i2o`::
+Boot from I2O devices.
+
+`boot_ls120`::
+Boot from LS-120 SuperDisk.
+
+`boot_atapi_zip`::
+Boot from ATAPI ZIP drives.
+
+`boot_ieee1394`::
+Boot from IEEE 1394 devices.
+
+`smart_battery`::
+Smart battery.
+
+`bios_boot_spec`::
+BIOS Boot Specification. Present since SMBIOS 2.3, as all the
+following bits.
+
+`boot_network_fn_key`::
+Network boot started by a function key.
+
+`content_distribution`::
+The SMBIOS data identifies the system well enough for the targeted
+distribution of software and firmware.
+
+`uefi_spec`::
+UEFI specification.
+
+`virtual_machine`::
+The system is a virtual machine. A clear bit tells nothing.
+
+`mfg_mode_support`::
+Manufacturing mode, a boot mode used while the system is
+manufactured and tested.
+
+`mfg_mode_enabled`::
+Manufacturing mode is enabled.
+
+== See also
+
+`dmi_firmware`(3), `dmi_firmware_features`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

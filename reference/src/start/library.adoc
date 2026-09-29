@@ -2,6 +2,7 @@
 :sectnums:
 :sectlinks:
 
+[#using-the-library]
 This chapter shows how a program reads the data through the `libopendmi`
 library. Every function is described in full in the part of this manual about
 the C library.

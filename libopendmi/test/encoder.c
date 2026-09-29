@@ -203,7 +203,7 @@ static const uint8_t test_array_addr_ex[] = {
     0x01, 0x00,                                         // Memory array handle
     0x01,                                               // Partition width
     0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,     // Extended starting address
-    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01, 0x00, 0x00,     // Extended ending address
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x07, 0x00, 0x00,     // Extended ending address
     0x00, 0x00
 };
 
@@ -217,7 +217,7 @@ static void test_encoder_extended_governed(void **pstate)
     const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
     assert_non_null(info);
     assert_int_equal(info->start_addr, 0x0000010000000000uLL);
-    assert_int_equal(info->end_addr,   0x000001FFFFFFFFFFuLL);
+    assert_int_equal(info->end_addr,   0x000007FFFFFFFFFFuLL);
 
     dmi_buffer_t *buffer = dmi_buffer_create(context);
     dmi_encoder_t encoder;
@@ -251,9 +251,9 @@ static void test_encoder_extended_canonical(void **pstate)
     uint8_t data[sizeof(test_array_addr_ex)];
     memcpy(data, test_array_addr_ex, sizeof(data));
 
-    // Extended ending address is a whole number of kilobytes
-    data[0x17] = 0x00;
-    data[0x18] = 0xFC;
+    // Extended ending address is the last byte of a kilobyte the plain field
+    // is wide enough for
+    data[0x1C] = 0x01;
 
     dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
 

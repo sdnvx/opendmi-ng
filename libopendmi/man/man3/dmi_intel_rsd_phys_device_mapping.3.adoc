@@ -1,0 +1,102 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_phys_device_mapping(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_phys_device_mapping
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_phys_device_mapping - Intel RSD physical device mapping
+information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-phys-device-mapping.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_phys_device_mapping {
+    dmi_intel_rsd_phys_device_type_t device_type;
+    size_t device_count;
+    dmi_intel_rsd_phys_device_t *devices;
+} dmi_intel_rsd_phys_device_mapping_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_phys_device_mapping_t` structure holds the decoded physical
+device mapping information structure (type 200) of Intel Rack Scale Design
+(RSD) firmware: where the devices described by other structures physically
+are, as socket, riser and slot numbers. A structure lists devices of a single
+type; a table may hold several structures for the same type when the devices
+do not fit into one.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`device_type`::
+Type of all the devices of the structure, which tells what their location
+numbers mean (see `dmi_intel_rsd_phys_device_type`(3)).
+
+`device_count`::
+Number of elements of `devices`: the entries the structure holds completely.
+
+`devices`::
+Locations of the devices, an array of `device_count` elements (see
+`dmi_intel_rsd_phys_device`(3)), `nullptr` if there are none.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                               DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING), true);
+
+dmi_intel_rsd_phys_device_mapping_t *mapping =
+        dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING));
+
+if ((mapping != nullptr) &&
+    (mapping->device_type == DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY)) {
+    for (size_t i = 0; i < mapping->device_count; i++)
+        printf("Handle 0x%04X: socket %u, DIMM slot %u\n",
+               (unsigned)mapping->devices[i].handle,
+               (unsigned)mapping->devices[i].primary_number,
+               (unsigned)mapping->devices[i].secondary_number);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_intel_rsd_phys_device`(3),
+`dmi_intel_rsd_phys_device_type`(3), `dmi_processor`(3), `dmi_slot`(3),
+`dmi_memory_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware, see the Intel RSD Physical Device Mapping Information (Type 200)
+chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

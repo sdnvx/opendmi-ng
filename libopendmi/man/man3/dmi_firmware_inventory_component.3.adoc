@@ -1,0 +1,64 @@
+ifdef::backend-manpage[]
+= dmi_firmware_inventory_component(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_inventory_component
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_inventory_component - component associated with a firmware
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-inventory.h>
+
+typedef struct dmi_firmware_inventory_component {
+    dmi_handle_t handle;
+    dmi_entity_t *entity;
+} dmi_firmware_inventory_component_t;
+----
+
+== Description
+
+The `dmi_firmware_inventory_component_t` structure identifies one structure
+associated with a firmware inventory information structure, that is one device
+the firmware belongs to. The `components` array of `dmi_firmware_inventory_t`
+holds these structures.
+
+=== Fields
+
+`handle`::
+Handle of the associated structure.
+
+`entity`::
+Associated structure, of any type, or `nullptr` if `handle` is
+`DMI_HANDLE_INVALID` or `DMI_HANDLE_UNSUPPORTED`, or if the table has no
+structure with this handle.
+
+== See also
+
+`dmi_firmware_inventory`(3),
+`dmi_entity_info`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,142 @@
+ifdef::backend-manpage[]
+= dmi_baseboard(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_baseboard
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_baseboard - baseboard or module information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/baseboard.h>
+
+typedef struct dmi_baseboard {
+    const char *vendor;
+    const char *product;
+    const char *version;
+    const char *serial_number;
+    const char *asset_tag;
+    dmi_baseboard_features_t features;
+    const char *location;
+    dmi_handle_t chassis_handle;
+    dmi_entity_t *chassis;
+    dmi_baseboard_type_t type;
+    size_t object_count;
+    dmi_handle_t *object_handles;
+    dmi_entity_t **objects;
+} dmi_baseboard_t;
+----
+
+== Description
+
+The `dmi_baseboard_t` structure holds the decoded baseboard or module
+information structure (type 2) of SMBIOS: the identity and the properties of a
+board of the system, such as the motherboard, a server blade or a module
+plugged into the system.
+
+A table has one such structure per board it describes. When there are several
+of them, each one lists the structures of the elements mounted on the board.
+When there is only one and it lists no elements, or when there is none, every
+element of the table belongs to a single motherboard.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(BASEBOARD)`, and lives as long as the context it has been decoded in.
+
+=== Fields
+
+`vendor`::
+Name of the manufacturer of the board, or `nullptr` if the structure does not
+name one.
+
+`product`::
+Product name of the board, or `nullptr`.
+
+`version`::
+Version of the board, or `nullptr`.
+
+`serial_number`::
+Serial number of the board, or `nullptr`.
+
+`asset_tag`::
+Asset tag of the board, or `nullptr` if the structure carries none or is too
+short to hold it.
+
+`features`::
+Feature flags of the board, see `dmi_baseboard_features`(3). All the flags are
+clear if the structure is too short to hold them.
+
+`location`::
+Location of the board within the chassis it resides in, or `nullptr`.
+
+`chassis_handle`::
+Handle of the chassis structure (type 3) the board resides in.
+`DMI_HANDLE_INVALID` if the structure is too short to hold it.
+
+`chassis`::
+Chassis the board resides in, resolved from `chassis_handle` once the table has
+been linked. `nullptr` if the handle is `DMI_HANDLE_INVALID` or
+`DMI_HANDLE_UNSUPPORTED`, or does not refer to a chassis structure.
+
+`type`::
+Type of the board, see `dmi_baseboard_type`(3). `DMI_BASEBOARD_TYPE_UNSPEC` if
+the structure is too short to hold it.
+
+`object_count`::
+Number of the elements of `object_handles` and of `objects`, which is the
+number of the handles of the contained elements the structure holds in full.
+Zero if the structure lists no elements, or is too short to hold the list.
+
+`object_handles`::
+Handles of the structures describing the elements the board contains, such as
+other boards, processors, ports, system slots or memory devices, or `nullptr`
+if there are none.
+
+`objects`::
+Structures `object_handles` refer to, in the same order, resolved once the
+table has been linked. An element is `nullptr` if its handle does not refer to
+a structure of the table. The array is `nullptr` if there are no elements.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t  *registry = dmi_get_registry(context);
+dmi_entity_t    *entity   = dmi_registry_lookup_first(registry,
+                                                      DMI_TYPE(BASEBOARD),
+                                                      false);
+dmi_baseboard_t *board    = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
+
+if ((board != nullptr) && (board->product != nullptr))
+    printf("%s, %zu contained elements\n", board->product,
+           board->object_count);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_baseboard_features`(3), `dmi_baseboard_type`(3),
+`dmi_chassis`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

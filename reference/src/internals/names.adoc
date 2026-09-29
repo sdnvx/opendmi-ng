@@ -1,0 +1,130 @@
+= Name sets
+:sectnums:
+:sectlinks:
+
+[#internals-names]
+Enumerated values of the data are numbers, and a name set, `dmi_name_set_t`,
+gives each of them two names: a code, which the exported data and the command
+line options use, and a name, which the output shows. The cache types are
+named this way, in `libopendmi/src/entity/cache-names.c`:
+
+[source,c]
+----
+const dmi_name_set_t dmi_cache_type_names =
+{
+    .code  = "cache-type",
+    .names = DMI_NAMES({
+        DMI_NAME_UNSPEC(DMI_CACHE_TYPE_UNSPEC),
+        DMI_NAME_OTHER(DMI_CACHE_TYPE_OTHER),
+        DMI_NAME_UNKNOWN(DMI_CACHE_TYPE_UNKNOWN),
+        {
+            .id   = DMI_CACHE_TYPE_INSTRUCTION,
+            .code = "instruction",
+            .name = "Instruction"
+        },
+        {
+            .id   = DMI_CACHE_TYPE_DATA,
+            .code = "data",
+            .name = "Data"
+        },
+        {
+            .id   = DMI_CACHE_TYPE_UNIFIED,
+            .code = "unified",
+            .name = "Unified"
+        },
+        {}
+    })
+};
+----
+
+The values almost every enumeration of the specification has are named by
+helpers, which give them the same codes and names everywhere:
+`DMI_NAME_UNSPEC`, `DMI_NAME_UNKNOWN`, `DMI_NAME_OTHER`, `DMI_NAME_NONE`,
+`DMI_NAME_UNSUPPORTED` and `DMI_NAME_RESERVED`.
+
+== Ranges
+
+Values the specification gives one meaning to a whole range of, e.g. the ones
+it leaves to the vendors, are named by ranges rather than one by one, which
+the name set lists after the names:
+
+[source,c]
+----
+const dmi_name_set_t dmi_example_names =
+{
+    .code   = "example",
+    .names  = DMI_NAMES({
+        DMI_NAME_UNKNOWN(0x00),
+        {
+            .id   = 0x01,
+            .code = "fan",
+            .name = "Fan"
+        },
+        {}
+    }),
+    .ranges = DMI_NAME_RANGES({
+        {
+            .start_id = 0x80,
+            .end_id   = 0xFF,
+            .code     = "vendor-specific",
+            .name     = "Vendor-specific"
+        },
+        {}
+    })
+};
+----
+
+A value is looked up among the names first, and among the ranges then, so a
+name given to a value of a range takes precedence over the range.
+
+== Looking the names up
+
+Name sets of the structure types are private to the library, which looks the
+names up with `dmi_code_lookup` and `dmi_name_lookup`, giving the code and the
+name of a value, or `nullptr` for a value the set does not name, and with
+`dmi_code_lookup_rev`, giving the value of a code back, which is how the
+options of the tool take values by their codes:
+
+[source,c]
+----
+const char *code = dmi_code_lookup(&dmi_cache_type_names,
+                                   DMI_CACHE_TYPE_DATA);
+const char *name = dmi_name_lookup(&dmi_cache_type_names,
+                                   DMI_CACHE_TYPE_DATA);
+int         id   = dmi_code_lookup_rev(&dmi_cache_type_names, "unified");
+----
+
+A program gets the names through the functions most enumerations have, e.g.
+`dmi_cache_type_name`(3), and through the attributes, which refer to the name
+sets.
+
+Name sets are what the attributes of the enumerated values and of the sets of
+bits refer to by `values`, see
+xref:internals/structures.adoc#internals-structures[Describing a structure], so
+a value is shown by its name and exported by its code wherever it appears, and
+the lint rule `value.invalid-enum` reports the values a set does not name.
+
+== Translations
+
+Names are translated into the locale the library is set to, when it is built
+with the translations, while codes never are: they are what the data is
+exchanged by. A translation is looked up by the code of the set and the code
+of the value, in the resources of the locale, `libopendmi/locale/ru_RU.txt`
+for Russian:
+
+----
+cache-type {
+    unspecified { "Не указан" }
+    other { "Другой" }
+    unknown { "Неизвестный" }
+    instruction { "Инструкции" }
+    data { "Данные" }
+    unified { "Унифицированный" }
+}
+----
+
+A value the resources have no translation of is shown by the name the set
+gives it, so a name set works with no translations at all, and the codes of a
+set and of its values are all a translator needs to know. The names of the
+structure types and of the attributes are translated the same way, by their
+codes.

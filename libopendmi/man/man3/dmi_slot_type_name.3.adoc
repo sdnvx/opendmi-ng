@@ -1,0 +1,1 @@
+dmi_slot_type.3.adoc

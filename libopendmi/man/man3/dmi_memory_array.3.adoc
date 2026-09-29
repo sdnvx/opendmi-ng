@@ -1,0 +1,122 @@
+ifdef::backend-manpage[]
+= dmi_memory_array(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_array
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_array - physical memory array structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-array.h>
+
+typedef struct dmi_memory_array {
+    dmi_memory_array_location_t location;
+    dmi_memory_array_usage_t usage;
+    dmi_error_correct_type_t error_correction;
+    dmi_size_t maximum_capacity;
+    dmi_handle_t error_info_handle;
+    dmi_entity_t *error_info;
+    unsigned int device_count;
+} dmi_memory_array_t;
+----
+
+== Description
+
+The `dmi_memory_array_t` structure holds the decoded physical memory array
+structure (type 16) of SMBIOS: a group of memory devices which work together to
+make up one memory address space, such as the system memory on the motherboard,
+or the memory of an add-on card.
+
+A table has one such structure per memory array. The memory device structures
+(type 17) of the array and the memory array mapped address structures (type 19)
+refer to it by its handle. The structure is required since SMBIOS 2.3.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MEMORY_ARRAY)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`location`::
+Where the array resides: on the motherboard, or on an add-on card of some kind.
+See `dmi_memory_array_location`(3).
+
+`usage`::
+What the array is used for, e.g. system memory, video memory or flash memory.
+See `dmi_memory_array_usage`(3).
+
+`error_correction`::
+Main method of error detection or correction the array supports. See
+`dmi_error_correct_type`(3).
+
+`maximum_capacity`::
+Largest amount of memory the array can hold, in bytes. The structure carries it
+in kilobytes, or in bytes in an extended field present since SMBIOS 2.7 for the
+arrays of 2 TiB or more; both are converted to bytes. `DMI_SIZE_MAX` if the
+capacity is unknown, which is the case when the structure points to the
+extended field and is too short to hold it.
+
+`error_info_handle`::
+Handle of the memory error information structure (type 18 or 33) describing the
+last error detected in the array. `DMI_HANDLE_INVALID` if no error has been
+detected, and `DMI_HANDLE_UNSUPPORTED` if the system provides no error
+information.
+
+`error_info`::
+Memory error information structure of the array, resolved from
+`error_info_handle` once the table has been linked. `nullptr` if the handle is
+`DMI_HANDLE_INVALID` or `DMI_HANDLE_UNSUPPORTED`, or does not refer to a memory
+error information structure.
+
+`device_count`::
+Number of the slots or sockets for memory devices the array has, which is the
+number of the memory device structures belonging to the array, whether the
+slots are populated or not.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t     *registry = dmi_get_registry(context);
+dmi_entity_t       *entity   = dmi_registry_lookup_first(registry,
+                                         DMI_TYPE(MEMORY_ARRAY), false);
+dmi_memory_array_t *array    = dmi_entity_info(entity,
+                                               DMI_TYPE(MEMORY_ARRAY));
+
+if ((array != nullptr) && (array->maximum_capacity != DMI_SIZE_MAX))
+    printf("%u slots, up to %llu bytes\n", array->device_count,
+           (unsigned long long)array->maximum_capacity);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_memory_array_location`(3),
+`dmi_memory_array_usage`(3), `dmi_error_correct_type`(3),
+`dmi_memory_device`(3), `dmi_memory_array_addr`(3), `dmi_memory_error_32`(3),
+`dmi_memory_error_64`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

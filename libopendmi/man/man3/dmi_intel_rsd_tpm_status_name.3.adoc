@@ -1,0 +1,1 @@
+dmi_intel_rsd_tpm_status.3.adoc

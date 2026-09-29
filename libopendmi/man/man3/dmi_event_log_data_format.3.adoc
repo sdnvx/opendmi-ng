@@ -1,0 +1,87 @@
+ifdef::backend-manpage[]
+= dmi_event_log_data_format(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_event_log_data_format
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_event_log_data_format - event log variable data formats
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-event-log.h>
+
+typedef enum dmi_event_log_data_format {
+    DMI_EVENT_LOG_DATA_FORMAT_NONE                 = 0x00,
+    DMI_EVENT_LOG_DATA_FORMAT_HANDLE               = 0x01,
+    DMI_EVENT_LOG_DATA_FORMAT_MULTIPLE_EVENT       = 0x02,
+    DMI_EVENT_LOG_DATA_FORMAT_MULTIPLE_HANDLE      = 0x03,
+    DMI_EVENT_LOG_DATA_FORMAT_POST_RESULTS         = 0x04,
+    DMI_EVENT_LOG_DATA_FORMAT_SYSTEM_MGMT          = 0x05,
+    DMI_EVENT_LOG_DATA_FORMAT_MULTIPLE_SYSTEM_MGMT = 0x06,
+} dmi_event_log_data_format_t;
+----
+
+== Description
+
+The `dmi_event_log_data_format_t` enumeration tells how the first bytes of
+the variable data of an event of the system event log are laid out, and is
+the type of the `data_format` field of `dmi_system_log_type_descriptor_t`.
+Values 0x07 to 0x7F are left for future use by the specification, and values
+0x80 to 0xFF are specific to the system or the OEM. The enumeration also has
+private members, starting with two underscores, which mark the bounds of
+these ranges.
+
+=== Values
+
+`DMI_EVENT_LOG_DATA_FORMAT_NONE`::
+No standard format: the variable data, if any, is OEM-specific.
+
+`DMI_EVENT_LOG_DATA_FORMAT_HANDLE`::
+A word with the handle of the SMBIOS structure of the failed hardware.
+
+`DMI_EVENT_LOG_DATA_FORMAT_MULTIPLE_EVENT`::
+A double word with a multiple-event counter.
+
+`DMI_EVENT_LOG_DATA_FORMAT_MULTIPLE_HANDLE`::
+A word with the handle of the SMBIOS structure of the failed hardware,
+followed by a double word with a multiple-event counter.
+
+`DMI_EVENT_LOG_DATA_FORMAT_POST_RESULTS`::
+Two double words with the bitmap of the errors found by the power-on
+self-test.
+
+`DMI_EVENT_LOG_DATA_FORMAT_SYSTEM_MGMT`::
+A double word identifying a system management condition.
+
+`DMI_EVENT_LOG_DATA_FORMAT_MULTIPLE_SYSTEM_MGMT`::
+A double word identifying a system management condition, followed by a
+double word with a multiple-event counter.
+
+== See also
+
+`dmi_system_log_type_descriptor`(3), `dmi_system_event_log`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

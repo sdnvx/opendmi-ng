@@ -1,0 +1,112 @@
+ifdef::backend-manpage[]
+= dmi_system_reset(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_system_reset
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_system_reset - system reset structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-reset.h>
+
+typedef struct dmi_system_reset {
+    bool is_enabled;
+    dmi_boot_option_t boot_on_watchdog;
+    dmi_boot_option_t boot_on_limit;
+    bool has_watchdog;
+    unsigned short reset_count;
+    unsigned short reset_limit;
+    unsigned short timer_interval;
+    unsigned short timeout;
+} dmi_system_reset_t;
+----
+
+== Description
+
+The `dmi_system_reset_t` structure holds the decoded system reset structure
+(type 23) of SMBIOS, which describes the automatic system reset function. If
+the system has a watchdog timer, and the timer is not reset within its
+interval, the system resets itself and boots as `boot_on_watchdog` says. Once
+the resets reach their limit, the system does what `boot_on_limit` says
+instead.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SYSTEM_RESET)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`is_enabled`::
+`true` if the user has enabled the system reset.
+
+`boot_on_watchdog`::
+What the system does after a watchdog reset, see `dmi_boot_option`(3).
+
+`boot_on_limit`::
+What the system does when the reset limit is reached, see
+`dmi_boot_option`(3).
+
+`has_watchdog`::
+`true` if the system has a watchdog timer.
+
+`reset_count`::
+Number of automatic system resets since the last intentional reset, or
+`USHRT_MAX` if unknown.
+
+`reset_limit`::
+Number of consecutive times the system reset is attempted, or `USHRT_MAX` if
+unknown.
+
+`timer_interval`::
+Interval of the watchdog timer, in minutes: if the timer is not reset within
+it, the system reset timeout starts. `USHRT_MAX` if unknown.
+
+`timeout`::
+Number of minutes before the reboot starts, after a power cycle, a local or
+remote system reset, or an automatic system reset. `USHRT_MAX` if unknown.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t     *registry = dmi_get_registry(context);
+dmi_entity_t       *entity   = dmi_registry_lookup_first(registry,
+                                   DMI_TYPE(SYSTEM_RESET), false);
+dmi_system_reset_t *reset    = dmi_entity_info(entity,
+                                   DMI_TYPE(SYSTEM_RESET));
+
+if ((reset != nullptr) && reset->is_enabled)
+    printf("on watchdog reset: %s\n",
+           dmi_boot_option_name(reset->boot_on_watchdog));
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_boot_option`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

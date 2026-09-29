@@ -1,0 +1,69 @@
+ifdef::backend-manpage[]
+= dmi_dell_calling_iface_token(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_calling_iface_token
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_calling_iface_token - token of Dell calling interface structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/calling-iface.h>
+
+typedef struct dmi_dell_calling_iface_token {
+    uint16_t id;
+    uint16_t location;
+    uint16_t value;
+} dmi_dell_calling_iface_token_t;
+----
+
+== Description
+
+The `dmi_dell_calling_iface_token_t` structure describes one token of the Dell
+calling interface structure (type 218), and is the type of the elements of the
+`tokens` array of `dmi_dell_calling_iface_t`. A token is a setting of the
+firmware kept in non-volatile storage, which the commands of the calling
+interface read and write.
+
+=== Fields
+
+`id`::
+Token identifier. Never `0x0000` or `0xFFFF`: the records with these
+identifiers are unused ones and the end-of-table marker, which are not decoded
+as tokens.
+
+`location`::
+Location of the token in non-volatile storage, 0 for string tokens.
+
+`value`::
+Value of the token, or length of the string for string tokens.
+
+== See also
+
+`dmi_dell_calling_iface`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Calling Interface (Type 218) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

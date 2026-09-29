@@ -1,0 +1,186 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_fpga(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_fpga
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_fpga - Intel RSD FPGA information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-fpga.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_fpga {
+    unsigned short index;
+    dmi_intel_rsd_fpga_type_t type;
+    dmi_intel_rsd_fpga_status_t status;
+    unsigned short socket;
+    const char *vendor;
+    const char *family;
+    const char *model;
+    const char *bit_stream_version;
+    unsigned short hps_core_count;
+    dmi_intel_rsd_fpga_hps_isa_t hps_isa;
+    dmi_intel_rsd_fpga_hssi_config_t hssi_config;
+    unsigned short hssi_port_count;
+    unsigned short hssi_port_speed;
+    const char *hssi_side_band_config;
+    unsigned short reconfig_slots;
+    dmi_pci_slot_t pci_slot_id;
+    uint8_t pci_bus_number;
+    uint8_t pci_device_id;
+    uint8_t pci_function_id;
+    uint32_t tdp;
+    dmi_intel_rsd_fpga_memory_tech_t memory_tech;
+    uint32_t memory_capacity;
+    uint16_t memory_speed;
+} dmi_intel_rsd_fpga_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_fpga_t` structure holds the decoded FPGA information
+structure (type 198) of Intel Rack Scale Design (RSD) firmware: one
+field-programmable gate array (FPGA) of the system, with its identity, its
+hard processor subsystem (HPS), its high-speed serial interfaces (HSSI), the
+place it is reached at on PCIe, and the memory attached to it. There is one
+structure for each FPGA, and none on platforms without FPGAs.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_FPGA)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`index`::
+One-based number of the FPGA on the platform.
+
+`type`::
+How the FPGA is attached: integrated into a processor package, or discrete
+(see `dmi_intel_rsd_fpga_type`(3)).
+
+`status`::
+Whether the FPGA is enabled (see `dmi_intel_rsd_fpga_status`(3)).
+
+`socket`::
+Processor socket the FPGA is integrated into. Meaningful for integrated FPGAs
+only.
+
+`vendor`::
+Vendor of the FPGA, as a name or, for a discrete FPGA, as its PCI vendor
+identifier. `nullptr` if the structure does not carry it.
+
+`family`::
+Family of the FPGA, `nullptr` if the structure does not carry it.
+
+`model`::
+Model of the FPGA, `nullptr` if the structure does not carry it.
+
+`bit_stream_version`::
+Version of the bit stream of the FPGA, `nullptr` if the structure does not
+carry it.
+
+`hps_core_count`::
+Number of cores of the hard processor subsystem, if the FPGA has one.
+
+`hps_isa`::
+Instruction set architecture of the cores of the hard processor subsystem
+(see `dmi_intel_rsd_fpga_hps_isa`(3)).
+
+`hssi_config`::
+Configuration the high-speed serial interfaces support: networking or PCIe
+(see `dmi_intel_rsd_fpga_hssi_config`(3)).
+
+`hssi_port_count`::
+Number of ports of that configuration: 2 for 2x10G or 2x40G networking, 2 for
+two x16 PCIe links, and so on.
+
+`hssi_port_speed`::
+Speed of each port in Gbps for networking, or its number of lanes for PCIe:
+10 for 2x10G, 40 for 2x40G, 16 for x16 PCIe, and so on.
+
+`hssi_side_band_config`::
+Side-band mechanism the high-speed serial interfaces are configured through,
+such as "SPI", "I2C-0" or "SMBus". `nullptr` if the structure does not carry
+it.
+
+`reconfig_slots`::
+Number of partial reconfiguration (PR) slots of the FPGA.
+
+`pci_slot_id`::
+Physical number of the slot connected to the PCIe port the FPGA is reached
+through.
+
+`pci_bus_number`::
+PCIe bus number the FPGA is reached at.
+
+`pci_device_id`::
+PCIe device number the FPGA is reached at.
+
+`pci_function_id`::
+PCIe function number the FPGA is reached at.
+
+`tdp`::
+Thermal design power of the FPGA, in milliwatts.
+
+`memory_tech`::
+Technology of the memory attached to the FPGA, if any (see
+`dmi_intel_rsd_fpga_memory_tech`(3)).
+
+`memory_capacity`::
+Capacity of the on-package memory, in mebibytes.
+
+`memory_speed`::
+Speed of the memory, in MHz.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t       *registry = dmi_get_registry(context);
+dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
+                                     DMI_TYPE(INTEL_RSD_FPGA), true);
+dmi_intel_rsd_fpga_t *fpga     = dmi_entity_info(entity,
+                                                 DMI_TYPE(INTEL_RSD_FPGA));
+
+if ((fpga != nullptr) && (fpga->status == DMI_INTEL_RSD_FPGA_STATUS_ENABLED))
+    printf("FPGA %u: %s, %u mW\n", fpga->index,
+           (fpga->model != nullptr) ? fpga->model : "unknown model",
+           (unsigned)fpga->tdp);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_intel_rsd_fpga_type`(3),
+`dmi_intel_rsd_fpga_status`(3), `dmi_intel_rsd_fpga_hps_isa`(3),
+`dmi_intel_rsd_fpga_hssi_config`(3), `dmi_intel_rsd_fpga_memory_tech`(3),
+`dmi_slot`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

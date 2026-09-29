@@ -1,0 +1,1 @@
+dmi_intel_rsd_storage_device_type.3.adoc

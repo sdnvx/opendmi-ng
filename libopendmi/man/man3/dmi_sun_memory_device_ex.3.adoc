@@ -1,0 +1,99 @@
+ifdef::backend-manpage[]
+= dmi_sun_memory_device_ex(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_sun_memory_device_ex
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_sun_memory_device_ex - Sun memory device extended information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/sun/memory-device-ex.h>
+
+typedef struct dmi_sun_memory_device_ex {
+    dmi_handle_t memory_device_handle;
+    uint8_t dram_channel;
+    uint8_t chip_select_total;
+    size_t chip_select_count;
+    uint8_t *chip_selects;
+} dmi_sun_memory_device_ex_t;
+----
+
+== Description
+
+The `dmi_sun_memory_device_ex_t` structure holds the decoded Sun memory device
+extended information structure (type 145), which adds the DRAM channel and the
+chip selects of a memory device to its memory device structure (type 17). It is
+not part of SMBIOS: Sun firmware provides it, and the library decodes it only
+when the Sun extension module (`dmi_sun_module`, declared in
+`<opendmi/module/sun.h>`) is enabled in the context with `dmi_add_extension`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SUN_MEMORY_DEVICE_EX)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`memory_device_handle`::
+Handle of the memory device structure (type 17) this structure extends.
+
+`dram_channel`::
+DRAM channel the memory device is on.
+
+`chip_select_total`::
+Number of chip selects the structure declares.
+
+`chip_select_count`::
+Number of elements of `chip_selects`: the chip selects the structure holds in
+full, which may be fewer than `chip_select_total` when the structure is
+truncated.
+
+`chip_selects`::
+Chip selects of the memory device, one byte each; `nullptr` if
+`chip_select_total` is 0.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                               DMI_TYPE(SUN_MEMORY_DEVICE_EX), true);
+dmi_sun_memory_device_ex_t *info =
+        dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_DEVICE_EX));
+
+for (size_t i = 0; (info != nullptr) && (i < info->chip_select_count); i++)
+    printf("channel %u, chip select %u\n", (unsigned)info->dram_channel,
+           (unsigned)info->chip_selects[i]);
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_memory_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Sun firmware, see the Sun
+Memory Device Extended Information (Type 145) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

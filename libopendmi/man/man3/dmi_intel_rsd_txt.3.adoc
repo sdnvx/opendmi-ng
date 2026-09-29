@@ -1,0 +1,78 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_txt(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_txt
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_txt - Intel RSD TXT information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-txt.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_txt {
+    dmi_intel_rsd_txt_status_t status;
+} dmi_intel_rsd_txt_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_txt_t` structure holds the decoded TXT information
+structure (type 196) of Intel Rack Scale Design (RSD) firmware: whether Intel
+Trusted Execution Technology (TXT) is enabled on the platform.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_TXT)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`status`::
+Whether Intel TXT is enabled (see `dmi_intel_rsd_txt_status`(3)).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t      *registry = dmi_get_registry(context);
+dmi_entity_t        *entity   = dmi_registry_lookup_first(registry,
+                                    DMI_TYPE(INTEL_RSD_TXT), true);
+dmi_intel_rsd_txt_t *txt      = dmi_entity_info(entity,
+                                                DMI_TYPE(INTEL_RSD_TXT));
+
+if ((txt != nullptr) && (txt->status == DMI_INTEL_RSD_TXT_STATUS_ENABLED))
+    printf("Intel TXT is enabled\n");
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_intel_rsd_txt_status`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

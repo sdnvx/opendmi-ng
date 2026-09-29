@@ -1,0 +1,290 @@
+ifdef::backend-manpage[]
+= dmi_memory_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_device - memory device structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-device.h>
+
+typedef struct dmi_memory_device {
+    dmi_handle_t                    array_handle;
+    dmi_entity_t                   *array;
+    dmi_handle_t                    error_info_handle;
+    dmi_entity_t                   *error_info;
+    unsigned short                  total_width;
+    unsigned short                  data_width;
+    dmi_size_t                      size;
+    dmi_memory_device_form_factor_t form_factor;
+    unsigned short                  device_set;
+    const char                     *device_locator;
+    const char                     *bank_locator;
+    dmi_memory_device_type_t        memory_type;
+    dmi_memory_device_type_detail_t memory_type_detail;
+    unsigned long                   maximum_speed;
+    const char                     *vendor;
+    const char                     *serial_number;
+    const char                     *asset_tag;
+    const char                     *part_number;
+    unsigned short                  rank;
+    unsigned long                   configured_speed;
+    unsigned short                  minimum_voltage;
+    unsigned short                  maximum_voltage;
+    unsigned short                  configured_voltage;
+    dmi_memory_device_tech_t        memory_tech;
+    uint16_t                        memory_mode_caps;
+    const char                     *firmware_version;
+    uint16_t                        module_vendor_id;
+    uint16_t                        module_product_id;
+    uint16_t                        controller_vendor_id;
+    uint16_t                        controller_product_id;
+    dmi_size_t                      non_volatile_size;
+    dmi_size_t                      volatile_size;
+    dmi_size_t                      cache_size;
+    dmi_size_t                      logical_size;
+    uint16_t                        pmic0_vendor_id;
+    uint16_t                        pmic0_revision;
+    uint16_t                        rcd_vendor_id;
+    uint16_t                        rcd_revision;
+    dmi_entity_t                   *channel;
+} dmi_memory_device_t;
+----
+
+== Description
+
+The `dmi_memory_device_t` structure holds the decoded memory device structure
+(type 17) of SMBIOS: the attributes of one memory device, such as a memory
+module, belonging to a physical memory array (type 16). A table has one such
+structure for every memory socket of the system, populated or not.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MEMORY_DEVICE)`, and lives as long as the context it has been decoded
+in. The structure first appeared in SMBIOS 2.1, and has grown with many later
+versions; the fields a structure is too short to carry are 0 or `nullptr`.
+
+=== Fields
+
+`array_handle`::
+Handle of the physical memory array structure (type 16) the device
+belongs to.
+
+`array`::
+Physical memory array entity `array_handle` refers to, set when the
+table is linked, `nullptr` if there is none.
+
+`error_info_handle`::
+Handle of the memory error information structure (type 18 or 33)
+describing the last error detected in the device. 0xFFFE if the
+firmware provides no error information, `DMI_HANDLE_INVALID` if no
+error has been detected.
+
+`error_info`::
+Memory error information entity `error_info_handle` refers to, set
+when the table is linked, `nullptr` if there is none.
+
+`total_width`::
+Width of the device, in bits, error-correction bits included; equal
+to `data_width` if there are none. `USHRT_MAX` if unknown.
+
+`data_width`::
+Width of the data of the device, in bits, `USHRT_MAX` if unknown. A
+data width of 0 with a total width of 8 describes a device holding
+error-correction bits only.
+
+`size`::
+Size of the device, in bytes. 0 if the socket is empty, `DMI_SIZE_MAX`
+if unknown. Sizes of 32 GiB - 1 MiB and above are taken from the
+extended size field, present since SMBIOS 2.7. For a logical
+non-volatile device, the size is unknown, and `logical_size` gives it.
+
+`form_factor`::
+Form factor of the device, see `dmi_memory_device_form_factor`(3).
+
+`device_set`::
+Number of the set of devices which must all be of the same type and
+size, unique within the memory array. 0 if the device belongs to no
+set, `USHRT_MAX` if unknown.
+
+`device_locator`::
+Label of the socket or board position holding the device, for
+example `SIMM 3`, or `nullptr`.
+
+`bank_locator`::
+Label of the bank holding the device, for example `Bank 0`, or
+`nullptr`.
+
+`memory_type`::
+Type of memory the device is made of, see
+`dmi_memory_device_type`(3).
+
+`memory_type_detail`::
+Additional details on the type of memory, see
+`dmi_memory_device_type_detail`(3).
+
+`maximum_speed`::
+Highest speed the device is capable of, in megatransfers per second
+(MT/s), 0 if unknown. Present since SMBIOS 2.3; speeds of 65535 MT/s
+and above are taken from the extended speed field, present since
+SMBIOS 3.3.
+
+`vendor`::
+Manufacturer of the device, or `nullptr`. Present since SMBIOS 2.3.
+
+`serial_number`::
+Serial number of the device, or `nullptr`. Present since
+SMBIOS 2.3.
+
+`asset_tag`::
+Asset tag of the device, or `nullptr`. Present since SMBIOS 2.3.
+
+`part_number`::
+Part number of the device, or `nullptr`. Present since SMBIOS 2.3.
+
+`rank`::
+Rank of the device, 1 to 15, 0 if unknown. Present since
+SMBIOS 2.6.
+
+`configured_speed`::
+Speed the device is configured to run at, in megatransfers per
+second (MT/s), 0 if unknown. Present since SMBIOS 2.7; speeds of
+65535 MT/s and above are taken from the extended configured speed
+field, present since SMBIOS 3.3.
+
+`minimum_voltage`::
+Lowest operating voltage of the device, in millivolts, 0 if unknown.
+Present since SMBIOS 2.8.
+
+`maximum_voltage`::
+Highest operating voltage of the device, in millivolts, 0 if
+unknown. Present since SMBIOS 2.8.
+
+`configured_voltage`::
+Voltage the device is configured to run at, in millivolts, 0 if
+unknown. Present since SMBIOS 2.8.
+
+`memory_tech`::
+Memory technology of the device, see `dmi_memory_device_tech`(3).
+Present since SMBIOS 3.2.
+
+`memory_mode_caps`::
+Operating modes the device supports, as stored: bit 1 for other
+modes, bit 2 for unknown ones, bit 3 for volatile memory, bit 4 for
+byte-accessible persistent memory, and bit 5 for block-accessible
+persistent memory. Present since SMBIOS 3.2.
+
+`firmware_version`::
+Firmware version of the device, or `nullptr`. Present since
+SMBIOS 3.2.
+
+`module_vendor_id`::
+JEDEC JEP106 manufacturer code of the module, as read from its SPD,
+with the first of its two bytes in the low byte, 0 if unknown. Present
+since SMBIOS 3.2.
+
+`module_product_id`::
+Product identifier of the module, as read from its SPD, 0 if
+unknown. Present since SMBIOS 3.2.
+
+`controller_vendor_id`::
+JEDEC JEP106 manufacturer code of the memory subsystem controller,
+as read from the SPD, 0 if unknown. Present since SMBIOS 3.2.
+
+`controller_product_id`::
+Product identifier of the memory subsystem controller, as read from
+the SPD, 0 if unknown. Present since SMBIOS 3.2.
+
+`non_volatile_size`::
+Size of the non-volatile part of the device, in bytes, 0 if there
+is none, `DMI_SIZE_MAX` if unknown. Present since SMBIOS 3.2.
+
+`volatile_size`::
+Size of the volatile part of the device, in bytes, 0 if there is
+none, `DMI_SIZE_MAX` if unknown. Present since SMBIOS 3.2.
+
+`cache_size`::
+Size of the part of the device used as cache, in bytes, 0 if there
+is none, `DMI_SIZE_MAX` if unknown. Present since SMBIOS 3.2.
+
+`logical_size`::
+Size of a logical memory device, in bytes, `DMI_SIZE_MAX` if
+unknown; 0 for the other devices. Present since SMBIOS 3.2.
+
+`pmic0_vendor_id`::
+JEDEC JEP106 manufacturer code of the power management IC 0 of the
+device, as read from the SPD, 0 if unknown. Present since
+SMBIOS 3.7.
+
+`pmic0_revision`::
+Revision of the power management IC 0, as read from the SPD, 0xFF00
+if unknown. Present since SMBIOS 3.7.
+
+`rcd_vendor_id`::
+JEDEC JEP106 manufacturer code of the registering clock driver
+(RCD) of the device, as read from the SPD, 0 if unknown. Present
+since SMBIOS 3.7.
+
+`rcd_revision`::
+Revision of the registering clock driver, as read from the SPD,
+0xFF00 if unknown. Present since SMBIOS 3.7.
+
+`channel`::
+Memory channel entity (type 37) listing the device, set when the
+memory channel structures are linked, `nullptr` if no channel lists
+it.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t      *registry = dmi_get_registry(context);
+dmi_entity_t        *entity   = dmi_registry_lookup_first(
+        registry, DMI_TYPE(MEMORY_DEVICE), false);
+dmi_memory_device_t *device   = dmi_entity_info(entity,
+                                                DMI_TYPE(MEMORY_DEVICE));
+
+if ((device != nullptr) && (device->size != 0) &&
+    (device->size != DMI_SIZE_MAX)) {
+    const char *type = dmi_memory_device_type_name(device->memory_type);
+
+    printf("%s: %llu MiB of %s\n",
+           device->device_locator ? device->device_locator : "Unknown",
+           (unsigned long long)(device->size >> 20),
+           type ? type : "unknown memory");
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_memory_device_type`(3),
+`dmi_memory_device_type_detail`(3), `dmi_memory_device_form_factor`(3),
+`dmi_memory_device_tech`(3), `dmi_memory_array`(3),
+`dmi_memory_error_32`(3), `dmi_memory_error_64`(3),
+`dmi_memory_channel`(3), `dmi_memory_device_addr`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,151 @@
+ifdef::backend-manpage[]
+= dmi_event_log_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_event_log_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_event_log_type - event log types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-event-log.h>
+
+typedef enum dmi_event_log_type {
+    DMI_EVENT_LOG_TYPE_SINGLE_BIT_ECC        = 0x01,
+    DMI_EVENT_LOG_TYPE_MULTI_BIT_ECC         = 0x02,
+    DMI_EVENT_LOG_TYPE_PARITY                = 0x03,
+    DMI_EVENT_LOG_TYPE_BUS_TIMEOUT           = 0x04,
+    DMI_EVENT_LOG_TYPE_IO_CHANNEL_CHECK      = 0x05,
+    DMI_EVENT_LOG_TYPE_SOFTWARE_NMI          = 0x06,
+    DMI_EVENT_LOG_TYPE_POST_MEMORY_RESIZE    = 0x07,
+    DMI_EVENT_LOG_TYPE_POST_ERROR            = 0x08,
+    DMI_EVENT_LOG_TYPE_PCI_PARITY            = 0x09,
+    DMI_EVENT_LOG_TYPE_PCI_SYSTEM            = 0x0A,
+    DMI_EVENT_LOG_TYPE_CPU_FAILURE           = 0x0B,
+    DMI_EVENT_LOG_TYPE_EISA_FAILSAFE_TIMEOUT = 0x0C,
+    DMI_EVENT_LOG_TYPE_MEMORY_LOG_DISABLED   = 0x0D,
+    DMI_EVENT_LOG_TYPE_LOGGING_DISABLED      = 0x0E,
+    DMI_EVENT_LOG_TYPE_LIMIT_EXCEEDED        = 0x10,
+    DMI_EVENT_LOG_TYPE_TIMER_EXPIRED         = 0x11,
+    DMI_EVENT_LOG_TYPE_CONFIG_INFO           = 0x12,
+    DMI_EVENT_LOG_TYPE_HARD_DISK_INFO        = 0x13,
+    DMI_EVENT_LOG_TYPE_RECONFIGURED          = 0x14,
+    DMI_EVENT_LOG_TYPE_CPU_COMPLEX_ERROR     = 0x15,
+    DMI_EVENT_LOG_TYPE_LOG_CLEARED           = 0x16,
+    DMI_EVENT_LOG_TYPE_SYSTEM_BOOT           = 0x17,
+    DMI_EVENT_LOG_TYPE_END_OF_LOG            = 0xFF,
+} dmi_event_log_type_t;
+----
+
+== Description
+
+The `dmi_event_log_type_t` enumeration tells the type of an event of the
+system event log, and is the type of the `type` field of
+`dmi_system_log_type_descriptor_t`. Values 0x00 and 0x0F are reserved,
+values 0x18 to 0x7F are left for future use by the specification, and
+values 0x80 to 0xFE are specific to the system or the OEM. The enumeration
+also has private members, starting with two underscores, which mark the
+bounds of these ranges.
+
+=== Values
+
+`DMI_EVENT_LOG_TYPE_SINGLE_BIT_ECC`::
+Single-bit ECC memory error.
+
+`DMI_EVENT_LOG_TYPE_MULTI_BIT_ECC`::
+Multi-bit ECC memory error.
+
+`DMI_EVENT_LOG_TYPE_PARITY`::
+Parity memory error.
+
+`DMI_EVENT_LOG_TYPE_BUS_TIMEOUT`::
+Bus time-out.
+
+`DMI_EVENT_LOG_TYPE_IO_CHANNEL_CHECK`::
+I/O channel check.
+
+`DMI_EVENT_LOG_TYPE_SOFTWARE_NMI`::
+Software non-maskable interrupt.
+
+`DMI_EVENT_LOG_TYPE_POST_MEMORY_RESIZE`::
+Memory size changed during the power-on self-test.
+
+`DMI_EVENT_LOG_TYPE_POST_ERROR`::
+Error during the power-on self-test.
+
+`DMI_EVENT_LOG_TYPE_PCI_PARITY`::
+PCI parity error.
+
+`DMI_EVENT_LOG_TYPE_PCI_SYSTEM`::
+PCI system error.
+
+`DMI_EVENT_LOG_TYPE_CPU_FAILURE`::
+Processor failure.
+
+`DMI_EVENT_LOG_TYPE_EISA_FAILSAFE_TIMEOUT`::
+EISA fail-safe timer time-out.
+
+`DMI_EVENT_LOG_TYPE_MEMORY_LOG_DISABLED`::
+Logging of correctable memory errors disabled.
+
+`DMI_EVENT_LOG_TYPE_LOGGING_DISABLED`::
+Logging disabled for one type of event, after too many events of that type
+in a short time.
+
+`DMI_EVENT_LOG_TYPE_LIMIT_EXCEEDED`::
+A limit of the system, such as a voltage or temperature threshold, has been
+exceeded.
+
+`DMI_EVENT_LOG_TYPE_TIMER_EXPIRED`::
+An asynchronous hardware timer has expired and reset the system.
+
+`DMI_EVENT_LOG_TYPE_CONFIG_INFO`::
+Information about the system configuration.
+
+`DMI_EVENT_LOG_TYPE_HARD_DISK_INFO`::
+Information about a hard disk.
+
+`DMI_EVENT_LOG_TYPE_RECONFIGURED`::
+The system has been reconfigured.
+
+`DMI_EVENT_LOG_TYPE_CPU_COMPLEX_ERROR`::
+Uncorrectable error of the processor complex.
+
+`DMI_EVENT_LOG_TYPE_LOG_CLEARED`::
+The log area has been reset or cleared.
+
+`DMI_EVENT_LOG_TYPE_SYSTEM_BOOT`::
+System boot. When the firmware records it, it is the first event written on
+every boot.
+
+`DMI_EVENT_LOG_TYPE_END_OF_LOG`::
+End of the log: a record of this type follows the last event.
+
+== See also
+
+`dmi_system_log_type_descriptor`(3), `dmi_system_event_log`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

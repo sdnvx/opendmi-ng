@@ -1,0 +1,105 @@
+ifdef::backend-manpage[]
+= dmi_processor_ex(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_ex
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_ex - processor additional information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef struct dmi_processor_ex {
+    dmi_handle_t processor_handle;
+    dmi_entity_t *processor;
+    dmi_processor_arch_t arch;
+    dmi_binary_t data;
+} dmi_processor_ex_t;
+----
+
+== Description
+
+The `dmi_processor_ex_t` structure holds a decoded processor additional
+information structure (type 44) of SMBIOS, which completes a processor
+structure (type 4) with data specific to the architecture of the processor.
+Several such structures may refer to the same processor, for example to
+describe cores which are not all alike.
+
+The data are kept as the structure carries them. Their format is defined for
+each architecture by the architecture workgroups or the vendors;
+`dmi_processor_aarch64_data_t`, `dmi_processor_amd64_data` and
+`dmi_processor_rv64_data` describe the layouts of some of them.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(PROCESSOR_EX)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`processor_handle`::
+Handle of the processor structure (type 4) the information is about.
+
+`processor`::
+Processor structure the information is about, whose information is a
+`dmi_processor_t`. Set when linking; `nullptr` if the handle refers to no
+processor structure.
+
+`arch`::
+Processor architecture the data are about.
+
+`data`::
+Processor-specific data: a pointer into the structure, and their length in
+bytes, as the processor-specific block gives it. The pointer is `nullptr` if
+the block holds no data.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t     *registry = dmi_get_registry(context);
+dmi_entity_t       *entity   =
+        dmi_registry_lookup_first(registry, DMI_TYPE(PROCESSOR_EX), true);
+dmi_processor_ex_t *info     =
+        dmi_entity_info(entity, DMI_TYPE(PROCESSOR_EX));
+
+if ((info != nullptr) && (info->arch == DMI_PROCESSOR_ARCH_AARCH64) &&
+    (info->data.length >= sizeof(dmi_processor_aarch64_data_t))) {
+    const dmi_processor_aarch64_data_t *data =
+            (const dmi_processor_aarch64_data_t *)info->data.data;
+
+    printf("AArch64 data, revision %u.%u, sub-type %u\n",
+           data->revision.major, data->revision.minor, data->subtype);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_processor`(3), `dmi_processor_arch`(3),
+`dmi_processor_specific_block`(3), `dmi_processor_aarch64_data`(3),
+`dmi_processor_amd64_data`(3), `dmi_processor_rv64_data`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,129 @@
+ifdef::backend-manpage[]
+= dmi_memory_module(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_module
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_module - memory module information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-module.h>
+
+typedef struct dmi_memory_module {
+    dmi_entity_t *controller;
+    const char *socket;
+    unsigned short bank_connections[2];
+    unsigned short current_speed;
+    dmi_memory_module_type_t current_type;
+    dmi_memory_module_size_t installed_size;
+    dmi_memory_module_size_t enabled_size;
+    dmi_memory_module_error_t error_status;
+} dmi_memory_module_t;
+----
+
+== Description
+
+The `dmi_memory_module_t` structure holds the decoded memory module
+information structure (type 6) of SMBIOS: the speed, type, size and error
+status of the memory module in one socket. A table carries one such structure
+for each memory module socket, and the memory controller information structure
+(type 5) lists them and tells what they support.
+
+Both structures are obsolete since SMBIOS 2.1, which replaces them with the
+physical memory array (type 16) and memory device (type 17) structures. Some
+firmware still provides both kinds, for older software.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MEMORY_MODULE)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`controller`::
+Memory controller information structure (type 5) listing this module, or
+`nullptr` if no memory controller lists it. It is set when the memory
+controller is linked.
+
+`socket`::
+Reference designation of the socket, for example "J202", or `nullptr` if the
+structure has none.
+
+`bank_connections`::
+Banks (RAS#) the socket is connected to, one per element: element 0 comes from
+the low nibble of the data, element 1 from the high nibble. 0x0F means no
+connection. For example, a socket connected to banks 1 and 3 (data 0x13) gives
+{ 3, 1 }, and a socket connected to bank 2 only (data 0x2F) gives { 0x0F, 2 }.
+
+`current_speed`::
+Speed of the module, in nanoseconds (70 for a 70 ns module), or 0 if unknown.
+
+`current_type`::
+Physical characteristics of the module, see `dmi_memory_module_type`(3).
+
+`installed_size`::
+Size of the module installed in the socket, as its presence-detect information
+gives it, see `dmi_memory_module_size`(3). The status is
+`DMI_MEMORY_MODULE_SIZE_STATUS_NOT_DETERMINABLE` if the system cannot read
+that information.
+
+`enabled_size`::
+Amount of memory of the module enabled for the use of the system, see
+`dmi_memory_module_size`(3). The status is
+`DMI_MEMORY_MODULE_SIZE_STATUS_NOT_ENABLED` if a module is installed but all
+of its memory is disabled, for example because of errors.
+
+`error_status`::
+Error status of the module, see `dmi_memory_module_error`(3).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t      *registry = dmi_get_registry(context);
+dmi_entity_t        *entity   = dmi_registry_lookup_first(registry,
+                                    DMI_TYPE(MEMORY_MODULE), false);
+dmi_memory_module_t *module   = dmi_entity_info(entity,
+                                    DMI_TYPE(MEMORY_MODULE));
+
+if ((module != nullptr) &&
+    (module->installed_size.status == DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT))
+    printf("%s: %llu MiB\n", module->socket ? module->socket : "?",
+           (unsigned long long)(module->installed_size.value >> 20));
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_memory_module_type`(3),
+`dmi_memory_module_size`(3),
+`dmi_memory_module_size_status`(3),
+`dmi_memory_module_error`(3),
+`dmi_memory_controller`(3),
+`dmi_memory_array`(3),
+`dmi_memory_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

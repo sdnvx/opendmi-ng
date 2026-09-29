@@ -1,0 +1,149 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_storage_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_storage_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_storage_device - Intel RSD storage device information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-storage-device.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_storage_device {
+    const char *port;
+    unsigned index;
+    dmi_intel_rsd_storage_connector_t connector;
+    dmi_intel_rsd_storage_proto_t protocol;
+    dmi_intel_rsd_storage_device_type_t type;
+    uint32_t capacity;
+    uint16_t rpm;
+    const char *model;
+    const char *serial_number;
+    dmi_pci_class_t pci_class;
+    dmi_pci_vendor_id_t vendor_id;
+    dmi_pci_device_id_t device_id;
+    dmi_pci_vendor_id_t sub_vendor_id;
+    dmi_pci_device_id_t sub_device_id;
+    const char *firmware_version;
+} dmi_intel_rsd_storage_device_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_storage_device_t` structure holds the decoded storage
+device information structure (type 194) of Intel Rack Scale Design (RSD)
+firmware: one storage device of the system, with the place and the way it is
+attached, what kind of device it is, its identity, and the PCI identifiers of
+a PCIe device. The BMC selects the device to boot from by its `index`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_STORAGE_DEVICE)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`port`::
+Label of the port or board position the device is attached at, such as
+"SATA Port 0" or "PCIe Port 1". `nullptr` if the structure does not carry it.
+
+`index`::
+Index of the device, the one the firmware exposes in the IPMI Get/Set System
+Boot Options command. The BMC uses it to select the device to boot from.
+
+`connector`::
+Connector the device is attached with (see
+`dmi_intel_rsd_storage_connector`(3)).
+
+`protocol`::
+Protocol the device is accessed with (see `dmi_intel_rsd_storage_proto`(3)).
+
+`type`::
+Kind of the device (see `dmi_intel_rsd_storage_device_type`(3)).
+
+`capacity`::
+Capacity of the device, in gigabytes.
+
+`rpm`::
+Rotation speed of a hard disk drive, in revolutions per minute. Zero for
+other devices.
+
+`model`::
+Model of the device, `nullptr` if the structure does not carry it.
+
+`serial_number`::
+Serial number of the device, `nullptr` if the structure does not carry it.
+
+`pci_class`::
+PCI class code of a PCIe device, zero for other devices.
+
+`vendor_id`::
+PCI vendor identifier of a PCIe device, zero for other devices.
+
+`device_id`::
+PCI device identifier of a PCIe device, zero for other devices.
+
+`sub_vendor_id`::
+PCI subsystem vendor identifier of a PCIe device, zero for other devices.
+
+`sub_device_id`::
+PCI subsystem device identifier of a PCIe device, zero for other devices.
+
+`firmware_version`::
+Version of the firmware of the device, `nullptr` if the structure does not
+carry it.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                               DMI_TYPE(INTEL_RSD_STORAGE_DEVICE), true);
+
+dmi_intel_rsd_storage_device_t *disk =
+        dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_STORAGE_DEVICE));
+
+if (disk != nullptr) {
+    const char *type = dmi_intel_rsd_storage_device_type_name(disk->type);
+
+    printf("%s: %s, %u GB\n",
+           (disk->port != nullptr) ? disk->port : "unknown port",
+           (type != nullptr) ? type : "unknown type",
+           (unsigned)disk->capacity);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_intel_rsd_storage_connector`(3),
+`dmi_intel_rsd_storage_proto`(3), `dmi_intel_rsd_storage_device_type`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

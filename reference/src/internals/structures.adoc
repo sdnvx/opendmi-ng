@@ -1,0 +1,417 @@
+= Describing a structure
+:sectnums:
+:sectlinks:
+
+[#internals-structures]
+Every structure type the library knows is described by a specification, a
+`dmi_entity_spec_t`, which says everything the library needs to know of the
+type: its number and its names, the versions it belongs to, how its bytes are
+laid out, what its values mean, and the rules its data is checked against.
+Decoding, encoding, linking, the output of the tool in every format and the
+lint rules of the values all work from it, so a type described once is
+handled everywhere.
+
+A structure type is made of three parts:
+
+* The decoded structure, a C structure in a public header, e.g. `dmi_cache_t`
+  in `<opendmi/entity/cache.h>`, which a program reads.
+* The layout, a list of fields, which says how the bytes of the structure
+  become the members of the decoded structure, and back.
+* The attributes, a list of them, which say what the members mean: their
+  names, units, limits and values.
+
+Fields describe bytes and attributes describe values, and the two meet in the
+members of the decoded structure. The cache information structure is used as
+the example throughout this chapter.
+
+== The specification
+
+The specification of the cache information structure, in
+`libopendmi/src/entity/cache.c`, starts with what the type is:
+
+[source,c]
+----
+const dmi_entity_spec_t dmi_cache_spec =
+{
+    .code            = "cache",
+    .name            = "Cache information",
+    .type            = DMI_TYPE(CACHE),
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .required_from   = DMI_VERSION(2, 3, 0),
+        .minimum_length  = 0x0F,
+        .decoded_length  = sizeof(dmi_cache_t)
+    },
+    .fields     = ...,
+    .attributes = ...,
+    .lint_rules = ...
+};
+----
+
+`code`::
+Name of the type in the data the tool exports and in the options which select
+the types, e.g. `opendmi show -t cache`. Codes are never translated.
+
+`name`::
+Name of the type as the output shows it, which is translated into the locale.
+
+`type`::
+Number of the type in the data.
+
+`params`::
+Versions of the specification the type belongs to: the one which defined it,
+the ones from which the table is required to have a structure of it or is
+expected to, whether the table may have only one of it, the minimum length a
+structure of it has, and the size of the decoded structure, which the library
+allocates before decoding.
+
+`fields`, `attributes`, `lint_rules`::
+The layout, the attributes and the rules, described below.
+
+`handlers`::
+Functions which do what the fields and the attributes cannot say, described
+at the end of the chapter.
+
+The specifications of the standard types are listed in the library, and the
+ones of the vendors are brought by their modules, see
+xref:internals/modules.adoc#internals-modules[Extension modules].
+
+== Fields
+
+The layout of a structure is a list of fields, in the order the structure
+holds them, from the byte after the header on. A field names the member of
+the decoded structure it goes into and the bytes it occupies:
+
+[source,c]
+----
+.fields = DMI_FIELDS({
+    DMI_FIELD_STRING(dmi_cache_t, socket_designator),
+
+    // One word holding the configuration of the cache
+    DMI_FIELD_BITS(dmi_cache_t, level, 3,
+                   .decode = dmi_cache_decode_level,
+                   .encode = dmi_cache_encode_level),
+    DMI_FIELD_BITS(dmi_cache_t, socketed, 1),
+    DMI_FIELD_BITS_SKIP(1),
+    DMI_FIELD_BITS(dmi_cache_t, location, 2),
+    DMI_FIELD_BITS(dmi_cache_t, enabled,  1),
+    DMI_FIELD_BITS(dmi_cache_t, mode,     2),
+    DMI_FIELD_PAD(dmi_word_t),
+
+    DMI_FIELD(dmi_cache_t, maximum_size, dmi_word_t,
+              .decode = dmi_cache_decode_size,
+              .encode = dmi_cache_encode_size),
+    DMI_FIELD(dmi_cache_t, installed_size, dmi_word_t,
+              .decode = dmi_cache_decode_size,
+              .encode = dmi_cache_encode_size),
+
+    DMI_FIELD(dmi_cache_t, supported_sram, dmi_word_t),
+    DMI_FIELD(dmi_cache_t, current_sram,   dmi_word_t),
+
+    DMI_FIELD_GROUP(.since = DMI_VERSION(2, 1, 0)),
+    DMI_FIELD(dmi_cache_t, speed,            dmi_byte_t),
+    DMI_FIELD(dmi_cache_t, error_correction, dmi_byte_t),
+    DMI_FIELD(dmi_cache_t, type,             dmi_byte_t),
+    DMI_FIELD(dmi_cache_t, associativity,    dmi_byte_t),
+
+    DMI_FIELD_GROUP(.since = DMI_VERSION(3, 1, 0)),
+    DMI_FIELD_EXTENDED(dmi_cache_t, maximum_size, dmi_dword_t,
+                       .when_raw = 0xFFFFu,
+                       .decode   = dmi_cache_decode_size_ex,
+                       .encode   = dmi_cache_encode_size_ex),
+    DMI_FIELD_EXTENDED(dmi_cache_t, installed_size, dmi_dword_t,
+                       .when_raw = 0xFFFFu,
+                       .decode   = dmi_cache_decode_size_ex,
+                       .encode   = dmi_cache_encode_size_ex),
+    {}
+}),
+----
+
+The type of the data a field is written with, e.g. `dmi_word_t`, gives the
+number of the bytes it occupies, which may be fewer than the member holds: a
+member is made wider than its field when the value standing for "unknown"
+would otherwise collide with a value a device may really have. The kinds of
+the fields are:
+
+[cols="1,2"]
+|===
+| Field | What it describes
+
+| `DMI_FIELD`
+| An integer, read into the member.
+
+| `DMI_FIELD_STRING`
+| The number of a string, read into a pointer to the string.
+
+| `DMI_FIELD_BCD`
+| A binary-coded decimal, read into the number it spells.
+
+| `DMI_FIELD_UUID`
+| Sixteen bytes of a UUID, read into a `dmi_uuid_t`.
+
+| `DMI_FIELD_BINARY`
+| Bytes taken as they are, which the member refers to in place.
+
+| `DMI_FIELD_BITS`, `DMI_FIELD_BITS_SKIP`, `DMI_FIELD_PAD`
+| Ranges of the bits of a unit several members share, from the least
+  significant bit up, the bits the specification reserves between them, and
+  the ones left over at the end of the unit.
+
+| `DMI_FIELD_ARRAY`, `DMI_FIELD_ELEMENT`
+| An array, preceded by the number of its elements, whose elements are
+  described by fields of their own, or by one field for the arrays of plain
+  values.
+
+| `DMI_FIELD_EXTENDED`
+| A wider field which a later version adds for a value the plain one is too
+  narrow for. Both name the same member, and the plain one holding the value
+  of `when_raw` says that the real value is here.
+
+| `DMI_FIELD_SPLIT`, `DMI_FIELD_SPLIT_BINARY`
+| Data which feeds several members at once, whose handlers are given the
+  whole decoded structure.
+
+| `DMI_FIELD_PRESET`
+| A member the data does not carry, set before anything is read, e.g. a
+  handle standing for no reference until the data gives one.
+
+| `DMI_FIELD_SKIP`
+| Bytes the structure holds and nothing reads.
+
+| `DMI_FIELD_GROUP`
+| The beginning of the fields a version of the specification adds, which
+  occupies no bytes.
+
+| `DMI_FIELD_OFFSET`
+| The offset the fields after it begin at, which occupies no bytes and is
+  checked while decoding.
+|===
+
+=== Versions
+
+Every version of the specification adds fields at the end of a structure, and
+a structure is allowed to end at the beginning of any version, since the
+firmware writes the structure of the version it knows. `DMI_FIELD_GROUP`
+marks the fields of a version with `since`: a cache information structure of
+SMBIOS 2.0 ends before the speed, and one of 2.1 before the extended sizes.
+
+The version the data has been read up to becomes the level of the structure,
+which the output shows, and the members of the fields the data ends before
+are left zero, or are given the value the field declares as `absent`. A
+structure which ends in the middle of the fields of a version is decoded up
+to where it ends, and is marked as incomplete.
+
+`DMI_FIELD_OFFSET` states where a part of the structure begins, the way the
+tables of the specification number the offsets. It says nothing about where
+the data may end, and is checked as the structure is decoded, so that a field
+lost from the layout, or added to it twice, is caught where it happens rather
+than in the values of everything after it.
+
+=== Handlers of the fields
+
+A field whose value is not the number the data holds has a pair of handlers:
+`decode` makes the value of the member from the data, and `encode` makes the
+data from the value, which undoes it. The level of the cache is counted from
+zero in the data and from one everywhere else:
+
+[source,c]
+----
+bool dmi_cache_decode_level(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
+{
+    return dmi_field_set(field, value, data->number + 1);
+}
+
+bool dmi_cache_encode_level(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    uintmax_t level = dmi_field_get(field, value);
+
+    data->number = (level > 0) ? level - 1 : 0;
+
+    return true;
+}
+----
+
+Handlers deal with values rather than with bytes: the engine reads the bytes,
+resolves the string a string field refers to, and writes them back.
+`dmi_field_get` and `dmi_field_set` read and write a member of whatever width
+the field names. A handler depends on the data of its own field alone, and
+whatever combines several fields is derived once all of them have been read,
+see <<Handlers of the structure>>. This is what lets the encoder tell whether
+the data it has already decodes into the value the structure holds, and keep
+it.
+
+== Attributes
+
+The attributes of a structure say what its members mean, one attribute per
+member:
+
+[source,c]
+----
+.attributes = DMI_ATTRIBUTES({
+    DMI_ATTRIBUTE(dmi_cache_t, level, INTEGER, {
+        .code    = "level",
+        .name    = "Cache level",
+        .minimum = dmi_value_ptr((unsigned short)1),
+        .maximum = dmi_value_ptr((unsigned short)8),
+    }),
+    DMI_ATTRIBUTE(dmi_cache_t, installed_size, SIZE, {
+        .code    = "installed-size",
+        .name    = "Installed cache size"
+    }),
+    DMI_ATTRIBUTE(dmi_cache_t, speed, INTEGER, {
+        .code    = "speed",
+        .name    = "Cache speed",
+        .unit    = DMI_UNIT_NANOSECOND,
+        .level   = DMI_VERSION(2, 1, 0)
+    }),
+    DMI_ATTRIBUTE(dmi_cache_t, type, ENUM, {
+        .code    = "type",
+        .name    = "System cache type",
+        .unspec  = dmi_value_ptr(DMI_CACHE_TYPE_UNSPEC),
+        .unknown = dmi_value_ptr(DMI_CACHE_TYPE_UNKNOWN),
+        .values  = &dmi_cache_type_names,
+        .level   = DMI_VERSION(2, 1, 0)
+    }),
+    ...
+    {}
+}),
+----
+
+The type of an attribute says how its value is read and shown:
+
+[cols="1,2"]
+|===
+| Type | Value
+
+| `STRING`
+| A string, `nullptr` for a string the structure does not carry.
+
+| `BOOL`
+| A flag, shown with the names of `values` when it has them.
+
+| `INTEGER`, `DECIMAL`
+| A number of the `unit` the attribute gives, a decimal one with `scale`
+  digits after the point.
+
+| `SIZE`
+| A number of bytes, shown in the unit which suits it.
+
+| `ADDRESS`
+| An address, shown in hexadecimal.
+
+| `ENUM`
+| One of the values of an enumeration, named by `values`.
+
+| `SET`
+| A set of the bits of a flag word, named by `values`.
+
+| `VERSION`, `DATE`, `UUID`
+| Values of those types.
+
+| `BINARY`
+| Bytes taken as they are, which the flags may say to show as a MAC or an IP
+  address.
+
+| `HANDLE`
+| The handle of another structure.
+
+| `STRUCT`
+| A nested structure, described by attributes of its own.
+
+| `VARIANT`
+| A value whose type depends on another member, described by one of several
+  attributes.
+|===
+
+The parameters of an attribute are:
+
+`code`, `name`::
+The name of the value in the exported data, which is unique within its
+structure, and the one the output shows, which is translated.
+
+`unit`, `scale`, `flags`::
+How the value is shown: its unit of measurement, the digits after the point,
+and whether it is signed, hexadecimal, a binary-coded decimal or an address.
+
+`unspec`, `unknown`::
+The values which stand for "unspecified" and "unknown" rather than for
+themselves, which the output shows by those words, and which the lint rules
+of the values leave out.
+
+`values`::
+The names of the values of an enumeration or of the bits of a set, see
+xref:internals/names.adoc#internals-names[Name sets].
+
+`minimum`, `maximum`::
+The limits the specification sets for the value, which the lint rule
+`value.range` checks.
+
+`level`::
+The version of the specification the value appears in, so that the output
+leaves out the values a structure of an older version does not have.
+
+`targets`, `link`::
+For a handle: the types of the structures it may refer to, and the member the
+referenced structure is put into once the table is linked.
+
+`attrs`, `variants`::
+The attributes of a nested structure, and the variants of a variant value.
+
+An array of values is described by `DMI_ATTRIBUTE_ARRAY`, which names the
+member holding the number of the elements along with the array. The processor
+information structure refers to its caches this way:
+
+[source,c]
+----
+DMI_ATTRIBUTE(dmi_processor_t, l1_cache_handle, HANDLE, {
+    .code    = "l1-cache-handle",
+    .name    = "L1 Cache handle",
+    .targets = dmi_types(DMI_TYPE_CACHE),
+    .level   = DMI_VERSION(2, 1, 0),
+    .link    = dmi_member(dmi_processor_t, l1_cache)
+}),
+----
+
+Linking the table resolves the handle held in `l1_cache_handle` into the
+cache information structure it refers to, which goes into `l1_cache`, and
+reports a handle which refers to no structure, or to a structure of another
+type. The lint rules `link.dangling` and `link.wrong-type` check the same
+attribute.
+
+Attributes are what the tool is built on: `opendmi show` shows the values of
+the attributes, and `opendmi export` writes them under their codes. A member
+which has no attribute is known to the program which reads the structure, and
+to nothing else.
+
+== Handlers of the structure
+
+Some structures cannot be described by fields alone, and their specification
+gives handlers, in `handlers`, which do what the fields and the attributes
+cannot:
+
+`decode`, `encode`::
+Decode and encode the structure by hand, in place of the fields, see
+xref:internals/codecs.adoc#internals-codecs[Decoders and encoders]. A few types
+are decoded this way, e.g. the additional information, whose entries declare
+lengths of their own, and the management controller host interface, whose data
+is read again according to its type once it has been read.
+
+`derive`::
+Fills in the members which are computed from the others rather than read,
+once the fields have been read, e.g. whether a checksum the structure carries
+matches. It never writes a member a field decodes into: those are what the
+structure is encoded from.
+
+`link`::
+Resolves what the attributes cannot say by themselves, once the references
+they declare have been resolved, e.g. the references back from the referenced
+structures, or the handles whose type another member names.
+
+`cleanup`::
+Frees what the decoding has allocated beyond the decoded structure itself.

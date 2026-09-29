@@ -1,0 +1,128 @@
+ifdef::backend-manpage[]
+= dmi_baseboard_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_baseboard_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_baseboard_type, dmi_baseboard_type_name - baseboard types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/baseboard.h>
+
+typedef enum dmi_baseboard_type {
+    DMI_BASEBOARD_TYPE_UNSPEC                   = 0x00,
+    DMI_BASEBOARD_TYPE_UNKNOWN                  = 0x01,
+    DMI_BASEBOARD_TYPE_OTHER                    = 0x02,
+    DMI_BASEBOARD_TYPE_SERVER_BLADE             = 0x03,
+    DMI_BASEBOARD_TYPE_CONNECTIVITY_SWITCH      = 0x04,
+    DMI_BASEBOARD_TYPE_SYSTEM_MANAGEMENT_MODULE = 0x05,
+    DMI_BASEBOARD_TYPE_PROCESSOR_MODULE         = 0x06,
+    DMI_BASEBOARD_TYPE_IO_MODULE                = 0x07,
+    DMI_BASEBOARD_TYPE_MEMORY_MODULE            = 0x08,
+    DMI_BASEBOARD_TYPE_DAUGHTERBOARD            = 0x09,
+    DMI_BASEBOARD_TYPE_MOTHERBOARD              = 0x0A,
+    DMI_BASEBOARD_TYPE_PROCESSOR_MEMORY_MODULE  = 0x0B,
+    DMI_BASEBOARD_TYPE_PROCESSOR_IO_MODULE      = 0x0C,
+    DMI_BASEBOARD_TYPE_INTERCONNECT_BOARD       = 0x0D,
+} dmi_baseboard_type_t;
+
+const char *dmi_baseboard_type_name(dmi_baseboard_type_t value);
+----
+
+== Description
+
+The `dmi_baseboard_type_t` enumeration tells what kind of board a baseboard
+structure describes, and is the type of the `type` field of `dmi_baseboard_t`.
+The same values name the boards a chassis contains, in the `board_type` field
+of `dmi_chassis_element_t`.
+
+The `dmi_baseboard_type_name` function returns the name of a value, as the
+command line tool shows it. The name is translated to the locale set with
+`dmi_set_locale` if the library is built with ICU4C support and the locale has
+a translation of it, and is in English otherwise.
+
+=== Values
+
+`DMI_BASEBOARD_TYPE_UNSPEC`::
+Unspecified. The specification defines no board type of zero; the value is also
+what the field holds when the structure is too short to carry it.
+
+`DMI_BASEBOARD_TYPE_UNKNOWN`::
+Unknown.
+
+`DMI_BASEBOARD_TYPE_OTHER`::
+Other type, which none of the values below names.
+
+`DMI_BASEBOARD_TYPE_SERVER_BLADE`::
+Server blade.
+
+`DMI_BASEBOARD_TYPE_CONNECTIVITY_SWITCH`::
+Connectivity switch.
+
+`DMI_BASEBOARD_TYPE_SYSTEM_MANAGEMENT_MODULE`::
+System management module.
+
+`DMI_BASEBOARD_TYPE_PROCESSOR_MODULE`::
+Processor module.
+
+`DMI_BASEBOARD_TYPE_IO_MODULE`::
+I/O module.
+
+`DMI_BASEBOARD_TYPE_MEMORY_MODULE`::
+Memory module.
+
+`DMI_BASEBOARD_TYPE_DAUGHTERBOARD`::
+Daughter board.
+
+`DMI_BASEBOARD_TYPE_MOTHERBOARD`::
+Motherboard, which holds the processors, the memory and the I/O.
+
+`DMI_BASEBOARD_TYPE_PROCESSOR_MEMORY_MODULE`::
+Module holding processors and memory.
+
+`DMI_BASEBOARD_TYPE_PROCESSOR_IO_MODULE`::
+Module holding processors and I/O.
+
+`DMI_BASEBOARD_TYPE_INTERCONNECT_BOARD`::
+Interconnect board.
+
+== Return value
+
+`dmi_baseboard_type_name` returns the name of the value, or `nullptr` if the
+value has no name, e.g. a value the specification reserves. The string belongs
+to the library and must not be modified or freed; a translated name may become
+invalid once the locale is changed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_baseboard`(3), `dmi_chassis_element`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

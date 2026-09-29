@@ -1,0 +1,93 @@
+ifdef::backend-manpage[]
+= dmi_processor_status(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_status
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_status, dmi_processor_status_name - processor states
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef enum dmi_processor_status {
+    DMI_PROCESSOR_STATUS_UNKNOWN          = 0x00,
+    DMI_PROCESSOR_STATUS_ENABLED          = 0x01,
+    DMI_PROCESSOR_STATUS_DISABLED_BY_USER = 0x02,
+    DMI_PROCESSOR_STATUS_DISABLED_BY_FW   = 0x03,
+    DMI_PROCESSOR_STATUS_IDLE             = 0x04,
+    DMI_PROCESSOR_STATUS_OTHER            = 0x07
+} dmi_processor_status_t;
+
+const char *dmi_processor_status_name(dmi_processor_status_t value);
+----
+
+== Description
+
+The `dmi_processor_status_t` enumeration tells the state of a processor, and
+is the type of the `status` field of `dmi_processor_t`. The values 0x05 and
+0x06 are reserved.
+
+The `dmi_processor_status_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_PROCESSOR_STATUS_UNKNOWN`::
+Unknown.
+
+`DMI_PROCESSOR_STATUS_ENABLED`::
+Processor is enabled.
+
+`DMI_PROCESSOR_STATUS_DISABLED_BY_USER`::
+Processor is disabled by the user, in the firmware setup.
+
+`DMI_PROCESSOR_STATUS_DISABLED_BY_FW`::
+Processor is disabled by the firmware, after a POST error.
+
+`DMI_PROCESSOR_STATUS_IDLE`::
+Processor is idle, waiting to be enabled.
+
+`DMI_PROCESSOR_STATUS_OTHER`::
+Other.
+
+== Return value
+
+`dmi_processor_status_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is translated to the current locale when the
+library is built with localization support and has a translation for it, and
+is in English otherwise. The string is owned by the library and must not be
+modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_processor`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

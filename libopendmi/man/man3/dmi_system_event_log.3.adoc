@@ -1,0 +1,158 @@
+ifdef::backend-manpage[]
+= dmi_system_event_log(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_system_event_log
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_system_event_log - system event log structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-event-log.h>
+
+typedef struct dmi_system_event_log {
+    uint16_t                          area_length;
+    uint16_t                          header_offset;
+    uint16_t                          data_offset;
+    dmi_system_log_access_method_t    access_method;
+    dmi_system_log_status_t           status;
+    uint32_t                          access_address;
+    dmi_system_log_io_ports_t         access_ports;
+    uint16_t                          access_gpnv_handle;
+    uint32_t                          change_token;
+    dmi_system_log_header_fmt_t       header_format;
+    size_t                            descriptor_count;
+    dmi_system_log_type_descriptor_t *descriptors;
+} dmi_system_event_log_t;
+----
+
+== Description
+
+The `dmi_system_event_log_t` structure holds the decoded system event log
+structure (type 15) of SMBIOS. Its presence tells that the system keeps an
+event log: a fixed-length area of non-volatile storage, which starts with an
+optional header and goes on with event records of variable length. The
+structure says where the area lies, how software reaches it, and which kinds
+of events the log records. The library does not read the log area itself.
+
+Software can notice new events by reading the structure again from time to
+time and comparing `change_token` with the value it has seen before. When
+the table has been read from a copy of the firmware data, `status` and
+`change_token` may be out of date.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SYSTEM_EVENT_LOG)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`area_length`::
+Length of the log area, in bytes, from the first byte of the header to the
+last byte of the data.
+
+`header_offset`::
+Offset (or index) of the log header within the non-volatile storage, counted
+from the access method address. For the access method with a single 8-bit
+index port, the high byte is 0.
+
+`data_offset`::
+Offset (or index) of the first byte of the log data, counted the same way.
+The data follows the header directly, so the length of the header is
+`data_offset - header_offset`.
+
+`access_method`::
+Method used to reach the log area, see `dmi_system_log_access_method`(3). It
+also tells how `access_address` is to be read.
+
+`status`::
+Whether the log area is valid and whether it is full, see
+`dmi_system_log_status`(3).
+
+`access_address`::
+Access method address, as stored in the structure. For
+`DMI_SYSTEM_LOG_ACCESS_METHOD_MMAP_32BIT_ADDR`, the 32-bit physical address of
+the log area; the other access methods are better read through `access_ports`
+and `access_gpnv_handle`.
+
+`access_ports`::
+Index and data I/O ports of the indexed I/O access methods, see
+`dmi_system_log_io_ports`(3): the low word of `access_address` is the index
+port, the high word the data port. Filled in whatever the access method is,
+but only meaningful for the indexed I/O ones.
+
+`access_gpnv_handle`::
+Handle of the general-purpose non-volatile data area holding the log, which
+is the low word of `access_address`. Filled in whatever the access method
+is, but only meaningful for `DMI_SYSTEM_LOG_ACCESS_METHOD_DATA_FUNCTIONS`.
+
+`change_token`::
+Token which the firmware changes every time the log is updated, 0 if the
+firmware does not implement it.
+
+`header_format`::
+Format of the log header, see `dmi_system_log_header_fmt`(3). Present since
+SMBIOS 2.1; for older structures holds 0, which reads as
+`DMI_SYSTEM_LOG_HEADER_FMT_NO_HEADER`.
+
+`descriptor_count`::
+Number of elements of `descriptors`: the descriptors the structure holds
+completely, 0 if it holds none. Present since SMBIOS 2.1; 0 otherwise.
+
+`descriptors`::
+Array of the event log types the log supports, each with the format of the
+variable data of its events, see `dmi_system_log_type_descriptor`(3);
+`nullptr` if there are none. Descriptors longer than two bytes are allowed
+for future extensions, and their extra bytes are skipped. Present since
+SMBIOS 2.1.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t         *registry = dmi_get_registry(context);
+dmi_entity_t           *entity   = dmi_registry_lookup_first(registry,
+                                       DMI_TYPE(SYSTEM_EVENT_LOG), false);
+dmi_system_event_log_t *log_info = dmi_entity_info(entity,
+                                       DMI_TYPE(SYSTEM_EVENT_LOG));
+
+if (log_info != nullptr) {
+    printf("Log area: %u bytes%s\n", (unsigned)log_info->area_length,
+           log_info->status.is_log_area_full ? ", full" : "");
+
+    for (size_t i = 0; i < log_info->descriptor_count; i++)
+        printf("Supported event type: 0x%02x\n",
+               (unsigned)log_info->descriptors[i].type);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_system_log_access_method`(3),
+`dmi_system_log_status`(3), `dmi_system_log_io_ports`(3),
+`dmi_system_log_header_fmt`(3), `dmi_system_log_type_descriptor`(3),
+`dmi_event_log_type`(3), `dmi_event_log_data_format`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

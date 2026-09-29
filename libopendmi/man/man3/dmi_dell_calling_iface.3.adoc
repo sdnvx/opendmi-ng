@@ -1,0 +1,99 @@
+ifdef::backend-manpage[]
+= dmi_dell_calling_iface(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_calling_iface
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_calling_iface - Dell calling interface structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/calling-iface.h>
+
+typedef struct dmi_dell_calling_iface {
+    uint16_t cmd_io_address;
+    uint8_t cmd_io_code;
+    uint32_t supported_cmds;
+    size_t token_count;
+    dmi_dell_calling_iface_token_t *tokens;
+} dmi_dell_calling_iface_t;
+----
+
+== Description
+
+The `dmi_dell_calling_iface_t` structure holds the decoded Dell calling
+interface structure (type 218): the I/O port through which commands are issued
+to the firmware, and the tokens, settings of the firmware kept in non-volatile
+storage, which these commands read and write.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(DELL_CALLING_IFACE)`, declared in `<opendmi/module/dell.h>`, and
+lives as long as the context it has been decoded in.
+
+=== Fields
+
+`cmd_io_address`::
+Address of the I/O port written to issue a command to the firmware.
+
+`cmd_io_code`::
+Value written to the command I/O port to issue a command.
+
+`supported_cmds`::
+Bit mask of the commands the firmware supports, as the structure carries it.
+The meaning of the bits is not publicly documented.
+
+`token_count`::
+Number of elements of `tokens`.
+
+`tokens`::
+Tokens, in the order of the structure. Unused records (token identifier
+`0x0000`) and the end-of-table marker (`0xFFFF`) are left out. May be `nullptr`
+when `token_count` is 0.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t           *registry = dmi_get_registry(context);
+dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
+                                         DMI_TYPE(DELL_CALLING_IFACE), true);
+dmi_dell_calling_iface_t *iface    = dmi_entity_info(entity,
+                                         DMI_TYPE(DELL_CALLING_IFACE));
+
+if (iface != nullptr) {
+    for (size_t i = 0; i < iface->token_count; i++)
+        printf("Token 0x%04x: 0x%04x\n", iface->tokens[i].id,
+               iface->tokens[i].value);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_dell_calling_iface_token`(3),
+`dmi_dell_indexed_io`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Calling Interface (Type 218) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

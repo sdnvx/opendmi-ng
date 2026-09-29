@@ -1,0 +1,117 @@
+= Checking the data
+:sectnums:
+:sectlinks:
+
+[#internals-lint]
+The data is checked against the rules of the specification by `dmi_lint`,
+which `opendmi lint` is built on. The rules themselves are described in
+`opendmi-lint`(1); this chapter describes how they are checked, and how a
+structure type brings rules of its own.
+
+== Rules
+
+A rule, `dmi_lint_rule_t`, is a code, e.g. `cache.size`, a check, a
+description, and the severities of the issues it finds in the two profiles:
+reading the data of a platform, and producing data which is expected to
+conform. The scope of a rule says when it is checked:
+
+`DMI_LINT_SCOPE_ENTRY`::
+Once, against the entry point.
+
+`DMI_LINT_SCOPE_ENTITY`::
+Against every structure of the table.
+
+`DMI_LINT_SCOPE_TABLE`::
+Once, after every structure has been checked, with the totals of the table,
+e.g. how many structures of each type it has.
+
+The rules which apply to any structure belong to the library, and the ones
+which know a type belong to the specification of that type. The rules of the
+cache information structure are declared with the rest of its specification:
+
+[source,c]
+----
+.lint_rules = DMI_LINT_RULES({
+    DMI_LINT_RULE("cache.size", dmi_cache_lint_size, {
+        .name              = "Installed size of the cache fits its "
+                             "maximum size",
+        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }),
+    {}
+})
+----
+
+A module brings the rules of its types the same way, so the rules checked are
+the ones of the modules which are enabled.
+
+== Checks
+
+A check is given the structure being checked, and reports what it finds with
+`dmi_lint_issue`, naming the attribute and the offset of the issue:
+
+[source,c]
+----
+void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
+
+    if ((info == nullptr) || (info->maximum_size == 0) ||
+        (info->maximum_size == DMI_SIZE_MAX))
+        return;
+
+    if ((info->installed_size == DMI_SIZE_MAX) ||
+        (info->installed_size <= info->maximum_size))
+        return;
+
+    dmi_lint_issue(lint, entity, "installed-size",
+                   dmi_lint_entity_offset(lint, entity),
+                   "installed size of %" PRIu64 " bytes is above the "
+                   "maximum of %" PRIu64 " bytes",
+                   info->installed_size, info->maximum_size);
+}
+----
+
+A check reads the decoded structure rather than its bytes whenever it can, so
+that it sees the values the way the rest of the library does. The ones which
+catch what the decoder puts right, e.g. the words of a processor identifier
+stored the other way round, read the bytes with a reader, see
+xref:internals/bytes.adoc#internals-bytes[Buffers, readers and writers]. The
+severity of an issue is not the business of the check: it comes from the rule
+and the profile.
+
+Many checks are not written at all: the rules of the values, e.g.
+`value.range` and `value.invalid-enum`, walk the attributes of every structure
+and check them against the limits and the name sets the attributes give, so a
+type whose attributes say what its values may be is checked by them.
+
+== Checking the data of a program
+
+A program checks the data of an open context with `dmi_lint`, which reports
+every issue to a handler as it is found:
+
+[source,c]
+----
+static void print_issue(void *data, const dmi_lint_issue_t *issue)
+{
+    (void)data;
+
+    printf("%s: %s [%s]\n",
+           dmi_name_lookup(&dmi_lint_severity_names, issue->severity),
+           issue->message, issue->rule->code);
+}
+
+...
+
+const dmi_lint_options_t options = {
+    .profile = DMI_LINT_PROFILE_READER
+};
+
+if (!dmi_lint(context, &options, print_issue, nullptr))
+    return 1;
+----
+
+The options select the profile, the version of the specification to check
+against in place of the one of the entry point, whether the rules disabled by
+default are checked too, and a filter which decides on every rule, which is
+how `--enable` and `--disable` of the tool are done.

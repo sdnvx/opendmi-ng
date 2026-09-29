@@ -1,0 +1,84 @@
+ifdef::backend-manpage[]
+= dmi_dell_indexed_io_token(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_indexed_io_token
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_indexed_io_token - token of Dell indexed IO structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/indexed-io.h>
+
+typedef struct dmi_dell_indexed_io_token {
+    uint16_t id;
+    uint8_t location;
+    uint8_t and_mask;
+    bool is_string;
+    uint8_t or_value;
+    uint8_t string_length;
+} dmi_dell_indexed_io_token_t;
+----
+
+== Description
+
+The `dmi_dell_indexed_io_token_t` structure describes one token of the Dell
+indexed IO structure (type 212), and is the type of the elements of the
+`tokens` array of `dmi_dell_indexed_io_t`. A token is a setting of the firmware
+kept in CMOS: either a boolean one, activated by masking the bits of a location
+and setting some of them, or a string starting at a location.
+
+=== Fields
+
+`id`::
+Token identifier. Never `0x0000` or `0xFFFF`: the records with these
+identifiers are unused ones and the end-of-table marker, which are not decoded
+as tokens.
+
+`location`::
+CMOS index of the value of the token.
+
+`and_mask`::
+Mask applied with a bitwise AND to the value at the location before `or_value`
+is set. 0 for string tokens.
+
+`is_string`::
+Whether the token is a string token, which the structure tells by an `and_mask`
+of 0.
+
+`or_value`::
+For boolean tokens, bits set with a bitwise OR in the value at the location
+when the token is activated. 0 for string tokens.
+
+`string_length`::
+For string tokens, length of the string. 0 for boolean tokens.
+
+== See also
+
+`dmi_dell_indexed_io`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Indexed IO (Type 212) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

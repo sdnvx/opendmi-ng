@@ -1,0 +1,93 @@
+ifdef::backend-manpage[]
+= dmi_bis_entry_point(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_bis_entry_point
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_bis_entry_point - Boot Integrity Services entry point structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/bis-entry-point.h>
+
+typedef struct dmi_bis_entry_point {
+    uint8_t                     checksum;
+    dmi_bis_real_mode_address_t entry_point_16;
+    uint32_t                    entry_point_32;
+    bool                        is_valid;
+} dmi_bis_entry_point_t;
+----
+
+== Description
+
+The `dmi_bis_entry_point_t` structure holds the decoded Boot Integrity
+Services (BIS) entry point structure (type 31) of SMBIOS: the addresses at
+which the Boot Integrity Services can be called. SMBIOS reserves the
+structure type for BIS, and the Boot Integrity Services API specification
+defines its content.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(BIS_ENTRY_POINT)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`checksum`::
+Checksum of the structure, which makes the sum of all its bytes
+zero.
+
+`entry_point_16`::
+Entry point for the 16-bit real mode, see
+`dmi_bis_real_mode_address`(3).
+
+`entry_point_32`::
+Entry point for the 32-bit protected mode, a physical address.
+
+`is_valid`::
+`true` if the bytes of the structure sum to zero, that is, if the
+checksum is valid.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t        *registry = dmi_get_registry(context);
+dmi_entity_t          *entity   = dmi_registry_lookup_first(
+        registry, DMI_TYPE(BIS_ENTRY_POINT), true);
+dmi_bis_entry_point_t *bis      = dmi_entity_info(entity,
+                                                  DMI_TYPE(BIS_ENTRY_POINT));
+
+if ((bis != nullptr) && bis->is_valid)
+    printf("BIS entry point: %04X:%04X\n",
+           (unsigned)bis->entry_point_16.segment,
+           (unsigned)bis->entry_point_16.offset);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_bis_real_mode_address`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

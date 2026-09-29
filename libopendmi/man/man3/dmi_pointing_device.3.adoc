@@ -11,8 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_pointing_device - describes the attributes of the built-in pointing
-device for the system.
+dmi_pointing_device - built-in pointing device structure
 
 == Library
 
@@ -34,117 +33,54 @@ typedef struct dmi_pointing_device {
 
 == Description
 
-This structure describes the attributes of the built-in pointing device for the
-system.  The presence of this structure does not imply that the built-in
-pointing device is active for the system's use.
+The `dmi_pointing_device_t` structure holds the decoded built-in pointing
+device structure (type 21) of SMBIOS: the type, interface and number of
+buttons of the pointing device built into the system, such as the touch pad of
+a laptop. The structure being present does not mean that the device is in use.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(POINTING_DEVICE)`, and lives as long as the context it has been
+decoded in.
 
 === Fields
 
 `type`::
-Type of pointing device.
+Type of the pointing device, see `dmi_pointing_device_type`(3).
 
 `interface`::
-Interface type for the pointing device.
+Interface the pointing device is connected through, see
+`dmi_pointing_device_iface`(3).
 
 `button_count`::
-Number of buttons on the pointing device.
-
-=== Device types
-
-`DMI_POINTING_DEVICE_TYPE_UNSPEC`:: Unspecified
-`DMI_POINTING_DEVICE_TYPE_OTHER`:: Other
-`DMI_POINTING_DEVICE_TYPE_UNKNOWN`:: Unknown
-`DMI_POINTING_DEVICE_TYPE_MOUSE`:: Mouse
-`DMI_POINTING_DEVICE_TYPE_TRACK_BALL`:: Track ball
-`DMI_POINTING_DEVICE_TYPE_TRACK_POINT`:: Track point
-`DMI_POINTING_DEVICE_TYPE_GLIDE_POINT`:: Glide point
-`DMI_POINTING_DEVICE_TYPE_TOUCH_PAD`:: Touch pad
-`DMI_POINTING_DEVICE_TYPE_TOUCH_SCREEN`:: Touch screen
-`DMI_POINTING_DEVICE_TYPE_OPTICAL_SENSOR`:: Optical sensor
-
-=== Interface types
-
-`DMI_POINTING_DEVICE_IFACE_UNSPEC`:: Unspecified
-`DMI_POINTING_DEVICE_IFACE_OTHER`:: Other
-`DMI_POINTING_DEVICE_IFACE_UNKNOWN`:: Unknown
-`DMI_POINTING_DEVICE_IFACE_SERIAL`:: Serial
-`DMI_POINTING_DEVICE_IFACE_PS2`:: PS/2
-`DMI_POINTING_DEVICE_IFACE_INFRARED`:: Infrared
-`DMI_POINTING_DEVICE_IFACE_HP_HIL`:: HP-HIL
-`DMI_POINTING_DEVICE_IFACE_BUS_MOUSE`:: Bus mouse
-`DMI_POINTING_DEVICE_IFACE_ADB`:: ADB (Apple Desktop Bus)
-`DMI_POINTING_DEVICE_IFACE_BUS_MOUSE_DB9`:: Bus mouse DB-9
-`DMI_POINTING_DEVICE_IFACE_BUS_MOUSE_DIN`:: Bus mouse micro-DIN
-`DMI_POINTING_DEVICE_IFACE_USB`:: USB
-`DMI_POINTING_DEVICE_IFACE_I2C`:: I2C
-`DMI_POINTING_DEVICE_IFACE_SPI`:: SPI
+Number of buttons of the pointing device, for example 3 for a three-button
+mouse.
 
 == Examples
 
 [source, c]
-```
-dmi_entity_t *entity;
-dmi_pointing_device_t *info;
+----
+dmi_registry_t        *registry = dmi_get_registry(context);
+dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
+                                      DMI_TYPE(POINTING_DEVICE), false);
+dmi_pointing_device_t *device   = dmi_entity_info(entity,
+                                      DMI_TYPE(POINTING_DEVICE));
 
-info = dmi_entity_info(entity, DMI_TYPE_POINTING_DEVICE);
-
-printf("type: %s\n", dmi_pointing_device_type_name(info->type));
-printf("interface: %s\n", dmi_pointing_device_interface_name(info->interface));
-printf("buttons: %u\n", info->button_count);
-```
-
-== Specification
-
-[cols="1,1,1,1,3"]
-|===
-| Offset | Version | Name | Length | Description
-
-| `0x00`
-| 2.1+
-| Type
-| `BYTE`
-| Built-in Pointing Device indicator.
-
-| `0x01`
-| 2.1+
-| Length
-| `BYTE`
-| Length of the structure.
-
-| `0x02`
-| 2.1+
-| Handle
-| `WORD`
-| Handle associated with the structure.
-
-| `0x04`
-| 2.1+
-| Device Type
-| `BYTE`
-| Type of pointing device.
-
-| `0x05`
-| 2.1+
-| Interface type
-| `BYTE`
-| Interface type for the pointing device.
-
-| `0x06`
-| 2.1+
-| Button count
-| `BYTE`
-| Number of buttons on the pointing device.
-|===
+if (device != nullptr)
+    printf("%s (%s), %u buttons\n",
+           dmi_pointing_device_type_name(device->type),
+           dmi_pointing_device_iface_name(device->interface),
+           device->button_count);
+----
 
 == See also
 
 `dmi_entity_info`(3),
-`dmi_pointing_device_type_name`(3),
-`dmi_pointing_device_interface_name`(3)
+`dmi_pointing_device_type`(3),
+`dmi_pointing_device_iface`(3)
 
 == Standards
 
-DMTF SMBIOS Specification, version 2.1 or newer.
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
 
 ifdef::backend-manpage[]
 == Copying

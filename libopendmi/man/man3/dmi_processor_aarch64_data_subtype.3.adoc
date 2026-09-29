@@ -1,0 +1,62 @@
+ifdef::backend-manpage[]
+= dmi_processor_aarch64_data_subtype(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_aarch64_data_subtype
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_aarch64_data_subtype - sub-types of 64-bit Arm processor-specific
+data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef enum dmi_processor_aarch64_data_subtype {
+    DMI_PROCESSOR_AARCH64_DATA_SUBTYPE_AARCH64         = 0x00,
+    DMI_PROCESSOR_AARCH64_DATA_SUBTYPE_VENDOR_SPECIFIC = 0x01,
+} dmi_processor_aarch64_data_subtype_t;
+----
+
+== Description
+
+The `dmi_processor_aarch64_data_subtype_t` enumeration tells what the 64-bit
+Arm (AArch64) processor-specific data hold after their header, and is the
+values of the `subtype` field of `dmi_processor_aarch64_data_t`. The other
+values are reserved.
+
+=== Values
+
+`DMI_PROCESSOR_AARCH64_DATA_SUBTYPE_AARCH64`::
+AArch64 architecture data, see `dmi_processor_aarch64_arch_data`(3).
+
+`DMI_PROCESSOR_AARCH64_DATA_SUBTYPE_VENDOR_SPECIFIC`::
+Data defined by the vendor of the processor.
+
+== See also
+
+`dmi_processor_aarch64_data`(3), `dmi_processor_aarch64_arch_data`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.8 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

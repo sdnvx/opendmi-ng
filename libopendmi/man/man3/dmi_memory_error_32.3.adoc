@@ -1,0 +1,116 @@
+ifdef::backend-manpage[]
+= dmi_memory_error_32(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_error_32
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_error_32 - 32-bit memory error information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-error-32.h>
+
+typedef struct dmi_memory_error_32 {
+    dmi_memory_error_type_t type;
+    dmi_memory_error_granularity_t granularity;
+    dmi_memory_error_operation_t operation;
+    uint32_t vendor_syndrome;
+    uint32_t array_addr;
+    uint32_t device_addr;
+    uint32_t resolution;
+} dmi_memory_error_32_t;
+----
+
+== Description
+
+The `dmi_memory_error_32_t` structure holds the decoded 32-bit memory error
+information structure (type 18) of SMBIOS: the details of an error detected in
+a physical memory array or in a memory device, i.e. its kind, the access which
+caused it, and where it happened, with 32-bit addresses. The physical memory
+array (type 16) and memory device (type 17) structures point at it through
+their `error_info` fields. The 64-bit memory error information structure (type
+33, `dmi_memory_error_64`(3)) carries the same information with 64-bit
+addresses.
+
+The values of the fields are the ones the structure carries: the special values
+telling that a value is unknown are kept as they are.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MEMORY_ERROR_32)` and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`type`::
+Kind of error reported for the memory array or device.
+
+`granularity`::
+How precisely the error can be located: to a device, or to a partition.
+
+`operation`::
+Memory access operation which caused the error.
+
+`vendor_syndrome`::
+Vendor-specific ECC syndrome or CRC data of the failing access. 0 when unknown.
+
+`array_addr`::
+Physical address of the error, as the bus the memory array is connected to sees
+it. `0x80000000` when unknown.
+
+`device_addr`::
+Physical address of the error from the start of the failing memory device, in
+bytes. `0x80000000` when unknown.
+
+`resolution`::
+Size of the range, in bytes, within which the error can be located when an
+address is given. `0x80000000` when unknown.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t        *registry = dmi_get_registry(context);
+dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
+                                      DMI_TYPE(MEMORY_ERROR_32), true);
+dmi_memory_error_32_t *error    = dmi_entity_info(entity,
+                                      DMI_TYPE(MEMORY_ERROR_32));
+
+if (error != nullptr) {
+    const char *type = dmi_memory_error_type_name(error->type);
+
+    printf("Memory error: %s\n", type != nullptr ? type : "?");
+    if (error->array_addr != 0x80000000)
+        printf("Array address: 0x%08x\n", (unsigned)error->array_addr);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_memory_error_type`(3),
+`dmi_memory_error_granularity`(3), `dmi_memory_error_operation`(3),
+`dmi_memory_error_64`(3), `dmi_memory_array`(3), `dmi_memory_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

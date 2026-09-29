@@ -1,0 +1,83 @@
+ifdef::backend-manpage[]
+= dmi_oob_remote_access(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_oob_remote_access
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_oob_remote_access - out-of-band remote access structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/oob-remote-access.h>
+
+typedef struct dmi_oob_remote_access {
+    const char *vendor;
+    dmi_oob_connections_t connections;
+} dmi_oob_remote_access_t;
+----
+
+== Description
+
+The `dmi_oob_remote_access_t` structure holds the decoded out-of-band remote
+access structure (type 30) of SMBIOS: a hardware facility through which the
+system can be reached remotely when its operating system cannot run, e.g.
+because the system is powered down or fails to boot, and the connections the
+facility is allowed to make and to accept.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(OOB_REMOTE_ACCESS)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`vendor`::
+Name of the manufacturer of the facility, or `nullptr`.
+
+`connections`::
+Connections the facility is allowed to accept and to make, see
+`dmi_oob_connections`(3).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t          *registry = dmi_get_registry(context);
+dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
+                                        DMI_TYPE(OOB_REMOTE_ACCESS), false);
+dmi_oob_remote_access_t *access   = dmi_entity_info(entity,
+                                        DMI_TYPE(OOB_REMOTE_ACCESS));
+
+if (access != nullptr)
+    printf("Inbound: %s, outbound: %s\n",
+           access->connections.is_inbound_enabled ? "yes" : "no",
+           access->connections.is_outbound_enabled ? "yes" : "no");
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_oob_connections`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

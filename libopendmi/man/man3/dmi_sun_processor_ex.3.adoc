@@ -1,0 +1,99 @@
+ifdef::backend-manpage[]
+= dmi_sun_processor_ex(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_sun_processor_ex
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_sun_processor_ex - Sun processor extended information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/sun/processor-ex.h>
+
+typedef struct dmi_sun_processor_ex {
+    dmi_handle_t processor_handle;
+    uint8_t fru;
+    uint8_t apic_id_total;
+    size_t apic_id_count;
+    uint16_t *apic_ids;
+} dmi_sun_processor_ex_t;
+----
+
+== Description
+
+The `dmi_sun_processor_ex_t` structure holds the decoded Sun processor extended
+information structure (type 132), which adds the initial APIC IDs of the
+strands (hardware threads) of a processor to its processor information
+structure (type 4). It is not part of SMBIOS: Sun firmware provides it, and the
+library decodes it only when the Sun extension module (`dmi_sun_module`,
+declared in `<opendmi/module/sun.h>`) is enabled in the context with
+`dmi_add_extension`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SUN_PROCESSOR_EX)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`processor_handle`::
+Handle of the processor information structure (type 4) this structure extends.
+The library does not resolve it into an entity.
+
+`fru`::
+Field-replaceable unit (FRU) indicator of the processor, as stored.
+
+`apic_id_total`::
+Number of initial APIC IDs the structure declares.
+
+`apic_id_count`::
+Number of elements of `apic_ids`: the IDs the structure holds in full, which
+may be fewer than `apic_id_total` when the structure is truncated.
+
+`apic_ids`::
+Initial APIC IDs of the strands of the processor; `nullptr` if `apic_id_total`
+is 0.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                               DMI_TYPE(SUN_PROCESSOR_EX), true);
+dmi_sun_processor_ex_t *info =
+        dmi_entity_info(entity, DMI_TYPE(SUN_PROCESSOR_EX));
+
+for (size_t i = 0; (info != nullptr) && (i < info->apic_id_count); i++)
+    printf("strand %zu: APIC ID 0x%04X\n", i, (unsigned)info->apic_ids[i]);
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_processor`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Sun firmware, see the Sun
+Processor Extended Information (Type 132) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

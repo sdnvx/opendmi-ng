@@ -1,0 +1,61 @@
+ifdef::backend-manpage[]
+= dmi_rack_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_rack_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_rack_type - rack types of system enclosures
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/chassis.h>
+
+typedef enum dmi_rack_type {
+    DMI_RACK_TYPE_UNSPEC = 0x00,
+    DMI_RACK_TYPE_OPEN   = 0x01,
+} dmi_rack_type_t;
+----
+
+== Description
+
+The `dmi_rack_type_t` enumeration tells the kind of rack a system enclosure is
+made for, which gives the unit of its rack height. It is the type of the
+`rack_type` field of `dmi_chassis_t`, whose `rack_height` field holds the
+height in that unit.
+
+=== Values
+
+`DMI_RACK_TYPE_UNSPEC`::
+Unspecified.
+
+`DMI_RACK_TYPE_OPEN`::
+Open Rack, whose height unit is the OU (48 mm).
+
+== See also
+
+`dmi_chassis`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.9 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

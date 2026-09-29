@@ -1,0 +1,95 @@
+= Extension modules
+:sectnums:
+:sectlinks:
+
+[#internals-modules]
+The specification leaves the structure types from 128 to 255 to the vendors of
+the platforms, and nothing keeps two vendors from giving the same number to
+different structures. The structure types of a vendor are therefore brought
+by a module of their own, which is enabled when the data comes from a
+platform of that vendor.
+
+== Modules
+
+A module, `dmi_module_t`, is a list of the specifications of the structure
+types it brings, which are written the same way the standard ones are, see
+xref:internals/structures.adoc#internals-structures[Describing a structure]:
+
+[source,c]
+----
+const dmi_module_t dmi_dell_module =
+{
+    .code     = "dell",
+    .name     = "Dell extensions",
+    .entities = (const dmi_entity_spec_t *[]){
+        &dmi_dell_bios_flags_spec,
+        &dmi_dell_revisions_spec,
+        ...
+        nullptr
+    }
+};
+----
+
+The modules of the library are built in, and listed in
+`dmi_builtin_modules`, so that they are linked into a static build as well:
+`acer`, `ami`, `apple`, `dell`, `hpe`, `intel`, `lenovo` and `sun`. The tool
+lists them with `opendmi modules`, and `opendmi types -m dell` lists the types
+a module brings.
+
+== Enabling a module
+
+A module is enabled in a context before the data is opened, since the
+structures are decoded as the context is opened:
+
+[source,c]
+----
+dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK);
+
+if ((context == nullptr) ||
+    !dmi_add_extension(context, dmi_module_find("dell")) ||
+    !dmi_open(context, nullptr)) {
+    dmi_destroy(context);
+    return 1;
+}
+----
+
+Enabling a module maps the types it brings to their specifications in the
+context. A type is mapped to one specification at a time, so a module which
+brings a type another enabled module already has, or the same module enabled
+twice, fails with `DMI_ERROR_MODULE_CONFLICT`. Structures of the types no
+enabled module brings are left undecoded, with their headers and strings
+only.
+
+The vendor of the platform is told from the platform firmware information as
+the context is opened, while the module of the vendor is not enabled by
+itself yet _(planned)_: the program enables it, and the tool does with its
+`-m` option.
+
+== Modules of a program
+
+A program brings structure types of its own by a module of its own, which it
+registers once, before the contexts which use it are created. The library
+links the registered modules through their `next` member, so a module is not
+constant:
+
+[source,c]
+----
+static dmi_module_t example_module =
+{
+    .code     = "example",
+    .name     = "Example extensions",
+    .entities = (const dmi_entity_spec_t *[]){
+        &example_spec,
+        nullptr
+    }
+};
+
+if (!dmi_module_register(&example_module))
+    return 1;
+----
+
+A registered module is found by `dmi_module_find` and listed by
+`dmi_module_next` along with the built-in ones, and is enabled the same way.
+The library does not copy it, so it stays valid for as long as the program
+runs. Registration is not thread-safe, and belongs to the start of the
+program.

@@ -1,0 +1,86 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_fpga_hps_isa(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_fpga_hps_isa
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_fpga_hps_isa - Intel RSD FPGA hard processor subsystem
+architectures
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-fpga.h>
+
+typedef enum dmi_intel_rsd_fpga_hps_isa {
+    DMI_INTEL_RSD_FPGA_HPS_ISA_X86     = 0x00,
+    DMI_INTEL_RSD_FPGA_HPS_ISA_X86_64  = 0x01,
+    DMI_INTEL_RSD_FPGA_HPS_ISA_IA_64   = 0x02,
+    DMI_INTEL_RSD_FPGA_HPS_ISA_ARM_A32 = 0x03,
+    DMI_INTEL_RSD_FPGA_HPS_ISA_ARM_A64 = 0x04,
+    DMI_INTEL_RSD_FPGA_HPS_ISA_MIPS32  = 0x05,
+    DMI_INTEL_RSD_FPGA_HPS_ISA_MIPS64  = 0x06,
+    DMI_INTEL_RSD_FPGA_HPS_ISA_OEM     = 0x07
+} dmi_intel_rsd_fpga_hps_isa_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_fpga_hps_isa_t` enumeration tells the instruction set
+architecture of the cores of the hard processor subsystem (HPS) of an FPGA,
+and is the type of the `hps_isa` field of `dmi_intel_rsd_fpga_t`.
+
+=== Values
+
+`DMI_INTEL_RSD_FPGA_HPS_ISA_X86`::
+32-bit x86.
+
+`DMI_INTEL_RSD_FPGA_HPS_ISA_X86_64`::
+x86-64.
+
+`DMI_INTEL_RSD_FPGA_HPS_ISA_IA_64`::
+IA-64 (Itanium).
+
+`DMI_INTEL_RSD_FPGA_HPS_ISA_ARM_A32`::
+32-bit Arm (A32).
+
+`DMI_INTEL_RSD_FPGA_HPS_ISA_ARM_A64`::
+64-bit Arm (A64).
+
+`DMI_INTEL_RSD_FPGA_HPS_ISA_MIPS32`::
+32-bit MIPS.
+
+`DMI_INTEL_RSD_FPGA_HPS_ISA_MIPS64`::
+64-bit MIPS.
+
+`DMI_INTEL_RSD_FPGA_HPS_ISA_OEM`::
+Architecture specific to the OEM.
+
+== See also
+
+`dmi_intel_rsd_fpga`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

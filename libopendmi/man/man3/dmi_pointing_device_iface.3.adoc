@@ -1,0 +1,126 @@
+ifdef::backend-manpage[]
+= dmi_pointing_device_iface(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_pointing_device_iface
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_pointing_device_iface, dmi_pointing_device_iface_name - pointing device interfaces
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/pointing-device.h>
+
+typedef enum dmi_pointing_device_iface {
+    DMI_POINTING_DEVICE_IFACE_UNSPEC        = 0x00,
+    DMI_POINTING_DEVICE_IFACE_OTHER         = 0x01,
+    DMI_POINTING_DEVICE_IFACE_UNKNOWN       = 0x02,
+    DMI_POINTING_DEVICE_IFACE_SERIAL        = 0x03,
+    DMI_POINTING_DEVICE_IFACE_PS2           = 0x04,
+    DMI_POINTING_DEVICE_IFACE_INFRARED      = 0x05,
+    DMI_POINTING_DEVICE_IFACE_HP_HIL        = 0x06,
+    DMI_POINTING_DEVICE_IFACE_BUS_MOUSE     = 0x07,
+    DMI_POINTING_DEVICE_IFACE_ADB           = 0x08,
+    DMI_POINTING_DEVICE_IFACE_BUS_MOUSE_DB9 = 0xA0,
+    DMI_POINTING_DEVICE_IFACE_BUS_MOUSE_DIN = 0xA1,
+    DMI_POINTING_DEVICE_IFACE_USB           = 0xA2,
+    DMI_POINTING_DEVICE_IFACE_I2C           = 0xA3,
+    DMI_POINTING_DEVICE_IFACE_SPI           = 0xA4,
+} dmi_pointing_device_iface_t;
+
+const char *dmi_pointing_device_iface_name(dmi_pointing_device_iface_t value);
+----
+
+== Description
+
+The `dmi_pointing_device_iface_t` enumeration tells the interface a built-in
+pointing device is connected through, and is the type of the `interface` field
+of `dmi_pointing_device_t`. Values 0x09 to 0x9F are not assigned by the
+specification.
+
+The `dmi_pointing_device_iface_name` function returns the printable name of a
+value, as the command line tool shows it. The name is translated to the locale
+set with `dmi_set_locale`, when the library is built with ICU4C support and
+has a translation of it.
+
+=== Values
+
+`DMI_POINTING_DEVICE_IFACE_UNSPEC`::
+Unspecified.
+
+`DMI_POINTING_DEVICE_IFACE_OTHER`::
+Other interface.
+
+`DMI_POINTING_DEVICE_IFACE_UNKNOWN`::
+Unknown interface.
+
+`DMI_POINTING_DEVICE_IFACE_SERIAL`::
+Serial port.
+
+`DMI_POINTING_DEVICE_IFACE_PS2`::
+PS/2.
+
+`DMI_POINTING_DEVICE_IFACE_INFRARED`::
+Infrared.
+
+`DMI_POINTING_DEVICE_IFACE_HP_HIL`::
+HP-HIL.
+
+`DMI_POINTING_DEVICE_IFACE_BUS_MOUSE`::
+Bus mouse.
+
+`DMI_POINTING_DEVICE_IFACE_ADB`::
+ADB (Apple Desktop Bus).
+
+`DMI_POINTING_DEVICE_IFACE_BUS_MOUSE_DB9`::
+Bus mouse, DB-9.
+
+`DMI_POINTING_DEVICE_IFACE_BUS_MOUSE_DIN`::
+Bus mouse, micro-DIN.
+
+`DMI_POINTING_DEVICE_IFACE_USB`::
+USB.
+
+`DMI_POINTING_DEVICE_IFACE_I2C`::
+I2C.
+
+`DMI_POINTING_DEVICE_IFACE_SPI`::
+SPI.
+
+== Return value
+
+`dmi_pointing_device_iface_name` returns the name of the value, or `nullptr`
+if the value has no name. The name is a static string, which must not be
+modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_pointing_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

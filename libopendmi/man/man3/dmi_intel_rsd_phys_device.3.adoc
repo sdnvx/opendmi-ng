@@ -1,0 +1,92 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_phys_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_phys_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_phys_device - physical location of a device in an Intel RSD
+physical device mapping
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-phys-device-mapping.h>
+
+typedef struct dmi_intel_rsd_phys_device {
+    dmi_handle_t handle;
+    dmi_intel_rsd_phys_device_type_t type;
+    uint8_t primary_number;
+    uint8_t secondary_number;
+    bool is_raw;
+    dmi_binary_t data;
+} dmi_intel_rsd_phys_device_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_phys_device_t` structure describes the physical location of
+one device listed by a physical device mapping structure of Intel Rack Scale
+Design (RSD) firmware: the structure describing the device, and the numbers
+which locate it. All numbers are zero-based.
+
+The elements are held in the `devices` array of
+`dmi_intel_rsd_phys_device_mapping_t`, and live as long as the context the
+mapping has been decoded in.
+
+=== Fields
+
+`handle`::
+Handle of the structure describing the device: a processor (type 4), system
+slot (type 9) or memory device (type 17) structure, as `type` tells. The
+handle is not resolved to an entity.
+
+`type`::
+Type of the device, the `device_type` field of the mapping structure.
+
+`primary_number`::
+First location number: the socket of a processor, the processor socket a
+memory device belongs to, or the riser of a PCIe slot.
+
+`secondary_number`::
+Second location number: the DIMM slot of a memory device within its
+processor, or the slot within the riser for a PCIe slot. Reserved for
+processors.
+
+`is_raw`::
+Set if `type` is none of the known device types, including
+`DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID`: the location numbers mean nothing
+then, and `data` is what the command line tool shows.
+
+`data`::
+The location bytes, as stored in the structure. The data points into the
+structure and lives as long as the context.
+
+== See also
+
+`dmi_intel_rsd_phys_device_mapping`(3), `dmi_intel_rsd_phys_device_type`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware, see the Intel RSD Physical Device Mapping Information (Type 200)
+chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

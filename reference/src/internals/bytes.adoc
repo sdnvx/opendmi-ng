@@ -1,0 +1,127 @@
+= Buffers, readers and writers
+:sectnums:
+:sectlinks:
+
+[#internals-bytes]
+The bytes of SMBIOS data are held in buffers, and are read and written through
+cursors over them. Neither knows what the bytes mean: that is up to the
+decoders and the encoders, which the next chapter describes.
+
+== Buffers
+
+A buffer, `dmi_buffer_t`, owns a block of memory which grows as the data is
+written into it. It belongs to the context it is created in, which is where
+the errors of its growth are raised:
+
+[source,c]
+----
+dmi_buffer_t *buffer = dmi_buffer_create(context);
+
+if (buffer == nullptr)
+    return false;
+
+if (!dmi_buffer_assign(buffer, data, length)) {
+    dmi_buffer_destroy(buffer);
+    return false;
+}
+----
+
+The context holds two buffers of its own while it is open: the entry point and
+the table. Backends fill them rather than allocate the data themselves, and
+every structure refers to the table buffer and to the offset it begins at,
+which `dmi_entity_buffer`(3) and `dmi_entity_offset`(3) tell. The decoded
+values which are strings or bytes point into the buffer, so the buffer is
+never moved or freed while the context is open.
+
+== Readers
+
+A reader, `dmi_reader_t`, reads the bytes of a range of a buffer from its
+beginning on. It holds no memory, so it is a plain variable which needs no
+destroying, and a range may be read by several readers at once. A reader of a
+structure covers the formatted area of it, from the header on:
+
+[source,c]
+----
+dmi_reader_t reader;
+dmi_byte_t   type;
+dmi_word_t   handle;
+
+if (!dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                           dmi_entity_offset(entity), 4))
+    return false;
+
+if (dmi_reader_get_bytes(&reader, &type, sizeof(type)) &&
+    dmi_reader_skip(&reader, 1) &&
+    dmi_reader_get_bytes(&reader, &handle, sizeof(handle)))
+    printf("type %u, handle 0x%04X\n", type, dmi_decode(handle));
+----
+
+The bytes are read as the data holds them, which is little-endian, and are
+converted to the byte order of the host with `dmi_decode`, which takes a value
+of any of the types of the data: `dmi_byte_t`, `dmi_word_t`, `dmi_dword_t`
+and `dmi_qword_t`.
+
+Reading past the end of the range fails, and leaves the reader where it was.
+It is no error of the context: running out of the data is what an older
+structure does, and the caller decides what it means. This is how the data
+of any length is read safely, whatever length it declares.
+
+Records which declare their own length are stepped over by that length rather
+than by what has been read of them, since a record may be longer than the
+fields it is known to hold:
+
+[source,c]
+----
+while (!dmi_reader_is_done(&reader)) {
+    dmi_reader_mark_t record = dmi_reader_mark(&reader);
+    dmi_byte_t        kind;
+    dmi_byte_t        length;
+
+    if (!dmi_reader_get_bytes(&reader, &kind, sizeof(kind)) ||
+        !dmi_reader_get_bytes(&reader, &length, sizeof(length)))
+        break;
+
+    // Fields of the record known to the program are read here
+
+    if (!dmi_reader_skip_ex(&reader, record, length))
+        break;
+}
+----
+
+A mark is a value too, which is copied rather than allocated, and
+`dmi_reader_rewind`(3) returns the reader to it, e.g. to read a part of the
+data again in another way.
+
+== Writers
+
+A writer, `dmi_writer_t`, writes bytes into a range of a buffer the way a
+reader reads them, and grows the buffer as the data is written past its end.
+A range given no length of its own runs as far as the data is written:
+
+[source,c]
+----
+dmi_buffer_t *buffer = dmi_buffer_create(context);
+dmi_writer_t  writer;
+dmi_word_t    handle = dmi_encode((dmi_word_t)0xFFFE);
+
+if (buffer == nullptr)
+    return false;
+
+bool written = dmi_writer_initialize(&writer, buffer, 0, -1) &&
+               dmi_writer_put_bytes(&writer, "\x7F\x04", 2) &&
+               dmi_writer_put_bytes(&writer, &handle, sizeof(handle)) &&
+               dmi_writer_skip(&writer, 2);
+
+dmi_buffer_destroy(buffer);
+----
+
+This writes the end-of-table structure: its type, its length, a handle, and
+the two zero bytes which end its string set. `dmi_encode` converts the value
+back into the byte order of the data. Padding with `dmi_writer_skip`(3)
+writes zeros past the end of the data, and steps over the bytes written
+already, so that padding over a part of the data which is being written again
+keeps it.
+
+A writer fails the same way a reader does when the range is too short, and
+raises `DMI_ERROR_OUT_OF_MEMORY` on the context of the buffer when the buffer
+cannot grow.

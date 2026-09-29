@@ -1,0 +1,70 @@
+ifdef::backend-manpage[]
+= dmi_memory_module_size(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_module_size
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_module_size - memory module size
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-module.h>
+
+typedef struct dmi_memory_module_size {
+    dmi_size_t value;
+    unsigned bank_count;
+    dmi_memory_module_size_status_t status;
+} dmi_memory_module_size_t;
+----
+
+== Description
+
+The `dmi_memory_module_size_t` structure holds a decoded memory size of a
+memory module, and is the type of the `installed_size` and `enabled_size`
+fields of `dmi_memory_module_t`. The data carries the size as a power of two
+of mebibytes, or a special value telling why there is no size, together with
+the bank connection of the module.
+
+=== Fields
+
+`value`::
+Size, in bytes, or 0 unless `status` is
+`DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT`.
+
+`bank_count`::
+Number of bank connections of the module: 1 for a single-bank connection, 2
+for a double-bank one. Set whatever the status.
+
+`status`::
+Whether the size is known, and why not if it is not, see
+`dmi_memory_module_size_status`(3).
+
+== See also
+
+`dmi_memory_module`(3),
+`dmi_memory_module_size_status`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,91 @@
+ifdef::backend-manpage[]
+= dmi_baseboard_features(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_baseboard_features
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_baseboard_features - baseboard feature flags
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/baseboard.h>
+
+typedef union dmi_baseboard_features {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t is_hosting_board       : 1;
+        dmi_byte_t require_daughter_board : 1;
+        dmi_byte_t is_removable           : 1;
+        dmi_byte_t is_replaceable         : 1;
+        dmi_byte_t is_hot_swappable       : 1;
+        dmi_byte_t __reserved             : 3;
+    };
+} dmi_baseboard_features_t;
+----
+
+== Description
+
+The `dmi_baseboard_features_t` union holds the feature flags of a board, which
+tell how the board is built into the system and whether it can be taken out. It
+is the type of the `features` field of `dmi_baseboard_t`.
+
+The union is packed into a single byte: the flags can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the flags, as the byte the structure carries them in, `is_hosting_board`
+being bit 0.
+
+`is_hosting_board`::
+Set if the board hosts the other components of the system, the way a
+motherboard does.
+
+`require_daughter_board`::
+Set if the board does not work without at least one daughter board or auxiliary
+card.
+
+`is_removable`::
+Set if the board can be taken out of the chassis and put back without harming
+the function of the chassis.
+
+`is_replaceable`::
+Set if the board can be exchanged for a physically different one, as a repair
+or as an upgrade. A replaceable board is removable too.
+
+`is_hot_swappable`::
+Set if the board can be exchanged for a physically different but equivalent one
+while it is powered. A hot-swappable board is replaceable and removable too.
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_baseboard`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

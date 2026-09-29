@@ -50,18 +50,6 @@ include::../../../../libopendmi/man/man3/dmi_entity_offset.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_string_ex.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_type.3.adoc[leveloffset=2]
 
-== `<opendmi/entity/cooling-device.h>`
-
-include::../../../../libopendmi/man/man3/dmi_cooling_device.3.adoc[leveloffset=2]
-
-== `<opendmi/entity/memory-array-addr.h>`
-
-include::../../../../libopendmi/man/man3/dmi_memory_array_addr.3.adoc[leveloffset=2]
-
-== `<opendmi/entity/pointing-device.h>`
-
-include::../../../../libopendmi/man/man3/dmi_pointing_device.3.adoc[leveloffset=2]
-
 == `<opendmi/field.h>`
 
 include::../../../../libopendmi/man/man3/dmi_fields_decode.3.adoc[leveloffset=2]
@@ -184,3 +172,448 @@ include::../../../../libopendmi/man/man3/dmi_uuid_encode.3.adoc[leveloffset=2]
 
 include::../../../../libopendmi/man/man3/dmi_version_format.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_version_format_ex.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/additional-info.h>`
+
+include::../../../../libopendmi/man/man3/dmi_additional_info.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_additional_info_entry.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/baseboard.h>`
+
+include::../../../../libopendmi/man/man3/dmi_baseboard.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_baseboard_features.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_baseboard_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/battery.h>`
+
+include::../../../../libopendmi/man/man3/dmi_battery.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_battery_chemistry.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/bis-entry-point.h>`
+
+include::../../../../libopendmi/man/man3/dmi_bis_entry_point.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_bis_real_mode_address.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/cache.h>`
+
+include::../../../../libopendmi/man/man3/dmi_cache.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_cache_assoc.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_cache_location.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_cache_mode.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_cache_sram_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_cache_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/chassis.h>`
+
+include::../../../../libopendmi/man/man3/dmi_chassis.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_chassis_element.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_chassis_security_status.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_chassis_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_rack_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/common.h>`
+
+include::../../../../libopendmi/man/man3/dmi_error_correct_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_pci_addr.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_pci_class.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_pci_device_id.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_pci_slot.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_pci_vendor_id.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_status.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/cooling-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_cooling_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_cooling_device_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/firmware-inventory.h>`
+
+include::../../../../libopendmi/man/man3/dmi_firmware_ident.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_ident_format.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_inventory.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_inventory_component.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_inventory_features.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_inventory_state.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_version.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_version_number.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/firmware-language.h>`
+
+include::../../../../libopendmi/man/man3/dmi_firmware_language.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_language_flags.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/firmware.h>`
+
+include::../../../../libopendmi/man/man3/dmi_firmware.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_features.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_features_ex.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/group-assoc.h>`
+
+include::../../../../libopendmi/man/man3/dmi_group_assoc.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_group_assoc_item.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/hardware-security.h>`
+
+include::../../../../libopendmi/man/man3/dmi_hardware_security.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_hardware_security_status.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/ipmi-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_ipmi_addr_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipmi_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipmi_device_details.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipmi_interface.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipmi_intr_polarity.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipmi_intr_trigger.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipmi_register_spacing.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-array-addr.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_array_addr.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-array.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_array.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_array_location.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_array_usage.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-channel.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_channel.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_channel_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_channel_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-controller.h>`
+
+include::../../../../libopendmi/man/man3/dmi_error_correct_caps.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_error_detect_method.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_controller.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_interleave.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_module_speed.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_module_voltage.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-device-addr.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_device_addr.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_device_form_factor.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_device_tech.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_device_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_device_type_detail.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-error-32.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_error_32.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-error-64.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_error_64.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-error.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_error_granularity.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_error_operation.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_error_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/memory-module.h>`
+
+include::../../../../libopendmi/man/man3/dmi_memory_module.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_module_error.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_module_size.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_module_size_status.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_module_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/mgmt-controller.h>`
+
+include::../../../../libopendmi/man/man3/dmi_mgmt_controller.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_if_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_characteristic.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_device_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_format.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_oem.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_pci.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_pci_v2.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_usb.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_usb_v2.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_proto.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_proto_record.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_redfish_ip_assignment.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_redfish_ip_format.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_redfish_over_ip.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/mgmt-device-component.h>`
+
+include::../../../../libopendmi/man/man3/dmi_mgmt_device_component.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/mgmt-device-threshold.h>`
+
+include::../../../../libopendmi/man/man3/dmi_mgmt_device_threshold.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/mgmt-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_mgmt_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_device_addr_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_device_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/oem-strings.h>`
+
+include::../../../../libopendmi/man/man3/dmi_oem_strings.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/onboard-device-ex.h>`
+
+include::../../../../libopendmi/man/man3/dmi_onboard_device_ex.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/onboard-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_onboard_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_onboard_device_instance.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_onboard_device_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/oob-remote-access.h>`
+
+include::../../../../libopendmi/man/man3/dmi_oob_connections.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_oob_remote_access.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/pointing-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_pointing_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_pointing_device_iface.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_pointing_device_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/port-connector.h>`
+
+include::../../../../libopendmi/man/man3/dmi_connector_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_port_connector.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_port_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/power-controls.h>`
+
+include::../../../../libopendmi/man/man3/dmi_power_controls.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/power-supply.h>`
+
+include::../../../../libopendmi/man/man3/dmi_power_supply.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_power_supply_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_range_switching_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/probe.h>`
+
+include::../../../../libopendmi/man/man3/dmi_probe.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_probe_location.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/processor-ex.h>`
+
+include::../../../../libopendmi/man/man3/dmi_processor_aarch64_arch_data.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_aarch64_data.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_aarch64_data_subtype.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_amd64_attribute.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_amd64_data.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_amd64_temperature_range.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_amd64_use_condition.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_arch.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_ex.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_revision.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_rv64_data.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_specific_block.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/processor.h>`
+
+include::../../../../libopendmi/man/man3/dmi_processor.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_arm_id.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_family.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_features.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_id_format.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_soc_id.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_status.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_upgrade.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_voltage_data.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_voltages.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_processor_x86_id.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/slot.h>`
+
+include::../../../../libopendmi/man/man3/dmi_slot.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_slot_features.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_slot_features_ex.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_slot_height.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_slot_length.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_slot_peer_group.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_slot_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_slot_usage.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_slot_width.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/string-property.h>`
+
+include::../../../../libopendmi/man/man3/dmi_string_property.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/system-boot.h>`
+
+include::../../../../libopendmi/man/man3/dmi_boot_status.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_boot.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/system-config.h>`
+
+include::../../../../libopendmi/man/man3/dmi_system_config_opts.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/system-event-log.h>`
+
+include::../../../../libopendmi/man/man3/dmi_event_log_data_format.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_event_log_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_event_log.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_log_access_method.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_log_header_fmt.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_log_io_ports.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_log_status.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_log_type_descriptor.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/system-reset.h>`
+
+include::../../../../libopendmi/man/man3/dmi_boot_option.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_reset.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/system.h>`
+
+include::../../../../libopendmi/man/man3/dmi_system.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_wakeup_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/tpm-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_tpm_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_tpm_device_features.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_tpm_firmware_version.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_tpm_firmware_version_format.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/ami/type-221.h>`
+
+include::../../../../libopendmi/man/man3/dmi_ami_type_221.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ami_type_221_item.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/calling-iface.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_calling_iface.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_calling_iface_token.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/common.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_check_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_enable_state.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_port_security.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_value_format.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/indexed-io.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_indexed_io.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_indexed_io_token.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/infrared-port.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_infrared_port.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_infrared_proto.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/parallel-port.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_parallel_port.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_parallel_port_caps.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_parallel_port_connector_pinout.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_parallel_port_connector_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/protected-area-1.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_protected_area_1.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/protected-area-2.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_protected_area_2.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/revisions.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_revisions.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/serial-port.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_serial_port.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_serial_port_caps.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_serial_port_connector_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-cabled-pcie.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_cabled_pcie.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_cabled_pcie_port.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-fpga.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_fpga.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_fpga_hps_isa.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_fpga_hssi_config.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_fpga_memory_tech.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_fpga_status.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_fpga_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-memory-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_memory_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_memory_media.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_memory_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-network-card.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_network_card.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-pcie.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_pcie.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-phys-device-mapping.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_phys_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_phys_device_mapping.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_phys_device_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-processor-cpuid.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_cpuid_leaf.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_cpuid_subtype.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_processor_cpuid.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-storage-device.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_storage_connector.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_storage_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_storage_device_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_storage_proto.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-tpm.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_tpm.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_tpm_status.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/intel/rsd-txt.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_txt.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_intel_rsd_txt_status.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/sun/memory-array-ex.h>`
+
+include::../../../../libopendmi/man/man3/dmi_sun_memory_array_ex.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/sun/memory-device-ex.h>`
+
+include::../../../../libopendmi/man/man3/dmi_sun_memory_device_ex.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/sun/pcie-root-complex.h>`
+
+include::../../../../libopendmi/man/man3/dmi_sun_pcie_root_complex.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/sun/port-ex.h>`
+
+include::../../../../libopendmi/man/man3/dmi_sun_port_ex.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/sun/processor-ex.h>`
+
+include::../../../../libopendmi/man/man3/dmi_sun_processor_ex.3.adoc[leveloffset=2]

@@ -1,0 +1,68 @@
+ifdef::backend-manpage[]
+= dmi_tpm_firmware_version(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_tpm_firmware_version
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_tpm_firmware_version - TPM 2.0 firmware version
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/tpm-device.h>
+
+typedef struct dmi_tpm_firmware_version {
+    uint16_t major;
+    uint16_t minor;
+    uint32_t vendor_specific;
+} dmi_tpm_firmware_version_t;
+----
+
+== Description
+
+The `dmi_tpm_firmware_version_t` structure holds the firmware version of a
+TPM 2.0 device, parsed from the TPM_PT_FIRMWARE_VERSION_1 and
+TPM_PT_FIRMWARE_VERSION_2 properties the structure carries. It is the type
+of the `firmware_version_2` field of `dmi_tpm_device_t`, which is only
+meaningful when the `firmware_version_format` field of the device is
+`DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2`.
+
+=== Fields
+
+`major`::
+Major version number, the high word of TPM_PT_FIRMWARE_VERSION_1.
+
+`minor`::
+Minor version number, the low word of TPM_PT_FIRMWARE_VERSION_1.
+
+`vendor_specific`::
+Vendor-specific part of the version, the value of
+TPM_PT_FIRMWARE_VERSION_2.
+
+== See also
+
+`dmi_tpm_device`(3), `dmi_tpm_firmware_version_format`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

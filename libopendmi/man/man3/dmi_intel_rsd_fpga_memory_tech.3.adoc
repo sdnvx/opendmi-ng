@@ -1,0 +1,69 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_fpga_memory_tech(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_fpga_memory_tech
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_fpga_memory_tech - Intel RSD FPGA memory technologies
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-fpga.h>
+
+typedef enum dmi_intel_rsd_fpga_memory_tech {
+    DMI_INTEL_RSD_FPGA_MEMORY_TECH_NONE  = 0x00,
+    DMI_INTEL_RSD_FPGA_MEMORY_TECH_EDRAM = 0x01,
+    DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM   = 0x02,
+    DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM2  = 0x03
+} dmi_intel_rsd_fpga_memory_tech_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_fpga_memory_tech_t` enumeration tells the technology of the
+memory attached to an FPGA, and is the type of the `memory_tech` field of
+`dmi_intel_rsd_fpga_t`.
+
+=== Values
+
+`DMI_INTEL_RSD_FPGA_MEMORY_TECH_NONE`::
+No memory is attached.
+
+`DMI_INTEL_RSD_FPGA_MEMORY_TECH_EDRAM`::
+Embedded DRAM (eDRAM).
+
+`DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM`::
+High Bandwidth Memory (HBM).
+
+`DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM2`::
+High Bandwidth Memory of the second generation (HBM2).
+
+== See also
+
+`dmi_intel_rsd_fpga`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

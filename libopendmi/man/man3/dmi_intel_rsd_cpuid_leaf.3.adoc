@@ -1,0 +1,90 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_cpuid_leaf(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_cpuid_leaf
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_cpuid_leaf - CPUID leaf of an Intel RSD processor CPUID
+information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-processor-cpuid.h>
+
+typedef struct dmi_intel_rsd_cpuid_leaf {
+    uint32_t leaf;
+    bool has_subleaf;
+    uint32_t subleaf;
+    uint32_t eax;
+    uint32_t ebx;
+    uint32_t ecx;
+    uint32_t edx;
+} dmi_intel_rsd_cpuid_leaf_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_cpuid_leaf_t` structure holds one CPUID leaf of a processor
+CPUID information structure of Intel Rack Scale Design (RSD) firmware: the
+input the CPUID instruction has been executed with, and the values of the
+registers it has returned. The input is not stored in the structure; the
+decoder fills it in from the list of leaves of the subtype.
+
+The elements are held in the `leaves` array of
+`dmi_intel_rsd_processor_cpuid_t`, and live as long as the context the
+structure has been decoded in.
+
+=== Fields
+
+`leaf`::
+Leaf number, the value of EAX the instruction has been executed with.
+
+`has_subleaf`::
+Set if the leaf has been read for a given subleaf.
+
+`subleaf`::
+Subleaf number, the value of ECX the instruction has been executed with.
+Meaningful only if `has_subleaf` is set.
+
+`eax`::
+Value of EAX returned by the instruction.
+
+`ebx`::
+Value of EBX returned by the instruction.
+
+`ecx`::
+Value of ECX returned by the instruction.
+
+`edx`::
+Value of EDX returned by the instruction.
+
+== See also
+
+`dmi_intel_rsd_processor_cpuid`(3), `dmi_intel_rsd_cpuid_subtype`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware, see the Intel RSD Processor CPUID Information (Type 193) chapter of
+the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

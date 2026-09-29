@@ -1,0 +1,98 @@
+ifdef::backend-manpage[]
+= dmi_sun_memory_array_ex(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_sun_memory_array_ex
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_sun_memory_array_ex - Sun memory array extended information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/sun/memory-array-ex.h>
+
+typedef struct dmi_sun_memory_array_ex {
+    dmi_handle_t memory_array_handle;
+    dmi_handle_t component_handle;
+    uint8_t bus_number;
+    uint8_t device_number;
+    uint8_t function_number;
+} dmi_sun_memory_array_ex_t;
+----
+
+== Description
+
+The `dmi_sun_memory_array_ex_t` structure holds the decoded Sun memory array
+extended information structure (type 144), which adds the component holding a
+memory array and the PCI address of its memory controller to its physical
+memory array structure (type 16). It is not part of SMBIOS: Sun firmware
+provides it, and the library decodes it only when the Sun extension module
+(`dmi_sun_module`, declared in `<opendmi/module/sun.h>`) is enabled in the
+context with `dmi_add_extension`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SUN_MEMORY_ARRAY_EX)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`memory_array_handle`::
+Handle of the physical memory array structure (type 16) this structure extends.
+
+`component_handle`::
+Handle of the structure describing the parent component of the memory array,
+such as the processor holding its memory controller.
+
+`bus_number`::
+PCI bus number of the memory controller.
+
+`device_number`::
+PCI device number of the memory controller, 0 to 31.
+
+`function_number`::
+PCI function number of the memory controller, 0 to 7.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                               DMI_TYPE(SUN_MEMORY_ARRAY_EX), true);
+dmi_sun_memory_array_ex_t *info =
+        dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_ARRAY_EX));
+
+if (info != nullptr)
+    printf("controller at %02X:%02X.%u\n", (unsigned)info->bus_number,
+           (unsigned)info->device_number, (unsigned)info->function_number);
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_memory_array`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Sun firmware, see the Sun
+Memory Array Extended Information (Type 144) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

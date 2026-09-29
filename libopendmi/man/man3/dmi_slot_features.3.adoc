@@ -1,0 +1,94 @@
+ifdef::backend-manpage[]
+= dmi_slot_features(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_slot_features
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_slot_features - system slot characteristics
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/slot.h>
+
+typedef union dmi_slot_features {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t is_unknown                    : 1;
+        dmi_byte_t has_5v0_support               : 1;
+        dmi_byte_t has_3v3_support               : 1;
+        dmi_byte_t has_shared_opening            : 1;
+        dmi_byte_t has_pccard_16_support         : 1;
+        dmi_byte_t has_cardbus_support           : 1;
+        dmi_byte_t has_zoom_video_supoort        : 1;
+        dmi_byte_t has_modem_ring_resume_support : 1;
+    };
+} dmi_slot_features_t;
+----
+
+== Description
+
+The `dmi_slot_features_t` union holds the first set of characteristics of a
+system slot: the voltages it provides, whether its opening is shared, and what
+its PC Card socket supports. It is the type of the `features` field of
+`dmi_slot_t`. A bit is set when the slot has the property.
+
+=== Fields
+
+`__value`::
+Raw value of the byte, `is_unknown` being bit 0.
+
+`is_unknown`::
+The characteristics of the slot are unknown.
+
+`has_5v0_support`::
+The slot provides 5.0 V.
+
+`has_3v3_support`::
+The slot provides 3.3 V.
+
+`has_shared_opening`::
+The opening of the slot is shared with another slot, as for a combined PCI/EISA
+slot.
+
+`has_pccard_16_support`::
+The PC Card slot takes 16-bit PC Cards.
+
+`has_cardbus_support`::
+The PC Card slot supports CardBus.
+
+`has_zoom_video_supoort`::
+The PC Card slot supports Zoom Video. The member is spelled this way in the
+header.
+
+`has_modem_ring_resume_support`::
+The PC Card slot supports Modem Ring Resume.
+
+== See also
+
+`dmi_slot`(3),
+`dmi_slot_features_ex`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

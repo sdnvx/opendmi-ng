@@ -1,0 +1,81 @@
+ifdef::backend-manpage[]
+= dmi_additional_info_entry(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_additional_info_entry
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_additional_info_entry - additional information entry
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/additional-info.h>
+
+#define DMI_ADDITIONAL_INFO_ENTRY_HEADER 5
+
+typedef struct dmi_additional_info_entry {
+    dmi_handle_t  ref_handle;
+    unsigned      ref_offset;
+    const char   *string;
+    dmi_binary_t  value;
+} dmi_additional_info_entry_t;
+----
+
+== Description
+
+The `dmi_additional_info_entry_t` structure describes one entry of the
+additional information structure, and is the type of the elements of the
+`entries` array of `dmi_additional_info_t`. It gives the value of one field
+of another structure.
+
+`DMI_ADDITIONAL_INFO_ENTRY_HEADER` is the length, in bytes, of the part of an
+entry which precedes the value: the entry length, the referenced handle, the
+referenced offset and the string number.
+
+=== Fields
+
+`ref_handle`::
+Handle of the structure the entry gives a value for.
+
+`ref_offset`::
+Offset of the field within the referenced structure, counted from the first
+byte of its header. The decoder warns when it falls within the header.
+
+`string`::
+Optional string describing the value, such as the name of a new processor,
+`nullptr` if the entry has none.
+
+`value`::
+Value of the field, referenced in place in the data of the structure: new
+contents of the field, or an enumerated value which has not been published
+yet. Its length is the one of the referenced field, that is the length of
+the entry less `DMI_ADDITIONAL_INFO_ENTRY_HEADER`, cut to what the structure
+holds.
+
+== See also
+
+`dmi_additional_info`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.6 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

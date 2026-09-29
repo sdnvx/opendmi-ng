@@ -1,0 +1,187 @@
+ifdef::backend-manpage[]
+= dmi_firmware_features(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_features
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_features - platform firmware features
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware.h>
+
+typedef union dmi_firmware_features {
+    dmi_qword_t __value;
+    struct {
+        dmi_qword_t __reserved          : 2;
+        dmi_qword_t unknown             : 1;
+        dmi_qword_t unsupported         : 1;
+        dmi_qword_t isa_support         : 1;
+        dmi_qword_t mca_support         : 1;
+        dmi_qword_t eisa_support        : 1;
+        dmi_qword_t pci_support         : 1;
+        dmi_qword_t pcmcia_support      : 1;
+        dmi_qword_t pnp_support         : 1;
+        dmi_qword_t apm_support         : 1;
+        dmi_qword_t upgradeable         : 1;
+        dmi_qword_t shadowing           : 1;
+        dmi_qword_t vesa_support        : 1;
+        dmi_qword_t escd_support        : 1;
+        dmi_qword_t boot_cd             : 1;
+        dmi_qword_t boot_selectable     : 1;
+        dmi_qword_t socketed            : 1;
+        dmi_qword_t boot_pcmcia         : 1;
+        dmi_qword_t edd_support         : 1;
+        dmi_qword_t floppy_svc_nec      : 1;
+        dmi_qword_t floppy_svc_toshiba  : 1;
+        dmi_qword_t floppy_svc_525_360k : 1;
+        dmi_qword_t floppy_svc_525_1m2  : 1;
+        dmi_qword_t floppy_svc_35_720k  : 1;
+        dmi_qword_t floppy_svc_35_2m88  : 1;
+        dmi_qword_t print_screen_svc    : 1;
+        dmi_qword_t keyboard_svc        : 1;
+        dmi_qword_t serial_svc          : 1;
+        dmi_qword_t printer_svc         : 1;
+        dmi_qword_t video_svc_cga_mono  : 1;
+        dmi_qword_t nec_pc_98           : 1;
+    };
+} dmi_firmware_features_t;
+----
+
+== Description
+
+The `dmi_firmware_features_t` union holds the set of the features the
+platform firmware supports, as the platform firmware information structure
+(type 0) of SMBIOS gives them. It is the type of the `features` field of
+`dmi_firmware_t`. Each bit, when set, tells that the feature is supported.
+
+Bits 32 to 47 of the value are reserved for the firmware vendor, and bits 48
+to 63 for the system vendor; they have no members, and are only available in
+`__value`.
+
+=== Fields
+
+`__value`::
+All the bits as one quad word, as stored.
+
+`__reserved`::
+Reserved bits 0 and 1.
+
+`unknown`::
+The features are unknown.
+
+`unsupported`::
+The firmware does not report its features.
+
+`isa_support`::
+ISA.
+
+`mca_support`::
+MCA.
+
+`eisa_support`::
+EISA.
+
+`pci_support`::
+PCI.
+
+`pcmcia_support`::
+PC card (PCMCIA).
+
+`pnp_support`::
+Plug and Play.
+
+`apm_support`::
+APM.
+
+`upgradeable`::
+The firmware can be upgraded (flash).
+
+`shadowing`::
+The firmware can be shadowed.
+
+`vesa_support`::
+VL-VESA.
+
+`escd_support`::
+ESCD.
+
+`boot_cd`::
+Boot from CD.
+
+`boot_selectable`::
+Selectable boot device.
+
+`socketed`::
+The firmware ROM is socketed.
+
+`boot_pcmcia`::
+Boot from PC card (PCMCIA).
+
+`edd_support`::
+Enhanced Disk Drive (EDD) specification.
+
+`floppy_svc_nec`::
+Int 13h services for the 1.2 MB Japanese floppy of NEC 9800.
+
+`floppy_svc_toshiba`::
+Int 13h services for the 1.2 MB Japanese floppy of Toshiba.
+
+`floppy_svc_525_360k`::
+Int 13h services for 5.25" 360 KB floppies.
+
+`floppy_svc_525_1m2`::
+Int 13h services for 5.25" 1.2 MB floppies.
+
+`floppy_svc_35_720k`::
+Int 13h services for 3.5" 720 KB floppies.
+
+`floppy_svc_35_2m88`::
+Int 13h services for 3.5" 2.88 MB floppies.
+
+`print_screen_svc`::
+Int 5h print screen service.
+
+`keyboard_svc`::
+Int 9h 8042 keyboard services.
+
+`serial_svc`::
+Int 14h serial services.
+
+`printer_svc`::
+Int 17h printer services.
+
+`video_svc_cga_mono`::
+Int 10h CGA and monochrome video services.
+
+`nec_pc_98`::
+NEC PC-98.
+
+== See also
+
+`dmi_firmware`(3), `dmi_firmware_features_ex`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,84 @@
+ifdef::backend-manpage[]
+= dmi_ami_type_221(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_ami_type_221
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_ami_type_221 - AMI type 221 structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/ami/type-221.h>
+
+typedef struct dmi_ami_type_221 {
+    size_t item_count;
+    dmi_ami_type_221_item_t *items;
+} dmi_ami_type_221_t;
+----
+
+== Description
+
+The `dmi_ami_type_221_t` structure holds the decoded AMI structure of type 221:
+a list of named items, each with a string value and three numbers whose meaning
+is not publicly documented.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(AMI_221)`, declared in `<opendmi/module/ami.h>`, and lives as long as
+the context it has been decoded in.
+
+=== Fields
+
+`item_count`::
+Number of elements of `items`. Smaller than the number the structure declares
+when the data ends before the last item.
+
+`items`::
+Items, in the order of the structure. May be `nullptr` when `item_count` is 0.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t     *registry = dmi_get_registry(context);
+dmi_entity_t       *entity   = dmi_registry_lookup_first(registry,
+                                   DMI_TYPE(AMI_221), true);
+dmi_ami_type_221_t *info     = dmi_entity_info(entity, DMI_TYPE(AMI_221));
+
+if (info != nullptr) {
+    for (size_t i = 0; i < info->item_count; i++) {
+        const dmi_ami_type_221_item_t *item = &info->items[i];
+
+        printf("%s: %s\n", item->name != nullptr ? item->name : "?",
+               item->string != nullptr ? item->string : "");
+    }
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_ami_type_221_item`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by AMI firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

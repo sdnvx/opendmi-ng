@@ -1,0 +1,177 @@
+ifdef::backend-manpage[]
+= dmi_firmware_inventory(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_inventory
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_inventory - firmware inventory information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-inventory.h>
+
+typedef struct dmi_firmware_inventory {
+    const char *name;
+    const char *version;
+    dmi_version_format_t version_format;
+    const char *ident;
+    dmi_firmware_ident_format_t ident_format;
+    const char *release_date;
+    const char *vendor;
+    const char *lowest_version;
+    dmi_size_t image_size;
+    dmi_firmware_version_t parsed_version;
+    dmi_firmware_version_t parsed_lowest_version;
+    dmi_firmware_ident_t parsed_ident;
+    dmi_firmware_inventory_features_t features;
+    dmi_firmware_inventory_state_t state;
+    size_t component_count;
+    dmi_firmware_inventory_component_t *components;
+} dmi_firmware_inventory_t;
+----
+
+== Description
+
+The `dmi_firmware_inventory_t` structure holds the decoded firmware inventory
+information structure (type 45) of SMBIOS: the name, version, identifier,
+vendor, release date, image size and state of one firmware component of the
+system, such as the platform firmware, the firmware of a BMC or the firmware
+of another device, together with the structures of the devices the firmware
+belongs to. A table carries one such structure for each firmware component.
+
+The version strings and the identifier string are written in the formats the
+structure declares. The decoder parses them according to these formats into
+`parsed_version`, `parsed_lowest_version` and `parsed_ident`, and keeps the
+strings as they are.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(FIRMWARE_INVENTORY)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`name`::
+Name of the firmware component, for example "BMC Firmware", or `nullptr` if
+the structure has none.
+
+`version`::
+Version of the firmware, written in the format `version_format` gives, or
+`nullptr` if the structure has none.
+
+`version_format`::
+Format of `version` and `lowest_version`: `DMI_VERSION_FORMAT_FREE` for a
+free-form string (for example "1.45.455b66-rev4"),
+`DMI_VERSION_FORMAT_SEMANTIC` for "MAJOR.MINOR" in decimal (for example
+"1.45"), `DMI_VERSION_FORMAT_HEX_32` and `DMI_VERSION_FORMAT_HEX_64` for a
+C-style hexadecimal number of 32 or 64 bits (for example "0x0001002d"). Values
+0x04 to 0x7F are reserved by the specification, and values 0x80 to 0xFF are
+for firmware vendors and OEMs. `dmi_version_format_name` returns the name of a
+value.
+
+`ident`::
+Identifier of the firmware, written in the format `ident_format` gives, or
+`nullptr` if the structure has none.
+
+`ident_format`::
+Format of `ident`, see `dmi_firmware_ident_format`(3).
+
+`release_date`::
+Release date of the firmware, as a date-time string in the format of DSP0266
+(for example "2021-05-15T04:14:33+06:00", with a time of "T00:00:00Z" when the
+time is unknown), or `nullptr` if the structure has none.
+
+`vendor`::
+Manufacturer or producer of the firmware, or `nullptr` if the structure has
+none.
+
+`lowest_version`::
+Lowest version the firmware can be rolled back to, written in the format
+`version_format` gives, or `nullptr` if the structure has none.
+
+`image_size`::
+Size of the firmware image currently programmed in the device, in bytes, or
+`DMI_SIZE_MAX` if unknown.
+
+`parsed_version`::
+`version` parsed according to `version_format`, see `dmi_firmware_version`(3).
+Its format is `DMI_VERSION_FORMAT_FREE` if the string is absent or does not
+conform to the format.
+
+`parsed_lowest_version`::
+`lowest_version` parsed according to `version_format`, see
+`dmi_firmware_version`(3).
+
+`parsed_ident`::
+`ident` parsed according to `ident_format`, see `dmi_firmware_ident`(3).
+
+`features`::
+Characteristics of the firmware, see `dmi_firmware_inventory_features`(3).
+
+`state`::
+State of the firmware, see `dmi_firmware_inventory_state`(3).
+
+`component_count`::
+Number of the elements of `components`: the number of associated components
+the structure declares, less the ones the data does not hold completely. 0 if
+the structure ends before the count.
+
+`components`::
+Array of `component_count` components associated with the firmware, or
+`nullptr` if there are none, see `dmi_firmware_inventory_component`(3). These
+are the structures of the devices the firmware belongs to, such as system
+slots (type 9), memory devices (type 17), onboard devices (type 41) or TPM
+devices (type 43).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t           *registry = dmi_get_registry(context);
+dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
+                                         DMI_TYPE(FIRMWARE_INVENTORY), false);
+dmi_firmware_inventory_t *firmware = dmi_entity_info(entity,
+                                         DMI_TYPE(FIRMWARE_INVENTORY));
+
+if (firmware != nullptr) {
+    printf("%s: %s\n", firmware->name ? firmware->name : "?",
+           firmware->version ? firmware->version : "?");
+
+    for (size_t i = 0; i < firmware->component_count; i++)
+        printf("  component 0x%04X\n", firmware->components[i].handle);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_firmware_ident_format`(3),
+`dmi_firmware_inventory_state`(3),
+`dmi_firmware_inventory_features`(3),
+`dmi_firmware_inventory_component`(3),
+`dmi_firmware_version`(3),
+`dmi_firmware_ident`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

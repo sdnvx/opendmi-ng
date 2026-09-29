@@ -1,0 +1,70 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_proto(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_proto
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_proto - management controller host interface protocols
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef enum dmi_mgmt_proto {
+    DMI_MGMT_PROTO_IPMI            = 0x02,
+    DMI_MGMT_PROTO_MCTP            = 0x03,
+    DMI_MGMT_PROTO_REDFISH_OVER_IP = 0x04,
+    DMI_MGMT_PROTO_OEM             = 0xF0
+} dmi_mgmt_proto_t;
+----
+
+== Description
+
+The `dmi_mgmt_proto_t` enumeration tells the protocol a protocol record of a
+management controller host interface describes, and is the type of the `type`
+field of `dmi_mgmt_proto_record_t`. Every value the enumeration does not name
+is reserved, and the field holds it as the structure carries it.
+
+=== Values
+
+`DMI_MGMT_PROTO_IPMI`::
+Intelligent Platform Management Interface (IPMI).
+
+`DMI_MGMT_PROTO_MCTP`::
+Management Component Transport Protocol (MCTP), defined by DSP0236.
+
+`DMI_MGMT_PROTO_REDFISH_OVER_IP`::
+Redfish over IP, defined by the Redfish host interface specification (DSP0270).
+Its data is decoded into `dmi_mgmt_redfish_over_ip_t`.
+
+`DMI_MGMT_PROTO_OEM`::
+OEM-defined protocol.
+
+== See also
+
+`dmi_mgmt_proto_record`(3), `dmi_mgmt_redfish_over_ip`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

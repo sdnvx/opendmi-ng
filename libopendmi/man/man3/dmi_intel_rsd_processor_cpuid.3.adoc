@@ -1,0 +1,124 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_processor_cpuid(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_processor_cpuid
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_processor_cpuid - Intel RSD processor CPUID information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-processor-cpuid.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_processor_cpuid {
+    const char *socket_designation;
+    dmi_intel_rsd_cpuid_subtype_t subtype;
+    size_t leaf_count;
+    dmi_intel_rsd_cpuid_leaf_t *leaves;
+    bool is_raw;
+    dmi_binary_t data;
+} dmi_intel_rsd_processor_cpuid_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_processor_cpuid_t` structure holds the decoded processor
+CPUID information structure (type 193) of Intel Rack Scale Design (RSD)
+firmware: what the CPUID instruction returns on a processor of the system, for
+a fixed list of leaves. Leaves 00h to 10h and leaves 14h to 80000008h are
+carried by structures of two different subtypes, so that a processor usually
+has one structure of each. The firmware builds them late during boot, so that
+they reflect the current configuration of the system.
+
+The structure stores the register values only; the leaf and subleaf numbers
+come from the list of the subtype. Subtype 1 lists leaves 00h to 07h, 09h,
+0Ah, 0Bh, and 0Dh, 0Fh and 10h with subleaf 0. Subtype 2 lists leaf 14h with
+subleaf 0, leaves 15h and 16h, leaf 17h with subleaves 0 to 3, leaves
+80000000h to 80000004h, and 80000006h to 80000008h.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`socket_designation`::
+Label of the socket or board position of the processor, such as "Socket 0".
+`nullptr` if the structure does not carry it.
+
+`subtype`::
+Set of leaves the structure holds (see `dmi_intel_rsd_cpuid_subtype`(3)).
+
+`leaf_count`::
+Number of elements of `leaves`: the leaves the structure holds completely. A
+structure cut short holds fewer leaves than its subtype lists. Zero if the
+subtype is unknown.
+
+`leaves`::
+CPUID leaves, in the order the subtype lists them (see
+`dmi_intel_rsd_cpuid_leaf`(3)). `nullptr` if the subtype is unknown.
+
+`is_raw`::
+Set if the subtype is unknown: the leaves cannot be told apart then, and the
+data is kept in `data` instead.
+
+`data`::
+Data following the subtype, as stored in the structure, if the subtype is
+unknown; empty otherwise. The data points into the structure and lives as long
+as the context.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                               DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID), true);
+
+dmi_intel_rsd_processor_cpuid_t *cpuid =
+        dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+
+if (cpuid != nullptr) {
+    for (size_t i = 0; i < cpuid->leaf_count; i++) {
+        const dmi_intel_rsd_cpuid_leaf_t *leaf = &cpuid->leaves[i];
+
+        if (leaf->leaf == 0x01)
+            printf("Processor signature: %08X\n", (unsigned)leaf->eax);
+    }
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_intel_rsd_cpuid_leaf`(3),
+`dmi_intel_rsd_cpuid_subtype`(3), `dmi_processor`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware, see the Intel RSD Processor CPUID Information (Type 193) chapter of
+the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

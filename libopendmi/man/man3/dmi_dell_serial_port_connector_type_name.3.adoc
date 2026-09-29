@@ -1,0 +1,1 @@
+dmi_dell_serial_port_connector_type.3.adoc

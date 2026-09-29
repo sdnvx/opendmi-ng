@@ -1,0 +1,107 @@
+ifdef::backend-manpage[]
+= dmi_error_detect_method(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_error_detect_method
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_error_detect_method, dmi_error_detect_method_name - memory controller error detecting methods
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-controller.h>
+
+typedef enum dmi_error_detect_method {
+    DMI_ERROR_DETECT_METHOD_UNSPEC  = 0x00,
+    DMI_ERROR_DETECT_METHOD_OTHER   = 0x01,
+    DMI_ERROR_DETECT_METHOD_UNKNOWN = 0x02,
+    DMI_ERROR_DETECT_METHOD_NONE    = 0x03,
+    DMI_ERROR_DETECT_METHOD_PARITY  = 0x04,
+    DMI_ERROR_DETECT_METHOD_ECC_32  = 0x05,
+    DMI_ERROR_DETECT_METHOD_ECC_64  = 0x06,
+    DMI_ERROR_DETECT_METHOD_ECC_128 = 0x07,
+    DMI_ERROR_DETECT_METHOD_CRC     = 0x08,
+} dmi_error_detect_method_t;
+
+const char *dmi_error_detect_method_name(dmi_error_detect_method_t value);
+----
+
+== Description
+
+The `dmi_error_detect_method_t` enumeration tells how a memory controller
+detects memory errors, and is the type of the `error_detection` field of
+`dmi_memory_controller_t`.
+
+The `dmi_error_detect_method_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_ERROR_DETECT_METHOD_UNSPEC`::
+Unspecified.
+
+`DMI_ERROR_DETECT_METHOD_OTHER`::
+Other.
+
+`DMI_ERROR_DETECT_METHOD_UNKNOWN`::
+Unknown.
+
+`DMI_ERROR_DETECT_METHOD_NONE`::
+No error detection.
+
+`DMI_ERROR_DETECT_METHOD_PARITY`::
+8-bit parity.
+
+`DMI_ERROR_DETECT_METHOD_ECC_32`::
+32-bit ECC.
+
+`DMI_ERROR_DETECT_METHOD_ECC_64`::
+64-bit ECC.
+
+`DMI_ERROR_DETECT_METHOD_ECC_128`::
+128-bit ECC.
+
+`DMI_ERROR_DETECT_METHOD_CRC`::
+CRC.
+
+== Return value
+
+`dmi_error_detect_method_name` returns the name of the value, or `nullptr` if
+the value has no name. The name is in English, or translated to the locale set
+with `dmi_set_locale` when the library is built with localization support and
+has a translation of it. The string must not be modified or freed; a translated
+one stays valid until the locale is changed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_memory_controller`(3),
+`dmi_error_correct_caps`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer. The memory
+controller information structure is obsolete since version 2.1.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

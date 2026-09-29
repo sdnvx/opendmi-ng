@@ -1,0 +1,176 @@
+ifdef::backend-manpage[]
+= dmi_chassis(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_chassis
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_chassis - system enclosure or chassis structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/chassis.h>
+
+typedef struct dmi_chassis {
+    const char *vendor;
+    dmi_chassis_type_t type;
+    bool is_lock_present;
+    const char *version;
+    const char *serial_number;
+    const char *asset_tag;
+    dmi_status_t bootup_state;
+    dmi_status_t power_supply_state;
+    dmi_status_t thermal_state;
+    dmi_chassis_security_status_t security_status;
+    uint32_t oem_defined;
+    unsigned short height;
+    unsigned short power_cord_count;
+    size_t element_count;
+    size_t element_size;
+    dmi_chassis_element_t *elements;
+    const char *sku_number;
+    dmi_rack_type_t rack_type;
+    unsigned short rack_height;
+} dmi_chassis_t;
+----
+
+== Description
+
+The `dmi_chassis_t` structure holds a decoded system enclosure or chassis
+structure (type 3) of SMBIOS: the mechanical enclosure of the system, its
+identification, its state at the last boot, its size and the elements it
+contains. A system with several enclosures, such as a separate enclosure for
+its peripherals, has one structure for each of them. Tables of SMBIOS 2.3 and
+newer are required to have at least one.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(CHASSIS)`, and lives as long as the context it has been decoded in.
+
+=== Fields
+
+`vendor`::
+Name of the manufacturer of the enclosure, or `nullptr` if not given.
+
+`type`::
+Type of the enclosure.
+
+`is_lock_present`::
+Whether the enclosure has a lock. `false` when it has none, or when it is not
+known whether it has one.
+
+`version`::
+Version of the enclosure, or `nullptr` if not given.
+
+`serial_number`::
+Serial number of the enclosure, or `nullptr` if not given. Systems sharing a
+multi-system chassis report the same serial number.
+
+`asset_tag`::
+Asset tag of the enclosure, or `nullptr` if not given.
+
+`bootup_state`::
+State of the enclosure at the last boot. Present since SMBIOS 2.1;
+`DMI_STATUS_UNSPEC` in older structures.
+
+`power_supply_state`::
+State of the power supplies of the enclosure at the last boot. Present since
+SMBIOS 2.1; `DMI_STATUS_UNSPEC` in older structures.
+
+`thermal_state`::
+Thermal state of the enclosure at the last boot. Present since SMBIOS 2.1;
+`DMI_STATUS_UNSPEC` in older structures.
+
+`security_status`::
+Physical security status of the enclosure at the last boot. Present since
+SMBIOS 2.1; `DMI_CHASSIS_SECURITY_STATUS_UNSPEC` in older structures.
+
+`oem_defined`::
+Information specific to the OEM or to the firmware vendor. Present since SMBIOS
+2.3; 0 in older structures.
+
+`height`::
+Height of the enclosure, in rack units (U, 1.75 inches or 4.445 cm). 0 if
+unspecified; 255 if the height is given by `rack_height` instead. Present since
+SMBIOS 2.3; 0 in older structures.
+
+`power_cord_count`::
+Number of power cords of the enclosure, or 0 if unspecified. Present since
+SMBIOS 2.3; 0 in older structures.
+
+`element_count`::
+Number of items of `elements`. Present since SMBIOS 2.3; 0 in older structures.
+
+`element_size`::
+Size of each contained element record of the structure, in bytes, which may be
+larger than the part the library decodes. Present since SMBIOS 2.3; 0 in older
+structures.
+
+`elements`::
+Elements contained in the enclosure, such as power supplies or blades, an array
+of `element_count` items, or `nullptr` if there is none. Present since SMBIOS
+2.3.
+
+`sku_number`::
+SKU number of the enclosure, or `nullptr` if not given. Present since SMBIOS
+2.7.
+
+`rack_type`::
+Type of the rack, which gives the unit of `rack_height`. Present since SMBIOS
+3.9; `DMI_RACK_TYPE_UNSPEC` in older structures.
+
+`rack_height`::
+Height of the enclosure, in the unit of the rack type, for example in OU (48
+mm) for Open Rack. Present since SMBIOS 3.9; 0 in older structures.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   =
+        dmi_registry_lookup_first(registry, DMI_TYPE(CHASSIS), false);
+dmi_chassis_t  *chassis  = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+
+if (chassis != nullptr) {
+    printf("%s (%s)\n", dmi_chassis_type_name(chassis->type),
+           chassis->vendor ? chassis->vendor : "unknown vendor");
+
+    for (size_t i = 0; i < chassis->element_count; i++) {
+        const dmi_chassis_element_t *element = &chassis->elements[i];
+
+        if (element->type != DMI_TYPE_INVALID)
+            printf("  structures of type %d: %zu to %zu\n",
+                   (int)element->type, element->minimum_count,
+                   element->maximum_count);
+    }
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_chassis_type`(3), `dmi_chassis_security_status`(3),
+`dmi_chassis_element`(3), `dmi_rack_type`(3), `dmi_status`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

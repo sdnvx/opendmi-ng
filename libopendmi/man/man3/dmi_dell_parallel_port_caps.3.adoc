@@ -1,0 +1,97 @@
+ifdef::backend-manpage[]
+= dmi_dell_parallel_port_caps(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_parallel_port_caps
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_parallel_port_caps - Dell parallel port capabilities
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/parallel-port.h>
+
+typedef union dmi_dell_parallel_port_caps {
+    dmi_word_t __value;
+    struct {
+        dmi_word_t is_xt_at        : 1;
+        dmi_word_t is_ps2          : 1;
+        dmi_word_t is_ecp          : 1;
+        dmi_word_t is_epp          : 1;
+        dmi_word_t is_pc_98        : 1;
+        dmi_word_t is_pc_98_hireso : 1;
+        dmi_word_t is_pc_h98       : 1;
+        dmi_word_t reserved        : 8;
+        dmi_word_t has_dma_support : 1;
+    };
+} dmi_dell_parallel_port_caps_t;
+----
+
+== Description
+
+The `dmi_dell_parallel_port_caps_t` union holds the capabilities of a Dell
+parallel port, and is the type of the `capabilities` field of
+`dmi_dell_parallel_port_t`. It is a packed 16-bit word, whose bits are read one
+by one through the bit members, or all at once through `__value`. A bit is set
+when the port supports the mode or the feature.
+
+=== Fields
+
+`__value`::
+The whole capability word, as the structure carries it.
+
+`is_xt_at`::
+XT/AT mode (bit 0).
+
+`is_ps2`::
+PS/2 mode (bit 1).
+
+`is_ecp`::
+ECP mode (bit 2).
+
+`is_epp`::
+EPP mode (bit 3).
+
+`is_pc_98`::
+PC-98 mode (bit 4).
+
+`is_pc_98_hireso`::
+PC-98 Hireso mode (bit 5).
+
+`is_pc_h98`::
+PC-H98 mode (bit 6).
+
+`reserved`::
+Reserved bits 7 to 14.
+
+`has_dma_support`::
+The port supports DMA (bit 15).
+
+== See also
+
+`dmi_dell_parallel_port`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Parallel Port (Type 209) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

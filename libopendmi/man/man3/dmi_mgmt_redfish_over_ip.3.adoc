@@ -1,0 +1,116 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_redfish_over_ip(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_redfish_over_ip
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_redfish_over_ip - Redfish over IP protocol data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef struct dmi_mgmt_redfish_over_ip {
+    dmi_uuid_t service_uuid;
+    dmi_mgmt_redfish_ip_assignment_t host_ip_assignment;
+    dmi_mgmt_redfish_ip_format_t host_ip_format;
+    dmi_binary_t host_ip_address;
+    dmi_binary_t host_ip_mask;
+    dmi_mgmt_redfish_ip_assignment_t service_ip_discovery;
+    dmi_mgmt_redfish_ip_format_t service_ip_format;
+    dmi_binary_t service_ip_address;
+    dmi_binary_t service_ip_mask;
+    uint16_t service_ip_port;
+    uint32_t service_vlan_id;
+    char *service_hostname;
+} dmi_mgmt_redfish_over_ip_t;
+----
+
+== Description
+
+The `dmi_mgmt_redfish_over_ip_t` structure holds the data of a Redfish over IP
+protocol record, as the Redfish host interface specification (DSP0270) lays it
+out: how the host and the Redfish service of the management controller get
+their IP addresses on the interface, and how the host finds the service. It is
+the type of the `redfish` field of `dmi_mgmt_proto_record_t`, which is valid
+when `has_redfish` is set.
+
+=== Fields
+
+`service_uuid`::
+UUID of the Redfish service, all zeroes if the service does not provide one or
+it is unknown.
+
+`host_ip_assignment`::
+How the host gets its IP address, see `dmi_mgmt_redfish_ip_assignment`(3).
+
+`host_ip_format`::
+Format of `host_ip_address` and `host_ip_mask`, see
+`dmi_mgmt_redfish_ip_format`(3).
+
+`host_ip_address`::
+IP address of the host, 4 bytes for IPv4 and 16 bytes otherwise, referring to
+the data of the structure in place.
+
+`host_ip_mask`::
+IP mask of the host, 4 bytes for IPv4 and 16 bytes otherwise, referring to the
+data of the structure in place.
+
+`service_ip_discovery`::
+How the host finds the IP address of the Redfish service, with the same values
+as `host_ip_assignment`.
+
+`service_ip_format`::
+Format of `service_ip_address` and `service_ip_mask`, see
+`dmi_mgmt_redfish_ip_format`(3).
+
+`service_ip_address`::
+IP address of the Redfish service, 4 bytes for IPv4 and 16 bytes otherwise,
+referring to the data of the structure in place.
+
+`service_ip_mask`::
+IP mask of the Redfish service, 4 bytes for IPv4 and 16 bytes otherwise,
+referring to the data of the structure in place.
+
+`service_ip_port`::
+IP port of the Redfish service.
+
+`service_vlan_id`::
+VLAN ID of the Redfish service.
+
+`service_hostname`::
+Host name of the Redfish service, without the null characters padding it, or
+`nullptr` if it is empty. The string is allocated by the library, and is freed
+along with the structure.
+
+== See also
+
+`dmi_mgmt_proto_record`(3), `dmi_mgmt_redfish_ip_assignment`(3),
+`dmi_mgmt_redfish_ip_format`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), which defines this data of
+the management controller host interface structure (type 42) of the DMTF SMBIOS
+Specification (DSP0134).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

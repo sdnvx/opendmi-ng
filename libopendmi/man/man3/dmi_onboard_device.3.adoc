@@ -1,0 +1,91 @@
+ifdef::backend-manpage[]
+= dmi_onboard_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_onboard_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_onboard_device - onboard devices information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/onboard-device.h>
+
+typedef struct dmi_onboard_device {
+    size_t                         instance_count;
+    dmi_onboard_device_instance_t *instances;
+} dmi_onboard_device_t;
+----
+
+== Description
+
+The `dmi_onboard_device_t` structure holds the decoded onboard devices
+information structure (type 10) of SMBIOS: a list of the devices soldered
+onto a board of the system, usually the baseboard, which the firmware can
+enable or disable. A table may have one such structure for all the devices,
+or one for each of them.
+
+The structure is obsolete since SMBIOS 2.6: the onboard devices extended
+information structure (type 41), see `dmi_onboard_device_ex`(3), replaces it,
+although firmware may still provide both.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(ONBOARD_DEVICE)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`instance_count`::
+Number of devices, told by the length of the structure.
+
+`instances`::
+Array of `instance_count` devices, see
+`dmi_onboard_device_instance`(3).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t       *registry = dmi_get_registry(context);
+dmi_entity_t         *entity   = dmi_registry_lookup_first(
+        registry, DMI_TYPE(ONBOARD_DEVICE), false);
+dmi_onboard_device_t *info     = dmi_entity_info(entity,
+                                                 DMI_TYPE(ONBOARD_DEVICE));
+
+for (size_t i = 0; (info != nullptr) && (i < info->instance_count); i++) {
+    const dmi_onboard_device_instance_t *device = &info->instances[i];
+
+    printf("%s (%s)\n",
+           device->description ? device->description : "Unnamed device",
+           device->is_enabled ? "enabled" : "disabled");
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_onboard_device_instance`(3),
+`dmi_onboard_device_type`(3), `dmi_onboard_device_ex`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,1 @@
+dmi_hardware_security_status.3.adoc

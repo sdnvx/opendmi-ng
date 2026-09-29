@@ -1,0 +1,110 @@
+ifdef::backend-manpage[]
+= dmi_dell_infrared_port(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_infrared_port
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_infrared_port - Dell infrared port structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/infrared-port.h>
+
+typedef struct dmi_dell_infrared_port {
+    const char *location;
+    dmi_dell_enable_state_t state;
+    dmi_dell_enable_state_t speed_limit_state;
+    uint32_t speed_limit;
+    const char *physical_port;
+    const char *virtual_com_port;
+    const char *virtual_lpt_port;
+    dmi_dell_infrared_proto_t protocol;
+} dmi_dell_infrared_port_t;
+----
+
+== Description
+
+The `dmi_dell_infrared_port_t` structure holds the decoded Dell infrared port
+structure (type 211): where an infrared port is, whether it and its speed limit
+are enabled, its protocol, and the legacy ports it is seen as.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(DELL_INFRARED_PORT)`, declared in `<opendmi/module/dell.h>`, and
+lives as long as the context it has been decoded in.
+
+=== Fields
+
+`location`::
+Location of the port. `nullptr` when the structure carries no string.
+
+`state`::
+Whether the port is enabled.
+
+`speed_limit_state`::
+Whether the speed limit is enabled.
+
+`speed_limit`::
+Speed limit, in bits per second. The structure carries it in hundreds of bits
+per second.
+
+`physical_port`::
+Name of the physical port. `nullptr` when the structure carries no string.
+
+`virtual_com_port`::
+Name of the virtual COM port the infrared port is seen as. `nullptr` when the
+structure carries no string.
+
+`virtual_lpt_port`::
+Name of the virtual LPT port the infrared port is seen as. `nullptr` when the
+structure carries no string.
+
+`protocol`::
+Infrared protocol of the port.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t           *registry = dmi_get_registry(context);
+dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
+                                         DMI_TYPE(DELL_INFRARED_PORT), true);
+dmi_dell_infrared_port_t *port     = dmi_entity_info(entity,
+                                         DMI_TYPE(DELL_INFRARED_PORT));
+
+if (port != nullptr) {
+    const char *proto = dmi_dell_infrared_proto_name(port->protocol);
+
+    printf("Infrared port: %s, limit %u bit/s\n",
+           proto != nullptr ? proto : "?", (unsigned)port->speed_limit);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_dell_enable_state`(3), `dmi_dell_infrared_proto`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Infrared Port (Type 211) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

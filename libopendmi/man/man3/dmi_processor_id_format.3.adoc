@@ -1,0 +1,80 @@
+ifdef::backend-manpage[]
+= dmi_processor_id_format(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_id_format
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_id_format - processor identifier formats
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef enum dmi_processor_id_format {
+    DMI_PROCESSOR_ID_FORMAT_RAW    = 0,
+    DMI_PROCESSOR_ID_FORMAT_X86    = 1,
+    DMI_PROCESSOR_ID_FORMAT_MIDR   = 2,
+    DMI_PROCESSOR_ID_FORMAT_SOC_ID = 3
+} dmi_processor_id_format_t;
+----
+
+== Description
+
+The `dmi_processor_id_format_t` enumeration tells how the processor
+identifier of a processor information structure has been decoded, and is the
+type of the `id_format` field of `dmi_processor_t`. It selects which of the
+`x86_id`, `arm_id` and `soc_id` fields of the structure holds the decoded
+identifier.
+
+The format is chosen from the processor family, and, for the families which
+do not tell the architecture (other, unknown, and the Apple M1 and M2
+families, which older specifications gave to Cyrix x86 processors), from the
+vendor and version strings as well.
+
+=== Values
+
+`DMI_PROCESSOR_ID_FORMAT_RAW`::
+Architecture not recognized: the identifier is only available as
+stored, in the `id` field.
+
+`DMI_PROCESSOR_ID_FORMAT_X86`::
+x86 processor: signature and feature flags returned by CPUID leaf 1,
+decoded into the `x86_id` field.
+
+`DMI_PROCESSOR_ID_FORMAT_MIDR`::
+Arm processor: Main ID Register (MIDR or MIDR_EL1), decoded into the
+`arm_id` field.
+
+`DMI_PROCESSOR_ID_FORMAT_SOC_ID`::
+Arm64 processor supporting the SMCCC_ARCH_SOC_ID call: SoC
+identifier and revision, decoded into the `soc_id` field.
+
+== See also
+
+`dmi_processor`(3), `dmi_processor_x86_id`(3), `dmi_processor_arm_id`(3),
+`dmi_processor_soc_id`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,89 @@
+ifdef::backend-manpage[]
+= dmi_cache_sram_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_cache_sram_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_cache_sram_type - cache SRAM types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/cache.h>
+
+typedef union dmi_cache_sram_type {
+    dmi_word_t __value;
+
+    struct {
+        dmi_word_t other          : 1;
+        dmi_word_t unknown        : 1;
+        dmi_word_t non_burst      : 1;
+        dmi_word_t burst          : 1;
+        dmi_word_t pipeline_burst : 1;
+        dmi_word_t synchonous     : 1;
+        dmi_word_t asynchronous   : 1;
+    };
+} dmi_cache_sram_type_t;
+----
+
+== Description
+
+The `dmi_cache_sram_type_t` union holds a set of the SRAM types of a cache,
+one bit per type, and is the type of the `supported_sram` and `current_sram`
+fields of `dmi_cache_t`. A bit is 1 if the type is in the set. The union gives
+access to the whole word as well as to the single bits.
+
+=== Fields
+
+`__value`::
+Whole 16-bit word, as the data carries it. Bits 7 to 15 are reserved, and are
+zero.
+
+`other`::
+Other SRAM type.
+
+`unknown`::
+Unknown SRAM type.
+
+`non_burst`::
+Non-burst SRAM.
+
+`burst`::
+Burst SRAM.
+
+`pipeline_burst`::
+Pipeline burst SRAM.
+
+`synchonous`::
+Synchronous SRAM. The name of the member lacks an "r".
+
+`asynchronous`::
+Asynchronous SRAM.
+
+== See also
+
+`dmi_cache`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,82 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_nhi_format(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_nhi_format
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_nhi_format - network host interface descriptor formats
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef enum dmi_mgmt_nhi_format {
+    DMI_MGMT_NHI_FORMAT_RAW    = 0,
+    DMI_MGMT_NHI_FORMAT_USB    = 1,
+    DMI_MGMT_NHI_FORMAT_PCI    = 2,
+    DMI_MGMT_NHI_FORMAT_USB_V2 = 3,
+    DMI_MGMT_NHI_FORMAT_PCI_V2 = 4,
+    DMI_MGMT_NHI_FORMAT_OEM    = 5
+} dmi_mgmt_nhi_format_t;
+----
+
+== Description
+
+The `dmi_mgmt_nhi_format_t` enumeration tells which member of `dmi_mgmt_nhi_t`
+holds the decoded descriptor of a network host interface device, and is the
+type of the `format` field of `dmi_mgmt_nhi_t`. The values are not carried by
+the data: they are chosen while the descriptor is decoded, after its device
+type and its length.
+
+=== Values
+
+`DMI_MGMT_NHI_FORMAT_RAW`::
+The descriptor has not been decoded, because its device type is unknown or it
+is malformed. Only the `descriptor` field holds it.
+
+`DMI_MGMT_NHI_FORMAT_USB`::
+USB network interface, decoded into the `usb` field.
+
+`DMI_MGMT_NHI_FORMAT_PCI`::
+PCI or PCIe network interface, decoded into the `pci` field.
+
+`DMI_MGMT_NHI_FORMAT_USB_V2`::
+USB network interface, second version of the descriptor, decoded into the
+`usb_v2` field.
+
+`DMI_MGMT_NHI_FORMAT_PCI_V2`::
+PCI or PCIe network interface, second version of the descriptor, decoded into
+the `pci_v2` field.
+
+`DMI_MGMT_NHI_FORMAT_OEM`::
+OEM-defined device, decoded into the `oem` field.
+
+== See also
+
+`dmi_mgmt_nhi`(3), `dmi_mgmt_nhi_device_type`(3)
+
+== Standards
+
+Not part of any specification. The formats are defined by the library, after
+the device types of the DMTF Redfish Host Interface Specification (DSP0270).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,73 @@
+ifdef::backend-manpage[]
+= dmi_firmware_inventory_features(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_inventory_features
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_inventory_features - firmware characteristics
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-inventory.h>
+
+typedef union dmi_firmware_inventory_features {
+    dmi_word_t __value;
+
+    struct {
+        dmi_word_t is_updatable       : 1;
+        dmi_word_t is_write_protected : 1;
+        dmi_word_t __reserved         : 14;
+    };
+} dmi_firmware_inventory_features_t;
+----
+
+== Description
+
+The `dmi_firmware_inventory_features_t` union holds the characteristics of a
+firmware component, one bit per characteristic, and is the type of the
+`features` field of `dmi_firmware_inventory_t`. A bit is 1 if the firmware has
+the characteristic. The union gives access to the whole word as well as to the
+single bits.
+
+=== Fields
+
+`__value`::
+Whole 16-bit word, as the data carries it.
+
+`is_updatable`::
+Software can update the firmware.
+
+`is_write_protected`::
+The firmware is write-protected.
+
+`__reserved`::
+Bits 2 to 15, reserved by the specification.
+
+== See also
+
+`dmi_firmware_inventory`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

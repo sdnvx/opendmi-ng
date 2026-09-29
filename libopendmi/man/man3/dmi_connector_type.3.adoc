@@ -1,0 +1,239 @@
+ifdef::backend-manpage[]
+= dmi_connector_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_connector_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_connector_type, dmi_connector_type_name - port connector types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/port-connector.h>
+
+typedef enum dmi_connector_type {
+    DMI_CONNECTOR_TYPE_NONE             = 0x00,
+    DMI_CONNECTOR_TYPE_CN_36            = 0x01,
+    DMI_CONNECTOR_TYPE_HPCN_36          = 0x02,
+    DMI_CONNECTOR_TYPE_PROPRIETARY      = 0x03,
+    DMI_CONNECTOR_TYPE_DB_25_M          = 0x04,
+    DMI_CONNECTOR_TYPE_DB_25_F          = 0x05,
+    DMI_CONNECTOR_TYPE_DB_15_M          = 0x06,
+    DMI_CONNECTOR_TYPE_DB_15_F          = 0x07,
+    DMI_CONNECTOR_TYPE_DB_9_M           = 0x08,
+    DMI_CONNECTOR_TYPE_DB_9_F           = 0x09,
+    DMI_CONNECTOR_TYPE_RJ_11            = 0x0A,
+    DMI_CONNECTOR_TYPE_RJ_45            = 0x0B,
+    DMI_CONNECTOR_TYPE_MINI_SCSI_50PIN  = 0x0C,
+    DMI_CONNECTOR_TYPE_MINI_DIN         = 0x0D,
+    DMI_CONNECTOR_TYPE_MICRO_DIN        = 0x0E,
+    DMI_CONNECTOR_TYPE_PS2              = 0x0F,
+    DMI_CONNECTOR_TYPE_INFRARED         = 0x10,
+    DMI_CONNECTOR_TYPE_HP_HIL           = 0x11,
+    DMI_CONNECTOR_TYPE_ACCESS_BUS       = 0x12,
+    DMI_CONNECTOR_TYPE_SSA_SCSI         = 0x13,
+    DMI_CONNECTOR_TYPE_CIRCULAR_DIN_8_M = 0x14,
+    DMI_CONNECTOR_TYPE_CIRCULAR_DIN_8_F = 0x15,
+    DMI_CONNECTOR_TYPE_ONBOARD_IDE      = 0x16,
+    DMI_CONNECTOR_TYPE_ONBOARD_FLOPPY   = 0x17,
+    DMI_CONNECTOR_TYPE_DIL_9PIN         = 0x18,
+    DMI_CONNECTOR_TYPE_DIL_25PIN        = 0x19,
+    DMI_CONNECTOR_TYPE_DIL_50PIN        = 0x1A,
+    DMI_CONNECTOR_TYPE_DIL_68PIN        = 0x1B,
+    DMI_CONNECTOR_TYPE_ONBOARD_SOUND    = 0x1C,
+    DMI_CONNECTOR_TYPE_HPCN_14          = 0x1D,
+    DMI_CONNECTOR_TYPE_HPCN_26          = 0x1E,
+    DMI_CONNECTOR_TYPE_MINI_JACK        = 0x1F,
+    DMI_CONNECTOR_TYPE_BNC              = 0x20,
+    DMI_CONNECTOR_TYPE_IEEE_1394        = 0x21,
+    DMI_CONNECTOR_TYPE_SAS_SATA         = 0x22,
+    DMI_CONNECTOR_TYPE_USB_C            = 0x23,
+    DMI_CONNECTOR_TYPE_PC_98            = 0xA0,
+    DMI_CONNECTOR_TYPE_PC_98_HIRESO     = 0xA1,
+    DMI_CONNECTOR_TYPE_PC_H98           = 0xA2,
+    DMI_CONNECTOR_TYPE_PC_98_NOTE       = 0xA3,
+    DMI_CONNECTOR_TYPE_PC_98_FULL       = 0xA4,
+    DMI_CONNECTOR_TYPE_OTHER            = 0xFF,
+} dmi_connector_type_t;
+
+const char *dmi_connector_type_name(dmi_connector_type_t value);
+----
+
+== Description
+
+The `dmi_connector_type_t` enumeration tells the physical type of a port
+connector, and is the type of the `internal_connector` and `external_connector`
+fields of `dmi_port_connector_t`. The specification assigns no values from
+`0x24` to `0x9F` and from `0xA5` to `0xFE`.
+
+The `dmi_connector_type_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_CONNECTOR_TYPE_NONE`::
+No connector.
+
+`DMI_CONNECTOR_TYPE_CN_36`::
+Centronics.
+
+`DMI_CONNECTOR_TYPE_HPCN_36`::
+Mini-Centronics.
+
+`DMI_CONNECTOR_TYPE_PROPRIETARY`::
+Proprietary.
+
+`DMI_CONNECTOR_TYPE_DB_25_M`::
+DB-25, male.
+
+`DMI_CONNECTOR_TYPE_DB_25_F`::
+DB-25, female.
+
+`DMI_CONNECTOR_TYPE_DB_15_M`::
+DB-15, male.
+
+`DMI_CONNECTOR_TYPE_DB_15_F`::
+DB-15, female.
+
+`DMI_CONNECTOR_TYPE_DB_9_M`::
+DB-9, male.
+
+`DMI_CONNECTOR_TYPE_DB_9_F`::
+DB-9, female.
+
+`DMI_CONNECTOR_TYPE_RJ_11`::
+RJ-11.
+
+`DMI_CONNECTOR_TYPE_RJ_45`::
+RJ-45.
+
+`DMI_CONNECTOR_TYPE_MINI_SCSI_50PIN`::
+MiniSCSI, 50 pins.
+
+`DMI_CONNECTOR_TYPE_MINI_DIN`::
+Mini-DIN.
+
+`DMI_CONNECTOR_TYPE_MICRO_DIN`::
+Micro-DIN.
+
+`DMI_CONNECTOR_TYPE_PS2`::
+PS/2.
+
+`DMI_CONNECTOR_TYPE_INFRARED`::
+Infrared.
+
+`DMI_CONNECTOR_TYPE_HP_HIL`::
+HP-HIL.
+
+`DMI_CONNECTOR_TYPE_ACCESS_BUS`::
+Access Bus (USB).
+
+`DMI_CONNECTOR_TYPE_SSA_SCSI`::
+SSA SCSI.
+
+`DMI_CONNECTOR_TYPE_CIRCULAR_DIN_8_M`::
+Circular DIN-8, male.
+
+`DMI_CONNECTOR_TYPE_CIRCULAR_DIN_8_F`::
+Circular DIN-8, female.
+
+`DMI_CONNECTOR_TYPE_ONBOARD_IDE`::
+IDE connector on the board.
+
+`DMI_CONNECTOR_TYPE_ONBOARD_FLOPPY`::
+Floppy connector on the board.
+
+`DMI_CONNECTOR_TYPE_DIL_9PIN`::
+Dual inline, 9 pins (pin 10 cut).
+
+`DMI_CONNECTOR_TYPE_DIL_25PIN`::
+Dual inline, 25 pins (pin 26 cut).
+
+`DMI_CONNECTOR_TYPE_DIL_50PIN`::
+Dual inline, 50 pins.
+
+`DMI_CONNECTOR_TYPE_DIL_68PIN`::
+Dual inline, 68 pins.
+
+`DMI_CONNECTOR_TYPE_ONBOARD_SOUND`::
+Sound input from a CD-ROM drive, on the board.
+
+`DMI_CONNECTOR_TYPE_HPCN_14`::
+Mini-Centronics type 14.
+
+`DMI_CONNECTOR_TYPE_HPCN_26`::
+Mini-Centronics type 26.
+
+`DMI_CONNECTOR_TYPE_MINI_JACK`::
+Mini-jack, as for headphones.
+
+`DMI_CONNECTOR_TYPE_BNC`::
+BNC.
+
+`DMI_CONNECTOR_TYPE_IEEE_1394`::
+IEEE 1394 (FireWire).
+
+`DMI_CONNECTOR_TYPE_SAS_SATA`::
+SAS/SATA plug receptacle.
+
+`DMI_CONNECTOR_TYPE_USB_C`::
+USB Type-C receptacle.
+
+`DMI_CONNECTOR_TYPE_PC_98`::
+PC-98.
+
+`DMI_CONNECTOR_TYPE_PC_98_HIRESO`::
+PC-98 Hireso.
+
+`DMI_CONNECTOR_TYPE_PC_H98`::
+PC-H98.
+
+`DMI_CONNECTOR_TYPE_PC_98_NOTE`::
+PC-98 Note.
+
+`DMI_CONNECTOR_TYPE_PC_98_FULL`::
+PC-98 Full.
+
+`DMI_CONNECTOR_TYPE_OTHER`::
+Other; the reference designators tell more.
+
+== Return value
+
+`dmi_connector_type_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is in English, or translated to the locale set with
+`dmi_set_locale` when the library is built with localization support and has a
+translation of it. The string must not be modified or freed; a translated one
+stays valid until the locale is changed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_port_connector`(3),
+`dmi_port_type`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

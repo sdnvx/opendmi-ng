@@ -1,0 +1,68 @@
+ifdef::backend-manpage[]
+= dmi_processor_specific_block(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_specific_block
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_specific_block - processor-specific block
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef struct dmi_processor_specific_block {
+    dmi_byte_t length;
+    dmi_byte_t arch;
+    dmi_byte_t __data[];
+} dmi_processor_specific_block_t;
+----
+
+== Description
+
+The `dmi_processor_specific_block_t` structure describes the processor-specific
+block, which ends a processor additional information structure (type 44): a
+header naming the length and the architecture of the processor-specific data,
+followed by the data.
+
+The decoder reads the block into the `arch` and `data` fields of
+`dmi_processor_ex_t`. The structure is packed, and is laid out as in the data.
+
+=== Fields
+
+`length`::
+Length of the processor-specific data, in bytes.
+
+`arch`::
+Processor architecture of the data, one of the `dmi_processor_arch_t` values.
+
+`__data`::
+Processor-specific data, `length` bytes.
+
+== See also
+
+`dmi_processor_ex`(3), `dmi_processor_arch`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

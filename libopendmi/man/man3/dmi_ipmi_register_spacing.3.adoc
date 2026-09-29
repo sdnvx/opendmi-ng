@@ -1,0 +1,70 @@
+ifdef::backend-manpage[]
+= dmi_ipmi_register_spacing(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_ipmi_register_spacing
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_ipmi_register_spacing - IPMI register spacing codes
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/ipmi-device.h>
+
+typedef enum dmi_ipmi_register_spacing {
+    DMI_IPMI_REGISTER_SPACING_1        = 0x0,
+    DMI_IPMI_REGISTER_SPACING_4        = 0x1,
+    DMI_IPMI_REGISTER_SPACING_16       = 0x2,
+    DMI_IPMI_REGISTER_SPACING_RESERVED = 0x3,
+} dmi_ipmi_register_spacing_t;
+----
+
+== Description
+
+The `dmi_ipmi_register_spacing_t` enumeration lists the codes of the
+distance between the interface registers of an IPMI baseboard management
+controller, as the `register_spacing` bits of
+`dmi_ipmi_device_details_t` hold them. The `register_spacing` field of
+`dmi_ipmi_device_t` holds the distance in bytes instead.
+
+=== Values
+
+`DMI_IPMI_REGISTER_SPACING_1`::
+Registers on successive byte boundaries.
+
+`DMI_IPMI_REGISTER_SPACING_4`::
+Registers on 32-bit boundaries.
+
+`DMI_IPMI_REGISTER_SPACING_16`::
+Registers on 16-byte boundaries.
+
+`DMI_IPMI_REGISTER_SPACING_RESERVED`::
+Reserved code; decoded as a spacing of 0 bytes.
+
+== See also
+
+`dmi_ipmi_device`(3), `dmi_ipmi_device_details`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

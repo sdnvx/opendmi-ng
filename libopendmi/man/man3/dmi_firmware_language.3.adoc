@@ -1,0 +1,107 @@
+ifdef::backend-manpage[]
+= dmi_firmware_language(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_language
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_language - firmware language information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-language.h>
+
+typedef struct dmi_firmware_language {
+    size_t language_count;
+    const char **languages;
+    dmi_firmware_language_flags_t flags;
+    const char *current_language;
+} dmi_firmware_language_t;
+----
+
+== Description
+
+The `dmi_firmware_language_t` structure holds the decoded firmware language
+information structure (type 13) of SMBIOS: the languages the firmware can show
+its messages in, and the one which is installed.
+
+The names of the languages come in one of two formats, which the flags of the
+structure tell apart (see `dmi_firmware_language_flags`(3)): the long one gives
+an ISO 639-1 language code, an ISO 3166-1 alpha-2 territory code and an
+encoding, separated by vertical bars, e.g. "de|DE|iso8859-1"; the abbreviated
+one glues the two codes together, e.g. "deDE".
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(FIRMWARE_LANGUAGE)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`language_count`::
+Number of languages the firmware can install, as the structure declares it, and
+number of elements of `languages`.
+
+`languages`::
+Names of the languages, one per string of the structure, in order; `nullptr` if
+`language_count` is 0. An element is `nullptr` if the string it refers to is
+missing.
+
+`flags`::
+Flags, see `dmi_firmware_language_flags`(3). Defined since SMBIOS 2.1; the byte
+is reserved, and zero, in older data.
+
+`current_language`::
+Name of the language installed, one of `languages`; `nullptr` if the structure
+does not carry it.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t          *registry = dmi_get_registry(context);
+dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
+                                        DMI_TYPE(FIRMWARE_LANGUAGE), true);
+dmi_firmware_language_t *info     = dmi_entity_info(entity,
+                                        DMI_TYPE(FIRMWARE_LANGUAGE));
+
+for (size_t i = 0; (info != nullptr) && (i < info->language_count); i++) {
+    const char *language = info->languages[i];
+
+    if (language == nullptr)
+        continue;
+
+    bool current = (info->current_language != nullptr) &&
+                   (strcmp(language, info->current_language) == 0);
+
+    printf("%s%s\n", language, current ? " (installed)" : "");
+}
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_firmware_language_flags`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

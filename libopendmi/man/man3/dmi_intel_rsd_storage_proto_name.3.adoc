@@ -1,0 +1,1 @@
+dmi_intel_rsd_storage_proto.3.adoc

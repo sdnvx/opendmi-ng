@@ -1,0 +1,129 @@
+ifdef::backend-manpage[]
+= dmi_memory_error_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_error_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_error_type, dmi_memory_error_type_name - memory error types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-error.h>
+
+typedef enum dmi_memory_error_type {
+    DMI_MEMORY_ERROR_TYPE_UNSPEC               = 0x00,
+    DMI_MEMORY_ERROR_TYPE_OTHER                = 0x01,
+    DMI_MEMORY_ERROR_TYPE_UNKNOWN              = 0x02,
+    DMI_MEMORY_ERROR_TYPE_OK                   = 0x03,
+    DMI_MEMORY_ERROR_TYPE_BAD_READ             = 0x04,
+    DMI_MEMORY_ERROR_TYPE_PARITY               = 0x05,
+    DMI_MEMORY_ERROR_TYPE_SINGLE_BIT           = 0x06,
+    DMI_MEMORY_ERROR_TYPE_DOUBLE_BIT           = 0x07,
+    DMI_MEMORY_ERROR_TYPE_MULTI_BIT            = 0x08,
+    DMI_MEMORY_ERROR_TYPE_NIBBLE               = 0x09,
+    DMI_MEMORY_ERROR_TYPE_CHECKSUM             = 0x0A,
+    DMI_MEMORY_ERROR_TYPE_CRC                  = 0x0B,
+    DMI_MEMORY_ERROR_TYPE_CORRECTED_SINGLE_BIT = 0x0C,
+    DMI_MEMORY_ERROR_TYPE_CORRECTED            = 0x0D,
+    DMI_MEMORY_ERROR_TYPE_UNCORRECTABLE        = 0x0E,
+} dmi_memory_error_type_t;
+
+const char *dmi_memory_error_type_name(dmi_memory_error_type_t value);
+----
+
+== Description
+
+The `dmi_memory_error_type_t` enumeration tells the kind of error reported for
+a memory array or a memory device, and is the type of the `type` field of
+`dmi_memory_error_32_t` and `dmi_memory_error_64_t`.
+
+The `dmi_memory_error_type_name` function returns the name of a value, as the
+command line tool shows it. The name is in English, or in the language of the
+locale the library is set to when it has a translation of the name.
+
+=== Values
+
+`DMI_MEMORY_ERROR_TYPE_UNSPEC`::
+Unspecified. The specification does not define the value 0.
+
+`DMI_MEMORY_ERROR_TYPE_OTHER`::
+Other error.
+
+`DMI_MEMORY_ERROR_TYPE_UNKNOWN`::
+Unknown error.
+
+`DMI_MEMORY_ERROR_TYPE_OK`::
+No error.
+
+`DMI_MEMORY_ERROR_TYPE_BAD_READ`::
+Bad read.
+
+`DMI_MEMORY_ERROR_TYPE_PARITY`::
+Parity error.
+
+`DMI_MEMORY_ERROR_TYPE_SINGLE_BIT`::
+Single-bit error.
+
+`DMI_MEMORY_ERROR_TYPE_DOUBLE_BIT`::
+Double-bit error.
+
+`DMI_MEMORY_ERROR_TYPE_MULTI_BIT`::
+Multi-bit error.
+
+`DMI_MEMORY_ERROR_TYPE_NIBBLE`::
+Nibble error.
+
+`DMI_MEMORY_ERROR_TYPE_CHECKSUM`::
+Checksum error.
+
+`DMI_MEMORY_ERROR_TYPE_CRC`::
+CRC error.
+
+`DMI_MEMORY_ERROR_TYPE_CORRECTED_SINGLE_BIT`::
+Single-bit error, which has been corrected.
+
+`DMI_MEMORY_ERROR_TYPE_CORRECTED`::
+Error, which has been corrected.
+
+`DMI_MEMORY_ERROR_TYPE_UNCORRECTABLE`::
+Error, which could not be corrected.
+
+== Return value
+
+`dmi_memory_error_type_name` returns the name of the value, a constant string
+which must not be modified or freed, or `nullptr` if the value has no name,
+e.g. a value out of the range of the enumeration.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_memory_error_32`(3), `dmi_memory_error_64`(3),
+`dmi_memory_error_granularity`(3), `dmi_memory_error_operation`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

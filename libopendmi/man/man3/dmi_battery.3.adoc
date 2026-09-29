@@ -1,0 +1,171 @@
+ifdef::backend-manpage[]
+= dmi_battery(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_battery
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_battery - portable battery structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/battery.h>
+
+typedef struct dmi_battery {
+    const char *location;
+    const char *vendor;
+    dmi_date_t manufacture_date;
+    const char *manufacture_date_string;
+    const char *serial_number;
+    const char *name;
+    dmi_battery_chemistry_t chemistry;
+    unsigned int capacity;
+    unsigned short design_capacity;
+    unsigned short voltage;
+    const char *sbds_version;
+    unsigned short maximum_error;
+    uint16_t sbds_serial_number;
+    dmi_date_t sbds_manufacture_date;
+    const char *sbds_chemistry;
+    uint8_t design_capacity_multiplier;
+    uint32_t oem_defined;
+} dmi_battery_t;
+----
+
+== Description
+
+The `dmi_battery_t` structure holds a decoded portable battery structure (type
+22) of SMBIOS: the static attributes of a battery pack of a portable system,
+such as its maker, chemistry, capacity and voltage. There is one structure for
+each battery pack.
+
+Smart batteries, which follow the Smart Battery Data Specification (SBDS), may
+leave the manufacture date, serial number and chemistry of the structure empty,
+and give them in the `sbds_` fields instead. The decoder combines both for the
+manufacture date and the capacity.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(PORTABLE_BATTERY)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`location`::
+Where the battery is, for example "in the back, on the left-hand side", or
+`nullptr` if not given.
+
+`vendor`::
+Name of the manufacturer of the battery, or `nullptr` if not given.
+
+`manufacture_date`::
+Date the battery was made on: the date `manufacture_date_string` spells, or
+`sbds_manufacture_date` when the string is missing or cannot be parsed.
+`DMI_DATE_NONE` if neither gives a date.
+
+`manufacture_date_string`::
+Manufacture date as the structure spells it, expected in the `MM/DD/YY` or
+`MM/DD/YYYY` format, or `nullptr` if not given, as smart batteries do.
+
+`serial_number`::
+Serial number of the battery, or `nullptr` if not given, as smart batteries do
+(see `sbds_serial_number`).
+
+`name`::
+Name of the battery device, for example "DR-36", or `nullptr` if not given.
+
+`chemistry`::
+Chemistry of the battery. Smart batteries set it to
+`DMI_BATTERY_CHEMISTRY_UNKNOWN`, and give it in `sbds_chemistry`.
+
+`capacity`::
+Design capacity of the battery, in milliwatt-hours: `design_capacity` times
+`design_capacity_multiplier`. 0 if unknown.
+
+`design_capacity`::
+Design capacity as the structure carries it, in units of
+`design_capacity_multiplier` milliwatt-hours. 0 if unknown.
+
+`voltage`::
+Design voltage of the battery, in millivolts, or 0 if unknown.
+
+`sbds_version`::
+Version of the Smart Battery Data Specification the battery supports, or
+`nullptr` if it supports none.
+
+`maximum_error`::
+Upper bound of the error of the energy the battery reports, as a percentage
+from 0 to 100, or `USHRT_MAX` if unknown.
+
+`sbds_serial_number`::
+Serial number of a smart battery, which identifies it together with the
+manufacturer, the device name and the manufacture date. It is meaningful only
+when `serial_number` is `nullptr`. Present since SMBIOS 2.2; 0 in older
+structures.
+
+`sbds_manufacture_date`::
+Manufacture date of a smart battery, decoded from the packed SBDS format. It is
+meaningful only when `manufacture_date_string` is `nullptr`. `DMI_DATE_NONE` if
+the structure carries none. Present since SMBIOS 2.2.
+
+`sbds_chemistry`::
+Chemistry of a smart battery, for example "PbAc", or `nullptr` if not given. It
+is meaningful only when `chemistry` is `DMI_BATTERY_CHEMISTRY_UNKNOWN`. Present
+since SMBIOS 2.2.
+
+`design_capacity_multiplier`::
+Factor the design capacity is multiplied by, which smart battery
+implementations set to 10. Present since SMBIOS 2.2; 1 in older structures.
+
+`oem_defined`::
+Information specific to the OEM or to the firmware vendor. Present since SMBIOS
+2.2; 0 in older structures.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   =
+        dmi_registry_lookup_first(registry, DMI_TYPE(PORTABLE_BATTERY),
+                                  true);
+dmi_battery_t  *battery  =
+        dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+
+if (battery != nullptr) {
+    const char *chemistry = battery->sbds_chemistry;
+
+    if (battery->chemistry != DMI_BATTERY_CHEMISTRY_UNKNOWN)
+        chemistry = dmi_battery_chemistry_name(battery->chemistry);
+
+    printf("%s: %u mWh, %s\n", battery->name ? battery->name : "Battery",
+           battery->capacity, chemistry ? chemistry : "unknown");
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_battery_chemistry`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

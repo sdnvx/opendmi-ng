@@ -1,0 +1,118 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_device_threshold(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_device_threshold
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_device_threshold - management device threshold data structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-device-threshold.h>
+
+typedef struct dmi_mgmt_device_threshold {
+    short      lower_non_critical;
+    short      upper_non_critical;
+    short      lower_critical;
+    short      upper_critical;
+    short      lower_non_recoverable;
+    short      upper_non_recoverable;
+    dmi_type_t component_type;
+    bool       is_ambiguous;
+} dmi_mgmt_device_threshold_t;
+----
+
+== Description
+
+The `dmi_mgmt_device_threshold_t` structure holds the decoded management
+device threshold data structure (type 36) of SMBIOS: the thresholds of a
+component of a management device, that is, of a voltage, temperature or
+electrical current probe, or of a cooling device. A management device
+component structure (type 35) refers to it.
+
+The thresholds are signed, and their units are the ones of the component:
+millivolts for a voltage probe, tenths of degree Celsius for a temperature
+probe, milliamperes for an electrical current probe, and revolutions per
+minute for a cooling device. A threshold which is not available is
+`SHRT_MIN` (0x8000 as stored).
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MGMT_DEVICE_THRESHOLD)`, and lives as long as the context it has
+been decoded in.
+
+=== Fields
+
+`lower_non_critical`::
+Lower non-critical threshold, or `SHRT_MIN`.
+
+`upper_non_critical`::
+Upper non-critical threshold, or `SHRT_MIN`.
+
+`lower_critical`::
+Lower critical threshold, or `SHRT_MIN`.
+
+`upper_critical`::
+Upper critical threshold, or `SHRT_MIN`.
+
+`lower_non_recoverable`::
+Lower non-recoverable threshold, or `SHRT_MIN`.
+
+`upper_non_recoverable`::
+Upper non-recoverable threshold, or `SHRT_MIN`.
+
+`component_type`::
+Structure type of the component using the thresholds, such as
+`DMI_TYPE_VOLTAGE_PROBE`, which tells the units of the values. Set when
+the management device components are linked. `DMI_TYPE_INVALID` if no
+component uses the thresholds, or if components of different types
+do.
+
+`is_ambiguous`::
+`true` if components of different types use the thresholds, so that
+their units are unknown.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t              *registry  = dmi_get_registry(context);
+dmi_entity_t                *entity    = dmi_registry_lookup_first(
+        registry, DMI_TYPE(MGMT_DEVICE_THRESHOLD), true);
+dmi_mgmt_device_threshold_t *threshold = dmi_entity_info(
+        entity, DMI_TYPE(MGMT_DEVICE_THRESHOLD));
+
+if ((threshold != nullptr) &&
+    (threshold->component_type == DMI_TYPE_TEMPERATURE_PROBE) &&
+    (threshold->upper_critical != SHRT_MIN))
+    printf("Critical above %.1f C\n", threshold->upper_critical / 10.0);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_mgmt_device_component`(3), `dmi_mgmt_device`(3),
+`dmi_probe`(3), `dmi_cooling_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

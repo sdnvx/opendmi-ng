@@ -1,0 +1,104 @@
+ifdef::backend-manpage[]
+= dmi_memory_channel(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_channel
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_channel - memory channel structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-channel.h>
+
+typedef struct dmi_memory_channel {
+    dmi_memory_channel_type_t    type;
+    unsigned short               maximum_load;
+    size_t                       device_count;
+    dmi_memory_channel_device_t *devices;
+} dmi_memory_channel_t;
+----
+
+== Description
+
+The `dmi_memory_channel_t` structure holds the decoded memory channel
+structure (type 37) of SMBIOS: it lists the memory devices attached to a
+memory channel, and the load each of them puts on the channel. The loads of
+all the devices together must not exceed the maximum load of the channel.
+
+When the structures are linked, the library also sets the `channel` field of
+each memory device of the list (see `dmi_memory_device`(3)) to the entity of
+this structure.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MEMORY_CHANNEL)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`type`::
+Type of memory of the channel, see `dmi_memory_channel_type`(3).
+
+`maximum_load`::
+Maximum load the channel supports; the sum of the `load` fields of the
+devices must not exceed it.
+
+`device_count`::
+Number of elements of `devices`: the devices the structure holds
+completely, out of the number it declares.
+
+`devices`::
+Array of the memory devices attached to the channel, with their loads, see
+`dmi_memory_channel_device`(3); `nullptr` if there are none.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t       *registry = dmi_get_registry(context);
+dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
+                                     DMI_TYPE(MEMORY_CHANNEL), false);
+dmi_memory_channel_t *channel  = dmi_entity_info(entity,
+                                     DMI_TYPE(MEMORY_CHANNEL));
+
+if (channel != nullptr) {
+    const char *type = dmi_memory_channel_type_name(channel->type);
+
+    printf("%s channel, maximum load %u\n",
+           type != nullptr ? type : "Unknown", channel->maximum_load);
+
+    for (size_t i = 0; i < channel->device_count; i++)
+        printf("Device 0x%04x: load %u\n",
+               (unsigned)channel->devices[i].handle,
+               (unsigned)channel->devices[i].load);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_memory_channel_type`(3),
+`dmi_memory_channel_device`(3), `dmi_memory_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

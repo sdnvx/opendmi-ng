@@ -1,0 +1,63 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_cpuid_subtype(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_cpuid_subtype
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_cpuid_subtype - Intel RSD processor CPUID information subtypes
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-processor-cpuid.h>
+
+typedef enum dmi_intel_rsd_cpuid_subtype {
+    DMI_INTEL_RSD_CPUID_SUBTYPE_BASIC    = 0x01,
+    DMI_INTEL_RSD_CPUID_SUBTYPE_EXTENDED = 0x02
+} dmi_intel_rsd_cpuid_subtype_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_cpuid_subtype_t` enumeration tells which set of CPUID
+leaves a processor CPUID information structure holds, and is the type of the
+`subtype` field of `dmi_intel_rsd_processor_cpuid_t`. The data of structures
+of other subtypes is kept as stored.
+
+=== Values
+
+`DMI_INTEL_RSD_CPUID_SUBTYPE_BASIC`::
+Leaves 00h to 10h.
+
+`DMI_INTEL_RSD_CPUID_SUBTYPE_EXTENDED`::
+Leaves 14h to 80000008h.
+
+== See also
+
+`dmi_intel_rsd_processor_cpuid`(3), `dmi_intel_rsd_cpuid_leaf`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware, see the Intel RSD Processor CPUID Information (Type 193) chapter of
+the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

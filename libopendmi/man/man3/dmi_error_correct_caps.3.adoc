@@ -1,0 +1,89 @@
+ifdef::backend-manpage[]
+= dmi_error_correct_caps(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_error_correct_caps
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_error_correct_caps - memory controller error correcting capabilities
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-controller.h>
+
+typedef union dmi_error_correct_caps {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t is_other      : 1;
+        dmi_byte_t is_unknown    : 1;
+        dmi_byte_t is_none       : 1;
+        dmi_byte_t is_single_bit : 1;
+        dmi_byte_t is_double_bit : 1;
+        dmi_byte_t is_scrubbing  : 1;
+        dmi_byte_t __reserved    : 2;
+    };
+} dmi_error_correct_caps_t;
+----
+
+== Description
+
+The `dmi_error_correct_caps_t` union holds the error correcting capabilities of
+a memory controller as a set of flags, and is the type of the
+`error_correction` and `enabled_error_correction` fields of
+`dmi_memory_controller_t`. A bit is set when the controller has the capability.
+
+=== Fields
+
+`__value`::
+Raw value of the byte, `is_other` being bit 0.
+
+`is_other`::
+Other capability.
+
+`is_unknown`::
+The capabilities are unknown.
+
+`is_none`::
+No error correction.
+
+`is_single_bit`::
+Correction of single-bit errors.
+
+`is_double_bit`::
+Correction of double-bit errors.
+
+`is_scrubbing`::
+Error scrubbing.
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_memory_controller`(3),
+`dmi_error_detect_method`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer. The memory
+controller information structure is obsolete since version 2.1.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

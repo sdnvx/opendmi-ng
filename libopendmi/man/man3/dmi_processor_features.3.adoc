@@ -1,0 +1,110 @@
+ifdef::backend-manpage[]
+= dmi_processor_features(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_features
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_features - processor characteristics
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef union dmi_processor_features {
+    uint16_t __value;
+    struct {
+        uint16_t __reserved              : 1;
+        uint16_t is_unknown              : 1;
+        uint16_t capable_64bit           : 1;
+        uint16_t multicore               : 1;
+        uint16_t hardware_thread         : 1;
+        uint16_t execute_protection      : 1;
+        uint16_t enhanced_virtualization : 1;
+        uint16_t power_perf_control      : 1;
+        uint16_t capable_128bit          : 1;
+        uint16_t arm64_soc_id            : 1;
+        uint16_t __reserved2             : 6;
+    };
+} dmi_processor_features_t;
+----
+
+== Description
+
+The `dmi_processor_features_t` union holds the characteristics of a
+processor, as the processor information structure (type 4) of SMBIOS gives
+them since SMBIOS 2.5. It is the type of the `features` field of
+`dmi_processor_t`.
+
+The bits tell what the processor is capable of, not whether the capabilities
+are currently enabled, nor how many cores or threads are in use.
+
+=== Fields
+
+`__value`::
+All the bits as one word, as stored.
+
+`__reserved`::
+Reserved bit 0.
+
+`is_unknown`::
+The characteristics are unknown.
+
+`capable_64bit`::
+The processor can process 64-bit data, whether this mode is enabled
+or not.
+
+`multicore`::
+The processor has more than one core.
+
+`hardware_thread`::
+The processor runs more than one hardware thread per core.
+
+`execute_protection`::
+The processor can mark memory regions as not executable, for
+example with the NX or XD feature.
+
+`enhanced_virtualization`::
+The processor has enhanced virtualization instructions.
+
+`power_perf_control`::
+The processor can save power depending on the load.
+
+`capable_128bit`::
+The processor can process 128-bit data.
+
+`arm64_soc_id`::
+The processor returns a SoC identifier through the SMCCC_ARCH_SOC_ID
+call, and the processor identifier holds it; see
+`dmi_processor_soc_id`(3).
+
+`__reserved2`::
+Reserved bits 10 to 15.
+
+== See also
+
+`dmi_processor`(3), `dmi_processor_soc_id`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

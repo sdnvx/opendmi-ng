@@ -1,0 +1,111 @@
+ifdef::backend-manpage[]
+= dmi_memory_module_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_module_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_module_type - memory module types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-module.h>
+
+typedef union dmi_memory_module_type {
+    dmi_word_t __value;
+
+    struct {
+        dmi_word_t is_other      : 1;
+        dmi_word_t is_unknown    : 1;
+        dmi_word_t is_standard   : 1;
+        dmi_word_t is_fast_page  : 1;
+        dmi_word_t is_edo        : 1;
+        dmi_word_t has_parity    : 1;
+        dmi_word_t has_ecc       : 1;
+        dmi_word_t is_simm       : 1;
+        dmi_word_t is_dimm       : 1;
+        dmi_word_t is_burst_edo  : 1;
+        dmi_word_t is_sdram      : 1;
+        dmi_word_t __reserved    : 5;
+    };
+} dmi_memory_module_type_t;
+----
+
+== Description
+
+The `dmi_memory_module_type_t` union holds a set of the physical
+characteristics of memory modules, one bit per characteristic. It is the type
+of the `current_type` field of `dmi_memory_module_t`, and of the
+`supported_types` field of `dmi_memory_controller_t`. A bit is 1 if the
+characteristic is in the set. The union gives access to the whole word as well
+as to the single bits.
+
+=== Fields
+
+`__value`::
+Whole 16-bit word, as the data carries it.
+
+`is_other`::
+Other type.
+
+`is_unknown`::
+Unknown type.
+
+`is_standard`::
+Standard.
+
+`is_fast_page`::
+Fast page mode.
+
+`is_edo`::
+EDO (extended data out).
+
+`has_parity`::
+Parity.
+
+`has_ecc`::
+ECC.
+
+`is_simm`::
+SIMM.
+
+`is_dimm`::
+DIMM.
+
+`is_burst_edo`::
+Burst EDO.
+
+`is_sdram`::
+SDRAM.
+
+`__reserved`::
+Bits 11 to 15, reserved, and zero.
+
+== See also
+
+`dmi_memory_module`(3),
+`dmi_memory_controller`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

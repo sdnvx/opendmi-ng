@@ -1,0 +1,77 @@
+ifdef::backend-manpage[]
+= dmi_processor_amd64_data(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_amd64_data
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_amd64_data - x64 processor use condition data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+struct dmi_processor_amd64_data {
+    dmi_byte_t id;
+    dmi_byte_t length;
+    dmi_processor_revision_t revision;
+    dmi_processor_amd64_attribute_t attr;
+};
+----
+
+== Description
+
+The `dmi_processor_amd64_data` structure describes the processor use condition
+data, which the processor-specific data of x64 processors (x86-64, Intel 64,
+AMD64) may hold: the conditions, such as the temperature range, the processor
+is made to be used in. The structure has no typedef.
+
+The structure is packed: it has no padding, and its fields are laid out as in
+the data, whose multi-byte values are little-endian. The decoder does not use
+it: it may be laid over the `data` field of `dmi_processor_ex_t` to read the
+processor-specific data, once its architecture and length have been checked.
+
+=== Fields
+
+`id`::
+Identifier of the processor use condition data, 1.
+
+`length`::
+Length of the processor use condition data, in bytes.
+
+`revision`::
+Revision of the format of the data.
+
+`attr`::
+Use condition and temperature range of the processor.
+
+== See also
+
+`dmi_processor_ex`(3), `dmi_processor_revision`(3),
+`dmi_processor_amd64_attribute`(3)
+
+== Standards
+
+Not part of the SMBIOS specification itself, which leaves the format of the x64
+processor-specific data to a separate document maintained by Intel
+(https://github.com/intel/smbios).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

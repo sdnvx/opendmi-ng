@@ -1,0 +1,108 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_nhi_pci_v2(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_nhi_pci_v2
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_nhi_pci_v2 - PCI/PCIe network interface descriptor, second version
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef struct dmi_mgmt_nhi_pci_v2 {
+    uint16_t vendor_id;
+    uint16_t device_id;
+    uint16_t subsys_vendor_id;
+    uint16_t subsys_id;
+    dmi_binary_t mac_address;
+    uint16_t segment_group;
+    uint8_t bus_number;
+    uint8_t device_number;
+    uint8_t function_number;
+    uint16_t characteristics;
+    dmi_handle_t credential_handle;
+} dmi_mgmt_nhi_pci_v2_t;
+----
+
+== Description
+
+The `dmi_mgmt_nhi_pci_v2_t` structure holds the second version of the
+descriptor of a PCI or PCIe network interface (device type 0x05) through which
+the host reaches the management controller, which adds the MAC address and the
+location of the device on the bus. It is the type of the `pci_v2` field of
+`dmi_mgmt_nhi_t`, which is valid when the `format` of it is
+`DMI_MGMT_NHI_FORMAT_PCI_V2`.
+
+=== Fields
+
+`vendor_id`::
+PCI vendor ID of the device.
+
+`device_id`::
+PCI device ID of the device.
+
+`subsys_vendor_id`::
+PCI subsystem vendor ID of the device.
+
+`subsys_id`::
+PCI subsystem ID of the device.
+
+`mac_address`::
+MAC address of the device, six bytes referring to the data of the structure in
+place.
+
+`segment_group`::
+PCI segment group number of the device, zero on the systems with a single
+segment.
+
+`bus_number`::
+PCI bus number of the device.
+
+`device_number`::
+PCI device number of the device, 0 to 31.
+
+`function_number`::
+PCI function number of the device, 0 to 7.
+
+`characteristics`::
+Device characteristics, a set of the bits `dmi_mgmt_nhi_characteristic`(3)
+numbers. Zero if the descriptor is too short to hold them, as the descriptors
+older than DSP0270 1.3 are.
+
+`credential_handle`::
+Handle of the interface to be used for credential bootstrapping via IPMI
+commands. `DMI_HANDLE_INVALID` if bootstrapping is not supported, or if the
+descriptor is too short to hold the handle, as the descriptors older than
+DSP0270 1.3 are.
+
+== See also
+
+`dmi_mgmt_nhi`(3), `dmi_mgmt_nhi_characteristic`(3), `dmi_mgmt_nhi_pci`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), which defines this data of
+the management controller host interface structure (type 42) of the DMTF SMBIOS
+Specification (DSP0134).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

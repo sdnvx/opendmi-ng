@@ -11,8 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_cooling_device - describes the attributes for a cooling device in the
-system.
+dmi_cooling_device - cooling device structure
 
 == Library
 
@@ -39,161 +38,81 @@ typedef struct dmi_cooling_device {
 
 == Description
 
-This structure describes the attributes for a cooling device in the system.
-Each structure describes a single cooling device.
+The `dmi_cooling_device_t` structure holds the decoded cooling device
+structure (type 27) of SMBIOS: the type, status, redundancy group and nominal
+speed of one cooling device of the system, such as a fan or a heat pipe, and
+the temperature probe monitoring it. A table carries one such structure for
+each cooling device.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(COOLING_DEVICE)`, and lives as long as the context it has been
+decoded in.
 
 === Fields
 
 `probe_handle`::
-Handle of the temperature probe monitoring this cooling device.
+Handle of the temperature probe (type 28) monitoring this cooling device.
+`DMI_HANDLE_INVALID` or `DMI_HANDLE_UNSUPPORTED` mean that no probe is set.
 
 `probe`::
-The temperature probe monitoring this cooling device. May be `nullptr` when the
-temperature probe handle is incorrect (e.g. due to SMBIOS data errors).
+Temperature probe monitoring this cooling device, or `nullptr` if no probe is
+set, if the table has no structure with the handle, or if that structure is
+not a temperature probe. It is set when the structure is linked.
 
 `type`::
-Cooling device type.
+Type of the cooling device, see `dmi_cooling_device_type`(3).
 
 `status`::
-Cooling device status.
+Status of the cooling device, see `dmi_status`(3).
 
 `group`::
-Cooling unit group to which this cooling device is associated. Having multiple
-cooling devices in the same cooling unit implies a redundant configuration. The
-value is `0` if the cooling device is not a member of a redundant cooling unit.
-Non-zero values imply redundancy and that at least one other cooling device will
-be enumerated with the same value.
+Cooling unit group of the device, or 0 if the device belongs to no redundant
+cooling unit. Devices with the same non-zero group form a redundant unit, so a
+table has at least two of them.
 
 `oem_defined`::
-OEM- or firmware vendor-specific information.
+Information specific to the OEM or to the firmware vendor.
 
 `nominal_speed`::
-Nominal value for the cooling device's rotational speed, in revolutions-per-minute
-(rpm). If the value is unknown or the cooling device is non-rotating, the field is
-set to `SHRT_MIN`.
+Nominal rotational speed of the device, in revolutions per minute, or
+`SHRT_MIN` if the speed is unknown, if the device does not rotate, or if the
+structure ends before this field (its length is 0x0C).
 
 `description`::
-Additional descriptive information about the cooling device or its location. May
-be `nullptr`.
-
-=== Device types
-
-`DMI_COOLING_DEVICE_TYPE_UNSPEC`:: Unspecified
-`DMI_COOLING_DEVICE_TYPE_OTHER`:: Other
-`DMI_COOLING_DEVICE_TYPE_UNKNOWN`:: Unknown
-`DMI_COOLING_DEVICE_TYPE_FAN`:: Fan
-`DMI_COOLING_DEVICE_TYPE_CENTRIFUGAL_BLOWER`:: Centrifugal blower
-`DMI_COOLING_DEVICE_TYPE_CHIP_FAN`:: Chip fan
-`DMI_COOLING_DEVICE_TYPE_CABINET_FAN`:: Cabinet fan
-`DMI_COOLING_DEVICE_TYPE_POWER_SUPPLY_FAN`:: Power supply fan
-`DMI_COOLING_DEVICE_TYPE_HEAT_PIPE`:: Heat pipe
-`DMI_COOLING_DEVICE_TYPE_INTEGRATED_REFRIGERATION`:: Integrated refrigeration
-`DMI_COOLING_DEVICE_TYPE_ACTIVE_COOLING`:: Active cooling
-`DMI_COOLING_DEVICE_TYPE_PASSIVE_COOLING`:: Passive cooling
-
-=== Statuses
-
-`DMI_STATUS_UNSPEC`:: Unspecified
-`DMI_STATUS_OTHER`:: Other
-`DMI_STATUS_UNKNOWN`:: Unknown
-`DMI_STATUS_OK`:: OK
-`DMI_STATUS_NON_CRITICAL`:: Non-critical
-`DMI_STATUS_CRITICAL`:: Critical
-`DMI_STATUS_NON_RECOVERABLE`:: Non-recoverable
+Additional description of the device or of its location, or `nullptr` if the
+structure has none. Present since SMBIOS 2.7.
 
 == Examples
 
 [source, c]
-```
-dmi_entity_t *entity;
-dmi_cooling_device_t *info;
+----
+dmi_registry_t       *registry = dmi_get_registry(context);
+dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
+                                     DMI_TYPE(COOLING_DEVICE), false);
+dmi_cooling_device_t *device   = dmi_entity_info(entity,
+                                     DMI_TYPE(COOLING_DEVICE));
 
-info = dmi_entity_info(entity, DMI_TYPE_COOLING_DEVICE);
+if (device != nullptr) {
+    printf("type: %s\n", dmi_cooling_device_type_name(device->type));
+    printf("status: %s\n", dmi_status_name(device->status));
+    printf("description: %s\n",
+           device->description ? device->description : "unspecified");
 
-printf("type: %s\n", dmi_cooling_device_type_name(info->type));
-printf("status: %s\n", dmi_status_name(info->status));
-printf("location: %s\n", info->location ? info->location : "unspecified");
-```
-
-== Specification
-
-[cols="1,1,1,1,3"]
-|===
-| Offset | Version | Name | Length | Description
-
-| `0x00`
-| 2.2+
-| Type
-| `BYTE`
-| Cooling Device indicator.
-
-| `0x01`
-| 2.2+
-| Length
-| `BYTE`
-| Length of the structure, at least `0x0C`.
-
-| `0x02`
-| 2.2+
-| Handle
-| `WORD`
-| Handle associated with the structure.
-
-| `0x04`
-| 2.2+
-| Temperature Probe Handle
-| `WORD`
-| Handle of the temperature probe monitoring this cooling device.
-
-| `0x06`
-| 2.2+
-| Device Type and Status
-| `BYTE`
-| Cooling device type and status.
-
-| `0x07`
-| 2.2+
-| Cooling Unit Group
-| `BYTE`
-| Cooling unit group to which this cooling device is associated. Having multiple
-cooling devices in the same cooling unit implies a redundant configuration. The
-value is zero if the cooling device is not a member of a redundant cooling unit.
-Non-zero values imply redundancy and that at least one other cooling device will
-be enumerated with the same value.
-
-| `0x08`
-| 2.2+
-| OEM-defined
-| `DWORD`
-| OEM- or firmware vendor-specific information.
-
-| `0Ch`
-| 2.2+
-| Nominal Speed
-| `WORD`
-| Nominal value for the cooling device's rotational speed, in revolutions-per-
-minute (rpm). If the value is unknown or the cooling device is non-rotating, the
-field is set to `0x8000`. This field is present in the structure only if the
-structure's length is larger than `0x0C`.
-
-| `0x0E`
-| 2.7+
-| Description
-| `BYTE`
-| Number of the string that contains additional descriptive information about
-the cooling device or its location. This field is present in the structure only
-if the structure's length is `0x0F` or larger.
-|===
+    if (device->nominal_speed != SHRT_MIN)
+        printf("speed: %d rpm\n", device->nominal_speed);
+}
+----
 
 == See also
 
 `dmi_entity_info`(3),
-`dmi_cooling_device_type_name`(3),
-`dmi_status_name`(3)
+`dmi_cooling_device_type`(3),
+`dmi_status`(3),
+`dmi_probe`(3)
 
 == Standards
 
-DMTF SMBIOS Specification, version 2.2 or newer.
+DMTF SMBIOS Specification (DSP0134), version 2.2 or newer.
 
 ifdef::backend-manpage[]
 == Copying

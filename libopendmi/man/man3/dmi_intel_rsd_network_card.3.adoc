@@ -1,0 +1,130 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_network_card(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_network_card
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_network_card - Intel RSD network card information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-network-card.h>
+#include <opendmi/module/intel.h>
+
+#define DMI_INTEL_RSD_MAC_ADDRESS_LENGTH 32
+
+typedef struct dmi_intel_rsd_network_card {
+    dmi_pci_class_t pci_class;
+    dmi_pci_slot_t pci_slot_id;
+    dmi_pci_vendor_id_t vendor_id;
+    dmi_pci_device_id_t device_id;
+    dmi_pci_vendor_id_t sub_vendor_id;
+    dmi_pci_device_id_t sub_device_id;
+    uint32_t maximum_speed;
+    uint32_t current_speed;
+    uint16_t port_index;
+    dmi_binary_t mac_address;
+    const char *firmware_version;
+} dmi_intel_rsd_network_card_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_network_card_t` structure holds the decoded network card
+information structure (type 190) of Intel Rack Scale Design (RSD) firmware:
+one port of a network interface card, with the PCI identity of the card, the
+speeds of the port, its MAC address, the version of the firmware of the card,
+and the index the BMC selects the port by to boot from the network.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_NETWORK_CARD)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`pci_class`::
+PCI class code of the device, which tells its generic function.
+
+`pci_slot_id`::
+Physical number of the slot connected to the PCIe port of the card.
+
+`vendor_id`::
+PCI vendor identifier of the card.
+
+`device_id`::
+PCI device identifier of the card.
+
+`sub_vendor_id`::
+PCI subsystem vendor identifier, which tells the specific model.
+
+`sub_device_id`::
+PCI subsystem device identifier, which tells the specific model.
+
+`maximum_speed`::
+Maximum speed of the port, in Mbps: 10000 for 10 Gbps, 40000 for 40 Gbps, and
+so on.
+
+`current_speed`::
+Current speed of the port, in Mbps.
+
+`port_index`::
+Index of the port in the system. It is the device instance the firmware
+exposes in the boot flags of the IPMI Get/Set System Boot Options command.
+
+`mac_address`::
+Field holding the MAC address of the port, as stored in the structure:
+`DMI_INTEL_RSD_MAC_ADDRESS_LENGTH` bytes. The data points into the structure
+and lives as long as the context.
+
+`firmware_version`::
+Version of the firmware of the card, `nullptr` if the structure does not carry
+it.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t               *registry = dmi_get_registry(context);
+dmi_entity_t                 *entity   = dmi_registry_lookup_first(registry,
+                                             DMI_TYPE(INTEL_RSD_NETWORK_CARD),
+                                             true);
+dmi_intel_rsd_network_card_t *card     = dmi_entity_info(entity,
+                                             DMI_TYPE(INTEL_RSD_NETWORK_CARD));
+
+if (card != nullptr)
+    printf("Port %u: %04X:%04X, %u of %u Mbps\n", (unsigned)card->port_index,
+           (unsigned)card->vendor_id, (unsigned)card->device_id,
+           (unsigned)card->current_speed, (unsigned)card->maximum_speed);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_slot`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

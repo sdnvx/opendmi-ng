@@ -1,0 +1,75 @@
+ifdef::backend-manpage[]
+= dmi_system_log_status(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_system_log_status
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_system_log_status - system event log status
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-event-log.h>
+
+typedef union dmi_system_log_status {
+    dmi_byte_t __value;
+
+    struct {
+        dmi_byte_t is_log_area_valid : 1;
+        dmi_byte_t is_log_area_full  : 1;
+        dmi_byte_t __reserved        : 6;
+    };
+} dmi_system_log_status_t;
+----
+
+== Description
+
+The `dmi_system_log_status_t` union holds the status byte of the system
+event log, and is the type of the `status` field of
+`dmi_system_event_log_t`. The byte can be read as a whole through `__value`,
+or bit by bit through the named members.
+
+The firmware may not keep the status up to date in the table, so it tells
+the state of the log at the time the table was built.
+
+=== Fields
+
+`__value`::
+Raw value of the status byte.
+
+`is_log_area_valid`::
+Set if the log area holds a valid log.
+
+`is_log_area_full`::
+Set if the log area is full.
+
+`__reserved`::
+Reserved bits, set to 0.
+
+== See also
+
+`dmi_system_event_log`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

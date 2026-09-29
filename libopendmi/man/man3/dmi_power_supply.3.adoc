@@ -1,0 +1,182 @@
+ifdef::backend-manpage[]
+= dmi_power_supply(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_power_supply
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_power_supply - system power supply structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/power-supply.h>
+
+typedef struct dmi_power_supply {
+    unsigned short group;
+    const char *location;
+    const char *name;
+    const char *vendor;
+    const char *serial_number;
+    const char *asset_tag;
+    const char *part_number;
+    const char *revision;
+    short maximum_capacity;
+    bool hot_swappable;
+    bool present;
+    bool unplugged;
+    dmi_range_switching_type_t range_switching;
+    dmi_status_t status;
+    dmi_power_supply_type_t type;
+    dmi_handle_t voltage_probe_handle;
+    dmi_entity_t *voltage_probe;
+    dmi_handle_t cooling_device_handle;
+    dmi_entity_t *cooling_device;
+    dmi_handle_t current_probe_handle;
+    dmi_entity_t *current_probe;
+} dmi_power_supply_t;
+----
+
+== Description
+
+The `dmi_power_supply_t` structure holds the decoded system power supply
+structure (type 39) of SMBIOS: the identity, the capacity and the state of a
+power supply of the system, and the probes and the cooling device attached to
+it.
+
+A table has one such structure per power supply the system can hold, whether
+the supply is installed or not. Supplies backing each other up share the same
+non-zero `group`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(POWER_SUPPLY)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`group`::
+Number of the redundant power unit the supply belongs to. Supplies sharing a
+non-zero group back each other up, and there are at least two of them. Zero if
+the supply is not part of a redundant unit.
+
+`location`::
+Where the supply resides, e.g. the name of its bay, or `nullptr`.
+
+`name`::
+Name of the supply device, e.g. its model, or `nullptr`.
+
+`vendor`::
+Name of the manufacturer of the supply, or `nullptr`.
+
+`serial_number`::
+Serial number of the supply, or `nullptr`.
+
+`asset_tag`::
+Asset tag of the supply, or `nullptr`.
+
+`part_number`::
+Part number the OEM orders the supply by, or `nullptr`.
+
+`revision`::
+Revision of the supply, or `nullptr`.
+
+`maximum_capacity`::
+Largest power the supply can deliver without interruption, in watts. `SHRT_MIN`
+if unknown. The specification also mentions milliwatts as the unit of the
+field; the value is taken as it is, in watts.
+
+`hot_swappable`::
+`true` if the supply can be replaced while the system is running.
+
+`present`::
+`true` if the supply is installed.
+
+`unplugged`::
+`true` if the supply is disconnected from the mains.
+
+`range_switching`::
+How the supply selects the range of its input voltage, see
+`dmi_range_switching_type`(3).
+
+`status`::
+State of the supply, see `dmi_status`(3). `DMI_STATUS_CRITICAL` means that the
+supply has failed and has been taken off-line.
+
+`type`::
+Kind of the supply, see `dmi_power_supply_type`(3).
+
+`voltage_probe_handle`::
+Handle of the voltage probe structure (type 26) measuring the input voltage of
+the supply. `DMI_HANDLE_INVALID` if there is none, or if the structure is too
+short to hold it: the three handles are optional, and the structures of 0x10
+bytes end before them.
+
+`voltage_probe`::
+Voltage probe of the supply, resolved from `voltage_probe_handle` once the
+table has been linked. `nullptr` if the handle is `DMI_HANDLE_INVALID` or
+`DMI_HANDLE_UNSUPPORTED`, or does not refer to a voltage probe structure.
+
+`cooling_device_handle`::
+Handle of the cooling device structure (type 27) cooling the supply.
+`DMI_HANDLE_INVALID` if there is none, or if the structure is too short to hold
+it.
+
+`cooling_device`::
+Cooling device of the supply, resolved from `cooling_device_handle` once the
+table has been linked. `nullptr` if the handle is `DMI_HANDLE_INVALID` or
+`DMI_HANDLE_UNSUPPORTED`, or does not refer to a cooling device structure.
+
+`current_probe_handle`::
+Handle of the electrical current probe structure (type 29) measuring the input
+current of the supply. `DMI_HANDLE_INVALID` if there is none, or if the
+structure is too short to hold it.
+
+`current_probe`::
+Electrical current probe of the supply, resolved from `current_probe_handle`
+once the table has been linked. `nullptr` if the handle is `DMI_HANDLE_INVALID`
+or `DMI_HANDLE_UNSUPPORTED`, or does not refer to an electrical current probe
+structure.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t     *registry = dmi_get_registry(context);
+dmi_entity_t       *entity   = dmi_registry_lookup_first(registry,
+                                         DMI_TYPE(POWER_SUPPLY), false);
+dmi_power_supply_t *supply   = dmi_entity_info(entity,
+                                               DMI_TYPE(POWER_SUPPLY));
+
+if ((supply != nullptr) && supply->present &&
+    (supply->maximum_capacity != SHRT_MIN))
+    printf("Power supply: %d W\n", supply->maximum_capacity);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_power_supply_type`(3),
+`dmi_range_switching_type`(3), `dmi_status`(3), `dmi_probe`(3),
+`dmi_cooling_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

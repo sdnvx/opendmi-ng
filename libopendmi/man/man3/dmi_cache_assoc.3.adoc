@@ -1,0 +1,130 @@
+ifdef::backend-manpage[]
+= dmi_cache_assoc(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_cache_assoc
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_cache_assoc, dmi_cache_assoc_name - cache associativity types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/cache.h>
+
+typedef enum dmi_cache_assoc {
+    DMI_CACHE_ASSOC_UNSPEC  = 0x00,
+    DMI_CACHE_ASSOC_OTHER   = 0x01,
+    DMI_CACHE_ASSOC_UNKNOWN = 0x02,
+    DMI_CACHE_ASSOC_DIRECT  = 0x03,
+    DMI_CACHE_ASSOC_2WAY    = 0x04,
+    DMI_CACHE_ASSOC_4WAY    = 0x05,
+    DMI_CACHE_ASSOC_FULL    = 0x06,
+    DMI_CACHE_ASSOC_8WAY    = 0x07,
+    DMI_CACHE_ASSOC_16WAY   = 0x08,
+    DMI_CACHE_ASSOC_12WAY   = 0x09,
+    DMI_CACHE_ASSOC_24WAY   = 0x0A,
+    DMI_CACHE_ASSOC_32WAY   = 0x0B,
+    DMI_CACHE_ASSOC_48WAY   = 0x0C,
+    DMI_CACHE_ASSOC_64WAY   = 0x0D,
+    DMI_CACHE_ASSOC_20WAY   = 0x0E,
+} dmi_cache_assoc_t;
+
+const char *dmi_cache_assoc_name(dmi_cache_assoc_t value);
+----
+
+== Description
+
+The `dmi_cache_assoc_t` enumeration tells how the memory addresses map to the
+lines of a cache, and is the type of the `associativity` field of
+`dmi_cache_t`. The values are not in the order of the number of ways: the
+specification has added them over time.
+
+The `dmi_cache_assoc_name` function returns the printable name of a value, as
+the command line tool shows it. The name is translated to the locale set with
+`dmi_set_locale`, when the library is built with ICU4C support and has a
+translation of it.
+
+=== Values
+
+`DMI_CACHE_ASSOC_UNSPEC`::
+Unspecified: the structure predates SMBIOS 2.1, or leaves the field at zero.
+
+`DMI_CACHE_ASSOC_OTHER`::
+Other associativity.
+
+`DMI_CACHE_ASSOC_UNKNOWN`::
+Unknown associativity.
+
+`DMI_CACHE_ASSOC_DIRECT`::
+Direct-mapped: each memory address has one place in the cache.
+
+`DMI_CACHE_ASSOC_2WAY`::
+2-way set-associative.
+
+`DMI_CACHE_ASSOC_4WAY`::
+4-way set-associative.
+
+`DMI_CACHE_ASSOC_FULL`::
+Fully associative: a memory address may go anywhere in the cache.
+
+`DMI_CACHE_ASSOC_8WAY`::
+8-way set-associative.
+
+`DMI_CACHE_ASSOC_16WAY`::
+16-way set-associative.
+
+`DMI_CACHE_ASSOC_12WAY`::
+12-way set-associative.
+
+`DMI_CACHE_ASSOC_24WAY`::
+24-way set-associative.
+
+`DMI_CACHE_ASSOC_32WAY`::
+32-way set-associative.
+
+`DMI_CACHE_ASSOC_48WAY`::
+48-way set-associative.
+
+`DMI_CACHE_ASSOC_64WAY`::
+64-way set-associative.
+
+`DMI_CACHE_ASSOC_20WAY`::
+20-way set-associative.
+
+== Return value
+
+`dmi_cache_assoc_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is a static string, which must not be modified or
+freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_cache`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

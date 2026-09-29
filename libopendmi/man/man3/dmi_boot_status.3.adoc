@@ -1,0 +1,120 @@
+ifdef::backend-manpage[]
+= dmi_boot_status(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_boot_status
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_boot_status - system boot status codes
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-boot.h>
+
+typedef enum dmi_boot_status {
+    DMI_BOOT_STATUS_NO_ERRORS_DETECTED         = 0x00,
+    DMI_BOOT_STATUS_NO_BOOTABLE_MEDIA          = 0x01,
+    DMI_BOOT_STATUS_OS_FAILED_TO_LOAD          = 0x02,
+    DMI_BOOT_STATUS_FW_DETECTED_HW_FAILURE     = 0x03,
+    DMI_BOOT_STATUS_OS_DETECTED_HW_FAILURE     = 0x04,
+    DMI_BOOT_STATUS_USER_REQUESTED_BOOT        = 0x05,
+    DMI_BOOT_STATUS_SYSTEM_SECURITY_VIOLATION  = 0x06,
+    DMI_BOOT_STATUS_PREVIOUSLY_REQUESTED_IMAGE = 0x07,
+    DMI_BOOT_STATUS_SYSTEM_WDT_EXPIRED         = 0x08,
+    __DMI_BOOT_STATUS_RESERVED_START           = 0x09,
+    __DMI_BOOT_STATUS_RESERVED_END             = 0x7F,
+    __DMI_BOOT_STATUS_VENDOR_SPECIFIC_START    = 0x80,
+    __DMI_BOOT_STATUS_VENDOR_SPECIFIC_END      = 0xBF,
+    __DMI_BOOT_STATUS_PRODUCT_SPECIFIC_START   = 0xC0,
+    __DMI_BOOT_STATUS_PRODUCT_SPECIFIC_END     = 0xFF
+} dmi_boot_status_t;
+----
+
+== Description
+
+The `dmi_boot_status_t` enumeration tells why the system has booted, as the
+system boot information structure (type 32) of SMBIOS reports it, and is the
+type of the `status` field of `dmi_system_boot_t`.
+
+Only the codes 0x00 to 0x08 are defined. The codes 0x09 to 0x7F are reserved,
+the codes 0x80 to 0xBF are specific to the vendor named by the manufacturer
+string of the system information structure (type 1), and the codes 0xC0 to
+0xFF are specific to the product named by its manufacturer and product name
+strings. The hidden enumerators starting with `__DMI_BOOT_STATUS_` bound
+these ranges.
+
+=== Values
+
+`DMI_BOOT_STATUS_NO_ERRORS_DETECTED`::
+No errors detected.
+
+`DMI_BOOT_STATUS_NO_BOOTABLE_MEDIA`::
+No bootable media.
+
+`DMI_BOOT_STATUS_OS_FAILED_TO_LOAD`::
+The normal operating system failed to load.
+
+`DMI_BOOT_STATUS_FW_DETECTED_HW_FAILURE`::
+The firmware detected a hardware failure, of a known kind or not.
+
+`DMI_BOOT_STATUS_OS_DETECTED_HW_FAILURE`::
+The operating system detected a hardware failure.
+
+`DMI_BOOT_STATUS_USER_REQUESTED_BOOT`::
+The user requested the boot, usually with a key.
+
+`DMI_BOOT_STATUS_SYSTEM_SECURITY_VIOLATION`::
+System security violation.
+
+`DMI_BOOT_STATUS_PREVIOUSLY_REQUESTED_IMAGE`::
+A boot image requested earlier, for example by software of the
+operating system; additional data may follow the code.
+
+`DMI_BOOT_STATUS_SYSTEM_WDT_EXPIRED`::
+The system watchdog timer expired, and rebooted the system.
+
+`__DMI_BOOT_STATUS_RESERVED_START`::
+First reserved code.
+
+`__DMI_BOOT_STATUS_RESERVED_END`::
+Last reserved code.
+
+`__DMI_BOOT_STATUS_VENDOR_SPECIFIC_START`::
+First vendor/OEM-specific code.
+
+`__DMI_BOOT_STATUS_VENDOR_SPECIFIC_END`::
+Last vendor/OEM-specific code.
+
+`__DMI_BOOT_STATUS_PRODUCT_SPECIFIC_START`::
+First product-specific code.
+
+`__DMI_BOOT_STATUS_PRODUCT_SPECIFIC_END`::
+Last product-specific code.
+
+== See also
+
+`dmi_system_boot`(3), `dmi_system`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

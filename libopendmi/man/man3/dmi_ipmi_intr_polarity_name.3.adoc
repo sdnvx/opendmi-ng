@@ -1,0 +1,1 @@
+dmi_ipmi_intr_polarity.3.adoc

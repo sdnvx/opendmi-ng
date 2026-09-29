@@ -1,0 +1,61 @@
+ifdef::backend-manpage[]
+= dmi_firmware_version_number(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_version_number
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_version_number - firmware version in major and minor form
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-inventory.h>
+
+typedef struct dmi_firmware_version_number {
+    uint32_t major;
+    uint32_t minor;
+} dmi_firmware_version_number_t;
+----
+
+== Description
+
+The `dmi_firmware_version_number_t` structure holds a firmware version written
+in the "MAJOR.MINOR" format (`DMI_VERSION_FORMAT_SEMANTIC`), as two numbers.
+It is the type of the `number` field of `dmi_firmware_version_t`.
+
+=== Fields
+
+`major`::
+Major version number: the number before the dot.
+
+`minor`::
+Minor version number: the number after the dot.
+
+== See also
+
+`dmi_firmware_version`(3),
+`dmi_firmware_inventory`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

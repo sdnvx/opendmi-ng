@@ -1,0 +1,71 @@
+ifdef::backend-manpage[]
+= dmi_tpm_firmware_version_format(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_tpm_firmware_version_format
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_tpm_firmware_version_format - TPM firmware version formats
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/tpm-device.h>
+
+typedef enum dmi_tpm_firmware_version_format {
+    DMI_TPM_FIRMWARE_VERSION_FORMAT_RAW,
+    DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1,
+    DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2
+} dmi_tpm_firmware_version_format_t;
+----
+
+== Description
+
+The `dmi_tpm_firmware_version_format_t` enumeration tells how the firmware
+version of a TPM device has been parsed, which depends on the major version
+of the TPM specification the device supports. It is the type of the
+`firmware_version_format` field of `dmi_tpm_device_t`. The values are the
+library's own, and do not appear in the SMBIOS data.
+
+=== Values
+
+`DMI_TPM_FIRMWARE_VERSION_FORMAT_RAW`::
+Unknown TPM version: the firmware version is only available as stored, in
+the `firmware_version` field.
+
+`DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1`::
+TPM 1.x: the `firmware_revision` field holds the revision taken from the
+TCPA_VERSION structure.
+
+`DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2`::
+TPM 2.0: the `firmware_version_2` field holds the version taken from the
+TPM_PT_FIRMWARE_VERSION_1 and TPM_PT_FIRMWARE_VERSION_2 properties.
+
+== See also
+
+`dmi_tpm_device`(3), `dmi_tpm_firmware_version`(3)
+
+== Standards
+
+Not part of the SMBIOS specification: the values are defined by OpenDMI to
+describe the TPM device structure (type 43) of the DMTF SMBIOS Specification
+(DSP0134), version 3.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

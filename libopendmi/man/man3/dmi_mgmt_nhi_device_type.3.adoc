@@ -1,0 +1,82 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_nhi_device_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_nhi_device_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_nhi_device_type - network host interface device types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef enum dmi_mgmt_nhi_device_type {
+    DMI_MGMT_NHI_DEVICE_TYPE_USB       = 0x02,
+    DMI_MGMT_NHI_DEVICE_TYPE_PCI       = 0x03,
+    DMI_MGMT_NHI_DEVICE_TYPE_USB_V2    = 0x04,
+    DMI_MGMT_NHI_DEVICE_TYPE_PCI_V2    = 0x05,
+    DMI_MGMT_NHI_DEVICE_TYPE_OEM_START = 0x80,
+    DMI_MGMT_NHI_DEVICE_TYPE_OEM_END   = 0xFF
+} dmi_mgmt_nhi_device_type_t;
+----
+
+== Description
+
+The `dmi_mgmt_nhi_device_type_t` enumeration tells the type of the device
+through which the host reaches the management controller over a network host
+interface, and is the type of the `device_type` field of `dmi_mgmt_nhi_t`. The
+values from 0x80 to 0xFF are OEM-defined, and the other values the enumeration
+does not name are reserved.
+
+=== Values
+
+`DMI_MGMT_NHI_DEVICE_TYPE_USB`::
+USB network interface, see `dmi_mgmt_nhi_usb`(3).
+
+`DMI_MGMT_NHI_DEVICE_TYPE_PCI`::
+PCI or PCIe network interface, see `dmi_mgmt_nhi_pci`(3).
+
+`DMI_MGMT_NHI_DEVICE_TYPE_USB_V2`::
+USB network interface, second version of the descriptor, see
+`dmi_mgmt_nhi_usb_v2`(3).
+
+`DMI_MGMT_NHI_DEVICE_TYPE_PCI_V2`::
+PCI or PCIe network interface, second version of the descriptor, see
+`dmi_mgmt_nhi_pci_v2`(3).
+
+`DMI_MGMT_NHI_DEVICE_TYPE_OEM_START`::
+First OEM-defined device type, see `dmi_mgmt_nhi_oem`(3).
+
+`DMI_MGMT_NHI_DEVICE_TYPE_OEM_END`::
+Last OEM-defined device type.
+
+== See also
+
+`dmi_mgmt_nhi`(3), `dmi_mgmt_nhi_format`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), which defines this data of
+the management controller host interface structure (type 42) of the DMTF SMBIOS
+Specification (DSP0134).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

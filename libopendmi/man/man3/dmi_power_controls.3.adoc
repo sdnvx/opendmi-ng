@@ -1,0 +1,99 @@
+ifdef::backend-manpage[]
+= dmi_power_controls(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_power_controls
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_power_controls - system power controls structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/power-controls.h>
+
+typedef struct dmi_power_controls {
+    unsigned short poweron_month;
+    unsigned short poweron_day;
+    unsigned short poweron_hour;
+    unsigned short poweron_minute;
+    unsigned short poweron_second;
+} dmi_power_controls_t;
+----
+
+== Description
+
+The `dmi_power_controls_t` structure holds the decoded system power controls
+structure (type 25) of SMBIOS. Its presence tells that the system can be
+powered on at a set time; the fields give the date and time of the next
+scheduled power-on, from which software computes the number of seconds left
+until it.
+
+The structure stores the values as binary-coded decimals; the decoder
+converts them to plain numbers. A value outside the range of its field, such
+as 165 for a byte of 0xFF, takes no part in the schedule: for example, a
+month out of range means that the power-on falls within the next month.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(POWER_CONTROLS)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`poweron_month`::
+Month of the next scheduled power-on, 1 to 12.
+
+`poweron_day`::
+Day of the month of the next scheduled power-on, 1 to 31.
+
+`poweron_hour`::
+Hour of the next scheduled power-on, 0 to 23.
+
+`poweron_minute`::
+Minute of the next scheduled power-on, 0 to 59.
+
+`poweron_second`::
+Second of the next scheduled power-on, 0 to 59.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t       *registry = dmi_get_registry(context);
+dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
+                                     DMI_TYPE(POWER_CONTROLS), false);
+dmi_power_controls_t *power    = dmi_entity_info(entity,
+                                     DMI_TYPE(POWER_CONTROLS));
+
+if (power != nullptr)
+    printf("Next power-on: %02u-%02u %02u:%02u:%02u\n",
+           power->poweron_month, power->poweron_day, power->poweron_hour,
+           power->poweron_minute, power->poweron_second);
+----
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

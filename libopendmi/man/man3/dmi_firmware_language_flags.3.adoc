@@ -1,0 +1,68 @@
+ifdef::backend-manpage[]
+= dmi_firmware_language_flags(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_language_flags
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_language_flags - firmware language flags
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-language.h>
+
+typedef union dmi_firmware_language_flags {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t is_abbreviated : 1;
+        dmi_byte_t __reserved     : 7;
+    };
+} dmi_firmware_language_flags_t;
+----
+
+== Description
+
+The `dmi_firmware_language_flags_t` union holds the flags of the firmware
+language information structure, and is the type of the `flags` field of
+`dmi_firmware_language_t`.
+
+=== Fields
+
+`__value`::
+Raw value of the byte, `is_abbreviated` being bit 0.
+
+`is_abbreviated`::
+Set if the names of the languages are in the abbreviated format, a language
+code followed by a territory code, e.g. "deDE"; clear if they are in the long
+format, e.g. "de|DE|iso8859-1".
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_firmware_language`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

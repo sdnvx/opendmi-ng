@@ -1,0 +1,115 @@
+ifdef::backend-manpage[]
+= dmi_system(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_system
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_system - system information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system.h>
+
+typedef struct dmi_system {
+    const char *vendor;
+    const char *product;
+    const char *version;
+    const char *serial_number;
+    dmi_uuid_t uuid;
+    dmi_system_wakeup_type_t wakeup_type;
+    const char *sku_number;
+    const char *family;
+} dmi_system_t;
+----
+
+== Description
+
+The `dmi_system_t` structure holds the decoded system information structure
+(type 1) of SMBIOS: the identity of the system as a whole, i.e. its maker,
+product name, serial number and UUID, and the event which powered it up. A
+table carries exactly one such structure, which is required since SMBIOS 2.3.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SYSTEM)`, and lives as long as the context it has been decoded in.
+
+=== Fields
+
+`vendor`::
+Name of the manufacturer of the system; `nullptr` if the structure does not
+carry it.
+
+`product`::
+Product name of the system; `nullptr` if the structure does not carry it.
+
+`version`::
+Version of the product; `nullptr` if the structure does not carry it.
+
+`serial_number`::
+Serial number of the system; `nullptr` if the structure does not carry it.
+
+`uuid`::
+Universally unique identifier of the system, converted from the byte order of
+SMBIOS (the first three fields little-endian) to the one of RFC 4122, see
+`dmi_uuid_decode`(3). All bytes 0 mean that the system has no UUID; all bytes
+`0xFF`, that it has none yet but one can be set. Present since SMBIOS 2.1; all
+zeros in older data.
+
+`wakeup_type`::
+Event which powered the system up, see `dmi_system_wakeup_type`(3). Present
+since SMBIOS 2.1; `DMI_SYSTEM_WAKEUP_TYPE_RESERVED` in older data.
+
+`sku_number`::
+Stock keeping unit of the system: the identifier of the configuration it was
+sold in, also known as product ID or order number, in a format the vendor
+chooses; `nullptr` if the structure does not carry it. Present since SMBIOS
+2.4.
+
+`family`::
+Family of products the system belongs to: models which share their design and
+branding but differ in configuration and price; `nullptr` if the structure does
+not carry it. Present since SMBIOS 2.4.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                                                     DMI_TYPE(SYSTEM), false);
+dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(SYSTEM));
+
+if ((system != nullptr) && (system->product != nullptr))
+    printf("%s (%s)\n", system->product,
+           dmi_system_wakeup_type_name(system->wakeup_type));
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_system_wakeup_type`(3),
+`dmi_uuid_decode`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

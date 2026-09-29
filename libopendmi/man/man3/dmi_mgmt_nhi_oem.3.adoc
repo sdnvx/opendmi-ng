@@ -1,0 +1,66 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_nhi_oem(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_nhi_oem
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_nhi_oem - OEM-defined network interface descriptor
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef struct dmi_mgmt_nhi_oem {
+    uint32_t vendor_iana;
+    dmi_binary_t vendor_data;
+} dmi_mgmt_nhi_oem_t;
+----
+
+== Description
+
+The `dmi_mgmt_nhi_oem_t` structure holds the descriptor of an OEM-defined
+device (device types 0x80 to 0xFF) through which the host reaches the
+management controller. It is the type of the `oem` field of `dmi_mgmt_nhi_t`,
+which is valid when the `format` of it is `DMI_MGMT_NHI_FORMAT_OEM`.
+
+=== Fields
+
+`vendor_iana`::
+IANA enterprise number of the vendor defining the device. The descriptor
+carries it with the most significant byte first; the field holds it as a number
+of the host.
+
+`vendor_data`::
+Rest of the descriptor, defined by the vendor, referring to the data of the
+structure in place.
+
+== See also
+
+`dmi_mgmt_nhi`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), which defines this data of
+the management controller host interface structure (type 42) of the DMTF SMBIOS
+Specification (DSP0134).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

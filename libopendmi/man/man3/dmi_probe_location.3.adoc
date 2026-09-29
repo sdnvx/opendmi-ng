@@ -1,0 +1,135 @@
+ifdef::backend-manpage[]
+= dmi_probe_location(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_probe_location
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_probe_location, dmi_probe_location_name - locations of probes
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/probe.h>
+
+typedef enum dmi_probe_location {
+    DMI_PROBE_LOCATION_UNSPEC             = 0x00,
+    DMI_PROBE_LOCATION_OTHER              = 0x01,
+    DMI_PROBE_LOCATION_UNKNOWN            = 0x02,
+    DMI_PROBE_LOCATION_PROCESSOR          = 0x03,
+    DMI_PROBE_LOCATION_DISK               = 0x04,
+    DMI_PROBE_LOCATION_PERIPHERAL_BAY     = 0x05,
+    DMI_PROBE_LOCATION_SYSTEM_MGMT_MODULE = 0x06,
+    DMI_PROBE_LOCATION_MOTHERBOARD        = 0x07,
+    DMI_PROBE_LOCATION_MEMORY_MODULE      = 0x08,
+    DMI_PROBE_LOCATION_PROCESSOR_MODULE   = 0x09,
+    DMI_PROBE_LOCATION_POWER_UNIT         = 0x0A,
+    DMI_PROBE_LOCATION_ADDIN_CARD         = 0x0B,
+    DMI_PROBE_LOCATION_FRONT_PANEL_BOARD  = 0x0C,
+    DMI_PROBE_LOCATION_BACK_PANEL_BOARD   = 0x0D,
+    DMI_PROBE_LOCATION_POWER_SYSTEM_BOARD = 0x0E,
+    DMI_PROBE_LOCATION_DRIVE_BACK_PLANE   = 0x0F,
+} dmi_probe_location_t;
+
+const char *dmi_probe_location_name(dmi_probe_location_t value);
+----
+
+== Description
+
+The `dmi_probe_location_t` enumeration tells where a probe is in the system,
+and is the type of the `location` field of `dmi_probe_t`, the structure of
+voltage, temperature and electrical current probes. The values from
+`DMI_PROBE_LOCATION_FRONT_PANEL_BOARD` on are defined for temperature probes
+only.
+
+The `dmi_probe_location_name` function returns the printable name of a value,
+as the command line tool shows it. The name is translated to the locale set
+with `dmi_set_locale`, when the library is built with ICU4C support and has a
+translation of it.
+
+=== Values
+
+`DMI_PROBE_LOCATION_UNSPEC`::
+Unspecified.
+
+`DMI_PROBE_LOCATION_OTHER`::
+Other location.
+
+`DMI_PROBE_LOCATION_UNKNOWN`::
+Unknown location.
+
+`DMI_PROBE_LOCATION_PROCESSOR`::
+Processor.
+
+`DMI_PROBE_LOCATION_DISK`::
+Disk.
+
+`DMI_PROBE_LOCATION_PERIPHERAL_BAY`::
+Peripheral bay.
+
+`DMI_PROBE_LOCATION_SYSTEM_MGMT_MODULE`::
+System management module.
+
+`DMI_PROBE_LOCATION_MOTHERBOARD`::
+Motherboard.
+
+`DMI_PROBE_LOCATION_MEMORY_MODULE`::
+Memory module.
+
+`DMI_PROBE_LOCATION_PROCESSOR_MODULE`::
+Processor module.
+
+`DMI_PROBE_LOCATION_POWER_UNIT`::
+Power unit.
+
+`DMI_PROBE_LOCATION_ADDIN_CARD`::
+Add-in card.
+
+`DMI_PROBE_LOCATION_FRONT_PANEL_BOARD`::
+Front panel board (temperature probes only).
+
+`DMI_PROBE_LOCATION_BACK_PANEL_BOARD`::
+Back panel board (temperature probes only).
+
+`DMI_PROBE_LOCATION_POWER_SYSTEM_BOARD`::
+Power system board (temperature probes only).
+
+`DMI_PROBE_LOCATION_DRIVE_BACK_PLANE`::
+Drive back plane (temperature probes only).
+
+== Return value
+
+`dmi_probe_location_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is a static string, which must not be modified or
+freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_probe`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

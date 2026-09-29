@@ -1,0 +1,139 @@
+ifdef::backend-manpage[]
+= dmi_tpm_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_tpm_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_tpm_device - TPM device structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/tpm-device.h>
+
+typedef struct dmi_tpm_device {
+    char                              vendor_id[5];
+    const char                       *vendor;
+    dmi_version_t                     spec_version;
+    uint64_t                          firmware_version;
+    dmi_tpm_firmware_version_format_t firmware_version_format;
+    dmi_version_t                     firmware_revision;
+    dmi_tpm_firmware_version_t        firmware_version_2;
+    const char                       *description;
+    dmi_tpm_device_features_t         features;
+    uint32_t                          oem_defined;
+} dmi_tpm_device_t;
+----
+
+== Description
+
+The `dmi_tpm_device_t` structure holds the decoded TPM device structure
+(type 43) of SMBIOS: it describes a Trusted Platform Module (TPM) of the
+system, with its vendor, the version of the TPM specification it implements
+and the version of its firmware.
+
+The firmware version is kept as stored in `firmware_version`, and is also
+parsed according to the major version of the TPM specification;
+`firmware_version_format` tells which field holds the parsed version.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(TPM_DEVICE)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`vendor_id`::
+Vendor identifier, as registered by the Trusted Computing Group (TCG): up to
+four characters, terminated by a zero. Some firmware stores the four bytes
+in reverse order; the decoder puts them back in order, and cuts the
+identifier at the first character which is not printable.
+
+`vendor`::
+Vendor identifier as a string, pointing to `vendor_id`, or `nullptr` if the
+identifier holds no printable character.
+
+`spec_version`::
+Version of the TPM specification the device supports, such as 1.2 or 2.0;
+use `dmi_version_major` and `dmi_version_minor` to read it.
+
+`firmware_version`::
+Vendor-specific firmware version, as stored: the first double word of the
+structure (firmware version 1) in the upper 32 bits, the second one
+(firmware version 2) in the lower 32 bits.
+
+`firmware_version_format`::
+Format of the firmware version, chosen by the major version of the TPM
+specification, see `dmi_tpm_firmware_version_format`(3). It tells whether
+`firmware_revision` or `firmware_version_2` holds the parsed version.
+
+`firmware_revision`::
+Firmware revision of a TPM 1.x device, made of the revMajor and revMinor
+bytes of its TCPA_VERSION structure. Only meaningful when
+`firmware_version_format` is `DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1`, 0
+otherwise.
+
+`firmware_version_2`::
+Firmware version of a TPM 2.0 device, see `dmi_tpm_firmware_version`(3).
+Only meaningful when `firmware_version_format` is
+`DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2`, zeroed otherwise.
+
+`description`::
+Descriptive information about the TPM device, `nullptr` if the structure
+has none.
+
+`features`::
+Characteristics of the TPM device, see `dmi_tpm_device_features`(3).
+
+`oem_defined`::
+Information specific to the OEM or the firmware vendor.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t   *registry = dmi_get_registry(context);
+dmi_entity_t     *entity   = dmi_registry_lookup_first(registry,
+                                 DMI_TYPE(TPM_DEVICE), false);
+dmi_tpm_device_t *tpm      = dmi_entity_info(entity, DMI_TYPE(TPM_DEVICE));
+
+if (tpm != nullptr) {
+    printf("TPM %u.%u by %s\n", dmi_version_major(tpm->spec_version),
+           dmi_version_minor(tpm->spec_version),
+           tpm->vendor != nullptr ? tpm->vendor : "unknown vendor");
+
+    if (tpm->firmware_version_format ==
+        DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2)
+        printf("Firmware %u.%u\n", (unsigned)tpm->firmware_version_2.major,
+               (unsigned)tpm->firmware_version_2.minor);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_tpm_firmware_version_format`(3),
+`dmi_tpm_firmware_version`(3), `dmi_tpm_device_features`(3),
+`dmi_version_format`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,220 @@
+ifdef::backend-manpage[]
+= dmi_chassis_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_chassis_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_chassis_type, dmi_chassis_type_name - types of system enclosures
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/chassis.h>
+
+typedef enum dmi_chassis_type {
+    DMI_CHASSIS_TYPE_UNSPEC              = 0x00,
+    DMI_CHASSIS_TYPE_OTHER               = 0x01,
+    DMI_CHASSIS_TYPE_UNKNOWN             = 0x02,
+    DMI_CHASSIS_TYPE_DESKTOP             = 0x03,
+    DMI_CHASSIS_TYPE_LOW_PROFILE_DESKTOP = 0x04,
+    DMI_CHASSIS_TYPE_PIZZA_BOX           = 0x05,
+    DMI_CHASSIS_TYPE_MINI_TOWER          = 0x06,
+    DMI_CHASSIS_TYPE_TOWER               = 0x07,
+    DMI_CHASSIS_TYPE_PORTABLE            = 0x08,
+    DMI_CHASSIS_TYPE_LAPTOP              = 0x09,
+    DMI_CHASSIS_TYPE_NOTEBOOK            = 0x0A,
+    DMI_CHASSIS_TYPE_HAND_HELD           = 0x0B,
+    DMI_CHASSIS_TYPE_DOCKING_STATION     = 0x0C,
+    DMI_CHASSIS_TYPE_ALL_IN_ONE          = 0x0D,
+    DMI_CHASSIS_TYPE_SUB_NOTEBOOK        = 0x0E,
+    DMI_CHASSIS_TYPE_SPACE_SAVING        = 0x0F,
+    DMI_CHASSIS_TYPE_LUNCH_BOX           = 0x10,
+    DMI_CHASSIS_TYPE_MAIN_SERVER         = 0x11,
+    DMI_CHASSIS_TYPE_EXPANSION           = 0x12,
+    DMI_CHASSIS_TYPE_SUB_CHASSIS         = 0x13,
+    DMI_CHASSIS_TYPE_BUS_EXPANSION       = 0x14,
+    DMI_CHASSIS_TYPE_PERIPHERAL          = 0x15,
+    DMI_CHASSIS_TYPE_RAID                = 0x16,
+    DMI_CHASSIS_TYPE_RACK_MOUNT          = 0x17,
+    DMI_CHASSIS_TYPE_SEALED_CASE_PC      = 0x18,
+    DMI_CHASSIS_TYPE_MULTI_SYSTEM        = 0x19,
+    DMI_CHASSIS_TYPE_COMPACT_PCI         = 0x1A,
+    DMI_CHASSIS_TYPE_ADVANCED_TCA        = 0x1B,
+    DMI_CHASSIS_TYPE_BLADE               = 0x1C,
+    DMI_CHASSIS_TYPE_BLADE_ENCLOSURE     = 0x1D,
+    DMI_CHASSIS_TYPE_TABLET              = 0x1E,
+    DMI_CHASSIS_TYPE_CONVERTIBLE         = 0x1F,
+    DMI_CHASSIS_TYPE_DETACHABLE          = 0x20,
+    DMI_CHASSIS_TYPE_IOT_GATEWAY         = 0x21,
+    DMI_CHASSIS_TYPE_EMBEDDED_PC         = 0x22,
+    DMI_CHASSIS_TYPE_MINI_PC             = 0x23,
+    DMI_CHASSIS_TYPE_STICK_PC            = 0x24,
+} dmi_chassis_type_t;
+
+const char *dmi_chassis_type_name(dmi_chassis_type_t value);
+----
+
+== Description
+
+The `dmi_chassis_type_t` enumeration tells the kind of a system enclosure, and
+is the type of the `type` field of `dmi_chassis_t`.
+
+The `dmi_chassis_type_name` function returns the printable name of a value, as
+the command line tool shows it. The name is translated to the locale set with
+`dmi_set_locale`, when the library is built with ICU4C support and has a
+translation of it.
+
+=== Values
+
+`DMI_CHASSIS_TYPE_UNSPEC`::
+Unspecified.
+
+`DMI_CHASSIS_TYPE_OTHER`::
+Other type.
+
+`DMI_CHASSIS_TYPE_UNKNOWN`::
+Unknown type.
+
+`DMI_CHASSIS_TYPE_DESKTOP`::
+Desktop.
+
+`DMI_CHASSIS_TYPE_LOW_PROFILE_DESKTOP`::
+Low-profile desktop.
+
+`DMI_CHASSIS_TYPE_PIZZA_BOX`::
+Pizza box.
+
+`DMI_CHASSIS_TYPE_MINI_TOWER`::
+Mini tower.
+
+`DMI_CHASSIS_TYPE_TOWER`::
+Tower.
+
+`DMI_CHASSIS_TYPE_PORTABLE`::
+Portable.
+
+`DMI_CHASSIS_TYPE_LAPTOP`::
+Laptop.
+
+`DMI_CHASSIS_TYPE_NOTEBOOK`::
+Notebook.
+
+`DMI_CHASSIS_TYPE_HAND_HELD`::
+Hand-held device.
+
+`DMI_CHASSIS_TYPE_DOCKING_STATION`::
+Docking station.
+
+`DMI_CHASSIS_TYPE_ALL_IN_ONE`::
+All-in-one computer.
+
+`DMI_CHASSIS_TYPE_SUB_NOTEBOOK`::
+Sub-notebook.
+
+`DMI_CHASSIS_TYPE_SPACE_SAVING`::
+Space-saving computer.
+
+`DMI_CHASSIS_TYPE_LUNCH_BOX`::
+Lunch box.
+
+`DMI_CHASSIS_TYPE_MAIN_SERVER`::
+Main server chassis.
+
+`DMI_CHASSIS_TYPE_EXPANSION`::
+Expansion chassis.
+
+`DMI_CHASSIS_TYPE_SUB_CHASSIS`::
+Sub-chassis.
+
+`DMI_CHASSIS_TYPE_BUS_EXPANSION`::
+Bus expansion chassis.
+
+`DMI_CHASSIS_TYPE_PERIPHERAL`::
+Peripheral chassis.
+
+`DMI_CHASSIS_TYPE_RAID`::
+RAID chassis.
+
+`DMI_CHASSIS_TYPE_RACK_MOUNT`::
+Rack-mount chassis.
+
+`DMI_CHASSIS_TYPE_SEALED_CASE_PC`::
+Sealed-case PC.
+
+`DMI_CHASSIS_TYPE_MULTI_SYSTEM`::
+Chassis able to hold several independently reporting systems, whether or not it
+is configured so at the moment. The systems it holds report the same serial
+number.
+
+`DMI_CHASSIS_TYPE_COMPACT_PCI`::
+CompactPCI chassis.
+
+`DMI_CHASSIS_TYPE_ADVANCED_TCA`::
+AdvancedTCA chassis.
+
+`DMI_CHASSIS_TYPE_BLADE`::
+Blade. A blade system has a structure for the blade and another one for the
+blade enclosure.
+
+`DMI_CHASSIS_TYPE_BLADE_ENCLOSURE`::
+Blade enclosure, which holds blades and provides them with power, cooling,
+networking and other shared infrastructure.
+
+`DMI_CHASSIS_TYPE_TABLET`::
+Tablet.
+
+`DMI_CHASSIS_TYPE_CONVERTIBLE`::
+Convertible.
+
+`DMI_CHASSIS_TYPE_DETACHABLE`::
+Detachable.
+
+`DMI_CHASSIS_TYPE_IOT_GATEWAY`::
+IoT gateway.
+
+`DMI_CHASSIS_TYPE_EMBEDDED_PC`::
+Embedded PC.
+
+`DMI_CHASSIS_TYPE_MINI_PC`::
+Mini PC.
+
+`DMI_CHASSIS_TYPE_STICK_PC`::
+Stick PC.
+
+== Return value
+
+`dmi_chassis_type_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is a static string, which must not be modified or
+freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_chassis`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

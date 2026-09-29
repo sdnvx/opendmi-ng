@@ -1,0 +1,76 @@
+ifdef::backend-manpage[]
+= dmi_processor_voltages(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_voltages
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_voltages - voltages supported by a processor socket
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef union dmi_processor_voltages {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t is_5v      : 1;
+        dmi_byte_t is_3v3     : 1;
+        dmi_byte_t is_2v9     : 1;
+        dmi_byte_t __reserved : 5;
+    };
+} dmi_processor_voltages_t;
+----
+
+== Description
+
+The `dmi_processor_voltages_t` union holds the set of the voltages a
+processor socket accepts, as the processor information structure (type 4) of
+SMBIOS gives it in the legacy mode of its voltage field. It is the type of the
+`supported_voltages` field of `dmi_processor_t`, which is 0 when the
+structure gives the current voltage instead.
+
+=== Fields
+
+`__value`::
+All the bits as one byte.
+
+`is_5v`::
+5 V is supported.
+
+`is_3v3`::
+3.3 V is supported.
+
+`is_2v9`::
+2.9 V is supported.
+
+`__reserved`::
+Reserved, always 0.
+
+== See also
+
+`dmi_processor`(3), `dmi_processor_voltage_data`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

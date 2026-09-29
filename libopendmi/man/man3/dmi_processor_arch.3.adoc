@@ -1,0 +1,99 @@
+ifdef::backend-manpage[]
+= dmi_processor_arch(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_arch
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_arch - processor architecture types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef enum dmi_processor_arch {
+    DMI_PROCESSOR_ARCH_RESERVED     = 0x00,
+    DMI_PROCESSOR_ARCH_IA32         = 0x01,
+    DMI_PROCESSOR_ARCH_AMD64        = 0x02,
+    DMI_PROCESSOR_ARCH_ITANIUM      = 0x03,
+    DMI_PROCESSOR_ARCH_AARCH32      = 0x04,
+    DMI_PROCESSOR_ARCH_AARCH64      = 0x05,
+    DMI_PROCESSOR_ARCH_RV32         = 0x06,
+    DMI_PROCESSOR_ARCH_RV64         = 0x07,
+    DMI_PROCESSOR_ARCH_RV128        = 0x08,
+    DMI_PROCESSOR_ARCH_LOONG_ARCH32 = 0x09,
+    DMI_PROCESSOR_ARCH_LOONG_ARCH64 = 0x0A,
+} dmi_processor_arch_t;
+----
+
+== Description
+
+The `dmi_processor_arch_t` enumeration tells the processor architecture of the
+processor-specific data of a processor additional information structure, and so
+their format. It is the type of the `arch` field of `dmi_processor_ex_t`, and
+the values of the `arch` field of `dmi_processor_specific_block_t`.
+
+The library has no function returning the names of the values.
+
+=== Values
+
+`DMI_PROCESSOR_ARCH_RESERVED`::
+Reserved.
+
+`DMI_PROCESSOR_ARCH_IA32`::
+IA-32 (32-bit x86).
+
+`DMI_PROCESSOR_ARCH_AMD64`::
+x64 (x86-64, Intel 64, AMD64, EM64T). See `dmi_processor_amd64_data`(3).
+
+`DMI_PROCESSOR_ARCH_ITANIUM`::
+Intel Itanium.
+
+`DMI_PROCESSOR_ARCH_AARCH32`::
+32-bit Arm (AArch32).
+
+`DMI_PROCESSOR_ARCH_AARCH64`::
+64-bit Arm (AArch64). See `dmi_processor_aarch64_data`(3).
+
+`DMI_PROCESSOR_ARCH_RV32`::
+32-bit RISC-V (RV32). See `dmi_processor_rv64_data`(3).
+
+`DMI_PROCESSOR_ARCH_RV64`::
+64-bit RISC-V (RV64). See `dmi_processor_rv64_data`(3).
+
+`DMI_PROCESSOR_ARCH_RV128`::
+128-bit RISC-V (RV128). See `dmi_processor_rv64_data`(3).
+
+`DMI_PROCESSOR_ARCH_LOONG_ARCH32`::
+32-bit LoongArch (LoongArch32).
+
+`DMI_PROCESSOR_ARCH_LOONG_ARCH64`::
+64-bit LoongArch (LoongArch64).
+
+== See also
+
+`dmi_processor_ex`(3), `dmi_processor_specific_block`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

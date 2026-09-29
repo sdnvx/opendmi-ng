@@ -1,0 +1,121 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_memory_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_memory_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_memory_device - Intel RSD memory device extended information
+structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-memory-device.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_memory_device {
+    dmi_handle_t device_handle;
+    dmi_intel_rsd_memory_type_t memory_type;
+    dmi_intel_rsd_memory_media_t memory_media;
+    const char *firmware_revision;
+    const char *firmware_api_version;
+    uint32_t maximum_tdp;
+    uint8_t smbus_address;
+} dmi_intel_rsd_memory_device_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_memory_device_t` structure holds the decoded memory device
+extended information structure (type 197) of Intel Rack Scale Design (RSD)
+firmware: details of a memory device which its memory device structure
+(type 17) does not carry, such as whether the module is persistent memory, the
+version of its firmware, its power budget and the SMBus address it is reached
+at. Each structure extends the memory device structure its `device_handle`
+refers to.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_MEMORY_DEVICE)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`device_handle`::
+Handle of the memory device structure (type 17) the structure extends. The
+handle is not resolved to an entity.
+
+`memory_type`::
+Kind of the module: a conventional DIMM or one of the NVDIMM kinds (see
+`dmi_intel_rsd_memory_type`(3)).
+
+`memory_media`::
+Media the module keeps its data in (see `dmi_intel_rsd_memory_media`(3)).
+
+`firmware_revision`::
+Revision of the firmware of the device, `nullptr` if the structure does not
+carry it.
+
+`firmware_api_version`::
+Version of the interface the firmware of the device exposes, `nullptr` if the
+structure does not carry it.
+
+`maximum_tdp`::
+Maximum thermal design power of the device, in milliwatts.
+
+`smbus_address`::
+SMBus address of the device, through which its SPD and, for persistent memory,
+its firmware interface are reached. The BMC hands it to the Intel Intelligent
+Power Node Manager to query the memory subsystem.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                               DMI_TYPE(INTEL_RSD_MEMORY_DEVICE), true);
+
+dmi_intel_rsd_memory_device_t *device =
+        dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_MEMORY_DEVICE));
+
+if (device != nullptr) {
+    const char *type = dmi_intel_rsd_memory_type_name(device->memory_type);
+
+    printf("Device 0x%04X: %s, up to %u mW\n",
+           (unsigned)device->device_handle,
+           (type != nullptr) ? type : "unknown type",
+           (unsigned)device->maximum_tdp);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_intel_rsd_memory_type`(3),
+`dmi_intel_rsd_memory_media`(3), `dmi_memory_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,74 @@
+ifdef::backend-manpage[]
+= dmi_processor_voltage_data(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_voltage_data
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_voltage_data - processor voltage field
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef union dmi_processor_voltage_data {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t value      : 7;
+        dmi_byte_t is_current : 1;
+    };
+} dmi_processor_voltage_data_t;
+----
+
+== Description
+
+The `dmi_processor_voltage_data_t` union describes the voltage field of the
+processor information structure (type 4) of SMBIOS as it is stored: one byte
+holding either the current voltage of the processor or the voltages its
+socket accepts.
+
+The decoder splits the field into the `voltage` and `supported_voltages`
+fields of `dmi_processor_t`, so the union is only needed to read or build the
+stored byte. The specification deprecates the field since SMBIOS 3.8.
+
+=== Fields
+
+`__value`::
+Stored byte.
+
+`value`::
+Current voltage, in tenths of volt, if `is_current` is set, and the
+set of the supported voltages in the layout of
+`dmi_processor_voltages`(3) otherwise.
+
+`is_current`::
+Set if `value` holds the current voltage, clear in the legacy mode,
+where it holds the supported voltages.
+
+== See also
+
+`dmi_processor`(3), `dmi_processor_voltages`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

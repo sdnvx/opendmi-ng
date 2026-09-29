@@ -11,8 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_memory_array_addr - provides the address mapping for a physical
-memory array.
+dmi_memory_array_addr - memory array mapped address structure
 
 == Library
 
@@ -26,150 +25,81 @@ endif::[]
 #include <opendmi/entity/memory-array-addr.h>
 
 typedef struct dmi_memory_array_addr {
-    uint64_t start_addr;
-    uint64_t end_addr;
-    uint64_t range_size;
-
-    dmi_handle_t array_handle;
-    dmi_entity_t *array;
-
-    unsigned short partition_width;
+    uint64_t        start_addr;
+    uint64_t        end_addr;
+    uint64_t        range_size;
+    dmi_handle_t    array_handle;
+    dmi_entity_t   *array;
+    unsigned short  partition_width;
 } dmi_memory_array_addr_t;
 ----
 
 == Description
 
-This structure provides the address mapping for a physical memory array. One
-structure is present for each contiguous address range described.
+The `dmi_memory_array_addr_t` structure holds the decoded memory array
+mapped address structure (type 19) of SMBIOS: it maps one contiguous range
+of physical addresses to a physical memory array. The table holds one such
+structure for each range, and several ranges may map to the same array.
+Since SMBIOS 2.3, a table must hold at least one of them.
+
+The structure gives the addresses in kilobytes, or, since SMBIOS 2.7, in
+bytes in extended fields for the ranges which do not fit; the decoder
+converts both to bytes.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MEMORY_ARRAY_ADDR)`, and lives as long as the context it has been
+decoded in.
 
 === Fields
 
 `start_addr`::
-Physical address, in bytes, of a range of memory mapped to the specified
-physical memory array.
+Physical address of the start of the range, in bytes.
 
 `end_addr`::
-Physical ending address, in bytes, of the last of a range of addresses mapped
-to the specified physical memory array.
+Physical address of the last byte of the range. When the structure gives the
+addresses in kilobytes, this is the last byte of the last kilobyte of the
+range.
 
 `range_size`::
-Mapped address range size in bytes.
+Size of the range in bytes, computed from `start_addr` and `end_addr`,
+whichever order they come in, both of which belong to the range.
 
 `array_handle`::
-Handle associated with the physical memory array to which this address range
-is mapped. Multiple address ranges can be mapped to a single physical memory
-array.
+Handle of the physical memory array structure (type 16) the range maps to.
 
 `array`::
-Physical memory array to which this address range is mapped. Multiple address
-ranges can be mapped to a single physical memory array. May be `nullptr` when the
-memory array handle is incorrect (e.g. due to SMBIOS data errors).
+Entity of the physical memory array structure, set when the structures are
+linked; `nullptr` if `array_handle` does not refer to a physical memory
+array.
 
 `partition_width`::
-Number of memory devices that form a single row of memory for the address
-partition defined by this structure.
+Number of memory devices which make up one row of memory for the partition
+of addresses this structure defines.
 
 == Examples
 
 [source, c]
-```
-dmi_entity_t *entity;
-dmi_memory_array_addr_t *info;
+----
+dmi_registry_t          *registry = dmi_get_registry(context);
+dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
+                                        DMI_TYPE(MEMORY_ARRAY_ADDR), false);
+dmi_memory_array_addr_t *range    = dmi_entity_info(entity,
+                                        DMI_TYPE(MEMORY_ARRAY_ADDR));
 
-info = dmi_entity_info(entity, DMI_TYPE_MEMORY_ARRAY_ADDR);
-
-printf("starting address: %llu\n", info->start_addr);
-printf("ending address: %llu\n", info->end_addr);
-printf("range size: %llu\n", info->range_size);
-```
-
-== Standards
-
-DMTF SMBIOS Specification, version 2.1 or newer.
-
-== Specification
-
-[cols="1,1,1,1,3"]
-|===
-| Offset | Version | Name | Length | Description
-
-| `0x00`
-| 2.1+
-| Type
-| `BYTE`
-| Memory Array Mapped Address indicator
-
-| `0x01`
-| 2.1+
-| Length
-| `BYTE`
-| Length of the structure, `0x0F` for version 2.1, `0x1F`` for version 2.7 and later.
-
-| `0x02`
-| 2.1+
-| Handle
-| `WORD`
-| Handle associated with the structure.
-
-| `0x04`
-| 2.1+
-| Starting address
-|`DWORD`
-| Physical address, in kibibytes, of a range of memory mapped to the specified
-physical memory array. When the field value is `0xFFFFFFFF`, the actual address
-is stored in the extended starting address field. When this field contains a
-valid address, ending address must also contain a valid address. When this field
-contains `0xFFFFFFFF`, ending address must also contain `0xFFFFFFFF`.
-
-| `0x08`
-| 2.1+
-| Ending address
-| `DWORD`
-| Physical ending address of the last kibibyte of a range of addresses mapped
-to the specified physical memory array. When the field value is `0xFFFFFFFF`
-and the starting address field also contains `0xFFFFFFFF`, the actual address
-is stored in the extended ending address field. When this field contains a
-valid address, starting address must also contain a valid address.
-
-| `0x0C`
-| 2.1+
-| Memory array handle
-| `WORD`
-| Handle associated with the physical memory array to which this address range
-is mapped. Multiple address ranges can be mapped to a single physical memory array.
-
-| `0x0E`
-| 2.1+
-| Partition width
-| `BYTE`
-| Number of memory devices that form a single row of memory for the address
-partition defined by this structure.
-
-| `0x0F`
-| 2.7+
-| Extended starting address
-| `QWORD`
-| Varies Physical address, in bytes, of a range of memory mapped to the specified
-physical memory array. This field is valid when starting address contains the
-value `0xFFFFFFFF`. If starting address contains a value other than `0xFFFFFFFF`,
-this field contains zeros. When this field contains a valid address, extended
-ending address must also contain a valid address.
-
-| `0x17h`
-| 2.7+
-| Extended ending address
-| `QWORD`
-| Physical ending address, in bytes, of the last of a range of addresses mapped
-to the specified physical memory array. This field is valid when both starting
-address and ending address contain the value `0xFFFFFFFF`. If ending address
-contains a value other than `0xFFFFFFFF`, this field contains zeros. When this
-field contains a valid address, extended starting address must also contain a
-valid address.
-|===
+if (range != nullptr)
+    printf("0x%llx-0x%llx, array 0x%04x\n",
+           (unsigned long long)range->start_addr,
+           (unsigned long long)range->end_addr,
+           (unsigned)range->array_handle);
+----
 
 == See also
 
-`dmi_entity_info`(3)
+`dmi_entity_info`(3), `dmi_memory_array`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
 
 ifdef::backend-manpage[]
 == Copying

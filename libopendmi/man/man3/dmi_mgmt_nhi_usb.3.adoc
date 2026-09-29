@@ -1,0 +1,70 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_nhi_usb(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_nhi_usb
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_nhi_usb - USB network interface descriptor
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef struct dmi_mgmt_nhi_usb {
+    uint16_t vendor_id;
+    uint16_t product_id;
+    char *serial_number;
+} dmi_mgmt_nhi_usb_t;
+----
+
+== Description
+
+The `dmi_mgmt_nhi_usb_t` structure holds the descriptor of a USB network
+interface (device type 0x02) through which the host reaches the management
+controller. It is the type of the `usb` field of `dmi_mgmt_nhi_t`, which is
+valid when the `format` of it is `DMI_MGMT_NHI_FORMAT_USB`.
+
+=== Fields
+
+`vendor_id`::
+Vendor ID of the device, as its USB device descriptor gives it (`idVendor`).
+
+`product_id`::
+Product ID of the device, as its USB device descriptor gives it (`idProduct`).
+
+`serial_number`::
+Serial number of the device, converted from the UTF-16 string the descriptor
+carries to UTF-8, unpaired surrogates being replaced with U+FFFD. `nullptr` if
+the string is empty. The string is allocated by the library, and is freed along
+with the structure.
+
+== See also
+
+`dmi_mgmt_nhi`(3), `dmi_mgmt_nhi_usb_v2`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), which defines this data of
+the management controller host interface structure (type 42) of the DMTF SMBIOS
+Specification (DSP0134).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

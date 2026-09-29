@@ -1,0 +1,111 @@
+ifdef::backend-manpage[]
+= dmi_port_connector(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_port_connector
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_port_connector - port connector information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/port-connector.h>
+
+typedef struct dmi_port_connector {
+    const char *internal_designator;
+    dmi_connector_type_t internal_connector;
+    const char *external_designator;
+    dmi_connector_type_t external_connector;
+    dmi_port_type_t port_type;
+} dmi_port_connector_t;
+----
+
+== Description
+
+The `dmi_port_connector_t` structure holds the decoded port connector
+information structure (type 8) of SMBIOS: what a port of the system is for
+(serial, parallel, keyboard, USB, network...), and the connectors it has inside
+and outside the enclosure. A table carries one such structure for each port.
+
+A port without an internal connector, such as one soldered onto the board and
+reaching out of the chassis, has no internal designator and the internal
+connector type `DMI_CONNECTOR_TYPE_NONE`; a port without an external connector,
+such as the sound input of an optical drive, has the same for the external
+side.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(PORT_CONNECTOR)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`internal_designator`::
+Reference designator of the connector inside the enclosure, such as "J12";
+`nullptr` if the structure does not carry it.
+
+`internal_connector`::
+Type of the connector inside the enclosure, see `dmi_connector_type`(3).
+
+`external_designator`::
+Reference designator of the connector on the outside of the enclosure, such as
+"USB 1"; `nullptr` if the structure does not carry it.
+
+`external_connector`::
+Type of the connector on the outside of the enclosure, see
+`dmi_connector_type`(3).
+
+`port_type`::
+Function of the port, see `dmi_port_type`(3).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t      *registry = dmi_get_registry(context);
+dmi_registry_iter_t  iter;
+dmi_entity_t        *entity;
+
+dmi_registry_iter_init(&iter, registry, nullptr);
+
+while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+    if (dmi_entity_type(entity) != DMI_TYPE(PORT_CONNECTOR))
+        continue;
+
+    dmi_port_connector_t *port = dmi_entity_info(entity,
+                                                 DMI_TYPE(PORT_CONNECTOR));
+    if ((port != nullptr) && (port->external_designator != nullptr))
+        printf("%s: %s\n", port->external_designator,
+               dmi_port_type_name(port->port_type));
+}
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_connector_type`(3),
+`dmi_port_type`(3),
+`dmi_sun_port_ex`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

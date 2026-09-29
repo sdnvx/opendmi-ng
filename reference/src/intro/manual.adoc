@@ -22,9 +22,13 @@ Command line tool::
 The `opendmi` tool and its commands.
 
 C library::
-The functions of the `libopendmi` library, grouped by the headers declaring
-them. The interfaces for the other programming languages are given parts of
-their own as they are completed.
+The functions and the types of the `libopendmi` library, grouped by the
+headers declaring them. The interfaces for the other programming languages are
+given parts of their own as they are completed.
+
+Behind the scenes::
+How the library works inside: how the data is read and decoded, how a
+structure type is described to the library, and how it is extended.
 
 Specifications::
 The layouts of the structures OpenDMI decodes, field by field, including the

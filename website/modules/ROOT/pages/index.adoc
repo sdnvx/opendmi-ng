@@ -25,7 +25,12 @@ xref:reference:cli/index.adoc[Command line tool]::
 The `opendmi` tool and its commands.
 
 xref:reference:api/c/index.adoc[C library]::
-Functions of the `libopendmi` library, grouped by the headers declaring them.
+Functions and types of the `libopendmi` library, grouped by the headers
+declaring them.
+
+xref:reference:internals/index.adoc[Behind the scenes]::
+How the library works inside, and how it is extended with structure types of
+its own.
 
 xref:reference:specs/index.adoc[Specifications]::
 Layout of the structures OpenDMI decodes, field by field, including the ones

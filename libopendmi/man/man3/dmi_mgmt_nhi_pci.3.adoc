@@ -1,0 +1,71 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_nhi_pci(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_nhi_pci
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_nhi_pci - PCI/PCIe network interface descriptor
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef struct dmi_mgmt_nhi_pci {
+    uint16_t vendor_id;
+    uint16_t device_id;
+    uint16_t subsys_vendor_id;
+    uint16_t subsys_id;
+} dmi_mgmt_nhi_pci_t;
+----
+
+== Description
+
+The `dmi_mgmt_nhi_pci_t` structure holds the descriptor of a PCI or PCIe
+network interface (device type 0x03) through which the host reaches the
+management controller. It is the type of the `pci` field of `dmi_mgmt_nhi_t`,
+which is valid when the `format` of it is `DMI_MGMT_NHI_FORMAT_PCI`.
+
+=== Fields
+
+`vendor_id`::
+PCI vendor ID of the device.
+
+`device_id`::
+PCI device ID of the device.
+
+`subsys_vendor_id`::
+PCI subsystem vendor ID of the device.
+
+`subsys_id`::
+PCI subsystem ID of the device.
+
+== See also
+
+`dmi_mgmt_nhi`(3), `dmi_mgmt_nhi_pci_v2`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), which defines this data of
+the management controller host interface structure (type 42) of the DMTF SMBIOS
+Specification (DSP0134).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

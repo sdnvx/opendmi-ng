@@ -1,0 +1,66 @@
+ifdef::backend-manpage[]
+= dmi_processor_amd64_use_condition(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_amd64_use_condition
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_amd64_use_condition - use conditions of x64 processors
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef enum dmi_processor_amd64_use_condition {
+    DMI_PROCESSOR_AMD64_USE_CONDITION_CLIENT     = 0x00,
+    DMI_PROCESSOR_AMD64_USE_CONDITION_EMBEDDED   = 0x01,
+    DMI_PROCESSOR_AMD64_USE_CONDITION_INDUSTRIAL = 0x02
+} dmi_processor_amd64_use_condition_t;
+----
+
+== Description
+
+The `dmi_processor_amd64_use_condition_t` enumeration tells the kind of use an
+x64 processor is made for, and is the values of the `use_condition` field of
+`dmi_processor_amd64_attribute_t`.
+
+=== Values
+
+`DMI_PROCESSOR_AMD64_USE_CONDITION_CLIENT`::
+Client systems.
+
+`DMI_PROCESSOR_AMD64_USE_CONDITION_EMBEDDED`::
+Embedded systems.
+
+`DMI_PROCESSOR_AMD64_USE_CONDITION_INDUSTRIAL`::
+Industrial systems.
+
+== See also
+
+`dmi_processor_amd64_attribute`(3), `dmi_processor_amd64_data`(3)
+
+== Standards
+
+Not part of the SMBIOS specification itself, which leaves the format of the x64
+processor-specific data to a separate document maintained by Intel
+(https://github.com/intel/smbios).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

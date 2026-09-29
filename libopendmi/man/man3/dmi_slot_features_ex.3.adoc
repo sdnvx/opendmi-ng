@@ -1,0 +1,95 @@
+ifdef::backend-manpage[]
+= dmi_slot_features_ex(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_slot_features_ex
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_slot_features_ex - system slot extended characteristics
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/slot.h>
+
+typedef union dmi_slot_features_ex {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t has_pme_support           : 1;
+        dmi_byte_t has_hotplug_support       : 1;
+        dmi_byte_t has_smbus_support         : 1;
+        dmi_byte_t has_bifurcation_support   : 1;
+        dmi_byte_t has_async_removal_support : 1;
+        dmi_byte_t is_cxl_10_capable         : 1;
+        dmi_byte_t is_cxl_20_capable         : 1;
+        dmi_byte_t is_cxl_30_capable         : 1;
+    };
+} dmi_slot_features_ex_t;
+----
+
+== Description
+
+The `dmi_slot_features_ex_t` union holds the second set of characteristics of a
+system slot: the signals and removal modes it supports, lane bifurcation and
+CXL capabilities. It is the type of the `features_ex` field of `dmi_slot_t`,
+present since SMBIOS 2.1 and zero in older data. A bit is set when the slot has
+the property.
+
+=== Fields
+
+`__value`::
+Raw value of the byte, `has_pme_support` being bit 0.
+
+`has_pme_support`::
+The PCI slot supports the power management event (PME#) signal.
+
+`has_hotplug_support`::
+Devices can be plugged into the slot and removed from it while the system runs.
+
+`has_smbus_support`::
+The PCI slot supports the SMBus signal.
+
+`has_bifurcation_support`::
+The PCI Express slot can split its lanes between two or more devices plugged
+into it. The bit does not tell which splits the slot supports.
+
+`has_async_removal_support`::
+Devices can be removed from the slot without telling the operating system, the
+driver or the applications first (surprise removal).
+
+`is_cxl_10_capable`::
+The slot is a Flex Bus slot capable of CXL 1.0.
+
+`is_cxl_20_capable`::
+The slot is a Flex Bus slot capable of CXL 2.0.
+
+`is_cxl_30_capable`::
+The slot is a Flex Bus slot capable of CXL 3.0.
+
+== See also
+
+`dmi_slot`(3),
+`dmi_slot_features`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

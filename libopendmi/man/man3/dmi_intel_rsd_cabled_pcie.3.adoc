@@ -1,0 +1,103 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_cabled_pcie(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_cabled_pcie
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_cabled_pcie - Intel RSD cabled PCIe port information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-cabled-pcie.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_cabled_pcie {
+    dmi_pci_slot_t pci_slot_id;
+    unsigned link_width;
+    size_t port_count;
+    dmi_intel_rsd_cabled_pcie_port_t *ports;
+} dmi_intel_rsd_cabled_pcie_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_cabled_pcie_t` structure holds the decoded cabled PCIe port
+information structure (type 199) of Intel Rack Scale Design (RSD) firmware:
+one cabled PCIe port on the fixed side of the system, such as a port of a PCIe
+cable adapter on the board or on an adapter card in a PCIe slot, together with
+the groups of lanes its cables carry. Firmware provides one structure for each
+Cable Management Interface (CMI) controller of such a port, and none if the
+platform has no cabled PCIe ports.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_CABLED_PCIE)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`pci_slot_id`::
+Identifier of the PCIe slot the port is connected to. It is the slot ID of the
+matching system slot structure (type 9), and the BMC uses the same number to
+address the slot, for example to read the EEPROM of a cable over IPMI.
+
+`link_width`::
+Link width of the port, in lanes: 4 for a x4 port, 8 for a x8 port, and so on.
+
+`port_count`::
+Number of elements of `ports`: the cable indices the structure holds
+completely.
+
+`ports`::
+Cable indices of the port, an array of `port_count` elements (see
+`dmi_intel_rsd_cabled_pcie_port`(3)), `nullptr` if there are none.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t              *registry = dmi_get_registry(context);
+dmi_entity_t                *entity   = dmi_registry_lookup_first(registry,
+                                            DMI_TYPE(INTEL_RSD_CABLED_PCIE),
+                                            true);
+dmi_intel_rsd_cabled_pcie_t *port     = dmi_entity_info(entity,
+                                            DMI_TYPE(INTEL_RSD_CABLED_PCIE));
+
+if (port != nullptr) {
+    for (size_t i = 0; i < port->port_count; i++)
+        printf("Slot %u, cable %u: lanes %u to %u\n",
+               (unsigned)port->pci_slot_id, port->ports[i].index,
+               port->ports[i].start_lane, port->ports[i].start_lane + 3);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_intel_rsd_cabled_pcie_port`(3), `dmi_slot`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,1 @@
+dmi_pointing_device_type.3.adoc

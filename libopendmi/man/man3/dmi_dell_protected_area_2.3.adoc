@@ -1,0 +1,131 @@
+ifdef::backend-manpage[]
+= dmi_dell_protected_area_2(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_protected_area_2
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_protected_area_2 - Dell protected area type 2 structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/protected-area-2.h>
+
+typedef struct dmi_dell_protected_area_2 {
+    uint16_t token_id;
+    uint8_t value_length;
+    dmi_dell_value_format_t value_format;
+    uint16_t validation_key;
+    uint16_t index_port;
+    uint16_t data_port;
+    dmi_dell_check_type_t check_type;
+    uint8_t value_start;
+    uint8_t check_index;
+    dmi_dell_check_type_t range_check_type;
+    uint8_t range_check_start;
+    uint8_t range_check_end;
+    uint8_t range_check_index;
+} dmi_dell_protected_area_2_t;
+----
+
+== Description
+
+The `dmi_dell_protected_area_2_t` structure holds the decoded Dell protected
+area type 2 structure (type 215): where a protected value, such as a password,
+is kept in CMOS, how it is encoded, and where its checksum is. Unlike the type
+1 structure (`dmi_dell_protected_area_1`(3)), it also describes the checksum of
+a range of CMOS. The CMOS locations are accessed through the indexed I/O ports
+the structure gives.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(DELL_PROTECTED_AREA_2)`, declared in `<opendmi/module/dell.h>`, and
+lives as long as the context it has been decoded in.
+
+=== Fields
+
+`token_id`::
+Identifier of the token of the protected value.
+
+`value_length`::
+Length of the protected value.
+
+`value_format`::
+How the protected value is encoded.
+
+`validation_key`::
+Validation key of the protected value, as the structure carries it.
+
+`index_port`::
+Address of the I/O port written to select a CMOS location.
+
+`data_port`::
+Address of the I/O port through which the selected CMOS location is read and
+written.
+
+`check_type`::
+How the checksum of the protected value is computed.
+
+`value_start`::
+CMOS index of the protected value.
+
+`check_index`::
+CMOS index of the checksum of the protected value.
+
+`range_check_type`::
+How the checksum of the checked range is computed.
+
+`range_check_start`::
+CMOS index of the first location of the checked range.
+
+`range_check_end`::
+CMOS index of the last location of the checked range.
+
+`range_check_index`::
+CMOS index of the checksum of the checked range.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t              *registry = dmi_get_registry(context);
+dmi_entity_t                *entity   = dmi_registry_lookup_first(registry,
+                                            DMI_TYPE(DELL_PROTECTED_AREA_2),
+                                            true);
+dmi_dell_protected_area_2_t *area     = dmi_entity_info(entity,
+                                            DMI_TYPE(DELL_PROTECTED_AREA_2));
+
+if (area != nullptr) {
+    printf("Checked range 0x%02x-0x%02x\n", area->range_check_start,
+           area->range_check_end);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_dell_value_format`(3), `dmi_dell_check_type`(3),
+`dmi_dell_protected_area_1`(3), `dmi_dell_indexed_io`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Protected Area Type 2 (Type 215) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

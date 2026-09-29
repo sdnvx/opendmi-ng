@@ -1,0 +1,69 @@
+ifdef::backend-manpage[]
+= dmi_firmware_ident(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_ident
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_ident - parsed firmware identifier
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-inventory.h>
+
+typedef struct dmi_firmware_ident {
+    dmi_firmware_ident_format_t format;
+    dmi_uuid_t guid;
+} dmi_firmware_ident_t;
+----
+
+== Description
+
+The `dmi_firmware_ident_t` structure holds the identifier string of a firmware
+parsed according to the identifier format of its firmware inventory
+information structure. It is the type of the `parsed_ident` field of
+`dmi_firmware_inventory_t`.
+
+The decoder parses the string only if it conforms to the format the structure
+declares. The string itself stays available in the `ident` field of
+`dmi_firmware_inventory_t` in any case.
+
+=== Fields
+
+`format`::
+Format the string has been parsed in: `DMI_FIRMWARE_IDENT_FORMAT_GUID` if
+`guid` holds the identifier, `DMI_FIRMWARE_IDENT_FORMAT_FREE` if the string is
+absent, is free-form, uses another format, or is not a well-formed GUID.
+
+`guid`::
+Identifier, if `format` is `DMI_FIRMWARE_IDENT_FORMAT_GUID`. Its bytes follow
+the order of the digits in the string.
+
+== See also
+
+`dmi_firmware_inventory`(3),
+`dmi_firmware_ident_format`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

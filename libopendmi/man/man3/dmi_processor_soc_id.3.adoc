@@ -1,0 +1,75 @@
+ifdef::backend-manpage[]
+= dmi_processor_soc_id(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_soc_id
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_soc_id - SoC identifier of Arm64 processors
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef struct dmi_processor_soc_id {
+    uint8_t  jep106_bank;
+    uint8_t  jep106_id;
+    uint16_t soc_id;
+    uint32_t soc_revision;
+} dmi_processor_soc_id_t;
+----
+
+== Description
+
+The `dmi_processor_soc_id_t` structure holds the processor identifier of an
+Arm64 processor which reports a SoC identifier, decoded from the processor
+information structure (type 4) of SMBIOS. The values are the ones the
+SMCCC_ARCH_SOC_ID call of the Arm SMC Calling Convention returns, and identify
+the system in package (SiP) and its vendor.
+
+It is the `soc_id` field of `dmi_processor_t`, set when the `id_format` field
+of it is `DMI_PROCESSOR_ID_FORMAT_SOC_ID`, that is, when the processor family
+is an Arm64 one and the `arm64_soc_id` characteristic is set.
+
+=== Fields
+
+`jep106_bank`::
+JEDEC JEP106 bank index (continuation code) of the SiP vendor, 7 bits.
+
+`jep106_id`::
+JEDEC JEP106 identification code of the SiP vendor, 7 bits.
+
+`soc_id`::
+SoC identifier, defined by the SiP vendor.
+
+`soc_revision`::
+SoC revision, defined by the SiP vendor, 31 bits.
+
+== See also
+
+`dmi_processor`(3), `dmi_processor_id_format`(3), `dmi_processor_arm_id`(3),
+`dmi_processor_features`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.4 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

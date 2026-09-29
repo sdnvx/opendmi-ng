@@ -1,0 +1,96 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_storage_device_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_storage_device_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_storage_device_type, dmi_intel_rsd_storage_device_type_name -
+Intel RSD storage device types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-storage-device.h>
+
+typedef enum dmi_intel_rsd_storage_device_type {
+    DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_UNKNOWN = 0x00,
+    DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_HDD     = 0x01,
+    DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_SSD     = 0x02,
+    DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_DVD     = 0x03,
+    DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_BLURAY  = 0x04,
+    DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_USB     = 0x05
+} dmi_intel_rsd_storage_device_type_t;
+
+const char *dmi_intel_rsd_storage_device_type_name(
+        dmi_intel_rsd_storage_device_type_t value);
+----
+
+== Description
+
+The `dmi_intel_rsd_storage_device_type_t` enumeration tells the kind of a
+storage device, and is the type of the `type` field of
+`dmi_intel_rsd_storage_device_t`.
+
+The `dmi_intel_rsd_storage_device_type_name` function returns the name of a
+value, as the command line tool shows it.
+
+=== Values
+
+`DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_UNKNOWN`::
+Unknown.
+
+`DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_HDD`::
+Hard disk drive.
+
+`DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_SSD`::
+Solid-state drive.
+
+`DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_DVD`::
+Optical DVD drive.
+
+`DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_BLURAY`::
+Optical Blu-ray drive.
+
+`DMI_INTEL_RSD_STORAGE_DEVICE_TYPE_USB`::
+USB storage device.
+
+== Return value
+
+`dmi_intel_rsd_storage_device_type_name` returns the name of the value,
+translated to the language of the current locale when a translation is
+available, or `nullptr` if the value has no name. The returned string must not
+be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_intel_rsd_storage_device`(3), `dmi_intel_rsd_storage_connector`(3),
+`dmi_intel_rsd_storage_proto`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

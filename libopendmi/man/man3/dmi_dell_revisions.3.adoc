@@ -1,0 +1,101 @@
+ifdef::backend-manpage[]
+= dmi_dell_revisions(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_revisions
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_revisions - Dell revisions and IDs structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/revisions.h>
+
+typedef struct dmi_dell_revisions {
+    dmi_version_t impl_version;
+    uint16_t system_id;
+    uint8_t hardware_revision;
+    const char *manufacture_date;
+    const char *first_poweron_date;
+} dmi_dell_revisions_t;
+----
+
+== Description
+
+The `dmi_dell_revisions_t` structure holds the decoded Dell revisions and IDs
+structure (type 208): the revision of the Dell implementation of the firmware
+tables, the identifier and the hardware revision of the system, and the dates
+of its manufacture and first power-on.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(DELL_REVISIONS)`, declared in `<opendmi/module/dell.h>`, and lives as
+long as the context it has been decoded in.
+
+=== Fields
+
+`impl_version`::
+Revision of the Dell implementation, as a version number with the major and the
+minor numbers set and a revision number of 0.
+
+`system_id`::
+Dell system identifier. When the one-byte identifier holds `0xFE`, the
+structure carries the identifier in a 16-bit extension, which the field then
+holds; it stays `0xFE` when the structure is too short to carry the extension.
+
+`hardware_revision`::
+Hardware revision of the system.
+
+`manufacture_date`::
+Manufacture date of the system, as a string in the format of the firmware.
+`nullptr` when the structure is too short to carry it, or carries no string.
+
+`first_poweron_date`::
+Date the system was first powered on, as a string in the format of the
+firmware. `nullptr` when the structure is too short to carry it, or carries no
+string.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t       *registry = dmi_get_registry(context);
+dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
+                                     DMI_TYPE(DELL_REVISIONS), true);
+dmi_dell_revisions_t *rev      = dmi_entity_info(entity,
+                                     DMI_TYPE(DELL_REVISIONS));
+
+if (rev != nullptr) {
+    printf("Dell implementation %u.%u, system ID 0x%04x\n",
+           dmi_version_major(rev->impl_version),
+           dmi_version_minor(rev->impl_version), rev->system_id);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_version_format`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Revisions and IDs (Type 208) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

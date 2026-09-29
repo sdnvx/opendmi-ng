@@ -1,0 +1,116 @@
+ifdef::backend-manpage[]
+= dmi_onboard_device_ex(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_onboard_device_ex
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_onboard_device_ex - onboard devices extended information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/onboard-device-ex.h>
+
+typedef struct dmi_onboard_device_ex {
+    const char *designator;
+    dmi_onboard_device_type_t type;
+    bool is_enabled;
+    unsigned short instance;
+    dmi_pci_addr_t address;
+} dmi_onboard_device_ex_t;
+----
+
+== Description
+
+The `dmi_onboard_device_ex_t` structure holds the decoded onboard devices
+extended information structure (type 41) of SMBIOS: a device soldered onto a
+board of the system, usually the baseboard, which the firmware can typically
+enable or disable. It gives the kind of the device, whether it is enabled, and
+its PCI address. A table carries one such structure for each device, or for
+each function of a multi-function device, whose functions a group association
+structure (type 14) then ties together.
+
+The structure replaces the onboard devices information structure (type 10),
+obsolete since SMBIOS 2.6, which firmware may still provide beside it.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(ONBOARD_DEVICE_EX)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`designator`::
+Reference designator of the device, usually its label on the board; `nullptr`
+if the structure does not carry it.
+
+`type`::
+Kind of the device, see `dmi_onboard_device_type`(3).
+
+`is_enabled`::
+`true` if the device is enabled.
+
+`instance`::
+Rank of the device among the onboard devices of the same type, as the system
+numbers them: 1 for the first network adapter, 2 for the second, and so on. The
+order need not follow the PCI addresses of the devices. The
+`onboard-device-ex.instance` lint rule reports two devices of a type sharing an
+instance.
+
+`address`::
+PCI segment group, bus, device and function of the device, see
+`dmi_pci_addr`(3). Devices without such an address carry `0xFFFF` as segment
+group and `UINT8_MAX` as bus, device and function numbers.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t      *registry = dmi_get_registry(context);
+dmi_registry_iter_t  iter;
+dmi_entity_t        *entity;
+
+dmi_registry_iter_init(&iter, registry, nullptr);
+
+while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+    if (dmi_entity_type(entity) != DMI_TYPE(ONBOARD_DEVICE_EX))
+        continue;
+
+    dmi_onboard_device_ex_t *device =
+            dmi_entity_info(entity, DMI_TYPE(ONBOARD_DEVICE_EX));
+    if ((device != nullptr) && (device->designator != nullptr))
+        printf("%s: %s #%u, %s\n", device->designator,
+               dmi_onboard_device_type_name(device->type), device->instance,
+               device->is_enabled ? "enabled" : "disabled");
+}
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_onboard_device_type`(3),
+`dmi_pci_addr`(3),
+`dmi_onboard_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.6 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

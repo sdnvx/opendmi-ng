@@ -1,0 +1,177 @@
+ifdef::backend-manpage[]
+= dmi_slot(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_slot
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_slot - system slot structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/slot.h>
+
+typedef struct dmi_slot {
+    const char *designator;
+    dmi_slot_type_t type;
+    dmi_slot_width_t bus_width;
+    dmi_slot_usage_t usage;
+    dmi_slot_length_t length;
+    uint16_t ident;
+    dmi_slot_features_t features;
+    dmi_slot_features_ex_t features_ex;
+    dmi_pci_addr_t base_address;
+    dmi_slot_width_t base_bus_width;
+    size_t peer_group_count;
+    dmi_slot_peer_group_t *peer_groups;
+    uint8_t information;
+    dmi_slot_width_t physical_width;
+    uint16_t pitch;
+    dmi_slot_height_t height;
+} dmi_slot_t;
+----
+
+== Description
+
+The `dmi_slot_t` structure holds the decoded system slots structure (type 9) of
+SMBIOS: the kind, size and state of one expansion slot of the system, and the
+PCI addresses of the devices plugged into it. A table carries one such
+structure for each slot.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SYSTEM_SLOTS)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`designator`::
+Reference designator of the slot, such as "PCIE2"; `nullptr` if the structure
+does not carry it.
+
+`type`::
+Bus or form factor of the slot, see `dmi_slot_type`(3).
+
+`bus_width`::
+Electrical width of the data bus of the slot, see `dmi_slot_width`(3).
+
+`usage`::
+Whether the slot is in use or free, see `dmi_slot_usage`(3).
+
+`length`::
+Length of the slot, see `dmi_slot_length`(3).
+
+`ident`::
+Slot identifier, as stored; its meaning depends on `type`, and the library does
+not interpret it. For MCA and EISA slots, the low byte is the logical slot
+number, 1 to 15. For PCI, AGP, PCI-X, PCI Express, M.2, U.2, OCP and EDSFF
+slots, it is the number ACPI (`_SUN`) or the PCI interrupt routing table gives
+the slot. For PC Card slots, the low byte is the adapter number and the high
+byte the socket number.
+
+`features`::
+Characteristics of the slot, see `dmi_slot_features`(3).
+
+`features_ex`::
+Extended characteristics of the slot, see `dmi_slot_features_ex`(3). Present
+since SMBIOS 2.1; zero in older data.
+
+`base_address`::
+PCI segment group, bus, device and function of the device in the slot (for PCI
+Express, the endpoint rather than a switch above it), see `dmi_pci_addr`(3).
+Slots without such an address carry `0xFFFF` as segment group and `UINT8_MAX`
+as bus, device and function numbers. Present since SMBIOS 2.6; all zeros in
+older data.
+
+`base_bus_width`::
+Electrical width of the bus of the device at `base_address`, see
+`dmi_slot_width`(3). Present since SMBIOS 3.2; `DMI_SLOT_WIDTH_UNSPEC` in older
+data.
+
+`peer_group_count`::
+Number of elements of `peer_groups`, counting the peer groups the structure
+holds in full. Present since SMBIOS 3.2; 0 in older data and for a slot without
+peer devices.
+
+`peer_groups`::
+Peer devices of the slot, for a slot whose lanes are split between several
+devices, see `dmi_slot_peer_group`(3). The device at `base_address` is not one
+of them. `nullptr` if the structure declares no peer group.
+
+`information`::
+Additional information, depending on `type`. For `DMI_SLOT_TYPE_PCI_E_G6`, the
+PCI Express generation of the slot, e.g. 6 for Gen 6. Other PCI Express slot
+types may use it the same way, and the other slot types leave it at 0. Present
+since SMBIOS 3.4; 0 in older data.
+
+`physical_width`::
+Mechanical width of the slot, while `bus_width` is its electrical width, see
+`dmi_slot_width`(3). Present since SMBIOS 3.4; `DMI_SLOT_WIDTH_UNSPEC` in older
+data.
+
+`pitch`::
+Distance between the cards of neighbouring slots, in hundredths of a millimeter
+(1250 stands for 12.5 mm); 0 if unknown. Present since SMBIOS 3.4; 0 in older
+data.
+
+`height`::
+Height of the tallest card the slot takes, see `dmi_slot_height`(3). Present
+since SMBIOS 3.5; `DMI_SLOT_HEIGHT_UNSPEC` in older data.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t      *registry = dmi_get_registry(context);
+dmi_registry_iter_t  iter;
+dmi_entity_t        *entity;
+
+dmi_registry_iter_init(&iter, registry, nullptr);
+
+while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+    if (dmi_entity_type(entity) != DMI_TYPE(SYSTEM_SLOTS))
+        continue;
+
+    dmi_slot_t *slot = dmi_entity_info(entity, DMI_TYPE(SYSTEM_SLOTS));
+    if ((slot != nullptr) && (slot->designator != nullptr))
+        printf("%s: %s, %s\n", slot->designator,
+               dmi_slot_type_name(slot->type),
+               dmi_slot_usage_name(slot->usage));
+}
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_slot_type`(3),
+`dmi_slot_width`(3),
+`dmi_slot_usage`(3),
+`dmi_slot_length`(3),
+`dmi_slot_height`(3),
+`dmi_slot_features`(3),
+`dmi_slot_features_ex`(3),
+`dmi_slot_peer_group`(3),
+`dmi_pci_addr`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -34,6 +34,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Describe lint rules and its severities in the manual page of the `lint` command
 - Add manual pages for `dmi_destroy()`, `dmi_set_logger()` and `dmi_log_message()`
 - Complete the manual pages which held nothing but the synopsis
+- Add manual pages for the structures, unions and enumerations of the entity types
+- Document every member of the entity types in their headers
+- Add Behind the scenes part to the reference manual
 - Add Boot Integrity Services (BIS) entry point information decoder
 - Add processor additional information decoder
 - Add tests for BIS entry point, system boot, system event log, TPM device and management device threshold decoders

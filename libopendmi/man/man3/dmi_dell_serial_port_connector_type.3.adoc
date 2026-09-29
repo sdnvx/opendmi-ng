@@ -1,0 +1,128 @@
+ifdef::backend-manpage[]
+= dmi_dell_serial_port_connector_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_serial_port_connector_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_serial_port_connector_type, dmi_dell_serial_port_connector_type_name -
+Dell serial port connector types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/serial-port.h>
+
+typedef enum dmi_dell_serial_port_connector_type {
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_UNSPEC           = 0x00,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_OTHER            = 0x01,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_UNKNOWN          = 0x02,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_DB_9_M           = 0x03,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_DB_9_F           = 0x04,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_DB_25_M          = 0x05,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_DB_25_F          = 0x06,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_RJ_11            = 0x07,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_RJ_45            = 0x08,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_PROPRIETARY      = 0x09,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_CIRCULAR_DIN_8_M = 0x0A,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_CIRCULAR_DIN_8_F = 0x0B,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_IEEE_1284_C_14   = 0xA0,
+    DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_IEEE_1284_C_26   = 0xA1,
+} dmi_dell_serial_port_connector_type_t;
+
+const char *dmi_dell_serial_port_connector_type_name(
+        dmi_dell_serial_port_connector_type_t value);
+----
+
+== Description
+
+The `dmi_dell_serial_port_connector_type_t` enumeration tells the connector of
+a Dell serial port, and is the type of the `connector` field of
+`dmi_dell_serial_port_t`.
+
+The `dmi_dell_serial_port_connector_type_name` function returns the name of a
+value, as the command line tool shows it. The name is in English, or in the
+language of the locale the library is set to when it has a translation of the
+name.
+
+=== Values
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_UNSPEC`::
+Unspecified. The firmware does not define the value 0.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_OTHER`::
+Other connector.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_UNKNOWN`::
+Unknown connector.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_DB_9_M`::
+DB-9 male.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_DB_9_F`::
+DB-9 female.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_DB_25_M`::
+DB-25 male.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_DB_25_F`::
+DB-25 female.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_RJ_11`::
+RJ-11.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_RJ_45`::
+RJ-45.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_PROPRIETARY`::
+Proprietary connector.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_CIRCULAR_DIN_8_M`::
+Circular DIN-8 male.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_CIRCULAR_DIN_8_F`::
+Circular DIN-8 female.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_IEEE_1284_C_14`::
+Mini-Centronics Type-14.
+
+`DMI_DELL_SERIAL_PORT_CONNECTOR_TYPE_IEEE_1284_C_26`::
+Mini-Centronics Type-26.
+
+== Return value
+
+`dmi_dell_serial_port_connector_type_name` returns the name of the value, a
+constant string which must not be modified or freed, or `nullptr` if the value
+has no name, e.g. a value out of the range of the enumeration.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_dell_serial_port`(3), `dmi_dell_serial_port_caps`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Serial Port (Type 210) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

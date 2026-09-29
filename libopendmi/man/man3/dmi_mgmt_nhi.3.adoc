@@ -1,0 +1,106 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_nhi(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_nhi
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_nhi - network host interface data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef struct dmi_mgmt_nhi {
+    dmi_mgmt_nhi_device_type_t device_type;
+    dmi_mgmt_nhi_format_t format;
+    dmi_binary_t descriptor;
+    dmi_mgmt_nhi_usb_t usb;
+    dmi_mgmt_nhi_pci_t pci;
+    dmi_mgmt_nhi_usb_v2_t usb_v2;
+    dmi_mgmt_nhi_pci_v2_t pci_v2;
+    dmi_mgmt_nhi_oem_t oem;
+} dmi_mgmt_nhi_t;
+----
+
+== Description
+
+The `dmi_mgmt_nhi_t` structure holds the data of a management controller host
+interface of the network host interface type
+(`DMI_MGMT_IF_TYPE_NETWORK_HOST_IF`), as the Redfish host interface
+specification (DSP0270) lays it out: the type of the device through which the
+host reaches the management controller, and the descriptor identifying that
+device. It is the type of the `nhi` field of `dmi_mgmt_controller_t`, which is
+valid when `has_nhi` is set.
+
+The descriptor is decoded into the one of the members `usb`, `pci`, `usb_v2`,
+`pci_v2` and `oem` which `format` names. A descriptor of an unknown type, or
+one too short for its type, is not decoded, and `format` is
+`DMI_MGMT_NHI_FORMAT_RAW`.
+
+=== Fields
+
+`device_type`::
+Type of the device, see `dmi_mgmt_nhi_device_type`(3). The values from 0x80 to
+0xFF are OEM-defined.
+
+`format`::
+Member holding the decoded descriptor, see `dmi_mgmt_nhi_format`(3).
+`DMI_MGMT_NHI_FORMAT_RAW` if the descriptor has not been decoded, in which case
+only `descriptor` is to be used.
+
+`descriptor`::
+Descriptor of the device, the bytes following the device type, as the structure
+carries them.
+
+`usb`::
+Descriptor of a USB network interface, valid if `format` is
+`DMI_MGMT_NHI_FORMAT_USB`. See `dmi_mgmt_nhi_usb`(3).
+
+`pci`::
+Descriptor of a PCI or PCIe network interface, valid if `format` is
+`DMI_MGMT_NHI_FORMAT_PCI`. See `dmi_mgmt_nhi_pci`(3).
+
+`usb_v2`::
+Descriptor of a USB network interface, second version, valid if `format` is
+`DMI_MGMT_NHI_FORMAT_USB_V2`. See `dmi_mgmt_nhi_usb_v2`(3).
+
+`pci_v2`::
+Descriptor of a PCI or PCIe network interface, second version, valid if
+`format` is `DMI_MGMT_NHI_FORMAT_PCI_V2`. See `dmi_mgmt_nhi_pci_v2`(3).
+
+`oem`::
+Descriptor of an OEM-defined device, valid if `format` is
+`DMI_MGMT_NHI_FORMAT_OEM`. See `dmi_mgmt_nhi_oem`(3).
+
+== See also
+
+`dmi_mgmt_controller`(3), `dmi_mgmt_nhi_device_type`(3),
+`dmi_mgmt_nhi_format`(3), `dmi_mgmt_nhi_usb`(3), `dmi_mgmt_nhi_pci`(3),
+`dmi_mgmt_nhi_usb_v2`(3), `dmi_mgmt_nhi_pci_v2`(3), `dmi_mgmt_nhi_oem`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), which defines this data of
+the management controller host interface structure (type 42) of the DMTF SMBIOS
+Specification (DSP0134).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

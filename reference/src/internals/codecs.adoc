@@ -1,0 +1,117 @@
+= Decoders and encoders
+:sectnums:
+:sectlinks:
+
+[#internals-codecs]
+A structure is read by a decoder and written by an encoder. Both work on one
+structure at a time, over a reader or a writer, and know what the bytes of a
+structure are: numbers in the byte order of the data, strings referred to by
+their numbers, and fields the older versions of the structure end before.
+
+Most structure types never deal with them directly: they describe their layout
+instead, and the library decodes and encodes them by that description, see
+xref:internals/structures.adoc#internals-structures[Describing a structure].
+Decoders and encoders are what that description runs on, and what the handlers
+of the few types which are decoded by hand are written with.
+
+== Decoders
+
+A decoder, `dmi_decoder_t`, is set up over the data of a structure by
+`dmi_decoder_initialize`(3), positioned right after the header. When
+additional information has been applied to the structure, the decoder reads
+the copy which carries it, so the handlers never see the difference.
+
+The library sets a decoder up for every structure it decodes, allocates the
+decoded structure, e.g. a `dmi_cache_t`, which `dmi_entity_info`(3) returns,
+and gives the decoder to the decoding handler of the type. A handler reads
+the fields in the order the structure holds them:
+
+[source,c]
+----
+typedef struct example {
+    const char     *name;
+    unsigned short  speed;
+} example_t;
+
+static bool example_decode(dmi_decoder_t *decoder)
+{
+    example_t *info = dmi_entity_info(dmi_decoder_entity(decoder),
+                                      DMI_TYPE_ANY);
+
+    if (!dmi_decoder_get_string(decoder, &info->name))
+        return false;
+
+    // Speed is added by a later version of the structure
+    if (dmi_decoder_remaining(decoder) == 0)
+        return dmi_decoder_stop(decoder);
+
+    return dmi_decoder_get(decoder, dmi_word_t, &info->speed);
+}
+----
+
+`dmi_decoder_get` reads a value of the width the type of the data gives, here
+the two bytes of a word, converts it to the byte order of the host, and stores
+it into a member which may be wider than the data. `dmi_decoder_get_string`
+reads the number of a string and gives the string itself, or `nullptr` for a
+string the structure does not carry.
+
+A structure is allowed to end where a version of the specification ends it,
+which `dmi_decoder_stop`(3) records: the fields after that point are left as
+they are, zero unless the handler says otherwise, and the structure is marked
+as partial. A structure which ends in the middle of the fields of a version is
+recorded with `dmi_decoder_incomplete`(3) instead, and the lint rule
+`entity.unknown-length` reports it.
+
+A handler which fails leaves the structure undecoded, and
+`DMI_ERROR_ENTITY_DECODE` is raised after the errors telling why.
+
+== Encoders
+
+An encoder, `dmi_encoder_t`, writes a structure back into the bytes it is made
+of. `dmi_encoder_initialize`(3) writes the header into a buffer, and
+`dmi_entity_encode`(3) writes the rest of the formatted area and fills the
+length in:
+
+[source,c]
+----
+dmi_buffer_t *buffer = dmi_buffer_create(context);
+dmi_encoder_t encoder;
+
+if ((buffer != nullptr) &&
+    dmi_encoder_initialize(&encoder, buffer, entity,
+                           DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE)) {
+    if (dmi_entity_encode(&encoder))
+        printf("%zu bytes, %zu strings\n", buffer->length,
+               encoder.string_count);
+
+    dmi_encoder_finalize(&encoder);
+}
+
+dmi_buffer_destroy(buffer);
+----
+
+The strings the fields refer to are collected by the encoder, numbered the way
+the fields refer to them, in its `strings` member. They follow the formatted
+area in the data, each ended by a zero byte, and the set of them by another
+one.
+
+The decoded structure holds the values, and not every byte they came from: the
+bits the specification reserves, the fields no member holds, the bytes past
+the ones the specification knows of. The mode of the encoder says where those
+come from:
+
+`DMI_ENCODE_MODE_PRESERVE`::
+The bytes are taken from the data the structure has been decoded from, so
+that encoding a structure which has not been changed gives back the very bytes
+it has been decoded from. This is how a table is changed without losing what
+the library does not understand.
+
+`DMI_ENCODE_MODE_CANONICAL`::
+The bytes are written the way the specification says, for the version the
+encoder is given, which is how a structure is repaired, or written for another
+version of the specification.
+
+Encoding and decoding undo each other, which the tests of the library check on
+every structure of the dumps it is tested with: encoded in the preserve mode,
+a structure gives back the bytes of the dump, and encoded in the canonical
+mode, decoded and encoded again, it gives the same bytes both times.

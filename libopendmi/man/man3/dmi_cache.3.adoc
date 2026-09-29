@@ -1,0 +1,149 @@
+ifdef::backend-manpage[]
+= dmi_cache(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_cache
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_cache - cache information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/cache.h>
+
+typedef struct dmi_cache {
+    const char *socket_designator;
+    unsigned short level;
+    bool socketed;
+    dmi_cache_location_t location;
+    bool enabled;
+    dmi_cache_mode_t mode;
+    dmi_size_t maximum_size;
+    dmi_size_t installed_size;
+    dmi_cache_sram_type_t supported_sram;
+    dmi_cache_sram_type_t current_sram;
+    unsigned int speed;
+    dmi_error_correct_type_t error_correction;
+    dmi_cache_type_t type;
+    dmi_cache_assoc_t associativity;
+} dmi_cache_t;
+----
+
+== Description
+
+The `dmi_cache_t` structure holds the decoded cache information structure
+(type 7) of SMBIOS: the level, location, operational mode, sizes, SRAM types,
+speed and associativity of one processor cache. A table carries one such
+structure for each cache, whether the cache is internal or external to the
+processor module. Processor information structures (type 4) refer to the
+caches of their processor by handle.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(CACHE)`, and lives as long as the context it has been decoded in.
+
+=== Fields
+
+`socket_designator`::
+Reference designation of the cache socket, for example "CACHE1", or `nullptr`
+if the structure has none.
+
+`level`::
+Cache level, 1 to 8 (1 for an L1 cache). The data counts the levels from zero,
+and the decoder adds one.
+
+`socketed`::
+`true` if the cache sits in a socket (for example, cache on a stick), `false`
+otherwise.
+
+`location`::
+Location of the cache, relative to the processor module, see
+`dmi_cache_location`(3).
+
+`enabled`::
+`true` if the cache is enabled at boot time.
+
+`mode`::
+Operational mode of the cache, see `dmi_cache_mode`(3).
+
+`maximum_size`::
+Largest size of cache the socket can take, in bytes. The data carries it in
+granules of 1 KiB or 64 KiB. Since SMBIOS 3.1, a cache of 2 GiB or more sets
+the 16-bit field to 0xFFFF and carries its size in a 32-bit extended field,
+which the decoder then uses.
+
+`installed_size`::
+Size of the installed cache, in bytes, or 0 if no cache is installed. Carried
+the same way as `maximum_size`.
+
+`supported_sram`::
+Set of the SRAM types the cache supports, see `dmi_cache_sram_type`(3).
+
+`current_sram`::
+Set of the SRAM types the cache currently uses, see `dmi_cache_sram_type`(3).
+
+`speed`::
+Speed of the cache module, in nanoseconds, or 0 if unknown. Present since
+SMBIOS 2.1; 0 in older structures.
+
+`error_correction`::
+Error-correction scheme the cache supports, see `dmi_error_correct_type`(3).
+Present since SMBIOS 2.1; `DMI_ERROR_CORRECT_TYPE_UNSPEC` in older structures.
+
+`type`::
+Logical type of the cache: instruction, data or unified, see
+`dmi_cache_type`(3). Present since SMBIOS 2.1; `DMI_CACHE_TYPE_UNSPEC` in
+older structures.
+
+`associativity`::
+Associativity of the cache, see `dmi_cache_assoc`(3). Present since SMBIOS
+2.1; `DMI_CACHE_ASSOC_UNSPEC` in older structures.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                                                     DMI_TYPE(CACHE), false);
+dmi_cache_t    *cache    = dmi_entity_info(entity, DMI_TYPE(CACHE));
+
+if (cache != nullptr)
+    printf("L%u cache: %s, %llu KiB\n", cache->level,
+           dmi_cache_type_name(cache->type),
+           (unsigned long long)(cache->installed_size >> 10));
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_cache_type`(3),
+`dmi_cache_mode`(3),
+`dmi_cache_assoc`(3),
+`dmi_cache_location`(3),
+`dmi_cache_sram_type`(3),
+`dmi_error_correct_type`(3),
+`dmi_processor`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

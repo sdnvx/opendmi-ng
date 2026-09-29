@@ -1,0 +1,80 @@
+ifdef::backend-manpage[]
+= dmi_memory_module_error(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_module_error
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_module_error - memory module error status
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-module.h>
+
+typedef union dmi_memory_module_error {
+    dmi_byte_t __value;
+
+    struct {
+        dmi_byte_t has_uncorrectable : 1;
+        dmi_byte_t has_correctable   : 1;
+        dmi_byte_t has_event_log     : 1;
+        dmi_byte_t __reserved        : 5;
+    };
+} dmi_memory_module_error_t;
+----
+
+== Description
+
+The `dmi_memory_module_error_t` union holds the error status of a memory
+module as a set of bits, and is the type of the `error_status` field of
+`dmi_memory_module_t`. The union gives access to the whole byte as well as to
+the single bits.
+
+=== Fields
+
+`__value`::
+Whole byte, as the data carries it.
+
+`has_uncorrectable`::
+1 if the module has had uncorrectable errors, and all or part of it has been
+disabled. The bit is cleared only at power-on.
+
+`has_correctable`::
+1 if the module has had correctable errors. The bit is cleared only at system
+reset.
+
+`has_event_log`::
+1 if the error status is to be read from the event log. The two bits above
+carry no information then.
+
+`__reserved`::
+Bits 3 to 7, reserved, and zero.
+
+== See also
+
+`dmi_memory_module`(3),
+`dmi_system_event_log`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

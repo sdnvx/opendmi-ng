@@ -1,0 +1,100 @@
+ifdef::backend-manpage[]
+= dmi_sun_port_ex(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_sun_port_ex
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_sun_port_ex - Sun port extended information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/sun/port-ex.h>
+
+typedef struct dmi_sun_port_ex {
+    dmi_handle_t chassis_handle;
+    dmi_handle_t port_handle;
+    uint8_t device_type;
+    dmi_handle_t device_handle;
+    uint8_t phy;
+} dmi_sun_port_ex_t;
+----
+
+== Description
+
+The `dmi_sun_port_ex_t` structure holds the decoded Sun port extended
+information structure (type 136), which adds the chassis holding a port and the
+device connected to it to its port connector information structure (type 8). It
+is not part of SMBIOS: Sun firmware provides it, and the library decodes it
+only when the Sun extension module (`dmi_sun_module`, declared in
+`<opendmi/module/sun.h>`) is enabled in the context with `dmi_add_extension`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SUN_PORT_EX)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`chassis_handle`::
+Handle of the chassis information structure (type 3) of the chassis holding the
+port.
+
+`port_handle`::
+Handle of the port connector information structure (type 8) this structure
+extends.
+
+`device_type`::
+Type of the device connected to the port, as stored; the values are not
+documented.
+
+`device_handle`::
+Handle of the structure describing the device connected to the port.
+
+`phy`::
+Number of the PHY of the port.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                               DMI_TYPE(SUN_PORT_EX), true);
+dmi_sun_port_ex_t *info =
+        dmi_entity_info(entity, DMI_TYPE(SUN_PORT_EX));
+
+if (info != nullptr)
+    printf("port 0x%04X, PHY %u\n", (unsigned)info->port_handle,
+           (unsigned)info->phy);
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_port_connector`(3),
+`dmi_chassis`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Sun firmware, see the Sun Port
+Extended Information (Type 136) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

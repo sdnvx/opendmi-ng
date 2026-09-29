@@ -1,0 +1,110 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_pcie(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_pcie
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_pcie - Intel RSD PCIe information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-pcie.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_pcie {
+    dmi_pci_class_t pci_class;
+    dmi_pci_slot_t pci_slot_id;
+    dmi_pci_vendor_id_t vendor_id;
+    dmi_pci_device_id_t device_id;
+    dmi_pci_vendor_id_t sub_vendor_id;
+    dmi_pci_device_id_t sub_device_id;
+    uint32_t link_speed;
+    uint32_t link_width;
+} dmi_intel_rsd_pcie_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_pcie_t` structure holds the decoded PCIe information
+structure (type 192) of Intel Rack Scale Design (RSD) firmware: one PCIe
+device of the system, with its PCI identity, the slot it is installed in, and
+the current state of its link.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_PCIE)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`pci_class`::
+PCI class code of the device, which tells its generic function.
+
+`pci_slot_id`::
+Physical number of the slot the device is installed in. It matches the slot
+ID of the system slot structure (type 9) of that slot.
+
+`vendor_id`::
+PCI vendor identifier of the device.
+
+`device_id`::
+PCI device identifier of the device.
+
+`sub_vendor_id`::
+PCI subsystem vendor identifier, which tells the specific model.
+
+`sub_device_id`::
+PCI subsystem device identifier, which tells the specific model.
+
+`link_speed`::
+Current speed of the link, as the firmware reports it.
+
+`link_width`::
+Current width of the link, in lanes: 1, 2, 4, 8, 16, and so on.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t       *registry = dmi_get_registry(context);
+dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
+                                     DMI_TYPE(INTEL_RSD_PCIE), true);
+dmi_intel_rsd_pcie_t *device   = dmi_entity_info(entity,
+                                                 DMI_TYPE(INTEL_RSD_PCIE));
+
+if (device != nullptr)
+    printf("Slot %u: %04X:%04X, x%u\n", (unsigned)device->pci_slot_id,
+           (unsigned)device->vendor_id, (unsigned)device->device_id,
+           (unsigned)device->link_width);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_slot`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

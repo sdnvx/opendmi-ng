@@ -1,0 +1,66 @@
+ifdef::backend-manpage[]
+= dmi_slot_peer_group(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_slot_peer_group
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_slot_peer_group - peer device of a system slot
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/slot.h>
+
+typedef struct dmi_slot_peer_group {
+    dmi_pci_addr_t address;
+    dmi_slot_width_t bus_width;
+} dmi_slot_peer_group_t;
+----
+
+== Description
+
+The `dmi_slot_peer_group_t` structure describes a peer device of a system slot.
+A slot whose lanes can be split into narrower links holds a base device, given
+by the `base_address` and `base_bus_width` fields of `dmi_slot_t`, and a peer
+group for each other device. The peer groups of a slot are the elements of the
+`peer_groups` array of `dmi_slot_t`. Devices behind a bridge in the slot are
+not listed.
+
+=== Fields
+
+`address`::
+PCI segment group, bus, device and function of the peer device, see
+`dmi_pci_addr`(3).
+
+`bus_width`::
+Electrical width of the bus of the peer device, see `dmi_slot_width`(3).
+
+== See also
+
+`dmi_slot`(3),
+`dmi_slot_width`(3),
+`dmi_pci_addr`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

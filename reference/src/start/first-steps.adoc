@@ -35,7 +35,7 @@ The structures the table holds are listed, with their handles and types, with:
 $ opendmi list
 ----
 
-A structure type is explained, with the attributes its structures have, with:
+What a structure type is for, as the specification describes it, is told with:
 
 [source,shell]
 ----

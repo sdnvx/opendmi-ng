@@ -1,0 +1,147 @@
+ifdef::backend-manpage[]
+= dmi_ipmi_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_ipmi_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_ipmi_device - IPMI device information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/ipmi-device.h>
+
+typedef struct dmi_ipmi_device {
+    dmi_ipmi_interface_t     interface_type;
+    dmi_version_t            spec_version;
+    dmi_i2c_addr_t           i2c_target_addr;
+    uint8_t                  nv_storage_addr;
+    dmi_size_t               base_addr;
+    dmi_ipmi_addr_type_t     base_addr_type;
+    bool                     base_addr_lsb;
+    dmi_ipmi_intr_trigger_t  intr_trigger;
+    dmi_ipmi_intr_polarity_t intr_polarity;
+    unsigned short           register_spacing;
+    unsigned short           intr_number;
+} dmi_ipmi_device_t;
+----
+
+== Description
+
+The `dmi_ipmi_device_t` structure holds the decoded IPMI device information
+structure (type 38) of SMBIOS: it describes the baseboard management
+controller (BMC) of the Intelligent Platform Management Interface (IPMI), and
+how software reaches its system interface. The IPMI specifications tell how
+to use this information.
+
+The byte which follows the base address in the structure, holding the base
+address modifier and the interrupt information, is spread over the
+`base_addr_lsb`, `register_spacing`, `intr_trigger` and `intr_polarity`
+fields; see `dmi_ipmi_device_details`(3) for its layout.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(IPMI_DEVICE)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`interface_type`::
+Type of the system interface of the BMC, see `dmi_ipmi_interface`(3).
+
+`spec_version`::
+Revision of the IPMI specification the BMC has been designed for, such as
+1.5 or 2.0. The structure stores the major revision in the high nibble and
+the minor one in the low nibble; use `dmi_version_major` and
+`dmi_version_minor` to read it.
+
+`i2c_target_addr`::
+Target address of the BMC on the I2C bus, as stored.
+
+`nv_storage_addr`::
+Bus ID of the non-volatile storage device of the BMC, `UINT8_MAX` (0xFF) if
+the BMC has none.
+
+`base_addr`::
+Base address of the BMC. For the memory and I/O address spaces, this is the
+full address, with its least-significant bit taken from the base address
+modifier; `base_addr_type` tells which space it is in. For the SSIF
+interface, it is the 7-bit SMBus target address of the BMC.
+
+`base_addr_type`::
+Address space of `base_addr`, see `dmi_ipmi_addr_type`(3):
+`DMI_IPMI_ADDR_TYPE_SMBUS` for the SSIF interface, otherwise memory or I/O
+space, as the least-significant bit of the stored address says.
+
+`base_addr_lsb`::
+Least-significant bit of the base address, as given by the base address
+modifier.
+
+`intr_trigger`::
+Trigger mode of the interrupt of the system interface, see
+`dmi_ipmi_intr_trigger`(3); `DMI_IPMI_INTR_TRIGGER_UNSPEC` when the structure
+does not specify the interrupt information.
+
+`intr_polarity`::
+Polarity of the interrupt of the system interface, see
+`dmi_ipmi_intr_polarity`(3); `DMI_IPMI_INTR_POLARITY_UNSPEC` when the
+structure does not specify the interrupt information.
+
+`register_spacing`::
+Distance between the interface registers, in bytes: 1, 4 or 16, or 0 when
+the structure holds the reserved code.
+
+`intr_number`::
+Interrupt number of the system interface, 0 if it is unspecified or not
+supported.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t    *registry = dmi_get_registry(context);
+dmi_entity_t      *entity   = dmi_registry_lookup_first(registry,
+                                  DMI_TYPE(IPMI_DEVICE), false);
+dmi_ipmi_device_t *ipmi     = dmi_entity_info(entity, DMI_TYPE(IPMI_DEVICE));
+
+if (ipmi != nullptr) {
+    const char *interface = dmi_ipmi_interface_name(ipmi->interface_type);
+
+    printf("IPMI %u.%u, %s interface at 0x%llx (%s)\n",
+           dmi_version_major(ipmi->spec_version),
+           dmi_version_minor(ipmi->spec_version),
+           interface != nullptr ? interface : "unknown",
+           (unsigned long long)ipmi->base_addr,
+           dmi_ipmi_addr_type_name(ipmi->base_addr_type));
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_ipmi_interface`(3), `dmi_ipmi_addr_type`(3),
+`dmi_ipmi_intr_trigger`(3), `dmi_ipmi_intr_polarity`(3),
+`dmi_ipmi_register_spacing`(3), `dmi_ipmi_device_details`(3),
+`dmi_version_format`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

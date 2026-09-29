@@ -1,0 +1,82 @@
+ifdef::backend-manpage[]
+= dmi_processor_rv64_data(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_rv64_data
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_rv64_data - RISC-V processor-specific data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+struct dmi_processor_rv64_data {
+    dmi_processor_revision_t revision;
+    dmi_qword_t hart_id;
+    dmi_qword_t vendor_id;
+    dmi_qword_t arch_id;
+    dmi_qword_t machine_impl_id;
+};
+----
+
+== Description
+
+The `dmi_processor_rv64_data` structure describes the processor-specific data
+of the processor additional information structures (type 44) of RISC-V
+processors: the hardware thread (hart) described, and the identification
+registers of its machine mode. The structure has no typedef.
+
+The structure is packed: it has no padding, and its fields are laid out as in
+the data, whose multi-byte values are little-endian. The decoder does not use
+it: it may be laid over the `data` field of `dmi_processor_ex_t` to read the
+processor-specific data, once its architecture and length have been checked.
+
+=== Fields
+
+`revision`::
+Revision of the format of the data.
+
+`hart_id`::
+Identifier of the hart the data are about.
+
+`vendor_id`::
+Vendor of the core, as the `mvendorid` register holds it.
+
+`arch_id`::
+Base microarchitecture of the hart, as the `marchid` register holds it.
+
+`machine_impl_id`::
+Version of the implementation of the processor, as the `mimpid` register holds
+it.
+
+== See also
+
+`dmi_processor_ex`(3), `dmi_processor_revision`(3), `dmi_processor_arch`(3)
+
+== Standards
+
+Not part of the SMBIOS specification itself, which leaves the format of the
+RISC-V processor-specific data to the SMBIOS requirements of the RISC-V Boot
+and Runtime Services specification
+(https://github.com/riscv-non-isa/riscv-brs).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

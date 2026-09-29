@@ -1,0 +1,98 @@
+ifdef::backend-manpage[]
+= dmi_additional_info(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_additional_info
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_additional_info - additional information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/additional-info.h>
+
+typedef struct dmi_additional_info {
+    size_t                       entry_count;
+    dmi_additional_info_entry_t *entries;
+} dmi_additional_info_t;
+----
+
+== Description
+
+The `dmi_additional_info_t` structure holds the decoded additional
+information structure (type 40) of SMBIOS. It carries values for fields of
+other structures which the specification could not express yet: enumerated
+values which have not been published, or updated contents of a field. Each
+entry names a structure by its handle and a field by its offset, and gives
+the value of the field, along with an optional string describing it.
+
+The library applies the entries to the structures they refer to: before one
+of these structures is decoded, the bytes of the values replace the bytes of
+the fields they refer to, later entries overriding earlier ones, so that its
+decoded information already reflects them. An entry which refers to a
+structure the table does not have, or which reaches past the end of the
+structure, is reported as an error and left out; in strict mode, it makes
+the table fail to decode.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(ADDITIONAL_INFO)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`entry_count`::
+Number of elements of `entries`, as the structure declares it.
+
+`entries`::
+Array of the additional information entries, see
+`dmi_additional_info_entry`(3).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t        *registry = dmi_get_registry(context);
+dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
+                                      DMI_TYPE(ADDITIONAL_INFO), false);
+dmi_additional_info_t *info     = dmi_entity_info(entity,
+                                      DMI_TYPE(ADDITIONAL_INFO));
+
+if (info != nullptr) {
+    for (size_t i = 0; i < info->entry_count; i++) {
+        const dmi_additional_info_entry_t *entry = &info->entries[i];
+
+        printf("Structure 0x%04x, offset 0x%02x: %zu bytes (%s)\n",
+               (unsigned)entry->ref_handle, entry->ref_offset,
+               entry->value.length,
+               entry->string != nullptr ? entry->string : "no string");
+    }
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_additional_info_entry`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.6 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

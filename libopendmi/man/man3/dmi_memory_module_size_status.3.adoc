@@ -1,0 +1,96 @@
+ifdef::backend-manpage[]
+= dmi_memory_module_size_status(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_module_size_status
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_module_size_status, dmi_memory_module_size_status_name - memory module size statuses
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-module.h>
+
+typedef enum dmi_memory_module_size_status {
+    DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT,
+    DMI_MEMORY_MODULE_SIZE_STATUS_INVALID,
+    DMI_MEMORY_MODULE_SIZE_STATUS_NOT_DETERMINABLE,
+    DMI_MEMORY_MODULE_SIZE_STATUS_NOT_ENABLED,
+    DMI_MEMORY_MODULE_SIZE_STATUS_NOT_INSTALLED,
+} dmi_memory_module_size_status_t;
+
+const char *dmi_memory_module_size_status_name(
+        dmi_memory_module_size_status_t value);
+----
+
+== Description
+
+The `dmi_memory_module_size_status_t` enumeration tells whether the size of a
+memory module is known, and why not if it is not. It is the type of the
+`status` field of `dmi_memory_module_size_t`. The data carries these statuses
+as special values of the size; the enumeration and its values belong to the
+library.
+
+The `dmi_memory_module_size_status_name` function returns the printable name
+of a value, as the command line tool shows it. The name is translated to the
+locale set with `dmi_set_locale`, when the library is built with ICU4C support
+and has a translation of it.
+
+=== Values
+
+`DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT`::
+The size is known, and is in the `value` field.
+
+`DMI_MEMORY_MODULE_SIZE_STATUS_INVALID`::
+The data holds a size too large to be represented: 2 to the power of 44 MiB or
+more, other than the special values below.
+
+`DMI_MEMORY_MODULE_SIZE_STATUS_NOT_DETERMINABLE`::
+The size cannot be determined, for example because the system has no means of
+reading the presence-detect information of the module (data 0x7D). Used for
+the installed size only.
+
+`DMI_MEMORY_MODULE_SIZE_STATUS_NOT_ENABLED`::
+A module is installed, but none of its memory is enabled (data 0x7E).
+
+`DMI_MEMORY_MODULE_SIZE_STATUS_NOT_INSTALLED`::
+No module is installed (data 0x7F).
+
+== Return value
+
+`dmi_memory_module_size_status_name` returns the name of the value, or
+`nullptr` if the value has no name. The name is a static string, which must
+not be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_memory_module_size`(3),
+`dmi_memory_module`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

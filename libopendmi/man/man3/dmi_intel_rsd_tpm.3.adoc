@@ -1,0 +1,94 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_tpm(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_tpm
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_tpm - Intel RSD TPM information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-tpm.h>
+#include <opendmi/module/intel.h>
+
+typedef struct dmi_intel_rsd_tpm {
+    uint8_t config_index;
+    const char *version;
+    dmi_intel_rsd_tpm_status_t status;
+} dmi_intel_rsd_tpm_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_tpm_t` structure holds the decoded Trusted Platform Module
+(TPM) information structure (type 195) of Intel Rack Scale Design (RSD)
+firmware: one TPM configuration of the platform, with the version of the TPM
+and whether it is enabled. The pod manager selects the configuration to use
+by its index.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(INTEL_RSD_TPM)`, once the Intel extension module
+(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
+in the context with `dmi_add_extension()`. It lives as long as the context it
+has been decoded in.
+
+=== Fields
+
+`config_index`::
+One-based index of the configuration, the one the pod manager (PSME) passes
+to the IPMI Set TPM Configuration command to select it.
+
+`version`::
+Version of the TPM, `nullptr` if the structure does not carry it.
+
+`status`::
+Whether the TPM is enabled (see `dmi_intel_rsd_tpm_status`(3)).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t      *registry = dmi_get_registry(context);
+dmi_entity_t        *entity   = dmi_registry_lookup_first(registry,
+                                    DMI_TYPE(INTEL_RSD_TPM), true);
+dmi_intel_rsd_tpm_t *tpm      = dmi_entity_info(entity,
+                                                DMI_TYPE(INTEL_RSD_TPM));
+
+if (tpm != nullptr) {
+    const char *status = dmi_intel_rsd_tpm_status_name(tpm->status);
+
+    printf("TPM %s: %s\n",
+           (tpm->version != nullptr) ? tpm->version : "unknown version",
+           (status != nullptr) ? status : "unknown status");
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_intel_rsd_tpm_status`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

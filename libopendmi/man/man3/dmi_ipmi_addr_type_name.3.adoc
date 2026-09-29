@@ -1,0 +1,1 @@
+dmi_ipmi_addr_type.3.adoc

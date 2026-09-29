@@ -1,0 +1,66 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_cabled_pcie_port(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_cabled_pcie_port
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_cabled_pcie_port - cable index of an Intel RSD cabled PCIe port
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-cabled-pcie.h>
+
+typedef struct dmi_intel_rsd_cabled_pcie_port {
+    unsigned index;
+    unsigned start_lane;
+} dmi_intel_rsd_cabled_pcie_port_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_cabled_pcie_port_t` structure describes one cable index of
+a cabled PCIe port of Intel Rack Scale Design (RSD) firmware: which group of
+four lanes of the port the cable attached at that index carries.
+
+The elements are held in the `ports` array of `dmi_intel_rsd_cabled_pcie_t`,
+and live as long as the context the port has been decoded in.
+
+=== Fields
+
+`index`::
+Zero-based number of the cable within the slot given by the `pci_slot_id`
+field of the port. The BMC uses the same number, for example to read the
+EEPROM of the cable over IPMI.
+
+`start_lane`::
+First lane of the group of four lanes the cable carries: 0, 4, 8 or 12.
+
+== See also
+
+`dmi_intel_rsd_cabled_pcie`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

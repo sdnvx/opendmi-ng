@@ -1,0 +1,128 @@
+ifdef::backend-manpage[]
+= dmi_firmware(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware - platform firmware information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware.h>
+
+typedef struct dmi_firmware {
+    const char                 *vendor;
+    const char                 *version;
+    uint16_t                    bios_segment;
+    dmi_date_t                  release_date;
+    dmi_size_t                  rom_size;
+    dmi_firmware_features_t     features;
+    dmi_firmware_features_ex_t  features_ex;
+    dmi_version_t               platform_version;
+    dmi_version_t               controller_version;
+} dmi_firmware_t;
+----
+
+== Description
+
+The `dmi_firmware_t` structure holds the decoded platform firmware
+information structure (type 0) of SMBIOS: the vendor, version and release
+date of the platform firmware (BIOS or UEFI), the size of the ROM holding it,
+and the features it supports. A table has exactly one such structure.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(FIRMWARE)`, and lives as long as the context it has been decoded in.
+The fields a structure is too short to carry are 0 or `nullptr`.
+
+=== Fields
+
+`vendor`::
+Name of the firmware vendor, or `nullptr`.
+
+`version`::
+Firmware version, a free-form string, or `nullptr`.
+
+`bios_segment`::
+Segment of the starting address of the BIOS, for example 0xE800; the
+size of the runtime BIOS image is (0x10000 - `bios_segment`) * 16
+bytes. 0 where it does not apply, such as on UEFI systems.
+
+`release_date`::
+Release date of the firmware, which the `dmi_date_year`,
+`dmi_date_month` and `dmi_date_day` functions of
+`<opendmi/utils/datetime.h>` read. `DMI_DATE_NONE` if the structure
+carries no date, or one which cannot be parsed. Two-digit years are
+taken as 19xx.
+
+`rom_size`::
+Size of the physical device(s) holding the firmware, in bytes, a
+multiple of 64 KiB. Sizes of 16 MiB and above are taken from the
+extended ROM size field, present since SMBIOS 3.1, in units of MiB or
+GiB; 0 if that field uses a reserved unit.
+
+`features`::
+Features the firmware supports, see `dmi_firmware_features`(3).
+
+`features_ex`::
+Extended features the firmware supports, see
+`dmi_firmware_features_ex`(3). Present since SMBIOS 2.1.
+
+`platform_version`::
+Major and minor release of the platform firmware, for example 10.22,
+which the `dmi_version_major` and `dmi_version_minor` functions of
+`<opendmi/utils/version.h>` read.
+`DMI_VERSION_NONE` if the system does not report it. Present since
+SMBIOS 2.4.
+
+`controller_version`::
+Major and minor release of the embedded controller firmware.
+`DMI_VERSION_NONE` if the system has no embedded controller firmware
+which can be upgraded in the field. Present since SMBIOS 2.4.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                                                     DMI_TYPE(FIRMWARE),
+                                                     false);
+dmi_firmware_t *firmware = dmi_entity_info(entity, DMI_TYPE(FIRMWARE));
+
+if ((firmware != nullptr) && (firmware->release_date != DMI_DATE_NONE))
+    printf("Firmware released on %04u-%02u-%02u\n",
+           dmi_date_year(firmware->release_date),
+           dmi_date_month(firmware->release_date),
+           dmi_date_day(firmware->release_date));
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_firmware_features`(3),
+`dmi_firmware_features_ex`(3), `dmi_firmware_language`(3),
+`dmi_firmware_inventory`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

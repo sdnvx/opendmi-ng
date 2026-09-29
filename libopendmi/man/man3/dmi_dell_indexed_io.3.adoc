@@ -1,0 +1,112 @@
+ifdef::backend-manpage[]
+= dmi_dell_indexed_io(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_indexed_io
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_indexed_io - Dell indexed IO structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/indexed-io.h>
+
+typedef struct dmi_dell_indexed_io {
+    uint16_t index_port;
+    uint16_t data_port;
+    dmi_dell_check_type_t check_type;
+    uint8_t check_start;
+    uint8_t check_end;
+    uint8_t check_index;
+    size_t token_count;
+    dmi_dell_indexed_io_token_t *tokens;
+} dmi_dell_indexed_io_t;
+----
+
+== Description
+
+The `dmi_dell_indexed_io_t` structure holds the decoded Dell indexed IO
+structure (type 212): the pair of I/O ports through which the locations of CMOS
+are selected and accessed, the checksum guarding a range of CMOS, and the
+tokens, settings of the firmware kept in CMOS.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(DELL_INDEXED_IO)`, declared in `<opendmi/module/dell.h>`, and lives
+as long as the context it has been decoded in.
+
+=== Fields
+
+`index_port`::
+Address of the I/O port written to select a CMOS location.
+
+`data_port`::
+Address of the I/O port through which the selected CMOS location is read and
+written.
+
+`check_type`::
+How the checksum of the checked range is computed.
+
+`check_start`::
+CMOS index of the first location of the checked range.
+
+`check_end`::
+CMOS index of the last location of the checked range.
+
+`check_index`::
+CMOS index of the checksum. When `check_start`, `check_end` and `check_index`
+are all 0, the CMOS area has no checksum.
+
+`token_count`::
+Number of elements of `tokens`.
+
+`tokens`::
+Tokens, in the order of the structure. Unused records (token identifier
+`0x0000`) and the end-of-table marker (`0xFFFF`) are left out. May be `nullptr`
+when `token_count` is 0.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t        *registry = dmi_get_registry(context);
+dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
+                                      DMI_TYPE(DELL_INDEXED_IO), true);
+dmi_dell_indexed_io_t *io       = dmi_entity_info(entity,
+                                      DMI_TYPE(DELL_INDEXED_IO));
+
+if (io != nullptr) {
+    printf("Ports 0x%04x/0x%04x, %zu tokens\n", io->index_port,
+           io->data_port, io->token_count);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_dell_indexed_io_token`(3), `dmi_dell_check_type`(3),
+`dmi_dell_calling_iface`(3), `dmi_dell_protected_area_1`(3),
+`dmi_dell_protected_area_2`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Indexed IO (Type 212) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,1 @@
+dmi_error_correct_type.3.adoc

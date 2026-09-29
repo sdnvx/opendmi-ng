@@ -1,0 +1,96 @@
+ifdef::backend-manpage[]
+= dmi_ipmi_device_details(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_ipmi_device_details
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_ipmi_device_details - IPMI base address modifier and interrupt information
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/ipmi-device.h>
+
+typedef union dmi_ipmi_device_details {
+    uint8_t __value;
+
+    struct {
+        uint8_t is_intr_level_triggered : 1;
+        uint8_t is_intr_active_high     : 1;
+        uint8_t __reserved_1            : 1;
+        uint8_t is_intr_info_specified  : 1;
+        uint8_t base_addr_lsb           : 1;
+        uint8_t __reserved_2            : 1;
+        uint8_t register_spacing        : 2;
+    };
+} dmi_ipmi_device_details_t;
+----
+
+== Description
+
+The `dmi_ipmi_device_details_t` union describes the byte of the IPMI device
+information structure which follows the base address: the base address
+modifier and the interrupt information. The byte can be read as a whole
+through `__value`, or bit by bit through the named members.
+
+The decoder does not keep the byte: it spreads it over the fields of
+`dmi_ipmi_device_t`, and the union serves to read or build the raw byte.
+For the SSIF interface, the byte is unused and set to 0.
+
+=== Fields
+
+`__value`::
+Raw value of the byte.
+
+`is_intr_level_triggered`::
+Set if the interrupt is level-triggered, clear if it is edge-triggered.
+Meaningful only when `is_intr_info_specified` is set.
+
+`is_intr_active_high`::
+Set if the interrupt is active high, clear if it is active low. Meaningful
+only when `is_intr_info_specified` is set.
+
+`__reserved_1`::
+Reserved bit, set to 0.
+
+`is_intr_info_specified`::
+Set if the byte specifies the trigger mode and the polarity of the
+interrupt.
+
+`base_addr_lsb`::
+Least-significant bit of the base address of the BMC.
+
+`__reserved_2`::
+Reserved bit, set to 0.
+
+`register_spacing`::
+Distance between the interface registers, as a code of
+`dmi_ipmi_register_spacing`(3).
+
+== See also
+
+`dmi_ipmi_device`(3), `dmi_ipmi_register_spacing`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

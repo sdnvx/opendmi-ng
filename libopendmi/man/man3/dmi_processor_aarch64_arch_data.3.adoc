@@ -1,0 +1,158 @@
+ifdef::backend-manpage[]
+= dmi_processor_aarch64_arch_data(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_aarch64_arch_data
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_aarch64_arch_data - AArch64 architecture data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+struct dmi_processor_aarch64_arch_data {
+    dmi_word_t version;
+    dmi_byte_t length;
+    dmi_byte_t __reserved;
+    dmi_dword_t __reserved2;
+    dmi_qword_t id_aa64afr0_el1;
+    dmi_qword_t id_aa64afr1_el1;
+    dmi_qword_t id_aa64dfr0_el1;
+    dmi_qword_t id_aa64dfr1_el1;
+    dmi_qword_t id_aa64dfr2_el1;
+    dmi_qword_t id_aa64fpfr0_el1;
+    dmi_qword_t id_aa64isar0_el1;
+    dmi_qword_t id_aa64isar1_el1;
+    dmi_qword_t id_aa64isar2_el1;
+    dmi_qword_t id_aa64isar3_el1;
+    dmi_qword_t id_aa64mmfr0_el1;
+    dmi_qword_t id_aa64mmfr1_el1;
+    dmi_qword_t id_aa64mmfr2_el1;
+    dmi_qword_t id_aa64mmfr3_el1;
+    dmi_qword_t id_aa64mmfr4_el1;
+    dmi_qword_t id_aa64pfr0_el1;
+    dmi_qword_t id_aa64pfr1_el1;
+    dmi_qword_t id_aa64pfr2_el1;
+    dmi_qword_t id_aa64smfr0_el1;
+    dmi_qword_t id_aa64zfr0_el1;
+};
+----
+
+== Description
+
+The `dmi_processor_aarch64_arch_data` structure describes the AArch64
+architecture data, which the 64-bit Arm processor-specific data hold when their
+sub-type is `DMI_PROCESSOR_AARCH64_DATA_SUBTYPE_AARCH64`: the values of the
+identification registers of the processor, which tell the features it
+implements. The bit fields of the registers are defined by the Arm A-profile
+architecture. The structure has no typedef.
+
+The structure is packed: it has no padding, and its fields are laid out as in
+the data, whose multi-byte values are little-endian. The decoder does not use
+it: it may be laid over the `subtype_specific_data` field of
+`dmi_processor_aarch64_data_t` to read the processor-specific data, once its
+architecture and length have been checked.
+
+=== Fields
+
+`version`::
+Version of the format of the data, 1 at present.
+
+`length`::
+Length of the data, in bytes (168 at present).
+
+`__reserved`::
+Reserved, zero.
+
+`__reserved2`::
+Reserved, zero.
+
+`id_aa64afr0_el1`::
+Auxiliary feature register 0.
+
+`id_aa64afr1_el1`::
+Auxiliary feature register 1.
+
+`id_aa64dfr0_el1`::
+Debug feature register 0.
+
+`id_aa64dfr1_el1`::
+Debug feature register 1.
+
+`id_aa64dfr2_el1`::
+Debug feature register 2.
+
+`id_aa64fpfr0_el1`::
+Floating-point feature register 0.
+
+`id_aa64isar0_el1`::
+Instruction set attribute register 0.
+
+`id_aa64isar1_el1`::
+Instruction set attribute register 1.
+
+`id_aa64isar2_el1`::
+Instruction set attribute register 2.
+
+`id_aa64isar3_el1`::
+Instruction set attribute register 3.
+
+`id_aa64mmfr0_el1`::
+Memory model feature register 0. Processors of a system may support different
+physical address ranges; the register then gives the smallest of them.
+
+`id_aa64mmfr1_el1`::
+Memory model feature register 1.
+
+`id_aa64mmfr2_el1`::
+Memory model feature register 2.
+
+`id_aa64mmfr3_el1`::
+Memory model feature register 3.
+
+`id_aa64mmfr4_el1`::
+Memory model feature register 4.
+
+`id_aa64pfr0_el1`::
+Processor feature register 0.
+
+`id_aa64pfr1_el1`::
+Processor feature register 1.
+
+`id_aa64pfr2_el1`::
+Processor feature register 2.
+
+`id_aa64smfr0_el1`::
+SME feature identification register 0.
+
+`id_aa64zfr0_el1`::
+SVE feature identification register 0.
+
+== See also
+
+`dmi_processor_aarch64_data`(3), `dmi_processor_aarch64_data_subtype`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.8 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

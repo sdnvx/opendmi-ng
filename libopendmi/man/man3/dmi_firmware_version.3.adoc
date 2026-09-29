@@ -1,0 +1,78 @@
+ifdef::backend-manpage[]
+= dmi_firmware_version(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_version
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_version - parsed firmware version
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-inventory.h>
+
+typedef struct dmi_firmware_version {
+    dmi_version_format_t format;
+    dmi_firmware_version_number_t number;
+    uint64_t value;
+} dmi_firmware_version_t;
+----
+
+== Description
+
+The `dmi_firmware_version_t` structure holds a firmware version string parsed
+according to the version format of its firmware inventory information
+structure. It is the type of the `parsed_version` and `parsed_lowest_version`
+fields of `dmi_firmware_inventory_t`.
+
+The decoder parses a string only if it conforms to the format the structure
+declares. The string itself stays available in `version` or `lowest_version`
+of `dmi_firmware_inventory_t` in any case.
+
+=== Fields
+
+`format`::
+Format the string has been parsed in, which tells the field holding the
+version: `DMI_VERSION_FORMAT_SEMANTIC` for `number`,
+`DMI_VERSION_FORMAT_HEX_32` and `DMI_VERSION_FORMAT_HEX_64` for `value`.
+`DMI_VERSION_FORMAT_FREE` if the string is absent, is free-form, uses a
+vendor-specific format, or does not conform to the format the structure
+declares; neither field is used then.
+
+`number`::
+Major and minor version numbers, if `format` is `DMI_VERSION_FORMAT_SEMANTIC`,
+see `dmi_firmware_version_number`(3).
+
+`value`::
+Numeric value of the version, if `format` is `DMI_VERSION_FORMAT_HEX_32` or
+`DMI_VERSION_FORMAT_HEX_64`: the string is "0x" followed by at most 8 or 16
+hexadecimal digits.
+
+== See also
+
+`dmi_firmware_inventory`(3),
+`dmi_firmware_version_number`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

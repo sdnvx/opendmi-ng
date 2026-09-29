@@ -1,0 +1,85 @@
+ifdef::backend-manpage[]
+= dmi_memory_module_speed(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_module_speed
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_module_speed - memory module speeds
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-controller.h>
+
+typedef union dmi_memory_module_speed {
+    dmi_word_t __value;
+    struct {
+        dmi_word_t is_other   : 1;
+        dmi_word_t is_unknown : 1;
+        dmi_word_t is_70ns    : 1;
+        dmi_word_t is_60ns    : 1;
+        dmi_word_t is_50ns    : 1;
+        dmi_word_t __reserved : 11;
+    };
+} dmi_memory_module_speed_t;
+----
+
+== Description
+
+The `dmi_memory_module_speed_t` union holds the speeds of the memory modules a
+memory controller supports as a set of flags, a speed being the access time of
+the module. It is the type of the `supported_speeds` field of
+`dmi_memory_controller_t`. A bit is set when the controller supports the speed.
+
+=== Fields
+
+`__value`::
+Raw value of the word, `is_other` being bit 0.
+
+`is_other`::
+Other speed.
+
+`is_unknown`::
+The speeds are unknown.
+
+`is_70ns`::
+70 ns.
+
+`is_60ns`::
+60 ns.
+
+`is_50ns`::
+50 ns.
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_memory_controller`(3),
+`dmi_memory_module_type`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer. The memory
+controller information structure is obsolete since version 2.1.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

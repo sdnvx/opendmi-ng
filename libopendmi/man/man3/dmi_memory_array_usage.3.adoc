@@ -1,0 +1,101 @@
+ifdef::backend-manpage[]
+= dmi_memory_array_usage(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_array_usage
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_array_usage, dmi_memory_array_usage_name - memory array uses
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-array.h>
+
+typedef enum dmi_memory_array_usage {
+    DMI_MEMORY_ARRAY_USAGE_UNSPEC  = 0x00,
+    DMI_MEMORY_ARRAY_USAGE_OTHER   = 0x01,
+    DMI_MEMORY_ARRAY_USAGE_UNKNOWN = 0x02,
+    DMI_MEMORY_ARRAY_USAGE_SYSTEM  = 0x03,
+    DMI_MEMORY_ARRAY_USAGE_VIDEO   = 0x04,
+    DMI_MEMORY_ARRAY_USAGE_FLASH   = 0x05,
+    DMI_MEMORY_ARRAY_USAGE_NVRAM   = 0x06,
+    DMI_MEMORY_ARRAY_USAGE_CACHE   = 0x07,
+} dmi_memory_array_usage_t;
+
+const char *dmi_memory_array_usage_name(dmi_memory_array_usage_t value);
+----
+
+== Description
+
+The `dmi_memory_array_usage_t` enumeration tells what a physical memory array
+is used for, and is the type of the `usage` field of `dmi_memory_array_t`.
+
+The `dmi_memory_array_usage_name` function returns the name of a value, as the
+command line tool shows it. The name is translated to the locale set with
+`dmi_set_locale` if the library is built with ICU4C support and the locale has
+a translation of it, and is in English otherwise.
+
+=== Values
+
+`DMI_MEMORY_ARRAY_USAGE_UNSPEC`::
+Unspecified. The specification defines no use of zero.
+
+`DMI_MEMORY_ARRAY_USAGE_OTHER`::
+Other use, which none of the values below names.
+
+`DMI_MEMORY_ARRAY_USAGE_UNKNOWN`::
+Unknown.
+
+`DMI_MEMORY_ARRAY_USAGE_SYSTEM`::
+System memory.
+
+`DMI_MEMORY_ARRAY_USAGE_VIDEO`::
+Video memory.
+
+`DMI_MEMORY_ARRAY_USAGE_FLASH`::
+Flash memory.
+
+`DMI_MEMORY_ARRAY_USAGE_NVRAM`::
+Non-volatile RAM.
+
+`DMI_MEMORY_ARRAY_USAGE_CACHE`::
+Cache memory.
+
+== Return value
+
+`dmi_memory_array_usage_name` returns the name of the value, or `nullptr` if
+the value has no name, e.g. a value the specification reserves. The string
+belongs to the library and must not be modified or freed; a translated name may
+become invalid once the locale is changed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_memory_array`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

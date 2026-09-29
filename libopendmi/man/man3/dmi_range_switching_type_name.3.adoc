@@ -1,0 +1,1 @@
+dmi_range_switching_type.3.adoc

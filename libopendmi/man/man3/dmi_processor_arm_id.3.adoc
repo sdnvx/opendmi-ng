@@ -1,0 +1,77 @@
+ifdef::backend-manpage[]
+= dmi_processor_arm_id(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_arm_id
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_arm_id - main ID register of Arm processors
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef struct dmi_processor_arm_id {
+    uint8_t  implementer;
+    uint8_t  variant;
+    uint8_t  architecture;
+    uint16_t part_number;
+    uint8_t  revision;
+} dmi_processor_arm_id_t;
+----
+
+== Description
+
+The `dmi_processor_arm_id_t` structure holds the processor identifier of an
+Arm processor, decoded from the processor information structure (type 4) of
+SMBIOS: the Main ID Register (MIDR, or MIDR_EL1 on 64-bit processors).
+
+It is the `arm_id` field of `dmi_processor_t`, set when the `id_format` field
+of it is `DMI_PROCESSOR_ID_FORMAT_MIDR`: for 32-bit Arm processors, and for
+64-bit ones which do not report a SoC identifier.
+
+=== Fields
+
+`implementer`::
+Implementer code, bits 24 to 31 of the register, for example 0x41 for
+Arm.
+
+`variant`::
+Variant number, the major revision of the processor, bits 20 to 23.
+
+`architecture`::
+Architecture code, bits 16 to 19.
+
+`part_number`::
+Primary part number, bits 4 to 15.
+
+`revision`::
+Revision number, the minor revision of the processor, bits 0 to 3.
+
+== See also
+
+`dmi_processor`(3), `dmi_processor_id_format`(3), `dmi_processor_soc_id`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

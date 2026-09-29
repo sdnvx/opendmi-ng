@@ -1,0 +1,61 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_nhi_characteristic(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_nhi_characteristic
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_nhi_characteristic - network host interface device characteristics
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef enum dmi_mgmt_nhi_characteristic {
+    DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING = 0
+} dmi_mgmt_nhi_characteristic_t;
+----
+
+== Description
+
+The `dmi_mgmt_nhi_characteristic_t` enumeration numbers the bits of the
+`characteristics` field of `dmi_mgmt_nhi_usb_v2_t` and `dmi_mgmt_nhi_pci_v2_t`,
+which tell the characteristics of the device through which the host reaches the
+management controller. The bits the enumeration does not name are reserved.
+
+A characteristic is present if the bit it numbers is set, e.g.
+`(characteristics & (1u << DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING)) != 0`.
+
+=== Values
+
+`DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING`::
+Credential bootstrapping via IPMI commands is supported; the
+`credential_handle` field of the descriptor names the interface to use for it.
+
+== See also
+
+`dmi_mgmt_nhi_usb_v2`(3), `dmi_mgmt_nhi_pci_v2`(3)
+
+== Standards
+
+DMTF Redfish Host Interface Specification (DSP0270), version 1.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

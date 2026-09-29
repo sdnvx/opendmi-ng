@@ -1,0 +1,153 @@
+ifdef::backend-manpage[]
+= dmi_memory_controller(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_controller
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_controller - memory controller information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-controller.h>
+
+typedef struct dmi_memory_controller {
+    dmi_error_detect_method_t error_detection;
+    dmi_error_correct_caps_t error_correction;
+    dmi_memory_interleave_t supported_interleave;
+    dmi_memory_interleave_t current_interleave;
+    uint64_t maximum_module_size;
+    uint64_t maximum_memory_size;
+    dmi_memory_module_speed_t supported_speeds;
+    dmi_memory_module_type_t supported_types;
+    dmi_memory_module_voltage_t required_voltages;
+    size_t slot_count;
+    dmi_handle_t *module_handles;
+    dmi_entity_t **modules;
+    dmi_error_correct_caps_t enabled_error_correction;
+} dmi_memory_controller_t;
+----
+
+== Description
+
+The `dmi_memory_controller_t` structure holds the decoded memory controller
+information structure (type 5) of SMBIOS: how a memory controller detects and
+corrects errors, how it interleaves memory, which memory modules it takes, and
+the memory module information structures (type 6) of its sockets.
+
+The structure is obsolete since SMBIOS 2.1, which describes memory with the
+physical memory array (type 16) and memory device (type 17) structures instead.
+Firmware may still provide both, for the sake of older software.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MEMORY_CONTROLLER)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`error_detection`::
+Error detecting method of the controller, see `dmi_error_detect_method`(3).
+
+`error_correction`::
+Error correcting capabilities of the controller, see
+`dmi_error_correct_caps`(3).
+
+`supported_interleave`::
+Interleave mode the controller supports, see `dmi_memory_interleave`(3).
+
+`current_interleave`::
+Interleave mode in use, see `dmi_memory_interleave`(3).
+
+`maximum_module_size`::
+Size of the largest memory module a socket takes, in bytes. The structure
+stores it as a power of two of mebibytes; a power too large for 64 bits gives
+`DMI_SIZE_MAX`, which the output shows as unknown.
+
+`maximum_memory_size`::
+Largest amount of memory the controller supports, in bytes:
+`maximum_module_size` times `slot_count`, or `DMI_SIZE_MAX` if the module size
+is unknown or the product is too large for 64 bits. The library computes it;
+the structure does not store it.
+
+`supported_speeds`::
+Speeds of the memory modules the controller supports, see
+`dmi_memory_module_speed`(3).
+
+`supported_types`::
+Types of the memory modules the controller supports, see
+`dmi_memory_module_type`(3).
+
+`required_voltages`::
+Voltages the sockets of the controller require, see
+`dmi_memory_module_voltage`(3).
+
+`slot_count`::
+Number of elements of `module_handles` and `modules`: the handles the structure
+holds in full, which may be fewer than it declares when it is truncated.
+
+`module_handles`::
+Handles of the memory module information structures (type 6) of the sockets the
+controller drives; `nullptr` if the structure declares none.
+
+`modules`::
+Memory module information entities the handles of `module_handles` refer to,
+element by element, see `dmi_memory_module`(3). An element is `nullptr` if its
+handle refers to no memory module information structure, and the array is
+`nullptr` if `slot_count` is 0. Linking also sets the `controller` field of
+each of these modules to this entity.
+
+`enabled_error_correction`::
+Error correcting capabilities enabled when the structure was built, see
+`dmi_error_correct_caps`(3). Present since SMBIOS 2.1; zero in older data.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t          *registry = dmi_get_registry(context);
+dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
+                                        DMI_TYPE(MEMORY_CONTROLLER), true);
+dmi_memory_controller_t *ctrl     = dmi_entity_info(entity,
+                                        DMI_TYPE(MEMORY_CONTROLLER));
+
+if (ctrl != nullptr)
+    printf("%zu sockets, up to %llu MiB each, %s\n", ctrl->slot_count,
+           (unsigned long long)(ctrl->maximum_module_size >> 20),
+           dmi_memory_interleave_name(ctrl->current_interleave));
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_error_detect_method`(3),
+`dmi_error_correct_caps`(3),
+`dmi_memory_interleave`(3),
+`dmi_memory_module_speed`(3),
+`dmi_memory_module_type`(3),
+`dmi_memory_module_voltage`(3),
+`dmi_memory_module`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer. The memory
+controller information structure is obsolete since version 2.1.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,223 @@
+ifdef::backend-manpage[]
+= dmi_memory_device_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_device_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_device_type, dmi_memory_device_type_name - memory device types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-device.h>
+
+typedef enum dmi_memory_device_type {
+    DMI_MEMORY_DEVICE_TYPE_UNSPEC             = 0x00,
+    DMI_MEMORY_DEVICE_TYPE_OTHER              = 0x01,
+    DMI_MEMORY_DEVICE_TYPE_UNKNOWN            = 0x02,
+    DMI_MEMORY_DEVICE_TYPE_DRAM               = 0x03,
+    DMI_MEMORY_DEVICE_TYPE_EDRAM              = 0x04,
+    DMI_MEMORY_DEVICE_TYPE_VRAM               = 0x05,
+    DMI_MEMORY_DEVICE_TYPE_SRAM               = 0x06,
+    DMI_MEMORY_DEVICE_TYPE_RAM                = 0x07,
+    DMI_MEMORY_DEVICE_TYPE_ROM                = 0x08,
+    DMI_MEMORY_DEVICE_TYPE_FLASH              = 0x09,
+    DMI_MEMORY_DEVICE_TYPE_EEPROM             = 0x0A,
+    DMI_MEMORY_DEVICE_TYPE_FEPROM             = 0x0B,
+    DMI_MEMORY_DEVICE_TYPE_EPROM              = 0x0C,
+    DMI_MEMORY_DEVICE_TYPE_CDRAM              = 0x0D,
+    DMI_MEMORY_DEVICE_TYPE_3DRAM              = 0x0E,
+    DMI_MEMORY_DEVICE_TYPE_SDRAM              = 0x0F,
+    DMI_MEMORY_DEVICE_TYPE_SGRAM              = 0x10,
+    DMI_MEMORY_DEVICE_TYPE_RDRAM              = 0x11,
+    DMI_MEMORY_DEVICE_TYPE_DDR                = 0x12,
+    DMI_MEMORY_DEVICE_TYPE_DDR2               = 0x13,
+    DMI_MEMORY_DEVICE_TYPE_DDR2_FBDIMM        = 0x14,
+    __DMI_MEMORY_DEVICE_TYPE_UNASSIGNED_START = 0x15,
+    __DMI_MEMORY_DEVICE_TYPE_UNASSIGNED_END   = 0x17,
+    DMI_MEMORY_DEVICE_TYPE_DDR3               = 0x18,
+    DMI_MEMORY_DEVICE_TYPE_FBD2               = 0x19,
+    DMI_MEMORY_DEVICE_TYPE_DDR4               = 0x1A,
+    DMI_MEMORY_DEVICE_TYPE_LPDDR              = 0x1B,
+    DMI_MEMORY_DEVICE_TYPE_LPDDR2             = 0x1C,
+    DMI_MEMORY_DEVICE_TYPE_LPDDR3             = 0x1D,
+    DMI_MEMORY_DEVICE_TYPE_LPDDR4             = 0x1E,
+    DMI_MEMORY_DEVICE_TYPE_LOGICAL_NV         = 0x1F,
+    DMI_MEMORY_DEVICE_TYPE_HBM                = 0x20,
+    DMI_MEMORY_DEVICE_TYPE_HBM2               = 0x21,
+    DMI_MEMORY_DEVICE_TYPE_DDR5               = 0x22,
+    DMI_MEMORY_DEVICE_TYPE_LPDDR5             = 0x23,
+    DMI_MEMORY_DEVICE_TYPE_HBM3               = 0x24,
+    DMI_MEMORY_DEVICE_TYPE_MRDIMM             = 0x25
+} dmi_memory_device_type_t;
+
+const char *dmi_memory_device_type_name(dmi_memory_device_type_t value);
+----
+
+== Description
+
+The `dmi_memory_device_type_t` enumeration tells the type of memory a memory
+device is made of, and is the type of the `memory_type` field of
+`dmi_memory_device_t`. The values 0x15 to 0x17 are reserved; the hidden
+enumerators `__DMI_MEMORY_DEVICE_TYPE_UNASSIGNED_START` and
+`__DMI_MEMORY_DEVICE_TYPE_UNASSIGNED_END` bound them.
+
+The `dmi_memory_device_type_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_MEMORY_DEVICE_TYPE_UNSPEC`::
+Unspecified.
+
+`DMI_MEMORY_DEVICE_TYPE_OTHER`::
+Other.
+
+`DMI_MEMORY_DEVICE_TYPE_UNKNOWN`::
+Unknown.
+
+`DMI_MEMORY_DEVICE_TYPE_DRAM`::
+DRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_EDRAM`::
+EDRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_VRAM`::
+VRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_SRAM`::
+SRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_RAM`::
+RAM.
+
+`DMI_MEMORY_DEVICE_TYPE_ROM`::
+ROM.
+
+`DMI_MEMORY_DEVICE_TYPE_FLASH`::
+Flash.
+
+`DMI_MEMORY_DEVICE_TYPE_EEPROM`::
+EEPROM.
+
+`DMI_MEMORY_DEVICE_TYPE_FEPROM`::
+FEPROM.
+
+`DMI_MEMORY_DEVICE_TYPE_EPROM`::
+EPROM.
+
+`DMI_MEMORY_DEVICE_TYPE_CDRAM`::
+CDRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_3DRAM`::
+3DRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_SDRAM`::
+SDRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_SGRAM`::
+SGRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_RDRAM`::
+RDRAM.
+
+`DMI_MEMORY_DEVICE_TYPE_DDR`::
+DDR.
+
+`DMI_MEMORY_DEVICE_TYPE_DDR2`::
+DDR2.
+
+`DMI_MEMORY_DEVICE_TYPE_DDR2_FBDIMM`::
+DDR2 FB-DIMM.
+
+`__DMI_MEMORY_DEVICE_TYPE_UNASSIGNED_START`::
+First reserved value.
+
+`__DMI_MEMORY_DEVICE_TYPE_UNASSIGNED_END`::
+Last reserved value.
+
+`DMI_MEMORY_DEVICE_TYPE_DDR3`::
+DDR3.
+
+`DMI_MEMORY_DEVICE_TYPE_FBD2`::
+FBD2.
+
+`DMI_MEMORY_DEVICE_TYPE_DDR4`::
+DDR4.
+
+`DMI_MEMORY_DEVICE_TYPE_LPDDR`::
+LPDDR.
+
+`DMI_MEMORY_DEVICE_TYPE_LPDDR2`::
+LPDDR2.
+
+`DMI_MEMORY_DEVICE_TYPE_LPDDR3`::
+LPDDR3.
+
+`DMI_MEMORY_DEVICE_TYPE_LPDDR4`::
+LPDDR4.
+
+`DMI_MEMORY_DEVICE_TYPE_LOGICAL_NV`::
+Logical non-volatile device, which is not installed physically but
+made of the capacity of volatile devices. Its size is given by the
+`logical_size` and `non_volatile_size` fields of
+`dmi_memory_device_t`.
+
+`DMI_MEMORY_DEVICE_TYPE_HBM`::
+HBM (High Bandwidth Memory).
+
+`DMI_MEMORY_DEVICE_TYPE_HBM2`::
+HBM2 (High Bandwidth Memory Generation 2).
+
+`DMI_MEMORY_DEVICE_TYPE_DDR5`::
+DDR5.
+
+`DMI_MEMORY_DEVICE_TYPE_LPDDR5`::
+LPDDR5.
+
+`DMI_MEMORY_DEVICE_TYPE_HBM3`::
+HBM3 (High Bandwidth Memory Generation 3).
+
+`DMI_MEMORY_DEVICE_TYPE_MRDIMM`::
+MRDIMM (multiplexed rank DIMM).
+
+== Return value
+
+`dmi_memory_device_type_name` returns the name of the value, or `nullptr` if
+the value has no name. The name is translated to the current locale when the
+library is built with localization support and has a translation for it, and
+is in English otherwise. The string is owned by the library and must not be
+modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_memory_device`(3), `dmi_memory_device_type_detail`(3),
+`dmi_memory_device_tech`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

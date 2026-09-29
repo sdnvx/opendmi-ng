@@ -1,0 +1,1 @@
+dmi_status.3.adoc

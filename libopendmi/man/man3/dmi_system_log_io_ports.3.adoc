@@ -1,0 +1,69 @@
+ifdef::backend-manpage[]
+= dmi_system_log_io_ports(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_system_log_io_ports
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_system_log_io_ports - I/O ports of the system event log
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-event-log.h>
+
+typedef struct dmi_system_log_io_ports {
+    uint16_t index_port;
+    uint16_t data_port;
+} dmi_system_log_io_ports_t;
+----
+
+== Description
+
+The `dmi_system_log_io_ports_t` structure holds the I/O port addresses used
+to reach the system event log with one of the indexed I/O access methods,
+and is the type of the `access_ports` field of `dmi_system_event_log_t`.
+Software writes the offset of a byte of the log area to the index port, then
+reads or writes that byte through the data port.
+
+The decoder fills the structure from the access method address whatever the
+access method is; it is only meaningful when the `access_method` field of
+the event log is one of the `DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_*`
+values.
+
+=== Fields
+
+`index_port`::
+I/O address of the index port, the low word of the access method address.
+With two 8-bit index ports, this is the port of the low byte of the offset,
+and the port of the high byte follows it.
+
+`data_port`::
+I/O address of the data port, the high word of the access method address.
+
+== See also
+
+`dmi_system_event_log`(3), `dmi_system_log_access_method`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

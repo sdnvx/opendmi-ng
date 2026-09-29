@@ -1,0 +1,92 @@
+ifdef::backend-manpage[]
+= dmi_processor_aarch64_data(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_aarch64_data
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_aarch64_data - 64-bit Arm processor-specific data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef struct dmi_processor_aarch64_data {
+    dmi_processor_revision_t revision;
+    dmi_byte_t length;
+    dmi_byte_t __reserved;
+    dmi_word_t vendor_id;
+    dmi_byte_t subtype;
+    dmi_byte_t __reserved2;
+    dmi_byte_t subtype_specific_data[];
+} dmi_processor_aarch64_data_t;
+----
+
+== Description
+
+The `dmi_processor_aarch64_data_t` structure describes the processor-specific
+data of the processor additional information structures (type 44) of 64-bit Arm
+(AArch64) processors: a header naming the vendor of the processor and the
+sub-type of the data, followed by the data of the sub-type. A system has at
+most one structure of each sub-type.
+
+The structure is packed: it has no padding, and its fields are laid out as in
+the data, whose multi-byte values are little-endian. The decoder does not use
+it: it may be laid over the `data` field of `dmi_processor_ex_t` to read the
+processor-specific data, once its architecture and length have been checked.
+
+=== Fields
+
+`revision`::
+Revision of the format of the data, 1.0 at present.
+
+`length`::
+Length of the processor-specific data, in bytes: the 8 bytes of the header and
+the length of the sub-type specific data.
+
+`__reserved`::
+Reserved, zero.
+
+`vendor_id`::
+JEP-106 code of the vendor of the processor or of the silicon provider: the
+bank index in bits 14:8, and the identification code with its parity bit in
+bits 7:0. Bit 15 is zero.
+
+`subtype`::
+Sub-type of the data, one of the `dmi_processor_aarch64_data_subtype_t` values.
+
+`__reserved2`::
+Reserved, zero.
+
+`subtype_specific_data`::
+Data of the sub-type: AArch64 architecture data
+(`dmi_processor_aarch64_arch_data`(3)), or data defined by the vendor.
+
+== See also
+
+`dmi_processor_ex`(3), `dmi_processor_revision`(3),
+`dmi_processor_aarch64_data_subtype`(3), `dmi_processor_aarch64_arch_data`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.8 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

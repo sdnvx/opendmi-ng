@@ -1,0 +1,67 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_fpga_hssi_config(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_fpga_hssi_config
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_fpga_hssi_config - Intel RSD FPGA high-speed serial interface
+configurations
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-fpga.h>
+
+typedef enum dmi_intel_rsd_fpga_hssi_config {
+    DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING  = 0x00,
+    DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE        = 0x01,
+    DMI_INTEL_RSD_FPGA_HSSI_CONFIG_UNAVAILABLE = 0xFF,
+} dmi_intel_rsd_fpga_hssi_config_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_fpga_hssi_config_t` enumeration tells what the high-speed
+serial interfaces (HSSI) of an FPGA are configured for, and is the type of the
+`hssi_config` field of `dmi_intel_rsd_fpga_t`. The `hssi_port_count` and
+`hssi_port_speed` fields of the structure are read according to it.
+
+=== Values
+
+`DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING`::
+Networking ports.
+
+`DMI_INTEL_RSD_FPGA_HSSI_CONFIG_PCIE`::
+PCIe links.
+
+`DMI_INTEL_RSD_FPGA_HSSI_CONFIG_UNAVAILABLE`::
+The firmware does not report the configuration.
+
+== See also
+
+`dmi_intel_rsd_fpga`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,121 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_controller(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_controller
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_controller - management controller host interface structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef struct dmi_mgmt_controller {
+    dmi_mgmt_if_type_t if_type;
+    dmi_binary_t if_data;
+    bool has_nhi;
+    dmi_mgmt_nhi_t nhi;
+    size_t proto_records_count;
+    dmi_mgmt_proto_record_t *proto_records;
+} dmi_mgmt_controller_t;
+----
+
+== Description
+
+The `dmi_mgmt_controller_t` structure holds the decoded management controller
+host interface structure (type 42) of SMBIOS: an interface the host cannot
+discover by itself, through which it talks to a management controller such as a
+BMC, and the protocols running over that interface.
+
+A table has one such structure per interface. An interface carrying IPMI alone
+may be described by the IPMI device information structure (type 38) instead, or
+by both of them, see `dmi_ipmi_device`(3).
+
+The layout of the structure has been changed in SMBIOS 3.2, which added the
+length of the interface data. Structures whose interface data does not fit the
+length they declare, such as the ones written to the older layout, are decoded
+up to the interface type only.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MGMT_CONTROLLER_HOST_IF)`, and lives as long as the context it has
+been decoded in.
+
+=== Fields
+
+`if_type`::
+Type of the interface: one of the MCTP host interface types, the network host
+interface, or an OEM-defined one. See `dmi_mgmt_if_type`(3).
+
+`if_data`::
+Data of the interface, as the structure carries it; its layout depends on
+`if_type`. Empty if the structure has none, or if it cannot hold the length it
+declares.
+
+`has_nhi`::
+`true` if the interface is a network host interface
+(`DMI_MGMT_IF_TYPE_NETWORK_HOST_IF`) and its data is not empty, in which case
+`nhi` holds the data decoded.
+
+`nhi`::
+Data of the interface, decoded as network host interface data, see
+`dmi_mgmt_nhi`(3). Zeroed unless `has_nhi` is set.
+
+`proto_records_count`::
+Number of the elements of `proto_records`, which is the number of the protocol
+records the structure holds in full. Smaller than the number the structure
+declares if the structure ends in the middle of a record. Present since SMBIOS
+3.2; zero for the older structures.
+
+`proto_records`::
+Protocol records of the interface, one per protocol running over it, see
+`dmi_mgmt_proto_record`(3). `nullptr` if the structure declares none. Present
+since SMBIOS 3.2.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t        *registry = dmi_get_registry(context);
+dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
+                                      DMI_TYPE(MGMT_CONTROLLER_HOST_IF),
+                                      false);
+dmi_mgmt_controller_t *mc       = dmi_entity_info(entity,
+                                      DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+
+for (size_t i = 0; (mc != nullptr) && (i < mc->proto_records_count); i++) {
+    const dmi_mgmt_proto_record_t *record = &mc->proto_records[i];
+
+    if (record->has_redfish && (record->redfish.service_hostname != nullptr))
+        printf("Redfish service: %s\n", record->redfish.service_hostname);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_mgmt_if_type`(3), `dmi_mgmt_nhi`(3),
+`dmi_mgmt_proto_record`(3), `dmi_ipmi_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.7 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,64 @@
+ifdef::backend-manpage[]
+= dmi_onboard_device_instance(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_onboard_device_instance
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_onboard_device_instance - onboard device
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/onboard-device.h>
+
+typedef struct dmi_onboard_device_instance {
+    dmi_onboard_device_type_t  type;
+    bool                       is_enabled;
+    const char                *description;
+} dmi_onboard_device_instance_t;
+----
+
+== Description
+
+The `dmi_onboard_device_instance_t` structure describes one of the devices of
+the onboard devices information structure (type 10) of SMBIOS. The
+`instances` field of `dmi_onboard_device_t` is an array of them.
+
+=== Fields
+
+`type`::
+Kind of the device, see `dmi_onboard_device_type`(3).
+
+`is_enabled`::
+`true` if the device is enabled.
+
+`description`::
+Description of the device, or `nullptr`.
+
+== See also
+
+`dmi_onboard_device`(3), `dmi_onboard_device_type`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

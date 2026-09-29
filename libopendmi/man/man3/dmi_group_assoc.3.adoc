@@ -1,0 +1,90 @@
+ifdef::backend-manpage[]
+= dmi_group_assoc(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_group_assoc
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_group_assoc - group associations structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/group-assoc.h>
+
+typedef struct dmi_group_assoc {
+    const char             *group_name;
+    size_t                  item_count;
+    dmi_group_assoc_item_t *items;
+} dmi_group_assoc_t;
+----
+
+== Description
+
+The `dmi_group_assoc_t` structure holds the decoded group associations
+structure (type 14) of SMBIOS: it gathers other structures, possibly other
+groups, under a name, to show how components of the system are arranged.
+For example, a group may hold two processors and the cache they share.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(GROUP_ASSOC)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`group_name`::
+Name of the group, `nullptr` if the structure has none.
+
+`item_count`::
+Number of elements of `items`. The structure does not store it: it is the
+number of items which fit into the length of the structure.
+
+`items`::
+Array of the members of the group, see `dmi_group_assoc_item`(3); `nullptr`
+if there are none.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t    *registry = dmi_get_registry(context);
+dmi_entity_t      *entity   = dmi_registry_lookup_first(registry,
+                                  DMI_TYPE(GROUP_ASSOC), false);
+dmi_group_assoc_t *group    = dmi_entity_info(entity, DMI_TYPE(GROUP_ASSOC));
+
+if (group != nullptr) {
+    printf("%s:\n",
+           group->group_name != nullptr ? group->group_name : "Unnamed");
+
+    for (size_t i = 0; i < group->item_count; i++)
+        printf("Type %d, handle 0x%04x\n", (int)group->items[i].type,
+               (unsigned)group->items[i].handle);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_group_assoc_item`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

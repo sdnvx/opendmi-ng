@@ -1,0 +1,103 @@
+ifdef::backend-manpage[]
+= dmi_dell_serial_port(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_serial_port
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_serial_port - Dell serial port structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/serial-port.h>
+
+typedef struct dmi_dell_serial_port {
+    uint16_t base_addr;
+    uint8_t irq_number;
+    dmi_dell_serial_port_connector_type_t connector;
+    dmi_dell_serial_port_caps_t capabilities;
+    uint32_t maximum_speed;
+    dmi_dell_port_security_t security;
+} dmi_dell_serial_port_t;
+----
+
+== Description
+
+The `dmi_dell_serial_port_t` structure holds the decoded Dell serial port
+structure (type 210): the resources, the connector and the capabilities of a
+serial port, the highest speed the BIOS supports on it, and the security
+setting applied to it.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(DELL_SERIAL_PORT)`, declared in `<opendmi/module/dell.h>`, and lives
+as long as the context it has been decoded in.
+
+=== Fields
+
+`base_addr`::
+Base I/O address of the port.
+
+`irq_number`::
+IRQ the port uses.
+
+`connector`::
+Connector of the port.
+
+`capabilities`::
+Serial controller the port is compatible with.
+
+`maximum_speed`::
+Highest speed the BIOS supports on the port, in bits per second. The structure
+carries it in hundreds of bits per second.
+
+`security`::
+Security setting applied to the port.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t         *registry = dmi_get_registry(context);
+dmi_entity_t           *entity   = dmi_registry_lookup_first(registry,
+                                       DMI_TYPE(DELL_SERIAL_PORT), true);
+dmi_dell_serial_port_t *port     = dmi_entity_info(entity,
+                                       DMI_TYPE(DELL_SERIAL_PORT));
+
+if (port != nullptr) {
+    const char *caps = dmi_dell_serial_port_caps_name(port->capabilities);
+
+    printf("Serial port at 0x%04x: %s, up to %u bit/s\n", port->base_addr,
+           caps != nullptr ? caps : "?", (unsigned)port->maximum_speed);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_dell_serial_port_connector_type`(3),
+`dmi_dell_serial_port_caps`(3), `dmi_dell_port_security`(3),
+`dmi_dell_parallel_port`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Serial Port (Type 210) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

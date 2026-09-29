@@ -1,0 +1,93 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_device - management device structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-device.h>
+
+typedef struct dmi_mgmt_device {
+    const char *description;
+    dmi_mgmt_device_type_t type;
+    uint32_t addr;
+    dmi_mgmt_device_addr_type_t addr_type;
+} dmi_mgmt_device_t;
+----
+
+== Description
+
+The `dmi_mgmt_device_t` structure holds the decoded management device structure
+(type 34) of SMBIOS: a hardware device, typically a sensor chip, which reads
+probes or controls cooling devices, and how it is addressed. Management device
+component structures (`dmi_mgmt_device_component_t`) tie the probes and cooling
+devices to the management device.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MGMT_DEVICE)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`description`::
+Additional description of the device or of its location, or `nullptr` if there
+is none.
+
+`type`::
+Type of the device.
+
+`addr`::
+Address of the device, to be read according to `addr_type`.
+
+`addr_type`::
+Type of the address the device is accessed at.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t    *registry = dmi_get_registry(context);
+dmi_entity_t      *entity   =
+        dmi_registry_lookup_first(registry, DMI_TYPE(MGMT_DEVICE), true);
+dmi_mgmt_device_t *device   =
+        dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE));
+
+if (device != nullptr)
+    printf("%s at %s 0x%08" PRIx32 "\n",
+           dmi_mgmt_device_type_name(device->type),
+           dmi_mgmt_device_addr_type_name(device->addr_type),
+           device->addr);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_mgmt_device_type`(3),
+`dmi_mgmt_device_addr_type`(3), `dmi_mgmt_device_component`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

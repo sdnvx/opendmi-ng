@@ -1,0 +1,73 @@
+ifdef::backend-manpage[]
+= dmi_dell_check_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_check_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_check_type - Dell CMOS checksum types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/common.h>
+
+typedef enum dmi_dell_check_type {
+    DMI_DELL_CHECK_TYPE_WORD_CHECKSUM   = 0x00,
+    DMI_DELL_CHECK_TYPE_BYTE_CHECKSUM   = 0x01,
+    DMI_DELL_CHECK_TYPE_WORD_CRC        = 0x02,
+    DMI_DELL_CHECK_TYPE_WORD_CHECKSUM_N = 0x03,
+} dmi_dell_check_type_t;
+----
+
+== Description
+
+The `dmi_dell_check_type_t` enumeration tells how the checksum of a range of
+CMOS locations is computed. It is the type of the `check_type` field of
+`dmi_dell_indexed_io_t`, `dmi_dell_protected_area_1_t` and
+`dmi_dell_protected_area_2_t`, and of the `range_check_type` field of
+`dmi_dell_protected_area_2_t`.
+
+=== Values
+
+`DMI_DELL_CHECK_TYPE_WORD_CHECKSUM`::
+Running sum of the checked locations, kept in a 16-bit word.
+
+`DMI_DELL_CHECK_TYPE_BYTE_CHECKSUM`::
+Running sum of the checked locations, kept in a byte.
+
+`DMI_DELL_CHECK_TYPE_WORD_CRC`::
+CRC of the checked locations, kept in a 16-bit word.
+
+`DMI_DELL_CHECK_TYPE_WORD_CHECKSUM_N`::
+Running sum of the checked locations, negated (`~sum + 1`), kept in a 16-bit
+word.
+
+== See also
+
+`dmi_dell_indexed_io`(3), `dmi_dell_protected_area_1`(3),
+`dmi_dell_protected_area_2`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Indexed IO (Type 212) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

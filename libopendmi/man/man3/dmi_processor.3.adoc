@@ -1,0 +1,242 @@
+ifdef::backend-manpage[]
+= dmi_processor(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor - processor information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef struct dmi_processor {
+    const char                   *socket_designation;
+    dmi_processor_type_t          type;
+    dmi_processor_family_t        family;
+    const char                   *vendor;
+    dmi_binary_t                  id;
+    dmi_processor_id_format_t     id_format;
+    dmi_processor_x86_id_t        x86_id;
+    dmi_processor_arm_id_t        arm_id;
+    dmi_processor_soc_id_t        soc_id;
+    const char                   *version;
+    uint8_t                       voltage;
+    dmi_processor_voltages_t      supported_voltages;
+    uint16_t                      external_clock;
+    uint16_t                      maximum_speed;
+    uint16_t                      current_speed;
+    bool                          is_populated;
+    dmi_processor_status_t        status;
+    dmi_processor_upgrade_t       upgrade;
+    dmi_handle_t                  l1_cache_handle;
+    dmi_entity_t                 *l1_cache;
+    dmi_handle_t                  l2_cache_handle;
+    dmi_entity_t                 *l2_cache;
+    dmi_handle_t                  l3_cache_handle;
+    dmi_entity_t                 *l3_cache;
+    const char                   *serial_number;
+    const char                   *asset_tag;
+    const char                   *part_number;
+    dmi_processor_features_t      features;
+    uint16_t                      core_count;
+    uint16_t                      core_enabled;
+    uint16_t                      thread_count;
+    uint16_t                      thread_enabled;
+    const char                   *socket_type;
+} dmi_processor_t;
+----
+
+== Description
+
+The `dmi_processor_t` structure holds the decoded processor information
+structure (type 4) of SMBIOS: the attributes of one processor socket or slot,
+and of the processor installed in it. A table has one such structure for
+every socket, populated or not, so that their number gives the largest number
+of processors the system can have. A coprocessor, such as a math processor,
+has a structure of its own.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(PROCESSOR)`, and lives as long as the context it has been decoded in.
+The fields a structure is too short to carry are 0 or `nullptr`, except the
+cache handles, which are `DMI_HANDLE_INVALID`.
+
+=== Fields
+
+`socket_designation`::
+Reference designation of the socket, as labelled on the board, for
+example `J202`, or `nullptr`.
+
+`type`::
+Processor type, see `dmi_processor_type`(3).
+
+`family`::
+Processor family, see `dmi_processor_family`(3). When the one-byte
+family field holds `DMI_PROCESSOR_FAMILY_EXTENDED`, the value is taken
+from the two-byte family field, present since SMBIOS 2.6.
+
+`vendor`::
+Processor manufacturer, or `nullptr`.
+
+`id`::
+Processor identifier, the eight bytes the structure carries, as they
+are stored. Their meaning depends on the architecture of the
+processor.
+
+`id_format`::
+Format the identifier has been decoded in, see
+`dmi_processor_id_format`(3), telling which of `x86_id`, `arm_id` and
+`soc_id` holds it. `DMI_PROCESSOR_ID_FORMAT_RAW` if the architecture
+has not been recognized; the identifier is then only available in
+`id`.
+
+`x86_id`::
+Identifier of an x86 processor, see `dmi_processor_x86_id`(3). Set
+when `id_format` is `DMI_PROCESSOR_ID_FORMAT_X86`.
+
+`arm_id`::
+Main ID Register of an Arm processor, see `dmi_processor_arm_id`(3).
+Set when `id_format` is `DMI_PROCESSOR_ID_FORMAT_MIDR`.
+
+`soc_id`::
+SoC identifier of an Arm64 processor, see `dmi_processor_soc_id`(3).
+Set when `id_format` is `DMI_PROCESSOR_ID_FORMAT_SOC_ID`.
+
+`version`::
+Processor version, the name of the model as the vendor gives it, or
+`nullptr`.
+
+`voltage`::
+Current voltage of the processor, in tenths of volt. 0 if the
+structure gives the supported voltages instead, or no voltage at all.
+The specification deprecates the voltage field since SMBIOS 3.8.
+
+`supported_voltages`::
+Voltages the socket accepts, see `dmi_processor_voltages`(3). Set
+when the structure gives them instead of the current voltage, 0
+otherwise.
+
+`external_clock`::
+External clock frequency, in MHz, 0 if unknown.
+
+`maximum_speed`::
+Highest processor speed the system supports in this socket, in MHz,
+0 if unknown. It tells the capability of the system, not of the
+installed processor.
+
+`current_speed`::
+Speed of the processor at system boot, in MHz, 0 if unknown.
+
+`is_populated`::
+`true` if a processor is installed in the socket.
+
+`status`::
+State of the processor, see `dmi_processor_status`(3).
+
+`upgrade`::
+Upgrade method of the processor, most often the type of the socket,
+see `dmi_processor_upgrade`(3).
+
+`l1_cache_handle`, `l2_cache_handle`, `l3_cache_handle`::
+Handles of the cache information structures (type 7) describing the
+level 1, 2 and 3 caches of the processor, `DMI_HANDLE_INVALID` if the
+processor has no such cache or the table has no structure for it.
+Present since SMBIOS 2.1.
+
+`l1_cache`, `l2_cache`, `l3_cache`::
+Cache entities the handles refer to, set when the table is linked,
+`nullptr` if there is none. Present since SMBIOS 2.1.
+
+`serial_number`::
+Serial number of the processor, or `nullptr`. Present since
+SMBIOS 2.3.
+
+`asset_tag`::
+Asset tag of the processor, or `nullptr`. Present since SMBIOS 2.3.
+
+`part_number`::
+Part number of the processor, or `nullptr`. Present since
+SMBIOS 2.3.
+
+`features`::
+Processor characteristics, see `dmi_processor_features`(3). Present
+since SMBIOS 2.5.
+
+`core_count`::
+Number of cores the firmware has detected in the socket, 0 if
+unknown. It may be less than the processor has, if the hardware
+limits it. Present since SMBIOS 2.5; counts above 255 are taken from
+the two-byte field present since SMBIOS 3.0.
+
+`core_enabled`::
+Number of cores the firmware has enabled for the operating system, 0
+if unknown. Present since SMBIOS 2.5; counts above 255 are taken from
+the two-byte field present since SMBIOS 3.0.
+
+`thread_count`::
+Number of threads the firmware has detected in the socket, for the
+whole processor rather than per core, 0 if unknown. Present since
+SMBIOS 2.5; counts above 255 are taken from the two-byte field
+present since SMBIOS 3.0.
+
+`thread_enabled`::
+Number of threads the firmware has enabled for the operating system,
+0 if unknown. Present since SMBIOS 3.6.
+
+`socket_type`::
+Type of the socket, for example `Socket LGA4710`, or `nullptr`. It
+names the socket in particular when `upgrade` has no value for it.
+Present since SMBIOS 3.8.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t  *registry  = dmi_get_registry(context);
+dmi_entity_t    *entity    = dmi_registry_lookup_first(registry,
+                                                       DMI_TYPE(PROCESSOR),
+                                                       false);
+dmi_processor_t *processor = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+
+if ((processor != nullptr) && processor->is_populated) {
+    const char *family = dmi_processor_family_name(processor->family);
+
+    printf("%s, %u MHz, %u cores\n", family ? family : "Unknown family",
+           (unsigned)processor->current_speed,
+           (unsigned)processor->core_count);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_processor_type`(3), `dmi_processor_family`(3),
+`dmi_processor_upgrade`(3), `dmi_processor_status`(3),
+`dmi_processor_id_format`(3), `dmi_processor_x86_id`(3),
+`dmi_processor_arm_id`(3), `dmi_processor_soc_id`(3),
+`dmi_processor_voltages`(3), `dmi_processor_voltage_data`(3),
+`dmi_processor_features`(3), `dmi_cache`(3), `dmi_processor_ex`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

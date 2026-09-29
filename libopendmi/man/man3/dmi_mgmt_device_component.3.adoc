@@ -1,0 +1,120 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_device_component(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_device_component
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_device_component - management device component structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-device-component.h>
+
+typedef struct dmi_mgmt_device_component {
+    const char *description;
+    dmi_handle_t device_handle;
+    dmi_entity_t *device;
+    dmi_handle_t component_handle;
+    dmi_entity_t *component;
+    dmi_handle_t threshold_handle;
+    dmi_entity_t *threshold;
+} dmi_mgmt_device_component_t;
+----
+
+== Description
+
+The `dmi_mgmt_device_component_t` structure holds the decoded management device
+component structure (type 35) of SMBIOS, which ties a probe or a cooling device
+to the management device controlling it, and optionally to the threshold data
+of the component. There is one structure for each component of a management
+device.
+
+The handles are resolved into the structures they refer to when the table is
+linked. Since the threshold data depend on the component, linking also tells
+the threshold structure the type of the component, which gives the units of its
+values.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MGMT_DEVICE_COMPONENT)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`description`::
+Additional description of the component, or `nullptr` if there is none.
+
+`device_handle`::
+Handle of the management device structure (type 34) containing the component.
+
+`device`::
+Management device structure containing the component, whose information is a
+`dmi_mgmt_device_t`. Set when linking; `nullptr` if the handle refers to no
+management device, which linking reports as an error.
+
+`component_handle`::
+Handle of the structure defining the component: a voltage probe (type 26), a
+cooling device (type 27), a temperature probe (type 28) or an electrical
+current probe (type 29).
+
+`component`::
+Structure defining the component, whose information is a `dmi_probe_t` or a
+`dmi_cooling_device_t`, depending on its type. Set when linking; `nullptr` if
+the handle refers to no such structure, which linking reports as an error.
+
+`threshold_handle`::
+Handle of the management device threshold data structure (type 36) of the
+component, or `DMI_HANDLE_INVALID` if there is none.
+
+`threshold`::
+Management device threshold data structure of the component, whose information
+is a `dmi_mgmt_device_threshold_t`. Set when linking; `nullptr` if the
+component has no thresholds, or if the handle refers to no such structure,
+which linking reports as an error.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   =
+        dmi_registry_lookup_first(registry,
+                                  DMI_TYPE(MGMT_DEVICE_COMPONENT), true);
+
+dmi_mgmt_device_component_t *info =
+        dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE_COMPONENT));
+
+if ((info != nullptr) && (info->component != nullptr))
+    printf("Component 0x%04x of device 0x%04x, type %d\n",
+           info->component_handle, info->device_handle,
+           (int)dmi_entity_type(info->component));
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_mgmt_device`(3), `dmi_mgmt_device_threshold`(3),
+`dmi_probe`(3), `dmi_cooling_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

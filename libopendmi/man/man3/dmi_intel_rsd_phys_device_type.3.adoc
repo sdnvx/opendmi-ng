@@ -1,0 +1,76 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_phys_device_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_phys_device_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_phys_device_type - Intel RSD physical device types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-phys-device-mapping.h>
+
+typedef enum dmi_intel_rsd_phys_device_type {
+    DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID   = 0x00,
+    DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PROCESSOR = 0x01,
+    DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PCIE_SLOT = 0x02,
+    DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY    = 0x03
+} dmi_intel_rsd_phys_device_type_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_phys_device_type_t` enumeration tells the type of the
+devices a physical device mapping structure lists, and so what their location
+numbers mean. It is the type of the `device_type` field of
+`dmi_intel_rsd_phys_device_mapping_t` and of the `type` field of
+`dmi_intel_rsd_phys_device_t`. Values other than the ones listed are undefined
+too; the location data of such devices is kept as stored.
+
+=== Values
+
+`DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID`::
+Undefined or invalid type.
+
+`DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PROCESSOR`::
+Processors, described by processor structures (type 4), located by their
+socket number.
+
+`DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PCIE_SLOT`::
+PCIe slots, described by system slot structures (type 9), located by riser
+and slot numbers.
+
+`DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY`::
+Memory devices, described by memory device structures (type 17), located by
+processor socket and DIMM slot numbers.
+
+== See also
+
+`dmi_intel_rsd_phys_device_mapping`(3), `dmi_intel_rsd_phys_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware, see the Intel RSD Physical Device Mapping Information (Type 200)
+chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

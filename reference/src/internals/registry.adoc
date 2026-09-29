@@ -1,0 +1,148 @@
+= The registry
+:sectnums:
+:sectlinks:
+
+[#internals-registry]
+The registry of a context, `dmi_registry_t`, holds the structures of the table
+as entities, `dmi_entity_t`, in the order the table holds them, and indexes
+them by their handles. `dmi_get_registry`(3) gives it once the context is
+open.
+
+== Entities
+
+An entity is created for every structure the table holds when the table is
+scanned, and knows what the header and the string set of the structure say:
+its type, its handle, its length and its strings. The rest comes later, and
+the state of an entity tells how far it has got:
+
+`DMI_ENTITY_STATE_DECODED`::
+The structure has been decoded, and `dmi_entity_info`(3) gives the decoded
+structure.
+
+`DMI_ENTITY_STATE_LINKED`::
+The references of the structure have been resolved.
+
+`DMI_ENTITY_STATE_PARTIAL`::
+The structure ends where an older version of the specification ends it, and
+carries fewer fields than the decoder knows of.
+
+`DMI_ENTITY_STATE_INCOMPLETE`::
+The structure ends in the middle of the fields of a version, and the fields
+before that point have been decoded.
+
+A structure which cannot be decoded, e.g. because it is shorter than the
+minimum length of its type, stays in the registry undecoded: its header and
+its strings are still there, and `dmi_entity_info` gives `nullptr` for it.
+
+== Looking structures up
+
+`dmi_registry_lookup` finds a structure by its handle, and checks its type,
+unless it is given `DMI_TYPE_ANY`; `dmi_registry_lookup_first` finds the first
+structure of a type. A structure which is not there is an error, raised to the
+queue of the context, unless the lookup is told it is optional:
+
+[source,c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *system   = dmi_registry_lookup_first(registry,
+                                                     DMI_TYPE(SYSTEM), true);
+dmi_entity_t   *entity   = dmi_registry_lookup(registry, 0x0004,
+                                               DMI_TYPE_ANY, true);
+----
+
+Handles 0xFFFE and 0xFFFF stand for no structure, and looking them up gives
+`nullptr` with no error.
+
+The structures are walked in the order of the table by an iterator, which
+yields the ones a filter matches, or all of them for no filter. A filter
+matches the structures of the types and of the handles added to it:
+
+[source,c]
+----
+dmi_filter_t       *filter = dmi_filter_create(context);
+dmi_registry_iter_t iter;
+dmi_entity_t       *entity;
+
+if ((filter != nullptr) &&
+    dmi_filter_add_type(filter, DMI_TYPE(MEMORY_DEVICE)) &&
+    dmi_registry_iter_init(&iter, registry, filter)) {
+    while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+        dmi_memory_device_t *device =
+                dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+
+        if ((device != nullptr) && (device->device_locator != nullptr))
+            printf("%s\n", device->device_locator);
+    }
+}
+
+dmi_filter_destroy(filter);
+----
+
+An iterator is a plain variable, which needs no destroying, and several of
+them may walk the registry at once.
+
+== Linking
+
+Structures refer to each other by handles, e.g. a memory device to the memory
+array it belongs to. Linking the table, which the context does when it is
+created with `DMI_CONTEXT_FLAG_LINK`, resolves the handles into pointers to
+the entities they refer to, so that a program follows the references without
+looking them up:
+
+[source,c]
+----
+dmi_memory_device_t *device = dmi_entity_info(entity,
+                                              DMI_TYPE(MEMORY_DEVICE));
+dmi_entity_t        *array  = device->array;
+----
+
+Most references are resolved by the attributes of the handles, which name the
+member the referenced structure goes into, see
+xref:internals/structures.adoc#internals-structures[Describing a structure],
+and the link handler of the type does the rest. A link handler resolves a
+handle with `dmi_registry_resolve`, which tells a reference which is not set,
+and succeeds for it, from a broken one, which it reports:
+
+[source,c]
+----
+static bool cooling_device_link(dmi_entity_t *entity)
+{
+    dmi_context_t        *context  = dmi_entity_context(entity);
+    dmi_registry_t       *registry = dmi_get_registry(context);
+    dmi_cooling_device_t *info     = dmi_entity_info(entity,
+                                                     DMI_TYPE(COOLING_DEVICE));
+
+    return dmi_registry_resolve(registry, info->probe_handle,
+                                DMI_TYPE(TEMPERATURE_PROBE), &info->probe);
+}
+----
+
+Every reference of the table is resolved, whether the ones before have failed
+or not, so that all the broken references are reported at once, and a
+structure with a broken reference is left unlinked. In the relaxed mode the
+rest of the table is linked all the same, and in the strict mode the opening
+of the context fails.
+
+Some firmware writes the handle 0x0000 for a reference which is not set, while
+0x0000 is a handle a structure may have. A reference of 0x0000 to a structure
+of another type than the expected one is taken as not set unless the context
+is strict.
+
+== Additional information
+
+Additional information structures, of type 40, carry values which replace
+bytes of other structures, e.g. a string the firmware has corrected after the
+structure has been written. With `DMI_CONTEXT_FLAG_OVERLAY`, their entries
+are attached to the structures they refer to once the table has been scanned,
+and before anything is decoded:
+
+. Every additional information structure is decoded.
+. Every entry is attached to the structure it refers to, which is reported
+  when it is missing, or when the entry refers to the header of the structure
+  or past its end.
+. A structure with entries attached is decoded from a copy of its bytes with
+  the values of the entries applied, in the order they are attached. The
+  bytes of the table are left as they are.
+
+The entries applied to a structure are listed in the `overlays` member of its
+entity, which the tool shows with the `-O` option.

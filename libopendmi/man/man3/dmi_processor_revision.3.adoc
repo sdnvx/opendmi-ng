@@ -1,0 +1,71 @@
+ifdef::backend-manpage[]
+= dmi_processor_revision(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_revision
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_revision - revision of processor-specific data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef union dmi_processor_revision {
+    dmi_word_t __value;
+    struct {
+        dmi_byte_t minor;
+        dmi_byte_t major;
+    };
+} dmi_processor_revision_t;
+----
+
+== Description
+
+The `dmi_processor_revision_t` union holds the revision of the format of
+processor-specific data, as a word or as its major and minor numbers. It is the
+type of the `revision` fields of `dmi_processor_aarch64_data_t`,
+`dmi_processor_amd64_data` and `dmi_processor_rv64_data`.
+
+The union is packed, and is laid out as in the data: the minor number is the
+low byte of the little-endian word, and the major number its high byte.
+
+=== Fields
+
+`__value`::
+Revision as a word, as the data stores it (little-endian).
+
+`minor`::
+Minor revision, bits 7:0 of the word.
+
+`major`::
+Major revision, bits 15:8 of the word.
+
+== See also
+
+`dmi_processor_aarch64_data`(3), `dmi_processor_amd64_data`(3),
+`dmi_processor_rv64_data`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.8 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

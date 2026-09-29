@@ -1,0 +1,72 @@
+ifdef::backend-manpage[]
+= dmi_mgmt_proto_record(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_mgmt_proto_record
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_mgmt_proto_record - management controller host interface protocol record
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/mgmt-controller.h>
+
+typedef struct dmi_mgmt_proto_record {
+    dmi_mgmt_proto_t type;
+    dmi_binary_t data;
+    bool has_redfish;
+    dmi_mgmt_redfish_over_ip_t redfish;
+} dmi_mgmt_proto_record_t;
+----
+
+== Description
+
+The `dmi_mgmt_proto_record_t` structure holds a protocol record of a management
+controller host interface: a protocol running over the interface, and the data
+describing it. The records are the elements of the `proto_records` field of
+`dmi_mgmt_controller_t`, and are present since SMBIOS 3.2.
+
+=== Fields
+
+`type`::
+Protocol, see `dmi_mgmt_proto`(3).
+
+`data`::
+Data of the protocol, as the record carries it; its layout depends on `type`.
+
+`has_redfish`::
+`true` if the protocol is Redfish over IP (`DMI_MGMT_PROTO_REDFISH_OVER_IP`)
+and its data is long enough to be decoded, in which case `redfish` holds the
+data decoded.
+
+`redfish`::
+Data of the protocol, decoded as Redfish over IP data, see
+`dmi_mgmt_redfish_over_ip`(3). Valid only if `has_redfish` is set.
+
+== See also
+
+`dmi_mgmt_controller`(3), `dmi_mgmt_proto`(3), `dmi_mgmt_redfish_over_ip`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

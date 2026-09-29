@@ -1,0 +1,83 @@
+ifdef::backend-manpage[]
+= dmi_processor_x86_id(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_x86_id
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_x86_id - identifier of x86 processors
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor.h>
+
+typedef struct dmi_processor_x86_id {
+    uint8_t  type;
+    uint16_t family;
+    uint16_t model;
+    uint8_t  stepping;
+    uint32_t features;
+} dmi_processor_x86_id_t;
+----
+
+== Description
+
+The `dmi_processor_x86_id_t` structure holds the processor identifier of an
+x86 processor, decoded from the processor information structure (type 4) of
+SMBIOS: the processor signature and the feature flags which the CPUID
+instruction returns for leaf 1 in the EAX and EDX registers.
+
+It is the `x86_id` field of `dmi_processor_t`, set when the `id_format` field
+of it is `DMI_PROCESSOR_ID_FORMAT_X86`. Some firmware stores the two words of
+the identifier in the reverse order; the decoder recognizes them by the
+reserved bits of the signature and puts them back in order.
+
+=== Fields
+
+`type`::
+Processor type, bits 12 and 13 of the signature: 0 for an original OEM
+processor, 1 for an OverDrive processor, 2 for the second processor of
+a dual-processor system.
+
+`family`::
+Processor family, bits 8 to 11 of the signature. For the base family
+0xF, the extended family (bits 20 to 27) is added to it.
+
+`model`::
+Processor model, bits 4 to 7 of the signature. For the base families
+0x6 and 0xF, the extended model (bits 16 to 19) gives its upper four
+bits.
+
+`stepping`::
+Stepping, bits 0 to 3 of the signature.
+
+`features`::
+Feature flags, the value of the EDX register.
+
+== See also
+
+`dmi_processor`(3), `dmi_processor_id_format`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

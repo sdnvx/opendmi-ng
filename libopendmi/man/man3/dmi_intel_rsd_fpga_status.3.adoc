@@ -1,0 +1,60 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_fpga_status(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_fpga_status
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_fpga_status - Intel RSD FPGA status values
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-fpga.h>
+
+typedef enum dmi_intel_rsd_fpga_status {
+    DMI_INTEL_RSD_FPGA_STATUS_DISABLED = 0x00,
+    DMI_INTEL_RSD_FPGA_STATUS_ENABLED  = 0x01,
+} dmi_intel_rsd_fpga_status_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_fpga_status_t` enumeration tells whether an FPGA is in use,
+and is the type of the `status` field of `dmi_intel_rsd_fpga_t`.
+
+=== Values
+
+`DMI_INTEL_RSD_FPGA_STATUS_DISABLED`::
+The FPGA is disabled.
+
+`DMI_INTEL_RSD_FPGA_STATUS_ENABLED`::
+The FPGA is enabled.
+
+== See also
+
+`dmi_intel_rsd_fpga`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

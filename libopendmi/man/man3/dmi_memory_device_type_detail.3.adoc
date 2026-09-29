@@ -1,0 +1,125 @@
+ifdef::backend-manpage[]
+= dmi_memory_device_type_detail(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_device_type_detail
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_device_type_detail - memory device type details
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-device.h>
+
+typedef union dmi_memory_device_type_detail {
+    dmi_word_t __value;
+    struct {
+        dmi_word_t __reserved    : 1;
+        dmi_word_t other         : 1;
+        dmi_word_t unknown       : 1;
+        dmi_word_t fast_paged    : 1;
+        dmi_word_t static_column : 1;
+        dmi_word_t pseudo_static : 1;
+        dmi_word_t rambus        : 1;
+        dmi_word_t synchronous   : 1;
+        dmi_word_t cmos          : 1;
+        dmi_word_t edo           : 1;
+        dmi_word_t window_dram   : 1;
+        dmi_word_t cache_dram    : 1;
+        dmi_word_t non_volatile  : 1;
+        dmi_word_t registered    : 1;
+        dmi_word_t unbuffered    : 1;
+        dmi_word_t lrdimm        : 1;
+    };
+} dmi_memory_device_type_detail_t;
+----
+
+== Description
+
+The `dmi_memory_device_type_detail_t` union holds additional details on the
+type of the memory of a memory device, as the memory device structure
+(type 17) of SMBIOS gives them. It is the type of the `memory_type_detail`
+field of `dmi_memory_device_t`. Several bits are set when several details
+apply.
+
+=== Fields
+
+`__value`::
+All the bits as one word, as stored.
+
+`__reserved`::
+Reserved bit 0, always 0.
+
+`other`::
+Other detail.
+
+`unknown`::
+The details are unknown.
+
+`fast_paged`::
+Fast-paged memory.
+
+`static_column`::
+Static column memory.
+
+`pseudo_static`::
+Pseudo-static memory.
+
+`rambus`::
+RAMBUS memory.
+
+`synchronous`::
+Synchronous memory.
+
+`cmos`::
+CMOS memory.
+
+`edo`::
+EDO memory.
+
+`window_dram`::
+Window DRAM.
+
+`cache_dram`::
+Cache DRAM.
+
+`non_volatile`::
+Non-volatile memory. The device has non-volatile capacity, which the
+`non_volatile_size` field of `dmi_memory_device_t` gives.
+
+`registered`::
+Registered (buffered) memory.
+
+`unbuffered`::
+Unbuffered (unregistered) memory.
+
+`lrdimm`::
+Load-reduced DIMM.
+
+== See also
+
+`dmi_memory_device`(3), `dmi_memory_device_type`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

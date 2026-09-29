@@ -1,0 +1,85 @@
+ifdef::backend-manpage[]
+= dmi_firmware_ident_format(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_firmware_ident_format
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_firmware_ident_format, dmi_firmware_ident_format_name - firmware identifier formats
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/firmware-inventory.h>
+
+typedef enum dmi_firmware_ident_format {
+    DMI_FIRMWARE_IDENT_FORMAT_FREE = 0x00,
+    DMI_FIRMWARE_IDENT_FORMAT_GUID = 0x01,
+} dmi_firmware_ident_format_t;
+
+const char *dmi_firmware_ident_format_name(dmi_firmware_ident_format_t value);
+----
+
+== Description
+
+The `dmi_firmware_ident_format_t` enumeration tells how the identifier of a
+firmware is written, and is the type of the `ident_format` field of
+`dmi_firmware_inventory_t` and of the `format` field of
+`dmi_firmware_ident_t`. Values 0x02 to 0x7F are reserved by the specification,
+and values 0x80 to 0xFF are for firmware vendors and OEMs; the enumeration has
+no constants for them.
+
+The `dmi_firmware_ident_format_name` function returns the printable name of a
+value, as the command line tool shows it. The name is translated to the locale
+set with `dmi_set_locale`, when the library is built with ICU4C support and
+has a translation of it.
+
+=== Values
+
+`DMI_FIRMWARE_IDENT_FORMAT_FREE`::
+Free-form string, whose meaning depends on the implementation, for example
+"35EQP72B".
+
+`DMI_FIRMWARE_IDENT_FORMAT_GUID`::
+GUID in the 36-character form of RFC 4122, for example
+"1624a9df-5e13-47fc-874a-df3aff143089": the firmware class of the UEFI ESRT,
+or the image type of the UEFI Firmware Management Protocol.
+
+== Return value
+
+`dmi_firmware_ident_format_name` returns the name of the value, or `nullptr`
+if the value has no name. Values 0x02 to 0x7F are named "Reserved", and values
+0x80 to 0xFF "Vendor/OEM-specific". The name is a static string, which must
+not be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_firmware_inventory`(3),
+`dmi_firmware_ident`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

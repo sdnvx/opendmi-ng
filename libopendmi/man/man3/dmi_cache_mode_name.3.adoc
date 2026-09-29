@@ -1,0 +1,1 @@
+dmi_cache_mode.3.adoc

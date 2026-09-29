@@ -1,0 +1,71 @@
+ifdef::backend-manpage[]
+= dmi_processor_amd64_attribute(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_amd64_attribute
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_amd64_attribute - attributes of the x64 processor use condition
+data
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef struct dmi_processor_amd64_attribute {
+    dmi_byte_t use_condition;
+    dmi_byte_t temperature_range;
+    dmi_word_t __reserved;
+} dmi_processor_amd64_attribute_t;
+----
+
+== Description
+
+The `dmi_processor_amd64_attribute_t` structure holds the attributes of the
+processor use condition data of x64 processors, and is the type of the `attr`
+field of `dmi_processor_amd64_data`. The structure is packed, and is laid out
+as in the data, a little-endian double word.
+
+=== Fields
+
+`use_condition`::
+Use condition of the processor, bits 7:0, one of the
+`dmi_processor_amd64_use_condition_t` values.
+
+`temperature_range`::
+Temperature range of the processor, bits 15:8, one of the
+`dmi_processor_amd64_temperature_range_t` values.
+
+`__reserved`::
+Reserved, bits 31:16.
+
+== See also
+
+`dmi_processor_amd64_data`(3), `dmi_processor_amd64_use_condition`(3),
+`dmi_processor_amd64_temperature_range`(3)
+
+== Standards
+
+Not part of the SMBIOS specification itself, which leaves the format of the x64
+processor-specific data to a separate document maintained by Intel
+(https://github.com/intel/smbios).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

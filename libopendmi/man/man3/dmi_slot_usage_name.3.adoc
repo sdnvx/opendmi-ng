@@ -1,0 +1,1 @@
+dmi_slot_usage.3.adoc

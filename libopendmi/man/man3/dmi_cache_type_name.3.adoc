@@ -1,0 +1,1 @@
+dmi_cache_type.3.adoc

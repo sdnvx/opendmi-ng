@@ -1,0 +1,85 @@
+ifdef::backend-manpage[]
+= dmi_system_config_opts(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_system_config_opts
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_system_config_opts - system configuration options structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-config.h>
+
+typedef struct dmi_system_config_opts {
+    size_t option_count;
+    const char **options;
+} dmi_system_config_opts_t;
+----
+
+== Description
+
+The `dmi_system_config_opts_t` structure holds the decoded system configuration
+options structure (type 12) of SMBIOS: free-form strings telling how to set the
+jumpers and the switches of the baseboard, e.g. which jumper position clears
+the CMOS.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SYSTEM_CONFIG_OPTIONS)` and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`option_count`::
+Number of options, as the structure declares it.
+
+`options`::
+Option strings, in order, `option_count` of them. `nullptr` when `option_count`
+is 0. An element is `nullptr` when the structure does not carry the string.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t           *registry = dmi_get_registry(context);
+dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
+                                         DMI_TYPE(SYSTEM_CONFIG_OPTIONS),
+                                         true);
+dmi_system_config_opts_t *config   = dmi_entity_info(entity,
+                                         DMI_TYPE(SYSTEM_CONFIG_OPTIONS));
+
+if (config != nullptr) {
+    for (size_t i = 0; i < config->option_count; i++) {
+        if (config->options[i] != nullptr)
+            printf("%s\n", config->options[i]);
+    }
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_entity_string`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

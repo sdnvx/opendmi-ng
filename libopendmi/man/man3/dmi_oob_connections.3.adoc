@@ -1,0 +1,76 @@
+ifdef::backend-manpage[]
+= dmi_oob_connections(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_oob_connections
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_oob_connections - out-of-band remote access connections
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/oob-remote-access.h>
+
+typedef union dmi_oob_connections {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t is_inbound_enabled  : 1;
+        dmi_byte_t is_outbound_enabled : 1;
+        dmi_byte_t __reserved          : 6;
+    };
+} dmi_oob_connections_t;
+----
+
+== Description
+
+The `dmi_oob_connections_t` union holds the connections an out-of-band remote
+access facility is allowed to accept and to make. It is the type of the
+`connections` field of `dmi_oob_remote_access_t`.
+
+The union is packed into a single byte: the flags can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the flags, as the byte the structure carries them in, `is_inbound_enabled`
+being bit 0.
+
+`is_inbound_enabled`::
+Set if the facility accepts incoming connections, for remote operation or
+problem management.
+
+`is_outbound_enabled`::
+Set if the facility may open connections to an alert management facility when
+critical conditions occur.
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_oob_remote_access`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

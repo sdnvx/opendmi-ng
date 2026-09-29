@@ -1,0 +1,65 @@
+ifdef::backend-manpage[]
+= dmi_group_assoc_item(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_group_assoc_item
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_group_assoc_item - group association item
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/group-assoc.h>
+
+typedef struct dmi_group_assoc_item {
+    dmi_type_t    type;
+    dmi_handle_t  handle;
+    dmi_entity_t *entity;
+} dmi_group_assoc_item_t;
+----
+
+== Description
+
+The `dmi_group_assoc_item_t` structure describes one member of a group
+association, and is the type of the elements of the `items` array of
+`dmi_group_assoc_t`.
+
+=== Fields
+
+`type`::
+Type of the member structure, as stored.
+
+`handle`::
+Handle of the member structure.
+
+`entity`::
+Entity of the member structure, set when the structures are linked;
+`nullptr` if `handle` does not refer to a structure of type `type`.
+
+== See also
+
+`dmi_group_assoc`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

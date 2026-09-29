@@ -1,0 +1,86 @@
+ifdef::backend-manpage[]
+= dmi_system_boot(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_system_boot
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_system_boot - system boot information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-boot.h>
+
+typedef struct dmi_system_boot {
+    dmi_boot_status_t status;
+    dmi_binary_t      status_data;
+    bool              has_status_data;
+} dmi_system_boot_t;
+----
+
+== Description
+
+The `dmi_system_boot_t` structure holds the decoded system boot information
+structure (type 32) of SMBIOS: the reason of the last boot of the system,
+which the firmware passes to the boot image, for example of a PXE boot, or to
+management software. A boot image may use it, for example, to run
+diagnostics after a hardware failure.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(SYSTEM_BOOT)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`status`::
+Boot status code, see `dmi_boot_status`(3).
+
+`status_data`::
+Bytes following the status code up to the end of the structure, as
+stored. Empty if there are none.
+
+`has_status_data`::
+`true` if the status code is vendor-specific or product-specific
+(0x80 and above), whose additional data the vendor defines. The
+command line tool only shows `status_data` then.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t    *registry = dmi_get_registry(context);
+dmi_entity_t      *entity   = dmi_registry_lookup_first(
+        registry, DMI_TYPE(SYSTEM_BOOT), true);
+dmi_system_boot_t *boot     = dmi_entity_info(entity, DMI_TYPE(SYSTEM_BOOT));
+
+if ((boot != nullptr) && (boot->status != DMI_BOOT_STATUS_NO_ERRORS_DETECTED))
+    printf("Boot status: 0x%02X\n", (unsigned)boot->status);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_boot_status`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

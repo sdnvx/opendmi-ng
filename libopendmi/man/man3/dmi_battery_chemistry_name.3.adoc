@@ -1,0 +1,1 @@
+dmi_battery_chemistry.3.adoc

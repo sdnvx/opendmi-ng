@@ -1,0 +1,148 @@
+ifdef::backend-manpage[]
+= dmi_probe(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_probe
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_probe - voltage, temperature and electrical current probe structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/probe.h>
+
+typedef struct dmi_probe {
+    const char *description;
+    dmi_probe_location_t location;
+    dmi_status_t status;
+    short maximum_value;
+    short minimum_value;
+    short resolution;
+    short tolerance;
+    short accuracy;
+    uint32_t oem_defined;
+    short nominal_value;
+} dmi_probe_t;
+
+#include <opendmi/entity/voltage-probe.h>
+
+typedef struct dmi_probe dmi_voltage_probe_t;
+
+#include <opendmi/entity/temperature-probe.h>
+
+typedef struct dmi_probe dmi_temperature_probe_t;
+
+#include <opendmi/entity/current-probe.h>
+
+typedef struct dmi_probe dmi_current_probe_t;
+----
+
+== Description
+
+The `dmi_probe_t` structure holds a decoded voltage probe (type 26),
+temperature probe (type 28) or electrical current probe (type 29) structure of
+SMBIOS: a sensor of the system, where it is, its status, and the range and
+precision of its readings. There is one structure for each probe. The three
+types of structures are laid out the same way and differ only in the units of
+their values, so they share the structure, which each of the headers of the
+probes names after its type: `dmi_voltage_probe_t`, `dmi_temperature_probe_t`
+and `dmi_current_probe_t`.
+
+The values are in millivolts for voltage probes, in milliamperes for electrical
+current probes, and in tenths of a degree Celsius for temperature probes,
+unless said otherwise below. A management device component structure
+(`dmi_mgmt_device_component_t`) may tie a probe to the management device
+reading it, and to its thresholds.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of types
+`DMI_TYPE(VOLTAGE_PROBE)`, `DMI_TYPE(TEMPERATURE_PROBE)` and
+`DMI_TYPE(CURRENT_PROBE)`, and lives as long as the context it has been decoded
+in.
+
+=== Fields
+
+`description`::
+Additional description of the probe or of its location, or `nullptr` if there
+is none.
+
+`location`::
+Physical location of the probe.
+
+`status`::
+Status of the voltage, temperature or current the probe monitors.
+
+`maximum_value`::
+Largest value the probe can read, or `SHRT_MIN` if unknown.
+
+`minimum_value`::
+Smallest value the probe can read, or `SHRT_MIN` if unknown.
+
+`resolution`::
+Resolution of the readings of the probe, or `SHRT_MIN` if unknown. The unit is
+ten times as fine as the one of the other values for voltage and current probes
+(tenths of a millivolt or of a milliampere), and a thousandth of a degree
+Celsius for temperature probes.
+
+`tolerance`::
+Tolerance of the readings of the probe, plus or minus, or `SHRT_MIN` if
+unknown.
+
+`accuracy`::
+Accuracy of the readings of the probe, plus or minus, in hundredths of a
+percent, or `SHRT_MIN` if unknown.
+
+`oem_defined`::
+Information specific to the OEM or to the firmware vendor.
+
+`nominal_value`::
+Nominal reading of the probe, or `SHRT_MIN` if unknown or if the structure is
+too short to carry it.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   =
+        dmi_registry_lookup_first(registry, DMI_TYPE(TEMPERATURE_PROBE),
+                                  true);
+dmi_probe_t    *probe    =
+        dmi_entity_info(entity, DMI_TYPE(TEMPERATURE_PROBE));
+
+if (probe != nullptr) {
+    printf("%s: %s\n", dmi_probe_location_name(probe->location),
+           dmi_status_name(probe->status));
+
+    if (probe->nominal_value != SHRT_MIN)
+        printf("Nominal: %.1f C\n", probe->nominal_value / 10.0);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_probe_location`(3), `dmi_status`(3),
+`dmi_mgmt_device_component`(3), `dmi_cooling_device`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.2 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

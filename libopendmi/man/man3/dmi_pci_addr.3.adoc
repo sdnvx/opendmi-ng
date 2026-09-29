@@ -1,0 +1,76 @@
+ifdef::backend-manpage[]
+= dmi_pci_addr(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_pci_addr
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_pci_addr - PCI address of a device
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/common.h>
+
+typedef struct dmi_pci_addr {
+    uint16_t segment_group;
+    uint8_t bus_number;
+    uint8_t device_number;
+    uint8_t function_number;
+} dmi_pci_addr_t;
+----
+
+== Description
+
+The `dmi_pci_addr_t` structure holds the address of a PCI, AGP, PCI-X or PCI
+Express function: its segment group, bus, device and function numbers. It is
+shared by several structures: it is the type of the `base_address` field of
+`dmi_slot_t`, of the `address` field of the peer groups of slots
+(`dmi_slot_peer_group_t`), and of the `address` field of
+`dmi_onboard_device_ex_t`.
+
+SMBIOS packs the device and function numbers into one byte; the structure holds
+them apart. Devices which have no such address carry the largest value in each
+field.
+
+=== Fields
+
+`segment_group`::
+Segment group, as the PCI firmware specification defines it. It is 0 for a
+single-segment topology, and `UINT16_MAX` if not applicable.
+
+`bus_number`::
+Bus number, or `UINT8_MAX` if not applicable.
+
+`device_number`::
+Device number, 0 to 31, or `UINT8_MAX` if the bus number is not applicable.
+
+`function_number`::
+Function number, 0 to 7, or `UINT8_MAX` if the bus number is not applicable.
+
+== See also
+
+`dmi_slot`(3), `dmi_slot_peer_group`(3), `dmi_onboard_device_ex`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.6 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

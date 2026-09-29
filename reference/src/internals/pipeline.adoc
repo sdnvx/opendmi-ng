@@ -1,0 +1,129 @@
+= From bytes to structures
+:sectnums:
+:sectlinks:
+
+[#internals-pipeline]
+This part of the manual describes how the library works inside: how the bytes
+of a platform become the structures a program reads, and how a structure type
+is described to the library. It is written for the ones who extend the
+library, add a structure type or a module of a vendor, or want to know why the
+library behaves the way it does. A program which only reads the data needs
+none of it, see xref:start/library.adoc#using-the-library[Using the library].
+
+== The context
+
+Everything the library holds belongs to a context, which `dmi_create`(3)
+makes and `dmi_destroy`(3) disposes of: the bytes read from the platform, the
+structures found in them, the values decoded from those, the queue of the
+errors, the logger and the modules which are enabled. Nothing is shared
+between the contexts, and nothing outlives the one it belongs to, so a
+pointer the library gives out stays valid until the context is closed.
+
+The flags a context is created with decide how the data is read:
+
+`DMI_CONTEXT_FLAG_RELAXED`::
+Structures which cannot be decoded are skipped and reported, and the rest of
+the table stays usable. This is the default.
+
+`DMI_CONTEXT_FLAG_STRICT`::
+Any structure which cannot be decoded, and any reference which cannot be
+resolved, fails the opening of the context.
+
+`DMI_CONTEXT_FLAG_LINK`::
+References between the structures are resolved once they are decoded, see
+xref:internals/registry.adoc#internals-registry[The registry].
+
+`DMI_CONTEXT_FLAG_OVERLAY`::
+Values the additional information structures carry are applied to the
+structures they refer to before those are decoded.
+
+== Opening the data
+
+`dmi_open`(3) and `dmi_load`(3) take the same way, and differ in where the
+bytes come from. `dmi_open` asks the backend of the platform, which reads the
+tables the firmware has left in memory or the ones the kernel exposes, while
+`dmi_load` asks a backend which reads a dump file instead:
+
+....
+      backend           registry             specifications
+         |                  |                       |
+ open -> entry point -> table -> structures -> decoded -> linked
+                                     |          values     references
+                                  overlays
+....
+
+. The backend opens the source of the data, e.g. a memory device, a system
+  service or a file.
+. The backend reads the entry point into a buffer of the context, which is
+  decoded into the version of SMBIOS and the address and the size of the
+  table. Backends which have no access to the entry point, e.g. the one of
+  Windows, which gets the table from a system service, tell the version by
+  themselves.
+. Versions some firmware writes wrongly are put right: SMBIOS 2.31 and 2.33,
+  which were meant as 2.3, and 2.51, which was meant as 2.6.
+. The backend reads the table into another buffer of the context.
+. The registry scans the table, and creates an entity for every structure it
+  finds, which knows the type, the handle, the length and the strings of the
+  structure, and nothing else yet.
+. With `DMI_CONTEXT_FLAG_OVERLAY`, the additional information entries are
+  applied to the structures they refer to.
+. The vendor of the platform is told from the platform firmware information.
+. Every structure is decoded according to the specification of its type into
+  a C structure, e.g. `dmi_system_t`, which `dmi_entity_info`(3) returns.
+. With `DMI_CONTEXT_FLAG_LINK`, the handles the structures hold are resolved
+  into pointers to the structures they refer to.
+
+A step which fails raises the error telling why, e.g.
+`DMI_ERROR_BACKEND_INIT`, and then `DMI_ERROR_CONTEXT_OPEN`, and the context
+is closed again. Structures which cannot be decoded or linked do not fail the
+opening unless the context is strict: all of them are reported to the error
+queue, and are left undecoded or unlinked.
+
+The data is read once, while the context is opened. Structures are decoded
+from the buffers of the context rather than from copies, and the strings and
+the binary values of the decoded structures point into those buffers, which is
+why nothing the library gives out is to be freed by the program.
+
+== Where the pieces live
+
+The library is split along the steps above:
+
+[cols="1,2"]
+|===
+| Header | What it does
+
+| `<opendmi/backend.h>`
+| Backends, which read the bytes of a platform
+
+| `<opendmi/buffer.h>`
+| Buffers, which hold the bytes
+
+| `<opendmi/reader.h>`, `<opendmi/writer.h>`
+| Cursors over the bytes of a buffer
+
+| `<opendmi/decoder.h>`, `<opendmi/encoder.h>`
+| Reading and writing the values of one structure
+
+| `<opendmi/entity.h>`
+| Structures and the specifications of their types
+
+| `<opendmi/field.h>`
+| Layouts of the structures on the wire
+
+| `<opendmi/attribute.h>`
+| Values of the decoded structures, as the output shows them
+
+| `<opendmi/utils/name.h>`
+| Names of the enumerated values
+
+| `<opendmi/registry.h>`, `<opendmi/filter.h>`
+| The structures of a table, and the ways to look them up
+
+| `<opendmi/module.h>`
+| Structure types of the vendors
+
+| `<opendmi/lint.h>`
+| Checking the data against the rules of the specification
+|===
+
+The chapters which follow take them in that order.

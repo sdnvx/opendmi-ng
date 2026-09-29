@@ -1,0 +1,121 @@
+ifdef::backend-manpage[]
+= dmi_dell_parallel_port_connector_pinout(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_parallel_port_connector_pinout
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_parallel_port_connector_pinout,
+dmi_dell_parallel_port_connector_pinout_name - Dell parallel port connector
+pin-outs
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/parallel-port.h>
+
+typedef enum dmi_dell_parallel_port_connector_pinout {
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_UNSPEC       = 0x00,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_OTHER        = 0x01,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_UNKNOWN      = 0x02,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_XT_AT        = 0x03,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PS2          = 0x04,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_IEEE_1284    = 0x05,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PROPRIETARY  = 0x06,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_98        = 0xA0,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_98_HIRESO = 0xA1,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_H98       = 0xA2,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_98_NOTE   = 0xA3,
+    DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_98_FULL   = 0xA4,
+} dmi_dell_parallel_port_connector_pinout_t;
+
+const char *dmi_dell_parallel_port_connector_pinout_name(
+        dmi_dell_parallel_port_connector_pinout_t value);
+----
+
+== Description
+
+The `dmi_dell_parallel_port_connector_pinout_t` enumeration tells the pin-out
+of the connector of a Dell parallel port, and is the type of the `pinout` field
+of `dmi_dell_parallel_port_t`.
+
+The `dmi_dell_parallel_port_connector_pinout_name` function returns the name of
+a value, as the command line tool shows it. The name is in English, or in the
+language of the locale the library is set to when it has a translation of the
+name.
+
+=== Values
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_UNSPEC`::
+Unspecified. The firmware does not define the value 0.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_OTHER`::
+Other pin-out.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_UNKNOWN`::
+Unknown pin-out.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_XT_AT`::
+XT/AT.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PS2`::
+PS/2.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_IEEE_1284`::
+IEEE 1284.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PROPRIETARY`::
+Proprietary pin-out.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_98`::
+PC-98.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_98_HIRESO`::
+PC-98 Hireso.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_H98`::
+PC-H98.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_98_NOTE`::
+PC-98 Note.
+
+`DMI_DELL_PARALLEL_PORT_CONNECTOR_PINOUT_PC_98_FULL`::
+PC-98 Full.
+
+== Return value
+
+`dmi_dell_parallel_port_connector_pinout_name` returns the name of the value, a
+constant string which must not be modified or freed, or `nullptr` if the value
+has no name, e.g. a value out of the range of the enumeration.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_dell_parallel_port`(3), `dmi_dell_parallel_port_connector_type`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
+Parallel Port (Type 209) chapter of the reference manual.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

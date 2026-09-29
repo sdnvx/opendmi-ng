@@ -1,0 +1,1 @@
+dmi_intel_rsd_memory_media.3.adoc

@@ -1,0 +1,103 @@
+ifdef::backend-manpage[]
+= dmi_memory_interleave(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_interleave
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_interleave, dmi_memory_interleave_name - memory controller interleave modes
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-controller.h>
+
+typedef enum dmi_memory_interleave {
+    DMI_MEMORY_INTERLEAVE_UNSPEC  = 0x00,
+    DMI_MEMORY_INTERLEAVE_OTHER   = 0x01,
+    DMI_MEMORY_INTERLEAVE_UNKNOWN = 0x02,
+    DMI_MEMORY_INTERLEAVE_1WAY    = 0x03,
+    DMI_MEMORY_INTERLEAVE_2WAY    = 0x04,
+    DMI_MEMORY_INTERLEAVE_4WAY    = 0x05,
+    DMI_MEMORY_INTERLEAVE_8WAY    = 0x06,
+    DMI_MEMORY_INTERLEAVE_16WAY   = 0x07,
+} dmi_memory_interleave_t;
+
+const char *dmi_memory_interleave_name(dmi_memory_interleave_t value);
+----
+
+== Description
+
+The `dmi_memory_interleave_t` enumeration tells how many ways a memory
+controller interleaves memory accesses, and is the type of the
+`supported_interleave` and `current_interleave` fields of
+`dmi_memory_controller_t`.
+
+The `dmi_memory_interleave_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_MEMORY_INTERLEAVE_UNSPEC`::
+Unspecified.
+
+`DMI_MEMORY_INTERLEAVE_OTHER`::
+Other.
+
+`DMI_MEMORY_INTERLEAVE_UNKNOWN`::
+Unknown.
+
+`DMI_MEMORY_INTERLEAVE_1WAY`::
+One-way interleave.
+
+`DMI_MEMORY_INTERLEAVE_2WAY`::
+Two-way interleave.
+
+`DMI_MEMORY_INTERLEAVE_4WAY`::
+Four-way interleave.
+
+`DMI_MEMORY_INTERLEAVE_8WAY`::
+Eight-way interleave.
+
+`DMI_MEMORY_INTERLEAVE_16WAY`::
+Sixteen-way interleave.
+
+== Return value
+
+`dmi_memory_interleave_name` returns the name of the value, or `nullptr` if the
+value has no name. The name is in English, or translated to the locale set with
+`dmi_set_locale` when the library is built with localization support and has a
+translation of it. The string must not be modified or freed; a translated one
+stays valid until the locale is changed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_memory_controller`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer. The memory
+controller information structure is obsolete since version 2.1.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,1 @@
+dmi_firmware_inventory_state.3.adoc

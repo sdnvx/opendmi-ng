@@ -1,0 +1,226 @@
+ifdef::backend-manpage[]
+= dmi_port_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_port_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_port_type, dmi_port_type_name - port types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/port-connector.h>
+
+typedef enum dmi_port_type {
+    DMI_PORT_TYPE_NONE             = 0x00,
+    DMI_PORT_TYPE_PARALLEL_XT_AT   = 0x01,
+    DMI_PORT_TYPE_PARALLEL_PS2     = 0x02,
+    DMI_PORT_TYPE_PARALLEL_ECP     = 0x03,
+    DMI_PORT_TYPE_PARALLEL_EPP     = 0x04,
+    DMI_PORT_TYPE_PARALLEL_ECP_EPP = 0x05,
+    DMI_PORT_TYPE_SERIAL_XT_AT     = 0x06,
+    DMI_PORT_TYPE_SERIAL_16450     = 0x07,
+    DMI_PORT_TYPE_SERIAL_16550     = 0x08,
+    DMI_PORT_TYPE_SERIAL_16550A    = 0x09,
+    DMI_PORT_TYPE_SCSI             = 0x0A,
+    DMI_PORT_TYPE_MIDI             = 0x0B,
+    DMI_PORT_TYPE_JOYSTICK         = 0x0C,
+    DMI_PORT_TYPE_KEYBOARD         = 0x0D,
+    DMI_PORT_TYPE_MOUSE            = 0x0E,
+    DMI_PORT_TYPE_SCSI_SSA         = 0x0F,
+    DMI_PORT_TYPE_USB              = 0x10,
+    DMI_PORT_TYPE_FIREWIRE         = 0x11,
+    DMI_PORT_TYPE_PCMCIA_I         = 0x12,
+    DMI_PORT_TYPE_PCMCIA_II        = 0x13,
+    DMI_PORT_TYPE_PCMCIA_III       = 0x14,
+    DMI_PORT_TYPE_CARDBUS          = 0x15,
+    DMI_PORT_TYPE_ACCESS_BUS       = 0x16,
+    DMI_PORT_TYPE_SCSI_2           = 0x17,
+    DMI_PORT_TYPE_SCSI_WIDE        = 0x18,
+    DMI_PORT_TYPE_PC_98            = 0x19,
+    DMI_PORT_TYPE_PC_98_HIRESO     = 0x1A,
+    DMI_PORT_TYPE_PC_H98           = 0x1B,
+    DMI_PORT_TYPE_VIDEO            = 0x1C,
+    DMI_PORT_TYPE_AUDIO            = 0x1D,
+    DMI_PORT_TYPE_MODEM            = 0x1E,
+    DMI_PORT_TYPE_NETWORK          = 0x1F,
+    DMI_PORT_TYPE_SATA             = 0x20,
+    DMI_PORT_TYPE_SAS              = 0x21,
+    DMI_PORT_TYPE_MFDP             = 0x22,
+    DMI_PORT_TYPE_THUNDERBOLT      = 0x23,
+    DMI_PORT_TYPE_8251             = 0xA0,
+    DMI_PORT_TYPE_8251_FIFO        = 0xA1,
+    DMI_PORT_TYPE_OTHER            = 0xFF,
+} dmi_port_type_t;
+
+const char *dmi_port_type_name(dmi_port_type_t value);
+----
+
+== Description
+
+The `dmi_port_type_t` enumeration tells what a port is for, and is the type of
+the `port_type` field of `dmi_port_connector_t`. The specification assigns no
+values from `0x24` to `0x9F` and from `0xA2` to `0xFE`.
+
+The `dmi_port_type_name` function returns the name of a value, as the command
+line tool shows it.
+
+=== Values
+
+`DMI_PORT_TYPE_NONE`::
+No port.
+
+`DMI_PORT_TYPE_PARALLEL_XT_AT`::
+Parallel port, XT/AT compatible.
+
+`DMI_PORT_TYPE_PARALLEL_PS2`::
+Parallel port, PS/2.
+
+`DMI_PORT_TYPE_PARALLEL_ECP`::
+Parallel port, ECP.
+
+`DMI_PORT_TYPE_PARALLEL_EPP`::
+Parallel port, EPP.
+
+`DMI_PORT_TYPE_PARALLEL_ECP_EPP`::
+Parallel port, ECP/EPP.
+
+`DMI_PORT_TYPE_SERIAL_XT_AT`::
+Serial port, XT/AT compatible.
+
+`DMI_PORT_TYPE_SERIAL_16450`::
+Serial port, 16450 compatible.
+
+`DMI_PORT_TYPE_SERIAL_16550`::
+Serial port, 16550 compatible.
+
+`DMI_PORT_TYPE_SERIAL_16550A`::
+Serial port, 16550A compatible.
+
+`DMI_PORT_TYPE_SCSI`::
+SCSI port.
+
+`DMI_PORT_TYPE_MIDI`::
+MIDI port.
+
+`DMI_PORT_TYPE_JOYSTICK`::
+Joystick port.
+
+`DMI_PORT_TYPE_KEYBOARD`::
+Keyboard port.
+
+`DMI_PORT_TYPE_MOUSE`::
+Mouse port.
+
+`DMI_PORT_TYPE_SCSI_SSA`::
+SSA SCSI.
+
+`DMI_PORT_TYPE_USB`::
+USB.
+
+`DMI_PORT_TYPE_FIREWIRE`::
+FireWire (IEEE P1394).
+
+`DMI_PORT_TYPE_PCMCIA_I`::
+PC Card (PCMCIA) type I.
+
+`DMI_PORT_TYPE_PCMCIA_II`::
+PC Card (PCMCIA) type II.
+
+`DMI_PORT_TYPE_PCMCIA_III`::
+PC Card (PCMCIA) type III.
+
+`DMI_PORT_TYPE_CARDBUS`::
+CardBus.
+
+`DMI_PORT_TYPE_ACCESS_BUS`::
+ACCESS.bus port.
+
+`DMI_PORT_TYPE_SCSI_2`::
+SCSI-2.
+
+`DMI_PORT_TYPE_SCSI_WIDE`::
+Wide SCSI.
+
+`DMI_PORT_TYPE_PC_98`::
+PC-98.
+
+`DMI_PORT_TYPE_PC_98_HIRESO`::
+PC-98 Hireso.
+
+`DMI_PORT_TYPE_PC_H98`::
+PC-H98.
+
+`DMI_PORT_TYPE_VIDEO`::
+Video port.
+
+`DMI_PORT_TYPE_AUDIO`::
+Audio port.
+
+`DMI_PORT_TYPE_MODEM`::
+Modem port.
+
+`DMI_PORT_TYPE_NETWORK`::
+Network port.
+
+`DMI_PORT_TYPE_SATA`::
+SATA.
+
+`DMI_PORT_TYPE_SAS`::
+SAS.
+
+`DMI_PORT_TYPE_MFDP`::
+Multi-Function Display Port (MFDP).
+
+`DMI_PORT_TYPE_THUNDERBOLT`::
+Thunderbolt.
+
+`DMI_PORT_TYPE_8251`::
+8251 compatible.
+
+`DMI_PORT_TYPE_8251_FIFO`::
+8251 FIFO compatible.
+
+`DMI_PORT_TYPE_OTHER`::
+Other.
+
+== Return value
+
+`dmi_port_type_name` returns the name of the value, or `nullptr` if the value
+has no name. The name is in English, or translated to the locale set with
+`dmi_set_locale` when the library is built with localization support and has a
+translation of it. The string must not be modified or freed; a translated one
+stays valid until the locale is changed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_port_connector`(3),
+`dmi_connector_type`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

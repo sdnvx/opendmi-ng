@@ -1,0 +1,66 @@
+ifdef::backend-manpage[]
+= dmi_intel_rsd_fpga_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_rsd_fpga_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_rsd_fpga_type - Intel RSD FPGA types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/rsd-fpga.h>
+
+typedef enum dmi_intel_rsd_fpga_type {
+    DMI_INTEL_RSD_FPGA_TYPE_INTEGRATED   = 0x00,
+    DMI_INTEL_RSD_FPGA_TYPE_DISCRETE     = 0x01,
+    DMI_INTEL_RSD_FPGA_TYPE_DISCRETE_SOC = 0x02
+} dmi_intel_rsd_fpga_type_t;
+----
+
+== Description
+
+The `dmi_intel_rsd_fpga_type_t` enumeration tells how an FPGA is attached to
+the system, and is the type of the `type` field of `dmi_intel_rsd_fpga_t`. The
+field holds the value the firmware reports, which may be none of the ones
+listed.
+
+=== Values
+
+`DMI_INTEL_RSD_FPGA_TYPE_INTEGRATED`::
+FPGA integrated into a processor package.
+
+`DMI_INTEL_RSD_FPGA_TYPE_DISCRETE`::
+Discrete FPGA device.
+
+`DMI_INTEL_RSD_FPGA_TYPE_DISCRETE_SOC`::
+Discrete FPGA with a system on chip, the hard processor subsystem (HPS).
+
+== See also
+
+`dmi_intel_rsd_fpga`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel Rack Scale Design (RSD)
+firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

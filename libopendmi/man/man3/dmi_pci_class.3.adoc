@@ -1,0 +1,56 @@
+ifdef::backend-manpage[]
+= dmi_pci_class(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_pci_class
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_pci_class - PCI class code
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/common.h>
+
+typedef uint8_t dmi_pci_class_t;
+----
+
+== Description
+
+The `dmi_pci_class_t` type holds the class code of a PCI function, which tells
+the generic function of the device (for example 0x01 for mass storage
+controllers, 0x02 for network controllers).
+
+The type is shared by several structures: it is the type of the `pci_class`
+field of `dmi_intel_rsd_pcie_t`, the `pci_class` field of
+`dmi_intel_rsd_network_card_t`, and the `pci_class` field of
+`dmi_intel_rsd_storage_device_t`.
+
+== See also
+
+`dmi_intel_rsd_pcie`(3), `dmi_intel_rsd_network_card`(3),
+`dmi_intel_rsd_storage_device`(3), `dmi_pci_addr`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Used by the structures defined by Intel
+Rack Scale Design firmware.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

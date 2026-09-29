@@ -1,0 +1,99 @@
+ifdef::backend-manpage[]
+= dmi_string_property(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_string_property
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_string_property - string property structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/string-property.h>
+
+typedef struct dmi_string_property {
+    dmi_property_t ident;
+    const char *value;
+    dmi_handle_t parent_handle;
+    dmi_entity_t *parent;
+} dmi_string_property_t;
+----
+
+== Description
+
+The `dmi_string_property_t` structure holds the decoded string property
+structure (type 46) of SMBIOS: a string attached to another structure under a
+property identifier, which lets firmware give any structure extra strings
+without changing its definition. A structure can have several properties,
+each coming from a type 46 structure of its own.
+
+While linking, each property is attached to its parent structure, where
+`dmi_entity_property()` finds it by its identifier.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(STRING_PROPERTY)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`ident`::
+Identifier of the property: `DMI_PROPERTY_ID_UEFI_DEVICE_PATH` for the text
+form of a UEFI device path, or a value of the ranges set aside for the DMTF
+(2 to 32767), for firmware vendors (32768 to 49151) and for OEMs (49152 to
+65535). Zero is reserved. The field holds the value the firmware reports.
+
+`value`::
+Value of the property, `nullptr` if the structure carries none. A UEFI device
+path is given in its text form, encoded in UTF-8.
+
+`parent_handle`::
+Handle of the structure the property applies to.
+
+`parent`::
+The structure the property applies to, set once the property has been
+attached to it while linking. `nullptr` before linking, or if the parent
+handle is not set, refers to no structure, or refers to another string
+property; linking reports those cases as errors.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t        *registry = dmi_get_registry(context);
+dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
+                                      DMI_TYPE(STRING_PROPERTY), true);
+dmi_string_property_t *property = dmi_entity_info(entity,
+                                                  DMI_TYPE(STRING_PROPERTY));
+
+if ((property != nullptr) && (property->value != nullptr))
+    printf("Property %u of 0x%04X: %s\n", (unsigned)property->ident,
+           (unsigned)property->parent_handle, property->value);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_entity_link`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 3.5 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

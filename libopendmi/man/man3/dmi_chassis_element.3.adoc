@@ -1,0 +1,79 @@
+ifdef::backend-manpage[]
+= dmi_chassis_element(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_chassis_element
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_chassis_element - element contained in a system enclosure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/chassis.h>
+
+typedef struct dmi_chassis_element {
+    dmi_type_t type;
+    dmi_baseboard_type_t board_type;
+    size_t minimum_count;
+    size_t maximum_count;
+} dmi_chassis_element_t;
+----
+
+== Description
+
+The `dmi_chassis_element_t` structure describes a kind of element a system
+enclosure contains, and how many of them it takes. The `elements` field of
+`dmi_chassis_t` is an array of them.
+
+An element is named either by the type of the SMBIOS structures describing it,
+for example `DMI_TYPE(POWER_SUPPLY)` for power supplies, or by a baseboard
+type, for example `DMI_BASEBOARD_TYPE_SERVER_BLADE` for blades. One of `type`
+and `board_type` is set, and the other one holds the value telling that it is
+not used.
+
+=== Fields
+
+`type`::
+Type of the SMBIOS structures describing the element, or `DMI_TYPE_INVALID` if
+the element is named by `board_type`.
+
+`board_type`::
+Baseboard type of the element, or `DMI_BASEBOARD_TYPE_UNSPEC` if the element is
+named by `type`.
+
+`minimum_count`::
+Number of such elements the enclosure needs to work properly, 0 to 254, or
+`SIZE_MAX` if the data carries 255, a value the specification reserves.
+
+`maximum_count`::
+Number of such elements the enclosure can hold, 1 to 255, or `SIZE_MAX` if the
+data carries 0, a value the specification reserves, which the library takes as
+no maximum.
+
+== See also
+
+`dmi_chassis`(3), `dmi_baseboard_type`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.3 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

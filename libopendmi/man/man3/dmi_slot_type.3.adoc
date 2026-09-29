@@ -1,0 +1,406 @@
+ifdef::backend-manpage[]
+= dmi_slot_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_slot_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_slot_type, dmi_slot_type_name - system slot types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/slot.h>
+
+typedef enum dmi_slot_type {
+    DMI_SLOT_TYPE_UNSPEC                = 0x00,
+    DMI_SLOT_TYPE_OTHER                 = 0x01,
+    DMI_SLOT_TYPE_UNKNOWN               = 0x02,
+    DMI_SLOT_TYPE_ISA                   = 0x03,
+    DMI_SLOT_TYPE_MCA                   = 0x04,
+    DMI_SLOT_TYPE_EISA                  = 0x05,
+    DMI_SLOT_TYPE_PCI                   = 0x06,
+    DMI_SLOT_TYPE_PCMCIA                = 0x07,
+    DMI_SLOT_TYPE_VESA                  = 0x08,
+    DMI_SLOT_TYPE_PROPRIETARY           = 0x09,
+    DMI_SLOT_TYPE_PROCESSOR_CARD        = 0x0A,
+    DMI_SLOT_TYPE_MEMORY_CARD           = 0x0B,
+    DMI_SLOT_TYPE_IO_RISER_CARD         = 0x0C,
+    DMI_SLOT_TYPE_NUBUS                 = 0x0D,
+    DMI_SLOT_TYPE_PCI_66                = 0x0E,
+    DMI_SLOT_TYPE_AGP                   = 0x0F,
+    DMI_SLOT_TYPE_AGP_2X                = 0x10,
+    DMI_SLOT_TYPE_AGP_4X                = 0x11,
+    DMI_SLOT_TYPE_PCI_X                 = 0x12,
+    DMI_SLOT_TYPE_AGP_8X                = 0x13,
+    DMI_SLOT_TYPE_M2_S1_DP              = 0x14,
+    DMI_SLOT_TYPE_M2_S1_SD              = 0x15,
+    DMI_SLOT_TYPE_M2_S2                 = 0x16,
+    DMI_SLOT_TYPE_M2_S3                 = 0x17,
+    DMI_SLOT_TYPE_MXM_I                 = 0x18,
+    DMI_SLOT_TYPE_MXM_II                = 0x19,
+    DMI_SLOT_TYPE_MXM_III_STD           = 0x1A,
+    DMI_SLOT_TYPE_MXM_III_HE            = 0x1B,
+    DMI_SLOT_TYPE_MXM_IV                = 0x1C,
+    DMI_SLOT_TYPE_MXM_30_A              = 0x1D,
+    DMI_SLOT_TYPE_MXM_30_B              = 0x1E,
+    DMI_SLOT_TYPE_PCI_E_G2_SFF8639      = 0x1F,
+    DMI_SLOT_TYPE_PCI_E_G3_SFF8639      = 0x20,
+    DMI_SLOT_TYPE_PCI_E_MINI_52PIN_BSKO = 0x21,
+    DMI_SLOT_TYPE_PCI_E_MINI_52PIN      = 0x22,
+    DMI_SLOT_TYPE_PCI_E_MINI_76PIN      = 0x23,
+    DMI_SLOT_TYPE_PCI_E_G4_SFF8639      = 0x24,
+    DMI_SLOT_TYPE_PCI_E_G5_SFF8639      = 0x25,
+    DMI_SLOT_TYPE_OCP_NIC_30_SFF        = 0x26,
+    DMI_SLOT_TYPE_OCP_NIC_30_LFF        = 0x27,
+    DMI_SLOT_TYPP_OCP_NIC_LEGACY        = 0x28,
+    DMI_SLOT_TYPE_CXL_FLEXBUS_10        = 0x30,
+    DMI_SLOT_TYPE_PC_98_C20             = 0xA0,
+    DMI_SLOT_TYPE_PC_98_C24             = 0xA1,
+    DMI_SLOT_TYPE_PC_98_E               = 0xA2,
+    DMI_SLOT_TYPE_PC_98_LOCAL_BUS       = 0xA3,
+    DMI_SLOT_TYPE_PC_98_CARD            = 0xA4,
+    DMI_SLOT_TYPE_PCI_E                 = 0xA5,
+    DMI_SLOT_TYPE_PCI_E_X1              = 0xA6,
+    DMI_SLOT_TYPE_PCI_E_X2              = 0xA7,
+    DMI_SLOT_TYPE_PCI_E_X4              = 0xA8,
+    DMI_SLOT_TYPE_PCI_E_X8              = 0xA9,
+    DMI_SLOT_TYPE_PCI_E_X16             = 0xAA,
+    DMI_SLOT_TYPE_PCI_E_G2              = 0xAB,
+    DMI_SLOT_TYPE_PCI_E_G2_X1           = 0xAC,
+    DMI_SLOT_TYPE_PCI_E_G2_X2           = 0xAD,
+    DMI_SLOT_TYPE_PCI_E_G2_X4           = 0xAE,
+    DMI_SLOT_TYPE_PCI_E_G2_X8           = 0xAF,
+    DMI_SLOT_TYPE_PCI_E_G2_X16          = 0xB0,
+    DMI_SLOT_TYPE_PCI_E_G3              = 0xB1,
+    DMI_SLOT_TYPE_PCI_E_G3_X1           = 0xB2,
+    DMI_SLOT_TYPE_PCI_E_G3_X2           = 0xB3,
+    DMI_SLOT_TYPE_PCI_E_G3_X4           = 0xB4,
+    DMI_SLOT_TYPE_PCI_E_G3_X8           = 0xB5,
+    DMI_SLOT_TYPE_PCI_E_G3_X16          = 0xB6,
+    DMI_SLOT_TYPE_PCI_E_G4              = 0xB8,
+    DMI_SLOT_TYPE_PCI_E_G4_X1           = 0xB9,
+    DMI_SLOT_TYPE_PCI_E_G4_X2           = 0xBA,
+    DMI_SLOT_TYPE_PCI_E_G4_X4           = 0xBB,
+    DMI_SLOT_TYPE_PCI_E_G4_X8           = 0xBC,
+    DMI_SLOT_TYPE_PCI_E_G4_X16          = 0xBD,
+    DMI_SLOT_TYPE_PCI_E_G5              = 0xBE,
+    DMI_SLOT_TYPE_PCI_E_G5_X1           = 0xBF,
+    DMI_SLOT_TYPE_PCI_E_G5_X2           = 0xC0,
+    DMI_SLOT_TYPE_PCI_E_G5_X4           = 0xC1,
+    DMI_SLOT_TYPE_PCI_E_G5_X8           = 0xC2,
+    DMI_SLOT_TYPE_PCI_E_G5_X16          = 0xC3,
+    DMI_SLOT_TYPE_PCI_E_G6              = 0xC4,
+    DMI_SLOT_TYPE_EDSFF_E1              = 0xC5,
+    DMI_SLOT_TYPE_EDSFF_E3              = 0xC6,
+} dmi_slot_type_t;
+
+const char *dmi_slot_type_name(dmi_slot_type_t value);
+----
+
+== Description
+
+The `dmi_slot_type_t` enumeration tells the bus or the form factor of a system
+slot, and is the type of the `type` field of `dmi_slot_t`. The specification
+assigns no values from `0x29` to `0x2F`, from `0x31` to `0x9F`, `0xB7`, and
+above `0xC6`.
+
+PCI Express types which give a generation only are meant for slots whose
+physical width is their electrical width, the `bus_width` field of `dmi_slot_t`
+giving both. Types which also give a width are meant for slots wider than their
+electrical width: the type gives the physical width, and `bus_width` the
+electrical one.
+
+The `dmi_slot_type_name` function returns the name of a value, as the command
+line tool shows it.
+
+=== Values
+
+`DMI_SLOT_TYPE_UNSPEC`::
+Unspecified.
+
+`DMI_SLOT_TYPE_OTHER`::
+Other.
+
+`DMI_SLOT_TYPE_UNKNOWN`::
+Unknown.
+
+`DMI_SLOT_TYPE_ISA`::
+ISA.
+
+`DMI_SLOT_TYPE_MCA`::
+Micro Channel (MCA).
+
+`DMI_SLOT_TYPE_EISA`::
+EISA.
+
+`DMI_SLOT_TYPE_PCI`::
+PCI.
+
+`DMI_SLOT_TYPE_PCMCIA`::
+PC Card (PCMCIA).
+
+`DMI_SLOT_TYPE_VESA`::
+VESA Local Bus (VL-VESA).
+
+`DMI_SLOT_TYPE_PROPRIETARY`::
+Proprietary.
+
+`DMI_SLOT_TYPE_PROCESSOR_CARD`::
+Processor card slot.
+
+`DMI_SLOT_TYPE_MEMORY_CARD`::
+Proprietary memory card slot.
+
+`DMI_SLOT_TYPE_IO_RISER_CARD`::
+I/O riser card slot.
+
+`DMI_SLOT_TYPE_NUBUS`::
+NuBus.
+
+`DMI_SLOT_TYPE_PCI_66`::
+PCI, 66 MHz capable.
+
+`DMI_SLOT_TYPE_AGP`::
+AGP.
+
+`DMI_SLOT_TYPE_AGP_2X`::
+AGP 2x.
+
+`DMI_SLOT_TYPE_AGP_4X`::
+AGP 4x.
+
+`DMI_SLOT_TYPE_PCI_X`::
+PCI-X.
+
+`DMI_SLOT_TYPE_AGP_8X`::
+AGP 8x.
+
+`DMI_SLOT_TYPE_M2_S1_DP`::
+M.2 Socket 1-DP, mechanical key A.
+
+`DMI_SLOT_TYPE_M2_S1_SD`::
+M.2 Socket 1-SD, mechanical key E.
+
+`DMI_SLOT_TYPE_M2_S2`::
+M.2 Socket 2, mechanical key B.
+
+`DMI_SLOT_TYPE_M2_S3`::
+M.2 Socket 3, mechanical key M.
+
+`DMI_SLOT_TYPE_MXM_I`::
+MXM type I.
+
+`DMI_SLOT_TYPE_MXM_II`::
+MXM type II.
+
+`DMI_SLOT_TYPE_MXM_III_STD`::
+MXM type III, standard connector.
+
+`DMI_SLOT_TYPE_MXM_III_HE`::
+MXM type III, HE connector.
+
+`DMI_SLOT_TYPE_MXM_IV`::
+MXM type IV.
+
+`DMI_SLOT_TYPE_MXM_30_A`::
+MXM 3.0 type A.
+
+`DMI_SLOT_TYPE_MXM_30_B`::
+MXM 3.0 type B.
+
+`DMI_SLOT_TYPE_PCI_E_G2_SFF8639`::
+PCI Express Gen 2, SFF-8639 (U.2).
+
+`DMI_SLOT_TYPE_PCI_E_G3_SFF8639`::
+PCI Express Gen 3, SFF-8639 (U.2).
+
+`DMI_SLOT_TYPE_PCI_E_MINI_52PIN_BSKO`::
+PCI Express Mini, 52 pins (CEM 2.0), with bottom-side keep-outs. A short
+`length` means half-size cards only, a long one full-size cards.
+
+`DMI_SLOT_TYPE_PCI_E_MINI_52PIN`::
+PCI Express Mini, 52 pins (CEM 2.0), without bottom-side keep-outs. A short
+`length` means half-size cards only, a long one full-size cards.
+
+`DMI_SLOT_TYPE_PCI_E_MINI_76PIN`::
+PCI Express Mini, 76 pins (CEM 2.0), for Display-Mini cards.
+
+`DMI_SLOT_TYPE_PCI_E_G4_SFF8639`::
+PCI Express Gen 4, SFF-8639 (U.2).
+
+`DMI_SLOT_TYPE_PCI_E_G5_SFF8639`::
+PCI Express Gen 5, SFF-8639 (U.2).
+
+`DMI_SLOT_TYPE_OCP_NIC_30_SFF`::
+OCP NIC 3.0, small form factor (SFF).
+
+`DMI_SLOT_TYPE_OCP_NIC_30_LFF`::
+OCP NIC 3.0, large form factor (LFF).
+
+`DMI_SLOT_TYPP_OCP_NIC_LEGACY`::
+OCP NIC older than 3.0.
+
+`DMI_SLOT_TYPE_CXL_FLEXBUS_10`::
+CXL Flex Bus 1.0. Deprecated: the CXL bits of `dmi_slot_features_ex`(3)
+describe CXL-capable slots of any PCI Express Gen 5 or later type instead.
+
+`DMI_SLOT_TYPE_PC_98_C20`::
+PC-98/C20.
+
+`DMI_SLOT_TYPE_PC_98_C24`::
+PC-98/C24.
+
+`DMI_SLOT_TYPE_PC_98_E`::
+PC-98/E.
+
+`DMI_SLOT_TYPE_PC_98_LOCAL_BUS`::
+PC-98/Local bus.
+
+`DMI_SLOT_TYPE_PC_98_CARD`::
+PC-98/Card.
+
+`DMI_SLOT_TYPE_PCI_E`::
+PCI Express (Gen 1), physical width equal to the electrical one, which
+`bus_width` gives.
+
+`DMI_SLOT_TYPE_PCI_E_X1`::
+PCI Express (Gen 1), x1 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_X2`::
+PCI Express (Gen 1), x2 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_X4`::
+PCI Express (Gen 1), x4 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_X8`::
+PCI Express (Gen 1), x8 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_X16`::
+PCI Express (Gen 1), x16 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G2`::
+PCI Express Gen 2, physical width equal to the electrical one, which
+`bus_width` gives.
+
+`DMI_SLOT_TYPE_PCI_E_G2_X1`::
+PCI Express Gen 2, x1 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G2_X2`::
+PCI Express Gen 2, x2 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G2_X4`::
+PCI Express Gen 2, x4 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G2_X8`::
+PCI Express Gen 2, x8 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G2_X16`::
+PCI Express Gen 2, x16 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G3`::
+PCI Express Gen 3, physical width equal to the electrical one, which
+`bus_width` gives.
+
+`DMI_SLOT_TYPE_PCI_E_G3_X1`::
+PCI Express Gen 3, x1 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G3_X2`::
+PCI Express Gen 3, x2 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G3_X4`::
+PCI Express Gen 3, x4 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G3_X8`::
+PCI Express Gen 3, x8 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G3_X16`::
+PCI Express Gen 3, x16 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G4`::
+PCI Express Gen 4, physical width equal to the electrical one, which
+`bus_width` gives.
+
+`DMI_SLOT_TYPE_PCI_E_G4_X1`::
+PCI Express Gen 4, x1 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G4_X2`::
+PCI Express Gen 4, x2 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G4_X4`::
+PCI Express Gen 4, x4 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G4_X8`::
+PCI Express Gen 4, x8 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G4_X16`::
+PCI Express Gen 4, x16 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G5`::
+PCI Express Gen 5, physical width equal to the electrical one, which
+`bus_width` gives.
+
+`DMI_SLOT_TYPE_PCI_E_G5_X1`::
+PCI Express Gen 5, x1 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G5_X2`::
+PCI Express Gen 5, x2 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G5_X4`::
+PCI Express Gen 5, x4 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G5_X8`::
+PCI Express Gen 5, x8 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G5_X16`::
+PCI Express Gen 5, x16 physical width.
+
+`DMI_SLOT_TYPE_PCI_E_G6`::
+PCI Express Gen 6 or later; the `information` field of `dmi_slot_t` holds the
+generation.
+
+`DMI_SLOT_TYPE_EDSFF_E1`::
+EDSFF E1 slot (1U enterprise and datacenter form factor, E1.S or E1.L).
+
+`DMI_SLOT_TYPE_EDSFF_E3`::
+EDSFF E3 slot (3-inch enterprise and datacenter form factor, E3.S or E3.L).
+
+== Return value
+
+`dmi_slot_type_name` returns the name of the value, or `nullptr` if the value
+has no name. The name is in English, or translated to the locale set with
+`dmi_set_locale` when the library is built with localization support and has a
+translation of it. The string must not be modified or freed; a translated one
+stays valid until the locale is changed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_slot`(3),
+`dmi_slot_features_ex`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.0 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

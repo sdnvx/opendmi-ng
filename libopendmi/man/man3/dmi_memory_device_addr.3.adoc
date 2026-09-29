@@ -1,0 +1,137 @@
+ifdef::backend-manpage[]
+= dmi_memory_device_addr(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_memory_device_addr
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_memory_device_addr - memory device mapped address structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/memory-device-addr.h>
+
+typedef struct dmi_memory_device_addr {
+    uint64_t start_addr;
+    uint64_t end_addr;
+    uint64_t range_size;
+    dmi_handle_t device_handle;
+    dmi_entity_t *device;
+    dmi_handle_t array_addr_handle;
+    dmi_entity_t *array_addr;
+    unsigned short partition_pos;
+    unsigned short interleave_pos;
+    unsigned short interleave_depth;
+} dmi_memory_device_addr_t;
+----
+
+== Description
+
+The `dmi_memory_device_addr_t` structure holds the decoded memory device mapped
+address structure (type 20) of SMBIOS: a contiguous range of physical
+addresses mapped to a memory device, the memory array mapped address
+structure (type 19) whose range it is a part of, and the position of the
+device in the partition and in the interleave. A table holds one structure
+for each such range; devices without a mapped address have none, since the
+structure cannot describe an empty range.
+
+The structure is returned by `dmi_entity_info`(3) for the structures of type
+`DMI_TYPE(MEMORY_DEVICE_ADDR)`, and lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`start_addr`::
+Physical address of the start of the range, in bytes. The SMBIOS 2.1 field
+counts in kibibytes; ranges it cannot express are carried by an extended
+field in bytes, present since SMBIOS 2.7.
+
+`end_addr`::
+Physical address of the last byte of the range. Taken from the SMBIOS 2.1
+field, which counts in kibibytes, it is the last byte of the last kibibyte of
+the range; the extended field (SMBIOS 2.7), which is used when the 2.1 fields
+hold FFFFFFFFh, gives the last byte itself.
+
+`range_size`::
+Size of the range, in bytes, computed from `start_addr` and `end_addr`, both
+of which belong to the range.
+
+`device_handle`::
+Handle of the memory device structure (type 17) the range is mapped to.
+Several ranges can be mapped to the same device.
+
+`device`::
+The memory device structure `device_handle` refers to, resolved while
+linking. `nullptr` if the handle is not set or does not refer to a memory
+device, or before the structures are linked.
+
+`array_addr_handle`::
+Handle of the memory array mapped address structure (type 19) the range is a
+part of. Several device ranges can belong to the same array range.
+
+`array_addr`::
+The memory array mapped address structure `array_addr_handle` refers to,
+resolved while linking. `nullptr` if the handle is not set or does not refer
+to such a structure, or before the structures are linked.
+
+`partition_pos`::
+Position of the device within a row of the address partition, starting at 1:
+with two 8-bit devices forming a 16-bit row, 1 or 2. Zero is reserved,
+`USHRT_MAX` means unknown.
+
+`interleave_pos`::
+Position of the device in the interleave: 0 if the range is not interleaved,
+1 for the first position, 2 for the second, and so on. With a 2:1 interleave,
+1 is the "even" position; with a 4:1 interleave, 1 is the first of four.
+`USHRT_MAX` if unknown.
+
+`interleave_depth`::
+Largest number of consecutive rows of the device read in a single
+interleaved transfer. Zero if the device is not interleaved, `USHRT_MAX` if
+the interleave configuration is unknown.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t           *registry = dmi_get_registry(context);
+dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
+                                         DMI_TYPE(MEMORY_DEVICE_ADDR), false);
+dmi_memory_device_addr_t *range    = dmi_entity_info(entity,
+                                         DMI_TYPE(MEMORY_DEVICE_ADDR));
+
+if (range != nullptr)
+    printf("0x%llX-0x%llX: memory device 0x%04X\n",
+           (unsigned long long)range->start_addr,
+           (unsigned long long)range->end_addr,
+           (unsigned)range->device_handle);
+----
+
+== See also
+
+`dmi_entity_info`(3), `dmi_entity_link`(3), `dmi_memory_device`(3),
+`dmi_memory_array_addr`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

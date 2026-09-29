@@ -1,0 +1,62 @@
+ifdef::backend-manpage[]
+= dmi_processor_amd64_temperature_range(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_processor_amd64_temperature_range
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_processor_amd64_temperature_range - temperature ranges of x64 processors
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/processor-ex.h>
+
+typedef enum dmi_processor_amd64_temperature_range {
+    DMI_PROCESSOR_AMD64_TEMPERATURE_RANGE_COMMERCIAL = 0x00,
+    DMI_PROCESSOR_AMD64_TEMPERATURE_RANGE_EXTENDED   = 0x01
+} dmi_processor_amd64_temperature_range_t;
+----
+
+== Description
+
+The `dmi_processor_amd64_temperature_range_t` enumeration tells the range of
+temperatures an x64 processor is made to work in, and is the values of the
+`temperature_range` field of `dmi_processor_amd64_attribute_t`.
+
+=== Values
+
+`DMI_PROCESSOR_AMD64_TEMPERATURE_RANGE_COMMERCIAL`::
+Commercial temperature range.
+
+`DMI_PROCESSOR_AMD64_TEMPERATURE_RANGE_EXTENDED`::
+Extended temperature range.
+
+== See also
+
+`dmi_processor_amd64_attribute`(3), `dmi_processor_amd64_data`(3)
+
+== Standards
+
+Not part of the SMBIOS specification itself, which leaves the format of the x64
+processor-specific data to a separate document maintained by Intel
+(https://github.com/intel/smbios).
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

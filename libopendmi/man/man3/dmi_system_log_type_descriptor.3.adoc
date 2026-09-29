@@ -1,0 +1,65 @@
+ifdef::backend-manpage[]
+= dmi_system_log_type_descriptor(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_system_log_type_descriptor
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_system_log_type_descriptor - supported event log type descriptor
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/system-event-log.h>
+
+typedef struct dmi_system_log_type_descriptor {
+    dmi_event_log_type_t        type;
+    dmi_event_log_data_format_t data_format;
+} dmi_system_log_type_descriptor_t;
+----
+
+== Description
+
+The `dmi_system_log_type_descriptor_t` structure describes one kind of event
+the system event log supports, and is the type of the elements of the
+`descriptors` array of `dmi_system_event_log_t`. The presence of a
+descriptor tells that the log records events of its type, and how the first
+bytes of their variable data are laid out; a record may carry more variable
+data than its format covers.
+
+=== Fields
+
+`type`::
+Type of the events, see `dmi_event_log_type`(3).
+
+`data_format`::
+Format of the start of the variable data of the events of that type, see
+`dmi_event_log_data_format`(3).
+
+== See also
+
+`dmi_system_event_log`(3), `dmi_event_log_type`(3),
+`dmi_event_log_data_format`(3)
+
+== Standards
+
+DMTF SMBIOS Specification (DSP0134), version 2.1 or newer.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]
