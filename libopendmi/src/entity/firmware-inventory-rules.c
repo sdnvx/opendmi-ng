@@ -28,14 +28,14 @@ void dmi_firmware_inventory_lint_version(dmi_lint_t *lint, const dmi_entity_t *e
     const dmi_firmware_version_t *version = &info->parsed_version;
     const dmi_firmware_version_t *lowest  = &info->parsed_lowest_version;
 
-    if ((version->format != lowest->format) or (version->format == DMI_VERSION_FORMAT_FREE))
+    if ((version->format != lowest->format) or (version->format == DMI_FIRMWARE_VERSION_FORMAT_FREE))
         return;
 
     // Semantic versions are compared by their numbers, and the hexadecimal
     // ones by their values
     bool older;
 
-    if (version->format == DMI_VERSION_FORMAT_SEMANTIC) {
+    if (version->format == DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC) {
         older = (version->number.major < lowest->number.major) or
                 ((version->number.major == lowest->number.major) and
                  (version->number.minor < lowest->number.minor));

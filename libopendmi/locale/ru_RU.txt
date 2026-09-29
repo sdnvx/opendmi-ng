@@ -917,6 +917,14 @@ ru_RU {
     firmware-language-flag {
         is-abbreviated { "Сокращённый" }
     }
+    firmware-version-format {
+        free-form { "Произвольный" }
+        semantic { "Семантический" }
+        hexadecimal-32 { "Шестнадцатеричный (32 бита)" }
+        hexadecimal-64 { "Шестнадцатеричный (64 бита)" }
+        reserved { "Зарезервирован" }
+        vendor-specific { "Специфичный для производителя" }
+    }
     group-associations {
         name { "Групповые связи" }
     }
@@ -2468,14 +2476,6 @@ ru_RU {
         ibm { "IBM" }
         intel { "Intel" }
         lenovo { "Lenovo" }
-    }
-    version-format {
-        free-form { "Произвольный" }
-        semantic { "Семантический" }
-        hexadecimal-32 { "Шестнадцатеричный (32 бита)" }
-        hexadecimal-64 { "Шестнадцатеричный (64 бита)" }
-        reserved { "Зарезервирован" }
-        vendor-specific { "Специфичный для производителя" }
     }
     voltage-probe {
         name { "Датчик напряжения" }

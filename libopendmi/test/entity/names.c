@@ -60,7 +60,7 @@ static void test_entity_value_names(void **pstate)
     assert_string_equal(dmi_processor_arch_name(DMI_PROCESSOR_ARCH_RESERVED), "Reserved");
     assert_string_equal(dmi_rack_type_name(DMI_RACK_TYPE_OPEN), "Open Rack");
     assert_string_equal(dmi_system_log_access_method_name(DMI_SYSTEM_LOG_ACCESS_METHOD_INDEXED_IO_8BIT_1_1), "Indexed I/O: 1 8-bit index port, 1 8-bit data port");
-    assert_string_equal(dmi_system_log_header_fmt_name(DMI_SYSTEM_LOG_HEADER_FMT_NO_HEADER), "No header");
+    assert_string_equal(dmi_system_log_header_format_name(DMI_SYSTEM_LOG_HEADER_FORMAT_NO_HEADER), "No header");
 
     assert_null(dmi_boot_status_name((dmi_boot_status_t)0x100));
     assert_null(dmi_dell_check_type_name((dmi_dell_check_type_t)0x100));
@@ -83,5 +83,5 @@ static void test_entity_value_names(void **pstate)
     assert_null(dmi_processor_arch_name((dmi_processor_arch_t)0x100));
     assert_null(dmi_rack_type_name((dmi_rack_type_t)0x100));
     assert_null(dmi_system_log_access_method_name((dmi_system_log_access_method_t)0x100));
-    assert_null(dmi_system_log_header_fmt_name((dmi_system_log_header_fmt_t)0x100));
+    assert_null(dmi_system_log_header_format_name((dmi_system_log_header_format_t)0x100));
 }

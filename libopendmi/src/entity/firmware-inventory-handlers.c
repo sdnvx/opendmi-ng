@@ -15,9 +15,9 @@
 #include <opendmi/entity/firmware-inventory-internal.h>
 
 static void dmi_firmware_version_parse(
-        const char             *str,
-        dmi_version_format_t    format,
-        dmi_firmware_version_t *version);
+        const char                    *str,
+        dmi_firmware_version_format_t  format,
+        dmi_firmware_version_t        *version);
 static void dmi_firmware_ident_parse(
         const char                  *str,
         dmi_firmware_ident_format_t  format,
@@ -73,29 +73,29 @@ void dmi_firmware_inventory_cleanup(dmi_entity_t *entity)
 }
 
 static void dmi_firmware_version_parse(
-        const char             *str,
-        dmi_version_format_t    format,
-        dmi_firmware_version_t *version)
+        const char                    *str,
+        dmi_firmware_version_format_t  format,
+        dmi_firmware_version_t        *version)
 {
-    version->format = DMI_VERSION_FORMAT_FREE;
+    version->format = DMI_FIRMWARE_VERSION_FORMAT_FREE;
 
     if (str == nullptr)
         return;
 
     // Strings not conforming to the format are kept as free-form ones
     switch (format) {
-    case DMI_VERSION_FORMAT_SEMANTIC:
+    case DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC:
         if (dmi_firmware_parse_decimal(&str, &version->number.major) and (*str++ == '.') and
             dmi_firmware_parse_decimal(&str, &version->number.minor) and (*str == 0))
             version->format = format;
         break;
 
-    case DMI_VERSION_FORMAT_HEX_32:
+    case DMI_FIRMWARE_VERSION_FORMAT_HEX_32:
         if (dmi_firmware_parse_hex(str, 8, &version->value))
             version->format = format;
         break;
 
-    case DMI_VERSION_FORMAT_HEX_64:
+    case DMI_FIRMWARE_VERSION_FORMAT_HEX_64:
         if (dmi_firmware_parse_hex(str, 16, &version->value))
             version->format = format;
         break;

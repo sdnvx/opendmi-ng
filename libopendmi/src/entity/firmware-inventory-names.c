@@ -14,27 +14,27 @@
 
 #include <opendmi/entity/firmware-inventory-internal.h>
 
-const dmi_name_set_t dmi_version_format_names =
+const dmi_name_set_t dmi_firmware_version_format_names =
 {
-    .code  = "version-format",
+    .code  = "firmware-version-format",
     .names = DMI_NAMES({
         {
-            .id   = DMI_VERSION_FORMAT_FREE,
+            .id   = DMI_FIRMWARE_VERSION_FORMAT_FREE,
             .code = "free-form",
             .name = "Free form"
         },
         {
-            .id   = DMI_VERSION_FORMAT_SEMANTIC,
+            .id   = DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC,
             .code = "semantic",
             .name = "Semantic"
         },
         {
-            .id   = DMI_VERSION_FORMAT_HEX_32,
+            .id   = DMI_FIRMWARE_VERSION_FORMAT_HEX_32,
             .code = "hexadecimal-32",
             .name = "Hexadecimal (32-bit)"
         },
         {
-            .id   = DMI_VERSION_FORMAT_HEX_64,
+            .id   = DMI_FIRMWARE_VERSION_FORMAT_HEX_64,
             .code = "hexadecimal-64",
             .name = "Hexadecimal (64-bit)"
         },
@@ -42,14 +42,14 @@ const dmi_name_set_t dmi_version_format_names =
     }),
     .ranges = DMI_NAME_RANGES({
         {
-            .start_id = __DMI_VERSION_FORMAT_RESERVED_START,
-            .end_id   = __DMI_VERSION_FORMAT_RESERVED_END,
+            .start_id = __DMI_FIRMWARE_VERSION_FORMAT_RESERVED_START,
+            .end_id   = __DMI_FIRMWARE_VERSION_FORMAT_RESERVED_END,
             .code     = "reserved",
             .name     = "Reserved"
         },
         {
-            .start_id = __DMI_VERSION_FORMAT_VENDOR_SPECIFIC_START,
-            .end_id   = __DMI_VERSION_FORMAT_VENDOR_SPECIFIC_END,
+            .start_id = __DMI_FIRMWARE_VERSION_FORMAT_VENDOR_SPECIFIC_START,
+            .end_id   = __DMI_FIRMWARE_VERSION_FORMAT_VENDOR_SPECIFIC_END,
             .code     = "vendor-specific",
             .name     = "Vendor/OEM-specific"
         },
@@ -149,9 +149,9 @@ const dmi_name_set_t dmi_firmware_inventory_state_names =
     })
 };
 
-const char *dmi_version_format_name(dmi_version_format_t value)
+const char *dmi_firmware_version_format_name(dmi_firmware_version_format_t value)
 {
-    return dmi_name_lookup(&dmi_version_format_names, (int)value);
+    return dmi_name_lookup(&dmi_firmware_version_format_names, (int)value);
 }
 
 const char *dmi_firmware_ident_format_name(dmi_firmware_ident_format_t value)

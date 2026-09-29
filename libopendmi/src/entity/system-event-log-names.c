@@ -77,12 +77,12 @@ const dmi_name_set_t dmi_system_log_header_format_names =
     .code   = "system-log-header-format",
     .names  = DMI_NAMES({
         {
-            .id   = DMI_SYSTEM_LOG_HEADER_FMT_NO_HEADER,
+            .id   = DMI_SYSTEM_LOG_HEADER_FORMAT_NO_HEADER,
             .code = "no-header",
             .name = "No header"
         },
         {
-            .id   = DMI_SYSTEM_LOG_HEADER_FMT_TYPE_1,
+            .id   = DMI_SYSTEM_LOG_HEADER_FORMAT_TYPE_1,
             .code = "type-1",
             .name = "Type 1 log header"
         },
@@ -90,8 +90,8 @@ const dmi_name_set_t dmi_system_log_header_format_names =
     }),
     .ranges = DMI_NAME_RANGES({
         {
-            .start_id = DMI_SYSTEM_LOG_HEADER_FMT_OEM_START,
-            .end_id   = DMI_SYSTEM_LOG_HEADER_FMT_OEM_END,
+            .start_id = DMI_SYSTEM_LOG_HEADER_FORMAT_OEM_START,
+            .end_id   = DMI_SYSTEM_LOG_HEADER_FORMAT_OEM_END,
             .code     = "oem-specific",
             .name     = "OEM-specific"
         },
@@ -310,7 +310,7 @@ const char *dmi_system_log_access_method_name(dmi_system_log_access_method_t val
     return dmi_name_lookup(&dmi_system_log_access_method_names, (int)value);
 }
 
-const char *dmi_system_log_header_fmt_name(dmi_system_log_header_fmt_t value)
+const char *dmi_system_log_header_format_name(dmi_system_log_header_format_t value)
 {
     return dmi_name_lookup(&dmi_system_log_header_format_names, (int)value);
 }

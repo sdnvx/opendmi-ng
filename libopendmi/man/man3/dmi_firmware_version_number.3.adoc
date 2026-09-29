@@ -33,8 +33,8 @@ typedef struct dmi_firmware_version_number {
 == Description
 
 The `dmi_firmware_version_number_t` structure holds a firmware version written
-in the "MAJOR.MINOR" format (`DMI_VERSION_FORMAT_SEMANTIC`), as two numbers.
-It is the type of the `number` field of `dmi_firmware_version_t`.
+in the "MAJOR.MINOR" format (`DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC`), as two
+numbers. It is the type of the `number` field of `dmi_firmware_version_t`.
 
 === Fields
 

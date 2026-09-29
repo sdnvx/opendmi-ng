@@ -25,7 +25,7 @@ endif::[]
 #include <opendmi/entity/firmware-inventory.h>
 
 typedef struct dmi_firmware_version {
-    dmi_version_format_t format;
+    dmi_firmware_version_format_t format;
     dmi_firmware_version_number_t number;
     uint64_t value;
 } dmi_firmware_version_t;
@@ -46,24 +46,26 @@ of `dmi_firmware_inventory_t` in any case.
 
 `format`::
 Format the string has been parsed in, which tells the field holding the
-version: `DMI_VERSION_FORMAT_SEMANTIC` for `number`,
-`DMI_VERSION_FORMAT_HEX_32` and `DMI_VERSION_FORMAT_HEX_64` for `value`.
-`DMI_VERSION_FORMAT_FREE` if the string is absent, is free-form, uses a
-vendor-specific format, or does not conform to the format the structure
-declares; neither field is used then.
+version: `DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC` for `number`,
+`DMI_FIRMWARE_VERSION_FORMAT_HEX_32` and `DMI_FIRMWARE_VERSION_FORMAT_HEX_64`
+for `value`. `DMI_FIRMWARE_VERSION_FORMAT_FREE` if the string is absent, is
+free-form, uses a vendor-specific format, or does not conform to the format
+the structure declares; neither field is used then. See
+`dmi_firmware_version_format`(3).
 
 `number`::
-Major and minor version numbers, if `format` is `DMI_VERSION_FORMAT_SEMANTIC`,
-see `dmi_firmware_version_number`(3).
+Major and minor version numbers, if `format` is
+`DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC`, see `dmi_firmware_version_number`(3).
 
 `value`::
-Numeric value of the version, if `format` is `DMI_VERSION_FORMAT_HEX_32` or
-`DMI_VERSION_FORMAT_HEX_64`: the string is "0x" followed by at most 8 or 16
-hexadecimal digits.
+Numeric value of the version, if `format` is
+`DMI_FIRMWARE_VERSION_FORMAT_HEX_32` or `DMI_FIRMWARE_VERSION_FORMAT_HEX_64`:
+the string is "0x" followed by at most 8 or 16 hexadecimal digits.
 
 == See also
 
 `dmi_firmware_inventory`(3),
+`dmi_firmware_version_format`(3),
 `dmi_firmware_version_number`(3)
 
 == Standards

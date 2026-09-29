@@ -19,20 +19,20 @@
 // Version is shown as parsed according to the version format, or as the
 // original string, if it does not conform to the format
 //
-#define dmi_firmware_version_variants(__string, __parsed)                                   \
-    DMI_VARIANTS({                                                                          \
-        DMI_VARIANT(DMI_VERSION_FORMAT_SEMANTIC, dmi_firmware_inventory_t, __parsed.number, \
-                    STRUCT, { .attrs = dmi_firmware_version_number_attrs }),                \
-        DMI_VARIANT(DMI_VERSION_FORMAT_HEX_32, dmi_firmware_inventory_t, __parsed.value,    \
-                    INTEGER, { .flags = DMI_ATTRIBUTE_FLAG_HEX }),                          \
-        DMI_VARIANT(DMI_VERSION_FORMAT_HEX_64, dmi_firmware_inventory_t, __parsed.value,    \
-                    INTEGER, { .flags = DMI_ATTRIBUTE_FLAG_HEX }),                          \
-        DMI_VARIANT_DEFAULT(dmi_firmware_inventory_t, __string, STRING, {}),                \
-        {}                                                                                  \
+#define dmi_firmware_version_variants(__string, __parsed)                                            \
+    DMI_VARIANTS({                                                                                   \
+        DMI_VARIANT(DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, dmi_firmware_inventory_t, __parsed.number, \
+                    STRUCT, { .attrs = dmi_firmware_version_number_attrs }),                         \
+        DMI_VARIANT(DMI_FIRMWARE_VERSION_FORMAT_HEX_32, dmi_firmware_inventory_t, __parsed.value,    \
+                    INTEGER, { .flags = DMI_ATTRIBUTE_FLAG_HEX }),                                   \
+        DMI_VARIANT(DMI_FIRMWARE_VERSION_FORMAT_HEX_64, dmi_firmware_inventory_t, __parsed.value,    \
+                    INTEGER, { .flags = DMI_ATTRIBUTE_FLAG_HEX }),                                   \
+        DMI_VARIANT_DEFAULT(dmi_firmware_inventory_t, __string, STRING, {}),                         \
+        {}                                                                                           \
     })
 
 // Value names, see firmware-inventory-names.c
-extern const dmi_name_set_t dmi_version_format_names;
+extern const dmi_name_set_t dmi_firmware_version_format_names;
 extern const dmi_name_set_t dmi_firmware_ident_format_names;
 extern const dmi_name_set_t dmi_firmware_inventory_feature_names;
 extern const dmi_name_set_t dmi_firmware_inventory_state_names;

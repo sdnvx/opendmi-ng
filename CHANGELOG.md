@@ -121,6 +121,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename `dmi_file_get()` and `dmi_memory_get()` to `dmi_file_load()` and `dmi_memory_load()`, which fill a buffer instead of allocating the data they read
 - Rename misspelled `DMI_SLOT_TYPP_OCP_NIC_LEGACY`, `DMI_PROCESSOR_FAMILT_STRONGARM`, `synchonous` and `has_zoom_video_supoort` to `DMI_SLOT_TYPE_OCP_NIC_LEGACY`, `DMI_PROCESSOR_FAMILY_STRONGARM`, `synchronous` and `has_zoom_video_support`
 - Rename misspelled codes to `multi-system`, `wireless-lan`, `hardware-thread`, `pmic0-vendor-id` and `dil-25pin`
+- Rename `dmi_version_format_t` to `dmi_firmware_version_format_t`
+- Rename `dmi_system_log_header_fmt_t` to `dmi_system_log_header_format_t`
 - Give the end of a mapped address range carried in kilobytes as its last byte, the way the extended fields do
 - Name slot type 0x0B as the specification does, "Proprietary memory card slot"
 - Remove the declaration of `dmi_pointing_device_decode()`, which is defined nowhere, and the typedefs of the structures which do not exist

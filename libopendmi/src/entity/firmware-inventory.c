@@ -77,7 +77,7 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, version_format, ENUM, {
             .code    = "version-format",
             .name    = "Version format",
-            .values  = &dmi_version_format_names
+            .values  = &dmi_firmware_version_format_names
         }),
         DMI_ATTRIBUTE_VARIANT(dmi_firmware_inventory_t, parsed_ident.format, {
             .code     = "ident",

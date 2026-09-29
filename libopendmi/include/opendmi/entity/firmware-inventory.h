@@ -20,42 +20,42 @@ typedef struct dmi_firmware_version             dmi_firmware_version_t;
 typedef struct dmi_firmware_ident               dmi_firmware_ident_t;
 
 /**
- * @brief Version number formats.
+ * @brief Firmware version formats.
  */
-typedef enum dmi_version_format
+typedef enum dmi_firmware_version_format
 {
     /**
      * @brief The format is a free-form string that is implementation specific.
      * Example: "1.45.455b66-rev4".
      */
-    DMI_VERSION_FORMAT_FREE = 0x00,
+    DMI_FIRMWARE_VERSION_FORMAT_FREE = 0x00,
 
     /**
      * @brief The format is "MAJOR.MINOR", where MAJOR and MINOR are decimal
      * string representations of the numeric values of the major/minor version
      * numbers. Example: "1.45"
      */
-    DMI_VERSION_FORMAT_SEMANTIC = 0x01,
+    DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC = 0x01,
 
     /**
      * @brief The format is a C-style hexadecimal string representation of the
      * 32-bit numeric value of the version, in the format of `"0xhhhhhhhh"`.
      * Each `h` represents a hexadecimal digit (0-f). Example: `"0x0001002d"`.
      */
-    DMI_VERSION_FORMAT_HEX_32 = 0x02,
+    DMI_FIRMWARE_VERSION_FORMAT_HEX_32 = 0x02,
 
     /**
      * @brief The format is a C-style hexadecimal string representation of the
      * 64-bit numeric value of the version, in the format of `"0xhhhhhhhhhhhhhhhh"`.
      * Each `h` represents a hexadecimal digit (0-f). Example: `"0x000000010000002d"`.
      */
-    DMI_VERSION_FORMAT_HEX_64 = 0x03,
+    DMI_FIRMWARE_VERSION_FORMAT_HEX_64 = 0x03,
 
-    __DMI_VERSION_FORMAT_RESERVED_START        = 0x04,
-    __DMI_VERSION_FORMAT_RESERVED_END          = 0x7F,
-    __DMI_VERSION_FORMAT_VENDOR_SPECIFIC_START = 0x80,
-    __DMI_VERSION_FORMAT_VENDOR_SPECIFIC_END   = 0xFF
-} dmi_version_format_t;
+    __DMI_FIRMWARE_VERSION_FORMAT_RESERVED_START        = 0x04,
+    __DMI_FIRMWARE_VERSION_FORMAT_RESERVED_END          = 0x7F,
+    __DMI_FIRMWARE_VERSION_FORMAT_VENDOR_SPECIFIC_START = 0x80,
+    __DMI_FIRMWARE_VERSION_FORMAT_VENDOR_SPECIFIC_END   = 0xFF
+} dmi_firmware_version_format_t;
 
 /**
  * @brief Firmware identifier formats.
@@ -209,7 +209,7 @@ struct dmi_firmware_version
      * conforms to it, or free form otherwise. Selects the field containing
      * the parsed version.
      */
-    dmi_version_format_t format;
+    dmi_firmware_version_format_t format;
 
     /**
      * @brief Version number, if the format is semantic.
@@ -264,7 +264,7 @@ struct dmi_firmware_inventory
     /**
      * @brief Version number format.
      */
-    dmi_version_format_t version_format;
+    dmi_firmware_version_format_t version_format;
 
     /**
      * @brief The firmware identifier of this firmware. The format of this
@@ -361,16 +361,16 @@ extern __dmi_api const dmi_entity_spec_t dmi_firmware_inventory_spec;
 __BEGIN_DECLS
 
 /**
- * @brief Get version number format name.
+ * @brief Get firmware version format name.
  *
- * Returns the human-readable name of the version number format.
+ * Returns the human-readable name of the firmware version format.
  *
- * @param[in] value Version format value.
+ * @param[in] value Firmware version format value.
  *
- * @return The version format name string, or @c nullptr if @p value is out of
- * range.
+ * @return The firmware version format name string, or @c nullptr if @p value is
+ * out of range.
  */
-__dmi_api const char *dmi_version_format_name(dmi_version_format_t value);
+__dmi_api const char *dmi_firmware_version_format_name(dmi_firmware_version_format_t value);
 
 /**
  * @brief Get firmware identifier format name.

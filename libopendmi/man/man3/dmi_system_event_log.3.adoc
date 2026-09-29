@@ -34,7 +34,7 @@ typedef struct dmi_system_event_log {
     dmi_system_log_io_ports_t         access_ports;
     uint16_t                          access_gpnv_handle;
     uint32_t                          change_token;
-    dmi_system_log_header_fmt_t       header_format;
+    dmi_system_log_header_format_t    header_format;
     size_t                            descriptor_count;
     dmi_system_log_type_descriptor_t *descriptors;
 } dmi_system_event_log_t;
@@ -104,9 +104,9 @@ Token which the firmware changes every time the log is updated, 0 if the
 firmware does not implement it.
 
 `header_format`::
-Format of the log header, see `dmi_system_log_header_fmt`(3). Present since
+Format of the log header, see `dmi_system_log_header_format`(3). Present since
 SMBIOS 2.1; for older structures holds 0, which reads as
-`DMI_SYSTEM_LOG_HEADER_FMT_NO_HEADER`.
+`DMI_SYSTEM_LOG_HEADER_FORMAT_NO_HEADER`.
 
 `descriptor_count`::
 Number of elements of `descriptors`: the descriptors the structure holds
@@ -143,7 +143,7 @@ if (log_info != nullptr) {
 
 `dmi_entity_info`(3), `dmi_system_log_access_method`(3),
 `dmi_system_log_status`(3), `dmi_system_log_io_ports`(3),
-`dmi_system_log_header_fmt`(3), `dmi_system_log_type_descriptor`(3),
+`dmi_system_log_header_format`(3), `dmi_system_log_type_descriptor`(3),
 `dmi_event_log_type`(3), `dmi_event_log_data_format`(3)
 
 == Standards

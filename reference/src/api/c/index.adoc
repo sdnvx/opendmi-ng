@@ -235,6 +235,7 @@ include::../../../../libopendmi/man/man3/dmi_firmware_inventory_component.3.adoc
 include::../../../../libopendmi/man/man3/dmi_firmware_inventory_features.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_firmware_inventory_state.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_firmware_version.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_version_format.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_firmware_version_number.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/firmware-language.h>`
@@ -467,7 +468,7 @@ include::../../../../libopendmi/man/man3/dmi_event_log_data_format.3.adoc[levelo
 include::../../../../libopendmi/man/man3/dmi_event_log_type.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_system_event_log.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_system_log_access_method.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_system_log_header_fmt.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_system_log_header_format.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_system_log_io_ports.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_system_log_status.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_system_log_type_descriptor.3.adoc[leveloffset=2]

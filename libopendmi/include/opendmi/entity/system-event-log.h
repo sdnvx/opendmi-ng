@@ -38,13 +38,13 @@ typedef enum dmi_system_log_access_method {
  *
  * @since SMBIOS 2.1
  */
-typedef enum dmi_system_log_header_fmt {
-    DMI_SYSTEM_LOG_HEADER_FMT_NO_HEADER = 0x00, ///< No header
-    DMI_SYSTEM_LOG_HEADER_FMT_TYPE_1    = 0x01, ///< Type 1 log header
+typedef enum dmi_system_log_header_format {
+    DMI_SYSTEM_LOG_HEADER_FORMAT_NO_HEADER = 0x00, ///< No header
+    DMI_SYSTEM_LOG_HEADER_FORMAT_TYPE_1    = 0x01, ///< Type 1 log header
     // Reserved: 0x02 .. 0x7F
-    DMI_SYSTEM_LOG_HEADER_FMT_OEM_START = 0x80, ///< First firmware vendor/OEM-specific format
-    DMI_SYSTEM_LOG_HEADER_FMT_OEM_END   = 0xFF, ///< Last firmware vendor/OEM-specific format
-} dmi_system_log_header_fmt_t;
+    DMI_SYSTEM_LOG_HEADER_FORMAT_OEM_START = 0x80, ///< First firmware vendor/OEM-specific format
+    DMI_SYSTEM_LOG_HEADER_FORMAT_OEM_END   = 0xFF, ///< Last firmware vendor/OEM-specific format
+} dmi_system_log_header_format_t;
 
 /**
  * @brief Event log types.
@@ -213,7 +213,7 @@ struct dmi_system_event_log
      *
      * @since SMBIOS 2.1
      */
-    dmi_system_log_header_fmt_t header_format;
+    dmi_system_log_header_format_t header_format;
 
     /**
      * @brief Number of supported event log type descriptors.
@@ -286,7 +286,7 @@ __dmi_api const char *dmi_system_log_access_method_name(dmi_system_log_access_me
  *
  * @return The name of the value, or @c nullptr if @p value has no name.
  */
-__dmi_api const char *dmi_system_log_header_fmt_name(dmi_system_log_header_fmt_t value);
+__dmi_api const char *dmi_system_log_header_format_name(dmi_system_log_header_format_t value);
 
 __END_DECLS
 

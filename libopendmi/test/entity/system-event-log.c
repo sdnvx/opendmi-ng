@@ -135,7 +135,7 @@ static void test_system_event_log_descriptors(void **pstate)
             DMI_SYSTEM_LOG_ACCESS_METHOD_DATA_FUNCTIONS, 0x01,
             0x00, 0x00, 0x00, 0x00,                     // Change token
             0x00, 0x00, 0x00, 0x00,                     // Access method address
-            DMI_SYSTEM_LOG_HEADER_FMT_TYPE_1,           // Header format
+            DMI_SYSTEM_LOG_HEADER_FORMAT_TYPE_1,        // Header format
             test_cases[i].count, test_cases[i].descriptor_length
         };
 
@@ -165,7 +165,7 @@ static void test_system_event_log_descriptors(void **pstate)
 
         const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
         assert_non_null(info);
-        assert_int_equal(info->header_format, DMI_SYSTEM_LOG_HEADER_FMT_TYPE_1);
+        assert_int_equal(info->header_format, DMI_SYSTEM_LOG_HEADER_FORMAT_TYPE_1);
         assert_int_equal(info->descriptor_count, test_cases[i].decoded);
 
         for (size_t j = 0; j < info->descriptor_count; j++) {

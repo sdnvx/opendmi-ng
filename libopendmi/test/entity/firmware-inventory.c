@@ -143,28 +143,28 @@ static void test_firmware_inventory_parse_version(void **pstate)
         uint64_t    value;
     } test_data[] = {
         // Semantic version numbers are not limited to bytes
-        { DMI_VERSION_FORMAT_SEMANTIC, "1.45",            DMI_VERSION_FORMAT_SEMANTIC, 1, 45, 0 },
-        { DMI_VERSION_FORMAT_SEMANTIC, "60020.6",         DMI_VERSION_FORMAT_SEMANTIC, 60020, 6, 0 },
-        { DMI_VERSION_FORMAT_SEMANTIC, "4294967295.0",    DMI_VERSION_FORMAT_SEMANTIC, UINT32_MAX, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "1.45",               DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, 1, 45, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "60020.6",            DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, 60020, 6, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "4294967295.0",       DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, UINT32_MAX, 0, 0 },
 
         // Strings not conforming to the format are free-form ones
-        { DMI_VERSION_FORMAT_SEMANTIC, "ALDER107",        DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
-        { DMI_VERSION_FORMAT_SEMANTIC, "A0006.4",         DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
-        { DMI_VERSION_FORMAT_SEMANTIC, "1.45.3",          DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
-        { DMI_VERSION_FORMAT_SEMANTIC, "1.",              DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
-        { DMI_VERSION_FORMAT_SEMANTIC, "4294967296.0",    DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "ALDER107",           DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "A0006.4",            DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "1.45.3",             DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "1.",                 DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "4294967296.0",       DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
 
-        { DMI_VERSION_FORMAT_HEX_32,   "0x0001002d",      DMI_VERSION_FORMAT_HEX_32, 0, 0, 0x0001002D },
-        { DMI_VERSION_FORMAT_HEX_32,   "0X2D",            DMI_VERSION_FORMAT_HEX_32, 0, 0, 0x2D },
-        { DMI_VERSION_FORMAT_HEX_32,   "0x000000010000002d", DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
-        { DMI_VERSION_FORMAT_HEX_32,   "0001002d",        DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
-        { DMI_VERSION_FORMAT_HEX_32,   "0x",              DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
-        { DMI_VERSION_FORMAT_HEX_64,   "0x000000010000002d", DMI_VERSION_FORMAT_HEX_64, 0, 0, 0x000000010000002D },
-        { DMI_VERSION_FORMAT_HEX_64,   "0x0g",            DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_HEX_32,   "0x0001002d",         DMI_FIRMWARE_VERSION_FORMAT_HEX_32, 0, 0, 0x0001002D },
+        { DMI_FIRMWARE_VERSION_FORMAT_HEX_32,   "0X2D",               DMI_FIRMWARE_VERSION_FORMAT_HEX_32, 0, 0, 0x2D },
+        { DMI_FIRMWARE_VERSION_FORMAT_HEX_32,   "0x000000010000002d", DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_HEX_32,   "0001002d",           DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_HEX_32,   "0x",                 DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { DMI_FIRMWARE_VERSION_FORMAT_HEX_64,   "0x000000010000002d", DMI_FIRMWARE_VERSION_FORMAT_HEX_64, 0, 0, 0x000000010000002D },
+        { DMI_FIRMWARE_VERSION_FORMAT_HEX_64,   "0x0g",               DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
 
         // Free form and unknown formats are not parsed
-        { DMI_VERSION_FORMAT_FREE,     "1.45",            DMI_VERSION_FORMAT_FREE, 0, 0, 0 },
-        { 0x80,                        "1.45",            DMI_VERSION_FORMAT_FREE, 0, 0, 0 }
+        { DMI_FIRMWARE_VERSION_FORMAT_FREE,     "1.45",               DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 },
+        { 0x80,                                 "1.45",               DMI_FIRMWARE_VERSION_FORMAT_FREE, 0, 0, 0 }
     };
 
     for (size_t i = 0; i < countof(test_data); i++) {
@@ -182,10 +182,10 @@ static void test_firmware_inventory_parse_version(void **pstate)
             if (versions[j].format != test_data[i].parsed)
                 fail_msg("Version %s: format %d", test_data[i].version, versions[j].format);
 
-            if (test_data[i].parsed == DMI_VERSION_FORMAT_SEMANTIC) {
+            if (test_data[i].parsed == DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC) {
                 assert_int_equal(versions[j].number.major, test_data[i].major);
                 assert_int_equal(versions[j].number.minor, test_data[i].minor);
-            } else if (test_data[i].parsed != DMI_VERSION_FORMAT_FREE) {
+            } else if (test_data[i].parsed != DMI_FIRMWARE_VERSION_FORMAT_FREE) {
                 assert_int_equal(versions[j].value, test_data[i].value);
             }
         }
@@ -229,7 +229,7 @@ static void test_firmware_inventory_parse_ident(void **pstate)
     };
 
     for (size_t i = 0; i < countof(test_data); i++) {
-        dmi_entity_t *entity = test_create(entity_buffer, DMI_VERSION_FORMAT_FREE, nullptr,
+        dmi_entity_t *entity = test_create(entity_buffer, DMI_FIRMWARE_VERSION_FORMAT_FREE, nullptr,
                                            test_data[i].format, test_data[i].ident);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
@@ -268,9 +268,9 @@ static void test_firmware_inventory_variants(void **pstate)
         dmi_attribute_type_t  type;
         const char           *expected;
     } test_data[] = {
-        { DMI_VERSION_FORMAT_SEMANTIC, "1.45",       DMI_ATTRIBUTE_TYPE_STRUCT,  nullptr      },
-        { DMI_VERSION_FORMAT_HEX_32,   "0x0001002d", DMI_ATTRIBUTE_TYPE_INTEGER, "0x1002D"    },
-        { DMI_VERSION_FORMAT_SEMANTIC, "ALDER107",   DMI_ATTRIBUTE_TYPE_STRING,  "ALDER107"   }
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "1.45",       DMI_ATTRIBUTE_TYPE_STRUCT,  nullptr      },
+        { DMI_FIRMWARE_VERSION_FORMAT_HEX_32,   "0x0001002d", DMI_ATTRIBUTE_TYPE_INTEGER, "0x1002D"    },
+        { DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, "ALDER107",   DMI_ATTRIBUTE_TYPE_STRING,  "ALDER107"   }
     };
 
     for (size_t i = 0; i < countof(test_data); i++) {

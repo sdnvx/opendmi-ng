@@ -27,7 +27,7 @@ endif::[]
 typedef struct dmi_firmware_inventory {
     const char *name;
     const char *version;
-    dmi_version_format_t version_format;
+    dmi_firmware_version_format_t version_format;
     const char *ident;
     dmi_firmware_ident_format_t ident_format;
     const char *release_date;
@@ -73,14 +73,8 @@ Version of the firmware, written in the format `version_format` gives, or
 `nullptr` if the structure has none.
 
 `version_format`::
-Format of `version` and `lowest_version`: `DMI_VERSION_FORMAT_FREE` for a
-free-form string (for example "1.45.455b66-rev4"),
-`DMI_VERSION_FORMAT_SEMANTIC` for "MAJOR.MINOR" in decimal (for example
-"1.45"), `DMI_VERSION_FORMAT_HEX_32` and `DMI_VERSION_FORMAT_HEX_64` for a
-C-style hexadecimal number of 32 or 64 bits (for example "0x0001002d"). Values
-0x04 to 0x7F are reserved by the specification, and values 0x80 to 0xFF are
-for firmware vendors and OEMs. `dmi_version_format_name` returns the name of a
-value.
+Format of `version` and `lowest_version`, see
+`dmi_firmware_version_format`(3).
 
 `ident`::
 Identifier of the firmware, written in the format `ident_format` gives, or
@@ -108,8 +102,8 @@ Size of the firmware image currently programmed in the device, in bytes, or
 
 `parsed_version`::
 `version` parsed according to `version_format`, see `dmi_firmware_version`(3).
-Its format is `DMI_VERSION_FORMAT_FREE` if the string is absent or does not
-conform to the format.
+Its format is `DMI_FIRMWARE_VERSION_FORMAT_FREE` if the string is absent or
+does not conform to the format.
 
 `parsed_lowest_version`::
 `lowest_version` parsed according to `version_format`, see
@@ -163,6 +157,7 @@ if (firmware != nullptr) {
 `dmi_firmware_inventory_features`(3),
 `dmi_firmware_inventory_component`(3),
 `dmi_firmware_version`(3),
+`dmi_firmware_version_format`(3),
 `dmi_firmware_ident`(3)
 
 == Standards
