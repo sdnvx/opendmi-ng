@@ -241,7 +241,9 @@ struct dmi_field_params
      * a value a device may really have.
      *
      * Zero means the field has no such value, since a field whose unknown
-     * value is zero is decoded by a conversion instead.
+     * value is zero is decoded by a conversion instead. The unknown value of
+     * a binary-coded decimal is compared with the bytes as the data holds
+     * them, since it is no digits, and is written back the same way.
      */
     uintmax_t unknown_raw;
 
@@ -259,7 +261,6 @@ struct dmi_field_params
      * Left unset for the extended fields answering to their own member.
      */
     dmi_member_ref_t when;
-
 
     /**
      * @brief Width of a range of bits, or of the unit the bits before a

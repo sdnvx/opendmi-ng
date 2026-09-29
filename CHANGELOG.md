@@ -157,6 +157,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix socket type shown for the processors of structures older than SMBIOS 3.8
 - Fix missing names of the reserved and vendor-specific version formats of firmware inventories and of the OEM-specific access methods of system event logs
 - Fix `<opendmi/entity/memory-error-32.h>` and `<opendmi/entity/memory-error-64.h>` not compiling on their own
+- Fix fields of the next scheduled power-on which are not set decoded as 165 instead of unknown
 
 ## [0.4.1] - September 18, 2026
 

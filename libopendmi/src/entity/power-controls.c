@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <limits.h>
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
@@ -35,43 +36,50 @@ const dmi_entity_spec_t dmi_power_controls_spec =
         .decoded_length  = sizeof(dmi_power_controls_t)
     },
 
+    // Fields which are not set hold 0xFF, which is no decimal, and takes no
+    // part in the schedule the way any value out of the range does
     .fields = DMI_FIELDS({
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_month,  dmi_byte_t),
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_day,    dmi_byte_t),
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_hour,   dmi_byte_t),
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_minute, dmi_byte_t),
-        DMI_FIELD_BCD(dmi_power_controls_t, poweron_second, dmi_byte_t),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_month,  dmi_byte_t, .unknown_raw = 0xFFu),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_day,    dmi_byte_t, .unknown_raw = 0xFFu),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_hour,   dmi_byte_t, .unknown_raw = 0xFFu),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_minute, dmi_byte_t, .unknown_raw = 0xFFu),
+        DMI_FIELD_BCD(dmi_power_controls_t, poweron_second, dmi_byte_t, .unknown_raw = 0xFFu),
         {}
     }),
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_month, INTEGER, {
-            .code = "poweron-month",
-            .name = "Next power-on month",
+            .code    = "poweron-month",
+            .name    = "Next power-on month",
+            .unknown = dmi_value_ptr((unsigned short)USHRT_MAX),
             .minimum = dmi_value_ptr((unsigned short)1),
             .maximum = dmi_value_ptr((unsigned short)12),
         }),
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_day, INTEGER, {
-            .code = "poweron-day",
-            .name = "Next power-on day of month",
+            .code    = "poweron-day",
+            .name    = "Next power-on day of month",
+            .unknown = dmi_value_ptr((unsigned short)USHRT_MAX),
             .minimum = dmi_value_ptr((unsigned short)1),
             .maximum = dmi_value_ptr((unsigned short)31),
         }),
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_hour, INTEGER, {
-            .code = "poweron-hour",
-            .name = "Next power-on hour",
+            .code    = "poweron-hour",
+            .name    = "Next power-on hour",
+            .unknown = dmi_value_ptr((unsigned short)USHRT_MAX),
             .minimum = dmi_value_ptr((unsigned short)0),
             .maximum = dmi_value_ptr((unsigned short)23),
         }),
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_minute, INTEGER, {
-            .code = "poweron-minute",
-            .name = "Next power-on minute",
+            .code    = "poweron-minute",
+            .name    = "Next power-on minute",
+            .unknown = dmi_value_ptr((unsigned short)USHRT_MAX),
             .minimum = dmi_value_ptr((unsigned short)0),
             .maximum = dmi_value_ptr((unsigned short)59),
         }),
         DMI_ATTRIBUTE(dmi_power_controls_t, poweron_second, INTEGER, {
-            .code = "poweron-second",
-            .name = "Next power-on second",
+            .code    = "poweron-second",
+            .name    = "Next power-on second",
+            .unknown = dmi_value_ptr((unsigned short)USHRT_MAX),
             .minimum = dmi_value_ptr((unsigned short)0),
             .maximum = dmi_value_ptr((unsigned short)59),
         }),

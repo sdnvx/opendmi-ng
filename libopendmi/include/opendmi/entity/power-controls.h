@@ -28,31 +28,32 @@ struct dmi_power_controls
 {
     /**
      * @brief The month on which the next scheduled power-on is to occur, in
-     * the range `1` to `12`.
+     * the range `1` to `12`, or `USHRT_MAX` if the field is not set.
      */
     unsigned short poweron_month;
 
     /**
      * @brief The day-of-month on which the next scheduled power-on is to
-     * occur, in the range `1` to `31`.
+     * occur, in the range `1` to `31`, or `USHRT_MAX` if the field is not
+     * set.
      */
     unsigned short poweron_day;
 
     /**
      * @brief The hour on which the next scheduled power-on is to occur, in
-     * the range `0` to `23`.
+     * the range `0` to `23`, or `USHRT_MAX` if the field is not set.
      */
     unsigned short poweron_hour;
 
     /**
      * @brief The minute on which the next scheduled power-on is to occur, in
-     * the range `0` to `59`.
+     * the range `0` to `59`, or `USHRT_MAX` if the field is not set.
      */
     unsigned short poweron_minute;
 
     /**
      * @brief The second on which the next scheduled power-on is to occur, in
-     * the range `0` to `59`.
+     * the range `0` to `59`, or `USHRT_MAX` if the field is not set.
      */
     unsigned short poweron_second;
 };

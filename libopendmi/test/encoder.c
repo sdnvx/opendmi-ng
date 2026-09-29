@@ -22,6 +22,7 @@
 #include <opendmi/test/logger.h>
 
 #include <opendmi/entity/memory-array-addr.h>
+#include <opendmi/entity/power-controls.h>
 #include <opendmi/entity/power-supply.h>
 #include <opendmi/entity/system.h>
 
@@ -31,6 +32,7 @@ static int test_encoder_teardown(void **pstate);
 static void test_encoder_reserved_bits(void **pstate);
 static void test_encoder_extended_governed(void **pstate);
 static void test_encoder_extended_canonical(void **pstate);
+static void test_encoder_bcd_unknown(void **pstate);
 static void test_encoder_truncated(void **pstate);
 static void test_encoder_strings(void **pstate);
 static void test_encoder_groups(void **pstate);
@@ -70,6 +72,7 @@ int main(int argc, char **argv)
         cmocka_unit_test_setup_teardown(test_encoder_reserved_bits, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_extended_governed, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_extended_canonical, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_bcd_unknown, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_truncated, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_strings, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_groups, test_encoder_setup, test_encoder_teardown),
@@ -290,6 +293,54 @@ static void test_encoder_extended_canonical(void **pstate)
     dmi_entity_destroy(decoded);
 
     dmi_buffer_destroy(decoded_buffer);
+    dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
+}
+
+//
+// Binary-coded decimals whose field is not set hold 0xFF, which is no digits:
+// it is decoded into the value standing for "unknown", and written back as it
+// is in both modes rather than spelled as digits.
+//
+static const uint8_t test_power_controls[] = {
+    25, 0x09, 0x00, 0x01,
+    0xFF,                                               // Month, not set
+    0x31,                                               // Day of month
+    0x23,                                               // Hour
+    0xFF,                                               // Minute, not set
+    0x59,                                               // Second
+    0x00, 0x00
+};
+
+static void test_encoder_bcd_unknown(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
+    dmi_entity_t *entity = test_decode(entity_buffer, test_power_controls, sizeof(test_power_controls));
+
+    const dmi_power_controls_t *info = dmi_entity_info(entity, DMI_TYPE(POWER_CONTROLS));
+    assert_non_null(info);
+    assert_int_equal(info->poweron_month,  USHRT_MAX);
+    assert_int_equal(info->poweron_day,    31);
+    assert_int_equal(info->poweron_hour,   23);
+    assert_int_equal(info->poweron_minute, USHRT_MAX);
+    assert_int_equal(info->poweron_second, 59);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
+
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
+    assert_int_equal(buffer->length, 0x09);
+    assert_memory_equal(buffer->data, test_power_controls, 0x09);
+    dmi_encoder_finalize(&encoder);
+
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
+    assert_int_equal(buffer->length, 0x09);
+    assert_memory_equal(buffer->data, test_power_controls, 0x09);
+    dmi_encoder_finalize(&encoder);
+
+    dmi_buffer_destroy(buffer);
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(entity_buffer);
 }

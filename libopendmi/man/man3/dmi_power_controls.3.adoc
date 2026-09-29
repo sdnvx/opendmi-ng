@@ -42,9 +42,10 @@ scheduled power-on, from which software computes the number of seconds left
 until it.
 
 The structure stores the values as binary-coded decimals; the decoder
-converts them to plain numbers. A value outside the range of its field, such
-as 165 for a byte of 0xFF, takes no part in the schedule: for example, a
-month out of range means that the power-on falls within the next month.
+converts them to plain numbers. A field which is not set holds 0xFF, which is
+no decimal, and is decoded into `USHRT_MAX`. Such a field, and any value out
+of the range of its field, takes no part in the schedule: for example, a month
+which is not set means that the power-on falls within the next month.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
 `DMI_TYPE(POWER_CONTROLS)`, and lives as long as the context it has been

@@ -104,7 +104,6 @@ static bool dmi_field_decode_value(
 static bool dmi_field_read_number(
         dmi_field_state_t *state,
         size_t             length,
-        bool               bcd,
         uintmax_t         *number);
 
 static bool dmi_field_decode_bits(
@@ -439,11 +438,27 @@ static bool dmi_field_decode_value(
     }
 
     // Binary-coded decimals are read by their own decoder, which spells the
-    // digits out into the number they stand for
-    case DMI_FIELD_TYPE_BCD:
-        if (not dmi_field_read_number(state, field->params.length, true, &data.number))
+    // digits out into the number they stand for. The value standing for
+    // "unknown" is no digits, and is taken as the data holds it
+    case DMI_FIELD_TYPE_BCD: {
+        uintmax_t number;
+
+        if (not dmi_field_read_number(state, field->params.length, &number))
             return false;
+
+        if ((field->params.unknown_raw != 0) and (number == field->params.unknown_raw)) {
+            data.number = number;
+            break;
+        }
+
+        dmi_byte_t digits[sizeof(uintmax_t)] = {};
+
+        for (size_t i = 0; i < field->params.length; i++)
+            digits[i] = (dmi_byte_t)(number >> (i * CHAR_BIT));
+
+        data.number = __dmi_decode_bcd(digits, field->params.length);
         break;
+    }
 
     case DMI_FIELD_TYPE_BINARY: {
         size_t length = field->params.length;
@@ -469,7 +484,7 @@ static bool dmi_field_decode_value(
     }
 
     case DMI_FIELD_TYPE_INTEGER:
-        if (not dmi_field_read_number(state, field->params.length, false, &data.number))
+        if (not dmi_field_read_number(state, field->params.length, &data.number))
             return false;
         break;
 
@@ -672,14 +687,14 @@ static bool dmi_field_decode_array(
 
         count    = remaining / stride;
         leftover = remaining % stride;
-    } else if (dmi_field_read_number(state, field->params.count_length, false, &raw)) {
+    } else if (dmi_field_read_number(state, field->params.count_length, &raw)) {
         count = (size_t)raw;
     } else {
         return false;
     }
 
     if (field->params.stride_length != 0) {
-        if (not dmi_field_read_number(state, field->params.stride_length, false, &raw))
+        if (not dmi_field_read_number(state, field->params.stride_length, &raw))
             return false;
 
         stride = (size_t)raw;
@@ -760,13 +775,11 @@ static bool dmi_field_decode_array(
 }
 
 //
-// Read an unsigned integer of the given width, little-endian, or the
-// binary-coded decimal the firmware writes the digits of a number as.
+// Read an unsigned integer of the given width, little-endian.
 //
 static bool dmi_field_read_number(
         dmi_field_state_t *state,
         size_t             length,
-        bool               bcd,
         uintmax_t         *number)
 {
     assert(state != nullptr);
@@ -777,11 +790,6 @@ static bool dmi_field_read_number(
 
     if (not dmi_reader_get_bytes(state->reader, data, length))
         return false;
-
-    if (bcd) {
-        *number = __dmi_decode_bcd(data, length);
-        return true;
-    }
 
     *number = 0;
 
@@ -1081,6 +1089,15 @@ static bool dmi_field_encode_one(
     case DMI_FIELD_TYPE_BCD: {
         uintmax_t number = dmi_field_load_member(field->member, value);
         uintmax_t digits = 0;
+
+        // Unknown is the largest value of the member, and is written back as
+        // the value the data stands for it with rather than as digits
+        uintmax_t largest = (field->member.size >= sizeof(uintmax_t))
+                          ? UINTMAX_MAX
+                          : ((((uintmax_t)1) << (field->member.size * CHAR_BIT)) - 1);
+
+        if ((field->params.unknown_raw != 0) and (number == largest))
+            return dmi_field_put_raw(output, width, field->params.unknown_raw);
 
         for (unsigned shift = 0; shift < width * CHAR_BIT; shift += 4, number /= 10)
             digits |= (number % 10) << shift;
