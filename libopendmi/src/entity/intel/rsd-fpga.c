@@ -148,10 +148,12 @@ const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
             .name   = "Memory technology",
             .values = &dmi_intel_rsd_fpga_memory_tech_names
         }),
+        // The specification gives the capacity in MB, which means 2^20 bytes
+        // here, the way it does for the memory sizes of SMBIOS
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, memory_capacity, INTEGER, {
             .code   = "memory-capacity",
             .name   = "Memory capacity",
-            .unit   = DMI_UNIT_MEGABYTE
+            .unit   = DMI_UNIT_MEBIBYTE
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_fpga_t, memory_speed, INTEGER, {
             .code   = "memory-speed",

@@ -202,6 +202,9 @@ struct dmi_intel_rsd_fpga
 
     /**
      * @brief Capacity of on-package memory in MiB.
+     *
+     * The specification gives the capacity in MB, which means 2^20 bytes, the
+     * way it does for the memory sizes of SMBIOS.
      */
     uint32_t memory_capacity;
 

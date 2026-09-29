@@ -124,6 +124,14 @@ static void test_rsd_fpga_decode(void **pstate)
     assert_int_equal(info->tdp, 10000);
     assert_int_equal(info->memory_tech, DMI_INTEL_RSD_FPGA_MEMORY_TECH_HBM2);
     assert_int_equal(info->memory_capacity, 8192);
+
+    // Capacity is given in binary units, as the memory sizes of SMBIOS are
+    dmi_unit_t capacity_unit = DMI_UNIT_NONE;
+    for (const dmi_attribute_t *attr = entity->spec->attributes; attr->params.name != nullptr; attr++) {
+        if (strcmp(attr->params.code, "memory-capacity") == 0)
+            capacity_unit = attr->params.unit;
+    }
+    assert_int_equal(capacity_unit, DMI_UNIT_MEBIBYTE);
     assert_int_equal(info->memory_speed, 3200);
 
     dmi_entity_destroy(entity);
