@@ -2,6 +2,8 @@
 :sectnums:
 :sectlinks:
 
+Source: Dell `libsmbios`, `doc/smbios23.xml`.
+
 .Dell Infrared Port structure
 [width=100%, cols="1,1,2,1,1,4"]
 |===
@@ -54,7 +56,9 @@
 | Speed Limit
 | `WORD`
 | `SPEED`
-|
+| Speed the port is limited to, in hundreds of bits per second. The source gives
+no unit, and no data is known to confirm it: it is taken to be the one of the
+maximum BIOS speed of the serial port.
 
 | `0x09`
 | 2.2+

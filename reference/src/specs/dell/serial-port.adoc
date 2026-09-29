@@ -2,6 +2,8 @@
 :sectnums:
 :sectlinks:
 
+Source: Dell `libsmbios`, `doc/smbios23.xml`.
+
 .Dell Serial Port structure
 [width=100%, cols="1,1,2,1,1,4"]
 |===
@@ -60,8 +62,10 @@
 | 2.2+
 | Maximum BIOS Speed
 | `WORD`
-| NUMBER
-|
+| `SPEED`
+| Highest speed the BIOS supports on the port, in hundreds of bits per second,
+e.g. 1152 for 115200 bit/s. The source gives no unit, which is inferred from
+the data of Dell systems.
 
 | `0x0B`
 | 2.2+

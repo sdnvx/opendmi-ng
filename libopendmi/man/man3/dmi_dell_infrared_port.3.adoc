@@ -59,7 +59,8 @@ Whether the speed limit is enabled.
 
 `speed_limit`::
 Speed limit, in bits per second. The structure carries it in hundreds of bits
-per second.
+per second, which is assumed rather than known: no source gives the unit, and
+no data confirms it.
 
 `physical_port`::
 Name of the physical port. `nullptr` when the structure carries no string.

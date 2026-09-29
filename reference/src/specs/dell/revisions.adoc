@@ -2,6 +2,13 @@
 :sectnums:
 :sectlinks:
 
+Source: Dell `libsmbios`, `doc/smbios23.xml`.
+
+The source gives the structure a length of `0x0C`, while the firmware of Dell
+systems writes structures of other lengths too: shorter ones end after the
+system ID extension, at `0x0A`, and have no dates, and longer ones carry bytes
+past the first power-on date which no source describes.
+
 .Dell Revisions and IDs structure
 [width=100%, cols="1,1,2,1,1,4"]
 |===
@@ -18,8 +25,8 @@
 | 2.2+
 | Length
 | `BYTE`
-| `0x0C`
-| Length of the structure
+| Varies
+| Length of the structure, `0x0C` according to the source
 
 | `0x02`
 | 2.2+

@@ -22,8 +22,8 @@ typedef enum dmi_dell_type
     DMI_TYPE_DELL_SERIAL_PORT       = 210, ///< Dell serial port
     DMI_TYPE_DELL_INFRARED_PORT     = 211, ///< Dell infrared port
     DMI_TYPE_DELL_INDEXED_IO        = 212, ///< Dell indexed IO
-    DMI_TYPE_DELL_PROTECTED_AREA_1  = 214, ///< Dell protected area type 1
-    DMI_TYPE_DELL_PROTECTED_AREA_2  = 215, ///< Dell protected area type 2
+    DMI_TYPE_DELL_PROTECTED_AREA_1  = 213, ///< Dell protected area type 1
+    DMI_TYPE_DELL_PROTECTED_AREA_2  = 214, ///< Dell protected area type 2
     DMI_TYPE_DELL_CALLING_IFACE     = 218  ///< Dell calling interface
 } dmi_dell_type_t;
 

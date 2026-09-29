@@ -77,7 +77,7 @@ None.
 == Standards
 
 Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
-Protected Area Type 2 (Type 215) chapter of the reference manual.
+Protected Area Type 2 (Type 214) chapter of the reference manual.
 
 ifdef::backend-manpage[]
 == Copying

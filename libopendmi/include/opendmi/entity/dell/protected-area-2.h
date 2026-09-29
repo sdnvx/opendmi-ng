@@ -15,7 +15,7 @@
 typedef struct dmi_dell_protected_area_2 dmi_dell_protected_area_2_t;
 
 /**
- * @brief Dell protected area type 2 structure (type 215).
+ * @brief Dell protected area type 2 structure (type 214).
  */
 struct dmi_dell_protected_area_2
 {

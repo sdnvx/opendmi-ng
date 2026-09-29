@@ -40,7 +40,7 @@ typedef struct dmi_dell_protected_area_1 {
 == Description
 
 The `dmi_dell_protected_area_1_t` structure holds the decoded Dell protected
-area type 1 structure (type 214): where a protected value, such as a password,
+area type 1 structure (type 213): where a protected value, such as a password,
 is kept in CMOS, how it is encoded, and where its checksum is. The CMOS
 locations are accessed through the indexed I/O ports the structure gives.
 
@@ -103,7 +103,7 @@ if (area != nullptr) {
 == Standards
 
 Not part of the SMBIOS specification. Defined by Dell firmware, see the Dell
-Protected Area Type 1 (Type 214) chapter of the reference manual.
+Protected Area Type 1 (Type 213) chapter of the reference manual.
 
 ifdef::backend-manpage[]
 == Copying

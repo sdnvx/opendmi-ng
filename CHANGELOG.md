@@ -170,6 +170,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix proprietary memory media of Intel RSD memory devices taken as 0x02 instead of 0x03
 - Fix handles of Intel RSD memory device extended information and physical device mapping not checked against the types they refer to
 - Fix zero indices of Intel RSD TPM configurations and FPGAs not reported by lint
+- Fix Dell protected area type 1 and type 2 structure types identifiers
 
 ## [0.4.1] - September 18, 2026
 

@@ -72,7 +72,7 @@ static void test_dell_protected_area_1_decode(void **pstate)
     dmi_context_t *context = *pstate;
 
     static const uint8_t data[] = {
-        214, 0x11, 0x00, 0xD5,          // Header
+        213, 0x11, 0x00, 0xD5,          // Header
         0x09, 0x00,                     // Token ID
         0x10, 0x01,                     // Value length and format
         0x34, 0x12,                     // Validation key
@@ -110,7 +110,7 @@ static void test_dell_protected_area_2_decode(void **pstate)
     dmi_context_t *context = *pstate;
 
     static const uint8_t data[] = {
-        215, 0x15, 0x00, 0xD6,          // Header
+        214, 0x15, 0x00, 0xD6,          // Header
         0x0A, 0x00,                     // Token ID
         0x20, 0x00,                     // Value length and format
         0x78, 0x56,                     // Validation key

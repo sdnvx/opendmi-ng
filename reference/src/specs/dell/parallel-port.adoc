@@ -2,6 +2,8 @@
 :sectnums:
 :sectlinks:
 
+Source: Dell `libsmbios`, `doc/smbios23.xml`.
+
 .Dell Parallel Port structure
 [width=100%, cols="1,1,2,1,1,4"]
 |===

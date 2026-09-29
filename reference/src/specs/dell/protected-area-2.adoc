@@ -1,8 +1,9 @@
-= Dell Protected Area Type 2 (Type 215)
+= Dell Protected Area Type 2 (Type 214)
 :sectnums:
 :sectlinks:
 
-Source: Dell `libsmbios`, `src/include/smbios_c/obj/token.h`.
+Source: Dell `libsmbios`, `src/include/smbios_c/obj/token.h` for the layout,
+and `src/libsmbios_c/token/token_impl.h` for the type, which is `0xD6`.
 
 Describes a protected value, such as a password, which is stored in CMOS and
 accessed through the indexed I/O ports, and its checksum.
@@ -19,7 +20,7 @@ described.
 | 2.0+
 | Type
 | `BYTE`
-| `215`
+| `214`
 | Dell Protected Area Type 2 indicator
 
 | `0x01`

@@ -15,7 +15,7 @@
 typedef struct dmi_dell_protected_area_1 dmi_dell_protected_area_1_t;
 
 /**
- * @brief Dell protected area type 1 structure (type 214).
+ * @brief Dell protected area type 1 structure (type 213).
  */
 struct dmi_dell_protected_area_1
 {
