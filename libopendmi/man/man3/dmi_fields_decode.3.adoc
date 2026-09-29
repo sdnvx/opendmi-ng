@@ -98,6 +98,9 @@ Decoder is `nullptr`.
 `DMI_ERROR_INVALID_STATE`::
 Specification declares no fields.
 
+`DMI_ERROR_INTERNAL`::
+Fields reach another offset than the one declared.
+
 `DMI_ERROR_OUT_OF_MEMORY`::
 Elements of an array cannot be allocated.
 

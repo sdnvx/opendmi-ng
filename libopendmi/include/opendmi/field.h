@@ -670,6 +670,7 @@ __BEGIN_DECLS
  *
  * @error DMI_ERROR_NULL_ARGUMENT Decoder is `nullptr`
  * @error DMI_ERROR_INVALID_STATE Specification declares no fields
+ * @error DMI_ERROR_INTERNAL Fields reach another offset than the one declared
  * @error DMI_ERROR_OUT_OF_MEMORY Elements of an array cannot be allocated
  *
  * @return `true` if the structure has been decoded, `false` if it cannot be.
@@ -691,8 +692,9 @@ __dmi_api bool dmi_fields_decode(dmi_decoder_t *decoder);
  *                        `dmi_encoder_initialize()`.
  *
  * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
- * @error DMI_ERROR_INVALID_STATE Specification declares no fields, or a field
- *        it cannot write back, e.g. a conversion without the one undoing it
+ * @error DMI_ERROR_INVALID_STATE Structure is not decoded, its specification
+ *        declares no fields, or a field it cannot write back, e.g. a
+ *        conversion without the one undoing it
  * @error DMI_ERROR_INTERNAL Fields reach another offset than the one declared
  * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
  *

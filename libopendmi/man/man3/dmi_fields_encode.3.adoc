@@ -64,7 +64,11 @@ Encoder of the structure, see `dmi_encoder_initialize`(3).
 Encoder is `nullptr`.
 
 `DMI_ERROR_INVALID_STATE`::
-Specification declares no fields.
+Structure is not decoded, its specification declares no fields, or a field it
+cannot write back, e.g. a conversion without the one undoing it.
+
+`DMI_ERROR_INTERNAL`::
+Fields reach another offset than the one declared.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Buffers of the encoder cannot grow.
