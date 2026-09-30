@@ -10,16 +10,18 @@
 #include <opendmi/entity/intel/asf.h>
 #include <opendmi/entity/intel/fvi.h>
 #include <opendmi/entity/intel/mei.h>
+#include <opendmi/entity/intel/platform.h>
 #include <opendmi/entity/intel/svt.h>
 #include <opendmi/entity/intel/vpro.h>
 
 // Structure types of the module
-const dmi_type_t dmi_type_intel_asf  = { .id = DMI_TYPE_ID(INTEL_ASF)  };
-const dmi_type_t dmi_type_intel_amt  = { .id = DMI_TYPE_ID(INTEL_AMT)  };
-const dmi_type_t dmi_type_intel_vpro = { .id = DMI_TYPE_ID(INTEL_VPRO) };
-const dmi_type_t dmi_type_intel_mei  = { .id = DMI_TYPE_ID(INTEL_MEI)  };
-const dmi_type_t dmi_type_intel_fvi  = { .id = DMI_TYPE_ID(INTEL_FVI)  };
-const dmi_type_t dmi_type_intel_svt  = { .id = DMI_TYPE_ID(INTEL_SVT)  };
+const dmi_type_t dmi_type_intel_asf      = { .id = DMI_TYPE_ID(INTEL_ASF)      };
+const dmi_type_t dmi_type_intel_amt      = { .id = DMI_TYPE_ID(INTEL_AMT)      };
+const dmi_type_t dmi_type_intel_vpro     = { .id = DMI_TYPE_ID(INTEL_VPRO)     };
+const dmi_type_t dmi_type_intel_platform = { .id = DMI_TYPE_ID(INTEL_PLATFORM) };
+const dmi_type_t dmi_type_intel_mei      = { .id = DMI_TYPE_ID(INTEL_MEI)      };
+const dmi_type_t dmi_type_intel_fvi      = { .id = DMI_TYPE_ID(INTEL_FVI)      };
+const dmi_type_t dmi_type_intel_svt      = { .id = DMI_TYPE_ID(INTEL_SVT)      };
 
 /**
  * @brief Intel extension module.
@@ -37,6 +39,7 @@ const dmi_module_t dmi_intel_module =
         &dmi_intel_asf_spec,
         &dmi_intel_amt_spec,
         &dmi_intel_vpro_spec,
+        &dmi_intel_platform_spec,
         &dmi_intel_mei_spec,
         &dmi_intel_fvi_spec,
         &dmi_intel_svt_spec,

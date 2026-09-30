@@ -537,6 +537,10 @@ include::../../../../libopendmi/man/man3/dmi_intel_me_error.3.adoc[leveloffset=2
 include::../../../../libopendmi/man/man3/dmi_intel_me_mode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_intel_me_sku.3.adoc[leveloffset=2]
 
+== `<opendmi/entity/intel/platform.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_platform.3.adoc[leveloffset=2]
+
 == `<opendmi/entity/intel/svt.h>`
 
 include::../../../../libopendmi/man/man3/dmi_intel_svt.3.adoc[leveloffset=2]

@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/device-bay.h>
+#include <opendmi/entity/dell/device-bay-internal.h>
 
 const dmi_entity_spec_t dmi_dell_device_bay_spec =
 {
@@ -23,13 +23,13 @@ const dmi_entity_spec_t dmi_dell_device_bay_spec =
         nullptr
     },
     .params = {
+        // Intel Management Engine interface information, which Dell gives
+        // the same type on some systems, is told by its signature, and the
+        // structure is decoded for the other ones. Numbers of the strings do
+        // not tell it, since the structures whose strings are the same are
+        // written back with a single one
         .minimum_length = 0x09,
-        .decoded_length = sizeof(dmi_dell_device_bay_t),
-        // Structures of the same type other platforms carry are laid out
-        // otherwise
-        .signature      = DMI_SIGNATURE({
-            .length = 0x09
-        })
+        .decoded_length = sizeof(dmi_dell_device_bay_t)
     },
 
     .fields = DMI_FIELDS({
@@ -38,6 +38,10 @@ const dmi_entity_spec_t dmi_dell_device_bay_spec =
         DMI_FIELD_STRING(dmi_dell_device_bay_t, supported_devices),
         DMI_FIELD_STRING(dmi_dell_device_bay_t, installed_device),
         DMI_FIELD(dmi_dell_device_bay_t, unknown_2, dmi_byte_t),
+
+        DMI_FIELD_GROUP(),
+        DMI_FIELD_STRING(dmi_dell_device_bay_t, unknown_string_1),
+        DMI_FIELD_STRING(dmi_dell_device_bay_t, unknown_string_2),
         {}
     }),
 
@@ -64,6 +68,38 @@ const dmi_entity_spec_t dmi_dell_device_bay_spec =
             .name  = "Unknown 2",
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
+        // Structures of 11 bytes refer to two more strings
+        DMI_ATTRIBUTE_VARIANT(dmi_dell_device_bay_t, has_unknown_strings, {
+            .code     = "unknown-string-1",
+            .name     = "Unknown string 1",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_dell_device_bay_t, unknown_string_1, STRING, {}),
+                {}
+            })
+        }),
+        DMI_ATTRIBUTE_VARIANT(dmi_dell_device_bay_t, has_unknown_strings, {
+            .code     = "unknown-string-2",
+            .name     = "Unknown string 2",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_dell_device_bay_t, unknown_string_2, STRING, {}),
+                {}
+            })
+        }),
         {}
-    })
+    }),
+
+    .handlers = {
+        .derive = dmi_dell_device_bay_derive
+    }
 };
+
+bool dmi_dell_device_bay_derive(dmi_entity_t *entity)
+{
+    dmi_dell_device_bay_t *info = dmi_entity_info(entity, DMI_TYPE(dell_device_bay));
+    if (info == nullptr)
+        return false;
+
+    info->has_unknown_strings = (entity->body_length >= 0x0B);
+
+    return true;
+}

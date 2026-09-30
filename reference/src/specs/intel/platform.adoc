@@ -1,0 +1,197 @@
+= Intel Platform Information (Type 148)
+:sectnums:
+:sectlinks:
+
+Source: Intel Bay Trail reference code, `Vlv2TbltDevicePkg`, as EDK II
+published it up to edk2-stable201903: the OEM type `0x94` of
+`SmBiosMiscDxe`.
+
+Gives the versions of the firmware components and some settings of an Intel
+Bay Trail platform, all of them as strings: the numbers the firmware writes
+in hexadecimal, and the settings as their values, e.g. `0` or `1`. The data
+corpus holds it on Lenovo IdeaPad 100S, whose firmware is of Insyde.
+
+The structure is told by its length of 26 bytes, since Intel server boards
+give type 148 to structures of other layouts, e.g. S2600WTT to one of 48
+bytes, which gives the versions of the firmware components of the board.
+
+.Intel Platform Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `148`
+| Intel Platform Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x1A`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| GOP Version
+| `BYTE`
+| `STRING`
+| Version of the graphics output protocol (GOP) driver, e.g. `7.2.1013`
+
+| `0x05`
+| 2.0+
+| Microcode Version
+| `BYTE`
+| `STRING`
+| Revision of the microcode in hexadecimal, e.g. `832`
+
+| `0x06`
+| 2.0+
+| MRC Version
+| `BYTE`
+| `STRING`
+| Version of the memory reference code (MRC), e.g. `1.02`
+
+| `0x07`
+| 2.0+
+| SEC Version
+| `BYTE`
+| `STRING`
+| Version of the firmware of the security engine, the Trusted Execution Engine (TXE), e.g. `1.2.0.1149`
+
+| `0x08`
+| 2.0+
+| ULPMC Version
+| `BYTE`
+| `STRING`
+| Version of the firmware of the ultra low power microcontroller (ULPMC), or `Non ULPMC!!` if there is none
+
+| `0x09`
+| 2.0+
+| PMC Version
+| `BYTE`
+| `STRING`
+| Version of the firmware of the power management controller (PMC), e.g. `0x4_45`
+
+| `0x0A`
+| 2.0+
+| P-unit Version
+| `BYTE`
+| `STRING`
+| Version of the firmware of the P-unit, e.g. `0x27`
+
+| `0x0B`
+| 2.0+
+| SoC Version
+| `BYTE`
+| `STRING`
+| Stepping of the system on a chip, e.g. `0F (C0 Stepping)`
+
+| `0x0C`
+| 2.0+
+| Board Version
+| `BYTE`
+| `STRING`
+| Board, e.g. `BAY LAKE CR (6)`
+
+| `0x0D`
+| 2.0+
+| Fab Version
+| `BYTE`
+| `STRING`
+| Fab of the board, e.g. `0`
+
+| `0x0E`
+| 2.0+
+| CPU Flavor
+| `BYTE`
+| `STRING`
+| Flavor of the processor, e.g. `VLV-QC Notebook (3)`
+
+| `0x0F`
+| 2.0+
+| BIOS Version
+| `BYTE`
+| `STRING`
+| Version of the firmware, e.g. `E2CN13WW`
+
+| `0x10`
+| 2.0+
+| PMIC Version
+| `BYTE`
+| `STRING`
+| Vendor and revision of the power management IC (PMIC), e.g. `41.01`
+
+| `0x11`
+| 2.0+
+| Touch Version
+| `BYTE`
+| `STRING`
+| Version of the firmware of the touch screen, `NA` if there is none
+
+| `0x12`
+| 2.0+
+| Secure Boot
+| `BYTE`
+| `STRING`
+| Secure Boot setting, `0` or `1`
+
+| `0x13`
+| 2.0+
+| Boot Mode
+| `BYTE`
+| `STRING`
+| Boot mode of the firmware, as a number
+
+| `0x14`
+| 2.0+
+| SpeedStep Mode
+| `BYTE`
+| `STRING`
+| Enhanced Intel SpeedStep setting
+
+| `0x15`
+| 2.0+
+| Turbo Mode
+| `BYTE`
+| `STRING`
+| Turbo Boost setting
+
+| `0x16`
+| 2.0+
+| Maximum C-state
+| `BYTE`
+| `STRING`
+| Deepest C-state of the processor, e.g. `3`
+
+| `0x17`
+| 2.0+
+| Graphics Turbo
+| `BYTE`
+| `STRING`
+| Turbo setting of the graphics
+
+| `0x18`
+| 2.0+
+| Idle Reserve
+| `BYTE`
+| `STRING`
+| S0ix setting
+
+| `0x19`
+| 2.0+
+| RC6
+| `BYTE`
+| `STRING`
+| RC6 power saving setting of the graphics
+|===

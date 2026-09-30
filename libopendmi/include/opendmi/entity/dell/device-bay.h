@@ -23,7 +23,8 @@ typedef struct dmi_dell_device_bay dmi_dell_device_bay_t;
 struct dmi_dell_device_bay
 {
     /**
-     * @brief Value whose meaning is not established, `3` in all known data.
+     * @brief Value whose meaning is not established, `3` on the systems which
+     * have a bay, and `0` or `2` on the ones which have none.
      */
     uint8_t unknown_1;
 
@@ -44,10 +45,28 @@ struct dmi_dell_device_bay
     const char *installed_device;
 
     /**
-     * @brief Value whose meaning is not established, `0xFF` in all known
-     * data.
+     * @brief Value whose meaning is not established, `0xFF` in most known
+     * data, and `0` on Precision M3800.
      */
     uint8_t unknown_2;
+
+    /**
+     * @brief String whose meaning is not established, which the structures
+     * of 11 bytes refer to, e.g. a blank one on Precision M3800 or `00h` on
+     * G15 5515.
+     */
+    const char *unknown_string_1;
+
+    /**
+     * @brief Second string whose meaning is not established.
+     */
+    const char *unknown_string_2;
+
+    /**
+     * @brief Whether the structure refers to `unknown_string_1` and
+     * `unknown_string_2`, which the structures of 9 bytes leave out.
+     */
+    bool has_unknown_strings;
 };
 
 /**

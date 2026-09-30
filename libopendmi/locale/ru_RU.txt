@@ -1933,6 +1933,33 @@ ru_RU {
         }
         name { "Сведения об интерфейсах Intel Management Engine" }
     }
+    intel-platform {
+        attribute {
+            bios-version { "Версия BIOS" }
+            board-version { "Версия платы" }
+            boot-mode { "Режим загрузки" }
+            cpu-flavor { "Вариант процессора" }
+            fab-version { "Версия Fab" }
+            gfx-turbo { "Turbo графики" }
+            gop-version { "Версия GOP" }
+            idle-reserve { "Резерв простоя" }
+            max-cstate { "Максимальное C-состояние" }
+            microcode-version { "Версия микрокода" }
+            mrc-version { "Версия MRC" }
+            pmc-version { "Версия PMC" }
+            pmic-version { "Версия PMIC" }
+            punit-version { "Версия P-unit" }
+            rc6 { "RC6" }
+            sec-version { "Версия SEC" }
+            secure-boot { "Secure Boot" }
+            soc-version { "Версия SoC" }
+            speedstep-mode { "Режим SpeedStep" }
+            touch-version { "Версия сенсорного экрана" }
+            turbo-mode { "Режим Turbo" }
+            ulpmc-version { "Версия ULPMC" }
+        }
+        name { "Сведения о платформе Intel" }
+    }
     intel-svt {
         attribute {
             code { "Код" }

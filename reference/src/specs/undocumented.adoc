@@ -24,38 +24,14 @@ Laptop 3 carries one referring to a single string, `_SHA_` followed by 40
 hexadecimal digits, as many as the ones of a SHA-1 hash. Fujitsu ESPRIMO Q958
 carries the structures of Fujitsu described with type 143.
 
-=== Type 129: Intel ASF
+=== Type 129
 
-Found on Intel platforms of Insyde, Phoenix and Dell firmware: HP EliteBook,
-Lenovo IdeaPad, ThinkBook and ThinkPad, Toshiba Satellite, Dell Latitude,
-Precision and PowerEdge, Gigabyte G5 and Neousys Nuvo. Commonly listed as the
-Intel Alert Standard Format (ASF) structure.
-
-[width=100%, cols="1,1,4"]
-|===
-| Offset | Length | Value
-
-| `0x04`
-| `BYTE`
-| `1` in all known data
-
-| `0x05`
-| `BYTE`
-| String `1`: `Intel_ASF`, or `Insyde_ASF_001` on Insyde firmware
-
-| `0x06`
-| `BYTE`
-| String `2`: `Intel_ASF_001`, or `Insyde_ASF_002`, or `Dell_ASF_001` and
-  `Dell_ASF_002` on Dell firmware of Latitude D610 and PowerEdge 400SC
-
-| `0x07`
-| `BYTE`
-| `1`, or `0` on ThinkPad T61p. It does not follow the state of Intel AMT
-  the type 130 structure of the same table tells.
-|===
-
-Lenovo IdeaPad Z565 carries a structure of type 129 of 5 bytes, whose strings
-are the ones of a type 128 sample, cut short.
+The Intel ASF information is decoded, see the chapter of the Intel reference
+code structures. Other firmware gives type 129 to structures of its own:
+Lenovo IdeaPad Z565 and Toshiba Satellite C655D carry one of 5 bytes, whose
+strings are the ones of a type 128 sample, cut short, Gigabyte carries
+structures of 38 bytes on a server board, beginning with zeroes and holding
+`0xFF` from `0x0C` on, and Precision M3800 one of 9 bytes of zeroes.
 
 === Type 133
 
@@ -106,7 +82,9 @@ Intel S2600WTT server board carries a structure of 48 bytes whose bytes from
 `0x05` on are the numbers of its strings, which give the versions of the
 firmware components of the board: the BIOS ID, the BMC firmware, the
 Management Engine, the SDR package, the FRU and the SDR file, the microcode
-patches and more.
+patches and more. The structure of 26 bytes of the Intel Bay Trail reference
+code, e.g. of Lenovo IdeaPad 100S, is decoded as the Intel platform
+information.
 
 === Type 248
 
@@ -148,7 +126,8 @@ Dell notebooks and workstations, from Latitude D500 to G15 5510 and XPS 13
 9300, carry a structure referring to the strings `US-101` and `Proprietary`
 at `0x04` and `0x05`, followed by `01 03`, the same on all of them, which may
 describe the keyboard. Precision M3800 carries one of blank strings, followed
-by `00 00`.
+by `00 00`, and G15 5515 one referring to `Keyboard` twice, followed by
+`02 02`.
 
 === Type 222
 
@@ -208,10 +187,12 @@ The workstation carries structures of types 153, 197 and 207, of which type
 
 === Type 131: CMOS layout
 
-ThinkPad T61p carries a structure of type 131 referring to the strings
-`BOOTINF 20h`, `BOOTDEV 21h` and `KEYPTRS 23h`, which name registers of the
-CMOS memory, along with the Intel vPro information and the ThinkVantage
-Technologies enablement of the same type.
+ThinkPads of Phoenix firmware, T61p, T410, W510 and X201, carry a structure of
+type 131 of 17 bytes referring to the strings `BOOTINF 20h`, `BOOTDEV 21h`
+and `KEYPTRS 23h`, which name registers of the CMOS memory, along with the
+Intel vPro information and the ThinkVantage Technologies enablement of the
+same type. The numbers of the strings are followed by `FF FF 1F 00 00 00 00
+00`, a byte of `2` on T61p and `3` on the others, and a byte of zero.
 
 === Type 132
 
@@ -241,8 +222,28 @@ of the date and the time of the latest ones in BCD: year of four digits as a
 
 == Phoenix and Award
 
-Foxconn M61PMV, of Phoenix firmware, carries structures of types 188, 190, 192
-and 194, and Gigabyte GA-MA74GMT-S2, of Award firmware, structures of types
-188, 190, 192, 194, 196 and 198, of 212 to 244 bytes, which hold tables of
-small numbers. Award Software was acquired by Phoenix Technologies, and the
+Foxconn M61PMV and Packard Bell iMedia S3210, of Phoenix firmware, carry
+structures of types 188, 190, 192 and 194, and Gigabyte GA-MA74GMT-S2 and
+GA-MA78GM-S2H, of Award firmware, structures of types 188, 190, 192, 194 and,
+on GA-MA74GMT-S2, 196 and 198, of 212 to 244 bytes, which hold tables of small
+numbers. Award Software was acquired by Phoenix Technologies, and the
 structures are of the code base the firmware of both descends from.
+
+All of these boards are AMD platforms of DDR2 memory, e.g. Phenom 9550 on
+AMD 780G and Athlon II X2 215 on NVIDIA MCP78, and the structures share their
+layout whatever the chipset is. They look like the state of the memory
+controllers the reference code of AMD keeps as it trains the memory, the
+`MCTStatStruc` and `DCTStatStruc` of the code coreboot carries: types 192 and
+194 hold per-byte-lane delays, e.g. `0F 10 10 10` and `17 17 16 16`, for the
+two DRAM controllers. The fields of coreboot have changed over time, and do
+not match the structures closely enough to decode them.
+
+== Cisco
+
+=== Types 203 and 204
+
+Cisco UCS C220 M5 carries a structure of type 203 of 36 bytes and one of type
+204 of 28 bytes along with the decoded ones, both beginning with `03`, as the
+PCI adapter information does, and referring to no strings: `03 6A 0A 04 04`
+followed by small numbers, e.g. `3` at `0x0D` and `0x11`, and `03 00 01 02 00
+00 08` followed by zeros.

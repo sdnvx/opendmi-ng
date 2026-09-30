@@ -213,6 +213,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/entity/intel/asf.h
     include/opendmi/entity/intel/fvi.h
     include/opendmi/entity/intel/mei.h
+    include/opendmi/entity/intel/platform.h
     include/opendmi/entity/intel/svt.h
     include/opendmi/entity/intel/vpro.h
 
@@ -513,6 +514,7 @@ target_sources(opendmi-object
         src/entity/intel/mei.c
         src/entity/intel/mei-handlers.c
         src/entity/intel/mei-names.c
+        src/entity/intel/platform.c
         src/entity/intel/svt.c
         src/entity/intel/vpro.c
         src/module/intel-rsd.c
@@ -879,6 +881,7 @@ opendmi_test(entity/hpe/modern SOURCES test/entity/hpe/modern.c)
 opendmi_test(entity/hpe/proliant SOURCES test/entity/hpe/proliant.c)
 opendmi_test(entity/intel/amt SOURCES test/entity/intel/amt.c)
 opendmi_test(entity/intel/asf SOURCES test/entity/intel/asf.c)
+opendmi_test(entity/intel/platform SOURCES test/entity/intel/platform.c)
 opendmi_test(entity/intel/fvi SOURCES test/entity/intel/fvi.c)
 opendmi_test(entity/intel/mei SOURCES test/entity/intel/mei.c)
 opendmi_test(entity/intel/svt SOURCES test/entity/intel/svt.c)
