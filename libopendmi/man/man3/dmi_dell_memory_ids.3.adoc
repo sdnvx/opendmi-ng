@@ -1,0 +1,83 @@
+ifdef::backend-manpage[]
+= dmi_dell_memory_ids(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_memory_ids
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_memory_ids - Dell memory module identifiers structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/memory-ids.h>
+
+typedef struct dmi_dell_memory_ids {
+    uint8_t id_length;
+    size_t module_count;
+    dmi_dell_memory_id_t *modules;
+} dmi_dell_memory_ids_t;
+----
+
+== Description
+
+The `dmi_dell_memory_ids_t` structure holds the decoded Dell memory module
+identifiers (type 223), which tell the manufacturer and the serial number of
+the memory modules, as their serial presence detect (SPD) data holds them.
+The memory devices (type 17) of the older systems carry no fields for them,
+e.g. the ones of PowerEdge 1300, 400SC and SC420 and OptiPlex GX110.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_dell_memory_ids_spec`, of type `DMI_TYPE(dell_memory_ids)`, declared
+in `<opendmi/module/dell.h>`, once the Dell extension module
+(`dmi_dell_module`) is enabled. It lives as long as the context it has been
+decoded in.
+
+The specification decodes the structures whose identifiers are 12 bytes long
+only, since the ones of other lengths may be laid out otherwise, and leaves
+the others undecoded.
+
+The layout is reverse engineered from the dumps of the data corpus, since no
+public source describes the structure, and the members whose meaning is not
+established are named after their position.
+
+=== Fields
+
+`id_length`::
+Length of the identifiers of a module, which follow the handle of its memory
+device, `12` in all known data.
+
+`module_count`::
+Number of elements of `modules`.
+
+`modules`::
+Identifiers of the memory modules, one for each memory device, see
+`dmi_dell_memory_id`(3). May be `nullptr` when `module_count` is 0.
+
+== See also
+
+`dmi_dell_memory_id`(3), `dmi_memory_device`(3), `dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, and reverse
+engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

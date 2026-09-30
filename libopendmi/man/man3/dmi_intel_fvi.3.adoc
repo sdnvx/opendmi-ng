@@ -53,8 +53,9 @@ it has been decoded in.
 The structures are found on Intel platforms whatever the vendor of the
 firmware is. The Intel reference code gives them type 221, but vendors who
 give that type to structures of their own place them elsewhere or not at
-all: Dell places them at type 205, and HP servers carry none. The type is
-checked against `DMI_TYPE(intel_fvi)` wherever the structure is placed, see
+all: Dell places them at type 205, or at type 237 on some platforms, e.g.
+Precision Tower 3620, and HP servers carry none. The type is checked against
+`DMI_TYPE(intel_fvi)` wherever the structure is placed, see
 `dmi_entity_info`(3).
 
 === Fields

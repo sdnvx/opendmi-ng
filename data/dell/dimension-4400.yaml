@@ -4,11 +4,16 @@ table:
 - handle: 0
   type: 218
   length: 19
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2hEAALIA3gAIAAAAAP//AAA=
+  level: '2.0'
+  state:
+  - decoded
+  - incomplete
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 222
+    supported-commands: 2048
+    tokens: []
 - handle: 1
   type: 0
   length: 48

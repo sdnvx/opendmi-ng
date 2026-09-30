@@ -2243,11 +2243,24 @@ table:
   type: 223
   length: 63
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3z0A3wwAEc4AAAAAAAAAQgHtHwERzgAAAAAAAABCC+1pAhH///////////////8DEf//////////
-    /////w==
+  state:
+  - decoded
+  description: Dell memory module identifiers
+  attributes:
+    id-length: 12
+    modules:
+    - handle: 4352
+      manufacturer: ce00000000000000
+      serial-number: 4201ed1f
+    - handle: 4353
+      manufacturer: ce00000000000000
+      serial-number: 420bed69
+    - handle: 4354
+      manufacturer: ffffffffffffffff
+      serial-number: ffffffff
+    - handle: 4355
+      manufacturer: ffffffffffffffff
+      serial-number: ffffffff
 - handle: 57089
   type: 126
   length: 35

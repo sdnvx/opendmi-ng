@@ -159,17 +159,26 @@ static const dmi_module_t *dmi_module_at(
 
 /**
  * @internal
- * @brief Get type number a specification is mapped to.
+ * @brief Get a type number a specification is mapped to.
  *
  * @details
  * The relocations of the enabled modules and of @p extra give some
- * specifications type numbers of their own, while the rest are mapped to
- * their types.
+ * specifications type numbers of their own, one or several, while the rest
+ * are mapped to their types.
+ *
+ * @param[in] context Context descriptor.
+ * @param[in] extra   Module which is being enabled, or @c nullptr.
+ * @param[in] spec    Specification to map.
+ * @param[in] index   Index of the type number, from zero.
+ *
+ * @return Type number, or `DMI_TYPE_ID_INVALID` if the specification is
+ *         mapped to fewer type numbers than @p index.
  */
 static dmi_type_id_t dmi_spec_relocate(
         const dmi_context_t     *context,
         const dmi_module_t      *extra,
-        const dmi_entity_spec_t *spec);
+        const dmi_entity_spec_t *spec,
+        size_t                   index);
 
 /**
  * @internal
@@ -1119,21 +1128,32 @@ static const dmi_module_t *dmi_module_at(
 static dmi_type_id_t dmi_spec_relocate(
         const dmi_context_t     *context,
         const dmi_module_t      *extra,
-        const dmi_entity_spec_t *spec)
+        const dmi_entity_spec_t *spec,
+        size_t                   index)
 {
     const dmi_module_t *module;
+    bool relocated = false;
 
     for (size_t i = 0; (module = dmi_module_at(context, extra, i)) != nullptr; i++) {
         if (module->relocations == nullptr)
             continue;
 
         for (const dmi_relocation_t *relocation = module->relocations; relocation->spec != nullptr; relocation++) {
-            if (relocation->spec == spec)
+            if (relocation->spec != spec)
+                continue;
+
+            // Relocation to no type maps the specification nowhere
+            relocated = true;
+            if (relocation->type == DMI_TYPE_ID_INVALID)
+                continue;
+
+            if (index == 0)
                 return relocation->type;
+            index--;
         }
     }
 
-    return spec->type->id;
+    return (relocated or (index != 0)) ? DMI_TYPE_ID_INVALID : spec->type->id;
 }
 
 static bool dmi_types_map(
@@ -1171,19 +1191,20 @@ static bool dmi_types_map(
                     continue;
 
                 // Platforms which never carry the structure are told by
-                // a relocation to no type
-                dmi_type_id_t type = dmi_spec_relocate(context, extra, spec);
-                if (type == DMI_TYPE_ID_INVALID)
-                    continue;
+                // a relocation to no type, and the ones carrying it at
+                // several type numbers by several relocations
+                dmi_type_id_t type;
 
-                if (dmi_types_map_one(&map[type], spec, yield))
-                    continue;
+                for (size_t k = 0; (type = dmi_spec_relocate(context, extra, spec, k)) != DMI_TYPE_ID_INVALID; k++) {
+                    if (dmi_types_map_one(&map[type], spec, yield))
+                        continue;
 
-                if (report) {
-                    dmi_error_raise_ex(context, DMI_ERROR_MODULE_CONFLICT, "%s: type %d",
-                                       module->name, (int)type);
+                    if (report) {
+                        dmi_error_raise_ex(context, DMI_ERROR_MODULE_CONFLICT, "%s: type %d",
+                                           module->name, (int)type);
+                    }
+                    return false;
                 }
-                return false;
             }
         }
     }

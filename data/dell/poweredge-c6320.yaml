@@ -1684,39 +1684,76 @@ table:
   type: 225
   length: 40
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    4Q0A4QEBAAQAAgEEAA==
-  strings:
-  - CPU.Socket.1
-  - CPU.Socket.2
+  state:
+  - decoded
+  description: Dell device names
+  attributes:
+    unknown: 1
+    devices:
+    - fqdd: CPU.Socket.1
+      handle: 1024
+      unknown: 0
+    - fqdd: CPU.Socket.2
+      handle: 1025
+      unknown: 0
 - handle: 57601
   type: 225
   length: 310
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    4UUB4QEBABEAAgERAAMCEQAEAxEABQQRAAYFEQAHBhEACAcRAAkIEQAKCREACwoRAAwLEQANDBEA
-    Dg0RAA8OEQAQDxEA
-  strings:
-  - DIMM.Socket.A1
-  - DIMM.Socket.A2
-  - DIMM.Socket.A3
-  - DIMM.Socket.A4
-  - DIMM.Socket.A5
-  - DIMM.Socket.A6
-  - DIMM.Socket.A7
-  - DIMM.Socket.A8
-  - DIMM.Socket.B1
-  - DIMM.Socket.B2
-  - DIMM.Socket.B3
-  - DIMM.Socket.B4
-  - DIMM.Socket.B5
-  - DIMM.Socket.B6
-  - DIMM.Socket.B7
-  - DIMM.Socket.B8
+  state:
+  - decoded
+  description: Dell device names
+  attributes:
+    unknown: 1
+    devices:
+    - fqdd: DIMM.Socket.A1
+      handle: 4352
+      unknown: 0
+    - fqdd: DIMM.Socket.A2
+      handle: 4353
+      unknown: 0
+    - fqdd: DIMM.Socket.A3
+      handle: 4354
+      unknown: 0
+    - fqdd: DIMM.Socket.A4
+      handle: 4355
+      unknown: 0
+    - fqdd: DIMM.Socket.A5
+      handle: 4356
+      unknown: 0
+    - fqdd: DIMM.Socket.A6
+      handle: 4357
+      unknown: 0
+    - fqdd: DIMM.Socket.A7
+      handle: 4358
+      unknown: 0
+    - fqdd: DIMM.Socket.A8
+      handle: 4359
+      unknown: 0
+    - fqdd: DIMM.Socket.B1
+      handle: 4360
+      unknown: 0
+    - fqdd: DIMM.Socket.B2
+      handle: 4361
+      unknown: 0
+    - fqdd: DIMM.Socket.B3
+      handle: 4362
+      unknown: 0
+    - fqdd: DIMM.Socket.B4
+      handle: 4363
+      unknown: 0
+    - fqdd: DIMM.Socket.B5
+      handle: 4364
+      unknown: 0
+    - fqdd: DIMM.Socket.B6
+      handle: 4365
+      unknown: 0
+    - fqdd: DIMM.Socket.B7
+      handle: 4366
+      unknown: 0
+    - fqdd: DIMM.Socket.B8
+      handle: 4367
+      unknown: 0
 - handle: 65279
   type: 127
   length: 6

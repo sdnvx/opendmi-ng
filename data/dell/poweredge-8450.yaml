@@ -4300,22 +4300,34 @@ table:
 - handle: 122
   type: 212
   length: 29
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    1Bt6AHIAcwAAAAAAXABo+AJdAGj4AP//AAAA
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell indexed IO
+  attributes:
+    index-port: 114
+    data-port: 115
+    check-type: word-checksum
+    check-start: 0
+    check-end: 0
+    check-index: 0
+    tokens:
+    - id: 92
+      location: 104
+      and-mask: 248
+      or-value: 2
+    - id: 93
+      location: 104
+      and-mask: 248
+      or-value: 0
 - handle: 123
   type: 222
   length: 15
   level: null
-  state:
-  - decoded
-  description: Intel Silicon View Technology milestones
-  attributes:
-    version: 211
-    parameter: 3331
-    milestones: []
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    3g17ANMDDQADCAQUFw==
 - handle: 124
   type: 16
   length: 17

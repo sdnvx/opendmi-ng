@@ -2636,7 +2636,7 @@ table:
   length: 97
   level: null
   state: []
-  description: OEM-specific
+  description: Dell device bay
   data: !!binary |
     21E88AEDAVUCAJAGAwBgIAQAAARACAABHwAAyQvARwL///////////////////////////////8D
     AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA

@@ -31,6 +31,7 @@ namespace dmi {
         ibm     = capi::DMI_VENDOR_IBM,     ///< IBM
         intel   = capi::DMI_VENDOR_INTEL,   ///< Intel
         lenovo  = capi::DMI_VENDOR_LENOVO,  ///< Lenovo
+        unisys  = capi::DMI_VENDOR_UNISYS,  ///< Unisys
     };
 }
 

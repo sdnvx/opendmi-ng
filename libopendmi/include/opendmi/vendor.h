@@ -38,6 +38,7 @@ typedef enum dmi_vendor
     DMI_VENDOR_IBM,          ///< IBM
     DMI_VENDOR_INTEL,        ///< Intel
     DMI_VENDOR_LENOVO,       ///< Lenovo
+    DMI_VENDOR_UNISYS,       ///< Unisys
     __DMI_VENDOR_COUNT
 } dmi_vendor_t;
 

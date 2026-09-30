@@ -1428,7 +1428,7 @@ table:
   length: 77
   level: null
   state: []
-  description: OEM-specific
+  description: Dell device bay
   data: !!binary |
     2wsrAAABAgMABAU=
   strings:

@@ -192,6 +192,19 @@ enabled, to the specifications of the other enabled modules:
 })
 ----
 
+A vendor which places a structure at a type number or another, e.g. on
+platforms of different generations, relocates its specification more than
+once, and the structure is decoded at every one of the type numbers:
+
+[source,c]
+----
+.relocations = DMI_RELOCATIONS({
+    { &dmi_intel_fvi_spec, 205 },
+    { &dmi_intel_fvi_spec, 237 },
+    {}
+})
+----
+
 A vendor whose platforms never carry a structure, and give its type number to
 a structure the module of the vendor does not describe, relocates it to
 `DMI_TYPE_ID_INVALID`, so that the type is left undecoded rather than decoded

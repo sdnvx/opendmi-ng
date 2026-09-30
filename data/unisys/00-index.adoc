@@ -40,12 +40,12 @@ a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `126` | Inactive | 13  a| `0x1301`, `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `208` | OEM-specific | 1  a| `0xD000`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `210` | OEM-specific | 2  a| `0xD200`, `0xD201`
-a| `212` | OEM-specific | 3  a| `0xD400`, `0xD401`, `0xD402`
-a| `216` | OEM-specific | 1  a| `0xD800`
-a| `222` | Intel Silicon View Technology milestones | 1  a| `0xDE00`
+a| `208` | Dell revisions and IDs | 1  a| `0xD000`
+a| `209` | Dell parallel port | 1  a| `0xD100`
+a| `210` | Dell serial port | 2  a| `0xD200`, `0xD201`
+a| `212` | Dell indexed IO | 3  a| `0xD400`, `0xD401`, `0xD402`
+a| `216` | Dell video BIOS information | 1  a| `0xD800`
+a| `222` | OEM-specific | 1  a| `0xDE00`
 |===
 == ES3040 (es3040.bin)
 
@@ -85,11 +85,11 @@ a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `126` | Inactive | 20  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`, `0x140E`, `0x140F`, `0x1410`, `0x1411`, `0x1412`, `0x1413`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `208` | OEM-specific | 1  a| `0xD000`
-a| `210` | OEM-specific | 1  a| `0xD200`
-a| `212` | OEM-specific | 3  a| `0xD400`, `0xD401`, `0xD402`
-a| `216` | OEM-specific | 1  a| `0xD800`
-a| `222` | Intel Silicon View Technology milestones | 1  a| `0xDE00`
+a| `208` | Dell revisions and IDs | 1  a| `0xD000`
+a| `210` | Dell serial port | 1  a| `0xD200`
+a| `212` | Dell indexed IO | 3  a| `0xD400`, `0xD401`, `0xD402`
+a| `216` | Dell video BIOS information | 1  a| `0xD800`
+a| `222` | OEM-specific | 1  a| `0xDE00`
 |===
 == ES3120L (es3120l.bin)
 
@@ -129,10 +129,10 @@ a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `126` | Inactive | 33  a| `0x0808`, `0x0903`, `0x0904`, `0x0905`, `0x0906`, `0x7E00`, `0x1301`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`, `0x1420`, `0x1421`, `0x1424`, `0x1425`, `0x1428`, `0x1429`, `0x1430`, `0x1431`, `0x1434`, `0x1435`, `0x1438`, `0x1439`, `0xD100`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `208` | OEM-specific | 1  a| `0xD000`
-a| `210` | OEM-specific | 1  a| `0xD200`
-a| `212` | OEM-specific | 4  a| `0xD400`, `0xD401`, `0xD402`, `0xD403`
-a| `216` | OEM-specific | 1  a| `0xD800`
-a| `218` | OEM-specific | 1  a| `0xDA00`
-a| `222` | Intel Silicon View Technology milestones | 1  a| `0xDE00`
+a| `208` | Dell revisions and IDs | 1  a| `0xD000`
+a| `210` | Dell serial port | 1  a| `0xD200`
+a| `212` | Dell indexed IO | 4  a| `0xD400`, `0xD401`, `0xD402`, `0xD403`
+a| `216` | Dell video BIOS information | 1  a| `0xD800`
+a| `218` | Dell calling interface | 1  a| `0xDA00`
+a| `222` | OEM-specific | 1  a| `0xDE00`
 |===

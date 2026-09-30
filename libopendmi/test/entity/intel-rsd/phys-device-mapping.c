@@ -105,9 +105,9 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
 
     // Handles refer to the structures of the type the device type names, and
     // to any structure for the device types the specification leaves out
-    static const struct {
-        dmi_intel_rsd_phys_device_type_t device_type;
-        const dmi_type_t                   *target;
+    const struct {
+        dmi_intel_rsd_phys_device_type_t  device_type;
+        const dmi_type_t                 *target;
     } test_targets[] = {
         { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PROCESSOR, DMI_TYPE(processor)     },
         { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PCIE_SLOT, DMI_TYPE(system_slots)  },

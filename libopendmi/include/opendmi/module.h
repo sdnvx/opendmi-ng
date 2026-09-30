@@ -37,7 +37,9 @@ typedef enum dmi_module_flags
  * Structures defined by others, e.g. by the Intel reference code, are placed
  * by some vendors at type numbers other than the original ones, since the
  * original numbers are taken by their own structures. The data is laid out
- * as the original specification describes it.
+ * as the original specification describes it. A specification is relocated
+ * more than once by a vendor which places the structure at a type number or
+ * another, e.g. on platforms of different generations.
  */
 struct dmi_relocation
 {

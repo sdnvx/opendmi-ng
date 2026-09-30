@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add missing `*_name()` functions for enumerations
 - Add processor upgrade value 0xFF of SMBIOS 3.8
 - Add platform detection (`dmi_platform_t`, `dmi_get_platform()`, `dmi_set_platform()`)
-- Add AMD, Honor and Huawei vendors
+- Add AMD, Honor, Huawei and Unisys vendors
 - Add family and generation detection of HP/HPE servers
 - Add platform conditions for extension modules, generation ranges of structure specifications and structure relocations
 - Add automatic enabling of platform extension modules (`DMI_CONTEXT_FLAG_AUTO_MODULES`) and `--no-auto-modules` option
@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Intel RSD processor CPUID and physical device mapping decoders
 - Add `intel-rsd-cabled-pcie.start-lane` and `intel-rsd-cabled-pcie.cable-count` lint rules
 - Add Dell indexed IO, calling interface, protected area, BIOS flags (177) and hotkeys (178) decoders
+- Enable `dell` module for Unisys ES servers and Dell systems with firmware of other vendors
 - Add Sun extended processor, port, memory array, memory device and PCIe root complex decoders
 - Add HP/HPE server structures decoders
 - Add Lenovo ThinkVantage Technologies (131) and OEM data (135, 140) decoders

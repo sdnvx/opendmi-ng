@@ -581,6 +581,15 @@ include::../../../../libopendmi/man/man3/dmi_dell_enable_state.3.adoc[leveloffse
 include::../../../../libopendmi/man/man3/dmi_dell_port_security.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_dell_value_format.3.adoc[leveloffset=2]
 
+== `<opendmi/entity/dell/device-bay.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_device_bay.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/device-names.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_device_names.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_device_name.3.adoc[leveloffset=2]
+
 == `<opendmi/entity/dell/hotkeys.h>`
 
 include::../../../../libopendmi/man/man3/dmi_dell_hotkeys.3.adoc[leveloffset=2]
@@ -595,6 +604,11 @@ include::../../../../libopendmi/man/man3/dmi_dell_indexed_io_token.3.adoc[levelo
 
 include::../../../../libopendmi/man/man3/dmi_dell_infrared_port.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_dell_infrared_proto.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/memory-ids.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_memory_ids.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_memory_id.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/dell/parallel-port.h>`
 

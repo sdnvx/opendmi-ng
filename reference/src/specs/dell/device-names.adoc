@@ -1,0 +1,81 @@
+= Dell Device Names (Type 225)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Gives the devices of a kind the names the management controller (iDRAC) of
+a PowerEdge server knows them by, its fully qualified device descriptors
+(FQDD), e.g. `CPU.Socket.1` and `CPU.Socket.2` to the processors (type 4) of
+handles `0x0400` and `0x0401`, or `DIMM.Socket.A1` to the memory device
+(type 17) of handle `0x1100` in `dell/poweredge-r640.bin`. The structures are
+found on PowerEdge servers of the 13th and 14th generations, one for the
+processors and one for the memory devices.
+
+.Dell Device Names structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `225`
+| Dell Device Names indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Unknown
+| `BYTE`
+| Varies
+| `1` in all known data
+
+| `0x05`
+| 2.0+
+| Devices
+| Varies
+| Varies
+| Devices, see <<dell-device-names-devices>>, which run to the end of the structure
+|===
+
+[#dell-device-names-devices, reftext=Devices]
+== Dell Device Names -- Devices
+
+.Dell Device Names: Device
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| FQDD
+| `BYTE`
+| `STRING`
+| Fully qualified device descriptor of the device
+
+| `0x01`
+| Handle
+| `WORD`
+| Varies
+| Handle of the structure describing the device
+
+| `0x03`
+| Unknown
+| `BYTE`
+| Varies
+| `0` in all known data
+|===

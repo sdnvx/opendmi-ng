@@ -76,6 +76,11 @@ static const dmi_name_set_t dmi_vendor_names =
             .code = "lenovo",
             .name = "Lenovo"
         },
+        {
+            .id   = DMI_VENDOR_UNISYS,
+            .code = "unisys",
+            .name = "Unisys"
+        },
         {}
     })
 };
@@ -125,6 +130,7 @@ static const dmi_vendor_spec_t dmi_vendor_specs[] =
         .names = (const char *[]){
             "Dell Inc.",
             "Dell Computer Corporation",
+            "Dell Computer Corp.",
             nullptr
         }
     },
@@ -190,6 +196,15 @@ static const dmi_vendor_spec_t dmi_vendor_specs[] =
         .code  = "lenovo",
         .names = (const char *[]){
             "LENOVO",
+            nullptr
+        }
+    },
+    {
+        .id    = DMI_VENDOR_UNISYS,
+        .code  = "unisys",
+        .names = (const char *[]){
+            "UNISYS Corp.",
+            "Unisys System",
             nullptr
         }
     },

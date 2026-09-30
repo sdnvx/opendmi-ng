@@ -277,7 +277,7 @@ static void test_registry_get_any(void **pstate)
     dmi_context_t *context = *pstate;
     dmi_registry_t *registry = dmi_get_registry(context);
 
-    static const dmi_type_t *const types[] = {
+    const dmi_type_t *const types[] = {
         DMI_TYPE(memory_array),
         DMI_TYPE(memory_device),
         nullptr
@@ -609,8 +609,8 @@ static void test_registry_resolve(void **pstate)
     test_resolve(registry, 0x0000, DMI_TYPE(memory_array), true, DMI_TYPE_ID_INVALID, DMI_ERROR_NONE);
 
     // Any of the expected types is accepted
-    static const dmi_type_t *const valid_types[]   = { DMI_TYPE(cache), DMI_TYPE(memory_array), nullptr };
-    static const dmi_type_t *const invalid_types[] = { DMI_TYPE(cache), DMI_TYPE(processor), nullptr };
+    const dmi_type_t *const valid_types[]   = { DMI_TYPE(cache), DMI_TYPE(memory_array), nullptr };
+    const dmi_type_t *const invalid_types[] = { DMI_TYPE(cache), DMI_TYPE(processor), nullptr };
 
     dmi_entity_t *entity = nullptr;
 

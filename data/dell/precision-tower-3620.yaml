@@ -2485,92 +2485,263 @@ table:
   type: 237
   length: 78
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    7Rol8AMBAAEABAAAAgAAAACgAAMAAAUAAAA=
-  strings:
-  - Reference Code - CPU
-  - uCode Version
-  - TXT ACM version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CPU
+      version-string: null
+      major: 1
+      minor: 0
+      revision: 4
+      build: 0
+    - component: uCode Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 160
+    - component: TXT ACM version
+      version-string: null
+      major: 0
+      minor: 5
+      revision: 0
+      build: 0
 - handle: 61478
   type: 237
   length: 99
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    7Rom8AMBAAEABAAAAgALAAAIAAMECwYNvAQ=
-  strings:
-  - Reference Code - ME 11.0
-  - MEBx version
-  - ME Firmware Version
-  - Corporate SKU
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - ME 11.0
+      version-string: null
+      major: 1
+      minor: 0
+      revision: 4
+      build: 0
+    - component: MEBx version
+      version-string: null
+      major: 11
+      minor: 0
+      revision: 0
+      build: 8
+    - component: ME Firmware Version
+      version-string: Corporate SKU
+      major: 11
+      minor: 6
+      revision: 13
+      build: 1212
 - handle: 61479
   type: 237
   length: 287
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    7UQn8AkBAAEABAAAAgP//////wQA////MQAFAP///zEABgD//////wcAPgAAAAAIADQAAAAACQA+
-    AAAAAAoANAAAAAA=
-  strings:
-  - Reference Code - SKL PCH
-  - PCH-CRID Status
-  - Disabled
-  - PCH-CRID Original Value
-  - PCH-CRID New Value
-  - OPROM - RST - RAID
-  - SKL PCH H Bx Hsio Version
-  - SKL PCH H Dx Hsio Version
-  - SKL PCH LP Bx Hsio Version
-  - SKL PCH LP Cx Hsio Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SKL PCH
+      version-string: null
+      major: 1
+      minor: 0
+      revision: 4
+      build: 0
+    - component: PCH-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 49
+    - component: PCH-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 49
+    - component: OPROM - RST - RAID
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SKL PCH H Bx Hsio Version
+      version-string: null
+      major: 62
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH H Dx Hsio Version
+      version-string: null
+      major: 52
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH LP Bx Hsio Version
+      version-string: null
+      major: 62
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH LP Cx Hsio Version
+      version-string: null
+      major: 52
+      minor: 0
+      revision: 0
+      build: 0
 - handle: 61480
   type: 237
   length: 208
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    7TYo8AcBAAEABAAAAgACAAAGAAMAAQAEAAAEBf//////BgD///8HAAcA////BwAIAP///wID
-  strings:
-  - Reference Code - SA - System Agent
-  - Reference Code - MRC
-  - SA - PCIe Version
-  - SA-CRID Status
-  - Disabled
-  - SA-CRID Original Value
-  - SA-CRID New Value
-  - OPROM - VBIOS
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SA - System Agent
+      version-string: null
+      major: 1
+      minor: 0
+      revision: 4
+      build: 0
+    - component: Reference Code - MRC
+      version-string: null
+      major: 2
+      minor: 0
+      revision: 0
+      build: 6
+    - component: SA - PCIe Version
+      version-string: null
+      major: 1
+      minor: 0
+      revision: 4
+      build: 0
+    - component: SA-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SA-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 7
+    - component: SA-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 7
+    - component: OPROM - VBIOS
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 770
 - handle: 61481
   type: 237
   length: 420
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    7Wcp8A4BAAAAAKYAAgD//////wME//////8FBv//////Bwj//////wkAAAAAAAAKAP//////CwD/
-    /wAAAAwA//////8NAAIAAAAADgD//////w8A//////8QEQEDAwEAEgAABwMAAA==
-  strings:
-  - Lan Phy Version
-  - Sensor Firmware Version
-  - Debug Mode Status
-  - Disabled
-  - Performance Mode Status
-  - Disabled
-  - Debug Use USB(Disabled:Serial)
-  - Disabled
-  - ICC Overclocking Version
-  - UNDI Version
-  - EC FW Version
-  - GOP Version
-  - BIOS Guard Version
-  - Base EC FW Version
-  - EC-EC Protocol Version
-  - Royal Park Version
-  - BP1.3.3.0_RP01
-  - Platform Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Lan Phy Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 166
+    - component: Sensor Firmware Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Mode Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Performance Mode Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Use USB(Disabled:Serial)
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: ICC Overclocking Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: UNDI Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: EC FW Version
+      version-string: null
+      major: null
+      minor: null
+      revision: 0
+      build: 0
+    - component: GOP Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: BIOS Guard Version
+      version-string: null
+      major: 2
+      minor: 0
+      revision: 0
+      build: 0
+    - component: Base EC FW Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: EC-EC Protocol Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Royal Park Version
+      version-string: BP1.3.3.0_RP01
+      major: 1
+      minor: 3
+      revision: 3
+      build: 1
+    - component: Platform Version
+      version-string: null
+      major: 0
+      minor: 7
+      revision: 3
+      build: 0
 - handle: 61494
   type: 136
   length: 8
@@ -2631,15 +2802,45 @@ table:
   type: 235
   length: 97
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    61E68AEDAUUCAJQGgRCJMAAAAABACAABHwAAyQvARwL///////////////////////////////8D
-    AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  strings:
-  - MEI1
-  - MEI2
-  - MEI3
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: corporate
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2483028549
+      - 2299560198
+      - 48
+      - 540672
+      - 7937
+      - 1203768265
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 - handle: 61499
   type: 127
   length: 6

@@ -12,7 +12,10 @@
 #include <opendmi/types.h>
 #include <opendmi/buffer.h>
 
-typedef struct dmi_backend dmi_backend_t;
+#ifndef DMI_BACKEND_T
+#   define DMI_BACKEND_T
+    typedef struct dmi_backend dmi_backend_t;
+#endif // !DMI_BACKEND_T
 
 /**
  * @brief DMI backend specification.

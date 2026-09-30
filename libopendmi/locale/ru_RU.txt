@@ -626,6 +626,20 @@ ru_RU {
         word-crc { "CRC словом" }
         word-checksum-negated { "Инвертированная контрольная сумма словом" }
     }
+    dell-device-bay {
+        attribute {
+            installed-device { "Установленное устройство" }
+            supported-devices { "Поддерживаемые устройства" }
+        }
+        name { "Отсек устройств Dell" }
+    }
+    dell-device-names {
+        attribute {
+            fqdd { "Полное имя устройства (FQDD)" }
+            unknown { "Неизвестное" }
+        }
+        name { "Имена устройств Dell" }
+    }
     dell-enable-state {
         unspecified { "Не указано" }
         other { "Другое" }
@@ -657,6 +671,15 @@ ru_RU {
         sir { "SIR (Standard IR)" }
         fir { "FIR (Fast IR)" }
         mir { "MIR (Medium Speed IR)" }
+    }
+    dell-memory-ids {
+        attribute {
+            handle { "Дескриптор устройства памяти" }
+            id-length { "Длина идентификаторов" }
+            manufacturer { "JEDEC-идентификатор производителя" }
+            modules { "Модули" }
+        }
+        name { "Идентификаторы модулей памяти Dell" }
     }
     dell-parallel-port {
         attribute {
@@ -3308,6 +3331,7 @@ ru_RU {
         ibm { "IBM" }
         intel { "Intel" }
         lenovo { "Lenovo" }
+        unisys { "Unisys" }
     }
     voltage-probe {
         name { "Датчик напряжения" }

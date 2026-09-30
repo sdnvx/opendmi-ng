@@ -60,8 +60,9 @@ long as the context it has been decoded in.
 
 The Intel reference code gives the structures type 219, but vendors who give
 that type to structures of their own place them elsewhere or not at all:
-Dell places them at type 203, and HP servers carry none. A group association
-(type 14) named `$MEI` often refers to the structure.
+Dell places them at type 203, or at type 235 on some platforms, e.g.
+Precision Tower 3620, and HP servers carry none. A group association (type 14)
+named `$MEI` often refers to the structure.
 
 === Fields
 

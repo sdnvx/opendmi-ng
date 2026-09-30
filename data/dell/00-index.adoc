@@ -41,7 +41,7 @@ a| `19` | Memory array mapped address | 1  a| `0x0028`
 a| `20` | Memory device mapped address | 2  a| `0x002A`, `0x002C`
 a| `32` | System boot information | 1  a| `0x002D`
 a| `127` | End of table | 1  a| `0x002E`
-a| `218` | OEM-specific | 1  a| `0x0000`
+a| `218` | Dell calling interface | 1  a| `0x0000`
 |===
 == G15 5510 (g15-5510.bin)
 
@@ -535,7 +535,7 @@ a| `212` | Dell indexed IO | 2  a| `0xD400`, `0xD401`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `217` | OEM-specific | 1  a| `0xD900`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | Dell device bay | 1  a| `0xDB00`
 a| `220` | Dell token references, type 1 | 1  a| `0xDC00`
 a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
@@ -591,7 +591,7 @@ a| `212` | Dell indexed IO | 2  a| `0xD400`, `0xD401`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `217` | OEM-specific | 1  a| `0xD900`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
-a| `219` | OEM-specific | 2  a| `0xDB00`, `0xDB81`
+a| `219` | Dell device bay | 2  a| `0xDB00`, `0xDB81`
 a| `220` | Dell token references, type 1 | 1  a| `0xDC00`
 a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
@@ -762,7 +762,7 @@ a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
 a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `223` | OEM-specific | 1  a| `0xDF00`
+a| `223` | Dell memory module identifiers | 1  a| `0xDF00`
 |===
 == PowerApp.web 110 (powerapp-web-110.bin)
 
@@ -862,7 +862,7 @@ a| `218` | Dell calling interface | 2  a| `0xDA00`, `0xDA01`
 a| `220` | Dell token references, type 1 | 10  a| `0xDC00`, `0xDC01`, `0xDC02`, `0xDC03`, `0xDC04`, `0xDC05`, `0xDC08`, `0xDC09`, `0xDC0A`, `0xDC0B`
 a| `221` | Dell token references, type 2 | 2  a| `0xDD00`, `0xDD01`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `223` | OEM-specific | 1  a| `0xDF00`
+a| `223` | Dell memory module identifiers | 1  a| `0xDF00`
 |===
 == PowerEdge 1650 (poweredge-1650.bin)
 
@@ -1410,7 +1410,7 @@ a| `218` | Dell calling interface | 4  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`
 a| `220` | Dell token references, type 1 | 9  a| `0xDC00`, `0xDC01`, `0xDC02`, `0xDC03`, `0xDC04`, `0xDC05`, `0xDC06`, `0xDC11`, `0xDC15`
 a| `221` | Dell token references, type 2 | 4  a| `0xDD00`, `0xDD01`, `0xDD05`, `0xDD06`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `223` | OEM-specific | 1  a| `0xDF00`
+a| `223` | Dell memory module identifiers | 1  a| `0xDF00`
 |===
 == PowerEdge 4400 (poweredge-4400.bin)
 
@@ -1777,8 +1777,8 @@ a| `16` | Physical memory array | 2  a| `0x007C`, `0x007D`
 a| `17` | Memory device | 32  a| `0x007E`, `0x007F`, `0x0080`, `0x0081`, `0x0082`, `0x0083`, `0x0084`, `0x0085`, `0x0086`, `0x0087`, `0x0088`, `0x0089`, `0x008A`, `0x008B`, `0x008C`, `0x008D`, `0x008E`, `0x008F`, `0x0090`, `0x0091`, `0x0092`, `0x0093`, `0x0094`, `0x0095`, `0x0096`, `0x0097`, `0x0098`, `0x0099`, `0x009A`, `0x009B`, `0x009C`, `0x009D`
 a| `19` | Memory array mapped address | 2  a| `0x009E`, `0x009F`
 a| `20` | Memory device mapped address | 4  a| `0x00A0`, `0x00A1`, `0x00A2`, `0x00A3`
-a| `212` | OEM-specific | 1  a| `0x007A`
-a| `222` | Intel Silicon View Technology milestones | 1  a| `0x007B`
+a| `212` | Dell indexed IO | 1  a| `0x007A`
+a| `222` | OEM-specific | 1  a| `0x007B`
 |===
 == PowerEdge C6320 (poweredge-c6320.bin)
 
@@ -1822,7 +1822,7 @@ a| `210` | Dell serial port | 1  a| `0xD200`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `225` | OEM-specific | 2  a| `0xE100`, `0xE101`
+a| `225` | Dell device names | 2  a| `0xE100`, `0xE101`
 |===
 == PowerEdge R630 [2] (poweredge-r630-2.bin)
 
@@ -1911,7 +1911,7 @@ a| `210` | Dell serial port | 1  a| `0xD200`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `225` | OEM-specific | 2  a| `0xE100`, `0xE101`
+a| `225` | Dell device names | 2  a| `0xE100`, `0xE101`
 |===
 == PowerEdge R640 (poweredge-r640.bin)
 
@@ -1957,7 +1957,7 @@ a| `212` | Dell indexed IO | 1  a| `0xD400`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `225` | OEM-specific | 2  a| `0xE100`, `0xE101`
+a| `225` | Dell device names | 2  a| `0xE100`, `0xE101`
 |===
 == PowerEdge R730 (poweredge-r730.bin)
 
@@ -2001,7 +2001,7 @@ a| `210` | Dell serial port | 1  a| `0xD200`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `225` | OEM-specific | 2  a| `0xE100`, `0xE101`
+a| `225` | Dell device names | 2  a| `0xE100`, `0xE101`
 |===
 == PowerEdge R730xd (poweredge-r730xd.bin)
 
@@ -2092,7 +2092,7 @@ a| `212` | Dell indexed IO | 1  a| `0xD400`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `225` | OEM-specific | 2  a| `0xE100`, `0xE101`
+a| `225` | Dell device names | 2  a| `0xE100`, `0xE101`
 |===
 == PowerEdge R777sd (poweredge-r777sd.bin)
 
@@ -2138,7 +2138,7 @@ a| `212` | Dell indexed IO | 1  a| `0xD400`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 1  a| `0xDA00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `225` | OEM-specific | 2  a| `0xE100`, `0xE101`
+a| `225` | Dell device names | 2  a| `0xE100`, `0xE101`
 |===
 == PowerEdge SC420 (poweredge-sc420.bin)
 
@@ -2189,7 +2189,7 @@ a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 2  a| `0xDA00`, `0xDA01`
 a| `221` | Dell token references, type 2 | 3  a| `0xDD00`, `0xDD01`, `0xDD02`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `223` | OEM-specific | 1  a| `0xDF00`
+a| `223` | Dell memory module identifiers | 1  a| `0xDF00`
 |===
 == PowerVault 755N (powervault-755n.bin)
 
@@ -2343,7 +2343,7 @@ a| `212` | Dell indexed IO | 1  a| `0x0028`
 a| `216` | Dell video BIOS information | 1  a| `0x0029`
 a| `217` | OEM-specific | 1  a| `0x002A`
 a| `218` | Dell calling interface | 4  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`
-a| `219` | OEM-specific | 1  a| `0x002B`
+a| `219` | Dell device bay | 1  a| `0x002B`
 a| `220` | Dell token references, type 1 | 1  a| `0x002C`
 a| `221` | Dell token references, type 2 | 1  a| `0x002D`
 a| `222` | OEM-specific | 1  a| `0x002E`
@@ -2457,8 +2457,8 @@ a| `218` | Dell calling interface | 7  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`
 a| `220` | Dell token references, type 1 | 2  a| `0xDC00`, `0xDC01`
 a| `221` | Dell token references, type 2 | 2  a| `0xDD00`, `0xDD01`
 a| `222` | OEM-specific | 1  a| `0xDE00`
-a| `235` | OEM-specific | 1  a| `0xF03A`
-a| `237` | OEM-specific | 5  a| `0xF025`, `0xF026`, `0xF027`, `0xF028`, `0xF029`
+a| `235` | Intel Management Engine interface information | 1  a| `0xF03A`
+a| `237` | Intel firmware version information | 5  a| `0xF025`, `0xF026`, `0xF027`, `0xF028`, `0xF029`
 |===
 == Precision WorkStation 390 (precision-workstation-390.bin)
 
@@ -2688,7 +2688,7 @@ a| `210` | Dell serial port | 1  a| `0xD200`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `217` | OEM-specific | 1  a| `0xD900`
 a| `218` | Dell calling interface | 9  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA04`, `0xDA05`, `0xDA06`, `0xDA07`, `0xDA08`
-a| `219` | OEM-specific | 1  a| `0xF03C`
+a| `219` | Dell device bay | 1  a| `0xF03C`
 a| `220` | Dell token references, type 1 | 4  a| `0xDC00`, `0xDC01`, `0xDC02`, `0xDC03`
 a| `221` | Dell token references, type 2 | 7  a| `0x003D`, `0xDD00`, `0xF02A`, `0xF02B`, `0xF02C`, `0xF02D`, `0xF02E`
 a| `222` | OEM-specific | 1  a| `0xDE00`

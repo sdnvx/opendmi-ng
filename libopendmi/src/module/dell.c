@@ -18,7 +18,10 @@
 #include <opendmi/entity/dell/protected-area-1.h>
 #include <opendmi/entity/dell/protected-area-2.h>
 #include <opendmi/entity/dell/calling-iface.h>
+#include <opendmi/entity/dell/device-bay.h>
+#include <opendmi/entity/dell/device-names.h>
 #include <opendmi/entity/dell/hotkeys.h>
+#include <opendmi/entity/dell/memory-ids.h>
 #include <opendmi/entity/dell/system-id.h>
 #include <opendmi/entity/dell/token-refs.h>
 #include <opendmi/entity/dell/video-rom.h>
@@ -35,8 +38,11 @@ const dmi_type_t dmi_type_dell_protected_area_1 = { .id = DMI_TYPE_ID(DELL_PROTE
 const dmi_type_t dmi_type_dell_protected_area_2 = { .id = DMI_TYPE_ID(DELL_PROTECTED_AREA_2) };
 const dmi_type_t dmi_type_dell_video_rom        = { .id = DMI_TYPE_ID(DELL_VIDEO_ROM)        };
 const dmi_type_t dmi_type_dell_calling_iface    = { .id = DMI_TYPE_ID(DELL_CALLING_IFACE)    };
+const dmi_type_t dmi_type_dell_device_bay       = { .id = DMI_TYPE_ID(DELL_DEVICE_BAY)       };
 const dmi_type_t dmi_type_dell_token_refs_1     = { .id = DMI_TYPE_ID(DELL_TOKEN_REFS_1)     };
 const dmi_type_t dmi_type_dell_token_refs_2     = { .id = DMI_TYPE_ID(DELL_TOKEN_REFS_2)     };
+const dmi_type_t dmi_type_dell_memory_ids       = { .id = DMI_TYPE_ID(DELL_MEMORY_IDS)       };
+const dmi_type_t dmi_type_dell_device_names     = { .id = DMI_TYPE_ID(DELL_DEVICE_NAMES)     };
 const dmi_type_t dmi_type_dell_system_id        = { .id = DMI_TYPE_ID(DELL_SYSTEM_ID)        };
 
 /**
@@ -58,22 +64,35 @@ const dmi_module_t dmi_dell_module =
         &dmi_dell_protected_area_2_spec,
         &dmi_dell_video_rom_spec,
         &dmi_dell_calling_iface_spec,
+        &dmi_dell_device_bay_spec,
         &dmi_dell_token_refs_1_spec,
         &dmi_dell_token_refs_2_spec,
+        &dmi_dell_memory_ids_spec,
+        &dmi_dell_device_names_spec,
         &dmi_dell_system_id_spec,
         nullptr
     },
+    //
+    // Systems of Dell may carry the firmware of other vendors, e.g. PowerEdge
+    // 8450 the one of Intel, and Unisys ES servers, which Dell makes, carry
+    // the firmware of Dell under the name of Unisys
+    //
     .platforms = DMI_PLATFORMS({
-        { .firmware_vendor = DMI_VENDOR_DELL },
+        { .firmware_vendor = DMI_VENDOR_DELL   },
+        { .system_vendor   = DMI_VENDOR_DELL   },
+        { .firmware_vendor = DMI_VENDOR_UNISYS },
         DMI_PLATFORM_NULL
     }),
     //
     // Dell gives types 221 and 222 to structures of its own, and moves the
-    // structures of the Intel reference code 16 types down
+    // structures of the Intel reference code 16 types down, or 16 types up
+    // on some platforms, e.g. Precision Tower 3620
     //
     .relocations = DMI_RELOCATIONS({
         { &dmi_intel_mei_spec, 203 },
+        { &dmi_intel_mei_spec, 235 },
         { &dmi_intel_fvi_spec, 205 },
+        { &dmi_intel_fvi_spec, 237 },
         { &dmi_intel_svt_spec, 206 },
         {}
     })

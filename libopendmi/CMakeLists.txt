@@ -151,7 +151,10 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/entity/acer/devices.h
     include/opendmi/entity/acer/hotkeys.h
     include/opendmi/entity/dell/common.h
+    include/opendmi/entity/dell/device-bay.h
+    include/opendmi/entity/dell/device-names.h
     include/opendmi/entity/dell/hotkeys.h
+    include/opendmi/entity/dell/memory-ids.h
     include/opendmi/entity/dell/system-id.h
     include/opendmi/entity/dell/token-refs.h
     include/opendmi/entity/dell/video-rom.h
@@ -426,7 +429,10 @@ target_sources(opendmi-object
         src/entity/acer/devices.c
         src/entity/acer/hotkeys.c
         src/entity/dell/common-names.c
+        src/entity/dell/device-bay.c
+        src/entity/dell/device-names.c
         src/entity/dell/hotkeys.c
+        src/entity/dell/memory-ids.c
         src/entity/dell/system-id.c
         src/entity/dell/token-refs.c
         src/entity/dell/video-rom.c

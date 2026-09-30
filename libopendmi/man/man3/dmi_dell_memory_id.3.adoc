@@ -1,0 +1,72 @@
+ifdef::backend-manpage[]
+= dmi_dell_memory_id(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_memory_id
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_memory_id - Identifiers of a memory module
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/memory-ids.h>
+
+typedef struct dmi_dell_memory_id {
+    dmi_handle_t handle;
+    dmi_binary_t manufacturer;
+    dmi_binary_t serial_number;
+} dmi_dell_memory_id_t;
+----
+
+== Description
+
+The `dmi_dell_memory_id_t` structure holds the identifiers of a memory module,
+as its serial presence detect (SPD) data holds them, and is the type of the
+elements of the `modules` array of `dmi_dell_memory_ids_t`. Sockets which hold
+no module carry bytes of `0xFF`.
+
+The serial number is marked as private, so that `dmi_anonymize`(3) replaces
+it.
+
+=== Fields
+
+`handle`::
+Handle of the memory device (type 17) of the socket.
+
+`manufacturer`::
+JEDEC identifier of the manufacturer of the module, of 8 bytes, whose leading
+bytes of `0x7F` are continuation codes, e.g. `CE` for Samsung, `2C` for
+Micron, or `7F 98` for Kingston.
+
+`serial_number`::
+Serial number of the module, of 4 bytes, in the order the SPD data holds
+them.
+
+== See also
+
+`dmi_dell_memory_ids`(3), `dmi_memory_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, and reverse
+engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

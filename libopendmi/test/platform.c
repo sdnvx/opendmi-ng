@@ -475,7 +475,7 @@ static void test_platform_auto_modules_precedence(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    static const dmi_entity_spec_t spec = {
+    const dmi_entity_spec_t spec = {
         .type = DMI_TYPE(dell_revisions),
         .code = "test-revisions",
         .name = "Test revisions"

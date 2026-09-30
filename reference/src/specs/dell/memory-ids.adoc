@@ -1,0 +1,83 @@
+= Dell Memory Module Identifiers (Type 223)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Tells the manufacturer and the serial number of the memory modules, as their
+serial presence detect (SPD) data holds them, which the memory devices
+(type 17) of the older systems carry no fields for, e.g. in
+`dell/poweredge-400sc.bin` and `dell/optiplex-gx110.bin`. Each memory device
+is referred to by one record, and the records of the sockets which hold no
+module carry bytes of `0xFF`.
+
+The structures whose identifiers are of another length than 12 bytes are not
+known, and are left undecoded.
+
+.Dell Memory Module Identifiers structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `223`
+| Dell Memory Module Identifiers indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Identifiers Length
+| `BYTE`
+| `12`
+| Length of the identifiers of a module, which follow the handle of its memory device
+
+| `0x05`
+| 2.0+
+| Modules
+| Varies
+| Varies
+| Modules, see <<dell-memory-ids-modules>>, which run to the end of the structure
+|===
+
+[#dell-memory-ids-modules, reftext=Modules]
+== Dell Memory Module Identifiers -- Modules
+
+.Dell Memory Module Identifiers: Module
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| Handle
+| `WORD`
+| Varies
+| Handle of the memory device (type 17) of the socket
+
+| `0x02`
+| Manufacturer
+| 8 `BYTE`
+| Varies
+| JEDEC identifier of the manufacturer, whose leading bytes of `0x7F` are continuation codes, e.g. `CE` for Samsung, `2C` for Micron, or `7F 98` for Kingston
+
+| `0x0A`
+| Serial Number
+| 4 `BYTE`
+| Varies
+| Serial number of the module
+|===

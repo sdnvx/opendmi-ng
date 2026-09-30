@@ -27,8 +27,11 @@ include::dell/protected-area-1.adoc[leveloffset=2]
 include::dell/protected-area-2.adoc[leveloffset=2]
 include::dell/video-rom.adoc[leveloffset=2]
 include::dell/calling-iface.adoc[leveloffset=2]
+include::dell/device-bay.adoc[leveloffset=2]
 include::dell/token-refs-1.adoc[leveloffset=2]
 include::dell/token-refs-2.adoc[leveloffset=2]
+include::dell/memory-ids.adoc[leveloffset=2]
+include::dell/device-names.adoc[leveloffset=2]
 include::dell/system-id.adoc[leveloffset=2]
 
 == HP/HPE-specific structures
