@@ -1,0 +1,144 @@
+= Samsung
+:toc:
+:toclevels: 1
+
+== 700Z3C/700Z5C (700z3c-700z5c.bin)
+
+[horizontal]
+File path:: `samsung/700z3c-700z5c.bin`
+Product name:: 700Z3C/700Z5C
+Product version:: 0.1
+Product family:: ChiefRiver System
+Firmware vendor:: Phoenix Technologies Ltd.
+Firmware version:: P05AAG
+Release date:: 2013-02-07
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 4  a| `0x0005`, `0x0006`, `0x0007`, `0x0008`
+a| `8` | Port connector information | 24  a| `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x0021`, `0x0022`
+a| `9` | System slots | 6  a| `0x0023`, `0x0024`, `0x0025`, `0x0026`, `0x0027`, `0x0028`
+a| `10` | Onboard devices information | 2  a| `0x0029`, `0x002A`
+a| `11` | OEM strings | 1  a| `0x002B`
+a| `12` | System configuration options | 1  a| `0x002C`
+a| `13` | Firmware language information | 1  a| `0x002D`
+a| `15` | System event log | 1  a| `0x003E`
+a| `16` | Physical memory array | 1  a| `0x0036`
+a| `17` | Memory device | 4  a| `0x0037`, `0x0038`, `0x0039`, `0x003A`
+a| `18` | 32-bit memory error information | 1  a| `0x0030`
+a| `19` | Memory array mapped address | 1  a| `0x003D`
+a| `20` | Memory device mapped address | 2  a| `0x003B`, `0x003C`
+a| `21` | Built-in pointing device | 1  a| `0x0031`
+a| `22` | Portable battery | 1  a| `0x002E`
+a| `23` | System reset | 1  a| `0x0032`
+a| `24` | Hardware security | 1  a| `0x0033`
+a| `27` | Cooling device | 1  a| `0x0034`
+a| `32` | System boot information | 1  a| `0x002F`
+a| `39` | System power supply | 1  a| `0x0035`
+a| `127` | End of table | 1  a| `0x003F`
+a| `129` | OEM-specific | 1  a| `0x0009`
+a| `131` | Intel vPro information | 1  a| `0x000A`
+|===
+== N150/N210/N220 (n150-n210-n220.bin)
+
+[horizontal]
+File path:: `samsung/n150-n210-n220.bin`
+Product name:: N150/N210/N220
+Product version:: Not Applicable
+Product family:: 1234567890
+Firmware vendor:: Phoenix Technologies Ltd.
+Firmware version:: 06JI.M053.20100129.JIP
+Release date:: 2010-01-29
+SMBIOS version:: 2.5
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 2  a| `0x0005`, `0x0006`
+a| `8` | Port connector information | 2  a| `0x0007`, `0x0008`
+a| `9` | System slots | 2  a| `0x0009`, `0x000A`
+a| `10` | Onboard devices information | 1  a| `0x000B`
+a| `11` | OEM strings | 1  a| `0x000C`
+a| `12` | System configuration options | 1  a| `0x000D`
+a| `16` | Physical memory array | 1  a| `0x000E`
+a| `17` | Memory device | 1  a| `0x000F`
+a| `19` | Memory array mapped address | 1  a| `0x0010`
+a| `20` | Memory device mapped address | 1  a| `0x0011`
+a| `23` | System reset | 1  a| `0x0012`
+a| `24` | Hardware security | 1  a| `0x0013`
+a| `25` | System power controls | 1  a| `0x0014`
+a| `26` | Voltage probe | 1  a| `0x0015`
+a| `27` | Cooling device | 1  a| `0x0016`
+a| `28` | Temperature probe | 1  a| `0x0017`
+a| `29` | Electrical current probe | 1  a| `0x0018`
+a| `30` | Out-of-band remote access | 1  a| `0x0019`
+a| `32` | System boot information | 1  a| `0x001A`
+a| `126` | Inactive | 1  a| `0x001B`
+a| `127` | End of table | 1  a| `0x001C`
+|===
+== SX20S (sx20s.bin)
+
+[horizontal]
+File path:: `samsung/sx20s.bin`
+Product name:: SX20S
+Product version:: Revision PR
+Product family:: -
+Firmware vendor:: Phoenix Technologies LTD
+Firmware version:: 09ZE
+Release date:: 2005-09-21
+SMBIOS version:: 2.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `5` | Memory controller information | 1  a| `0x0005`
+a| `6` | Memory module information | 2  a| `0x0006`, `0x0007`
+a| `7` | Cache information | 2  a| `0x0008`, `0x0009`
+a| `8` | Port connector information | 3  a| `0x000A`, `0x000B`, `0x000C`
+a| `9` | System slots | 1  a| `0x000D`
+a| `10` | Onboard devices information | 1  a| `0x000E`
+a| `11` | OEM strings | 1  a| `0x000F`
+a| `12` | System configuration options | 1  a| `0x0010`
+a| `16` | Physical memory array | 1  a| `0x0011`
+a| `17` | Memory device | 2  a| `0x0012`, `0x0013`
+a| `19` | Memory array mapped address | 1  a| `0x0014`
+a| `20` | Memory device mapped address | 2  a| `0x0015`, `0x0016`
+a| `21` | Built-in pointing device | 1  a| `0x0017`
+a| `23` | System reset | 1  a| `0x0018`
+a| `24` | Hardware security | 1  a| `0x0019`
+a| `25` | System power controls | 1  a| `0x001A`
+a| `26` | Voltage probe | 1  a| `0x001B`
+a| `27` | Cooling device | 1  a| `0x001C`
+a| `28` | Temperature probe | 1  a| `0x001D`
+a| `29` | Electrical current probe | 1  a| `0x001E`
+a| `30` | Out-of-band remote access | 1  a| `0x001F`
+a| `32` | System boot information | 1  a| `0x0020`
+a| `127` | End of table | 1  a| `0x0022`
+a| `136` | OEM-specific | 1  a| `0x0021`
+|===

@@ -660,6 +660,40 @@ a| `136` | OEM-specific | 1  a| `0x0032`
 a| `219` | Intel Management Engine interface information | 1  a| `0x0031`
 a| `221` | Intel firmware version information | 6  a| `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x002B`
 |===
+== Pavilion dv6 (pavilion-dv6.bin)
+
+[horizontal]
+File path:: `hp/pavilion-dv6.bin`
+Product name:: HP Pavilion dv6 Notebook PC
+Product version:: Rev 1
+Product family:: 103C_5335KV
+Firmware vendor:: Hewlett-Packard
+Firmware version:: F.17
+Release date:: 2009-08-18
+SMBIOS version:: 2.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x000A`
+a| `7` | Cache information | 2  a| `0x000B`, `0x000C`
+a| `9` | System slots | 3  a| `0x0004`, `0x0005`, `0x0006`
+a| `10` | Onboard devices information | 1  a| `0x0007`
+a| `11` | OEM strings | 1  a| `0x0008`
+a| `16` | Physical memory array | 1  a| `0x000D`
+a| `17` | Memory device | 2  a| `0x000E`, `0x0010`
+a| `19` | Memory array mapped address | 1  a| `0x0012`
+a| `20` | Memory device mapped address | 2  a| `0x000F`, `0x0011`
+a| `32` | System boot information | 1  a| `0x0009`
+a| `127` | End of table | 1  a| `0x0013`
+|===
 == Pavilion Gaming Laptop 16-a0xxx 2Z2E5EA (pavilion-gaming-laptop-16-a0xxx-2z2e5ea.bin)
 
 [horizontal]

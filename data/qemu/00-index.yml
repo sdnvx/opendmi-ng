@@ -12,3 +12,7 @@ files:
     product: Standard PC (Q35 + ICH9) 10.0
     source: https://github.com/truenas/truenas_pydmi
     license: LGPL-3.0
+  red-hat-kvm.bin:
+    product: Red Hat KVM
+    source: https://bugzilla.redhat.com/attachment.cgi?id=517420
+    license: none

@@ -4,6 +4,10 @@ files:
     product: H8QG6
     source: https://github.com/siderolabs/go-smbios
     license: MPL-2.0
+  h8qm8.bin:
+    product: H8QM8
+    source: https://bugzilla.redhat.com/attachment.cgi?id=379259
+    license: none
   sys-1027r-wrf.bin:
     product: SYS-1027R-WRF
     source: https://github.com/siderolabs/go-smbios

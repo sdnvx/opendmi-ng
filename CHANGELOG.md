@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add `dmidecode-to-bin.py` script rebuilding binary dumps from `dmidecode -u` output
 - Name subclasses and protocols of USB mass storage devices and hubs in HP/HPE USB device correlation records
 - Add `no_strings` to structure signatures, which tells the structures carrying no strings
 - Name radio button bit of Acer communication functions, the way the Acer WMI driver of Linux names it
@@ -135,7 +136,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add project website with schemas of exported documents
 - Add tests for the buffer, writer, decoder, encoder and field engine
 - Add tests for decoders of BIS entry point, system boot, system event log, TPM device, management device threshold, additional information and Intel RSD structures
-- Extend data corpus from 90 to 248 dumps
+- Extend data corpus from 90 to 285 dumps
 
 ### Changed
 

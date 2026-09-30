@@ -1,0 +1,7 @@
+vendor: Sony
+files:
+  vaio-vpccw1s1e.bin:
+    product: VAIO VPCCW1S1E
+    source: https://bugzilla.opensuse.org/attachment.cgi?id=337344
+    license: none
+    converted: dmidecode -u

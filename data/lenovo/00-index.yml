@@ -4,6 +4,10 @@ files:
     product: B50-70 20384
   b590.bin:
     product: B590
+  ideapad-100s-11iby-80r2.bin:
+    product: IdeaPad 100S-11IBY 80R2
+    source: https://bugzilla.kernel.org/attachment.cgi?id=206071
+    license: none
   ideapad-330s-15ikb-81f5.bin:
     product: IdeaPad 330S-15IKB 81F5
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection
@@ -58,6 +62,10 @@ files:
     license: none
   thinkpad-t61p-6460-6xg.bin:
     product: ThinkPad T61p 6460-6XG
+  thinkpad-t410-25375w8.bin:
+    product: ThinkPad T410 25375W8
+    source: https://bugzilla.redhat.com/attachment.cgi?id=510166
+    license: none
   thinkpad-t430-2347.bin:
     product: ThinkPad T430 2347
     source: https://github.com/jcreekmore/dmidecode
@@ -78,6 +86,15 @@ files:
     product: ThinkPad W510 4319
     source: https://github.com/u-root/u-root
     license: BSD-3-Clause
+  thinkpad-w510-4391ak3.bin:
+    product: ThinkPad W510 4391AK3
+    source: https://bugzilla.redhat.com/attachment.cgi?id=733232
+    license: none
+  thinkpad-w530-24412q4.bin:
+    product: ThinkPad W530 24412Q4
+    source: https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=181282#c0
+    license: none
+    converted: dmidecode -u
   thinkpad-x1-tablet-gen-3-20kk.bin:
     product: ThinkPad X1 Tablet Gen 3 20KK
     source: https://github.com/Baio1977/Lenovo-ThinkPad-X1-Tablet-Gen3
@@ -86,6 +103,11 @@ files:
     product: ThinkPad X131e 3367
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection
     license: none
+  thinkpad-x201-3626pl2.bin:
+    product: ThinkPad X201 3626PL2
+    source: https://bugzilla.kernel.org/attachment.cgi?id=107133
+    license: none
+    converted: dmidecode -u
   thinkpad-x220-4290le6.bin:
     product: ThinkPad X220 4290LE6
   thinkpad-x240-20am.bin:
@@ -98,6 +120,10 @@ files:
     license: none
   thinkpad-x280-20kf.bin:
     product: ThinkPad X280 20KF
+  thinksystem-sr950-7x12.bin:
+    product: ThinkSystem SR950 7X12
+    source: https://bugzilla.redhat.com/attachment.cgi?id=1522302
+    license: none
   v130-15ikb-81hn.bin:
     product: V130-15IKB 81HN
     source: https://github.com/Baio1977/Lenovo-V130-15IKB-Kabylake
@@ -105,6 +131,10 @@ files:
   yoga-530-14ikb-81ek.bin:
     product: Yoga 530-14IKB 81EK
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  yoga-c630-13q50-81jl.bin:
+    product: Yoga C630-13Q50 81JL
+    source: https://raw.githubusercontent.com/aarch64-laptops/build/2e58842f5fa2f87771c2df017ae4d8c65225ef10/misc/lenovo-yoga-c630/dmidecode.dump
     license: none
   yoga-c640-13iml-81ue.bin:
     product: Yoga C640-13IML 81UE

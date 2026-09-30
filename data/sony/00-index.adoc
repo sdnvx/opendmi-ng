@@ -1,0 +1,36 @@
+= Sony
+:toc:
+:toclevels: 1
+
+== VAIO VPCCW1S1E (vaio-vpccw1s1e.bin)
+
+[horizontal]
+File path:: `sony/vaio-vpccw1s1e.bin`
+Product name:: VPCCW1S1E
+Product version:: C602MCU1
+Product family:: VAIO
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: R0190Y5
+Release date:: 2009-09-22
+SMBIOS version:: 2.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `11` | OEM strings | 1  a| `0x0008`
+a| `16` | Physical memory array | 1  a| `0x0009`
+a| `17` | Memory device | 2  a| `0x000B`, `0x000D`
+a| `19` | Memory array mapped address | 1  a| `0x000A`
+a| `20` | Memory device mapped address | 2  a| `0x000C`, `0x000E`
+a| `32` | System boot information | 1  a| `0x000F`
+a| `127` | End of table | 1  a| `0x0010`
+|===

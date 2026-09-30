@@ -46,3 +46,47 @@ a| `212` | Dell indexed IO | 3  a| `0xD400`, `0xD401`, `0xD402`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `222` | OEM-specific | 1  a| `0xDE00`
 |===
+== UCSC-C220-M5SX (ucsc-c220-m5sx.bin)
+
+[horizontal]
+File path:: `cisco/ucsc-c220-m5sx.bin`
+Product name:: UCSC-C220-M5SX
+Product version:: A0
+Product family:: None
+Firmware vendor:: Cisco Systems, Inc.
+Firmware version:: C220M5.4.0.2a.0.1102180244
+Release date:: 2018-11-02
+SMBIOS version:: 3.0
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 2  a| `0x0056`, `0x005A`
+a| `7` | Cache information | 6  a| `0x0053`, `0x0054`, `0x0055`, `0x0057`, `0x0058`, `0x0059`
+a| `8` | Port connector information | 19  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`
+a| `9` | System slots | 3  a| `0x005F`, `0x0060`, `0x0061`
+a| `11` | OEM strings | 1  a| `0x006F`
+a| `12` | System configuration options | 1  a| `0x0018`
+a| `13` | Firmware language information | 1  a| `0x0062`
+a| `16` | Physical memory array | 4  a| `0x002F`, `0x003A`, `0x0041`, `0x004C`
+a| `17` | Memory device | 24  a| `0x0031`, `0x0033`, `0x0034`, `0x0036`, `0x0037`, `0x0039`, `0x003B`, `0x003C`, `0x003D`, `0x003E`, `0x003F`, `0x0040`, `0x0043`, `0x0045`, `0x0046`, `0x0048`, `0x0049`, `0x004B`, `0x004D`, `0x004E`, `0x004F`, `0x0050`, `0x0051`, `0x0052`
+a| `19` | Memory array mapped address | 2  a| `0x0030`, `0x0042`
+a| `20` | Memory device mapped address | 6  a| `0x0032`, `0x0035`, `0x0038`, `0x0044`, `0x0047`, `0x004A`
+a| `24` | Hardware security | 1  a| `0x0019`
+a| `32` | System boot information | 1  a| `0x001A`
+a| `38` | IPMI device information | 1  a| `0x0020`
+a| `41` | Onboard devices extended information | 5  a| `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `42` | Management controller host interface | 1  a| `0x0021`
+a| `127` | End of table | 1  a| `0x0072`
+a| `201` | OEM-specific | 4  a| `0x0063`, `0x0064`, `0x0065`, `0x0066`
+a| `202` | OEM-specific | 4  a| `0x0067`, `0x0068`, `0x0069`, `0x006A`
+a| `203` | OEM-specific | 1  a| `0x006B`
+a| `204` | OEM-specific | 1  a| `0x006C`
+|===

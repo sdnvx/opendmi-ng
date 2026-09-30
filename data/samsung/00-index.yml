@@ -1,0 +1,15 @@
+vendor: Samsung
+files:
+  700z3c-700z5c.bin:
+    product: 700Z3C/700Z5C
+    source: https://bugzilla.kernel.org/attachment.cgi?id=154751
+    license: none
+  n150-n210-n220.bin:
+    product: N150/N210/N220
+    source: https://www.mail-archive.com/platform-driver-x86@vger.kernel.org/msg01310.html
+    license: none
+    converted: dmidecode -u
+  sx20s.bin:
+    product: SX20S
+    source: https://bugzilla.kernel.org/attachment.cgi?id=24426
+    license: none

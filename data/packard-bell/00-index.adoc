@@ -1,0 +1,47 @@
+= Packard Bell
+:toc:
+:toclevels: 1
+
+== iMedia S3210 (imedia-s3210.bin)
+
+[horizontal]
+File path:: `packard-bell/imedia-s3210.bin`
+Product name:: imedia S3210
+Product version:: 
+Product family:: Packard Bell Desktop
+Firmware vendor:: Phoenix Technologies, LTD
+Firmware version:: P01-B2
+Release date:: 2009-11-06
+SMBIOS version:: 2.5
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `5` | Memory controller information | 1  a| `0x0005`
+a| `6` | Memory module information | 2  a| `0x0006`, `0x0007`
+a| `7` | Cache information | 2  a| `0x0008`, `0x0009`
+a| `8` | Port connector information | 8  a| `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`
+a| `9` | System slots | 2  a| `0x0012`, `0x0013`
+a| `10` | Onboard devices information | 2  a| `0x0014`, `0x0015`
+a| `11` | OEM strings | 1  a| `0x0023`
+a| `13` | Firmware language information | 1  a| `0x0016`
+a| `16` | Physical memory array | 1  a| `0x0017`
+a| `17` | Memory device | 2  a| `0x0018`, `0x0019`
+a| `19` | Memory array mapped address | 1  a| `0x001A`
+a| `20` | Memory device mapped address | 2  a| `0x001B`, `0x001C`
+a| `24` | Hardware security | 1  a| `0x001D`
+a| `32` | System boot information | 1  a| `0x001E`
+a| `127` | End of table | 1  a| `0x0024`
+a| `188` | OEM-specific | 1  a| `0x001F`
+a| `190` | OEM-specific | 1  a| `0x0020`
+a| `192` | OEM-specific | 1  a| `0x0021`
+a| `194` | OEM-specific | 1  a| `0x0022`
+|===

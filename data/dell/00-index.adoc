@@ -101,6 +101,65 @@ a| `221` | Dell token references, type 2 | 2  a| `0xDD00`, `0xDD01`
 a| `222` | OEM-specific | 1  a| `0xDE00`
 a| `255` | Dell system ID record | 1  a| `0x0000`
 |===
+== G15 5515 (g15-5515.bin)
+
+[horizontal]
+File path:: `dell/g15-5515.bin`
+Product name:: Dell G15 5515
+Product version:: 1.9.0
+Product family:: GSeries
+Firmware vendor:: Dell Inc.
+Firmware version:: 1.9.0
+Release date:: 2022-11-10
+SMBIOS version:: 3.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 14  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`
+a| `9` | System slots | 7  a| `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`
+a| `10` | Onboard devices information | 1  a| `0x001D`
+a| `11` | OEM strings | 1  a| `0x001E`
+a| `12` | System configuration options | 1  a| `0x001F`
+a| `13` | Firmware language information | 1  a| `0x0020`
+a| `16` | Physical memory array | 1  a| `0x0021`
+a| `17` | Memory device | 2  a| `0x0022`, `0x0023`
+a| `18` | 32-bit memory error information | 3  a| `0x0024`, `0x0025`, `0x0026`
+a| `19` | Memory array mapped address | 1  a| `0x0027`
+a| `20` | Memory device mapped address | 2  a| `0x0028`, `0x0029`
+a| `21` | Built-in pointing device | 1  a| `0x002A`
+a| `22` | Portable battery | 1  a| `0x002B`
+a| `26` | Voltage probe | 1  a| `0x002C`
+a| `27` | Cooling device | 1  a| `0x002D`
+a| `28` | Temperature probe | 1  a| `0x002E`
+a| `29` | Electrical current probe | 1  a| `0x002F`
+a| `32` | System boot information | 1  a| `0x0030`
+a| `40` | Additional information | 1  a| `0x0031`
+a| `41` | Onboard devices extended information | 2  a| `0x0032`, `0x0033`
+a| `126` | Inactive | 1  a| `0x0034`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `176` | OEM-specific | 1  a| `0x0035`
+a| `177` | Dell BIOS flags | 1  a| `0xB100`
+a| `178` | Dell hotkeys | 1  a| `0xB200`
+a| `208` | Dell revisions and IDs | 1  a| `0x0038`
+a| `212` | Dell indexed IO | 1  a| `0x0039`
+a| `216` | Dell video BIOS information | 1  a| `0x003A`
+a| `217` | OEM-specific | 1  a| `0x003B`
+a| `218` | Dell calling interface | 13  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA04`, `0xDA05`, `0xDA06`, `0xDA07`, `0xDA08`, `0xDA09`, `0xDA0A`, `0xDA0B`, `0xDA0C`
+a| `219` | OEM-specific | 1  a| `0xDA0D`
+a| `220` | Dell token references, type 1 | 1  a| `0xDA0E`
+a| `221` | Dell token references, type 2 | 1  a| `0xDA0F`
+a| `222` | OEM-specific | 1  a| `0xDA10`
+|===
 == Inspiron 5370 (inspiron-5370.bin)
 
 [horizontal]
@@ -595,6 +654,138 @@ a| `219` | Dell device bay | 2  a| `0xDB00`, `0xDB81`
 a| `220` | Dell token references, type 1 | 1  a| `0xDC00`
 a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
+|===
+== Latitude E6230 [1] (latitude-e6230-1.bin)
+
+[horizontal]
+File path:: `dell/latitude-e6230-1.bin`
+Product name:: Latitude E6230
+Product version:: 01
+Product family:: None
+Firmware vendor:: Dell Inc.
+Firmware version:: A10
+Release date:: 2013-05-20
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0051`
+a| `7` | Cache information | 3  a| `0x0041`, `0x0042`, `0x0043`
+a| `8` | Port connector information | 25  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`
+a| `9` | System slots | 5  a| `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x0021`
+a| `10` | Onboard devices information | 1  a| `0x0022`
+a| `11` | OEM strings | 1  a| `0x0023`
+a| `12` | System configuration options | 1  a| `0x0024`
+a| `13` | Firmware language information | 1  a| `0xE02B`
+a| `15` | System event log | 1  a| `0x0025`
+a| `16` | Physical memory array | 1  a| `0x0044`
+a| `17` | Memory device | 2  a| `0x0045`, `0x0047`
+a| `19` | Memory array mapped address | 1  a| `0x0049`
+a| `20` | Memory device mapped address | 2  a| `0x0046`, `0x0048`
+a| `21` | Built-in pointing device | 1  a| `0x0026`
+a| `22` | Portable battery | 1  a| `0x1600`
+a| `25` | System power controls | 1  a| `0x002B`
+a| `26` | Voltage probe | 2  a| `0x002E`, `0x0038`
+a| `27` | Cooling device | 1  a| `0x1B00`
+a| `28` | Temperature probe | 3  a| `0x1C00`, `0x1C01`, `0x1C02`
+a| `29` | Electrical current probe | 2  a| `0x0036`, `0x003B`
+a| `32` | System boot information | 1  a| `0x002C`
+a| `34` | Management device | 1  a| `0x002D`
+a| `36` | Management device threshold data | 5  a| `0x002F`, `0x0031`, `0x0033`, `0x0035`, `0x0037`
+a| `39` | System power supply | 1  a| `0x003C`
+a| `41` | Onboard devices extended information | 3  a| `0x003D`, `0x003E`, `0x003F`
+a| `126` | Inactive | 1  a| `0x1601`
+a| `127` | End of table | 1  a| `0xE030`
+a| `129` | OEM-specific | 1  a| `0xE01C`
+a| `130` | Intel Active Management Technology information | 1  a| `0xE021`
+a| `131` | Intel vPro information | 1  a| `0xE026`
+a| `177` | Dell BIOS flags | 1  a| `0xB100`
+a| `178` | Dell hotkeys | 1  a| `0xB200`
+a| `208` | Dell revisions and IDs | 1  a| `0xD000`
+a| `209` | Dell parallel port | 1  a| `0xD100`
+a| `210` | Dell serial port | 1  a| `0xD200`
+a| `216` | Dell video BIOS information | 1  a| `0xD800`
+a| `217` | OEM-specific | 1  a| `0xD900`
+a| `218` | Dell calling interface | 6  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA04`, `0xDA05`
+a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `220` | Dell token references, type 1 | 3  a| `0xDC00`, `0xDC01`, `0xDC02`
+a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
+a| `222` | OEM-specific | 1  a| `0xDE00`
+a| `255` | Dell system ID record | 1  a| `0x0040`
+|===
+== Latitude E6230 [2] (latitude-e6230-2.bin)
+
+[horizontal]
+File path:: `dell/latitude-e6230-2.bin`
+Product name:: Latitude E6230
+Product version:: 01
+Product family:: None
+Firmware vendor:: Dell Inc.
+Firmware version:: A10
+Release date:: 2013-05-20
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0051`
+a| `7` | Cache information | 3  a| `0x0041`, `0x0042`, `0x0043`
+a| `8` | Port connector information | 25  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`
+a| `9` | System slots | 5  a| `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x0021`
+a| `10` | Onboard devices information | 1  a| `0x0022`
+a| `11` | OEM strings | 1  a| `0x0023`
+a| `12` | System configuration options | 1  a| `0x0024`
+a| `13` | Firmware language information | 1  a| `0xE02B`
+a| `15` | System event log | 1  a| `0x0025`
+a| `16` | Physical memory array | 1  a| `0x0044`
+a| `17` | Memory device | 2  a| `0x0045`, `0x0047`
+a| `19` | Memory array mapped address | 1  a| `0x0049`
+a| `20` | Memory device mapped address | 2  a| `0x0046`, `0x0048`
+a| `21` | Built-in pointing device | 1  a| `0x0026`
+a| `22` | Portable battery | 1  a| `0x1600`
+a| `25` | System power controls | 1  a| `0x002B`
+a| `26` | Voltage probe | 2  a| `0x002E`, `0x0038`
+a| `27` | Cooling device | 1  a| `0x1B00`
+a| `28` | Temperature probe | 3  a| `0x1C00`, `0x1C01`, `0x1C02`
+a| `29` | Electrical current probe | 2  a| `0x0036`, `0x003B`
+a| `32` | System boot information | 1  a| `0x002C`
+a| `34` | Management device | 1  a| `0x002D`
+a| `36` | Management device threshold data | 5  a| `0x002F`, `0x0031`, `0x0033`, `0x0035`, `0x0037`
+a| `39` | System power supply | 1  a| `0x003C`
+a| `41` | Onboard devices extended information | 3  a| `0x003D`, `0x003E`, `0x003F`
+a| `126` | Inactive | 1  a| `0x1601`
+a| `127` | End of table | 1  a| `0xE030`
+a| `129` | OEM-specific | 1  a| `0xE01C`
+a| `130` | Intel Active Management Technology information | 1  a| `0xE021`
+a| `131` | Intel vPro information | 1  a| `0xE026`
+a| `177` | Dell BIOS flags | 1  a| `0xB100`
+a| `178` | Dell hotkeys | 1  a| `0xB200`
+a| `208` | Dell revisions and IDs | 1  a| `0xD000`
+a| `209` | Dell parallel port | 1  a| `0xD100`
+a| `210` | Dell serial port | 1  a| `0xD200`
+a| `216` | Dell video BIOS information | 1  a| `0xD800`
+a| `217` | OEM-specific | 1  a| `0xD900`
+a| `218` | Dell calling interface | 6  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA04`, `0xDA05`
+a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `220` | Dell token references, type 1 | 3  a| `0xDC00`, `0xDC01`, `0xDC02`
+a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
+a| `222` | OEM-specific | 1  a| `0xDE00`
+a| `255` | Dell system ID record | 1  a| `0x0040`
 |===
 == Latitude E7450 (latitude-e7450.bin)
 
@@ -1780,6 +1971,49 @@ a| `20` | Memory device mapped address | 4  a| `0x00A0`, `0x00A1`, `0x00A2`, `0x
 a| `212` | Dell indexed IO | 1  a| `0x007A`
 a| `222` | OEM-specific | 1  a| `0x007B`
 |===
+== PowerEdge C6220 (poweredge-c6220.bin)
+
+[horizontal]
+File path:: `dell/poweredge-c6220.bin`
+Product name:: PowerEdge C6220
+Product version:: None
+Product family:: Server
+Firmware vendor:: Dell Inc.
+Firmware version:: 1.0.21
+Release date:: 2012-04-26
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0002`
+a| `1` | System information | 1  a| `0x0003`
+a| `2` | Baseboard or module information | 1  a| `0x0004`
+a| `3` | System enclosure or chassis | 1  a| `0x0005`
+a| `4` | Processor information | 2  a| `0x0058`, `0x005D`
+a| `7` | Cache information | 8  a| `0x0059`, `0x005A`, `0x005B`, `0x005C`, `0x005E`, `0x005F`, `0x0060`, `0x0061`
+a| `8` | Port connector information | 6  a| `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`
+a| `9` | System slots | 4  a| `0x000C`, `0x000D`, `0x000E`, `0x000F`
+a| `10` | Onboard devices information | 3  a| `0x0062`, `0x0063`, `0x0064`
+a| `11` | OEM strings | 1  a| `0x0010`
+a| `15` | System event log | 1  a| `0x0011`
+a| `16` | Physical memory array | 1  a| `0x0013`
+a| `17` | Memory device | 16  a| `0x0014`, `0x0017`, `0x001A`, `0x001D`, `0x0020`, `0x0023`, `0x0026`, `0x0029`, `0x002C`, `0x002F`, `0x0032`, `0x0035`, `0x0038`, `0x003B`, `0x003E`, `0x0041`
+a| `18` | 32-bit memory error information | 17  a| `0x0015`, `0x0018`, `0x001B`, `0x001E`, `0x0021`, `0x0024`, `0x0027`, `0x002A`, `0x002D`, `0x0030`, `0x0033`, `0x0036`, `0x0039`, `0x003C`, `0x003F`, `0x0042`, `0x0044`
+a| `19` | Memory array mapped address | 1  a| `0x0045`
+a| `20` | Memory device mapped address | 16  a| `0x0016`, `0x0019`, `0x001C`, `0x001F`, `0x0022`, `0x0025`, `0x0028`, `0x002B`, `0x002E`, `0x0031`, `0x0034`, `0x0037`, `0x003A`, `0x003D`, `0x0040`, `0x0043`
+a| `32` | System boot information | 1  a| `0x0012`
+a| `38` | IPMI device information | 1  a| `0x0046`
+a| `41` | Onboard devices extended information | 3  a| `0x0065`, `0x0066`, `0x0067`
+a| `127` | End of table | 1  a| `0x0068`
+a| `208` | Dell revisions and IDs | 1  a| `0x0000`
+a| `212` | Dell indexed IO | 9  a| `0x004F`, `0x0050`, `0x0051`, `0x0052`, `0x0053`, `0x0054`, `0x0055`, `0x0056`, `0x0057`
+a| `218` | Dell calling interface | 8  a| `0x0047`, `0x0048`, `0x0049`, `0x004A`, `0x004B`, `0x004C`, `0x004D`, `0x004E`
+a| `222` | OEM-specific | 1  a| `0x0001`
+|===
 == PowerEdge C6320 (poweredge-c6320.bin)
 
 [horizontal]
@@ -1831,7 +2065,7 @@ File path:: `dell/poweredge-r630-2.bin`
 Product name:: 
 Product version:: None
 Product family:: None
-Firmware vendor:: 
+Firmware vendor:: Dell Inc.
 Firmware version:: 1.5.4
 Release date:: None
 SMBIOS version:: 2.8
@@ -1860,13 +2094,13 @@ a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `41` | Onboard devices extended information | 8  a| `0x2900`, `0x2901`, `0x2902`, `0x2903`, `0x2904`, `0x2905`, `0x2906`, `0x2907`
 a| `127` | End of table | 1  a| `0xFEFF`
-a| `177` | OEM-specific | 1  a| `0xB100`
-a| `208` | OEM-specific | 1  a| `0xD000`
-a| `210` | OEM-specific | 1  a| `0xD200`
-a| `216` | OEM-specific | 1  a| `0xD800`
-a| `218` | OEM-specific | 1  a| `0xDA00`
-a| `222` | Intel Silicon View Technology milestones | 1  a| `0xDE00`
-a| `225` | OEM-specific | 2  a| `0xE100`, `0xE101`
+a| `177` | Dell BIOS flags | 1  a| `0xB100`
+a| `208` | Dell revisions and IDs | 1  a| `0xD000`
+a| `210` | Dell serial port | 1  a| `0xD200`
+a| `216` | Dell video BIOS information | 1  a| `0xD800`
+a| `218` | Dell calling interface | 1  a| `0xDA00`
+a| `222` | OEM-specific | 1  a| `0xDE00`
+a| `225` | Dell device names | 2  a| `0xE100`, `0xE101`
 |===
 == PowerEdge R630 (poweredge-r630.bin)
 
@@ -2010,7 +2244,7 @@ File path:: `dell/poweredge-r730xd.bin`
 Product name:: R730 Base
 Product version:: None
 Product family:: None
-Firmware vendor:: 
+Firmware vendor:: Dell Inc.
 Firmware version:: 2.1.5
 Release date:: 2016-04-11
 SMBIOS version:: 2.8
@@ -2040,13 +2274,13 @@ a| `38` | IPMI device information | 1  a| `0x2600`
 a| `39` | System power supply | 2  a| `0x2700`, `0x2701`
 a| `41` | Onboard devices extended information | 8  a| `0x2900`, `0x2901`, `0x2902`, `0x2903`, `0x2904`, `0x2905`, `0x2906`, `0x2907`
 a| `127` | End of table | 1  a| `0xFEFF`
-a| `177` | OEM-specific | 1  a| `0xB100`
-a| `208` | OEM-specific | 1  a| `0xD000`
-a| `210` | OEM-specific | 1  a| `0xD200`
-a| `216` | OEM-specific | 1  a| `0xD800`
-a| `218` | OEM-specific | 1  a| `0xDA00`
-a| `222` | Intel Silicon View Technology milestones | 1  a| `0xDE00`
-a| `225` | OEM-specific | 2  a| `0xE100`, `0xE101`
+a| `177` | Dell BIOS flags | 1  a| `0xB100`
+a| `208` | Dell revisions and IDs | 1  a| `0xD000`
+a| `210` | Dell serial port | 1  a| `0xD200`
+a| `216` | Dell video BIOS information | 1  a| `0xD800`
+a| `218` | Dell calling interface | 1  a| `0xDA00`
+a| `222` | OEM-specific | 1  a| `0xDE00`
+a| `225` | Dell device names | 2  a| `0xE100`, `0xE101`
 |===
 == PowerEdge R740xd (poweredge-r740xd.bin)
 
@@ -2333,8 +2567,8 @@ a| `32` | System boot information | 1  a| `0x0017`
 a| `34` | Management device | 1  a| `0x0018`
 a| `127` | End of table | 1  a| `0x003C`
 a| `129` | OEM-specific | 1  a| `0xE02B`
-a| `130` | Intel Active Management Technology information | 1  a| `0xE030`
-a| `131` | Intel vPro information | 2  a| `0xE035`, `0x003A`
+a| `130` | OEM-specific | 1  a| `0xE030`
+a| `131` | OEM-specific | 2  a| `0xE035`, `0x003A`
 a| `136` | OEM-specific | 1  a| `0x0039`
 a| `176` | OEM-specific | 1  a| `0xB000`
 a| `177` | Dell BIOS flags | 1  a| `0xB100`
@@ -2343,7 +2577,7 @@ a| `212` | Dell indexed IO | 1  a| `0x0028`
 a| `216` | Dell video BIOS information | 1  a| `0x0029`
 a| `217` | OEM-specific | 1  a| `0x002A`
 a| `218` | Dell calling interface | 4  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`
-a| `219` | Dell device bay | 1  a| `0x002B`
+a| `219` | OEM-specific | 1  a| `0x002B`
 a| `220` | Dell token references, type 1 | 1  a| `0x002C`
 a| `221` | Dell token references, type 2 | 1  a| `0x002D`
 a| `222` | OEM-specific | 1  a| `0x002E`
@@ -2507,6 +2741,64 @@ a| `210` | Dell serial port | 1  a| `0xD200`
 a| `212` | Dell indexed IO | 4  a| `0xD400`, `0xD401`, `0xD402`, `0xD403`
 a| `218` | Dell calling interface | 2  a| `0xDA00`, `0xDA01`
 a| `221` | Dell token references, type 2 | 3  a| `0xDD00`, `0xDD01`, `0xDD02`
+a| `222` | OEM-specific | 1  a| `0xDE00`
+|===
+== Studio 1555 (studio-1555.bin)
+
+[horizontal]
+File path:: `dell/studio-1555.bin`
+Product name:: Studio 1555
+Product version:: A13
+Product family:: None
+Firmware vendor:: Dell Inc.
+Firmware version:: A13
+Release date:: 2011-04-02
+SMBIOS version:: 2.5
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0001`
+a| `1` | System information | 1  a| `0x0002`
+a| `2` | Baseboard or module information | 1  a| `0x0003`
+a| `3` | System enclosure or chassis | 1  a| `0x0004`
+a| `4` | Processor information | 1  a| `0x0005`
+a| `7` | Cache information | 2  a| `0x0006`, `0x0007`
+a| `8` | Port connector information | 3  a| `0x0008`, `0x0009`, `0x000A`
+a| `9` | System slots | 7  a| `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`
+a| `10` | Onboard devices information | 1  a| `0x0012`
+a| `11` | OEM strings | 1  a| `0x0013`
+a| `15` | System event log | 1  a| `0x0014`
+a| `16` | Physical memory array | 1  a| `0x0015`
+a| `17` | Memory device | 2  a| `0x0016`, `0x0017`
+a| `18` | 32-bit memory error information | 2  a| `0x0018`, `0x0019`
+a| `19` | Memory array mapped address | 1  a| `0x001A`
+a| `20` | Memory device mapped address | 2  a| `0x001B`, `0x001C`
+a| `21` | Built-in pointing device | 1  a| `0x001D`
+a| `22` | Portable battery | 1  a| `0x001E`
+a| `23` | System reset | 1  a| `0x001F`
+a| `24` | Hardware security | 1  a| `0x0020`
+a| `25` | System power controls | 1  a| `0x0021`
+a| `26` | Voltage probe | 1  a| `0x0022`
+a| `27` | Cooling device | 1  a| `0x0023`
+a| `28` | Temperature probe | 1  a| `0x0024`
+a| `29` | Electrical current probe | 1  a| `0x0025`
+a| `30` | Out-of-band remote access | 1  a| `0x0026`
+a| `32` | System boot information | 1  a| `0x0027`
+a| `39` | System power supply | 1  a| `0x0028`
+a| `127` | End of table | 1  a| `0x0032`
+a| `176` | OEM-specific | 1  a| `0xB000`
+a| `177` | Dell BIOS flags | 1  a| `0xB100`
+a| `208` | Dell revisions and IDs | 1  a| `0xD000`
+a| `211` | Dell infrared port | 1  a| `0xD300`
+a| `212` | Dell indexed IO | 1  a| `0xD400`
+a| `216` | Dell video BIOS information | 1  a| `0xD800`
+a| `218` | Dell calling interface | 1  a| `0xDA00`
+a| `220` | Dell token references, type 1 | 1  a| `0xDC00`
+a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
 |===
 == Vostro 5490 (vostro-5490.bin)
@@ -2688,9 +2980,9 @@ a| `210` | Dell serial port | 1  a| `0xD200`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `217` | OEM-specific | 1  a| `0xD900`
 a| `218` | Dell calling interface | 9  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA04`, `0xDA05`, `0xDA06`, `0xDA07`, `0xDA08`
-a| `219` | Dell device bay | 1  a| `0xF03C`
+a| `219` | Intel Management Engine interface information | 1  a| `0xF03C`
 a| `220` | Dell token references, type 1 | 4  a| `0xDC00`, `0xDC01`, `0xDC02`, `0xDC03`
-a| `221` | Dell token references, type 2 | 7  a| `0x003D`, `0xDD00`, `0xF02A`, `0xF02B`, `0xF02C`, `0xF02D`, `0xF02E`
+a| `221` | Intel firmware version information | 7  a| `0x003D`, `0xDD00`, `0xF02A`, `0xF02B`, `0xF02C`, `0xF02D`, `0xF02E`
 a| `222` | OEM-specific | 1  a| `0xDE00`
 a| `255` | Dell system ID record | 1  a| `0x0033`
 |===

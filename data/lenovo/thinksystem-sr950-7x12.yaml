@@ -1,0 +1,6466 @@
+entry:
+  smbios-version: 3.2.1
+table:
+- handle: 0
+  type: 0
+  length: 62
+  level: '3.1'
+  state:
+  - decoded
+  description: Platform firmware information
+  attributes:
+    vendor: Lenovo
+    version: -[PSE119Z-1.50]-
+    bios-segment: 61440
+    release-date: '2018-12-21'
+    rom-size: 33554432
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: true
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: false
+      keyboard-support: false
+      serial-support: true
+      printer-support: false
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '1.50'
+    controller-version: '1.50'
+- handle: 1
+  type: 1
+  length: 103
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Lenovo
+    product: ThinkSystem SR950 -[7X12ABC1WW]-
+    version: '07'
+    serial-number: LSITR003
+    uuid: 1AB5E6B4-4681-11E7-BAA4-FD23D4894C20
+    wakeup-type: power-switch
+    sku-number: 7X12ABC1WW
+    family: ThinkSystem
+- handle: 2
+  type: 2
+  length: 65
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Lenovo
+    product: -[7X12ABC1WW]-
+    version: none
+    serial-number: W1ZS75X002W
+    asset-tag: none
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: none
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 60
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Lenovo
+    type: rack-mount
+    is-lock-present: false
+    version: none
+    serial-number: LSITR003
+    asset-tag: none
+    bootup-state: unknown
+    power-supply-state: unknown
+    thermal-state: unknown
+    security-status: unknown
+    oem-defined: 0
+    height: null
+    power-cord-count: 1
+    element-count: 0
+    element-size: 3
+    elements: []
+    sku-number: 7X12ABC1WW
+- handle: 173
+  type: 4
+  length: 126
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 1
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: 55060500fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 85
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) Gold 6240C CPU @ 2.60GHz
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3900
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: 170
+    l2-cache-handle: 171
+    l3-cache-handle: 172
+    serial-number: null
+    asset-tag: Unknown
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 18
+    core-enabled: 18
+    thread-count: 36
+- handle: 177
+  type: 4
+  length: 126
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 2
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: 55060500fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 85
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) Gold 6240C CPU @ 2.60GHz
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3900
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: 174
+    l2-cache-handle: 175
+    l3-cache-handle: 176
+    serial-number: null
+    asset-tag: Unknown
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 18
+    core-enabled: 18
+    thread-count: 36
+- handle: 181
+  type: 4
+  length: 126
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 3
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: 55060500fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 85
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) Gold 6240C CPU @ 2.60GHz
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3900
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: 178
+    l2-cache-handle: 179
+    l3-cache-handle: 180
+    serial-number: null
+    asset-tag: Unknown
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 18
+    core-enabled: 18
+    thread-count: 36
+- handle: 185
+  type: 4
+  length: 126
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 4
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: 55060500fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 85
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) Gold 6240C CPU @ 2.60GHz
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3900
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: 182
+    l2-cache-handle: 183
+    l3-cache-handle: 184
+    serial-number: null
+    asset-tag: Unknown
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 18
+    core-enabled: 18
+    thread-count: 36
+- handle: 186
+  type: 4
+  length: 55
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 5
+    type: central
+    family: null
+    vendor: null
+    id: '0000000000000000'
+    version: null
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 3900
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: false
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: unknown
+    core-enabled: unknown
+    thread-count: unknown
+- handle: 187
+  type: 4
+  length: 55
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 6
+    type: central
+    family: null
+    vendor: null
+    id: '0000000000000000'
+    version: null
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 3900
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: false
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: unknown
+    core-enabled: unknown
+    thread-count: unknown
+- handle: 188
+  type: 4
+  length: 55
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 7
+    type: central
+    family: null
+    vendor: null
+    id: '0000000000000000'
+    version: null
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 3900
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: false
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: unknown
+    core-enabled: unknown
+    thread-count: unknown
+- handle: 189
+  type: 4
+  length: 55
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 8
+    type: central
+    family: null
+    vendor: null
+    id: '0000000000000000'
+    version: null
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 3900
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: false
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: unknown
+    core-enabled: unknown
+    thread-count: unknown
+- handle: 170
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1179648
+    installed-size: 1179648
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 8-way
+- handle: 171
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 18874368
+    installed-size: 18874368
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 172
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 25952256
+    installed-size: 25952256
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: full
+- handle: 174
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1179648
+    installed-size: 1179648
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 8-way
+- handle: 175
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 18874368
+    installed-size: 18874368
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 176
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 25952256
+    installed-size: 25952256
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: full
+- handle: 178
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1179648
+    installed-size: 1179648
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 8-way
+- handle: 179
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 18874368
+    installed-size: 18874368
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 180
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 25952256
+    installed-size: 25952256
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: full
+- handle: 182
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1179648
+    installed-size: 1179648
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 8-way
+- handle: 183
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 18874368
+    installed-size: 18874368
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 184
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 25952256
+    installed-size: 25952256
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: full
+- handle: 506
+  type: 11
+  length: 44
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - $MV Min UEFI Version -[PSE105Y-1.01]-
+- handle: 508
+  type: 11
+  length: 43
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - $BA BIOS AC Module Version -[1.6.6]-
+- handle: 510
+  type: 11
+  length: 44
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - $SA SINIT AC Module Version -[1.6.6]-
+- handle: 512
+  type: 11
+  length: 41
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - $UC Microcode Version -[0300000F]-
+- handle: 514
+  type: 11
+  length: 58
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - $SI Integrated BaseBoard Mgmt Cont 1.50 -[PSI319W]-
+- handle: 516
+  type: 11
+  length: 52
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - $ET Embedded Deployment Tool 1.50 -[PDL117O]-
+- handle: 518
+  type: 11
+  length: 35
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - $MR MRC Version -[0561.D09]-
+- handle: 520
+  type: 11
+  length: 44
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - $ME ME Firmware Version -[4.1.3.237]-
+- handle: 522
+  type: 12
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW1-1 : FORCE_FPGA_RESET_N'
+- handle: 524
+  type: 12
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW1-2 : No connection'
+- handle: 526
+  type: 12
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW1-3 : No connection'
+- handle: 528
+  type: 12
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW1-4 : IMM_FORCE_UPDATE_N'
+- handle: 530
+  type: 12
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW1-5 : FORCE_IMM_RESET_N'
+- handle: 532
+  type: 12
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW1-6 : LOW_SECURITY_N'
+- handle: 534
+  type: 12
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW1-7 : PCH_NO_REBOOT'
+- handle: 536
+  type: 12
+  length: 40
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW1-8 : PWR_PERMISSION_OVERRIDE_N'
+- handle: 538
+  type: 12
+  length: 38
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW2-1 : TPM_PHYSICAL_PRESENCE_N'
+- handle: 540
+  type: 12
+  length: 37
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW2-2 : ME_SECURITY_OVERRIDE_N'
+- handle: 542
+  type: 12
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW2-3 : ME_RECOVERY_N'
+- handle: 544
+  type: 12
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW2-4 : RTC_RESET_N'
+- handle: 546
+  type: 12
+  length: 44
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW2-5 : JMPR_FPGA_UEFI_RECOVERY_IMAGE'
+- handle: 548
+  type: 12
+  length: 37
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW2-6 : IMM_SPI0_HALF_ROM_EN_N'
+- handle: 550
+  type: 12
+  length: 34
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW2-7 : PASSWORD_OVERRIDE_N'
+- handle: 552
+  type: 12
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'SW2-8 : FM_ME_RCVR_PGPPA_N'
+- handle: 11825
+  type: 13
+  length: 191
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    - zh|CN|unicode
+    - zh|TW|unicode
+    - fr|FR|iso8859-1
+    - de|DE|iso8859-1
+    - it|IT|iso8859-1
+    - ja|JP|unicode
+    - ko|KR|unicode
+    - pt|BR|iso8859-1
+    - es|ES|iso8859-1
+    - ru|RU|iso8859-5
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 32
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: multi-bit
+    maximum-capacity: 32985348833280
+    error-handle: 65534
+    device-count: 96
+- handle: 34
+  type: 17
+  length: 101
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 8
+    bank-locator: CPU 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927806DE
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 36
+  type: 17
+  length: 98
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 135694123008
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 7
+    bank-locator: CPU 1
+    memory-type: logical-nv
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: true
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: Intel
+    serial-number: 00000CB5
+    asset-tag: Unknown
+    part-number: NMA1XBD128GQS
+    rank: 1
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 38
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 10
+    bank-locator: CPU 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927809CA
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 40
+  type: 17
+  length: 86
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 9
+    bank-locator: CPU 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 41
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 12
+    bank-locator: CPU 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927806BA
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 43
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 11
+    bank-locator: CPU 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 45
+  type: 17
+  length: 101
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 5
+    bank-locator: CPU 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 9278063B
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 47
+  type: 17
+  length: 98
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 135694123008
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 6
+    bank-locator: CPU 1
+    memory-type: logical-nv
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: true
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: Intel
+    serial-number: 000011E7
+    asset-tag: Unknown
+    part-number: NMA1XBD128GQS
+    rank: 1
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 49
+  type: 17
+  length: 101
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 3
+    bank-locator: CPU 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 9278074F
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 51
+  type: 17
+  length: 86
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 4
+    bank-locator: CPU 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 52
+  type: 17
+  length: 101
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 1
+    bank-locator: CPU 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 9278064D
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 54
+  type: 17
+  length: 86
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 2
+    bank-locator: CPU 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 56
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 20
+    bank-locator: CPU 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927809F3
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 58
+  type: 17
+  length: 99
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 135694123008
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 19
+    bank-locator: CPU 2
+    memory-type: logical-nv
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: true
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: Intel
+    serial-number: 00000D5A
+    asset-tag: Unknown
+    part-number: NMA1XBD128GQS
+    rank: 1
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 60
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 22
+    bank-locator: CPU 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 92780A2A
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 62
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 21
+    bank-locator: CPU 2
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 63
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 24
+    bank-locator: CPU 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 92780A3B
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 65
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 23
+    bank-locator: CPU 2
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 67
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 17
+    bank-locator: CPU 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 92780A3A
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 69
+  type: 17
+  length: 99
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 135694123008
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 18
+    bank-locator: CPU 2
+    memory-type: logical-nv
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: true
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: Intel
+    serial-number: '00001513'
+    asset-tag: Unknown
+    part-number: NMA1XBD128GQS
+    rank: 1
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 71
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 15
+    bank-locator: CPU 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: '92780679'
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 73
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 16
+    bank-locator: CPU 2
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 74
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 13
+    bank-locator: CPU 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 92780A4C
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 76
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 14
+    bank-locator: CPU 2
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 78
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 32
+    bank-locator: CPU 3
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 92780A2C
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 80
+  type: 17
+  length: 99
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 135694123008
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 31
+    bank-locator: CPU 3
+    memory-type: logical-nv
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: true
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: Intel
+    serial-number: 0000101C
+    asset-tag: Unknown
+    part-number: NMA1XBD128GQS
+    rank: 1
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 82
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 34
+    bank-locator: CPU 3
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927809D8
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 84
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 33
+    bank-locator: CPU 3
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 85
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 36
+    bank-locator: CPU 3
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 92780A4A
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 87
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 35
+    bank-locator: CPU 3
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 89
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 29
+    bank-locator: CPU 3
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927809F1
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 91
+  type: 17
+  length: 99
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 135694123008
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 30
+    bank-locator: CPU 3
+    memory-type: logical-nv
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: true
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: Intel
+    serial-number: 000012F6
+    asset-tag: Unknown
+    part-number: NMA1XBD128GQS
+    rank: 1
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 93
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 27
+    bank-locator: CPU 3
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 92780A03
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 95
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 28
+    bank-locator: CPU 3
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 96
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 25
+    bank-locator: CPU 3
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 92780A3E
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 98
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 26
+    bank-locator: CPU 3
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 100
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 44
+    bank-locator: CPU 4
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: '92780639'
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 102
+  type: 17
+  length: 99
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 135694123008
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 43
+    bank-locator: CPU 4
+    memory-type: logical-nv
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: true
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: Intel
+    serial-number: '00001440'
+    asset-tag: Unknown
+    part-number: NMA1XBD128GQS
+    rank: 1
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 104
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 46
+    bank-locator: CPU 4
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: '92780646'
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 106
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 45
+    bank-locator: CPU 4
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 107
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 48
+    bank-locator: CPU 4
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: '92780758'
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 109
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 47
+    bank-locator: CPU 4
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 111
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 41
+    bank-locator: CPU 4
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927806E4
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 113
+  type: 17
+  length: 99
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 135694123008
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 42
+    bank-locator: CPU 4
+    memory-type: logical-nv
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: true
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: Intel
+    serial-number: '00001033'
+    asset-tag: Unknown
+    part-number: NMA1XBD128GQS
+    rank: 1
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 115
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 39
+    bank-locator: CPU 4
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927809D9
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 117
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 40
+    bank-locator: CPU 4
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 118
+  type: 17
+  length: 102
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 37
+    bank-locator: CPU 4
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: SK Hynix
+    serial-number: 927809E3
+    asset-tag: Unknown
+    part-number: HMA84GR7CJR4N-WM
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 120
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 38
+    bank-locator: CPU 4
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 121
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 56
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 122
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 55
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 123
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 58
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 124
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 57
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 125
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 60
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 126
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 59
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 127
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 53
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 128
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 54
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 129
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 51
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 130
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 52
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 131
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 49
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 132
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 50
+    bank-locator: CPU 5
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 133
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 68
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 134
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 67
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 135
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 70
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 136
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 69
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 137
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 72
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 138
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 71
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 139
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 65
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 140
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 66
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 141
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 63
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 142
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 64
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 143
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 61
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 144
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 62
+    bank-locator: CPU 6
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 145
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 80
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 146
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 79
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 147
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 82
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 148
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 81
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 149
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 84
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 150
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 83
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 151
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 77
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 152
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 78
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 153
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 75
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 154
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 76
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 155
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 73
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 156
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 74
+    bank-locator: CPU 7
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 157
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 92
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 158
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 91
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 159
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 94
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 160
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 93
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 161
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 96
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 162
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 95
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 163
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 89
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 164
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 90
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 165
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 87
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 166
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 88
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 167
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 85
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 168
+  type: 17
+  length: 87
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM 86
+    bank-locator: CPU 8
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: Unknown
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 33
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 51539607551
+    range-size: 51539607552
+    array-handle: 32
+    partition-width: 4
+- handle: 44
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 51539607552
+    end-addr: 103079215103
+    range-size: 51539607552
+    array-handle: 32
+    partition-width: 4
+- handle: 55
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 103079215104
+    end-addr: 154618822655
+    range-size: 51539607552
+    array-handle: 32
+    partition-width: 4
+- handle: 66
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 154618822656
+    end-addr: 206158430207
+    range-size: 51539607552
+    array-handle: 32
+    partition-width: 4
+- handle: 77
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 206158430208
+    end-addr: 257698037759
+    range-size: 51539607552
+    array-handle: 32
+    partition-width: 4
+- handle: 88
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 257698037760
+    end-addr: 309237645311
+    range-size: 51539607552
+    array-handle: 32
+    partition-width: 4
+- handle: 99
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 309237645312
+    end-addr: 360777252863
+    range-size: 51539607552
+    array-handle: 32
+    partition-width: 4
+- handle: 110
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 360777252864
+    end-addr: 412316860415
+    range-size: 51539607552
+    array-handle: 32
+    partition-width: 4
+- handle: 13
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 22
+  type: 38
+  length: 20
+  level: '2.3'
+  state:
+  - decoded
+  description: IPMI device information
+  attributes:
+    interface-type: kcs
+    specification-version: '2.0'
+    i2c-target-address: 32
+    nv-storage-address: null
+    base-address: 3264
+    base-address-lsb: 0
+    base-address-type: io
+    interrupt-trigger-mode: null
+    interrupt-polarity: null
+    interrupt-number: null
+    register-spacing: 1
+- handle: 11824
+  type: 42
+  length: 171
+  level: '3.2'
+  state:
+  - decoded
+  description: Management controller host interface
+  attributes:
+    if-type: network-host-interface
+    if-data:
+      device-type: usb
+      device-descriptor: 04b3401000
+    protocol-records:
+    - type: redfish-over-ip
+      data:
+        service-uuid: B4E6B51A-8146-E711-BAA4-FD23D4894C20
+        host-ip-assignment: static
+        host-ip-format: ipv4
+        host-ip-address: 169.254.95.120
+        host-ip-mask: 255.255.0.0
+        service-ip-discovery: static
+        service-ip-format: ipv4
+        service-ip-address: 169.254.95.118
+        service-ip-mask: 255.255.0.0
+        service-ip-port: 443
+        service-vlan-id: 0
+        service-hostname: XCC-7X12-LSITR003
+- handle: 11826
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J37
+    internal-connector: other
+    external-designator: PCIe/NVMe
+    external-connector: none
+    port-type: other
+- handle: 11827
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J38
+    internal-connector: other
+    external-designator: NVMe
+    external-connector: none
+    port-type: other
+- handle: 11828
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J42
+    internal-connector: none
+    external-designator: USB3/USB4
+    external-connector: access-bus
+    port-type: usb
+- handle: 11829
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J43
+    internal-connector: none
+    external-designator: VGA2
+    external-connector: db-15-f
+    port-type: video
+- handle: 11830
+  type: 8
+  length: 18
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J45
+    internal-connector: none
+    external-designator: COM
+    external-connector: db-9-m
+    port-type: serial-16550a
+- handle: 11831
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J49
+    internal-connector: none
+    external-designator: MGMT
+    external-connector: rj-45
+    port-type: network
+- handle: 11832
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J51
+    internal-connector: other
+    external-designator: VGA1
+    external-connector: db-15-f
+    port-type: video
+- handle: 11833
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J55
+    internal-connector: other
+    external-designator: Front Panel
+    external-connector: none
+    port-type: other
+- handle: 11834
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J60
+    internal-connector: other
+    external-designator: USB1/USB2
+    external-connector: access-bus
+    port-type: usb
+- handle: 11835
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J62
+    internal-connector: other
+    external-designator: TCM/TPM
+    external-connector: none
+    port-type: other
+- handle: 11836
+  type: 9
+  length: 25
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Slot 5
+    type: pci-e-g3-x16
+    bus-width: 16x
+    usage: available
+    length: long
+    ident: 5
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 68
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 11837
+  type: 9
+  length: 25
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Slot 6
+    type: pci-e-g3-x16
+    bus-width: 16x
+    usage: available
+    length: long
+    ident: 6
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 108
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 11838
+  type: 9
+  length: 25
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Slot 7
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: available
+    length: long
+    ident: 7
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 45
+      device-number: 2
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 11839
+  type: 9
+  length: 25
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Slot 8
+    type: pci-e-g3-x16
+    bus-width: 16x
+    usage: available
+    length: long
+    ident: 8
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 26
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 11840
+  type: 9
+  length: 25
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Slot 9
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: in-use
+    length: long
+    ident: 9
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 48
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 11841
+  type: 9
+  length: 26
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Slot 18
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: in-use
+    length: long
+    ident: 18
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 8
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 11842
+  type: 9
+  length: 26
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Slot 20
+    type: m2-s3
+    bus-width: 2x
+    usage: available
+    length: long
+    ident: 20
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: null
+      device-number: null
+      function-number: null
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 11846
+  type: 41
+  length: 40
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: ServerEngines Pilot IV G200
+    type: video
+    is-enabled: true
+    instance: 0
+    address:
+      segment-group: 0
+      bus-number: 2
+      device-number: 0
+      function-number: 0
+- handle: 11847
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

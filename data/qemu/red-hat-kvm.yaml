@@ -1,0 +1,688 @@
+entry:
+  smbios-version: '2.4'
+table:
+- handle: 0
+  type: 0
+  length: 46
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: QEMU
+    version: QEMU
+    bios-segment: 59392
+    release-date: '2007-01-01'
+    rom-size: 65536
+    features:
+      unknown: false
+      unsupported: true
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: false
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: false
+      shadowing-allowed: false
+      vesa-support: false
+      escd-support: false
+      boot-cd: false
+      boot-selectable: false
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: false
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: false
+      keyboard-support: false
+      serial-support: false
+      printer-support: false
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: false
+      usb-legacy-support: false
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: false
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '1.0'
+    controller-version: null
+- handle: 256
+  type: 1
+  length: 65
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Red Hat
+    product: KVM
+    version: null
+    serial-number: null
+    uuid: D714D6EA-A37E-00DA-5052-52D192ECAFF8
+    wakeup-type: power-switch
+    sku-number: null
+    family: Red Hat Enterprise Linux
+- handle: 768
+  type: 3
+  length: 29
+  level: '2.3'
+  state:
+  - decoded
+  - incomplete
+  description: System enclosure or chassis
+  attributes:
+    vendor: RED HAT
+    type: other
+    is-lock-present: false
+    version: null
+    serial-number: null
+    asset-tag: null
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: unknown
+    oem-defined: 0
+    height: null
+    power-cord-count: null
+    element-count: 0
+    element-size: 0
+    elements: []
+- handle: 1025
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 1
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1026
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 2
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1027
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 3
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1028
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 4
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1029
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 5
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1030
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 6
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1031
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 7
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1032
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 8
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1033
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 9
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 1034
+  type: 4
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: 'CPU :'
+    type: central
+    family: other
+    vendor: QEMU
+    id: 63060000fdfb8b07
+    version: null
+    voltage: null
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 2000
+    current-speed: 2000
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+- handle: 4096
+  type: 16
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Physical memory array
+  attributes:
+    location: other
+    use: system
+    error-correction: multi-bit
+    maximum-capacity: 60129542144
+    error-handle: 65534
+    device-count: 4
+- handle: 4352
+  type: 17
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 4096
+    error-info-handle: 0
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: null
+    memory-type: ram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+- handle: 4864
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 17179869183
+    range-size: 17179869184
+    array-handle: 4096
+    partition-width: 1
+- handle: 5120
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 17179869183
+    range-size: 17179869184
+    device-handle: 4352
+    array-addr-handle: 4864
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 4353
+  type: 17
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 4096
+    error-info-handle: 0
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 1
+    bank-locator: null
+    memory-type: ram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+- handle: 4865
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 17179869184
+    end-addr: 34359738367
+    range-size: 17179869184
+    array-handle: 4096
+    partition-width: 1
+- handle: 5121
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 17179869184
+    end-addr: 34359738367
+    range-size: 17179869184
+    device-handle: 4353
+    array-addr-handle: 4865
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 4354
+  type: 17
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 4096
+    error-info-handle: 0
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 2
+    bank-locator: null
+    memory-type: ram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+- handle: 4866
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 34359738368
+    end-addr: 51539607551
+    range-size: 17179869184
+    array-handle: 4096
+    partition-width: 1
+- handle: 5122
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 34359738368
+    end-addr: 51539607551
+    range-size: 17179869184
+    device-handle: 4354
+    array-addr-handle: 4866
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 4355
+  type: 17
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 4096
+    error-info-handle: 0
+    total-width: 64
+    data-width: 64
+    size: 8589934592
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 3
+    bank-locator: null
+    memory-type: ram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+- handle: 4867
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 51539607552
+    end-addr: 60129542143
+    range-size: 8589934592
+    array-handle: 4096
+    partition-width: 1
+- handle: 5123
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 51539607552
+    end-addr: 60129542143
+    range-size: 8589934592
+    device-handle: 4355
+    array-addr-handle: 4867
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 8192
+  type: 32
+  length: 13
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 32512
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

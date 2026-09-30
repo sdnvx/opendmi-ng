@@ -1,0 +1,7 @@
+vendor: GPD
+files:
+  micropc.bin:
+    product: MicroPC
+    source: https://github.com/smuellerDD/lrng/files/10832386/dmidecode_u.log
+    license: none
+    converted: dmidecode -u
