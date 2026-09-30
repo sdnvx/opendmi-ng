@@ -24,6 +24,7 @@ asciidoc:
 antora:
   extensions:
   - '@antora/collector-extension'
+  - ./schemas.js
 
 ui:
   bundle:

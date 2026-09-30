@@ -23,7 +23,8 @@ set(WEBSITE_STAMP ${CMAKE_CURRENT_BINARY_DIR}/site.stamp)
 
 # Site is made of its own pages and of the reference manual, which includes the
 # manual pages, and offers the PDF of the manual and the latest release the
-# changelog records, all of which are gathered while the site is built
+# changelog records, and publishes the schemas of the exported documents, all
+# of which are gathered while the site is built
 file(GLOB_RECURSE WEBSITE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/modules/*.adoc
     ${CMAKE_CURRENT_SOURCE_DIR}/supplemental-ui/*
@@ -35,6 +36,7 @@ file(GLOB_RECURSE WEBSITE_SOURCES
     ${CMAKE_SOURCE_DIR}/reference/fonts/*
     ${CMAKE_SOURCE_DIR}/common/opendmi-*.svg
     ${CMAKE_SOURCE_DIR}/common/favicon.ico
+    ${CMAKE_SOURCE_DIR}/opendmi/share/opendmi/*
 )
 
 add_custom_command(
@@ -46,6 +48,7 @@ add_custom_command(
         antora-playbook.yml
         antora.yml
         collect.js
+        schemas.js
         ${CMAKE_SOURCE_DIR}/CHANGELOG.md
         ${CMAKE_SOURCE_DIR}/CONTRIBUTORS.md
         ${CMAKE_SOURCE_DIR}/LICENSE.md

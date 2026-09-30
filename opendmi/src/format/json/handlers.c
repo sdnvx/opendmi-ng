@@ -121,7 +121,7 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
 {
     bool result;
     char entity_handle[8];
-    char *entity_level;
+    char *entity_level = nullptr;
     const char *entity_description;
 
     assert(session != nullptr);
@@ -129,9 +129,11 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
 
     snprintf(entity_handle, sizeof(entity_handle), "0x%04hx", entity->handle);
 
-    entity_level = dmi_version_format(entity->level);
-    if (entity_level == nullptr)
-        return false;
+    if (entity->level != DMI_VERSION_NONE) {
+        entity_level = dmi_version_format(entity->level);
+        if (entity_level == nullptr)
+            return false;
+    }
 
     entity_description = dmi_type_name(session->context, entity->type);
 
@@ -144,7 +146,9 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
         dmi_json_label(session, "length") and
         dmi_json_scalar(session, entity->total_length) and
         dmi_json_label(session, "level") and
-        dmi_json_scalar(session, entity_level) and
+        ((entity_level != nullptr) ?
+            dmi_json_scalar(session, entity_level) :
+            dmi_json_scalar_null(session)) and
         dmi_json_label(session, "state") and
         dmi_json_sequence_start(session);
 

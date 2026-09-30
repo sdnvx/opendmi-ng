@@ -1,4 +1,200 @@
 {
-    "id": "http://opendmi.org/schemas/opendmi.json",
-    "title": "OpenDMI JSON schema"
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://opendmi.org/schemas/opendmi.json",
+    "title": "OpenDMI JSON schema",
+    "description": "Schema of the documents `opendmi export --format=json` writes",
+
+    "type": "object",
+    "properties": {
+        "entry": {
+            "description": "Entry point data",
+            "type": "object",
+            "properties": {
+                "smbios-version": {
+                    "description": "SMBIOS version the entry point declares",
+                    "$ref": "#/$defs/version"
+                }
+            },
+            "required": ["smbios-version"],
+            "additionalProperties": false
+        },
+        "table": {
+            "description": "Structures of the table, in the order the table holds them",
+            "type": "array",
+            "items": { "$ref": "#/$defs/entity" }
+        }
+    },
+    "required": ["entry", "table"],
+    "additionalProperties": false,
+
+    "$defs": {
+        "entity": {
+            "description": "SMBIOS structure",
+            "type": "object",
+            "properties": {
+                "handle": { "$ref": "#/$defs/handle" },
+                "type": {
+                    "description": "Structure type",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                },
+                "length": {
+                    "description": "Total length of the structure, including its header and its strings",
+                    "type": "integer",
+                    "minimum": 4
+                },
+                "level": {
+                    "description": "Version of the specification the structure conforms to, or null if the structure is not decoded or is not versioned",
+                    "oneOf": [
+                        { "$ref": "#/$defs/version" },
+                        { "type": "null" }
+                    ]
+                },
+                "state": {
+                    "description": "State flags of the structure",
+                    "type": "array",
+                    "items": {
+                        "enum": ["decoded", "linked", "valid", "incomplete", "partial"]
+                    },
+                    "uniqueItems": true
+                },
+                "description": {
+                    "description": "Name of the structure type",
+                    "type": "string"
+                },
+                "attributes": {
+                    "description": "Decoded values of the structure, keyed by the codes of the attributes of its type",
+                    "$ref": "#/$defs/attributes"
+                },
+                "properties": {
+                    "description": "String properties added by type 46 structures",
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/property" }
+                },
+                "overlays": {
+                    "description": "Additional information entries (type 40) applied to the structure",
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/overlay" }
+                },
+                "data": {
+                    "description": "Formatted area of the structure, including its header, in Base64",
+                    "type": "string",
+                    "contentEncoding": "base64"
+                },
+                "strings": {
+                    "description": "Strings of the structure, the first one being string 1",
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "minItems": 1,
+                    "maxItems": 255
+                }
+            },
+            "required": ["handle", "type", "length", "level", "state", "description"],
+            "dependentSchemas": {
+                "attributes": {
+                    "not": {
+                        "anyOf": [
+                            { "required": ["data"] },
+                            { "required": ["strings"] }
+                        ]
+                    }
+                },
+                "properties": { "required": ["attributes"] },
+                "overlays": { "required": ["attributes"] },
+                "strings": { "required": ["data"] }
+            },
+            "additionalProperties": false
+        },
+
+        "attributes": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/$defs/attributeValue" }
+        },
+
+        "attributeValue": {
+            "description": "Value of an attribute: a string, null if the value is not specified, \"unknown\" if the data says that it is unknown, an object of flag codes and booleans for a set of flags, an object of attribute codes and values for a nested structure, or an array of values",
+            "anyOf": [
+                { "type": ["null", "string"] },
+                {
+                    "type": "object",
+                    "additionalProperties": { "type": "boolean" }
+                },
+                { "$ref": "#/$defs/attributes" },
+                {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/attributeValue" }
+                }
+            ]
+        },
+
+        "property": {
+            "description": "String property",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Property identifier",
+                    "$ref": "#/$defs/hex16"
+                },
+                "code": {
+                    "description": "Code of the property, or null if the identifier is not known",
+                    "type": ["string", "null"]
+                },
+                "value": {
+                    "description": "Value of the property, or null if not specified",
+                    "type": ["string", "null"]
+                }
+            },
+            "required": ["id", "code", "value"],
+            "additionalProperties": false
+        },
+
+        "overlay": {
+            "description": "Additional information entry applied to the structure",
+            "type": "object",
+            "properties": {
+                "source": {
+                    "description": "Handle of the type 40 structure holding the entry",
+                    "$ref": "#/$defs/handle"
+                },
+                "index": {
+                    "description": "Index of the entry within its structure",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "offset": {
+                    "description": "Offset of the field the entry refers to",
+                    "type": "string",
+                    "pattern": "^0x[0-9a-f]{2}$"
+                },
+                "value": {
+                    "description": "Value of the entry, as hexadecimal digits",
+                    "type": "string"
+                },
+                "string": {
+                    "description": "String of the entry, or null if it has none",
+                    "type": ["string", "null"]
+                }
+            },
+            "required": ["source", "index", "offset", "value", "string"],
+            "additionalProperties": false
+        },
+
+        "handle": {
+            "description": "Structure handle",
+            "$ref": "#/$defs/hex16"
+        },
+
+        "hex16": {
+            "description": "16-bit value, as four lowercase hexadecimal digits",
+            "type": "string",
+            "pattern": "^0x[0-9a-f]{4}$"
+        },
+
+        "version": {
+            "description": "Version number",
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+        }
+    }
 }

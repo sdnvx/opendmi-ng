@@ -1,0 +1,115 @@
+= Values
+:sectnums:
+:sectlinks:
+
+[#formats-values]
+Values of the attributes are written by their codes, the way a program
+matches them, unless the `--pretty` option is given, which writes them the way
+`opendmi show` prints them for a person. The codes do not change with the
+locale, and are what this chapter describes. Which of the values a format
+writes as numbers or booleans of its own, rather than as strings, is described
+by the chapter about the format.
+
+== Kinds of values
+
+The value of an attribute is written according to its kind:
+
+[cols="1,3,2"]
+|===
+| Kind | Written as | Example
+
+| String
+| String of the structure, as it is.
+| `DIMM 0`
+
+| Boolean
+| `true` or `false`, or the codes the attribute gives to the two states.
+| `true`
+
+| Integer
+| Decimal number, or hexadecimal one with the `0x` prefix and uppercase
+  digits for the attributes which are identifiers or masks rather than
+  quantities.
+| `100`, `0x106A4`
+
+| Fixed-point number
+| Decimal number with as many fractional digits as it needs, and at least one.
+| `1.2`
+
+| Size
+| Number of bytes.
+| `1310720`
+
+| Address
+| Hexadecimal number with the `0x` prefix and 8 digits, or 16 if the table
+  uses 64-bit addresses.
+| `0x000F0000`
+
+| Handle
+| Hexadecimal number with the `0x` prefix and 4 uppercase digits.
+| `0x0010`
+
+| Enumeration
+| Code of the value, or the value as a hexadecimal number if the
+  specification does not define it.
+| `write-back`, `0x1f`
+
+| Set of flags
+| Every flag the attribute knows, by its code, with a boolean telling if it is
+  set. XML documents give the value of the whole set as a hexadecimal number
+  too.
+| `burst: false`
+
+| Version
+| Numbers of the version separated by dots.
+| `2.0`, `3.1.1`
+
+| Date
+| Date in the ISO 8601 format.
+| `2024-11-05`
+
+| UUID
+| UUID in the canonical format, with uppercase digits.
+| `31343834-3438-4247-3839-34343834594E`
+
+| Binary data
+| Hexadecimal digits of the bytes in their order, a MAC address with
+  colons between the bytes, and an IP address in its usual notation.
+| `0a0b`, `00:1a:2b:3c:4d:5e`
+
+| Structure
+| Mapping of the codes of the nested attributes to their values.
+| {nbsp}
+
+| Array
+| Sequence of the values of the items.
+| {nbsp}
+|===
+
+Two values are written the same way whatever the kind of the attribute is:
+
+Not specified::
+The value the data says is not given, e.g. string 0, or the value the
+specification reserves for that, is written as null, or as an empty element in
+XML.
+
+Unknown::
+The value the specification reserves for a value which is not known, where
+it reserves one, is written as the string `unknown`.
+
+== Units
+
+Numbers are written in the units the attribute is measured in, which are not
+written in the value: an XML element carries them in its `units` attribute,
+e.g. `mhz`, and the other formats do not write them. Sizes are always written
+in bytes.
+
+== Values for a person
+
+With `--pretty`, values are written the way a person reads them: enumerations
+and booleans by their names, e.g. `Write-back` and `yes`, sizes in the largest
+unit which keeps them whole, e.g. `1280 KiB`, binary data with uppercase
+digits separated by spaces, and numbers along with the names of their units,
+e.g. `4300 MHz`, which XML writes in the `units` attribute instead. Names of
+the attributes, handles and sets of flags are written the same way as without
+the option.

@@ -1,0 +1,100 @@
+= JSON
+:sectnums:
+:sectlinks:
+
+[#formats-json]
+The JSON document is a single object, whose `entry` member holds the entry
+point and whose `table` member holds the array of the structures:
+
+[source,json]
+----
+{
+    "entry": {
+        "smbios-version": "3.4"
+    },
+    "table": [
+        {
+            "handle": "0x000a",
+            "type": 7,
+            "length": 39,
+            "level": "3.1",
+            "state": [
+                "decoded"
+            ],
+            "description": "Cache information",
+            "attributes": {
+                "socket-designator": "L1 - Cache",
+                "level": "1",
+                "socketed": "false",
+                "mode": "write-back",
+                "installed-size": "1310720",
+                "supported-sram": {
+                    "burst": false,
+                    "pipeline-burst": true
+                },
+                "speed": "1",
+                "associativity": "8-way"
+            }
+        }
+    ]
+}
+----
+
+A structure which is not decoded holds its raw bytes instead of the
+attributes:
+
+[source,json]
+----
+{
+    "handle": "0x0005",
+    "type": 11,
+    "length": 21,
+    "level": "2.0",
+    "state": [
+        "decoded"
+    ],
+    "description": "OEM strings",
+    "data": "CwUFAAE=",
+    "strings": [
+        "Default string"
+    ]
+}
+----
+
+== Values
+
+Types, lengths and the indexes of the additional information entries are
+numbers. Handles, the offsets of the entries and the identifiers of the
+properties are strings of hexadecimal numbers with lowercase digits, e.g.
+`"0x000a"`, since JSON has no hexadecimal numbers.
+
+Values of the attributes are strings, whatever their kind is, numbers and
+booleans included, e.g. `"1310720"` and `"false"`, and are converted by the
+program reading them. The flags of the sets are the only booleans, and
+the values which are not specified are `null`.
+
+A string which is not valid UTF-8, which the firmware may hold, has the bytes
+which are not valid replaced by the replacement character, U+FFFD, since JSON
+has no strings of other encodings. The raw strings of a structure are written
+this way too, and its raw bytes, `data`, as a Base64 string.
+
+== Structures
+
+The header of a structure gives every member described in
+xref:formats/documents.adoc#formats-documents[Exported documents], and
+`level` is `null` for the structures which have no versions.
+
+`properties` and `overlays` are arrays of objects of the members the
+properties and the entries have, which are all present, with `null` for the
+ones which have no value. `strings` is an array of the strings.
+
+== Schema
+
+The document is described by a JSON Schema,
+`https://opendmi.org/schemas/opendmi.json`:
+
+[source,shell]
+----
+$ opendmi export -f json -o smbios.json
+$ check-jsonschema --schemafile opendmi.json smbios.json
+----

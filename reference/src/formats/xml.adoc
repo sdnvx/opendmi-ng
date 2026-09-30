@@ -1,0 +1,135 @@
+= XML
+:sectnums:
+:sectlinks:
+
+[#formats-xml]
+The XML document is made of the elements of the
+`https://opendmi.org/schemas/opendmi.xsd` namespace, written with the `dmi`
+prefix. The `dmi:dump` element holds the `dmi:entry` element of the entry
+point, and a `dmi:entity` element for every structure:
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dmi:dump created-at="2026-09-30T02:40:02" xmlns:dmi="https://opendmi.org/schemas/opendmi.xsd">
+  <dmi:entry smbios-version="3.4" table-area-address="0x20" table-area-size="1920"/>
+  <dmi:entity handle="0x000a" type="7" length="39" state="decoded">
+    <dmi:cache>
+      <socket-designator>L1 - Cache</socket-designator>
+      <level>1</level>
+      <socketed>false</socketed>
+      <mode>write-back</mode>
+      <installed-size>1310720</installed-size>
+      <supported-sram value="0x10">
+        <flag name="burst">false</flag>
+        <flag name="pipeline-burst">true</flag>
+      </supported-sram>
+      <speed units="nanosecond">1</speed>
+      <associativity>8-way</associativity>
+    </dmi:cache>
+  </dmi:entity>
+</dmi:dump>
+----
+
+A structure which is not decoded holds its raw bytes instead of the
+attributes:
+
+[source,xml]
+----
+<dmi:entity handle="0x0005" type="11" length="21" state="decoded">
+  <dmi:data><![CDATA[CwUFAAE=]]></dmi:data>
+  <dmi:strings>
+    <dmi:string index="1">Default string</dmi:string>
+  </dmi:strings>
+</dmi:entity>
+----
+
+== Document and entry point
+
+`dmi:dump` has the `created-at` attribute, which gives the time the document
+was written at, in UTC, e.g. `2026-09-30T02:40:02`.
+
+`dmi:entry` has the attributes:
+
+`smbios-version`::
+Version of SMBIOS the entry point declares.
+
+`table-area-address`::
+Address of the table, as a hexadecimal number with lowercase digits.
+
+`table-area-size`::
+Size of the table in bytes.
+
+== Structures
+
+`dmi:entity` gives the header of the structure in its attributes: `handle`,
+as a hexadecimal number of 4 lowercase digits, `type`, `length` and `state`,
+which is the list of the flags of the state separated by spaces, and is empty
+if none is set. The level and the name of the type are not written.
+
+The content of the element is, in this order:
+
+* for a decoded structure, the element of its values, which is named by the
+  code of the structure type, e.g. `dmi:cache`, then the `dmi:properties`
+  element, if the structure has any properties, and the `dmi:overlays`
+  element, if it has any additional information entries applied;
+* for a structure which is not decoded, the `dmi:data` element, then the
+  `dmi:strings` element, if the structure has any strings;
+* nothing for the end-of-table structure.
+
+== Values
+
+Elements of the values are named by the codes of the attributes, and are not
+qualified by the namespace. A value is the text of its element, and:
+
+* the value which is not specified is an empty element;
+* a nested structure is an element of the elements of its attributes;
+* an array is an element of `item` elements, one for every item;
+* a set of flags is an element of `flag` elements, one for every flag, whose
+  `name` attribute gives the code of the flag, since the codes are not always
+  valid names of elements, e.g. `5v`, and whose text is `true` or `false`,
+  while the `value` attribute of the set gives the value of the whole set as
+  a hexadecimal number;
+* a number measured in units has the `units` attribute, which gives the code
+  of the unit, e.g. `mhz`, or its name with `--pretty`, e.g. `MHz`.
+
+== Properties and overlays
+
+`dmi:properties` holds a `dmi:property` element for every property, whose
+`id` attribute gives the identifier of the property as a hexadecimal number,
+and whose `code` attribute, which is left out if the identifier is not known,
+gives its code. The text of the element is the value of the property, and is
+empty if the property holds no string.
+
+`dmi:overlays` holds a `dmi:overlay` element for every additional information
+entry, whose `source`, `index` and `offset` attributes give the handle of the
+structure holding the entry, the index of the entry and the offset of the
+field it refers to. The `dmi:value` element holds the value of the entry, and
+the `dmi:string` element, which is left out if the entry has none, its string.
+
+== Raw data
+
+`dmi:data` holds the formatted area of the structure, the header included,
+encoded in Base64. `dmi:strings` holds a `dmi:string` element for every string
+of the structure, whose `index` attribute gives its number, starting at 1.
+
+Characters XML does not allow, e.g. the control ones, and bytes which are not
+valid UTF-8, are replaced by the replacement character, U+FFFD.
+
+== Schema
+
+The document is described by an XML Schema, which is published at the address
+of the namespace, `https://opendmi.org/schemas/opendmi.xsd`:
+
+[source,shell]
+----
+$ opendmi export -f xml -o smbios.xml
+$ xmllint --noout --schema opendmi.xsd smbios.xml
+----
+
+The elements of the values of the structures are named by the structure types
+and their attributes, which the schema does not list, and XML Schema 1.0 does
+not allow the elements of a namespace which are not declared to be told from
+the ones which are, so the schema checks the content of `dmi:entity` laxly:
+the elements it declares, e.g. `dmi:data`, are checked wherever they are
+found, and the order of the content is not checked.

@@ -1,0 +1,101 @@
+= YAML
+:sectnums:
+:sectlinks:
+
+[#formats-yaml]
+The YAML document is a single mapping, whose `entry` key holds the entry
+point and whose `table` key holds the sequence of the structures:
+
+[source,yaml]
+----
+entry:
+  smbios-version: '3.4'
+table:
+- handle: 0x000a
+  type: 7
+  length: 39
+  level: '3.1'
+  state: [decoded]
+  description: Cache information
+  attributes:
+    socket-designator: "L1 - Cache"
+    level: 1
+    socketed: false
+    location: "internal"
+    mode: "write-back"
+    installed-size: 1310720
+    supported-sram:
+      burst: false
+      pipeline-burst: true
+    speed: 1
+    associativity: "8-way"
+----
+
+A structure which is not decoded holds its raw bytes instead of the
+attributes:
+
+[source,yaml]
+----
+- handle: 0x0005
+  type: 11
+  length: 21
+  level: '2.0'
+  state: [decoded]
+  description: OEM strings
+  data: !!binary |-
+    CwUFAAE=
+  strings:
+  - "Default string"
+----
+
+== Scalars
+
+Scalars are written so that a YAML reader resolves each of them to the type
+it has in the document, and nothing else:
+
+* Handles, types, lengths, offsets and the values of the numeric attributes,
+  i.e. integers, fixed-point numbers, sizes, addresses and handles, are plain
+  scalars, which the readers resolve as numbers, the hexadecimal ones
+  included, e.g. `0x000a`.
+* Booleans are plain scalars, `true` or `false`, and so are the codes of
+  the states, the ones a boolean attribute gives to its states, and the
+  string `unknown`.
+* Versions are single-quoted, so that `2.0` is not read as a number.
+* Strings of the structures, codes of the enumerations, dates and UUIDs are
+  double-quoted, so that e.g. `yes` or `2024-11-05` is not read as a boolean
+  or a timestamp.
+* Values which are not specified are `null`.
+* With `--pretty`, every value of an attribute is a double-quoted string.
+
+A string which is not valid UTF-8, which the firmware may hold, is written as
+its bytes, in a `!!binary` scalar, since YAML has no strings of other
+encodings. The raw bytes of a structure, `data`, are always written this way.
+Readers load `!!binary` scalars as byte strings rather than as text.
+
+== Structures
+
+The header of a structure gives every key described in
+xref:formats/documents.adoc#formats-documents[Exported documents], and
+`level` is `null` for the structures which have no versions.
+
+`properties` and `overlays` are sequences of mappings of the keys the
+properties and the entries have, which are all present, with `null` for the
+ones which have no value. `strings` is a sequence of the strings.
+
+== Schema
+
+The document is described by a JSON Schema,
+`https://opendmi.org/schemas/opendmi.yml`, which is written in YAML and is
+applied to the data a reader loads out of the document, e.g. with
+`check-jsonschema`:
+
+[source,shell]
+----
+$ opendmi export -o smbios.yaml
+$ check-jsonschema --schemafile opendmi.yml smbios.yaml
+----
+
+The schema expects the plain hexadecimal scalars to be loaded as numbers,
+which is what readers following YAML 1.1 or the core schema of YAML 1.2 do,
+and the `!!binary` scalars to be loaded as byte strings, which JSON Schema
+knows no type of.

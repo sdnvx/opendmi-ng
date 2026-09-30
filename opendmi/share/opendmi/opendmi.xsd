@@ -4,30 +4,114 @@
     Copyright (c) 2025-2026, The OpenDMI contributors
 
     SPDX-License-Identifier: BSD-3-Clause
+
+    Schema of the documents `opendmi export -f xml` writes.
+
+    Decoded values of a structure are held by an element named by the code of
+    the structure type, e.g. dmi:processor, whose children are named by the
+    codes of the attributes of the type and are not qualified. Since these
+    elements are not declared, and XML Schema 1.0 cannot tell them from the
+    declared elements of the same namespace, the content of a structure is
+    validated laxly: the declared elements are checked wherever they appear,
+    and their order is the one the reference manual gives.
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:dmi="http://opendmi.org/schemas/opendmi.xsd"
-           targetNamespace="http://opendmi.org/schemas/opendmi.xsd"
+           xmlns:dmi="https://opendmi.org/schemas/opendmi.xsd"
+           targetNamespace="https://opendmi.org/schemas/opendmi.xsd"
            elementFormDefault="qualified">
+
     <xs:element name="dump" type="dmi:dumpType" />
 
     <xs:complexType name="dumpType">
         <xs:sequence>
-            <xs:element name="entry" type="dmi:entryType" minOccurs="1" maxOccurs="1" />
-            <xs:element name="entity" type="dmi:entityType" minOccurs="0" />
+            <xs:element name="entry" type="dmi:entryType" />
+            <xs:element name="entity" type="dmi:entityType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="created-at" type="xs:dateTime" use="optional" />
     </xs:complexType>
 
     <xs:complexType name="entryType">
-        <xs:attribute name="smbios-version" type="xs:string" use="required" />
+        <xs:attribute name="smbios-version" type="dmi:versionType" use="required" />
+        <xs:attribute name="table-area-address" type="dmi:hexNumberType" use="optional" />
+        <xs:attribute name="table-area-size" type="xs:unsignedInt" use="optional" />
     </xs:complexType>
 
     <xs:complexType name="entityType">
-        <xs:attribute name="handle" type="xs:string" use="required" />
-        <xs:attribute name="type" type="xs:unsignedInt" use="required" />
+        <!--
+            Either the element of the decoded values, followed by the
+            dmi:properties and dmi:overlays elements, or the dmi:data element,
+            followed by the dmi:strings element, or nothing at all
+        -->
+        <xs:sequence>
+            <xs:any namespace="##targetNamespace" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="handle" type="dmi:handleType" use="required" />
+        <xs:attribute name="type" type="xs:unsignedByte" use="required" />
         <xs:attribute name="length" type="xs:unsignedInt" use="required" />
-        <xs:attribute name="state" type="dmi:entityStateList" use="optional" />
+        <xs:attribute name="state" type="dmi:entityStateList" use="required" />
+    </xs:complexType>
+
+    <!-- String properties added by type 46 structures -->
+    <xs:element name="properties">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="property" type="dmi:propertyType" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Element is empty if the value is not specified -->
+    <xs:complexType name="propertyType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="id" type="dmi:handleType" use="required" />
+                <xs:attribute name="code" type="xs:string" use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- Additional information entries (type 40) applied to the structure -->
+    <xs:element name="overlays">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="overlay" type="dmi:overlayType" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="overlayType">
+        <xs:sequence>
+            <xs:element name="value" type="xs:string" />
+            <xs:element name="string" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="source" type="dmi:handleType" use="required" />
+        <xs:attribute name="index" type="xs:unsignedInt" use="required" />
+        <xs:attribute name="offset" type="dmi:offsetType" use="required" />
+    </xs:complexType>
+
+    <!-- Formatted area of the structure, including its header -->
+    <xs:element name="data" type="xs:base64Binary" />
+
+    <xs:element name="strings">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="string" type="dmi:stringType" minOccurs="1" maxOccurs="255" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="stringType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="index" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:unsignedByte">
+                            <xs:minInclusive value="1" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:simpleType name="entityStateList">
@@ -42,5 +126,29 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:list>
+    </xs:simpleType>
+
+    <xs:simpleType name="handleType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="0x[0-9a-f]{4}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="offsetType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="0x[0-9a-f]{2}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="hexNumberType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="0x[0-9a-f]+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="versionType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]+\.[0-9]+(\.[0-9]+)?" />
+        </xs:restriction>
     </xs:simpleType>
 </xs:schema>

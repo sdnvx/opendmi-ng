@@ -1,0 +1,161 @@
+= Exported documents
+:sectnums:
+:sectlinks:
+
+[#formats-documents]
+The `opendmi export` command writes the SMBIOS data as a document of YAML,
+JSON or XML, for a program to read rather than for a person, see
+`opendmi-export`(1). The three formats hold the same document, which this
+chapter describes, and differ in the way it is written down, which the
+chapters about each of them describe. The document is what `opendmi import`
+is meant to read back, once it is implemented, see `opendmi-import`(1).
+
+The text format `export` writes too is the output of `opendmi show`, which is
+meant for a person, and has no layout a program could rely on. It is not
+described here.
+
+The formats available depend on how the tool was built, since each of them
+needs a library of its own: `libyaml` for YAML, `yajl` for JSON and `libxml2`
+for XML. YAML is the default format when it is available.
+
+== Layout of the document
+
+A document holds the data of the entry point and the structures of the table,
+in the order the table holds them:
+
+....
+document
+ ├─ entry            entry point data
+ └─ table            structures of the table
+     └─ entity       a structure
+         ├─ header   handle, type, length, level, state, description
+         ├─ either   attributes, properties, overlays   (decoded)
+         └─ or       data, strings                      (raw)
+....
+
+Which structures the table holds is decided by the filter options of the
+command, the same way `opendmi show` decides it. By default the structures of
+the standard and the OEM-specific types are exported, and the inactive ones
+and the ones of the types no enabled module describes are not.
+
+== Entry point
+
+The entry point is described by the version of SMBIOS it declares,
+`smbios-version`, e.g. `3.4`. The XML documents give the address and the
+size of the table as well.
+
+== Structures
+
+Every structure is described by a header, which is the same for every
+structure, and by its content, which is either the values decoded from it or
+its raw bytes.
+
+=== Header
+
+`handle`::
+Handle of the structure.
+
+`type`::
+Type of the structure, from 0 to 255.
+
+`length`::
+Length of the structure in bytes, which counts the formatted area, the
+header included, the strings and the terminating null bytes, so that the
+next structure begins that many bytes after this one.
+
+`level`::
+Version of the specification the layout of the structure follows, e.g.
+`3.3`, which is told from the length of its formatted area, or null if the
+structure has no versions or is not decoded. Not written in XML.
+
+`state`::
+Flags of the state of the structure, which are any of:
++
+--
+`decoded`::: Structure has been decoded.
+`linked`::: Handles the structure refers to have been resolved.
+`valid`::: Structure has been checked.
+`incomplete`::: Structure ends within a group of fields, so only the fields
+present in full are decoded, and its length matches no version of the
+specification.
+`partial`::: Structure follows an older version of the specification, and
+lacks some of the fields the decoder knows.
+--
+
+`description`::
+Name of the structure type, e.g. `Memory device`, in the language of the
+locale the tool runs in. Not written in XML.
+
+=== Decoded structures
+
+A structure the tool has decoded is described by its values:
+
+`attributes`::
+Values of the fields of the structure, and of what is derived from them,
+named by the codes of the attributes of the structure type, e.g.
+`socket-designation`, in the order the type lists them. Attributes the
+version of the structure lacks are left out. The codes of the attributes do not
+change with the locale, unlike the labels `opendmi show` prints.
+
+`properties`::
+String properties which structures of type 46 add to the structure, if any.
+Every property is described by its identifier, `id`, by its code, `code`,
+which is null or left out if the identifier is not known, and by its value,
+`value`, which is null or empty if the property holds no string.
+
+`overlays`::
+Additional information entries of type 40 structures applied to the
+structure, which are written only if the global `--overlay` option is given
+and the structure has any. Every entry is described by:
++
+--
+`source`::: Handle of the type 40 structure holding the entry.
+`index`::: Index of the entry within that structure, starting at 0.
+`offset`::: Offset of the field of this structure the entry refers to.
+`value`::: Value of the entry, as hexadecimal digits in the order of the
+bytes, or the way a person reads it with `--pretty`.
+`string`::: String of the entry, or null if the entry has none.
+--
+
+=== Raw structures
+
+A structure is written as its raw bytes if it is not decoded: if the `--dump`
+option is given, or if no enabled module describes its type, in which case it
+is exported only with the `--unknown` or `--all` option:
+
+`data`::
+Formatted area of the structure, the header included, encoded in Base64.
+
+`strings`::
+Strings of the structure, the first one being string 1, as they are, with
+no trailing spaces removed. Left out if the structure has no strings.
+
+Raw structures carry all their bytes, so the bytes of the whole table are kept
+by the document written with `--all --dump`. The end-of-table
+structure (type 127) is written with the header only.
+
+== Schemas
+
+The layout of the documents is described by schemas, which are kept in
+`opendmi/share/opendmi` and are published on the site of the project, at
+the addresses the schemas give as their identifiers:
+
+[cols="1,3,3"]
+|===
+| Format | Schema | Address
+
+| YAML
+| JSON Schema, applied to the data a YAML reader loads out of the document
+| `https://opendmi.org/schemas/opendmi.yml`
+
+| JSON
+| JSON Schema
+| `https://opendmi.org/schemas/opendmi.json`
+
+| XML
+| XML Schema, which is also the namespace of the documents
+| `https://opendmi.org/schemas/opendmi.xsd`
+|===
+
+The schemas describe the layout the documents share, and not the attributes
+of every structure type, which the schemas leave open.
