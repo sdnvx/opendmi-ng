@@ -9,224 +9,162 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add the `ENABLE_ASAN` build option
-- Build and test on Intel macOS runners in CI
-- Add `lint` command checking the data against the rules of the specification
-- Add `dmi_reader_mark()`, `dmi_reader_rewind()` and `dmi_reader_skip_ex()`, which step over records by their declared length instead of by the bytes read from them
-- Add `dmi_buffer_t`, which owns the SMBIOS data everything decoded from it refers to
-- Add `dmi_writer_t`, which writes the bytes of a buffer the way `dmi_reader_t` reads them
-- Add `dmi_decoder_t` and `dmi_encoder_t`, which read and write the values of a structure over a reader and a writer
-- Add `dmi_entity_buffer()` and `dmi_entity_offset()`, which tell where the data of a structure is held
-- Add `dmi_field_t` describing the layout of a structure on the wire, and `dmi_fields_decode()` decoding the specifications which declare it
-- Add `dmi_entity_encode()` and `dmi_fields_encode()`, which write a structure back from its specification
-- Describe the layout of nearly every structure type on the wire instead of decoding it by hand
-- Add `dmi_lint` and the registry of the rules it checks the data against
+- Add `ENABLE_ASAN` build option
+- Add CI workflow for Intel macOS
+- Add `lint` command checking SMBIOS data against the specification rules
+- Add `dmi_lint` API and lint rules registry
 - Add lint rules for structures, strings, values, references, additional information entries and data quality
-- Add lint rules of the structure types, provided by their specifications
-- Add `targets`, `minimum` and `maximum` attribute parameters, which lint rules check the data against
+- Add lint rules of structure types to their specifications
+- Add `targets`, `minimum` and `maximum` attribute parameters for lint rules
+- Add `dmi_reader_mark()`, `dmi_reader_rewind()` and `dmi_reader_skip_ex()` functions
+- Add `dmi_buffer_t` for SMBIOS data ownership
+- Add `dmi_writer_t`, `dmi_decoder_t` and `dmi_encoder_t` APIs
+- Add `dmi_entity_buffer()` and `dmi_entity_offset()` functions
+- Add declarative structure layouts (`dmi_field_t`) with `dmi_fields_decode()` and `dmi_fields_encode()` functions
+- Add `dmi_entity_encode()` function
+- Migrate nearly all decoders to declarative structure layouts
 - Add basic C++ API
 - Add SysFS module skeleton
-- Include the manual pages of the tool and the library into the reference manual
-- Add Getting started part to the reference manual
-- Add legal notice to the reference manual
-- Add project website built from the reference manual and published on GitHub Pages
-- Describe the errors every function of the library raises in its manual page
-- Describe lint rules and its severities in the manual page of the `lint` command
-- Add manual pages for `dmi_destroy()`, `dmi_set_logger()` and `dmi_log_message()`
-- Complete the manual pages which held nothing but the synopsis
-- Add manual pages for the structures, unions and enumerations of the entity types
-- Document every member of the entity types in their headers
-- Add Behind the scenes part to the reference manual
-- Describe Intel RSD Firmware Extension structures in the reference manual
-- Add Boot Integrity Services (BIS) entry point information decoder
-- Add processor additional information decoder
-- Add tests for BIS entry point, system boot, system event log, TPM device and management device threshold decoders
-- Add tests for additional information overlays and module structure decoders
-- Add tests for the decoder, including the copy it reads with additional information applied
-- Add tests for the buffer and the writer, including the padding which keeps the bytes written already
-- Add tests for the encoder itself, which the corpus reaches only through the field engine
-- Add tests for the field engine, written against specifications of its own rather than against the structure types
-- Add tests for Intel RSD PCIe, storage device, TPM, TXT, memory device extended and cabled PCIe port decoders, and for the lint rules of Intel RSD structures
-- Add `intel-rsd-cabled-pcie.start-lane` and `intel-rsd-cabled-pcie.cable-count` lint rules
-- Add support for binary attributes
-- Add support for variant attributes
-- Add support for string properties (including linking)
-- Show TPM device vendor ID
-- Show Intel RSD network card MAC address
-- Show nested structures in all output formats
-- Show string properties of structures in all output formats
-- Show values of additional information entries
-- Add `-O`/`--overlay` global option to apply additional information entries
-- Show applied additional information entries in all output formats
-- Show firmware inventory versions and identifiers parsed according to their formats
-- Show TPM firmware versions according to the TPM version
-- Show management device thresholds in units of the components using them
-- Show IPMI SMBus target addresses as numbers, and hide register details of SSIF interfaces
-- Decode system event log access method address according to the access method
-- Decode processor ID: signature and feature flags of x86 processors, MIDR and SoC ID of Arm processors
-- Show vendor- and product-specific boot status data
-- Decode all system event log fields
-- Decode management controller host interface data and protocol records (DSP0270)
-- Add `DMI_ATTRIBUTE_FLAG_IP` flag for IP addresses
-- Add Dell indexed IO, calling interface and protected area decoders
-- Add Intel RSD processor CPUID and physical device mapping decoders
-- Add Sun extended processor, port, memory array, memory device and PCIe root complex decoders
-- Add module structure specifications to the reference manual
-- Add ICU4C resources for en_US and ru_RU locales
-- Translate structure and attribute names to the locale
-- Translate measurement units and boolean values to the locale
-- Translate the header of text output to the locale
-- Translate error messages and messages of the tool to the locale
-- Translate the texts of unspecified, unknown and invalid values to the locale
-- Translate command line help to the locale
-- Add manual pages for the `opendmi` command line tool and all of its commands
-- Add manual pages for the buffer, reader, writer, decoder and encoder APIs
-- Add missing `*_name()` functions for the enumerations
-- Add processor upgrade value 0xFF of SMBIOS 3.8, which refers to the socket type
-- Add `dmi_platform_t`, telling the vendor, the product, the family and the generation of the platform, with `dmi_platform_create()`, `dmi_platform_clone()`, `dmi_platform_set_product()`, `dmi_platform_set_family()` and `dmi_platform_destroy()`
-- Add `dmi_get_platform()` and `dmi_set_platform()`, which give the platform the structures are decoded for, and set another one
-- Add `dmi_string_set()`, which replaces an owned string with a copy of another one
-- Tell the family and the generation of HP and HPE servers from their product names
-- Add `DMI_CONTEXT_FLAG_AUTO_MODULES`, which enables the extension modules of the platform as the context is opened, and the `--no-auto-modules` option of the tool, which keeps them disabled
-- Add platform conditions of extension modules, generation ranges of structure specifications and relocations of structures, which vendors place at type numbers of their own
-- Add `dmi_filter_add_module()`, which matches structures by the module of their specification
-- Add `DMI_MODULE_FLAG_YIELD`, whose modules give their types way to the other enabled modules, `DMI_VENDOR_ANY` platform condition, and relocations to no type for the structures the platforms of a vendor never carry
-- Add `intel` module of the structures of the Intel reference code, enabled for the platforms of Intel processors
-- Tell the vendors of the system (type 1), the baseboard (type 2) and the processors (type 4) of the platform apart from the vendor of the firmware, and add platform conditions on them
+- Add binary, variant and vector (`DMI_FIELD_VECTOR`, `DMI_ATTRIBUTE_VECTOR`) attributes
+- Add string properties support, including linking
+- Add `DMI_ATTRIBUTE_FLAG_IP` and `DMI_ATTRIBUTE_FLAG_PRIVATE` flags
+- Add `dmi_string_set()` and `dmi_string_is_placeholder()` functions
+- Add missing `*_name()` functions for enumerations
+- Add processor upgrade value 0xFF of SMBIOS 3.8
+- Add platform detection (`dmi_platform_t`, `dmi_get_platform()`, `dmi_set_platform()`)
 - Add AMD, Honor and Huawei vendors
-- Decode Intel Management Engine interface information (type 219, `intel-mei`), with the state, the operation mode and the SKU of the Management Engine firmware, at type 203 on Dell platforms
-- Add signatures of structure specifications (`dmi_signature_t`), which tell structures of different layouts at the same type number in the same table apart by their content, and map a type number to up to `DMI_TYPE_CANDIDATES` specifications
-- Decode Intel vPro information (type 131, `intel-vpro`), with the versions of the Management Engine firmware and of its BIOS extension, and the PCI functions of the chipset and of the network controller
-- Decode Intel Active Management Technology information (type 130, `intel-amt`), told by its `$AMT` signature
-- Decode Intel Silicon View Technology milestones (type 222, `intel-svt`), at type 206 on Dell platforms
-- Add groups of extension modules (`dmi_module_group_t`), which name the group associations whose members are structures of a specification, and `group-assoc.member` lint rule, which checks them
-- Decode Lenovo ThinkVantage Technologies enablement (type 131, `lenovo-tvt`), which Lenovo tables hold along with Intel vPro information
-- Add `DMI_FIELD_VECTOR` and `DMI_ATTRIBUTE_VECTOR`, which describe a fixed number of elements held in place
-- Decode Intel firmware version information (type 221, `intel-fvi`) on Intel platforms of any firmware vendor, at type 205 on Dell platforms
-- Decode HP/HPE server structures documented by dmidecode: other ROM information (type 193), Super I/O enable/disable indicator (194), server system ID (195), processor specific information (197), CPU microcode patches (199), DIMM location records (202), system/rack locator (204), PXE and iSCSI NIC information (209 and 221), processor TControl (211), 64-bit CRU information (212), ProLiant information (219), trusted module status (224), physical attributes (226), reserved memory locations (229) and power supply information (230), each for the generations of the servers it is known for
-- Decode the rest of the HP/HPE server structures documented by dmidecode: device correlation records (type 203), version indicators (216) with their version data formatted, DIMM attributes (232), NIC PCI and MAC information (233), HDD backplane FRU information (236), DIMM vendor information (237), USB port and device correlation records (238 and 239), firmware inventory records (240), hard drive inventory records (242), DIMM current configuration records (244) and extension board inventory records (245), whose board type selects the layout
-- Show MAC addresses of HP/HPE BIOS PXE and iSCSI NIC information as addresses
-- Add `dmi_anonymize()`, which makes a copy of the table with serial numbers, asset tags, UUIDs and MAC addresses replaced wherever the table holds them, keeping its layout, and `DMI_ATTRIBUTE_FLAG_PRIVATE`, which marks the attributes it replaces
-- Add `--anonymize` option of the `dump` command
-- Decode Dell BIOS flags (type 177) and hotkeys (type 178)
-- Decode Acer hotkey functions (type 170), including the list of the hotkeys past the function bitmaps, and enable the `acer` module for the systems of Acer with the firmware of other vendors
-- Decode Lenovo OEM data of types 135 and 140: device presence detection, bay I/O and ThinkPad embedded controller program, and the number, the revision and the data of the other OEM structures
-- Decode structures reverse engineered from the data corpus: Acer device list (type 171), Dell video BIOS information (type 216), token references (types 220 and 221) and system ID record (type 255), Lenovo date record and TPM information (type 134) and machine type model (type 200)
-- Describe the structures of the data corpus whose meaning is not established in the reference manual
-- Add `dmi_string_is_placeholder()`, and take `Fill By OEM`, `No Asset Tag`, `Empty`, `[Empty]`, `NULL`, `INVALID` and `NO DIMM` for placeholders too
-- Add File formats part to the reference manual, which describes the YAML, JSON and XML documents the `export` command writes
-- Add list of the extension modules and the structures they describe to the Command line tool part of the reference manual
-- Publish the schemas of the exported documents on the project website, at the addresses of their identifiers
+- Add family and generation detection of HP/HPE servers
+- Add platform conditions for extension modules, generation ranges of structure specifications and structure relocations
+- Add automatic enabling of platform extension modules (`DMI_CONTEXT_FLAG_AUTO_MODULES`) and `--no-auto-modules` option
+- Add `DMI_MODULE_FLAG_YIELD` module flag and `DMI_VENDOR_ANY` platform condition
+- Add `dmi_filter_add_module()` function
+- Add structure specification signatures (`dmi_signature_t`) for structures of different layouts sharing a type number
+- Add extension module groups (`dmi_module_group_t`) and `group-assoc.member` lint rule
+- Add `dmi_anonymize()` function and `--anonymize` option of `dump` command
+- Add `-O`/`--overlay` global option to apply additional information entries
+- Add Boot Integrity Services (BIS) entry point decoder
+- Add processor additional information decoder
+- Add management controller host interface data and protocol records decoding (DSP0270)
+- Add processor ID decoding for x86 and Arm processors
+- Add decoding of all system event log fields, including access method address
+- Add `intel` module with Intel MEI (219), vPro (131), AMT (130), SVT (222) and firmware version information (221) decoders
+- Add Intel RSD processor CPUID and physical device mapping decoders
+- Add `intel-rsd-cabled-pcie.start-lane` and `intel-rsd-cabled-pcie.cable-count` lint rules
+- Add Dell indexed IO, calling interface, protected area, BIOS flags (177) and hotkeys (178) decoders
+- Add Sun extended processor, port, memory array, memory device and PCIe root complex decoders
+- Add HP/HPE server structures decoders
+- Add Lenovo ThinkVantage Technologies (131) and OEM data (135, 140) decoders
+- Add Acer hotkey functions (170) decoder
+- Add decoders of structures reverse-engineered from the data corpus
+- Show TPM device vendor ID and TPM firmware version according to the TPM version
+- Show Intel RSD network card and HP/HPE NIC MAC addresses
+- Show nested structures, string properties and additional information entries in all output formats
+- Show firmware inventory versions and identifiers according to their formats
+- Show management device thresholds in component units
+- Show IPMI SMBus target addresses as numbers
+- Show vendor- and product-specific boot status data
+- Add ICU4C resources for en_US and ru_RU locales
+- Translate names, units, values, messages and command line help
+- Add manual pages for the command line tool and all of its commands
+- Add manual pages for buffer, reader, writer, decoder and encoder APIs
+- Add manual pages for `dmi_destroy()`, `dmi_set_logger()` and `dmi_log_message()`
+- Add manual pages for entity types and complete manual pages containing only synopsis
+- Add raised errors description to library manual pages
+- Add lint rules description to `lint` command manual page
+- Document all members of entity types
+- Add Getting started, Behind the scenes and File formats parts, legal notice, manual pages, extension modules list and module structure specifications to the reference manual
+- Add project website with schemas of exported documents
+- Add tests for the buffer, writer, decoder, encoder and field engine
+- Add tests for decoders of BIS entry point, system boot, system event log, TPM device, management device threshold, additional information and Intel RSD structures
+- Extend data corpus from 90 to 248 dumps
 
 ### Changed
 
-- Tell structure types by their objects rather than by their numbers: `dmi_type_t` is now the structure type, a constant the library declares for the standard types and the modules for theirs, e.g. `DMI_TYPE(system)` for `dmi_type_system`, which several specifications may decode into and several types may share a number of; type numbers are `dmi_type_id_t`, e.g. `DMI_TYPE_ID(SYSTEM)`
-- Take structure types in `dmi_entity_info()`, `dmi_entity_data()`, the lookups of the registry and the `targets` of the attributes, so that the structures sharing a type number, e.g. Intel vPro information and Lenovo ThinkVantage Technologies enablement, are told apart
-- Return the structure type from `dmi_entity_type()`, and add `dmi_entity_type_id()`, which returns the type number a structure is found at, `dmi_registry_lookup_first_id()` and `dmi_registry_resolve_id()`
-- Rename the `type` member of `dmi_entity_t` to `type_id`, and the C++ `dmi::type` enumeration to `dmi::type_id`
-- Replace the `overwrite` argument of `dmi_save()` with the flags of `dmi_save_flags_t`, `DMI_SAVE_FLAG_OVERWRITE` and `DMI_SAVE_FLAG_ANONYMIZE`
-- Lowercase the names of command line arguments
-- Move internal definitions from `<opendmi/defs.h>` to a private header
-- Remove unused compatibility macros from public headers
-- Report all broken references when linking instead of stopping at the first one
-- Report all malformed structures when decoding instead of stopping at the first one
-- Stop decoding on memory exhaustion in relaxed mode too
-- Leave memory exhaustion as the last error on decoding failures
-- Add structure handle and expected length to minimum length errors
-- Reference additional information entry values in place as `dmi_binary_t`
-- Keep both double words in TPM firmware version for all TPM versions
-- Keep boot status data of any length as `dmi_binary_t` instead of the first 10 bytes
-- Replace unused `dmi_system_log_access_method_addr` union with access address fields of `dmi_system_event_log_t`
-- Increase error queue depth from 32 to 64 entries
-- Treat broken references as link failures in all structures, fatal only in strict mode
-- Keep management controller interface and protocol record data as `dmi_binary_t`
-- Take DMI context instead of logging handler in logging macros
-- Unify capitalization of printable attribute names
-- Replace measurement unit strings with the `dmi_unit_t` enumeration
-- Serialize measurement units by their code names in XML output
-- Require the internationalization component of ICU4C for plural rules
-- Replace error message table with the `dmi_error_names` name set, which gives error codes their own names
-- Rename `dmi_targets()` macro to `dmi_types()`, which reads as a list of structure types wherever one is needed
-- Remove the unions which existed only for decoding, whose fields are decoded into the members of the structures themselves
-- Split the sources of a structure type into its specification, value names, handlers and lint rules
-- Declare the lint rules of a structure type along with the rest of its specification
-- Decode the structures whose specification declares fields and no decoding handler with the field engine
-- Link the references the attributes declare before calling the link handler, which is left for what they cannot say
-- Keep the manufacture date string, the SBDS manufacture date, and the design capacity and its multiplier of portable batteries as the structure carries them
-- Report memory modules larger than their controller supports with the `memory-controller.module-size` lint rule instead of marking their sizes invalid when linking
-- Rename `dmi_stream_t` to `dmi_reader_t`, and read the values of a structure with `dmi_decoder_get*()` instead of `dmi_stream_decode*()` and `dmi_stream_read*()`
-- Hold the SMBIOS data in the buffers of the context instead of the memory each backend allocates for itself
-- Fill the buffer given to `read_entry()` and `read_table()` in backends instead of allocating the data of the context
-- Take the buffer holding a structure and its offset in `dmi_entity_create()` instead of a pointer to its data
-- Replace `dmi_entity_reader()` with `dmi_decoder_initialize()`, which sets a decoder up over the data of a structure
+- Identify structure types by `dmi_type_t` objects instead of type numbers (`dmi_type_id_t`)
+- Take structure types in `dmi_entity_info()`, `dmi_entity_data()`, registry lookups and attribute `targets`
+- Return structure type from `dmi_entity_type()`, add `dmi_entity_type_id()`, `dmi_registry_lookup_first_id()` and `dmi_registry_resolve_id()` functions
+- Rename `type` field of `dmi_entity_t` to `type_id` and C++ `dmi::type` enumeration to `dmi::type_id`
+- Rename `dmi_targets()` macro to `dmi_types()`
+- Replace `overwrite` argument of `dmi_save()` with `dmi_save_flags_t` flags
+- Rename `dmi_stream_t` to `dmi_reader_t`, replace `dmi_stream_decode*()` and `dmi_stream_read*()` with `dmi_decoder_get*()`
+- Hold SMBIOS data in context buffers instead of backend-allocated memory
+- Take buffer and offset in `dmi_entity_create()` instead of data pointer
+- Replace `dmi_entity_reader()` with `dmi_decoder_initialize()`
 - Rename `dmi_entity_stop()` and `dmi_entity_incomplete()` to `dmi_decoder_stop()` and `dmi_decoder_incomplete()`
-- Rename `dmi_file_get()` and `dmi_memory_get()` to `dmi_file_load()` and `dmi_memory_load()`, which fill a buffer instead of allocating the data they read
-- Rename misspelled `DMI_SLOT_TYPP_OCP_NIC_LEGACY`, `DMI_PROCESSOR_FAMILT_STRONGARM`, `synchonous` and `has_zoom_video_supoort` to `DMI_SLOT_TYPE_OCP_NIC_LEGACY`, `DMI_PROCESSOR_FAMILY_STRONGARM`, `synchronous` and `has_zoom_video_support`
-- Rename misspelled codes to `multi-system`, `wireless-lan`, `hardware-thread`, `pmic0-vendor-id` and `dil-25pin`
+- Rename `dmi_file_get()` and `dmi_memory_get()` to `dmi_file_load()` and `dmi_memory_load()`
 - Rename `dmi_version_format_t` to `dmi_firmware_version_format_t`
 - Rename `dmi_system_log_header_fmt_t` to `dmi_system_log_header_format_t`
-- Rename `pci_device_id` and `pci_function_id` of `dmi_intel_rsd_fpga_t` to `pci_device_number` and `pci_function_number`
-- Rename codes of Intel RSD FPGA attributes from `pcie-*` to `pci-*`, the way the other Intel RSD structures name them, and of its name sets to `intel-rsd-fpga-hps-isa` and `intel-rsd-fpga-hssi-config`
-- Show socket of Intel RSD FPGAs for integrated ones only, and their high-speed serial interface for the defined configurations only
-- Give the end of a mapped address range carried in kilobytes as its last byte, the way the extended fields do
-- Name slot type 0x0B as the specification does, "Proprietary memory card slot"
-- Remove the declaration of `dmi_pointing_device_decode()`, which is defined nowhere, and the typedefs of the structures which do not exist
-- Check the type of the specification a structure is decoded by instead of its type number in `dmi_entity_info()` and `dmi_entity_data()`
-- Enable the extension modules of the platform in the tool by default
-- Rename `vendor` member of `dmi_platform_t` and `dmi_platform_match_t` to `firmware_vendor`, and make `DMI_VENDOR_ANY` zero, so that the members a platform condition leaves out are satisfied by any platform
-- Tell Huawei and Honor firmware apart from AMI one
+- Rename misspelled identifiers and attribute codes
+- Rename `vendor` field of `dmi_platform_t` and `dmi_platform_match_t` to `firmware_vendor`
+- Rename Intel RSD module to `intel-rsd` and move its headers to `<opendmi/entity/intel-rsd/>`
+- Rename Intel RSD FPGA fields, attribute codes and name sets
+- Replace AMI type 221 (`ami-221`) with Intel firmware version information
+- Replace measurement unit strings with `dmi_unit_t` enumeration
+- Replace error message table with `dmi_error_names` name set
+- Remove decoding-only unions and unused compatibility macros
+- Move internal definitions from `<opendmi/defs.h>` to a private header
+- Split structure type sources into specification, value names, handlers and lint rules
+- Link attribute references before calling link handlers
+- Report all broken references and malformed structures instead of stopping at the first one
+- Treat broken references as link failures, fatal only in strict mode
+- Stop decoding on memory exhaustion in relaxed mode
+- Add structure handle and expected length to minimum length errors
+- Increase error queue depth from 32 to 64 entries
+- Keep additional information values, boot status data, management controller data as `dmi_binary_t`
+- Keep raw portable battery manufacture date and design capacity
+- Report oversized memory modules with `memory-controller.module-size` lint rule
+- Take DMI context instead of logging handler in logging macros
+- Enable platform extension modules in the tool by default
+- Match `--module` and `--all-modules` filters regardless of module state
+- Lowercase command line argument names
+- Unify capitalization of attribute names
+- Show end of mapped address ranges as the last byte
+- Rename slot type 0x0B to "Proprietary memory card slot"
 - Show arrays nested in structures in all output formats
-- Name structures after the specification they are decoded by in `dmi_entity_name()`, and find the type number the structures of a specification are found at in `dmi_type_find()`
-- Replace AMI type 221 (`ami-221`) with Intel firmware version information of the `intel` module, whose unknown fields turned out to be the parts of the version
-- Rename Intel RSD module to `intel-rsd` (`dmi_intel_rsd_module`, `<opendmi/module/intel-rsd.h>`), which is only enabled explicitly, and move the headers of its structures from `<opendmi/entity/intel/rsd-*.h>` to `<opendmi/entity/intel-rsd/*.h>`
-- Match the structures of a module in the `--module` and `--all-modules` filter options of the tool whether the module is enabled at the time the options are parsed or not
-- Write numbers and booleans in JSON output as JSON numbers and booleans, the way YAML output writes them, including handles, property identifiers and additional information entry offsets
+- Write numbers and booleans in JSON output as JSON numbers and booleans
+- Serialize measurement units by their codes in XML output
 - Move XML namespace and schema identifiers to `https://opendmi.org/schemas/`
-- Mark the time of XML documents as UTC with the `Z` suffix
-- Point to the schema of XML documents with the `xsi:schemaLocation` attribute of their root element
+- Add `xsi:schemaLocation` attribute and UTC time to XML documents
+- Require ICU4C internationalization component
 
 ### Fixed
 
-- Name the structures of the types told apart by their signatures by the specification they have been decoded by in the reports of the `lint` command
-- Fix `lint --list-rules` requiring the SMBIOS data of the system
-- Fix `lint --list-rules` showing the severities of the default profile with `--producer`
-- Fix text of the reference manual garbled in PDF viewers based on poppler
-- Fix code in the reference manual set larger than the text around it
-- Fix broken escape sequence printed for the text of no color of its own, which leaked into the output of the `lint` command
-- Fix `dmi_reader_seek()` rejecting the end of the range, which kept a decoder from being set up over a structure of nothing but its header
-- Fix `--pretty` option of the `export` command having no effect on any output format
-- Fix portable battery manufacture date being dropped when the date string is malformed and the packed SBDS date is there
-- Fix `explain` command rejecting structure types given by their number
-- Fix `explain` command requiring the SMBIOS data of the system
+- Fix structure names of signature-matched types in `lint` command reports
+- Fix `lint --list-rules` requiring SMBIOS data and ignoring `--producer`
+- Fix `explain` command requiring SMBIOS data and rejecting type numbers
+- Fix `--pretty` option of `export` command having no effect
+- Fix broken escape sequence in `lint` command output
+- Fix garbled text and code size in reference manual PDF
+- Fix `dmi_reader_seek()` rejecting the end of the range
+- Fix ICU4C initialization
+- Fix indentation of nested structures and flags in text output
+- Remove trailing spaces in text output
+- Fix portable battery manufacture date dropped on malformed date string
 - Fix name of string property value attribute
-- Fix false errors on memory device references to handle 0x0000 used as unspecified value
+- Fix false errors on memory device references to handle 0x0000
 - Fix crash on memory controller referring to undecoded memory module
-- Fix structure version shown for structures shorter than the minimum length
+- Fix structure version of structures shorter than minimum length
 - Fix handling of additional information entries shorter than their header
 - Fix decoding of additional information values longer than 32 bytes
-- Fix indentation of nested structures in text output
-- Fix indentation of nested flags in text output
-- Fix ICU4C initialization
-- Remove trailing spaces in text output
-- Fix sizes of the mapped address ranges falling one kilobyte, or one byte, short of the range
-- Fix unknown error correction type of physical memory arrays and unknown state of firmware inventories taken for unspecified ones
-- Fix unknown addresses and resolutions of memory error information shown as values
-- Fix maximum memory size of memory controllers wrapping around instead of being unknown
-- Fix number of the ports of Intel RSD cabled PCIe port information decoded into a member narrower than the counter the field engine writes
+- Fix mapped address range sizes one kilobyte or byte short
+- Fix unknown values taken for unspecified in physical memory arrays and firmware inventories
+- Fix unknown memory error addresses and resolutions shown as values
+- Fix memory controller maximum memory size overflow
+- Fix Intel RSD cabled PCIe port count field width
 - Fix `firmware-inventory.version` lint rule never reporting semantic versions
-- Fix minimum SMBIOS versions of the IPMI device, management controller host interface, TPM device and processor additional information structures
-- Fix socket type shown for the processors of structures older than SMBIOS 3.8
-- Fix missing names of the reserved and vendor-specific version formats of firmware inventories and of the OEM-specific access methods of system event logs
-- Fix `<opendmi/entity/memory-error-32.h>` and `<opendmi/entity/memory-error-64.h>` not compiling on their own
-- Fix fields of the next scheduled power-on which are not set decoded as 165 instead of unknown
+- Fix minimum SMBIOS versions of IPMI device, management controller host interface, TPM device and processor additional information
+- Fix socket type shown for processors older than SMBIOS 3.8
+- Fix missing names of reserved and vendor-specific firmware inventory version formats and OEM-specific system event log access methods
+- Fix standalone compilation of memory error headers
+- Fix unset next scheduled power-on fields decoded as 165
 - Fix memory capacity units of Intel RSD FPGAs
-- Fix proprietary memory media of Intel RSD memory devices taken as 0x02 instead of 0x03
-- Fix handles of Intel RSD memory device extended information and physical device mapping not checked against the types they refer to
+- Fix proprietary memory media of Intel RSD memory devices
+- Fix unchecked handle types of Intel RSD memory device extended information and physical device mapping
 - Fix zero indices of Intel RSD TPM configurations and FPGAs not reported by lint
-- Fix Dell protected area type 1 and type 2 structure types identifiers
-- Fix YAML schema describing a layout the exported documents do not have, which left the regression tests validating nothing, and complete JSON and XML schemas, which described next to nothing
-- Fix XML namespace of the exported documents differing from the one of the schema
-- Fix structure level written as `0.0` instead of `null` in JSON output for the structures which have no versions
+- Fix Dell protected area type identifiers
+- Fix YAML, JSON and XML schemas of exported documents
+- Fix XML namespace mismatch between exported documents and schema
+- Fix structure level written as `0.0` instead of `null` in JSON output
 
 ## [0.4.1] - September 18, 2026
 
