@@ -1,0 +1,90 @@
+ifdef::backend-manpage[]
+= dmi_lenovo_oem(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lenovo_oem
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lenovo_oem - Lenovo OEM data structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/lenovo/oem.h>
+
+typedef struct dmi_lenovo_oem {
+    dmi_binary_t signature;
+    uint8_t offset;
+    uint8_t number;
+    uint8_t revision;
+    dmi_binary_t data;
+} dmi_lenovo_oem_t;
+----
+
+== Description
+
+The `dmi_lenovo_oem_t` structure holds a decoded Lenovo OEM structure whose
+layout is not known, with its data as the structure holds it.
+
+Lenovo firmware carries OEM data in structures of type 135, signed `TP`, and
+of type 140, signed `LENOVO`. Each structure holds one OEM structure, told by
+its number and revision, which follow the signature and the offset of the
+number. The structures holding the OEM structures of known layouts are told by
+their signature together with the number and the revision, and the rest by the
+signature alone.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_lenovo_mobile_oem_spec`, of type `DMI_TYPE(LENOVO_MOBILE_OEM)`, and by
+`dmi_lenovo_oem_spec`, of type `DMI_TYPE(LENOVO_OEM)`, declared in
+`<opendmi/module/lenovo.h>`, once the Lenovo extension module
+(`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
+It lives as long as the context it has been decoded in.
+
+=== Fields
+
+`signature`::
+Signature, `TP` for type 135 and `LENOVO` for type 140.
+
+`offset`::
+Offset of the OEM structure within the structure, which is the offset of
+`number`.
+
+`number`::
+Number of the OEM structure.
+
+`revision`::
+Revision of the format of the OEM structure.
+
+`data`::
+Data of the OEM structure, which runs to the end of the structure.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_lenovo_device_presence`(3),
+`dmi_lenovo_bay_io`(3),
+`dmi_lenovo_ecp`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Lenovo firmware, as the
+service manuals of Lenovo laptops and dmidecode describe it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

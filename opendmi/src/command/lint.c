@@ -284,7 +284,14 @@ static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue)
     const dmi_entity_spec_t *spec = nullptr;
 
     if (issue->handle != DMI_HANDLE_INVALID) {
-        spec = dmi_type_spec(report->context, issue->type);
+        // Structures of a type told apart by their signatures are named by
+        // the specification they have been decoded by
+        const dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(report->context),
+                                                         issue->handle, issue->type, true);
+
+        spec = ((entity != nullptr) and (entity->spec != nullptr))
+             ? entity->spec
+             : dmi_type_spec(report->context, issue->type);
 
         if (spec != nullptr)
             dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%s@0x%04X", spec->code, (unsigned)issue->handle);

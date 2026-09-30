@@ -532,9 +532,25 @@ include::../../../../libopendmi/man/man3/dmi_intel_svt_milestone.3.adoc[leveloff
 include::../../../../libopendmi/man/man3/dmi_intel_vpro.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_intel_vpro_version.3.adoc[leveloffset=2]
 
+== `<opendmi/entity/lenovo/oem.h>`
+
+include::../../../../libopendmi/man/man3/dmi_lenovo_oem.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_lenovo_device_presence.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_lenovo_bay_io.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_lenovo_ecp.3.adoc[leveloffset=2]
+
 == `<opendmi/entity/lenovo/tvt.h>`
 
 include::../../../../libopendmi/man/man3/dmi_lenovo_tvt.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/acer/hotkeys.h>`
+
+include::../../../../libopendmi/man/man3/dmi_acer_hotkeys.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_acer_hotkey.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/bios-flags.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_bios_flags.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/dell/calling-iface.h>`
 
@@ -547,6 +563,11 @@ include::../../../../libopendmi/man/man3/dmi_dell_check_type.3.adoc[leveloffset=
 include::../../../../libopendmi/man/man3/dmi_dell_enable_state.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_dell_port_security.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_dell_value_format.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/hotkeys.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_hotkeys.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_hotkey.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/dell/indexed-io.h>`
 

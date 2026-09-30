@@ -1,0 +1,85 @@
+ifdef::backend-manpage[]
+= dmi_lenovo_bay_io(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lenovo_bay_io
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lenovo_bay_io - Lenovo bay I/O structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/lenovo/oem.h>
+
+typedef struct dmi_lenovo_bay_io {
+    dmi_binary_t signature;
+    uint8_t offset;
+    uint8_t number;
+    dmi_binary_t bay_signature;
+    uint8_t version;
+    dmi_binary_t data;
+} dmi_lenovo_bay_io_t;
+----
+
+== Description
+
+The `dmi_lenovo_bay_io_t` structure holds the decoded Lenovo bay I/O, OEM
+structure 2 of type 135, which describes the bays of a laptop. The OEM
+structure carries a signature of its own, `BAY I/O `, in place of the
+revision, followed by its version, and the layout of the rest is not known.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_lenovo_bay_io_spec`, of type `DMI_TYPE(LENOVO_MOBILE_OEM)`, declared
+in `<opendmi/module/lenovo.h>`, once the Lenovo extension module
+(`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
+It lives as long as the context it has been decoded in.
+
+=== Fields
+
+`signature`::
+Signature, `TP`.
+
+`offset`::
+Offset of the OEM structure, `0x07`.
+
+`number`::
+Number of the OEM structure, `2`.
+
+`bay_signature`::
+Signature of the OEM structure, `BAY I/O `.
+
+`version`::
+Version of the OEM structure.
+
+`data`::
+Data of the OEM structure, which runs to the end of the structure.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_lenovo_oem`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Lenovo firmware, as the
+service manuals of Lenovo laptops and dmidecode describe it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

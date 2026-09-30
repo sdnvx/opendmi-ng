@@ -108,6 +108,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show MAC addresses of HP/HPE BIOS PXE and iSCSI NIC information as addresses
 - Add `dmi_anonymize()`, which makes a copy of the table with serial numbers, asset tags, UUIDs and MAC addresses replaced wherever the table holds them, keeping its layout, and `DMI_ATTRIBUTE_FLAG_PRIVATE`, which marks the attributes it replaces
 - Add `--anonymize` option of the `dump` command
+- Decode Dell BIOS flags (type 177) and hotkeys (type 178)
+- Decode Acer hotkey functions (type 170), including the list of the hotkeys past the function bitmaps, and enable the `acer` module for the systems of Acer with the firmware of other vendors
+- Decode Lenovo OEM data of types 135 and 140: device presence detection, bay I/O and ThinkPad embedded controller program, and the number, the revision and the data of the other OEM structures
 - Add `dmi_string_is_placeholder()`, and take `Fill By OEM`, `No Asset Tag`, `Empty`, `[Empty]`, `NULL`, `INVALID` and `NO DIMM` for placeholders too
 
 ### Changed
@@ -171,6 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Name the structures of the types told apart by their signatures by the specification they have been decoded by in the reports of the `lint` command
 - Fix `lint --list-rules` requiring the SMBIOS data of the system
 - Fix `lint --list-rules` showing the severities of the default profile with `--producer`
 - Fix text of the reference manual garbled in PDF viewers based on poppler

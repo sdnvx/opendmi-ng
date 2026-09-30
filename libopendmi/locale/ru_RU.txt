@@ -7,6 +7,27 @@ ru_RU {
         data-functions { "Функции энергонезависимых данных общего назначения" }
         oem-specific { "Специфичный для производителя" }
     }
+    acer-comm-function {
+        wifi { "Wi-Fi" }
+        3g { "3G" }
+        wimax { "WiMAX" }
+        bluetooth { "Bluetooth" }
+    }
+    acer-hotkeys {
+        attribute {
+            app-functions { "Функции кнопки приложений" }
+            comm-functions { "Функции кнопки связи" }
+            comm-key { "Номер клавиши функции связи" }
+            display-functions { "Функции кнопки дисплея" }
+            function { "Функция" }
+            hotkeys { "Горячие клавиши" }
+            key { "Клавиша" }
+            kind { "Вид" }
+            media-functions { "Функции кнопки мультимедиа" }
+            other-functions { "Функции прочих кнопок" }
+        }
+        name { "Функции горячих клавиш Acer" }
+    }
     additional-info {
         name { "Дополнительные сведения" }
     }
@@ -578,6 +599,10 @@ ru_RU {
         name { "Датчик тока" }
     }
     dell-bios-flags {
+        attribute {
+            flags { "Флаги" }
+            is-acpi-wmi { "Поддержка ACPI WMI" }
+        }
         name { "Флаги BIOS Dell" }
     }
     dell-calling-iface {
@@ -598,6 +623,14 @@ ru_RU {
         unknown { "Неизвестное" }
         enabled { "Включено" }
         disabled { "Отключено" }
+    }
+    dell-hotkeys {
+        attribute {
+            hotkeys { "Назначения горячих клавиш" }
+            keycode { "Код клавиши" }
+            scancode { "Скан-код" }
+        }
+        name { "Горячие клавиши Dell" }
     }
     dell-indexed-io {
         attribute {
@@ -1773,6 +1806,48 @@ ru_RU {
         unspecified { "Не указано" }
         edge { "По фронту" }
         level { "По уровню" }
+    }
+    lenovo-bay-io {
+        attribute {
+            data { "Данные" }
+            number { "Номер OEM-структуры" }
+            version { "Версия" }
+        }
+        name { "Отсеки ввода-вывода Lenovo" }
+    }
+    lenovo-device-presence {
+        attribute {
+            devices { "Биты присутствия устройств" }
+            is-fingerprint-reader { "Сканер отпечатков пальцев установлен" }
+            number { "Номер OEM-структуры" }
+            revision { "Ревизия OEM-структуры" }
+        }
+        name { "Обнаружение устройств Lenovo ThinkPad" }
+    }
+    lenovo-ecp {
+        attribute {
+            number { "Номер OEM-структуры" }
+            release-date { "Дата выпуска" }
+            revision { "Ревизия OEM-структуры" }
+            version { "Идентификатор версии" }
+        }
+        name { "Программа встроенного контроллера Lenovo ThinkPad" }
+    }
+    lenovo-mobile-oem {
+        attribute {
+            data { "Данные" }
+            number { "Номер OEM-структуры" }
+            revision { "Ревизия OEM-структуры" }
+        }
+        name { "OEM-данные мобильных ПК Lenovo" }
+    }
+    lenovo-oem {
+        attribute {
+            data { "Данные" }
+            number { "Номер OEM-структуры" }
+            revision { "Ревизия OEM-структуры" }
+        }
+        name { "OEM-данные Lenovo" }
     }
     lenovo-tvt {
         attribute {

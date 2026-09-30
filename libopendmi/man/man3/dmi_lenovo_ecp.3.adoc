@@ -1,0 +1,85 @@
+ifdef::backend-manpage[]
+= dmi_lenovo_ecp(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lenovo_ecp
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lenovo_ecp - Lenovo ThinkPad embedded controller program structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/lenovo/oem.h>
+
+typedef struct dmi_lenovo_ecp {
+    dmi_binary_t signature;
+    uint8_t offset;
+    uint8_t number;
+    uint8_t revision;
+    const char *version;
+    const char *release_date;
+} dmi_lenovo_ecp_t;
+----
+
+== Description
+
+The `dmi_lenovo_ecp_t` structure holds the decoded Lenovo ThinkPad embedded
+controller program, OEM structure 7 of revision 1 of type 140, which tells the
+version of the program of the embedded controller, which the README files of
+the firmware updates of Lenovo name.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_lenovo_ecp_spec`, of type `DMI_TYPE(LENOVO_OEM)`, declared in
+`<opendmi/module/lenovo.h>`, once the Lenovo extension module
+(`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
+It lives as long as the context it has been decoded in.
+
+=== Fields
+
+`signature`::
+Signature, `LENOVO`.
+
+`offset`::
+Offset of the OEM structure, `0x0B`.
+
+`number`::
+Number of the OEM structure, `7`.
+
+`revision`::
+Revision of the format of the OEM structure, `1`.
+
+`version`::
+Version ID of the program, e.g. `N20HT28W`.
+
+`release_date`::
+Release date of the program, as the firmware writes it, e.g. `10/08/2020`.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_lenovo_oem`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Lenovo firmware, as the
+service manuals of Lenovo laptops and dmidecode describe it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

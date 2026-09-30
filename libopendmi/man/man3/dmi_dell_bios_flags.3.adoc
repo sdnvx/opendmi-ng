@@ -1,0 +1,68 @@
+ifdef::backend-manpage[]
+= dmi_dell_bios_flags(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_bios_flags
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_bios_flags - Dell BIOS flags structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/bios-flags.h>
+
+typedef struct dmi_dell_bios_flags {
+    uint16_t flags;
+    bool is_acpi_wmi;
+} dmi_dell_bios_flags_t;
+----
+
+== Description
+
+The `dmi_dell_bios_flags_t` structure holds the decoded Dell BIOS flags (type
+177), which tell the features of the firmware the Dell drivers rely on, of
+which only the support of ACPI WMI is known.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_dell_bios_flags_spec`, of type `DMI_TYPE(DELL_BIOS_FLAGS)`, declared
+in `<opendmi/module/dell.h>`, once the Dell extension module
+(`dmi_dell_module`) is enabled. It lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`flags`::
+Flags, of which only bit 1 is known.
+
+`is_acpi_wmi`::
+Whether the firmware supports ACPI WMI, which the Dell WMI drivers use, as bit
+1 of the flags tells.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, as the Dell
+WMI driver of Linux and dmidecode describe it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

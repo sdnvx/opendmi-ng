@@ -1,0 +1,107 @@
+//
+// OpenDMI: Cross-platform DMI/SMBIOS framework
+// Copyright (c) 2025-2026, The OpenDMI contributors
+//
+// SPDX-License-Identifier: BSD-3-Clause
+//
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <cmocka.h>
+
+#include <opendmi/context.h>
+#include <opendmi/entity.h>
+#include <opendmi/internal.h>
+#include <opendmi/registry.h>
+#include <opendmi/test/logger.h>
+#include <opendmi/module/acer.h>
+
+#include <opendmi/entity/acer/hotkeys.h>
+
+static int test_setup(void **pstate);
+static int test_teardown(void **pstate);
+static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec);
+
+static void test_acer_hotkeys(void **pstate);
+
+static const char *test_nitro_path = OPENDMI_TEST_DATA "/acer/nitro-an515-31.bin";
+
+int main(void)
+{
+    const struct CMUnitTest tests[] = {
+        cmocka_unit_test_setup_teardown(test_acer_hotkeys, test_setup, test_teardown)
+    };
+
+    return cmocka_run_group_tests(tests, nullptr, nullptr);
+}
+
+static void test_acer_hotkeys(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    // Acer laptops carry the firmware of Insyde, and are told by the system
+    assert_true(dmi_load(context, test_nitro_path));
+    assert_true(dmi_has_extension(context, &dmi_acer_module));
+
+    const dmi_acer_hotkeys_t *info = test_info(context, 0x0014, &dmi_acer_hotkeys_spec);
+    assert_int_equal(info->comm_functions, 0x0001);
+    assert_int_equal(info->app_functions, 0x0000);
+    assert_int_equal(info->media_functions, 0x007F);
+    assert_int_equal(info->display_functions, 0x000F);
+    assert_int_equal(info->other_functions, 0x0006);
+
+    // Key of the communication function is the one of the first hotkey
+    assert_int_equal(info->comm_key, 0x03);
+    assert_int_equal(info->hotkey_count, 16);
+    assert_int_equal(info->hotkeys[0].function, 0x0001);
+
+    // Functions of the keys of a button group add up to its bitmap
+    uint16_t media = 0;
+    uint16_t display = 0;
+
+    for (size_t i = 0; i < info->hotkey_count; i++) {
+        assert_int_equal(info->hotkeys[i].kind, 2);
+
+        if ((info->hotkeys[i].key & 0xE0) == 0x40)
+            media |= info->hotkeys[i].function;
+        if ((info->hotkeys[i].key & 0xE0) == 0x60)
+            display |= info->hotkeys[i].function;
+    }
+
+    assert_int_equal(media, info->media_functions);
+    assert_int_equal(display, info->display_functions);
+}
+
+static dmi_log_t test_logger = { dmi_test_log_handler };
+
+static int test_setup(void **pstate)
+{
+    dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_AUTO_MODULES);
+    if (context == nullptr)
+        return -1;
+
+    dmi_set_logger(context, &test_logger);
+    *pstate = context;
+
+    return 0;
+}
+
+static int test_teardown(void **pstate)
+{
+    dmi_destroy(*pstate);
+    *pstate = nullptr;
+
+    return 0;
+}
+
+static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec)
+{
+    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), handle, DMI_TYPE_INVALID, false);
+    assert_non_null(entity);
+    assert_ptr_equal(entity->spec, spec);
+
+    const void *info = dmi_entity_info(entity, spec->type);
+    assert_non_null(info);
+
+    return info;
+}

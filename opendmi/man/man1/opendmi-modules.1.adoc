@@ -36,7 +36,8 @@ for HP and HPE servers only, and decodes the structures of each generation by
 their own layout.
 
 The *intel* module describes the structures of the Intel reference code,
-which the firmware of any vendor may carry, and is enabled for any platform.
+which the firmware of any vendor may carry, and is enabled for any platform
+with Intel processors.
 The modules of the vendors take precedence over it where they give the same
 types to structures of their own. The *intel-rsd* module describes the
 structures of Intel Rack Scale Design, found on the platforms built to it

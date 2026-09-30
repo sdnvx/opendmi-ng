@@ -1,0 +1,88 @@
+= Lenovo OEM Data (Type 140)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, the README files of the firmware updates of Lenovo, and the dumps of the data corpus.
+
+Holds one OEM structure of a Lenovo system, told by its number and revision.
+OEM structures 0 to 9 are found in the data corpus, and only structure 7, the
+embedded controller program, is decoded. Structure 9 refers to two strings
+too, e.g. `1.32`, whose meaning is not established.
+
+.Lenovo OEM Data structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `140`
+| Lenovo OEM Data indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Signature
+| 6 BYTEs
+| `LENOVO`
+| 
+
+| `0x0A`
+| 2.0+
+| OEM Structure Offset
+| `BYTE`
+| `0x0B`
+| Offset of the OEM structure number
+
+| `0x0B`
+| 2.0+
+| OEM Structure Number
+| `BYTE`
+| `NUMBER`
+| 
+
+| `0x0C`
+| 2.0+
+| OEM Structure Revision
+| `BYTE`
+| `NUMBER`
+| 
+
+| `0x0D`
+| 2.0+
+| Data
+| Varies
+| Varies
+| Data of the OEM structure, see below
+|===
+
+.ThinkPad embedded controller program (OEM structure 7, revision 1)
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x0D`
+| Version ID
+| `STRING`
+| Version of the program, which the README files of the firmware updates of Lenovo name, e.g. `N20HT28W`
+
+| `0x0E`
+| Release Date
+| `STRING`
+| Release date of the program, e.g. `10/08/2020`
+|===

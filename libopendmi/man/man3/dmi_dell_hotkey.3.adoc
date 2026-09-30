@@ -1,0 +1,62 @@
+ifdef::backend-manpage[]
+= dmi_dell_hotkey(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_hotkey
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_hotkey - Dell hotkey mapping structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/hotkeys.h>
+
+typedef struct dmi_dell_hotkey {
+    uint16_t scancode;
+    uint16_t keycode;
+} dmi_dell_hotkey_t;
+----
+
+== Description
+
+The `dmi_dell_hotkey_t` structure describes the mapping of a hotkey, as an
+element of the `hotkeys` field of `dmi_dell_hotkeys_t`. Key codes `0x00FF` and
+`0xFFFF` are found for the keys with no function.
+
+=== Fields
+
+`scancode`::
+Scan code the keyboard controller reports for the key.
+
+`keycode`::
+Code of the function of the key, as the Dell WMI driver of Linux numbers the
+functions.
+
+== See also
+
+`dmi_dell_hotkeys`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, as the Dell
+WMI driver of Linux and dmidecode describe it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

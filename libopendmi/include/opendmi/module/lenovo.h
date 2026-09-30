@@ -16,7 +16,9 @@
  */
 typedef enum dmi_lenovo_type
 {
-    DMI_TYPE_LENOVO_TVT = 131 ///< ThinkVantage Technologies enablement
+    DMI_TYPE_LENOVO_TVT        = 131, ///< ThinkVantage Technologies enablement
+    DMI_TYPE_LENOVO_MOBILE_OEM = 135, ///< Mobile PC OEM data, signed "TP"
+    DMI_TYPE_LENOVO_OEM        = 140  ///< OEM data, signed "LENOVO"
 } dmi_lenovo_type_t;
 
 __BEGIN_DECLS

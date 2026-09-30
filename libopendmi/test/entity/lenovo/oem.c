@@ -1,0 +1,123 @@
+//
+// OpenDMI: Cross-platform DMI/SMBIOS framework
+// Copyright (c) 2025-2026, The OpenDMI contributors
+//
+// SPDX-License-Identifier: BSD-3-Clause
+//
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <cmocka.h>
+
+#include <opendmi/context.h>
+#include <opendmi/entity.h>
+#include <opendmi/internal.h>
+#include <opendmi/registry.h>
+#include <opendmi/test/logger.h>
+#include <opendmi/module/lenovo.h>
+
+#include <opendmi/entity/lenovo/oem.h>
+
+static int test_setup(void **pstate);
+static int test_teardown(void **pstate);
+static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec);
+
+static void test_lenovo_mobile_oem(void **pstate);
+static void test_lenovo_oem(void **pstate);
+
+static const char *test_b590_path = OPENDMI_TEST_DATA "/lenovo/b590.bin";
+static const char *test_t61p_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-t61p-6460-6xg.bin";
+static const char *test_x280_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-x280-20kf.bin";
+
+int main(void)
+{
+    const struct CMUnitTest tests[] = {
+        cmocka_unit_test_setup_teardown(test_lenovo_mobile_oem, test_setup, test_teardown),
+        cmocka_unit_test_setup_teardown(test_lenovo_oem, test_setup, test_teardown)
+    };
+
+    return cmocka_run_group_tests(tests, nullptr, nullptr);
+}
+
+static void test_lenovo_mobile_oem(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_load(context, test_b590_path));
+
+    // OEM structure 3 tells the devices present
+    const dmi_lenovo_device_presence_t *presence = test_info(context, 0x0034, &dmi_lenovo_device_presence_spec);
+    assert_int_equal(presence->number, 3);
+    assert_int_equal(presence->devices, 0x04);
+    assert_false(presence->is_fingerprint_reader);
+
+    // OEM structure 2 carries a signature of its own in place of the revision
+    const dmi_lenovo_bay_io_t *bay = test_info(context, 0x0032, &dmi_lenovo_bay_io_spec);
+    assert_int_equal(bay->version, 3);
+    assert_memory_equal(bay->bay_signature.data, "BAY I/O ", 8);
+
+    // Other OEM structures are told by the signature alone
+    const dmi_lenovo_oem_t *oem = test_info(context, 0x0038, &dmi_lenovo_mobile_oem_spec);
+    assert_int_equal(oem->number, 1);
+    assert_int_equal(oem->revision, 1);
+    assert_int_equal(oem->data.length, 9);
+
+    dmi_close(context);
+
+    assert_true(dmi_load(context, test_t61p_path));
+
+    oem = test_info(context, 0x0041, &dmi_lenovo_mobile_oem_spec);
+    assert_int_equal(oem->number, 4);
+}
+
+static void test_lenovo_oem(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_load(context, test_x280_path));
+
+    // OEM structure 7 tells the version of the program of the embedded
+    // controller
+    const dmi_lenovo_ecp_t *ecp = test_info(context, 0x003C, &dmi_lenovo_ecp_spec);
+    assert_string_equal(ecp->version, "N20HT28W");
+    assert_string_equal(ecp->release_date, "10/08/2020");
+
+    const dmi_lenovo_oem_t *oem = test_info(context, 0x0036, &dmi_lenovo_oem_spec);
+    assert_int_equal(oem->number, 4);
+    assert_int_equal(oem->revision, 1);
+    assert_memory_equal(oem->data.data, "\xB2\x00MS \x00", 6);
+}
+
+static dmi_log_t test_logger = { dmi_test_log_handler };
+
+static int test_setup(void **pstate)
+{
+    dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_AUTO_MODULES);
+    if (context == nullptr)
+        return -1;
+
+    dmi_set_logger(context, &test_logger);
+    *pstate = context;
+
+    return 0;
+}
+
+static int test_teardown(void **pstate)
+{
+    dmi_destroy(*pstate);
+    *pstate = nullptr;
+
+    return 0;
+}
+
+static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec)
+{
+    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), handle, DMI_TYPE_INVALID, false);
+    assert_non_null(entity);
+    assert_ptr_equal(entity->spec, spec);
+
+    const void *info = dmi_entity_info(entity, spec->type);
+    assert_non_null(info);
+
+    return info;
+}

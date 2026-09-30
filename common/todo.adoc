@@ -127,6 +127,27 @@ Left:
 * Type 228 (SMBus segment record), which type 203 refers to and dmidecode
   does not decode.
 
+=== Acer, Dell and Lenovo structures
+
+Done: Acer hotkey functions (type 170), Dell BIOS flags and hotkeys (types
+177 and 178), and the Lenovo OEM data of types 135 and 140, of which the
+device presence detection (135/3), the bay I/O (135/2) and the embedded
+controller program (140/7) are decoded.
+
+Left:
+
+* Acer 170: the hotkeys past the function bitmaps are reverse engineered from
+  `acer/nitro-an515-31.bin` alone; the meaning of the second byte of a
+  hotkey, `2` there, and of the functions of the keys `0x87` and `0x8A`,
+  which the bitmap of the other buttons does not have.
+* Dell 178: names of the key codes, as `bios_to_linux_keycode` of the Dell
+  WMI driver of Linux gives them.
+* Lenovo 135: OEM structures 0, 1 and 4, and the data of 2 (bay I/O) past its
+  version; bits of 3 other than the fingerprint reader, e.g. bit 2 of
+  `lenovo/b590.bin`.
+* Lenovo 140: OEM structures 0 to 6, 8 and 9, e.g. 9, which refers to two
+  strings (`1.32` on ThinkPad T14 Gen 2a), and 8, which holds all bits set.
+
 === AMI specifics
 
 Not decoded by dmidecode, reverse engineering to be finished:

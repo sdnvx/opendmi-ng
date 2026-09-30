@@ -1,0 +1,60 @@
+= Dell Hotkeys (Type 178)
+:sectnums:
+:sectlinks:
+
+Source: the Dell WMI driver of Linux, `dell-wmi-base.c`, dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Maps the scan codes of the hotkeys of a laptop to their functions, which the
+Dell WMI driver of Linux reads. Mappings run to the end of the structure,
+which carries no number of them of its own. Key codes `0x00FF` and `0xFFFF`
+are found for the keys with no function.
+
+.Dell Hotkeys structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `178`
+| Dell Hotkeys indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Mappings
+| 4 BYTEs each
+| Varies
+| Mappings, see below
+|===
+
+.Mapping
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x00`
+| Scan Code
+| `WORD`
+| Scan code the keyboard controller reports for the key
+
+| `0x02`
+| Key Code
+| `WORD`
+| Function of the key, as the Dell WMI driver numbers the functions
+|===

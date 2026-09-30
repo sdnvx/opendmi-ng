@@ -6,9 +6,17 @@ include::layouts.adoc[leveloffset=1]
 
 == Common structures
 
+== Acer-specific structures
+
+Acer laptops carry the firmware of other vendors, e.g. Insyde, and the
+structures of Acer are decoded for the platforms whose system vendor is Acer.
+
+include::acer/hotkeys.adoc[leveloffset=2]
+
 == Dell-specific structures
 
 include::dell/bios-flags.adoc[leveloffset=2]
+include::dell/hotkeys.adoc[leveloffset=2]
 include::dell/revisions.adoc[leveloffset=2]
 include::dell/parallel-port.adoc[leveloffset=2]
 include::dell/serial-port.adoc[leveloffset=2]
@@ -90,6 +98,8 @@ include::intel/rsd-phys-device-mapping.adoc[leveloffset=2]
 == Lenovo-specific structures
 
 include::lenovo/tvt.adoc[leveloffset=2]
+include::lenovo/mobile-oem.adoc[leveloffset=2]
+include::lenovo/oem.adoc[leveloffset=2]
 
 == Sun-specific structures
 

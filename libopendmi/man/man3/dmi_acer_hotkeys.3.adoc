@@ -1,0 +1,103 @@
+ifdef::backend-manpage[]
+= dmi_acer_hotkeys(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_acer_hotkeys
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_acer_hotkeys - Acer hotkey functions structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/acer/hotkeys.h>
+
+typedef struct dmi_acer_hotkeys {
+    uint16_t comm_functions;
+    uint16_t app_functions;
+    uint16_t media_functions;
+    uint16_t display_functions;
+    uint16_t other_functions;
+    uint8_t comm_key;
+    size_t hotkey_count;
+    dmi_acer_hotkey_t *hotkeys;
+} dmi_acer_hotkeys_t;
+----
+
+== Description
+
+The `dmi_acer_hotkeys_t` structure holds the decoded Acer hotkey functions
+(type 170), which tell the functions of the hotkeys of a laptop the Acer WMI
+driver reads. Some laptops of other brands, e.g. Fujitsu-Siemens, Medion,
+Lenovo and eMachines, are said to carry it too.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_acer_hotkeys_spec`, of type `DMI_TYPE(ACER_HOTKEYS)`, declared in
+`<opendmi/module/acer.h>`, once the Acer extension module (`dmi_acer_module`)
+is enabled. It lives as long as the context it has been decoded in. The module
+is enabled for the platforms whose firmware or system vendor is Acer, since
+Acer laptops carry the firmware of other vendors, e.g. Insyde.
+
+The hotkeys follow the function bitmaps up to the end of the structure. Their
+key numbers tell the button group by the high bits, and the functions of the
+keys of a group add up to its bitmap. The first key is the one of the
+communication function, the only one the Acer WMI driver reads.
+
+=== Fields
+
+`comm_functions`::
+Functions of the communication button, whose bits are the values of
+`dmi_acer_comm_function_t`: bit 0 WiFi, bit 6 3G, bit 7 WiMAX, bit 11
+Bluetooth.
+
+`app_functions`::
+Functions of the application button.
+
+`media_functions`::
+Functions of the media button.
+
+`display_functions`::
+Functions of the display button.
+
+`other_functions`::
+Functions of the other buttons.
+
+`comm_key`::
+Number of the key of the communication function, which is the key of the first
+hotkey. Set to `UINT8_MAX` when the structure holds none.
+
+`hotkey_count`::
+Number of the hotkeys.
+
+`hotkeys`::
+Hotkeys, see `dmi_acer_hotkey`(3). May be `nullptr` when `hotkey_count` is 0.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_acer_hotkey`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Acer firmware, as the Acer
+WMI driver of Linux and dmidecode describe it. The hotkeys past the function
+bitmaps are reverse engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

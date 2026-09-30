@@ -1,0 +1,86 @@
+ifdef::backend-manpage[]
+= dmi_lenovo_device_presence(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lenovo_device_presence
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lenovo_device_presence - Lenovo ThinkPad device presence detection structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/lenovo/oem.h>
+
+typedef struct dmi_lenovo_device_presence {
+    dmi_binary_t signature;
+    uint8_t offset;
+    uint8_t number;
+    uint8_t revision;
+    uint8_t devices;
+    bool is_fingerprint_reader;
+} dmi_lenovo_device_presence_t;
+----
+
+== Description
+
+The `dmi_lenovo_device_presence_t` structure holds the decoded Lenovo device
+presence detection, OEM structure 3 of revision 1 of type 135, which tells
+which devices of a ThinkPad are present, of which only the fingerprint reader
+is known.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_lenovo_device_presence_spec`, of type `DMI_TYPE(LENOVO_MOBILE_OEM)`,
+declared in `<opendmi/module/lenovo.h>`, once the Lenovo extension module
+(`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
+It lives as long as the context it has been decoded in.
+
+=== Fields
+
+`signature`::
+Signature, `TP`.
+
+`offset`::
+Offset of the OEM structure, `0x07`.
+
+`number`::
+Number of the OEM structure, `3`.
+
+`revision`::
+Revision of the format of the OEM structure, `1`.
+
+`devices`::
+Device presence bits, of which only bit 0 is known.
+
+`is_fingerprint_reader`::
+Whether a fingerprint reader is present, as bit 0 of the device presence bits
+tells.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_lenovo_oem`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Lenovo firmware, as the
+service manuals of Lenovo laptops and dmidecode describe it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

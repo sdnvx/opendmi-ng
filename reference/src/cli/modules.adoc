@@ -1,0 +1,271 @@
+= Extension modules
+:sectnums!:
+:sectlinks:
+
+[#cli-modules]
+Types 128 to 255 are left by the specification to the vendors, which give
+them to structures of their own, so the same type means different things on
+the platforms of different vendors. The structures of these types are
+described by the extension modules, one for each vendor, which are enabled
+for the platforms of their vendors as the data is read, or with the global
+`--module` option. Structures no enabled module describes are shown as raw
+data. The global `--no-auto-modules` option leaves the modules of the platform
+disabled, and the modules the tool is built with are listed by
+`opendmi modules`.
+
+The platform is told from the vendor of the firmware, of the system, of the
+baseboard and of the processors, which are given by the structures of types
+0, 1, 2 and 4, and from the name of the product of the system.
+
+[cols="1,2,3"]
+|===
+| Module | Vendor | Enabled for
+
+| `acer`
+| Acer
+| Firmware or systems of Acer
+
+| `ami`
+| AMI
+| Firmware of AMI
+
+| `apple`
+| Apple
+| Firmware of Apple
+
+| `dell`
+| Dell
+| Firmware of Dell
+
+| `hpe`
+| HP and HPE
+| Servers of HP and HPE: ProLiant, Apollo, Synergy and Edgeline
+
+| `intel`
+| Intel reference code
+| Platforms with Intel processors
+
+| `intel-rsd`
+| Intel Rack Scale Design
+| Enabled with `--module` only
+
+| `lenovo`
+| IBM and Lenovo
+| Firmware of IBM or Lenovo
+
+| `sun`
+| Sun
+| Enabled with `--module` only
+|===
+
+Structures a module describes are listed by `opendmi types --module`, and
+their layouts are described in the part of this manual about the
+specifications. The name of a module is what the `--module` option takes,
+both as a global option, which enables the module, and as a filter option of
+`show`, `list` and `export`, which limits the output to the structures the
+module describes.
+
+== Modules of several vendors
+
+Two modules may describe structures of the same type, e.g. the module of a
+vendor and the one of the Intel reference code, which the firmware of any
+vendor may carry. The modules enabled with `--module` take precedence over the
+ones enabled for the platform, and a module enabled for the platform is left
+disabled if it describes a type another enabled module describes too. The
+`intel` module gives way to the other modules instead, and describes only the
+types they leave free.
+
+Some vendors place the structures of the Intel reference code at types other
+than the original ones, since those are taken by structures of their own. The
+modules of these vendors move the structures of the `intel` module to the
+types the vendor places them at, or leave them out if the platforms of the
+vendor never carry them.
+
+Some types are given by a vendor to several structures, which are told from
+each other by the data they hold, e.g. by a signature at a known offset, and a
+structure which matches none of them is left as raw data.
+
+== acer
+
+Structures of the Acer laptops, whose firmware is often made by other vendors,
+e.g. Insyde, so the module is enabled by the vendor of either the firmware or
+the system.
+
+[cols="1,3,5"]
+|===
+| Type | Code | Name
+
+| 170 | `acer-hotkeys` | Acer hotkey functions
+|===
+
+== ami
+
+Module of the firmware of AMI. It describes no structures yet, and is reserved
+for the ones the firmware of AMI adds.
+
+== apple
+
+Module of the firmware of Apple. It describes no structures yet, and is
+reserved for the ones the firmware of Apple adds.
+
+== dell
+
+Structures of the Dell platforms. Dell gives types 221 and 222 to structures
+of its own, and places the structures of the Intel reference code 16 types
+lower: the management engine interface at type 203, the firmware version
+information at type 205 and the milestones of the Silicon View Technology at
+type 206.
+
+[cols="1,3,5"]
+|===
+| Type | Code | Name
+
+| 177 | `dell-bios-flags`       | Dell BIOS flags
+| 178 | `dell-hotkeys`          | Dell hotkeys
+| 208 | `dell-revisions`        | Dell revisions and IDs
+| 209 | `dell-parallel-port`    | Dell parallel port
+| 210 | `dell-serial-port`      | Dell serial port
+| 211 | `dell-infrared-port`    | Dell infrared port
+| 212 | `dell-indexed-io`       | Dell indexed IO
+| 213 | `dell-protected-area-1` | Dell protected area type 1
+| 214 | `dell-protected-area-2` | Dell protected area type 2
+| 218 | `dell-calling-iface`    | Dell calling interface
+|===
+
+== hpe
+
+Structures of the HP and HPE servers, which the module is enabled for when
+the name of the product of the system names a server line: ProLiant, Apollo,
+Synergy or Edgeline. Workstations and laptops of HP have structures of their
+own, which the module does not describe.
+
+Some structures have changed their layouts over the generations of the
+servers, which are told from the name of the product: `G1` to `G7` up to
+G7, and `Gen8` onwards, with `Plus` for the refreshed ones, e.g.
+`ProLiant DL360 Gen10 Plus`. Structures of these types, e.g. type 226, are
+decoded by the layout of the generation of the server. Type 245 has two
+layouts too, which are told by the type of the board the structure describes,
+a riser of a server or one of an MHS platform. The servers give types 219 and
+221 to structures of their own, and never carry the structures of the Intel
+reference code, which are left out.
+
+[cols="1,3,5"]
+|===
+| Type | Code | Name
+
+| 193 | `hpe-rom-info`              | HP/HPE other ROM information
+| 194 | `hpe-super-io`              | HP/HPE Super I/O enable/disable indicator
+| 195 | `hpe-system-id`             | HP/HPE server system ID
+| 197 | `hpe-processor`             | HP/HPE processor specific information
+| 199 | `hpe-microcode`             | HP/HPE CPU microcode patch support information
+| 202 | `hpe-dimm-location`         | HP/HPE DIMM location record
+| 203 | `hpe-device-correlation`    | HP/HPE device correlation record
+| 204 | `hpe-rack-locator`          | HP/HPE system/rack locator
+| 209 | `hpe-pxe-nic`               | HP/HPE BIOS PXE NIC PCI and MAC information
+| 211 | `hpe-tcontrol`              | HP/HPE processor TControl information
+| 212 | `hpe-cru`                   | HP/HPE 64-bit CRU information
+| 216 | `hpe-version`               | HP/HPE version indicator record
+| 219 | `hpe-proliant-info`         | HP/HPE ProLiant information
+| 221 | `hpe-iscsi-nic`             | HP/HPE BIOS iSCSI NIC PCI and MAC information
+| 224 | `hpe-trusted-module`        | HP/HPE trusted module status
+| 226 | `hpe-physical-attrs-legacy` | HP/HPE physical attribute information
+| 226 | `hpe-physical-attrs`        | HP/HPE physical attribute information
+| 229 | `hpe-reserved-memory`       | HP/HPE reserved memory location
+| 230 | `hpe-power-supply`          | HP/HPE power supply information
+| 232 | `hpe-dimm-attrs`            | HP/HPE DIMM attributes record
+| 233 | `hpe-nic-mac`               | HP/HPE NIC PCI and MAC information
+| 236 | `hpe-backplane`             | HP/HPE HDD backplane FRU information
+| 237 | `hpe-dimm-vendor`           | HP/HPE DIMM vendor information
+| 238 | `hpe-usb-port`              | HP/HPE USB port connector correlation record
+| 239 | `hpe-usb-device`            | HP/HPE USB device correlation record
+| 240 | `hpe-inventory`             | HP/HPE firmware inventory record
+| 242 | `hpe-drive`                 | HP/HPE hard drive inventory record
+| 244 | `hpe-dimm-config`           | HP/HPE DIMM current configuration record
+| 245 | `hpe-riser`                 | HP/HPE extension board inventory record
+| 245 | `hpe-mhs-riser`             | HP/HPE extension board inventory record
+|===
+
+== intel
+
+Structures of the Intel reference code, which the firmware of the platforms
+with Intel processors carries whatever its vendor is. The module gives way to
+the modules of the vendors, which give the same types to structures of their
+own, and describes only the types they leave free.
+
+The firmware lists some of these structures in group associations (type 14)
+of well-known names: `$MEI` for the management engine interface,
+`Firmware Version Info` for the firmware version information and
+`Intel(R) Silicon View Technology` for the milestones of the Silicon View
+Technology. `opendmi lint` checks that the members of these groups are the
+structures the names stand for, wherever the vendor places them.
+
+[cols="1,3,5"]
+|===
+| Type | Code | Name
+
+| 130 | `intel-amt`  | Intel Active Management Technology information
+| 131 | `intel-vpro` | Intel vPro information
+| 219 | `intel-mei`  | Intel Management Engine interface information
+| 221 | `intel-fvi`  | Intel firmware version information
+| 222 | `intel-svt`  | Intel Silicon View Technology milestones
+|===
+
+== intel-rsd
+
+Structures of Intel Rack Scale Design, which describe the devices of a system
+to the management software of the rack. They are found only on the platforms
+built to the specification, and take the types the vendors give to structures
+of their own, so the module is enabled with `--module` only.
+
+[cols="1,3,5"]
+|===
+| Type | Code | Name
+
+| 190 | `intel-rsd-network-card`        | Intel RSD network card information
+| 192 | `intel-rsd-pcie`                | Intel RSD PCIe information
+| 193 | `intel-rsd-processor-cpuid`     | Intel RSD processor CPUID information
+| 194 | `intel-rsd-storage-device`      | Intel RSD storage device information
+| 195 | `intel-rsd-tpm`                 | Intel RSD Trusted Platform Module (TPM) information
+| 196 | `intel-rsd-txt`                 | Intel RSD TXT information
+| 197 | `intel-rsd-memory-device-ex`    | Intel RSD memory device extended information
+| 198 | `intel-rsd-fpga`                | Intel RSD FPGA information
+| 199 | `intel-rsd-cabled-pcie`         | Intel RSD cabled PCIe port information
+| 200 | `intel-rsd-phys-device-mapping` | Intel RSD physical device mapping information
+|===
+
+== lenovo
+
+Structures of the IBM and Lenovo platforms. Types 135 and 140 are given to
+several structures, which are told from each other by the signatures they
+begin with: the OEM structures of known layouts by the signature along with
+their number and revision, and the rest of them, the OEM data structures, by
+the signature alone.
+
+[cols="1,3,5"]
+|===
+| Type | Code | Name
+
+| 131 | `lenovo-tvt`             | Lenovo ThinkVantage Technologies enablement
+| 135 | `lenovo-device-presence` | Lenovo ThinkPad device presence detection
+| 135 | `lenovo-bay-io`          | Lenovo bay I/O
+| 135 | `lenovo-mobile-oem`      | Lenovo mobile PC OEM data
+| 140 | `lenovo-ecp`             | Lenovo ThinkPad embedded controller program
+| 140 | `lenovo-oem`             | Lenovo OEM data
+|===
+
+== sun
+
+Structures of the Sun servers, which extend the standard structures of the
+processors, the memory and the ports, and describe the PCI Express root
+complexes. The module is enabled with `--module` only.
+
+[cols="1,3,5"]
+|===
+| Type | Code | Name
+
+| 132 | `sun-processor-ex`      | Sun processor extended information
+| 136 | `sun-port-ex`           | Sun port extended information
+| 138 | `sun-pcie-root-complex` | Sun PCI-express root complex information
+| 144 | `sun-memory-array-ex`   | Sun memory array extended information
+| 145 | `sun-memory-device-ex`  | Sun memory device extended information
+|===

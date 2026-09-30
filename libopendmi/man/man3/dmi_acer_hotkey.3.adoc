@@ -1,0 +1,66 @@
+ifdef::backend-manpage[]
+= dmi_acer_hotkey(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_acer_hotkey
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_acer_hotkey - Acer hotkey structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/acer/hotkeys.h>
+
+typedef struct dmi_acer_hotkey {
+    uint8_t key;
+    uint8_t kind;
+    uint16_t function;
+} dmi_acer_hotkey_t;
+----
+
+== Description
+
+The `dmi_acer_hotkey_t` structure describes a hotkey, as an element of the
+`hotkeys` field of `dmi_acer_hotkeys_t`.
+
+=== Fields
+
+`key`::
+Number of the key, whose high bits tell the button group: `0x0_`
+communication, `0x4_` media, `0x6_` display and `0x8_` others.
+
+`kind`::
+Value whose meaning is not established, `2` in all known data.
+
+`function`::
+Function of the key, as a bit of the function bitmap of its button group.
+
+== See also
+
+`dmi_acer_hotkeys`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Acer firmware, as the Acer
+WMI driver of Linux and dmidecode describe it. The hotkeys past the function
+bitmaps are reverse engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

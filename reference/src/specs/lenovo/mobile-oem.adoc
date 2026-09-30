@@ -1,0 +1,104 @@
+= Lenovo Mobile PC OEM Data (Type 135)
+:sectnums:
+:sectlinks:
+
+Source: Compal hel81 Service Manual Software Specification, dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Holds one OEM structure of a Lenovo laptop, told by its number and revision.
+The service manuals name the type "Bulk for Lenovo Mobile PC Unique OEM Data".
+OEM structures 0, 1, 2 and 4 are found in the data corpus too, and only
+structures 2 and 3 are decoded.
+
+.Lenovo Mobile PC OEM Data structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `135`
+| Lenovo Mobile PC OEM Data indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Signature
+| 2 BYTEs
+| `TP`
+| 
+
+| `0x06`
+| 2.0+
+| OEM Structure Offset
+| `BYTE`
+| `0x07`
+| Offset of the OEM structure number
+
+| `0x07`
+| 2.0+
+| OEM Structure Number
+| `BYTE`
+| `NUMBER`
+| 
+
+| `0x08`
+| 2.0+
+| OEM Structure Revision
+| `BYTE`
+| `NUMBER`
+| 
+
+| `0x09`
+| 2.0+
+| Data
+| Varies
+| Varies
+| Data of the OEM structure, see below
+|===
+
+.Device presence detection (OEM structure 3, revision 1)
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x09`
+| Device Presence
+| `BYTE`
+| Bit 0: a fingerprint reader is present
+|===
+
+.Bay I/O (OEM structure 2)
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x08`
+| Signature
+| 8 BYTEs
+| `BAY I/O `, in place of the revision
+
+| `0x10`
+| Version
+| `BYTE`
+| `1` to `4` in the data corpus
+
+| `0x11`
+| Data
+| Varies
+| Layout not known
+|===

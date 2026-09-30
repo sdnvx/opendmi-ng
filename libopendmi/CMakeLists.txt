@@ -148,7 +148,9 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/module/apple.h
 
     include/opendmi/module/dell.h
+    include/opendmi/entity/acer/hotkeys.h
     include/opendmi/entity/dell/common.h
+    include/opendmi/entity/dell/hotkeys.h
     include/opendmi/entity/dell/bios-flags.h
     include/opendmi/entity/dell/calling-iface.h
     include/opendmi/entity/dell/indexed-io.h
@@ -209,6 +211,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/entity/intel-rsd/txt.h
 
     include/opendmi/module/lenovo.h
+    include/opendmi/entity/lenovo/oem.h
     include/opendmi/entity/lenovo/tvt.h
 
     include/opendmi/module/sun.h
@@ -414,7 +417,9 @@ target_sources(opendmi-object
         src/module/apple.c
 
         src/module/dell.c
+        src/entity/acer/hotkeys.c
         src/entity/dell/common-names.c
+        src/entity/dell/hotkeys.c
         src/entity/dell/bios-flags.c
         src/entity/dell/calling-iface.c
         src/entity/dell/calling-iface-handlers.c
@@ -496,6 +501,7 @@ target_sources(opendmi-object
         src/entity/intel-rsd/txt-names.c
 
         src/module/lenovo.c
+        src/entity/lenovo/oem.c
         src/entity/lenovo/tvt.c
 
         src/module/sun.c
@@ -837,6 +843,7 @@ opendmi_test(entity/intel/fvi SOURCES test/entity/intel/fvi.c)
 opendmi_test(entity/intel/mei SOURCES test/entity/intel/mei.c)
 opendmi_test(entity/intel/svt SOURCES test/entity/intel/svt.c)
 opendmi_test(entity/intel/vpro SOURCES test/entity/intel/vpro.c)
+opendmi_test(entity/lenovo/oem SOURCES test/entity/lenovo/oem.c)
 opendmi_test(entity/lenovo/tvt SOURCES test/entity/lenovo/tvt.c)
 opendmi_test(entity/intel-rsd/cabled-pcie SOURCES test/entity/intel-rsd/cabled-pcie.c)
 opendmi_test(entity/intel-rsd/fpga SOURCES test/entity/intel-rsd/fpga.c)
@@ -849,7 +856,9 @@ opendmi_test(entity/intel-rsd/rules SOURCES test/entity/intel-rsd/rules.c)
 opendmi_test(entity/intel-rsd/storage-device SOURCES test/entity/intel-rsd/storage-device.c)
 opendmi_test(entity/intel-rsd/tpm SOURCES test/entity/intel-rsd/tpm.c)
 opendmi_test(entity/intel-rsd/txt SOURCES test/entity/intel-rsd/txt.c)
+opendmi_test(entity/acer/hotkeys SOURCES test/entity/acer/hotkeys.c)
 opendmi_test(entity/dell/calling-iface SOURCES test/entity/dell/calling-iface.c)
+opendmi_test(entity/dell/hotkeys SOURCES test/entity/dell/hotkeys.c)
 opendmi_test(entity/dell/indexed-io SOURCES test/entity/dell/indexed-io.c)
 opendmi_test(entity/dell/protected-area SOURCES test/entity/dell/protected-area.c)
 opendmi_test(entity/sun/extended SOURCES test/entity/sun/extended.c)

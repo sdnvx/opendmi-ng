@@ -11,6 +11,14 @@
 
 #include <opendmi/module.h>
 
+/**
+ * @brief Acer structure type identifiers.
+ */
+typedef enum dmi_acer_type
+{
+    DMI_TYPE_ACER_HOTKEYS = 170 ///< Hotkey functions
+} dmi_acer_type_t;
+
 __BEGIN_DECLS
 
 extern __dmi_api const dmi_module_t dmi_acer_module;

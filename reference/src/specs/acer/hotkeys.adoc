@@ -1,0 +1,107 @@
+= Acer Hotkey Functions (Type 170)
+:sectnums:
+:sectlinks:
+
+Source: the Acer WMI driver of Linux, `acer-wmi.c`, dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Tells the functions of the hotkeys of a laptop, which the Acer WMI driver of
+Linux reads. Some laptops of other brands, e.g. Fujitsu-Siemens, Medion,
+Lenovo and eMachines, are said to carry it too.
+
+The Acer WMI driver reads the structure up to the number of the key of the
+communication function, at `0x0E`. In the data corpus, that byte begins a list
+of 4-byte hotkeys, which runs to the end of the structure: the number of a
+key, a byte of `2`, and the function of the key, as a bit of the bitmap of its
+button group. The high bits of the key number tell the group: `0x0_`
+communication, `0x4_` media, `0x6_` display and `0x8_` others, and the
+functions of the keys of the media and display groups add up to their bitmaps.
+
+.Acer Hotkey Functions structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `170`
+| Acer Hotkey Functions indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Communication Button Functions
+| `WORD`
+| `BITFIELD`
+| Bit 0: WiFi, bit 6: 3G, bit 7: WiMAX, bit 11: Bluetooth
+
+| `0x06`
+| 2.0+
+| Application Button Functions
+| `WORD`
+| `BITFIELD`
+| 
+
+| `0x08`
+| 2.0+
+| Media Button Functions
+| `WORD`
+| `BITFIELD`
+| 
+
+| `0x0A`
+| 2.0+
+| Display Button Functions
+| `WORD`
+| `BITFIELD`
+| 
+
+| `0x0C`
+| 2.0+
+| Other Button Functions
+| `WORD`
+| `BITFIELD`
+| 
+
+| `0x0E`
+| 2.0+
+| Hotkeys
+| 4 BYTEs each
+| Varies
+| Hotkeys, see below; the key of the first one is the communication function key number
+|===
+
+.Hotkey
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x00`
+| Key
+| `BYTE`
+| Number of the key, whose high bits tell the button group
+
+| `0x01`
+| Kind
+| `BYTE`
+| Meaning not established, `2` in all known data
+
+| `0x02`
+| Function
+| `WORD`
+| Function of the key, as a bit of the bitmap of its button group
+|===

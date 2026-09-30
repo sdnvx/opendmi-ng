@@ -18,3 +18,7 @@ include::../../../opendmi/man/man1/opendmi-list.1.adoc[leveloffset=2]
 include::../../../opendmi/man/man1/opendmi-modules.1.adoc[leveloffset=2]
 include::../../../opendmi/man/man1/opendmi-show.1.adoc[leveloffset=2]
 include::../../../opendmi/man/man1/opendmi-types.1.adoc[leveloffset=2]
+
+== Modules
+
+include::modules.adoc[leveloffset=2]

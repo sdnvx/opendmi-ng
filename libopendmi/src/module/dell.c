@@ -18,6 +18,7 @@
 #include <opendmi/entity/dell/protected-area-1.h>
 #include <opendmi/entity/dell/protected-area-2.h>
 #include <opendmi/entity/dell/calling-iface.h>
+#include <opendmi/entity/dell/hotkeys.h>
 
 /**
  * @brief Dell extension module.
@@ -28,6 +29,7 @@ const dmi_module_t dmi_dell_module =
     .name     = "Dell extensions",
     .entities = (const dmi_entity_spec_t *[]){
         &dmi_dell_bios_flags_spec,
+        &dmi_dell_hotkeys_spec,
         &dmi_dell_revisions_spec,
         &dmi_dell_parallel_port_spec,
         &dmi_dell_serial_port_spec,
