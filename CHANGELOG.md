@@ -177,6 +177,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Write numbers and booleans in JSON output as JSON numbers and booleans, the way YAML output writes them, including handles, property identifiers and additional information entry offsets
 - Move XML namespace and schema identifiers to `https://opendmi.org/schemas/`
 - Mark the time of XML documents as UTC with the `Z` suffix
+- Point to the schema of XML documents with the `xsi:schemaLocation` attribute of their root element
 
 ### Fixed
 

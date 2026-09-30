@@ -123,6 +123,13 @@ bool dmi_xml_dump_start(dmi_xml_session_t *session)
                     tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
                     tm.tm_hour, tm.tm_min, tm.tm_sec) < 0)
             break;
+        if (xmlTextWriterWriteAttributeNS(
+                    session->writer,
+                    dmi_xml_string(DMI_XSI_PREFIX),
+                    dmi_xml_string("schemaLocation"),
+                    dmi_xml_string(DMI_XSI_NAMESPACE),
+                    dmi_xml_string(DMI_XML_SCHEMA_LOCATION)) < 0)
+            break;
 
         success = true;
     } while (false);

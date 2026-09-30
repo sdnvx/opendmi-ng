@@ -11,8 +11,14 @@ point, and a `dmi:entity` element for every structure:
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
-<dmi:dump created-at="2026-09-30T02:40:02Z" xmlns:dmi="https://opendmi.org/schemas/opendmi.xsd">
-  <dmi:entry smbios-version="3.4" table-area-address="0x20" table-area-size="1920"/>
+<dmi:dump created-at="2026-09-30T02:40:02Z"
+          xsi:schemaLocation="https://opendmi.org/schemas/opendmi.xsd
+                              https://opendmi.org/schemas/opendmi.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:dmi="https://opendmi.org/schemas/opendmi.xsd">
+  <dmi:entry smbios-version="3.4"
+             table-area-address="0x20"
+             table-area-size="1920"/>
   <dmi:entity handle="0x000a" type="7" length="39" state="decoded">
     <dmi:cache>
       <socket-designator>L1 - Cache</socket-designator>
@@ -47,7 +53,9 @@ attributes:
 == Document and entry point
 
 `dmi:dump` has the `created-at` attribute, which gives the time the document
-was written at, in UTC, e.g. `2026-09-30T02:40:02Z`.
+was written at, in UTC, e.g. `2026-09-30T02:40:02Z`, and the
+`xsi:schemaLocation` attribute, which tells the validators and the editors
+where the schema of the namespace is published.
 
 `dmi:entry` has the attributes:
 

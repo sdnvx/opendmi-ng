@@ -21,6 +21,12 @@
 #define DMI_XML_PREFIX    "dmi"
 #define DMI_XML_NAMESPACE "https://opendmi.org/schemas/opendmi.xsd"
 
+// Schema of the documents is published at the address of their namespace
+#define DMI_XML_SCHEMA_LOCATION DMI_XML_NAMESPACE " " DMI_XML_NAMESPACE
+
+#define DMI_XSI_PREFIX    "xsi"
+#define DMI_XSI_NAMESPACE "http://www.w3.org/2001/XMLSchema-instance"
+
 typedef struct dmi_xml_session
 {
     /**
