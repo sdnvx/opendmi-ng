@@ -117,4 +117,9 @@ include::sun/pcie-root-complex.adoc[leveloffset=2]
 include::sun/memory-array-ex.adoc[leveloffset=2]
 include::sun/memory-device-ex.adoc[leveloffset=2]
 
-include::undocumented.adoc[leveloffset=1]
+== Other structures
+
+Structures of the data corpus whose meaning is not established, which are
+left undecoded.
+
+include::undocumented.adoc[leveloffset=2]
