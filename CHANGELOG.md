@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add processor signature of HP/HPE CPU microcode patches, with the base family put back on AMD platforms the way dmidecode does
 - Add string at offset 0x09 of HP/HPE other ROM information, whose meaning is not established
 - Decode capabilities of the processor, of the Management Engine, of the TPM and of the BIOS in Intel vPro information, as the Intel AMT implementation guide gives them, and the memory controller hub of its older layout
+- Decode host bridge of Intel vPro information, which the firmware of HP laptops gives where the Intel AMT implementation guide places the wireless network controller
 - Decode OEM capabilities of Intel AMT information and the terminal emulation of Serial over LAN, as the Intel AMT implementation guide gives them
 - Name error codes and the test working state of Intel Management Engine firmware, the way coreboot names them
 - Add `is_reported` to interfaces of Intel Management Engine interface information, which tells the interfaces whose registers are all zeroes

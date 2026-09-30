@@ -146,12 +146,17 @@ const dmi_entity_spec_t dmi_intel_vpro_spec =
         DMI_FIELD(dmi_intel_vpro_t, me_version.hotfix, dmi_word_t),
         DMI_FIELD(dmi_intel_vpro_t, tpm_capabilities, dmi_dword_t),
 
-        // Wireless controller follows the wired one, whose place the firmware
-        // of HP laptops gives the host bridge, so it is not decoded
         DMI_FIELD(dmi_intel_vpro_t, gbe_devfn,     dmi_byte_t),
         DMI_FIELD(dmi_intel_vpro_t, gbe_bus,       dmi_byte_t),
         DMI_FIELD(dmi_intel_vpro_t, gbe_device_id, dmi_word_t),
-        DMI_FIELD_SKIP(8),
+        DMI_FIELD_SKIP(2),
+
+        // Firmware of HP laptops gives the host bridge where the guide places
+        // the wireless network controller
+        DMI_FIELD(dmi_intel_vpro_t, host_devfn,     dmi_byte_t),
+        DMI_FIELD(dmi_intel_vpro_t, host_bus,       dmi_byte_t),
+        DMI_FIELD(dmi_intel_vpro_t, host_device_id, dmi_word_t),
+        DMI_FIELD_SKIP(2),
         DMI_FIELD(dmi_intel_vpro_t, bios_capabilities, dmi_dword_t),
 
         // Signature is kept, so that the structure is written back with it
@@ -278,6 +283,42 @@ const dmi_entity_spec_t dmi_intel_vpro_spec =
             .unspec = dmi_value_ptr((uint16_t)UINT16_MAX),
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
         }),
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_host_bridge, {
+            .code     = "host-devfn",
+            .name     = "Host bridge device and function",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_intel_vpro_t, host_devfn, INTEGER, {
+                    .code  = "host-devfn",
+                    .name  = "Host bridge device and function",
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
+        }),
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_host_bridge, {
+            .code     = "host-bus",
+            .name     = "Host bridge bus",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_intel_vpro_t, host_bus, INTEGER, {
+                    .code  = "host-bus",
+                    .name  = "Host bridge bus",
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
+        }),
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_host_bridge, {
+            .code     = "host-device-id",
+            .name     = "Host bridge device ID",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_intel_vpro_t, host_device_id, INTEGER, {
+                    .code  = "host-device-id",
+                    .name  = "Host bridge device ID",
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
+        }),
         DMI_ATTRIBUTE(dmi_intel_vpro_t, bios_capabilities, SET, {
             .code   = "bios-capabilities",
             .name   = "BIOS capabilities",
@@ -304,6 +345,11 @@ bool dmi_intel_vpro_derive(dmi_entity_t *entity)
     info->tcg_major  = info->tpm_capabilities.tcg_major;
     info->tcg_minor  = info->tpm_capabilities.tcg_minor;
     info->va_version = info->bios_capabilities.va_version;
+
+    // Firmware which gives no host bridge fills its device ID with either
+    // byte of all bits set, or leaves it zero
+    uint16_t host = info->host_device_id;
+    info->has_host_bridge = (host != 0) and (host != 0x00FF) and (host != 0xFF00) and (host != UINT16_MAX);
 
     // Older layout holds the memory controller hub, which is found at 0:0.0,
     // in place of the version of the BIOS extension, whose major part is
