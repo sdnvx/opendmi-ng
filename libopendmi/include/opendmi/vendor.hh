@@ -23,6 +23,7 @@ namespace dmi {
         amd     = capi::DMI_VENDOR_AMD,     ///< AMD
         ami     = capi::DMI_VENDOR_AMI,     ///< AMI
         apple   = capi::DMI_VENDOR_APPLE,   ///< Apple
+        cisco   = capi::DMI_VENDOR_CISCO,   ///< Cisco
         dell    = capi::DMI_VENDOR_DELL,    ///< Dell
         honor   = capi::DMI_VENDOR_HONOR,   ///< Honor
         hp      = capi::DMI_VENDOR_HP,      ///< HP

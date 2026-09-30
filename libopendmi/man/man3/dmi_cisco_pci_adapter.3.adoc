@@ -1,0 +1,117 @@
+ifdef::backend-manpage[]
+= dmi_cisco_pci_adapter(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_cisco_pci_adapter
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_cisco_pci_adapter - Cisco PCI adapter information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/cisco/pci-adapter.h>
+
+typedef struct dmi_cisco_pci_adapter {
+    uint8_t version;
+    uint16_t raw_vendor_id;
+    uint16_t raw_device_id;
+    uint8_t prog_if;
+    uint8_t subclass;
+    uint8_t pci_class;
+    uint8_t revision;
+    const char *model;
+    const char *slot;
+    uint16_t raw_subsystem_vendor_id;
+    uint16_t raw_subsystem_id;
+    const char *firmware_version;
+    dmi_pci_vendor_id_t vendor_id;
+    uint16_t device_id;
+    dmi_pci_vendor_id_t subsystem_vendor_id;
+    uint16_t subsystem_id;
+} dmi_cisco_pci_adapter_t;
+----
+
+== Description
+
+The `dmi_cisco_pci_adapter_t` structure holds the decoded Cisco PCI adapter
+information, which describes an adapter of a Cisco UCS server: its PCI
+identifiers and class, its model, the slot it is installed in, and the
+version of its firmware. There is a structure for each adapter, including the
+ones on board.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_cisco_pci_adapter_spec`, of type `DMI_TYPE(cisco_pci_adapter)`, declared in `<opendmi/module/cisco.h>`,
+once the Cisco extension module (`dmi_cisco_module`) is enabled, which is done
+for the platforms whose firmware vendor is Cisco when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context it has been
+decoded in.
+
+The structure holds the identifiers in the big-endian byte order, unlike the
+other fields of SMBIOS. The `raw_` fields keep them as they are read, in the
+little-endian byte order, so that the structure is written back as it was,
+and the other identifier fields give them in the order of the host. The
+identifiers of the data corpus match the PCI ID database and the models the
+structures name, e.g. `1137:0042` of subsystem `1137:0217` for Cisco UCS VIC
+1455.
+
+=== Fields
+
+`version`::
+Version of the structure, presumably, 3 in all known data.
+
+`raw_vendor_id`, `raw_device_id`, `raw_subsystem_vendor_id`, `raw_subsystem_id`::
+Identifiers as they are read, with their bytes swapped.
+
+`prog_if`, `subclass`, `pci_class`::
+Class code of the function: the programming interface, the subclass and the
+class, e.g. `0x01` and `0x04` for a RAID controller.
+
+`revision`::
+Revision ID of the function.
+
+`model`::
+Model of the adapter, e.g. `Cisco UCS VIC 1455`.
+
+`slot`::
+Slot the adapter is installed in, e.g. `SlotID:1`, `SlotID:MLOM` for the
+modular LAN on motherboard or `SlotID:MRAID` for the modular RAID controller.
+
+`firmware_version`::
+Version of the firmware of the adapter, `N/A` if it has none.
+
+`vendor_id`, `device_id`::
+PCI vendor ID and device ID of the adapter.
+
+`subsystem_vendor_id`, `subsystem_id`::
+PCI subsystem vendor ID and subsystem ID of the adapter.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_cisco_slot_buses`(3),
+`dmi_pci_vendor_id`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Cisco UCS
+servers, and reverse engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

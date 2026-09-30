@@ -32,8 +32,8 @@ const dmi_module_t dmi_dell_module =
 
 The modules of the library are built in, and listed in
 `dmi_builtin_modules`, so that they are linked into a static build as well:
-`acer`, `ami`, `apple`, `dell`, `hpe`, `intel`, `intel-rsd`, `lenovo` and
-`sun`. The tool
+`acer`, `ami`, `apple`, `cisco`, `dell`, `hpe`, `intel`, `intel-rsd`, `lenovo`
+and `sun`. The tool
 lists them with `opendmi modules`, and `opendmi types -m dell` lists the types
 a module brings.
 

@@ -7,12 +7,14 @@
 #include <opendmi/module/intel.h>
 
 #include <opendmi/entity/intel/amt.h>
+#include <opendmi/entity/intel/asf.h>
 #include <opendmi/entity/intel/fvi.h>
 #include <opendmi/entity/intel/mei.h>
 #include <opendmi/entity/intel/svt.h>
 #include <opendmi/entity/intel/vpro.h>
 
 // Structure types of the module
+const dmi_type_t dmi_type_intel_asf  = { .id = DMI_TYPE_ID(INTEL_ASF)  };
 const dmi_type_t dmi_type_intel_amt  = { .id = DMI_TYPE_ID(INTEL_AMT)  };
 const dmi_type_t dmi_type_intel_vpro = { .id = DMI_TYPE_ID(INTEL_VPRO) };
 const dmi_type_t dmi_type_intel_mei  = { .id = DMI_TYPE_ID(INTEL_MEI)  };
@@ -32,6 +34,7 @@ const dmi_module_t dmi_intel_module =
     .code      = "intel",
     .name      = "Intel extensions",
     .entities  = (const dmi_entity_spec_t *[]){
+        &dmi_intel_asf_spec,
         &dmi_intel_amt_spec,
         &dmi_intel_vpro_spec,
         &dmi_intel_mei_spec,

@@ -147,6 +147,10 @@ set(LIBOPENDMI_HEADERS
 
     include/opendmi/module/apple.h
 
+    include/opendmi/module/cisco.h
+    include/opendmi/entity/cisco/pci-adapter.h
+    include/opendmi/entity/cisco/slot-buses.h
+
     include/opendmi/module/dell.h
     include/opendmi/entity/acer/devices.h
     include/opendmi/entity/acer/hotkeys.h
@@ -206,6 +210,7 @@ set(LIBOPENDMI_HEADERS
 
     include/opendmi/module/intel.h
     include/opendmi/entity/intel/amt.h
+    include/opendmi/entity/intel/asf.h
     include/opendmi/entity/intel/fvi.h
     include/opendmi/entity/intel/mei.h
     include/opendmi/entity/intel/svt.h
@@ -431,6 +436,10 @@ target_sources(opendmi-object
 
         src/module/apple.c
 
+        src/module/cisco.c
+        src/entity/cisco/pci-adapter.c
+        src/entity/cisco/slot-buses.c
+
         src/module/dell.c
         src/entity/acer/devices.c
         src/entity/acer/hotkeys.c
@@ -498,6 +507,7 @@ target_sources(opendmi-object
 
         src/module/intel.c
         src/entity/intel/amt.c
+        src/entity/intel/asf.c
         src/entity/intel/fvi.c
         src/entity/intel/fvi-handlers.c
         src/entity/intel/mei.c
@@ -868,6 +878,7 @@ opendmi_test(entity/mgmt-controller SOURCES test/entity/mgmt-controller.c)
 opendmi_test(entity/hpe/modern SOURCES test/entity/hpe/modern.c)
 opendmi_test(entity/hpe/proliant SOURCES test/entity/hpe/proliant.c)
 opendmi_test(entity/intel/amt SOURCES test/entity/intel/amt.c)
+opendmi_test(entity/intel/asf SOURCES test/entity/intel/asf.c)
 opendmi_test(entity/intel/fvi SOURCES test/entity/intel/fvi.c)
 opendmi_test(entity/intel/mei SOURCES test/entity/intel/mei.c)
 opendmi_test(entity/intel/svt SOURCES test/entity/intel/svt.c)
@@ -887,6 +898,7 @@ opendmi_test(entity/intel-rsd/tpm SOURCES test/entity/intel-rsd/tpm.c)
 opendmi_test(entity/intel-rsd/txt SOURCES test/entity/intel-rsd/txt.c)
 opendmi_test(entity/acer/hotkeys SOURCES test/entity/acer/hotkeys.c)
 opendmi_test(entity/apple/decode SOURCES test/entity/apple/decode.c)
+opendmi_test(entity/cisco/ucs SOURCES test/entity/cisco/ucs.c)
 opendmi_test(entity/dell/calling-iface SOURCES test/entity/dell/calling-iface.c)
 opendmi_test(entity/dell/hotkeys SOURCES test/entity/dell/hotkeys.c)
 opendmi_test(entity/dell/indexed-io SOURCES test/entity/dell/indexed-io.c)

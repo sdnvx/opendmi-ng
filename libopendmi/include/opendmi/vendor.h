@@ -30,6 +30,7 @@ typedef enum dmi_vendor
     DMI_VENDOR_AMD,          ///< AMD
     DMI_VENDOR_AMI,          ///< AMI
     DMI_VENDOR_APPLE,        ///< Apple
+    DMI_VENDOR_CISCO,        ///< Cisco
     DMI_VENDOR_DELL,         ///< Dell
     DMI_VENDOR_HONOR,        ///< Honor
     DMI_VENDOR_HP,           ///< HP

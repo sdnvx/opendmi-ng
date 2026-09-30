@@ -1,0 +1,76 @@
+ifdef::backend-manpage[]
+= dmi_cisco_slot_buses(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_cisco_slot_buses
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_cisco_slot_buses - Cisco PCI slot buses structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/cisco/slot-buses.h>
+
+typedef struct dmi_cisco_slot_buses {
+    const char *slot;
+    size_t bus_count;
+    uint8_t *buses;
+} dmi_cisco_slot_buses_t;
+----
+
+== Description
+
+The `dmi_cisco_slot_buses_t` structure holds the decoded Cisco PCI slot
+buses, which list the PCI buses behind a slot of a Cisco UCS server,
+presumably: the numbers match the adapters the PCI adapter information gives
+for the same slot, see `dmi_cisco_pci_adapter`(3), e.g. six of them for
+Cisco UCS VIC 1455, which has a PCI switch.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_cisco_slot_buses_spec`, of type `DMI_TYPE(cisco_slot_buses)`, declared in `<opendmi/module/cisco.h>`,
+once the Cisco extension module (`dmi_cisco_module`) is enabled, which is done
+for the platforms whose firmware vendor is Cisco when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`slot`::
+Slot, as the PCI adapter information names it, e.g. `SlotID:1`,
+`SlotID:MLOM` or `SlotID:MRAID`.
+
+`bus_count`::
+Number of elements of `buses`.
+
+`buses`::
+PCI bus numbers. May be `nullptr` when `bus_count` is 0.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_cisco_pci_adapter`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Cisco UCS
+servers, and reverse engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

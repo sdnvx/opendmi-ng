@@ -2376,90 +2376,131 @@ table:
   type: 201
   length: 22
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yQxjAAEGXl9hYmNk
-  strings:
-  - SlotID:1
+  state:
+  - decoded
+  description: Cisco PCI slot buses
+  attributes:
+    slot: SlotID:1
+    buses:
+    - 94
+    - 95
+    - 97
+    - 98
+    - 99
+    - 100
 - handle: 100
   type: 201
   length: 20
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yQdkAAEBGA==
-  strings:
-  - SlotID:MLOM
+  state:
+  - decoded
+  description: Cisco PCI slot buses
+  attributes:
+    slot: SlotID:MLOM
+    buses:
+    - 24
 - handle: 101
   type: 201
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yQdlAAEBPQ==
-  strings:
-  - SlotID:MRAID
+  state:
+  - decoded
+  description: Cisco PCI slot buses
+  attributes:
+    slot: SlotID:MRAID
+    buses:
+    - 61
 - handle: 102
   type: 201
   length: 17
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yQdmAAEBOw==
-  strings:
-  - SlotID:L
+  state:
+  - decoded
+  description: Cisco PCI slot buses
+  attributes:
+    slot: SlotID:L
+    buses:
+    - 59
 - handle: 103
   type: 202
   length: 54
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yhVnAAMRNwBCAP8AogECETcCFwMA
-  strings:
-  - Cisco UCS VIC 1455
-  - SlotID:1
-  - N/A
+  state:
+  - decoded
+  description: Cisco PCI adapter information
+  attributes:
+    version: 3
+    model: Cisco UCS VIC 1455
+    slot: SlotID:1
+    vendor-id: 4407
+    device-id: 66
+    subsystem-vendor-id: 4407
+    subsystem-id: 535
+    pci-class: 0
+    subclass: 255
+    prog-if: 0
+    revision: 162
+    firmware-version: N/A
 - handle: 104
   type: 202
   length: 98
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yhVoAAOAhhUhAAACAQECETcBMwMA
-  strings:
-  - Intel(R) I350-mLOM 1 Gbps Network Controller
-  - SlotID:MLOM
-  - 0x80000E78-1.812.1
+  state:
+  - decoded
+  description: Cisco PCI adapter information
+  attributes:
+    version: 3
+    model: Intel(R) I350-mLOM 1 Gbps Network Controller
+    slot: SlotID:MLOM
+    vendor-id: 32902
+    device-id: 5409
+    subsystem-vendor-id: 4407
+    subsystem-id: 307
+    pci-class: 2
+    subclass: 0
+    prog-if: 0
+    revision: 1
+    firmware-version: 0x80000E78-1.812.1
 - handle: 105
   type: 202
   length: 111
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yhVpAAMQAAAUAAQBAQECETcCDgMA
-  strings:
-  - Cisco 12G Modular RAID Controller with 2GB cache(Max 16 drives)
-  - SlotID:MRAID
-  - 50.6.0-1838
+  state:
+  - decoded
+  description: Cisco PCI adapter information
+  attributes:
+    version: 3
+    model: Cisco 12G Modular RAID Controller with 2GB cache(Max 16 drives)
+    slot: SlotID:MRAID
+    vendor-id: 4096
+    device-id: 20
+    subsystem-vendor-id: 4407
+    subsystem-id: 526
+    pci-class: 1
+    subclass: 4
+    prog-if: 0
+    revision: 1
+    firmware-version: 50.6.0-1838
 - handle: 106
   type: 202
   length: 71
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yhVqAAOAhhVjAAACAQECETcBowMA
-  strings:
-  - Cisco(R) LOM X550-T2
-  - SlotID:L
-  - 0x80000AF9-1.812.1
+  state:
+  - decoded
+  description: Cisco PCI adapter information
+  attributes:
+    version: 3
+    model: Cisco(R) LOM X550-T2
+    slot: SlotID:L
+    vendor-id: 32902
+    device-id: 5475
+    subsystem-vendor-id: 4407
+    subsystem-id: 419
+    pci-class: 2
+    subclass: 0
+    prog-if: 0
+    revision: 1
+    firmware-version: 0x80000AF9-1.812.1
 - handle: 107
   type: 203
   length: 38

@@ -1,0 +1,81 @@
+= Intel ASF Information (Type 129)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Names the Alert Standard Format (ASF) support of the platform. The structure
+is found on Intel platforms of Acer, Dell, Framework, Lenovo, Samsung and
+Toshiba, with the strings of the Intel reference code, e.g. `Intel_ASF` and
+`Intel_ASF_001`, of Dell, e.g. `Dell_ASF_001`, or of Insyde, e.g.
+`Insyde_ASF_001`. The meaning of the fields other than the strings is not
+established.
+
+The structure is told by the bytes at offset `0x04`, `01 01`, since other
+vendors give type 129 to structures of their own, e.g. Gigabyte, whose
+structures begin with zeroes there. The number of the second string is not
+checked: the structures whose strings are the same are written back with a
+single one, to which both fields refer.
+
+.Intel ASF Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `129`
+| Intel ASF Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x08` or `0x10`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Version
+| `BYTE`
+| `NUMBER`
+| Version of the structure, presumably, `1` in all known data
+
+| `0x05`
+| 2.0+
+| Name
+| `BYTE`
+| `STRING`
+| Name of the ASF support, e.g. `Intel_ASF`
+
+| `0x06`
+| 2.0+
+| Identifier
+| `BYTE`
+| `STRING`
+| Identifier of the ASF support, e.g. `Intel_ASF_001`
+
+| `0x07`
+| 2.0+
+| Parameter
+| `BYTE`
+| Varies
+| Meaning not established, `1` in most data and `0` on ThinkPad T61p
+
+| `0x08`
+| 2.0+
+| Extra Data
+| 8 BYTEs
+| Varies
+| Meaning not established, present in the structures of 16 bytes, e.g.
+`00 00 00 01 00 00 08 01` on Acer Aspire 3680
+|===

@@ -45,7 +45,7 @@ static void test_module_builtin(void **pstate)
     dmi_unused(pstate);
 
     static const char *codes[] = {
-        "acer", "ami", "apple", "dell", "hpe", "intel", "intel-rsd", "lenovo", "sun"
+        "acer", "ami", "apple", "cisco", "dell", "hpe", "intel", "intel-rsd", "lenovo", "sun"
     };
 
     size_t count = 0;

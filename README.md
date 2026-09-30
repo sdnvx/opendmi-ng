@@ -117,12 +117,12 @@ dmi_destroy(context);
   to the values of individual fields, and reports what it finds with the file
   offset, the structure and the attribute it belongs to.
 * **OEM structures are first-class.** Vendor-specific structures are decoded by
-  extension modules for Acer, AMI, Apple, Dell, HP/HPE, Intel, IBM/Lenovo and
-  Sun, and their layouts are described in the reference manual.
-* **Intel structures are decoded.** vPro, AMT, MEI, FVI, SVT and RSD structures,
-  which the Intel reference code adds on almost every Intel platform, are
-  decoded field by field, even where vendors move them. `dmidecode` shows them
-  as raw data.
+  extension modules for Acer, AMI, Apple, Cisco, Dell, HP/HPE, Intel,
+  IBM/Lenovo and Sun, and their layouts are described in the reference manual.
+* **Intel structures are decoded.** vPro, AMT, ASF, MEI, FVI, SVT and RSD
+  structures, which the Intel reference code adds on almost every Intel
+  platform, are decoded field by field, even where vendors move them.
+  `dmidecode` shows them as raw data.
 * **Cross-platform by design.** Linux, FreeBSD, NetBSD, macOS and Windows are
   supported by separate backends, along with dump files and a generic fallback.
 * **Compatible with existing dumps.** Dump files are interchangeable with

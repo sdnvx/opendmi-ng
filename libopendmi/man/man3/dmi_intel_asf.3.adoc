@@ -1,0 +1,94 @@
+ifdef::backend-manpage[]
+= dmi_intel_asf(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_asf
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_asf - Intel ASF information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/asf.h>
+
+typedef struct dmi_intel_asf {
+    uint8_t version;
+    const char *name;
+    const char *identifier;
+    uint8_t parameter;
+    uint8_t extra[8];
+    bool has_extra;
+} dmi_intel_asf_t;
+----
+
+== Description
+
+The `dmi_intel_asf_t` structure holds the decoded Intel ASF information,
+which names the Alert Standard Format (ASF) support of the platform. The
+meaning of the fields other than the strings is not established.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_intel_asf_spec`, of type `DMI_TYPE(intel_asf)`, declared in
+`<opendmi/module/intel.h>`, once the Intel extension module
+(`dmi_intel_module`) is enabled, which is done for any platform with Intel
+processors when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as
+long as the context it has been decoded in.
+
+The structures are told by the version, `1`, and by the number of the first
+string, `1`, at offset 0x04, since other vendors give type 129 to structures
+of their own, e.g. Gigabyte. The strings are the ones of the Intel reference
+code, e.g. `Intel_ASF` and `Intel_ASF_001`, or of the vendor of the firmware,
+e.g. `Dell_ASF_001` or `Insyde_ASF_001`.
+
+=== Fields
+
+`version`::
+Version of the structure, presumably, 1 in all known data.
+
+`name`::
+Name of the ASF support, e.g. `Intel_ASF` or `Insyde_ASF_001`.
+
+`identifier`::
+Identifier of the ASF support, e.g. `Intel_ASF_001` or `Dell_ASF_002`.
+
+`parameter`::
+Value whose meaning is not established, 1 in most known data and 0 on
+ThinkPad T61p.
+
+`extra`::
+Bytes which follow in the structures of 16 bytes, whose meaning is not
+established, e.g. on Acer Aspire 3680. Not shown when `has_extra` is not set.
+
+`has_extra`::
+Whether the structure holds `extra`, which the structures of 8 bytes leave
+out.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_intel_amt`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code,
+and reverse engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

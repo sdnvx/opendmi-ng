@@ -27,6 +27,16 @@ include::apple/processor-bus-speed.adoc[leveloffset=2]
 include::apple/platform-feature.adoc[leveloffset=2]
 include::apple/smc-version.adoc[leveloffset=2]
 
+== Cisco-specific structures
+
+Cisco UCS servers carry structures of Cisco, which describe the adapters
+installed in them. The structures are decoded for the platforms whose firmware
+vendor is Cisco: other Cisco appliances carry the firmware of other vendors,
+e.g. Dell.
+
+include::cisco/slot-buses.adoc[leveloffset=2]
+include::cisco/pci-adapter.adoc[leveloffset=2]
+
 == Dell-specific structures
 
 include::dell/bios-flags.adoc[leveloffset=2]
@@ -93,6 +103,7 @@ The Intel reference code, which the firmware of Intel platforms includes
 whatever its vendor is, adds structures of its own. Their types are taken by
 structures of some vendors, which place them at other types or not at all.
 
+include::intel/asf.adoc[leveloffset=2]
 include::intel/amt.adoc[leveloffset=2]
 include::intel/vpro.adoc[leveloffset=2]
 include::intel/mei.adoc[leveloffset=2]

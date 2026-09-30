@@ -720,6 +720,30 @@ ru_RU {
         mini-pc { "Мини-компьютер" }
         stick-pc { "Компьютер-брелок" }
     }
+    cisco-pci-adapter {
+        attribute {
+            device-id { "Идентификатор устройства" }
+            firmware-version { "Версия прошивки" }
+            model { "Модель" }
+            pci-class { "Класс PCI" }
+            prog-if { "Программный интерфейс" }
+            revision { "Идентификатор ревизии" }
+            slot { "Слот" }
+            subclass { "Подкласс PCI" }
+            subsystem-id { "Идентификатор подсистемы" }
+            subsystem-vendor-id { "Идентификатор производителя подсистемы" }
+            vendor-id { "Идентификатор производителя" }
+            version { "Версия" }
+        }
+        name { "Сведения Cisco об адаптере PCI" }
+    }
+    cisco-slot-buses {
+        attribute {
+            buses { "Шины PCI" }
+            slot { "Слот" }
+        }
+        name { "Шины PCI слота Cisco" }
+    }
     cooling-device {
         name { "Устройство охлаждения" }
     }
@@ -1843,6 +1867,16 @@ ru_RU {
         vt100-plus { "VT100+" }
         vt-utf8 { "VT-UTF8" }
         pc-ansi { "PC-ANSI" }
+    }
+    intel-asf {
+        attribute {
+            extra { "Дополнительные данные" }
+            identifier { "Идентификатор" }
+            name { "Имя" }
+            parameter { "Параметр" }
+            version { "Версия" }
+        }
+        name { "Сведения Intel ASF" }
     }
     intel-fvi {
         attribute {
@@ -3586,6 +3620,7 @@ ru_RU {
         amd { "AMD" }
         ami { "AMI" }
         apple { "Apple" }
+        cisco { "Cisco" }
         dell { "Dell" }
         honor { "Honor" }
         hp { "HP" }
