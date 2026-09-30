@@ -19,6 +19,11 @@ __BEGIN_DECLS
 extern __dmi_api const dmi_lint_rule_t dmi_lint_table_truncated_rule;
 
 /**
+ * @brief Structure headers are valid, so that the table is read to its end.
+ */
+extern __dmi_api const dmi_lint_rule_t dmi_lint_table_invalid_header_rule;
+
+/**
  * @brief Table ends with an end-of-table structure.
  */
 extern __dmi_api const dmi_lint_rule_t dmi_lint_table_terminator_rule;
