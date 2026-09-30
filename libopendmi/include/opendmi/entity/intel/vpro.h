@@ -386,6 +386,24 @@ struct dmi_intel_vpro
     uint16_t gbe_device_id;
 
     /**
+     * @brief PCI device and function of the host bridge, which the firmware
+     * of HP laptops gives where the guide places the wireless network
+     * controller.
+     */
+    uint8_t host_devfn;
+
+    /**
+     * @brief PCI bus of the host bridge.
+     */
+    uint8_t host_bus;
+
+    /**
+     * @brief PCI device ID of the host bridge, which tells the processor or
+     * the memory controller hub. Other firmware holds `0xFF00` or `0x00FF`.
+     */
+    uint16_t host_device_id;
+
+    /**
      * @brief Capabilities of the BIOS.
      */
     dmi_intel_vpro_bios_caps_t bios_capabilities;
@@ -412,6 +430,13 @@ struct dmi_intel_vpro
      * taken from `bios_capabilities`: 0 for 2.6, 1 for 3.0.
      */
     uint8_t va_version;
+
+    /**
+     * @brief Whether the structure gives the host bridge, which it does unless
+     * its device ID is zero, `0x00FF`, `0xFF00` or `0xFFFF`. The fields of the
+     * host bridge are not shown otherwise.
+     */
+    bool has_host_bridge;
 
     /**
      * @brief Whether the structure is of the older layout, which holds the

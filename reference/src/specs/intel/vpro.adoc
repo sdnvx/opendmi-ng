@@ -179,9 +179,37 @@ bus.
 | `0x2C`
 | 2.0+
 | Reserved
-| 8 BYTEs
-| Varies
-| Reserved by the guide, which gives the wireless network controller from `0x2E` on, as its device and function, its bus and its device ID. The firmware of HP laptops gives the host bridge at 0:0.0 there instead, e.g. device ID `0x0104` of Intel Sandy Bridge, `0x0A04` of Haswell-ULT, `0x1604` of Broadwell-U and `0x2A40` of GM45, while other firmware holds `0xFF00` or `0x00FF` at `0x30`. Not decoded
+| `WORD`
+| `0`
+|
+
+| `0x2E`
+| 2.0+
+| Host Bridge Device and Function
+| `BYTE`
+| `NUMBER`
+| PCI device and function of the host bridge, see below
+
+| `0x2F`
+| 2.0+
+| Host Bridge Bus
+| `BYTE`
+| `NUMBER`
+| PCI bus of the host bridge
+
+| `0x30`
+| 2.0+
+| Host Bridge Device ID
+| `WORD`
+| `NUMBER`
+| PCI device ID of the host bridge, `0xFF00` or `0x00FF` if not given
+
+| `0x32`
+| 2.0+
+| Reserved
+| `WORD`
+| `0`
+|
 
 | `0x34`
 | 2.0+
@@ -204,6 +232,14 @@ bus.
 | `0`
 |
 |===
+
+The guide gives the wireless network controller from `0x2E` to `0x31`, as its
+device and function, its bus and its device ID. No firmware of the data corpus
+does: the one of HP laptops gives the host bridge at 0:0.0 there, e.g. device
+ID `0x0104` of Intel Sandy Bridge, `0x0A04` of Haswell-ULT, `0x1604` of
+Broadwell-U and `0x2A40` of GM45, while other firmware holds `0xFF00` or
+`0x00FF` at `0x30`, which tells that no host bridge is given, as zero and
+`0xFFFF` do.
 
 .CPU capabilities
 [width=100%, cols="1,4"]

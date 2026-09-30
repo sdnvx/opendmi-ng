@@ -133,6 +133,10 @@ static void test_vpro_decode(void **pstate)
 
     assert_false(info->tpm_capabilities.is_tpm_present);
 
+    // Host bridge is given by the firmware of HP laptops only
+    assert_false(info->has_host_bridge);
+    assert_false(test_vpro_shown(entity, "host-device-id"));
+
     assert_int_equal(info->signature.length, 4);
     assert_memory_equal(info->signature.data, "vPro", 4);
 }
@@ -175,6 +179,38 @@ static void test_vpro_signature(void **pstate)
     // does not make the layout the older one
     assert_false(info->has_mch_capabilities);
     assert_true(test_vpro_shown(entity, "mebx-version"));
+    dmi_entity_destroy(entity);
+
+    // Host bridge is not given when its device ID has either byte of all
+    // bits set, or all of them
+    static const uint16_t absent[] = { 0x00FF, 0xFF00, 0xFFFF };
+
+    for (size_t i = 0; i < countof(absent); i++) {
+        data[0x30] = absent[i] & 0xFF;
+        data[0x31] = absent[i] >> 8;
+
+        entity = dmi_test_entity_create(buffer, data, sizeof(data));
+        assert_non_null(entity);
+        assert_true(dmi_entity_decode(entity));
+
+        info = dmi_entity_info(entity, DMI_TYPE(intel_vpro));
+        assert_non_null(info);
+        assert_false(info->has_host_bridge);
+        dmi_entity_destroy(entity);
+    }
+
+    // ...while it is with any other, e.g. the one of Intel Haswell-ULT
+    data[0x30] = 0x04;
+    data[0x31] = 0x0A;
+
+    entity = dmi_test_entity_create(buffer, data, sizeof(data));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+
+    info = dmi_entity_info(entity, DMI_TYPE(intel_vpro));
+    assert_non_null(info);
+    assert_true(info->has_host_bridge);
+    assert_int_equal(info->host_device_id, 0x0A04);
     dmi_entity_destroy(entity);
 
     dmi_buffer_destroy(buffer);
@@ -235,6 +271,13 @@ static void test_vpro_legacy(void **pstate)
     assert_false(test_vpro_shown(entity, "mebx-version"));
     assert_true(test_vpro_shown(entity, "mch-device-id"));
     assert_true(test_vpro_shown(entity, "mch-capabilities"));
+
+    // Host bridge is given in place of the wireless network controller too
+    assert_true(info->has_host_bridge);
+    assert_int_equal(info->host_devfn, 0x00);
+    assert_int_equal(info->host_bus, 0x00);
+    assert_int_equal(info->host_device_id, 0x2A40);
+    assert_true(test_vpro_shown(entity, "host-device-id"));
 
     // Management Engine enabled, with AMT
     assert_true(info->me_capabilities.is_me_enabled);

@@ -36,11 +36,15 @@ typedef struct dmi_intel_vpro {
     uint8_t gbe_devfn;
     uint8_t gbe_bus;
     uint16_t gbe_device_id;
+    uint8_t host_devfn;
+    uint8_t host_bus;
+    uint16_t host_device_id;
     dmi_intel_vpro_bios_caps_t bios_capabilities;
     dmi_binary_t signature;
     uint8_t tcg_major;
     uint8_t tcg_minor;
     uint8_t va_version;
+    bool has_host_bridge;
     bool has_mch_capabilities;
     uint8_t mch_devfn;
     uint8_t mch_bus;
@@ -113,8 +117,14 @@ Capabilities of the Trusted Platform Module, see
 `gbe_devfn`, `gbe_bus`, `gbe_device_id`::
 PCI device and function of the wired network controller the Management Engine
 uses, its bus, and its device ID, `0xFFFF` or zero if the controller is
-absent. The fields of the wireless controller which follow are not decoded:
-the firmware of HP laptops gives the host bridge there instead.
+absent.
+
+`host_devfn`, `host_bus`, `host_device_id`::
+PCI device and function of the host bridge, its bus, and its device ID, e.g.
+`0x0A04` for Intel Haswell-ULT. The firmware of HP laptops gives them where
+the guide places the wireless network controller, which no firmware of the
+data corpus gives, while other firmware holds `0xFF00` or `0x00FF` for the
+device ID. Not shown when `has_host_bridge` is not set.
 
 `bios_capabilities`::
 Capabilities of the BIOS, see `dmi_intel_vpro_bios_caps`(3).
@@ -129,6 +139,10 @@ Version of the TCG specification the TPM is designed to, taken from
 `va_version`::
 Highest version of the Virtual Appliance the BIOS supports, taken from
 `bios_capabilities`: 0 for 2.6, 1 for 3.0.
+
+`has_host_bridge`::
+Whether the structure gives the host bridge, which it does unless the device
+ID is zero, `0x00FF`, `0xFF00` or `0xFFFF`.
 
 `has_mch_capabilities`::
 Whether the structure is of the older layout, which holds the capabilities of
