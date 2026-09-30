@@ -14,6 +14,13 @@ structures of Acer are decoded for the platforms whose system vendor is Acer.
 include::acer/hotkeys.adoc[leveloffset=2]
 include::acer/devices.adoc[leveloffset=2]
 
+== AMI-specific structures
+
+AMI firmware carries structures of its own on the boards of several vendors.
+The structures are decoded for the platforms whose firmware vendor is AMI.
+
+include::ami/firewire-guid.adoc[leveloffset=2]
+
 == Apple-specific structures
 
 Macs carry structures of Apple, which OpenCore also adds to the tables of the

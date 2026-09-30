@@ -11,7 +11,18 @@
 
 #include <opendmi/module.h>
 
+/**
+ * @brief AMI structure type identifiers.
+ */
+typedef enum dmi_ami_type_id
+{
+    DMI_TYPE_ID_AMI_FIREWIRE_GUID = 139 ///< FireWire GUID
+} dmi_ami_type_id_t;
+
 __BEGIN_DECLS
+
+/** @brief FireWire GUID */
+extern __dmi_api const dmi_type_t dmi_type_ami_firewire_guid;
 
 extern __dmi_api const dmi_module_t dmi_ami_module;
 

@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Name radio button bit of Acer communication functions, the way the Acer WMI driver of Linux names it
 - Name kinds of Acer devices: the webcam, the audio, the wireless network and the Bluetooth adapters the PCI and USB IDs of the data corpus tell, and the other kinds found in it by their values
 - Add Cisco module, which decodes PCI slot buses (type 201) and PCI adapter information (type 202) of Cisco UCS servers, and `DMI_VENDOR_CISCO`
+- Decode AMI FireWire GUID (type 139), whose data identifies the board and is replaced when the table is anonymized
 - Decode Intel platform information (type 148), which the reference code of Intel Bay Trail platforms gives
 - Decode Dell device bays of 11 bytes, e.g. of Latitude E6230, which refer to two more strings
 - Decode Intel ASF information (type 129), which names the Alert Standard Format support of Intel platforms
