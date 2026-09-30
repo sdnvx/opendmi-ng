@@ -1,0 +1,136 @@
+= Cisco PCI Adapter Information (Type 202)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Describes an adapter of a Cisco UCS server: its PCI identifiers and class,
+its model, the slot it is installed in, and the version of its firmware.
+There is a structure for each adapter, including the ones on board, e.g. the
+modular LAN on motherboard (`SlotID:MLOM`), the modular RAID controller
+(`SlotID:MRAID`) and the LAN on motherboard (`SlotID:L`).
+
+The identifiers are held in the big-endian byte order, unlike the other
+fields of SMBIOS, and match the PCI ID database and the models the structures
+name, e.g. `1137:0042` of subsystem `1137:0217` for Cisco UCS VIC 1455,
+`8086:1521` for Intel I350, `1000:0014` of subsystem `1137:020E` for the Cisco
+12G modular RAID controller, and `8086:1563` for Intel X550. The class code
+is laid out as the configuration space of the function holds it.
+
+.Cisco PCI Adapter Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `202`
+| Cisco PCI Adapter Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x15`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Version
+| `BYTE`
+| `NUMBER`
+| Version of the structure, presumably, `3` in all known data
+
+| `0x05`
+| 2.0+
+| Vendor ID
+| `WORD`
+| `NUMBER`
+| PCI vendor ID, big-endian
+
+| `0x07`
+| 2.0+
+| Device ID
+| `WORD`
+| `NUMBER`
+| PCI device ID, big-endian
+
+| `0x09`
+| 2.0+
+| Programming Interface
+| `BYTE`
+| `NUMBER`
+| Programming interface of the class
+
+| `0x0A`
+| 2.0+
+| Subclass
+| `BYTE`
+| `NUMBER`
+| PCI subclass, e.g. `0x04` for the RAID controllers
+
+| `0x0B`
+| 2.0+
+| Class
+| `BYTE`
+| `NUMBER`
+| PCI class, e.g. `0x01` for the storage and `0x02` for the network controllers
+
+| `0x0C`
+| 2.0+
+| Revision ID
+| `BYTE`
+| `NUMBER`
+| Revision ID of the function, e.g. `0xA2` for Cisco UCS VIC 1455
+
+| `0x0D`
+| 2.0+
+| Model
+| `BYTE`
+| `STRING`
+| Model of the adapter, e.g. `Cisco UCS VIC 1455`
+
+| `0x0E`
+| 2.0+
+| Slot
+| `BYTE`
+| `STRING`
+| Slot the adapter is installed in, e.g. `SlotID:1`
+
+| `0x0F`
+| 2.0+
+| Subsystem Vendor ID
+| `WORD`
+| `NUMBER`
+| PCI subsystem vendor ID, big-endian
+
+| `0x11`
+| 2.0+
+| Subsystem ID
+| `WORD`
+| `NUMBER`
+| PCI subsystem ID, big-endian
+
+| `0x13`
+| 2.0+
+| Firmware Version
+| `BYTE`
+| `STRING`
+| Version of the firmware of the adapter, `N/A` if it has none
+
+| `0x14`
+| 2.0+
+| Reserved
+| `BYTE`
+| `0`
+|
+|===

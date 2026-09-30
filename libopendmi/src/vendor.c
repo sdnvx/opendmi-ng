@@ -37,6 +37,11 @@ static const dmi_name_set_t dmi_vendor_names =
             .name = "Apple"
         },
         {
+            .id   = DMI_VENDOR_CISCO,
+            .code = "cisco",
+            .name = "Cisco"
+        },
+        {
             .id   = DMI_VENDOR_DELL,
             .code = "dell",
             .name = "Dell"
@@ -121,6 +126,16 @@ static const dmi_vendor_spec_t dmi_vendor_specs[] =
         .names = (const char *[]){
             "Apple",
             "Apple Inc.",
+            nullptr
+        }
+    },
+    {
+        .id    = DMI_VENDOR_CISCO,
+        .code  = "cisco",
+        .names = (const char *[]){
+            "Cisco Systems",
+            "Cisco Systems Inc",
+            "Cisco Systems, Inc.",
             nullptr
         }
     },

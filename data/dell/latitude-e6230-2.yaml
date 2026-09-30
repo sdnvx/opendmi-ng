@@ -2388,13 +2388,15 @@ table:
   type: 129
   length: 33
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    gQgc4AEBAgE=
-  strings:
-  - Intel_ASF
-  - Intel_ASF_001
+  state:
+  - decoded
+  - partial
+  description: Intel ASF information
+  attributes:
+    version: 1
+    name: Intel_ASF
+    identifier: Intel_ASF_001
+    parameter: 1
 - handle: 57377
   type: 130
   length: 22

@@ -19,6 +19,7 @@
  */
 typedef enum dmi_intel_type_id
 {
+    DMI_TYPE_ID_INTEL_ASF  = 129, ///< Intel ASF information
     DMI_TYPE_ID_INTEL_AMT  = 130, ///< Intel Active Management Technology information
     DMI_TYPE_ID_INTEL_VPRO = 131, ///< Intel vPro information
     DMI_TYPE_ID_INTEL_MEI  = 219, ///< Intel Management Engine interface information
@@ -27,6 +28,9 @@ typedef enum dmi_intel_type_id
 } dmi_intel_type_id_t;
 
 __BEGIN_DECLS
+
+/** @brief Intel ASF information */
+extern __dmi_api const dmi_type_t dmi_type_intel_asf;
 
 /** @brief Intel Active Management Technology information */
 extern __dmi_api const dmi_type_t dmi_type_intel_amt;

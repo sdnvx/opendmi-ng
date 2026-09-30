@@ -511,6 +511,10 @@ include::../../../../libopendmi/man/man3/dmi_tpm_device_features.3.adoc[leveloff
 include::../../../../libopendmi/man/man3/dmi_tpm_firmware_version.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_tpm_firmware_version_format.3.adoc[leveloffset=2]
 
+== `<opendmi/entity/intel/asf.h>`
+
+include::../../../../libopendmi/man/man3/dmi_intel_asf.3.adoc[leveloffset=2]
+
 == `<opendmi/entity/intel/amt.h>`
 
 include::../../../../libopendmi/man/man3/dmi_intel_amt.3.adoc[leveloffset=2]
@@ -605,6 +609,14 @@ include::../../../../libopendmi/man/man3/dmi_apple_processor_class.3.adoc[levelo
 == `<opendmi/entity/apple/smc-version.h>`
 
 include::../../../../libopendmi/man/man3/dmi_apple_smc_version.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/cisco/pci-adapter.h>`
+
+include::../../../../libopendmi/man/man3/dmi_cisco_pci_adapter.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/cisco/slot-buses.h>`
+
+include::../../../../libopendmi/man/man3/dmi_cisco_slot_buses.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/dell/bios-flags.h>`
 

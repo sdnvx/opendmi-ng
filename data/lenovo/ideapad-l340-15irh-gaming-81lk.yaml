@@ -1135,13 +1135,15 @@ table:
   type: 129
   length: 39
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    gQg0AAEBAgE=
-  strings:
-  - Insyde_ASF_001
-  - Insyde_ASF_002
+  state:
+  - decoded
+  - partial
+  description: Intel ASF information
+  attributes:
+    version: 1
+    name: Insyde_ASF_001
+    identifier: Insyde_ASF_002
+    parameter: 1
 - handle: 53
   type: 130
   length: 22

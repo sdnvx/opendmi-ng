@@ -11,6 +11,7 @@
 #include <opendmi/module/acer.h>
 #include <opendmi/module/ami.h>
 #include <opendmi/module/apple.h>
+#include <opendmi/module/cisco.h>
 #include <opendmi/module/dell.h>
 #include <opendmi/module/hpe.h>
 #include <opendmi/module/intel.h>
@@ -23,6 +24,7 @@ const dmi_module_t *const dmi_builtin_modules[] =
     &dmi_acer_module,
     &dmi_ami_module,
     &dmi_apple_module,
+    &dmi_cisco_module,
     &dmi_dell_module,
     &dmi_hpe_module,
     &dmi_intel_module,

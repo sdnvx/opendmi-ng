@@ -717,13 +717,23 @@ table:
   type: 129
   length: 45
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    gRAfAAEBAgEAAAABAAAIAQ==
-  strings:
-  - Intel_ASF_001
-  - Intel_ASF_001
+  state:
+  - decoded
+  description: Intel ASF information
+  attributes:
+    version: 1
+    name: Intel_ASF_001
+    identifier: Intel_ASF_001
+    parameter: 1
+    extra:
+    - 0
+    - 0
+    - 0
+    - 1
+    - 0
+    - 0
+    - 8
+    - 1
 - handle: 32
   type: 136
   length: 8

@@ -1,0 +1,59 @@
+= Cisco PCI Slot Buses (Type 201)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Lists the PCI buses behind a slot of a Cisco UCS server, presumably. The
+numbers match the adapters the PCI adapter information (type 202) gives for
+the same slot: an adapter with a PCI switch, e.g. Cisco UCS VIC 1455, has
+several buses, and the other adapters one.
+
+.Cisco PCI Slot Buses structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `201`
+| Cisco PCI Slot Buses indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure, `0x06` + Bus Count
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Slot
+| `BYTE`
+| `STRING`
+| Slot, as the PCI adapter information names it, e.g. `SlotID:1`,
+`SlotID:MLOM`, `SlotID:MRAID` or `SlotID:L`
+
+| `0x05`
+| 2.0+
+| Bus Count
+| `BYTE`
+| `NUMBER`
+| Number of buses
+
+| `0x06`
+| 2.0+
+| Buses
+| Bus Count BYTEs
+| `NUMBER`
+| PCI bus numbers, e.g. `5E 5F 61 62 63 64` for Cisco UCS VIC 1455
+|===

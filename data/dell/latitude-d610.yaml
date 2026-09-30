@@ -1068,13 +1068,15 @@ table:
   type: 129
   length: 32
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    gQgAgQEBAgE=
-  strings:
-  - Intel_ASF
-  - Dell_ASF_001
+  state:
+  - decoded
+  - partial
+  description: Intel ASF information
+  attributes:
+    version: 1
+    name: Intel_ASF
+    identifier: Dell_ASF_001
+    parameter: 1
 - handle: 56320
   type: 220
   length: 24

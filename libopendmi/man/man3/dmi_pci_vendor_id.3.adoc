@@ -35,18 +35,19 @@ identifier registers of a function.
 
 The type is shared by several structures: it is the type of the `vendor_id` and
 `sub_vendor_id` fields of `dmi_intel_rsd_pcie_t`, the `vendor_id` and
-`sub_vendor_id` fields of `dmi_intel_rsd_network_card_t`, and the `vendor_id`
-and `sub_vendor_id` fields of `dmi_intel_rsd_storage_device_t`.
+`sub_vendor_id` fields of `dmi_intel_rsd_network_card_t`, the `vendor_id` and
+`sub_vendor_id` fields of `dmi_intel_rsd_storage_device_t`, and the
+`vendor_id` and `subsystem_vendor_id` fields of `dmi_cisco_pci_adapter_t`.
 
 == See also
 
-`dmi_intel_rsd_pcie`(3), `dmi_intel_rsd_network_card`(3),
+`dmi_cisco_pci_adapter`(3), `dmi_intel_rsd_pcie`(3), `dmi_intel_rsd_network_card`(3),
 `dmi_intel_rsd_storage_device`(3), `dmi_pci_addr`(3)
 
 == Standards
 
 Not part of the SMBIOS specification. Used by the structures defined by Intel
-Rack Scale Design firmware.
+Rack Scale Design firmware and by the firmware of Cisco UCS servers.
 
 ifdef::backend-manpage[]
 == Copying
