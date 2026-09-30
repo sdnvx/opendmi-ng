@@ -70,11 +70,11 @@ static void test_amt_decode(void **pstate)
     // AMT of a platform with the corporate firmware
     assert_true(dmi_load(context, test_nuvo_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_AMT), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_amt), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_amt_spec);
 
-    const dmi_intel_amt_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_AMT));
+    const dmi_intel_amt_t *info = dmi_entity_info(entity, DMI_TYPE(intel_amt));
     assert_non_null(info);
 
     assert_memory_equal(info->signature.data, "$AMT", 4);
@@ -98,11 +98,11 @@ static void test_amt_extended(void **pstate)
     // Longer structure of later platforms holds more bytes at the end
     assert_true(dmi_load(context, test_t14_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_AMT), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_amt), false);
     assert_non_null(entity);
     assert_int_equal(entity->body_length, 0x18);
 
-    const dmi_intel_amt_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_AMT));
+    const dmi_intel_amt_t *info = dmi_entity_info(entity, DMI_TYPE(intel_amt));
     assert_non_null(info);
     assert_true(info->is_enabled);
     assert_int_equal(info->oem_capabilities[0], 0xEF);

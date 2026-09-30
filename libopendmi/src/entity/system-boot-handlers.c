@@ -18,7 +18,7 @@ bool dmi_system_boot_derive(dmi_entity_t *entity)
 {
     dmi_system_boot_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_BOOT));
+    info = dmi_entity_info(entity, DMI_TYPE(system_boot));
     if (info == nullptr)
         return false;
 

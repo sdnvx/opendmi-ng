@@ -30,7 +30,7 @@ const dmi_entity_spec_t dmi_onboard_device_spec =
         "display the system’s onboard devices information.",
         nullptr
     },
-    .type            = DMI_TYPE(ONBOARD_DEVICE),
+    .type            = DMI_TYPE(onboard_device),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x06,

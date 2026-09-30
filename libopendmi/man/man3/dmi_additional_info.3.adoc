@@ -48,7 +48,7 @@ structure, is reported as an error and left out; in strict mode, it makes
 the table fail to decode.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(ADDITIONAL_INFO)`, and lives as long as the context it has been
+`DMI_TYPE(additional_info)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -66,9 +66,9 @@ Array of the additional information entries, see
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
-                                      DMI_TYPE(ADDITIONAL_INFO), false);
+                                      DMI_TYPE(additional_info), false);
 dmi_additional_info_t *info     = dmi_entity_info(entity,
-                                      DMI_TYPE(ADDITIONAL_INFO));
+                                      DMI_TYPE(additional_info));
 
 if (info != nullptr) {
     for (size_t i = 0; i < info->entry_count; i++) {

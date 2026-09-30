@@ -16,7 +16,7 @@
 
 void dmi_memory_array_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
+    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
 
     if ((info == nullptr) or (info->start_addr <= info->end_addr))
         return;
@@ -32,7 +32,7 @@ void dmi_memory_array_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *enti
 //
 void dmi_memory_array_addr_lint_overlap(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
+    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
 
     if ((info == nullptr) or (info->start_addr > info->end_addr))
         return;
@@ -45,7 +45,7 @@ void dmi_memory_array_addr_lint_overlap(dmi_lint_t *lint, const dmi_entity_t *en
         return;
 
     while ((other = dmi_registry_iter_next(&iter)) != nullptr) {
-        if ((other == entity) or (dmi_entity_type(other) != DMI_TYPE_MEMORY_ARRAY_ADDR))
+        if ((other == entity) or (dmi_entity_type(other) != DMI_TYPE(memory_array_addr)))
             continue;
 
         // Every pair is reported once, by the structure which comes later
@@ -53,7 +53,7 @@ void dmi_memory_array_addr_lint_overlap(dmi_lint_t *lint, const dmi_entity_t *en
             continue;
 
         const dmi_memory_array_addr_t *peer =
-                dmi_entity_info(other, DMI_TYPE(MEMORY_ARRAY_ADDR));
+                dmi_entity_info(other, DMI_TYPE(memory_array_addr));
 
         if ((peer == nullptr) or (peer->start_addr > peer->end_addr))
             continue;

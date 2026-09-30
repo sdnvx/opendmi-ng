@@ -37,8 +37,8 @@ and MAC information, and BIOS iSCSI NIC PCI and MAC information, which list
 the network ports the firmware boots from over PXE or iSCSI.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_pxe_nic_spec`, of type `DMI_TYPE(HPE_PXE_NIC)`, and by
-`dmi_hpe_iscsi_nic_spec`, of type `DMI_TYPE(HPE_ISCSI_NIC)`, declared in
+by `dmi_hpe_pxe_nic_spec`, of type `DMI_TYPE(hpe_pxe_nic)`, and by
+`dmi_hpe_iscsi_nic_spec`, of type `DMI_TYPE(hpe_iscsi_nic)`, declared in
 `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
 enabled, which it is for HP and HPE servers. It lives as long as the context
 it has been decoded in.

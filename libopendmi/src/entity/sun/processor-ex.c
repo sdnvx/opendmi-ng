@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_sun_processor_ex_spec =
 {
-    .type            = DMI_TYPE(SUN_PROCESSOR_EX),
+    .type            = DMI_TYPE(sun_processor_ex),
     .code            = "sun-processor-ex",
     .name            = "Sun processor extended information",
     .description     = (const char *[]){
@@ -45,7 +45,7 @@ const dmi_entity_spec_t dmi_sun_processor_ex_spec =
         DMI_ATTRIBUTE(dmi_sun_processor_ex_t, processor_handle, HANDLE, {
             .code  = "processor-handle",
             .name  = "Processor handle",
-            .targets = dmi_types(DMI_TYPE_PROCESSOR),
+            .targets = dmi_types(DMI_TYPE(processor)),
         }),
         DMI_ATTRIBUTE(dmi_sun_processor_ex_t, fru, INTEGER, {
             .code  = "fru",

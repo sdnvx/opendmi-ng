@@ -87,7 +87,7 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_intel_rsd_phys_device_mapping_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING));
+    const dmi_intel_rsd_phys_device_mapping_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_phys_device_mapping));
     assert_non_null(info);
 
     assert_int_equal(info->device_type, DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY);
@@ -107,12 +107,12 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
     // to any structure for the device types the specification leaves out
     static const struct {
         dmi_intel_rsd_phys_device_type_t device_type;
-        dmi_type_t                       target;
+        const dmi_type_t                   *target;
     } test_targets[] = {
-        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PROCESSOR, DMI_TYPE_PROCESSOR      },
-        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PCIE_SLOT, DMI_TYPE_SYSTEM_SLOTS   },
-        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY,    DMI_TYPE_MEMORY_DEVICE  },
-        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID,   DMI_TYPE_INVALID        }
+        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PROCESSOR, DMI_TYPE(processor)     },
+        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PCIE_SLOT, DMI_TYPE(system_slots)  },
+        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY,    DMI_TYPE(memory_device) },
+        { DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID,   DMI_TYPE_ANY            }
     };
 
     const dmi_attribute_t *devices = entity->spec->attributes;
@@ -132,12 +132,12 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
         assert_int_equal(resolved->type, DMI_ATTRIBUTE_TYPE_HANDLE);
         assert_string_equal(resolved->params.code, "handle");
 
-        if (test_targets[i].target == DMI_TYPE_INVALID) {
+        if (test_targets[i].target == DMI_TYPE_ANY) {
             assert_null(resolved->params.targets);
         } else {
             assert_non_null(resolved->params.targets);
-            assert_int_equal(resolved->params.targets[0], test_targets[i].target);
-            assert_int_equal(resolved->params.targets[1], DMI_TYPE_INVALID);
+            assert_ptr_equal(resolved->params.targets[0], test_targets[i].target);
+            assert_null(resolved->params.targets[1]);
         }
     }
 
@@ -165,7 +165,7 @@ static void test_rsd_phys_device_mapping_decode_unknown(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_intel_rsd_phys_device_mapping_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING));
+    const dmi_intel_rsd_phys_device_mapping_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_phys_device_mapping));
     assert_non_null(info);
 
     assert_int_equal(info->device_count, 1);

@@ -133,14 +133,14 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
             return false;
     }
 
-    entity_description = dmi_type_name(session->context, entity->type);
+    entity_description = dmi_type_name(session->context, entity->type_id);
 
     result =
         dmi_json_mapping_start(session) and
         dmi_json_label(session, "handle") and
         dmi_json_scalar(session, (int)entity->handle) and
         dmi_json_label(session, "type") and
-        dmi_json_scalar(session, entity->type) and
+        dmi_json_scalar(session, entity->type_id) and
         dmi_json_label(session, "length") and
         dmi_json_scalar(session, entity->total_length) and
         dmi_json_label(session, "level") and

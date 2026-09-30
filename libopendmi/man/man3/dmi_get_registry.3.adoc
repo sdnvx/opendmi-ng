@@ -55,8 +55,8 @@ None.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                                                     DMI_TYPE(SYSTEM), false);
-dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(SYSTEM));
+                                                     DMI_TYPE(system), false);
+dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(system));
 ----
 
 == See also

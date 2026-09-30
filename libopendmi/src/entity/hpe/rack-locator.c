@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_rack_locator_spec =
 {
-    .type        = DMI_TYPE(HPE_RACK_LOCATOR),
+    .type        = DMI_TYPE(hpe_rack_locator),
     .code        = "hpe-rack-locator",
     .name        = "HP/HPE system/rack locator",
     .description = (const char *[]){

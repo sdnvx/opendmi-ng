@@ -93,7 +93,7 @@ bool dmi_processor_derive(dmi_entity_t *entity)
 {
     dmi_processor_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    info = dmi_entity_info(entity, DMI_TYPE(processor));
     if (info == nullptr)
         return false;
 
@@ -148,7 +148,7 @@ static void dmi_processor_decode_id_x86(const dmi_entity_t *entity, dmi_processo
     if ((low & DMI_PROCESSOR_ID_RESERVED) and not (high & DMI_PROCESSOR_ID_RESERVED)) {
         dmi_log_notice(dmi_entity_context(entity),
                        "Handle 0x%04hx (%s): Processor ID words are swapped",
-                       dmi_entity_handle(entity), dmi_type_name(dmi_entity_context(entity), entity->type));
+                       dmi_entity_handle(entity), dmi_type_name(dmi_entity_context(entity), entity->type_id));
 
         uint32_t swap = low;
         low  = high;

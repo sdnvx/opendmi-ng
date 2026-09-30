@@ -14,7 +14,7 @@
 
 const dmi_entity_spec_t dmi_hpe_drive_spec =
 {
-    .type        = DMI_TYPE(HPE_DRIVE),
+    .type        = DMI_TYPE(hpe_drive),
     .code        = "hpe-drive",
     .name        = "HP/HPE hard drive inventory record",
     .description = (const char *[]){
@@ -63,7 +63,7 @@ const dmi_entity_spec_t dmi_hpe_drive_spec =
         DMI_ATTRIBUTE(dmi_hpe_drive_t, correlation_handle, HANDLE, {
             .code    = "correlation-handle",
             .name    = "Device correlation handle",
-            .targets = dmi_types(DMI_TYPE(HPE_DEVICE_CORRELATION))
+            .targets = dmi_types(DMI_TYPE(hpe_device_correlation))
         }),
         DMI_ATTRIBUTE(dmi_hpe_drive_t, drive_type, ENUM, {
             .code   = "drive-type",

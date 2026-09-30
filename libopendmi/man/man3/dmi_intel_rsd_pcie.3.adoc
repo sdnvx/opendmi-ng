@@ -45,7 +45,7 @@ device of the system, with its PCI identity, the slot it is installed in, and
 the current state of its link.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_PCIE)`, once the Intel RSD extension module
+`DMI_TYPE(intel_rsd_pcie)`, once the Intel RSD extension module
 (`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
 enabled in the context with `dmi_add_extension()`. It lives as long as the
 context it has been decoded in.
@@ -83,9 +83,9 @@ Current width of the link, in lanes: 1, 2, 4, 8, 16, and so on.
 ----
 dmi_registry_t       *registry = dmi_get_registry(context);
 dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
-                                     DMI_TYPE(INTEL_RSD_PCIE), true);
+                                     DMI_TYPE(intel_rsd_pcie), true);
 dmi_intel_rsd_pcie_t *device   = dmi_entity_info(entity,
-                                                 DMI_TYPE(INTEL_RSD_PCIE));
+                                                 DMI_TYPE(intel_rsd_pcie));
 
 if (device != nullptr)
     printf("Slot %u: %04X:%04X, x%u\n", (unsigned)device->pci_slot_id,

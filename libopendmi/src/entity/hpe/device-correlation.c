@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
 {
-    .type        = DMI_TYPE(HPE_DEVICE_CORRELATION),
+    .type        = DMI_TYPE(hpe_device_correlation),
     .code        = "hpe-device-correlation",
     .name        = "HP/HPE device correlation record",
     .description = (const char *[]){
@@ -75,7 +75,7 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
             .code    = "device-handle",
             .name    = "Associated device handle",
             .unspec  = dmi_value_ptr((dmi_handle_t)0xFFFE),
-            .targets = dmi_types(DMI_TYPE_SYSTEM_SLOTS, DMI_TYPE_ONBOARD_DEVICE_EX)
+            .targets = dmi_types(DMI_TYPE(system_slots), DMI_TYPE(onboard_device_ex))
         }),
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, smbus_handle, HANDLE, {
             .code   = "smbus-handle",
@@ -122,7 +122,7 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
             .code    = "parent-handle",
             .name    = "Parent handle",
             .unspec  = dmi_value_ptr((dmi_handle_t)0xFFFE),
-            .targets = dmi_types(DMI_TYPE(HPE_DEVICE_CORRELATION))
+            .targets = dmi_types(DMI_TYPE(hpe_device_correlation))
         }),
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, is_peer_bifurcated, BOOL, {
             .code = "is-peer-bifurcated",
@@ -181,7 +181,7 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, physical_handle, HANDLE, {
             .code    = "physical-handle",
             .name    = "Physical slot handle",
-            .targets = dmi_types(DMI_TYPE_SYSTEM_SLOTS)
+            .targets = dmi_types(DMI_TYPE(system_slots))
         }),
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, part_number, STRING, {
             .code = "part-number",

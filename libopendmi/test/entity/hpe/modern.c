@@ -172,7 +172,7 @@ static void test_hpe_device_correlation(void **pstate)
 
     // Structures are decoded from Gen9 onwards only
     test_hpe_generation(state, DMI_HPE_GEN8);
-    assert_null(dmi_type_spec(state->context, DMI_TYPE(HPE_DEVICE_CORRELATION)));
+    assert_null(dmi_type_spec(state->context, DMI_TYPE_ID(HPE_DEVICE_CORRELATION)));
 }
 
 static void test_hpe_version(void **pstate)
@@ -326,7 +326,7 @@ static void test_hpe_backplane(void **pstate)
 
     // Structures are not known from Gen11 onwards
     test_hpe_generation(state, DMI_HPE_GEN11);
-    assert_null(dmi_type_spec(state->context, DMI_TYPE(HPE_BACKPLANE)));
+    assert_null(dmi_type_spec(state->context, DMI_TYPE_ID(HPE_BACKPLANE)));
 }
 
 static void test_hpe_dimm_vendor(void **pstate)
@@ -467,7 +467,7 @@ static void test_hpe_drive(void **pstate)
 
     // Structures are decoded from Gen10 onwards only
     test_hpe_generation(state, DMI_HPE_GEN9);
-    assert_null(dmi_type_spec(state->context, DMI_TYPE(HPE_DRIVE)));
+    assert_null(dmi_type_spec(state->context, DMI_TYPE_ID(HPE_DRIVE)));
 }
 
 static void test_hpe_dimm_config(void **pstate)

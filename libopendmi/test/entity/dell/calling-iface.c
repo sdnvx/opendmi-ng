@@ -89,7 +89,7 @@ static void test_dell_calling_iface_decode(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_dell_calling_iface_t *info = dmi_entity_info(entity, DMI_TYPE(DELL_CALLING_IFACE));
+    const dmi_dell_calling_iface_t *info = dmi_entity_info(entity, DMI_TYPE(dell_calling_iface));
     assert_non_null(info);
 
     assert_int_equal(info->cmd_io_address, 0xB2);
@@ -128,7 +128,7 @@ static void test_dell_calling_iface_decode_truncated(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_dell_calling_iface_t *info = dmi_entity_info(entity, DMI_TYPE(DELL_CALLING_IFACE));
+    const dmi_dell_calling_iface_t *info = dmi_entity_info(entity, DMI_TYPE(dell_calling_iface));
     assert_non_null(info);
     assert_int_equal(info->token_count, 1);
 

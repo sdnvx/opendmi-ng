@@ -75,13 +75,13 @@ static void test_mgmt_device_threshold_units(void **pstate)
     dmi_set_logger(context, &test_logger);
 
     static const struct {
-        dmi_type_t  type;
+        dmi_type_id_t  type;
         const char *expected;
     } test_cases[] = {
-        { DMI_TYPE(VOLTAGE_PROBE),     "850 mV"   },
-        { DMI_TYPE(TEMPERATURE_PROBE), "85.0 °C"  },
-        { DMI_TYPE(CURRENT_PROBE),     "850 mA"   },
-        { DMI_TYPE(COOLING_DEVICE),    "850 rpm"  }
+        { DMI_TYPE_ID(VOLTAGE_PROBE),     "850 mV"   },
+        { DMI_TYPE_ID(TEMPERATURE_PROBE), "85.0 °C"  },
+        { DMI_TYPE_ID(CURRENT_PROBE),     "850 mA"   },
+        { DMI_TYPE_ID(COOLING_DEVICE),    "850 rpm"  }
     };
 
     // Values are shown as stored, until the component is known
@@ -129,19 +129,19 @@ static void test_mgmt_device_threshold_ambiguous(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_device_threshold_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE_THRESHOLD));
+    const dmi_mgmt_device_threshold_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_device_threshold));
     assert_non_null(info);
 
     // Thresholds shared by components of the same type
-    dmi_mgmt_device_threshold_set_component(entity, DMI_TYPE(VOLTAGE_PROBE));
-    dmi_mgmt_device_threshold_set_component(entity, DMI_TYPE(VOLTAGE_PROBE));
-    assert_int_equal(info->component_type, DMI_TYPE(VOLTAGE_PROBE));
+    dmi_mgmt_device_threshold_set_component(entity, DMI_TYPE_ID(VOLTAGE_PROBE));
+    dmi_mgmt_device_threshold_set_component(entity, DMI_TYPE_ID(VOLTAGE_PROBE));
+    assert_int_equal(info->component_type, DMI_TYPE_ID(VOLTAGE_PROBE));
     assert_false(info->is_ambiguous);
 
     // Thresholds shared by components of different types have no units
-    dmi_mgmt_device_threshold_set_component(entity, DMI_TYPE(TEMPERATURE_PROBE));
-    dmi_mgmt_device_threshold_set_component(entity, DMI_TYPE(VOLTAGE_PROBE));
-    assert_int_equal(info->component_type, DMI_TYPE_INVALID);
+    dmi_mgmt_device_threshold_set_component(entity, DMI_TYPE_ID(TEMPERATURE_PROBE));
+    dmi_mgmt_device_threshold_set_component(entity, DMI_TYPE_ID(VOLTAGE_PROBE));
+    assert_int_equal(info->component_type, DMI_TYPE_ID_INVALID);
     assert_true(info->is_ambiguous);
     assert_string_equal(test_format(entity), "850");
 

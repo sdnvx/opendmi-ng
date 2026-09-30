@@ -69,7 +69,7 @@ static void test_system_event_log_access_address(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
+        const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(system_event_log));
         assert_non_null(info);
 
         // Other SMBIOS 2.0 fields
@@ -163,7 +163,7 @@ static void test_system_event_log_descriptors(void **pstate)
         assert_int_equal(entity->level, dmi_version(2, 1, 0));
         assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, test_cases[i].incomplete);
 
-        const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
+        const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(system_event_log));
         assert_non_null(info);
         assert_int_equal(info->header_format, DMI_SYSTEM_LOG_HEADER_FORMAT_TYPE_1);
         assert_int_equal(info->descriptor_count, test_cases[i].decoded);

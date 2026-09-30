@@ -100,7 +100,7 @@ static void test_fvi_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_FVI));
+    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(intel_fvi));
     assert_non_null(info);
     assert_int_equal(info->item_count, 3);
 
@@ -151,7 +151,7 @@ static void test_fvi_unspecified(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_FVI));
+    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(intel_fvi));
     assert_non_null(info);
     assert_int_equal(info->item_count, 2);
 
@@ -190,7 +190,7 @@ static void test_fvi_truncated(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_FVI));
+    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(intel_fvi));
     assert_non_null(info);
     assert_int_equal(info->item_count, 1);
     assert_string_equal(info->items[0].component, "FSP Binary Version");
@@ -209,11 +209,11 @@ static void test_fvi_platform(void **pstate)
     assert_true(dmi_load(context, test_asrock_path));
     assert_true(dmi_has_extension(context, &dmi_intel_module));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_FVI), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_fvi), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_fvi_spec);
 
-    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_FVI));
+    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(intel_fvi));
     assert_non_null(info);
     assert_int_equal(info->item_count, 3);
     assert_string_equal(info->items[0].component, "Reference Code - CPU");
@@ -231,16 +231,17 @@ static void test_fvi_dell(void **pstate)
 
     dmi_registry_t *registry = dmi_get_registry(context);
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(registry, (dmi_type_t)205, false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_fvi), false);
     assert_non_null(entity);
+    assert_int_equal(dmi_entity_type_id(entity), 205);
     assert_ptr_equal(entity->spec, &dmi_intel_fvi_spec);
 
-    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_FVI));
+    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(intel_fvi));
     assert_non_null(info);
     assert_int_equal(info->item_count, 1);
     assert_string_equal(info->items[0].component, "BIOS Guard");
 
-    entity = dmi_registry_lookup_first(registry, DMI_TYPE(INTEL_FVI), false);
+    entity = dmi_registry_lookup_first_id(registry, DMI_TYPE_ID(INTEL_FVI), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_dell_token_refs_2_spec);
 }
@@ -252,9 +253,9 @@ static void test_fvi_proliant(void **pstate)
     // HP servers give type 221 to a structure of their own
     assert_true(dmi_load(context, test_proliant_path));
     assert_true(dmi_has_extension(context, &dmi_intel_module));
-    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE(INTEL_FVI)), &dmi_hpe_iscsi_nic_spec);
+    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE_ID(INTEL_FVI)), &dmi_hpe_iscsi_nic_spec);
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_FVI), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), DMI_TYPE_ID(INTEL_FVI), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_hpe_iscsi_nic_spec);
 }

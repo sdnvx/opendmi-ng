@@ -45,7 +45,7 @@ encoding, separated by vertical bars, e.g. "de|DE|iso8859-1"; the abbreviated
 one glues the two codes together, e.g. "deDE".
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(FIRMWARE_LANGUAGE)`, and lives as long as the context it has been
+`DMI_TYPE(firmware_language)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -73,9 +73,9 @@ does not carry it.
 ----
 dmi_registry_t          *registry = dmi_get_registry(context);
 dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
-                                        DMI_TYPE(FIRMWARE_LANGUAGE), true);
+                                        DMI_TYPE(firmware_language), true);
 dmi_firmware_language_t *info     = dmi_entity_info(entity,
-                                        DMI_TYPE(FIRMWARE_LANGUAGE));
+                                        DMI_TYPE(firmware_language));
 
 for (size_t i = 0; (info != nullptr) && (i < info->language_count); i++) {
     const char *language = info->languages[i];

@@ -89,14 +89,14 @@ const dmi_lint_rule_t dmi_lint_link_orphan_rule =
 // unless something references them. The rest of the types are standalone:
 // a processor or a mapped address is referenced by nothing by design.
 //
-static const dmi_type_t dmi_lint_referenced_types[] =
+static const dmi_type_id_t dmi_lint_referenced_types[] =
 {
-    DMI_TYPE_CACHE,
-    DMI_TYPE_VOLTAGE_PROBE,
-    DMI_TYPE_TEMPERATURE_PROBE,
-    DMI_TYPE_CURRENT_PROBE,
-    DMI_TYPE_MGMT_DEVICE,
-    DMI_TYPE_MGMT_DEVICE_THRESHOLD
+    DMI_TYPE_ID_CACHE,
+    DMI_TYPE_ID_VOLTAGE_PROBE,
+    DMI_TYPE_ID_TEMPERATURE_PROBE,
+    DMI_TYPE_ID_CURRENT_PROBE,
+    DMI_TYPE_ID_MGMT_DEVICE,
+    DMI_TYPE_ID_MGMT_DEVICE_THRESHOLD
 };
 
 //
@@ -168,18 +168,17 @@ static void dmi_lint_link_check_type(
     if (target == nullptr)
         return;
 
-    dmi_type_t type = dmi_entity_type(target);
+    const dmi_type_t *type = dmi_entity_type(target);
 
-    for (const dmi_type_t *expected = attr->params.targets;
-         *expected != DMI_TYPE_INVALID; expected++) {
+    for (const dmi_type_t *const *expected = attr->params.targets; *expected != nullptr; expected++) {
         if (*expected == type)
             return;
     }
 
     dmi_lint_issue(lint, entity, attr->params.code, dmi_lint_entity_offset(lint, entity),
                    "handle 0x%04X refers to a structure of type %d (%s)",
-                   (unsigned)handle, (int)type,
-                   dmi_type_name(dmi_lint_context(lint), type));
+                   (unsigned)handle, (int)dmi_entity_type_id(target),
+                   dmi_entity_name(target));
 }
 
 static void dmi_lint_link_wrong_type(dmi_lint_t *lint, const dmi_entity_t *entity)
@@ -283,7 +282,7 @@ static bool dmi_lint_link_references(
 
 static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_type_t type = dmi_entity_type(entity);
+    dmi_type_id_t type = dmi_entity_type_id(entity);
     bool referenced = false;
 
     for (size_t i = 0; i < countof(dmi_lint_referenced_types); i++) {

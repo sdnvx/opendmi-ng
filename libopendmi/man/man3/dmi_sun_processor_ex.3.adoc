@@ -44,7 +44,7 @@ declared in `<opendmi/module/sun.h>`) is enabled in the context with
 `dmi_add_extension`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SUN_PROCESSOR_EX)`, and lives as long as the context it has been
+`DMI_TYPE(sun_processor_ex)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -73,9 +73,9 @@ is 0.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                               DMI_TYPE(SUN_PROCESSOR_EX), true);
+                               DMI_TYPE(sun_processor_ex), true);
 dmi_sun_processor_ex_t *info =
-        dmi_entity_info(entity, DMI_TYPE(SUN_PROCESSOR_EX));
+        dmi_entity_info(entity, DMI_TYPE(sun_processor_ex));
 
 for (size_t i = 0; (info != nullptr) && (i < info->apic_id_count); i++)
     printf("strand %zu: APIC ID 0x%04X\n", i, (unsigned)info->apic_ids[i]);

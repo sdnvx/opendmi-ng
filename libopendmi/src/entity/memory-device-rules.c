@@ -27,7 +27,7 @@
 
 void dmi_memory_device_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device));
 
     if ((info == nullptr) or (info->total_width == USHRT_MAX) or (info->data_width == USHRT_MAX))
         return;
@@ -43,7 +43,7 @@ void dmi_memory_device_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity)
 
 void dmi_memory_device_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device));
 
     if ((info == nullptr) or (info->maximum_speed == 0) or (info->configured_speed == 0))
         return;
@@ -58,7 +58,7 @@ void dmi_memory_device_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity)
 
 void dmi_memory_device_lint_voltage(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device));
 
     if ((info == nullptr) or (info->configured_voltage == 0))
         return;
@@ -78,7 +78,7 @@ void dmi_memory_device_lint_voltage(dmi_lint_t *lint, const dmi_entity_t *entity
 
 void dmi_memory_device_lint_sizes(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device));
 
     if ((info == nullptr) or (info->size == 0) or (info->size == DMI_SIZE_MAX))
         return;

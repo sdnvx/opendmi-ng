@@ -38,7 +38,7 @@ and falls within the years the model has been made in, and so is probably its
 manufacture date.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_lenovo_date_spec`, of type `DMI_TYPE(LENOVO_DATE)`, declared in
+by `dmi_lenovo_date_spec`, of type `DMI_TYPE(lenovo_date)`, declared in
 `<opendmi/module/lenovo.h>`, once the Lenovo extension module
 (`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
 It lives as long as the context it has been decoded in. The structures of type

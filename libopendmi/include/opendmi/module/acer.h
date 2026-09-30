@@ -14,13 +14,19 @@
 /**
  * @brief Acer structure type identifiers.
  */
-typedef enum dmi_acer_type
+typedef enum dmi_acer_type_id
 {
-    DMI_TYPE_ACER_HOTKEYS = 170, ///< Hotkey functions
-    DMI_TYPE_ACER_DEVICES = 171  ///< Device list
-} dmi_acer_type_t;
+    DMI_TYPE_ID_ACER_HOTKEYS = 170, ///< Hotkey functions
+    DMI_TYPE_ID_ACER_DEVICES = 171  ///< Device list
+} dmi_acer_type_id_t;
 
 __BEGIN_DECLS
+
+/** @brief Hotkey functions */
+extern __dmi_api const dmi_type_t dmi_type_acer_hotkeys;
+
+/** @brief Device list */
+extern __dmi_api const dmi_type_t dmi_type_acer_devices;
 
 extern __dmi_api const dmi_module_t dmi_acer_module;
 

@@ -39,7 +39,7 @@ machine type model, e.g. `20VE00U9RU`, of which the system information (type
 1) holds only the machine type, e.g. `20VE`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_lenovo_mtm_spec`, of type `DMI_TYPE(LENOVO_MTM)`, declared in
+by `dmi_lenovo_mtm_spec`, of type `DMI_TYPE(lenovo_mtm)`, declared in
 `<opendmi/module/lenovo.h>`, once the Lenovo extension module
 (`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
 It lives as long as the context it has been decoded in.

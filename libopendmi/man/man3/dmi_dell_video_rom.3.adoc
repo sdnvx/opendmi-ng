@@ -39,7 +39,7 @@ information (type 216), which tells the vendor and the version of the video
 BIOS.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_dell_video_rom_spec`, of type `DMI_TYPE(DELL_VIDEO_ROM)`, declared in
+by `dmi_dell_video_rom_spec`, of type `DMI_TYPE(dell_video_rom)`, declared in
 `<opendmi/module/dell.h>`, once the Dell extension module (`dmi_dell_module`)
 is enabled. It lives as long as the context it has been decoded in.
 

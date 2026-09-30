@@ -37,6 +37,12 @@
 #define TEST_TYPE_BARE     204
 #define TEST_TYPE_VECTOR   205
 
+static const dmi_type_t test_type_fields = { .id = (dmi_type_id_t)TEST_TYPE_FIELDS };
+static const dmi_type_t test_type_array  = { .id = (dmi_type_id_t)TEST_TYPE_ARRAY  };
+static const dmi_type_t test_type_offset = { .id = (dmi_type_id_t)TEST_TYPE_OFFSET };
+static const dmi_type_t test_type_bare   = { .id = (dmi_type_id_t)TEST_TYPE_BARE   };
+static const dmi_type_t test_type_vector = { .id = (dmi_type_id_t)TEST_TYPE_VECTOR };
+
 typedef struct test_state test_state_t;
 
 struct test_state
@@ -78,7 +84,7 @@ typedef struct test_fields
 
 static const dmi_entity_spec_t test_fields_spec =
 {
-    .type = TEST_TYPE_FIELDS,
+    .type = &test_type_fields,
     .code = "test-fields",
     .name = "Test fields",
 
@@ -170,7 +176,7 @@ typedef struct test_array
 
 static const dmi_entity_spec_t test_array_spec =
 {
-    .type = TEST_TYPE_ARRAY,
+    .type = &test_type_array,
     .code = "test-array",
     .name = "Test arrays",
 
@@ -225,7 +231,7 @@ static const dmi_byte_t test_array_data[] = {
 
 static const dmi_entity_spec_t test_offset_spec =
 {
-    .type = TEST_TYPE_OFFSET,
+    .type = &test_type_offset,
     .code = "test-offset",
     .name = "Test offsets",
 
@@ -255,7 +261,7 @@ static const dmi_byte_t test_offset_data[] = {
 
 static const dmi_entity_spec_t test_bare_spec =
 {
-    .type = TEST_TYPE_BARE,
+    .type = &test_type_bare,
     .code = "test-bare",
     .name = "Test without fields",
 
@@ -292,7 +298,7 @@ typedef struct test_vector
 
 static const dmi_entity_spec_t test_vector_spec =
 {
-    .type = TEST_TYPE_VECTOR,
+    .type = &test_type_vector,
     .code = "test-vector",
     .name = "Test vector",
 
@@ -488,7 +494,7 @@ static const void *test_field_decode(
         const dmi_byte_t *data,
         size_t            length,
         size_t            body_length,
-        dmi_type_t        type,
+        const dmi_type_t *type,
         bool              expected)
 {
     dmi_byte_t copy[64];
@@ -520,7 +526,7 @@ static const test_fields_t *test_field_decode_fields(test_state_t *state, size_t
 {
     const test_fields_t *info = test_field_decode(
             state, test_fields_data, sizeof(test_fields_data),
-            body_length, TEST_TYPE_FIELDS, true);
+            body_length, &test_type_fields, true);
 
     assert_non_null(info);
 
@@ -718,7 +724,7 @@ static void test_field_required(void **pstate)
     test_state_t *state = dmi_cast(state, *pstate);
 
     test_field_decode(state, test_fields_data, sizeof(test_fields_data),
-                      TEST_FIELDS_REQUIRED - 1, TEST_TYPE_FIELDS, false);
+                      TEST_FIELDS_REQUIRED - 1, &test_type_fields, false);
 
     const dmi_error_t *error = dmi_error_get_last(state->context);
     assert_non_null(error);
@@ -735,7 +741,7 @@ static void test_field_array(void **pstate)
     test_state_t *state = dmi_cast(state, *pstate);
 
     const test_array_t *info = test_field_decode(
-            state, test_array_data, sizeof(test_array_data), 0, TEST_TYPE_ARRAY, true);
+            state, test_array_data, sizeof(test_array_data), 0, &test_type_array, true);
 
     assert_non_null(info);
     assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -765,7 +771,7 @@ static void test_field_array_truncated(void **pstate)
 
     // Only one element and a half of the second one are there
     const test_array_t *info = test_field_decode(
-            state, test_array_data, sizeof(test_array_data), 0x0C, TEST_TYPE_ARRAY, true);
+            state, test_array_data, sizeof(test_array_data), 0x0C, &test_type_array, true);
 
     assert_non_null(info);
     assert_true(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -784,7 +790,7 @@ static void test_field_vector(void **pstate)
     test_state_t *state = dmi_cast(state, *pstate);
 
     const test_vector_t *info = test_field_decode(
-            state, test_vector_data, sizeof(test_vector_data), 0, TEST_TYPE_VECTOR, true);
+            state, test_vector_data, sizeof(test_vector_data), 0, &test_type_vector, true);
 
     assert_non_null(info);
     assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -827,7 +833,7 @@ static void test_field_array_empty(void **pstate)
     data[0x05] = 0x00;  // Of no length
 
     const test_array_t *info = test_field_decode(
-            state, data, sizeof(data), 0x06, TEST_TYPE_ARRAY, true);
+            state, data, sizeof(data), 0x06, &test_type_array, true);
 
     assert_non_null(info);
     assert_int_equal(info->declared_count, 0);
@@ -848,7 +854,7 @@ static void test_field_offset_mismatch(void **pstate)
     test_state_t *state = dmi_cast(state, *pstate);
 
     test_field_decode(state, test_offset_data, sizeof(test_offset_data),
-                      0, TEST_TYPE_OFFSET, false);
+                      0, &test_type_offset, false);
 
     // Mismatch is the cause, which the failure to decode is reported over
     const dmi_error_t *error = dmi_error_get_first(state->context);
@@ -865,7 +871,7 @@ static void test_field_no_fields(void **pstate)
 
     // Structure of a type which declares no fields is decoded into nothing
     test_field_decode(state, test_bare_data, sizeof(test_bare_data),
-                      0, TEST_TYPE_BARE, true);
+                      0, &test_type_bare, true);
 
     dmi_decoder_t decoder;
     assert_true(dmi_decoder_initialize(&decoder, state->entity));
@@ -992,7 +998,7 @@ static void test_field_encode_array(void **pstate)
 {
     test_state_t *state = dmi_cast(state, *pstate);
 
-    test_field_decode(state, test_array_data, sizeof(test_array_data), 0, TEST_TYPE_ARRAY, true);
+    test_field_decode(state, test_array_data, sizeof(test_array_data), 0, &test_type_array, true);
 
     dmi_buffer_t *buffer = test_field_encode(state, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE);
 
@@ -1006,7 +1012,7 @@ static void test_field_encode_vector(void **pstate)
 {
     test_state_t *state = dmi_cast(state, *pstate);
 
-    test_field_decode(state, test_vector_data, sizeof(test_vector_data), 0, TEST_TYPE_VECTOR, true);
+    test_field_decode(state, test_vector_data, sizeof(test_vector_data), 0, &test_type_vector, true);
 
     dmi_buffer_t *buffer = test_field_encode(state, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE);
 

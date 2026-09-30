@@ -53,7 +53,7 @@ address modifier and the interrupt information, is spread over the
 fields; see `dmi_ipmi_device_details`(3) for its layout.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(IPMI_DEVICE)`, and lives as long as the context it has been decoded
+`DMI_TYPE(ipmi_device)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -113,8 +113,8 @@ supported.
 ----
 dmi_registry_t    *registry = dmi_get_registry(context);
 dmi_entity_t      *entity   = dmi_registry_lookup_first(registry,
-                                  DMI_TYPE(IPMI_DEVICE), false);
-dmi_ipmi_device_t *ipmi     = dmi_entity_info(entity, DMI_TYPE(IPMI_DEVICE));
+                                  DMI_TYPE(ipmi_device), false);
+dmi_ipmi_device_t *ipmi     = dmi_entity_info(entity, DMI_TYPE(ipmi_device));
 
 if (ipmi != nullptr) {
     const char *interface = dmi_ipmi_interface_name(ipmi->interface_type);

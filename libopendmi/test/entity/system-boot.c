@@ -70,7 +70,7 @@ static void test_system_boot_status(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_system_boot_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_BOOT));
+        const dmi_system_boot_t *info = dmi_entity_info(entity, DMI_TYPE(system_boot));
         assert_non_null(info);
         assert_int_equal(info->status, test_cases[i].status);
         assert_int_equal(info->status_data.length, test_cases[i].data_length);

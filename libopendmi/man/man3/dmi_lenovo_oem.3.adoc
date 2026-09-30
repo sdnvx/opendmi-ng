@@ -46,8 +46,8 @@ their signature together with the number and the revision, and the rest by the
 signature alone.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_lenovo_mobile_oem_spec`, of type `DMI_TYPE(LENOVO_MOBILE_OEM)`, and by
-`dmi_lenovo_oem_spec`, of type `DMI_TYPE(LENOVO_OEM)`, declared in
+by `dmi_lenovo_mobile_oem_spec`, of type `DMI_TYPE(lenovo_mobile_oem)`, and by
+`dmi_lenovo_oem_spec`, of type `DMI_TYPE(lenovo_oem)`, declared in
 `<opendmi/module/lenovo.h>`, once the Lenovo extension module
 (`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
 It lives as long as the context it has been decoded in.

@@ -32,7 +32,7 @@ const dmi_entity_spec_t dmi_system_reset_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(SYSTEM_RESET),
+    .type            = DMI_TYPE(system_reset),
     .params = {
         .minimum_version = DMI_VERSION(2, 2, 0),
         .minimum_length  = 0x0D,

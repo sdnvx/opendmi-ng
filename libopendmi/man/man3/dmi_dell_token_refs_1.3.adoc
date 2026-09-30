@@ -37,7 +37,7 @@ the indexed I/O access (type 212) defines, grouped by the device they belong
 to. The meaning of the groups is not established.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_dell_token_refs_1_spec`, of type `DMI_TYPE(DELL_TOKEN_REFS_1)`,
+by `dmi_dell_token_refs_1_spec`, of type `DMI_TYPE(dell_token_refs_1)`,
 declared in `<opendmi/module/dell.h>`, once the Dell extension module
 (`dmi_dell_module`) is enabled. It lives as long as the context it has been
 decoded in.

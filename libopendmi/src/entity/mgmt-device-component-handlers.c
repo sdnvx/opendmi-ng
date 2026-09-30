@@ -15,19 +15,19 @@
 
 bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
 {
-    static const dmi_type_t dmi_component_types[] = {
-        DMI_TYPE(COOLING_DEVICE),
-        DMI_TYPE(TEMPERATURE_PROBE),
-        DMI_TYPE(VOLTAGE_PROBE),
-        DMI_TYPE(CURRENT_PROBE),
-        DMI_TYPE_INVALID
+    static const dmi_type_t *const dmi_component_types[] = {
+        DMI_TYPE(cooling_device),
+        DMI_TYPE(temperature_probe),
+        DMI_TYPE(voltage_probe),
+        DMI_TYPE(current_probe),
+        nullptr
     };
 
     dmi_mgmt_device_component_t *info;
 
     assert(entity != nullptr);
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE_COMPONENT));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_device_component));
     if (info == nullptr)
         return false;
 
@@ -37,7 +37,7 @@ bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
     bool success = true;
 
     // Management device and component are required, threshold is optional
-    if (not dmi_registry_resolve(registry, info->device_handle, DMI_TYPE(MGMT_DEVICE), &info->device)) {
+    if (not dmi_registry_resolve(registry, info->device_handle, DMI_TYPE(mgmt_device), &info->device)) {
         success = false;
     } else if (info->device == nullptr) {
         dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
@@ -55,12 +55,12 @@ bool dmi_mgmt_device_component_link(dmi_entity_t *entity)
         success = false;
     }
 
-    if (not dmi_registry_resolve(registry, info->threshold_handle, DMI_TYPE(MGMT_DEVICE_THRESHOLD), &info->threshold))
+    if (not dmi_registry_resolve(registry, info->threshold_handle, DMI_TYPE(mgmt_device_threshold), &info->threshold))
         success = false;
 
     // Units of threshold values are defined by the component
     if ((info->threshold != nullptr) and (info->component != nullptr))
-        dmi_mgmt_device_threshold_set_component(info->threshold, info->component->type);
+        dmi_mgmt_device_threshold_set_component(info->threshold, info->component->type_id);
 
     return success;
 }

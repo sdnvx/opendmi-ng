@@ -45,7 +45,7 @@ correlation record, which correlates a USB port connector (type 8) with its
 USB controller, its location and the UEFI device path of its endpoint.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_usb_port_spec`, of type `DMI_TYPE(HPE_USB_PORT)`, declared in
+by `dmi_hpe_usb_port_spec`, of type `DMI_TYPE(hpe_usb_port)`, declared in
 `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
 enabled, which it is for HP and HPE servers from Gen9 onwards. It lives as
 long as the context it has been decoded in.

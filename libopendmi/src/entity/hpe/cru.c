@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_cru_spec =
 {
-    .type        = DMI_TYPE(HPE_CRU),
+    .type        = DMI_TYPE(hpe_cru),
     .code        = "hpe-cru",
     .name        = "HP/HPE 64-bit CRU information",
     .description = (const char *[]){
@@ -69,7 +69,7 @@ const dmi_entity_spec_t dmi_hpe_cru_spec =
 
 bool dmi_hpe_cru_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_cru_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_CRU));
+    dmi_hpe_cru_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_cru));
     if (info == nullptr)
         return false;
 

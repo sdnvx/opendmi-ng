@@ -53,7 +53,7 @@ attached, what kind of device it is, its identity, and the PCI identifiers of
 a PCIe device. The BMC selects the device to boot from by its `index`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_STORAGE_DEVICE)`, once the Intel RSD extension module
+`DMI_TYPE(intel_rsd_storage_device)`, once the Intel RSD extension module
 (`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
 enabled in the context with `dmi_add_extension()`. It lives as long as the
 context it has been decoded in.
@@ -116,10 +116,10 @@ carry it.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                               DMI_TYPE(INTEL_RSD_STORAGE_DEVICE), true);
+                               DMI_TYPE(intel_rsd_storage_device), true);
 
 dmi_intel_rsd_storage_device_t *disk =
-        dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_STORAGE_DEVICE));
+        dmi_entity_info(entity, DMI_TYPE(intel_rsd_storage_device));
 
 if (disk != nullptr) {
     const char *type = dmi_intel_rsd_storage_device_type_name(disk->type);

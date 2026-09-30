@@ -25,7 +25,7 @@ const dmi_entity_spec_t dmi_system_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(SYSTEM),
+    .type            = DMI_TYPE(system),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .required_from   = DMI_VERSION(2, 3, 0),

@@ -235,7 +235,7 @@ void dmi_lint_issue(
         .rule      = lint->rule,
         .severity  = dmi_lint_rule_severity(lint->rule, lint->options.profile),
         .handle    = (entity != nullptr) ? dmi_entity_handle(entity) : DMI_HANDLE_INVALID,
-        .type      = (entity != nullptr) ? dmi_entity_type(entity) : DMI_TYPE_INVALID,
+        .type      = (entity != nullptr) ? dmi_entity_type_id(entity) : DMI_TYPE_ID_INVALID,
         .attribute = attribute,
         .offset    = offset,
         .message   = message
@@ -323,7 +323,7 @@ const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *co
 
     // Rules of the types are provided by their specifications, and the types
     // the context knows depend on the modules it has enabled
-    for (dmi_type_t type = 0; type <= DMI_TYPE_MAX; type++) {
+    for (dmi_type_id_t type = 0; type <= DMI_TYPE_ID_MAX; type++) {
         const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
 
         if ((spec == nullptr) or (spec->lint_rules == nullptr))
@@ -411,7 +411,7 @@ static void dmi_lint_collect(dmi_lint_t *lint)
         return;
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        dmi_type_t type = dmi_entity_type(entity);
+        dmi_type_id_t type = dmi_entity_type_id(entity);
 
         lint->totals.entity_count++;
         lint->totals.type_counts[type]++;
@@ -419,7 +419,7 @@ static void dmi_lint_collect(dmi_lint_t *lint)
         if (entity->total_length > lint->totals.entity_max_size)
             lint->totals.entity_max_size = entity->total_length;
 
-        if ((type == DMI_TYPE_END_OF_TABLE) and (lint->totals.terminator == nullptr))
+        if ((type == DMI_TYPE_ID_END_OF_TABLE) and (lint->totals.terminator == nullptr))
             lint->totals.terminator = entity;
     }
 }

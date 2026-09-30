@@ -37,7 +37,7 @@ The `dmi_oem_strings_t` structure holds the decoded OEM strings structure
 numbers of reference documents or contact information of the manufacturer.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(OEM_STRINGS)`, and lives as long as the context it has been decoded
+`DMI_TYPE(oem_strings)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -56,9 +56,9 @@ structure has fewer strings than it declares.
 ----
 dmi_registry_t    *registry = dmi_get_registry(context);
 dmi_entity_t      *entity   = dmi_registry_lookup_first(registry,
-                                  DMI_TYPE(OEM_STRINGS), false);
+                                  DMI_TYPE(oem_strings), false);
 dmi_oem_strings_t *oem      = dmi_entity_info(entity,
-                                  DMI_TYPE(OEM_STRINGS));
+                                  DMI_TYPE(oem_strings));
 
 if (oem != nullptr) {
     for (size_t i = 0; i < oem->string_count; i++)

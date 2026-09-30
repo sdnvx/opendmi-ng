@@ -84,10 +84,10 @@ static void test_dell_token_refs(void **pstate)
 
     // Tokens are the ones the calling interface defines
     dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), 0xDA02,
-                                               DMI_TYPE(DELL_CALLING_IFACE), false);
+                                               DMI_TYPE(dell_calling_iface), false);
     assert_non_null(entity);
 
-    const dmi_dell_calling_iface_t *iface = dmi_entity_info(entity, DMI_TYPE(DELL_CALLING_IFACE));
+    const dmi_dell_calling_iface_t *iface = dmi_entity_info(entity, DMI_TYPE(dell_calling_iface));
     assert_non_null(iface);
 
     bool found = false;
@@ -109,10 +109,10 @@ static void test_dell_system_id(void **pstate)
     assert_string_equal(info->system_id, "0A64");
     assert_memory_equal(info->identifier, "_SID", 4);
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(DELL_REVISIONS), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(dell_revisions), false);
     assert_non_null(entity);
 
-    const dmi_dell_revisions_t *revisions = dmi_entity_info(entity, DMI_TYPE(DELL_REVISIONS));
+    const dmi_dell_revisions_t *revisions = dmi_entity_info(entity, DMI_TYPE(dell_revisions));
     assert_non_null(revisions);
     assert_int_equal(revisions->system_id, strtol(info->system_id, nullptr, 16));
 }
@@ -139,7 +139,7 @@ static int test_teardown(void **pstate)
 
 static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec)
 {
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), handle, DMI_TYPE_INVALID, false);
+    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), handle, DMI_TYPE_ANY, false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, spec);
 

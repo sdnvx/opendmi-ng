@@ -172,7 +172,7 @@ static void test_encoder_reserved_bits(void **pstate)
 
     dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
 
-    const dmi_power_supply_t *info = dmi_entity_info(entity, DMI_TYPE(POWER_SUPPLY));
+    const dmi_power_supply_t *info = dmi_entity_info(entity, DMI_TYPE(power_supply));
     assert_non_null(info);
     assert_int_equal(info->type, 4);
 
@@ -217,7 +217,7 @@ static void test_encoder_extended_governed(void **pstate)
 
     dmi_entity_t *entity = test_decode(entity_buffer, test_array_addr_ex, sizeof(test_array_addr_ex));
 
-    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
+    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
     assert_non_null(info);
     assert_int_equal(info->start_addr, 0x0000010000000000uLL);
     assert_int_equal(info->end_addr,   0x000007FFFFFFFFFFuLL);
@@ -260,7 +260,7 @@ static void test_encoder_extended_canonical(void **pstate)
 
     dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
 
-    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
+    const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
     assert_non_null(info);
 
     dmi_buffer_t *buffer = dmi_buffer_create(context);
@@ -285,7 +285,7 @@ static void test_encoder_extended_canonical(void **pstate)
     dmi_buffer_t *decoded_buffer = dmi_buffer_create(context);
     dmi_entity_t *decoded = test_decode(decoded_buffer, encoded, sizeof(encoded));
 
-    const dmi_memory_array_addr_t *decoded_info = dmi_entity_info(decoded, DMI_TYPE(MEMORY_ARRAY_ADDR));
+    const dmi_memory_array_addr_t *decoded_info = dmi_entity_info(decoded, DMI_TYPE(memory_array_addr));
     assert_non_null(decoded_info);
     assert_int_equal(decoded_info->start_addr, info->start_addr);
     assert_int_equal(decoded_info->end_addr,   info->end_addr);
@@ -319,7 +319,7 @@ static void test_encoder_bcd_unknown(void **pstate)
 
     dmi_entity_t *entity = test_decode(entity_buffer, test_power_controls, sizeof(test_power_controls));
 
-    const dmi_power_controls_t *info = dmi_entity_info(entity, DMI_TYPE(POWER_CONTROLS));
+    const dmi_power_controls_t *info = dmi_entity_info(entity, DMI_TYPE(power_controls));
     assert_non_null(info);
     assert_int_equal(info->poweron_month,  USHRT_MAX);
     assert_int_equal(info->poweron_day,    31);
@@ -934,7 +934,7 @@ static void test_encoder_corpus(void **pstate)
 // Inactive structure, which has no fields of its own, carrying the bytes the
 // tests read as a source and two strings the references name
 static const dmi_byte_t test_source[] = {
-    DMI_TYPE_INACTIVE, 0x0A, 0x34, 0x12,    // Header
+    DMI_TYPE_ID_INACTIVE, 0x0A, 0x34, 0x12,    // Header
     0x11, 0x22, 0x33, 0x44,                 // Bytes the model does not hold
     0x02,                                   // Reference to the second string
     0x09,                                   // Reference to a string which is not there
@@ -1038,7 +1038,7 @@ static void test_encoder_header(void **pstate)
     assert_uint_equal(fixture.buffer->length, sizeof(dmi_header_t));
     assert_uint_equal(dmi_encoder_tell(&fixture.encoder), sizeof(dmi_header_t));
 
-    assert_int_equal(fixture.buffer->data[0x00], DMI_TYPE_INACTIVE);
+    assert_int_equal(fixture.buffer->data[0x00], DMI_TYPE_ID_INACTIVE);
     assert_int_equal(fixture.buffer->data[0x01], 0x00);
     assert_int_equal(fixture.buffer->data[0x02], 0x34);
     assert_int_equal(fixture.buffer->data[0x03], 0x12);
@@ -1074,7 +1074,7 @@ static void test_encoder_appends(void **pstate)
     assert_uint_equal(dmi_encoder_tell(&encoder), sizeof(dmi_header_t));
     assert_uint_equal(buffer->length, sizeof(test_source) + sizeof(dmi_header_t));
     assert_memory_equal(buffer->data, test_source, sizeof(test_source));
-    assert_int_equal(buffer->data[sizeof(test_source)], DMI_TYPE_INACTIVE);
+    assert_int_equal(buffer->data[sizeof(test_source)], DMI_TYPE_ID_INACTIVE);
 
     dmi_encoder_finalize(&encoder);
     dmi_entity_destroy(entity);
@@ -1426,7 +1426,7 @@ static void test_encoder_finish_end_of_table(void **pstate)
     test_encoder_open(context, &fixture, test_end_of_table, sizeof(test_end_of_table),
                       DMI_ENCODE_MODE_PRESERVE);
 
-    assert_int_equal(fixture.entity->type, DMI_TYPE(END_OF_TABLE));
+    assert_int_equal(fixture.entity->type_id, DMI_TYPE_ID(END_OF_TABLE));
     assert_uint_equal(fixture.entity->body_length, sizeof(dmi_header_t));
 
     assert_true(dmi_encoder_finish(&fixture.encoder));

@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_dell_system_id_spec =
 {
-    .type        = DMI_TYPE(DELL_SYSTEM_ID),
+    .type        = DMI_TYPE(dell_system_id),
     .code        = "dell-system-id",
     .name        = "Dell system ID record",
     .description = (const char *[]){

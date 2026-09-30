@@ -21,7 +21,7 @@ const dmi_entity_spec_t dmi_voltage_probe_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(VOLTAGE_PROBE),
+    .type            = DMI_TYPE(voltage_probe),
     .params = {
         .minimum_version = DMI_VERSION(2, 2, 0),
         .minimum_length  = 0x14,

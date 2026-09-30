@@ -44,7 +44,7 @@ each memory device of the list (see `dmi_memory_device`(3)) to the entity of
 this structure.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_CHANNEL)`, and lives as long as the context it has been
+`DMI_TYPE(memory_channel)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -70,9 +70,9 @@ Array of the memory devices attached to the channel, with their loads, see
 ----
 dmi_registry_t       *registry = dmi_get_registry(context);
 dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
-                                     DMI_TYPE(MEMORY_CHANNEL), false);
+                                     DMI_TYPE(memory_channel), false);
 dmi_memory_channel_t *channel  = dmi_entity_info(entity,
-                                     DMI_TYPE(MEMORY_CHANNEL));
+                                     DMI_TYPE(memory_channel));
 
 if (channel != nullptr) {
     const char *type = dmi_memory_channel_type_name(channel->type);

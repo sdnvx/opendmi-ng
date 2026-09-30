@@ -25,7 +25,7 @@ endif::[]
 #include <opendmi/entity/group-assoc.h>
 
 typedef struct dmi_group_assoc_item {
-    dmi_type_t    type;
+    dmi_type_id_t type;
     dmi_handle_t  handle;
     dmi_entity_t *entity;
 } dmi_group_assoc_item_t;
@@ -40,14 +40,15 @@ association, and is the type of the elements of the `items` array of
 === Fields
 
 `type`::
-Type of the member structure, as stored.
+Type number of the member structure, as stored.
 
 `handle`::
 Handle of the member structure.
 
 `entity`::
 Entity of the member structure, set when the structures are linked;
-`nullptr` if `handle` does not refer to a structure of type `type`.
+`nullptr` if `handle` does not refer to a structure found at type number
+`type`.
 
 == See also
 

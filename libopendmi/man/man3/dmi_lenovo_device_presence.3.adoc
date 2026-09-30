@@ -42,7 +42,7 @@ which devices of a ThinkPad are present, of which only the fingerprint reader
 is known.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_lenovo_device_presence_spec`, of type `DMI_TYPE(LENOVO_MOBILE_OEM)`,
+by `dmi_lenovo_device_presence_spec`, of type `DMI_TYPE(lenovo_device_presence)`,
 declared in `<opendmi/module/lenovo.h>`, once the Lenovo extension module
 (`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
 It lives as long as the context it has been decoded in.

@@ -79,7 +79,7 @@ __dmi_api bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
  * @return `true` on success, `false` if @p filter is @c nullptr or the type could
  *         not be stored.
  */
-__dmi_api bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type);
+__dmi_api bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type);
 
 /**
  * @brief Add a module constraint to the filter.

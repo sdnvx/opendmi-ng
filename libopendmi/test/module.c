@@ -112,7 +112,7 @@ static void test_module_unique_types(void **pstate)
 
         for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++) {
             for (const dmi_entity_spec_t **pnext = pspec + 1; *pnext != nullptr; pnext++) {
-                if ((*pspec)->type != (*pnext)->type)
+                if ((*pspec)->type->id != (*pnext)->type->id)
                     continue;
 
                 // Specifications of the same type apply to different
@@ -125,7 +125,7 @@ static void test_module_unique_types(void **pstate)
                     continue;
 
                 fail_msg("Module %s: %s and %s have the same type %d", module->code,
-                         (*pspec)->code, (*pnext)->code, (int)(*pspec)->type);
+                         (*pspec)->code, (*pnext)->code, (int)(*pspec)->type->id);
             }
         }
     }
@@ -135,8 +135,8 @@ static void test_module_intel_rsd_types(void **pstate)
 {
     dmi_unused(pstate);
 
-    assert_int_equal(dmi_intel_rsd_network_card_spec.type, DMI_TYPE(INTEL_RSD_NETWORK_CARD));
-    assert_int_equal(dmi_intel_rsd_processor_cpuid_spec.type, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+    assert_ptr_equal(dmi_intel_rsd_network_card_spec.type, DMI_TYPE(intel_rsd_network_card));
+    assert_ptr_equal(dmi_intel_rsd_processor_cpuid_spec.type, DMI_TYPE(intel_rsd_processor_cpuid));
 }
 
 static void test_module_unique_attribute_codes(void **pstate)
@@ -147,7 +147,7 @@ static void test_module_unique_attribute_codes(void **pstate)
     dmi_context_t *context = dmi_create(0);
     assert_non_null(context);
 
-    for (size_t type = 0; type <= DMI_TYPE_MAX; type++) {
+    for (size_t type = 0; type <= DMI_TYPE_ID_MAX; type++) {
         const dmi_entity_spec_t *spec = context->type_map[type][0];
         if (spec != nullptr)
             assert_unique_attribute_codes(spec->code, spec->attributes);

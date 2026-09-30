@@ -110,66 +110,252 @@ typedef uint16_t dmi_i2c_addr_t;
  * reserved for and defined by this specification. Types 128 through 256 (0x80
  * to 0xFF) are available for system- and OEM-specific information.
  */
-typedef enum dmi_type
+typedef enum dmi_type_id
 {
-    DMI_TYPE_INVALID                 = -1,
-    DMI_TYPE_ANY                     = -1,
-    DMI_TYPE_FIRMWARE                = 0,   ///< Platform firmware information
-    DMI_TYPE_SYSTEM                  = 1,   ///< System information
-    DMI_TYPE_BASEBOARD               = 2,   ///< Baseboard or module information
-    DMI_TYPE_CHASSIS                 = 3,   ///< System enclosure or chassis
-    DMI_TYPE_PROCESSOR               = 4,   ///< Processor information
-    DMI_TYPE_MEMORY_CONTROLLER       = 5,   ///< Memory controller information (obsolete)
-    DMI_TYPE_MEMORY_MODULE           = 6,   ///< Memory module information (obsolete)
-    DMI_TYPE_CACHE                   = 7,   ///< Cache information
-    DMI_TYPE_PORT_CONNECTOR          = 8,   ///< Port connector information
-    DMI_TYPE_SYSTEM_SLOTS            = 9,   ///< System slots
-    DMI_TYPE_ONBOARD_DEVICE          = 10,  ///< Onboard devices information
-    DMI_TYPE_OEM_STRINGS             = 11,  ///< OEM strings
-    DMI_TYPE_SYSTEM_CONFIG_OPTIONS   = 12,  ///< System configuration options
-    DMI_TYPE_FIRMWARE_LANGUAGE       = 13,  ///< Firmware language information
-    DMI_TYPE_GROUP_ASSOC             = 14,  ///< Group associations
-    DMI_TYPE_SYSTEM_EVENT_LOG        = 15,  ///< System event log
-    DMI_TYPE_MEMORY_ARRAY            = 16,  ///< Physical memory array
-    DMI_TYPE_MEMORY_DEVICE           = 17,  ///< Memory device
-    DMI_TYPE_MEMORY_ERROR_32         = 18,  ///< 32-bit memory error information
-    DMI_TYPE_MEMORY_ARRAY_ADDR       = 19,  ///< Memory array mapped address
-    DMI_TYPE_MEMORY_DEVICE_ADDR      = 20,  ///< Memory device mapped address
-    DMI_TYPE_POINTING_DEVICE         = 21,  ///< Built-in pointing device
-    DMI_TYPE_PORTABLE_BATTERY        = 22,  ///< Portable battery
-    DMI_TYPE_SYSTEM_RESET            = 23,  ///< System reset
-    DMI_TYPE_HARDWARE_SECURITY       = 24,  ///< Hardware security
-    DMI_TYPE_POWER_CONTROLS          = 25,  ///< System power controls
-    DMI_TYPE_VOLTAGE_PROBE           = 26,  ///< Voltage probe
-    DMI_TYPE_COOLING_DEVICE          = 27,  ///< Cooling device
-    DMI_TYPE_TEMPERATURE_PROBE       = 28,  ///< Temperature probe
-    DMI_TYPE_CURRENT_PROBE           = 29,  ///< Electrical current probe
-    DMI_TYPE_OOB_REMOTE_ACCESS       = 30,  ///< Out-of-band remote access
-    DMI_TYPE_BIS_ENTRY_POINT         = 31,  ///< Boot Integrity Services (BIS) entry point
-    DMI_TYPE_SYSTEM_BOOT             = 32,  ///< System boot information
-    DMI_TYPE_MEMORY_ERROR_64         = 33,  ///< 64-bit memory error information
-    DMI_TYPE_MGMT_DEVICE             = 34,  ///< Management device
-    DMI_TYPE_MGMT_DEVICE_COMPONENT   = 35,  ///< Management device component
-    DMI_TYPE_MGMT_DEVICE_THRESHOLD   = 36,  ///< Management device threshold data
-    DMI_TYPE_MEMORY_CHANNEL          = 37,  ///< Memory channel
-    DMI_TYPE_IPMI_DEVICE             = 38,  ///< IPMI device information
-    DMI_TYPE_POWER_SUPPLY            = 39,  ///< System power supply
-    DMI_TYPE_ADDITIONAL_INFO         = 40,  ///< Additional information
-    DMI_TYPE_ONBOARD_DEVICE_EX       = 41,  ///< Onboard devices extended information
-    DMI_TYPE_MGMT_CONTROLLER_HOST_IF = 42,  ///< Management controller host interface
-    DMI_TYPE_TPM_DEVICE              = 43,  ///< TPM device
-    DMI_TYPE_PROCESSOR_EX            = 44,  ///< Processor additional information
-    DMI_TYPE_FIRMWARE_INVENTORY      = 45,  ///< Firmware inventory information
-    DMI_TYPE_STRING_PROPERTY         = 46,  ///< String property
-    DMI_TYPE_INACTIVE                = 126, ///< Inactive
-    DMI_TYPE_END_OF_TABLE            = 127, ///< End of table
-    __DMI_TYPE_OEM_START             = 128,
-    __DMI_TYPE_COUNT
-} dmi_type_t;
+    DMI_TYPE_ID_INVALID                 = -1,
+    DMI_TYPE_ID_ANY                     = -1,
+    DMI_TYPE_ID_FIRMWARE                = 0,   ///< Platform firmware information
+    DMI_TYPE_ID_SYSTEM                  = 1,   ///< System information
+    DMI_TYPE_ID_BASEBOARD               = 2,   ///< Baseboard or module information
+    DMI_TYPE_ID_CHASSIS                 = 3,   ///< System enclosure or chassis
+    DMI_TYPE_ID_PROCESSOR               = 4,   ///< Processor information
+    DMI_TYPE_ID_MEMORY_CONTROLLER       = 5,   ///< Memory controller information (obsolete)
+    DMI_TYPE_ID_MEMORY_MODULE           = 6,   ///< Memory module information (obsolete)
+    DMI_TYPE_ID_CACHE                   = 7,   ///< Cache information
+    DMI_TYPE_ID_PORT_CONNECTOR          = 8,   ///< Port connector information
+    DMI_TYPE_ID_SYSTEM_SLOTS            = 9,   ///< System slots
+    DMI_TYPE_ID_ONBOARD_DEVICE          = 10,  ///< Onboard devices information
+    DMI_TYPE_ID_OEM_STRINGS             = 11,  ///< OEM strings
+    DMI_TYPE_ID_SYSTEM_CONFIG_OPTIONS   = 12,  ///< System configuration options
+    DMI_TYPE_ID_FIRMWARE_LANGUAGE       = 13,  ///< Firmware language information
+    DMI_TYPE_ID_GROUP_ASSOC             = 14,  ///< Group associations
+    DMI_TYPE_ID_SYSTEM_EVENT_LOG        = 15,  ///< System event log
+    DMI_TYPE_ID_MEMORY_ARRAY            = 16,  ///< Physical memory array
+    DMI_TYPE_ID_MEMORY_DEVICE           = 17,  ///< Memory device
+    DMI_TYPE_ID_MEMORY_ERROR_32         = 18,  ///< 32-bit memory error information
+    DMI_TYPE_ID_MEMORY_ARRAY_ADDR       = 19,  ///< Memory array mapped address
+    DMI_TYPE_ID_MEMORY_DEVICE_ADDR      = 20,  ///< Memory device mapped address
+    DMI_TYPE_ID_POINTING_DEVICE         = 21,  ///< Built-in pointing device
+    DMI_TYPE_ID_PORTABLE_BATTERY        = 22,  ///< Portable battery
+    DMI_TYPE_ID_SYSTEM_RESET            = 23,  ///< System reset
+    DMI_TYPE_ID_HARDWARE_SECURITY       = 24,  ///< Hardware security
+    DMI_TYPE_ID_POWER_CONTROLS          = 25,  ///< System power controls
+    DMI_TYPE_ID_VOLTAGE_PROBE           = 26,  ///< Voltage probe
+    DMI_TYPE_ID_COOLING_DEVICE          = 27,  ///< Cooling device
+    DMI_TYPE_ID_TEMPERATURE_PROBE       = 28,  ///< Temperature probe
+    DMI_TYPE_ID_CURRENT_PROBE           = 29,  ///< Electrical current probe
+    DMI_TYPE_ID_OOB_REMOTE_ACCESS       = 30,  ///< Out-of-band remote access
+    DMI_TYPE_ID_BIS_ENTRY_POINT         = 31,  ///< Boot Integrity Services (BIS) entry point
+    DMI_TYPE_ID_SYSTEM_BOOT             = 32,  ///< System boot information
+    DMI_TYPE_ID_MEMORY_ERROR_64         = 33,  ///< 64-bit memory error information
+    DMI_TYPE_ID_MGMT_DEVICE             = 34,  ///< Management device
+    DMI_TYPE_ID_MGMT_DEVICE_COMPONENT   = 35,  ///< Management device component
+    DMI_TYPE_ID_MGMT_DEVICE_THRESHOLD   = 36,  ///< Management device threshold data
+    DMI_TYPE_ID_MEMORY_CHANNEL          = 37,  ///< Memory channel
+    DMI_TYPE_ID_IPMI_DEVICE             = 38,  ///< IPMI device information
+    DMI_TYPE_ID_POWER_SUPPLY            = 39,  ///< System power supply
+    DMI_TYPE_ID_ADDITIONAL_INFO         = 40,  ///< Additional information
+    DMI_TYPE_ID_ONBOARD_DEVICE_EX       = 41,  ///< Onboard devices extended information
+    DMI_TYPE_ID_MGMT_CONTROLLER_HOST_IF = 42,  ///< Management controller host interface
+    DMI_TYPE_ID_TPM_DEVICE              = 43,  ///< TPM device
+    DMI_TYPE_ID_PROCESSOR_EX            = 44,  ///< Processor additional information
+    DMI_TYPE_ID_FIRMWARE_INVENTORY      = 45,  ///< Firmware inventory information
+    DMI_TYPE_ID_STRING_PROPERTY         = 46,  ///< String property
+    DMI_TYPE_ID_INACTIVE                = 126, ///< Inactive
+    DMI_TYPE_ID_END_OF_TABLE            = 127, ///< End of table
+    __DMI_TYPE_ID_OEM_START             = 128,
+    __DMI_TYPE_ID_COUNT
+} dmi_type_id_t;
 
-#define DMI_TYPE(x) ((dmi_type_t)(DMI_TYPE_ ## x))
+#define DMI_TYPE_ID(x) ((dmi_type_id_t)(DMI_TYPE_ID_ ## x))
 
-#define DMI_TYPE_MAX UINT8_MAX
+#define DMI_TYPE_ID_MAX UINT8_MAX
+
+typedef struct dmi_type dmi_type_t;
+
+/**
+ * @brief Structure type, which tells what the information a structure is
+ * decoded into is.
+ *
+ * Structures of a type are decoded into one C type, whatever layout they
+ * have: the specifications of the layouts of a type, e.g. the ones of the
+ * generations of a vendor, refer to it. Structures of different types may
+ * share a type number, e.g. the ones vendors define for the same OEM type
+ * number, and a structure type of a vendor may be found at another type
+ * number on the platforms of another vendor, so a type is told by its object
+ * rather than by its number: structure types are the constants declared
+ * here and by the extension modules, e.g. `dmi_type_system`, which
+ * `DMI_TYPE()` names.
+ */
+struct dmi_type
+{
+    /**
+     * @brief Type number the specification of the type gives the structures.
+     */
+    dmi_type_id_t id;
+};
+
+/**
+ * @brief Structure type of the given name, e.g. `DMI_TYPE(system)` for
+ * `&dmi_type_system`.
+ */
+#define DMI_TYPE(x) (&dmi_type_ ## x)
+
+/**
+ * @brief Structure type standing for any type, where a type is optional.
+ */
+#define DMI_TYPE_ANY ((const dmi_type_t *)nullptr)
+
+__BEGIN_DECLS
+
+/** @brief Platform firmware information */
+extern __dmi_api const dmi_type_t dmi_type_firmware;
+
+/** @brief System information */
+extern __dmi_api const dmi_type_t dmi_type_system;
+
+/** @brief Baseboard or module information */
+extern __dmi_api const dmi_type_t dmi_type_baseboard;
+
+/** @brief System enclosure or chassis */
+extern __dmi_api const dmi_type_t dmi_type_chassis;
+
+/** @brief Processor information */
+extern __dmi_api const dmi_type_t dmi_type_processor;
+
+/** @brief Memory controller information (obsolete) */
+extern __dmi_api const dmi_type_t dmi_type_memory_controller;
+
+/** @brief Memory module information (obsolete) */
+extern __dmi_api const dmi_type_t dmi_type_memory_module;
+
+/** @brief Cache information */
+extern __dmi_api const dmi_type_t dmi_type_cache;
+
+/** @brief Port connector information */
+extern __dmi_api const dmi_type_t dmi_type_port_connector;
+
+/** @brief System slots */
+extern __dmi_api const dmi_type_t dmi_type_system_slots;
+
+/** @brief Onboard devices information */
+extern __dmi_api const dmi_type_t dmi_type_onboard_device;
+
+/** @brief OEM strings */
+extern __dmi_api const dmi_type_t dmi_type_oem_strings;
+
+/** @brief System configuration options */
+extern __dmi_api const dmi_type_t dmi_type_system_config_options;
+
+/** @brief Firmware language information */
+extern __dmi_api const dmi_type_t dmi_type_firmware_language;
+
+/** @brief Group associations */
+extern __dmi_api const dmi_type_t dmi_type_group_assoc;
+
+/** @brief System event log */
+extern __dmi_api const dmi_type_t dmi_type_system_event_log;
+
+/** @brief Physical memory array */
+extern __dmi_api const dmi_type_t dmi_type_memory_array;
+
+/** @brief Memory device */
+extern __dmi_api const dmi_type_t dmi_type_memory_device;
+
+/** @brief 32-bit memory error information */
+extern __dmi_api const dmi_type_t dmi_type_memory_error_32;
+
+/** @brief Memory array mapped address */
+extern __dmi_api const dmi_type_t dmi_type_memory_array_addr;
+
+/** @brief Memory device mapped address */
+extern __dmi_api const dmi_type_t dmi_type_memory_device_addr;
+
+/** @brief Built-in pointing device */
+extern __dmi_api const dmi_type_t dmi_type_pointing_device;
+
+/** @brief Portable battery */
+extern __dmi_api const dmi_type_t dmi_type_portable_battery;
+
+/** @brief System reset */
+extern __dmi_api const dmi_type_t dmi_type_system_reset;
+
+/** @brief Hardware security */
+extern __dmi_api const dmi_type_t dmi_type_hardware_security;
+
+/** @brief System power controls */
+extern __dmi_api const dmi_type_t dmi_type_power_controls;
+
+/** @brief Voltage probe */
+extern __dmi_api const dmi_type_t dmi_type_voltage_probe;
+
+/** @brief Cooling device */
+extern __dmi_api const dmi_type_t dmi_type_cooling_device;
+
+/** @brief Temperature probe */
+extern __dmi_api const dmi_type_t dmi_type_temperature_probe;
+
+/** @brief Electrical current probe */
+extern __dmi_api const dmi_type_t dmi_type_current_probe;
+
+/** @brief Out-of-band remote access */
+extern __dmi_api const dmi_type_t dmi_type_oob_remote_access;
+
+/** @brief Boot Integrity Services (BIS) entry point */
+extern __dmi_api const dmi_type_t dmi_type_bis_entry_point;
+
+/** @brief System boot information */
+extern __dmi_api const dmi_type_t dmi_type_system_boot;
+
+/** @brief 64-bit memory error information */
+extern __dmi_api const dmi_type_t dmi_type_memory_error_64;
+
+/** @brief Management device */
+extern __dmi_api const dmi_type_t dmi_type_mgmt_device;
+
+/** @brief Management device component */
+extern __dmi_api const dmi_type_t dmi_type_mgmt_device_component;
+
+/** @brief Management device threshold data */
+extern __dmi_api const dmi_type_t dmi_type_mgmt_device_threshold;
+
+/** @brief Memory channel */
+extern __dmi_api const dmi_type_t dmi_type_memory_channel;
+
+/** @brief IPMI device information */
+extern __dmi_api const dmi_type_t dmi_type_ipmi_device;
+
+/** @brief System power supply */
+extern __dmi_api const dmi_type_t dmi_type_power_supply;
+
+/** @brief Additional information */
+extern __dmi_api const dmi_type_t dmi_type_additional_info;
+
+/** @brief Onboard devices extended information */
+extern __dmi_api const dmi_type_t dmi_type_onboard_device_ex;
+
+/** @brief Management controller host interface */
+extern __dmi_api const dmi_type_t dmi_type_mgmt_controller_host_if;
+
+/** @brief TPM device */
+extern __dmi_api const dmi_type_t dmi_type_tpm_device;
+
+/** @brief Processor additional information */
+extern __dmi_api const dmi_type_t dmi_type_processor_ex;
+
+/** @brief Firmware inventory information */
+extern __dmi_api const dmi_type_t dmi_type_firmware_inventory;
+
+/** @brief String property */
+extern __dmi_api const dmi_type_t dmi_type_string_property;
+
+/** @brief Inactive */
+extern __dmi_api const dmi_type_t dmi_type_inactive;
+
+/** @brief End of table */
+extern __dmi_api const dmi_type_t dmi_type_end_of_table;
+
+__END_DECLS
 
 typedef struct dmi_context dmi_context_t;
 typedef struct dmi_entity  dmi_entity_t;

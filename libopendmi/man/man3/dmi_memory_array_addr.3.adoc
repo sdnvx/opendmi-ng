@@ -47,7 +47,7 @@ bytes in extended fields for the ranges which do not fit; the decoder
 converts both to bytes.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_ARRAY_ADDR)`, and lives as long as the context it has been
+`DMI_TYPE(memory_array_addr)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -82,9 +82,9 @@ of addresses this structure defines.
 ----
 dmi_registry_t          *registry = dmi_get_registry(context);
 dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
-                                        DMI_TYPE(MEMORY_ARRAY_ADDR), false);
+                                        DMI_TYPE(memory_array_addr), false);
 dmi_memory_array_addr_t *range    = dmi_entity_info(entity,
-                                        DMI_TYPE(MEMORY_ARRAY_ADDR));
+                                        DMI_TYPE(memory_array_addr));
 
 if (range != nullptr)
     printf("0x%llx-0x%llx, array 0x%04x\n",

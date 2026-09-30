@@ -37,7 +37,7 @@ bool dmi_dell_calling_iface_decode(dmi_decoder_t *decoder)
 
     dmi_dell_calling_iface_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(DELL_CALLING_IFACE));
+    info = dmi_entity_info(entity, DMI_TYPE(dell_calling_iface));
     if (info == nullptr)
         return false;
 
@@ -89,7 +89,7 @@ void dmi_dell_calling_iface_cleanup(dmi_entity_t *entity)
 {
     dmi_dell_calling_iface_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(DELL_CALLING_IFACE));
+    info = dmi_entity_info(entity, DMI_TYPE(dell_calling_iface));
     if (info == nullptr)
         return;
 
@@ -111,7 +111,7 @@ static bool dmi_dell_calling_iface_encode_token(
 //
 bool dmi_dell_calling_iface_encode(dmi_encoder_t *encoder)
 {
-    const dmi_dell_calling_iface_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(DELL_CALLING_IFACE));
+    const dmi_dell_calling_iface_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(dell_calling_iface));
     if (info == nullptr)
         return false;
 

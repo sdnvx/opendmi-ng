@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_intel_fvi_spec =
 {
-    .type        = DMI_TYPE(INTEL_FVI),
+    .type        = DMI_TYPE(intel_fvi),
     .code        = "intel-fvi",
     .name        = "Intel firmware version information",
     .description = (const char *[]){

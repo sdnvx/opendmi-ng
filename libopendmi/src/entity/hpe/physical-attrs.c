@@ -17,7 +17,7 @@
 //
 const dmi_entity_spec_t dmi_hpe_physical_attrs_legacy_spec =
 {
-    .type        = DMI_TYPE(HPE_PHYSICAL_ATTRS),
+    .type        = DMI_TYPE(hpe_physical_attrs),
     .code        = "hpe-physical-attrs-legacy",
     .name        = "HP/HPE physical attribute information",
     .description = (const char *[]){
@@ -58,7 +58,7 @@ const dmi_entity_spec_t dmi_hpe_physical_attrs_legacy_spec =
 
 const dmi_entity_spec_t dmi_hpe_physical_attrs_spec =
 {
-    .type        = DMI_TYPE(HPE_PHYSICAL_ATTRS),
+    .type        = DMI_TYPE(hpe_physical_attrs),
     .code        = "hpe-physical-attrs",
     .name        = "HP/HPE physical attribute information",
     .description = (const char *[]){
@@ -98,7 +98,7 @@ const dmi_entity_spec_t dmi_hpe_physical_attrs_spec =
 
 bool dmi_hpe_physical_attrs_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_physical_attrs_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_PHYSICAL_ATTRS));
+    dmi_hpe_physical_attrs_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_physical_attrs));
     if (info == nullptr)
         return false;
 

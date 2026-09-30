@@ -29,7 +29,7 @@ const dmi_entity_spec_t dmi_power_controls_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(POWER_CONTROLS),
+    .type            = DMI_TYPE(power_controls),
     .params = {
         .minimum_version = DMI_VERSION(2, 2, 0),
         .minimum_length  = 0x09,

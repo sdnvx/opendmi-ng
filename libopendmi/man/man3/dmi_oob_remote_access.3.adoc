@@ -39,7 +39,7 @@ because the system is powered down or fails to boot, and the connections the
 facility is allowed to make and to accept.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(OOB_REMOTE_ACCESS)`, and lives as long as the context it has been
+`DMI_TYPE(oob_remote_access)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -57,9 +57,9 @@ Connections the facility is allowed to accept and to make, see
 ----
 dmi_registry_t          *registry = dmi_get_registry(context);
 dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
-                                        DMI_TYPE(OOB_REMOTE_ACCESS), false);
+                                        DMI_TYPE(oob_remote_access), false);
 dmi_oob_remote_access_t *access   = dmi_entity_info(entity,
-                                        DMI_TYPE(OOB_REMOTE_ACCESS));
+                                        DMI_TYPE(oob_remote_access));
 
 if (access != nullptr)
     printf("Inbound: %s, outbound: %s\n",

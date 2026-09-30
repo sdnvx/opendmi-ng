@@ -17,7 +17,7 @@
 //
 const dmi_entity_spec_t dmi_hpe_riser_spec =
 {
-    .type        = DMI_TYPE(HPE_EXTENSION_BOARD),
+    .type        = DMI_TYPE(hpe_riser),
     .code        = "hpe-riser",
     .name        = "HP/HPE extension board inventory record",
     .description = (const char *[]){
@@ -75,7 +75,7 @@ const dmi_entity_spec_t dmi_hpe_riser_spec =
 
 const dmi_entity_spec_t dmi_hpe_mhs_riser_spec =
 {
-    .type        = DMI_TYPE(HPE_EXTENSION_BOARD),
+    .type        = DMI_TYPE(hpe_mhs_riser),
     .code        = "hpe-mhs-riser",
     .name        = "HP/HPE extension board inventory record",
     .description = (const char *[]){
@@ -222,7 +222,7 @@ const char *dmi_hpe_riser_position_name(dmi_hpe_riser_position_t value)
 
 void dmi_hpe_mhs_riser_cleanup(dmi_entity_t *entity)
 {
-    dmi_hpe_mhs_riser_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_EXTENSION_BOARD));
+    dmi_hpe_mhs_riser_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_mhs_riser));
     if (info == nullptr)
         return;
 

@@ -14,7 +14,7 @@ void dmi_sun_processor_ex_cleanup(dmi_entity_t *entity)
 {
     dmi_sun_processor_ex_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(SUN_PROCESSOR_EX));
+    info = dmi_entity_info(entity, DMI_TYPE(sun_processor_ex));
     if (info == nullptr)
         return;
 

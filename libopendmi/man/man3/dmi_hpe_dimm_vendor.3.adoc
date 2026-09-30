@@ -41,7 +41,7 @@ information, which tells the actual manufacturer of the module of a memory
 device (type 17), whose standard fields hold the ones of HPE.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_dimm_vendor_spec`, of type `DMI_TYPE(HPE_DIMM_VENDOR)`, declared
+by `dmi_hpe_dimm_vendor_spec`, of type `DMI_TYPE(hpe_dimm_vendor)`, declared
 in `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`)
 is enabled, which it is for HP and HPE servers from Gen9 onwards. It lives as
 long as the context it has been decoded in.

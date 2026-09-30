@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_dell_indexed_io_spec =
 {
-    .type            = DMI_TYPE(DELL_INDEXED_IO),
+    .type            = DMI_TYPE(dell_indexed_io),
     .code            = "dell-indexed-io",
     .name            = "Dell indexed IO",
     .description     = (const char *[]){

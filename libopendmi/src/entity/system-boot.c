@@ -30,7 +30,7 @@ const dmi_entity_spec_t dmi_system_boot_spec =
         //
         nullptr
     },
-    .type           = DMI_TYPE(SYSTEM_BOOT),
+    .type           = DMI_TYPE(system_boot),
     .params = {
         .required_from  = DMI_VERSION(2, 3, 0),
         .required_till  = DMI_VERSION_NONE,

@@ -35,7 +35,7 @@ static const dmi_attribute_t dmi_intel_vpro_version_attrs[] =
 
 const dmi_entity_spec_t dmi_intel_vpro_spec =
 {
-    .type        = DMI_TYPE(INTEL_VPRO),
+    .type        = DMI_TYPE(intel_vpro),
     .code        = "intel-vpro",
     .name        = "Intel vPro information",
     .description = (const char *[]){

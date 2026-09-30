@@ -26,7 +26,7 @@ __BEGIN_DECLS
  * @param[in] entity Management device threshold data entity.
  * @param[in] type   Component type.
  */
-__dmi_api void dmi_mgmt_device_threshold_set_component(dmi_entity_t *entity, dmi_type_t type);
+__dmi_api void dmi_mgmt_device_threshold_set_component(dmi_entity_t *entity, dmi_type_id_t type);
 
 __END_DECLS
 
@@ -73,10 +73,10 @@ struct dmi_mgmt_device_threshold
     /**
      * @brief Type of the component (probe or cooling device) using the
      * thresholds, which defines units of the values. Set when linking
-     * management device components, `DMI_TYPE_INVALID` if the thresholds are
+     * management device components, `DMI_TYPE_ID_INVALID` if the thresholds are
      * not used, or are used by components of different types.
      */
-    dmi_type_t component_type;
+    dmi_type_id_t component_type;
 
     /**
      * @brief Set if the thresholds are used by components of different types.

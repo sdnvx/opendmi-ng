@@ -47,7 +47,7 @@ bool dmi_firmware_inventory_derive(dmi_entity_t *entity)
 {
     dmi_firmware_inventory_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE_INVENTORY));
+    info = dmi_entity_info(entity, DMI_TYPE(firmware_inventory));
     if (info == nullptr)
         return false;
 
@@ -65,7 +65,7 @@ void dmi_firmware_inventory_cleanup(dmi_entity_t *entity)
 
     assert(entity != nullptr);
 
-    info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE_INVENTORY));
+    info = dmi_entity_info(entity, DMI_TYPE(firmware_inventory));
     if (info == nullptr)
         return;
 

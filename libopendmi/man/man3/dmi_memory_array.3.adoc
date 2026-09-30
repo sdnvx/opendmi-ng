@@ -47,7 +47,7 @@ A table has one such structure per memory array. The memory device structures
 refer to it by its handle. The structure is required since SMBIOS 2.3.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_ARRAY)`, and lives as long as the context it has been decoded
+`DMI_TYPE(memory_array)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -94,9 +94,9 @@ slots are populated or not.
 ----
 dmi_registry_t     *registry = dmi_get_registry(context);
 dmi_entity_t       *entity   = dmi_registry_lookup_first(registry,
-                                         DMI_TYPE(MEMORY_ARRAY), false);
+                                         DMI_TYPE(memory_array), false);
 dmi_memory_array_t *array    = dmi_entity_info(entity,
-                                               DMI_TYPE(MEMORY_ARRAY));
+                                               DMI_TYPE(memory_array));
 
 if ((array != nullptr) && (array->maximum_capacity != DMI_SIZE_MAX))
     printf("%u slots, up to %llu bytes\n", array->device_count,

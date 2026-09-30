@@ -104,7 +104,7 @@ static void test_rsd_fpga_decode(void **pstate)
     assert_int_equal(entity->body_length, 0x24);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_rsd_fpga_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_FPGA));
+    const dmi_intel_rsd_fpga_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_fpga));
     assert_non_null(info);
 
     assert_int_equal(info->index, 1);

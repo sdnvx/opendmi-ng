@@ -14,7 +14,7 @@ void dmi_sun_memory_device_ex_cleanup(dmi_entity_t *entity)
 {
     dmi_sun_memory_device_ex_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_DEVICE_EX));
+    info = dmi_entity_info(entity, DMI_TYPE(sun_memory_device_ex));
     if (info == nullptr)
         return;
 

@@ -39,7 +39,7 @@ groups, under a name, to show how components of the system are arranged.
 For example, a group may hold two processors and the cache they share.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(GROUP_ASSOC)`, and lives as long as the context it has been
+`DMI_TYPE(group_assoc)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -61,8 +61,8 @@ if there are none.
 ----
 dmi_registry_t    *registry = dmi_get_registry(context);
 dmi_entity_t      *entity   = dmi_registry_lookup_first(registry,
-                                  DMI_TYPE(GROUP_ASSOC), false);
-dmi_group_assoc_t *group    = dmi_entity_info(entity, DMI_TYPE(GROUP_ASSOC));
+                                  DMI_TYPE(group_assoc), false);
+dmi_group_assoc_t *group    = dmi_entity_info(entity, DMI_TYPE(group_assoc));
 
 if (group != nullptr) {
     printf("%s:\n",

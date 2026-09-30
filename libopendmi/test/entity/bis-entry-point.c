@@ -60,7 +60,7 @@ static void test_bis_entry_point_decode(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_bis_entry_point_t *info = dmi_entity_info(entity, DMI_TYPE(BIS_ENTRY_POINT));
+        const dmi_bis_entry_point_t *info = dmi_entity_info(entity, DMI_TYPE(bis_entry_point));
         assert_non_null(info);
 
         assert_int_equal(info->checksum, data[0x04]);

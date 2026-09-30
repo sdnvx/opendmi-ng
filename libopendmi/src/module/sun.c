@@ -12,6 +12,13 @@
 #include <opendmi/entity/sun/port-ex.h>
 #include <opendmi/entity/sun/pcie-root-complex.h>
 
+// Structure types of the module
+const dmi_type_t dmi_type_sun_processor_ex      = { .id = DMI_TYPE_ID(SUN_PROCESSOR_EX)      };
+const dmi_type_t dmi_type_sun_port_ex           = { .id = DMI_TYPE_ID(SUN_PORT_EX)           };
+const dmi_type_t dmi_type_sun_pcie_root_complex = { .id = DMI_TYPE_ID(SUN_PCIE_ROOT_COMPLEX) };
+const dmi_type_t dmi_type_sun_memory_array_ex   = { .id = DMI_TYPE_ID(SUN_MEMORY_ARRAY_EX)   };
+const dmi_type_t dmi_type_sun_memory_device_ex  = { .id = DMI_TYPE_ID(SUN_MEMORY_DEVICE_EX)  };
+
 /**
  * @brief Sun extension module.
  */

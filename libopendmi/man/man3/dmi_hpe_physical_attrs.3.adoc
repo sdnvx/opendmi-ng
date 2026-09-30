@@ -43,7 +43,7 @@ workload moves from one server to another along with its identity.
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_hpe_physical_attrs_legacy_spec` up to G7, and by
 `dmi_hpe_physical_attrs_spec` from Gen8 onwards, of type
-`DMI_TYPE(HPE_PHYSICAL_ATTRS)`, declared in `<opendmi/module/hpe.h>`, once the
+`DMI_TYPE(hpe_physical_attrs)`, declared in `<opendmi/module/hpe.h>`, once the
 HPE extension module (`dmi_hpe_module`) is enabled, which it is for HP and HPE
 servers. It lives as long as the context it has been decoded in.
 

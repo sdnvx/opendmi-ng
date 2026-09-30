@@ -66,7 +66,7 @@ bool dmi_battery_derive(dmi_entity_t *entity)
 {
     dmi_battery_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+    info = dmi_entity_info(entity, DMI_TYPE(portable_battery));
     if (info == nullptr)
         return false;
 

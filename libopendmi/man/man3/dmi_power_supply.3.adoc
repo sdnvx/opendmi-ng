@@ -61,7 +61,7 @@ the supply is installed or not. Supplies backing each other up share the same
 non-zero `group`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(POWER_SUPPLY)`, and lives as long as the context it has been decoded
+`DMI_TYPE(power_supply)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -155,9 +155,9 @@ structure.
 ----
 dmi_registry_t     *registry = dmi_get_registry(context);
 dmi_entity_t       *entity   = dmi_registry_lookup_first(registry,
-                                         DMI_TYPE(POWER_SUPPLY), false);
+                                         DMI_TYPE(power_supply), false);
 dmi_power_supply_t *supply   = dmi_entity_info(entity,
-                                               DMI_TYPE(POWER_SUPPLY));
+                                               DMI_TYPE(power_supply));
 
 if ((supply != nullptr) && supply->present &&
     (supply->maximum_capacity != SHRT_MIN))

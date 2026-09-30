@@ -44,7 +44,7 @@ While linking, each property is attached to its parent structure, where
 `dmi_entity_property()` finds it by its identifier.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(STRING_PROPERTY)`, and lives as long as the context it has been
+`DMI_TYPE(string_property)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -74,9 +74,9 @@ property; linking reports those cases as errors.
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
-                                      DMI_TYPE(STRING_PROPERTY), true);
+                                      DMI_TYPE(string_property), true);
 dmi_string_property_t *property = dmi_entity_info(entity,
-                                                  DMI_TYPE(STRING_PROPERTY));
+                                                  DMI_TYPE(string_property));
 
 if ((property != nullptr) && (property->value != nullptr))
     printf("Property %u of 0x%04X: %s\n", (unsigned)property->ident,

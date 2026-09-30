@@ -46,7 +46,7 @@ structure (type 18) is its counterpart for 32-bit addresses, see
 `dmi_memory_error_32`(3).
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_ERROR_64)`, and lives as long as the context it has been
+`DMI_TYPE(memory_error_64)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -83,9 +83,9 @@ unknown.
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
-                                      DMI_TYPE(MEMORY_ERROR_64), false);
+                                      DMI_TYPE(memory_error_64), false);
 dmi_memory_error_64_t *error    = dmi_entity_info(entity,
-                                      DMI_TYPE(MEMORY_ERROR_64));
+                                      DMI_TYPE(memory_error_64));
 
 if ((error != nullptr) && (error->type != DMI_MEMORY_ERROR_TYPE_OK) &&
     (error->array_addr != 0x8000000000000000u))

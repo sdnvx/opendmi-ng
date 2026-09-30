@@ -120,7 +120,7 @@ static void test_chassis_decode_v20(void **pstate)
 
     dmi_entity_t *entity = decode_chassis(entity_buffer, (const uint8_t[]){ 0x01, 0x17, 0x00, 0x00, 0x00 }, 5);
 
-    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
     assert_non_null(info);
 
     assert_string_equal(info->vendor, "Vendor");
@@ -148,14 +148,14 @@ static void test_chassis_decode_oem_defined(void **pstate)
 
     // OEM-defined field is not read partially
     dmi_entity_t *entity = decode_chassis(entity_buffer, body, 0x0F - 4);
-    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
     assert_int_equal(info->oem_defined, 0);
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
     dmi_entity_destroy(entity);
 
     entity = decode_chassis(entity_buffer, body, sizeof(body));
-    info = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+    info = dmi_entity_info(entity, DMI_TYPE(chassis));
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
     assert_int_equal(info->oem_defined, 0x12345678);
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
@@ -183,7 +183,7 @@ static void test_chassis_decode_elements(void **pstate)
 
     dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
 
-    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
     assert_non_null(info);
 
     assert_int_equal(entity->level, DMI_VERSION(3, 9, 0));
@@ -192,18 +192,18 @@ static void test_chassis_decode_elements(void **pstate)
     assert_int_equal(info->element_count, 3);
     assert_int_equal(info->element_size, 3);
 
-    assert_int_equal(info->elements[0].type, DMI_TYPE_INVALID);
+    assert_int_equal(info->elements[0].type, DMI_TYPE_ID_INVALID);
     assert_int_equal(info->elements[0].board_type, 0x0A);
     assert_int_equal(info->elements[0].minimum_count, 1);
     assert_int_equal(info->elements[0].maximum_count, 2);
 
-    assert_int_equal(info->elements[1].type, DMI_TYPE(MEMORY_DEVICE));
+    assert_int_equal(info->elements[1].type, DMI_TYPE_ID(MEMORY_DEVICE));
     assert_int_equal(info->elements[1].board_type, DMI_BASEBOARD_TYPE_UNSPEC);
     assert_int_equal(info->elements[1].minimum_count, 0);
     assert_int_equal(info->elements[1].maximum_count, 4);
 
     // Reserved counts are represented as unknown values
-    assert_int_equal(info->elements[2].type, DMI_TYPE(PROCESSOR));
+    assert_int_equal(info->elements[2].type, DMI_TYPE_ID(PROCESSOR));
     assert_uint_equal(info->elements[2].minimum_count, SIZE_MAX);
     assert_uint_equal(info->elements[2].maximum_count, SIZE_MAX);
 
@@ -233,7 +233,7 @@ static void test_chassis_decode_elements_overflow(void **pstate)
 
     dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
 
-    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
     assert_non_null(info);
 
     // No element is completely present
@@ -265,7 +265,7 @@ static void test_chassis_decode_short_elements(void **pstate)
 
     dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
 
-    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
     assert_non_null(info);
 
     assert_int_equal(info->element_count, 0);

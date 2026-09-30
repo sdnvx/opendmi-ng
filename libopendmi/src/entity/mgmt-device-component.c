@@ -24,7 +24,7 @@ const dmi_entity_spec_t dmi_mgmt_device_component_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(MGMT_DEVICE_COMPONENT),
+    .type            = DMI_TYPE(mgmt_device_component),
     .params = {
         .minimum_version = DMI_VERSION(2, 3, 0),
         .minimum_length  = 0x0B,
@@ -47,17 +47,17 @@ const dmi_entity_spec_t dmi_mgmt_device_component_spec =
         DMI_ATTRIBUTE(dmi_mgmt_device_component_t, device_handle, HANDLE, {
             .code = "device-handle",
             .name = "Device handle",
-            .targets = dmi_types(DMI_TYPE_MGMT_DEVICE),
+            .targets = dmi_types(DMI_TYPE(mgmt_device)),
         }),
         DMI_ATTRIBUTE(dmi_mgmt_device_component_t, component_handle, HANDLE, {
             .code = "component-handle",
             .name = "Component handle",
-            .targets = dmi_types(DMI_TYPE_VOLTAGE_PROBE, DMI_TYPE_COOLING_DEVICE, DMI_TYPE_TEMPERATURE_PROBE, DMI_TYPE_CURRENT_PROBE),
+            .targets = dmi_types(DMI_TYPE(voltage_probe), DMI_TYPE(cooling_device), DMI_TYPE(temperature_probe), DMI_TYPE(current_probe)),
         }),
         DMI_ATTRIBUTE(dmi_mgmt_device_component_t, threshold_handle, HANDLE, {
             .code = "threshold-handle",
             .name = "Threshold handle",
-            .targets = dmi_types(DMI_TYPE_MGMT_DEVICE_THRESHOLD),
+            .targets = dmi_types(DMI_TYPE(mgmt_device_threshold)),
         }),
         {}
     }),

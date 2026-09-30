@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_dell_token_refs_1_spec =
 {
-    .type        = DMI_TYPE(DELL_TOKEN_REFS_1),
+    .type        = DMI_TYPE(dell_token_refs_1),
     .code        = "dell-token-refs-1",
     .name        = "Dell token references, type 1",
     .description = (const char *[]){
@@ -49,7 +49,7 @@ const dmi_entity_spec_t dmi_dell_token_refs_1_spec =
 
 const dmi_entity_spec_t dmi_dell_token_refs_2_spec =
 {
-    .type        = DMI_TYPE(DELL_TOKEN_REFS_2),
+    .type        = DMI_TYPE(dell_token_refs_2),
     .code        = "dell-token-refs-2",
     .name        = "Dell token references, type 2",
     .description = (const char *[]){

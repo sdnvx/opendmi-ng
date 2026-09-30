@@ -136,7 +136,7 @@ bool dmi_yaml_entity_start(dmi_yaml_session_t *session, const dmi_entity_t *enti
     assert(entity != nullptr);
 
     snprintf(entity_handle, sizeof(entity_handle), "0x%04hx", entity->handle);
-    snprintf(entity_type, sizeof(entity_type), "%d", entity->type);
+    snprintf(entity_type, sizeof(entity_type), "%d", entity->type_id);
     snprintf(entity_length, sizeof(entity_length), "%zu", entity->total_length);
 
     if (entity->level != DMI_VERSION_NONE) {
@@ -145,7 +145,7 @@ bool dmi_yaml_entity_start(dmi_yaml_session_t *session, const dmi_entity_t *enti
             return false;
     }
 
-    entity_description = dmi_type_name(session->context, entity->type);
+    entity_description = dmi_type_name(session->context, entity->type_id);
 
     bool result =
         dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE) and

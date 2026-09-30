@@ -127,7 +127,7 @@ static bool dmi_platform_detect(dmi_context_t *context);
  * @brief Get decoded information of the first structure of a type, which may
  * be missing or malformed.
  */
-static const void *dmi_platform_info(dmi_registry_t *registry, dmi_type_t type);
+static const void *dmi_platform_info(dmi_registry_t *registry, const dmi_type_t *type);
 
 /**
  * @internal
@@ -166,7 +166,7 @@ static const dmi_module_t *dmi_module_at(
  * specifications type numbers of their own, while the rest are mapped to
  * their types.
  */
-static dmi_type_t dmi_spec_relocate(
+static dmi_type_id_t dmi_spec_relocate(
         const dmi_context_t     *context,
         const dmi_module_t      *extra,
         const dmi_entity_spec_t *spec);
@@ -185,7 +185,7 @@ static dmi_type_t dmi_spec_relocate(
  * @param[in]  context Context descriptor.
  * @param[in]  extra   Module which is being enabled, or @c nullptr.
  * @param[in]  report  Whether a conflict is raised as an error.
- * @param[out] map     Map of `DMI_TYPE_MAX + 1` candidate lists to fill.
+ * @param[out] map     Map of `DMI_TYPE_ID_MAX + 1` candidate lists to fill.
  *
  * @return `true` on success, `false` if two specifications are mapped to the
  *         same type.
@@ -293,7 +293,7 @@ static const dmi_entity_spec_t dmi_inactive_spec =
         //
         nullptr
     },
-    .type        = DMI_TYPE(INACTIVE)
+    .type        = DMI_TYPE(inactive)
 };
 
 static const dmi_entity_spec_t dmi_end_of_table_spec =
@@ -315,7 +315,7 @@ static const dmi_entity_spec_t dmi_end_of_table_spec =
         //
         nullptr
     },
-    .type        = DMI_TYPE(END_OF_TABLE)
+    .type        = DMI_TYPE(end_of_table)
 };
 
 /**
@@ -323,55 +323,55 @@ static const dmi_entity_spec_t dmi_end_of_table_spec =
  */
 static const dmi_entity_spec_t *dmi_entity_specs[] =
 {
-    [DMI_TYPE_FIRMWARE]                = &dmi_firmware_spec,
-    [DMI_TYPE_SYSTEM]                  = &dmi_system_spec,
-    [DMI_TYPE_BASEBOARD]               = &dmi_baseboard_spec,
-    [DMI_TYPE_CHASSIS]                 = &dmi_chassis_spec,
-    [DMI_TYPE_PROCESSOR]               = &dmi_processor_spec,
-    [DMI_TYPE_MEMORY_CONTROLLER]       = &dmi_memory_controller_spec,
-    [DMI_TYPE_MEMORY_MODULE]           = &dmi_memory_module_spec,
-    [DMI_TYPE_CACHE]                   = &dmi_cache_spec,
-    [DMI_TYPE_PORT_CONNECTOR]          = &dmi_port_connector_spec,
-    [DMI_TYPE_SYSTEM_SLOTS]            = &dmi_slot_spec,
-    [DMI_TYPE_ONBOARD_DEVICE]          = &dmi_onboard_device_spec,
-    [DMI_TYPE_OEM_STRINGS]             = &dmi_oem_strings_spec,
-    [DMI_TYPE_SYSTEM_CONFIG_OPTIONS]   = &dmi_system_config_opts_spec,
-    [DMI_TYPE_FIRMWARE_LANGUAGE]       = &dmi_firmware_language_spec,
-    [DMI_TYPE_GROUP_ASSOC]             = &dmi_group_assoc_spec,
-    [DMI_TYPE_SYSTEM_EVENT_LOG]        = &dmi_system_event_log_spec,
-    [DMI_TYPE_MEMORY_ARRAY]            = &dmi_memory_array_spec,
-    [DMI_TYPE_MEMORY_DEVICE]           = &dmi_memory_device_spec,
-    [DMI_TYPE_MEMORY_ERROR_32]         = &dmi_memory_error_32_spec,
-    [DMI_TYPE_MEMORY_ARRAY_ADDR]       = &dmi_memory_array_addr_spec,
-    [DMI_TYPE_MEMORY_DEVICE_ADDR]      = &dmi_memory_device_addr_spec,
-    [DMI_TYPE_POINTING_DEVICE]         = &dmi_pointing_device_spec,
-    [DMI_TYPE_PORTABLE_BATTERY]        = &dmi_battery_spec,
-    [DMI_TYPE_SYSTEM_RESET]            = &dmi_system_reset_spec,
-    [DMI_TYPE_HARDWARE_SECURITY]       = &dmi_hardware_security_spec,
-    [DMI_TYPE_POWER_CONTROLS]          = &dmi_power_controls_spec,
-    [DMI_TYPE_VOLTAGE_PROBE]           = &dmi_voltage_probe_spec,
-    [DMI_TYPE_COOLING_DEVICE]          = &dmi_cooling_device_spec,
-    [DMI_TYPE_TEMPERATURE_PROBE]       = &dmi_temperature_probe_spec,
-    [DMI_TYPE_CURRENT_PROBE]           = &dmi_current_probe_spec,
-    [DMI_TYPE_OOB_REMOTE_ACCESS]       = &dmi_oob_remote_access_spec,
-    [DMI_TYPE_BIS_ENTRY_POINT]         = &dmi_bis_entry_point_spec,
-    [DMI_TYPE_SYSTEM_BOOT]             = &dmi_system_boot_spec,
-    [DMI_TYPE_MEMORY_ERROR_64]         = &dmi_memory_error_64_spec,
-    [DMI_TYPE_MGMT_DEVICE]             = &dmi_mgmt_device_spec,
-    [DMI_TYPE_MGMT_DEVICE_COMPONENT]   = &dmi_mgmt_device_component_spec,
-    [DMI_TYPE_MGMT_DEVICE_THRESHOLD]   = &dmi_mgmt_device_threshold_spec,
-    [DMI_TYPE_MEMORY_CHANNEL]          = &dmi_memory_channel_spec,
-    [DMI_TYPE_IPMI_DEVICE]             = &dmi_ipmi_device_spec,
-    [DMI_TYPE_POWER_SUPPLY]            = &dmi_power_supply_spec,
-    [DMI_TYPE_ADDITIONAL_INFO]         = &dmi_additional_info_spec,
-    [DMI_TYPE_ONBOARD_DEVICE_EX]       = &dmi_onboard_device_ex_spec,
-    [DMI_TYPE_MGMT_CONTROLLER_HOST_IF] = &dmi_mgmt_controller_host_if_spec,
-    [DMI_TYPE_TPM_DEVICE]              = &dmi_tpm_device_spec,
-    [DMI_TYPE_PROCESSOR_EX]            = &dmi_processor_ex_spec,
-    [DMI_TYPE_FIRMWARE_INVENTORY]      = &dmi_firmware_inventory_spec,
-    [DMI_TYPE_STRING_PROPERTY]         = &dmi_string_property_spec,
-    [DMI_TYPE_INACTIVE]                = &dmi_inactive_spec,
-    [DMI_TYPE_END_OF_TABLE]            = &dmi_end_of_table_spec
+    [DMI_TYPE_ID_FIRMWARE]                = &dmi_firmware_spec,
+    [DMI_TYPE_ID_SYSTEM]                  = &dmi_system_spec,
+    [DMI_TYPE_ID_BASEBOARD]               = &dmi_baseboard_spec,
+    [DMI_TYPE_ID_CHASSIS]                 = &dmi_chassis_spec,
+    [DMI_TYPE_ID_PROCESSOR]               = &dmi_processor_spec,
+    [DMI_TYPE_ID_MEMORY_CONTROLLER]       = &dmi_memory_controller_spec,
+    [DMI_TYPE_ID_MEMORY_MODULE]           = &dmi_memory_module_spec,
+    [DMI_TYPE_ID_CACHE]                   = &dmi_cache_spec,
+    [DMI_TYPE_ID_PORT_CONNECTOR]          = &dmi_port_connector_spec,
+    [DMI_TYPE_ID_SYSTEM_SLOTS]            = &dmi_slot_spec,
+    [DMI_TYPE_ID_ONBOARD_DEVICE]          = &dmi_onboard_device_spec,
+    [DMI_TYPE_ID_OEM_STRINGS]             = &dmi_oem_strings_spec,
+    [DMI_TYPE_ID_SYSTEM_CONFIG_OPTIONS]   = &dmi_system_config_opts_spec,
+    [DMI_TYPE_ID_FIRMWARE_LANGUAGE]       = &dmi_firmware_language_spec,
+    [DMI_TYPE_ID_GROUP_ASSOC]             = &dmi_group_assoc_spec,
+    [DMI_TYPE_ID_SYSTEM_EVENT_LOG]        = &dmi_system_event_log_spec,
+    [DMI_TYPE_ID_MEMORY_ARRAY]            = &dmi_memory_array_spec,
+    [DMI_TYPE_ID_MEMORY_DEVICE]           = &dmi_memory_device_spec,
+    [DMI_TYPE_ID_MEMORY_ERROR_32]         = &dmi_memory_error_32_spec,
+    [DMI_TYPE_ID_MEMORY_ARRAY_ADDR]       = &dmi_memory_array_addr_spec,
+    [DMI_TYPE_ID_MEMORY_DEVICE_ADDR]      = &dmi_memory_device_addr_spec,
+    [DMI_TYPE_ID_POINTING_DEVICE]         = &dmi_pointing_device_spec,
+    [DMI_TYPE_ID_PORTABLE_BATTERY]        = &dmi_battery_spec,
+    [DMI_TYPE_ID_SYSTEM_RESET]            = &dmi_system_reset_spec,
+    [DMI_TYPE_ID_HARDWARE_SECURITY]       = &dmi_hardware_security_spec,
+    [DMI_TYPE_ID_POWER_CONTROLS]          = &dmi_power_controls_spec,
+    [DMI_TYPE_ID_VOLTAGE_PROBE]           = &dmi_voltage_probe_spec,
+    [DMI_TYPE_ID_COOLING_DEVICE]          = &dmi_cooling_device_spec,
+    [DMI_TYPE_ID_TEMPERATURE_PROBE]       = &dmi_temperature_probe_spec,
+    [DMI_TYPE_ID_CURRENT_PROBE]           = &dmi_current_probe_spec,
+    [DMI_TYPE_ID_OOB_REMOTE_ACCESS]       = &dmi_oob_remote_access_spec,
+    [DMI_TYPE_ID_BIS_ENTRY_POINT]         = &dmi_bis_entry_point_spec,
+    [DMI_TYPE_ID_SYSTEM_BOOT]             = &dmi_system_boot_spec,
+    [DMI_TYPE_ID_MEMORY_ERROR_64]         = &dmi_memory_error_64_spec,
+    [DMI_TYPE_ID_MGMT_DEVICE]             = &dmi_mgmt_device_spec,
+    [DMI_TYPE_ID_MGMT_DEVICE_COMPONENT]   = &dmi_mgmt_device_component_spec,
+    [DMI_TYPE_ID_MGMT_DEVICE_THRESHOLD]   = &dmi_mgmt_device_threshold_spec,
+    [DMI_TYPE_ID_MEMORY_CHANNEL]          = &dmi_memory_channel_spec,
+    [DMI_TYPE_ID_IPMI_DEVICE]             = &dmi_ipmi_device_spec,
+    [DMI_TYPE_ID_POWER_SUPPLY]            = &dmi_power_supply_spec,
+    [DMI_TYPE_ID_ADDITIONAL_INFO]         = &dmi_additional_info_spec,
+    [DMI_TYPE_ID_ONBOARD_DEVICE_EX]       = &dmi_onboard_device_ex_spec,
+    [DMI_TYPE_ID_MGMT_CONTROLLER_HOST_IF] = &dmi_mgmt_controller_host_if_spec,
+    [DMI_TYPE_ID_TPM_DEVICE]              = &dmi_tpm_device_spec,
+    [DMI_TYPE_ID_PROCESSOR_EX]            = &dmi_processor_ex_spec,
+    [DMI_TYPE_ID_FIRMWARE_INVENTORY]      = &dmi_firmware_inventory_spec,
+    [DMI_TYPE_ID_STRING_PROPERTY]         = &dmi_string_property_spec,
+    [DMI_TYPE_ID_INACTIVE]                = &dmi_inactive_spec,
+    [DMI_TYPE_ID_END_OF_TABLE]            = &dmi_end_of_table_spec
 };
 
 dmi_context_t *dmi_create(unsigned int flags)
@@ -390,7 +390,7 @@ dmi_context_t *dmi_create(unsigned int flags)
 
     do {
         // Allocate type map
-        context->type_map = dmi_alloc_array(context, sizeof(dmi_type_candidates_t), DMI_TYPE_MAX + 1);
+        context->type_map = dmi_alloc_array(context, sizeof(dmi_type_candidates_t), DMI_TYPE_ID_MAX + 1);
         if (context->type_map == nullptr)
             break;
 
@@ -451,7 +451,7 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
     }
 
     // Check the module against the enabled ones, before it is enabled
-    dmi_type_candidates_t map[DMI_TYPE_MAX + 1];
+    dmi_type_candidates_t map[DMI_TYPE_ID_MAX + 1];
     if (not dmi_types_map(context, module, true, map))
         return false;
 
@@ -510,7 +510,7 @@ bool dmi_set_platform(dmi_context_t *context, const dmi_platform_t *platform)
     dmi_platform_t *previous = context->platform;
     context->platform = copy;
 
-    dmi_type_candidates_t map[DMI_TYPE_MAX + 1];
+    dmi_type_candidates_t map[DMI_TYPE_ID_MAX + 1];
     if (not dmi_types_map(context, nullptr, true, map)) {
         context->platform = previous;
         dmi_platform_destroy(copy);
@@ -629,31 +629,31 @@ bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
     return success;
 }
 
-dmi_type_t dmi_type_find(dmi_context_t *context, const char *code)
+dmi_type_id_t dmi_type_find(dmi_context_t *context, const char *code)
 {
     if ((context == nullptr) or (code == nullptr))
-        return DMI_TYPE_INVALID;
+        return DMI_TYPE_ID_INVALID;
 
     // Type number is the one the structures are found at, which relocations
     // may make different from the type of the specification
-    for (size_t i = 0; i <= DMI_TYPE_MAX; i++) {
+    for (size_t i = 0; i <= DMI_TYPE_ID_MAX; i++) {
         for (size_t j = 0; j < DMI_TYPE_CANDIDATES; j++) {
             const dmi_entity_spec_t *spec = context->type_map[i][j];
 
             if ((spec != nullptr) and (strcmp(spec->code, code) == 0))
-                return (dmi_type_t)i;
+                return (dmi_type_id_t)i;
         }
     }
 
-    return DMI_TYPE_INVALID;
+    return DMI_TYPE_ID_INVALID;
 }
 
-const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type)
+const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_id_t type)
 {
     if (context == nullptr)
         return nullptr;
 
-    if ((type <= DMI_TYPE_INVALID) or (type > DMI_TYPE_MAX)) {
+    if ((type <= DMI_TYPE_ID_INVALID) or (type > DMI_TYPE_ID_MAX)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "type");
         return nullptr;
     }
@@ -676,7 +676,7 @@ const char *dmi_spec_name(const dmi_entity_spec_t *spec)
     return (translated != nullptr) ? translated : spec->name;
 }
 
-const char *dmi_type_name(dmi_context_t *context, dmi_type_t type)
+const char *dmi_type_name(dmi_context_t *context, dmi_type_id_t type)
 {
     const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
 
@@ -935,7 +935,7 @@ static bool dmi_setup_extensions(dmi_context_t *context)
 
     // Modules enabled before the context has been opened are mapped for the
     // platform only now
-    dmi_type_candidates_t map[DMI_TYPE_MAX + 1];
+    dmi_type_candidates_t map[DMI_TYPE_ID_MAX + 1];
     if (not dmi_types_map(context, nullptr, true, map))
         return false;
 
@@ -952,7 +952,7 @@ static bool dmi_setup_vendor(dmi_context_t *context)
 
     dmi_log_debug(context, "Detecting SMBIOS vendor...");
 
-    entity = dmi_registry_lookup_first(context->state.registry, DMI_TYPE(FIRMWARE), true);
+    entity = dmi_registry_lookup_first(context->state.registry, DMI_TYPE(firmware), true);
     if (entity == nullptr) {
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
             dmi_log_notice(context, dmi_error_message(DMI_ERROR_MISSING_FIRMWARE_INFO));
@@ -1005,7 +1005,7 @@ static bool dmi_setup_platform_modules(dmi_context_t *context)
             continue;
 
         // Modules enabled explicitly take precedence
-        dmi_type_candidates_t map[DMI_TYPE_MAX + 1];
+        dmi_type_candidates_t map[DMI_TYPE_ID_MAX + 1];
         if (not dmi_types_map(context, module, false, map)) {
             dmi_log_notice(context, "Extension %s conflicts with enabled extensions, skipping",
                            module->name);
@@ -1036,13 +1036,13 @@ static bool dmi_platform_detect(dmi_context_t *context)
     // System, baseboard and processor information is optional, and the
     // platform is told without it
     const char *product = nullptr;
-    const dmi_system_t *system = dmi_platform_info(registry, DMI_TYPE(SYSTEM));
+    const dmi_system_t *system = dmi_platform_info(registry, DMI_TYPE(system));
     if (system != nullptr) {
         platform->system_vendor = dmi_platform_vendor(system->vendor);
         product = system->product;
     }
 
-    const dmi_baseboard_t *baseboard = dmi_platform_info(registry, DMI_TYPE(BASEBOARD));
+    const dmi_baseboard_t *baseboard = dmi_platform_info(registry, DMI_TYPE(baseboard));
     if (baseboard != nullptr)
         platform->baseboard_vendor = dmi_platform_vendor(baseboard->vendor);
 
@@ -1052,10 +1052,10 @@ static bool dmi_platform_detect(dmi_context_t *context)
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        if ((entity->type != DMI_TYPE(PROCESSOR)) or not dmi_entity_decode(entity))
+        if ((entity->type_id != DMI_TYPE_ID(PROCESSOR)) or not dmi_entity_decode(entity))
             continue;
 
-        const dmi_processor_t *processor = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+        const dmi_processor_t *processor = dmi_entity_info(entity, DMI_TYPE(processor));
         platform->processor_vendor = dmi_platform_vendor(processor->vendor);
         if (platform->processor_vendor != DMI_VENDOR_OTHER)
             break;
@@ -1078,7 +1078,7 @@ static bool dmi_platform_detect(dmi_context_t *context)
     return true;
 }
 
-static const void *dmi_platform_info(dmi_registry_t *registry, dmi_type_t type)
+static const void *dmi_platform_info(dmi_registry_t *registry, const dmi_type_t *type)
 {
     dmi_entity_t *entity = dmi_registry_lookup_first(registry, type, true);
 
@@ -1116,7 +1116,7 @@ static const dmi_module_t *dmi_module_at(
     return (index == 0) ? extra : nullptr;
 }
 
-static dmi_type_t dmi_spec_relocate(
+static dmi_type_id_t dmi_spec_relocate(
         const dmi_context_t     *context,
         const dmi_module_t      *extra,
         const dmi_entity_spec_t *spec)
@@ -1133,7 +1133,7 @@ static dmi_type_t dmi_spec_relocate(
         }
     }
 
-    return spec->type;
+    return spec->type->id;
 }
 
 static bool dmi_types_map(
@@ -1145,13 +1145,13 @@ static bool dmi_types_map(
     const dmi_platform_t *platform = dmi_context_platform(context);
     const dmi_module_t   *module;
 
-    memset(map, 0, sizeof(*map) * (DMI_TYPE_MAX + 1));
+    memset(map, 0, sizeof(*map) * (DMI_TYPE_ID_MAX + 1));
 
     for (size_t i = 0; i < countof(dmi_entity_specs); i++) {
         const dmi_entity_spec_t *spec = dmi_entity_specs[i];
 
         if (spec != nullptr)
-            map[spec->type][0] = spec;
+            map[spec->type->id][0] = spec;
     }
 
     // Modules which yield their types to the rest are mapped last, into the
@@ -1172,8 +1172,8 @@ static bool dmi_types_map(
 
                 // Platforms which never carry the structure are told by
                 // a relocation to no type
-                dmi_type_t type = dmi_spec_relocate(context, extra, spec);
-                if (type == DMI_TYPE_INVALID)
+                dmi_type_id_t type = dmi_spec_relocate(context, extra, spec);
+                if (type == DMI_TYPE_ID_INVALID)
                     continue;
 
                 if (dmi_types_map_one(&map[type], spec, yield))

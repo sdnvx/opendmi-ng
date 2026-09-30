@@ -307,7 +307,7 @@ static void test_lint_raw_data(void **pstate)
         dmi_byte_t type   = data[offset];
         dmi_byte_t length = data[offset + 1];
 
-        if (type == DMI_TYPE_IPMI_DEVICE) {
+        if (type == DMI_TYPE_ID_IPMI_DEVICE) {
             data[offset + test_ipmi_revision] = 0x1A;
             broken = true;
             break;

@@ -27,7 +27,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(MEMORY_ARRAY),
+    .type            = DMI_TYPE(memory_array),
     .params = {
         .minimum_version = DMI_VERSION(2, 1, 0),
         .required_from   = DMI_VERSION(2, 3, 0),
@@ -86,7 +86,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
         DMI_ATTRIBUTE(dmi_memory_array_t, error_info_handle, HANDLE, {
             .code    = "error-handle",
             .name    = "Memory error information handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_ERROR_32, DMI_TYPE_MEMORY_ERROR_64),
+            .targets = dmi_types(DMI_TYPE(memory_error_32), DMI_TYPE(memory_error_64)),
             .link    = dmi_member(dmi_memory_array_t, error_info)
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, device_count, INTEGER, {

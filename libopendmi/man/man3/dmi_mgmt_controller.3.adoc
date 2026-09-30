@@ -51,7 +51,7 @@ length they declare, such as the ones written to the older layout, are decoded
 up to the interface type only.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MGMT_CONTROLLER_HOST_IF)`, and lives as long as the context it has
+`DMI_TYPE(mgmt_controller_host_if)`, and lives as long as the context it has
 been decoded in.
 
 === Fields
@@ -91,10 +91,10 @@ since SMBIOS 3.2.
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
-                                      DMI_TYPE(MGMT_CONTROLLER_HOST_IF),
+                                      DMI_TYPE(mgmt_controller_host_if),
                                       false);
 dmi_mgmt_controller_t *mc       = dmi_entity_info(entity,
-                                      DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+                                      DMI_TYPE(mgmt_controller_host_if));
 
 for (size_t i = 0; (mc != nullptr) && (i < mc->proto_records_count); i++) {
     const dmi_mgmt_proto_record_t *record = &mc->proto_records[i];

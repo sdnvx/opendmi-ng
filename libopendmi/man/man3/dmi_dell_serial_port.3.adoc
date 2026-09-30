@@ -42,7 +42,7 @@ serial port, the highest speed the BIOS supports on it, and the security
 setting applied to it.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(DELL_SERIAL_PORT)`, declared in `<opendmi/module/dell.h>`, and lives
+`DMI_TYPE(dell_serial_port)`, declared in `<opendmi/module/dell.h>`, and lives
 as long as the context it has been decoded in.
 
 === Fields
@@ -72,9 +72,9 @@ Security setting applied to the port.
 ----
 dmi_registry_t         *registry = dmi_get_registry(context);
 dmi_entity_t           *entity   = dmi_registry_lookup_first(registry,
-                                       DMI_TYPE(DELL_SERIAL_PORT), true);
+                                       DMI_TYPE(dell_serial_port), true);
 dmi_dell_serial_port_t *port     = dmi_entity_info(entity,
-                                       DMI_TYPE(DELL_SERIAL_PORT));
+                                       DMI_TYPE(dell_serial_port));
 
 if (port != nullptr) {
     const char *caps = dmi_dell_serial_port_caps_name(port->capabilities);

@@ -14,7 +14,7 @@
 
 const dmi_entity_spec_t dmi_hpe_inventory_spec =
 {
-    .type        = DMI_TYPE(HPE_INVENTORY),
+    .type        = DMI_TYPE(hpe_inventory),
     .code        = "hpe-inventory",
     .name        = "HP/HPE firmware inventory record",
     .description = (const char *[]){
@@ -43,7 +43,7 @@ const dmi_entity_spec_t dmi_hpe_inventory_spec =
         DMI_ATTRIBUTE(dmi_hpe_inventory_t, correlation_handle, HANDLE, {
             .code    = "correlation-handle",
             .name    = "Device correlation handle",
-            .targets = dmi_types(DMI_TYPE(HPE_DEVICE_CORRELATION))
+            .targets = dmi_types(DMI_TYPE(hpe_device_correlation))
         }),
         DMI_ATTRIBUTE(dmi_hpe_inventory_t, package_version, INTEGER, {
             .code  = "package-version",
@@ -130,7 +130,7 @@ static dmi_hpe_flag_t dmi_hpe_inventory_flag(const dmi_hpe_inventory_t *info, dm
 
 bool dmi_hpe_inventory_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_INVENTORY));
+    dmi_hpe_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_inventory));
     if (info == nullptr)
         return false;
 

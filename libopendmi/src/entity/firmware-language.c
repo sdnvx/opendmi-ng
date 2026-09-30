@@ -21,7 +21,7 @@ const dmi_entity_spec_t dmi_firmware_language_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(FIRMWARE_LANGUAGE),
+    .type            = DMI_TYPE(firmware_language),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x16,

@@ -32,7 +32,7 @@ const dmi_entity_spec_t dmi_onboard_device_ex_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(ONBOARD_DEVICE_EX),
+    .type            = DMI_TYPE(onboard_device_ex),
     .params = {
         .minimum_version = DMI_VERSION(2, 6, 0),
         .minimum_length  = 0x0B,

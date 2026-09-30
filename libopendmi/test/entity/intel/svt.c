@@ -70,10 +70,10 @@ static void test_svt_decode(void **pstate)
 
     assert_true(dmi_load(context, test_acer_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_SVT), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_svt), false);
     assert_non_null(entity);
 
-    const dmi_intel_svt_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_SVT));
+    const dmi_intel_svt_t *info = dmi_entity_info(entity, DMI_TYPE(intel_svt));
     assert_non_null(info);
     assert_int_equal(info->version, 1);
     assert_int_equal(info->parameter, 0x0099);
@@ -97,11 +97,12 @@ static void test_svt_dell(void **pstate)
 
     dmi_registry_t *registry = dmi_get_registry(context);
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(registry, (dmi_type_t)206, false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_svt), false);
     assert_non_null(entity);
+    assert_int_equal(dmi_entity_type_id(entity), 206);
     assert_ptr_equal(entity->spec, &dmi_intel_svt_spec);
 
-    entity = dmi_registry_lookup_first(registry, DMI_TYPE(INTEL_SVT), false);
+    entity = dmi_registry_lookup_first_id(registry, DMI_TYPE_ID(INTEL_SVT), false);
     assert_non_null(entity);
     assert_null(entity->spec);
 }
@@ -113,7 +114,7 @@ static void test_svt_proliant(void **pstate)
     // HP servers give type 222 to a structure of their own
     assert_true(dmi_load(context, test_proliant_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_SVT), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), DMI_TYPE_ID(INTEL_SVT), false);
     assert_non_null(entity);
     assert_null(entity->spec);
 }

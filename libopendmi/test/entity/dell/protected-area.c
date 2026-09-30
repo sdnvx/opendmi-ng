@@ -87,7 +87,7 @@ static void test_dell_protected_area_1_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_dell_protected_area_1_t *info = dmi_entity_info(entity, DMI_TYPE(DELL_PROTECTED_AREA_1));
+    const dmi_dell_protected_area_1_t *info = dmi_entity_info(entity, DMI_TYPE(dell_protected_area_1));
     assert_non_null(info);
 
     assert_int_equal(info->token_id, 0x0009);
@@ -126,7 +126,7 @@ static void test_dell_protected_area_2_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_dell_protected_area_2_t *info = dmi_entity_info(entity, DMI_TYPE(DELL_PROTECTED_AREA_2));
+    const dmi_dell_protected_area_2_t *info = dmi_entity_info(entity, DMI_TYPE(dell_protected_area_2));
     assert_non_null(info);
 
     assert_int_equal(info->token_id, 0x000A);

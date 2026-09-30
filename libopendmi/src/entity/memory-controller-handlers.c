@@ -38,7 +38,7 @@ bool dmi_memory_controller_derive(dmi_entity_t *entity)
 {
     dmi_memory_controller_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CONTROLLER));
+    info = dmi_entity_info(entity, DMI_TYPE(memory_controller));
     if (info == nullptr)
         return false;
 
@@ -63,7 +63,7 @@ bool dmi_memory_controller_link(dmi_entity_t *entity)
 
     assert(entity != nullptr);
 
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CONTROLLER));
+    info = dmi_entity_info(entity, DMI_TYPE(memory_controller));
     if (info == nullptr)
         return false;
 
@@ -75,7 +75,7 @@ bool dmi_memory_controller_link(dmi_entity_t *entity)
             continue;
 
         // Memory module may be left undecoded
-        dmi_memory_module_t *module = dmi_entity_info(info->modules[i], DMI_TYPE(MEMORY_MODULE));
+        dmi_memory_module_t *module = dmi_entity_info(info->modules[i], DMI_TYPE(memory_module));
         if (module == nullptr)
             continue;
 
@@ -90,7 +90,7 @@ void dmi_memory_controller_cleanup(dmi_entity_t *entity)
 {
     dmi_memory_controller_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CONTROLLER));
+    info = dmi_entity_info(entity, DMI_TYPE(memory_controller));
     if (info == nullptr)
         return;
 

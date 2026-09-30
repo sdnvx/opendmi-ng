@@ -30,7 +30,7 @@
 
 void dmi_processor_lint_cores(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
     if (info == nullptr)
         return;
 
@@ -61,7 +61,7 @@ void dmi_processor_lint_cores(dmi_lint_t *lint, const dmi_entity_t *entity)
 
 void dmi_processor_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
 
     if ((info == nullptr) or (info->maximum_speed == 0) or (info->current_speed == 0))
         return;
@@ -76,7 +76,7 @@ void dmi_processor_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity)
 
 void dmi_processor_lint_cache(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
     if (info == nullptr)
         return;
 
@@ -100,11 +100,11 @@ void dmi_processor_lint_cache(dmi_lint_t *lint, const dmi_entity_t *entity)
             continue;
 
         const dmi_entity_t *cache =
-                dmi_registry_lookup(registry, caches[i].handle, DMI_TYPE(CACHE), true);
+                dmi_registry_lookup(registry, caches[i].handle, DMI_TYPE(cache), true);
         if (cache == nullptr)
             continue;
 
-        const dmi_cache_t *data = dmi_entity_info(cache, DMI_TYPE(CACHE));
+        const dmi_cache_t *data = dmi_entity_info(cache, DMI_TYPE(cache));
 
         if ((data == nullptr) or (data->level == caches[i].level))
             continue;
@@ -147,7 +147,7 @@ void dmi_processor_lint_family(dmi_lint_t *lint, const dmi_entity_t *entity)
 //
 void dmi_processor_lint_id(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
 
     if ((info == nullptr) or (info->id_format != DMI_PROCESSOR_ID_FORMAT_X86))
         return;

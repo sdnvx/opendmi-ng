@@ -252,18 +252,20 @@ __dmi_api bool dmi_registry_link(dmi_registry_t *registry);
  *                     set: @c nullptr is returned and no error is raised. Use
  *                     `dmi_registry_lookup_first()` to look up entity by type.
  *
- * @param[in] type     Expected structure type. Should be set to
- *                     `DMI_TYPE_INVALID` if the type is unknown.
+ * @param[in] type     Expected structure type, or @c nullptr to disable type
+ *                     checks. The type is the one of the specification the
+ *                     entity is decoded by, whatever type number the entity
+ *                     is found at.
  *
  * @param[in] optional Set to true if missing entity is not an error.
  *
  * @returns Non-owning pointer to the entity, @c nullptr if not found.
  */
 __dmi_api dmi_entity_t *dmi_registry_lookup(
-        dmi_registry_t *registry,
-        dmi_handle_t    handle,
-        dmi_type_t      type,
-        bool            optional);
+        dmi_registry_t   *registry,
+        dmi_handle_t      handle,
+        const dmi_type_t *type,
+        bool              optional);
 
 /**
  * @brief Get entity from registry, that matches any of the expected types.
@@ -275,18 +277,18 @@ __dmi_api dmi_entity_t *dmi_registry_lookup(
  *                     set: @c nullptr is returned and no error is raised.
  *
  * @param[in] types    Array of expected structure types, terminated by
- *                     `DMI_TYPE_INVALID`. May be set to @c nullptr to disable
- *                     type checks.
+ *                     @c nullptr. May be set to @c nullptr to disable type
+ *                     checks.
  *
  * @param[in] optional Set to true if missing entity is not an error.
  *
  * @returns Non-owning pointer to the entity, @c nullptr if not found.
  */
 __dmi_api dmi_entity_t *dmi_registry_lookup_any(
-        dmi_registry_t   *registry,
-        dmi_handle_t      handle,
-        const dmi_type_t *type,
-        bool              optional);
+        dmi_registry_t          *registry,
+        dmi_handle_t             handle,
+        const dmi_type_t *const *types,
+        bool                     optional);
 
 /**
  * @brief Resolve reference to another entity, for use in link handlers.
@@ -298,8 +300,8 @@ __dmi_api dmi_entity_t *dmi_registry_lookup_any(
  * @param[in]  handle   Referenced entity handle. Reserved values
  *                      `DMI_HANDLE_INVALID` and `DMI_HANDLE_UNSUPPORTED` mean
  *                      that the reference is not set.
- * @param[in]  type     Expected structure type, or `DMI_TYPE_INVALID` to
- *                      disable type checks.
+ * @param[in]  type     Expected structure type, or @c nullptr to disable
+ *                      type checks.
  * @param[out] pentity  Resolved entity, or @c nullptr if the reference is not
  *                      set or is broken.
  *
@@ -308,10 +310,33 @@ __dmi_api dmi_entity_t *dmi_registry_lookup_any(
  *         raised to the error queue.
  */
 __dmi_api bool dmi_registry_resolve(
-        dmi_registry_t  *registry,
-        dmi_handle_t     handle,
-        dmi_type_t       type,
-        dmi_entity_t   **pentity);
+        dmi_registry_t   *registry,
+        dmi_handle_t      handle,
+        const dmi_type_t *type,
+        dmi_entity_t    **pentity);
+
+/**
+ * @brief Resolve reference to another entity of the expected type number,
+ * for use in link handlers.
+ *
+ * Works as `dmi_registry_resolve()` does, but tells the type by the number
+ * the referenced structure is found at, for the references whose type the
+ * data itself gives, e.g. the items of a group association.
+ *
+ * @param[in]  registry Registry handle.
+ * @param[in]  handle   Referenced entity handle, see `dmi_registry_resolve()`.
+ * @param[in]  type_id  Expected type number, or `DMI_TYPE_ID_INVALID` to
+ *                      disable type checks.
+ * @param[out] pentity  Resolved entity, or @c nullptr if the reference is not
+ *                      set or is broken.
+ *
+ * @return `true` if the reference is resolved or not set, `false` otherwise.
+ */
+__dmi_api bool dmi_registry_resolve_id(
+        dmi_registry_t *registry,
+        dmi_handle_t    handle,
+        dmi_type_id_t   type_id,
+        dmi_entity_t  **pentity);
 
 /**
  * @brief Resolve reference to another entity of any of the expected types,
@@ -325,25 +350,24 @@ __dmi_api bool dmi_registry_resolve(
  * @param[in]  registry Registry handle.
  * @param[in]  handle   Referenced entity handle, see `dmi_registry_resolve()`.
  * @param[in]  types    Array of expected structure types, terminated by
- *                      `DMI_TYPE_INVALID`, or @c nullptr to disable type
- *                      checks.
+ *                      @c nullptr, or @c nullptr to disable type checks.
  * @param[out] pentity  Resolved entity, or @c nullptr if the reference is not
  *                      set or is broken.
  *
  * @return `true` if the reference is resolved or not set, `false` otherwise.
  */
 __dmi_api bool dmi_registry_resolve_any(
-        dmi_registry_t    *registry,
-        dmi_handle_t       handle,
-        const dmi_type_t  *types,
-        dmi_entity_t     **pentity);
+        dmi_registry_t          *registry,
+        dmi_handle_t             handle,
+        const dmi_type_t *const *types,
+        dmi_entity_t           **pentity);
 
 /**
  * @brief Get the first entity of the given type from registry.
  *
  * @param[in] registry Registry handle.
  *
- * @param[in] type     Structure type, must not be `DMI_TYPE_INVALID`.
+ * @param[in] type     Structure type, must not be @c nullptr.
  *
  * @param[in] optional Set to true if missing entity is not an error.
  *
@@ -351,8 +375,27 @@ __dmi_api bool dmi_registry_resolve_any(
  *          order, @c nullptr if not found.
  */
 __dmi_api dmi_entity_t *dmi_registry_lookup_first(
+        dmi_registry_t   *registry,
+        const dmi_type_t *type,
+        bool              optional);
+
+/**
+ * @brief Get the first entity found at the given type number from registry.
+ *
+ * Unlike `dmi_registry_lookup_first()`, the structures are told by the type
+ * number they are found at rather than by their structure type, which is how
+ * the structures no specification describes are looked up.
+ *
+ * @param[in] registry Registry handle.
+ * @param[in] type_id  Type number, must not be `DMI_TYPE_ID_INVALID`.
+ * @param[in] optional Set to true if missing entity is not an error.
+ *
+ * @returns Non-owning pointer to the first entity found at the given type
+ *          number in table order, @c nullptr if not found.
+ */
+__dmi_api dmi_entity_t *dmi_registry_lookup_first_id(
         dmi_registry_t *registry,
-        dmi_type_t      type,
+        dmi_type_id_t   type_id,
         bool            optional);
 
 /**

@@ -47,7 +47,7 @@ such as the sound input of an optical drive, has the same for the external
 side.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(PORT_CONNECTOR)`, and lives as long as the context it has been
+`DMI_TYPE(port_connector)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -81,11 +81,11 @@ dmi_entity_t        *entity;
 dmi_registry_iter_init(&iter, registry, nullptr);
 
 while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-    if (dmi_entity_type(entity) != DMI_TYPE(PORT_CONNECTOR))
+    if (dmi_entity_type(entity) != DMI_TYPE(port_connector))
         continue;
 
     dmi_port_connector_t *port = dmi_entity_info(entity,
-                                                 DMI_TYPE(PORT_CONNECTOR));
+                                                 DMI_TYPE(port_connector));
     if ((port != nullptr) && (port->external_designator != nullptr))
         printf("%s: %s\n", port->external_designator,
                dmi_port_type_name(port->port_type));

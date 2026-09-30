@@ -107,7 +107,7 @@ static void test_mgmt_controller_decode_v30(void **pstate)
     dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
 
     assert_int_equal(info->if_type, DMI_MGMT_IF_TYPE_NETWORK_HOST_IF);
@@ -136,7 +136,7 @@ static void test_mgmt_controller_decode_records(void **pstate)
     dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
 
     assert_int_equal(info->if_data.length, 2);
@@ -166,7 +166,7 @@ static void test_mgmt_controller_decode_no_records(void **pstate)
     dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
 
     assert_int_equal(info->if_data.length, 0);
@@ -189,7 +189,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     entity = create_entity(entity_buffer, (const uint8_t[]){ 0x02, 0xFF, 0x01, 0x02, 0xFF, 0xFF, 0xFF, 0xFF }, 8);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
     assert_int_equal(info->if_type, DMI_MGMT_IF_TYPE_MCTP_KCS);
     assert_int_equal(info->if_data.length, 0);
@@ -202,7 +202,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     entity = create_entity(entity_buffer, (const uint8_t[]){ 0x40, 0x00, 0xFF, 0x04, 0x00 }, 5);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
     assert_int_equal(info->proto_records_count, 1);
     assert_int_equal(info->proto_records[0].type, DMI_MGMT_PROTO_REDFISH_OVER_IP);
@@ -214,7 +214,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     entity = create_entity(entity_buffer, (const uint8_t[]){ 0x40, 0x00, 0x01, 0x04 }, 4);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
     assert_int_equal(info->proto_records_count, 0);
 
@@ -226,7 +226,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     }, 10);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
     assert_int_equal(info->if_data.length, 1);
     assert_int_equal(info->proto_records_count, 1);
@@ -255,7 +255,7 @@ static void test_mgmt_controller_decode_nhi_usb(void **pstate)
     dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
 
     assert_true(info->has_nhi);
@@ -278,7 +278,7 @@ static void test_mgmt_controller_decode_nhi_usb(void **pstate)
     entity = create_entity(entity_buffer, malformed, sizeof(malformed));
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
 
     assert_true(info->has_nhi);
@@ -307,7 +307,7 @@ static void test_mgmt_controller_decode_nhi_usb_v2(void **pstate)
     dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
 
     assert_true(info->has_nhi);
@@ -366,7 +366,7 @@ static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate)
     dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
 
     assert_true(info->has_nhi);
@@ -436,7 +436,7 @@ static void test_mgmt_controller_decode_nhi_oem(void **pstate)
     dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     assert_non_null(info);
 
     assert_true(info->has_nhi);

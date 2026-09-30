@@ -41,7 +41,7 @@ structure (type 209): the resources, the connector and the capabilities of a
 parallel port, and the security setting applied to it.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(DELL_PARALLEL_PORT)`, declared in `<opendmi/module/dell.h>`, and
+`DMI_TYPE(dell_parallel_port)`, declared in `<opendmi/module/dell.h>`, and
 lives as long as the context it has been decoded in.
 
 === Fields
@@ -70,9 +70,9 @@ Security setting applied to the port.
 ----
 dmi_registry_t           *registry = dmi_get_registry(context);
 dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
-                                         DMI_TYPE(DELL_PARALLEL_PORT), true);
+                                         DMI_TYPE(dell_parallel_port), true);
 dmi_dell_parallel_port_t *port     = dmi_entity_info(entity,
-                                         DMI_TYPE(DELL_PARALLEL_PORT));
+                                         DMI_TYPE(dell_parallel_port));
 
 if (port != nullptr) {
     printf("Parallel port at 0x%04x, IRQ %u, ECP %s\n", port->base_addr,

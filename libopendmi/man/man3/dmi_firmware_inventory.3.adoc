@@ -59,7 +59,7 @@ structure declares. The decoder parses them according to these formats into
 strings as they are.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(FIRMWARE_INVENTORY)`, and lives as long as the context it has been
+`DMI_TYPE(firmware_inventory)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -136,9 +136,9 @@ devices (type 43).
 ----
 dmi_registry_t           *registry = dmi_get_registry(context);
 dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
-                                         DMI_TYPE(FIRMWARE_INVENTORY), false);
+                                         DMI_TYPE(firmware_inventory), false);
 dmi_firmware_inventory_t *firmware = dmi_entity_info(entity,
-                                         DMI_TYPE(FIRMWARE_INVENTORY));
+                                         DMI_TYPE(firmware_inventory));
 
 if (firmware != nullptr) {
     printf("%s: %s\n", firmware->name ? firmware->name : "?",

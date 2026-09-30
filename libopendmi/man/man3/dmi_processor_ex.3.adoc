@@ -46,7 +46,7 @@ each architecture by the architecture workgroups or the vendors;
 `dmi_processor_rv64_data` describe the layouts of some of them.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(PROCESSOR_EX)`, and lives as long as the context it has been decoded
+`DMI_TYPE(processor_ex)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -73,9 +73,9 @@ the block holds no data.
 ----
 dmi_registry_t     *registry = dmi_get_registry(context);
 dmi_entity_t       *entity   =
-        dmi_registry_lookup_first(registry, DMI_TYPE(PROCESSOR_EX), true);
+        dmi_registry_lookup_first(registry, DMI_TYPE(processor_ex), true);
 dmi_processor_ex_t *info     =
-        dmi_entity_info(entity, DMI_TYPE(PROCESSOR_EX));
+        dmi_entity_info(entity, DMI_TYPE(processor_ex));
 
 if ((info != nullptr) && (info->arch == DMI_PROCESSOR_ARCH_AARCH64) &&
     (info->data.length >= sizeof(dmi_processor_aarch64_data_t))) {

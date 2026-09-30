@@ -132,9 +132,9 @@ int main(void)
     if (dmi_open(context, nullptr)) {
         dmi_registry_t *registry = dmi_get_registry(context);
         dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                                                             DMI_TYPE(SYSTEM),
+                                                             DMI_TYPE(system),
                                                              false);
-        dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(SYSTEM));
+        dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(system));
 
         if (system != nullptr)
             printf("%s %s\n", system->vendor, system->product);

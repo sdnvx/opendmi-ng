@@ -26,7 +26,7 @@ const dmi_entity_spec_t dmi_string_property_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(STRING_PROPERTY),
+    .type            = DMI_TYPE(string_property),
     .params = {
         .minimum_version = DMI_VERSION(3, 5, 0),
         .minimum_length  = 0x09,

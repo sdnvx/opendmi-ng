@@ -53,7 +53,7 @@ physical memory array (type 16) and memory device (type 17) structures instead.
 Firmware may still provide both, for the sake of older software.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_CONTROLLER)`, and lives as long as the context it has been
+`DMI_TYPE(memory_controller)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -119,9 +119,9 @@ Error correcting capabilities enabled when the structure was built, see
 ----
 dmi_registry_t          *registry = dmi_get_registry(context);
 dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
-                                        DMI_TYPE(MEMORY_CONTROLLER), true);
+                                        DMI_TYPE(memory_controller), true);
 dmi_memory_controller_t *ctrl     = dmi_entity_info(entity,
-                                        DMI_TYPE(MEMORY_CONTROLLER));
+                                        DMI_TYPE(memory_controller));
 
 if (ctrl != nullptr)
     printf("%zu sockets, up to %llu MiB each, %s\n", ctrl->slot_count,

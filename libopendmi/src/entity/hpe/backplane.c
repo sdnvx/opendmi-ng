@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_backplane_spec =
 {
-    .type        = DMI_TYPE(HPE_BACKPLANE),
+    .type        = DMI_TYPE(hpe_backplane),
     .code        = "hpe-backplane",
     .name        = "HP/HPE HDD backplane FRU information",
     .description = (const char *[]){

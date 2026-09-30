@@ -20,7 +20,7 @@ bool dmi_system_config_opts_derive(dmi_entity_t *entity)
 {
     dmi_system_config_opts_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_CONFIG_OPTIONS));
+    info = dmi_entity_info(entity, DMI_TYPE(system_config_options));
     if (info == nullptr)
         return false;
 
@@ -42,7 +42,7 @@ void dmi_system_config_opts_cleanup(dmi_entity_t *entity)
 {
     dmi_system_config_opts_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_CONFIG_OPTIONS));
+    info = dmi_entity_info(entity, DMI_TYPE(system_config_options));
     if (info == nullptr)
         return;
 

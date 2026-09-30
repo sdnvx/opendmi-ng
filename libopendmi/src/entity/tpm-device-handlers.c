@@ -41,7 +41,7 @@ bool dmi_tpm_device_decode_vendor_id(
 
             dmi_log_notice(context, "Handle 0x%04hx (%s): Vendor ID bytes are reversed",
                            dmi_entity_handle(data->entity),
-                           dmi_type_name(context, dmi_entity_type(data->entity)));
+                           dmi_entity_name(data->entity));
         }
 
         for (size_t i = 0; i < 2; i++) {
@@ -91,7 +91,7 @@ bool dmi_tpm_device_derive(dmi_entity_t *entity)
 {
     dmi_tpm_device_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(TPM_DEVICE));
+    info = dmi_entity_info(entity, DMI_TYPE(tpm_device));
     if (info == nullptr)
         return false;
 

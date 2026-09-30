@@ -14,7 +14,7 @@
 
 const dmi_entity_spec_t dmi_hpe_nic_mac_spec =
 {
-    .type        = DMI_TYPE(HPE_NIC),
+    .type        = DMI_TYPE(hpe_nic),
     .code        = "hpe-nic-mac",
     .name        = "HP/HPE NIC PCI and MAC information",
     .description = (const char *[]){
@@ -90,7 +90,7 @@ const dmi_entity_spec_t dmi_hpe_nic_mac_spec =
 
 bool dmi_hpe_nic_mac_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_nic_mac_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_NIC));
+    dmi_hpe_nic_mac_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_nic));
     if (info == nullptr)
         return false;
 

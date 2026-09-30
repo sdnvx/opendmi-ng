@@ -14,7 +14,7 @@ void dmi_intel_rsd_cabled_pcie_cleanup(dmi_entity_t *entity)
 {
     dmi_intel_rsd_cabled_pcie_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_CABLED_PCIE));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_cabled_pcie));
     if (info == nullptr)
         return;
 

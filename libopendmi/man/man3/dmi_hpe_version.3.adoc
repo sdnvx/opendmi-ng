@@ -44,7 +44,7 @@ a CPLD or of a power management controller. There is a record for each
 component.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_version_spec`, of type `DMI_TYPE(HPE_VERSION)`, declared in
+by `dmi_hpe_version_spec`, of type `DMI_TYPE(hpe_version)`, declared in
 `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
 enabled, which it is for HP and HPE servers from Gen8 onwards. It lives as
 long as the context it has been decoded in.

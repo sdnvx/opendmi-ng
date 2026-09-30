@@ -50,7 +50,7 @@ The values of the fields are the ones the structure carries: the special values
 telling that a value is unknown are kept as they are.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_ERROR_32)` and lives as long as the context it has been
+`DMI_TYPE(memory_error_32)` and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -85,9 +85,9 @@ address is given. `0x80000000` when unknown.
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
-                                      DMI_TYPE(MEMORY_ERROR_32), true);
+                                      DMI_TYPE(memory_error_32), true);
 dmi_memory_error_32_t *error    = dmi_entity_info(entity,
-                                      DMI_TYPE(MEMORY_ERROR_32));
+                                      DMI_TYPE(memory_error_32));
 
 if (error != nullptr) {
     const char *type = dmi_memory_error_type_name(error->type);

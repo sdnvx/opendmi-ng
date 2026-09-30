@@ -12,6 +12,13 @@
 #include <opendmi/entity/intel/svt.h>
 #include <opendmi/entity/intel/vpro.h>
 
+// Structure types of the module
+const dmi_type_t dmi_type_intel_amt  = { .id = DMI_TYPE_ID(INTEL_AMT)  };
+const dmi_type_t dmi_type_intel_vpro = { .id = DMI_TYPE_ID(INTEL_VPRO) };
+const dmi_type_t dmi_type_intel_mei  = { .id = DMI_TYPE_ID(INTEL_MEI)  };
+const dmi_type_t dmi_type_intel_fvi  = { .id = DMI_TYPE_ID(INTEL_FVI)  };
+const dmi_type_t dmi_type_intel_svt  = { .id = DMI_TYPE_ID(INTEL_SVT)  };
+
 /**
  * @brief Intel extension module.
  *

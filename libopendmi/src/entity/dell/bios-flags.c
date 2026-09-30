@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_dell_bios_flags_spec =
 {
-    .type        = DMI_TYPE(DELL_BIOS_FLAGS),
+    .type        = DMI_TYPE(dell_bios_flags),
     .code        = "dell-bios-flags",
     .name        = "Dell BIOS flags",
     .description = (const char *[]){
@@ -53,7 +53,7 @@ const dmi_entity_spec_t dmi_dell_bios_flags_spec =
 
 bool dmi_dell_bios_flags_derive(dmi_entity_t *entity)
 {
-    dmi_dell_bios_flags_t *info = dmi_entity_info(entity, DMI_TYPE(DELL_BIOS_FLAGS));
+    dmi_dell_bios_flags_t *info = dmi_entity_info(entity, DMI_TYPE(dell_bios_flags));
     if (info == nullptr)
         return false;
 

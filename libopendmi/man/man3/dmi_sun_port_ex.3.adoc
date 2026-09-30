@@ -43,7 +43,7 @@ only when the Sun extension module (`dmi_sun_module`, declared in
 `<opendmi/module/sun.h>`) is enabled in the context with `dmi_add_extension`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SUN_PORT_EX)`, and lives as long as the context it has been decoded
+`DMI_TYPE(sun_port_ex)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -72,9 +72,9 @@ Number of the PHY of the port.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                               DMI_TYPE(SUN_PORT_EX), true);
+                               DMI_TYPE(sun_port_ex), true);
 dmi_sun_port_ex_t *info =
-        dmi_entity_info(entity, DMI_TYPE(SUN_PORT_EX));
+        dmi_entity_info(entity, DMI_TYPE(sun_port_ex));
 
 if (info != nullptr)
     printf("port 0x%04X, PHY %u\n", (unsigned)info->port_handle,

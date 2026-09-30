@@ -101,7 +101,7 @@ static void test_mei_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_MEI));
+    const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
     assert_non_null(info);
     assert_int_equal(info->version, 1);
     assert_int_equal(info->device_count, 2);
@@ -153,7 +153,7 @@ static void test_mei_absent(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_MEI));
+    const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
     assert_non_null(info);
     assert_false(info->devices[0].is_present);
     assert_int_equal(info->state, DMI_INTEL_ME_STATE_UNSPEC);
@@ -181,10 +181,10 @@ static void test_mei_corporate(void **pstate)
     // Firmware of vPro platforms is of the corporate SKU
     assert_true(dmi_load(context, test_elitebook_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_MEI), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_mei), false);
     assert_non_null(entity);
 
-    const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_MEI));
+    const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
     assert_non_null(info);
     assert_int_equal(info->device_count, 3);
     assert_int_equal(info->state, DMI_INTEL_ME_STATE_NORMAL);
@@ -198,11 +198,12 @@ static void test_mei_dell(void **pstate)
     // Dell places the structure at type 203
     assert_true(dmi_load(context, test_dell_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), (dmi_type_t)203, false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_mei), false);
     assert_non_null(entity);
+    assert_int_equal(dmi_entity_type_id(entity), 203);
     assert_ptr_equal(entity->spec, &dmi_intel_mei_spec);
 
-    const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_MEI));
+    const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
     assert_non_null(info);
     assert_int_equal(info->device_count, 4);
     assert_int_equal(info->sku, DMI_INTEL_ME_SKU_CONSUMER);
@@ -215,7 +216,7 @@ static void test_mei_proliant(void **pstate)
     // HP servers give type 219 to a structure of their own
     assert_true(dmi_load(context, test_proliant_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_MEI), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), DMI_TYPE_ID(INTEL_MEI), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_hpe_proliant_info_spec);
 }

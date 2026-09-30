@@ -41,7 +41,7 @@ tables, the identifier and the hardware revision of the system, and the dates
 of its manufacture and first power-on.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(DELL_REVISIONS)`, declared in `<opendmi/module/dell.h>`, and lives as
+`DMI_TYPE(dell_revisions)`, declared in `<opendmi/module/dell.h>`, and lives as
 long as the context it has been decoded in.
 
 === Fields
@@ -73,9 +73,9 @@ string.
 ----
 dmi_registry_t       *registry = dmi_get_registry(context);
 dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
-                                     DMI_TYPE(DELL_REVISIONS), true);
+                                     DMI_TYPE(dell_revisions), true);
 dmi_dell_revisions_t *rev      = dmi_entity_info(entity,
-                                     DMI_TYPE(DELL_REVISIONS));
+                                     DMI_TYPE(dell_revisions));
 
 if (rev != nullptr) {
     printf("Dell implementation %u.%u, system ID 0x%04x\n",

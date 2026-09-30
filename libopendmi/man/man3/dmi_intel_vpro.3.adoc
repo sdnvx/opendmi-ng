@@ -48,7 +48,7 @@ the Management Engine uses. The structure is found on Intel platforms whether
 they are of vPro or not.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_intel_vpro_spec`, of type `DMI_TYPE(INTEL_VPRO)`, declared in
+by `dmi_intel_vpro_spec`, of type `DMI_TYPE(intel_vpro)`, declared in
 `<opendmi/module/intel.h>`, once the Intel extension module
 (`dmi_intel_module`) is enabled, which is done for any platform with Intel
 processors when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as

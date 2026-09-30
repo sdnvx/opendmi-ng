@@ -54,7 +54,7 @@ A check is given the structure being checked, and reports what it finds with
 ----
 void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
+    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(cache));
 
     if ((info == nullptr) || (info->maximum_size == 0) ||
         (info->maximum_size == DMI_SIZE_MAX))

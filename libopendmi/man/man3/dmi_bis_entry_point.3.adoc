@@ -41,7 +41,7 @@ structure type for BIS, and the Boot Integrity Services API specification
 defines its content.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(BIS_ENTRY_POINT)`, and lives as long as the context it has been
+`DMI_TYPE(bis_entry_point)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -67,9 +67,9 @@ checksum is valid.
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(
-        registry, DMI_TYPE(BIS_ENTRY_POINT), true);
+        registry, DMI_TYPE(bis_entry_point), true);
 dmi_bis_entry_point_t *bis      = dmi_entity_info(entity,
-                                                  DMI_TYPE(BIS_ENTRY_POINT));
+                                                  DMI_TYPE(bis_entry_point));
 
 if ((bis != nullptr) && bis->is_valid)
     printf("BIS entry point: %04X:%04X\n",

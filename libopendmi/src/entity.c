@@ -111,7 +111,7 @@ static char *dmi_entity_string_trim(dmi_context_t *context, const char *ptr);
  * data is laid out as that type expects, so the original type is the one
  * callers check against.
  */
-static dmi_type_t dmi_entity_spec_type(const dmi_entity_t *entity);
+static const dmi_type_t *dmi_entity_spec_type(const dmi_entity_t *entity);
 
 /**
  * @internal
@@ -159,7 +159,7 @@ dmi_entity_t *dmi_entity_create(
 
     const dmi_data_t *data = dmi_buffer_at(buffer, offset, max_length);
     const dmi_header_t *header = dmi_cast(header, data);
-    dmi_type_t    type   = dmi_cast(type, dmi_decode(header->type));
+    dmi_type_id_t type   = dmi_cast(type, dmi_decode(header->type));
     size_t        length = dmi_decode(header->length);
     dmi_handle_t  handle = dmi_decode(header->handle);
 
@@ -170,7 +170,7 @@ dmi_entity_t *dmi_entity_create(
 
     // Check structure length
     if (length == 0) {
-        type   = DMI_TYPE(END_OF_TABLE);
+        type   = DMI_TYPE_ID(END_OF_TABLE);
         length = sizeof(dmi_header_t);
     } else if (length < sizeof(dmi_header_t)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_LENGTH,
@@ -193,7 +193,7 @@ dmi_entity_t *dmi_entity_create(
 
     // Decode structure header
     entity->context     = context;
-    entity->type        = type;
+    entity->type_id     = type;
     entity->body_length = length;
     entity->handle      = handle;
     entity->buffer      = buffer;
@@ -339,7 +339,7 @@ bool dmi_entity_encode(dmi_encoder_t *encoder)
     } else if ((spec == nullptr) and (encoder->mode == DMI_ENCODE_MODE_CANONICAL)) {
         dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
                            "0x%04x: type %d has no specification to write it by",
-                           entity->handle, (int)entity->type);
+                           entity->handle, (int)entity->type_id);
         return false;
     }
 
@@ -418,12 +418,20 @@ dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity)
     return entity->handle;
 }
 
-dmi_type_t dmi_entity_type(const dmi_entity_t *entity)
+const dmi_type_t *dmi_entity_type(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return DMI_TYPE_INVALID;
+        return nullptr;
 
-    return entity->type;
+    return dmi_entity_spec_type(entity);
+}
+
+dmi_type_id_t dmi_entity_type_id(const dmi_entity_t *entity)
+{
+    if (entity == nullptr)
+        return DMI_TYPE_ID_INVALID;
+
+    return entity->type_id;
 }
 
 const char *dmi_entity_name(const dmi_entity_t *entity)
@@ -437,10 +445,10 @@ const char *dmi_entity_name(const dmi_entity_t *entity)
     if (spec != nullptr)
         return dmi_spec_name(spec);
 
-    return dmi_type_name(entity->context, entity->type);
+    return dmi_type_name(entity->context, entity->type_id);
 }
 
-const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type)
+const void *dmi_entity_data(const dmi_entity_t *entity, const dmi_type_t *type)
 {
     if (entity == nullptr)
         return nullptr;
@@ -453,7 +461,7 @@ const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type)
     return dmi_buffer_at(entity->buffer, entity->offset, entity->total_length);
 }
 
-void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type)
+void *dmi_entity_info(const dmi_entity_t *entity, const dmi_type_t *type)
 {
     if (entity == nullptr)
         return nullptr;
@@ -538,7 +546,7 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
 
     const dmi_additional_info_t *info = nullptr;
     if (source != nullptr)
-        info = dmi_entity_info(source, DMI_TYPE(ADDITIONAL_INFO));
+        info = dmi_entity_info(source, DMI_TYPE(additional_info));
 
     if ((info == nullptr) or (index >= info->entry_count)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "source");
@@ -556,7 +564,7 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
     }
 
     // Additional information itself is decoded before other structures
-    if (entity->type == DMI_TYPE(ADDITIONAL_INFO)) {
+    if (entity->type_id == DMI_TYPE_ID(ADDITIONAL_INFO)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_OVERLAY,
                            "Additional information 0x%04x[%zu]: refers to additional information 0x%04x",
                            source->handle, index, entity->handle);
@@ -631,7 +639,7 @@ void dmi_entity_destroy(dmi_entity_t *entity)
     dmi_free(entity);
 }
 
-static dmi_type_t dmi_entity_spec_type(const dmi_entity_t *entity)
+static const dmi_type_t *dmi_entity_spec_type(const dmi_entity_t *entity)
 {
     const dmi_entity_spec_t *spec = entity->spec;
 
@@ -640,14 +648,14 @@ static dmi_type_t dmi_entity_spec_type(const dmi_entity_t *entity)
     if (spec == nullptr)
         spec = dmi_entity_spec_select(entity);
 
-    return (spec != nullptr) ? spec->type : entity->type;
+    return (spec != nullptr) ? spec->type : nullptr;
 }
 
 static const dmi_entity_spec_t *dmi_entity_spec_select(const dmi_entity_t *entity)
 {
-    const dmi_type_t type = entity->type;
+    const dmi_type_id_t type = entity->type_id;
 
-    if ((type <= DMI_TYPE_INVALID) or (type > DMI_TYPE_MAX))
+    if ((type <= DMI_TYPE_ID_INVALID) or (type > DMI_TYPE_ID_MAX))
         return nullptr;
 
     const dmi_type_candidates_t *candidates = &entity->context->type_map[type];

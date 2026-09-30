@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_usb_device_spec =
 {
-    .type        = DMI_TYPE(HPE_USB_DEVICE),
+    .type        = DMI_TYPE(hpe_usb_device),
     .code        = "hpe-usb-device",
     .name        = "HP/HPE USB device correlation record",
     .description = (const char *[]){
@@ -51,7 +51,7 @@ const dmi_entity_spec_t dmi_hpe_usb_device_spec =
         DMI_ATTRIBUTE(dmi_hpe_usb_device_t, port_handle, HANDLE, {
             .code    = "port-handle",
             .name    = "USB port handle",
-            .targets = dmi_types(DMI_TYPE(HPE_USB_PORT))
+            .targets = dmi_types(DMI_TYPE(hpe_usb_port))
         }),
         DMI_ATTRIBUTE(dmi_hpe_usb_device_t, vendor_id, INTEGER, {
             .code  = "vendor-id",
@@ -113,7 +113,7 @@ const dmi_entity_spec_t dmi_hpe_usb_device_spec =
 
 bool dmi_hpe_usb_device_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_usb_device_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_USB_DEVICE));
+    dmi_hpe_usb_device_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_usb_device));
     if (info == nullptr)
         return false;
 

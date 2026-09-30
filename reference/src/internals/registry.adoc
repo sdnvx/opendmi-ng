@@ -45,7 +45,7 @@ queue of the context, unless the lookup is told it is optional:
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *system   = dmi_registry_lookup_first(registry,
-                                                     DMI_TYPE(SYSTEM), true);
+                                                     DMI_TYPE(system), true);
 dmi_entity_t   *entity   = dmi_registry_lookup(registry, 0x0004,
                                                DMI_TYPE_ANY, true);
 ----
@@ -64,11 +64,11 @@ dmi_registry_iter_t iter;
 dmi_entity_t       *entity;
 
 if ((filter != nullptr) &&
-    dmi_filter_add_type(filter, DMI_TYPE(MEMORY_DEVICE)) &&
+    dmi_filter_add_type(filter, DMI_TYPE(memory_device)) &&
     dmi_registry_iter_init(&iter, registry, filter)) {
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         dmi_memory_device_t *device =
-                dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+                dmi_entity_info(entity, DMI_TYPE(memory_device));
 
         if ((device != nullptr) && (device->device_locator != nullptr))
             printf("%s\n", device->device_locator);
@@ -92,7 +92,7 @@ looking them up:
 [source,c]
 ----
 dmi_memory_device_t *device = dmi_entity_info(entity,
-                                              DMI_TYPE(MEMORY_DEVICE));
+                                              DMI_TYPE(memory_device));
 dmi_entity_t        *array  = device->array;
 ----
 
@@ -110,10 +110,10 @@ static bool cooling_device_link(dmi_entity_t *entity)
     dmi_context_t        *context  = dmi_entity_context(entity);
     dmi_registry_t       *registry = dmi_get_registry(context);
     dmi_cooling_device_t *info     = dmi_entity_info(entity,
-                                                     DMI_TYPE(COOLING_DEVICE));
+                                                     DMI_TYPE(cooling_device));
 
     return dmi_registry_resolve(registry, info->probe_handle,
-                                DMI_TYPE(TEMPERATURE_PROBE), &info->probe);
+                                DMI_TYPE(temperature_probe), &info->probe);
 }
 ----
 

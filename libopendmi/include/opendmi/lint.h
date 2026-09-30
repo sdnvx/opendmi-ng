@@ -187,7 +187,7 @@ struct dmi_lint_issue
     /**
      * @brief Type of the structure the issue belongs to.
      */
-    dmi_type_t type;
+    dmi_type_id_t type;
 
     /**
      * @brief Code name of the attribute the issue belongs to, or @c nullptr
@@ -284,7 +284,7 @@ typedef struct dmi_lint_totals
     /**
      * @brief Number of the structures of every type.
      */
-    size_t type_counts[DMI_TYPE_MAX + 1];
+    size_t type_counts[DMI_TYPE_ID_MAX + 1];
 
     /**
      * @brief First end-of-table structure, or @c nullptr if the table has

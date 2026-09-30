@@ -38,7 +38,7 @@ jumpers and the switches of the baseboard, e.g. which jumper position clears
 the CMOS.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SYSTEM_CONFIG_OPTIONS)` and lives as long as the context it has been
+`DMI_TYPE(system_config_options)` and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -56,10 +56,10 @@ is 0. An element is `nullptr` when the structure does not carry the string.
 ----
 dmi_registry_t           *registry = dmi_get_registry(context);
 dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
-                                         DMI_TYPE(SYSTEM_CONFIG_OPTIONS),
+                                         DMI_TYPE(system_config_options),
                                          true);
 dmi_system_config_opts_t *config   = dmi_entity_info(entity,
-                                         DMI_TYPE(SYSTEM_CONFIG_OPTIONS));
+                                         DMI_TYPE(system_config_options));
 
 if (config != nullptr) {
     for (size_t i = 0; i < config->option_count; i++) {

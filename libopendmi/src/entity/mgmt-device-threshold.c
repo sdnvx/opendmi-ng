@@ -25,7 +25,7 @@ const dmi_entity_spec_t dmi_mgmt_device_threshold_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(MGMT_DEVICE_THRESHOLD),
+    .type            = DMI_TYPE(mgmt_device_threshold),
     .params = {
         .minimum_version = DMI_VERSION(2, 3, 0),
         .minimum_length  = 0x10,
@@ -34,7 +34,7 @@ const dmi_entity_spec_t dmi_mgmt_device_threshold_spec =
 
     .fields = DMI_FIELDS({
         // Units are unknown until components are linked
-        DMI_FIELD_PRESET(dmi_mgmt_device_threshold_t, component_type, DMI_TYPE_INVALID),
+        DMI_FIELD_PRESET(dmi_mgmt_device_threshold_t, component_type, DMI_TYPE_ID_INVALID),
 
         DMI_FIELD(dmi_mgmt_device_threshold_t, lower_non_critical,    dmi_word_t),
         DMI_FIELD(dmi_mgmt_device_threshold_t, upper_non_critical,    dmi_word_t),

@@ -108,7 +108,7 @@ static void test_firmware_inventory_decode_ident_format(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_firmware_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE_INVENTORY));
+        const dmi_firmware_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(firmware_inventory));
         assert_non_null(info);
 
         assert_string_equal(info->name, "BIOS");
@@ -172,7 +172,7 @@ static void test_firmware_inventory_parse_version(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_firmware_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE_INVENTORY));
+        const dmi_firmware_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(firmware_inventory));
         assert_non_null(info);
 
         // Lowest version is parsed in the same format
@@ -234,7 +234,7 @@ static void test_firmware_inventory_parse_ident(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_firmware_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE_INVENTORY));
+        const dmi_firmware_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(firmware_inventory));
         assert_non_null(info);
 
         if (info->parsed_ident.format != test_data[i].parsed)

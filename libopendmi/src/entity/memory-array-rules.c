@@ -19,7 +19,7 @@
 
 void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
+    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array));
     if (info == nullptr)
         return;
 
@@ -37,7 +37,7 @@ void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *en
 
 void dmi_memory_array_lint_capacity(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
+    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array));
 
     if ((info == nullptr) or (info->maximum_capacity == DMI_SIZE_MAX) or
         (info->maximum_capacity == 0))

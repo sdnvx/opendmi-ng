@@ -30,7 +30,7 @@ static void dmi_memory_controller_format_size(char *buffer, size_t length, dmi_s
 //
 void dmi_memory_controller_lint_module_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_controller_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CONTROLLER));
+    const dmi_memory_controller_t *info = dmi_entity_info(entity, DMI_TYPE(memory_controller));
     if ((info == nullptr) or (info->module_handles == nullptr))
         return;
 
@@ -40,12 +40,12 @@ void dmi_memory_controller_lint_module_size(dmi_lint_t *lint, const dmi_entity_t
         dmi_handle_t handle = info->module_handles[i];
 
         const dmi_entity_t *module_entity =
-                dmi_registry_lookup(registry, handle, DMI_TYPE(MEMORY_MODULE), true);
+                dmi_registry_lookup(registry, handle, DMI_TYPE(memory_module), true);
         if (module_entity == nullptr)
             continue;
 
         // Memory module may be left undecoded
-        const dmi_memory_module_t *module = dmi_entity_info(module_entity, DMI_TYPE(MEMORY_MODULE));
+        const dmi_memory_module_t *module = dmi_entity_info(module_entity, DMI_TYPE(memory_module));
         if (module == nullptr)
             continue;
 

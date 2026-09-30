@@ -145,7 +145,7 @@ static void test_entity_create_end_of_table(void **pstate)
     dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
-    assert_int_equal(entity->type, DMI_TYPE(END_OF_TABLE));
+    assert_int_equal(entity->type_id, DMI_TYPE_ID(END_OF_TABLE));
     assert_int_equal(entity->total_length, sizeof(data));
 
     dmi_entity_destroy(entity);

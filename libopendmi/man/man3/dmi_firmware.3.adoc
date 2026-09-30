@@ -45,7 +45,7 @@ date of the platform firmware (BIOS or UEFI), the size of the ROM holding it,
 and the features it supports. A table has exactly one such structure.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(FIRMWARE)`, and lives as long as the context it has been decoded in.
+`DMI_TYPE(firmware)`, and lives as long as the context it has been decoded in.
 The fields a structure is too short to carry are 0 or `nullptr`.
 
 === Fields
@@ -99,9 +99,9 @@ which can be upgraded in the field. Present since SMBIOS 2.4.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                                                     DMI_TYPE(FIRMWARE),
+                                                     DMI_TYPE(firmware),
                                                      false);
-dmi_firmware_t *firmware = dmi_entity_info(entity, DMI_TYPE(FIRMWARE));
+dmi_firmware_t *firmware = dmi_entity_info(entity, DMI_TYPE(firmware));
 
 if ((firmware != nullptr) && (firmware->release_date != DMI_DATE_NONE))
     printf("Firmware released on %04u-%02u-%02u\n",

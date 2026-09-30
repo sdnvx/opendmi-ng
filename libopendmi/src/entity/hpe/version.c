@@ -27,7 +27,7 @@ static int dmi_hpe_version_format(dmi_hpe_version_t *info, unsigned generation);
 
 const dmi_entity_spec_t dmi_hpe_version_spec =
 {
-    .type        = DMI_TYPE(HPE_VERSION),
+    .type        = DMI_TYPE(hpe_version),
     .code        = "hpe-version",
     .name        = "HP/HPE version indicator record",
     .description = (const char *[]){
@@ -332,7 +332,7 @@ const char *dmi_hpe_firmware_type_name(dmi_hpe_firmware_type_t value)
 
 bool dmi_hpe_version_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_version_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_VERSION));
+    dmi_hpe_version_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_version));
     if (info == nullptr)
         return false;
 

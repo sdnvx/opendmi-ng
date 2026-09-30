@@ -11,7 +11,7 @@
 
 const dmi_entity_spec_t dmi_dell_infrared_port_spec =
 {
-    .type = DMI_TYPE(DELL_INFRARED_PORT),
+    .type = DMI_TYPE(dell_infrared_port),
     .code = "dell-infrared-port",
     .name = "Dell infrared port",
 

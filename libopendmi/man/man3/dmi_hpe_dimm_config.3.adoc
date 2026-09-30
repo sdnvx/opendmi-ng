@@ -47,7 +47,7 @@ of a memory device (type 17), e.g. of a persistent memory one, and the
 interleave set it belongs to. There is a record for each region.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_dimm_config_spec`, of type `DMI_TYPE(HPE_DIMM_CONFIG)`, declared
+by `dmi_hpe_dimm_config_spec`, of type `DMI_TYPE(hpe_dimm_config)`, declared
 in `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`)
 is enabled, which it is for HP and HPE servers. It lives as long as the
 context it has been decoded in.

@@ -14,7 +14,7 @@ const dmi_entity_spec_t dmi_intel_rsd_tpm_spec =
 {
     .code = "intel-rsd-tpm",
     .name = "Intel RSD Trusted Platform Module (TPM) information",
-    .type = DMI_TYPE(INTEL_RSD_TPM),
+    .type = DMI_TYPE(intel_rsd_tpm),
 
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),

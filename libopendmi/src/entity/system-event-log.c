@@ -33,7 +33,7 @@ const dmi_entity_spec_t dmi_system_event_log_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(SYSTEM_EVENT_LOG),
+    .type            = DMI_TYPE(system_event_log),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x14,

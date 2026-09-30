@@ -19,7 +19,7 @@
 //
 void dmi_onboard_device_ex_lint_instance(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_onboard_device_ex_t *info = dmi_entity_info(entity, DMI_TYPE(ONBOARD_DEVICE_EX));
+    const dmi_onboard_device_ex_t *info = dmi_entity_info(entity, DMI_TYPE(onboard_device_ex));
     if (info == nullptr)
         return;
 
@@ -31,7 +31,7 @@ void dmi_onboard_device_ex_lint_instance(dmi_lint_t *lint, const dmi_entity_t *e
         return;
 
     while ((other = dmi_registry_iter_next(&iter)) != nullptr) {
-        if ((other == entity) or (dmi_entity_type(other) != DMI_TYPE_ONBOARD_DEVICE_EX))
+        if ((other == entity) or (dmi_entity_type(other) != DMI_TYPE(onboard_device_ex)))
             continue;
 
         // Every pair is reported once, by the structure which comes later
@@ -39,7 +39,7 @@ void dmi_onboard_device_ex_lint_instance(dmi_lint_t *lint, const dmi_entity_t *e
             continue;
 
         const dmi_onboard_device_ex_t *peer =
-                dmi_entity_info(other, DMI_TYPE(ONBOARD_DEVICE_EX));
+                dmi_entity_info(other, DMI_TYPE(onboard_device_ex));
 
         if ((peer == nullptr) or (peer->type != info->type) or (peer->instance != info->instance))
             continue;

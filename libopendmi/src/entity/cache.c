@@ -28,7 +28,7 @@ const dmi_entity_spec_t dmi_cache_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(CACHE),
+    .type            = DMI_TYPE(cache),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .required_from   = DMI_VERSION(2, 3, 0),

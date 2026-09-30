@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_entity_type - get entity SMBIOS type.
+dmi_entity_type - get the structure type of an entity.
 
 == Library
 
@@ -24,14 +24,20 @@ endif::[]
 ----
 #include <opendmi/entity.h>
 
-dmi_type_t dmi_entity_type(const dmi_entity_t *entity);
+const dmi_type_t *dmi_entity_type(const dmi_entity_t *entity);
 ----
 
 == Description
 
-The `dmi_entity_type` function returns the SMBIOS structure type of the given
-entity. SMBIOS types 0 through 127 are defined by the SMBIOS specification;
-types 128 through 255 are available for OEM- and system-specific information.
+The `dmi_entity_type` function returns the structure type of the given entity,
+see `dmi_type`(3): the type of the specification the entity is decoded by, or
+would be decoded by if it has not been decoded yet. The type tells the C type
+`dmi_entity_info`(3) returns, and is compared to the constants the library and
+the extension modules declare, e.g. `DMI_TYPE(system)`.
+
+The type number the entity is found at is given by `dmi_entity_type_id`(3),
+which may differ from the number of its type, e.g. for the structures a vendor
+places at type numbers of its own.
 
 === Parameters
 
@@ -40,19 +46,29 @@ Entity descriptor.
 
 == Return value
 
-Returns the SMBIOS type of the entity. If `entity` is `nullptr`, returns
-`DMI_TYPE_INVALID`.
+Returns the structure type of the entity. Returns `nullptr` if `entity` is
+`nullptr`, or if no specification of the enabled modules describes the
+structures found at its type number.
 
 == Errors
 
 None.
 
+== Examples
+
+[source, c]
+----
+if (dmi_entity_type(entity) == DMI_TYPE(intel_vpro))
+    printf("Intel vPro information at handle 0x%04X\n", dmi_entity_handle(entity));
+----
+
 == See also
 
+`dmi_entity_type_id`(3),
 `dmi_entity_handle`(3),
 `dmi_entity_name`(3),
-`dmi_entity_data`(3),
-`dmi_entity_info`(3)
+`dmi_entity_info`(3),
+`dmi_type`(3)
 
 ifdef::backend-manpage[]
 == Copying

@@ -37,7 +37,7 @@ The `dmi_dell_bios_flags_t` structure holds the decoded Dell BIOS flags (type
 which only the support of ACPI WMI is known.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_dell_bios_flags_spec`, of type `DMI_TYPE(DELL_BIOS_FLAGS)`, declared
+by `dmi_dell_bios_flags_spec`, of type `DMI_TYPE(dell_bios_flags)`, declared
 in `<opendmi/module/dell.h>`, once the Dell extension module
 (`dmi_dell_module`) is enabled. It lives as long as the context it has been
 decoded in.

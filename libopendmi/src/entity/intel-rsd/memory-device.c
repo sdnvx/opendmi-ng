@@ -14,7 +14,7 @@ const dmi_entity_spec_t dmi_intel_rsd_memory_device_spec =
 {
     .code            = "intel-rsd-memory-device-ex",
     .name            = "Intel RSD memory device extended information",
-    .type            = DMI_TYPE(INTEL_RSD_MEMORY_DEVICE),
+    .type            = DMI_TYPE(intel_rsd_memory_device),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x0F,
@@ -36,7 +36,7 @@ const dmi_entity_spec_t dmi_intel_rsd_memory_device_spec =
         DMI_ATTRIBUTE(dmi_intel_rsd_memory_device_t, device_handle, HANDLE, {
             .code    = "device-handle",
             .name    = "Device handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE)
+            .targets = dmi_types(DMI_TYPE(memory_device))
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_memory_device_t, memory_type, ENUM, {
             .code   = "memory-type",

@@ -14,18 +14,18 @@
 
 #include <opendmi/entity/mgmt-device-threshold-internal.h>
 
-void dmi_mgmt_device_threshold_set_component(dmi_entity_t *entity, dmi_type_t type)
+void dmi_mgmt_device_threshold_set_component(dmi_entity_t *entity, dmi_type_id_t type)
 {
     dmi_mgmt_device_threshold_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE_THRESHOLD));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_device_threshold));
     if ((info == nullptr) or info->is_ambiguous)
         return;
 
-    if (info->component_type == DMI_TYPE_INVALID) {
+    if (info->component_type == DMI_TYPE_ID_INVALID) {
         info->component_type = type;
     } else if (info->component_type != type) {
-        info->component_type = DMI_TYPE_INVALID;
+        info->component_type = DMI_TYPE_ID_INVALID;
         info->is_ambiguous   = true;
     }
 }

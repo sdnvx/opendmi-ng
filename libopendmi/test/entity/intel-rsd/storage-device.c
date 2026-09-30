@@ -99,7 +99,7 @@ static void test_rsd_storage_device_decode(void **pstate)
     assert_int_equal(entity->body_length, 0x1B);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_rsd_storage_device_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_STORAGE_DEVICE));
+    const dmi_intel_rsd_storage_device_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_storage_device));
     assert_non_null(info);
 
     assert_string_equal(info->port, "PCIe Port 1");

@@ -321,9 +321,9 @@ static void test_context_add_extension(void **pstate)
     assert_true(dmi_add_extension(context, module));
     assert_true(dmi_has_extension(context, module));
     assert_false(dmi_has_extension(context, dmi_module_find("dell")));
-    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE(INTEL_RSD_NETWORK_CARD)),
+    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE_ID(INTEL_RSD_NETWORK_CARD)),
                      &dmi_intel_rsd_network_card_spec);
-    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID)),
+    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE_ID(INTEL_RSD_PROCESSOR_CPUID)),
                      &dmi_intel_rsd_processor_cpuid_spec);
 
     // The same module cannot be added twice
@@ -357,13 +357,15 @@ static void test_context_add_extension_duplicate(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
+    static const dmi_type_t type = { .id = (dmi_type_id_t)250 };
+
     static const dmi_entity_spec_t spec_1 = {
-        .type = (dmi_type_t)250,
+        .type = &type,
         .code = "test-1",
         .name = "Test 1"
     };
     static const dmi_entity_spec_t spec_2 = {
-        .type = (dmi_type_t)250,
+        .type = &type,
         .code = "test-2",
         .name = "Test 2"
     };
@@ -379,7 +381,7 @@ static void test_context_add_extension_duplicate(void **pstate)
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_MODULE_CONFLICT);
 
     // Type map is not modified on conflicts
-    assert_null(dmi_type_spec(context, (dmi_type_t)250));
+    assert_null(dmi_type_spec(context, (dmi_type_id_t)250));
     assert_false(dmi_has_extension(context, &module));
 }
 

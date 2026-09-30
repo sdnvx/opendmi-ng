@@ -85,7 +85,7 @@ static int dmi_explain_main(dmi_context_t *context, int argc, char *argv[])
     }
 
     // Name of the type is translated, while the code is machine-readable
-    dmi_tty_header("%s, type %d\n%s", spec->code, (int)spec->type, dmi_spec_name(spec));
+    dmi_tty_header("%s, type %d\n%s", spec->code, (int)spec->type->id, dmi_spec_name(spec));
 
     // Explanations are translated, and the built-in ones are used if there is
     // no translation, or if the tool is built without ICU4C support
@@ -119,9 +119,9 @@ static const dmi_entity_spec_t *dmi_explain_find_entity(dmi_context_t *context, 
 
     // Types are named either by their code or by their number, the way the
     // filter options of the other commands take them
-    dmi_type_t type = dmi_type_find(context, code);
+    dmi_type_id_t type = dmi_type_find(context, code);
 
-    if (type == DMI_TYPE_INVALID) {
+    if (type == DMI_TYPE_ID_INVALID) {
         char *end;
         long value;
 
@@ -129,10 +129,10 @@ static const dmi_entity_spec_t *dmi_explain_find_entity(dmi_context_t *context, 
         value = strtol(code, &end, 10);
 
         if ((*code == 0) or (*end != 0) or (errno != 0) or
-            (value < 0) or (value > DMI_TYPE_MAX))
+            (value < 0) or (value > DMI_TYPE_ID_MAX))
             return nullptr;
 
-        type = (dmi_type_t)value;
+        type = (dmi_type_id_t)value;
     }
 
     return dmi_type_spec(context, type);

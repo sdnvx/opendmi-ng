@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_microcode_spec =
 {
-    .type        = DMI_TYPE(HPE_MICROCODE),
+    .type        = DMI_TYPE(hpe_microcode),
     .code        = "hpe-microcode",
     .name        = "HP/HPE CPU microcode patch support information",
     .description = (const char *[]){
@@ -87,7 +87,7 @@ static unsigned dmi_hpe_microcode_bcd(uint32_t value, unsigned digits)
 
 bool dmi_hpe_microcode_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_microcode_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_MICROCODE));
+    dmi_hpe_microcode_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_microcode));
     if (info == nullptr)
         return false;
 
@@ -105,7 +105,7 @@ bool dmi_hpe_microcode_derive(dmi_entity_t *entity)
 
 void dmi_hpe_microcode_cleanup(dmi_entity_t *entity)
 {
-    dmi_hpe_microcode_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_MICROCODE));
+    dmi_hpe_microcode_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_microcode));
     if (info == nullptr)
         return;
 

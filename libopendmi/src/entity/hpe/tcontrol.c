@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_tcontrol_spec =
 {
-    .type        = DMI_TYPE(HPE_TCONTROL),
+    .type        = DMI_TYPE(hpe_tcontrol),
     .code        = "hpe-tcontrol",
     .name        = "HP/HPE processor TControl information",
     .description = (const char *[]){
@@ -37,7 +37,7 @@ const dmi_entity_spec_t dmi_hpe_tcontrol_spec =
         DMI_ATTRIBUTE(dmi_hpe_tcontrol_t, processor_handle, HANDLE, {
             .code    = "processor-handle",
             .name    = "Processor handle",
-            .targets = dmi_types(DMI_TYPE_PROCESSOR)
+            .targets = dmi_types(DMI_TYPE(processor))
         }),
         DMI_ATTRIBUTE(dmi_hpe_tcontrol_t, tcontrol, INTEGER, {
             .code   = "tcontrol",

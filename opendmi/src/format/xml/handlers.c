@@ -209,7 +209,7 @@ bool dmi_xml_entity_start(dmi_xml_session_t *session, const dmi_entity_t *entity
         if (xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("type"),
-                    "%u", entity->type) < 0)
+                    "%u", entity->type_id) < 0)
             break;
         if (xmlTextWriterWriteFormatAttribute(
                     session->writer,

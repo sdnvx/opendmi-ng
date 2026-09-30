@@ -16,7 +16,7 @@
 
 bool dmi_memory_array_addr_validate(dmi_entity_t *entity)
 {
-    if ((entity == nullptr) or (entity->type != DMI_TYPE(MEMORY_ARRAY_ADDR)))
+    if ((entity == nullptr) or (entity->type_id != DMI_TYPE_ID(MEMORY_ARRAY_ADDR)))
         return false;
 
     dmi_decoder_t decoder;
@@ -69,7 +69,7 @@ bool dmi_memory_array_addr_derive(dmi_entity_t *entity)
 {
     dmi_memory_array_addr_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY_ADDR));
+    info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
     if (info == nullptr)
         return false;
 

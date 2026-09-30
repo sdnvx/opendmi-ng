@@ -169,7 +169,7 @@ bool dmi_text_entity_start(dmi_text_session_t *session, const dmi_entity_t *enti
                                        "Handle {0}, DMI type {1}, {2} bytes",
                                        (const dmi_message_arg_t[]){
                                            DMI_MESSAGE_TEXT(handle),
-                                           DMI_MESSAGE_NUMBER(dmi_entity_type(entity)),
+                                           DMI_MESSAGE_NUMBER(dmi_entity_type_id(entity)),
                                            DMI_MESSAGE_NUMBER(entity->total_length)
                                        }, 3))
             return false;

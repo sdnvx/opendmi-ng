@@ -44,7 +44,7 @@ Cable Management Interface (CMI) controller of such a port, and none if the
 platform has no cabled PCIe ports.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_CABLED_PCIE)`, once the Intel RSD extension module
+`DMI_TYPE(intel_rsd_cabled_pcie)`, once the Intel RSD extension module
 (`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
 enabled in the context with `dmi_add_extension()`. It lives as long as the
 context it has been decoded in.
@@ -75,10 +75,10 @@ Cable indices of the port, an array of `port_count` elements (see
 ----
 dmi_registry_t              *registry = dmi_get_registry(context);
 dmi_entity_t                *entity   = dmi_registry_lookup_first(registry,
-                                            DMI_TYPE(INTEL_RSD_CABLED_PCIE),
+                                            DMI_TYPE(intel_rsd_cabled_pcie),
                                             true);
 dmi_intel_rsd_cabled_pcie_t *port     = dmi_entity_info(entity,
-                                            DMI_TYPE(INTEL_RSD_CABLED_PCIE));
+                                            DMI_TYPE(intel_rsd_cabled_pcie));
 
 if (port != nullptr) {
     for (size_t i = 0; i < port->port_count; i++)

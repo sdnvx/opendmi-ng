@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_proliant_info_spec =
 {
-    .type        = DMI_TYPE(HPE_PROLIANT_INFO),
+    .type        = DMI_TYPE(hpe_proliant_info),
     .code        = "hpe-proliant-info",
     .name        = "HP/HPE ProLiant information",
     .description = (const char *[]){
@@ -73,7 +73,7 @@ const dmi_entity_spec_t dmi_hpe_proliant_info_spec =
 
 bool dmi_hpe_proliant_info_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_proliant_info_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_PROLIANT_INFO));
+    dmi_hpe_proliant_info_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_proliant_info));
     if (info == nullptr)
         return false;
 

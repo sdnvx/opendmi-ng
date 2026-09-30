@@ -326,7 +326,7 @@ bool dmi_mgmt_controller_decode(dmi_decoder_t *decoder)
 
     dmi_mgmt_controller_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     if (info == nullptr)
         return false;
 
@@ -425,7 +425,7 @@ void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
 {
     dmi_mgmt_controller_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
     if (info == nullptr)
         return;
 
@@ -444,7 +444,7 @@ void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
 //
 bool dmi_mgmt_controller_encode(dmi_encoder_t *encoder)
 {
-    const dmi_mgmt_controller_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(MGMT_CONTROLLER_HOST_IF));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(mgmt_controller_host_if));
     if (info == nullptr)
         return false;
 

@@ -24,6 +24,13 @@
 
 #include <opendmi/entity/dell/revisions.h>
 
+// Structure types of the test modules: one of two layouts, one a module of
+// any platform decodes at the same type number, and one of the structures
+// told by their signatures
+static const dmi_type_t test_type        = { .id = (dmi_type_id_t)250 };
+static const dmi_type_t test_shared_type = { .id = (dmi_type_id_t)250 };
+static const dmi_type_t test_signed_type = { .id = (dmi_type_id_t)245 };
+
 static int test_platform_setup(void **pstate);
 static int test_platform_teardown(void **pstate);
 
@@ -71,7 +78,7 @@ typedef struct test_info
 
 static const dmi_entity_spec_t test_old_spec =
 {
-    .type   = (dmi_type_t)250,
+    .type   = &test_type,
     .code   = "test-old",
     .name   = "Test structure, old layout",
     .params = {
@@ -87,7 +94,7 @@ static const dmi_entity_spec_t test_old_spec =
 
 static const dmi_entity_spec_t test_new_spec =
 {
-    .type   = (dmi_type_t)250,
+    .type   = &test_type,
     .code   = "test-new",
     .name   = "Test structure, new layout",
     .params = {
@@ -117,7 +124,7 @@ static const dmi_module_t test_relocating_module =
     .code        = "test-relocating",
     .name        = "Test relocating module",
     .relocations = DMI_RELOCATIONS({
-        { &test_new_spec, (dmi_type_t)240 },
+        { &test_new_spec, (dmi_type_id_t)240 },
         {}
     })
 };
@@ -128,7 +135,7 @@ static const dmi_module_t test_relocating_module =
 //
 static const dmi_entity_spec_t test_shared_spec =
 {
-    .type   = (dmi_type_t)250,
+    .type   = &test_shared_type,
     .code   = "test-shared",
     .name   = "Test shared structure"
 };
@@ -441,12 +448,12 @@ static void test_platform_auto_modules(void **pstate)
     assert_true(dmi_load(context, test_dell_path));
     assert_true(dmi_has_extension(context, dell));
     assert_false(dmi_has_extension(context, hpe));
-    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE(DELL_REVISIONS)), &dmi_dell_revisions_spec);
+    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE_ID(DELL_REVISIONS)), &dmi_dell_revisions_spec);
 
     // ...until the context is closed
     assert_true(dmi_close(context));
     assert_false(dmi_has_extension(context, dell));
-    assert_null(dmi_type_spec(context, DMI_TYPE(DELL_REVISIONS)));
+    assert_null(dmi_type_spec(context, DMI_TYPE_ID(DELL_REVISIONS)));
 
     // Module of HP servers is not enabled for other HP products
     assert_true(dmi_load(context, test_proliant_path));
@@ -461,7 +468,7 @@ static void test_platform_auto_modules(void **pstate)
     dmi_set_flags(context, 0);
     assert_true(dmi_load(context, test_dell_path));
     assert_false(dmi_has_extension(context, dell));
-    assert_null(dmi_type_spec(context, DMI_TYPE(DELL_REVISIONS)));
+    assert_null(dmi_type_spec(context, DMI_TYPE_ID(DELL_REVISIONS)));
 }
 
 static void test_platform_auto_modules_precedence(void **pstate)
@@ -469,7 +476,7 @@ static void test_platform_auto_modules_precedence(void **pstate)
     dmi_context_t *context = *pstate;
 
     static const dmi_entity_spec_t spec = {
-        .type = DMI_TYPE(DELL_REVISIONS),
+        .type = DMI_TYPE(dell_revisions),
         .code = "test-revisions",
         .name = "Test revisions"
     };
@@ -484,12 +491,12 @@ static void test_platform_auto_modules_precedence(void **pstate)
     assert_true(dmi_add_extension(context, &module));
     assert_true(dmi_load(context, test_dell_path));
     assert_false(dmi_has_extension(context, dmi_module_find("dell")));
-    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE(DELL_REVISIONS)), &spec);
+    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE_ID(DELL_REVISIONS)), &spec);
     assert_true(dmi_close(context));
 
     // Module enabled explicitly stays enabled for the next data
     assert_true(dmi_has_extension(context, &module));
-    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE(DELL_REVISIONS)), &spec);
+    assert_ptr_equal(dmi_type_spec(context, DMI_TYPE_ID(DELL_REVISIONS)), &spec);
 }
 
 static void test_platform_any_vendor(void **pstate)
@@ -521,15 +528,15 @@ static void test_platform_spec_generations(void **pstate)
     // Specifications bound to generations are not mapped while the generation
     // is unknown
     assert_true(dmi_add_extension(context, &test_module));
-    assert_null(dmi_type_spec(context, (dmi_type_t)250));
+    assert_null(dmi_type_spec(context, (dmi_type_id_t)250));
 
     dmi_platform_t *platform = test_platform_create(DMI_VENDOR_OTHER, nullptr, nullptr, 80);
     assert_true(dmi_set_platform(context, platform));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_old_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_old_spec);
 
     platform->generation = 100;
     assert_true(dmi_set_platform(context, platform));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_new_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_new_spec);
 
     // Context holds a copy of the platform
     dmi_platform_destroy(platform);
@@ -547,7 +554,7 @@ static void test_platform_spec_generations(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const test_info_t *info = dmi_entity_info(entity, (dmi_type_t)250);
+    const test_info_t *info = dmi_entity_info(entity, &test_type);
     assert_non_null(info);
     assert_int_equal(info->value, 0x1234);
 
@@ -557,7 +564,7 @@ static void test_platform_spec_generations(void **pstate)
     // Closed context has no platform once the one set is unset
     assert_true(dmi_set_platform(context, nullptr));
     assert_null(dmi_get_platform(context));
-    assert_null(dmi_type_spec(context, (dmi_type_t)250));
+    assert_null(dmi_type_spec(context, (dmi_type_id_t)250));
 }
 
 static void test_platform_relocation(void **pstate)
@@ -570,12 +577,12 @@ static void test_platform_relocation(void **pstate)
 
     // Relocation applies while the relocating module is enabled
     assert_true(dmi_add_extension(context, &test_module));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_new_spec);
-    assert_null(dmi_type_spec(context, (dmi_type_t)240));
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_new_spec);
+    assert_null(dmi_type_spec(context, (dmi_type_id_t)240));
 
     assert_true(dmi_add_extension(context, &test_relocating_module));
-    assert_null(dmi_type_spec(context, (dmi_type_t)250));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)240), &test_new_spec);
+    assert_null(dmi_type_spec(context, (dmi_type_id_t)250));
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)240), &test_new_spec);
 
     // Relocated structure is decoded by its original specification, and is
     // checked against its original type
@@ -590,16 +597,18 @@ static void test_platform_relocation(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    assert_int_equal(dmi_entity_type(entity), 240);
+    assert_int_equal(dmi_entity_type_id(entity), 240);
+    assert_ptr_equal(dmi_entity_type(entity), &test_type);
     assert_ptr_equal(entity->spec, &test_new_spec);
-    assert_non_null(dmi_entity_data(entity, (dmi_type_t)250));
+    assert_non_null(dmi_entity_data(entity, &test_type));
 
-    const test_info_t *info = dmi_entity_info(entity, (dmi_type_t)250);
+    const test_info_t *info = dmi_entity_info(entity, &test_type);
     assert_non_null(info);
     assert_int_equal(info->value, 0x1234);
 
+    // Structures of other types at the same type number are told apart
     dmi_error_clear(context);
-    assert_null(dmi_entity_info(entity, (dmi_type_t)240));
+    assert_null(dmi_entity_info(entity, &test_shared_type));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ENTITY_TYPE);
 
     dmi_entity_destroy(entity);
@@ -614,18 +623,18 @@ static void test_platform_suppression(void **pstate)
         .code        = "test-suppressing",
         .name        = "Test suppressing module",
         .relocations = DMI_RELOCATIONS({
-            { &test_shared_spec, DMI_TYPE_INVALID },
+            { &test_shared_spec, DMI_TYPE_ID_INVALID },
             {}
         })
     };
 
     assert_true(dmi_add_extension(context, &test_yielding_module));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_shared_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_shared_spec);
 
     // Platforms of the vendor never carry the structure, whose type is left
     // unknown
     assert_true(dmi_add_extension(context, &suppressing_module));
-    assert_null(dmi_type_spec(context, (dmi_type_t)250));
+    assert_null(dmi_type_spec(context, (dmi_type_id_t)250));
 }
 
 static void test_platform_yield(void **pstate)
@@ -638,17 +647,17 @@ static void test_platform_yield(void **pstate)
 
     // Yielding module takes the types left free
     assert_true(dmi_add_extension(context, &test_yielding_module));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_shared_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_shared_spec);
 
     // ...and gives them way to the modules of the vendors, whenever these
     // are enabled
     assert_true(dmi_add_extension(context, &test_module));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_new_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_new_spec);
 
     // Relocated structure of a vendor frees the type again
     assert_true(dmi_add_extension(context, &test_relocating_module));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_shared_spec);
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)240), &test_new_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_shared_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)240), &test_new_spec);
 }
 
 static void test_platform_set(void **pstate)
@@ -656,7 +665,7 @@ static void test_platform_set(void **pstate)
     dmi_context_t *context = *pstate;
 
     static const dmi_entity_spec_t spec = {
-        .type   = (dmi_type_t)250,
+        .type   = &test_type,
         .code   = "test-conflicting",
         .name   = "Test conflicting",
         .params = {
@@ -674,7 +683,7 @@ static void test_platform_set(void **pstate)
     assert_true(dmi_set_platform(context, platform));
     assert_true(dmi_add_extension(context, &test_module));
     assert_true(dmi_add_extension(context, &module));
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_old_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_old_spec);
 
     // Platform is left as it was on conflicts
     platform->generation = 100;
@@ -682,7 +691,7 @@ static void test_platform_set(void **pstate)
     assert_false(dmi_set_platform(context, platform));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_MODULE_CONFLICT);
     assert_int_equal(dmi_get_platform(context)->generation, 80);
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)250), &test_old_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)250), &test_old_spec);
 
     // Platform set explicitly is kept as the context is opened and closed,
     // while the one told from the data is used again once it is unset
@@ -756,7 +765,7 @@ static void test_platform_filter_module(void **pstate)
 //
 static const dmi_entity_spec_t test_bytes_spec =
 {
-    .type   = (dmi_type_t)245,
+    .type   = &test_signed_type,
     .code   = "test-bytes",
     .name   = "Test bytes",
     .params = {
@@ -766,7 +775,7 @@ static const dmi_entity_spec_t test_bytes_spec =
 
 static const dmi_entity_spec_t test_string_spec =
 {
-    .type   = (dmi_type_t)245,
+    .type   = &test_signed_type,
     .code   = "test-string",
     .name   = "Test string",
     .params = {
@@ -776,7 +785,7 @@ static const dmi_entity_spec_t test_string_spec =
 
 static const dmi_entity_spec_t test_rest_spec =
 {
-    .type = (dmi_type_t)245,
+    .type = &test_signed_type,
     .code = "test-rest",
     .name = "Test rest"
 };
@@ -789,7 +798,7 @@ static const dmi_signature_t test_slot_signature = { .length = 0x05 };
 
 #define TEST_SLOT_SPEC                        \
     {                                         \
-        .type   = (dmi_type_t)245,            \
+        .type   = &test_signed_type,          \
         .code   = "test-slot",                \
         .name   = "Test slot",                \
         .params = {                           \
@@ -818,7 +827,7 @@ static void test_platform_signature(void **pstate)
     assert_true(dmi_add_extension(context, &module));
 
     // Specification without a signature represents the type
-    assert_ptr_equal(dmi_type_spec(context, (dmi_type_t)245), &test_rest_spec);
+    assert_ptr_equal(dmi_type_spec(context, (dmi_type_id_t)245), &test_rest_spec);
 
     static const uint8_t bytes[]  = { 245, 0x06, 0x00, 0x10, 'A', 'B', 0x00, 0x00 };
     static const uint8_t string[] = { 245, 0x06, 0x00, 0x10, 0x01, 0x00, 'T', 'e', 's', 't', 0x00, 0x00 };
@@ -843,7 +852,7 @@ static void test_platform_signature(void **pstate)
     dmi_context_t *second = dmi_create(0);
     assert_non_null(second);
     assert_true(dmi_add_extension(second, &signed_only));
-    assert_ptr_equal(dmi_type_spec(second, (dmi_type_t)245), &test_bytes_spec);
+    assert_ptr_equal(dmi_type_spec(second, (dmi_type_id_t)245), &test_bytes_spec);
     assert_null(test_platform_select(second, other, sizeof(other)));
     dmi_destroy(second);
 }

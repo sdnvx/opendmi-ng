@@ -41,7 +41,7 @@ firmware version information is found at type 205 on Dell platforms, see
 `dmi_intel_fvi`(3).
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_dell_token_refs_2_spec`, of type `DMI_TYPE(DELL_TOKEN_REFS_2)`,
+by `dmi_dell_token_refs_2_spec`, of type `DMI_TYPE(dell_token_refs_2)`,
 declared in `<opendmi/module/dell.h>`, once the Dell extension module
 (`dmi_dell_module`) is enabled. It lives as long as the context it has been
 decoded in.

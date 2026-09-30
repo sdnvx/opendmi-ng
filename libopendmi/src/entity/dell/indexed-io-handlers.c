@@ -55,7 +55,7 @@ bool dmi_dell_indexed_io_decode(dmi_decoder_t *decoder)
 
     dmi_dell_indexed_io_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(DELL_INDEXED_IO));
+    info = dmi_entity_info(entity, DMI_TYPE(dell_indexed_io));
     if (info == nullptr)
         return false;
 
@@ -125,7 +125,7 @@ void dmi_dell_indexed_io_cleanup(dmi_entity_t *entity)
 {
     dmi_dell_indexed_io_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(DELL_INDEXED_IO));
+    info = dmi_entity_info(entity, DMI_TYPE(dell_indexed_io));
     if (info == nullptr)
         return;
 
@@ -151,7 +151,7 @@ static bool dmi_dell_indexed_io_encode_token(
 //
 bool dmi_dell_indexed_io_encode(dmi_encoder_t *encoder)
 {
-    const dmi_dell_indexed_io_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(DELL_INDEXED_IO));
+    const dmi_dell_indexed_io_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(dell_indexed_io));
     if (info == nullptr)
         return false;
 

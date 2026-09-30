@@ -14,7 +14,7 @@
 
 void dmi_system_event_log_lint_area(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
+    const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(system_event_log));
 
     if ((info == nullptr) or (info->area_length == 0))
         return;
@@ -38,7 +38,7 @@ void dmi_system_event_log_lint_area(dmi_lint_t *lint, const dmi_entity_t *entity
 
 void dmi_system_event_log_lint_descriptors(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
+    const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(system_event_log));
 
     if ((info == nullptr) or (info->descriptor_count == 0))
         return;

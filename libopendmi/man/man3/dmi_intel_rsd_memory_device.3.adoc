@@ -48,7 +48,7 @@ at. Each structure extends the memory device structure its `device_handle`
 refers to.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_MEMORY_DEVICE)`, once the Intel RSD extension module
+`DMI_TYPE(intel_rsd_memory_device)`, once the Intel RSD extension module
 (`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
 enabled in the context with `dmi_add_extension()`. It lives as long as the
 context it has been decoded in.
@@ -89,10 +89,10 @@ Power Node Manager to query the memory subsystem.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                               DMI_TYPE(INTEL_RSD_MEMORY_DEVICE), true);
+                               DMI_TYPE(intel_rsd_memory_device), true);
 
 dmi_intel_rsd_memory_device_t *device =
-        dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_MEMORY_DEVICE));
+        dmi_entity_info(entity, DMI_TYPE(intel_rsd_memory_device));
 
 if (device != nullptr) {
     const char *type = dmi_intel_rsd_memory_type_name(device->memory_type);

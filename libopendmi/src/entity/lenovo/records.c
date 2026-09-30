@@ -16,7 +16,7 @@ static bool dmi_lenovo_tpm_info_derive(dmi_entity_t *entity);
 
 const dmi_entity_spec_t dmi_lenovo_date_spec =
 {
-    .type        = DMI_TYPE(LENOVO_DATE),
+    .type        = DMI_TYPE(lenovo_date),
     .code        = "lenovo-date",
     .name        = "Lenovo date record",
     .description = (const char *[]){
@@ -55,7 +55,7 @@ const dmi_entity_spec_t dmi_lenovo_date_spec =
 
 const dmi_entity_spec_t dmi_lenovo_tpm_info_spec =
 {
-    .type        = DMI_TYPE(LENOVO_DATE),
+    .type        = DMI_TYPE(lenovo_tpm_info),
     .code        = "lenovo-tpm-info",
     .name        = "Lenovo TPM information",
     .description = (const char *[]){
@@ -128,7 +128,7 @@ const dmi_entity_spec_t dmi_lenovo_tpm_info_spec =
 
 const dmi_entity_spec_t dmi_lenovo_mtm_spec =
 {
-    .type        = DMI_TYPE(LENOVO_MTM),
+    .type        = DMI_TYPE(lenovo_mtm),
     .code        = "lenovo-mtm",
     .name        = "Lenovo machine type model",
     .description = (const char *[]){
@@ -173,7 +173,7 @@ static unsigned dmi_lenovo_bcd(unsigned value)
 
 static bool dmi_lenovo_date_derive(dmi_entity_t *entity)
 {
-    dmi_lenovo_date_t *info = dmi_entity_info(entity, DMI_TYPE(LENOVO_DATE));
+    dmi_lenovo_date_t *info = dmi_entity_info(entity, DMI_TYPE(lenovo_date));
     if (info == nullptr)
         return false;
 
@@ -191,7 +191,7 @@ static bool dmi_lenovo_date_derive(dmi_entity_t *entity)
 
 static bool dmi_lenovo_tpm_info_derive(dmi_entity_t *entity)
 {
-    dmi_lenovo_tpm_info_t *info = dmi_entity_info(entity, DMI_TYPE(LENOVO_DATE));
+    dmi_lenovo_tpm_info_t *info = dmi_entity_info(entity, DMI_TYPE(lenovo_tpm_info));
     if (info == nullptr)
         return false;
 

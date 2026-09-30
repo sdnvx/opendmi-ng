@@ -120,6 +120,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Tell structure types by their objects rather than by their numbers: `dmi_type_t` is now the structure type, a constant the library declares for the standard types and the modules for theirs, e.g. `DMI_TYPE(system)` for `dmi_type_system`, which several specifications may decode into and several types may share a number of; type numbers are `dmi_type_id_t`, e.g. `DMI_TYPE_ID(SYSTEM)`
+- Take structure types in `dmi_entity_info()`, `dmi_entity_data()`, the lookups of the registry and the `targets` of the attributes, so that the structures sharing a type number, e.g. Intel vPro information and Lenovo ThinkVantage Technologies enablement, are told apart
+- Return the structure type from `dmi_entity_type()`, and add `dmi_entity_type_id()`, which returns the type number a structure is found at, `dmi_registry_lookup_first_id()` and `dmi_registry_resolve_id()`
+- Rename the `type` member of `dmi_entity_t` to `type_id`, and the C++ `dmi::type` enumeration to `dmi::type_id`
 - Replace the `overwrite` argument of `dmi_save()` with the flags of `dmi_save_flags_t`, `DMI_SAVE_FLAG_OVERWRITE` and `DMI_SAVE_FLAG_ANONYMIZE`
 - Lowercase the names of command line arguments
 - Move internal definitions from `<opendmi/defs.h>` to a private header

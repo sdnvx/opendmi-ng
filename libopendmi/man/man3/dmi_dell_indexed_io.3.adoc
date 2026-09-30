@@ -44,7 +44,7 @@ are selected and accessed, the checksum guarding a range of CMOS, and the
 tokens, settings of the firmware kept in CMOS.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(DELL_INDEXED_IO)`, declared in `<opendmi/module/dell.h>`, and lives
+`DMI_TYPE(dell_indexed_io)`, declared in `<opendmi/module/dell.h>`, and lives
 as long as the context it has been decoded in.
 
 === Fields
@@ -83,9 +83,9 @@ when `token_count` is 0.
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
-                                      DMI_TYPE(DELL_INDEXED_IO), true);
+                                      DMI_TYPE(dell_indexed_io), true);
 dmi_dell_indexed_io_t *io       = dmi_entity_info(entity,
-                                      DMI_TYPE(DELL_INDEXED_IO));
+                                      DMI_TYPE(dell_indexed_io));
 
 if (io != nullptr) {
     printf("Ports 0x%04x/0x%04x, %zu tokens\n", io->index_port,

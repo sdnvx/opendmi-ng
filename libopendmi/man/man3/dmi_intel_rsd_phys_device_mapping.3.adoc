@@ -43,7 +43,7 @@ type; a table may hold several structures for the same type when the devices
 do not fit into one.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING)`, once the Intel RSD extension module
+`DMI_TYPE(intel_rsd_phys_device_mapping)`, once the Intel RSD extension module
 (`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
 enabled in the context with `dmi_add_extension()`. It lives as long as the
 context it has been decoded in.
@@ -67,10 +67,10 @@ Locations of the devices, an array of `device_count` elements (see
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                               DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING), true);
+                               DMI_TYPE(intel_rsd_phys_device_mapping), true);
 
 dmi_intel_rsd_phys_device_mapping_t *mapping =
-        dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING));
+        dmi_entity_info(entity, DMI_TYPE(intel_rsd_phys_device_mapping));
 
 if ((mapping != nullptr) &&
     (mapping->device_type == DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY)) {

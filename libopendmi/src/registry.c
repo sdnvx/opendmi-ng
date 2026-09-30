@@ -55,10 +55,10 @@ dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity)
 }
 
 dmi_entity_t *dmi_registry_lookup(
-        dmi_registry_t *registry,
-        dmi_handle_t    handle,
-        dmi_type_t      type,
-        bool            optional)
+        dmi_registry_t   *registry,
+        dmi_handle_t      handle,
+        const dmi_type_t *type,
+        bool              optional)
 {
     if (registry == nullptr)
         return nullptr;
@@ -88,7 +88,7 @@ dmi_entity_t *dmi_registry_lookup(
 
     entity = entry->entity;
 
-    if ((type != DMI_TYPE_ANY) and (entity->type != type)) {
+    if ((type != DMI_TYPE_ANY) and (dmi_entity_type(entity) != type)) {
         //
         // Some SMBIOS vendors report 0x0000u instead of 0xFFFFu as
         // unspecified handle value, even if there is a structure with
@@ -99,7 +99,7 @@ dmi_entity_t *dmi_registry_lookup(
 
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
                            "0x%04x: %d (expected %d)", handle,
-                           entity->type, type);
+                           entity->type_id, type->id);
         return nullptr;
     }
 
@@ -107,10 +107,10 @@ dmi_entity_t *dmi_registry_lookup(
 }
 
 dmi_entity_t *dmi_registry_lookup_any(
-        dmi_registry_t   *registry,
-        dmi_handle_t      handle,
-        const dmi_type_t *type,
-        bool              optional)
+        dmi_registry_t          *registry,
+        dmi_handle_t             handle,
+        const dmi_type_t *const *types,
+        bool                     optional)
 {
     const dmi_context_t *context = nullptr;
     dmi_entity_t        *entity  = nullptr;
@@ -124,14 +124,13 @@ dmi_entity_t *dmi_registry_lookup_any(
     if (entity == nullptr)
         return nullptr;
 
-    if (type != nullptr) {
-        while (*type != DMI_TYPE_INVALID) {
-            if (entity->type == *type)
-                break;
-            type++;
-        }
+    if (types != nullptr) {
+        const dmi_type_t *const *type = types;
 
-        if (*type == DMI_TYPE_INVALID) {
+        while ((*type != nullptr) and (dmi_entity_type(entity) != *type))
+            type++;
+
+        if (*type == nullptr) {
             //
             // Some SMBIOS vendors report 0x0000u instead of 0xFFFFu as
             // unspecified handle value, even if there is a structure with
@@ -141,7 +140,7 @@ dmi_entity_t *dmi_registry_lookup_any(
                 return nullptr;
 
             dmi_error_raise_ex(registry->context, DMI_ERROR_INVALID_ENTITY_TYPE,
-                               "0x%04x: %d", handle, entity->type);
+                               "0x%04x: %d", handle, entity->type_id);
             return nullptr;
         }
     }
@@ -150,21 +149,21 @@ dmi_entity_t *dmi_registry_lookup_any(
 }
 
 bool dmi_registry_resolve(
-        dmi_registry_t  *registry,
-        dmi_handle_t     handle,
-        dmi_type_t       type,
-        dmi_entity_t   **pentity)
+        dmi_registry_t   *registry,
+        dmi_handle_t      handle,
+        const dmi_type_t *type,
+        dmi_entity_t    **pentity)
 {
-    const dmi_type_t types[] = { type, DMI_TYPE_INVALID };
+    const dmi_type_t *const types[] = { type, nullptr };
 
     return dmi_registry_resolve_any(registry, handle, (type != DMI_TYPE_ANY) ? types : nullptr, pentity);
 }
 
 bool dmi_registry_resolve_any(
-        dmi_registry_t    *registry,
-        dmi_handle_t       handle,
-        const dmi_type_t  *types,
-        dmi_entity_t     **pentity)
+        dmi_registry_t          *registry,
+        dmi_handle_t             handle,
+        const dmi_type_t *const *types,
+        dmi_entity_t           **pentity)
 {
     assert(pentity != nullptr);
 
@@ -184,26 +183,26 @@ bool dmi_registry_resolve_any(
         return false;
 
     if (types != nullptr) {
-        const dmi_type_t *type = types;
+        const dmi_type_t *const *type = types;
 
-        while ((*type != DMI_TYPE_INVALID) and (entity->type != *type))
+        while ((*type != nullptr) and (dmi_entity_type(entity) != *type))
             type++;
 
-        if (*type == DMI_TYPE_INVALID) {
+        if (*type == nullptr) {
             // Some SMBIOS vendors report 0x0000u instead of 0xFFFFu as
             // unspecified handle value
             if ((handle == 0x0000u) and (context->flags & DMI_CONTEXT_FLAG_STRICT) == 0)
                 return true;
 
-            if (types[1] == DMI_TYPE_INVALID) {
+            if (types[1] == nullptr) {
                 dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
                                    "0x%04x: %s instead of %s", handle,
-                                   dmi_type_name(context, entity->type),
-                                   dmi_type_name(context, types[0]));
+                                   dmi_entity_name(entity),
+                                   dmi_type_name(context, types[0]->id));
             } else {
                 dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
                                    "0x%04x: unexpected %s", handle,
-                                   dmi_type_name(context, entity->type));
+                                   dmi_type_name(context, entity->type_id));
             }
             return false;
         }
@@ -214,9 +213,67 @@ bool dmi_registry_resolve_any(
     return true;
 }
 
-dmi_entity_t *dmi_registry_lookup_first(
+bool dmi_registry_resolve_id(
         dmi_registry_t *registry,
-        dmi_type_t      type,
+        dmi_handle_t    handle,
+        dmi_type_id_t   type_id,
+        dmi_entity_t  **pentity)
+{
+    assert(pentity != nullptr);
+
+    if (not dmi_registry_resolve_any(registry, handle, nullptr, pentity))
+        return false;
+
+    dmi_entity_t *entity = *pentity;
+    if ((entity == nullptr) or (type_id == DMI_TYPE_ID_INVALID) or (entity->type_id == type_id))
+        return true;
+
+    *pentity = nullptr;
+
+    // Some SMBIOS vendors report 0x0000u instead of 0xFFFFu as unspecified
+    // handle value
+    dmi_context_t *context = registry->context;
+    if ((handle == 0x0000u) and (context->flags & DMI_CONTEXT_FLAG_STRICT) == 0)
+        return true;
+
+    dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+                       "0x%04x: %s instead of %s", handle,
+                       dmi_type_name(context, entity->type_id),
+                       dmi_type_name(context, type_id));
+    return false;
+}
+
+dmi_entity_t *dmi_registry_lookup_first(
+        dmi_registry_t   *registry,
+        const dmi_type_t *type,
+        bool              optional)
+{
+    if (registry == nullptr)
+        return nullptr;
+
+    dmi_context_t *context = registry->context;
+
+    if (type == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "type");
+        return nullptr;
+    }
+
+    // Structures of the type may be found at a type number other than its
+    // own, and structures of other types at its type number
+    for (const dmi_registry_entry_t *entry = registry->head; entry != nullptr; entry = entry->seq_next) {
+        if (dmi_entity_type(entry->entity) == type)
+            return entry->entity;
+    }
+
+    if (not optional)
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND, "type %d", type->id);
+
+    return nullptr;
+}
+
+dmi_entity_t *dmi_registry_lookup_first_id(
+        dmi_registry_t *registry,
+        dmi_type_id_t   type_id,
         bool            optional)
 {
     if (registry == nullptr)
@@ -224,18 +281,18 @@ dmi_entity_t *dmi_registry_lookup_first(
 
     dmi_context_t *context = registry->context;
 
-    if (type == DMI_TYPE_INVALID) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "type: %d", type);
+    if (type_id == DMI_TYPE_ID_INVALID) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "type: %d", type_id);
         return nullptr;
     }
 
     for (const dmi_registry_entry_t *entry = registry->head; entry != nullptr; entry = entry->seq_next) {
-        if (entry->entity->type == type)
+        if (entry->entity->type_id == type_id)
             return entry->entity;
     }
 
     if (not optional)
-        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND, "type %d", type);
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND, "type %d", type_id);
 
     return nullptr;
 }
@@ -346,7 +403,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
         count++;
 
         // Stop at the end of table
-        if (entity->type == DMI_TYPE(END_OF_TABLE))
+        if (entity->type_id == DMI_TYPE_ID(END_OF_TABLE))
             break;
 
         // Update structure offset and index
@@ -379,7 +436,7 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        if (entity->type != DMI_TYPE(ADDITIONAL_INFO))
+        if (entity->type_id != DMI_TYPE_ID(ADDITIONAL_INFO))
             continue;
 
         // Additional information does not depend on other structures
@@ -392,7 +449,7 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
             continue;
         }
 
-        const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(ADDITIONAL_INFO));
+        const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(additional_info));
 
         // All entries are processed, so that every invalid one is reported
         for (size_t i = 0; i < info->entry_count; i++) {
@@ -446,8 +503,8 @@ bool dmi_registry_decode(dmi_registry_t *registry)
                       entity->offset,
                       entity->handle,
                       entity->body_length,
-                      entity->type,
-                      dmi_type_name(context, entity->type));
+                      entity->type_id,
+                      dmi_type_name(context, entity->type_id));
 
         if (dmi_entity_decode(entity))
             continue;
@@ -464,7 +521,7 @@ bool dmi_registry_decode(dmi_registry_t *registry)
 
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
             dmi_log_warning(context, "Unable to decode structure 0x%04hx (%s), skipping",
-                            entity->handle, dmi_type_name(context, entity->type));
+                            entity->handle, dmi_type_name(context, entity->type_id));
         }
     }
 
@@ -506,8 +563,8 @@ bool dmi_registry_link(dmi_registry_t *registry)
                       entity->offset,
                       entity->handle,
                       entity->body_length,
-                      entity->type,
-                      dmi_type_name(context, entity->type));
+                      entity->type_id,
+                      dmi_type_name(context, entity->type_id));
 
         // Linking goes on after a failure, so that all broken references in
         // the table are reported at once

@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_rom_info_spec =
 {
-    .type        = DMI_TYPE(HPE_ROM_INFO),
+    .type        = DMI_TYPE(hpe_rom_info),
     .code        = "hpe-rom-info",
     .name        = "HP/HPE other ROM information",
     .description = (const char *[]){

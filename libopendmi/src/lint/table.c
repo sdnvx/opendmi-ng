@@ -166,7 +166,7 @@ static void dmi_lint_table_required(dmi_lint_t *lint, const dmi_entity_t *entity
     const dmi_lint_totals_t *totals = dmi_lint_totals(lint);
     dmi_version_t version = dmi_lint_version(lint);
 
-    for (dmi_type_t type = 0; type <= DMI_TYPE_MAX; type++) {
+    for (dmi_type_id_t type = 0; type <= DMI_TYPE_ID_MAX; type++) {
         const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
 
         if ((spec == nullptr) or (spec->params.required_from == DMI_VERSION_NONE))
@@ -201,7 +201,7 @@ static void dmi_lint_table_recommended(dmi_lint_t *lint, const dmi_entity_t *ent
     const dmi_lint_totals_t *totals = dmi_lint_totals(lint);
     dmi_version_t version = dmi_lint_version(lint);
 
-    for (dmi_type_t type = 0; type <= DMI_TYPE_MAX; type++) {
+    for (dmi_type_id_t type = 0; type <= DMI_TYPE_ID_MAX; type++) {
         const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
 
         if ((spec == nullptr) or (spec->params.recommended_from == DMI_VERSION_NONE))
@@ -226,7 +226,7 @@ static void dmi_lint_table_singleton(dmi_lint_t *lint, const dmi_entity_t *entit
     const dmi_lint_totals_t *totals = dmi_lint_totals(lint);
 
     // Uniqueness belongs to the type, the same way its required versions do
-    for (dmi_type_t type = 0; type <= DMI_TYPE_MAX; type++) {
+    for (dmi_type_id_t type = 0; type <= DMI_TYPE_ID_MAX; type++) {
         const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
 
         if ((spec == nullptr) or not spec->params.unique)
@@ -244,7 +244,7 @@ static void dmi_lint_table_reserved_handle(dmi_lint_t *lint, const dmi_entity_t 
 {
     // Firmware commonly gives the end-of-table structure a handle of the
     // reserved range, so it is not worth reporting
-    if (dmi_entity_type(entity) == DMI_TYPE_END_OF_TABLE)
+    if (dmi_entity_type(entity) == DMI_TYPE(end_of_table))
         return;
 
     dmi_handle_t handle = dmi_entity_handle(entity);

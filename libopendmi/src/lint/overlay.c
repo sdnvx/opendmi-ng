@@ -67,10 +67,10 @@ const dmi_lint_rule_t dmi_lint_overlay_empty_rule =
 //
 static const dmi_additional_info_t *dmi_lint_overlay_info(const dmi_entity_t *entity)
 {
-    if (dmi_entity_type(entity) != DMI_TYPE_ADDITIONAL_INFO)
+    if (dmi_entity_type(entity) != DMI_TYPE(additional_info))
         return nullptr;
 
-    return dmi_entity_info(entity, DMI_TYPE(ADDITIONAL_INFO));
+    return dmi_entity_info(entity, DMI_TYPE(additional_info));
 }
 
 static void dmi_lint_overlay_dangling(dmi_lint_t *lint, const dmi_entity_t *entity)

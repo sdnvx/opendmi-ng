@@ -159,7 +159,7 @@ static int test_reader_setup(void **pstate)
     dmi_set_logger(state->context, &test_logger);
 
     test_envelope.data.header = (dmi_header_t){
-        .type   = dmi_encode((dmi_byte_t)DMI_TYPE_INACTIVE),
+        .type   = dmi_encode((dmi_byte_t)DMI_TYPE_ID_INACTIVE),
         .length = sizeof(test_entity_t),
         .handle = dmi_encode(DMI_HANDLE_TEST)
     };

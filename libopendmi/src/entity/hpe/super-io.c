@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_super_io_spec =
 {
-    .type        = DMI_TYPE(HPE_SUPER_IO),
+    .type        = DMI_TYPE(hpe_super_io),
     .code        = "hpe-super-io",
     .name        = "HP/HPE Super I/O enable/disable indicator",
     .description = (const char *[]){

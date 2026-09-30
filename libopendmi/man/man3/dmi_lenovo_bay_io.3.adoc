@@ -42,7 +42,7 @@ structure carries a signature of its own, `BAY I/O `, in place of the
 revision, followed by its version, and the layout of the rest is not known.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_lenovo_bay_io_spec`, of type `DMI_TYPE(LENOVO_MOBILE_OEM)`, declared
+by `dmi_lenovo_bay_io_spec`, of type `DMI_TYPE(lenovo_bay_io)`, declared
 in `<opendmi/module/lenovo.h>`, once the Lenovo extension module
 (`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
 It lives as long as the context it has been decoded in.

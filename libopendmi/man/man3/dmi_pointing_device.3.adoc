@@ -39,7 +39,7 @@ buttons of the pointing device built into the system, such as the touch pad of
 a laptop. The structure being present does not mean that the device is in use.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(POINTING_DEVICE)`, and lives as long as the context it has been
+`DMI_TYPE(pointing_device)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -61,9 +61,9 @@ mouse.
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
-                                      DMI_TYPE(POINTING_DEVICE), false);
+                                      DMI_TYPE(pointing_device), false);
 dmi_pointing_device_t *device   = dmi_entity_info(entity,
-                                      DMI_TYPE(POINTING_DEVICE));
+                                      DMI_TYPE(pointing_device));
 
 if (device != nullptr)
     printf("%s (%s), %u buttons\n",

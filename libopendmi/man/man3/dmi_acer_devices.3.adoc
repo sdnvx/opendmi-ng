@@ -38,7 +38,7 @@ device IDs, e.g. the graphics, the webcam, the audio and the wireless network
 adapter.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_acer_devices_spec`, of type `DMI_TYPE(ACER_DEVICES)`, declared in
+by `dmi_acer_devices_spec`, of type `DMI_TYPE(acer_devices)`, declared in
 `<opendmi/module/acer.h>`, once the Acer extension module (`dmi_acer_module`)
 is enabled. It lives as long as the context it has been decoded in.
 

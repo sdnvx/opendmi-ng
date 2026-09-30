@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_dell_video_rom_spec =
 {
-    .type        = DMI_TYPE(DELL_VIDEO_ROM),
+    .type        = DMI_TYPE(dell_video_rom),
     .code        = "dell-video-rom",
     .name        = "Dell video BIOS information",
     .description = (const char *[]){

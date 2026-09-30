@@ -17,7 +17,7 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
 {
     .code            = "memory-controller",
     .name            = "Memory controller information",
-    .type            = DMI_TYPE(MEMORY_CONTROLLER),
+    .type            = DMI_TYPE(memory_controller),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x0F,
@@ -105,7 +105,7 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
         DMI_ATTRIBUTE_ARRAY(dmi_memory_controller_t, module_handles, slot_count, HANDLE, {
             .code   = "module-handles",
             .name   = "Module handles",
-            .targets = dmi_types(DMI_TYPE_MEMORY_MODULE),
+            .targets = dmi_types(DMI_TYPE(memory_module)),
             .link   = dmi_member(dmi_memory_controller_t, modules)
         }),
         DMI_ATTRIBUTE(dmi_memory_controller_t, enabled_error_correction, SET, {

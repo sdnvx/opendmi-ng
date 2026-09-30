@@ -15,7 +15,7 @@ bool dmi_group_assoc_link(dmi_entity_t *entity)
 {
     dmi_group_assoc_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(GROUP_ASSOC));
+    info = dmi_entity_info(entity, DMI_TYPE(group_assoc));
     if (info == nullptr)
         return false;
 
@@ -26,7 +26,7 @@ bool dmi_group_assoc_link(dmi_entity_t *entity)
     for (size_t i = 0; i < info->item_count; i++) {
         dmi_group_assoc_item_t *item = &info->items[i];
 
-        if (not dmi_registry_resolve(registry, item->handle, item->type, &item->entity))
+        if (not dmi_registry_resolve_id(registry, item->handle, item->type, &item->entity))
             success = false;
     }
 
@@ -37,7 +37,7 @@ void dmi_group_assoc_cleanup(dmi_entity_t *entity)
 {
     dmi_group_assoc_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(GROUP_ASSOC));
+    info = dmi_entity_info(entity, DMI_TYPE(group_assoc));
     if (info == nullptr)
         return;
 

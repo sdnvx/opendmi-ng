@@ -55,7 +55,7 @@ the table has been read from a copy of the firmware data, `status` and
 `change_token` may be out of date.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SYSTEM_EVENT_LOG)`, and lives as long as the context it has been
+`DMI_TYPE(system_event_log)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -125,9 +125,9 @@ SMBIOS 2.1.
 ----
 dmi_registry_t         *registry = dmi_get_registry(context);
 dmi_entity_t           *entity   = dmi_registry_lookup_first(registry,
-                                       DMI_TYPE(SYSTEM_EVENT_LOG), false);
+                                       DMI_TYPE(system_event_log), false);
 dmi_system_event_log_t *log_info = dmi_entity_info(entity,
-                                       DMI_TYPE(SYSTEM_EVENT_LOG));
+                                       DMI_TYPE(system_event_log));
 
 if (log_info != nullptr) {
     printf("Log area: %u bytes%s\n", (unsigned)log_info->area_length,

@@ -111,7 +111,7 @@ Elements of an array cannot be allocated.
 const dmi_entity_spec_t dmi_slot_spec =
 {
     .code   = "slot",
-    .type   = DMI_TYPE(SYSTEM_SLOTS),
+    .type   = DMI_TYPE(system_slots),
     ...
     .fields = DMI_FIELDS({
         DMI_FIELD_STRING(dmi_slot_t, designator),

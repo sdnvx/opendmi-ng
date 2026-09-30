@@ -58,7 +58,7 @@ and give them in the `sbds_` fields instead. The decoder combines both for the
 manufacture date and the capacity.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(PORTABLE_BATTERY)`, and lives as long as the context it has been
+`DMI_TYPE(portable_battery)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -139,10 +139,10 @@ Information specific to the OEM or to the firmware vendor. Present since SMBIOS
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   =
-        dmi_registry_lookup_first(registry, DMI_TYPE(PORTABLE_BATTERY),
+        dmi_registry_lookup_first(registry, DMI_TYPE(portable_battery),
                                   true);
 dmi_battery_t  *battery  =
-        dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+        dmi_entity_info(entity, DMI_TYPE(portable_battery));
 
 if (battery != nullptr) {
     const char *chemistry = battery->sbds_chemistry;

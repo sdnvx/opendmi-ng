@@ -69,12 +69,12 @@ static void test_vpro_decode(void **pstate)
 
     assert_true(dmi_load(context, test_asrock_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(INTEL_VPRO), false);
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_vpro), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_vpro_spec);
     assert_string_equal(dmi_entity_name(entity), "Intel vPro information");
 
-    const dmi_intel_vpro_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_VPRO));
+    const dmi_intel_vpro_t *info = dmi_entity_info(entity, DMI_TYPE(intel_vpro));
     assert_non_null(info);
 
     // Versions match the ones of the firmware version information
@@ -147,12 +147,12 @@ static void test_vpro_shared_type(void **pstate)
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        if (entity->type != DMI_TYPE(INTEL_VPRO))
+        if (entity->type_id != DMI_TYPE_ID(INTEL_VPRO))
             continue;
 
         if (entity->spec == &dmi_intel_vpro_spec) {
             vpro++;
-            assert_non_null(dmi_entity_info(entity, DMI_TYPE(INTEL_VPRO)));
+            assert_non_null(dmi_entity_info(entity, DMI_TYPE(intel_vpro)));
         } else {
             other++;
             assert_string_equal(dmi_entity_string(entity, 1), "TVT-Enablement");

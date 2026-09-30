@@ -47,7 +47,7 @@ inventory record, which tells the version of the firmware of a device which
 reports it through its UEFI driver.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_inventory_spec`, of type `DMI_TYPE(HPE_INVENTORY)`, declared in
+by `dmi_hpe_inventory_spec`, of type `DMI_TYPE(hpe_inventory)`, declared in
 `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
 enabled, which it is for HP and HPE servers. It lives as long as the context
 it has been decoded in.

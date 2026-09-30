@@ -26,7 +26,7 @@ const dmi_entity_spec_t dmi_battery_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(PORTABLE_BATTERY),
+    .type            = DMI_TYPE(portable_battery),
     .params = {
         .minimum_version = DMI_VERSION(2, 1, 0),
         .minimum_length  = 0x10,

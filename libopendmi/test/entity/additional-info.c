@@ -88,7 +88,7 @@ static void test_additional_info_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(ADDITIONAL_INFO));
+    const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(additional_info));
     assert_non_null(info);
     assert_int_equal(info->entry_count, 2);
 
@@ -131,7 +131,7 @@ static void test_additional_info_long_value(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(ADDITIONAL_INFO));
+    const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(additional_info));
     assert_non_null(info);
     assert_int_equal(info->entries[0].value.length, TEST_LONG_VALUE_LENGTH);
     assert_memory_equal(info->entries[0].value.data, entries + DMI_ADDITIONAL_INFO_ENTRY_HEADER,
@@ -176,7 +176,7 @@ static void test_additional_info_truncated_value(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(ADDITIONAL_INFO));
+    const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(additional_info));
     assert_non_null(info);
     assert_int_equal(info->entries[0].value.length, 2);
     assert_int_equal(info->entries[0].value.data[1], 0xBB);

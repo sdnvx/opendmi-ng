@@ -32,7 +32,7 @@ bool dmi_chassis_decode_element_type(
         element->type       = raw & 0x7Fu;
         element->board_type = DMI_BASEBOARD_TYPE_UNSPEC;
     } else {
-        element->type       = DMI_TYPE_INVALID;
+        element->type       = DMI_TYPE_ID_INVALID;
         element->board_type = raw;
     }
 
@@ -55,7 +55,7 @@ void dmi_chassis_cleanup(dmi_entity_t *entity)
 {
     dmi_chassis_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+    info = dmi_entity_info(entity, DMI_TYPE(chassis));
     if (info == nullptr)
         return;
 
@@ -71,7 +71,7 @@ bool dmi_chassis_encode_element_type(
 
     const dmi_chassis_element_t *element = value;
 
-    if (element->type != DMI_TYPE_INVALID)
+    if (element->type != DMI_TYPE_ID_INVALID)
         data->number = 0x80u | ((unsigned)element->type & 0x7Fu);
     else
         data->number = (unsigned)element->board_type & 0x7Fu;

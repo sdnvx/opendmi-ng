@@ -49,7 +49,7 @@ bool dmi_system_event_log_derive(dmi_entity_t *entity)
 {
     dmi_system_event_log_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
+    info = dmi_entity_info(entity, DMI_TYPE(system_event_log));
     if (info == nullptr)
         return false;
 
@@ -64,7 +64,7 @@ void dmi_system_event_log_cleanup(dmi_entity_t *entity)
 {
     dmi_system_event_log_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_EVENT_LOG));
+    info = dmi_entity_info(entity, DMI_TYPE(system_event_log));
     if (info == nullptr)
         return;
 

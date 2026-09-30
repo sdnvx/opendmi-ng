@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_acer_hotkeys_spec =
 {
-    .type        = DMI_TYPE(ACER_HOTKEYS),
+    .type        = DMI_TYPE(acer_hotkeys),
     .code        = "acer-hotkeys",
     .name        = "Acer hotkey functions",
     .description = (const char *[]){
@@ -139,7 +139,7 @@ const dmi_name_set_t dmi_acer_comm_function_names =
 
 bool dmi_acer_hotkeys_derive(dmi_entity_t *entity)
 {
-    dmi_acer_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(ACER_HOTKEYS));
+    dmi_acer_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(acer_hotkeys));
     if (info == nullptr)
         return false;
 
@@ -150,7 +150,7 @@ bool dmi_acer_hotkeys_derive(dmi_entity_t *entity)
 
 void dmi_acer_hotkeys_cleanup(dmi_entity_t *entity)
 {
-    dmi_acer_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(ACER_HOTKEYS));
+    dmi_acer_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(acer_hotkeys));
     if (info == nullptr)
         return;
 

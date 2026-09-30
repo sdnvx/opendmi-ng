@@ -22,7 +22,7 @@ const dmi_entity_spec_t dmi_temperature_probe_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(TEMPERATURE_PROBE),
+    .type            = DMI_TYPE(temperature_probe),
     .params = {
         .minimum_version = DMI_VERSION(2, 2, 0),
         .minimum_length  = 0x14,

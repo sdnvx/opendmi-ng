@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_intel_rsd_phys_device_mapping_spec =
 {
-    .type            = DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING),
+    .type            = DMI_TYPE(intel_rsd_phys_device_mapping),
     .code            = "intel-rsd-phys-device-mapping",
     .name            = "Intel RSD physical device mapping information",
     .description     = (const char *[]){

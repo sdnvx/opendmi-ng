@@ -24,7 +24,7 @@ endif::[]
 ----
 #include <opendmi/entity.h>
 
-const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type);
+const void *dmi_entity_data(const dmi_entity_t *entity, const dmi_type_t *type);
 ----
 
 == Description
@@ -33,12 +33,15 @@ The `dmi_entity_data` function returns a pointer to the raw SMBIOS structure
 data, including the structure header. The entity type is verified against the
 expected `type` parameter before returning the data.
 
-A structure is checked against the specification it is decoded by, rather than
-against its type number. Some vendors place structures defined by others at
-type numbers of their own, e.g. Dell moves Intel reference code structures 16
-types down. Such a structure matches the type of its original specification,
-since its data is laid out as that type expects, while `dmi_entity_type`(3)
-still returns the type number found in the table.
+The type is the structure type of the specification the structure is decoded
+by, see `dmi_type`(3), rather than the number the structure is found at. Some
+vendors place structures defined by others at type numbers of their own, e.g.
+Dell moves Intel reference code structures 16 types down, and such a structure
+is still of the type of its original specification, since its data is laid out
+as that type expects, while `dmi_entity_type_id`(3) returns the type number
+found in the table. Structures of different types sharing a type number, e.g.
+Intel vPro information and Lenovo ThinkVantage Technologies enablement, are
+told apart, so the pointer returned is always of the C type of `type`.
 
 === Parameters
 
@@ -46,9 +49,9 @@ still returns the type number found in the table.
 Entity descriptor.
 
 `type`::
-Expected SMBIOS structure type. If the entity's type does not match, the
-function returns `nullptr` and raises an error. Pass `DMI_TYPE_INVALID` to skip
-type checking.
+Expected structure type, e.g. `DMI_TYPE(cooling_device)`. If the entity is not
+of this type, the function returns `nullptr` and raises an error. Pass
+`DMI_TYPE_ANY` to skip type checking.
 
 == Return value
 
@@ -65,7 +68,9 @@ Structure is not of type `type`.
 
 `dmi_entity_info`(3),
 `dmi_entity_handle`(3),
-`dmi_entity_type`(3)
+`dmi_entity_type`(3),
+`dmi_entity_type_id`(3),
+`dmi_type`(3)
 
 ifdef::backend-manpage[]
 == Copying

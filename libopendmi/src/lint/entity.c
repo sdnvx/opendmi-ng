@@ -114,11 +114,11 @@ const dmi_lint_rule_t dmi_lint_entity_obsolete_rule =
 // Types which the specification keeps for backwards compatibility only, and
 // which are not to be used by new firmware.
 //
-static const dmi_type_t dmi_lint_obsolete_types[] =
+static const dmi_type_id_t dmi_lint_obsolete_types[] =
 {
-    DMI_TYPE_MEMORY_CONTROLLER,
-    DMI_TYPE_MEMORY_MODULE,
-    DMI_TYPE_ONBOARD_DEVICE
+    DMI_TYPE_ID_MEMORY_CONTROLLER,
+    DMI_TYPE_ID_MEMORY_MODULE,
+    DMI_TYPE_ID_ONBOARD_DEVICE
 };
 
 //
@@ -221,19 +221,19 @@ static void dmi_lint_entity_unknown_type(dmi_lint_t *lint, const dmi_entity_t *e
     if (entity->spec != nullptr)
         return;
 
-    dmi_type_t type = dmi_entity_type(entity);
+    dmi_type_id_t type = dmi_entity_type_id(entity);
 
     // OEM-specific structures are known to their vendor only, so the module
     // providing them may be disabled rather than missing
     dmi_lint_issue(lint, entity, nullptr, dmi_lint_entity_offset(lint, entity),
-                   (type >= __DMI_TYPE_OEM_START)
+                   (type >= __DMI_TYPE_ID_OEM_START)
                         ? "no enabled module describes OEM-specific type %d"
                         : "no specification describes type %d", (int)type);
 }
 
 static void dmi_lint_entity_obsolete(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_type_t type = dmi_entity_type(entity);
+    dmi_type_id_t type = dmi_entity_type_id(entity);
 
     for (size_t i = 0; i < countof(dmi_lint_obsolete_types); i++) {
         if (type != dmi_lint_obsolete_types[i])

@@ -19,7 +19,7 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
 {
     .code = "tpm-device",
     .name = "TPM device",
-    .type = DMI_TYPE(TPM_DEVICE),
+    .type = DMI_TYPE(tpm_device),
 
     .params = {
         .minimum_version = DMI_VERSION(3, 1, 0),

@@ -17,7 +17,7 @@
 
 void dmi_memory_device_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_device_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE_ADDR));
+    const dmi_memory_device_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device_addr));
 
     if ((info == nullptr) or (info->start_addr <= info->end_addr))
         return;
@@ -33,7 +33,7 @@ void dmi_memory_device_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *ent
 //
 void dmi_memory_device_addr_lint_bounds(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_device_addr_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE_ADDR));
+    const dmi_memory_device_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device_addr));
 
     if ((info == nullptr) or (info->start_addr > info->end_addr))
         return;
@@ -41,11 +41,11 @@ void dmi_memory_device_addr_lint_bounds(dmi_lint_t *lint, const dmi_entity_t *en
     dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
 
     const dmi_entity_t *array = dmi_registry_lookup(registry, info->array_addr_handle,
-                                                    DMI_TYPE(MEMORY_ARRAY_ADDR), true);
+                                                    DMI_TYPE(memory_array_addr), true);
     if (array == nullptr)
         return;
 
-    const dmi_memory_array_addr_t *range = dmi_entity_info(array, DMI_TYPE(MEMORY_ARRAY_ADDR));
+    const dmi_memory_array_addr_t *range = dmi_entity_info(array, DMI_TYPE(memory_array_addr));
 
     if ((range == nullptr) or (range->start_addr > range->end_addr))
         return;

@@ -49,10 +49,10 @@ struct dmi_relocation
 
     /**
      * @brief Type number the vendor places the structure at, or
-     * `DMI_TYPE_INVALID` if the platforms of the vendor never carry the
+     * `DMI_TYPE_ID_INVALID` if the platforms of the vendor never carry the
      * structure, and the type number is given to other structures.
      */
-    dmi_type_t type;
+    dmi_type_id_t type;
 };
 
 /**

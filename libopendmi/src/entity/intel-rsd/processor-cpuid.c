@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_intel_rsd_processor_cpuid_spec =
 {
-    .type            = DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID),
+    .type            = DMI_TYPE(intel_rsd_processor_cpuid),
     .code            = "intel-rsd-processor-cpuid",
     .name            = "Intel RSD processor CPUID information",
     .description     = (const char *[]){

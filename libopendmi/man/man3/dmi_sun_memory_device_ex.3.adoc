@@ -43,7 +43,7 @@ when the Sun extension module (`dmi_sun_module`, declared in
 `<opendmi/module/sun.h>`) is enabled in the context with `dmi_add_extension`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SUN_MEMORY_DEVICE_EX)`, and lives as long as the context it has been
+`DMI_TYPE(sun_memory_device_ex)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -72,9 +72,9 @@ Chip selects of the memory device, one byte each; `nullptr` if
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                               DMI_TYPE(SUN_MEMORY_DEVICE_EX), true);
+                               DMI_TYPE(sun_memory_device_ex), true);
 dmi_sun_memory_device_ex_t *info =
-        dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_DEVICE_EX));
+        dmi_entity_info(entity, DMI_TYPE(sun_memory_device_ex));
 
 for (size_t i = 0; (info != nullptr) && (i < info->chip_select_count); i++)
     printf("channel %u, chip select %u\n", (unsigned)info->dram_channel,

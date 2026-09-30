@@ -30,7 +30,7 @@ const dmi_entity_spec_t dmi_memory_device_addr_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(MEMORY_DEVICE_ADDR),
+    .type            = DMI_TYPE(memory_device_addr),
     .params = {
         .minimum_version = DMI_VERSION(2, 1, 0),
         .minimum_length  = 0x13,
@@ -83,13 +83,13 @@ const dmi_entity_spec_t dmi_memory_device_addr_spec =
         DMI_ATTRIBUTE(dmi_memory_device_addr_t, device_handle, HANDLE, {
             .code    = "device-handle",
             .name    = "Device handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE),
+            .targets = dmi_types(DMI_TYPE(memory_device)),
             .link    = dmi_member(dmi_memory_device_addr_t, device)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_addr_t, array_addr_handle, HANDLE, {
             .code    = "array-addr-handle",
             .name    = "Array mapped address handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_ARRAY_ADDR),
+            .targets = dmi_types(DMI_TYPE(memory_array_addr)),
             .link    = dmi_member(dmi_memory_device_addr_t, array_addr)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_addr_t, partition_pos, INTEGER, {

@@ -44,7 +44,7 @@ Technology (AMT) information, which tells whether the platform supports AMT,
 and which of its features are enabled.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_intel_amt_spec`, of type `DMI_TYPE(INTEL_AMT)`, declared in
+by `dmi_intel_amt_spec`, of type `DMI_TYPE(intel_amt)`, declared in
 `<opendmi/module/intel.h>`, once the Intel extension module
 (`dmi_intel_module`) is enabled, which is done for any platform with Intel
 processors when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as

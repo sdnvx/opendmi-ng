@@ -22,7 +22,7 @@ const dmi_entity_spec_t dmi_power_supply_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(POWER_SUPPLY),
+    .type            = DMI_TYPE(power_supply),
     .params = {
         .minimum_version = DMI_VERSION(2, 3, 1),
         .minimum_length  = 0x10,
@@ -133,19 +133,19 @@ const dmi_entity_spec_t dmi_power_supply_spec =
         DMI_ATTRIBUTE(dmi_power_supply_t, voltage_probe_handle, HANDLE, {
             .code    = "voltage-probe-handle",
             .name    = "Input voltage probe handle",
-            .targets = dmi_types(DMI_TYPE_VOLTAGE_PROBE),
+            .targets = dmi_types(DMI_TYPE(voltage_probe)),
             .link    = dmi_member(dmi_power_supply_t, voltage_probe)
         }),
         DMI_ATTRIBUTE(dmi_power_supply_t, cooling_device_handle, HANDLE, {
             .code    = "cooling-device-handle",
             .name    = "Cooling device handle",
-            .targets = dmi_types(DMI_TYPE_COOLING_DEVICE),
+            .targets = dmi_types(DMI_TYPE(cooling_device)),
             .link    = dmi_member(dmi_power_supply_t, cooling_device)
         }),
         DMI_ATTRIBUTE(dmi_power_supply_t, current_probe_handle, HANDLE, {
             .code    = "current-probe-handle",
             .name    = "Input current probe handle",
-            .targets = dmi_types(DMI_TYPE_CURRENT_PROBE),
+            .targets = dmi_types(DMI_TYPE(current_probe)),
             .link    = dmi_member(dmi_power_supply_t, current_probe)
         }),
         {}

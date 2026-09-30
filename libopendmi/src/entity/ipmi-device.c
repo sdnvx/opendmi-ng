@@ -26,7 +26,7 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(IPMI_DEVICE),
+    .type            = DMI_TYPE(ipmi_device),
     .params = {
         .minimum_version = DMI_VERSION(2, 3, 0),
         .minimum_length  = 0x12,

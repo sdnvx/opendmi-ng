@@ -19,16 +19,16 @@
 // Threshold values are in units of the component using them, and are shown as
 // they are stored, if the component is unknown
 //
-#define dmi_threshold_variant(__type, __member, __attr_type, ...)        \
-    DMI_VARIANT(DMI_TYPE(__type), dmi_mgmt_device_threshold_t, __member, \
-                __attr_type, {                                           \
-                    .unknown = dmi_value_ptr((short)SHRT_MIN),           \
-                    .flags   = DMI_ATTRIBUTE_FLAG_SIGNED,                \
-                    __VA_ARGS__                                          \
+#define dmi_threshold_variant(__type, __member, __attr_type, ...)           \
+    DMI_VARIANT(DMI_TYPE_ID(__type), dmi_mgmt_device_threshold_t, __member, \
+                __attr_type, {                                              \
+                    .unknown = dmi_value_ptr((short)SHRT_MIN),              \
+                    .flags   = DMI_ATTRIBUTE_FLAG_SIGNED,                   \
+                    __VA_ARGS__                                             \
                 })
 
 #define dmi_threshold_variants(__member)                                                                   \
-    DMI_VARIANTS({                                                            \
+    DMI_VARIANTS({                                                                                         \
         dmi_threshold_variant(VOLTAGE_PROBE, __member, INTEGER, .unit = DMI_UNIT_MILLIVOLT),               \
         dmi_threshold_variant(TEMPERATURE_PROBE, __member, DECIMAL, .scale = 1, .unit = DMI_UNIT_CELSIUS), \
         dmi_threshold_variant(CURRENT_PROBE, __member, INTEGER, .unit = DMI_UNIT_MILLIAMPERE),             \

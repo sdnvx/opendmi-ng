@@ -16,7 +16,7 @@ void dmi_onboard_device_cleanup(dmi_entity_t *entity)
 {
     dmi_onboard_device_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(ONBOARD_DEVICE));
+    info = dmi_entity_info(entity, DMI_TYPE(onboard_device));
     if (info == nullptr)
         return;
 

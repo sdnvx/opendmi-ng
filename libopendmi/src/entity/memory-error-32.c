@@ -21,7 +21,7 @@ const dmi_entity_spec_t dmi_memory_error_32_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(MEMORY_ERROR_32),
+    .type            = DMI_TYPE(memory_error_32),
     .params = {
         .minimum_version = DMI_VERSION(2, 1, 0),
         .minimum_length  = 0x17,

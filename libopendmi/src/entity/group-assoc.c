@@ -24,7 +24,7 @@ const dmi_entity_spec_t dmi_group_assoc_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(GROUP_ASSOC),
+    .type            = DMI_TYPE(group_assoc),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x05,

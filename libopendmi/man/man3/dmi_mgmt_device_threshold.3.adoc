@@ -31,7 +31,7 @@ typedef struct dmi_mgmt_device_threshold {
     short      upper_critical;
     short      lower_non_recoverable;
     short      upper_non_recoverable;
-    dmi_type_t component_type;
+    dmi_type_id_t component_type;
     bool       is_ambiguous;
 } dmi_mgmt_device_threshold_t;
 ----
@@ -51,7 +51,7 @@ minute for a cooling device. A threshold which is not available is
 `SHRT_MIN` (0x8000 as stored).
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MGMT_DEVICE_THRESHOLD)`, and lives as long as the context it has
+`DMI_TYPE(mgmt_device_threshold)`, and lives as long as the context it has
 been decoded in.
 
 === Fields
@@ -75,9 +75,9 @@ Lower non-recoverable threshold, or `SHRT_MIN`.
 Upper non-recoverable threshold, or `SHRT_MIN`.
 
 `component_type`::
-Structure type of the component using the thresholds, such as
-`DMI_TYPE_VOLTAGE_PROBE`, which tells the units of the values. Set when
-the management device components are linked. `DMI_TYPE_INVALID` if no
+Type number of the component using the thresholds, such as
+`DMI_TYPE_ID_VOLTAGE_PROBE`, which tells the units of the values. Set when
+the management device components are linked. `DMI_TYPE_ID_INVALID` if no
 component uses the thresholds, or if components of different types
 do.
 
@@ -91,12 +91,12 @@ their units are unknown.
 ----
 dmi_registry_t              *registry  = dmi_get_registry(context);
 dmi_entity_t                *entity    = dmi_registry_lookup_first(
-        registry, DMI_TYPE(MGMT_DEVICE_THRESHOLD), true);
+        registry, DMI_TYPE(mgmt_device_threshold), true);
 dmi_mgmt_device_threshold_t *threshold = dmi_entity_info(
-        entity, DMI_TYPE(MGMT_DEVICE_THRESHOLD));
+        entity, DMI_TYPE(mgmt_device_threshold));
 
 if ((threshold != nullptr) &&
-    (threshold->component_type == DMI_TYPE_TEMPERATURE_PROBE) &&
+    (threshold->component_type == DMI_TYPE_ID_TEMPERATURE_PROBE) &&
     (threshold->upper_critical != SHRT_MIN))
     printf("Critical above %.1f C\n", threshold->upper_critical / 10.0);
 ----

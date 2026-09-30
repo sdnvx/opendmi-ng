@@ -39,7 +39,7 @@ Technologies enablement, which tells the technologies the platform enables by
 128 bits, of which only the last one is known.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_lenovo_tvt_spec`, of type `DMI_TYPE(LENOVO_TVT)`, declared in
+by `dmi_lenovo_tvt_spec`, of type `DMI_TYPE(lenovo_tvt)`, declared in
 `<opendmi/module/lenovo.h>`, once the Lenovo extension module
 (`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms
 when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the

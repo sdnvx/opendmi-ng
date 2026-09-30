@@ -42,7 +42,7 @@ Sun extension module (`dmi_sun_module`, declared in `<opendmi/module/sun.h>`)
 is enabled in the context with `dmi_add_extension`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SUN_PCIE_ROOT_COMPLEX)`, and lives as long as the context it has been
+`DMI_TYPE(sun_pcie_root_complex)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -66,9 +66,9 @@ PCI function number of the root complex or root port, 0 to 7.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                               DMI_TYPE(SUN_PCIE_ROOT_COMPLEX), true);
+                               DMI_TYPE(sun_pcie_root_complex), true);
 dmi_sun_pcie_root_complex_t *info =
-        dmi_entity_info(entity, DMI_TYPE(SUN_PCIE_ROOT_COMPLEX));
+        dmi_entity_info(entity, DMI_TYPE(sun_pcie_root_complex));
 
 if (info != nullptr)
     printf("root complex at %02X:%02X.%u\n", (unsigned)info->bus_number,

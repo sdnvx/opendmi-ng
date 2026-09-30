@@ -44,7 +44,7 @@ the version of the reference code module itself, named `Reference Code -
 association (type 14) named `Firmware Version Info`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_intel_fvi_spec`, of type `DMI_TYPE(INTEL_FVI)`, declared in
+by `dmi_intel_fvi_spec`, of type `DMI_TYPE(intel_fvi)`, declared in
 `<opendmi/module/intel.h>`, once the Intel extension module
 (`dmi_intel_module`) is enabled, which is done for any platform when the
 context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context
@@ -54,7 +54,7 @@ The structures are found on Intel platforms whatever the vendor of the
 firmware is. The Intel reference code gives them type 221, but vendors who
 give that type to structures of their own place them elsewhere or not at
 all: Dell places them at type 205, and HP servers carry none. The type is
-checked against `DMI_TYPE(INTEL_FVI)` wherever the structure is placed, see
+checked against `DMI_TYPE(intel_fvi)` wherever the structure is placed, see
 `dmi_entity_info`(3).
 
 === Fields
@@ -80,7 +80,7 @@ while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
     if (entity->spec != &dmi_intel_fvi_spec)
         continue;
 
-    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_FVI));
+    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(intel_fvi));
 
     for (size_t i = 0; i < info->item_count; i++) {
         const dmi_intel_fvi_item_t *item = &info->items[i];

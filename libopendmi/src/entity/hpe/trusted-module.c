@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_trusted_module_spec =
 {
-    .type        = DMI_TYPE(HPE_TRUSTED_MODULE),
+    .type        = DMI_TYPE(hpe_trusted_module),
     .code        = "hpe-trusted-module",
     .name        = "HP/HPE trusted module status",
     .description = (const char *[]){
@@ -109,7 +109,7 @@ const dmi_entity_spec_t dmi_hpe_trusted_module_spec =
             .code    = "version-handle",
             .name    = "Version indicator handle",
             .unspec  = dmi_value_ptr(DMI_HANDLE_INVALID),
-            .targets = dmi_types(DMI_TYPE(HPE_VERSION))
+            .targets = dmi_types(DMI_TYPE(hpe_version))
         }),
         DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, chip, ENUM, {
             .code   = "chip",

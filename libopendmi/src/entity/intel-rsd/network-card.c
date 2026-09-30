@@ -14,7 +14,7 @@ const dmi_entity_spec_t dmi_intel_rsd_network_card_spec =
 {
     .code = "intel-rsd-network-card",
     .name = "Intel RSD Network card information",
-    .type = DMI_TYPE(INTEL_RSD_NETWORK_CARD),
+    .type = DMI_TYPE(intel_rsd_network_card),
 
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),

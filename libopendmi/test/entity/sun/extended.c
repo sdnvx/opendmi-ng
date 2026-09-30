@@ -95,7 +95,7 @@ static void test_sun_processor_ex_decode(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_sun_processor_ex_t *info = dmi_entity_info(entity, DMI_TYPE(SUN_PROCESSOR_EX));
+    const dmi_sun_processor_ex_t *info = dmi_entity_info(entity, DMI_TYPE(sun_processor_ex));
     assert_non_null(info);
 
     assert_int_equal(info->processor_handle, 0x0004);
@@ -126,7 +126,7 @@ static void test_sun_port_ex_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_sun_port_ex_t *info = dmi_entity_info(entity, DMI_TYPE(SUN_PORT_EX));
+    const dmi_sun_port_ex_t *info = dmi_entity_info(entity, DMI_TYPE(sun_port_ex));
     assert_non_null(info);
 
     assert_int_equal(info->chassis_handle, 0x0003);
@@ -157,7 +157,7 @@ static void test_sun_pcie_root_complex_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_sun_pcie_root_complex_t *info = dmi_entity_info(entity, DMI_TYPE(SUN_PCIE_ROOT_COMPLEX));
+    const dmi_sun_pcie_root_complex_t *info = dmi_entity_info(entity, DMI_TYPE(sun_pcie_root_complex));
     assert_non_null(info);
 
     assert_int_equal(info->baseboard_handle, 0x0002);
@@ -186,7 +186,7 @@ static void test_sun_memory_array_ex_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_sun_memory_array_ex_t *info = dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_ARRAY_EX));
+    const dmi_sun_memory_array_ex_t *info = dmi_entity_info(entity, DMI_TYPE(sun_memory_array_ex));
     assert_non_null(info);
 
     assert_int_equal(info->memory_array_handle, 0x0010);
@@ -217,7 +217,7 @@ static void test_sun_memory_device_ex_decode(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_sun_memory_device_ex_t *info = dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_DEVICE_EX));
+    const dmi_sun_memory_device_ex_t *info = dmi_entity_info(entity, DMI_TYPE(sun_memory_device_ex));
     assert_non_null(info);
 
     assert_int_equal(info->memory_device_handle, 0x0011);

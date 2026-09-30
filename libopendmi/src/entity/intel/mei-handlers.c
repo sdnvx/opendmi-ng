@@ -19,7 +19,7 @@ bool dmi_intel_mei_derive(dmi_entity_t *entity)
 {
     dmi_intel_mei_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_MEI));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
     if (info == nullptr)
         return false;
 
@@ -54,7 +54,7 @@ void dmi_intel_mei_cleanup(dmi_entity_t *entity)
 {
     dmi_intel_mei_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_MEI));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
     if (info == nullptr)
         return;
 

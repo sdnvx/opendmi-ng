@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
 {
-    .type        = DMI_TYPE(HPE_DIMM_LOCATION),
+    .type        = DMI_TYPE(hpe_dimm_location),
     .code        = "hpe-dimm-location",
     .name        = "HP/HPE DIMM location record",
     .description = (const char *[]){
@@ -72,7 +72,7 @@ const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
         DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, device_handle, HANDLE, {
             .code    = "device-handle",
             .name    = "Memory device handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE)
+            .targets = dmi_types(DMI_TYPE(memory_device))
         }),
         DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, board, INTEGER, {
             .code   = "board",

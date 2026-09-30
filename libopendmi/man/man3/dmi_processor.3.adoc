@@ -71,7 +71,7 @@ of processors the system can have. A coprocessor, such as a math processor,
 has a structure of its own.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(PROCESSOR)`, and lives as long as the context it has been decoded in.
+`DMI_TYPE(processor)`, and lives as long as the context it has been decoded in.
 The fields a structure is too short to carry are 0 or `nullptr`, except the
 cache handles, which are `DMI_HANDLE_INVALID`.
 
@@ -208,9 +208,9 @@ Present since SMBIOS 3.8.
 ----
 dmi_registry_t  *registry  = dmi_get_registry(context);
 dmi_entity_t    *entity    = dmi_registry_lookup_first(registry,
-                                                       DMI_TYPE(PROCESSOR),
+                                                       DMI_TYPE(processor),
                                                        false);
-dmi_processor_t *processor = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+dmi_processor_t *processor = dmi_entity_info(entity, DMI_TYPE(processor));
 
 if ((processor != nullptr) && processor->is_populated) {
     const char *family = dmi_processor_family_name(processor->family);

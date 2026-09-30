@@ -88,7 +88,7 @@ static void test_firmware_decode_v20(void **pstate)
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 0, 0));
 
-    const dmi_firmware_t *info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE));
+    const dmi_firmware_t *info = dmi_entity_info(entity, DMI_TYPE(firmware));
     assert_non_null(info);
     assert_true(info->features.pci_support);
     assert_false(info->features_ex.acpi_support);
@@ -115,7 +115,7 @@ static void test_firmware_decode_v21(void **pstate)
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 1, 0));
 
-    const dmi_firmware_t *info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE));
+    const dmi_firmware_t *info = dmi_entity_info(entity, DMI_TYPE(firmware));
     assert_non_null(info);
     assert_true(info->features.pci_support);
     assert_true(info->features_ex.acpi_support);
@@ -141,7 +141,7 @@ static void test_firmware_decode_v23(void **pstate)
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
 
-    const dmi_firmware_t *info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE));
+    const dmi_firmware_t *info = dmi_entity_info(entity, DMI_TYPE(firmware));
     assert_non_null(info);
     assert_true(info->features_ex.acpi_support);
     assert_true(info->features_ex.uefi_spec);

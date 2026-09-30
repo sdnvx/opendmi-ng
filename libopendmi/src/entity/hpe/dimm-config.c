@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_dimm_config_spec =
 {
-    .type        = DMI_TYPE(HPE_DIMM_CONFIG),
+    .type        = DMI_TYPE(hpe_dimm_config),
     .code        = "hpe-dimm-config",
     .name        = "HP/HPE DIMM current configuration record",
     .description = (const char *[]){
@@ -56,7 +56,7 @@ const dmi_entity_spec_t dmi_hpe_dimm_config_spec =
         DMI_ATTRIBUTE(dmi_hpe_dimm_config_t, device_handle, HANDLE, {
             .code    = "device-handle",
             .name    = "Memory device handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE)
+            .targets = dmi_types(DMI_TYPE(memory_device))
         }),
         DMI_ATTRIBUTE(dmi_hpe_dimm_config_t, region_id, INTEGER, {
             .code = "region-id",
@@ -107,7 +107,7 @@ const dmi_entity_spec_t dmi_hpe_dimm_config_spec =
 
 bool dmi_hpe_dimm_config_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_dimm_config_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_DIMM_CONFIG));
+    dmi_hpe_dimm_config_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_dimm_config));
     if (info == nullptr)
         return false;
 

@@ -40,7 +40,7 @@
 // List of structure types, e.g. the ones a handle may refer to, see
 // dmi_attribute_params_t::targets
 #define dmi_types(...) \
-        (const dmi_type_t[]){ __VA_ARGS__, DMI_TYPE_INVALID }
+        (const dmi_type_t *const[]){ __VA_ARGS__, nullptr }
 
 // Look up a string of the library resources, nullptr if there is none
 const char *dmi_locale_string(const char *table, const char *key);

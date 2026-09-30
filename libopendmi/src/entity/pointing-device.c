@@ -23,7 +23,7 @@ const dmi_entity_spec_t dmi_pointing_device_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(POINTING_DEVICE),
+    .type            = DMI_TYPE(pointing_device),
     .params = {
         .minimum_version = DMI_VERSION(2, 1, 0),
         .minimum_length  = 0x07,

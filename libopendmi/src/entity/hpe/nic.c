@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_pxe_nic_spec =
 {
-    .type        = DMI_TYPE(HPE_PXE_NIC),
+    .type        = DMI_TYPE(hpe_pxe_nic),
     .code        = "hpe-pxe-nic",
     .name        = "HP/HPE BIOS PXE NIC PCI and MAC information",
     .description = (const char *[]){
@@ -82,7 +82,7 @@ const dmi_entity_spec_t dmi_hpe_pxe_nic_spec =
 //
 const dmi_entity_spec_t dmi_hpe_iscsi_nic_spec =
 {
-    .type        = DMI_TYPE(HPE_ISCSI_NIC),
+    .type        = DMI_TYPE(hpe_iscsi_nic),
     .code        = "hpe-iscsi-nic",
     .name        = "HP/HPE BIOS iSCSI NIC PCI and MAC information",
     .description = (const char *[]){

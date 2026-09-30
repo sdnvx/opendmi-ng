@@ -46,7 +46,7 @@ the resets reach their limit, the system does what `boot_on_limit` says
 instead.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SYSTEM_RESET)`, and lives as long as the context it has been decoded
+`DMI_TYPE(system_reset)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -86,9 +86,9 @@ remote system reset, or an automatic system reset. `USHRT_MAX` if unknown.
 ----
 dmi_registry_t     *registry = dmi_get_registry(context);
 dmi_entity_t       *entity   = dmi_registry_lookup_first(registry,
-                                   DMI_TYPE(SYSTEM_RESET), false);
+                                   DMI_TYPE(system_reset), false);
 dmi_system_reset_t *reset    = dmi_entity_info(entity,
-                                   DMI_TYPE(SYSTEM_RESET));
+                                   DMI_TYPE(system_reset));
 
 if ((reset != nullptr) && reset->is_enabled)
     printf("on watchdog reset: %s\n",

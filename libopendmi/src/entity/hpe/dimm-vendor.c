@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_dimm_vendor_spec =
 {
-    .type        = DMI_TYPE(HPE_DIMM_VENDOR),
+    .type        = DMI_TYPE(hpe_dimm_vendor),
     .code        = "hpe-dimm-vendor",
     .name        = "HP/HPE DIMM vendor information",
     .description = (const char *[]){
@@ -47,7 +47,7 @@ const dmi_entity_spec_t dmi_hpe_dimm_vendor_spec =
         DMI_ATTRIBUTE(dmi_hpe_dimm_vendor_t, device_handle, HANDLE, {
             .code    = "device-handle",
             .name    = "Memory device handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE)
+            .targets = dmi_types(DMI_TYPE(memory_device))
         }),
         DMI_ATTRIBUTE(dmi_hpe_dimm_vendor_t, manufacturer, STRING, {
             .code = "manufacturer",

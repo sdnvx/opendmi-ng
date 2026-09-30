@@ -62,7 +62,7 @@ place it is reached at on PCIe, and the memory attached to it. There is one
 structure for each FPGA, and none on platforms without FPGAs.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_FPGA)`, once the Intel RSD extension module
+`DMI_TYPE(intel_rsd_fpga)`, once the Intel RSD extension module
 (`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
 enabled in the context with `dmi_add_extension()`. It lives as long as the
 context it has been decoded in.
@@ -163,9 +163,9 @@ Speed of the memory, in MHz.
 ----
 dmi_registry_t       *registry = dmi_get_registry(context);
 dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
-                                     DMI_TYPE(INTEL_RSD_FPGA), true);
+                                     DMI_TYPE(intel_rsd_fpga), true);
 dmi_intel_rsd_fpga_t *fpga     = dmi_entity_info(entity,
-                                                 DMI_TYPE(INTEL_RSD_FPGA));
+                                                 DMI_TYPE(intel_rsd_fpga));
 
 if ((fpga != nullptr) && (fpga->status == DMI_INTEL_RSD_FPGA_STATUS_ENABLED))
     printf("FPGA %u: %s, %u mW\n", fpga->index,

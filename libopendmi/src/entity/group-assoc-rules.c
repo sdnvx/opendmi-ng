@@ -28,7 +28,7 @@ static const dmi_entity_spec_t *dmi_group_assoc_member_spec(dmi_context_t *conte
 //
 void dmi_group_assoc_lint_member(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_group_assoc_t *info = dmi_entity_info(entity, DMI_TYPE(GROUP_ASSOC));
+    const dmi_group_assoc_t *info = dmi_entity_info(entity, DMI_TYPE(group_assoc));
     if ((info == nullptr) or (info->group_name == nullptr))
         return;
 
@@ -46,7 +46,7 @@ void dmi_group_assoc_lint_member(dmi_lint_t *lint, const dmi_entity_t *entity)
         // Members of another type than the item declares, e.g. the ones of a
         // placeholder handle, are the business of the links
         const dmi_entity_t *member = dmi_registry_lookup(registry, item->handle, DMI_TYPE_ANY, true);
-        if ((member == nullptr) or (dmi_entity_type(member) != item->type))
+        if ((member == nullptr) or (dmi_entity_type_id(member) != item->type))
             continue;
 
         if (member->spec == spec)

@@ -46,7 +46,7 @@ struct dmi_group_assoc_item
     /**
      * @brief Item (structure) type of this member.
      */
-    dmi_type_t type;
+    dmi_type_id_t type;
 
     /**
      * @brief Handle corresponding to this structure.

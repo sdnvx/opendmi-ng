@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_lenovo_tvt_spec =
 {
-    .type        = DMI_TYPE(LENOVO_TVT),
+    .type        = DMI_TYPE(lenovo_tvt),
     .code        = "lenovo-tvt",
     .name        = "Lenovo ThinkVantage Technologies enablement",
     .description = (const char *[]){
@@ -65,7 +65,7 @@ bool dmi_lenovo_tvt_derive(dmi_entity_t *entity)
 {
     dmi_lenovo_tvt_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(LENOVO_TVT));
+    info = dmi_entity_info(entity, DMI_TYPE(lenovo_tvt));
     if (info == nullptr)
         return false;
 

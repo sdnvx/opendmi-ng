@@ -18,7 +18,7 @@
 
 void dmi_system_reset_lint_limit(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_system_reset_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_RESET));
+    const dmi_system_reset_t *info = dmi_entity_info(entity, DMI_TYPE(system_reset));
     if (info == nullptr)
         return;
 

@@ -25,7 +25,7 @@ const dmi_entity_spec_t dmi_oob_remote_access_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(OOB_REMOTE_ACCESS),
+    .type            = DMI_TYPE(oob_remote_access),
     .params = {
         .minimum_version = DMI_VERSION(2, 2, 0),
         .minimum_length  = 0x06,

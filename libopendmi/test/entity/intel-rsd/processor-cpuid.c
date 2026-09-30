@@ -109,7 +109,7 @@ static void test_rsd_processor_cpuid_decode(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_intel_rsd_processor_cpuid_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+    const dmi_intel_rsd_processor_cpuid_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_processor_cpuid));
     assert_non_null(info);
 
     assert_string_equal(info->socket_designation, "Socket 0");
@@ -150,7 +150,7 @@ static void test_rsd_processor_cpuid_decode_extended(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_rsd_processor_cpuid_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+    const dmi_intel_rsd_processor_cpuid_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_processor_cpuid));
     assert_non_null(info);
 
     assert_int_equal(info->subtype, DMI_INTEL_RSD_CPUID_SUBTYPE_EXTENDED);
@@ -180,7 +180,7 @@ static void test_rsd_processor_cpuid_decode_truncated(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_intel_rsd_processor_cpuid_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+    const dmi_intel_rsd_processor_cpuid_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_processor_cpuid));
     assert_non_null(info);
     assert_int_equal(info->leaf_count, 3);
 
@@ -193,7 +193,7 @@ static void test_rsd_processor_cpuid_decode_truncated(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_processor_cpuid));
     assert_non_null(info);
     assert_true(info->is_raw);
     assert_int_equal(info->leaf_count, 0);

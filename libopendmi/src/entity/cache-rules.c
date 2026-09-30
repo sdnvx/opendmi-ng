@@ -17,7 +17,7 @@
 
 void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
+    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(cache));
 
     if ((info == nullptr) or (info->maximum_size == 0) or (info->maximum_size == DMI_SIZE_MAX))
         return;
@@ -32,7 +32,7 @@ void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 
 void dmi_cache_lint_sram(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
+    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(cache));
 
     if ((info == nullptr) or (info->current_sram.__value == 0) or
         (info->supported_sram.__value == 0))

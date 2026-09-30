@@ -73,7 +73,7 @@ static void test_processor_ex_decode(void **pstate)
         assert_true(dmi_entity_decode(entity));
         assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, test_cases[i].incomplete);
 
-        const dmi_processor_ex_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR_EX));
+        const dmi_processor_ex_t *info = dmi_entity_info(entity, DMI_TYPE(processor_ex));
         assert_non_null(info);
         assert_int_equal(info->processor_handle, 0x000D);
         assert_int_equal(info->arch, test_cases[i].arch);

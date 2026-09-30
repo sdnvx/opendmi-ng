@@ -17,7 +17,7 @@ void dmi_baseboard_cleanup(dmi_entity_t *entity)
 {
     dmi_baseboard_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
+    info = dmi_entity_info(entity, DMI_TYPE(baseboard));
     if (info == nullptr)
         return;
 

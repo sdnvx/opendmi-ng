@@ -33,7 +33,7 @@ const dmi_entity_spec_t dmi_baseboard_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(BASEBOARD),
+    .type            = DMI_TYPE(baseboard),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x08,
@@ -104,7 +104,7 @@ const dmi_entity_spec_t dmi_baseboard_spec =
         DMI_ATTRIBUTE(dmi_baseboard_t, chassis_handle, HANDLE, {
             .code    = "chassis-handle",
             .name    = "Chassis handle",
-            .targets = dmi_types(DMI_TYPE_CHASSIS),
+            .targets = dmi_types(DMI_TYPE(chassis)),
             .unspec  = dmi_value_ptr(DMI_HANDLE_INVALID),
             .link    = dmi_member(dmi_baseboard_t, chassis)
         }),

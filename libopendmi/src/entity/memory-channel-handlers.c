@@ -22,7 +22,7 @@ bool dmi_memory_channel_link(dmi_entity_t *entity)
 {
     dmi_memory_channel_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CHANNEL));
+    info = dmi_entity_info(entity, DMI_TYPE(memory_channel));
     if (info == nullptr)
         return false;
 
@@ -32,7 +32,7 @@ bool dmi_memory_channel_link(dmi_entity_t *entity)
             continue;
 
         // Memory device may be left undecoded
-        dmi_memory_device_t *device_info = dmi_entity_info(device, DMI_TYPE(MEMORY_DEVICE));
+        dmi_memory_device_t *device_info = dmi_entity_info(device, DMI_TYPE(memory_device));
         if (device_info != nullptr)
             device_info->channel = entity;
     }
@@ -44,7 +44,7 @@ void dmi_memory_channel_cleanup(dmi_entity_t *entity)
 {
     dmi_memory_channel_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CHANNEL));
+    info = dmi_entity_info(entity, DMI_TYPE(memory_channel));
     if (info == nullptr)
         return;
 

@@ -101,7 +101,7 @@ static void test_property_linked(void **pstate)
     assert_null(dmi_entity_property(other, DMI_PROPERTY_ID_UEFI_DEVICE_PATH));
 
     // String property refers to its parent
-    const dmi_string_property_t *info = dmi_entity_info(test_get(context, 0x0200), DMI_TYPE(STRING_PROPERTY));
+    const dmi_string_property_t *info = dmi_entity_info(test_get(context, 0x0200), DMI_TYPE(string_property));
     assert_non_null(info);
     assert_ptr_equal(info->parent, parent);
     assert_int_equal(info->ident, DMI_PROPERTY_ID_UEFI_DEVICE_PATH);
@@ -169,7 +169,7 @@ static void test_property_unlinked(void **pstate)
     assert_null(dmi_entity_property(parent, DMI_PROPERTY_ID_UEFI_DEVICE_PATH));
 
     // String properties themselves are decoded anyway
-    const dmi_string_property_t *info = dmi_entity_info(test_get(context, 0x0200), DMI_TYPE(STRING_PROPERTY));
+    const dmi_string_property_t *info = dmi_entity_info(test_get(context, 0x0200), DMI_TYPE(string_property));
     assert_non_null(info);
     assert_int_equal(info->parent_handle, test_parent);
     assert_string_equal(info->value, test_device_path);
@@ -378,7 +378,7 @@ static void test_check_invalid(dmi_context_t *context)
 
     for (size_t i = 0; i < countof(expected); i++) {
         const dmi_string_property_t *info = dmi_entity_info(test_get(context, expected[i].handle),
-                                                            DMI_TYPE(STRING_PROPERTY));
+                                                            DMI_TYPE(string_property));
         assert_non_null(info);
         assert_null(info->parent);
     }

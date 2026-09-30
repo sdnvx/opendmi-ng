@@ -60,7 +60,7 @@ bool dmi_encoder_initialize(
     }
 
     dmi_header_t header = {
-        .type   = (dmi_byte_t)entity->type,
+        .type   = (dmi_byte_t)entity->type_id,
         .length = 0,
         .handle = dmi_encode((dmi_handle_t)entity->handle)
     };
@@ -249,7 +249,7 @@ bool dmi_encoder_finish(dmi_encoder_t *encoder)
     }
 
     dmi_header_t header = {
-        .type   = (dmi_byte_t)encoder->entity->type,
+        .type   = (dmi_byte_t)encoder->entity->type_id,
         .length = (dmi_byte_t)length,
         .handle = dmi_encode((dmi_handle_t)encoder->entity->handle)
     };
@@ -263,7 +263,7 @@ bool dmi_encoder_finish(dmi_encoder_t *encoder)
         if (dmi_reader_get_bytes_at(&encoder->source, &original, 0, sizeof(original))) {
             bool same_handle = (original.handle == header.handle);
             bool same_type   = (original.length == 0)
-                             ? ((header.type == DMI_TYPE(END_OF_TABLE)) and
+                             ? ((header.type == DMI_TYPE_ID(END_OF_TABLE)) and
                                 (header.length == sizeof(dmi_header_t)))
                              : ((original.type == header.type) and (original.length == header.length));
 

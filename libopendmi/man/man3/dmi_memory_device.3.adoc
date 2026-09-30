@@ -75,7 +75,7 @@ module, belonging to a physical memory array (type 16). A table has one such
 structure for every memory socket of the system, populated or not.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_DEVICE)`, and lives as long as the context it has been decoded
+`DMI_TYPE(memory_device)`, and lives as long as the context it has been decoded
 in. The structure first appeared in SMBIOS 2.1, and has grown with many later
 versions; the fields a structure is too short to carry are 0 or `nullptr`.
 
@@ -255,9 +255,9 @@ it.
 ----
 dmi_registry_t      *registry = dmi_get_registry(context);
 dmi_entity_t        *entity   = dmi_registry_lookup_first(
-        registry, DMI_TYPE(MEMORY_DEVICE), false);
+        registry, DMI_TYPE(memory_device), false);
 dmi_memory_device_t *device   = dmi_entity_info(entity,
-                                                DMI_TYPE(MEMORY_DEVICE));
+                                                DMI_TYPE(memory_device));
 
 if ((device != nullptr) && (device->size != 0) &&
     (device->size != DMI_SIZE_MAX)) {

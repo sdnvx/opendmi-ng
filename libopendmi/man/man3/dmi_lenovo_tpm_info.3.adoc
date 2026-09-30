@@ -46,7 +46,7 @@ told from the date records of the same type, see `dmi_lenovo_date`(3), by
 their first string, `TPM INFO`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_lenovo_tpm_info_spec`, of type `DMI_TYPE(LENOVO_DATE)`, declared in
+by `dmi_lenovo_tpm_info_spec`, of type `DMI_TYPE(lenovo_tpm_info)`, declared in
 `<opendmi/module/lenovo.h>`, once the Lenovo extension module
 (`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
 It lives as long as the context it has been decoded in.

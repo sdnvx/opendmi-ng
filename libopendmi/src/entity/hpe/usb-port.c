@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_usb_port_spec =
 {
-    .type        = DMI_TYPE(HPE_USB_PORT),
+    .type        = DMI_TYPE(hpe_usb_port),
     .code        = "hpe-usb-port",
     .name        = "HP/HPE USB port connector correlation record",
     .description = (const char *[]){
@@ -48,7 +48,7 @@ const dmi_entity_spec_t dmi_hpe_usb_port_spec =
         DMI_ATTRIBUTE(dmi_hpe_usb_port_t, port_handle, HANDLE, {
             .code    = "port-handle",
             .name    = "Port connector handle",
-            .targets = dmi_types(DMI_TYPE_PORT_CONNECTOR)
+            .targets = dmi_types(DMI_TYPE(port_connector))
         }),
         DMI_ATTRIBUTE(dmi_hpe_usb_port_t, segment, INTEGER, {
             .code  = "segment",

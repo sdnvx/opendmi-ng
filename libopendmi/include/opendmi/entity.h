@@ -328,9 +328,9 @@ struct dmi_entity_spec
     const char **description;
 
     /**
-     * @brief SMBIOS type.
+     * @brief Structure type the specification decodes the structures into.
      */
-    dmi_type_t type;
+    const dmi_type_t *type;
 
     /**
      * @brief Parameters of the type.
@@ -439,9 +439,10 @@ struct dmi_entity
     dmi_context_t *context;
 
     /**
-     * @brief Entity type.
+     * @brief Type number the structure is found at, which may differ from the
+     * one of its structure type, see `dmi_relocation_t`.
      */
-    dmi_type_t type;
+    dmi_type_id_t type_id;
 
     /**
      * @brief Pointer to specification.
@@ -570,7 +571,7 @@ __BEGIN_DECLS
  * Returns the type number the structures of the specification are found at,
  * which relocations may make different from the type of the specification.
  */
-__dmi_api dmi_type_t dmi_type_find(dmi_context_t *context, const char *code);
+__dmi_api dmi_type_id_t dmi_type_find(dmi_context_t *context, const char *code);
 
 /**
  * @brief Get entity type specification.
@@ -582,12 +583,12 @@ __dmi_api dmi_type_t dmi_type_find(dmi_context_t *context, const char *code);
  * first one with a signature if there is none. The specification a structure
  * is decoded by is the `spec` member of the entity.
  */
-__dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type);
+__dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_id_t type);
 
 /**
  * @brief Get entity type name.
  */
-__dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_t type);
+__dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_id_t type);
 
 /**
  * @brief Get entity specification name.
@@ -741,14 +742,26 @@ __dmi_api const dmi_buffer_t *dmi_entity_buffer(const dmi_entity_t *entity);
 __dmi_api size_t dmi_entity_offset(const dmi_entity_t *entity);
 
 /**
- * @brief Get entity type.
+ * @brief Get the structure type of an entity.
  *
  * @param[in] entity Entity descriptor.
  *
- * @return The SMBIOS type of the entity, or `DMI_TYPE_INVALID` if @p entity
- *         is @c nullptr.
+ * @return The structure type of the specification the entity is decoded by,
+ *         or @c nullptr if @p entity is @c nullptr or there is no
+ *         specification for it.
  */
-__dmi_api dmi_type_t dmi_entity_type(const dmi_entity_t *entity);
+__dmi_api const dmi_type_t *dmi_entity_type(const dmi_entity_t *entity);
+
+/**
+ * @brief Get the type number an entity is found at.
+ *
+ * @param[in] entity Entity descriptor.
+ *
+ * @return The type number of the entity, which may differ from the one of
+ *         its structure type, or `DMI_TYPE_ID_INVALID` if @p entity is
+ *         @c nullptr.
+ */
+__dmi_api dmi_type_id_t dmi_entity_type_id(const dmi_entity_t *entity);
 
 /**
  * @brief Get entity type name.
@@ -765,39 +778,40 @@ __dmi_api const char *dmi_entity_name(const dmi_entity_t *entity);
  * @brief Get pointer to raw SMBIOS data area of entity of the specified type.
  *
  * Returns a pointer to the raw SMBIOS structure data (including the header)
- * if the entity matches the specified type. The type is checked against the
+ * if the entity is of the specified type. The type is the one of the
  * specification the entity is decoded by, so a structure which a vendor
- * places at a type number of its own matches the type of its original
- * specification.
+ * places at a type number of its own is of the type of its original
+ * specification, and structures sharing a type number are told apart.
  *
  * @param[in] entity Entity descriptor.
- * @param[in] type   Expected SMBIOS type. Pass `DMI_TYPE_INVALID` to skip
- *                   type checking.
+ * @param[in] type   Expected structure type, e.g. `DMI_TYPE(system)`, or
+ *                   `DMI_TYPE_ANY` to skip type checking.
  *
  * @return Pointer to the raw SMBIOS data, or @c nullptr if @p entity is @c nullptr
  *         or the entity type does not match @p type.
  */
-__dmi_api const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type);
+__dmi_api const void *dmi_entity_data(const dmi_entity_t *entity, const dmi_type_t *type);
 
 /**
  * @brief Get pointer to decoded data of entity of the specified type.
  *
  * Returns a pointer to the decoded structure descriptor if the entity matches
- * the specified type. The returned pointer should be cast to the appropriate
- * structure type (e.g., `dmi_cooling_device_t *`). The type is checked against
- * the specification the entity is decoded by, so a structure which a vendor
- * places at a type number of its own matches the type of its original
- * specification.
+ * the specified type. The returned pointer should be cast to the C type of the
+ * structure type (e.g., `dmi_cooling_device_t *` for
+ * `DMI_TYPE(cooling_device)`). The type is the one of the specification the
+ * entity is decoded by, so a structure which a vendor places at a type number
+ * of its own is of the type of its original specification, and structures
+ * sharing a type number are told apart.
  *
  * @param[in] entity Entity descriptor.
- * @param[in] type   Expected SMBIOS type. Pass `DMI_TYPE_INVALID` to skip
- *                   type checking.
+ * @param[in] type   Expected structure type, e.g. `DMI_TYPE(system)`, or
+ *                   `DMI_TYPE_ANY` to skip type checking.
  *
  * @return Pointer to the decoded data, or @c nullptr if @p entity is @c nullptr,
  *         the entity has not been decoded, or the entity type does not match
  *         @p type.
  */
-__dmi_api void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type);
+__dmi_api void *dmi_entity_info(const dmi_entity_t *entity, const dmi_type_t *type);
 
 /**
  * @brief Get entity string.

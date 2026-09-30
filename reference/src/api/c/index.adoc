@@ -23,6 +23,11 @@ include::../../../../libopendmi/man/man3/dmi_set_platform.3.adoc[leveloffset=2]
 
 include::../../../../libopendmi/man/man3/dmi_anonymize.3.adoc[leveloffset=2]
 
+== `<opendmi/types.h>`
+
+include::../../../../libopendmi/man/man3/dmi_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_type_id.3.adoc[leveloffset=2]
+
 == `<opendmi/platform.h>`
 
 include::../../../../libopendmi/man/man3/dmi_platform_clone.3.adoc[leveloffset=2]
@@ -64,6 +69,7 @@ include::../../../../libopendmi/man/man3/dmi_entity_name.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_offset.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_string_ex.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_type_id.3.adoc[leveloffset=2]
 
 == `<opendmi/field.h>`
 

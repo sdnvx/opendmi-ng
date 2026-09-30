@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_sun_memory_device_ex_spec =
 {
-    .type            = DMI_TYPE(SUN_MEMORY_DEVICE_EX),
+    .type            = DMI_TYPE(sun_memory_device_ex),
     .code            = "sun-memory-device-ex",
     .name            = "Sun memory device extended information",
     .description     = (const char *[]){
@@ -45,7 +45,7 @@ const dmi_entity_spec_t dmi_sun_memory_device_ex_spec =
         DMI_ATTRIBUTE(dmi_sun_memory_device_ex_t, memory_device_handle, HANDLE, {
             .code  = "memory-device-handle",
             .name  = "Memory device handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE),
+            .targets = dmi_types(DMI_TYPE(memory_device)),
         }),
         DMI_ATTRIBUTE(dmi_sun_memory_device_ex_t, dram_channel, INTEGER, {
             .code  = "dram-channel",

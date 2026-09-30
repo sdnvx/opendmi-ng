@@ -94,7 +94,7 @@ static void test_rsd_memory_device_decode(void **pstate)
     assert_int_equal(entity->body_length, 0x0F);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_rsd_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_MEMORY_DEVICE));
+    const dmi_intel_rsd_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_memory_device));
     assert_non_null(info);
 
     assert_int_equal(info->device_handle, 0x0011);
@@ -111,8 +111,8 @@ static void test_rsd_memory_device_decode(void **pstate)
         attr++;
 
     assert_non_null(attr->params.targets);
-    assert_int_equal(attr->params.targets[0], DMI_TYPE_MEMORY_DEVICE);
-    assert_int_equal(attr->params.targets[1], DMI_TYPE_INVALID);
+    assert_ptr_equal(attr->params.targets[0], DMI_TYPE(memory_device));
+    assert_null(attr->params.targets[1]);
 
     dmi_entity_destroy(entity);
 

@@ -107,7 +107,7 @@ static void test_battery_decode_v21(void **pstate)
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
     assert_true(entity->state & DMI_ENTITY_STATE_PARTIAL);
 
-    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(portable_battery));
     assert_non_null(info);
     assert_string_equal(info->location, "Rear");
     assert_string_equal(info->vendor, "ACME");
@@ -135,7 +135,7 @@ static void test_battery_decode_v22(void **pstate)
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
     assert_false(entity->state & DMI_ENTITY_STATE_PARTIAL);
 
-    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(portable_battery));
     assert_non_null(info);
 
     // Capacity is multiplied, and manufacture date is taken from SBDS field
@@ -175,7 +175,7 @@ static void test_battery_decode_incomplete(void **pstate)
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
     assert_false(entity->state & DMI_ENTITY_STATE_PARTIAL);
 
-    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(portable_battery));
     assert_non_null(info);
     assert_int_equal(info->sbds_serial_number, 0x1234);
     assert_int_equal(info->manufacture_date, dmi_date(2020, 5, 17));

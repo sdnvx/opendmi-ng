@@ -40,7 +40,7 @@ identifier is replaced when the table is anonymized, see `dmi_anonymize`(3),
 since it may identify the system.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_dell_system_id_spec`, of type `DMI_TYPE(DELL_SYSTEM_ID)`, declared in
+by `dmi_dell_system_id_spec`, of type `DMI_TYPE(dell_system_id)`, declared in
 `<opendmi/module/dell.h>`, once the Dell extension module (`dmi_dell_module`)
 is enabled. It lives as long as the context it has been decoded in.
 

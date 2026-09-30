@@ -52,7 +52,7 @@ PCI addresses of the devices plugged into it. A table carries one such
 structure for each slot.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SYSTEM_SLOTS)`, and lives as long as the context it has been decoded
+`DMI_TYPE(system_slots)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -141,10 +141,10 @@ dmi_entity_t        *entity;
 dmi_registry_iter_init(&iter, registry, nullptr);
 
 while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-    if (dmi_entity_type(entity) != DMI_TYPE(SYSTEM_SLOTS))
+    if (dmi_entity_type(entity) != DMI_TYPE(system_slots))
         continue;
 
-    dmi_slot_t *slot = dmi_entity_info(entity, DMI_TYPE(SYSTEM_SLOTS));
+    dmi_slot_t *slot = dmi_entity_info(entity, DMI_TYPE(system_slots));
     if ((slot != nullptr) && (slot->designator != nullptr))
         printf("%s: %s, %s\n", slot->designator,
                dmi_slot_type_name(slot->type),

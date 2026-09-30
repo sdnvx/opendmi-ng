@@ -14,7 +14,7 @@ const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
 {
     .code            = "intel-rsd-fpga",
     .name            = "Intel RSD FPGA information",
-    .type            = DMI_TYPE(INTEL_RSD_FPGA),
+    .type            = DMI_TYPE(intel_rsd_fpga),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .decoded_length  = sizeof(dmi_intel_rsd_fpga_t),

@@ -17,7 +17,7 @@
 
 void dmi_cooling_device_lint_probe(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_cooling_device_t *info = dmi_entity_info(entity, DMI_TYPE(COOLING_DEVICE));
+    const dmi_cooling_device_t *info = dmi_entity_info(entity, DMI_TYPE(cooling_device));
     if (info == nullptr)
         return;
 
@@ -29,10 +29,10 @@ void dmi_cooling_device_lint_probe(dmi_lint_t *lint, const dmi_entity_t *entity)
 
     const dmi_entity_t *probe =
             dmi_registry_lookup(registry, info->probe_handle, DMI_TYPE_ANY, true);
-    if ((probe == nullptr) or (dmi_entity_type(probe) == DMI_TYPE_TEMPERATURE_PROBE))
+    if ((probe == nullptr) or (dmi_entity_type(probe) == DMI_TYPE(temperature_probe)))
         return;
 
     dmi_lint_issue(lint, entity, "probe-handle", dmi_lint_entity_offset(lint, entity),
                    "handle 0x%04X refers to a structure of type %d, expected a temperature probe",
-                   (unsigned)info->probe_handle, (int)dmi_entity_type(probe));
+                   (unsigned)info->probe_handle, (int)dmi_entity_type_id(probe));
 }

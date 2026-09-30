@@ -33,7 +33,7 @@ bool dmi_bis_entry_point_derive(dmi_entity_t *entity)
 {
     dmi_bis_entry_point_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(BIS_ENTRY_POINT));
+    info = dmi_entity_info(entity, DMI_TYPE(bis_entry_point));
     if (info == nullptr)
         return false;
 

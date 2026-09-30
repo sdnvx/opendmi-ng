@@ -78,7 +78,7 @@ static int dmi_list_main(dmi_context_t *context, int argc, char *argv[])
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         dmi_handle_t handle = dmi_entity_handle(entity);
-        int          type   = dmi_entity_type(entity);
+        int          type   = dmi_entity_type_id(entity);
         const char  *name   = dmi_entity_name(entity);
 
         if (dmi_list_config.show_raw) {

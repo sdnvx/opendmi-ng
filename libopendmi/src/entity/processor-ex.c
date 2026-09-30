@@ -36,7 +36,7 @@ const dmi_entity_spec_t dmi_processor_ex_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(PROCESSOR_EX),
+    .type            = DMI_TYPE(processor_ex),
     .params = {
         .minimum_version = DMI_VERSION(3, 3, 0),
         .minimum_length  = 0x06,
@@ -59,7 +59,7 @@ const dmi_entity_spec_t dmi_processor_ex_spec =
         DMI_ATTRIBUTE(dmi_processor_ex_t, processor_handle, HANDLE, {
             .code   = "processor-handle",
             .name   = "Processor handle",
-            .targets = dmi_types(DMI_TYPE_PROCESSOR),
+            .targets = dmi_types(DMI_TYPE(processor)),
             .link   = dmi_member(dmi_processor_ex_t, processor)
         }),
         DMI_ATTRIBUTE(dmi_processor_ex_t, arch, ENUM, {

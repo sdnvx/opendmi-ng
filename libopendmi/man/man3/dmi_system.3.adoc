@@ -44,7 +44,7 @@ product name, serial number and UUID, and the event which powered it up. A
 table carries exactly one such structure, which is required since SMBIOS 2.3.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SYSTEM)`, and lives as long as the context it has been decoded in.
+`DMI_TYPE(system)`, and lives as long as the context it has been decoded in.
 
 === Fields
 
@@ -89,8 +89,8 @@ not carry it. Present since SMBIOS 2.4.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                                                     DMI_TYPE(SYSTEM), false);
-dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(SYSTEM));
+                                                     DMI_TYPE(system), false);
+dmi_system_t   *system   = dmi_entity_info(entity, DMI_TYPE(system));
 
 if ((system != nullptr) && (system->product != nullptr))
     printf("%s (%s)\n", system->product,

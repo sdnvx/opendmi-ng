@@ -39,7 +39,7 @@ structure (type 24) of SMBIOS: the state of the passwords and of the front
 panel reset, which the firmware sets for the whole system.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(HARDWARE_SECURITY)` and lives as long as the context it has been
+`DMI_TYPE(hardware_security)` and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -62,9 +62,9 @@ State of the power-on password.
 ----
 dmi_registry_t          *registry = dmi_get_registry(context);
 dmi_entity_t            *entity   = dmi_registry_lookup_first(registry,
-                                        DMI_TYPE(HARDWARE_SECURITY), true);
+                                        DMI_TYPE(hardware_security), true);
 dmi_hardware_security_t *security = dmi_entity_info(entity,
-                                        DMI_TYPE(HARDWARE_SECURITY));
+                                        DMI_TYPE(hardware_security));
 
 if (security != nullptr) {
     const char *state =

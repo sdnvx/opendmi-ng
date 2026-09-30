@@ -35,7 +35,7 @@ const dmi_entity_spec_t dmi_cache_spec =
 {
     .code            = "cache",
     .name            = "Cache information",
-    .type            = DMI_TYPE(CACHE),
+    .type            = DMI_TYPE(cache),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .required_from   = DMI_VERSION(2, 3, 0),
@@ -56,7 +56,8 @@ the types, e.g. `opendmi show -t cache`. Codes are never translated.
 Name of the type as the output shows it, which is translated into the locale.
 
 `type`::
-Number of the type in the data.
+Structure type the specification decodes the structures into, see
+<<structure-types>>.
 
 `params`::
 Versions of the specification the type belongs to: the one which defined it,
@@ -75,6 +76,41 @@ at the end of the chapter.
 The specifications of the standard types are listed in the library, and the
 ones of the vendors are brought by their modules, see
 xref:internals/modules.adoc#internals-modules[Extension modules].
+
+[#structure-types]
+== Structure types
+
+A structure type tells what the information a structure is decoded into is,
+which is one C type, e.g. `dmi_cache_t`. Types are objects rather than
+numbers: `dmi_type_t` constants, declared by `<opendmi/types.h>` for the
+standard types and by the headers of the modules for the vendor ones, and
+named by `DMI_TYPE()`, e.g. `DMI_TYPE(cache)` for `dmi_type_cache`:
+
+[source,c]
+----
+const dmi_type_t dmi_type_cache = { .id = DMI_TYPE_ID_CACHE };
+----
+
+The number a type carries, `id`, is the one its specification gives the
+structures, and `DMI_TYPE_ID()` names the numbers, e.g.
+`DMI_TYPE_ID(CACHE)`. Numbers do not tell the types, and the objects do:
+
+* Several specifications may decode the structures of one type, e.g. the
+  layouts of different generations of a vendor, which all refer to it. The
+  code handling the structures asks for the type, whatever layout the table
+  holds.
+* Several types may share a number, e.g. Intel vPro information and Lenovo
+  ThinkVantage Technologies enablement, which are both of type 131, and
+  asking for one of them never gives the other.
+* A structure of a type may be found at another number, where a vendor places
+  it, and is still of its type.
+
+So everything asking for a structure of a type takes the type object:
+`dmi_entity_info`, `dmi_entity_data`, the lookups of the registry and the
+types the handles refer to. Numbers are for what the table itself holds: the
+number a structure is found at, which `dmi_entity_type_id` gives, the types
+the options of the tool select, and the structures no specification
+describes, which `dmi_registry_lookup_first_id` finds.
 
 == Fields
 
@@ -382,7 +418,7 @@ information structure refers to its caches this way:
 DMI_ATTRIBUTE(dmi_processor_t, l1_cache_handle, HANDLE, {
     .code    = "l1-cache-handle",
     .name    = "L1 Cache handle",
-    .targets = dmi_types(DMI_TYPE_CACHE),
+    .targets = dmi_types(DMI_TYPE(cache)),
     .level   = DMI_VERSION(2, 1, 0),
     .link    = dmi_member(dmi_processor_t, l1_cache)
 }),

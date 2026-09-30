@@ -49,7 +49,7 @@ physical memory array (type 16) and memory device (type 17) structures. Some
 firmware still provides both kinds, for older software.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_MODULE)`, and lives as long as the context it has been
+`DMI_TYPE(memory_module)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -96,9 +96,9 @@ Error status of the module, see `dmi_memory_module_error`(3).
 ----
 dmi_registry_t      *registry = dmi_get_registry(context);
 dmi_entity_t        *entity   = dmi_registry_lookup_first(registry,
-                                    DMI_TYPE(MEMORY_MODULE), false);
+                                    DMI_TYPE(memory_module), false);
 dmi_memory_module_t *module   = dmi_entity_info(entity,
-                                    DMI_TYPE(MEMORY_MODULE));
+                                    DMI_TYPE(memory_module));
 
 if ((module != nullptr) &&
     (module->installed_size.status == DMI_MEMORY_MODULE_SIZE_STATUS_PRESENT))

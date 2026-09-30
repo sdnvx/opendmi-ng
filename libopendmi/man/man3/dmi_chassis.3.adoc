@@ -57,7 +57,7 @@ its peripherals, has one structure for each of them. Tables of SMBIOS 2.3 and
 newer are required to have at least one.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(CHASSIS)`, and lives as long as the context it has been decoded in.
+`DMI_TYPE(chassis)`, and lives as long as the context it has been decoded in.
 
 === Fields
 
@@ -141,8 +141,8 @@ mm) for Open Rack. Present since SMBIOS 3.9; 0 in older structures.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   =
-        dmi_registry_lookup_first(registry, DMI_TYPE(CHASSIS), false);
-dmi_chassis_t  *chassis  = dmi_entity_info(entity, DMI_TYPE(CHASSIS));
+        dmi_registry_lookup_first(registry, DMI_TYPE(chassis), false);
+dmi_chassis_t  *chassis  = dmi_entity_info(entity, DMI_TYPE(chassis));
 
 if (chassis != nullptr) {
     printf("%s (%s)\n", dmi_chassis_type_name(chassis->type),
@@ -151,7 +151,7 @@ if (chassis != nullptr) {
     for (size_t i = 0; i < chassis->element_count; i++) {
         const dmi_chassis_element_t *element = &chassis->elements[i];
 
-        if (element->type != DMI_TYPE_INVALID)
+        if (element->type != DMI_TYPE_ID_INVALID)
             printf("  structures of type %d: %zu to %zu\n",
                    (int)element->type, element->minimum_count,
                    element->maximum_count);

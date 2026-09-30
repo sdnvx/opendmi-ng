@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_dell_hotkeys_spec =
 {
-    .type        = DMI_TYPE(DELL_HOTKEYS),
+    .type        = DMI_TYPE(dell_hotkeys),
     .code        = "dell-hotkeys",
     .name        = "Dell hotkeys",
     .description = (const char *[]){
@@ -68,7 +68,7 @@ const dmi_entity_spec_t dmi_dell_hotkeys_spec =
 
 void dmi_dell_hotkeys_cleanup(dmi_entity_t *entity)
 {
-    dmi_dell_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(DELL_HOTKEYS));
+    dmi_dell_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(dell_hotkeys));
     if (info == nullptr)
         return;
 

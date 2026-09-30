@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_reserved_memory_spec =
 {
-    .type        = DMI_TYPE(HPE_RESERVED_MEMORY),
+    .type        = DMI_TYPE(hpe_reserved_memory),
     .code        = "hpe-reserved-memory",
     .name        = "HP/HPE reserved memory location",
     .description = (const char *[]){
@@ -75,7 +75,7 @@ const dmi_entity_spec_t dmi_hpe_reserved_memory_spec =
 
 bool dmi_hpe_reserved_memory_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_reserved_memory_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_RESERVED_MEMORY));
+    dmi_hpe_reserved_memory_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_reserved_memory));
     if (info == nullptr)
         return false;
 
@@ -92,7 +92,7 @@ bool dmi_hpe_reserved_memory_derive(dmi_entity_t *entity)
 
 void dmi_hpe_reserved_memory_cleanup(dmi_entity_t *entity)
 {
-    dmi_hpe_reserved_memory_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_RESERVED_MEMORY));
+    dmi_hpe_reserved_memory_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_reserved_memory));
     if (info == nullptr)
         return;
 

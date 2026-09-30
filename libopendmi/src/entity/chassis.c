@@ -18,7 +18,7 @@ const dmi_entity_spec_t dmi_chassis_spec =
 {
     .code            = "chassis",
     .name            = "System enclosure or chassis",
-    .type            = DMI_TYPE(CHASSIS),
+    .type            = DMI_TYPE(chassis),
     .description     = (const char *[]){
         "The information in this structure defines attributes of the system’s "
         "mechanical enclosure(s). For example, if a system included a separate "
@@ -193,7 +193,7 @@ const dmi_entity_spec_t dmi_chassis_spec =
                 DMI_ATTRIBUTE(dmi_chassis_element_t, type, INTEGER, {
                     .code    = "type",
                     .name    = "Structure type",
-                    .unspec  = dmi_value_ptr((dmi_type_t)DMI_TYPE_INVALID),
+                    .unspec  = dmi_value_ptr((dmi_type_id_t)DMI_TYPE_ID_INVALID),
                     .flags   = DMI_ATTRIBUTE_FLAG_HEX
                 }),
                 DMI_ATTRIBUTE(dmi_chassis_element_t, board_type, ENUM, {

@@ -11,7 +11,7 @@
 
 const dmi_entity_spec_t dmi_sun_port_ex_spec =
 {
-    .type            = DMI_TYPE(SUN_PORT_EX),
+    .type            = DMI_TYPE(sun_port_ex),
     .code            = "sun-port-ex",
     .name            = "Sun port extended information",
     .description     = (const char *[]){
@@ -39,12 +39,12 @@ const dmi_entity_spec_t dmi_sun_port_ex_spec =
         DMI_ATTRIBUTE(dmi_sun_port_ex_t, chassis_handle, HANDLE, {
             .code  = "chassis-handle",
             .name  = "Chassis handle",
-            .targets = dmi_types(DMI_TYPE_CHASSIS),
+            .targets = dmi_types(DMI_TYPE(chassis)),
         }),
         DMI_ATTRIBUTE(dmi_sun_port_ex_t, port_handle, HANDLE, {
             .code  = "port-handle",
             .name  = "Port connector handle",
-            .targets = dmi_types(DMI_TYPE_PORT_CONNECTOR),
+            .targets = dmi_types(DMI_TYPE(port_connector)),
         }),
         DMI_ATTRIBUTE(dmi_sun_port_ex_t, device_type, INTEGER, {
             .code  = "device-type",

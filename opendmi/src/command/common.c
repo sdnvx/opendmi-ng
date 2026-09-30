@@ -164,40 +164,40 @@ dmi_handle_t dmi_parse_handle(const char *str)
     return (dmi_handle_t)value;
 }
 
-dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str)
+dmi_type_id_t dmi_parse_type(dmi_context_t *context, const char *str)
 {
     char *ep;
     long value;
 
     if (*str == 0) {
         dmi_command_message("Empty type value");
-        return DMI_TYPE_INVALID;
+        return DMI_TYPE_ID_INVALID;
     }
 
     if ((*str == '+') or (*str == '-')) {
         dmi_command_message("Invalid type value: %s", str);
-        return DMI_TYPE_INVALID;
+        return DMI_TYPE_ID_INVALID;
     }
 
     errno = 0;
     value = strtol(str, &ep, 10);
 
     if (*ep != 0) {
-        dmi_type_t type = dmi_type_find(context, str);
-        if (type == DMI_TYPE_INVALID)
+        dmi_type_id_t type = dmi_type_find(context, str);
+        if (type == DMI_TYPE_ID_INVALID)
             dmi_command_message("Unknown type code: %s", str);
 
         return type;
     }
 
     if (((errno == ERANGE) and ((value == LONG_MIN) or (value == LONG_MAX))) or
-        (value < 0) or (value > DMI_TYPE_MAX))
+        (value < 0) or (value > DMI_TYPE_ID_MAX))
     {
         dmi_command_message("Type is out of range: %s", str);
-        return DMI_TYPE_INVALID;
+        return DMI_TYPE_ID_INVALID;
     }
 
-    return (dmi_type_t)value;
+    return (dmi_type_id_t)value;
 }
 
 bool dmi_print_all(
@@ -314,7 +314,7 @@ bool dmi_print_entity(
         if ((entity->overlays != nullptr) and (format->handlers.entity_overlays != nullptr) and
             not format->handlers.entity_overlays(session, entity))
             return false;
-    } else if (entity->type != DMI_TYPE(END_OF_TABLE)) {
+    } else if (entity->type_id != DMI_TYPE_ID(END_OF_TABLE)) {
         if (not format->handlers.entity_data(session, entity))
             return false;
         if (not format->handlers.entity_strings(session, entity))
@@ -343,12 +343,12 @@ static bool dmi_filter_config_add_handle(dmi_context_t *context, const char *val
 
 static bool dmi_filter_config_add_type(dmi_context_t *context, const char *value)
 {
-    dmi_type_t type;
+    dmi_type_id_t type;
 
     assert(value != nullptr);
 
     type = dmi_parse_type(context, value);
-    if (type == DMI_TYPE_INVALID)
+    if (type == DMI_TYPE_ID_INVALID)
         return false;
 
     if (not dmi_filter_add_type(&dmi_filter_config.filter, type))

@@ -137,7 +137,7 @@ static void decode_memory_device(
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device));
     assert_non_null(info);
 
     // Copy numeric fields only, string pointers are owned by the entity
@@ -247,7 +247,7 @@ static void test_memory_device_decode_speed(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_DEVICE));
+        const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device));
         assert_non_null(info);
 
         assert_int_equal(entity->level, (length > 0x15) ? DMI_VERSION(2, 3, 0) : DMI_VERSION(2, 1, 0));

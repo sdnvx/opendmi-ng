@@ -1,0 +1,80 @@
+ifdef::backend-manpage[]
+= dmi_type_id(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_type_id
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_type_id, DMI_TYPE_ID - SMBIOS structure type numbers.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/types.h>
+
+typedef enum dmi_type_id {
+    DMI_TYPE_ID_INVALID      = -1,
+    DMI_TYPE_ID_FIRMWARE     = 0,
+    DMI_TYPE_ID_SYSTEM       = 1,
+    ...
+    DMI_TYPE_ID_INACTIVE     = 126,
+    DMI_TYPE_ID_END_OF_TABLE = 127
+} dmi_type_id_t;
+
+#define DMI_TYPE_ID(x) ((dmi_type_id_t)(DMI_TYPE_ID_ ## x))
+#define DMI_TYPE_ID_MAX UINT8_MAX
+----
+
+== Description
+
+The `dmi_type_id_t` enumeration lists the numbers the SMBIOS specification
+gives its structure types: 0 through 127 are defined by the specification, and
+128 through 255 are available for OEM- and system-specific information. The
+extension modules list the numbers of the vendor types in their headers, e.g.
+`DMI_TYPE_ID_HPE_PROCESSOR` in `<opendmi/module/hpe.h>`. `DMI_TYPE_ID()` names
+them: `DMI_TYPE_ID(SYSTEM)` is `DMI_TYPE_ID_SYSTEM`.
+
+A number tells where a structure is found in the table, which
+`dmi_entity_type_id`(3) gives, rather than what the structure is: vendors give
+the same OEM numbers to different structures, and place the structures of
+others at numbers of their own. What a structure is decoded into is told by
+its structure type, see `dmi_type`(3), whose `id` member is the number its
+specification gives it.
+
+Numbers are for what the table itself holds: the number a structure is found
+at, the structure types of the table, which `dmi_type_spec` and
+`dmi_type_name` look up in the context, the types the options of the tool
+select, and the structures no specification describes, which
+`dmi_registry_lookup_first_id` finds.
+
+=== Values
+
+`DMI_TYPE_ID_INVALID`::
+No type number.
+
+`DMI_TYPE_ID_FIRMWARE` to `DMI_TYPE_ID_END_OF_TABLE`::
+Numbers of the structure types of the SMBIOS specification.
+
+== See also
+
+`dmi_type`(3),
+`dmi_entity_type_id`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

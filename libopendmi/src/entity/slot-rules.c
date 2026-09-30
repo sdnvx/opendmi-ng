@@ -33,7 +33,7 @@ static bool dmi_slot_width_comparable(dmi_slot_width_t first, dmi_slot_width_t s
 //
 void dmi_slot_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_slot_t *info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_SLOTS));
+    const dmi_slot_t *info = dmi_entity_info(entity, DMI_TYPE(system_slots));
     if (info == nullptr)
         return;
 

@@ -24,7 +24,7 @@ const dmi_entity_spec_t dmi_port_connector_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(PORT_CONNECTOR),
+    .type            = DMI_TYPE(port_connector),
     .params = {
         .minimum_version  = DMI_VERSION(2, 0, 0),
         .recommended_from = DMI_VERSION(2, 3, 0),

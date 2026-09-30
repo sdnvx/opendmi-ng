@@ -41,7 +41,7 @@ component structures (`dmi_mgmt_device_component_t`) tie the probes and cooling
 devices to the management device.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MGMT_DEVICE)`, and lives as long as the context it has been decoded
+`DMI_TYPE(mgmt_device)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -65,9 +65,9 @@ Type of the address the device is accessed at.
 ----
 dmi_registry_t    *registry = dmi_get_registry(context);
 dmi_entity_t      *entity   =
-        dmi_registry_lookup_first(registry, DMI_TYPE(MGMT_DEVICE), true);
+        dmi_registry_lookup_first(registry, DMI_TYPE(mgmt_device), true);
 dmi_mgmt_device_t *device   =
-        dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE));
+        dmi_entity_info(entity, DMI_TYPE(mgmt_device));
 
 if (device != nullptr)
     printf("%s at %s 0x%08" PRIx32 "\n",

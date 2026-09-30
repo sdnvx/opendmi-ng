@@ -54,7 +54,7 @@ When there is only one and it lists no elements, or when there is none, every
 element of the table belongs to a single motherboard.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(BASEBOARD)`, and lives as long as the context it has been decoded in.
+`DMI_TYPE(baseboard)`, and lives as long as the context it has been decoded in.
 
 === Fields
 
@@ -116,9 +116,9 @@ a structure of the table. The array is `nullptr` if there are no elements.
 ----
 dmi_registry_t  *registry = dmi_get_registry(context);
 dmi_entity_t    *entity   = dmi_registry_lookup_first(registry,
-                                                      DMI_TYPE(BASEBOARD),
+                                                      DMI_TYPE(baseboard),
                                                       false);
-dmi_baseboard_t *board    = dmi_entity_info(entity, DMI_TYPE(BASEBOARD));
+dmi_baseboard_t *board    = dmi_entity_info(entity, DMI_TYPE(baseboard));
 
 if ((board != nullptr) && (board->product != nullptr))
     printf("%s, %zu contained elements\n", board->product,

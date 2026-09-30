@@ -45,7 +45,7 @@ is kept in CMOS, how it is encoded, and where its checksum is. The CMOS
 locations are accessed through the indexed I/O ports the structure gives.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(DELL_PROTECTED_AREA_1)`, declared in `<opendmi/module/dell.h>`, and
+`DMI_TYPE(dell_protected_area_1)`, declared in `<opendmi/module/dell.h>`, and
 lives as long as the context it has been decoded in.
 
 === Fields
@@ -84,10 +84,10 @@ CMOS index of the checksum of the protected value.
 ----
 dmi_registry_t              *registry = dmi_get_registry(context);
 dmi_entity_t                *entity   = dmi_registry_lookup_first(registry,
-                                            DMI_TYPE(DELL_PROTECTED_AREA_1),
+                                            DMI_TYPE(dell_protected_area_1),
                                             true);
 dmi_dell_protected_area_1_t *area     = dmi_entity_info(entity,
-                                            DMI_TYPE(DELL_PROTECTED_AREA_1));
+                                            DMI_TYPE(dell_protected_area_1));
 
 if (area != nullptr) {
     printf("Token 0x%04x: %u bytes at CMOS index 0x%02x\n", area->token_id,

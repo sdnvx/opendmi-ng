@@ -86,7 +86,7 @@ static void test_rsd_txt_decode(void **pstate)
     assert_int_equal(entity->body_length, 0x05);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_rsd_txt_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_TXT));
+    const dmi_intel_rsd_txt_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_txt));
     assert_non_null(info);
 
     assert_int_equal(info->status, DMI_INTEL_RSD_TXT_STATUS_ENABLED);

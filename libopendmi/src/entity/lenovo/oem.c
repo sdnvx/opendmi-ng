@@ -30,7 +30,7 @@
 
 const dmi_entity_spec_t dmi_lenovo_mobile_oem_spec =
 {
-    .type        = DMI_TYPE(LENOVO_MOBILE_OEM),
+    .type        = DMI_TYPE(lenovo_mobile_oem),
     .code        = "lenovo-mobile-oem",
     .name        = "Lenovo mobile PC OEM data",
     .description = (const char *[]){
@@ -69,7 +69,7 @@ const dmi_entity_spec_t dmi_lenovo_mobile_oem_spec =
 
 const dmi_entity_spec_t dmi_lenovo_oem_spec =
 {
-    .type        = DMI_TYPE(LENOVO_OEM),
+    .type        = DMI_TYPE(lenovo_oem),
     .code        = "lenovo-oem",
     .name        = "Lenovo OEM data",
     .description = (const char *[]){
@@ -108,7 +108,7 @@ const dmi_entity_spec_t dmi_lenovo_oem_spec =
 
 const dmi_entity_spec_t dmi_lenovo_device_presence_spec =
 {
-    .type        = DMI_TYPE(LENOVO_MOBILE_OEM),
+    .type        = DMI_TYPE(lenovo_device_presence),
     .code        = "lenovo-device-presence",
     .name        = "Lenovo ThinkPad device presence detection",
     .description = (const char *[]){
@@ -157,7 +157,7 @@ const dmi_entity_spec_t dmi_lenovo_device_presence_spec =
 
 const dmi_entity_spec_t dmi_lenovo_bay_io_spec =
 {
-    .type        = DMI_TYPE(LENOVO_MOBILE_OEM),
+    .type        = DMI_TYPE(lenovo_bay_io),
     .code        = "lenovo-bay-io",
     .name        = "Lenovo bay I/O",
     .description = (const char *[]){
@@ -205,7 +205,7 @@ const dmi_entity_spec_t dmi_lenovo_bay_io_spec =
 
 const dmi_entity_spec_t dmi_lenovo_ecp_spec =
 {
-    .type        = DMI_TYPE(LENOVO_OEM),
+    .type        = DMI_TYPE(lenovo_ecp),
     .code        = "lenovo-ecp",
     .name        = "Lenovo ThinkPad embedded controller program",
     .description = (const char *[]){
@@ -250,7 +250,7 @@ const dmi_entity_spec_t dmi_lenovo_ecp_spec =
 
 bool dmi_lenovo_device_presence_derive(dmi_entity_t *entity)
 {
-    dmi_lenovo_device_presence_t *info = dmi_entity_info(entity, DMI_TYPE(LENOVO_MOBILE_OEM));
+    dmi_lenovo_device_presence_t *info = dmi_entity_info(entity, DMI_TYPE(lenovo_device_presence));
     if (info == nullptr)
         return false;
 

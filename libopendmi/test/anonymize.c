@@ -34,7 +34,7 @@ static void test_anonymize_overlay(void **pstate);
 
 static dmi_context_t *test_open(const char *path, dmi_context_flags_t flags);
 static dmi_context_t *test_anonymized(dmi_context_t *context);
-static const void *test_info(dmi_context_t *context, dmi_type_t type);
+static const void *test_info(dmi_context_t *context, const dmi_type_t *type);
 static bool test_contains(const dmi_buffer_t *buffer, const void *data, size_t length);
 static void test_same_format(const char *original, const char *replaced);
 
@@ -78,7 +78,7 @@ static void test_anonymize_serials(void **pstate)
     assert_false(test_contains(table, "FY59ZK3", 7));
 
     // Context itself is left as it is
-    const dmi_system_t *system = test_info(context, DMI_TYPE_SYSTEM);
+    const dmi_system_t *system = test_info(context, DMI_TYPE(system));
     assert_string_equal(system->serial_number, "FY59ZK3");
 
     dmi_buffer_destroy(table);
@@ -86,10 +86,10 @@ static void test_anonymize_serials(void **pstate)
     // Service tag of the system and of the chassis is replaced the same way
     dmi_context_t *anonymized = test_anonymized(context);
 
-    const dmi_system_t *replaced = test_info(anonymized, DMI_TYPE_SYSTEM);
+    const dmi_system_t *replaced = test_info(anonymized, DMI_TYPE(system));
     test_same_format("FY59ZK3", replaced->serial_number);
 
-    const dmi_chassis_t *chassis = test_info(anonymized, DMI_TYPE_CHASSIS);
+    const dmi_chassis_t *chassis = test_info(anonymized, DMI_TYPE(chassis));
     assert_string_equal(chassis->serial_number, replaced->serial_number);
 
     // Other values are kept
@@ -106,8 +106,8 @@ static void test_anonymize_uuid(void **pstate)
     dmi_context_t *context    = test_open(test_dell_path, DMI_CONTEXT_FLAG_AUTO_MODULES);
     dmi_context_t *anonymized = test_anonymized(context);
 
-    const dmi_system_t *original = test_info(context, DMI_TYPE_SYSTEM);
-    const dmi_system_t *replaced = test_info(anonymized, DMI_TYPE_SYSTEM);
+    const dmi_system_t *original = test_info(context, DMI_TYPE(system));
+    const dmi_system_t *replaced = test_info(anonymized, DMI_TYPE(system));
 
     // Version and variant tell how the UUID has been made, and are kept
     assert_memory_not_equal(&original->uuid, &replaced->uuid, sizeof(dmi_uuid_t));
@@ -128,10 +128,10 @@ static void test_anonymize_placeholders(void **pstate)
     dmi_context_t *context    = test_open(test_asrock_path, DMI_CONTEXT_FLAG_AUTO_MODULES);
     dmi_context_t *anonymized = test_anonymized(context);
 
-    const dmi_system_t *system = test_info(anonymized, DMI_TYPE_SYSTEM);
+    const dmi_system_t *system = test_info(anonymized, DMI_TYPE(system));
     assert_string_equal(system->serial_number, "To Be Filled By O.E.M.");
 
-    const dmi_chassis_t *chassis = test_info(anonymized, DMI_TYPE_CHASSIS);
+    const dmi_chassis_t *chassis = test_info(anonymized, DMI_TYPE(chassis));
     assert_string_equal(chassis->asset_tag, "To Be Filled By O.E.M.");
 
     dmi_destroy(anonymized);
@@ -147,17 +147,17 @@ static void test_anonymize_proliant(void **pstate)
 
     // Serial number kept in place by the physical attributes of G7 and older
     // servers is found and replaced the way the one of the system is
-    const dmi_system_t *system = test_info(anonymized, DMI_TYPE_SYSTEM);
+    const dmi_system_t *system = test_info(anonymized, DMI_TYPE(system));
     test_same_format("GB894484YN", system->serial_number);
 
-    const dmi_hpe_physical_attrs_t *attrs = test_info(anonymized, DMI_TYPE(HPE_PHYSICAL_ATTRS));
+    const dmi_hpe_physical_attrs_t *attrs = test_info(anonymized, DMI_TYPE(hpe_physical_attrs));
     assert_non_null(attrs->identifier);
     assert_string_equal(attrs->identifier + 6, system->serial_number);
     assert_string_equal(attrs->serial_number, system->serial_number);
 
     // MAC addresses keep the part telling the manufacturer
-    const dmi_hpe_nic_info_t *original = test_info(context, DMI_TYPE(HPE_PXE_NIC));
-    const dmi_hpe_nic_info_t *replaced = test_info(anonymized, DMI_TYPE(HPE_PXE_NIC));
+    const dmi_hpe_nic_info_t *original = test_info(context, DMI_TYPE(hpe_pxe_nic));
+    const dmi_hpe_nic_info_t *replaced = test_info(anonymized, DMI_TYPE(hpe_pxe_nic));
 
     assert_int_equal(replaced->port_count, original->port_count);
     assert_memory_equal(replaced->ports[0].mac_address.data, original->ports[0].mac_address.data, 3);
@@ -226,7 +226,7 @@ static dmi_context_t *test_anonymized(dmi_context_t *context)
     return test_open(test_save_path, DMI_CONTEXT_FLAG_AUTO_MODULES);
 }
 
-static const void *test_info(dmi_context_t *context, dmi_type_t type)
+static const void *test_info(dmi_context_t *context, const dmi_type_t *type)
 {
     dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), type, false);
     assert_non_null(entity);

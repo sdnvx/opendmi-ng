@@ -111,7 +111,7 @@ static void test_processor_decode_status(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+        const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
         assert_non_null(info);
         assert_int_equal(info->is_populated, cases[i].is_populated);
         assert_int_equal(info->status, cases[i].status);
@@ -161,7 +161,7 @@ static void test_processor_decode_voltage(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+        const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
         assert_non_null(info);
         assert_int_equal(info->voltage, cases[i].voltage);
         assert_int_equal(info->supported_voltages.__value, cases[i].supported_voltages);
@@ -188,7 +188,7 @@ static void test_processor_decode_version(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
     assert_non_null(info);
     assert_string_equal(info->socket_designation, "CPU0");
     assert_string_equal(info->vendor, "Vendor");
@@ -229,7 +229,7 @@ static void test_processor_decode_incomplete(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+    const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
     assert_non_null(info);
     assert_string_equal(info->version, "Model");
 
@@ -332,7 +332,7 @@ static void test_processor_decode_id(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+        const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));
         assert_non_null(info);
 
         // Raw processor ID is kept as stored

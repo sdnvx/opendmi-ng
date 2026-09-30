@@ -43,7 +43,7 @@ structure (type 211): where an infrared port is, whether it and its speed limit
 are enabled, its protocol, and the legacy ports it is seen as.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(DELL_INFRARED_PORT)`, declared in `<opendmi/module/dell.h>`, and
+`DMI_TYPE(dell_infrared_port)`, declared in `<opendmi/module/dell.h>`, and
 lives as long as the context it has been decoded in.
 
 === Fields
@@ -82,9 +82,9 @@ Infrared protocol of the port.
 ----
 dmi_registry_t           *registry = dmi_get_registry(context);
 dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
-                                         DMI_TYPE(DELL_INFRARED_PORT), true);
+                                         DMI_TYPE(dell_infrared_port), true);
 dmi_dell_infrared_port_t *port     = dmi_entity_info(entity,
-                                         DMI_TYPE(DELL_INFRARED_PORT));
+                                         DMI_TYPE(dell_infrared_port));
 
 if (port != nullptr) {
     const char *proto = dmi_dell_infrared_proto_name(port->protocol);

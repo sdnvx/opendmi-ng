@@ -23,6 +23,22 @@
 #include <opendmi/entity/dell/token-refs.h>
 #include <opendmi/entity/dell/video-rom.h>
 
+// Structure types of the module
+const dmi_type_t dmi_type_dell_bios_flags       = { .id = DMI_TYPE_ID(DELL_BIOS_FLAGS)       };
+const dmi_type_t dmi_type_dell_hotkeys          = { .id = DMI_TYPE_ID(DELL_HOTKEYS)          };
+const dmi_type_t dmi_type_dell_revisions        = { .id = DMI_TYPE_ID(DELL_REVISIONS)        };
+const dmi_type_t dmi_type_dell_parallel_port    = { .id = DMI_TYPE_ID(DELL_PARALLEL_PORT)    };
+const dmi_type_t dmi_type_dell_serial_port      = { .id = DMI_TYPE_ID(DELL_SERIAL_PORT)      };
+const dmi_type_t dmi_type_dell_infrared_port    = { .id = DMI_TYPE_ID(DELL_INFRARED_PORT)    };
+const dmi_type_t dmi_type_dell_indexed_io       = { .id = DMI_TYPE_ID(DELL_INDEXED_IO)       };
+const dmi_type_t dmi_type_dell_protected_area_1 = { .id = DMI_TYPE_ID(DELL_PROTECTED_AREA_1) };
+const dmi_type_t dmi_type_dell_protected_area_2 = { .id = DMI_TYPE_ID(DELL_PROTECTED_AREA_2) };
+const dmi_type_t dmi_type_dell_video_rom        = { .id = DMI_TYPE_ID(DELL_VIDEO_ROM)        };
+const dmi_type_t dmi_type_dell_calling_iface    = { .id = DMI_TYPE_ID(DELL_CALLING_IFACE)    };
+const dmi_type_t dmi_type_dell_token_refs_1     = { .id = DMI_TYPE_ID(DELL_TOKEN_REFS_1)     };
+const dmi_type_t dmi_type_dell_token_refs_2     = { .id = DMI_TYPE_ID(DELL_TOKEN_REFS_2)     };
+const dmi_type_t dmi_type_dell_system_id        = { .id = DMI_TYPE_ID(DELL_SYSTEM_ID)        };
+
 /**
  * @brief Dell extension module.
  */

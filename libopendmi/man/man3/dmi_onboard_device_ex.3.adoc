@@ -47,7 +47,7 @@ The structure replaces the onboard devices information structure (type 10),
 obsolete since SMBIOS 2.6, which firmware may still provide beside it.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(ONBOARD_DEVICE_EX)`, and lives as long as the context it has been
+`DMI_TYPE(onboard_device_ex)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -85,11 +85,11 @@ dmi_entity_t        *entity;
 dmi_registry_iter_init(&iter, registry, nullptr);
 
 while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-    if (dmi_entity_type(entity) != DMI_TYPE(ONBOARD_DEVICE_EX))
+    if (dmi_entity_type(entity) != DMI_TYPE(onboard_device_ex))
         continue;
 
     dmi_onboard_device_ex_t *device =
-            dmi_entity_info(entity, DMI_TYPE(ONBOARD_DEVICE_EX));
+            dmi_entity_info(entity, DMI_TYPE(onboard_device_ex));
     if ((device != nullptr) && (device->designator != nullptr))
         printf("%s: %s #%u, %s\n", device->designator,
                dmi_onboard_device_type_name(device->type), device->instance,

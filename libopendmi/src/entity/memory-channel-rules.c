@@ -20,7 +20,7 @@
 //
 void dmi_memory_channel_lint_load(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_memory_channel_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_CHANNEL));
+    const dmi_memory_channel_t *info = dmi_entity_info(entity, DMI_TYPE(memory_channel));
 
     if ((info == nullptr) or (info->devices == nullptr) or (info->device_count == 0))
         return;

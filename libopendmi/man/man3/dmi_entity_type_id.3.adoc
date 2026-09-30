@@ -1,0 +1,67 @@
+ifdef::backend-manpage[]
+= dmi_entity_type_id(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_entity_type_id
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_entity_type_id - get the type number an entity is found at.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity.h>
+
+dmi_type_id_t dmi_entity_type_id(const dmi_entity_t *entity);
+----
+
+== Description
+
+The `dmi_entity_type_id` function returns the type number the given entity is
+found at in the table, see `dmi_type_id`(3). Types 0 through 127 are defined by
+the SMBIOS specification, and types 128 through 255 are available for OEM- and
+system-specific information.
+
+The number tells where the structure is, rather than what it is: vendors give
+the same OEM type numbers to different structures, and place the structures of
+others at numbers of their own. What the structure is decoded into is told by
+its structure type, which `dmi_entity_type`(3) returns.
+
+=== Parameters
+
+`entity`::
+Entity descriptor.
+
+== Return value
+
+Returns the type number of the entity. If `entity` is `nullptr`, returns
+`DMI_TYPE_ID_INVALID`.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_entity_type`(3),
+`dmi_type_id`(3),
+`dmi_entity_handle`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

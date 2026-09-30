@@ -41,6 +41,37 @@
 #include <opendmi/entity/intel/mei.h>
 #include <opendmi/entity/intel/svt.h>
 
+// Structure types of the module
+const dmi_type_t dmi_type_hpe_rom_info           = { .id = DMI_TYPE_ID(HPE_ROM_INFO)           };
+const dmi_type_t dmi_type_hpe_super_io           = { .id = DMI_TYPE_ID(HPE_SUPER_IO)           };
+const dmi_type_t dmi_type_hpe_system_id          = { .id = DMI_TYPE_ID(HPE_SYSTEM_ID)          };
+const dmi_type_t dmi_type_hpe_processor          = { .id = DMI_TYPE_ID(HPE_PROCESSOR)          };
+const dmi_type_t dmi_type_hpe_microcode          = { .id = DMI_TYPE_ID(HPE_MICROCODE)          };
+const dmi_type_t dmi_type_hpe_dimm_location      = { .id = DMI_TYPE_ID(HPE_DIMM_LOCATION)      };
+const dmi_type_t dmi_type_hpe_device_correlation = { .id = DMI_TYPE_ID(HPE_DEVICE_CORRELATION) };
+const dmi_type_t dmi_type_hpe_rack_locator       = { .id = DMI_TYPE_ID(HPE_RACK_LOCATOR)       };
+const dmi_type_t dmi_type_hpe_pxe_nic            = { .id = DMI_TYPE_ID(HPE_PXE_NIC)            };
+const dmi_type_t dmi_type_hpe_tcontrol           = { .id = DMI_TYPE_ID(HPE_TCONTROL)           };
+const dmi_type_t dmi_type_hpe_cru                = { .id = DMI_TYPE_ID(HPE_CRU)                };
+const dmi_type_t dmi_type_hpe_version            = { .id = DMI_TYPE_ID(HPE_VERSION)            };
+const dmi_type_t dmi_type_hpe_proliant_info      = { .id = DMI_TYPE_ID(HPE_PROLIANT_INFO)      };
+const dmi_type_t dmi_type_hpe_iscsi_nic          = { .id = DMI_TYPE_ID(HPE_ISCSI_NIC)          };
+const dmi_type_t dmi_type_hpe_trusted_module     = { .id = DMI_TYPE_ID(HPE_TRUSTED_MODULE)     };
+const dmi_type_t dmi_type_hpe_physical_attrs     = { .id = DMI_TYPE_ID(HPE_PHYSICAL_ATTRS)     };
+const dmi_type_t dmi_type_hpe_reserved_memory    = { .id = DMI_TYPE_ID(HPE_RESERVED_MEMORY)    };
+const dmi_type_t dmi_type_hpe_power_supply       = { .id = DMI_TYPE_ID(HPE_POWER_SUPPLY)       };
+const dmi_type_t dmi_type_hpe_dimm_attrs         = { .id = DMI_TYPE_ID(HPE_DIMM_ATTRS)         };
+const dmi_type_t dmi_type_hpe_nic                = { .id = DMI_TYPE_ID(HPE_NIC)                };
+const dmi_type_t dmi_type_hpe_backplane          = { .id = DMI_TYPE_ID(HPE_BACKPLANE)          };
+const dmi_type_t dmi_type_hpe_dimm_vendor        = { .id = DMI_TYPE_ID(HPE_DIMM_VENDOR)        };
+const dmi_type_t dmi_type_hpe_usb_port           = { .id = DMI_TYPE_ID(HPE_USB_PORT)           };
+const dmi_type_t dmi_type_hpe_usb_device         = { .id = DMI_TYPE_ID(HPE_USB_DEVICE)         };
+const dmi_type_t dmi_type_hpe_inventory          = { .id = DMI_TYPE_ID(HPE_INVENTORY)          };
+const dmi_type_t dmi_type_hpe_drive              = { .id = DMI_TYPE_ID(HPE_DRIVE)              };
+const dmi_type_t dmi_type_hpe_dimm_config        = { .id = DMI_TYPE_ID(HPE_DIMM_CONFIG)        };
+const dmi_type_t dmi_type_hpe_riser              = { .id = DMI_TYPE_ID(HPE_EXTENSION_BOARD)    };
+const dmi_type_t dmi_type_hpe_mhs_riser          = { .id = DMI_TYPE_ID(HPE_EXTENSION_BOARD)    };
+
 /**
  * @internal
  * @brief Tell the generation from a word of the product name.
@@ -100,9 +131,9 @@ const dmi_module_t dmi_hpe_module =
     // the iSCSI NIC information up to G7
     //
     .relocations = DMI_RELOCATIONS({
-        { &dmi_intel_mei_spec, DMI_TYPE_INVALID },
-        { &dmi_intel_fvi_spec, DMI_TYPE_INVALID },
-        { &dmi_intel_svt_spec, DMI_TYPE_INVALID },
+        { &dmi_intel_mei_spec, DMI_TYPE_ID_INVALID },
+        { &dmi_intel_fvi_spec, DMI_TYPE_ID_INVALID },
+        { &dmi_intel_svt_spec, DMI_TYPE_ID_INVALID },
         {}
     })
 };

@@ -215,10 +215,10 @@ struct dmi_chassis
 struct dmi_chassis_element
 {
     /**
-     * @brief SMBIOS structure type, or `DMI_TYPE_INVALID` if the element is
+     * @brief SMBIOS structure type, or `DMI_TYPE_ID_INVALID` if the element is
      * identified by baseboard type.
      */
-    dmi_type_t type;
+    dmi_type_id_t type;
 
     /**
      * @brief Baseboard type, or `DMI_BASEBOARD_TYPE_UNSPEC` if the element is

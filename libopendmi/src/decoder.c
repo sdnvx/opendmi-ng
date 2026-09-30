@@ -148,12 +148,12 @@ bool dmi_decoder_incomplete(dmi_decoder_t *decoder)
     if (remaining > 0) {
         dmi_log_notice(context,
                        "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx, %zu byte%s ignored",
-                       entity->handle, dmi_type_name(context, entity->type),
+                       entity->handle, dmi_type_name(context, entity->type_id),
                        position, remaining, (remaining == 1) ? "" : "s");
     } else {
         dmi_log_notice(context,
                        "Handle 0x%04hx (%s): Incomplete fields at offset 0x%02zx",
-                       entity->handle, dmi_type_name(context, entity->type), position);
+                       entity->handle, dmi_type_name(context, entity->type_id), position);
     }
 
     return true;

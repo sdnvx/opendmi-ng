@@ -287,7 +287,7 @@ static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue)
         // Structures of a type told apart by their signatures are named by
         // the specification they have been decoded by
         const dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(report->context),
-                                                         issue->handle, issue->type, true);
+                                                         issue->handle, DMI_TYPE_ANY, true);
 
         spec = ((entity != nullptr) and (entity->spec != nullptr))
              ? entity->spec
@@ -399,7 +399,7 @@ static void dmi_lint_rules_print(dmi_context_t *context, dmi_lint_profile_t prof
     // the listing depends on the modules which are enabled
     dmi_tty_header("%s:", dmi_tool_string("Rules of the structure types"));
 
-    for (dmi_type_t type = 0; type <= DMI_TYPE_MAX; type++) {
+    for (dmi_type_id_t type = 0; type <= DMI_TYPE_ID_MAX; type++) {
         const dmi_entity_spec_t *spec = dmi_type_spec(context, type);
 
         if ((spec == nullptr) or (spec->lint_rules == nullptr))

@@ -41,7 +41,7 @@ to the firmware, and the tokens, settings of the firmware kept in non-volatile
 storage, which these commands read and write.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(DELL_CALLING_IFACE)`, declared in `<opendmi/module/dell.h>`, and
+`DMI_TYPE(dell_calling_iface)`, declared in `<opendmi/module/dell.h>`, and
 lives as long as the context it has been decoded in.
 
 === Fields
@@ -70,9 +70,9 @@ when `token_count` is 0.
 ----
 dmi_registry_t           *registry = dmi_get_registry(context);
 dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
-                                         DMI_TYPE(DELL_CALLING_IFACE), true);
+                                         DMI_TYPE(dell_calling_iface), true);
 dmi_dell_calling_iface_t *iface    = dmi_entity_info(entity,
-                                         DMI_TYPE(DELL_CALLING_IFACE));
+                                         DMI_TYPE(dell_calling_iface));
 
 if (iface != nullptr) {
     for (size_t i = 0; i < iface->token_count; i++)

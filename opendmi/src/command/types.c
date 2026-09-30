@@ -212,8 +212,8 @@ static void dmi_types_show_core(dmi_context_t *context)
     if (not dmi_types_config.show_raw)
         dmi_tty_header("%s:", dmi_tool_string("Core types"));
 
-    for (int type = 0; type < __DMI_TYPE_OEM_START; type++) {
-        const dmi_entity_spec_t *spec = dmi_type_spec(context, (dmi_type_t)type);
+    for (int type = 0; type < __DMI_TYPE_ID_OEM_START; type++) {
+        const dmi_entity_spec_t *spec = dmi_type_spec(context, (dmi_type_id_t)type);
 
         if (spec == nullptr)
             continue;
@@ -262,9 +262,9 @@ static void dmi_types_show_type(
         else
             module_name = "core";
 
-        printf("%d\t%s\t%s\t%s\n", spec->type, module_name, spec->code, spec->name);
+        printf("%d\t%s\t%s\t%s\n", spec->type->id, module_name, spec->code, spec->name);
     } else {
-        dmi_tty_cprintf(DMI_TTY_COLOR_NAVY, "%4s%-3d", "", spec->type);
+        dmi_tty_cprintf(DMI_TTY_COLOR_NAVY, "%4s%-3d", "", spec->type->id);
         dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "  %-30s", spec->code);
         dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "  %s\n", dmi_spec_name(spec));
     }

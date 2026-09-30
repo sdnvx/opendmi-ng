@@ -21,7 +21,7 @@ bool dmi_additional_info_decode(dmi_decoder_t *decoder)
 
     assert(entity != nullptr);
 
-    info = dmi_entity_info(entity, DMI_TYPE(ADDITIONAL_INFO));
+    info = dmi_entity_info(entity, DMI_TYPE(additional_info));
     if (info == nullptr)
         return false;
 
@@ -100,7 +100,7 @@ void dmi_additional_info_cleanup(dmi_entity_t *entity)
 
     assert(entity != nullptr);
 
-    info = dmi_entity_info(entity, DMI_TYPE(ADDITIONAL_INFO));
+    info = dmi_entity_info(entity, DMI_TYPE(additional_info));
     if (info == nullptr)
         return;
 
@@ -115,7 +115,7 @@ void dmi_additional_info_cleanup(dmi_entity_t *entity)
 //
 bool dmi_additional_info_encode(dmi_encoder_t *encoder)
 {
-    const dmi_additional_info_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(ADDITIONAL_INFO));
+    const dmi_additional_info_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(additional_info));
     if (info == nullptr)
         return false;
 

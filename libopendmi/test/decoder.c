@@ -56,7 +56,7 @@ struct test_state
 // Inactive structure, which has no fields of its own, carrying one value of
 // every kind a decoder reads
 static const dmi_byte_t test_data[TEST_TOTAL_LENGTH] = {
-    DMI_TYPE_INACTIVE, TEST_BODY_LENGTH, 0x34, 0x12,    // Header
+    DMI_TYPE_ID_INACTIVE, TEST_BODY_LENGTH, 0x34, 0x12,    // Header
     0x12,                                               // Byte
     0x56, 0x34,                                         // Word
     0xDE, 0xBC, 0x9A, 0x78,                             // Double word
@@ -261,7 +261,7 @@ static void test_decoder_initialize_header_only(void **pstate)
     test_state_t *state = dmi_cast(state, *pstate);
 
     static const dmi_byte_t data[] = {
-        DMI_TYPE_INACTIVE, sizeof(dmi_header_t), 0x34, 0x12,
+        DMI_TYPE_ID_INACTIVE, sizeof(dmi_header_t), 0x34, 0x12,
         0x00, 0x00
     };
 
@@ -283,7 +283,7 @@ static void test_decoder_initialize_header_only(void **pstate)
 
     // Header is still within reach of the reads by offset
     assert_true(dmi_decoder_get_bytes_at(&decoder, &value, 0, sizeof(value)));
-    assert_int_equal(value, DMI_TYPE_INACTIVE);
+    assert_int_equal(value, DMI_TYPE_ID_INACTIVE);
 
     // Data is exhausted, so the structure is partial rather than incomplete
     assert_true(dmi_decoder_stop(&decoder));
@@ -408,7 +408,7 @@ static void test_decoder_get_at(void **pstate)
     uint32_t value  = 0;
 
     assert_true(dmi_decoder_get_at(decoder, 0x00, dmi_byte_t, &type));
-    assert_int_equal(type, DMI_TYPE_INACTIVE);
+    assert_int_equal(type, DMI_TYPE_ID_INACTIVE);
 
     assert_true(dmi_decoder_get_at(decoder, 0x02, dmi_word_t, &handle));
     assert_int_equal(handle, DMI_HANDLE_TEST);
@@ -680,7 +680,7 @@ static dmi_entity_t *test_decoder_create_overlay(
         dmi_byte_t    value)
 {
     const dmi_byte_t data[] = {
-        DMI_TYPE_ADDITIONAL_INFO, 0x0B, 0x00, 0x40,     // Header
+        DMI_TYPE_ID_ADDITIONAL_INFO, 0x0B, 0x00, 0x40,     // Header
         0x01,                                           // Entry count
         0x06,                                           // Entry length
         (dmi_byte_t)(handle & 0xFF),                    // Referenced handle
@@ -708,7 +708,7 @@ static void test_decoder_overlay(void **pstate)
 
     // Pointing device with three buttons, which the entry makes seven
     static const dmi_byte_t data[] = {
-        DMI_TYPE_POINTING_DEVICE, 0x07, 0x34, 0x12,
+        DMI_TYPE_ID_POINTING_DEVICE, 0x07, 0x34, 0x12,
         DMI_POINTING_DEVICE_TYPE_MOUSE,
         DMI_POINTING_DEVICE_IFACE_USB,
         0x03,
@@ -728,7 +728,7 @@ static void test_decoder_overlay(void **pstate)
     assert_true(dmi_entity_add_overlay(target, source, 0));
     assert_true(dmi_entity_decode(target));
 
-    const dmi_pointing_device_t *info = dmi_entity_info(target, DMI_TYPE(POINTING_DEVICE));
+    const dmi_pointing_device_t *info = dmi_entity_info(target, DMI_TYPE(pointing_device));
     assert_non_null(info);
     assert_uint_equal(info->button_count, 0x07);
 

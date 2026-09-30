@@ -194,22 +194,23 @@ enabled, to the specifications of the other enabled modules:
 
 A vendor whose platforms never carry a structure, and give its type number to
 a structure the module of the vendor does not describe, relocates it to
-`DMI_TYPE_INVALID`, so that the type is left undecoded rather than decoded
+`DMI_TYPE_ID_INVALID`, so that the type is left undecoded rather than decoded
 by a wrong layout:
 
 [source,c]
 ----
 .relocations = DMI_RELOCATIONS({
-    { &dmi_intel_fvi_spec, DMI_TYPE_INVALID },
+    { &dmi_intel_fvi_spec, DMI_TYPE_ID_INVALID },
     {}
 })
 ----
 
 A relocated structure is decoded by its original specification, since its
-data is laid out as that specification describes it. `dmi_entity_type` gives
-the type number found in the table, while `dmi_entity_info` and
-`dmi_entity_data` check the type of the specification, so that the code
-which handles the structure does not depend on where the vendor places it.
+data is laid out as that specification describes it. `dmi_entity_type_id`
+gives the type number found in the table, while `dmi_entity_type` gives the
+structure type of the specification, which `dmi_entity_info` and
+`dmi_entity_data` check, so that the code which handles the structure does
+not depend on where the vendor places it.
 
 == Signatures
 
@@ -241,6 +242,11 @@ with signatures are tried in the order they are mapped, and the one without
 a signature is taken for the structures no signature matches, which are left
 undecoded if there is none. The fields of a signature are kept in the decoded
 structure, so that it is written back with it.
+
+The specifications told apart by signatures decode into different structure
+types, e.g. `DMI_TYPE(intel_vpro)` and `DMI_TYPE(lenovo_tvt)`, so asking for
+the information of one of them never gives the other, see
+xref:internals/structures.adoc#structure-types[Structure types].
 
 == Groups
 

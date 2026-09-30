@@ -18,7 +18,7 @@ const dmi_entity_spec_t dmi_memory_array_addr_spec =
 {
     .code = "memory-array-address",
     .name = "Memory array mapped address",
-    .type = DMI_TYPE(MEMORY_ARRAY_ADDR),
+    .type = DMI_TYPE(memory_array_addr),
 
     .params = {
         .minimum_version = DMI_VERSION(2, 1, 0),
@@ -69,7 +69,7 @@ const dmi_entity_spec_t dmi_memory_array_addr_spec =
         DMI_ATTRIBUTE(dmi_memory_array_addr_t, array_handle, HANDLE, {
             .code   = "array-handle",
             .name   = "Memory array handle",
-            .targets = dmi_types(DMI_TYPE_MEMORY_ARRAY),
+            .targets = dmi_types(DMI_TYPE(memory_array)),
             .link   = dmi_member(dmi_memory_array_addr_t, array)
         }),
         DMI_ATTRIBUTE(dmi_memory_array_addr_t, partition_width, INTEGER, {

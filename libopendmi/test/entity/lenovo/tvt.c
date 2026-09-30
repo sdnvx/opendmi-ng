@@ -81,7 +81,7 @@ static void test_tvt_shared_type(void **pstate)
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        if (entity->type != 131)
+        if (entity->type_id != 131)
             continue;
 
         if (entity->spec == &dmi_lenovo_tvt_spec)
@@ -92,14 +92,14 @@ static void test_tvt_shared_type(void **pstate)
             fail_msg("Structure 0x%04x of type 131 is not decoded", entity->handle);
     }
 
-    const dmi_lenovo_tvt_t *tvt = dmi_entity_info(tvt_entity, DMI_TYPE(LENOVO_TVT));
+    const dmi_lenovo_tvt_t *tvt = dmi_entity_info(tvt_entity, DMI_TYPE(lenovo_tvt));
     assert_non_null(tvt);
     assert_int_equal(tvt->version, 1);
     assert_string_equal(tvt->signature, "TVT-Enablement");
     assert_int_equal(tvt->features.length, 16);
     assert_false(tvt->is_diagnostics);
 
-    const dmi_intel_vpro_t *vpro = dmi_entity_info(vpro_entity, DMI_TYPE(INTEL_VPRO));
+    const dmi_intel_vpro_t *vpro = dmi_entity_info(vpro_entity, DMI_TYPE(intel_vpro));
     assert_non_null(vpro);
     assert_int_equal(vpro->me_version.major, 11);
 }
@@ -119,7 +119,7 @@ static void test_tvt_unknown(void **pstate)
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
-        if (entity->type != 131)
+        if (entity->type_id != 131)
             continue;
 
         if (entity->spec == &dmi_lenovo_tvt_spec)
@@ -147,7 +147,7 @@ static void test_tvt_diagnostics(void **pstate)
         if (entity->spec != &dmi_lenovo_tvt_spec)
             continue;
 
-        const dmi_lenovo_tvt_t *info = dmi_entity_info(entity, DMI_TYPE(LENOVO_TVT));
+        const dmi_lenovo_tvt_t *info = dmi_entity_info(entity, DMI_TYPE(lenovo_tvt));
         assert_non_null(info);
         assert_true(info->is_diagnostics);
         return;

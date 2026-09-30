@@ -40,7 +40,7 @@ management software. A boot image may use it, for example, to run
 diagnostics after a hardware failure.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SYSTEM_BOOT)`, and lives as long as the context it has been decoded
+`DMI_TYPE(system_boot)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -63,8 +63,8 @@ command line tool only shows `status_data` then.
 ----
 dmi_registry_t    *registry = dmi_get_registry(context);
 dmi_entity_t      *entity   = dmi_registry_lookup_first(
-        registry, DMI_TYPE(SYSTEM_BOOT), true);
-dmi_system_boot_t *boot     = dmi_entity_info(entity, DMI_TYPE(SYSTEM_BOOT));
+        registry, DMI_TYPE(system_boot), true);
+dmi_system_boot_t *boot     = dmi_entity_info(entity, DMI_TYPE(system_boot));
 
 if ((boot != nullptr) && (boot->status != DMI_BOOT_STATUS_NO_ERRORS_DETECTED))
     printf("Boot status: 0x%02X\n", (unsigned)boot->status);

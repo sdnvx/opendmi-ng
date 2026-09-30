@@ -94,7 +94,7 @@ static void test_rsd_cabled_pcie_decode(void **pstate)
     assert_int_equal(entity->body_length, 0x0C);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_rsd_cabled_pcie_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_CABLED_PCIE));
+    const dmi_intel_rsd_cabled_pcie_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_cabled_pcie));
     assert_non_null(info);
 
     assert_int_equal(info->pci_slot_id, 2);
@@ -150,7 +150,7 @@ static void test_rsd_cabled_pcie_decode_truncated(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_rsd_cabled_pcie_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_CABLED_PCIE));
+    const dmi_intel_rsd_cabled_pcie_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_cabled_pcie));
     assert_non_null(info);
     assert_int_equal(info->port_count, 2);
 

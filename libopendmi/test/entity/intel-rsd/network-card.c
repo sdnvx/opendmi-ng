@@ -102,7 +102,7 @@ static void test_rsd_network_card_decode(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_intel_rsd_network_card_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_NETWORK_CARD));
+    const dmi_intel_rsd_network_card_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_network_card));
     assert_non_null(info);
 
     assert_int_equal(info->pci_class, 0x02);

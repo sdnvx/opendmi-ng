@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_intel_mei_spec =
 {
-    .type        = DMI_TYPE(INTEL_MEI),
+    .type        = DMI_TYPE(intel_mei),
     .code        = "intel-mei",
     .name        = "Intel Management Engine interface information",
     .description = (const char *[]){

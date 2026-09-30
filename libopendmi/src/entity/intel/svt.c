@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_intel_svt_spec =
 {
-    .type        = DMI_TYPE(INTEL_SVT),
+    .type        = DMI_TYPE(intel_svt),
     .code        = "intel-svt",
     .name        = "Intel Silicon View Technology milestones",
     .description = (const char *[]){
@@ -77,7 +77,7 @@ void dmi_intel_svt_cleanup(dmi_entity_t *entity)
 {
     dmi_intel_svt_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_SVT));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_svt));
     if (info == nullptr)
         return;
 

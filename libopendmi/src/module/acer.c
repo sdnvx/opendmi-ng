@@ -8,6 +8,10 @@
 #include <opendmi/entity/acer/devices.h>
 #include <opendmi/entity/acer/hotkeys.h>
 
+// Structure types of the module
+const dmi_type_t dmi_type_acer_hotkeys = { .id = DMI_TYPE_ID(ACER_HOTKEYS) };
+const dmi_type_t dmi_type_acer_devices = { .id = DMI_TYPE_ID(ACER_DEVICES) };
+
 /**
  * @brief Acer extension module.
  */

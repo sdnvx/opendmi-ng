@@ -68,8 +68,8 @@ unless said otherwise below. A management device component structure
 reading it, and to its thresholds.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of types
-`DMI_TYPE(VOLTAGE_PROBE)`, `DMI_TYPE(TEMPERATURE_PROBE)` and
-`DMI_TYPE(CURRENT_PROBE)`, and lives as long as the context it has been decoded
+`DMI_TYPE(voltage_probe)`, `DMI_TYPE(temperature_probe)` and
+`DMI_TYPE(current_probe)`, and lives as long as the context it has been decoded
 in.
 
 === Fields
@@ -117,10 +117,10 @@ too short to carry it.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   =
-        dmi_registry_lookup_first(registry, DMI_TYPE(TEMPERATURE_PROBE),
+        dmi_registry_lookup_first(registry, DMI_TYPE(temperature_probe),
                                   true);
 dmi_probe_t    *probe    =
-        dmi_entity_info(entity, DMI_TYPE(TEMPERATURE_PROBE));
+        dmi_entity_info(entity, DMI_TYPE(temperature_probe));
 
 if (probe != nullptr) {
     printf("%s: %s\n", dmi_probe_location_name(probe->location),

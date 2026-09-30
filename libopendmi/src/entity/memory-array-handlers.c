@@ -36,10 +36,10 @@ size_t dmi_memory_array_devices(
         return 0;
 
     while ((device = dmi_registry_iter_next(&iter)) != nullptr) {
-        if (dmi_entity_type(device) != DMI_TYPE_MEMORY_DEVICE)
+        if (dmi_entity_type(device) != DMI_TYPE(memory_device))
             continue;
 
-        const dmi_memory_device_t *info = dmi_entity_info(device, DMI_TYPE(MEMORY_DEVICE));
+        const dmi_memory_device_t *info = dmi_entity_info(device, DMI_TYPE(memory_device));
 
         if ((info == nullptr) or (info->array_handle != dmi_entity_handle(entity)))
             continue;

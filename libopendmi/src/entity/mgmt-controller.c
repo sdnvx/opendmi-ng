@@ -286,7 +286,7 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(MGMT_CONTROLLER_HOST_IF),
+    .type            = DMI_TYPE(mgmt_controller_host_if),
     .params = {
         .minimum_version = DMI_VERSION(2, 7, 0),
         .minimum_length  = 0x06,

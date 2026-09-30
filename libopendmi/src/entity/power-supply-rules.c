@@ -14,20 +14,20 @@
 
 void dmi_power_supply_lint_probes(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_power_supply_t *info = dmi_entity_info(entity, DMI_TYPE(POWER_SUPPLY));
+    const dmi_power_supply_t *info = dmi_entity_info(entity, DMI_TYPE(power_supply));
     if (info == nullptr)
         return;
 
     const struct
     {
-        dmi_handle_t handle;
-        dmi_type_t   type;
-        const char  *code;
+        dmi_handle_t      handle;
+        const dmi_type_t *type;
+        const char       *code;
     } probes[] =
     {
-        { info->voltage_probe_handle,  DMI_TYPE_VOLTAGE_PROBE,  "voltage-probe-handle"  },
-        { info->cooling_device_handle, DMI_TYPE_COOLING_DEVICE, "cooling-device-handle" },
-        { info->current_probe_handle,  DMI_TYPE_CURRENT_PROBE,  "current-probe-handle"  }
+        { info->voltage_probe_handle,  DMI_TYPE(voltage_probe),  "voltage-probe-handle"  },
+        { info->cooling_device_handle, DMI_TYPE(cooling_device), "cooling-device-handle" },
+        { info->current_probe_handle,  DMI_TYPE(current_probe),  "current-probe-handle"  }
     };
 
     dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
@@ -45,7 +45,7 @@ void dmi_power_supply_lint_probes(dmi_lint_t *lint, const dmi_entity_t *entity)
 
         dmi_lint_issue(lint, entity, probes[i].code, dmi_lint_entity_offset(lint, entity),
                        "handle 0x%04X refers to a structure of type %d, expected type %d",
-                       (unsigned)probes[i].handle, (int)dmi_entity_type(probe),
-                       (int)probes[i].type);
+                       (unsigned)probes[i].handle, (int)dmi_entity_type_id(probe),
+                       (int)probes[i].type->id);
     }
 }

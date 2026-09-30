@@ -52,7 +52,7 @@ processor module. Processor information structures (type 4) refer to the
 caches of their processor by handle.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(CACHE)`, and lives as long as the context it has been decoded in.
+`DMI_TYPE(cache)`, and lives as long as the context it has been decoded in.
 
 === Fields
 
@@ -117,8 +117,8 @@ Associativity of the cache, see `dmi_cache_assoc`(3). Present since SMBIOS
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                                                     DMI_TYPE(CACHE), false);
-dmi_cache_t    *cache    = dmi_entity_info(entity, DMI_TYPE(CACHE));
+                                                     DMI_TYPE(cache), false);
+dmi_cache_t    *cache    = dmi_entity_info(entity, DMI_TYPE(cache));
 
 if (cache != nullptr)
     printf("L%u cache: %s, %llu KiB\n", cache->level,

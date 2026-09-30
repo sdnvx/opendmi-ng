@@ -21,7 +21,7 @@ const dmi_entity_spec_t dmi_bis_entry_point_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(BIS_ENTRY_POINT),
+    .type            = DMI_TYPE(bis_entry_point),
     .params = {
         .minimum_version = DMI_VERSION(2, 3, 0),
         .minimum_length  = 0x14,

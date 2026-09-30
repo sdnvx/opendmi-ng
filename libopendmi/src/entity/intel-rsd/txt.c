@@ -12,7 +12,7 @@ const dmi_entity_spec_t dmi_intel_rsd_txt_spec =
 {
     .code = "intel-rsd-txt",
     .name = "Intel RSD TXT information",
-    .type = DMI_TYPE(INTEL_RSD_TXT),
+    .type = DMI_TYPE(intel_rsd_txt),
 
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),

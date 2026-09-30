@@ -56,7 +56,7 @@ static void test_tpm_device_firmware_version(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_tpm_device_t *info = dmi_entity_info(entity, DMI_TYPE(TPM_DEVICE));
+    const dmi_tpm_device_t *info = dmi_entity_info(entity, DMI_TYPE(tpm_device));
     assert_non_null(info);
     assert_int_equal(info->firmware_version_format, DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1);
     assert_int_equal(info->firmware_revision, dmi_version(0x03, 0x14, 0));
@@ -69,7 +69,7 @@ static void test_tpm_device_firmware_version(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(TPM_DEVICE));
+    info = dmi_entity_info(entity, DMI_TYPE(tpm_device));
     assert_non_null(info);
     assert_int_equal(info->firmware_version_format, DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_2);
     assert_int_equal(info->firmware_version_2.major, 0x1403);
@@ -83,7 +83,7 @@ static void test_tpm_device_firmware_version(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(TPM_DEVICE));
+    info = dmi_entity_info(entity, DMI_TYPE(tpm_device));
     assert_non_null(info);
     assert_int_equal(info->firmware_version_format, DMI_TPM_FIRMWARE_VERSION_FORMAT_RAW);
     assert_int_equal(info->firmware_version, 0x1403020100402E00);
@@ -122,7 +122,7 @@ static void test_tpm_device_vendor(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_tpm_device_t *info = dmi_entity_info(entity, DMI_TYPE(TPM_DEVICE));
+        const dmi_tpm_device_t *info = dmi_entity_info(entity, DMI_TYPE(tpm_device));
         assert_non_null(info);
 
         if (test_cases[i].expected != nullptr)

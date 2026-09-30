@@ -37,7 +37,7 @@ which map the scan codes of the hotkeys of a laptop to their functions, which
 the Dell WMI driver reads.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_dell_hotkeys_spec`, of type `DMI_TYPE(DELL_HOTKEYS)`, declared in
+by `dmi_dell_hotkeys_spec`, of type `DMI_TYPE(dell_hotkeys)`, declared in
 `<opendmi/module/dell.h>`, once the Dell extension module (`dmi_dell_module`)
 is enabled. It lives as long as the context it has been decoded in.
 

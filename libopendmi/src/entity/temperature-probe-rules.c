@@ -14,7 +14,7 @@
 
 void dmi_temperature_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_probe_t *info = dmi_entity_info(entity, DMI_TYPE(TEMPERATURE_PROBE));
+    const dmi_probe_t *info = dmi_entity_info(entity, DMI_TYPE(temperature_probe));
     if (info == nullptr)
         return;
 

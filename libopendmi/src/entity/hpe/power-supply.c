@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_power_supply_spec =
 {
-    .type        = DMI_TYPE(HPE_POWER_SUPPLY),
+    .type        = DMI_TYPE(hpe_power_supply),
     .code        = "hpe-power-supply",
     .name        = "HP/HPE power supply information",
     .description = (const char *[]){
@@ -42,7 +42,7 @@ const dmi_entity_spec_t dmi_hpe_power_supply_spec =
         DMI_ATTRIBUTE(dmi_hpe_power_supply_t, power_supply_handle, HANDLE, {
             .code    = "power-supply-handle",
             .name    = "Power supply handle",
-            .targets = dmi_types(DMI_TYPE_POWER_SUPPLY)
+            .targets = dmi_types(DMI_TYPE(power_supply))
         }),
         DMI_ATTRIBUTE(dmi_hpe_power_supply_t, manufacturer, STRING, {
             .code = "manufacturer",

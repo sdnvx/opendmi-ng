@@ -51,7 +51,7 @@ speeds of the port, its MAC address, the version of the firmware of the card,
 and the index the BMC selects the port by to boot from the network.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_NETWORK_CARD)`, once the Intel RSD extension module
+`DMI_TYPE(intel_rsd_network_card)`, once the Intel RSD extension module
 (`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
 enabled in the context with `dmi_add_extension()`. It lives as long as the
 context it has been decoded in.
@@ -102,10 +102,10 @@ it.
 ----
 dmi_registry_t               *registry = dmi_get_registry(context);
 dmi_entity_t                 *entity   = dmi_registry_lookup_first(registry,
-                                             DMI_TYPE(INTEL_RSD_NETWORK_CARD),
+                                             DMI_TYPE(intel_rsd_network_card),
                                              true);
 dmi_intel_rsd_network_card_t *card     = dmi_entity_info(entity,
-                                             DMI_TYPE(INTEL_RSD_NETWORK_CARD));
+                                             DMI_TYPE(intel_rsd_network_card));
 
 if (card != nullptr)
     printf("Port %u: %04X:%04X, %u of %u Mbps\n", (unsigned)card->port_index,

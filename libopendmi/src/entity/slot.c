@@ -23,7 +23,7 @@ const dmi_entity_spec_t dmi_slot_spec =
         nullptr
     },
 
-    .type            = DMI_TYPE(SYSTEM_SLOTS),
+    .type            = DMI_TYPE(system_slots),
     .params = {
         .minimum_version  = DMI_VERSION(2, 0, 0),
         .recommended_from = DMI_VERSION(2, 3, 0),

@@ -48,7 +48,7 @@ of the range of its field, takes no part in the schedule: for example, a month
 which is not set means that the power-on falls within the next month.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(POWER_CONTROLS)`, and lives as long as the context it has been
+`DMI_TYPE(power_controls)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -74,9 +74,9 @@ Second of the next scheduled power-on, 0 to 59.
 ----
 dmi_registry_t       *registry = dmi_get_registry(context);
 dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
-                                     DMI_TYPE(POWER_CONTROLS), false);
+                                     DMI_TYPE(power_controls), false);
 dmi_power_controls_t *power    = dmi_entity_info(entity,
-                                     DMI_TYPE(POWER_CONTROLS));
+                                     DMI_TYPE(power_controls));
 
 if (power != nullptr)
     printf("Next power-on: %02u-%02u %02u:%02u:%02u\n",

@@ -39,7 +39,7 @@ The `dmi_hpe_rom_info_t` structure holds the decoded HP/HPE other ROM
 information: the redundant system ROM and the OEM ROM image of the server.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_rom_info_spec`, of type `DMI_TYPE(HPE_ROM_INFO)`, declared in
+by `dmi_hpe_rom_info_spec`, of type `DMI_TYPE(hpe_rom_info)`, declared in
 `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
 enabled, which it is for HP and HPE servers. It lives as long as the context
 it has been decoded in.

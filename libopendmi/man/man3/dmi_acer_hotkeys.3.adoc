@@ -44,7 +44,7 @@ driver reads. Some laptops of other brands, e.g. Fujitsu-Siemens, Medion,
 Lenovo and eMachines, are said to carry it too.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_acer_hotkeys_spec`, of type `DMI_TYPE(ACER_HOTKEYS)`, declared in
+by `dmi_acer_hotkeys_spec`, of type `DMI_TYPE(acer_hotkeys)`, declared in
 `<opendmi/module/acer.h>`, once the Acer extension module (`dmi_acer_module`)
 is enabled. It lives as long as the context it has been decoded in. The module
 is enabled for the platforms whose firmware or system vendor is Acer, since

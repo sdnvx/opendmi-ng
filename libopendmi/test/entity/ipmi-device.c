@@ -69,7 +69,7 @@ static void decode_ipmi_device(
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_ipmi_device_t *info = dmi_entity_info(entity, DMI_TYPE(IPMI_DEVICE));
+    const dmi_ipmi_device_t *info = dmi_entity_info(entity, DMI_TYPE(ipmi_device));
     assert_non_null(info);
 
     *result = *info;

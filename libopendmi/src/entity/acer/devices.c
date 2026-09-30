@@ -15,7 +15,7 @@ static void dmi_acer_devices_cleanup(dmi_entity_t *entity);
 
 const dmi_entity_spec_t dmi_acer_devices_spec =
 {
-    .type        = DMI_TYPE(ACER_DEVICES),
+    .type        = DMI_TYPE(acer_devices),
     .code        = "acer-devices",
     .name        = "Acer device list",
     .description = (const char *[]){
@@ -77,7 +77,7 @@ const dmi_entity_spec_t dmi_acer_devices_spec =
 
 static void dmi_acer_devices_cleanup(dmi_entity_t *entity)
 {
-    dmi_acer_devices_t *info = dmi_entity_info(entity, DMI_TYPE(ACER_DEVICES));
+    dmi_acer_devices_t *info = dmi_entity_info(entity, DMI_TYPE(acer_devices));
     if (info == nullptr)
         return;
 

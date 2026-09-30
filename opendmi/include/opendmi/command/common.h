@@ -29,7 +29,7 @@ extern dmi_filter_config_t dmi_filter_config;
 __BEGIN_DECLS
 
 dmi_handle_t dmi_parse_handle(const char *str);
-dmi_type_t dmi_parse_type(dmi_context_t *context, const char *str);
+dmi_type_id_t dmi_parse_type(dmi_context_t *context, const char *str);
 
 /**
  * @brief Print all entities matching the entity filter.

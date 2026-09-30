@@ -24,19 +24,19 @@ const dmi_attribute_t dmi_intel_rsd_phys_device_attrs[] =
                         dmi_intel_rsd_phys_device_t, handle, HANDLE, {
                 .code    = "handle",
                 .name    = "Structure handle",
-                .targets = dmi_types(DMI_TYPE_PROCESSOR)
+                .targets = dmi_types(DMI_TYPE(processor))
             }),
             DMI_VARIANT(DMI_INTEL_RSD_PHYS_DEVICE_TYPE_PCIE_SLOT,
                         dmi_intel_rsd_phys_device_t, handle, HANDLE, {
                 .code    = "handle",
                 .name    = "Structure handle",
-                .targets = dmi_types(DMI_TYPE_SYSTEM_SLOTS)
+                .targets = dmi_types(DMI_TYPE(system_slots))
             }),
             DMI_VARIANT(DMI_INTEL_RSD_PHYS_DEVICE_TYPE_MEMORY,
                         dmi_intel_rsd_phys_device_t, handle, HANDLE, {
                 .code    = "handle",
                 .name    = "Structure handle",
-                .targets = dmi_types(DMI_TYPE_MEMORY_DEVICE)
+                .targets = dmi_types(DMI_TYPE(memory_device))
             }),
             DMI_VARIANT_DEFAULT(dmi_intel_rsd_phys_device_t, handle, HANDLE, {
                 .code    = "handle",
@@ -95,7 +95,7 @@ bool dmi_intel_rsd_phys_device_mapping_derive(dmi_entity_t *entity)
 {
     dmi_intel_rsd_phys_device_mapping_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_phys_device_mapping));
     if (info == nullptr)
         return false;
 
@@ -124,7 +124,7 @@ void dmi_intel_rsd_phys_device_mapping_cleanup(dmi_entity_t *entity)
 {
     dmi_intel_rsd_phys_device_mapping_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PHYS_DEVICE_MAPPING));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_phys_device_mapping));
     if (info == nullptr)
         return;
 

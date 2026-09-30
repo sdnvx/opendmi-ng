@@ -18,7 +18,7 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
 {
     .code            = "firmware-inventory",
     .name            = "Firmware inventory information",
-    .type            = DMI_TYPE(FIRMWARE_INVENTORY),
+    .type            = DMI_TYPE(firmware_inventory),
     .description     = (const char *[]){
         "The information in this structure defines an inventory of firmware "
         "components in the system. This can include firmware components such "

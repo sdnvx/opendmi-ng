@@ -24,7 +24,7 @@ const dmi_entity_spec_t dmi_mgmt_device_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(MGMT_DEVICE),
+    .type            = DMI_TYPE(mgmt_device),
     .params = {
         .minimum_version = DMI_VERSION(2, 3, 0),
         .minimum_length  = 0x0B,

@@ -19,7 +19,7 @@ bool dmi_oem_strings_derive(dmi_entity_t *entity)
 {
     dmi_oem_strings_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(OEM_STRINGS));
+    info = dmi_entity_info(entity, DMI_TYPE(oem_strings));
     if (info == nullptr)
         return false;
 
@@ -41,7 +41,7 @@ void dmi_oem_strings_cleanup(dmi_entity_t *entity)
 {
     dmi_oem_strings_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(OEM_STRINGS));
+    info = dmi_entity_info(entity, DMI_TYPE(oem_strings));
     if (info == nullptr)
         return;
 

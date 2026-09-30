@@ -20,7 +20,7 @@
 //
 void dmi_battery_lint_sbds(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(PORTABLE_BATTERY));
+    const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(portable_battery));
     if (info == nullptr)
         return;
 

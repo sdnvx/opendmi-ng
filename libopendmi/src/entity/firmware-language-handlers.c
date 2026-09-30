@@ -20,7 +20,7 @@ bool dmi_firmware_language_derive(dmi_entity_t *entity)
 {
     dmi_firmware_language_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE_LANGUAGE));
+    info = dmi_entity_info(entity, DMI_TYPE(firmware_language));
     if (info == nullptr)
         return false;
 
@@ -42,7 +42,7 @@ void dmi_firmware_language_cleanup(dmi_entity_t *entity)
 {
     dmi_firmware_language_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(FIRMWARE_LANGUAGE));
+    info = dmi_entity_info(entity, DMI_TYPE(firmware_language));
     if (info == nullptr)
         return;
 

@@ -52,7 +52,7 @@ differ between generations, e.g. the sixth one tells the state of Intel Boot
 Guard on the generations which have it.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_intel_mei_spec`, of type `DMI_TYPE(INTEL_MEI)`, declared in
+by `dmi_intel_mei_spec`, of type `DMI_TYPE(intel_mei)`, declared in
 `<opendmi/module/intel.h>`, once the Intel extension module
 (`dmi_intel_module`) is enabled, which is done for any platform with Intel
 processors when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as
@@ -101,8 +101,8 @@ SKU of the firmware, see `dmi_intel_me_sku`(3).
 [source, c]
 ----
 dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context),
-                                                 DMI_TYPE(INTEL_MEI), true);
-const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_MEI));
+                                                 DMI_TYPE(intel_mei), true);
+const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
 
 if ((info != nullptr) && (info->sku != DMI_INTEL_ME_SKU_UNSPEC))
     printf("ME firmware: %s, %s\n", dmi_intel_me_sku_name(info->sku),

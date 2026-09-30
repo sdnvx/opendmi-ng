@@ -46,7 +46,7 @@ socket does not: whether the module is an HPE one, and the voltages it runs
 at. There is a record for each socket.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_dimm_attrs_spec`, of type `DMI_TYPE(HPE_DIMM_ATTRS)`, declared in
+by `dmi_hpe_dimm_attrs_spec`, of type `DMI_TYPE(hpe_dimm_attrs)`, declared in
 `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
 enabled, which it is for HP and HPE servers from Gen9 onwards. It lives as
 long as the context it has been decoded in.

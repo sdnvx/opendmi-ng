@@ -59,7 +59,7 @@ static void test_probe_location_name(void **pstate)
     }
 }
 
-static void assert_probe_values(dmi_type_t type, const test_probe_value_t *expected)
+static void assert_probe_values(const dmi_type_t *type, const test_probe_value_t *expected)
 {
     dmi_context_t *context = dmi_create(0);
     assert_non_null(context);
@@ -81,7 +81,7 @@ static void assert_probe_values(dmi_type_t type, const test_probe_value_t *expec
 
     uint8_t buffer[sizeof(data)];
     memcpy(buffer, data, sizeof(data));
-    buffer[0] = (uint8_t)type;
+    buffer[0] = (uint8_t)type->id;
 
     dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
 
@@ -123,7 +123,7 @@ static void test_probe_voltage_values(void **pstate)
 {
     dmi_unused(pstate);
 
-    assert_probe_values(DMI_TYPE(VOLTAGE_PROBE), (const test_probe_value_t[]){
+    assert_probe_values(DMI_TYPE(voltage_probe), (const test_probe_value_t[]){
         { "maximum-value", "12000", DMI_UNIT_MILLIVOLT },
         { "minimum-value", "-360",  DMI_UNIT_MILLIVOLT },
         { "resolution",    "0.5",   DMI_UNIT_MILLIVOLT },
@@ -137,7 +137,7 @@ static void test_probe_current_values(void **pstate)
 {
     dmi_unused(pstate);
 
-    assert_probe_values(DMI_TYPE(CURRENT_PROBE), (const test_probe_value_t[]){
+    assert_probe_values(DMI_TYPE(current_probe), (const test_probe_value_t[]){
         { "maximum-value", "12000", DMI_UNIT_MILLIAMPERE },
         { "minimum-value", "-360",  DMI_UNIT_MILLIAMPERE },
         { "resolution",    "0.5",   DMI_UNIT_MILLIAMPERE },
@@ -151,7 +151,7 @@ static void test_probe_temperature_values(void **pstate)
 {
     dmi_unused(pstate);
 
-    assert_probe_values(DMI_TYPE(TEMPERATURE_PROBE), (const test_probe_value_t[]){
+    assert_probe_values(DMI_TYPE(temperature_probe), (const test_probe_value_t[]){
         { "maximum-value", "1200.0", DMI_UNIT_CELSIUS },
         { "minimum-value", "-36.0",  DMI_UNIT_CELSIUS },
         { "resolution",    "0.005",  DMI_UNIT_CELSIUS },

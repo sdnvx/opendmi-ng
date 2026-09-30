@@ -45,7 +45,7 @@ the temperature probe monitoring it. A table carries one such structure for
 each cooling device.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(COOLING_DEVICE)`, and lives as long as the context it has been
+`DMI_TYPE(cooling_device)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -88,9 +88,9 @@ structure has none. Present since SMBIOS 2.7.
 ----
 dmi_registry_t       *registry = dmi_get_registry(context);
 dmi_entity_t         *entity   = dmi_registry_lookup_first(registry,
-                                     DMI_TYPE(COOLING_DEVICE), false);
+                                     DMI_TYPE(cooling_device), false);
 dmi_cooling_device_t *device   = dmi_entity_info(entity,
-                                     DMI_TYPE(COOLING_DEVICE));
+                                     DMI_TYPE(cooling_device));
 
 if (device != nullptr) {
     printf("type: %s\n", dmi_cooling_device_type_name(device->type));

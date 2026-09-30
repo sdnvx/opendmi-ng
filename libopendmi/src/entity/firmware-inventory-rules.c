@@ -21,7 +21,7 @@
 void dmi_firmware_inventory_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_firmware_inventory_t *info =
-            dmi_entity_info(entity, DMI_TYPE(FIRMWARE_INVENTORY));
+            dmi_entity_info(entity, DMI_TYPE(firmware_inventory));
     if (info == nullptr)
         return;
 

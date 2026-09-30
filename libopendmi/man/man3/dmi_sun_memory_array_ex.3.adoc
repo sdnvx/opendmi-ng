@@ -44,7 +44,7 @@ provides it, and the library decodes it only when the Sun extension module
 context with `dmi_add_extension`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(SUN_MEMORY_ARRAY_EX)`, and lives as long as the context it has been
+`DMI_TYPE(sun_memory_array_ex)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -71,9 +71,9 @@ PCI function number of the memory controller, 0 to 7.
 ----
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
-                               DMI_TYPE(SUN_MEMORY_ARRAY_EX), true);
+                               DMI_TYPE(sun_memory_array_ex), true);
 dmi_sun_memory_array_ex_t *info =
-        dmi_entity_info(entity, DMI_TYPE(SUN_MEMORY_ARRAY_EX));
+        dmi_entity_info(entity, DMI_TYPE(sun_memory_array_ex));
 
 if (info != nullptr)
     printf("controller at %02X:%02X.%u\n", (unsigned)info->bus_number,

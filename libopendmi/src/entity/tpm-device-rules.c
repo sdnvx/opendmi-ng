@@ -17,7 +17,7 @@
 
 void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_tpm_device_t *info = dmi_entity_info(entity, DMI_TYPE(TPM_DEVICE));
+    const dmi_tpm_device_t *info = dmi_entity_info(entity, DMI_TYPE(tpm_device));
     if (info == nullptr)
         return;
 

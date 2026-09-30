@@ -148,7 +148,7 @@ static void decode_cache_size(
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
+    const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(cache));
     assert_non_null(info);
 
     // Copy numeric fields only, string pointers are owned by the entity
@@ -241,7 +241,7 @@ static void test_cache_decode_v21(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
-        const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(CACHE));
+        const dmi_cache_t *info = dmi_entity_info(entity, DMI_TYPE(cache));
         assert_non_null(info);
         assert_string_equal(info->socket_designator, "L1");
 

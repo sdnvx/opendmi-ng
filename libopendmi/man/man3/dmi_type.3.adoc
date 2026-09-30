@@ -1,0 +1,97 @@
+ifdef::backend-manpage[]
+= dmi_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_type, DMI_TYPE, DMI_TYPE_ANY - structure types.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/types.h>
+
+typedef struct dmi_type {
+    dmi_type_id_t id;
+} dmi_type_t;
+
+#define DMI_TYPE(x)  (&dmi_type_ ## x)
+#define DMI_TYPE_ANY ((const dmi_type_t *)nullptr)
+
+extern const dmi_type_t dmi_type_firmware;
+extern const dmi_type_t dmi_type_system;
+...
+extern const dmi_type_t dmi_type_end_of_table;
+----
+
+== Description
+
+A `dmi_type_t` structure type tells what the information a structure is
+decoded into is, which is one C type, e.g. `dmi_system_t` for
+`DMI_TYPE(system)`. Types are told by their objects rather than by their
+numbers, and are the constants the library declares in `<opendmi/types.h>`
+for the types of the SMBIOS specification, and the extension modules declare
+in their headers for the types of the vendors, e.g. `dmi_type_hpe_processor`
+in `<opendmi/module/hpe.h>`. `DMI_TYPE()` names them: `DMI_TYPE(system)` is
+`&dmi_type_system`.
+
+A type is not a type number, see `dmi_type_id`(3):
+
+* Several specifications may decode the structures of one type, e.g. the
+  layouts of the generations of a vendor, and the structures are of the type
+  whatever layout the table holds.
+* Several types may share a number, e.g. Intel vPro information,
+  `DMI_TYPE(intel_vpro)`, and Lenovo ThinkVantage Technologies enablement,
+  `DMI_TYPE(lenovo_tvt)`, which are both found at type 131.
+* A structure of a type may be found at another number, where a vendor places
+  it, e.g. Intel firmware version information at type 205 on Dell platforms,
+  and is still of its type.
+
+So `dmi_entity_info`(3), `dmi_entity_data`(3), the lookups of the registry and
+the types a handle may refer to take types, and give the structures of the
+type asked for only. `DMI_TYPE_ANY` stands for any type where a type is
+optional.
+
+=== Members
+
+`id`::
+Type number the specification of the type gives the structures, see
+`dmi_type_id`(3).
+
+== Examples
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry, DMI_TYPE(intel_fvi), true);
+
+if (entity != nullptr)
+    printf("found at type %d\n", dmi_entity_type_id(entity));
+----
+
+== See also
+
+`dmi_type_id`(3),
+`dmi_entity_type`(3),
+`dmi_entity_info`(3),
+`dmi_entity_data`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -85,7 +85,7 @@ bool dmi_intel_rsd_processor_cpuid_decode(dmi_decoder_t *decoder)
 
     dmi_intel_rsd_processor_cpuid_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_processor_cpuid));
     if (info == nullptr)
         return false;
 
@@ -155,7 +155,7 @@ void dmi_intel_rsd_processor_cpuid_cleanup(dmi_entity_t *entity)
 {
     dmi_intel_rsd_processor_cpuid_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_processor_cpuid));
     if (info == nullptr)
         return;
 
@@ -172,7 +172,7 @@ void dmi_intel_rsd_processor_cpuid_cleanup(dmi_entity_t *entity)
 bool dmi_intel_rsd_processor_cpuid_encode(dmi_encoder_t *encoder)
 {
     const dmi_intel_rsd_processor_cpuid_t *info =
-            dmi_entity_info(encoder->entity, DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID));
+            dmi_entity_info(encoder->entity, DMI_TYPE(intel_rsd_processor_cpuid));
     if (info == nullptr)
         return false;
 

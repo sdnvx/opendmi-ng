@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_intel_amt_spec =
 {
-    .type        = DMI_TYPE(INTEL_AMT),
+    .type        = DMI_TYPE(intel_amt),
     .code        = "intel-amt",
     .name        = "Intel Active Management Technology information",
     .description = (const char *[]){

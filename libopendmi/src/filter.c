@@ -31,7 +31,7 @@ bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle)
     return dmi_vector_push(&filter->handles, (uintptr_t)handle);
 }
 
-bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type)
+bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type)
 {
     if (filter == nullptr)
         return false;
@@ -64,7 +64,7 @@ bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity)
         return false;
 
     // Filter entities by category
-    if (entity->type < __DMI_TYPE_OEM_START) {
+    if (entity->type_id < __DMI_TYPE_ID_OEM_START) {
         if ((filter->mask & DMI_FILTER_MASK_COMMON) == 0)
             return false;
     } else {
@@ -73,7 +73,7 @@ bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity)
     }
 
     // Filter inactive entities
-    if (entity->type == DMI_TYPE(INACTIVE)) {
+    if (entity->type_id == DMI_TYPE_ID(INACTIVE)) {
         if ((filter->mask & DMI_FILTER_MASK_INACTIVE) == 0)
             return false;
     }
@@ -99,10 +99,10 @@ bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity)
 
     // Filter specific types
     if (filter->types.length > 0) {
-        dmi_type_t type = dmi_entity_type(entity);
+        dmi_type_id_t type = dmi_entity_type_id(entity);
 
         for (size_t i = 0; i < filter->types.length; i++) {
-            if (type == (dmi_type_t)filter->types.data[i])
+            if (type == (dmi_type_id_t)filter->types.data[i])
                 return true;
         }
     }

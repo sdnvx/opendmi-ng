@@ -42,7 +42,7 @@ locator, which tells where a blade server is: the rack, the enclosure and the
 bay.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_rack_locator_spec`, of type `DMI_TYPE(HPE_RACK_LOCATOR)`, declared
+by `dmi_hpe_rack_locator_spec`, of type `DMI_TYPE(hpe_rack_locator)`, declared
 in `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`)
 is enabled, which it is for HP and HPE servers. It lives as long as the
 context it has been decoded in.

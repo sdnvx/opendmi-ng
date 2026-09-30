@@ -15,7 +15,7 @@ void dmi_slot_cleanup(dmi_entity_t *entity)
 {
     dmi_slot_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(SYSTEM_SLOTS));
+    info = dmi_entity_info(entity, DMI_TYPE(system_slots));
     if (info == nullptr)
         return;
 

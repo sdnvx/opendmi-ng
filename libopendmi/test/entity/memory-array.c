@@ -88,7 +88,7 @@ static dmi_size_t decode_memory_array_capacity(
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(MEMORY_ARRAY));
+    const dmi_memory_array_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array));
     assert_non_null(info);
 
     dmi_size_t result = info->maximum_capacity;

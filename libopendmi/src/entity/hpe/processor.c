@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_processor_spec =
 {
-    .type        = DMI_TYPE(HPE_PROCESSOR),
+    .type        = DMI_TYPE(hpe_processor),
     .code        = "hpe-processor",
     .name        = "HP/HPE processor specific information",
     .description = (const char *[]){
@@ -69,7 +69,7 @@ const dmi_entity_spec_t dmi_hpe_processor_spec =
         DMI_ATTRIBUTE(dmi_hpe_processor_t, processor_handle, HANDLE, {
             .code    = "processor-handle",
             .name    = "Processor handle",
-            .targets = dmi_types(DMI_TYPE_PROCESSOR)
+            .targets = dmi_types(DMI_TYPE(processor))
         }),
         DMI_ATTRIBUTE(dmi_hpe_processor_t, apic_id, INTEGER, {
             .code = "apic-id",
@@ -139,7 +139,7 @@ const dmi_entity_spec_t dmi_hpe_processor_spec =
 //
 bool dmi_hpe_processor_derive(dmi_entity_t *entity)
 {
-    dmi_hpe_processor_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_PROCESSOR));
+    dmi_hpe_processor_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_processor));
     if (info == nullptr)
         return false;
 

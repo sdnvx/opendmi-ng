@@ -13,7 +13,7 @@
 
 const dmi_entity_spec_t dmi_hpe_system_id_spec =
 {
-    .type        = DMI_TYPE(HPE_SYSTEM_ID),
+    .type        = DMI_TYPE(hpe_system_id),
     .code        = "hpe-system-id",
     .name        = "HP/HPE server system ID",
     .description = (const char *[]){

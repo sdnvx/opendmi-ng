@@ -14,7 +14,7 @@ const dmi_entity_spec_t dmi_intel_rsd_storage_device_spec =
 {
     .code            = "intel-rsd-storage-device",
     .name            = "Intel RSD storage device information",
-    .type            = DMI_TYPE(INTEL_RSD_STORAGE_DEVICE),
+    .type            = DMI_TYPE(intel_rsd_storage_device),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x1B,

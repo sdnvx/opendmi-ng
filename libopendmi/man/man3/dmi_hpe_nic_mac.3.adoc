@@ -42,7 +42,7 @@ information, which describes a network port the firmware boots from over PXE,
 one per structure.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_hpe_nic_mac_spec`, of type `DMI_TYPE(HPE_NIC)`, declared in
+by `dmi_hpe_nic_mac_spec`, of type `DMI_TYPE(hpe_nic)`, declared in
 `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
 enabled, which it is for HP and HPE servers. It lives as long as the context
 it has been decoded in.

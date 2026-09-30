@@ -14,7 +14,7 @@ void dmi_intel_fvi_cleanup(dmi_entity_t *entity)
 {
     dmi_intel_fvi_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(INTEL_FVI));
+    info = dmi_entity_info(entity, DMI_TYPE(intel_fvi));
     if (info == nullptr)
         return;
 

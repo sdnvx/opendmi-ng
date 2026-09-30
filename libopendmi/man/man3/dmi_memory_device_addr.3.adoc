@@ -49,7 +49,7 @@ for each such range; devices without a mapped address have none, since the
 structure cannot describe an empty range.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MEMORY_DEVICE_ADDR)`, and lives as long as the context it has been
+`DMI_TYPE(memory_device_addr)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -109,9 +109,9 @@ the interleave configuration is unknown.
 ----
 dmi_registry_t           *registry = dmi_get_registry(context);
 dmi_entity_t             *entity   = dmi_registry_lookup_first(registry,
-                                         DMI_TYPE(MEMORY_DEVICE_ADDR), false);
+                                         DMI_TYPE(memory_device_addr), false);
 dmi_memory_device_addr_t *range    = dmi_entity_info(entity,
-                                         DMI_TYPE(MEMORY_DEVICE_ADDR));
+                                         DMI_TYPE(memory_device_addr));
 
 if (range != nullptr)
     printf("0x%llX-0x%llX: memory device 0x%04X\n",

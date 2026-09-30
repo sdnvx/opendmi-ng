@@ -51,7 +51,7 @@ a range of CMOS. The CMOS locations are accessed through the indexed I/O ports
 the structure gives.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(DELL_PROTECTED_AREA_2)`, declared in `<opendmi/module/dell.h>`, and
+`DMI_TYPE(dell_protected_area_2)`, declared in `<opendmi/module/dell.h>`, and
 lives as long as the context it has been decoded in.
 
 === Fields
@@ -102,10 +102,10 @@ CMOS index of the checksum of the checked range.
 ----
 dmi_registry_t              *registry = dmi_get_registry(context);
 dmi_entity_t                *entity   = dmi_registry_lookup_first(registry,
-                                            DMI_TYPE(DELL_PROTECTED_AREA_2),
+                                            DMI_TYPE(dell_protected_area_2),
                                             true);
 dmi_dell_protected_area_2_t *area     = dmi_entity_info(entity,
-                                            DMI_TYPE(DELL_PROTECTED_AREA_2));
+                                            DMI_TYPE(dell_protected_area_2));
 
 if (area != nullptr) {
     printf("Checked range 0x%02x-0x%02x\n", area->range_check_start,

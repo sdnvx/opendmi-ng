@@ -13,7 +13,7 @@ const dmi_entity_spec_t dmi_intel_rsd_pcie_spec =
 {
     .code            = "intel-rsd-pcie",
     .name            = "Intel RSD PCIe information",
-    .type            = DMI_TYPE(INTEL_RSD_PCIE),
+    .type            = DMI_TYPE(intel_rsd_pcie),
     .params = {
         .minimum_version = DMI_VERSION(2, 0, 0),
         .minimum_length  = 0x17,

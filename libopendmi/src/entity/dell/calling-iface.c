@@ -12,7 +12,7 @@
 
 const dmi_entity_spec_t dmi_dell_calling_iface_spec =
 {
-    .type            = DMI_TYPE(DELL_CALLING_IFACE),
+    .type            = DMI_TYPE(dell_calling_iface),
     .code            = "dell-calling-iface",
     .name            = "Dell calling interface",
     .description     = (const char *[]){

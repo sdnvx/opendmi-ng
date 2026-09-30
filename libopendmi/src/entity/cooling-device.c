@@ -25,7 +25,7 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(COOLING_DEVICE),
+    .type            = DMI_TYPE(cooling_device),
     .params = {
         .minimum_version = DMI_VERSION(2, 2, 0),
         .minimum_length  = 0x0C,
@@ -58,7 +58,7 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
         DMI_ATTRIBUTE(dmi_cooling_device_t, probe_handle, HANDLE, {
             .code    = "probe-handle",
             .name    = "Temperature probe handle",
-            .targets = dmi_types(DMI_TYPE_TEMPERATURE_PROBE),
+            .targets = dmi_types(DMI_TYPE(temperature_probe)),
             .link    = dmi_member(dmi_cooling_device_t, probe)
         }),
         DMI_ATTRIBUTE(dmi_cooling_device_t, type, ENUM, {

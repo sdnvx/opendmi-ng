@@ -149,10 +149,10 @@ struct dmi_attribute_params
 
     /**
      * @brief Types the referenced structure may be of, terminated with
-     * `DMI_TYPE_INVALID`. Valid only for handles, and left unset for the ones
-     * which may refer to a structure of any type.
+     * @c nullptr. Valid only for handles, and left unset for the ones which
+     * may refer to a structure of any type.
      */
-    const dmi_type_t *targets;
+    const dmi_type_t *const *targets;
 
     /**
      * @brief Member the referenced structure is put into once the table is

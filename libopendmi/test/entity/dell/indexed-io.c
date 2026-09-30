@@ -90,7 +90,7 @@ static void test_dell_indexed_io_decode(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_dell_indexed_io_t *info = dmi_entity_info(entity, DMI_TYPE(DELL_INDEXED_IO));
+    const dmi_dell_indexed_io_t *info = dmi_entity_info(entity, DMI_TYPE(dell_indexed_io));
     assert_non_null(info);
 
     assert_int_equal(info->index_port, 0x70);
@@ -142,7 +142,7 @@ static void test_dell_indexed_io_decode_unterminated(void **pstate)
     assert_true(dmi_entity_decode(entity));
     assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
 
-    const dmi_dell_indexed_io_t *info = dmi_entity_info(entity, DMI_TYPE(DELL_INDEXED_IO));
+    const dmi_dell_indexed_io_t *info = dmi_entity_info(entity, DMI_TYPE(dell_indexed_io));
     assert_non_null(info);
 
     assert_int_equal(info->check_type, DMI_DELL_CHECK_TYPE_BYTE_CHECKSUM);

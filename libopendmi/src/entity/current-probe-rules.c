@@ -13,7 +13,7 @@
 
 void dmi_current_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_probe_t *info = dmi_entity_info(entity, DMI_TYPE(CURRENT_PROBE));
+    const dmi_probe_t *info = dmi_entity_info(entity, DMI_TYPE(current_probe));
     if (info == nullptr)
         return;
 

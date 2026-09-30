@@ -207,14 +207,14 @@ namespace dmi {
          *
          * @return Structure type, or an empty value if the code is unknown.
          */
-        [[nodiscard]] std::optional<dmi::type> find_type(std::string_view code) const noexcept;
+        [[nodiscard]] std::optional<dmi::type_id> find_type(std::string_view code) const noexcept;
 
         /**
          * @brief Human-readable name of a structure type.
          *
          * Types without a specification are named "OEM-specific" or "Unknown".
          */
-        [[nodiscard]] std::string_view type_name(dmi::type type) const noexcept;
+        [[nodiscard]] std::string_view type_name(dmi::type_id type) const noexcept;
 
         /**
          * @brief Underlying C context, for use with the C API.

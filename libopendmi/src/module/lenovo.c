@@ -10,6 +10,17 @@
 #include <opendmi/entity/lenovo/records.h>
 #include <opendmi/entity/lenovo/tvt.h>
 
+// Structure types of the module
+const dmi_type_t dmi_type_lenovo_tvt             = { .id = DMI_TYPE_ID(LENOVO_TVT)        };
+const dmi_type_t dmi_type_lenovo_date            = { .id = DMI_TYPE_ID(LENOVO_DATE)       };
+const dmi_type_t dmi_type_lenovo_tpm_info        = { .id = DMI_TYPE_ID(LENOVO_DATE)       };
+const dmi_type_t dmi_type_lenovo_mobile_oem      = { .id = DMI_TYPE_ID(LENOVO_MOBILE_OEM) };
+const dmi_type_t dmi_type_lenovo_device_presence = { .id = DMI_TYPE_ID(LENOVO_MOBILE_OEM) };
+const dmi_type_t dmi_type_lenovo_bay_io          = { .id = DMI_TYPE_ID(LENOVO_MOBILE_OEM) };
+const dmi_type_t dmi_type_lenovo_oem             = { .id = DMI_TYPE_ID(LENOVO_OEM)        };
+const dmi_type_t dmi_type_lenovo_ecp             = { .id = DMI_TYPE_ID(LENOVO_OEM)        };
+const dmi_type_t dmi_type_lenovo_mtm             = { .id = DMI_TYPE_ID(LENOVO_MTM)        };
+
 /**
  * @brief Lenovo extension module.
  */

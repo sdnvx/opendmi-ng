@@ -49,7 +49,7 @@ the threshold structure the type of the component, which gives the units of its
 values.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(MGMT_DEVICE_COMPONENT)`, and lives as long as the context it has been
+`DMI_TYPE(mgmt_device_component)`, and lives as long as the context it has been
 decoded in.
 
 === Fields
@@ -92,10 +92,10 @@ which linking reports as an error.
 dmi_registry_t *registry = dmi_get_registry(context);
 dmi_entity_t   *entity   =
         dmi_registry_lookup_first(registry,
-                                  DMI_TYPE(MGMT_DEVICE_COMPONENT), true);
+                                  DMI_TYPE(mgmt_device_component), true);
 
 dmi_mgmt_device_component_t *info =
-        dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE_COMPONENT));
+        dmi_entity_info(entity, DMI_TYPE(mgmt_device_component));
 
 if ((info != nullptr) && (info->component != nullptr))
     printf("Component 0x%04x of device 0x%04x, type %d\n",

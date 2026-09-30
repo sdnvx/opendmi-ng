@@ -22,7 +22,7 @@
 void dmi_mgmt_device_threshold_lint_order(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_mgmt_device_threshold_t *info =
-            dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE_THRESHOLD));
+            dmi_entity_info(entity, DMI_TYPE(mgmt_device_threshold));
 
     if ((info == nullptr) or dmi_mgmt_device_threshold_is_template(info))
         return;
@@ -64,7 +64,7 @@ void dmi_mgmt_device_threshold_lint_order(dmi_lint_t *lint, const dmi_entity_t *
 void dmi_mgmt_device_threshold_lint_template(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_mgmt_device_threshold_t *info =
-            dmi_entity_info(entity, DMI_TYPE(MGMT_DEVICE_THRESHOLD));
+            dmi_entity_info(entity, DMI_TYPE(mgmt_device_threshold));
 
     if ((info == nullptr) or not dmi_mgmt_device_threshold_is_template(info))
         return;
