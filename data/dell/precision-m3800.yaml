@@ -1427,16 +1427,17 @@ table:
   type: 219
   length: 77
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2wsrAAABAgMABAU=
-  strings:
-  - '            '
-  - '            '
-  - '            '
-  - '            '
-  - '            '
+  state:
+  - decoded
+  description: Dell device bay
+  attributes:
+    unknown-1: 0
+    name: ''
+    supported-devices: ''
+    installed-device: ''
+    unknown-2: 0
+    unknown-string-1: ''
+    unknown-string-2: ''
 - handle: 44
   type: 220
   length: 24

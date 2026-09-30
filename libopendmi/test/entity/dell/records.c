@@ -61,6 +61,7 @@ static const char *test_t7600_path = OPENDMI_TEST_DATA "/dell/precision-t7600.bi
 static const char *test_xps_9350_path = OPENDMI_TEST_DATA "/dell/xps-13-9350.bin";
 static const char *test_m3800_path = OPENDMI_TEST_DATA "/dell/precision-m3800.bin";
 static const char *test_studio_path = OPENDMI_TEST_DATA "/dell/studio-1555.bin";
+static const char *test_e6230_path = OPENDMI_TEST_DATA "/dell/latitude-e6230-1.bin";
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -167,6 +168,19 @@ static void test_dell_device_bay(void **pstate)
     const dmi_dell_device_bay_t *dock = test_info(context, 0xDB81, &dmi_dell_device_bay_spec);
     assert_string_equal(dock->name, "Dock DBay");
     assert_string_equal(dock->installed_device, "EMPTY");
+    assert_false(dock->has_unknown_strings);
+
+    // Structures of 11 bytes refer to two more strings, which Latitude E6230
+    // leaves out
+    dmi_close(context);
+    assert_true(dmi_load(context, test_e6230_path));
+
+    bay = test_info(context, 0xDB00, &dmi_dell_device_bay_spec);
+    assert_string_equal(bay->name, "System Device Bay");
+    assert_string_equal(bay->installed_device, "EMPTY");
+    assert_true(bay->has_unknown_strings);
+    assert_null(bay->unknown_string_1);
+    assert_null(bay->unknown_string_2);
 }
 
 static void test_dell_memory_ids(void **pstate)
@@ -356,14 +370,14 @@ static void test_dell_intel_native(void **pstate)
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
 
-    // Structure of Dell of an unknown layout is not taken for the interface
-    // information of the Management Engine
+    // Device bay of blank strings of a system which has none is not taken for
+    // the interface information of the Management Engine
     dmi_close(context);
     assert_true(dmi_load(context, test_m3800_path));
 
     entity = dmi_registry_lookup_first_id(dmi_get_registry(context), 219, false);
     assert_non_null(entity);
-    assert_null(entity->spec);
+    assert_ptr_equal(entity->spec, &dmi_dell_device_bay_spec);
 
     dmi_close(context);
     assert_true(dmi_load(context, test_t7600_path));

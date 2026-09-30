@@ -2902,15 +2902,17 @@ table:
   type: 219
   length: 28
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2wsN2gIBAgP/BAU=
-  strings:
-  - 00h
-  - 00h
-  - 00h
-  - 00h
+  state:
+  - decoded
+  description: Dell device bay
+  attributes:
+    unknown-1: 2
+    name: 00h
+    supported-devices: 00h
+    installed-device: 00h
+    unknown-2: 255
+    unknown-string-1: 00h
+    unknown-string-2: null
 - handle: 55822
   type: 220
   length: 24

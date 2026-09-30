@@ -814,33 +814,32 @@ table:
   type: 148
   length: 169
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    lBoiAAECAwQFBgcICQoLDA0ODxAREhMUFRY=
-  strings:
-  - 7.2.1013
-  - '832'
-  - '1.02'
-  - 1.2.0.1149
-  - Non ULPMC!!
-  - '0x4_45'
-  - '0x27'
-  - 0F (C0 Stepping)
-  - BAY LAKE CR (6)
-  - '0'
-  - VLV-QC Notebook (3)
-  - E2CN13WW
-  - '41.01'
-  - NA
-  - '0'
-  - '0'
-  - '1'
-  - '1'
-  - '3'
-  - '1'
-  - '1'
-  - '1'
+  state:
+  - decoded
+  description: Intel platform information
+  attributes:
+    gop-version: 7.2.1013
+    microcode-version: '832'
+    mrc-version: '1.02'
+    sec-version: 1.2.0.1149
+    ulpmc-version: Non ULPMC!!
+    pmc-version: '0x4_45'
+    punit-version: '0x27'
+    soc-version: 0F (C0 Stepping)
+    board-version: BAY LAKE CR (6)
+    fab-version: '0'
+    cpu-flavor: VLV-QC Notebook (3)
+    bios-version: E2CN13WW
+    pmic-version: '41.01'
+    touch-version: NA
+    secure-boot: '0'
+    boot-mode: '0'
+    speedstep-mode: '1'
+    turbo-mode: '1'
+    max-cstate: '3'
+    gfx-turbo: '1'
+    idle-reserve: '1'
+    rc6: '1'
 - handle: 35
   type: 200
   length: 36

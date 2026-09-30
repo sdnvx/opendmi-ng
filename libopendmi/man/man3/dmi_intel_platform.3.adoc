@@ -1,0 +1,154 @@
+ifdef::backend-manpage[]
+= dmi_intel_platform(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_platform
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_platform - Intel platform information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/platform.h>
+
+typedef struct dmi_intel_platform {
+    const char *gop_version;
+    const char *microcode_version;
+    const char *mrc_version;
+    const char *sec_version;
+    const char *ulpmc_version;
+    const char *pmc_version;
+    const char *punit_version;
+    const char *soc_version;
+    const char *board_version;
+    const char *fab_version;
+    const char *cpu_flavor;
+    const char *bios_version;
+    const char *pmic_version;
+    const char *touch_version;
+    const char *secure_boot;
+    const char *boot_mode;
+    const char *speedstep_mode;
+    const char *turbo_mode;
+    const char *max_cstate;
+    const char *gfx_turbo;
+    const char *idle_reserve;
+    const char *rc6;
+} dmi_intel_platform_t;
+----
+
+== Description
+
+The `dmi_intel_platform_t` structure holds the decoded Intel platform
+information, which gives the versions of the firmware components and some
+settings of an Intel Bay Trail platform, all of them as strings, as the
+firmware writes them: the numbers in hexadecimal, and the settings as their
+values, e.g. `0` or `1`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_intel_platform_spec`, of type `DMI_TYPE(intel_platform)`, declared in
+`<opendmi/module/intel.h>`, once the Intel extension module
+(`dmi_intel_module`) is enabled, which is done for any platform with Intel
+processors when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as
+long as the context it has been decoded in.
+
+The structures are told by their length of 26 bytes, since Intel server boards
+give type 148 to structures of other layouts.
+
+=== Fields
+
+`gop_version`::
+Version of the graphics output protocol (GOP) driver, e.g. `7.2.1013`.
+
+`microcode_version`::
+Revision of the microcode in hexadecimal, e.g. `832`.
+
+`mrc_version`::
+Version of the memory reference code (MRC), e.g. `1.02`.
+
+`sec_version`::
+Version of the firmware of the security engine, the Trusted Execution Engine (TXE), e.g. `1.2.0.1149`.
+
+`ulpmc_version`::
+Version of the firmware of the ultra low power microcontroller (ULPMC), or `Non ULPMC!!` if there is none.
+
+`pmc_version`::
+Version of the firmware of the power management controller (PMC), e.g. `0x4_45`.
+
+`punit_version`::
+Version of the firmware of the P-unit, e.g. `0x27`.
+
+`soc_version`::
+Stepping of the system on a chip, e.g. `0F (C0 Stepping)`.
+
+`board_version`::
+Board, e.g. `BAY LAKE CR (6)`.
+
+`fab_version`::
+Fab of the board, e.g. `0`.
+
+`cpu_flavor`::
+Flavor of the processor, e.g. `VLV-QC Notebook (3)`.
+
+`bios_version`::
+Version of the firmware, e.g. `E2CN13WW`.
+
+`pmic_version`::
+Vendor and revision of the power management IC (PMIC), e.g. `41.01`.
+
+`touch_version`::
+Version of the firmware of the touch screen, `NA` if there is none.
+
+`secure_boot`::
+Secure Boot setting, `0` or `1`.
+
+`boot_mode`::
+Boot mode of the firmware, as a number.
+
+`speedstep_mode`::
+Enhanced Intel SpeedStep setting.
+
+`turbo_mode`::
+Turbo Boost setting.
+
+`max_cstate`::
+Deepest C-state of the processor, e.g. `3`.
+
+`gfx_turbo`::
+Turbo setting of the graphics.
+
+`idle_reserve`::
+S0ix setting.
+
+`rc6`::
+RC6 power saving setting of the graphics.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_intel_fvi`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel Bay Trail reference
+code, as the OEM type 0x94 of `Vlv2TbltDevicePkg` of EDK II.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

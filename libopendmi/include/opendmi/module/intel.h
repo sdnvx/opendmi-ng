@@ -19,12 +19,13 @@
  */
 typedef enum dmi_intel_type_id
 {
-    DMI_TYPE_ID_INTEL_ASF  = 129, ///< Intel ASF information
-    DMI_TYPE_ID_INTEL_AMT  = 130, ///< Intel Active Management Technology information
-    DMI_TYPE_ID_INTEL_VPRO = 131, ///< Intel vPro information
-    DMI_TYPE_ID_INTEL_MEI  = 219, ///< Intel Management Engine interface information
-    DMI_TYPE_ID_INTEL_FVI  = 221, ///< Intel firmware version information
-    DMI_TYPE_ID_INTEL_SVT  = 222  ///< Intel Silicon View Technology milestones
+    DMI_TYPE_ID_INTEL_ASF      = 129, ///< Intel ASF information
+    DMI_TYPE_ID_INTEL_AMT      = 130, ///< Intel Active Management Technology information
+    DMI_TYPE_ID_INTEL_VPRO     = 131, ///< Intel vPro information
+    DMI_TYPE_ID_INTEL_PLATFORM = 148, ///< Intel platform information
+    DMI_TYPE_ID_INTEL_MEI      = 219, ///< Intel Management Engine interface information
+    DMI_TYPE_ID_INTEL_FVI      = 221, ///< Intel firmware version information
+    DMI_TYPE_ID_INTEL_SVT      = 222  ///< Intel Silicon View Technology milestones
 } dmi_intel_type_id_t;
 
 __BEGIN_DECLS
@@ -37,6 +38,9 @@ extern __dmi_api const dmi_type_t dmi_type_intel_amt;
 
 /** @brief Intel vPro information */
 extern __dmi_api const dmi_type_t dmi_type_intel_vpro;
+
+/** @brief Intel platform information */
+extern __dmi_api const dmi_type_t dmi_type_intel_platform;
 
 /** @brief Intel Management Engine interface information */
 extern __dmi_api const dmi_type_t dmi_type_intel_mei;

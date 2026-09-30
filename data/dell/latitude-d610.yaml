@@ -1031,6 +1031,7 @@ table:
   level: null
   state:
   - decoded
+  - partial
   description: Dell device bay
   attributes:
     unknown-1: 3
@@ -1057,6 +1058,7 @@ table:
   level: null
   state:
   - decoded
+  - partial
   description: Dell device bay
   attributes:
     unknown-1: 3

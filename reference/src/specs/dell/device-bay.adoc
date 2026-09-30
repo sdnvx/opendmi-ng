@@ -9,10 +9,14 @@ several devices, e.g. `System Device Bay`, which takes `Floppy, Battery,
 CD-ROM, CD-RW, Hard Disk, DVD` and holds `Battery` in `dell/latitude-d500.bin`,
 or `Dock DBay`, which holds `EMPTY` in `dell/latitude-d610.bin`.
 
-Other Dell platforms give type 219 to structures of other layouts, e.g.
-Precision M3800 to one of 11 bytes referring to five blank strings, and XPS 13
-9350 to one of 81 bytes referring to the strings `MEI1` to `MEI3`, so the
-structure is told by its length of 9 bytes.
+Newer platforms give the structure 11 bytes, which refer to two more strings
+whose meaning is not established: Latitude E6230 has a bay and leaves them
+out, while Precision M3800 and G15 5515, which have none, carry a structure of
+blank strings or of `00h`. XPS 13 9350 gives type 219 to the Intel Management
+Engine interface information, which is told by its signature, and the
+structure is decoded for the other structures of the type. The numbers of the
+strings do not tell it, since the structures whose strings are the same are
+written back with a single one.
 
 .Dell Device Bay structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -45,7 +49,7 @@ structure is told by its length of 9 bytes.
 | Unknown 1
 | `BYTE`
 | Varies
-| `3` in all known data
+| `3` on the systems which have a bay, `0` or `2` on the ones which have none
 
 | `0x05`
 | 2.0+
@@ -73,5 +77,19 @@ structure is told by its length of 9 bytes.
 | Unknown 2
 | `BYTE`
 | Varies
-| `0xFF` in all known data
+| `0xFF` in most data, `0` on Precision M3800
+
+| `0x09`
+| 2.0+
+| Unknown String 1
+| `BYTE`
+| `STRING`
+| Meaning not established, present in the structures of 11 bytes
+
+| `0x0A`
+| 2.0+
+| Unknown String 2
+| `BYTE`
+| `STRING`
+| Meaning not established, present in the structures of 11 bytes
 |===

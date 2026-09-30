@@ -106,6 +106,7 @@ structures of some vendors, which place them at other types or not at all.
 include::intel/asf.adoc[leveloffset=2]
 include::intel/amt.adoc[leveloffset=2]
 include::intel/vpro.adoc[leveloffset=2]
+include::intel/platform.adoc[leveloffset=2]
 include::intel/mei.adoc[leveloffset=2]
 include::intel/fvi.adoc[leveloffset=2]
 include::intel/svt.adoc[leveloffset=2]
