@@ -23,13 +23,15 @@ const dmi_entity_spec_t dmi_dell_bios_flags_spec =
         nullptr
     },
     .params = {
-        .minimum_length = 0x06,
+        .minimum_length = 0x0C,
         .decoded_length = sizeof(dmi_dell_bios_flags_t)
     },
 
-    // Bytes past the flags are not known to carry anything
+    // Flags take 8 bytes, which the Dell SMBIOS WMI driver of Linux reads
+    // the first word of, and the rest of which is not known to carry anything
     .fields = DMI_FIELDS({
         DMI_FIELD(dmi_dell_bios_flags_t, flags, dmi_word_t),
+        DMI_FIELD_SKIP(6),
         {}
     }),
 

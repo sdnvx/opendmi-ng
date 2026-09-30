@@ -761,11 +761,25 @@ table:
     is-network-enabled: false
     is-kvm-enabled: true
     extended-data: 165
-    oem-capabilities:
-    - 159
-    - 2
-    - 0
-    - 0
+    oem-capabilities-1:
+      storage-redirection: true
+      sol: true
+      bios-reflash: true
+      bios-setup: true
+      bios-pause: true
+      floppy-boot-block: false
+      cd-boot-block: false
+    terminal: vt100-plus
+    oem-capabilities-3:
+      secure-erase: false
+      secure-boot: false
+    oem-capabilities-4:
+      thunderbolt-dock: false
+      https-boot: false
+      pba-boot: false
+      winre-boot: false
+      nonsecure-boot: false
+      wifi-coexistence: false
 - handle: 12
   type: 131
   length: 66
@@ -774,23 +788,50 @@ table:
   - decoded
   description: Intel vPro information
   attributes:
-    flags-1: 53
+    cpu-capabilities:
+      vmx-enabled: true
+      smx-enabled: false
+      txt-capable: true
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: true
     mebx-version:
       major: 10
       minor: 0
       hotfix: 0
       build: 7
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 40131
-    flags-2: 49161
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: true
+      sbt: false
+      l3: false
     me-version:
       major: 10
       minor: 0
       hotfix: 37
       build: 1000
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 200
+    gbe-bus: 0
     gbe-device-id: 5538
-    flags-3: 48
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: false
+      txt-configurable: false
+      tpm-configurable: false
+      me-configurable: true
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 30
   type: 137
   length: 14

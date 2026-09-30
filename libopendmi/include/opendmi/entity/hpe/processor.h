@@ -64,8 +64,8 @@ struct dmi_hpe_processor
     uint16_t maximum_power;
 
     /**
-     * @brief x2APIC ID of the processor, valid in the x2APIC mode. Set to
-     * `UINT32_MAX` when the structure holds none.
+     * @brief x2APIC ID of the processor, valid in the x2APIC mode, and not
+     * shown otherwise. Set to `UINT32_MAX` when the structure holds none.
      */
     uint32_t x2apic_id;
 

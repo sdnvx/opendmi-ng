@@ -8,8 +8,7 @@ Supplements the processor information (type 4) of each processor socket or
 slot with the numbers the server tells its processors by. The structure is
 ignored for the empty sockets. It has grown with the generations of the
 servers, and its fields past the physical socket are absent from the older
-ones. dmidecode decodes the structure from Gen9 onwards, while the older
-servers of the data corpus carry the same layout.
+ones.
 
 .HP/HPE Processor Specific Information structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -41,7 +40,7 @@ servers of the data corpus carry the same layout.
 | 2.0+
 | Processor Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the processor information structure (type 4)
 
 | `0x06`
@@ -84,7 +83,7 @@ servers of the data corpus carry the same layout.
 | x2APIC ID
 | `DWORD`
 | `NUMBER`
-| x2APIC ID of the processor, valid in the x2APIC mode
+| x2APIC ID of the processor, valid in the x2APIC mode only, which bit 1 of the status tells
 
 | `0x10`
 | 2.0+

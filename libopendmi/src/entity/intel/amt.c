@@ -11,6 +11,76 @@
 
 #include <opendmi/entity/intel/amt.h>
 
+// Bits of the OEM capabilities, named as the Intel AMT implementation guide
+// names them
+static const dmi_name_set_t dmi_intel_amt_oem_caps_1_names =
+{
+    .code  = "intel-amt-oem-caps-1",
+    .names = DMI_NAMES({
+        { .id = 0, .code = "storage-redirection", .name = "Storage redirection" },
+        { .id = 1, .code = "sol",                 .name = "Serial over LAN" },
+        { .id = 2, .code = "bios-reflash",        .name = "BIOS reflash" },
+        { .id = 3, .code = "bios-setup",          .name = "BIOS setup" },
+        { .id = 4, .code = "bios-pause",          .name = "BIOS pause" },
+        { .id = 5, .code = "floppy-boot-block",   .name = "Blocking floppy boot" },
+        { .id = 6, .code = "cd-boot-block",       .name = "Blocking CD boot" },
+        {}
+    })
+};
+
+static const dmi_name_set_t dmi_intel_amt_oem_caps_3_names =
+{
+    .code  = "intel-amt-oem-caps-3",
+    .names = DMI_NAMES({
+        { .id = 6, .code = "secure-erase", .name = "Remote Secure Erase" },
+        { .id = 7, .code = "secure-boot",  .name = "BIOS Secure Boot" },
+        {}
+    })
+};
+
+static const dmi_name_set_t dmi_intel_amt_oem_caps_4_names =
+{
+    .code  = "intel-amt-oem-caps-4",
+    .names = DMI_NAMES({
+        { .id = 0, .code = "thunderbolt-dock", .name = "Thunderbolt dock" },
+        { .id = 1, .code = "https-boot",       .name = "HTTPS boot" },
+        { .id = 2, .code = "pba-boot",         .name = "Local PBA boot" },
+        { .id = 3, .code = "winre-boot",       .name = "WinRE boot" },
+        { .id = 4, .code = "nonsecure-boot",   .name = "Non-secure boot" },
+        { .id = 5, .code = "wifi-coexistence", .name = "Wi-Fi coexistence" },
+        {}
+    })
+};
+
+static const dmi_name_set_t dmi_intel_amt_terminal_names =
+{
+    .code  = "intel-amt-terminal",
+    .names = DMI_NAMES({
+        DMI_NAME_UNSPEC(DMI_INTEL_AMT_TERMINAL_UNSPEC),
+        {
+            .id   = DMI_INTEL_AMT_TERMINAL_VT52,
+            .code = "vt52",
+            .name = "VT52"
+        },
+        {
+            .id   = DMI_INTEL_AMT_TERMINAL_VT100_PLUS,
+            .code = "vt100-plus",
+            .name = "VT100+"
+        },
+        {
+            .id   = DMI_INTEL_AMT_TERMINAL_VT_UTF8,
+            .code = "vt-utf8",
+            .name = "VT-UTF8"
+        },
+        {
+            .id   = DMI_INTEL_AMT_TERMINAL_PC_ANSI,
+            .code = "pc-ansi",
+            .name = "PC-ANSI"
+        },
+        {}
+    })
+};
+
 const dmi_entity_spec_t dmi_intel_amt_spec =
 {
     .type        = DMI_TYPE(intel_amt),
@@ -41,11 +111,11 @@ const dmi_entity_spec_t dmi_intel_amt_spec =
         DMI_FIELD(dmi_intel_amt_t, is_sol_enabled,     dmi_byte_t),
         DMI_FIELD(dmi_intel_amt_t, is_network_enabled, dmi_byte_t),
         DMI_FIELD(dmi_intel_amt_t, extended_data,      dmi_byte_t),
-        DMI_FIELD_VECTOR(dmi_intel_amt_t, oem_capabilities,
-            .fields = DMI_FIELDS({
-                DMI_FIELD_ELEMENT(dmi_intel_amt_t, oem_capabilities, dmi_byte_t),
-                {}
-            })),
+        DMI_FIELD(dmi_intel_amt_t, oem_capabilities_1, dmi_byte_t),
+        DMI_FIELD_BITS(dmi_intel_amt_t, terminal, 4),
+        DMI_FIELD_PAD(dmi_byte_t),
+        DMI_FIELD(dmi_intel_amt_t, oem_capabilities_3, dmi_byte_t),
+        DMI_FIELD(dmi_intel_amt_t, oem_capabilities_4, dmi_byte_t),
         DMI_FIELD(dmi_intel_amt_t, is_kvm_enabled, dmi_byte_t),
         DMI_FIELD_SKIP(1),
         {}
@@ -62,7 +132,7 @@ const dmi_entity_spec_t dmi_intel_amt_spec =
         }),
         DMI_ATTRIBUTE(dmi_intel_amt_t, is_ider_enabled, BOOL, {
             .code = "is-ider-enabled",
-            .name = "IDE redirection enabled"
+            .name = "Storage redirection enabled"
         }),
         DMI_ATTRIBUTE(dmi_intel_amt_t, is_sol_enabled, BOOL, {
             .code = "is-sol-enabled",
@@ -78,14 +148,35 @@ const dmi_entity_spec_t dmi_intel_amt_spec =
         }),
         DMI_ATTRIBUTE(dmi_intel_amt_t, extended_data, INTEGER, {
             .code  = "extended-data",
-            .name  = "Extended data marker",
+            .name  = "Extended data",
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE_VECTOR(dmi_intel_amt_t, oem_capabilities, INTEGER, {
-            .code  = "oem-capabilities",
-            .name  = "OEM capabilities",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        DMI_ATTRIBUTE(dmi_intel_amt_t, oem_capabilities_1, SET, {
+            .code   = "oem-capabilities-1",
+            .name   = "OEM capabilities",
+            .values = &dmi_intel_amt_oem_caps_1_names
+        }),
+        DMI_ATTRIBUTE(dmi_intel_amt_t, terminal, ENUM, {
+            .code   = "terminal",
+            .name   = "Serial over LAN terminal emulation",
+            .unspec = dmi_value_ptr(DMI_INTEL_AMT_TERMINAL_UNSPEC),
+            .values = &dmi_intel_amt_terminal_names
+        }),
+        DMI_ATTRIBUTE(dmi_intel_amt_t, oem_capabilities_3, SET, {
+            .code   = "oem-capabilities-3",
+            .name   = "Security capabilities",
+            .values = &dmi_intel_amt_oem_caps_3_names
+        }),
+        DMI_ATTRIBUTE(dmi_intel_amt_t, oem_capabilities_4, SET, {
+            .code   = "oem-capabilities-4",
+            .name   = "Remote boot capabilities",
+            .values = &dmi_intel_amt_oem_caps_4_names
         }),
         {}
     })
 };
+
+const char *dmi_intel_amt_terminal_name(dmi_intel_amt_terminal_t value)
+{
+    return dmi_name_lookup(&dmi_intel_amt_terminal_names, (int)value);
+}

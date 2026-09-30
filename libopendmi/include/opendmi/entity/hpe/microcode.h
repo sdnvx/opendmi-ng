@@ -37,10 +37,17 @@ struct dmi_hpe_microcode_patch
     dmi_date_t date;
 
     /**
-     * @brief Processor signature (CPUID leaf 1 EAX) the patch applies to.
-     * AMD platforms leave the base family out.
+     * @brief Processor signature (CPUID leaf 1 EAX) the patch applies to,
+     * as the structure holds it. AMD platforms leave the base family out.
      */
     uint32_t cpuid;
+
+    /**
+     * @brief Processor signature the patch applies to, with the base family
+     * of 15 put back on AMD platforms, the way dmidecode does, which is valid
+     * for the families of 15 onwards.
+     */
+    uint32_t signature;
 };
 
 /**

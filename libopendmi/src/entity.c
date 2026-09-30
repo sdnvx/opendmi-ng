@@ -445,7 +445,12 @@ const char *dmi_entity_name(const dmi_entity_t *entity)
     if (spec != nullptr)
         return dmi_spec_name(spec);
 
-    return dmi_type_name(entity->context, entity->type_id);
+    // Structures no specification describes are named after the range of
+    // their type only, since the specifications of the type, which their
+    // signatures tell apart, describe other structures
+    return (entity->type_id > 0x7F)
+            ? dmi_value_text("oem-type", "OEM-specific")
+            : dmi_value_text("unknown-type", "Unknown");
 }
 
 const void *dmi_entity_data(const dmi_entity_t *entity, const dmi_type_t *type)
@@ -697,6 +702,9 @@ static bool dmi_entity_signature_match(const dmi_entity_t *entity, const dmi_sig
         if ((text == nullptr) or (signature->text == nullptr) or (strcmp(text, signature->text) != 0))
             return false;
     }
+
+    if (signature->no_strings and (entity->string_count != 0))
+        return false;
 
     return true;
 }

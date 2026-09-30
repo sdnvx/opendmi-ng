@@ -3148,114 +3148,240 @@ table:
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQA3ADwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61440
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56321
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQB3BDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61456
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56322
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQC3CDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61472
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56323
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQD3DDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61488
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56324
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQE3EDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61504
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56325
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQF3FDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61520
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56326
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQG3GDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61536
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56327
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQH3HDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61552
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56328
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQI3IDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61568
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56329
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQJ3JDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61584
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56330
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQK3KDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61600
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56331
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQL3LDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61616
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56332
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQM3MDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61632
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56333
   type: 220
   length: 22
   level: null
-  state: []
+  state:
+  - decoded
   description: Dell token references, type 1
-  data: !!binary |
-    3BQN3NDwAAAAAAAAAAAAAAAAAAA=
+  attributes:
+    tokens:
+    - 61648
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56576
   type: 221
   length: 21
@@ -3443,11 +3569,25 @@ table:
     is-network-enabled: true
     is-kvm-enabled: false
     extended-data: 165
-    oem-capabilities:
-    - 47
-    - 2
-    - 0
-    - 0
+    oem-capabilities-1:
+      storage-redirection: true
+      sol: true
+      bios-reflash: true
+      bios-setup: true
+      bios-pause: false
+      floppy-boot-block: true
+      cd-boot-block: false
+    terminal: vt100-plus
+    oem-capabilities-3:
+      secure-erase: false
+      secure-boot: false
+    oem-capabilities-4:
+      thunderbolt-dock: false
+      https-boot: false
+      pba-boot: false
+      winre-boot: false
+      nonsecure-boot: false
+      wifi-coexistence: false
 - handle: 56835
   type: 131
   length: 66
@@ -3456,23 +3596,50 @@ table:
   - decoded
   description: Intel vPro information
   attributes:
-    flags-1: 55
+    cpu-capabilities:
+      vmx-enabled: true
+      smx-enabled: true
+      txt-capable: true
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: true
     mebx-version:
       major: 7
       minor: 0
       hotfix: 0
       build: 55
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 7489
-    flags-2: 32777
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: true
+      sbt: false
+      l3: false
     me-version:
       major: 7
       minor: 1
       hotfix: 21
       build: 1134
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 200
+    gbe-bus: 0
     gbe-device-id: 5378
-    flags-3: 54
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: true
+      txt-configurable: true
+      tpm-configurable: false
+      me-configurable: true
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 56836
   type: 127
   length: 6

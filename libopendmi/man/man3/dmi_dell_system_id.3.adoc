@@ -51,7 +51,10 @@ established are named after their position.
 === Fields
 
 `identifier`::
-Identifier beginning with `_SID`, whose meaning is not established.
+Identifier whose meaning is not established, beginning with `_SID` in most
+known data, e.g. `dellDelldellDELL` in the rest. The two bytes past the
+strings, which most structures carry, are `0` in all known data, and are not
+decoded.
 
 `system_id`::
 System ID, in hexadecimal digits.

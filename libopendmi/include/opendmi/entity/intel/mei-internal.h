@@ -16,6 +16,7 @@
 #include <opendmi/entity/intel/mei.h>
 
 extern const dmi_name_set_t dmi_intel_me_state_names;
+extern const dmi_name_set_t dmi_intel_me_error_names;
 extern const dmi_name_set_t dmi_intel_me_mode_names;
 extern const dmi_name_set_t dmi_intel_me_sku_names;
 

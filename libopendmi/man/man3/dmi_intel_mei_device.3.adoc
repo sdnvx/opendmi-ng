@@ -28,6 +28,7 @@ typedef struct dmi_intel_mei_device {
     const char *name;
     uint32_t hfsts[6];
     bool is_present;
+    bool is_reported;
 } dmi_intel_mei_device_t;
 ----
 
@@ -40,7 +41,9 @@ elements of the `devices` array of `dmi_intel_mei_t`.
 The interfaces are the PCI functions 0:16.0, 0:16.1, 0:16.4 and 0:16.5, named
 `MEI1` to `MEI4`. The firmware status registers are the ones of the PCI
 configuration space of the function, at offsets 0x40, 0x48, 0x60, 0x64, 0x68
-and 0x6C. An absent function reads with all bits set.
+and 0x6C. An absent function reads with all bits set, and the registers of an
+interface which is not reported are all zeroes, e.g. the ones of `MEI4` on
+most platforms.
 
 === Fields
 
@@ -51,12 +54,15 @@ Name of the interface, e.g. `MEI1`.
 Firmware status registers HFSTS1 to HFSTS6. Their meaning depends on the
 interface, and on the generation of the Management Engine for all but the
 first and the third registers of the first interface: the first one tells
-the working state, the operation mode and the error code, the third one the
-SKU, and the sixth one the state of Intel Boot Guard on the generations which
-have it.
+the working state, the operation mode and the error code, and the third one
+the SKU. Not shown if the interface is not reported.
 
 `is_present`::
 Whether the function is present, i.e. its registers do not have all bits set.
+Not set, and not shown, if the interface is not reported.
+
+`is_reported`::
+Whether the interface is reported, i.e. its registers are not all zeroes.
 
 == See also
 

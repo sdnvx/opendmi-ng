@@ -31,7 +31,7 @@ typedef enum dmi_hpe_interleave_health {
     DMI_HPE_INTERLEAVE_HEALTH_SPA_MISSING  = 0x03,
     DMI_HPE_INTERLEAVE_HEALTH_NEW_GOAL     = 0x04,
     DMI_HPE_INTERLEAVE_HEALTH_LOCKED       = 0x05,
-    DMI_HPE_INTERLEAVE_HEALTH_UNSPEC       = 0xFF
+    DMI_HPE_INTERLEAVE_HEALTH_ABSENT       = 0x100
 } dmi_hpe_interleave_health_t;
 
 const char *dmi_hpe_interleave_health_name(dmi_hpe_interleave_health_t value);
@@ -41,7 +41,7 @@ const char *dmi_hpe_interleave_health_name(dmi_hpe_interleave_health_t value);
 
 The `dmi_hpe_interleave_health_t` enumeration tells the health of an
 interleave set of memory regions, and is the type of the `interleave_health`
-field of `dmi_hpe_dimm_config_t`.
+field of `dmi_hpe_dimm_config_t`. Values 0x06 to 0xFF are reserved.
 
 The `dmi_hpe_interleave_health_name` function returns the name of a value, as
 the command line tool shows it.
@@ -66,14 +66,16 @@ New goal.
 `DMI_HPE_INTERLEAVE_HEALTH_LOCKED`::
 Locked.
 
-`DMI_HPE_INTERLEAVE_HEALTH_UNSPEC`::
-Not specified.
+`DMI_HPE_INTERLEAVE_HEALTH_ABSENT`::
+The structure is too short to hold the health. It is no value the field may
+hold, and is shown as unspecified.
 
 == Return value
 
-`dmi_hpe_interleave_health_name` returns the name of the value, translated to the language of the
-current locale when a translation is available, or `nullptr` if the value
-has no name. The returned string must not be modified or freed.
+`dmi_hpe_interleave_health_name` returns the name of the value, translated to
+the language of the current locale when a translation is available, or
+`nullptr` if the value has no name. Values 0x06 to 0xFF are named
+"Reserved". The returned string must not be modified or freed.
 
 == Errors
 

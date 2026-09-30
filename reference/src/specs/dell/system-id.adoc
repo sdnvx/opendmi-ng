@@ -6,8 +6,13 @@ Source: reverse engineered from the dumps of the data corpus.
 
 Holds the system ID of the platform in hexadecimal digits, e.g. `0A64` in
 `dell/g15-5510.bin`, which the revisions and IDs (type 208) and the OEM
-strings (type 11, key `1`) hold too, along with an identifier beginning with
-`_SID`, whose meaning is not established.
+strings (type 11, key `1`) hold too, along with an identifier, whose meaning
+is not established, beginning with `_SID` on all systems of the data corpus
+but OptiPlex 9030 AIO, which holds `dellDelldellDELL`.
+
+Most structures are 8 bytes long, and hold `0` in their last two bytes, while
+the ones of G15 5510 and XPS 13 9300 are 6 bytes long. Most of the longer ones
+carry two more strings no field refers to: the identifier again, and `DELL`.
 
 .Dell System ID Record structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -40,7 +45,7 @@ strings (type 11, key `1`) hold too, along with an identifier beginning with
 | Identifier
 | `BYTE`
 | `STRING`
-| Identifier beginning with `_SID`
+| Identifier, beginning with `_SID` in most known data
 
 | `0x05`
 | 2.0+
@@ -48,4 +53,11 @@ strings (type 11, key `1`) hold too, along with an identifier beginning with
 | `BYTE`
 | `STRING`
 | System ID, in hexadecimal digits
+
+| `0x06`
+| 2.0+
+| Unknown
+| `WORD`
+| Varies
+| `0` in all known data
 |===

@@ -72,15 +72,46 @@ const dmi_entity_spec_t dmi_hpe_usb_device_spec =
             .name  = "USB class",
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_hpe_usb_device_t, usb_subclass, INTEGER, {
-            .code  = "usb-subclass",
-            .name  = "USB subclass",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        // Subclass and protocol codes are named for mass storage devices and
+        // hubs, and shown as they are for the other classes
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_usb_device_t, usb_class, {
+            .code     = "usb-subclass",
+            .name     = "USB subclass",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(DMI_HPE_USB_CLASS_STORAGE, dmi_hpe_usb_device_t, usb_subclass, ENUM, {
+                    .code   = "usb-subclass",
+                    .name   = "USB subclass",
+                    .values = &dmi_hpe_usb_storage_subclass_names
+                }),
+                DMI_VARIANT_DEFAULT(dmi_hpe_usb_device_t, usb_subclass, INTEGER, {
+                    .code  = "usb-subclass",
+                    .name  = "USB subclass",
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_usb_device_t, usb_protocol, INTEGER, {
-            .code  = "usb-protocol",
-            .name  = "USB protocol",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_usb_device_t, usb_class, {
+            .code     = "usb-protocol",
+            .name     = "USB protocol",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(DMI_HPE_USB_CLASS_STORAGE, dmi_hpe_usb_device_t, usb_protocol, ENUM, {
+                    .code   = "usb-protocol",
+                    .name   = "USB protocol",
+                    .values = &dmi_hpe_usb_storage_proto_names
+                }),
+                DMI_VARIANT(DMI_HPE_USB_CLASS_HUB, dmi_hpe_usb_device_t, usb_protocol, ENUM, {
+                    .code   = "usb-protocol",
+                    .name   = "USB protocol",
+                    .values = &dmi_hpe_usb_hub_proto_names
+                }),
+                DMI_VARIANT_DEFAULT(dmi_hpe_usb_device_t, usb_protocol, INTEGER, {
+                    .code  = "usb-protocol",
+                    .name  = "USB protocol",
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
         DMI_ATTRIBUTE(dmi_hpe_usb_device_t, capacity, SIZE, {
             .code   = "capacity",
@@ -120,4 +151,147 @@ bool dmi_hpe_usb_device_derive(dmi_entity_t *entity)
     info->capacity = (uint64_t)info->raw_capacity * 1024 * 1024;
 
     return true;
+}
+
+const dmi_name_set_t dmi_hpe_usb_storage_subclass_names =
+{
+    .code  = "hpe-usb-storage-subclass",
+    .names = DMI_NAMES({
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_UNREPORTED,
+            .code = "unreported",
+            .name = "SCSI command set not reported"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_RBC,
+            .code = "rbc",
+            .name = "RBC"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_ATAPI,
+            .code = "atapi",
+            .name = "ATAPI"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_QIC_157,
+            .code = "qic-157",
+            .name = "QIC-157 (obsolete)"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_UFI,
+            .code = "ufi",
+            .name = "UFI"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_SFF_8070I,
+            .code = "sff-8070i",
+            .name = "SFF-8070i (obsolete)"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_SCSI,
+            .code = "scsi",
+            .name = "SCSI transparent command set"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_LSD_FS,
+            .code = "lsd-fs",
+            .name = "LSD FS"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_IEEE_1667,
+            .code = "ieee-1667",
+            .name = "IEEE 1667"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_SUBCLASS_VENDOR,
+            .code = "vendor-specific",
+            .name = "Vendor-specific"
+        },
+        {}
+    }),
+    .ranges = DMI_NAME_RANGES({
+        {
+            .start_id = DMI_HPE_USB_STORAGE_SUBCLASS_IEEE_1667 + 1,
+            .end_id   = DMI_HPE_USB_STORAGE_SUBCLASS_VENDOR - 1,
+            .code     = "reserved",
+            .name     = "Reserved"
+        },
+        {}
+    })
+};
+
+const dmi_name_set_t dmi_hpe_usb_storage_proto_names =
+{
+    .code  = "hpe-usb-storage-protocol",
+    .names = DMI_NAMES({
+        {
+            .id   = DMI_HPE_USB_STORAGE_PROTO_CBI_INT,
+            .code = "cbi-interrupt",
+            .name = "CBI with command completion interrupt"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_PROTO_CBI,
+            .code = "cbi",
+            .name = "CBI without command completion interrupt"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_PROTO_OBSOLETE,
+            .code = "obsolete",
+            .name = "Obsolete"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_PROTO_BOT,
+            .code = "bulk-only",
+            .name = "Bulk-only transport"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_PROTO_UAS,
+            .code = "uas",
+            .name = "USB attached SCSI"
+        },
+        {
+            .id   = DMI_HPE_USB_STORAGE_PROTO_VENDOR,
+            .code = "vendor-specific",
+            .name = "Vendor-specific"
+        },
+        {}
+    })
+};
+
+const dmi_name_set_t dmi_hpe_usb_hub_proto_names =
+{
+    .code  = "hpe-usb-hub-protocol",
+    .names = DMI_NAMES({
+        {
+            .id   = DMI_HPE_USB_HUB_PROTO_FULL_SPEED,
+            .code = "full-speed",
+            .name = "Full speed"
+        },
+        {
+            .id   = DMI_HPE_USB_HUB_PROTO_SINGLE_TT,
+            .code = "single-tt",
+            .name = "Hi-speed with a single transaction translator"
+        },
+        {
+            .id   = DMI_HPE_USB_HUB_PROTO_MULTI_TT,
+            .code = "multi-tt",
+            .name = "Hi-speed with multiple transaction translators"
+        },
+        {}
+    })
+};
+
+const char *dmi_hpe_usb_storage_subclass_name(dmi_hpe_usb_storage_subclass_t value)
+{
+    return dmi_name_lookup(&dmi_hpe_usb_storage_subclass_names, (int)value);
+}
+
+const char *dmi_hpe_usb_storage_proto_name(dmi_hpe_usb_storage_proto_t value)
+{
+    return dmi_name_lookup(&dmi_hpe_usb_storage_proto_names, (int)value);
+}
+
+const char *dmi_hpe_usb_hub_proto_name(dmi_hpe_usb_hub_proto_t value)
+{
+    return dmi_name_lookup(&dmi_hpe_usb_hub_proto_names, (int)value);
 }

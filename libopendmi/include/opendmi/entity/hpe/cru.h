@@ -32,7 +32,9 @@ struct dmi_hpe_cru
     char signature_buffer[5];
 
     /**
-     * @brief Signature, `$CRU`, or @c nullptr if it is not printable.
+     * @brief Signature, `$CRU` for the CRU services, or @c nullptr if it is
+     * not printable. Some servers carry records of other signatures too, e.g.
+     * `$SHF`, whose meaning is not known.
      */
     const char *signature;
 
@@ -55,6 +57,13 @@ struct dmi_hpe_cru
      * @brief Physical address of the entry point.
      */
     uint64_t entry_point;
+
+    /**
+     * @brief Whether the record describes the CRU services, as its signature
+     * `$CRU` tells. The address, the length, the offset and the entry point
+     * are shown for these records only.
+     */
+    bool is_cru;
 };
 
 /**

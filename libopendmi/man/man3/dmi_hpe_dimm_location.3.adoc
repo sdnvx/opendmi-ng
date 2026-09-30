@@ -44,6 +44,9 @@ typedef struct dmi_hpe_dimm_location {
     uint8_t interleave;
     const char *part_number;
     uint8_t channel_index;
+    bool is_system_board;
+    bool has_ie;
+    bool has_channel_index;
 } dmi_hpe_dimm_location_t;
 ----
 
@@ -72,7 +75,7 @@ Handle of the memory device structure (type 17).
 
 `board`::
 1-based number of the memory board. Set to `UINT8_MAX` for the sockets of the
-system board.
+system board, and not shown then.
 
 `dimm`::
 1-based number of the DIMM.
@@ -101,11 +104,12 @@ unknown.
 
 `ie_dimm`::
 0-based number of the DIMM, as the Innovation Engine reports it. Set to
-`UINT8_MAX` when not supported. Reserved from Gen12 onwards.
+`UINT8_MAX` when not supported. Reserved from Gen12 onwards, and not shown
+then.
 
 `ie_pldm_id`::
 Sensor ID of the Innovation Engine. Set to `UINT8_MAX` when not supported.
-Reserved from Gen12 onwards.
+Reserved from Gen12 onwards, and not shown then.
 
 `vendor_id`::
 Manufacturer ID code of the module, as the SPD gives it.
@@ -114,7 +118,9 @@ Manufacturer ID code of the module, as the SPD gives it.
 Product ID code of the module, NVDIMMs only.
 
 `controller_vendor_id`::
-Manufacturer ID code of the controller, NVDIMMs only.
+Manufacturer ID code of the controller, NVDIMMs only, as the SPD gives it: the
+number of continuation codes in the low byte, whose bit 7 is a parity bit,
+and the JEP106 code in the high byte.
 
 `controller_device_id`::
 Product ID code of the controller, NVDIMMs only.
@@ -126,8 +132,19 @@ Product ID code of the controller, NVDIMMs only.
 HPE part number, from the OEM area of the SPD.
 
 `channel_index`::
-0-based index of the DIMM within its channel. Set to `UINT8_MAX` when
-unspecified.
+0-based index of the DIMM within its channel. Set to `UINT8_MAX` when the
+structure holds none.
+
+`is_system_board`::
+Whether the socket is one of the system board, which `board` of `UINT8_MAX`
+tells.
+
+`has_ie`::
+Whether `ie_dimm` and `ie_pldm_id` are shown, which they are up to Gen11.
+
+`has_channel_index`::
+Whether the structure holds `channel_index`, which the structures shorter
+than 28 bytes leave out.
 
 == See also
 

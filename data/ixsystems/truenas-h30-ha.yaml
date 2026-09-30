@@ -1184,7 +1184,7 @@ table:
   length: 70
   level: null
   state: []
-  description: Intel Active Management Technology information
+  description: OEM-specific
   data: !!binary |
     gic+AAAAAAAAAAAAAAAAARAgISIjJCUmAAAAAAAAAAAQAAEQAgAA
   strings:

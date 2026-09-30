@@ -4,6 +4,8 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <string.h>
+
 #include <opendmi/field.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
@@ -41,23 +43,43 @@ const dmi_entity_spec_t dmi_hpe_cru_spec =
             .code = "signature",
             .name = "Signature"
         }),
-        DMI_ATTRIBUTE(dmi_hpe_cru_t, address, ADDRESS, {
-            .code = "address",
-            .name = "Physical address"
+        // Records of other signatures than "$CRU" describe something else,
+        // whose layout is not known
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_cru_t, is_cru, {
+            .code     = "address",
+            .name     = "Physical address",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_cru_t, address, ADDRESS, {}),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_cru_t, length, INTEGER, {
-            .code  = "length",
-            .name  = "Length",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_cru_t, is_cru, {
+            .code     = "length",
+            .name     = "Length",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_cru_t, length, INTEGER, {
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_cru_t, offset, INTEGER, {
-            .code  = "offset",
-            .name  = "Entry point offset",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_cru_t, is_cru, {
+            .code     = "offset",
+            .name     = "Entry point offset",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_cru_t, offset, INTEGER, {
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_cru_t, entry_point, ADDRESS, {
-            .code = "entry-point",
-            .name = "Entry point address"
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_cru_t, is_cru, {
+            .code     = "entry-point",
+            .name     = "Entry point address",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_cru_t, entry_point, ADDRESS, {}),
+                {}
+            })
         }),
         {}
     }),
@@ -74,6 +96,8 @@ bool dmi_hpe_cru_derive(dmi_entity_t *entity)
         return false;
 
     info->entry_point = info->address + info->offset;
+    info->is_cru      = (info->signature_raw.length == 4) and
+                        (memcmp(info->signature_raw.data, "$CRU", 4) == 0);
     info->signature   = dmi_text_from_bytes(info->signature_raw.data, info->signature_raw.length,
                                      info->signature_buffer, false);
 

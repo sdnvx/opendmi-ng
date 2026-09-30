@@ -57,8 +57,9 @@ const dmi_entity_spec_t dmi_dell_device_names_spec =
                     .name = "Fully qualified device descriptor"
                 }),
                 DMI_ATTRIBUTE(dmi_dell_device_name_t, handle, HANDLE, {
-                    .code = "handle",
-                    .name = "Handle"
+                    .code    = "handle",
+                    .name    = "Handle",
+                    .targets = dmi_types(DMI_TYPE(processor), DMI_TYPE(memory_device))
                 }),
                 DMI_ATTRIBUTE(dmi_dell_device_name_t, unknown, INTEGER, {
                     .code  = "unknown",

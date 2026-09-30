@@ -31,7 +31,10 @@ const char *dmi_entity_name(const dmi_entity_t *entity);
 
 The `dmi_entity_name` function returns the human-readable name of the entity's
 SMBIOS structure type (e.g., "BIOS Information", "System Information",
-"Cooling Device").
+"Cooling Device"), as the specification describing the structure names it.
+Structures which no specification describes, e.g. the ones no signature of
+their type matches, are named after the range of their type: "OEM-specific"
+from 128 onwards, and "Unknown" below.
 
 === Parameters
 

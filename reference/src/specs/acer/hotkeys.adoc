@@ -10,11 +10,16 @@ Lenovo and eMachines, are said to carry it too.
 
 The Acer WMI driver reads the structure up to the number of the key of the
 communication function, at `0x0E`. In the data corpus, that byte begins a list
-of 4-byte hotkeys, which runs to the end of the structure: the number of a
-key, a byte of `2`, and the function of the key, as a bit of the bitmap of its
-button group. The high bits of the key number tell the group: `0x0_`
-communication, `0x4_` media, `0x6_` display and `0x8_` others, and the
-functions of the keys of the media and display groups add up to their bitmaps.
+of 4-byte hotkeys, which runs to the end of the structure: the number of a key,
+a byte of `1` or `2`, the same for all the hotkeys of a structure, and the
+function of the key, as bits of the bitmap of its button group: the key of the
+communication function has all the bits of the communication bitmap, e.g. those
+of WiFi and Bluetooth. The high bits of the key number tell the group: `0x0_`
+communication, `0x4_` media, `0x6_` display and `0x8_` others, and the functions
+of the keys of the media and display groups add up to their bitmaps.
+
+Structures of `0x0F` bytes end with the number of the key of the communication
+function, and hold no hotkeys.
 
 .Acer Hotkey Functions structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -47,7 +52,7 @@ functions of the keys of the media and display groups add up to their bitmaps.
 | Communication Button Functions
 | `WORD`
 | `BITFIELD`
-| Bit 0: WiFi, bit 6: 3G, bit 7: WiMAX, bit 11: Bluetooth
+| Bit 0: WiFi, bit 6: 3G, bit 7: WiMAX, bit 11: Bluetooth, bit 14: radio button
 
 | `0x06`
 | 2.0+
@@ -98,10 +103,10 @@ functions of the keys of the media and display groups add up to their bitmaps.
 | `0x01`
 | Kind
 | `BYTE`
-| Meaning not established, `2` in all known data
+| Meaning not established, `1` or `2` in the known data
 
 | `0x02`
 | Function
 | `WORD`
-| Function of the key, as a bit of the bitmap of its button group
+| Function of the key, as bits of the bitmap of its button group
 |===

@@ -7,7 +7,9 @@ Source: dmidecode, `dmioem.c`, the README files of the firmware updates of Lenov
 Holds one OEM structure of a Lenovo system, told by its number and revision.
 OEM structures 0 to 9 are found in the data corpus, and only structure 7, the
 embedded controller program, is decoded. Structure 9 refers to two strings
-too, e.g. `1.32`, whose meaning is not established.
+too, which hold the same version, e.g. `1.32`, whose meaning is not
+established; ThinkPad E14 Gen 5 carries the first of them only, so that the
+second reference is left dangling.
 
 .Lenovo OEM Data structure
 [width=100%, cols="1,1,2,1,1,4"]

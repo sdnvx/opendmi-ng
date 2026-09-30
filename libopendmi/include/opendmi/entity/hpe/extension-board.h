@@ -60,10 +60,15 @@ struct dmi_hpe_riser
     uint8_t riser_id;
 
     /**
-     * @brief Version of the CPLD of the riser in bits 0 to 6, bit 7 telling
-     * a `B.` release, zero if the riser has no CPLD.
+     * @brief Version of the CPLD of the riser, zero if the riser has no
+     * CPLD.
      */
     uint8_t cpld_version;
+
+    /**
+     * @brief Whether the version of the CPLD is a `B.` release.
+     */
+    bool is_cpld_b_release;
 
     /**
      * @brief Name of the riser.

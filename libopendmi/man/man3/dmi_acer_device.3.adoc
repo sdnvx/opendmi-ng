@@ -25,7 +25,7 @@ endif::[]
 #include <opendmi/entity/acer/devices.h>
 
 typedef struct dmi_acer_device {
-    uint8_t kind;
+    dmi_acer_device_kind_t kind;
     uint16_t vendor_id;
     uint16_t device_id;
 } dmi_acer_device_t;
@@ -39,9 +39,8 @@ element of the `devices` field of `dmi_acer_devices_t`.
 === Fields
 
 `kind`::
-Kind of the device, e.g. `1` for the integrated graphics, `2` for the discrete
-graphics, `4` for the webcam, `5` for the audio and `7` for the wireless
-network adapter, as the data corpus suggests.
+Kind of the device, whose meaning is not established, see
+`dmi_acer_device_kind`(3).
 
 `vendor_id`::
 PCI or USB vendor ID of the device, zero if the device is absent.
@@ -51,7 +50,8 @@ PCI or USB device ID of the device, zero if the device is absent.
 
 == See also
 
-`dmi_acer_devices`(3)
+`dmi_acer_devices`(3),
+`dmi_acer_device_kind`(3)
 
 == Standards
 

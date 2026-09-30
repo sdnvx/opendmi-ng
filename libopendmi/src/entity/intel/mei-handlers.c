@@ -23,13 +23,24 @@ bool dmi_intel_mei_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    for (size_t i = 0; i < info->device_count; i++)
-        info->devices[i].is_present = (info->devices[i].hfsts[0] != DMI_INTEL_MEI_ABSENT);
+    for (size_t i = 0; i < info->device_count; i++) {
+        dmi_intel_mei_device_t *device = &info->devices[i];
+
+        // Registers of all zeroes are not read from the function, so they
+        // tell nothing of it
+        device->is_reported = false;
+        for (size_t j = 0; j < countof(device->hfsts); j++) {
+            if (device->hfsts[j] != 0)
+                device->is_reported = true;
+        }
+
+        device->is_present = device->is_reported and (device->hfsts[0] != DMI_INTEL_MEI_ABSENT);
+    }
 
     info->state      = DMI_INTEL_ME_STATE_UNSPEC;
     info->mode       = DMI_INTEL_ME_MODE_UNSPEC;
     info->sku        = DMI_INTEL_ME_SKU_UNSPEC;
-    info->error_code = UINT8_MAX;
+    info->error_code = DMI_INTEL_ME_ERROR_UNSPEC;
 
     // State of the firmware is told by the first interface, which is the
     // one of the host, and the layouts of its first and third registers are
@@ -43,9 +54,14 @@ bool dmi_intel_mei_derive(dmi_entity_t *entity)
     info->state            = (dmi_intel_me_state_t)(hfsts1 & 0x0F);
     info->is_manufacturing = (hfsts1 & (1u << 4)) != 0;
     info->is_init_complete = (hfsts1 & (1u << 9)) != 0;
-    info->error_code       = (uint8_t)((hfsts1 >> 12) & 0x0F);
+    info->error_code       = (dmi_intel_me_error_t)((hfsts1 >> 12) & 0x0F);
     info->mode             = (dmi_intel_me_mode_t)((hfsts1 >> 16) & 0x0F);
     info->sku              = (dmi_intel_me_sku_t)((hfsts3 >> 4) & 0x07);
+
+    // Firmware of Management Engine 11.0 may leave the SKU at zero, which
+    // tells none
+    if (info->sku == 0)
+        info->sku = DMI_INTEL_ME_SKU_UNSPEC;
 
     return true;
 }

@@ -20,7 +20,8 @@ typedef struct dmi_dell_hotkey  dmi_dell_hotkey_t;
 struct dmi_dell_hotkey
 {
     /**
-     * @brief Scan code the keyboard controller reports for the key.
+     * @brief Scan code of the key, as the firmware reports it in the WMI
+     * events of the hotkeys.
      */
     uint16_t scancode;
 

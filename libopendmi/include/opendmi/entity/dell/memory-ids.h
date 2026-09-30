@@ -18,7 +18,8 @@ typedef struct dmi_dell_memory_ids dmi_dell_memory_ids_t;
  * @brief Identifiers of a memory module.
  *
  * The identifiers are the ones of the serial presence detect (SPD) data of
- * the module. Sockets which hold no module carry bytes of `0xFF`.
+ * the module. Sockets which hold no module usually carry bytes of `0xFF`,
+ * though some firmware repeats the identifiers of another module there.
  */
 struct dmi_dell_memory_id
 {
@@ -28,9 +29,9 @@ struct dmi_dell_memory_id
     dmi_handle_t handle;
 
     /**
-     * @brief JEDEC identifier of the manufacturer of the module, of 8 bytes,
-     * whose leading bytes of `0x7F` are continuation codes, e.g. `CE` for
-     * Samsung, or `7F 98` for Kingston.
+     * @brief Identifier of the manufacturer of the module, of 8 bytes,
+     * normally its JEDEC identifier, whose leading bytes of `0x7F` are
+     * continuation codes, e.g. `CE` for Samsung, or `7F 98` for Kingston.
      */
     dmi_binary_t manufacturer;
 

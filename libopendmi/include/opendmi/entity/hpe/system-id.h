@@ -34,6 +34,12 @@ struct dmi_hpe_system_id
     uint8_t platform_id[2];
 
     /**
+     * @brief Whether the structure holds the platform ID, which the
+     * structures of 5 bytes leave out. The field is not shown then.
+     */
+    bool has_platform_id;
+
+    /**
      * @brief GUID, reserved from Gen11 onwards.
      */
     dmi_uuid_t guid;

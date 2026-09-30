@@ -19,9 +19,9 @@ typedef struct dmi_lenovo_tpm_info dmi_lenovo_tpm_info_t;
 /**
  * @brief Lenovo date record structure (type 134).
  *
- * Holds a date of a ThinkPad, which is earlier than the release date of its
- * firmware and falls within the years the model has been made in, and so is
- * probably its manufacture date. Reverse engineered from the data corpus.
+ * Holds a date of a ThinkPad, which falls within the years the model has been
+ * made in, and so is probably its manufacture date. Reverse engineered from
+ * the data corpus.
  */
 struct dmi_lenovo_date
 {
@@ -40,7 +40,7 @@ struct dmi_lenovo_date
 /**
  * @brief Lenovo TPM information structure (type 134).
  *
- * Tells the vendor of the TPM of a ThinkPad, by its TCG vendor ID, e.g.
+ * Tells the vendor of the TPM of a Lenovo laptop, by its TCG vendor ID, e.g.
  * `ATML` for Atmel or `STM ` for STMicroelectronics. The structures are told
  * from the date records of the same type by their first string, `TPM INFO`.
  * Reverse engineered from the data corpus.
@@ -99,7 +99,8 @@ struct dmi_lenovo_tpm_info
 /**
  * @brief Lenovo machine type model structure (type 200).
  *
- * Tells the brand of an IdeaPad or ThinkBook and its full machine type
+ * Tells the brand of a consumer or small business laptop of Lenovo, e.g. an
+ * IdeaPad, a Yoga, a Legion or a ThinkBook, and its full machine type
  * model, e.g. `20VE00U9RU`, of which the system information (type 1) holds
  * only the machine type, e.g. `20VE`. Reverse engineered from the data
  * corpus.

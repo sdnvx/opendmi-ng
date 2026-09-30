@@ -32,6 +32,7 @@ typedef struct dmi_hpe_dimm_config {
     bool is_block_io;
     uint64_t raw_size;
     uint64_t size;
+    uint8_t passphrase_state;
     bool is_passphrase_enabled;
     uint16_t interleave_set;
     uint8_t interleave_dimm_count;
@@ -76,8 +77,12 @@ Size of the region in mebibytes, as the structure holds it.
 `size`::
 Size of the region in bytes.
 
+`passphrase_state`::
+State of the passphrase, as the structure holds it.
+
 `is_passphrase_enabled`::
-Whether a passphrase is required, byte accessible persistent regions only.
+Whether a passphrase is required, byte accessible persistent regions only:
+any state other than zero.
 
 `interleave_set`::
 1-based index of the interleave set of the region, unique per set. Regions of
@@ -87,7 +92,8 @@ the same index are interleaved.
 Number of the DIMMs of the interleave set.
 
 `interleave_health`::
-Health of the interleave set, see `dmi_hpe_interleave_health`(3).
+Health of the interleave set, see `dmi_hpe_interleave_health`(3), or
+`DMI_HPE_INTERLEAVE_HEALTH_ABSENT` if the structure is too short to hold it.
 
 == See also
 

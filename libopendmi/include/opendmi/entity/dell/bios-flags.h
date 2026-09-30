@@ -16,7 +16,9 @@ typedef struct dmi_dell_bios_flags dmi_dell_bios_flags_t;
 /**
  * @brief Dell BIOS flags structure (type 177).
  *
- * Tells the features of the firmware the Dell drivers rely on.
+ * Tells the features of the firmware the Dell drivers rely on. The flags
+ * take 8 bytes, of which the Dell SMBIOS WMI driver of Linux reads the first
+ * word, and the structure is 12 bytes long.
  */
 struct dmi_dell_bios_flags
 {

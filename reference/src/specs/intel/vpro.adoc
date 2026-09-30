@@ -2,19 +2,27 @@
 :sectnums:
 :sectlinks:
 
-Source: reverse engineered from the dumps of the data corpus, whose versions
-match the ones of Intel firmware version information (type 221).
+Source: Intel AMT Implementation and Reference Guide, "vPro Verification
+Table Parameter Definitions"; MeshAgent, `modules/smbios.js`; and the dumps
+of the data corpus, whose versions match the ones of Intel firmware version
+information (type 221).
 
-Describes the parts of the platform Intel vPro technology relies on: the
-versions of the Management Engine firmware and of its BIOS extension (MEBx),
-and the PCI functions of the chipset and of the network controller the
-Management Engine uses. The structure is found on Intel platforms whether
-they are of vPro or not.
+Intel calls the structure the vPro verification table. It describes the parts
+of the platform Intel vPro technology relies on: the capabilities of the
+processor, of the Management Engine firmware, of the TPM and of the BIOS, the
+versions of the firmware and of its BIOS extension (MEBx), and the PCI
+functions of the chipset and of the network controller the Management Engine
+uses. The structure is found on Intel platforms whether they are of vPro or
+not.
+
+The guide gives the offsets from a point 8 bytes before the one of this
+chapter, i.e. its `0x0C` is `0x04` here.
 
 The structure is told by the `vPro` signature at offset `0x38`, since some
 vendors give type 131 to structures of their own in the same table, e.g.
 Lenovo ThinkVantage Technologies enablement. PCI functions are given as their
-device and function numbers on bus 0, `(device << 3) | function`.
+device and function numbers, `(device << 3) | function`, followed by their
+bus.
 
 .Intel vPro Information structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -44,17 +52,17 @@ device and function numbers on bus 0, `(device << 3) | function`.
 
 | `0x04`
 | 2.0+
-| Flags 1
+| CPU Capabilities
 | `DWORD`
 | `BITFIELD`
-| Capability flags, whose meaning is not established
+| Capabilities of the processor, see below
 
 | `0x08`
 | 2.0+
 | MEBx Major Version
 | `WORD`
 | `NUMBER`
-| Version of the Management Engine BIOS extension, all zeroes if not reported
+| Version of the Management Engine BIOS extension, all zeroes if not reported. The layout of the guide holds the capabilities of the memory controller hub from here to `0x0F`, see below
 
 | `0x0A`
 | 2.0+
@@ -80,9 +88,16 @@ device and function numbers on bus 0, `(device << 3) | function`.
 | `0x10`
 | 2.0+
 | LPC Device and Function
-| `WORD`
+| `BYTE`
 | `NUMBER`
 | PCI device and function of the LPC bridge, `0xF8` for 0:1F.0
+
+| `0x11`
+| 2.0+
+| LPC Bus
+| `BYTE`
+| `NUMBER`
+| PCI bus of the LPC bridge
 
 | `0x12`
 | 2.0+
@@ -96,14 +111,14 @@ device and function numbers on bus 0, `(device << 3) | function`.
 | Reserved
 | `DWORD`
 | `0`
-| `0xFFFFFFFF` on older platforms
+| Reserved by the guide, `0xFFFFFFFF` on older platforms
 
 | `0x18`
 | 2.0+
-| Flags 2
+| ME Capabilities
 | `DWORD`
 | `BITFIELD`
-| Capability flags of the Management Engine, whose meaning is not established
+| Capabilities of the Management Engine firmware, see below
 
 | `0x1C`
 | 2.0+
@@ -135,38 +150,45 @@ device and function numbers on bus 0, `(device << 3) | function`.
 
 | `0x24`
 | 2.0+
-| Reserved
+| TPM Capabilities
 | `DWORD`
-| `0`
-|
+| `BITFIELD`
+| Capabilities of the Trusted Platform Module, see below
 
 | `0x28`
 | 2.0+
-| GbE Device and Function
-| `WORD`
+| Wired NIC Device and Function
+| `BYTE`
 | `NUMBER`
-| PCI device and function of the Gigabit Ethernet controller, `0xFE` for 0:1F.6, `0xC8` for 0:19.0
+| PCI device and function of the wired network controller, `0xFE` for 0:1F.6, `0xC8` for 0:19.0
+
+| `0x29`
+| 2.0+
+| Wired NIC Bus
+| `BYTE`
+| `NUMBER`
+| PCI bus of the wired network controller
 
 | `0x2A`
 | 2.0+
-| GbE Device ID
+| Wired NIC Device ID
 | `WORD`
 | `NUMBER`
-| PCI device ID of the Gigabit Ethernet controller, `0xFFFF` if absent
+| PCI device ID of the wired network controller, `0xFFFF` if absent
 
 | `0x2C`
 | 2.0+
 | Reserved
 | 8 BYTEs
 | Varies
-|
+| Reserved by the guide, which gives the wireless network controller from `0x2E` on. Some firmware holds a PCI device ID of the processor or of the chipset at `0x30`, e.g. `0x0A04` of the host bridge of Intel Haswell-ULT or `0x0416` of the graphics of Intel Haswell, which is not decoded
 
 | `0x34`
 | 2.0+
-| Flags 3
+| BIOS Capabilities
 | `DWORD`
 | `BITFIELD`
-| Feature flags, whose meaning is not established
+| Capabilities of the BIOS, see below
 
 | `0x38`
 | 2.0+
@@ -181,4 +203,151 @@ device and function numbers on bus 0, `(device << 3) | function`.
 | `DWORD`
 | `0`
 |
+|===
+
+.CPU capabilities
+[width=100%, cols="1,4"]
+|===
+| Bits | Meaning
+
+| 0
+| Virtual machine extensions (VMX) are enabled
+
+| 1
+| Safer mode extensions (SMX) are enabled
+
+| 2
+| The processor supports Trusted Execution Technology (TXT)
+
+| 3
+| TXT is enabled
+
+| 4
+| The processor supports Virtualization Technology (VT-x)
+
+| 5
+| VT-x is enabled
+
+| 6-31
+| Reserved
+|===
+
+.ME capabilities
+[width=100%, cols="1,4"]
+|===
+| Bits | Meaning
+
+| 0
+| The Management Engine is enabled
+
+| 1
+| The firmware supports Quiet System Technology (QST)
+
+| 2
+| The firmware supports Alert Standard Format (ASF)
+
+| 3
+| The firmware supports Active Management Technology (AMT)
+
+| 4
+| Reserved
+
+| 5
+| The firmware supports Small Business Technology (SBT)
+
+| 6
+| The firmware supports the level III manageability
+
+| 7-31
+| Reserved by the guide. The newer firmware sets some of them, e.g. bits 13 to 15, whose meaning is not established
+|===
+
+.TPM capabilities
+[width=100%, cols="1,4"]
+|===
+| Bits | Meaning
+
+| 0
+| A TPM is on board
+
+| 1
+| The TPM is enabled
+
+| 2-15
+| Reserved
+
+| 16-23
+| Major version of the TCG specification the TPM is designed to
+
+| 24-31
+| Minor version of the TCG specification the TPM is designed to
+|===
+
+.BIOS capabilities
+[width=100%, cols="1,4"]
+|===
+| Bits | Meaning
+
+| 0
+| VT-x can be set in the setup of the BIOS
+
+| 1
+| VT-d can be set in the setup of the BIOS
+
+| 2
+| TXT can be set in the setup of the BIOS
+
+| 3
+| The TPM can be set in the setup of the BIOS
+
+| 4
+| The Management Engine can be set in the setup of the BIOS
+
+| 5
+| The BIOS supports the extensions of the Virtual Appliance, the ACPI operation region
+
+| 6
+| The platform data area of the SPI flash is reserved
+
+| 7-9
+| Highest version of the Virtual Appliance supported: 0 for 2.6, 1 for 3.0, the others reserved. Some firmware gives 3
+
+| 10-31
+| Reserved
+|===
+
+== Older Layout
+
+The guide gives the capabilities of the memory controller hub (MCH) from
+`0x08` to `0x0F`, where the newer firmware puts the version of the BIOS
+extension, and firmware of both kinds is found in the data corpus, e.g. the
+one of HP EliteBook 6930p holds the hub. The hub is found at 0:0.0, so its
+device and function and its bus are zero, while its device ID is not, which
+tells the layout: a version of the BIOS extension is either given in full, or
+not at all.
+
+.Memory controller hub capabilities
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x08`
+| MCH Device and Function
+| `BYTE`
+| PCI device and function of the hub
+
+| `0x09`
+| MCH Bus
+| `BYTE`
+| PCI bus of the hub
+
+| `0x0A`
+| MCH Device ID
+| `WORD`
+| PCI device ID of the hub, e.g. `0x2A40` of Intel GM45
+
+| `0x0C`
+| MCH Capabilities
+| `DWORD`
+| Bit 0: the chipset supports VT-d, bit 1: VT-d is enabled, bit 2: the chipset supports TXT, bit 3: TXT is enabled
 |===

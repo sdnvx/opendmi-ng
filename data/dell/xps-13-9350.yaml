@@ -1127,12 +1127,17 @@ table:
   type: 221
   length: 35
   level: null
-  state: []
-  description: Dell token references, type 2
-  data: !!binary |
-    3Qw9AAEBAAEIAAAA
-  strings:
-  - Reference Code - ACPI
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - ACPI
+      version-string: null
+      major: 1
+      minor: 8
+      revision: 0
+      build: 0
 - handle: 62
   type: 20
   length: 37
@@ -2470,11 +2475,25 @@ table:
     is-network-enabled: false
     is-kvm-enabled: false
     extended-data: 165
-    oem-capabilities:
-    - 175
-    - 2
-    - 192
-    - 0
+    oem-capabilities-1:
+      storage-redirection: true
+      sol: true
+      bios-reflash: true
+      bios-setup: true
+      bios-pause: false
+      floppy-boot-block: true
+      cd-boot-block: false
+    terminal: vt100-plus
+    oem-capabilities-3:
+      secure-erase: true
+      secure-boot: true
+    oem-capabilities-4:
+      thunderbolt-dock: false
+      https-boot: false
+      pba-boot: false
+      winre-boot: false
+      nonsecure-boot: false
+      wifi-coexistence: false
 - handle: 61481
   type: 131
   length: 66
@@ -2483,108 +2502,305 @@ table:
   - decoded
   description: Intel vPro information
   attributes:
-    flags-1: 49
+    cpu-capabilities:
+      vmx-enabled: true
+      smx-enabled: false
+      txt-capable: false
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: true
     mebx-version:
       major: 11
       minor: 0
       hotfix: 0
       build: 10
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 40264
-    flags-2: 1
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: false
+      sbt: false
+      l3: false
     me-version:
       major: 11
       minor: 8
       hotfix: 70
       build: 3626
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 254
+    gbe-bus: 0
     gbe-device-id: null
-    flags-3: 34
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: true
+      txt-configurable: false
+      tpm-configurable: false
+      me-configurable: false
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 61482
   type: 221
   length: 78
   level: null
   state:
   - decoded
-  description: Dell token references, type 2
+  description: Intel firmware version information
   attributes:
-    unknown-1: 3
-    unknown-2: 1
-    tokens:
-    - 2049
-    - 0
-    - 512
-    - 0
-    - 0
-    - 214
+    items:
+    - component: Reference Code - CPU
+      version-string: null
+      major: 1
+      minor: 8
+      revision: 0
+      build: 0
+    - component: uCode Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 214
+    - component: TXT ACM version
+      version-string: null
+      major: 0
+      minor: 5
+      revision: 0
+      build: 0
 - handle: 61483
   type: 221
   length: 98
   level: null
   state:
   - decoded
-  description: Dell token references, type 2
+  description: Intel firmware version information
   attributes:
-    unknown-1: 3
-    unknown-2: 1
-    tokens:
-    - 2049
-    - 0
-    - 512
-    - 2816
-    - 0
-    - 10
+    items:
+    - component: Reference Code - ME 11.0
+      version-string: null
+      major: 1
+      minor: 8
+      revision: 0
+      build: 0
+    - component: MEBx version
+      version-string: null
+      major: 11
+      minor: 0
+      revision: 0
+      build: 10
+    - component: ME Firmware Version
+      version-string: Consumer SKU
+      major: 11
+      minor: 8
+      revision: 70
+      build: 3626
 - handle: 61484
   type: 221
   length: 287
   level: null
   state:
   - decoded
-  description: Dell token references, type 2
+  description: Intel firmware version information
   attributes:
-    unknown-1: 9
-    unknown-2: 1
-    tokens:
-    - 2049
-    - 0
-    - 512
-    - 65283
-    - 65535
-    - 65535
+    items:
+    - component: Reference Code - SKL PCH
+      version-string: null
+      major: 1
+      minor: 8
+      revision: 0
+      build: 0
+    - component: PCH-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 33
+    - component: PCH-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 33
+    - component: OPROM - RST - RAID
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SKL PCH H Bx Hsio Version
+      version-string: null
+      major: 62
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH H Dx Hsio Version
+      version-string: null
+      major: 52
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH LP Bx Hsio Version
+      version-string: null
+      major: 62
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH LP Cx Hsio Version
+      version-string: null
+      major: 52
+      minor: 0
+      revision: 0
+      build: 0
 - handle: 61485
   type: 221
   length: 208
   level: null
   state:
   - decoded
-  description: Dell token references, type 2
+  description: Intel firmware version information
   attributes:
-    unknown-1: 7
-    unknown-2: 1
-    tokens:
-    - 2049
-    - 0
-    - 512
-    - 256
-    - 8
-    - 1
+    items:
+    - component: Reference Code - SA - System Agent
+      version-string: null
+      major: 1
+      minor: 8
+      revision: 0
+      build: 0
+    - component: Reference Code - MRC
+      version-string: null
+      major: 1
+      minor: 8
+      revision: 0
+      build: 1
+    - component: SA - PCIe Version
+      version-string: null
+      major: 1
+      minor: 8
+      revision: 0
+      build: 0
+    - component: SA-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SA-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 8
+    - component: SA-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 8
+    - component: OPROM - VBIOS
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
 - handle: 61486
   type: 221
   length: 396
   level: null
   state:
   - decoded
-  description: Dell token references, type 2
+  description: Intel firmware version information
   attributes:
-    unknown-1: 13
-    unknown-2: 1
-    tokens:
-    - 0
-    - 0
-    - 512
-    - 65280
-    - 65535
-    - 65535
+    items:
+    - component: Lan Phy Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: Sensor Firmware Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Mode Status
+      version-string: Enabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Performance Mode Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Use USB(Disabled:Serial)
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: ICC Overclocking Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: UNDI Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: EC FW Version
+      version-string: null
+      major: null
+      minor: null
+      revision: 0
+      build: 0
+    - component: GOP Version
+      version-string: null
+      major: 0
+      minor: 9
+      revision: 0
+      build: 4162
+    - component: BIOS Guard Version
+      version-string: null
+      major: 2
+      minor: 0
+      revision: 0
+      build: 0
+    - component: Base EC FW Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: EC-EC Protocol Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Royal Park Version
+      version-string: BP1.2.2.0_RP03
+      major: 1
+      minor: 2
+      revision: 2
+      build: 3
 - handle: 61497
   type: 136
   length: 8
@@ -2635,15 +2851,48 @@ table:
   type: 219
   length: 97
   level: null
-  state: []
-  description: Dell device bay
-  data: !!binary |
-    21E88AEDAVUCAJAGAwBgIAQAAARACAABHwAAyQvARwL///////////////////////////////8D
-    AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  strings:
-  - MEI1
-  - MEI2
-  - MEI3
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: none
+    is-init-complete: true
+    is-manufacturing: true
+    sku: consumer
+    devices:
+    - name: MEI1
+      is-reported: true
+      is-present: true
+      hfsts:
+      - 2415919701
+      - 1610613510
+      - 1056
+      - 540676
+      - 7937
+      - 1203768265
+    - name: MEI2
+      is-reported: true
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-reported: true
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 - handle: 61501
   type: 13
   length: 39

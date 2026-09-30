@@ -1,0 +1,80 @@
+ifdef::backend-manpage[]
+= dmi_intel_vpro_tpm_caps(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_vpro_tpm_caps
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_vpro_tpm_caps - Intel vPro capabilities of the Trusted Platform Module
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/vpro.h>
+
+typedef union dmi_intel_vpro_tpm_caps {
+    dmi_dword_t __value;
+    struct {
+        dmi_dword_t is_tpm_present : 1;
+        dmi_dword_t is_tpm_enabled : 1;
+        dmi_dword_t __reserved     : 14;
+        dmi_dword_t tcg_major      : 8;
+        dmi_dword_t tcg_minor      : 8;
+    };
+} dmi_intel_vpro_tpm_caps_t;
+----
+
+== Description
+
+The `dmi_intel_vpro_tpm_caps_t` union holds the capabilities of the Trusted Platform Module, as Intel vPro information gives them. It is the type of the `tpm_capabilities` field of `dmi_intel_vpro_t`.
+
+The union is packed into a double word: the bits can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the bits, as the double word the structure carries them in,
+`is_tpm_present` being bit 0.
+
+`is_tpm_present`::
+Set if a TPM is on board.
+
+`is_tpm_enabled`::
+Set if the TPM is enabled.
+
+`__reserved`::
+Reserved bits, zero.
+
+`tcg_major`, `tcg_minor`::
+Version of the TCG specification the TPM is designed to, e.g. 1 and 2 for
+TPM 1.2. Zero if not given. The structure holds them in the `tcg_major` and
+`tcg_minor` fields of `dmi_intel_vpro_t` as well.
+
+== See also
+
+`dmi_intel_vpro`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel, as the vPro
+verification table of the Intel AMT implementation and reference guide.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

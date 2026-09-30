@@ -1,0 +1,89 @@
+ifdef::backend-manpage[]
+= dmi_intel_amt_oem_caps_4(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_amt_oem_caps_4
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_amt_oem_caps_4 - Intel AMT targets of the remote boot
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/amt.h>
+
+typedef union dmi_intel_amt_oem_caps_4 {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t is_thunderbolt_dock_supported : 1;
+        dmi_byte_t is_https_boot_supported       : 1;
+        dmi_byte_t is_pba_boot_supported         : 1;
+        dmi_byte_t is_winre_boot_supported       : 1;
+        dmi_byte_t is_nonsecure_boot_supported   : 1;
+        dmi_byte_t is_wifi_coexistence_supported : 1;
+        dmi_byte_t __reserved                    : 2;
+    };
+} dmi_intel_amt_oem_caps_4_t;
+----
+
+== Description
+
+The `dmi_intel_amt_oem_caps_4_t` union holds the fourth byte of the OEM capabilities of Intel AMT information: the targets AMT can boot the platform to remotely. It is the type of the `oem_capabilities_4` field of `dmi_intel_amt_t`.
+
+The union is packed into a single byte: the bits can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the bits, as the byte the structure carries them in,
+`is_thunderbolt_dock_supported` being bit 0.
+
+`is_thunderbolt_dock_supported`::
+Set if a Thunderbolt dock is supported.
+
+`is_https_boot_supported`::
+Set if booting over HTTPS is supported.
+
+`is_pba_boot_supported`::
+Set if booting to the local pre-boot authentication (PBA) is supported.
+
+`is_winre_boot_supported`::
+Set if booting to the Windows recovery environment (WinRE) is supported.
+
+`is_nonsecure_boot_supported`::
+Set if booting without Secure Boot is supported.
+
+`is_wifi_coexistence_supported`::
+Set if the coexistence with Wi-Fi is supported.
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_intel_amt`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel, as the AMT
+information table of the Intel AMT implementation and reference guide.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -798,7 +798,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo date record
+  description: Lenovo TPM information
   attributes:
     vendor: 'STM '
     unknown-1: 0
@@ -823,36 +823,77 @@ table:
     is-network-enabled: true
     is-kvm-enabled: false
     extended-data: 165
-    oem-capabilities:
-    - 255
-    - 3
-    - 1
-    - 0
+    oem-capabilities-1:
+      storage-redirection: true
+      sol: true
+      bios-reflash: true
+      bios-setup: true
+      bios-pause: true
+      floppy-boot-block: true
+      cd-boot-block: true
+    terminal: vt-utf8
+    oem-capabilities-3:
+      secure-erase: false
+      secure-boot: false
+    oem-capabilities-4:
+      thunderbolt-dock: false
+      https-boot: false
+      pba-boot: false
+      winre-boot: false
+      nonsecure-boot: false
+      wifi-coexistence: false
 - handle: 44
   type: 131
   length: 66
   level: null
   state:
   - decoded
-  description: Lenovo ThinkVantage Technologies enablement
+  description: Intel vPro information
   attributes:
-    flags-1: 16
+    cpu-capabilities:
+      vmx-enabled: false
+      smx-enabled: false
+      txt-capable: false
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: false
     mebx-version:
       major: 9
       minor: 0
       hotfix: 0
       build: 28
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 40003
-    flags-2: 33
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: false
+      sbt: true
+      l3: false
     me-version:
       major: 9
       minor: 5
       hotfix: 30
       build: 1808
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 200
+    gbe-bus: 0
     gbe-device-id: 5466
-    flags-3: 38
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: true
+      txt-configurable: true
+      tpm-configurable: false
+      me-configurable: false
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 45
   type: 133
   length: 21
@@ -869,7 +910,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad device presence detection
+  description: Lenovo bay I/O
   attributes:
     number: 2
     version: 4
@@ -1020,7 +1061,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 0
     revision: 1
@@ -1031,7 +1072,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 1
     revision: 1
@@ -1042,7 +1083,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 2
     revision: 1
@@ -1053,7 +1094,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 3
     revision: 1
@@ -1064,7 +1105,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 4
     revision: 1
@@ -1075,7 +1116,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 5
     revision: 1
@@ -1106,7 +1147,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad device presence detection
+  description: Lenovo mobile PC OEM data
   attributes:
     number: 1
     revision: 1
@@ -1129,7 +1170,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 8
     revision: 1

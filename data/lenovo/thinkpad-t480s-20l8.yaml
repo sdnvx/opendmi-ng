@@ -835,7 +835,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad device presence detection
+  description: Lenovo bay I/O
   attributes:
     number: 2
     version: 4
@@ -855,36 +855,77 @@ table:
     is-network-enabled: true
     is-kvm-enabled: true
     extended-data: 165
-    oem-capabilities:
-    - 175
-    - 2
-    - 192
-    - 0
+    oem-capabilities-1:
+      storage-redirection: true
+      sol: true
+      bios-reflash: true
+      bios-setup: true
+      bios-pause: false
+      floppy-boot-block: true
+      cd-boot-block: false
+    terminal: vt100-plus
+    oem-capabilities-3:
+      secure-erase: true
+      secure-boot: true
+    oem-capabilities-4:
+      thunderbolt-dock: false
+      https-boot: false
+      pba-boot: false
+      winre-boot: false
+      nonsecure-boot: false
+      wifi-coexistence: false
 - handle: 41
   type: 131
   length: 66
   level: null
   state:
   - decoded
-  description: Lenovo ThinkVantage Technologies enablement
+  description: Intel vPro information
   attributes:
-    flags-1: 53
+    cpu-capabilities:
+      vmx-enabled: true
+      smx-enabled: false
+      txt-capable: true
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: true
     mebx-version:
       major: 11
       minor: 0
       hotfix: 0
       build: 10
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 40270
-    flags-2: 49161
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: true
+      sbt: false
+      l3: false
     me-version:
       major: 11
       minor: 8
       hotfix: 60
       build: 3561
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 254
+    gbe-bus: 0
     gbe-device-id: 5591
-    flags-3: 38
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: true
+      txt-configurable: true
+      tpm-configurable: false
+      me-configurable: false
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 42
   type: 221
   length: 104
@@ -1174,7 +1215,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 4
     revision: 1
@@ -1185,7 +1226,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 5
     revision: 1
@@ -1196,7 +1237,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 6
     revision: 1
@@ -1219,7 +1260,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 8
     revision: 1
@@ -1230,7 +1271,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad device presence detection
+  description: Lenovo mobile PC OEM data
   attributes:
     number: 1
     revision: 1
@@ -1259,12 +1300,13 @@ table:
     version: 1
     state: normal
     mode: normal
-    error-code: 0
+    error-code: none
     is-init-complete: true
     is-manufacturing: false
     sku: corporate
     devices:
     - name: MEI1
+      is-reported: true
       is-present: true
       hfsts:
       - 2684355141
@@ -1274,6 +1316,7 @@ table:
       - 7937
       - 1145047753
     - name: MEI2
+      is-reported: true
       is-present: false
       hfsts:
       - 4294967295
@@ -1283,6 +1326,7 @@ table:
       - 4294967295
       - 4294967295
     - name: MEI3
+      is-reported: true
       is-present: true
       hfsts:
       - 2147483648

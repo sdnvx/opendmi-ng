@@ -10,9 +10,11 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
+#include <opendmi/error.h>
 #include <opendmi/entity.h>
 #include <opendmi/internal.h>
 #include <opendmi/registry.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 #include <opendmi/module/dell.h>
 
@@ -47,6 +49,26 @@ static void test_dell_bios_flags(void **pstate)
     const dmi_dell_bios_flags_t *info = test_info(context, 0xB100, &dmi_dell_bios_flags_spec);
     assert_int_equal(info->flags, 0x001E);
     assert_true(info->is_acpi_wmi);
+
+    // Flags take 8 bytes, and the shorter structures are not decoded, the way
+    // the Dell SMBIOS WMI driver of Linux skips them
+    static const uint8_t data[] = {
+        177, 0x06, 0x00, 0xB1,
+        0x02, 0x00,
+        0x00, 0x00
+    };
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
+    assert_non_null(entity);
+    assert_false(dmi_entity_decode(entity));
+
+    const dmi_error_t *error = dmi_error_get_last(context);
+    assert_non_null(error);
+    assert_int_equal(error->reason, DMI_ERROR_INVALID_ENTITY_LENGTH);
+
+    dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_dell_hotkeys(void **pstate)

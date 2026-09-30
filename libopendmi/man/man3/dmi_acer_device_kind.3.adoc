@@ -1,0 +1,111 @@
+ifdef::backend-manpage[]
+= dmi_acer_device_kind(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_acer_device_kind
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_acer_device_kind, dmi_acer_device_kind_name - kinds of the devices of Acer laptops
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/acer/devices.h>
+
+typedef enum dmi_acer_device_kind {
+    DMI_ACER_DEVICE_KIND_UNKNOWN_1  = 0x01,
+    DMI_ACER_DEVICE_KIND_UNKNOWN_2  = 0x02,
+    DMI_ACER_DEVICE_KIND_UNKNOWN_3  = 0x03,
+    DMI_ACER_DEVICE_KIND_CAMERA     = 0x04,
+    DMI_ACER_DEVICE_KIND_AUDIO      = 0x05,
+    DMI_ACER_DEVICE_KIND_WLAN       = 0x07,
+    DMI_ACER_DEVICE_KIND_BLUETOOTH  = 0x08,
+    DMI_ACER_DEVICE_KIND_UNKNOWN_13 = 0x0D,
+    DMI_ACER_DEVICE_KIND_UNKNOWN_17 = 0x11,
+    DMI_ACER_DEVICE_KIND_UNKNOWN_19 = 0x13,
+    DMI_ACER_DEVICE_KIND_UNKNOWN_21 = 0x15,
+    DMI_ACER_DEVICE_KIND_UNKNOWN_22 = 0x16,
+    DMI_ACER_DEVICE_KIND_UNKNOWN_25 = 0x19
+} dmi_acer_device_kind_t;
+
+const char *dmi_acer_device_kind_name(dmi_acer_device_kind_t value);
+----
+
+== Description
+
+The `dmi_acer_device_kind_t` enumeration tells the kind of a device of an
+Acer laptop, and is the type of the `kind` field of `dmi_acer_device_t`.
+
+The kinds are reverse engineered from the PCI and USB IDs of the devices of
+the data corpus. The ones named are given to the devices of a single class on
+all the laptops of the corpus. The other kinds found in it are named by their
+values: kinds `1` to `3` are given to devices of different classes, e.g. `1`
+to the graphics on one laptop and to the card reader on another, kind `25` to
+the host bridge on a single laptop, and the other ones to absent devices only.
+Other values may be found in the data, and are kept as they are rather than
+taken as invalid ones.
+
+The `dmi_acer_device_kind_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_ACER_DEVICE_KIND_UNKNOWN_1`, `DMI_ACER_DEVICE_KIND_UNKNOWN_2`, `DMI_ACER_DEVICE_KIND_UNKNOWN_3`::
+Kinds of devices of different classes, e.g. graphics, card readers, Ethernet
+adapters and NVMe drives.
+
+`DMI_ACER_DEVICE_KIND_CAMERA`::
+Webcam, a USB one on all the laptops of the corpus.
+
+`DMI_ACER_DEVICE_KIND_AUDIO`::
+Audio, the HD Audio controller of the chipset.
+
+`DMI_ACER_DEVICE_KIND_WLAN`::
+Wireless network adapter.
+
+`DMI_ACER_DEVICE_KIND_BLUETOOTH`::
+Bluetooth adapter, a USB one.
+
+`DMI_ACER_DEVICE_KIND_UNKNOWN_25`::
+Kind given to the host bridge of the chipset on a single laptop.
+
+`DMI_ACER_DEVICE_KIND_UNKNOWN_13`, `DMI_ACER_DEVICE_KIND_UNKNOWN_17`, `DMI_ACER_DEVICE_KIND_UNKNOWN_19`, `DMI_ACER_DEVICE_KIND_UNKNOWN_21`, `DMI_ACER_DEVICE_KIND_UNKNOWN_22`::
+Kinds given to absent devices only.
+
+== Return value
+
+`dmi_acer_device_kind_name` returns the name of the value, translated to the
+language of the current locale when a translation is available, or `nullptr`
+if the value has no name. The returned string must not be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_acer_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Acer firmware, and reverse
+engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

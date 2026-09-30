@@ -33,13 +33,16 @@ typedef struct dmi_dell_hotkey {
 == Description
 
 The `dmi_dell_hotkey_t` structure describes the mapping of a hotkey, as an
-element of the `hotkeys` field of `dmi_dell_hotkeys_t`. Key codes `0x00FF` and
-`0xFFFF` are found for the keys with no function.
+element of the `hotkeys` field of `dmi_dell_hotkeys_t`. Key code `0xFFFF` is
+found for the keys of no known function, which the Dell WMI driver of Linux
+takes for an unknown key, while key code `0x00FF` stands for a function of its
+own, the third programmable key.
 
 === Fields
 
 `scancode`::
-Scan code the keyboard controller reports for the key.
+Scan code of the key, as the firmware reports it in the WMI events of the
+hotkeys.
 
 `keycode`::
 Code of the function of the key, as the Dell WMI driver of Linux numbers the

@@ -7,7 +7,8 @@ Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
 Correlates a device with the system slot (type 9) or the onboard device (type
 41) it is found at, and with the UEFI boot entries naming it. The structure is
 decoded from Gen9 onwards. It has grown over the generations, and the shortest
-structures end after the device name, at `0x1F`.
+structures end after the device name, at `0x1F`. The PCI location, from
+`0x24` on, is present in the structures of 40 bytes or more.
 
 .HP/HPE Device Correlation Record structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -39,14 +40,14 @@ structures end after the device name, at `0x1F`.
 | 2.0+
 | Device Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the system slot (type 9) or onboard device (type 41) structure, `0xFFFE` if not applicable
 
 | `0x06`
 | 2.0+
 | SMBus Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the SMBus segment record (type 228), `0xFFFE` if not applicable
 
 | `0x08`
@@ -95,8 +96,8 @@ structures end after the device name, at `0x1F`.
 | 2.0+
 | Parent Handle
 | `WORD`
-| Varies
-| Handle of the device correlation record of the parent device, `0xFFFE` if not applicable
+| `HANDLE`
+| Handle of the parent device, `0xFFFE` if not applicable. The structure it refers to is not documented, and is presumably the device correlation record of the parent device
 
 | `0x14`
 | 2.0+
@@ -179,7 +180,7 @@ structures end after the device name, at `0x1F`.
 | 2.0+
 | Physical Slot Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the system slot structure (type 9) of the real physical slot, valid if bit 0 of the flags is set
 
 | `0x22`

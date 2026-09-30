@@ -9,8 +9,9 @@ over iSCSI with type 221. Ports run to the end of the structure, which carries
 no number of them of its own. A port is disabled if its bus and device are
 zero, and not installed if they have all bits set.
 
-Type 221 is deprecated from Gen8 onwards, and takes the Intel firmware version
-information on the newer servers.
+Type 221 is deprecated from Gen8 onwards. What the newer servers give it to,
+if anything, is not established, and OpenDMI decodes no structure of that type
+on them.
 
 .HP/HPE BIOS NIC PCI and MAC Information structure
 [width=100%, cols="1,1,2,1,1,4"]

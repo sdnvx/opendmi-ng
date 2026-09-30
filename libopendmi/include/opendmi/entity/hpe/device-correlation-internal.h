@@ -18,4 +18,6 @@
 extern const dmi_name_set_t dmi_hpe_device_type_names;
 extern const dmi_name_set_t dmi_hpe_device_location_names;
 
+bool dmi_hpe_device_correlation_derive(dmi_entity_t *entity);
+
 #endif // !OPENDMI_ENTITY_HPE_DEVICE_CORRELATION_INTERNAL_H

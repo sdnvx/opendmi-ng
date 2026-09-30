@@ -38,7 +38,7 @@ onwards.
 | 2.0+
 | Port Connector Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the port connector structure (type 8)
 
 | `0x06`

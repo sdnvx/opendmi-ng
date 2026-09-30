@@ -34,6 +34,15 @@ typedef enum dmi_hpe_tm_disable_reason
 } dmi_hpe_tm_disable_reason_t;
 
 /**
+ * @brief Error condition a trusted module is disabled for.
+ */
+typedef enum dmi_hpe_tm_error
+{
+    DMI_HPE_TM_ERROR_UNSPEC    = 0x00, ///< Not specified
+    DMI_HPE_TM_ERROR_SELF_TEST = 0x01  ///< Self-test failure
+} dmi_hpe_tm_error_t;
+
+/**
  * @brief Type of a trusted module.
  */
 typedef enum dmi_hpe_tm_type
@@ -100,14 +109,16 @@ struct dmi_hpe_trusted_module
     bool is_hidden;
 
     /**
-     * @brief Reason the module is disabled for.
+     * @brief Reason the module is disabled for, shown for a disabled module
+     * only.
      */
     dmi_hpe_tm_disable_reason_t disable_reason;
 
     /**
-     * @brief Error condition of the module, `1` for a self-test failure.
+     * @brief Error condition of the module, shown when it is disabled for an
+     * error only.
      */
-    uint8_t error_condition;
+    dmi_hpe_tm_error_t error_condition;
 
     /**
      * @brief Type of the module.
@@ -141,9 +152,22 @@ struct dmi_hpe_trusted_module
     dmi_handle_t version_handle;
 
     /**
-     * @brief Chip of the module.
+     * @brief Chip of the module, the low byte of the identifier word: the high
+     * byte is reserved.
      */
     dmi_hpe_tm_chip_t chip;
+
+    /**
+     * @brief Whether the structure holds the extended status, the type, the
+     * attributes and the version indicator handle of the module, which the
+     * structures of 5 bytes leave out.
+     */
+    bool has_extended_status;
+
+    /**
+     * @brief Whether the structure holds the chip identifier.
+     */
+    bool has_chip;
 };
 
 /**
@@ -159,6 +183,7 @@ __dmi_api const char *dmi_hpe_tm_type_name(dmi_hpe_tm_type_t value);
 __dmi_api const char *dmi_hpe_tm_mounting_name(dmi_hpe_tm_mounting_t value);
 __dmi_api const char *dmi_hpe_tm_fips_name(dmi_hpe_tm_fips_t value);
 __dmi_api const char *dmi_hpe_tm_chip_name(dmi_hpe_tm_chip_t value);
+__dmi_api const char *dmi_hpe_tm_error_name(dmi_hpe_tm_error_t value);
 
 __END_DECLS
 

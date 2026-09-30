@@ -33,9 +33,8 @@ typedef struct dmi_lenovo_date {
 == Description
 
 The `dmi_lenovo_date_t` structure holds the decoded Lenovo date record (type
-134) of a ThinkPad. The date is earlier than the release date of the firmware
-and falls within the years the model has been made in, and so is probably its
-manufacture date.
+134) of a ThinkPad. The date falls within the years the model has been made
+in, and so is probably its manufacture date.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_lenovo_date_spec`, of type `DMI_TYPE(lenovo_date)`, declared in

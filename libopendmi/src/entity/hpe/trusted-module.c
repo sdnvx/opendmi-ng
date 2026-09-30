@@ -50,8 +50,10 @@ const dmi_entity_spec_t dmi_hpe_trusted_module_spec =
         DMI_FIELD(dmi_hpe_trusted_module_t, version_handle, dmi_word_t,
                   .absent = dmi_value_ptr(DMI_HANDLE_INVALID)),
 
+        // Chip is told by the low byte of the identifier word
         DMI_FIELD_GROUP(),
-        DMI_FIELD(dmi_hpe_trusted_module_t, chip, dmi_word_t),
+        DMI_FIELD(dmi_hpe_trusted_module_t, chip, dmi_byte_t),
+        DMI_FIELD_SKIP(sizeof(dmi_byte_t)),
         {}
     }),
 
@@ -69,56 +71,141 @@ const dmi_entity_spec_t dmi_hpe_trusted_module_spec =
             .code = "is-hidden",
             .name = "Hidden"
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, disable_reason, ENUM, {
-            .code   = "disable-reason",
-            .name   = "Disable reason",
-            .unspec = dmi_value_ptr(DMI_HPE_TM_DISABLE_REASON_UNSPEC),
-            .values = &dmi_hpe_tm_disable_reason_names
+        // Reason is given for a disabled module only, and the error
+        // condition for a module disabled for an error only
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, presence, {
+            .code     = "disable-reason",
+            .name     = "Disable reason",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(DMI_HPE_TM_PRESENCE_DISABLED, dmi_hpe_trusted_module_t, disable_reason, ENUM, {
+                    .code   = "disable-reason",
+                    .name   = "Disable reason",
+                    .unspec = dmi_value_ptr(DMI_HPE_TM_DISABLE_REASON_UNSPEC),
+                    .values = &dmi_hpe_tm_disable_reason_names
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, error_condition, INTEGER, {
-            .code = "error-condition",
-            .name = "Error condition"
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, disable_reason, {
+            .code     = "error-condition",
+            .name     = "Error condition",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(DMI_HPE_TM_DISABLE_REASON_ERROR, dmi_hpe_trusted_module_t, error_condition, ENUM, {
+                    .code   = "error-condition",
+                    .name   = "Error condition",
+                    .unspec = dmi_value_ptr(DMI_HPE_TM_ERROR_UNSPEC),
+                    .values = &dmi_hpe_tm_error_names
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, type, ENUM, {
-            .code   = "type",
-            .name   = "Type",
-            .unspec = dmi_value_ptr(DMI_HPE_TM_TYPE_UNSPEC),
-            .values = &dmi_hpe_tm_type_names
+
+        // Rest of the fields is left out by the structures of 5 bytes
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, has_extended_status, {
+            .code     = "type",
+            .name     = "Type",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_trusted_module_t, type, ENUM, {
+                    .code   = "type",
+                    .name   = "Type",
+                    .unspec = dmi_value_ptr(DMI_HPE_TM_TYPE_UNSPEC),
+                    .values = &dmi_hpe_tm_type_names
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, is_standard_algorithm, BOOL, {
-            .code = "is-standard-algorithm",
-            .name = "Standard algorithm supported"
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, has_extended_status, {
+            .code     = "is-standard-algorithm",
+            .name     = "Standard algorithm supported",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_trusted_module_t, is_standard_algorithm, BOOL, {
+                    .code = "is-standard-algorithm",
+                    .name = "Standard algorithm supported"
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, is_chinese_algorithm, BOOL, {
-            .code = "is-chinese-algorithm",
-            .name = "Chinese algorithm supported"
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, has_extended_status, {
+            .code     = "is-chinese-algorithm",
+            .name     = "Chinese algorithm supported",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_trusted_module_t, is_chinese_algorithm, BOOL, {
+                    .code = "is-chinese-algorithm",
+                    .name = "Chinese algorithm supported"
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, mounting, ENUM, {
-            .code   = "mounting",
-            .name   = "Trusted module attributes",
-            .unspec = dmi_value_ptr(DMI_HPE_TM_MOUNTING_UNSPEC),
-            .values = &dmi_hpe_tm_mounting_names
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, has_extended_status, {
+            .code     = "mounting",
+            .name     = "Trusted module attributes",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_trusted_module_t, mounting, ENUM, {
+                    .code   = "mounting",
+                    .name   = "Trusted module attributes",
+                    .unspec = dmi_value_ptr(DMI_HPE_TM_MOUNTING_UNSPEC),
+                    .values = &dmi_hpe_tm_mounting_names
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, fips, ENUM, {
-            .code   = "fips",
-            .name   = "FIPS certification",
-            .unspec = dmi_value_ptr(DMI_HPE_TM_FIPS_UNSPEC),
-            .values = &dmi_hpe_tm_fips_names
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, has_extended_status, {
+            .code     = "fips",
+            .name     = "FIPS certification",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_trusted_module_t, fips, ENUM, {
+                    .code   = "fips",
+                    .name   = "FIPS certification",
+                    .unspec = dmi_value_ptr(DMI_HPE_TM_FIPS_UNSPEC),
+                    .values = &dmi_hpe_tm_fips_names
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, version_handle, HANDLE, {
-            .code    = "version-handle",
-            .name    = "Version indicator handle",
-            .unspec  = dmi_value_ptr(DMI_HANDLE_INVALID),
-            .targets = dmi_types(DMI_TYPE(hpe_version))
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, has_extended_status, {
+            .code     = "version-handle",
+            .name     = "Version indicator handle",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_trusted_module_t, version_handle, HANDLE, {
+                    .code    = "version-handle",
+                    .name    = "Version indicator handle",
+                    .unspec  = dmi_value_ptr(DMI_HANDLE_INVALID),
+                    .targets = dmi_types(DMI_TYPE(hpe_version))
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_trusted_module_t, chip, ENUM, {
-            .code   = "chip",
-            .name   = "Chip identifier",
-            .values = &dmi_hpe_tm_chip_names
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, has_chip, {
+            .code     = "chip",
+            .name     = "Chip identifier",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_trusted_module_t, chip, ENUM, {
+                    .code   = "chip",
+                    .name   = "Chip identifier",
+                    .values = &dmi_hpe_tm_chip_names
+                }),
+                {}
+            })
         }),
         {}
-    })
+    }),
+
+    .handlers = {
+        .derive = dmi_hpe_trusted_module_derive
+    }
 };
+
+bool dmi_hpe_trusted_module_derive(dmi_entity_t *entity)
+{
+    dmi_hpe_trusted_module_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_trusted_module));
+    if (info == nullptr)
+        return false;
+
+    info->has_extended_status = (entity->body_length >= 0x0A);
+    info->has_chip            = (entity->body_length >= 0x0C);
+
+    return true;
+}
 
 const dmi_name_set_t dmi_hpe_tm_presence_names =
 {
@@ -268,6 +355,19 @@ const dmi_name_set_t dmi_hpe_tm_chip_names =
     })
 };
 
+const dmi_name_set_t dmi_hpe_tm_error_names =
+{
+    .code  = "hpe-tm-error",
+    .names = DMI_NAMES({
+        {
+            .id   = DMI_HPE_TM_ERROR_SELF_TEST,
+            .code = "self-test",
+            .name = "Self-test failure"
+        },
+        {}
+    })
+};
+
 const char *dmi_hpe_tm_presence_name(dmi_hpe_tm_presence_t value)
 {
     return dmi_name_lookup(&dmi_hpe_tm_presence_names, (int)value);
@@ -296,4 +396,9 @@ const char *dmi_hpe_tm_fips_name(dmi_hpe_tm_fips_t value)
 const char *dmi_hpe_tm_chip_name(dmi_hpe_tm_chip_t value)
 {
     return dmi_name_lookup(&dmi_hpe_tm_chip_names, (int)value);
+}
+
+const char *dmi_hpe_tm_error_name(dmi_hpe_tm_error_t value)
+{
+    return dmi_name_lookup(&dmi_hpe_tm_error_names, (int)value);
 }

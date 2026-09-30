@@ -86,12 +86,16 @@ const dmi_module_t dmi_dell_module =
     //
     // Dell gives types 221 and 222 to structures of its own, and moves the
     // structures of the Intel reference code 16 types down, or 16 types up
-    // on some platforms, e.g. Precision Tower 3620
+    // on some platforms, e.g. Precision Tower 3620. Some systems keep them at
+    // their own types, e.g. XPS 13 9350, where the signatures of the Dell
+    // structures tell them apart
     //
     .relocations = DMI_RELOCATIONS({
         { &dmi_intel_mei_spec, 203 },
+        { &dmi_intel_mei_spec, 219 },
         { &dmi_intel_mei_spec, 235 },
         { &dmi_intel_fvi_spec, 205 },
+        { &dmi_intel_fvi_spec, 221 },
         { &dmi_intel_fvi_spec, 237 },
         { &dmi_intel_svt_spec, 206 },
         { &dmi_intel_svt_aligned_spec, 206 },

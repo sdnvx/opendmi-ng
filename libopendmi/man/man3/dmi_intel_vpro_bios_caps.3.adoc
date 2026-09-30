@@ -1,0 +1,89 @@
+ifdef::backend-manpage[]
+= dmi_intel_vpro_bios_caps(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_vpro_bios_caps
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_vpro_bios_caps - Intel vPro capabilities of the BIOS
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/vpro.h>
+
+typedef union dmi_intel_vpro_bios_caps {
+    dmi_dword_t __value;
+    struct {
+        dmi_dword_t is_vtx_configurable  : 1;
+        dmi_dword_t is_vtd_configurable  : 1;
+        dmi_dword_t is_txt_configurable  : 1;
+        dmi_dword_t is_tpm_configurable  : 1;
+        dmi_dword_t is_me_configurable   : 1;
+        dmi_dword_t is_va_supported      : 1;
+        dmi_dword_t is_spi_data_reserved : 1;
+        dmi_dword_t va_version           : 3;
+        dmi_dword_t __reserved           : 22;
+    };
+} dmi_intel_vpro_bios_caps_t;
+----
+
+== Description
+
+The `dmi_intel_vpro_bios_caps_t` union holds the capabilities of the BIOS, as Intel vPro information gives them. It is the type of the `bios_capabilities` field of `dmi_intel_vpro_t`.
+
+The union is packed into a double word: the bits can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the bits, as the double word the structure carries them in,
+`is_vtx_configurable` being bit 0.
+
+`is_vtx_configurable`, `is_vtd_configurable`, `is_txt_configurable`, `is_tpm_configurable`, `is_me_configurable`::
+Set if VT-x, VT-d, Trusted Execution Technology, the TPM or the Management
+Engine can be set in the setup of the BIOS.
+
+`is_va_supported`::
+Set if the BIOS supports the extensions of the Virtual Appliance, the ACPI
+operation region.
+
+`is_spi_data_reserved`::
+Set if the platform data area of the SPI flash is reserved.
+
+`va_version`::
+Highest version of the Virtual Appliance the BIOS supports: 0 for 2.6, 1 for
+3.0, the other values being reserved. The structure holds it in the
+`va_version` field of `dmi_intel_vpro_t` as well.
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_intel_vpro`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel, as the vPro
+verification table of the Intel AMT implementation and reference guide.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

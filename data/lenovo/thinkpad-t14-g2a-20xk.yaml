@@ -1116,7 +1116,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 9
     revision: 1
@@ -1127,7 +1127,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad device presence detection
+  description: Lenovo bay I/O
   attributes:
     number: 2
     version: 4
@@ -1281,7 +1281,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 4
     revision: 1
@@ -1292,7 +1292,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 5
     revision: 1
@@ -1303,7 +1303,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad embedded controller program
+  description: Lenovo OEM data
   attributes:
     number: 6
     revision: 1
@@ -1334,7 +1334,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad device presence detection
+  description: Lenovo mobile PC OEM data
   attributes:
     number: 1
     revision: 1

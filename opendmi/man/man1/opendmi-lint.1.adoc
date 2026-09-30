@@ -306,7 +306,8 @@ unknown or an unspecified one are left out.
 Severity: warning, or error with *--producer*.
 +
 Fields of enumerated values hold values defined by a version of the
-specification.
+specification. Enumerations which name some of the values only, e.g. the ones
+established by reverse engineering, are not checked.
 
 `value.reserved`::
 Severity: note, or error with *--producer*.
@@ -336,7 +337,8 @@ Severity: warning, or error with *--producer*.
 +
 Manufacturer identification codes of JEDEC lead to one of the nine banks
 JEP106 defines, and have an odd number of bits set in their identifier byte,
-whose highest bit is a parity bit.
+whose highest bit is a parity bit. Codes copied from the SPD carry a parity
+bit in the number of continuation bytes as well, which is not counted.
 
 `value.uuid`::
 Severity: note, or warning with *--producer*. Checked with *--all-checks* only.

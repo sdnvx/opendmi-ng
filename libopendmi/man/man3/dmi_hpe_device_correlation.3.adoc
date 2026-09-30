@@ -52,6 +52,7 @@ typedef struct dmi_hpe_device_correlation {
     uint16_t segment;
     uint8_t bus;
     uint8_t devfn;
+    bool has_pci_location;
 } dmi_hpe_device_correlation_t;
 ----
 
@@ -104,8 +105,9 @@ PCI class code of the device. Set to `0xFF` when the device is not present.
 PCI subclass code of the device. Set to `0xFF` when the device is not present.
 
 `parent_handle`::
-Handle of the device correlation record of the parent device. Set to `0xFFFE`
-when not applicable.
+Handle of the parent device. Set to `0xFFFE` when not applicable. The
+structure it refers to is not documented, and is presumably the device
+correlation record of the parent device.
 
 `is_peer_bifurcated`::
 Whether the device is a peer bifurcated one, whose physical slot
@@ -146,7 +148,7 @@ UEFI location.
 
 `physical_handle`::
 Handle of the system slot structure (type 9) of the real physical slot, valid
-only if `is_peer_bifurcated` is set.
+only if `is_peer_bifurcated` is set, and neither shown nor checked otherwise.
 
 `part_number`::
 Part number of the PCI device.
@@ -162,6 +164,10 @@ PCI bus.
 
 `devfn`::
 PCI device and function, `(device << 3) | function`.
+
+`has_pci_location`::
+Whether the structure holds `segment`, `bus` and `devfn`, which the
+structures shorter than 40 bytes leave out. The fields are not shown then.
 
 == See also
 

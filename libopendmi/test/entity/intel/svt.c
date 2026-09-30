@@ -26,6 +26,7 @@ static void test_svt_decode(void **pstate);
 static void test_svt_dell(void **pstate);
 static void test_svt_aligned(void **pstate);
 static void test_svt_proliant(void **pstate);
+static void test_svt_signature(void **pstate);
 
 static const char *test_acer_path     = OPENDMI_TEST_DATA "/acer/nitro-an515-31.bin";
 static const char *test_dell_path     = OPENDMI_TEST_DATA "/dell/g15-5510.bin";
@@ -40,7 +41,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_svt_decode, test_svt_setup, test_svt_teardown),
         cmocka_unit_test_setup_teardown(test_svt_dell, test_svt_setup, test_svt_teardown),
         cmocka_unit_test_setup_teardown(test_svt_aligned, test_svt_setup, test_svt_teardown),
-        cmocka_unit_test_setup_teardown(test_svt_proliant, test_svt_setup, test_svt_teardown)
+        cmocka_unit_test_setup_teardown(test_svt_proliant, test_svt_setup, test_svt_teardown),
+        cmocka_unit_test_setup_teardown(test_svt_signature, test_svt_setup, test_svt_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -142,4 +144,51 @@ static void test_svt_proliant(void **pstate)
     dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), DMI_TYPE_ID(INTEL_SVT), false);
     assert_non_null(entity);
     assert_null(entity->spec);
+}
+
+//
+// Structures of the vendors at the same type are not taken for the milestones
+// where the module of the vendor is not enabled, while the structures of both
+// layouts are told by their version and parameter
+//
+static void test_svt_signature(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_add_extension(context, dmi_module_find("intel")));
+
+    const struct {
+        const uint8_t           *data;
+        size_t                   size;
+        const dmi_entity_spec_t *spec;
+    } test_cases[] = {
+        // Structure of Dell, as PowerEdge servers carry it
+        {
+            (const uint8_t[]){ 222, 0x0D, 0x00, 0xDE, 0x01, 0x02, 0xFF, 0xFF,
+                               0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
+            15, nullptr
+        },
+        {
+            (const uint8_t[]){ 222, 0x0A, 0x01, 0xDE, 0x01, 0x99, 0x00, 0x01, 0x10, 0x01,
+                               'A', 0x00, 0x00 },
+            13, &dmi_intel_svt_spec
+        },
+        {
+            (const uint8_t[]){ 222, 0x0C, 0x02, 0xDE, 0x01, 0x00, 0x99, 0x00, 0x01, 0x10, 0x01, 0x00,
+                               'A', 0x00, 0x00 },
+            15, &dmi_intel_svt_aligned_spec
+        }
+    };
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+
+    for (size_t i = 0; i < countof(test_cases); i++) {
+        dmi_entity_t *entity = dmi_test_entity_create(buffer, test_cases[i].data, test_cases[i].size);
+        assert_non_null(entity);
+        assert_true(dmi_entity_decode(entity));
+        assert_ptr_equal(entity->spec, test_cases[i].spec);
+        dmi_entity_destroy(entity);
+    }
+
+    dmi_buffer_destroy(buffer);
 }

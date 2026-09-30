@@ -63,6 +63,12 @@ struct dmi_hpe_backplane
      * @brief Name of the backplane, deprecated from Gen10 Plus onwards.
      */
     const char *name;
+
+    /**
+     * @brief Whether the numbers of the bays behind ports 0xA0 and 0xA2 and
+     * the name are shown, which they are not from Gen10 Plus onwards.
+     */
+    bool has_legacy_details;
 };
 
 /**

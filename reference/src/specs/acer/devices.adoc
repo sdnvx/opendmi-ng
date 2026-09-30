@@ -8,10 +8,54 @@ Lists the devices of a laptop by their PCI or USB vendor and device IDs.
 Devices run to the end of the structure, which carries no number of them of
 its own, and the absent ones have zero IDs.
 
-In `acer/nitro-an515-31.bin`, the kinds match the devices as follows: `1`
-Intel UHD Graphics 620 (`8086:5917`), `2` and `3` NVIDIA GeForce MX150
-(`10DE:1D10`), `4` Realtek webcam (`0BDA:5621`), `5` Intel audio (`8086:9D71`)
-and `7` Intel Wi-Fi 6E AX210 (`8086:2725`).
+The IDs are the ones of the PCI and USB ID databases, which tell the devices
+of the data corpus as follows.
+
+.Devices of the data corpus by kind
+[width=100%, cols="1,4"]
+|===
+| Kind | Devices
+
+| `0x01`
+| Graphics of Intel (`8086:5917`, `8086:191B`) and NVIDIA (`10DE:174D`,
+`10DE:1C8D`, `10DE:13D8`), and a Realtek card reader (`10EC:5287`) in
+`acer/aspire-a515-52.bin`. `acer/predator-g9-592.bin` gives the kind to both
+its graphics
+
+| `0x02`
+| Graphics of NVIDIA (`10DE:174D`, `10DE:1D10`), and a Realtek Ethernet adapter
+(`10EC:8168`) in `acer/aspire-a515-52g.bin`
+
+| `0x03`
+| Graphics of NVIDIA, the same ones as kind `2` on the same laptops, Realtek
+card readers (`10EC:5287`, `0BDA:0316`) and a Phison NVMe controller
+(`1987:5012`)
+
+| `0x04`
+| USB webcams of Quanta, Realtek and Sunplus
+
+| `0x05`
+| HD Audio controllers of Intel
+
+| `0x07`
+| Wireless network adapters of Intel and Qualcomm Atheros
+
+| `0x08`
+| USB Bluetooth adapters of Foxconn, Intel and Qualcomm Atheros
+
+| `0x19`
+| Host bridge of Intel Coffee Lake (`8086:3E34`) in `acer/aspire-a515-52.bin`
+and `acer/aspire-a515-52g.bin`, the two variants of the same laptop
+
+| `0x0D`, `0x11`, `0x13`, `0x15`, `0x16`
+| None, their devices are always absent
+|===
+
+Kinds `4`, `5`, `7` and `8` are given to the devices of a single class on all
+the laptops of the corpus, while kinds `1` to `3` are given to devices of
+different classes, and are thus no classes. Kind `25` is found on a single
+laptop, and the other kinds with no device at all, so their meaning is not
+established.
 
 .Acer Device List structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -55,7 +99,7 @@ and `7` Intel Wi-Fi 6E AX210 (`8086:2725`).
 | `0x00`
 | Kind
 | `BYTE`
-| Kind of the device
+| Kind of the device, see below
 
 | `0x01`
 | Vendor ID
@@ -66,4 +110,35 @@ and `7` Intel Wi-Fi 6E AX210 (`8086:2725`).
 | Device ID
 | `WORD`
 | PCI or USB device ID, zero if the device is absent
+|===
+
+The kinds whose meaning the data corpus establishes are named by it, and the
+other kinds found in the corpus are named by their values. Other values are
+taken as they are, rather than as invalid ones.
+
+.Device kind
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0x01`, `0x02`, `0x03`
+| Unknown, e.g. graphics, network adapters and drives
+
+| `0x04`
+| Webcam
+
+| `0x05`
+| Audio
+
+| `0x07`
+| Wireless network adapter
+
+| `0x08`
+| Bluetooth adapter
+
+| `0x19`
+| Unknown, the host bridge on a single laptop
+
+| `0x0D`, `0x11`, `0x13`, `0x15`, `0x16`
+| Unknown
 |===

@@ -2,12 +2,20 @@
 :sectnums:
 :sectlinks:
 
-Source: reverse engineered from the dumps of the data corpus, and consistent
-with the AMT information of the Intel reference code.
+Source: Intel AMT Implementation and Reference Guide, "AMT Information Table
+Parameter Definitions"; MeshAgent, `modules/smbios.js`; and the dumps of the
+data corpus.
 
 Tells whether the platform supports Intel Active Management Technology (AMT),
 and which of its features are enabled. The structure is told by the `$AMT`
 signature at offset `0x04`.
+
+The guide gives the flags of the features as 0 when disabled, 1 when enabled,
+and values from 2 on as not applicable, and puts a structure version of two
+bytes after the signature, which no firmware of the data corpus holds. The
+flags are not consistent with each other on every platform, e.g. some give
+the network as enabled while AMT is not supported, so they are best taken as
+the firmware reports them rather than as the state of the platform.
 
 .Intel Active Management Technology Information structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -61,7 +69,7 @@ signature at offset `0x04`.
 | IDE-R Enabled
 | `BYTE`
 | `BOOLEAN`
-| IDE redirection
+| Storage redirection: IDE redirection (IDE-R), or USB redirection (USB-R) from AMT 11.0 onwards
 
 | `0x0B`
 | 2.0+
@@ -81,15 +89,36 @@ signature at offset `0x04`.
 | 2.0+
 | Extended Data
 | `BYTE`
-| `0xA5`
-| Marker of the extended data
+| Varies
+| Left to the platform vendor, `0xA5` in all known data
 
 | `0x0E`
 | 2.0+
-| OEM Capabilities
-| 4 BYTEs
+| OEM Capabilities 1
+| `BYTE`
 | `BITFIELD`
-| Capabilities the platform vendor gives to AMT, whose meaning is not established
+| Features of AMT the platform supports, see below
+
+| `0x0F`
+| 2.0+
+| OEM Capabilities 2
+| `BYTE`
+| `ENUM`
+| Bits 0 to 3: terminal emulation of Serial over LAN, see below. Bits 4 to 7 are reserved
+
+| `0x10`
+| 2.0+
+| OEM Capabilities 3
+| `BYTE`
+| `BITFIELD`
+| Bits 0 to 5 are reserved, bit 6: Remote Secure Erase is supported, bit 7: the BIOS supports Secure Boot
+
+| `0x11`
+| 2.0+
+| OEM Capabilities 4
+| `BYTE`
+| `BITFIELD`
+| Targets of the remote boot the platform supports, see below
 
 | `0x12`
 | 2.0+
@@ -111,4 +140,82 @@ signature at offset `0x04`.
 | 4 BYTEs
 | Varies
 | Present in the structures of length `0x18`, whose meaning is not established
+|===
+
+.OEM capabilities 1
+[width=100%, cols="1,4"]
+|===
+| Bits | Meaning
+
+| 0
+| Storage redirection is supported
+
+| 1
+| Serial over LAN is supported
+
+| 2
+| The BIOS can be reflashed remotely
+
+| 3
+| The setup of the BIOS can be entered remotely
+
+| 4
+| The BIOS can be paused remotely
+
+| 5
+| Booting from the floppy disk can be prevented
+
+| 6
+| Booting from the CD can be prevented
+
+| 7
+| Reserved, while most firmware of the data corpus sets it
+|===
+
+.Terminal emulation
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| 1
+| VT52
+
+| 2
+| VT100+
+
+| 3
+| VT-UTF8
+
+| 4
+| PC-ANSI
+
+| 5-15
+| Reserved
+|===
+
+.OEM capabilities 4
+[width=100%, cols="1,4"]
+|===
+| Bits | Meaning
+
+| 0
+| Thunderbolt dock is supported
+
+| 1
+| Booting over HTTPS is supported
+
+| 2
+| Booting to the local pre-boot authentication (PBA) is supported
+
+| 3
+| Booting to the Windows recovery environment (WinRE) is supported
+
+| 4
+| Booting without Secure Boot is supported
+
+| 5
+| Coexistence with Wi-Fi is supported
+
+| 6-7
+| Reserved
 |===

@@ -16,14 +16,16 @@ typedef struct dmi_acer_hotkey  dmi_acer_hotkey_t;
 
 /**
  * @brief Communication function of the hotkeys, as a bit of the
- * communication function bitmap.
+ * communication function bitmap, named the way the Acer WMI driver of Linux
+ * names them.
  */
 typedef enum dmi_acer_comm_function
 {
     DMI_ACER_COMM_FUNCTION_WIFI      = 0,  ///< WiFi
     DMI_ACER_COMM_FUNCTION_3G        = 6,  ///< 3G
     DMI_ACER_COMM_FUNCTION_WIMAX     = 7,  ///< WiMAX
-    DMI_ACER_COMM_FUNCTION_BLUETOOTH = 11  ///< Bluetooth
+    DMI_ACER_COMM_FUNCTION_BLUETOOTH = 11, ///< Bluetooth
+    DMI_ACER_COMM_FUNCTION_RF_BUTTON = 14  ///< Radio button
 } dmi_acer_comm_function_t;
 
 /**
@@ -38,13 +40,15 @@ struct dmi_acer_hotkey
     uint8_t key;
 
     /**
-     * @brief Value whose meaning is not established, `2` in all known data.
+     * @brief Value whose meaning is not established, `1` or `2` in the known
+     * data, the same for all the hotkeys of a structure.
      */
     uint8_t kind;
 
     /**
-     * @brief Function of the key, as a bit of the function bitmap of its
-     * button group.
+     * @brief Function of the key, as bits of the function bitmap of its
+     * button group: the key of the communication function has all the bits
+     * of the communication bitmap, e.g. those of WiFi and Bluetooth.
      */
     uint16_t function;
 };
@@ -85,9 +89,8 @@ struct dmi_acer_hotkeys
     uint16_t other_functions;
 
     /**
-     * @brief Number of the key of the communication function, which is the
-     * key of the first hotkey. Set to `UINT8_MAX` when the structure holds
-     * none.
+     * @brief Number of the key of the communication function, at offset
+     * `0x0E`, where the structures holding hotkeys begin the first of them.
      */
     uint8_t comm_key;
 
@@ -107,5 +110,12 @@ struct dmi_acer_hotkeys
  * @brief Acer hotkey functions entity specification.
  */
 extern __dmi_api const dmi_entity_spec_t dmi_acer_hotkeys_spec;
+
+/**
+ * @brief Acer hotkey functions entity specification of the structures of
+ * `0x0F` bytes, which end with the number of the key of the communication
+ * function and hold no hotkeys.
+ */
+extern __dmi_api const dmi_entity_spec_t dmi_acer_hotkeys_basic_spec;
 
 #endif // !OPENDMI_ENTITY_ACER_HOTKEYS_H

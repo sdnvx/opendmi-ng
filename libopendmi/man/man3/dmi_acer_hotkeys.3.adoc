@@ -60,7 +60,7 @@ communication function, the only one the Acer WMI driver reads.
 `comm_functions`::
 Functions of the communication button, whose bits are the values of
 `dmi_acer_comm_function_t`: bit 0 WiFi, bit 6 3G, bit 7 WiMAX, bit 11
-Bluetooth.
+Bluetooth and bit 14 radio button.
 
 `app_functions`::
 Functions of the application button.
@@ -75,8 +75,10 @@ Functions of the display button.
 Functions of the other buttons.
 
 `comm_key`::
-Number of the key of the communication function, which is the key of the first
-hotkey. Set to `UINT8_MAX` when the structure holds none.
+Number of the key of the communication function, at offset `0x0E`, where the
+structures holding hotkeys begin the first of them. Structures of `0x0F` bytes
+end with it and hold no hotkeys, the way the Acer WMI driver reads them, and
+are decoded by `dmi_acer_hotkeys_basic_spec` into the same structure.
 
 `hotkey_count`::
 Number of the hotkeys.

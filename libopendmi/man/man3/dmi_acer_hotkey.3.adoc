@@ -43,10 +43,13 @@ Number of the key, whose high bits tell the button group: `0x0_`
 communication, `0x4_` media, `0x6_` display and `0x8_` others.
 
 `kind`::
-Value whose meaning is not established, `2` in all known data.
+Value whose meaning is not established, `1` or `2` in the known data, the same
+for all the hotkeys of a structure.
 
 `function`::
-Function of the key, as a bit of the function bitmap of its button group.
+Function of the key, as bits of the function bitmap of its button group: the
+key of the communication function has all the bits of the communication
+bitmap, e.g. those of WiFi and Bluetooth.
 
 == See also
 

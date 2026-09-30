@@ -44,8 +44,9 @@ Fully qualified device descriptor (FQDD) of the device, e.g. `CPU.Socket.1`
 or `DIMM.Socket.A1`.
 
 `handle`::
-Handle of the structure describing the device, e.g. of a processor (type 4)
-or of a memory device (type 17).
+Handle of the structure describing the device, of a processor (type 4) or of
+a memory device (type 17) in all known data, which the `link.wrong-type` lint
+rule checks it against.
 
 `unknown`::
 Value whose meaning is not established, `0` in all known data.

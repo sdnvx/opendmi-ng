@@ -25,16 +25,17 @@ endif::[]
 #include <opendmi/entity/dell/token-refs.h>
 
 typedef struct dmi_dell_token_refs_1 {
-    uint16_t tokens[9];
+    size_t token_count;
+    uint16_t *tokens;
 } dmi_dell_token_refs_1_t;
 ----
 
 == Description
 
-The `dmi_dell_token_refs_1_t` structure holds the decoded Dell token
-references of type 220, which list tokens the calling interface (type 218) or
-the indexed I/O access (type 212) defines, grouped by the device they belong
-to. The meaning of the groups is not established.
+The `dmi_dell_token_refs_1_t` structure holds the decoded Dell token references
+of type 220, which list tokens, most of which the calling interface (type 218)
+or the indexed I/O access (type 212) of the same table defines, grouped by the
+device they belong to. The meaning of the groups is not established.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_dell_token_refs_1_spec`, of type `DMI_TYPE(dell_token_refs_1)`,
@@ -48,8 +49,12 @@ established are named after their position.
 
 === Fields
 
+`token_count`::
+Number of the elements of `tokens`, as many as the structure holds: 8 or 9 in
+the known data.
+
 `tokens`::
-Tokens, zero for none.
+Tokens, zero for none, an array of `token_count` elements.
 
 == See also
 

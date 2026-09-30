@@ -1,0 +1,93 @@
+ifdef::backend-manpage[]
+= dmi_intel_amt_oem_caps_1(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_amt_oem_caps_1
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_amt_oem_caps_1 - Intel AMT features the platform supports
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/amt.h>
+
+typedef union dmi_intel_amt_oem_caps_1 {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t is_storage_redirection_supported : 1;
+        dmi_byte_t is_sol_supported                 : 1;
+        dmi_byte_t is_bios_reflash_supported        : 1;
+        dmi_byte_t is_bios_setup_supported          : 1;
+        dmi_byte_t is_bios_pause_supported          : 1;
+        dmi_byte_t is_floppy_boot_blockable         : 1;
+        dmi_byte_t is_cd_boot_blockable             : 1;
+        dmi_byte_t __reserved                       : 1;
+    };
+} dmi_intel_amt_oem_caps_1_t;
+----
+
+== Description
+
+The `dmi_intel_amt_oem_caps_1_t` union holds the first byte of the OEM capabilities of Intel AMT information: the features of AMT the platform supports. It is the type of the `oem_capabilities_1` field of `dmi_intel_amt_t`.
+
+The union is packed into a single byte: the bits can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the bits, as the byte the structure carries them in,
+`is_storage_redirection_supported` being bit 0.
+
+`is_storage_redirection_supported`::
+Set if storage redirection, IDE-R or USB-R, is supported.
+
+`is_sol_supported`::
+Set if Serial over LAN is supported.
+
+`is_bios_reflash_supported`::
+Set if the BIOS can be reflashed remotely.
+
+`is_bios_setup_supported`::
+Set if the setup of the BIOS can be entered remotely.
+
+`is_bios_pause_supported`::
+Set if the BIOS can be paused remotely.
+
+`is_floppy_boot_blockable`::
+Set if booting from the floppy disk can be prevented.
+
+`is_cd_boot_blockable`::
+Set if booting from the CD can be prevented.
+
+`__reserved`::
+Reserved bit, which most firmware sets nevertheless.
+
+== See also
+
+`dmi_intel_amt`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel, as the AMT
+information table of the Intel AMT implementation and reference guide.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

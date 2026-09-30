@@ -39,7 +39,7 @@ to spin up the fans at this temperature. The processor information structure
 | 2.0+
 | Processor Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the processor information structure (type 4)
 
 | `0x06`

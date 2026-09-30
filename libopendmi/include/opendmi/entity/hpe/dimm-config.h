@@ -24,7 +24,13 @@ typedef enum dmi_hpe_interleave_health
     DMI_HPE_INTERLEAVE_HEALTH_SPA_MISSING    = 0x03, ///< SPA missing
     DMI_HPE_INTERLEAVE_HEALTH_NEW_GOAL       = 0x04, ///< New goal
     DMI_HPE_INTERLEAVE_HEALTH_LOCKED         = 0x05, ///< Locked
-    DMI_HPE_INTERLEAVE_HEALTH_UNSPEC         = 0xFF  ///< Not specified
+    // Reserved: 0x06 .. 0xFF
+
+    /**
+     * @brief Health of a structure too short to hold it, which is no value
+     * the field may hold.
+     */
+    DMI_HPE_INTERLEAVE_HEALTH_ABSENT         = 0x100
 } dmi_hpe_interleave_health_t;
 
 /**
@@ -73,8 +79,13 @@ struct dmi_hpe_dimm_config
     uint64_t size;
 
     /**
+     * @brief State of the passphrase, as the structure holds it.
+     */
+    uint8_t passphrase_state;
+
+    /**
      * @brief Whether a passphrase is required, byte accessible persistent
-     * regions only.
+     * regions only: any state other than zero.
      */
     bool is_passphrase_enabled;
 
@@ -90,7 +101,9 @@ struct dmi_hpe_dimm_config
     uint8_t interleave_dimm_count;
 
     /**
-     * @brief Health of the interleave set.
+     * @brief Health of the interleave set, or
+     * `DMI_HPE_INTERLEAVE_HEALTH_ABSENT` if the structure is too short to
+     * hold it.
      */
     dmi_hpe_interleave_health_t interleave_health;
 };

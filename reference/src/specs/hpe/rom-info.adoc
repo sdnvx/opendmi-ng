@@ -46,7 +46,7 @@ the data corpus carry the same layout.
 | Redundant ROM Version
 | `BYTE`
 | `STRING`
-| Version of the redundant ROM, which is its release date
+| Version of the redundant ROM, which is its release date. Reserved from Gen12 onwards
 
 | `0x06`
 | 2.0+
@@ -60,12 +60,24 @@ the data corpus carry the same layout.
 | OEM ROM File Name
 | `BYTE`
 | `STRING`
-| File name of the OEM ROM image, blank if there is none
+| File name of the OEM ROM image. Firmware which has no image leaves the string out or fills it with blanks
 
 | `0x08`
 | 2.0+
 | OEM ROM Build Date
 | `BYTE`
 | `STRING`
-| Build date of the OEM ROM image
+| Build date of the OEM ROM image, meaningful when the file name is
+
+| `0x09`
+| 2.0+
+| Unknown
+| `BYTE`
+| `STRING`
+| String whose meaning is not established, e.g. `2.9` on a G6 server. dmidecode does not decode it
 |===
+
+The version of the redundant ROM is shown when the redundant ROM is installed,
+up to Gen11. The file name and the build date of the OEM ROM image are shown
+when the file name is neither empty nor begins with two blanks, which is the
+check dmidecode makes.

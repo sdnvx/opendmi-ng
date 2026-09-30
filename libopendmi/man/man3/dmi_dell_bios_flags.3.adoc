@@ -34,7 +34,9 @@ typedef struct dmi_dell_bios_flags {
 
 The `dmi_dell_bios_flags_t` structure holds the decoded Dell BIOS flags (type
 177), which tell the features of the firmware the Dell drivers rely on, of
-which only the support of ACPI WMI is known.
+which only the support of ACPI WMI is known. The Dell SMBIOS WMI driver of
+Linux reads the first word of the flags of the structures of 12 bytes and of
+handle `0xB100`; the rest of the flags is `0` in all known data.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_dell_bios_flags_spec`, of type `DMI_TYPE(dell_bios_flags)`, declared

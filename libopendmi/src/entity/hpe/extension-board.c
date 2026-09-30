@@ -39,7 +39,11 @@ const dmi_entity_spec_t dmi_hpe_riser_spec =
         DMI_FIELD(dmi_hpe_riser_t, board_type,   dmi_byte_t),
         DMI_FIELD(dmi_hpe_riser_t, position,     dmi_byte_t),
         DMI_FIELD(dmi_hpe_riser_t, riser_id,     dmi_byte_t),
-        DMI_FIELD(dmi_hpe_riser_t, cpld_version, dmi_byte_t),
+        // Version of the CPLD takes bits 0 to 6, and bit 7 tells a "B."
+        // release
+        DMI_FIELD_BITS(dmi_hpe_riser_t, cpld_version,      7),
+        DMI_FIELD_BITS(dmi_hpe_riser_t, is_cpld_b_release, 1),
+        DMI_FIELD_PAD(dmi_byte_t),
         DMI_FIELD_STRING(dmi_hpe_riser_t, name),
         {}
     }),
@@ -64,6 +68,10 @@ const dmi_entity_spec_t dmi_hpe_riser_spec =
             .name   = "CPLD version",
             .unspec = dmi_value_ptr((uint8_t)0),
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
+        }),
+        DMI_ATTRIBUTE(dmi_hpe_riser_t, is_cpld_b_release, BOOL, {
+            .code = "is-cpld-b-release",
+            .name = "CPLD B. release"
         }),
         DMI_ATTRIBUTE(dmi_hpe_riser_t, name, STRING, {
             .code = "name",

@@ -1667,23 +1667,50 @@ table:
   - decoded
   description: Intel vPro information
   attributes:
-    flags-1: 49
+    cpu-capabilities:
+      vmx-enabled: true
+      smx-enabled: false
+      txt-capable: false
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: true
     mebx-version:
       major: 0
       minor: 0
       hotfix: 0
       build: 0
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 13442
-    flags-2: 1
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: false
+      sbt: false
+      l3: false
     me-version:
       major: 13
       minor: 0
       hotfix: 55
       build: 1889
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 254
+    gbe-bus: 0
     gbe-device-id: null
-    flags-3: 34
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: true
+      txt-configurable: false
+      tpm-configurable: false
+      me-configurable: false
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 88
   type: 41
   length: 28
@@ -2094,12 +2121,13 @@ table:
     version: 1
     state: normal
     mode: normal
-    error-code: 0
+    error-code: none
     is-init-complete: true
     is-manufacturing: false
     sku: consumer
     devices:
     - name: MEI1
+      is-reported: true
       is-present: true
       hfsts:
       - 2684355141
@@ -2109,6 +2137,7 @@ table:
       - 7939
       - 1145048009
     - name: MEI2
+      is-reported: true
       is-present: false
       hfsts:
       - 4294967295
@@ -2118,6 +2147,7 @@ table:
       - 4294967295
       - 4294967295
     - name: MEI3
+      is-reported: true
       is-present: true
       hfsts:
       - 2147483648
@@ -2127,14 +2157,7 @@ table:
       - 0
       - 0
     - name: MEI4
-      is-present: true
-      hfsts:
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
+      is-reported: false
 - handle: 109
   type: 13
   length: 39

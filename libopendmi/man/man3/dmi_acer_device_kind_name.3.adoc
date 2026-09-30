@@ -1,0 +1,1 @@
+dmi_acer_device_kind.3.adoc

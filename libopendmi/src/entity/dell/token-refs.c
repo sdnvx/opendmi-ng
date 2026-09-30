@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/token-refs.h>
+#include <opendmi/entity/dell/token-refs-internal.h>
 
 const dmi_entity_spec_t dmi_dell_token_refs_1_spec =
 {
@@ -17,19 +17,22 @@ const dmi_entity_spec_t dmi_dell_token_refs_1_spec =
     .code        = "dell-token-refs-1",
     .name        = "Dell token references, type 1",
     .description = (const char *[]){
-        "Lists tokens the calling interface or the indexed I/O access "
-        "defines, which the structures of a table group by the device they "
-        "belong to.",
+        "Lists tokens, most of which the calling interface or the indexed "
+        "I/O access of the table defines, which the structures of a table "
+        "group by the device they belong to.",
         //
         nullptr
     },
     .params = {
-        .minimum_length = 0x16,
+        .minimum_length = 0x14,
         .decoded_length = sizeof(dmi_dell_token_refs_1_t)
     },
 
+    // Tokens run to the end of the structure, 8 or 9 of them in the known
+    // data, and the structure carries no number of them of its own
     .fields = DMI_FIELDS({
-        DMI_FIELD_VECTOR(dmi_dell_token_refs_1_t, tokens,
+        DMI_FIELD_ARRAY(dmi_dell_token_refs_1_t, tokens, token_count,
+            .stride = sizeof(dmi_word_t),
             .fields = DMI_FIELDS({
                 DMI_FIELD_ELEMENT(dmi_dell_token_refs_1_t, tokens, dmi_word_t),
                 {}
@@ -38,14 +41,27 @@ const dmi_entity_spec_t dmi_dell_token_refs_1_spec =
     }),
 
     .attributes = DMI_ATTRIBUTES({
-        DMI_ATTRIBUTE_VECTOR(dmi_dell_token_refs_1_t, tokens, INTEGER, {
+        DMI_ATTRIBUTE_ARRAY(dmi_dell_token_refs_1_t, tokens, token_count, INTEGER, {
             .code  = "tokens",
             .name  = "Tokens",
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
         {}
-    })
+    }),
+
+    .handlers = {
+        .cleanup = dmi_dell_token_refs_1_cleanup
+    }
 };
+
+void dmi_dell_token_refs_1_cleanup(dmi_entity_t *entity)
+{
+    dmi_dell_token_refs_1_t *info = dmi_entity_info(entity, DMI_TYPE(dell_token_refs_1));
+    if (info == nullptr)
+        return;
+
+    dmi_free(info->tokens);
+}
 
 const dmi_entity_spec_t dmi_dell_token_refs_2_spec =
 {
@@ -53,14 +69,21 @@ const dmi_entity_spec_t dmi_dell_token_refs_2_spec =
     .code        = "dell-token-refs-2",
     .name        = "Dell token references, type 2",
     .description = (const char *[]){
-        "Lists tokens the calling interface or the indexed I/O access "
-        "defines, following two values whose meaning is not established.",
+        "Lists tokens, most of which the calling interface or the indexed "
+        "I/O access of the table defines, following two values whose meaning "
+        "is not established.",
         //
         nullptr
     },
     .params = {
         .minimum_length = 0x13,
-        .decoded_length = sizeof(dmi_dell_token_refs_2_t)
+        .decoded_length = sizeof(dmi_dell_token_refs_2_t),
+        // Structures of the Intel reference code the same length, which
+        // some systems carry at the same type, refer to strings
+        .signature      = DMI_SIGNATURE({
+            .length     = 0x13,
+            .no_strings = true
+        })
     },
 
     .fields = DMI_FIELDS({

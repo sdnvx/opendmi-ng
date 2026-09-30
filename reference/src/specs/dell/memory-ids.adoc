@@ -9,7 +9,8 @@ serial presence detect (SPD) data holds them, which the memory devices
 (type 17) of the older systems carry no fields for, e.g. in
 `dell/poweredge-400sc.bin` and `dell/optiplex-gx110.bin`. Each memory device
 is referred to by one record, and the records of the sockets which hold no
-module carry bytes of `0xFF`.
+module usually carry bytes of `0xFF`: PowerEdge 1300 repeats the identifiers of
+a module in the record of an empty socket.
 
 The structures whose identifiers are of another length than 12 bytes are not
 known, and are left undecoded.
@@ -73,7 +74,7 @@ known, and are left undecoded.
 | Manufacturer
 | 8 `BYTE`
 | Varies
-| JEDEC identifier of the manufacturer, whose leading bytes of `0x7F` are continuation codes, e.g. `CE` for Samsung, `2C` for Micron, or `7F 98` for Kingston
+| Identifier of the manufacturer, normally its JEDEC identifier, whose leading bytes of `0x7F` are continuation codes, e.g. `CE` for Samsung, `2C` for Micron, or `7F 98` for Kingston
 
 | `0x0A`
 | Serial Number

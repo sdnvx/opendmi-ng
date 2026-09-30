@@ -29,6 +29,7 @@ typedef struct dmi_hpe_microcode_patch {
     uint32_t raw_date;
     dmi_date_t date;
     uint32_t cpuid;
+    uint32_t signature;
 } dmi_hpe_microcode_patch_t;
 ----
 
@@ -51,8 +52,15 @@ day and the year in binary-coded decimal.
 Release date of the patch.
 
 `cpuid`::
-Processor signature (CPUID leaf 1 EAX) the patch applies to. AMD platforms
-leave the base family out.
+Processor signature (CPUID leaf 1 EAX) the patch applies to, as the structure
+holds it. AMD platforms leave out the byte holding the base family, bits 8
+to 15, and move the bytes above it down by one.
+
+`signature`::
+Processor signature the patch applies to. On the platforms whose processors
+are of AMD, the byte left out of `cpuid` is put back with the base family of
+15, the way dmidecode does, which is valid for the families of 15 onwards
+only. On other platforms, the same as `cpuid`.
 
 == See also
 

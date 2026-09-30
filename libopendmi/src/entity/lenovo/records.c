@@ -59,7 +59,7 @@ const dmi_entity_spec_t dmi_lenovo_tpm_info_spec =
     .code        = "lenovo-tpm-info",
     .name        = "Lenovo TPM information",
     .description = (const char *[]){
-        "Tells the vendor of the TPM of a ThinkPad.",
+        "Tells the vendor of the TPM of a Lenovo laptop.",
         //
         nullptr
     },
@@ -132,20 +132,25 @@ const dmi_entity_spec_t dmi_lenovo_mtm_spec =
     .code        = "lenovo-mtm",
     .name        = "Lenovo machine type model",
     .description = (const char *[]){
-        "Tells the brand and the full machine type model of an IdeaPad or a "
-        "ThinkBook.",
+        "Tells the brand and the full machine type model of a consumer or "
+        "small business laptop of Lenovo.",
         //
         nullptr
     },
     .params = {
-        .minimum_length = 0x06,
-        .decoded_length = sizeof(dmi_lenovo_mtm_t)
+        .minimum_length = 0x10,
+        .decoded_length = sizeof(dmi_lenovo_mtm_t),
+        // ThinkPads carry structures of 7 bytes at the same type, which refer
+        // to three strings and whose meaning is not known
+        .signature      = DMI_SIGNATURE({
+            .length = 0x10
+        })
     },
 
     .fields = DMI_FIELDS({
         DMI_FIELD_STRING(dmi_lenovo_mtm_t, brand),
         DMI_FIELD_STRING(dmi_lenovo_mtm_t, mtm),
-        DMI_FIELD_BINARY(dmi_lenovo_mtm_t, data, DMI_FIELD_LENGTH_REST),
+        DMI_FIELD_BINARY(dmi_lenovo_mtm_t, data, 10),
         {}
     }),
 

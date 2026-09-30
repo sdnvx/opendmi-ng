@@ -33,6 +33,7 @@ typedef struct dmi_hpe_backplane {
     uint8_t a0_bay_count;
     uint8_t a2_bay_count;
     const char *name;
+    bool has_legacy_details;
 } dmi_hpe_backplane_t;
 ----
 
@@ -77,6 +78,10 @@ onwards.
 
 `name`::
 Name of the backplane, deprecated from Gen10 Plus onwards.
+
+`has_legacy_details`::
+Whether `a0_bay_count`, `a2_bay_count` and `name` are shown, which they are
+not from Gen10 Plus onwards, as told by the generation of the platform.
 
 == See also
 

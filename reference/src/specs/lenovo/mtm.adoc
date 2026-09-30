@@ -4,9 +4,13 @@
 
 Source: reverse engineered from the dumps of the data corpus.
 
-Tells the brand of an IdeaPad or a ThinkBook, `IdeaPad` for both, and its full
-machine type model, e.g. `20VE00U9RU`, of which the system information (type
-1) holds only the machine type, e.g. `20VE`.
+Tells the brand of a consumer or small business laptop of Lenovo, e.g. an
+IdeaPad, a Yoga, a Legion, a V series one or a ThinkBook, `IdeaPad` for all of
+them, and its full machine type model, e.g. `20VE00U9RU`, of which the system
+information (type 1) holds only the machine type, e.g. `20VE`. The structures
+are 16 bytes long. ThinkPads carry structures of 7 bytes at the same type, which
+refer to three strings and whose meaning is not known, and which are left
+undecoded.
 
 .Lenovo Machine Type Model structure
 [width=100%, cols="1,1,2,1,1,4"]

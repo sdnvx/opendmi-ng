@@ -55,8 +55,11 @@ Some firmware does not pack the structure, e.g. the one of Dell XPS 13 9365:
 the parameter is aligned to two bytes, after a byte of zero which follows the
 version, and the milestones are followed by a byte which makes the length of
 the structure even. Such structures are decoded by
-`dmi_intel_svt_aligned_spec`, which tells them by the byte of zero at `0x05`,
-into the same structure.
+`dmi_intel_svt_aligned_spec` into the same structure.
+
+Both layouts are told by the version and the parameter, 1 and `0x0099`, which
+every known structure holds, so that the structures vendors give type 222 are
+not taken for the milestones on the systems whose firmware names no vendor.
 
 === Fields
 

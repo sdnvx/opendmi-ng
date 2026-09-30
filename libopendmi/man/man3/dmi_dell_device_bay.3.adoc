@@ -67,7 +67,8 @@ Devices the bay takes, separated by commas, e.g. `Floppy, Battery, CD-ROM,
 CD-RW, Hard Disk, DVD`.
 
 `installed_device`::
-Device the bay holds, e.g. `Battery`, or `EMPTY` for none.
+Device the bay holds, e.g. `Battery`, or `EMPTY` for none, padded with
+spaces by the firmware.
 
 `unknown_2`::
 Value whose meaning is not established, `0xFF` in all known data.

@@ -30,7 +30,7 @@ typedef struct dmi_intel_mei {
     dmi_intel_mei_device_t *devices;
     dmi_intel_me_state_t state;
     dmi_intel_me_mode_t mode;
-    uint8_t error_code;
+    dmi_intel_me_error_t error_code;
     bool is_init_complete;
     bool is_manufacturing;
     dmi_intel_me_sku_t sku;
@@ -51,6 +51,10 @@ Engine. The rest of the registers are kept as they are, since their layouts
 differ between generations, e.g. the sixth one tells the state of Intel Boot
 Guard on the generations which have it.
 
+The structure is told by its version, 1, and by the name of the first
+interface, `MEI1`, which every known structure holds, so that the structures
+vendors give the same types are not taken for it.
+
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_intel_mei_spec`, of type `DMI_TYPE(intel_mei)`, declared in
 `<opendmi/module/intel.h>`, once the Intel extension module
@@ -61,8 +65,10 @@ long as the context it has been decoded in.
 The Intel reference code gives the structures type 219, but vendors who give
 that type to structures of their own place them elsewhere or not at all:
 Dell places them at type 203, or at type 235 on some platforms, e.g.
-Precision Tower 3620, and HP servers carry none. A group association (type 14)
-named `$MEI` often refers to the structure.
+Precision Tower 3620, and HP servers carry none. Most tables hold a group
+association (type 14) named `$MEI`, which is not a reliable way to find the
+structure: in about half of the tables of the data corpus the group gives
+handle 0, and in some it refers to other structures.
 
 === Fields
 
@@ -84,8 +90,7 @@ Working state of the firmware, see `dmi_intel_me_state`(3).
 Operation mode of the firmware, see `dmi_intel_me_mode`(3).
 
 `error_code`::
-Error code of the firmware, zero if there is no error. `UINT8_MAX` if the first
-interface is absent.
+Error code of the firmware, see `dmi_intel_me_error`(3).
 
 `is_init_complete`::
 Whether the firmware has completed its initialization.
@@ -115,6 +120,7 @@ if ((info != nullptr) && (info->sku != DMI_INTEL_ME_SKU_UNSPEC))
 `dmi_entity_info`(3),
 `dmi_intel_mei_device`(3),
 `dmi_intel_me_state`(3),
+`dmi_intel_me_error`(3),
 `dmi_intel_me_mode`(3),
 `dmi_intel_me_sku`(3),
 `dmi_intel_fvi`(3)

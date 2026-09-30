@@ -30,6 +30,8 @@ typedef struct dmi_hpe_proliant_info {
     uint32_t misc_features;
     bool is_icru;
     bool is_uefi;
+    bool has_omega_features;
+    bool has_misc_features;
 } dmi_hpe_proliant_info_t;
 ----
 
@@ -66,7 +68,18 @@ features tells.
 
 `is_uefi`::
 Whether the firmware is UEFI one, as bits 10 and 12 of the miscellaneous
-features tell.
+features tell, the way dmidecode reads them. The `hpwdt` driver of Linux
+reads bits 3 and 10 instead; the meaning of bits 3 and 12 is not
+established.
+
+`has_omega_features`::
+Whether the structure holds the omega features, which the structures of 8
+bytes leave out. The field is not shown then.
+
+`has_misc_features`::
+Whether the structure holds the miscellaneous features, which the structures
+shorter than 20 bytes leave out. The field, `is_icru` and `is_uefi` are not
+shown then.
 
 == See also
 

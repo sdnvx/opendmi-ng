@@ -44,9 +44,9 @@ enabled, which it is for HP and HPE servers. It lives as long as the context
 it has been decoded in.
 
 Ports run to the end of the structure, which carries no number of them of its
-own. The iSCSI ports are listed up to G7 only: from Gen8 onwards, type 221 is
-not used by HPE, and is decoded as the Intel firmware version information, see
-`dmi_intel_fvi`(3).
+own. The iSCSI ports are listed up to G7 only: type 221 is deprecated from
+Gen8 onwards, and structures of that type are not decoded on the newer
+servers, the Intel firmware version information included.
 
 === Fields
 

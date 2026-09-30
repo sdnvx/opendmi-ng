@@ -12,6 +12,8 @@
 
 #include <opendmi/entity/chassis.h>
 #include <opendmi/entity/dell/common.h>
+#include <opendmi/entity/hpe/trusted-module.h>
+#include <opendmi/entity/hpe/usb-device.h>
 #include <opendmi/entity/intel-rsd/fpga.h>
 #include <opendmi/entity/intel-rsd/memory-device.h>
 #include <opendmi/entity/intel-rsd/phys-device-mapping.h>
@@ -47,6 +49,10 @@ static void test_entity_value_names(void **pstate)
     assert_string_equal(dmi_dell_value_format_name(DMI_DELL_VALUE_FORMAT_SCAN_CODE), "Alphanumeric, scan codes");
     assert_string_equal(dmi_event_log_data_format_name(DMI_EVENT_LOG_DATA_FORMAT_NONE), "None");
     assert_string_equal(dmi_event_log_type_name(DMI_EVENT_LOG_TYPE_SINGLE_BIT_ECC), "Single-bit ECC memory error");
+    assert_string_equal(dmi_hpe_tm_error_name(DMI_HPE_TM_ERROR_SELF_TEST), "Self-test failure");
+    assert_string_equal(dmi_hpe_usb_hub_proto_name(DMI_HPE_USB_HUB_PROTO_FULL_SPEED), "Full speed");
+    assert_string_equal(dmi_hpe_usb_storage_proto_name(DMI_HPE_USB_STORAGE_PROTO_UAS), "USB attached SCSI");
+    assert_string_equal(dmi_hpe_usb_storage_subclass_name(DMI_HPE_USB_STORAGE_SUBCLASS_VENDOR), "Vendor-specific");
     assert_string_equal(dmi_intel_rsd_cpuid_subtype_name(DMI_INTEL_RSD_CPUID_SUBTYPE_BASIC), "Leaves 00h to 10h");
     assert_string_equal(dmi_intel_rsd_fpga_hps_isa_name(DMI_INTEL_RSD_FPGA_HPS_ISA_X86), "x86");
     assert_string_equal(dmi_intel_rsd_fpga_hssi_config_name(DMI_INTEL_RSD_FPGA_HSSI_CONFIG_NETWORKING), "Networking");
@@ -70,6 +76,10 @@ static void test_entity_value_names(void **pstate)
     assert_null(dmi_dell_value_format_name((dmi_dell_value_format_t)0x100));
     assert_null(dmi_event_log_data_format_name((dmi_event_log_data_format_t)0x100));
     assert_null(dmi_event_log_type_name((dmi_event_log_type_t)0x100));
+    assert_null(dmi_hpe_tm_error_name((dmi_hpe_tm_error_t)0x100));
+    assert_null(dmi_hpe_usb_hub_proto_name((dmi_hpe_usb_hub_proto_t)0x100));
+    assert_null(dmi_hpe_usb_storage_proto_name((dmi_hpe_usb_storage_proto_t)0x100));
+    assert_null(dmi_hpe_usb_storage_subclass_name((dmi_hpe_usb_storage_subclass_t)0x100));
     assert_null(dmi_intel_rsd_cpuid_subtype_name((dmi_intel_rsd_cpuid_subtype_t)0x100));
     assert_null(dmi_intel_rsd_fpga_hps_isa_name((dmi_intel_rsd_fpga_hps_isa_t)0x100));
     assert_null(dmi_intel_rsd_fpga_hssi_config_name((dmi_intel_rsd_fpga_hssi_config_t)0x100));

@@ -30,6 +30,11 @@ const dmi_name_set_t dmi_intel_me_state_names =
             .name = "Recovery"
         },
         {
+            .id   = DMI_INTEL_ME_STATE_TEST,
+            .code = "test",
+            .name = "Test"
+        },
+        {
             .id   = DMI_INTEL_ME_STATE_M3_NO_UMA,
             .code = "m3-no-uma",
             .name = "M3 without UMA"
@@ -92,6 +97,36 @@ const dmi_name_set_t dmi_intel_me_mode_names =
     })
 };
 
+// Error codes, named as coreboot names them
+const dmi_name_set_t dmi_intel_me_error_names =
+{
+    .code  = "intel-me-error",
+    .names = DMI_NAMES({
+        DMI_NAME_UNSPEC(DMI_INTEL_ME_ERROR_UNSPEC),
+        {
+            .id   = DMI_INTEL_ME_ERROR_NONE,
+            .code = "none",
+            .name = "No error"
+        },
+        {
+            .id   = DMI_INTEL_ME_ERROR_UNCATEGORIZED,
+            .code = "uncategorized",
+            .name = "Uncategorized failure"
+        },
+        {
+            .id   = DMI_INTEL_ME_ERROR_IMAGE,
+            .code = "image",
+            .name = "Image failure"
+        },
+        {
+            .id   = DMI_INTEL_ME_ERROR_DEBUG,
+            .code = "debug",
+            .name = "Debug failure"
+        },
+        {}
+    })
+};
+
 const dmi_name_set_t dmi_intel_me_sku_names =
 {
     .code  = "intel-me-sku",
@@ -119,6 +154,11 @@ const dmi_name_set_t dmi_intel_me_sku_names =
 const char *dmi_intel_me_state_name(dmi_intel_me_state_t value)
 {
     return dmi_name_lookup(&dmi_intel_me_state_names, (int)value);
+}
+
+const char *dmi_intel_me_error_name(dmi_intel_me_error_t value)
+{
+    return dmi_name_lookup(&dmi_intel_me_error_names, (int)value);
 }
 
 const char *dmi_intel_me_mode_name(dmi_intel_me_mode_t value)

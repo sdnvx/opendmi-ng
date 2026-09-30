@@ -30,6 +30,10 @@ typedef struct dmi_hpe_rom_info {
     const char *bootblock_version;
     const char *oem_rom_filename;
     const char *oem_rom_date;
+    const char *unknown_string;
+    bool has_redundant_rom_version;
+    bool has_oem_rom;
+    bool has_unknown_string;
 } dmi_hpe_rom_info_t;
 ----
 
@@ -45,7 +49,8 @@ enabled, which it is for HP and HPE servers. It lives as long as the context
 it has been decoded in.
 
 Fields of the OEM ROM image are absent from the structures of the older
-servers, and are then `nullptr`.
+servers, and are then `nullptr`. Fields which the structure leaves out, or
+which do not apply, are not shown, as the `has_` fields tell.
 
 === Fields
 
@@ -53,7 +58,8 @@ servers, and are then `nullptr`.
 Whether a redundant ROM is installed.
 
 `redundant_rom_version`::
-Version of the redundant ROM, which is its release date.
+Version of the redundant ROM, which is its release date. Gen12 onwards
+reserve the field.
 
 `bootblock_version`::
 Version string up to Gen8, whose meaning is not documented. Its dates are
@@ -61,10 +67,26 @@ earlier than the ones of the ROM, which suggests the boot block. Gen9 onwards
 reserve the byte.
 
 `oem_rom_filename`::
-File name of the OEM ROM image, blank if there is none.
+File name of the OEM ROM image. Firmware which has no image leaves the string
+out or fills it with blanks, which the decoded string is trimmed of.
 
 `oem_rom_date`::
 Build date of the OEM ROM image.
+
+`unknown_string`::
+String whose meaning is not established, e.g. `2.9` on a G6 server.
+
+`has_redundant_rom_version`::
+Whether `redundant_rom_version` is shown, which it is when a redundant ROM is
+installed, up to Gen11.
+
+`has_oem_rom`::
+Whether `oem_rom_filename` and `oem_rom_date` are shown, which they are when
+the raw file name is neither empty nor begins with two blanks.
+
+`has_unknown_string`::
+Whether the structure holds `unknown_string`, which the structures shorter
+than 10 bytes leave out.
 
 == See also
 

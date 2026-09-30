@@ -69,10 +69,13 @@ Whether an embedded SD card is present.
 USB class code of the device.
 
 `usb_subclass`::
-USB subclass code of the device.
+USB subclass code of the device, named by `dmi_hpe_usb_storage_subclass`(3)
+for the devices of the mass storage class (0x08).
 
 `usb_protocol`::
-USB protocol code of the device.
+USB protocol code of the device, named by `dmi_hpe_usb_storage_proto`(3) for
+the devices of the mass storage class (0x08), and by `dmi_hpe_usb_hub_proto`(3)
+for the hubs (class 0x09).
 
 `product_id`::
 USB product ID of the device.
@@ -98,7 +101,10 @@ Location of the device.
 == See also
 
 `dmi_entity_info`(3),
-`dmi_hpe_usb_port`(3)
+`dmi_hpe_usb_port`(3),
+`dmi_hpe_usb_storage_subclass`(3),
+`dmi_hpe_usb_storage_proto`(3),
+`dmi_hpe_usb_hub_proto`(3)
 
 == Standards
 

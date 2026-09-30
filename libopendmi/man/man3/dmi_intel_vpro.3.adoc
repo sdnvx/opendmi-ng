@@ -25,27 +25,39 @@ endif::[]
 #include <opendmi/entity/intel/vpro.h>
 
 typedef struct dmi_intel_vpro {
-    uint32_t flags_1;
+    dmi_intel_vpro_cpu_caps_t cpu_capabilities;
     dmi_intel_vpro_version_t mebx_version;
-    uint16_t lpc_devfn;
+    uint8_t lpc_devfn;
+    uint8_t lpc_bus;
     uint16_t lpc_device_id;
-    uint32_t flags_2;
+    dmi_intel_vpro_me_caps_t me_capabilities;
     dmi_intel_vpro_version_t me_version;
-    uint16_t gbe_devfn;
+    dmi_intel_vpro_tpm_caps_t tpm_capabilities;
+    uint8_t gbe_devfn;
+    uint8_t gbe_bus;
     uint16_t gbe_device_id;
-    uint32_t flags_3;
+    dmi_intel_vpro_bios_caps_t bios_capabilities;
     dmi_binary_t signature;
+    uint8_t tcg_major;
+    uint8_t tcg_minor;
+    uint8_t va_version;
+    bool has_mch_capabilities;
+    uint8_t mch_devfn;
+    uint8_t mch_bus;
+    uint16_t mch_device_id;
+    dmi_intel_vpro_mch_caps_t mch_capabilities;
 } dmi_intel_vpro_t;
 ----
 
 == Description
 
 The `dmi_intel_vpro_t` structure holds the decoded Intel vPro information,
-which describes the parts of the platform Intel vPro technology relies on:
-the versions of the Management Engine firmware and of its BIOS extension
-(MEBx), and the PCI functions of the chipset and of the network controller
-the Management Engine uses. The structure is found on Intel platforms whether
-they are of vPro or not.
+which Intel calls the vPro verification table. It describes the parts of the
+platform Intel vPro technology relies on: the capabilities of the processor,
+of the Management Engine firmware, of the TPM and of the BIOS, the versions of
+the firmware and of its BIOS extension (MEBx), and the PCI functions of the
+chipset and of the network controller the Management Engine uses. The
+structure is found on Intel platforms whether they are of vPro or not.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_intel_vpro_spec`, of type `DMI_TYPE(intel_vpro)`, declared in
@@ -60,47 +72,92 @@ Lenovo ThinkVantage Technologies enablement, see `dmi_lenovo_tvt`(3). The
 structures of type 131 without the signature are not decoded by this
 specification.
 
-PCI functions are given as their device and function numbers on bus 0,
+PCI functions are given as their bus, and their device and function numbers,
 `(device << 3) | function`, e.g. `0xF8` for 0:1F.0 and `0xFE` for 0:1F.6.
+
+The layout Intel documents holds the capabilities of the memory controller hub
+where the newer firmware puts the version of the BIOS extension, e.g. the one
+of HP EliteBook 6930p. Such structures are told by the major version of zero
+next to a minor version which is not, since the hub is found at 0:0.0 and has
+a device ID, while a version of the BIOS extension is either given in full or
+not at all. The fields of the hub are taken from the words of the version
+then, and are shown in place of it.
 
 === Fields
 
-`flags_1`, `flags_2`, `flags_3`::
-Capability flags of the platform, of the Management Engine and of the
-features, as the structure holds them. The meaning of their bits is not
-established.
+`cpu_capabilities`::
+Capabilities of the processor, see `dmi_intel_vpro_cpu_caps`(3).
 
 `mebx_version`::
 Version of the Management Engine BIOS extension, see
-`dmi_intel_vpro_version`(3). All zeroes if not reported.
+`dmi_intel_vpro_version`(3). All zeroes if not reported. Not shown when
+`has_mch_capabilities` is set.
 
-`lpc_devfn`, `lpc_device_id`::
-PCI device and function of the LPC bridge of the chipset, and its device ID,
-which tells the chipset, e.g. `0xA3C8` for Intel B460.
+`lpc_devfn`, `lpc_bus`, `lpc_device_id`::
+PCI device and function of the LPC bridge of the chipset, its bus, and its
+device ID, which tells the chipset, e.g. `0xA3C8` for Intel B460.
+
+`me_capabilities`::
+Capabilities of the Management Engine firmware, see
+`dmi_intel_vpro_me_caps`(3).
 
 `me_version`::
 Version of the Management Engine firmware, which matches the one of Intel
 firmware version information, see `dmi_intel_fvi_item`(3). All zeroes if not
 reported.
 
-`gbe_devfn`, `gbe_device_id`::
-PCI device and function of the Gigabit Ethernet controller the Management
-Engine uses, and its device ID, `0xFFFF` if the controller is absent.
+`tpm_capabilities`::
+Capabilities of the Trusted Platform Module, see
+`dmi_intel_vpro_tpm_caps`(3).
+
+`gbe_devfn`, `gbe_bus`, `gbe_device_id`::
+PCI device and function of the wired network controller the Management Engine
+uses, its bus, and its device ID, `0xFFFF` if the controller is absent. The
+fields of the wireless controller which follow are reserved.
+
+`bios_capabilities`::
+Capabilities of the BIOS, see `dmi_intel_vpro_bios_caps`(3).
 
 `signature`::
 Signature of the structure, `vPro`.
+
+`tcg_major`, `tcg_minor`::
+Version of the TCG specification the TPM is designed to, taken from
+`tpm_capabilities`. Zero if not given.
+
+`va_version`::
+Highest version of the Virtual Appliance the BIOS supports, taken from
+`bios_capabilities`: 0 for 2.6, 1 for 3.0.
+
+`has_mch_capabilities`::
+Whether the structure is of the older layout, which holds the capabilities of
+the memory controller hub in place of the version of the BIOS extension.
+
+`mch_devfn`, `mch_bus`, `mch_device_id`::
+PCI device and function of the memory controller hub, its bus, and its device
+ID, e.g. `0x2A40` for Intel GM45. Older layout only.
+
+`mch_capabilities`::
+Capabilities of the memory controller hub, see `dmi_intel_vpro_mch_caps`(3).
+Older layout only.
 
 == See also
 
 `dmi_entity_info`(3),
 `dmi_intel_vpro_version`(3),
+`dmi_intel_vpro_cpu_caps`(3),
+`dmi_intel_vpro_mch_caps`(3),
+`dmi_intel_vpro_me_caps`(3),
+`dmi_intel_vpro_tpm_caps`(3),
+`dmi_intel_vpro_bios_caps`(3),
 `dmi_intel_mei`(3),
 `dmi_intel_fvi`(3),
 `dmi_lenovo_tvt`(3)
 
 == Standards
 
-Not part of the SMBIOS specification. Defined by the Intel reference code.
+Not part of the SMBIOS specification. Defined by Intel, as the vPro
+verification table of the Intel AMT implementation and reference guide.
 
 ifdef::backend-manpage[]
 == Copying

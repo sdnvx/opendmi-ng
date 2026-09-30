@@ -51,7 +51,7 @@ baseboard and of the processors, which are given by the structures of types
 
 | `lenovo`
 | IBM and Lenovo
-| Firmware of IBM or Lenovo
+| Firmware or system of IBM or Lenovo
 
 | `sun`
 | Sun

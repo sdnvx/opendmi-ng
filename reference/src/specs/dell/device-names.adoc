@@ -71,7 +71,7 @@ processors and one for the memory devices.
 | Handle
 | `WORD`
 | Varies
-| Handle of the structure describing the device
+| Handle of the structure describing the device, a processor (type 4) or a memory device (type 17) in all known data
 
 | `0x03`
 | Unknown

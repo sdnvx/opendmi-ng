@@ -2,12 +2,13 @@
 :sectnums:
 :sectlinks:
 
-Source: the Dell WMI driver of Linux, `dell-wmi-base.c`, dmidecode, `dmioem.c`, and the dumps of the data corpus.
+Source: the Dell SMBIOS WMI driver of Linux, `dell-smbios-wmi.c`, dmidecode, `dmioem.c`, and the dumps of the data corpus.
 
 Tells the features of the firmware the Dell drivers rely on, of which only the
 support of ACPI WMI is known. dmidecode reads the flags as a `QWORD`, and the
-Dell WMI driver of Linux as a `WORD`; the bytes past the first word are not
-known to carry anything.
+Dell SMBIOS WMI driver of Linux as a `WORD`; the bytes past the first word are
+not known to carry anything. The driver reads the structures of 12 bytes and
+of handle `0xB100` only, which every structure of the data corpus is.
 
 .Dell BIOS Flags structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -41,4 +42,11 @@ known to carry anything.
 | `WORD`
 | `BITFIELD`
 | Bit 1: ACPI WMI is supported
+
+| `0x06`
+| 2.0+
+| Reserved
+| 6 BYTEs
+| Varies
+| Rest of the flags, `0` in all known data
 |===

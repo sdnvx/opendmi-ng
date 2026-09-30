@@ -29,6 +29,7 @@ typedef struct dmi_hpe_riser {
     dmi_hpe_riser_position_t position;
     uint8_t riser_id;
     uint8_t cpld_version;
+    bool is_cpld_b_release;
     const char *name;
 } dmi_hpe_riser_t;
 ----
@@ -59,8 +60,11 @@ Position of the riser, see `dmi_hpe_riser_position`(3).
 ID of the riser.
 
 `cpld_version`::
-Version of the CPLD of the riser in bits 0 to 6, bit 7 telling a `B.` release,
-zero if the riser has no CPLD.
+Version of the CPLD of the riser, bits 0 to 6 of its field, zero if the riser
+has no CPLD.
+
+`is_cpld_b_release`::
+Whether the version of the CPLD is a `B.` release, bit 7 of its field.
 
 `name`::
 Name of the riser.

@@ -38,7 +38,7 @@ onwards.
 | 2.0+
 | Memory Device Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the memory device structure (type 17)
 
 | `0x06`

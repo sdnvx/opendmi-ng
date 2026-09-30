@@ -21,6 +21,7 @@ const dmi_module_t dmi_acer_module =
     .name      = "Acer extensions",
     .entities  = (const dmi_entity_spec_t *[]){
         &dmi_acer_hotkeys_spec,
+        &dmi_acer_hotkeys_basic_spec,
         &dmi_acer_devices_spec,
         nullptr
     },

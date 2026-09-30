@@ -43,9 +43,23 @@ struct dmi_hpe_proliant_info
 
     /**
      * @brief Whether the firmware is UEFI one, as bits 10 and 12 of the
-     * miscellaneous features tell.
+     * miscellaneous features tell, the way dmidecode reads them. The `hpwdt`
+     * driver of Linux reads bits 3 and 10 instead.
      */
     bool is_uefi;
+
+    /**
+     * @brief Whether the structure holds the omega features, which the
+     * structures of 8 bytes leave out. The field is not shown then.
+     */
+    bool has_omega_features;
+
+    /**
+     * @brief Whether the structure holds the miscellaneous features, which
+     * the structures shorter than 20 bytes leave out. The field and the
+     * flags told by it are not shown then.
+     */
+    bool has_misc_features;
 };
 
 /**
