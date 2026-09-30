@@ -27,6 +27,7 @@ static void test_vpro_signature(void **pstate);
 static void test_vpro_shared_type(void **pstate);
 static void test_vpro_legacy(void **pstate);
 static void test_vpro_tpm(void **pstate);
+static void test_vpro_wlan(void **pstate);
 
 static const dmi_intel_vpro_t *test_vpro_info(dmi_context_t *context, const char *path, dmi_entity_t **pentity);
 static bool test_vpro_shown(const dmi_entity_t *entity, const char *code);
@@ -35,6 +36,7 @@ static const char *test_asrock_path = OPENDMI_TEST_DATA "/asrock/b460-pro4.bin";
 static const char *test_x280_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-x280-20kf.bin";
 static const char *test_6930p_path = OPENDMI_TEST_DATA "/hp/elitebook-6930p-nn187ea.bin";
 static const char *test_w510_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-w510-4319.bin";
+static const char *test_nec_path = OPENDMI_TEST_DATA "/nec/pc-lz750ls.bin";
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -45,7 +47,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_vpro_signature, test_vpro_setup, test_vpro_teardown),
         cmocka_unit_test_setup_teardown(test_vpro_shared_type, test_vpro_setup, test_vpro_teardown),
         cmocka_unit_test_setup_teardown(test_vpro_legacy, test_vpro_setup, test_vpro_teardown),
-        cmocka_unit_test_setup_teardown(test_vpro_tpm, test_vpro_setup, test_vpro_teardown)
+        cmocka_unit_test_setup_teardown(test_vpro_tpm, test_vpro_setup, test_vpro_teardown),
+        cmocka_unit_test_setup_teardown(test_vpro_wlan, test_vpro_setup, test_vpro_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -133,9 +136,10 @@ static void test_vpro_decode(void **pstate)
 
     assert_false(info->tpm_capabilities.is_tpm_present);
 
-    // Host bridge is given by the firmware of HP laptops only
-    assert_false(info->has_host_bridge);
-    assert_false(test_vpro_shown(entity, "host-device-id"));
+    // Platform has no Intel wireless network controller the Management
+    // Engine uses
+    assert_false(info->has_wlan);
+    assert_false(test_vpro_shown(entity, "wlan-device-id"));
 
     assert_int_equal(info->signature.length, 4);
     assert_memory_equal(info->signature.data, "vPro", 4);
@@ -181,8 +185,8 @@ static void test_vpro_signature(void **pstate)
     assert_true(test_vpro_shown(entity, "mebx-version"));
     dmi_entity_destroy(entity);
 
-    // Host bridge is not given when its device ID has either byte of all
-    // bits set, or all of them
+    // Wireless network controller is not given when its device ID has either
+    // byte of all bits set, or all of them
     static const uint16_t absent[] = { 0x00FF, 0xFF00, 0xFFFF };
 
     for (size_t i = 0; i < countof(absent); i++) {
@@ -195,11 +199,12 @@ static void test_vpro_signature(void **pstate)
 
         info = dmi_entity_info(entity, DMI_TYPE(intel_vpro));
         assert_non_null(info);
-        assert_false(info->has_host_bridge);
+        assert_false(info->has_wlan);
         dmi_entity_destroy(entity);
     }
 
-    // ...while it is with any other, e.g. the one of Intel Haswell-ULT
+    // ...while it is with any other, e.g. the one of the host bridge of
+    // Intel Haswell-ULT, which HP laptops give
     data[0x30] = 0x04;
     data[0x31] = 0x0A;
 
@@ -209,8 +214,8 @@ static void test_vpro_signature(void **pstate)
 
     info = dmi_entity_info(entity, DMI_TYPE(intel_vpro));
     assert_non_null(info);
-    assert_true(info->has_host_bridge);
-    assert_int_equal(info->host_device_id, 0x0A04);
+    assert_true(info->has_wlan);
+    assert_int_equal(info->wlan_device_id, 0x0A04);
     dmi_entity_destroy(entity);
 
     dmi_buffer_destroy(buffer);
@@ -272,12 +277,13 @@ static void test_vpro_legacy(void **pstate)
     assert_true(test_vpro_shown(entity, "mch-device-id"));
     assert_true(test_vpro_shown(entity, "mch-capabilities"));
 
-    // Host bridge is given in place of the wireless network controller too
-    assert_true(info->has_host_bridge);
-    assert_int_equal(info->host_devfn, 0x00);
-    assert_int_equal(info->host_bus, 0x00);
-    assert_int_equal(info->host_device_id, 0x2A40);
-    assert_true(test_vpro_shown(entity, "host-device-id"));
+    // Firmware of HP laptops gives the host bridge in place of the wireless
+    // network controller
+    assert_true(info->has_wlan);
+    assert_int_equal(info->wlan_devfn, 0x00);
+    assert_int_equal(info->wlan_bus, 0x00);
+    assert_int_equal(info->wlan_device_id, 0x2A40);
+    assert_true(test_vpro_shown(entity, "wlan-device-id"));
 
     // Management Engine enabled, with AMT
     assert_true(info->me_capabilities.is_me_enabled);
@@ -305,6 +311,23 @@ static void test_vpro_tpm(void **pstate)
     // Bits 7 to 9 give the highest version of the Virtual Appliance
     assert_int_equal(info->bios_capabilities.__value, 0x3E);
     assert_int_equal(info->va_version, 0);
+}
+
+static void test_vpro_wlan(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_entity_t *entity = nullptr;
+
+    const dmi_intel_vpro_t *info = test_vpro_info(context, test_nec_path, &entity);
+
+    // Intel Centrino Advanced-N 6235 at 2:00.0, with no wired network
+    // controller
+    assert_true(info->has_wlan);
+    assert_int_equal(info->wlan_devfn, 0x00);
+    assert_int_equal(info->wlan_bus, 0x02);
+    assert_int_equal(info->wlan_device_id, 0x088F);
+    assert_true(test_vpro_shown(entity, "wlan-device-id"));
+    assert_int_equal(info->gbe_device_id, UINT16_MAX);
 }
 
 static const dmi_intel_vpro_t *test_vpro_info(dmi_context_t *context, const char *path, dmi_entity_t **pentity)

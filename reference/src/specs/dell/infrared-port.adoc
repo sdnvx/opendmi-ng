@@ -4,6 +4,10 @@
 
 Source: Dell `libsmbios`, `doc/smbios23.xml`.
 
+The structure is told by its length of 13 bytes. Structures of other lengths
+are found at the same type, e.g. the one of 17 bytes of Studio 1555, which
+holds text in its formatted area, and are not taken for infrared ports.
+
 .Dell Infrared Port structure
 [width=100%, cols="1,1,2,1,1,4"]
 |===

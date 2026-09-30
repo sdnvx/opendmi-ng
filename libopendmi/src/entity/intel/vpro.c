@@ -151,11 +151,11 @@ const dmi_entity_spec_t dmi_intel_vpro_spec =
         DMI_FIELD(dmi_intel_vpro_t, gbe_device_id, dmi_word_t),
         DMI_FIELD_SKIP(2),
 
-        // Firmware of HP laptops gives the host bridge where the guide places
-        // the wireless network controller
-        DMI_FIELD(dmi_intel_vpro_t, host_devfn,     dmi_byte_t),
-        DMI_FIELD(dmi_intel_vpro_t, host_bus,       dmi_byte_t),
-        DMI_FIELD(dmi_intel_vpro_t, host_device_id, dmi_word_t),
+        // Firmware of HP laptops gives the host bridge in place of the
+        // wireless network controller
+        DMI_FIELD(dmi_intel_vpro_t, wlan_devfn,     dmi_byte_t),
+        DMI_FIELD(dmi_intel_vpro_t, wlan_bus,       dmi_byte_t),
+        DMI_FIELD(dmi_intel_vpro_t, wlan_device_id, dmi_word_t),
         DMI_FIELD_SKIP(2),
         DMI_FIELD(dmi_intel_vpro_t, bios_capabilities, dmi_dword_t),
 
@@ -283,37 +283,37 @@ const dmi_entity_spec_t dmi_intel_vpro_spec =
             .unspec = dmi_value_ptr((uint16_t)UINT16_MAX),
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_host_bridge, {
-            .code     = "host-devfn",
-            .name     = "Host bridge device and function",
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_wlan, {
+            .code     = "wlan-devfn",
+            .name     = "Wireless network controller device and function",
             .variants = DMI_VARIANTS({
-                DMI_VARIANT(true, dmi_intel_vpro_t, host_devfn, INTEGER, {
-                    .code  = "host-devfn",
-                    .name  = "Host bridge device and function",
+                DMI_VARIANT(true, dmi_intel_vpro_t, wlan_devfn, INTEGER, {
+                    .code  = "wlan-devfn",
+                    .name  = "Wireless network controller device and function",
                     .flags = DMI_ATTRIBUTE_FLAG_HEX
                 }),
                 {}
             })
         }),
-        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_host_bridge, {
-            .code     = "host-bus",
-            .name     = "Host bridge bus",
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_wlan, {
+            .code     = "wlan-bus",
+            .name     = "Wireless network controller bus",
             .variants = DMI_VARIANTS({
-                DMI_VARIANT(true, dmi_intel_vpro_t, host_bus, INTEGER, {
-                    .code  = "host-bus",
-                    .name  = "Host bridge bus",
+                DMI_VARIANT(true, dmi_intel_vpro_t, wlan_bus, INTEGER, {
+                    .code  = "wlan-bus",
+                    .name  = "Wireless network controller bus",
                     .flags = DMI_ATTRIBUTE_FLAG_HEX
                 }),
                 {}
             })
         }),
-        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_host_bridge, {
-            .code     = "host-device-id",
-            .name     = "Host bridge device ID",
+        DMI_ATTRIBUTE_VARIANT(dmi_intel_vpro_t, has_wlan, {
+            .code     = "wlan-device-id",
+            .name     = "Wireless network controller device ID",
             .variants = DMI_VARIANTS({
-                DMI_VARIANT(true, dmi_intel_vpro_t, host_device_id, INTEGER, {
-                    .code  = "host-device-id",
-                    .name  = "Host bridge device ID",
+                DMI_VARIANT(true, dmi_intel_vpro_t, wlan_device_id, INTEGER, {
+                    .code  = "wlan-device-id",
+                    .name  = "Wireless network controller device ID",
                     .flags = DMI_ATTRIBUTE_FLAG_HEX
                 }),
                 {}
@@ -346,10 +346,10 @@ bool dmi_intel_vpro_derive(dmi_entity_t *entity)
     info->tcg_minor  = info->tpm_capabilities.tcg_minor;
     info->va_version = info->bios_capabilities.va_version;
 
-    // Firmware which gives no host bridge fills its device ID with either
-    // byte of all bits set, or leaves it zero
-    uint16_t host = info->host_device_id;
-    info->has_host_bridge = (host != 0) and (host != 0x00FF) and (host != 0xFF00) and (host != UINT16_MAX);
+    // Firmware which gives no wireless network controller fills its device
+    // ID with either byte of all bits set, or leaves it zero
+    uint16_t wlan = info->wlan_device_id;
+    info->has_wlan = (wlan != 0) and (wlan != 0x00FF) and (wlan != 0xFF00) and (wlan != UINT16_MAX);
 
     // Older layout holds the memory controller hub, which is found at 0:0.0,
     // in place of the version of the BIOS extension, whose major part is

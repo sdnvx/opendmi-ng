@@ -18,7 +18,12 @@ const dmi_entity_spec_t dmi_dell_infrared_port_spec =
     .params = {
         .minimum_version = DMI_VERSION(2, 2, 0),
         .minimum_length  = 0x0D,
-        .decoded_length  = sizeof(dmi_dell_infrared_port_t)
+        .decoded_length  = sizeof(dmi_dell_infrared_port_t),
+        // Structures of other lengths at the same type are of another kind,
+        // e.g. the one of Studio 1555, which holds text in its formatted area
+        .signature       = DMI_SIGNATURE({
+            .length = 0x0D
+        })
     },
 
     .fields = DMI_FIELDS({

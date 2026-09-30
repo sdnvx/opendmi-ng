@@ -46,6 +46,10 @@ The structure is returned by `dmi_entity_info`(3) for the structures of type
 `DMI_TYPE(dell_infrared_port)`, declared in `<opendmi/module/dell.h>`, and
 lives as long as the context it has been decoded in.
 
+The structures are told by their length of 13 bytes, since structures of
+other lengths are found at the same type, e.g. the one of 17 bytes of Studio
+1555, which holds text in its formatted area. Those are not decoded.
+
 === Fields
 
 `location`::
