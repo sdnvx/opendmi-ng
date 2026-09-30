@@ -134,6 +134,7 @@ const dmi_module_t dmi_hpe_module =
         { &dmi_intel_mei_spec, DMI_TYPE_ID_INVALID },
         { &dmi_intel_fvi_spec, DMI_TYPE_ID_INVALID },
         { &dmi_intel_svt_spec, DMI_TYPE_ID_INVALID },
+        { &dmi_intel_svt_aligned_spec, DMI_TYPE_ID_INVALID },
         {}
     })
 };

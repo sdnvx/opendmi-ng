@@ -2527,8 +2527,14 @@ table:
   description: Intel Silicon View Technology milestones
   attributes:
     version: 1
-    parameter: 39168
-    milestones: []
+    parameter: 153
+    milestones:
+    - code: 16
+      name: Memory Init Complete
+    - code: 32
+      name: End of DXE Phase
+    - code: 48
+      name: BIOS Boot Complete
 - handle: 53248
   type: 208
   length: 35

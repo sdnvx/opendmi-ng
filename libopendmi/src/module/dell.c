@@ -94,6 +94,7 @@ const dmi_module_t dmi_dell_module =
         { &dmi_intel_fvi_spec, 205 },
         { &dmi_intel_fvi_spec, 237 },
         { &dmi_intel_svt_spec, 206 },
+        { &dmi_intel_svt_aligned_spec, 206 },
         {}
     })
 };

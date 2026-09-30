@@ -39,7 +39,8 @@ Technology (SVT) milestones: the milestones of the boot the firmware reports
 to the debug and validation tools of Intel.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
-by `dmi_intel_svt_spec`, of type `DMI_TYPE(intel_svt)`, declared in
+by `dmi_intel_svt_spec` or `dmi_intel_svt_aligned_spec`, of type
+`DMI_TYPE(intel_svt)`, declared in
 `<opendmi/module/intel.h>`, once the Intel extension module
 (`dmi_intel_module`) is enabled. It lives as long as the context it has been
 decoded in.
@@ -49,6 +50,13 @@ that type to structures of their own place them elsewhere or not at all:
 Dell places them at type 206, and HP servers carry none. A group association
 (type 14) named `Intel(R) Silicon View Technology` often refers to the
 structure.
+
+Some firmware does not pack the structure, e.g. the one of Dell XPS 13 9365:
+the parameter is aligned to two bytes, after a byte of zero which follows the
+version, and the milestones are followed by a byte which makes the length of
+the structure even. Such structures are decoded by
+`dmi_intel_svt_aligned_spec`, which tells them by the byte of zero at `0x05`,
+into the same structure.
 
 === Fields
 

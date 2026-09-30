@@ -37,6 +37,7 @@ const dmi_module_t dmi_intel_module =
         &dmi_intel_mei_spec,
         &dmi_intel_fvi_spec,
         &dmi_intel_svt_spec,
+        &dmi_intel_svt_aligned_spec,
         nullptr
     },
     .flags     = DMI_MODULE_FLAG_YIELD,

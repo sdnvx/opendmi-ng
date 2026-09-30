@@ -66,4 +66,10 @@ struct dmi_intel_svt
  */
 extern __dmi_api const dmi_entity_spec_t dmi_intel_svt_spec;
 
+/**
+ * @brief Intel Silicon View Technology milestones entity specification, for
+ * the structures laid out with the parameter aligned to two bytes.
+ */
+extern __dmi_api const dmi_entity_spec_t dmi_intel_svt_aligned_spec;
+
 #endif // !OPENDMI_ENTITY_INTEL_SVT_H

@@ -1701,6 +1701,14 @@ ru_RU {
         }
         name { "Контрольные точки Intel Silicon View Technology" }
     }
+    intel-svt-aligned {
+        attribute {
+            code { "Код" }
+            milestones { "Контрольные точки" }
+            parameter { "Параметр" }
+        }
+        name { "Контрольные точки Intel Silicon View Technology" }
+    }
     intel-vpro {
         attribute {
             build { "Номер сборки" }

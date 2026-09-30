@@ -278,10 +278,10 @@ names such groups along with the specifications of their members:
 
 Groups are not used to tell the structures, which their type numbers and
 signatures do, but to check them: the `group-assoc.member` lint rule reports
-the members of such a group which are not decoded by the specification. A
-report tells either a structure the vendor places at a type number no module
-knows of, which calls for a relocation, or a group the firmware lists a
-structure in by mistake.
+the members of such a group which are not of the structure type of the
+specification, whatever the layout they are decoded by. A report tells either a
+structure the vendor places at a type number no module knows of, which calls
+for a relocation, or a group the firmware lists a structure in by mistake.
 
 == Modules of a program
 

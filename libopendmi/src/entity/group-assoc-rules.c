@@ -49,7 +49,9 @@ void dmi_group_assoc_lint_member(dmi_lint_t *lint, const dmi_entity_t *entity)
         if ((member == nullptr) or (dmi_entity_type_id(member) != item->type))
             continue;
 
-        if (member->spec == spec)
+        // Structures of the same type are members whatever the layout they
+        // are decoded by
+        if (dmi_entity_type(member) == spec->type)
             continue;
 
         dmi_lint_issue(lint, entity, "items", dmi_lint_entity_offset(lint, entity),

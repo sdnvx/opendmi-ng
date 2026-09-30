@@ -85,3 +85,55 @@ at type 206, while HP servers carry none.
 | `STRING`
 | `Memory Init Complete`, `End of DXE Phase` and `BIOS Boot Complete`
 |===
+
+[#intel-svt-aligned, reftext=Aligned layout]
+== Intel Silicon View Technology Milestones -- Aligned Layout
+
+Some firmware does not pack the structure, e.g. the one of Dell XPS 13 9365,
+which carries `01 00 99 00 03 10 01 20 02 30 03 00` where other firmware
+carries `01 99 00 03 10 01 20 02 30 03`: the parameter is aligned to two
+bytes, and the milestones are followed by a byte which makes the length of
+the structure even. The structure is told by the byte of zero at `0x05`,
+where the packed layout holds the low byte of the parameter.
+
+.Intel Silicon View Technology Milestones structure, aligned layout
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x04`
+| Version
+| `BYTE`
+| Varies
+| `1` in all known data
+
+| `0x05`
+| Padding
+| `BYTE`
+| `0`
+| Aligns the parameter to two bytes
+
+| `0x06`
+| Parameter
+| `WORD`
+| Varies
+| Meaning not established, `0x0099` in all known data
+
+| `0x08`
+| Milestone Count
+| `BYTE`
+| Varies
+| Number of milestones
+
+| `0x09`
+| Milestones
+| Varies
+| Varies
+| Milestones, see <<intel-svt-milestones>>
+
+| `0x09` + 2 × Milestone Count
+| Padding
+| `BYTE`
+| `0`
+| Makes the length of the structure even
+|===
