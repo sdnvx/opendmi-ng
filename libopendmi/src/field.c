@@ -1221,6 +1221,15 @@ static bool dmi_field_encode_array(
 
     const dmi_data_t *elements = dmi_deref(dmi_data_t *, info + field->member.offset);
 
+    // Source data which ends in the middle of the numbers the array begins
+    // with is kept as it is, e.g. a number of no elements with no length of
+    // an element after it
+    if (preserve and
+        (dmi_encoder_remaining(encoder) < field->params.count_length + field->params.stride_length)) {
+        output->stopped = true;
+        return dmi_field_put_reserved(output, dmi_encoder_remaining(encoder));
+    }
+
     // Number of the elements the data declares, which is greater than the
     // number of the decoded ones when the source data ends before the last
     // element does

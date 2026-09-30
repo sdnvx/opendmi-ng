@@ -38,6 +38,12 @@ const dmi_entity_spec_t dmi_bis_entry_point_spec =
         DMI_FIELD(dmi_bis_entry_point_t, entry_point_16.offset,  dmi_word_t),
         DMI_FIELD(dmi_bis_entry_point_t, entry_point_16.segment, dmi_word_t),
         DMI_FIELD(dmi_bis_entry_point_t, entry_point_32,         dmi_dword_t),
+
+        // Reserved bytes the structure ends with, of which the ones past the
+        // minimum length may be left out
+        DMI_FIELD_SKIP(sizeof(dmi_dword_t)),
+        DMI_FIELD_GROUP(),
+        DMI_FIELD_SKIP(sizeof(dmi_qword_t)),
         {}
     }),
 

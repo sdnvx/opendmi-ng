@@ -12,19 +12,24 @@ dumps which will tell more can be recognized.
 === Type 128: sample structure of the firmware kit
 
 Found on Insyde firmware: Lenovo IdeaPad and ThinkBook, Toshiba Satellite,
-Gigabyte G5 and Neousys Nuvo.
+HP 250 notebooks, Framework laptops, Gigabyte G5 and Neousys Nuvo.
 
 The formatted area holds the bytes `55 AA 55 AA`, and the structure carries
 the strings `Oem Test 1` and `Oem Test 2`, or `Oem Type 128 Test 1` and
 `Oem Type 128 Test 2`, which no field refers to. The structure is a sample
 of the firmware kit which the vendors of the systems leave in place.
 
+Other firmware carries structures of type 128 of its own. Microsoft Surface
+Laptop 3 carries one referring to a single string, `_SHA_` followed by 40
+hexadecimal digits, as many as the ones of a SHA-1 hash. Fujitsu ESPRIMO Q958
+carries the structures of Fujitsu described with type 143.
+
 === Type 129: Intel ASF
 
-Found on Intel platforms of Insyde and Phoenix firmware: HP EliteBook,
-Lenovo IdeaPad, ThinkBook and ThinkPad, Toshiba Satellite, Gigabyte G5 and
-Neousys Nuvo. Commonly listed as the Intel Alert Standard Format (ASF)
-structure.
+Found on Intel platforms of Insyde, Phoenix and Dell firmware: HP EliteBook,
+Lenovo IdeaPad, ThinkBook and ThinkPad, Toshiba Satellite, Dell Latitude,
+Precision and PowerEdge, Gigabyte G5 and Neousys Nuvo. Commonly listed as the
+Intel Alert Standard Format (ASF) structure.
 
 [width=100%, cols="1,1,4"]
 |===
@@ -40,7 +45,8 @@ structure.
 
 | `0x06`
 | `BYTE`
-| String `2`: `Intel_ASF_001`, or `Insyde_ASF_002`
+| String `2`: `Intel_ASF_001`, or `Insyde_ASF_002`, or `Dell_ASF_001` and
+  `Dell_ASF_002` on Dell firmware of Latitude D610 and PowerEdge 400SC
 
 | `0x07`
 | `BYTE`
@@ -55,14 +61,20 @@ are the ones of a type 128 sample, cut short.
 
 Lenovo firmware of all the known models, from ThinkPad T61p to ThinkPad T14
 Gen 3, carries a structure of 5 bytes, which refers to its only string at `0x04`: `KHOIHGIUCCHHII`, the same
-in all known data.
+in all known data. Xiaomi TM1701, of Insyde firmware, carries a structure of
+the same form, whose string `TIMIPCR001V001` is of the same length.
 
 AMI firmware of Intel platforms of the 12th generation and later (ASUS Prime
-H610M-R, Gigabyte B760M DS3H, Beelink SEi) carries a structure of 44 bytes,
-identical on all of them, which begins with the GUID
-`7895B4F9-924D-410A-9639-123862B28A63` and holds the PCI vendor ID of Intel,
-`0x8086`, twice. ThinkPad T14 Gen 3 carries one of the same GUID with other
-bytes and strings, and ASUS RS520-E9 one of 12 bytes.
+H610M-R and ROG STRIX Z690-A, Gigabyte B760M DS3H and H610M H V2, Beelink
+SEi) carries a structure of 44 bytes, identical on all of them, which begins
+with the GUID `7895B4F9-924D-410A-9639-123862B28A63` and holds the PCI vendor
+ID of Intel, `0x8086`, twice. ThinkPad T14 Gen 3 carries one of the same GUID
+with other bytes and strings.
+
+AMI firmware of servers (ASUS RS520-E9, iXsystems TrueNAS H30 and M50)
+carries a structure of 12 bytes holding two `DWORD` values, e.g. `0x67B6D000`
+and `0x4000`, which look like the address of a region of memory aligned to
+4 KiB below 4 GiB, and its size.
 
 === Type 136
 
@@ -77,24 +89,50 @@ structure of type 136, of a `DWORD` of zero, which is the only one of Dell G15
 === Type 143
 
 Fujitsu LifeBook S 4546 carries two structures, the first of which holds the
-signature `_FJ_OEM_` at `0x05`. MSI PRO B650-S WIFI carries one referring to
-eleven strings, which name the firmware components and their versions, e.g.
-`GOP1-[N/A]`, `RAID-1...16`, `PXEU1-v.2`, `AMI-AptioV` and `MsiFlash-17`.
+signature `_FJ_OEM_` at `0x05`. Fujitsu ESPRIMO Q958 carries the same two
+structures as type 128, followed by structures of the same type beginning with
+`03`, a byte of 9, `0x0B` or `0x0D`, and `01 01`, some of which refer to strings
+such as `[U:SCB1` and `[V:CSM1`.
+
+MSI boards carry one referring to eleven strings, which name the firmware
+components and their versions, e.g. `GOP1-[N/A]`, `RAID-1...16`, `PXEU1-v.2`,
+`AMI-AptioV` and `MsiFlash-17` on PRO B650-S WIFI, and `MEFW-9.0.20.1447`,
+`VBIOS-2179` and `PXEL1-2.53` on MS-7816. The strings of the components the
+board lacks are `N/A`.
+
+=== Type 148
+
+Intel S2600WTT server board carries a structure of 48 bytes whose bytes from
+`0x05` on are the numbers of its strings, which give the versions of the
+firmware components of the board: the BIOS ID, the BMC firmware, the
+Management Engine, the SDR package, the FRU and the SDR file, the microcode
+patches and more.
 
 === Type 248
 
-Acer Nitro AN515-31 carries `00 02 6C 00 00 00 00`, and Lenovo IdeaPad Slim 5
-and ThinkBook 15 G2 carry 14 bytes beginning with `AC AC AA 17`.
+Acer Aspire A515 and Nitro AN515 carry `00 02 6C 00 00 00 00`, and Predator
+G9-592 carries `00 02 6C 00` followed by the string `BDF`, which no field
+refers to. Dell Inspiron 5370, Latitude 7390 and 7490 and XPS 13 9300 carry
+`00 00 00 00` followed by the number of their only string, `BDF_DE_P87G`,
+`BDF_DE_1901` or `12345678901`.
+
+Lenovo IdeaPad, Legion, Yoga, ThinkBook and V130 carry 14 bytes beginning with
+`AC AC AA 17`, followed by the `WORD` values `0` or `0xFFFF` at `0x08` and `0`,
+`8` or `0x0B` at `0x0A`, and zeros.
 
 == Acer
 
 === Type 172
 
-Acer Nitro AN515-31 carries `02 36`, followed by 3-byte records of an ID,
-from `1` to `7`, and a `WORD` value: `0x00FF`, `1`, `0x00FF`, `1`, `0x000F`,
-`0x00FF` and `0x00FF`. The IDs are the kinds of the devices of the device list
-(type 171), and `0x36` is the length of that structure, which may be a
-coincidence.
+Acer Aspire A515, Nitro AN515 and Predator G9-592 carry `02` and a byte
+which differs from one model to another, from `0x26` to `0x44`, followed by
+3-byte records of an ID, from `1` to `7`, and a `WORD` value: `0x00FF`, `1`,
+`0x00FF`, `1`, `0x000F`, `0x00FF` and `0x00FF`, the same on all of them.
+Predator G9-592 carries the records `1` to `6` only, and Aspire A515-52 and
+A515-52G the records `8` to `11` too, of the values `0`, `1`, `2` and `1`. The
+IDs `1` to `7` are the kinds of the devices of the device list (type 171). The
+second byte is not the length of that structure, although it is on Nitro
+AN515-31.
 
 == Dell
 
@@ -106,15 +144,51 @@ by 64 hexadecimal digits and `]`, in the `key[value]` form of the OEM strings
 
 === Type 217
 
-Dell G15 5510 carries a structure referring to the strings `US-101` and
-`Proprietary` at `0x04` and `0x05`, followed by `01 03`, which may describe
-the keyboard.
+Dell notebooks and workstations, from Latitude D500 to G15 5510 and XPS 13
+9300, carry a structure referring to the strings `US-101` and `Proprietary`
+at `0x04` and `0x05`, followed by `01 03`, the same on all of them, which may
+describe the keyboard. Precision M3800 carries one of blank strings, followed
+by `00 00`.
 
 === Type 222
 
-Found on Dell PowerEdge 1800, Precision 490 and G15 5510, of 15 or 16 bytes,
-e.g. `01 04 FF FF` followed by zeros, or `C1 01 FF FF` followed by zeros and
-`01`.
+Found on Dell firmware of every kind of system, from OptiPlex GX110 and
+PowerEdge 1300 to PowerEdge R740xd and XPS 13 9300, of 13 bytes, or of 15 or
+16 bytes on newer systems.
+
+[width=100%, cols="1,1,4"]
+|===
+| Offset | Length | Value
+
+| `0x04`
+| `BYTE`
+| `1` on most systems, `0xC1` on OptiPlex GX110, PowerEdge 400SC and SC420
+  and Precision 390 and 490, `0` on PowerEdge C6320, R630 to R740xd,
+  Precision T7600 and G15 5510
+
+| `0x05`
+| `BYTE`
+| A single bit set: `1`, `2`, `4`, `8`, `0x40` or `0x80`
+
+| `0x06`
+| `WORD`
+| `0xFFFF` when the date which follows is not set, `0` or `0x0D` otherwise
+
+| `0x08`
+| 5 `BYTE`
+| Date and time in BCD: year of two digits, month, day, hour and minute, e.g.
+  `22 04 21 10 24` for 2022-04-21 10:24, or zeros
+
+| `0x0D`
+| 2 or 3 `BYTE`
+| Only in structures of 15 or 16 bytes, e.g. `01 00 00` on notebooks, or
+  `03 00 01` on PowerEdge R640 to R740xd
+|===
+
+The date is set on most notebooks and desktops, and on a few servers. It is
+mostly weeks or months later than the release date of the firmware, but it
+is earlier on PowerEdge 4400 and R740xd, so it is not the date the firmware
+was updated.
 
 == HP
 
@@ -141,15 +215,34 @@ Technologies enablement of the same type.
 
 === Type 132
 
-ThinkPads and Lenovo B590 carry `02 D8 36`, `01 D8 36` or `02 DA 36`,
-sometimes followed by a byte of zero.
+ThinkPads and Lenovo B590 carry three bytes, sometimes followed by a byte of
+zero: `1` or `2`, a byte from `0xC0` to `0xDB`, e.g. `0xD8` on most of them,
+and `0x36`, the same on all of them.
 
-=== Types 137 to 139 and 141
+=== Types 137 to 139
 
-ThinkPad T61p carries structures of types 137 to 139, and ThinkPad T14 Gen 2a
-and Gen 3 structures of type 141 of 18 to 56 bytes.
+ThinkPad T61p carries structures of types 137 to 139.
 
-== Foxconn
+=== Type 141
+
+ThinkPads of 2019 and later (T14 Gen 1 to Gen 3, T490, E14 Gen 5, L15 Gen 1)
+carry several structures of 18 to 56 bytes, each of which begins with the
+text `THNK`, followed by a `WORD` of zero and the kind of the structure,
+a `DWORD` at `0x0A`: `0`, `0x10`, `0x30`, `0x40`, `0x50` or `0x60`. The data
+of the structure begins at `0x0E`.
+
+The structures of the kinds `0` to `0x40` hold a `DWORD` value, e.g. a small
+number, `0xFFFFFFFF`, or the text `LiP` on T14 Gen 2a. The one of the kind
+`0x50` holds two `QWORD` values. The one of the kind `0x60` is a log of five
+events: a `WORD` count of the events, e.g. `22`, followed by 8-byte records
+of the date and the time of the latest ones in BCD: year of four digits as a
+`WORD`, month, day, hour, minute, second and a byte of zero, e.g.
+`24 20 05 26 18 08 39 00` for 2024-05-26 18:08:39, the latest first.
+
+== Phoenix and Award
 
 Foxconn M61PMV, of Phoenix firmware, carries structures of types 188, 190, 192
-and 194, of 212 to 244 bytes, which hold tables of small numbers.
+and 194, and Gigabyte GA-MA74GMT-S2, of Award firmware, structures of types
+188, 190, 192, 194, 196 and 198, of 212 to 244 bytes, which hold tables of
+small numbers. Award Software was acquired by Phoenix Technologies, and the
+structures are of the code base the firmware of both descends from.
