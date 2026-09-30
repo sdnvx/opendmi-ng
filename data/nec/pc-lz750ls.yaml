@@ -677,9 +677,9 @@ table:
     gbe-devfn: 200
     gbe-bus: 0
     gbe-device-id: null
-    host-devfn: 0
-    host-bus: 2
-    host-device-id: 2191
+    wlan-devfn: 0
+    wlan-bus: 2
+    wlan-device-id: 2191
     bios-capabilities:
       vtx-configurable: false
       vtd-configurable: false

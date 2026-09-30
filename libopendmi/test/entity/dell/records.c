@@ -24,6 +24,7 @@
 #include <opendmi/entity/dell/device-bay.h>
 #include <opendmi/entity/dell/device-names.h>
 #include <opendmi/entity/dell/indexed-io.h>
+#include <opendmi/entity/dell/infrared-port.h>
 #include <opendmi/entity/dell/memory-ids.h>
 #include <opendmi/entity/dell/revisions.h>
 #include <opendmi/entity/dell/system-id.h>
@@ -45,6 +46,7 @@ static void test_dell_device_names(void **pstate);
 static void test_dell_platforms(void **pstate);
 static void test_dell_relocations(void **pstate);
 static void test_dell_intel_native(void **pstate);
+static void test_dell_infrared_port(void **pstate);
 
 static const char *test_g15_path = OPENDMI_TEST_DATA "/dell/g15-5510.bin";
 static const char *test_poweredge_path = OPENDMI_TEST_DATA "/dell/poweredge-1800.bin";
@@ -58,6 +60,7 @@ static const char *test_unisys_path = OPENDMI_TEST_DATA "/unisys/es3020.bin";
 static const char *test_t7600_path = OPENDMI_TEST_DATA "/dell/precision-t7600.bin";
 static const char *test_xps_9350_path = OPENDMI_TEST_DATA "/dell/xps-13-9350.bin";
 static const char *test_m3800_path = OPENDMI_TEST_DATA "/dell/precision-m3800.bin";
+static const char *test_studio_path = OPENDMI_TEST_DATA "/dell/studio-1555.bin";
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -72,7 +75,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_dell_device_names, test_setup, test_teardown),
         cmocka_unit_test_setup_teardown(test_dell_platforms, test_setup, test_teardown),
         cmocka_unit_test_setup_teardown(test_dell_relocations, test_setup, test_teardown),
-        cmocka_unit_test_setup_teardown(test_dell_intel_native, test_setup, test_teardown)
+        cmocka_unit_test_setup_teardown(test_dell_intel_native, test_setup, test_teardown),
+        cmocka_unit_test_setup_teardown(test_dell_infrared_port, test_setup, test_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -367,4 +371,27 @@ static void test_dell_intel_native(void **pstate)
     const dmi_dell_token_refs_1_t *refs = test_info(context, 0xDC00, &dmi_dell_token_refs_1_spec);
     assert_int_equal(refs->token_count, 8);
     assert_int_equal(refs->tokens[0], 0xF000);
+}
+
+//
+// Infrared ports are told by their length, since other structures of type
+// 211 are found, e.g. on Studio 1555
+//
+static void test_dell_infrared_port(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_load(context, test_latitude_path));
+
+    const dmi_dell_infrared_port_t *info = test_info(context, 0xD300, &dmi_dell_infrared_port_spec);
+    assert_string_equal(info->location, "Back of System");
+
+    dmi_close(context);
+
+    assert_true(dmi_load(context, test_studio_path));
+
+    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), 0xD300, DMI_TYPE_ANY, false);
+    assert_non_null(entity);
+    assert_int_equal(entity->body_length, 0x11);
+    assert_null(entity->spec);
 }

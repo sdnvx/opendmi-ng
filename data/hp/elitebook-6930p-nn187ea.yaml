@@ -633,9 +633,9 @@ table:
     gbe-devfn: 200
     gbe-bus: 0
     gbe-device-id: 4341
-    host-devfn: 0
-    host-bus: 0
-    host-device-id: 10816
+    wlan-devfn: 0
+    wlan-bus: 0
+    wlan-device-id: 10816
     bios-capabilities:
       vtx-configurable: true
       vtd-configurable: true

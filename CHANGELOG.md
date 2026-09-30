@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add processor signature of HP/HPE CPU microcode patches, with the base family put back on AMD platforms the way dmidecode does
 - Add string at offset 0x09 of HP/HPE other ROM information, whose meaning is not established
 - Decode capabilities of the processor, of the Management Engine, of the TPM and of the BIOS in Intel vPro information, as the Intel AMT implementation guide gives them, and the memory controller hub of its older layout
-- Decode host bridge of Intel vPro information, which the firmware of HP laptops gives where the Intel AMT implementation guide places the wireless network controller
+- Decode wireless network controller of Intel vPro information, in whose place the firmware of HP laptops gives the host bridge
 - Decode OEM capabilities of Intel AMT information and the terminal emulation of Serial over LAN, as the Intel AMT implementation guide gives them
 - Name error codes and the test working state of Intel Management Engine firmware, the way coreboot names them
 - Add `is_reported` to interfaces of Intel Management Engine interface information, which tells the interfaces whose registers are all zeroes
@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix YAML and JSON export describing structures by their type number instead of the specification decoding them
 - Fix structures no specification matches named after a specification of their type
 - Fix handles of Dell device names not checked against the types they refer to
+- Fix structures of type 211 of other lengths than 13 bytes, e.g. of Dell Studio 1555, decoded as Dell infrared ports
 - Fix JEDEC codes copied from the SPD, which carry a parity bit in the number of continuation codes, reported by `value.jep106` as leading to bank 129
 
 ## [0.5.0] - September 30, 2026

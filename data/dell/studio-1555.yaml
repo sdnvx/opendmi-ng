@@ -1195,19 +1195,11 @@ table:
 - handle: 54016
   type: 211
   length: 19
-  level: '2.2'
-  state:
-  - decoded
-  description: Dell infrared port
-  attributes:
-    location: null
-    state: '0x72'
-    speed-limit-state: '0x6f'
-    speed-limit: 2980600
-    physical-port: null
-    virtual-com-port: null
-    virtual-lpt-port: null
-    protocol: null
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    0xEA00Zyb250AwIBADEzNQQ=
 - handle: 54272
   type: 212
   length: 19
