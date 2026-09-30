@@ -1,0 +1,1389 @@
+entry:
+  smbios-version: '3.0'
+table:
+- handle: 0
+  type: 222
+  length: 72
+  level: null
+  state:
+  - decoded
+  description: Intel Silicon View Technology milestones
+  attributes:
+    version: 1
+    parameter: 153
+    milestones:
+    - code: 16
+      name: Memory Init Complete
+    - code: 32
+      name: End of DXE Phase
+    - code: 48
+      name: BIOS Boot Complete
+- handle: 1
+  type: 14
+  length: 42
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Group associations
+  attributes:
+    group-name: Intel(R) Silicon View Technology
+    items:
+    - type: 222
+      handle: 0
+- handle: 2
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 34359738368
+    error-handle: 65534
+    device-count: 1
+- handle: 3
+  type: 17
+  length: 113
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 2
+    error-info-handle: 65534
+    total-width: 64
+    data-width: 64
+    size: 4294967296
+    form-factor: sodimm
+    device-set: 0
+    device-locator: ChannelA-DIMM0
+    bank-locator: BANK 0
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: SK Hynix
+    serial-number: '00000000'
+    asset-tag: '9876543210'
+    part-number: HMA851S6AFR6N-UH
+    rank: 1
+    configured-speed: 2133
+    minimum-voltage: unknown
+    maximum-voltage: unknown
+    configured-voltage: 1.2
+- handle: 4
+  type: 17
+  length: 109
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 2
+    error-info-handle: 65534
+    total-width: 64
+    data-width: 64
+    size: 4294967296
+    form-factor: sodimm
+    device-set: 0
+    device-locator: ChannelB-DIMM0
+    bank-locator: BANK 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: 859B
+    serial-number: E1B8629F
+    asset-tag: '9876543210'
+    part-number: CT4G4SFS824A.M8FE
+    rank: 1
+    configured-speed: 2133
+    minimum-voltage: unknown
+    maximum-voltage: unknown
+    configured-voltage: 1.2
+- handle: 5
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 8589934591
+    range-size: 8589934592
+    array-handle: 2
+    partition-width: 2
+- handle: 6
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1 Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 131072
+    installed-size: 131072
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: parity
+    type: unified
+    associativity: 8-way
+- handle: 7
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2 Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 524288
+    installed-size: 524288
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 4-way
+- handle: 8
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3 Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 3145728
+    installed-size: 3145728
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: multi-bit
+    type: unified
+    associativity: 12-way
+- handle: 9
+  type: 4
+  length: 185
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U3E1
+    type: central
+    family: intel-core-i5
+    vendor: Intel(R) Corporation
+    id: e9060800fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 142
+      stepping: 9
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
+    voltage: 1.0
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 2700
+    current-speed: 3100
+    is-populated: true
+    status: enabled
+    upgrade: socket-bga1356
+    l1-cache-handle: 6
+    l2-cache-handle: 7
+    l3-cache-handle: 8
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: To Be Filled By O.E.M.
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 2
+    core-enabled: 2
+    thread-count: 4
+- handle: 10
+  type: 0
+  length: 52
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: LENOVO
+    version: 8VCN26WW
+    bios-segment: 57344
+    release-date: '2020-06-09'
+    rom-size: 6291456
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: true
+      nec-pc-98: true
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: true
+      boot-atapi-zip: true
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: true
+      content-distribution: true
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '1.26'
+    controller-version: '1.6'
+- handle: 12
+  type: 2
+  length: 79
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: LENOVO
+    product: LNVNB161216
+    version: NO DPK
+    serial-number: R90T4LVC
+    asset-tag: No Asset Tag
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: Part Component
+    chassis-handle: 0
+    type: motherboard
+    contained-objects: []
+- handle: 13
+  type: 3
+  length: 87
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: LENOVO
+    type: notebook
+    is-lock-present: false
+    version: Lenovo V130-15IKB
+    serial-number: R90T4LVC
+    asset-tag: No Asset Tag
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: other
+    security-status: other
+    oem-defined: 0
+    height: null
+    power-cord-count: 1
+    element-count: 0
+    element-size: 0
+    elements: []
+    sku-number: null
+- handle: 14
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: Keyboard
+    external-connector: ps-2
+    port-type: keyboard
+- handle: 15
+  type: 8
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: Mouse
+    external-connector: ps-2
+    port-type: mouse
+- handle: 16
+  type: 8
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: other
+    external-designator: COM 1
+    external-connector: db-9-m
+    port-type: serial-16550a
+- handle: 17
+  type: 8
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB3.0 - 1#/USB2.0 - 1#
+    external-connector: access-bus
+    port-type: usb
+- handle: 18
+  type: 8
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB3.0 - 2#/USB2.0 - 2#
+    external-connector: access-bus
+    port-type: usb
+- handle: 19
+  type: 8
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB3.0 - 3#/USB2.0 - 3#
+    external-connector: access-bus
+    port-type: usb
+- handle: 20
+  type: 8
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB3.0 - 4#/USB2.0 - 4#
+    external-connector: access-bus
+    port-type: usb
+- handle: 21
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB2.0 - 5#
+    external-connector: access-bus
+    port-type: usb
+- handle: 22
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB2.0 - 6#
+    external-connector: access-bus
+    port-type: usb
+- handle: 23
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB2.0 - 7#
+    external-connector: access-bus
+    port-type: usb
+- handle: 24
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB2.0 - 8#
+    external-connector: access-bus
+    port-type: usb
+- handle: 25
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: Ethernet
+    external-connector: rj-45
+    port-type: network
+- handle: 26
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA Port 1 J6J1
+    internal-connector: sas-sata
+    external-designator: None
+    external-connector: none
+    port-type: sata
+- handle: 27
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA Port 2 J5C4
+    internal-connector: sas-sata
+    external-designator: None
+    external-connector: none
+    port-type: sata
+- handle: 28
+  type: 8
+  length: 37
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA Port 3(ODD) J5J4
+    internal-connector: sas-sata
+    external-designator: None
+    external-connector: none
+    port-type: sata
+- handle: 29
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: None
+    external-connector: sas-sata
+    port-type: sata
+- handle: 30
+  type: 9
+  length: 41
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PEG Gen1/Gen2/Gen3 X16
+    type: pci-e
+    bus-width: 16x
+    usage: available
+    length: long
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 1
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 31
+  type: 9
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI-Express 1 X1
+    type: pci-e
+    bus-width: 1x
+    usage: available
+    length: short
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 32
+  type: 9
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI-Express 2 X1
+    type: pci-e
+    bus-width: 1x
+    usage: available
+    length: short
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 1
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 33
+  type: 9
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI-Express 3 X1
+    type: pci-e
+    bus-width: 1x
+    usage: available
+    length: short
+    ident: 3
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 2
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 34
+  type: 9
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI-Express 4 X1
+    type: pci-e
+    bus-width: 1x
+    usage: available
+    length: short
+    ident: 4
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 3
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 35
+  type: 9
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI-Express 5 X4
+    type: pci-e
+    bus-width: 4x
+    usage: in-use
+    length: short
+    ident: 5
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 4
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 36
+  type: 10
+  length: 46
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: Intel(R) Extreme Graphics 3 Controller
+- handle: 37
+  type: 10
+  length: 36
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: sound
+      is-enabled: true
+      description: Intel(R) Azalia Audio Device
+- handle: 38
+  type: 11
+  length: 13
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - Lenovo
+- handle: 39
+  type: 12
+  length: 7
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options: []
+- handle: 40
+  type: 13
+  length: 61
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en-US
+    - fr-FR
+    - ja-JP
+    - ko-KR
+    - zh-CHT
+    - zh-CHS
+    flags:
+      is-abbreviated: true
+    current-language: en-US
+- handle: 41
+  type: 22
+  length: 84
+  level: '2.2'
+  state:
+  - decoded
+  description: Portable battery
+  attributes:
+    location: Rear
+    vendor: Intel Corp.
+    manufacture-date: null
+    serial-number: '1.0'
+    name: Smart Battery
+    chemistry: unknown
+    capacity: unknown
+    voltage: unknown
+    sbds-version: V1.0
+    maximum-error: unknown
+    sbds-serial-number: 0
+    sbds-chemistry: Lithium-Ion
+    oem-defined: 0
+- handle: 42
+  type: 32
+  length: 13
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 43
+  type: 200
+  length: 36
+  level: null
+  state:
+  - decoded
+  description: Lenovo machine type model
+  attributes:
+    brand: IdeaPad
+    mtm: 81HN00NDIX
+    data: 012601140148b2800120
+- handle: 44
+  type: 133
+  length: 21
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    hQUsAAE=
+  strings:
+  - KHOIHGIUCCHHII
+- handle: 46
+  type: 248
+  length: 20
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    +BIuAKysqhcAAAAAAAAAAAAA
+- handle: 47
+  type: 130
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: false
+    is-enabled: false
+    is-ider-enabled: false
+    is-sol-enabled: false
+    is-network-enabled: false
+    is-kvm-enabled: false
+    extended-data: 165
+    oem-capabilities:
+    - 175
+    - 2
+    - 192
+    - 0
+- handle: 48
+  type: 131
+  length: 66
+  level: null
+  state:
+  - decoded
+  description: Lenovo ThinkVantage Technologies enablement
+  attributes:
+    flags-1: 16
+    mebx-version:
+      major: 11
+      minor: 0
+      hotfix: 0
+      build: 10
+    lpc-devfn: 248
+    lpc-device-id: 40270
+    flags-2: 1
+    me-version:
+      major: 11
+      minor: 8
+      hotfix: 55
+      build: 3510
+    gbe-devfn: 254
+    gbe-device-id: null
+    flags-3: 34
+- handle: 49
+  type: 221
+  length: 104
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CPU
+      version-string: null
+      major: 3
+      minor: 7
+      revision: 6
+      build: 0
+    - component: uCode Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 214
+    - component: TXT ACM Version
+      version-string: null
+      major: 0
+      minor: 5
+      revision: 0
+      build: 0
+    - component: BIOS Guard Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+- handle: 50
+  type: 221
+  length: 98
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - ME 11.0
+      version-string: null
+      major: 3
+      minor: 7
+      revision: 6
+      build: 0
+    - component: MEBx version
+      version-string: null
+      major: 11
+      minor: 0
+      revision: 0
+      build: 10
+    - component: ME Firmware Version
+      version-string: Consumer SKU
+      major: 11
+      minor: 8
+      revision: 55
+      build: 3510
+- handle: 51
+  type: 221
+  length: 320
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SKL PCH
+      version-string: null
+      major: 3
+      minor: 7
+      revision: 6
+      build: 0
+    - component: PCH-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 33
+    - component: PCH-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 33
+    - component: OPROM - RST - RAID
+      version-string: null
+      major: 2
+      minor: 10
+      revision: 0
+      build: 0
+    - component: SKL PCH H Bx Hsio Version
+      version-string: null
+      major: 62
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH H Dx Hsio Version
+      version-string: null
+      major: 52
+      minor: 0
+      revision: 0
+      build: 0
+    - component: KBL PCH H Ax Hsio Version
+      version-string: null
+      major: 11
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH LP Bx Hsio Version
+      version-string: null
+      major: 62
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH LP Cx Hsio Version
+      version-string: null
+      major: 52
+      minor: 0
+      revision: 0
+      build: 0
+- handle: 52
+  type: 221
+  length: 208
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SA - System Agent
+      version-string: null
+      major: 3
+      minor: 7
+      revision: 6
+      build: 0
+    - component: Reference Code - MRC
+      version-string: null
+      major: 3
+      minor: 7
+      revision: 6
+      build: 1
+    - component: SA - PCIe Version
+      version-string: null
+      major: 3
+      minor: 7
+      revision: 6
+      build: 0
+    - component: SA-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SA-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 2
+    - component: SA-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 2
+    - component: OPROM - VBIOS
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+- handle: 11
+  type: 1
+  length: 115
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: LENOVO
+    product: 81HN
+    version: Lenovo V130-15IKB
+    serial-number: R90T4LVC
+    uuid: 28A6C3A0-33E4-11E9-A900-D8F2CAC6D91D
+    wakeup-type: other
+    sku-number: LENOVO_MT_81HN_BU_idea_FM_V130-15IKB
+    family: V130-15IKB
+- handle: 53
+  type: 15
+  length: 33
+  level: '2.1'
+  state:
+  - decoded
+  description: System event log
+  attributes:
+    area-length: 322
+    header-offset: 0
+    data-offset: 16
+    access-method: data-functions
+    access-address: 240
+    status:
+      log-area-valid: true
+      log-area-full: false
+    change-token: 19
+    header-format: type-1
+    descriptors:
+    - type: post-error
+      data-format: post-results
+    - type: pci-system
+      data-format: none
+    - type: reconfigured
+      data-format: none
+    - type: log-cleared
+      data-format: none
+- handle: 54
+  type: 14
+  length: 14
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Group associations
+  attributes:
+    group-name: $MEI
+    items:
+    - type: 219
+      handle: 0
+- handle: 55
+  type: 219
+  length: 97
+  level: null
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: consumer
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2415919685
+      - 2249195782
+      - 32
+      - 540676
+      - 0
+      - 1073741824
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+- handle: 45
+  type: 24
+  length: 7
+  level: '2.2'
+  state:
+  - decoded
+  description: Hardware security
+  attributes:
+    front-panel-reset: disabled
+    admin-password: disabled
+    keyboard-password: disabled
+    poweron-password: disabled
+- handle: 65279
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

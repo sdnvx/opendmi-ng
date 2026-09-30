@@ -1,0 +1,6 @@
+vendor: Alldocube
+files:
+  i1402a.bin:
+    product: i1402A
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none

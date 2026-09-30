@@ -1,0 +1,1692 @@
+entry:
+  smbios-version: '2.3'
+table:
+- handle: 55808
+  type: 218
+  length: 217
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 176
+    command-io-code: 23
+    supported-commands: 524291
+    tokens:
+    - id: 32768
+      location: 32768
+      value: 1
+    - id: 40960
+      location: 40960
+      value: 1
+    - id: 32773
+      location: 32773
+      value: 1
+    - id: 61472
+      location: 61472
+      value: 0
+    - id: 61483
+      location: 61483
+      value: 0
+    - id: 61484
+      location: 61484
+      value: 0
+    - id: 64513
+      location: 64513
+      value: 0
+    - id: 61473
+      location: 61473
+      value: 0
+    - id: 61485
+      location: 61485
+      value: 0
+    - id: 61486
+      location: 61486
+      value: 0
+    - id: 64514
+      location: 64514
+      value: 0
+    - id: 61474
+      location: 61474
+      value: 0
+    - id: 61487
+      location: 61487
+      value: 0
+    - id: 61488
+      location: 61488
+      value: 0
+    - id: 64516
+      location: 64516
+      value: 0
+    - id: 61475
+      location: 61475
+      value: 0
+    - id: 61489
+      location: 61489
+      value: 0
+    - id: 61490
+      location: 61490
+      value: 0
+    - id: 64520
+      location: 64520
+      value: 0
+    - id: 61476
+      location: 61476
+      value: 0
+    - id: 61491
+      location: 61491
+      value: 0
+    - id: 61492
+      location: 61492
+      value: 0
+    - id: 64769
+      location: 64769
+      value: 0
+    - id: 61477
+      location: 61477
+      value: 0
+    - id: 61493
+      location: 61493
+      value: 0
+    - id: 61494
+      location: 61494
+      value: 0
+    - id: 64770
+      location: 64770
+      value: 0
+    - id: 61479
+      location: 61479
+      value: 0
+    - id: 61497
+      location: 61497
+      value: 0
+    - id: 64528
+      location: 64528
+      value: 0
+    - id: 61481
+      location: 61481
+      value: 0
+    - id: 61500
+      location: 61500
+      value: 0
+    - id: 64640
+      location: 64640
+      value: 0
+- handle: 0
+  type: 0
+  length: 62
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: Dell Computer Corporation
+    version: X21
+    bios-segment: 61440
+    release-date: '2002-10-17'
+    rom-size: 524288
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: true
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: true
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: true
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: true
+      floppy-525-360k-support: true
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: false
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: true
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: true
+      content-distribution: false
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+- handle: 256
+  type: 1
+  length: 81
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System information
+  attributes:
+    vendor: Dell Computer Corporation
+    product: PowerEdge 500SC
+    version: null
+    serial-number: null
+    uuid: 4C4C4544-0038-5310-8058-B2C04F593031
+    wakeup-type: power-switch
+- handle: 768
+  type: 3
+  length: 61
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Dell Computer Corporation
+    type: mini-tower
+    is-lock-present: true
+    version: null
+    serial-number: 28SXY01
+    asset-tag: null
+    bootup-state: ok
+    power-supply-state: unknown
+    thermal-state: ok
+    security-status: unknown
+- handle: 1024
+  type: 4
+  length: 51
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: Processor
+    type: central
+    family: intel-pentium-3
+    vendor: Intel
+    id: 8a060000fffb8303
+    signature:
+      type: 0
+      family: 6
+      model: 8
+      stepping: 10
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
+    version: null
+    voltage: 1.8
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 1533
+    current-speed: 900
+    is-populated: true
+    status: enabled
+    upgrade: socket-370pin
+    l1-cache-handle: 1792
+    l2-cache-handle: 1793
+    l3-cache-handle: null
+- handle: 1792
+  type: 7
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: null
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: other
+    associativity: 4-way
+- handle: 1793
+  type: 7
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: null
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 524288
+    installed-size: 131072
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 4-way
+- handle: 2048
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: PARALLEL
+    internal-connector: none
+    external-designator: null
+    external-connector: db-25-f
+    port-type: parallel-ps2
+- handle: 2049
+  type: 8
+  length: 17
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SERIAL
+    internal-connector: none
+    external-designator: null
+    external-connector: db-9-m
+    port-type: serial-16550a
+- handle: 2050
+  type: 8
+  length: 15
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: KYBD
+    internal-connector: none
+    external-designator: null
+    external-connector: ps-2
+    port-type: keyboard
+- handle: 2051
+  type: 8
+  length: 16
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: MOUSE
+    internal-connector: none
+    external-designator: null
+    external-connector: mini-din
+    port-type: mouse
+- handle: 2052
+  type: 8
+  length: 15
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB1
+    internal-connector: none
+    external-designator: null
+    external-connector: access-bus
+    port-type: usb
+- handle: 2053
+  type: 8
+  length: 15
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB2
+    internal-connector: none
+    external-designator: null
+    external-connector: access-bus
+    port-type: usb
+- handle: 2054
+  type: 8
+  length: 15
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: ENET
+    internal-connector: none
+    external-designator: null
+    external-connector: rj-45
+    port-type: network
+- handle: 2305
+  type: 9
+  length: 19
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI1
+    type: pci
+    bus-width: 64-bit
+    usage: in-use
+    length: long
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 2306
+  type: 9
+  length: 19
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI2
+    type: pci
+    bus-width: 64-bit
+    usage: in-use
+    length: long
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 2307
+  type: 9
+  length: 19
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI3
+    type: pci
+    bus-width: 32-bit
+    usage: available
+    length: long
+    ident: 3
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 2308
+  type: 9
+  length: 19
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI4
+    type: pci
+    bus-width: 32-bit
+    usage: available
+    length: long
+    ident: 4
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 2309
+  type: 9
+  length: 19
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI5
+    type: pci
+    bus-width: 32-bit
+    usage: available
+    length: long
+    ident: 5
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 2560
+  type: 10
+  length: 59
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 2
+    instances:
+    - type: ethernet
+      is-enabled: true
+      description: Intel 82559 10/100 Ethernet
+    - type: video
+      is-enabled: true
+      description: ATI Rage XL PCI Video
+- handle: 3072
+  type: 12
+  length: 91
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'NVRAM_CLR: Clear NVRAM Configuration on next reboot'
+    - 'PASSWD: Close to enable password'
+- handle: 3328
+  type: 13
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 3584
+  type: 14
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: Group associations
+  attributes:
+    group-name: PCI5/ISA
+    items:
+    - type: 9
+      handle: 2309
+    - type: 9
+      handle: 2311
+- handle: 4096
+  type: 16
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: single-bit
+    maximum-capacity: 2147483648
+    error-handle: null
+    device-count: 4
+- handle: 4352
+  type: 17
+  length: 31
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 4096
+    error-info-handle: null
+    total-width: 72
+    data-width: 64
+    size: 0
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_D
+    bank-locator: null
+    memory-type: sdram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 133
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 4353
+  type: 17
+  length: 31
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 4096
+    error-info-handle: null
+    total-width: 72
+    data-width: 64
+    size: 0
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_C
+    bank-locator: null
+    memory-type: sdram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 133
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 4354
+  type: 17
+  length: 31
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 4096
+    error-info-handle: null
+    total-width: 72
+    data-width: 64
+    size: 134217728
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_B
+    bank-locator: null
+    memory-type: sdram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 133
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 4355
+  type: 17
+  length: 31
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 4096
+    error-info-handle: null
+    total-width: 72
+    data-width: 64
+    size: 134217728
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_A
+    bank-locator: null
+    memory-type: sdram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 133
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 4608
+  type: 126
+  length: 25
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhcAEggDAwAAAAAAAACAAAAAgAAAAIA=
+- handle: 4864
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 655359
+    range-size: 655360
+    array-handle: 4096
+    partition-width: 1
+- handle: 4865
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 1048576
+    end-addr: 268435455
+    range-size: 267386880
+    array-handle: 4096
+    partition-width: 1
+- handle: 5120
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMAFAAAAAAAAAAAABEAEwEAAA==
+- handle: 5121
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMBFAAAAAAAAAAAAREBEwEAAA==
+- handle: 5122
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 655359
+    range-size: 655360
+    device-handle: 4354
+    array-addr-handle: 4864
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 5123
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 134217728
+    end-addr: 268435455
+    range-size: 134217728
+    device-handle: 4355
+    array-addr-handle: 4865
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 5124
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 1048576
+    end-addr: 134217727
+    range-size: 133169152
+    device-handle: 4354
+    array-addr-handle: 4865
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 6400
+  type: 25
+  length: 11
+  level: '2.2'
+  state:
+  - decoded
+  description: System power controls
+  attributes:
+    poweron-month: 0
+    poweron-day: 0
+    poweron-hour: 0
+    poweron-minute: 0
+    poweron-second: 0
+- handle: 6656
+  type: 26
+  length: 34
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Voltage probe
+  attributes:
+    description: 2.5V Voltage
+    location: motherboard
+    status: ok
+    maximum-value: 4080
+    minimum-value: 0
+    resolution: 16.0
+    tolerance: unknown
+    accuracy: 1.0
+    oem-defined: 56320
+    nominal-value: unknown
+- handle: 6657
+  type: 26
+  length: 35
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Voltage probe
+  attributes:
+    description: Core1 Voltage
+    location: processor-module
+    status: ok
+    maximum-value: 4080
+    minimum-value: 0
+    resolution: 16.0
+    tolerance: unknown
+    accuracy: 1.0
+    oem-defined: 56321
+    nominal-value: unknown
+- handle: 6658
+  type: 26
+  length: 34
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Voltage probe
+  attributes:
+    description: 3.3V Voltage
+    location: motherboard
+    status: ok
+    maximum-value: 4080
+    minimum-value: 0
+    resolution: 16.0
+    tolerance: unknown
+    accuracy: 1.0
+    oem-defined: 56322
+    nominal-value: unknown
+- handle: 6659
+  type: 26
+  length: 32
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Voltage probe
+  attributes:
+    description: 5V Voltage
+    location: motherboard
+    status: ok
+    maximum-value: 6757
+    minimum-value: 0
+    resolution: 26.5
+    tolerance: unknown
+    accuracy: 2.0
+    oem-defined: 56323
+    nominal-value: unknown
+- handle: 6660
+  type: 26
+  length: 33
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Voltage probe
+  attributes:
+    description: 12V Voltage
+    location: motherboard
+    status: ok
+    maximum-value: 16320
+    minimum-value: 0
+    resolution: 64.0
+    tolerance: unknown
+    accuracy: 2.0
+    oem-defined: 56324
+    nominal-value: unknown
+- handle: 6661
+  type: 26
+  length: 34
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Voltage probe
+  attributes:
+    description: 1.5V Voltage
+    location: processor-module
+    status: ok
+    maximum-value: 2040
+    minimum-value: 0
+    resolution: 8.0
+    tolerance: unknown
+    accuracy: 3.0
+    oem-defined: 56325
+    nominal-value: unknown
+- handle: 6662
+  type: 126
+  length: 35
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhQGGgFp8A8AAKAAAIBkAAfcAAA=
+  strings:
+  - Core2 Voltage
+- handle: 6663
+  type: 126
+  length: 43
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhQHGgFnZRoAAAkBAIDIAAncAAA=
+  strings:
+  - 5V Flea Power Voltage
+- handle: 6664
+  type: 126
+  length: 37
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhQIGgFp+AcAAFAAAIAsAQrcAAA=
+  strings:
+  - '1.5V Voltage #2'
+- handle: 6912
+  type: 27
+  length: 14
+  level: '2.2'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Cooling device
+  attributes:
+    probe-handle: null
+    type: fan
+    status: ok
+    group: 0
+    oem-defined: 56576
+    nominal-speed: unknown
+- handle: 7168
+  type: 28
+  length: 46
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Temperature probe
+  attributes:
+    description: LM81 Ambient Temperature
+    location: motherboard
+    status: ok
+    maximum-value: 127.0
+    minimum-value: 0.0
+    resolution: 1.0
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 56326
+    nominal-value: unknown
+- handle: 7170
+  type: 28
+  length: 47
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Temperature probe
+  attributes:
+    description: CPU1 Internal Temperature
+    location: processor-module
+    status: ok
+    maximum-value: 127.0
+    minimum-value: 0.0
+    resolution: 1.0
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 56331
+    nominal-value: unknown
+- handle: 8192
+  type: 32
+  length: 13
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 53248
+  type: 208
+  length: 31
+  level: '2.2'
+  state:
+  - decoded
+  description: Dell revisions and IDs
+  attributes:
+    implementation-version: '1.3'
+    system-id: 267
+    hardware-revision: 1
+    manufacture-date: null
+    first-poweron-date: null
+- handle: 53504
+  type: 209
+  length: 14
+  level: '2.2'
+  state:
+  - decoded
+  description: Dell parallel port
+  attributes:
+    base-address: 888
+    irq-number: 7
+    connector: db-25-f
+    pinout: ps2
+    capabilities:
+      xt-at: true
+      ps2: true
+      ecp: true
+      epp: true
+      pc-98: false
+      pc-98-hireso: false
+      pc-h98: false
+      dma-support: true
+    security: external-iface-enabled
+- handle: 53760
+  type: 210
+  length: 14
+  level: '2.2'
+  state:
+  - decoded
+  description: Dell serial port
+  attributes:
+    base-address: 1016
+    irq-number: 4
+    connector: db-9-m
+    capabilities: 16550a
+    maximum-speed: 115200
+    security: external-iface-enabled
+- handle: 54272
+  type: 212
+  length: 119
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell indexed IO
+  attributes:
+    index-port: 112
+    data-port: 113
+    check-type: word-checksum
+    check-start: 16
+    check-end: 45
+    check-index: 46
+    tokens:
+    - id: 3
+      location: 17
+      and-mask: 127
+      or-value: 128
+    - id: 4
+      location: 17
+      and-mask: 127
+      or-value: 0
+    - id: 7
+      location: 37
+      and-mask: 207
+      or-value: 0
+    - id: 8
+      location: 37
+      and-mask: 207
+      or-value: 16
+    - id: 9
+      location: 37
+      and-mask: 207
+      or-value: 32
+    - id: 10
+      location: 37
+      and-mask: 207
+      or-value: 48
+    - id: 11
+      location: 37
+      and-mask: 191
+      or-value: 0
+    - id: 12
+      location: 37
+      and-mask: 191
+      or-value: 64
+    - id: 15
+      location: 37
+      and-mask: 0
+      string-length: 0
+    - id: 16
+      location: 37
+      and-mask: 0
+      string-length: 1
+    - id: 17
+      location: 37
+      and-mask: 0
+      string-length: 2
+    - id: 5
+      location: 37
+      and-mask: 0
+      string-length: 3
+    - id: 18
+      location: 37
+      and-mask: 0
+      string-length: 4
+    - id: 6
+      location: 37
+      and-mask: 0
+      string-length: 5
+    - id: 66
+      location: 17
+      and-mask: 254
+      or-value: 1
+    - id: 67
+      location: 17
+      and-mask: 254
+      or-value: 0
+    - id: 81
+      location: 38
+      and-mask: 63
+      or-value: 0
+    - id: 82
+      location: 38
+      and-mask: 63
+      or-value: 64
+    - id: 83
+      location: 38
+      and-mask: 63
+      or-value: 128
+    - id: 84
+      location: 38
+      and-mask: 63
+      or-value: 192
+- handle: 54273
+  type: 212
+  length: 104
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell indexed IO
+  attributes:
+    index-port: 112
+    data-port: 113
+    check-type: word-checksum-negated
+    check-start: 64
+    check-end: 89
+    check-index: 109
+    tokens:
+    - id: 110
+      location: 38
+      and-mask: 243
+      or-value: 4
+    - id: 45
+      location: 38
+      and-mask: 243
+      or-value: 8
+    - id: 46
+      location: 38
+      and-mask: 243
+      or-value: 0
+    - id: 140
+      location: 85
+      and-mask: 254
+      or-value: 1
+    - id: 88
+      location: 120
+      and-mask: 250
+      or-value: 5
+    - id: 89
+      location: 120
+      and-mask: 250
+      or-value: 0
+    - id: 92
+      location: 120
+      and-mask: 191
+      or-value: 64
+    - id: 93
+      location: 120
+      and-mask: 191
+      or-value: 0
+    - id: 28
+      location: 85
+      and-mask: 251
+      or-value: 4
+    - id: 29
+      location: 85
+      and-mask: 251
+      or-value: 0
+    - id: 25
+      location: 85
+      and-mask: 231
+      or-value: 0
+    - id: 26
+      location: 85
+      and-mask: 231
+      or-value: 8
+    - id: 27
+      location: 85
+      and-mask: 231
+      or-value: 16
+    - id: 30
+      location: 85
+      and-mask: 253
+      or-value: 0
+    - id: 80
+      location: 85
+      and-mask: 253
+      or-value: 2
+    - id: 49152
+      location: 92
+      and-mask: 0
+      string-length: 10
+    - id: 49155
+      location: 103
+      and-mask: 0
+      string-length: 5
+- handle: 54274
+  type: 212
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell indexed IO
+  attributes:
+    index-port: 114
+    data-port: 115
+    check-type: word-checksum-negated
+    check-start: 0
+    check-end: 0
+    check-index: 0
+    tokens:
+    - id: 131
+      location: 64
+      and-mask: 0
+      string-length: 0
+    - id: 132
+      location: 65
+      and-mask: 0
+      string-length: 0
+- handle: 54528
+  type: 213
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell protected area type 1
+  attributes:
+    token-id: 49166
+    value-length: 7
+    value-format: scan-code
+    validation-key: 0
+    index-port: 112
+    data-port: 113
+    check-type: byte-checksum
+    value-start: 56
+    check-index: 63
+- handle: 54784
+  type: 214
+  length: 23
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell protected area type 2
+  attributes:
+    token-id: 49158
+    value-length: 7
+    value-format: scan-code
+    validation-key: 0
+    index-port: 112
+    data-port: 113
+    check-type: byte-checksum
+    value-start: 29
+    check-index: 36
+    range-check-type: word-checksum
+    range-check-start: 16
+    range-check-end: 45
+    range-check-index: 46
+- handle: 55296
+  type: 216
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell video BIOS information
+  attributes:
+    vendor: ATI
+    version: Rage XL
+    unknown-1: 1
+    unknown-2: 0
+- handle: 56320
+  type: 220
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 61472
+    - 0
+    - 64513
+    - 0
+    - 0
+    - 61483
+    - 61484
+    - 0
+    - 0
+- handle: 56321
+  type: 220
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 61473
+    - 0
+    - 64514
+    - 0
+    - 0
+    - 61485
+    - 61486
+    - 0
+    - 0
+- handle: 56322
+  type: 220
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 61474
+    - 0
+    - 64516
+    - 0
+    - 0
+    - 61487
+    - 61488
+    - 0
+    - 0
+- handle: 56323
+  type: 220
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 61475
+    - 0
+    - 64520
+    - 0
+    - 0
+    - 61489
+    - 61490
+    - 0
+    - 0
+- handle: 56324
+  type: 220
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 61476
+    - 0
+    - 64769
+    - 0
+    - 0
+    - 61491
+    - 61492
+    - 0
+    - 0
+- handle: 56325
+  type: 220
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 61477
+    - 0
+    - 64770
+    - 0
+    - 0
+    - 61493
+    - 61494
+    - 0
+    - 0
+- handle: 56326
+  type: 220
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 61479
+    - 0
+    - 64528
+    - 0
+    - 0
+    - 61497
+    - 0
+    - 0
+    - 0
+- handle: 56576
+  type: 221
+  length: 21
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 2
+  attributes:
+    unknown-1: 0
+    unknown-2: 1
+    tokens:
+    - 61481
+    - 64640
+    - 0
+    - 0
+    - 0
+    - 61500
+- handle: 56331
+  type: 220
+  length: 24
+  level: null
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 61697
+    - 0
+    - 65040
+    - 0
+    - 0
+    - 61703
+    - 61704
+    - 0
+    - 0
+- handle: 56832
+  type: 222
+  length: 15
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    3g0A3gEC//8AAAAAAA==
+- handle: 32512
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

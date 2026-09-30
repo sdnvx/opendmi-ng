@@ -1,0 +1,14 @@
+vendor: Microsoft
+files:
+  hyper-v-gen1-1.bin:
+    product: Hyper-V Generation 1
+    source: https://github.com/LazySeldi/lazybios
+    license: MIT
+  hyper-v-gen2-uefi-4.1.bin:
+    product: Hyper-V Generation 2 (UEFI 4.1)
+    source: https://github.com/LazySeldi/lazybios
+    license: MIT
+  surface-laptop-3.bin:
+    product: Surface Laptop 3
+    source: https://github.com/jrgerber/smbios-lib
+    license: MIT

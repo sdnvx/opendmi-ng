@@ -1,0 +1,1930 @@
+entry:
+  smbios-version: 3.1.1
+table:
+- handle: 0
+  type: 0
+  length: 66
+  level: '3.1'
+  state:
+  - decoded
+  description: Platform firmware information
+  attributes:
+    vendor: American Megatrends Inc.
+    version: F4
+    bios-segment: 61440
+    release-date: '2018-10-04'
+    rom-size: 16777216
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: true
+      keyboard-support: false
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '5.14'
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 136
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Gigabyte Technology Co., Ltd.
+    product: X399 AORUS XTREME
+    version: Default string
+    serial-number: Default string
+    uuid: 032E02B4-0499-0533-A106-940700080009
+    wakeup-type: power-switch
+    sku-number: Default string
+    family: Default string
+- handle: 2
+  type: 2
+  length: 116
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Gigabyte Technology Co., Ltd.
+    product: X399 AORUS XTREME-CF
+    version: x.x
+    serial-number: Default string
+    asset-tag: Default string
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: true
+      is-replaceable: true
+      is-hot-swappable: false
+    location: Default string
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 98
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Default string
+    type: desktop
+    is-lock-present: false
+    version: Default string
+    serial-number: Default string
+    asset-tag: Default string
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 0
+    height: null
+    power-cord-count: 1
+    element-count: 0
+    element-size: 0
+    elements: []
+    sku-number: Default string
+- handle: 4
+  type: 10
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: To Be Filled By O.E.M.
+- handle: 5
+  type: 11
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - Default string
+- handle: 6
+  type: 12
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - Default string
+- handle: 7
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 8
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 9
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 549755813888
+    error-handle: 8
+    device-count: 8
+- handle: 10
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 2147483647
+    range-size: 2147483648
+    array-handle: 9
+    partition-width: 8
+- handle: 11
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 139586437119
+    range-size: 135291469824
+    array-handle: 9
+    partition-width: 8
+- handle: 12
+  type: 7
+  length: 31
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1 - Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 3145728
+    installed-size: 3145728
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 13
+  type: 7
+  length: 31
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2 - Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 16777216
+    installed-size: 16777216
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 14
+  type: 7
+  length: 31
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3 - Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 67108864
+    installed-size: 67108864
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 64-way
+- handle: 15
+  type: 4
+  length: 156
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: SP3r2
+    type: central
+    family: amd-zen
+    vendor: Advanced Micro Devices, Inc.
+    id: 820f8000fffb8b17
+    signature:
+      type: 0
+      family: 23
+      model: 8
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
+    version: AMD Ryzen Threadripper 2990WX 32-Core Processor
+    voltage: 1.0
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 4200
+    current-speed: 3000
+    is-populated: true
+    status: enabled
+    upgrade: socket-sp3r2
+    l1-cache-handle: 12
+    l2-cache-handle: 13
+    l3-cache-handle: 14
+    serial-number: Unknown
+    asset-tag: Unknown
+    part-number: Unknown
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 32
+    core-enabled: 32
+    thread-count: 64
+- handle: 16
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 17
+  type: 17
+  length: 100
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 9
+    error-info-handle: 16
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL A
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: Kingston
+    serial-number: 501C661C
+    asset-tag: null
+    part-number: KHX2933C17D4/16G
+    rank: 2
+    configured-speed: 2933
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 18
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 68719476735
+    range-size: 68719476736
+    device-handle: 17
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 19
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 20
+  type: 17
+  length: 100
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 9
+    error-info-handle: 19
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 1
+    bank-locator: P0 CHANNEL A
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: Kingston
+    serial-number: 4E396332
+    asset-tag: null
+    part-number: KHX2933C17D4/16G
+    rank: 2
+    configured-speed: 2933
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 21
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 68719476735
+    range-size: 68719476736
+    device-handle: 20
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 22
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 23
+  type: 17
+  length: 100
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 9
+    error-info-handle: 22
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL B
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: Kingston
+    serial-number: 533CF631
+    asset-tag: null
+    part-number: KHX2933C17D4/16G
+    rank: 2
+    configured-speed: 2933
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 24
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 68719476735
+    range-size: 68719476736
+    device-handle: 23
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 25
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 26
+  type: 17
+  length: 100
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 9
+    error-info-handle: 25
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 1
+    bank-locator: P0 CHANNEL B
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: Kingston
+    serial-number: 501C6D1C
+    asset-tag: null
+    part-number: KHX2933C17D4/16G
+    rank: 2
+    configured-speed: 2933
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 27
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 68719476735
+    range-size: 68719476736
+    device-handle: 26
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 28
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 29
+  type: 17
+  length: 100
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 9
+    error-info-handle: 28
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL C
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: Kingston
+    serial-number: 4E1CD81C
+    asset-tag: null
+    part-number: KHX2933C17D4/16G
+    rank: 2
+    configured-speed: 2933
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 30
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 137438953471
+    range-size: 68719476736
+    device-handle: 29
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 31
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 32
+  type: 17
+  length: 100
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 9
+    error-info-handle: 31
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 1
+    bank-locator: P0 CHANNEL C
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: Kingston
+    serial-number: '50395532'
+    asset-tag: null
+    part-number: KHX2933C17D4/16G
+    rank: 2
+    configured-speed: 2933
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 33
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 137438953471
+    range-size: 68719476736
+    device-handle: 32
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 34
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 35
+  type: 17
+  length: 100
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 9
+    error-info-handle: 34
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL D
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: Kingston
+    serial-number: 4F1CE71C
+    asset-tag: null
+    part-number: KHX2933C17D4/16G
+    rank: 2
+    configured-speed: 2933
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 36
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 137438953471
+    range-size: 68719476736
+    device-handle: 35
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 37
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 38
+  type: 17
+  length: 100
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 9
+    error-info-handle: 37
+    total-width: 64
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 1
+    bank-locator: P0 CHANNEL D
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 2933
+    vendor: Kingston
+    serial-number: 543CF131
+    asset-tag: null
+    part-number: KHX2933C17D4/16G
+    rank: 2
+    configured-speed: 2933
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 39
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 137438953471
+    range-size: 68719476736
+    device-handle: 38
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 40
+  type: 13
+  length: 191
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    - zh|TW|unicode
+    - zh|CN|unicode
+    - ru|RU|iso8859-5
+    - de|DE|iso8859-1
+    - ja|JP|unicode
+    - ko|KR|unicode
+    - es|ES|iso8859-1
+    - fr|FR|iso8859-1
+    - it|IT|iso8859-1
+    - pt|PT|iso8859-1
+    - null
+    - null
+    - null
+    - null
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 41
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1602
+    internal-connector: none
+    external-designator: USB3.1 G1 TypeC
+    external-connector: access-bus
+    port-type: usb
+- handle: 42
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1601
+    internal-connector: none
+    external-designator: USB3.1 G2 TypeC
+    external-connector: access-bus
+    port-type: usb
+- handle: 43
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1600
+    internal-connector: none
+    external-designator: USB3.1 G2 TypeA
+    external-connector: access-bus
+    port-type: usb
+- handle: 44
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1300
+    internal-connector: none
+    external-designator: USB3.1 G1
+    external-connector: access-bus
+    port-type: usb
+- handle: 45
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1300
+    internal-connector: none
+    external-designator: PT RJ45
+    external-connector: rj-45
+    port-type: network
+- handle: 46
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2000
+    internal-connector: none
+    external-designator: USB3.1 G1
+    external-connector: access-bus
+    port-type: usb
+- handle: 47
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2000
+    internal-connector: none
+    external-designator: PT RJ45
+    external-connector: rj-45
+    port-type: network
+- handle: 48
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1503
+    internal-connector: none
+    external-designator: USB3.1 G1
+    external-connector: access-bus
+    port-type: usb
+- handle: 49
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1502
+    internal-connector: none
+    external-designator: USB3.1 G1
+    external-connector: access-bus
+    port-type: usb
+- handle: 50
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2100
+    internal-connector: none
+    external-designator: Audio Jack
+    external-connector: mini-jack
+    port-type: audio
+- handle: 51
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J4306 - MEM FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 52
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3000 - ATX PWR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 53
+  type: 8
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J4300 - SYSTEM FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 54
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J4305 - CPU FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 55
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3001 - ATX 12V PWR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 56
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J4301 - MEM FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 57
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3002 - ATX 24PIN PWR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 58
+  type: 8
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J49 - SATA
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 59
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J46 - iSATA
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 60
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J38 - iSATA
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 61
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J43 - iSATA
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 62
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J604 - Sink FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 63
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J4304 - PT FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 64
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J202 - LPC HDR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 65
+  type: 9
+  length: 21
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: U1
+    type: m2-s1-dp
+    bus-width: 4x
+    usage: available
+    length: short
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 1
+      function-number: 2
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 66
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE1
+    type: pci-e-x8
+    bus-width: 8x
+    usage: available
+    length: short
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 1
+      function-number: 3
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 67
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE3
+    type: pci-e-x16
+    bus-width: 16x
+    usage: in-use
+    length: short
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 3
+      function-number: 1
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 68
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE4
+    type: pci-e-x1
+    bus-width: 1x
+    usage: available
+    length: short
+    ident: 3
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 2
+      device-number: 3
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 69
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE6
+    type: pci-e-x4
+    bus-width: 4x
+    usage: in-use
+    length: short
+    ident: 4
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 2
+      device-number: 4
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 70
+  type: 9
+  length: 22
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J47
+    type: m2-s1-dp
+    bus-width: 1x
+    usage: in-use
+    length: short
+    ident: 5
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 2
+      device-number: 1
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 71
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: U3600
+    type: m2-s1-dp
+    bus-width: 4x
+    usage: available
+    length: short
+    ident: 6
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 64
+      device-number: 1
+      function-number: 1
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 72
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: U3601
+    type: m2-s1-dp
+    bus-width: 4x
+    usage: in-use
+    length: short
+    ident: 7
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 64
+      device-number: 1
+      function-number: 2
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 73
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE5
+    type: pci-e-x8
+    bus-width: 8x
+    usage: available
+    length: short
+    ident: 8
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 64
+      device-number: 1
+      function-number: 3
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 74
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE7
+    type: pci-e-x16
+    bus-width: 16x
+    usage: available
+    length: short
+    ident: 9
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 64
+      device-number: 3
+      function-number: 1
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 75
+  type: 41
+  length: 32
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard LAN Atheros
+    type: ethernet
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 3
+      device-number: 0
+      function-number: 0
+- handle: 76
+  type: 41
+  length: 32
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard LAN Realtek
+    type: ethernet
+    is-enabled: true
+    instance: 2
+    address:
+      segment-group: 0
+      bus-number: 5
+      device-number: 0
+      function-number: 0
+- handle: 77
+  type: 41
+  length: 32
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Audio Codec ALC1220
+    type: sound
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 16
+      device-number: 0
+      function-number: 3
+- handle: 78
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Promontory SATA
+    type: sata-controller
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 1
+      device-number: 0
+      function-number: 1
+- handle: 79
+  type: 41
+  length: 26
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: DIE0 M.2 SATA
+    type: sata-controller
+    is-enabled: true
+    instance: 2
+    address:
+      segment-group: 0
+      bus-number: 16
+      device-number: 0
+      function-number: 2
+- handle: 80
+  type: 41
+  length: 26
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: DIE2 M.2 SATA
+    type: sata-controller
+    is-enabled: true
+    instance: 3
+    address:
+      segment-group: 0
+      bus-number: 67
+      device-number: 0
+      function-number: 2
+- handle: 81
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

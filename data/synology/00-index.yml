@@ -2,3 +2,7 @@ vendor: Synology
 files:
   ds718-plus.bin:
     product: DiskStation DS718+
+  rs3614xs-plus.bin:
+    product: RS3614xs+
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause

@@ -1,11 +1,75 @@
 vendor: HP
 files:
+  250-g6-3qm22ea.bin:
+    product: 250 G6 3QM22EA
+    source: https://github.com/Baio1977/HP-250-G6-Kabylake
+    license: none
+  250-g7-6bp85ea.bin:
+    product: 250 G7 6BP85EA
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  250-g8-27k26ea.bin:
+    product: 250 G8 27K26EA
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  630-a6e72ea.bin:
+    product: 630 A6E72EA
+    source: https://github.com/Baio1977/HP630-CPU-Arrandale
+    license: none
+  elitebook-820-g2-f6n30av.bin:
+    product: EliteBook 820 G2 F6N30AV
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  elitebook-830-g6-4we10av.bin:
+    product: EliteBook 830 G6 4WE10AV
+    source: https://github.com/VGerris/HP-Elitebook-830-G6-OSX86
+    license: Apache-2.0
+  elitebook-840-g1-d1f44av.bin:
+    product: EliteBook 840 G1 D1F44AV
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   elitebook-6930p-nn187ea.bin:
     product: EliteBook 6930p NN187EA
   elitebook-820-g4-x3t22av.bin:
     product: EliteBook 820 G4 X3T22AV
+  elitebook-revolve-810-g2-j0z58av.bin:
+    product: EliteBook Revolve 810 G2 J0Z58AV
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  laptop-15-da0xxx-4re55ea.bin:
+    product: Laptop 15-da0xxx 4RE55EA
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  laptop-15-da1xxx-6rq05ea.bin:
+    product: Laptop 15-da1xxx 6RQ05EA
+    source: https://github.com/Edwardwich/hp-DA1023nia-macOS
+    license: none
+  notebook-x0l36ea.bin:
+    product: Notebook X0L36EA
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  omen-laptop-15-ek0xxx-3h851ea.bin:
+    product: OMEN Laptop 15-ek0xxx 3H851EA
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  pavilion-gaming-laptop-16-a0xxx-2z2e5ea.bin:
+    product: Pavilion Gaming Laptop 16-a0xxx 2Z2E5EA
+    source: https://github.com/Baio1977/HP16-Pavilion-Gaming
+    license: none
+  pavilion-x360-convertible-14-cd0xxx-4ls25pa.bin:
+    product: Pavilion x360 Convertible 14-cd0xxx 4LS25PA
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   probook-440-g10-7z7k0pc.bin:
     product: ProBook 440 G10 7Z7K0PC
+  probook-450-g2-k9k29ea.bin:
+    product: ProBook 450 G2 K9K29EA
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  probook-4430s-lx014pa.bin:
+    product: ProBook 4430s LX014PA
+    source: https://github.com/BimaBizz/Master-OC-HP-Probook-4430s
+    license: none
   proliant-bl460c-g1-416656-b21.bin:
     product: ProLiant BL460c G1 416656-B21
   proliant-dl360-g6-484184-b21.bin:
@@ -28,5 +92,13 @@ files:
     product: ProLiant DL585 G1 [3]
   proliant-dl585-g2.bin:
     product: ProLiant DL585 G2
+  proliant-dl585-g2-413930-371.bin:
+    product: ProLiant DL585 G2 413930-371
+    source: https://github.com/nima/python-dmidecode
+    license: GPL-2.0
+  spectre-pro-x360-g2-v1b01ea.bin:
+    product: Spectre Pro x360 G2 V1B01EA
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   z600-wd059av.bin:
     product: Z600 WD059AV

@@ -2,12 +2,59 @@
 :toc:
 :toclevels: 1
 
+== ESPRIMO Q958 (esprimo-q958.bin)
+
+[horizontal]
+File path:: `fujitsu/esprimo-q958.bin`
+Product name:: ESPRIMO Q958
+Product version:: 
+Product family:: ESPRIMO-FTS
+Firmware vendor:: FUJITSU // American Megatrends Inc.
+Firmware version:: V5.0.0.13 R1.38.0 for D3613-A1x
+Release date:: 2024-08-29
+SMBIOS version:: 3.2.1
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0021`
+a| `2` | Baseboard or module information | 1  a| `0x001E`
+a| `3` | System enclosure or chassis | 1  a| `0x001F`
+a| `4` | Processor information | 1  a| `0x0015`
+a| `7` | Cache information | 3  a| `0x0012`, `0x0013`, `0x0014`
+a| `9` | System slots | 2  a| `0x0004`, `0x0005`
+a| `11` | OEM strings | 1  a| `0x0006`
+a| `14` | Group associations | 1  a| `0x0035`
+a| `15` | System event log | 1  a| `0x0024`
+a| `16` | Physical memory array | 1  a| `0x000A`
+a| `17` | Memory device | 2  a| `0x000B`, `0x000C`
+a| `19` | Memory array mapped address | 1  a| `0x000D`
+a| `20` | Memory device mapped address | 2  a| `0x0022`, `0x0023`
+a| `24` | Hardware security | 1  a| `0x0007`
+a| `32` | System boot information | 1  a| `0x0008`
+a| `39` | System power supply | 1  a| `0x0009`
+a| `41` | Onboard devices extended information | 12  a| `0x0027`, `0x0028`, `0x0029`, `0x002A`, `0x002B`, `0x002C`, `0x002D`, `0x002E`, `0x002F`, `0x0030`, `0x0031`, `0x0032`
+a| `127` | End of table | 1  a| `0x0037`
+a| `128` | OEM-specific | 5  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0025`
+a| `131` | Intel vPro information | 1  a| `0x0026`
+a| `136` | OEM-specific | 1  a| `0x0034`
+a| `176` | OEM-specific | 1  a| `0x0016`
+a| `177` | OEM-specific | 1  a| `0x0017`
+a| `188` | OEM-specific | 1  a| `0x0018`
+a| `219` | Intel Management Engine interface information | 1  a| `0x0036`
+a| `221` | Intel firmware version information | 5  a| `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0033`
+|===
 == LifeBook S-4546 (lifebook-s-4546.bin)
 
 [horizontal]
 File path:: `fujitsu/lifebook-s-4546.bin`
 Product name:: LIFEBOOK S Series
-Product version:: None
+Product version:: 
 Product family:: -
 Firmware vendor:: Phoenix/FUJITSU
 Firmware version:: Version  1.57

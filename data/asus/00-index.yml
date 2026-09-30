@@ -2,14 +2,26 @@ vendor: ASUS
 files:
   c60m1-i.bin:
     product: C60M1-I
+  gl753vd.bin:
+    product: GL753VD
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   k53u.bin:
     product: K53U
   m4a88td-m-usb3.bin:
     product: M4A88TD-M/USB3
+  n551jx.bin:
+    product: N551JX
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   prime-b350-plus.bin:
     product: PRIME B350-Plus
   prime-h610m-r.bin:
     product: PRIME H610M-R
+  rog-strix-z690-a-gaming-wifi-d4.bin:
+    product: ROG STRIX Z690-A GAMING WIFI D4
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   rs100-x7.bin:
     product: RS100-X7
   rs300-e8-rs4.bin:
@@ -20,11 +32,27 @@ files:
     product: RS520-E9-RS8
   sabertooth-990fx-r2.0.bin:
     product: SABERTOOTH 990FX R2.0
+  strix-17-gl703ge.bin:
+    product: Strix 17 GL703GE
+    source: https://github.com/Baio1977/Asus-ROG-GL703ge
+    license: none
   tuf-gaming-a620m-plus-wifi.bin:
     product: TUF GAMING A620M-Plus WiFi
   tuf-gaming-b450-pro.bin:
     product: TUF GAMING B450-Pro
   tuf-gaming-b650-plus.bin:
     product: TUF GAMING B650-Plus
+  ux305la.bin:
+    product: UX305LA
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
+  x580vd.bin:
+    product: X580VD
+    source: https://github.com/Baio1977/Asus-Vivobook-Pro-N580VD
+    license: none
+  x756uam.bin:
+    product: X756UAM
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   zenbook-ux425ja.bin:
     product: Zenbook 14 UX425JA

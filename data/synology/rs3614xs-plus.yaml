@@ -1,0 +1,1459 @@
+entry:
+  smbios-version: '2.7'
+table:
+- handle: 0
+  type: 0
+  length: 67
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: American Megatrends Inc.
+    version: 0.1.4
+    bios-segment: 61440
+    release-date: '2015-06-08'
+    rom-size: 3145728
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '4.6'
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 109
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Synology
+    product: RS3614xs+
+    version: '1.0'
+    serial-number: To be filled by O.E.M.
+    uuid: 03000200-0400-0500-0006-000700080009
+    wakeup-type: power-switch
+    sku-number: To be filled by O.E.M.
+    family: RackStation
+- handle: 2
+  type: 2
+  length: 127
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Synology
+    product: RS3614xs+
+    version: To be filled by O.E.M.
+    serial-number: To be filled by O.E.M.
+    asset-tag: To be filled by O.E.M.
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: To be filled by O.E.M.
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 124
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Synology
+    type: rack-mount
+    is-lock-present: false
+    version: To Be Filled By O.E.M.
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 0
+    height: null
+    power-cord-count: 1
+    element-count: 0
+    element-size: 0
+    elements: []
+    sku-number: To be filled by O.E.M.
+- handle: 4
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1A1
+    internal-connector: none
+    external-designator: PS2Mouse
+    external-connector: ps-2
+    port-type: mouse
+- handle: 5
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1A1
+    internal-connector: none
+    external-designator: Keyboard
+    external-connector: ps-2
+    port-type: keyboard
+- handle: 6
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2A1
+    internal-connector: none
+    external-designator: TV Out
+    external-connector: hpcn-14
+    port-type: other
+- handle: 7
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2A2A
+    internal-connector: none
+    external-designator: COM A
+    external-connector: db-9-m
+    port-type: serial-16550a
+- handle: 8
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2A2B
+    internal-connector: none
+    external-designator: Video
+    external-connector: db-15-f
+    port-type: video
+- handle: 9
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3A1
+    internal-connector: none
+    external-designator: USB1
+    external-connector: access-bus
+    port-type: usb
+- handle: 10
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3A1
+    internal-connector: none
+    external-designator: USB2
+    external-connector: access-bus
+    port-type: usb
+- handle: 11
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3A1
+    internal-connector: none
+    external-designator: USB3
+    external-connector: access-bus
+    port-type: usb
+- handle: 12
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9A1 - TPM HDR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 13
+  type: 8
+  length: 35
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9C1 - PCIE DOCKING CONN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 14
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2B3 - CPU FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 15
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J6C2 - EXT HDMI
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 16
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3C1 - GMCH FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 17
+  type: 8
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1D1 - ITP
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 18
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9E2 - MDC INTPSR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 19
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9E4 - MDC INTPSR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 20
+  type: 8
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9E3 - LPC HOT DOCKING
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 21
+  type: 8
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9E1 - SCAN MATRIX
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 22
+  type: 8
+  length: 31
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9G1 - LPC SIDE BAND
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 23
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J8F1 - UNIFIED
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 24
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J6F1 - LVDS
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 25
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2F1 - LAI FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 26
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2G1 - GFX VID
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 27
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1G6 - AC JACK
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 28
+  type: 9
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J6B2
+    type: pci-e
+    bus-width: 16x
+    usage: in-use
+    length: long
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 1
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 29
+  type: 9
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J6B1
+    type: pci-e
+    bus-width: 1x
+    usage: in-use
+    length: short
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 3
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 30
+  type: 9
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J6D1
+    type: pci-e
+    bus-width: 1x
+    usage: in-use
+    length: short
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 4
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 31
+  type: 9
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J7B1
+    type: pci-e
+    bus-width: 1x
+    usage: in-use
+    length: short
+    ident: 3
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 5
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 32
+  type: 9
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J8B4
+    type: pci-e
+    bus-width: 1x
+    usage: in-use
+    length: short
+    ident: 4
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 6
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 33
+  type: 10
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: To Be Filled By O.E.M.
+- handle: 34
+  type: 11
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - To Be Filled By O.E.M.
+- handle: 35
+  type: 12
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - To Be Filled By O.E.M.
+- handle: 36
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 37
+  type: 34
+  length: 19
+  level: '2.3'
+  state:
+  - decoded
+  description: Management device
+  attributes:
+    description: LM78-1
+    type: national-lm78
+    address: 0
+    address-type: port
+- handle: 38
+  type: 26
+  length: 29
+  level: '2.2'
+  state:
+  - decoded
+  description: Voltage probe
+  attributes:
+    description: LM78A
+    location: null
+    status: null
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 39
+  type: 36
+  length: 18
+  level: '2.3'
+  state:
+  - decoded
+  description: Management device threshold data
+  attributes:
+    lower-non-critical: 1
+    upper-non-critical: 2
+    lower-critical: 3
+    upper-critical: 4
+    lower-non-recoverable: 5
+    upper-non-recoverable: 6
+- handle: 40
+  type: 35
+  length: 35
+  level: '2.3'
+  state:
+  - decoded
+  description: Management device component
+  attributes:
+    description: To Be Filled By O.E.M.
+    device-handle: 37
+    component-handle: 37
+    threshold-handle: 38
+- handle: 41
+  type: 29
+  length: 27
+  level: '2.2'
+  state:
+  - decoded
+  description: Electrical current probe
+  attributes:
+    description: ABC
+    location: null
+    status: null
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 42
+  type: 36
+  length: 18
+  level: '2.3'
+  state:
+  - decoded
+  description: Management device threshold data
+  attributes:
+    lower-non-critical: unknown
+    upper-non-critical: unknown
+    lower-critical: unknown
+    upper-critical: unknown
+    lower-non-recoverable: unknown
+    upper-non-recoverable: unknown
+- handle: 43
+  type: 35
+  length: 35
+  level: '2.3'
+  state:
+  - decoded
+  description: Management device component
+  attributes:
+    description: To Be Filled By O.E.M.
+    device-handle: 37
+    component-handle: 40
+    threshold-handle: 38
+- handle: 44
+  type: 26
+  length: 29
+  level: '2.2'
+  state:
+  - decoded
+  description: Voltage probe
+  attributes:
+    description: LM78A
+    location: power-unit
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 45
+  type: 28
+  length: 29
+  level: '2.2'
+  state:
+  - decoded
+  description: Temperature probe
+  attributes:
+    description: LM78A
+    location: power-unit
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 46
+  type: 27
+  length: 30
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Cooling device
+  attributes:
+    probe-handle: 45
+    type: power-supply-fan
+    status: ok
+    group: 1
+    oem-defined: 0
+    nominal-speed: unknown
+    description: Cooling Dev 1
+- handle: 47
+  type: 29
+  length: 27
+  level: '2.2'
+  state:
+  - decoded
+  description: Electrical current probe
+  attributes:
+    description: ABC
+    location: power-unit
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 48
+  type: 39
+  length: 184
+  level: 2.3.1
+  state:
+  - decoded
+  - linked
+  description: System power supply
+  attributes:
+    group: 1
+    location: To Be Filled By O.E.M.
+    name: To Be Filled By O.E.M.
+    vendor: To Be Filled By O.E.M.
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: To Be Filled By O.E.M.
+    revision: To Be Filled By O.E.M.
+    maximum-capacity: unknown
+    hot-swappable: false
+    present: true
+    unplugged: false
+    range-switching: auto
+    status: ok
+    type: switching
+    voltage-probe-handle: 44
+    cooling-device-handle: 46
+    current-probe-handle: 47
+- handle: 49
+  type: 41
+  length: 25
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard IGD
+    type: video
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 2
+      function-number: 0
+- handle: 50
+  type: 41
+  length: 25
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard LAN
+    type: ethernet
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 25
+      function-number: 0
+- handle: 51
+  type: 41
+  length: 26
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard 1394
+    type: other
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 3
+      device-number: 28
+      function-number: 2
+- handle: 52
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L2
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-through
+    maximum-size: 1048576
+    installed-size: 1048576
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 53
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L1
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-through
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: parity
+    type: data
+    associativity: 8-way
+- handle: 54
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L3
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: multi-bit
+    type: unified
+    associativity: 16-way
+- handle: 55
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: single-bit
+    maximum-capacity: 34359738368
+    error-handle: 65534
+    device-count: 4
+- handle: 56
+  type: 4
+  length: 139
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: SOCKET 0
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: a9060300fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 58
+      stepping: 9
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) CPU E3-1230 V2 @ 3.30GHz
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: 100
+    maximum-speed: 3800
+    current-speed: 3300
+    is-populated: true
+    status: enabled
+    upgrade: socket-lga1155
+    l1-cache-handle: 53
+    l2-cache-handle: 52
+    l3-cache-handle: 54
+    serial-number: null
+    asset-tag: Fill By OEM
+    part-number: Fill By OEM
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 4
+    core-enabled: 4
+    thread-count: 8
+- handle: 57
+  type: 17
+  length: 101
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 55
+    error-info-handle: 65534
+    total-width: 128
+    data-width: 64
+    size: 8589934592
+    form-factor: dimm
+    device-set: 0
+    device-locator: ChannelA-DIMM0
+    bank-locator: BANK 0
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1600
+    vendor: '0000'
+    serial-number: 160412A2
+    asset-tag: '9876543210'
+    part-number: D3ES12082XH12AA
+    rank: 2
+    configured-speed: 1600
+- handle: 58
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 8589934591
+    range-size: 8589934592
+    device-handle: 57
+    array-addr-handle: 65
+    partition-pos: unknown
+    interleave-pos: 1
+    interleave-depth: 2
+- handle: 59
+  type: 17
+  length: 101
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 55
+    error-info-handle: 65534
+    total-width: 128
+    data-width: 64
+    size: 8589934592
+    form-factor: dimm
+    device-set: 0
+    device-locator: ChannelA-DIMM1
+    bank-locator: BANK 1
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1600
+    vendor: '0000'
+    serial-number: 160412A2
+    asset-tag: '9876543210'
+    part-number: D3ES12082XH12AA
+    rank: 2
+    configured-speed: 1600
+- handle: 60
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 17179869184
+    end-addr: 25769803775
+    range-size: 8589934592
+    device-handle: 59
+    array-addr-handle: 65
+    partition-pos: unknown
+    interleave-pos: 1
+    interleave-depth: 2
+- handle: 61
+  type: 17
+  length: 101
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 55
+    error-info-handle: 65534
+    total-width: 128
+    data-width: 64
+    size: 8589934592
+    form-factor: dimm
+    device-set: 0
+    device-locator: ChannelB-DIMM0
+    bank-locator: BANK 2
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1600
+    vendor: '0000'
+    serial-number: 160412A2
+    asset-tag: '9876543210'
+    part-number: D3ES12082XH12AA
+    rank: 2
+    configured-speed: 1600
+- handle: 62
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 8589934592
+    end-addr: 17179869183
+    range-size: 8589934592
+    device-handle: 61
+    array-addr-handle: 65
+    partition-pos: unknown
+    interleave-pos: 2
+    interleave-depth: 2
+- handle: 63
+  type: 17
+  length: 101
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 55
+    error-info-handle: 65534
+    total-width: 128
+    data-width: 64
+    size: 8589934592
+    form-factor: dimm
+    device-set: 0
+    device-locator: ChannelB-DIMM1
+    bank-locator: BANK 3
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1600
+    vendor: '0000'
+    serial-number: 160412A2
+    asset-tag: '9876543210'
+    part-number: D3ES12082XH12AA
+    rank: 2
+    configured-speed: 1600
+- handle: 64
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 25769803776
+    end-addr: 34359738367
+    range-size: 8589934592
+    device-handle: 63
+    array-addr-handle: 65
+    partition-pos: unknown
+    interleave-pos: 2
+    interleave-depth: 2
+- handle: 65
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 34359738367
+    range-size: 34359738368
+    array-handle: 55
+    partition-width: 4
+- handle: 67
+  type: 131
+  length: 66
+  level: null
+  state:
+  - decoded
+  description: Intel vPro information
+  attributes:
+    flags-1: 53
+    mebx-version:
+      major: 0
+      minor: 0
+      hotfix: 0
+      build: 0
+    lpc-devfn: 248
+    lpc-device-id: 7254
+    flags-2: 1
+    me-version:
+      major: 8
+      minor: 1
+      hotfix: 0
+      build: 1248
+    gbe-devfn: 200
+    gbe-device-id: null
+    flags-3: 102
+- handle: 68
+  type: 13
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 69
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

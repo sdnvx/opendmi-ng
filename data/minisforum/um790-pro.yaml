@@ -1,0 +1,1067 @@
+entry:
+  smbios-version: '3.5'
+table:
+- handle: 0
+  type: 0
+  length: 83
+  level: '3.1'
+  state:
+  - decoded
+  description: Platform firmware information
+  attributes:
+    vendor: American Megatrends International, LLC.
+    version: '1.09'
+    bios-segment: 61440
+    release-date: '2023-11-20'
+    rom-size: 33554432
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: false
+      keyboard-support: false
+      serial-support: false
+      printer-support: false
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: false
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '5.29'
+    controller-version: '2.6'
+- handle: 1
+  type: 1
+  length: 140
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Micro Computer (HK) Tech Limited
+    product: Venus series
+    version: Default string
+    serial-number: MD306VU79PQQMQE00168
+    uuid: 27F13B80-49AF-11EF-9B05-8814A3404D00
+    wakeup-type: other
+    sku-number: Default string
+    family: Default string
+- handle: 2
+  type: 2
+  length: 132
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Shenzhen Meigao Electronic Equipment Co.,Ltd
+    product: F7BSC
+    version: Default string
+    serial-number: K7BSC794030B1081642
+    asset-tag: Default string
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: Default string
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 98
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Default string
+    type: mini-pc
+    is-lock-present: false
+    version: Default string
+    serial-number: Default string
+    asset-tag: Default string
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 0
+    height: null
+    power-cord-count: 1
+    element-count: 0
+    element-size: 3
+    elements: []
+    sku-number: Default string
+- handle: 4
+  type: 10
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: To Be Filled By O.E.M.
+- handle: 5
+  type: 11
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - Default string
+- handle: 6
+  type: 12
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - Default string
+- handle: 7
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 8
+  type: 44
+  length: 11
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  description: Processor additional information
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
+- handle: 9
+  type: 43
+  length: 44
+  level: '3.1'
+  state:
+  - decoded
+  description: TPM device
+  attributes:
+    vendor-id: AMD
+    specification-version: '2.0'
+    firmware-version:
+      major: 6
+      minor: 10
+      vendor-specific: 7
+    description: AMD
+    characteristics:
+      is-unsupported: false
+      is-update-configurable: false
+      is-software-configurable: true
+      is-proprietary-configurable: false
+    oem-defined: 0
+- handle: 10
+  type: 45
+  length: 75
+  level: '3.5'
+  state:
+  - decoded
+  - linked
+  description: Firmware inventory information
+  attributes:
+    name: TPM Firmware
+    version: 6000A:7
+    version-format: semantic
+    ident: null
+    ident-format: guid
+    release-date: '2021-05-15T00:00:00Z'
+    vendor: AMD
+    lowest-version: null
+    image-size: unknown
+    characteristics:
+      is-updatable: false
+      is-write-protected: false
+    state: enabled
+    component-count: 1
+    components:
+    - handle: 9
+- handle: 11
+  type: 7
+  length: 39
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L1 - Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 524288
+    installed-size: 524288
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 12
+  type: 7
+  length: 39
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L2 - Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 13
+  type: 7
+  length: 39
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L3 - Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 16777216
+    installed-size: 16777216
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 16-way
+- handle: 14
+  type: 4
+  length: 154
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: FP8
+    type: central
+    family: amd-zen
+    vendor: Advanced Micro Devices, Inc.
+    id: 410fa700fffb8b17
+    signature:
+      type: 0
+      family: 25
+      model: 116
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
+    version: AMD Ryzen 9 7940HS w/ Radeon 780M Graphics
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 5250
+    current-speed: 4000
+    is-populated: true
+    status: enabled
+    upgrade: none
+    l1-cache-handle: 11
+    l2-cache-handle: 12
+    l3-cache-handle: 13
+    serial-number: Unknown
+    asset-tag: Unknown
+    part-number: Unknown
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 8
+    core-enabled: 8
+    thread-count: 16
+- handle: 15
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 16
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 68719476736
+    error-handle: 15
+    device-count: 2
+- handle: 17
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 68719476735
+    range-size: 68719476736
+    array-handle: 16
+    partition-width: 2
+- handle: 18
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 19
+  type: 17
+  length: 169
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 16
+    error-info-handle: 18
+    total-width: 64
+    data-width: 64
+    size: 34359738368
+    form-factor: sodimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL A
+    memory-type: ddr5
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 5600
+    vendor: Micron Technology
+    serial-number: EB159FFA
+    asset-tag: null
+    part-number: CT32G56C46S5.M16B2
+    rank: 2
+    configured-speed: 5600
+    minimum-voltage: 1.1
+    maximum-voltage: 1.1
+    configured-voltage: 1.1
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 11392
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 20
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 34359738367
+    range-size: 34359738368
+    device-handle: 19
+    array-addr-handle: 17
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 21
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 22
+  type: 17
+  length: 169
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 16
+    error-info-handle: 21
+    total-width: 64
+    data-width: 64
+    size: 34359738368
+    form-factor: sodimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL B
+    memory-type: ddr5
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: true
+      lrdimm: false
+    maximum-speed: 5600
+    vendor: Micron Technology
+    serial-number: EB159FD4
+    asset-tag: null
+    part-number: CT32G56C46S5.M16B2
+    rank: 2
+    configured-speed: 5600
+    minimum-voltage: 1.1
+    maximum-voltage: 1.1
+    configured-voltage: 1.1
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 11392
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 23
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 34359738368
+    end-addr: 68719476735
+    range-size: 34359738368
+    device-handle: 22
+    array-addr-handle: 17
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 24
+  type: 40
+  length: 51
+  level: '2.6'
+  state:
+  - decoded
+  description: Additional information
+  attributes:
+    entries:
+    - referenced-handle: 0
+      referenced-offset: 0
+      string: AGESA!V9 PhoenixPI-FP8-FP7 1.1.0.1a
+      value: '00000000'
+- handle: 25
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J126
+    internal-connector: none
+    external-designator: Keyboard
+    external-connector: ps-2
+    port-type: keyboard
+- handle: 26
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J127
+    internal-connector: none
+    external-designator: Touch pad
+    external-connector: ps-2
+    port-type: mouse
+- handle: 27
+  type: 8
+  length: 36
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB Port 5
+    internal-connector: none
+    external-designator: USB 3.1 Type A
+    external-connector: access-bus
+    port-type: usb
+- handle: 28
+  type: 8
+  length: 36
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB Port 0
+    internal-connector: none
+    external-designator: USB 3.2 Type-C
+    external-connector: access-bus
+    port-type: usb
+- handle: 29
+  type: 8
+  length: 36
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB Port 1
+    internal-connector: none
+    external-designator: USB 3.2 Type-C
+    external-connector: access-bus
+    port-type: usb
+- handle: 30
+  type: 8
+  length: 36
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB Port 4
+    internal-connector: none
+    external-designator: USB 3.2 Type-C
+    external-connector: access-bus
+    port-type: usb
+- handle: 31
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J90
+    internal-connector: none
+    external-designator: Network
+    external-connector: rj-45
+    port-type: network
+- handle: 32
+  type: 8
+  length: 18
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J25
+    internal-connector: none
+    external-designator: eDP
+    external-connector: none
+    port-type: video
+- handle: 33
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J37
+    internal-connector: none
+    external-designator: NOVA DP
+    external-connector: none
+    port-type: video
+- handle: 34
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9
+    internal-connector: none
+    external-designator: Microphone
+    external-connector: mini-jack
+    port-type: audio
+- handle: 35
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J10
+    internal-connector: none
+    external-designator: Headphone
+    external-connector: mini-jack
+    port-type: audio
+- handle: 36
+  type: 9
+  length: 22
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J97
+    type: pci-e-x8
+    bus-width: 8x
+    usage: available
+    length: short
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: true
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 512
+      bus-number: 0
+      device-number: 1
+      function-number: 1
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 37
+  type: 9
+  length: 22
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J98
+    type: m2-s1-sd
+    bus-width: 1x
+    usage: available
+    length: short
+    ident: 4
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: true
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 512
+      bus-number: 0
+      device-number: 1
+      function-number: 3
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 38
+  type: 9
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J103
+    type: m2-s2
+    bus-width: 1x
+    usage: available
+    length: short
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: true
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 512
+      bus-number: 0
+      device-number: 2
+      function-number: 2
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 39
+  type: 9
+  length: 22
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J91
+    type: m2-s3
+    bus-width: 4x
+    usage: in-use
+    length: short
+    ident: 5
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 2
+      function-number: 4
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 40
+  type: 9
+  length: 22
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: U93
+    type: m2-s3
+    bus-width: 4x
+    usage: available
+    length: short
+    ident: 3
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 512
+      bus-number: 0
+      device-number: 1
+      function-number: 2
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 41
+  type: 41
+  length: 20
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Realtek
+    type: ethernet
+    is-enabled: false
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 1
+      function-number: 3
+- handle: 42
+  type: 41
+  length: 27
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Realtek ALC256
+    type: sound
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 196
+      device-number: 0
+      function-number: 6
+- handle: 43
+  type: 13
+  length: 53
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    - zh|CN|unicode
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 44
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

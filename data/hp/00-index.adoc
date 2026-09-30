@@ -2,6 +2,208 @@
 :toc:
 :toclevels: 1
 
+== 250 G6 3QM22EA (250-g6-3qm22ea.bin)
+
+[horizontal]
+File path:: `hp/250-g6-3qm22ea.bin`
+Product name:: HP 250 G6 Notebook PC
+Product version:: Type1ProductConfigId
+Product family:: 103C_5336AN HP 200
+Firmware vendor:: Insyde
+Firmware version:: F.77
+Release date:: 2024-10-14
+SMBIOS version:: 3.0
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 19  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`
+a| `9` | System slots | 5  a| `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `11` | OEM strings | 1  a| `0x0020`
+a| `12` | System configuration options | 1  a| `0x0021`
+a| `13` | Firmware language information | 1  a| `0x0022`
+a| `14` | Group associations | 2  a| `0x0023`, `0x0024`
+a| `15` | System event log | 1  a| `0x0025`
+a| `16` | Physical memory array | 1  a| `0x0026`
+a| `17` | Memory device | 2  a| `0x0027`, `0x0028`
+a| `19` | Memory array mapped address | 1  a| `0x0029`
+a| `20` | Memory device mapped address | 2  a| `0x002A`, `0x002B`
+a| `21` | Built-in pointing device | 1  a| `0x002C`
+a| `22` | Portable battery | 1  a| `0x002D`
+a| `24` | Hardware security | 1  a| `0x002E`
+a| `26` | Voltage probe | 1  a| `0x002F`
+a| `27` | Cooling device | 1  a| `0x0030`
+a| `28` | Temperature probe | 1  a| `0x0031`
+a| `32` | System boot information | 1  a| `0x0032`
+a| `39` | System power supply | 1  a| `0x0033`
+a| `40` | Additional information | 1  a| `0x0034`
+a| `41` | Onboard devices extended information | 3  a| `0x0035`, `0x0036`, `0x0037`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0038`
+a| `129` | OEM-specific | 1  a| `0x0039`
+a| `130` | Intel Active Management Technology information | 1  a| `0x003A`
+a| `131` | Intel vPro information | 1  a| `0x003B`
+a| `136` | OEM-specific | 1  a| `0x003C`
+a| `219` | Intel Management Engine interface information | 1  a| `0x003D`
+a| `221` | Intel firmware version information | 4  a| `0x003E`, `0x003F`, `0x0040`, `0x0041`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0042`
+|===
+== 250 G7 6BP85EA (250-g7-6bp85ea.bin)
+
+[horizontal]
+File path:: `hp/250-g7-6bp85ea.bin`
+Product name:: HP 250 G7 Notebook PC
+Product version:: Type1ProductConfigId
+Product family:: 103C_5336AN HP 200
+Firmware vendor:: Insyde
+Firmware version:: F.38
+Release date:: 2021-08-31
+SMBIOS version:: 3.0.1
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 1  a| `0x0008`
+a| `9` | System slots | 1  a| `0x0009`
+a| `11` | OEM strings | 1  a| `0x000A`
+a| `12` | System configuration options | 1  a| `0x000B`
+a| `13` | Firmware language information | 1  a| `0x000C`
+a| `14` | Group associations | 3  a| `0x000D`, `0x000E`, `0x000F`
+a| `15` | System event log | 1  a| `0x0010`
+a| `16` | Physical memory array | 1  a| `0x0011`
+a| `17` | Memory device | 2  a| `0x0012`, `0x0013`
+a| `19` | Memory array mapped address | 1  a| `0x0014`
+a| `20` | Memory device mapped address | 2  a| `0x0015`, `0x0016`
+a| `21` | Built-in pointing device | 1  a| `0x0017`
+a| `22` | Portable battery | 1  a| `0x0018`
+a| `24` | Hardware security | 1  a| `0x0019`
+a| `26` | Voltage probe | 1  a| `0x001A`
+a| `27` | Cooling device | 1  a| `0x001B`
+a| `28` | Temperature probe | 1  a| `0x001C`
+a| `32` | System boot information | 1  a| `0x001D`
+a| `39` | System power supply | 1  a| `0x001E`
+a| `40` | Additional information | 1  a| `0x001F`
+a| `41` | Onboard devices extended information | 2  a| `0x0020`, `0x0021`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0022`
+a| `129` | OEM-specific | 1  a| `0x0023`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0024`
+a| `131` | Intel vPro information | 1  a| `0x0025`
+a| `136` | OEM-specific | 1  a| `0x0026`
+a| `219` | Intel Management Engine interface information | 1  a| `0x0027`
+a| `221` | Intel firmware version information | 5  a| `0x0028`, `0x0029`, `0x002A`, `0x002B`, `0x002C`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x002D`
+|===
+== 250 G8 27K26EA (250-g8-27k26ea.bin)
+
+[horizontal]
+File path:: `hp/250-g8-27k26ea.bin`
+Product name:: HP 250 G8 Notebook PC
+Product version:: Type1ProductConfigId
+Product family:: 103C_5336AN HP 200
+Firmware vendor:: Insyde
+Firmware version:: F.53
+Release date:: 2021-10-15
+SMBIOS version:: 3.2
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 4  a| `0x0005`, `0x0006`, `0x0007`, `0x0008`
+a| `8` | Port connector information | 19  a| `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`
+a| `9` | System slots | 5  a| `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`
+a| `11` | OEM strings | 1  a| `0x0021`
+a| `12` | System configuration options | 1  a| `0x0022`
+a| `13` | Firmware language information | 1  a| `0x0023`
+a| `14` | Group associations | 3  a| `0x0024`, `0x0025`, `0x0026`
+a| `15` | System event log | 1  a| `0x0027`
+a| `16` | Physical memory array | 1  a| `0x0028`
+a| `17` | Memory device | 2  a| `0x0029`, `0x002A`
+a| `19` | Memory array mapped address | 1  a| `0x002B`
+a| `20` | Memory device mapped address | 1  a| `0x002C`
+a| `21` | Built-in pointing device | 1  a| `0x002D`
+a| `22` | Portable battery | 1  a| `0x002E`
+a| `24` | Hardware security | 1  a| `0x002F`
+a| `26` | Voltage probe | 1  a| `0x0030`
+a| `27` | Cooling device | 1  a| `0x0031`
+a| `28` | Temperature probe | 1  a| `0x0032`
+a| `32` | System boot information | 1  a| `0x0033`
+a| `39` | System power supply | 1  a| `0x0034`
+a| `40` | Additional information | 1  a| `0x0035`
+a| `41` | Onboard devices extended information | 3  a| `0x0036`, `0x0037`, `0x0038`
+a| `43` | TPM device | 1  a| `0x0039`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x003A`
+a| `129` | OEM-specific | 1  a| `0x003B`
+a| `130` | Intel Active Management Technology information | 1  a| `0x003C`
+a| `131` | Intel vPro information | 1  a| `0x003D`
+a| `136` | OEM-specific | 1  a| `0x003E`
+a| `219` | Intel Management Engine interface information | 1  a| `0x003F`
+a| `221` | Intel firmware version information | 6  a| `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0045`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0046`
+|===
+== 630 A6E72EA (630-a6e72ea.bin)
+
+[horizontal]
+File path:: `hp/630-a6e72ea.bin`
+Product name:: HP 630 Notebook PC
+Product version:: 058A100000004C10002600000
+Product family:: 103C_5336AN G=N L=SMB B=HP S=630
+Firmware vendor:: Hewlett-Packard
+Firmware version:: F.39
+Release date:: 2011-12-18
+SMBIOS version:: 2.6
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x001B`
+a| `7` | Cache information | 4  a| `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `9` | System slots | 8  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`
+a| `11` | OEM strings | 1  a| `0x000C`
+a| `16` | Physical memory array | 1  a| `0x000F`
+a| `17` | Memory device | 2  a| `0x0010`, `0x0013`
+a| `18` | 32-bit memory error information | 3  a| `0x0011`, `0x0014`, `0x0016`
+a| `19` | Memory array mapped address | 1  a| `0x0017`
+a| `20` | Memory device mapped address | 2  a| `0x0012`, `0x0015`
+a| `22` | Portable battery | 1  a| `0x000D`
+a| `32` | System boot information | 1  a| `0x000E`
+a| `41` | Onboard devices extended information | 3  a| `0x0018`, `0x0019`, `0x001A`
+a| `127` | End of table | 1  a| `0x0020`
+|===
 == EliteBook 6930p NN187EA (elitebook-6930p-nn187ea.bin)
 
 [horizontal]
@@ -36,20 +238,61 @@ a| `22` | Portable battery | 1  a| `0x0011`
 a| `32` | System boot information | 1  a| `0x000E`
 a| `127` | End of table | 1  a| `0xFFFD`
 a| `129` | OEM-specific | 1  a| `0x0012`
-a| `130` | OEM-specific | 1  a| `0x0013`
-a| `131` | OEM-specific | 1  a| `0x0014`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0013`
+a| `131` | Intel vPro information | 1  a| `0x0014`
+|===
+== EliteBook 820 G2 F6N30AV (elitebook-820-g2-f6n30av.bin)
+
+[horizontal]
+File path:: `hp/elitebook-820-g2-f6n30av.bin`
+Product name:: HP EliteBook 820 G2
+Product version:: A3009D510203
+Product family:: 103C_5336AN G=N L=BUS B=HP S=ELI
+Firmware vendor:: Hewlett-Packard
+Firmware version:: M71 Ver. 01.31
+Release date:: 2020-02-24
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x000D`
+a| `1` | System information | 1  a| `0x000E`
+a| `2` | Baseboard or module information | 1  a| `0x000F`
+a| `3` | System enclosure or chassis | 1  a| `0x0010`
+a| `4` | Processor information | 1  a| `0x0007`
+a| `7` | Cache information | 4  a| `0x0006`, `0x0008`, `0x0009`, `0x000A`
+a| `8` | Port connector information | 6  a| `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`
+a| `9` | System slots | 1  a| `0x001C`
+a| `10` | Onboard devices information | 1  a| `0x0012`
+a| `11` | OEM strings | 1  a| `0x001B`
+a| `13` | Firmware language information | 1  a| `0x001F`
+a| `16` | Physical memory array | 1  a| `0x0000`
+a| `17` | Memory device | 2  a| `0x0001`, `0x0003`
+a| `19` | Memory array mapped address | 1  a| `0x0005`
+a| `20` | Memory device mapped address | 2  a| `0x0002`, `0x0004`
+a| `22` | Portable battery | 1  a| `0x001D`
+a| `32` | System boot information | 1  a| `0x0011`
+a| `41` | Onboard devices extended information | 2  a| `0x0013`, `0x0014`
+a| `127` | End of table | 1  a| `0xFFFD`
+a| `130` | Intel Active Management Technology information | 1  a| `0x000B`
+a| `131` | Intel vPro information | 1  a| `0x000C`
+a| `137` | OEM-specific | 1  a| `0x001E`
 |===
 == EliteBook 820 G4 X3T22AV (elitebook-820-g4-x3t22av.bin)
 
 [horizontal]
 File path:: `hp/elitebook-820-g4-x3t22av.bin`
 Product name:: HP EliteBook 820 G4
-Product version:: None
+Product version:: 
 Product family:: 103C_5336AN HP EliteBook
 Firmware vendor:: HP
 Firmware version:: P78 Ver. 01.47
 Release date:: 2023-06-16
-SMBIOS version:: 3.0.1
+SMBIOS version:: 3.0
 
 === Contents
 
@@ -78,16 +321,450 @@ a| `24` | Hardware security | 1  a| `0x0017`
 a| `32` | System boot information | 1  a| `0x0018`
 a| `41` | Onboard devices extended information | 1  a| `0x0012`
 a| `127` | End of table | 1  a| `0xFEFF`
-a| `131` | OEM-specific | 1  a| `0x0013`
-a| `219` | OEM-specific | 1  a| `0x001F`
-a| `221` | OEM-specific | 4  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`
+a| `131` | Intel vPro information | 1  a| `0x0013`
+a| `219` | Intel Management Engine interface information | 1  a| `0x001F`
+a| `221` | Intel firmware version information | 4  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`
+|===
+== EliteBook 830 G6 4WE10AV (elitebook-830-g6-4we10av.bin)
+
+[horizontal]
+File path:: `hp/elitebook-830-g6-4we10av.bin`
+Product name:: HP EliteBook 830 G6
+Product version:: 
+Product family:: 103C_5336AN HP EliteBook
+Firmware vendor:: HP
+Firmware version:: R70 Ver. 01.21.10
+Release date:: 2022-09-16
+SMBIOS version:: 3.1
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0001`
+a| `1` | System information | 1  a| `0x0002`
+a| `2` | Baseboard or module information | 1  a| `0x0003`
+a| `3` | System enclosure or chassis | 1  a| `0x0004`
+a| `4` | Processor information | 1  a| `0x0015`
+a| `7` | Cache information | 3  a| `0x0012`, `0x0013`, `0x0014`
+a| `8` | Port connector information | 2  a| `0x0016`, `0x0017`
+a| `9` | System slots | 2  a| `0x0018`, `0x0019`
+a| `10` | Onboard devices information | 1  a| `0x0005`
+a| `11` | OEM strings | 1  a| `0x001E`
+a| `13` | Firmware language information | 1  a| `0x0006`
+a| `14` | Group associations | 1  a| `0x001F`
+a| `16` | Physical memory array | 1  a| `0x0007`
+a| `17` | Memory device | 2  a| `0x001C`, `0x0008`
+a| `19` | Memory array mapped address | 1  a| `0x000C`
+a| `20` | Memory device mapped address | 1  a| `0x0009`
+a| `22` | Portable battery | 1  a| `0x000A`
+a| `24` | Hardware security | 1  a| `0x000B`
+a| `32` | System boot information | 1  a| `0x001D`
+a| `41` | Onboard devices extended information | 1  a| `0x001A`
+a| `43` | TPM device | 1  a| `0x0000`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `131` | Intel vPro information | 1  a| `0x001B`
+a| `219` | Intel Management Engine interface information | 1  a| `0x0020`
+a| `221` | Intel firmware version information | 5  a| `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`
+|===
+== EliteBook 840 G1 D1F44AV (elitebook-840-g1-d1f44av.bin)
+
+[horizontal]
+File path:: `hp/elitebook-840-g1-d1f44av.bin`
+Product name:: HP EliteBook 840 G1
+Product version:: A3009CD10203
+Product family:: 103C_5336AN G=N L=BUS B=HP S=ELI
+Firmware vendor:: Hewlett-Packard
+Firmware version:: L71 Ver. 01.48
+Release date:: 2019-08-29
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x000D`
+a| `1` | System information | 1  a| `0x000E`
+a| `2` | Baseboard or module information | 1  a| `0x000F`
+a| `3` | System enclosure or chassis | 1  a| `0x0010`
+a| `4` | Processor information | 1  a| `0x0000`
+a| `7` | Cache information | 4  a| `0x0001`, `0x0002`, `0x0003`, `0x0004`
+a| `8` | Port connector information | 6  a| `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`
+a| `9` | System slots | 1  a| `0x001C`
+a| `10` | Onboard devices information | 1  a| `0x0012`
+a| `11` | OEM strings | 1  a| `0x001B`
+a| `13` | Firmware language information | 1  a| `0x001F`
+a| `16` | Physical memory array | 1  a| `0x0007`
+a| `17` | Memory device | 2  a| `0x0008`, `0x000A`
+a| `19` | Memory array mapped address | 1  a| `0x000C`
+a| `20` | Memory device mapped address | 2  a| `0x0009`, `0x000B`
+a| `22` | Portable battery | 1  a| `0x001D`
+a| `32` | System boot information | 1  a| `0x0011`
+a| `41` | Onboard devices extended information | 2  a| `0x0013`, `0x0014`
+a| `127` | End of table | 1  a| `0xFFFD`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0005`
+a| `131` | Intel vPro information | 1  a| `0x0006`
+a| `137` | OEM-specific | 1  a| `0x001E`
+|===
+== EliteBook Revolve 810 G2 J0Z58AV (elitebook-revolve-810-g2-j0z58av.bin)
+
+[horizontal]
+File path:: `hp/elitebook-revolve-810-g2-j0z58av.bin`
+Product name:: HP EliteBook Revolve 810 G2
+Product version:: A3009FD18203
+Product family:: 103C_5336AN G=N L=BUS B=HP S=ELI
+Firmware vendor:: Hewlett-Packard
+Firmware version:: L86 Ver. 01.46
+Release date:: 2020-02-18
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x000D`
+a| `1` | System information | 1  a| `0x000E`
+a| `2` | Baseboard or module information | 1  a| `0x000F`
+a| `3` | System enclosure or chassis | 1  a| `0x0010`
+a| `4` | Processor information | 1  a| `0x0000`
+a| `7` | Cache information | 4  a| `0x0001`, `0x0002`, `0x0003`, `0x0004`
+a| `8` | Port connector information | 6  a| `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`
+a| `9` | System slots | 1  a| `0x001C`
+a| `10` | Onboard devices information | 1  a| `0x0012`
+a| `11` | OEM strings | 1  a| `0x001B`
+a| `13` | Firmware language information | 1  a| `0x001F`
+a| `16` | Physical memory array | 1  a| `0x0005`
+a| `17` | Memory device | 2  a| `0x0006`, `0x0008`
+a| `19` | Memory array mapped address | 1  a| `0x000A`
+a| `20` | Memory device mapped address | 2  a| `0x0007`, `0x0009`
+a| `22` | Portable battery | 1  a| `0x001D`
+a| `32` | System boot information | 1  a| `0x0011`
+a| `41` | Onboard devices extended information | 2  a| `0x0013`, `0x0014`
+a| `127` | End of table | 1  a| `0xFFFD`
+a| `130` | Intel Active Management Technology information | 1  a| `0x000B`
+a| `131` | Intel vPro information | 1  a| `0x000C`
+a| `137` | OEM-specific | 1  a| `0x001E`
+|===
+== Laptop 15-da0xxx 4RE55EA (laptop-15-da0xxx-4re55ea.bin)
+
+[horizontal]
+File path:: `hp/laptop-15-da0xxx-4re55ea.bin`
+Product name:: HP Laptop 15-da0xxx
+Product version:: Type1ProductConfigId
+Product family:: 103C_5335KV HP Notebook
+Firmware vendor:: Insyde
+Firmware version:: F.35
+Release date:: 2020-12-09
+SMBIOS version:: 3.0
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 19  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`
+a| `9` | System slots | 5  a| `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `11` | OEM strings | 1  a| `0x0020`
+a| `12` | System configuration options | 1  a| `0x0021`
+a| `13` | Firmware language information | 1  a| `0x0022`
+a| `14` | Group associations | 3  a| `0x0023`, `0x0024`, `0x0025`
+a| `15` | System event log | 1  a| `0x0026`
+a| `16` | Physical memory array | 1  a| `0x0027`
+a| `17` | Memory device | 2  a| `0x0028`, `0x0029`
+a| `19` | Memory array mapped address | 1  a| `0x002A`
+a| `20` | Memory device mapped address | 2  a| `0x002B`, `0x002C`
+a| `21` | Built-in pointing device | 1  a| `0x002D`
+a| `22` | Portable battery | 1  a| `0x002E`
+a| `24` | Hardware security | 1  a| `0x002F`
+a| `26` | Voltage probe | 1  a| `0x0030`
+a| `27` | Cooling device | 1  a| `0x0031`
+a| `28` | Temperature probe | 1  a| `0x0032`
+a| `32` | System boot information | 1  a| `0x0033`
+a| `39` | System power supply | 1  a| `0x0034`
+a| `40` | Additional information | 1  a| `0x0035`
+a| `41` | Onboard devices extended information | 3  a| `0x0036`, `0x0037`, `0x0038`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0039`
+a| `129` | OEM-specific | 1  a| `0x003A`
+a| `130` | Intel Active Management Technology information | 1  a| `0x003B`
+a| `131` | Intel vPro information | 1  a| `0x003C`
+a| `136` | OEM-specific | 1  a| `0x003D`
+a| `219` | Intel Management Engine interface information | 1  a| `0x003E`
+a| `221` | Intel firmware version information | 4  a| `0x003F`, `0x0040`, `0x0041`, `0x0042`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0043`
+|===
+== Laptop 15-da1xxx 6RQ05EA (laptop-15-da1xxx-6rq05ea.bin)
+
+[horizontal]
+File path:: `hp/laptop-15-da1xxx-6rq05ea.bin`
+Product name:: HP Laptop 15-da1xxx
+Product version:: Type1ProductConfigId
+Product family:: 103C_5335KV HP Notebook
+Firmware vendor:: Insyde
+Firmware version:: F.38
+Release date:: 2021-08-31
+SMBIOS version:: 3.0.1
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 1  a| `0x0008`
+a| `9` | System slots | 1  a| `0x0009`
+a| `11` | OEM strings | 1  a| `0x000A`
+a| `12` | System configuration options | 1  a| `0x000B`
+a| `13` | Firmware language information | 1  a| `0x000C`
+a| `14` | Group associations | 3  a| `0x000D`, `0x000E`, `0x000F`
+a| `15` | System event log | 1  a| `0x0010`
+a| `16` | Physical memory array | 1  a| `0x0011`
+a| `17` | Memory device | 2  a| `0x0012`, `0x0013`
+a| `19` | Memory array mapped address | 1  a| `0x0014`
+a| `20` | Memory device mapped address | 2  a| `0x0015`, `0x0016`
+a| `21` | Built-in pointing device | 1  a| `0x0017`
+a| `22` | Portable battery | 1  a| `0x0018`
+a| `24` | Hardware security | 1  a| `0x0019`
+a| `26` | Voltage probe | 1  a| `0x001A`
+a| `27` | Cooling device | 1  a| `0x001B`
+a| `28` | Temperature probe | 1  a| `0x001C`
+a| `32` | System boot information | 1  a| `0x001D`
+a| `39` | System power supply | 1  a| `0x001E`
+a| `40` | Additional information | 1  a| `0x001F`
+a| `41` | Onboard devices extended information | 2  a| `0x0020`, `0x0021`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0022`
+a| `129` | OEM-specific | 1  a| `0x0023`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0024`
+a| `131` | Intel vPro information | 1  a| `0x0025`
+a| `136` | OEM-specific | 1  a| `0x0026`
+a| `219` | Intel Management Engine interface information | 1  a| `0x0027`
+a| `221` | Intel firmware version information | 5  a| `0x0028`, `0x0029`, `0x002A`, `0x002B`, `0x002C`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x002D`
+|===
+== Notebook X0L36EA (notebook-x0l36ea.bin)
+
+[horizontal]
+File path:: `hp/notebook-x0l36ea.bin`
+Product name:: HP Notebook
+Product version:: Type1ProductConfigId
+Product family:: 103C_5335KV HP Notebook
+Firmware vendor:: Insyde
+Firmware version:: F.50
+Release date:: 2020-11-20
+SMBIOS version:: 2.8
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 4  a| `0x0005`, `0x0006`, `0x0007`, `0x0008`
+a| `8` | Port connector information | 19  a| `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`
+a| `9` | System slots | 5  a| `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`
+a| `11` | OEM strings | 1  a| `0x0021`
+a| `12` | System configuration options | 1  a| `0x0022`
+a| `13` | Firmware language information | 1  a| `0x0023`
+a| `14` | Group associations | 3  a| `0x0024`, `0x0025`, `0x0026`
+a| `15` | System event log | 1  a| `0x0027`
+a| `16` | Physical memory array | 1  a| `0x0028`
+a| `17` | Memory device | 2  a| `0x0029`, `0x002A`
+a| `19` | Memory array mapped address | 1  a| `0x002B`
+a| `20` | Memory device mapped address | 1  a| `0x002C`
+a| `21` | Built-in pointing device | 1  a| `0x002D`
+a| `22` | Portable battery | 1  a| `0x002E`
+a| `24` | Hardware security | 1  a| `0x002F`
+a| `26` | Voltage probe | 1  a| `0x0030`
+a| `27` | Cooling device | 1  a| `0x0031`
+a| `28` | Temperature probe | 1  a| `0x0032`
+a| `32` | System boot information | 1  a| `0x0033`
+a| `39` | System power supply | 1  a| `0x0034`
+a| `40` | Additional information | 1  a| `0x0035`
+a| `41` | Onboard devices extended information | 3  a| `0x0036`, `0x0037`, `0x0038`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0039`
+a| `129` | OEM-specific | 1  a| `0x003A`
+a| `130` | Intel Active Management Technology information | 1  a| `0x003B`
+a| `131` | Intel vPro information | 1  a| `0x003C`
+a| `136` | OEM-specific | 1  a| `0x003D`
+a| `219` | Intel Management Engine interface information | 1  a| `0x003E`
+a| `221` | Intel firmware version information | 4  a| `0x003F`, `0x0040`, `0x0041`, `0x0042`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0043`
+|===
+== OMEN Laptop 15-ek0xxx 3H851EA (omen-laptop-15-ek0xxx-3h851ea.bin)
+
+[horizontal]
+File path:: `hp/omen-laptop-15-ek0xxx-3h851ea.bin`
+Product name:: OMEN Laptop 15-ek0xxx
+Product version:: 
+Product family:: 103C_5335KV HP OMEN
+Firmware vendor:: AMI
+Firmware version:: F.07
+Release date:: 2020-11-02
+SMBIOS version:: 3.2
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0024`
+a| `7` | Cache information | 3  a| `0x0021`, `0x0022`, `0x0023`
+a| `8` | Port connector information | 14  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x002C`, `0x002D`
+a| `9` | System slots | 1  a| `0x0010`
+a| `11` | OEM strings | 1  a| `0x0011`
+a| `13` | Firmware language information | 1  a| `0x0034`
+a| `14` | Group associations | 2  a| `0x0030`, `0x0033`
+a| `16` | Physical memory array | 1  a| `0x0016`
+a| `17` | Memory device | 2  a| `0x0017`, `0x0018`
+a| `19` | Memory array mapped address | 1  a| `0x0019`
+a| `20` | Memory device mapped address | 2  a| `0x001A`, `0x001B`
+a| `22` | Portable battery | 1  a| `0x0012`
+a| `27` | Cooling device | 2  a| `0x002E`, `0x002F`
+a| `32` | System boot information | 1  a| `0x0013`
+a| `41` | Onboard devices extended information | 6  a| `0x0014`, `0x0026`, `0x0027`, `0x0028`, `0x0029`, `0x002A`
+a| `43` | TPM device | 1  a| `0x0015`
+a| `127` | End of table | 1  a| `0x0035`
+a| `131` | Intel vPro information | 1  a| `0x0025`
+a| `136` | OEM-specific | 1  a| `0x0032`
+a| `219` | Intel Management Engine interface information | 1  a| `0x0031`
+a| `221` | Intel firmware version information | 6  a| `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x002B`
+|===
+== Pavilion Gaming Laptop 16-a0xxx 2Z2E5EA (pavilion-gaming-laptop-16-a0xxx-2z2e5ea.bin)
+
+[horizontal]
+File path:: `hp/pavilion-gaming-laptop-16-a0xxx-2z2e5ea.bin`
+Product name:: HP Pavilion Gaming Laptop 16-a0xxx
+Product version:: 
+Product family:: 103C_5335KV HP Pavilion
+Firmware vendor:: AMI
+Firmware version:: F.22
+Release date:: 2021-07-08
+SMBIOS version:: 3.2
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0021`
+a| `7` | Cache information | 3  a| `0x001E`, `0x001F`, `0x0020`
+a| `8` | Port connector information | 11  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x0028`, `0x0029`
+a| `9` | System slots | 1  a| `0x000D`
+a| `11` | OEM strings | 1  a| `0x000E`
+a| `13` | Firmware language information | 1  a| `0x0030`
+a| `14` | Group associations | 2  a| `0x002C`, `0x002F`
+a| `16` | Physical memory array | 1  a| `0x0013`
+a| `17` | Memory device | 2  a| `0x0014`, `0x0015`
+a| `19` | Memory array mapped address | 1  a| `0x0016`
+a| `20` | Memory device mapped address | 2  a| `0x0017`, `0x0018`
+a| `22` | Portable battery | 1  a| `0x000F`
+a| `27` | Cooling device | 2  a| `0x002A`, `0x002B`
+a| `32` | System boot information | 1  a| `0x0010`
+a| `41` | Onboard devices extended information | 5  a| `0x0011`, `0x0023`, `0x0024`, `0x0025`, `0x0026`
+a| `43` | TPM device | 1  a| `0x0012`
+a| `127` | End of table | 1  a| `0x0031`
+a| `131` | Intel vPro information | 1  a| `0x0022`
+a| `136` | OEM-specific | 1  a| `0x002E`
+a| `219` | Intel Management Engine interface information | 1  a| `0x002D`
+a| `221` | Intel firmware version information | 6  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x0027`
+|===
+== Pavilion x360 Convertible 14-cd0xxx 4LS25PA (pavilion-x360-convertible-14-cd0xxx-4ls25pa.bin)
+
+[horizontal]
+File path:: `hp/pavilion-x360-convertible-14-cd0xxx-4ls25pa.bin`
+Product name:: HP Pavilion x360 Convertible 14-cd0xxx
+Product version:: Type1ProductConfigId
+Product family:: 103C_5335KV HP Pavilion
+Firmware vendor:: Insyde
+Firmware version:: F.38
+Release date:: 2021-07-30
+SMBIOS version:: 3.0
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 19  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`
+a| `9` | System slots | 5  a| `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `11` | OEM strings | 1  a| `0x0020`
+a| `12` | System configuration options | 1  a| `0x0021`
+a| `13` | Firmware language information | 1  a| `0x0022`
+a| `14` | Group associations | 3  a| `0x0023`, `0x0024`, `0x0025`
+a| `15` | System event log | 1  a| `0x0026`
+a| `16` | Physical memory array | 1  a| `0x0027`
+a| `17` | Memory device | 2  a| `0x0028`, `0x0029`
+a| `19` | Memory array mapped address | 1  a| `0x002A`
+a| `20` | Memory device mapped address | 1  a| `0x002B`
+a| `21` | Built-in pointing device | 1  a| `0x002C`
+a| `22` | Portable battery | 1  a| `0x002D`
+a| `24` | Hardware security | 1  a| `0x002E`
+a| `26` | Voltage probe | 1  a| `0x002F`
+a| `27` | Cooling device | 1  a| `0x0030`
+a| `28` | Temperature probe | 1  a| `0x0031`
+a| `32` | System boot information | 1  a| `0x0032`
+a| `39` | System power supply | 1  a| `0x0033`
+a| `40` | Additional information | 1  a| `0x0034`
+a| `41` | Onboard devices extended information | 2  a| `0x0035`, `0x0036`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0037`
+a| `129` | OEM-specific | 1  a| `0x0038`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0039`
+a| `131` | Intel vPro information | 1  a| `0x003A`
+a| `136` | OEM-specific | 1  a| `0x003B`
+a| `219` | Intel Management Engine interface information | 1  a| `0x003C`
+a| `221` | Intel firmware version information | 4  a| `0x003D`, `0x003E`, `0x003F`, `0x0040`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0041`
 |===
 == ProBook 440 G10 7Z7K0PC (probook-440-g10-7z7k0pc.bin)
 
 [horizontal]
 File path:: `hp/probook-440-g10-7z7k0pc.bin`
 Product name:: HP ProBook 440 14 inch G10 Notebook PC
-Product version:: None
+Product version:: 
 Product family:: 103C_5336AN HP ProBook
 Firmware vendor:: HP
 Firmware version:: V72 Ver. 01.02.03
@@ -122,9 +799,87 @@ a| `32` | System boot information | 1  a| `0x0006`
 a| `41` | Onboard devices extended information | 3  a| `0x0036`, `0x0037`, `0x0038`
 a| `43` | TPM device | 1  a| `0x0000`
 a| `127` | End of table | 1  a| `0xFEFF`
-a| `131` | OEM-specific | 1  a| `0x003A`
-a| `219` | OEM-specific | 1  a| `0x000A`
-a| `221` | OEM-specific | 5  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`
+a| `131` | Intel vPro information | 1  a| `0x003A`
+a| `219` | Intel Management Engine interface information | 1  a| `0x000A`
+a| `221` | Intel firmware version information | 5  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`
+|===
+== ProBook 4430s LX014PA (probook-4430s-lx014pa.bin)
+
+[horizontal]
+File path:: `hp/probook-4430s-lx014pa.bin`
+Product name:: HP ProBook 4430s
+Product version:: A0000C02
+Product family:: 103C_5336AN
+Firmware vendor:: Hewlett-Packard
+Firmware version:: 68SRR Ver. F.65
+Release date:: 2018-02-13
+SMBIOS version:: 2.6
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x000B`
+a| `1` | System information | 1  a| `0x000C`
+a| `2` | Baseboard or module information | 1  a| `0x000D`
+a| `3` | System enclosure or chassis | 1  a| `0x000E`
+a| `4` | Processor information | 1  a| `0x0000`
+a| `7` | Cache information | 4  a| `0x0001`, `0x0004`, `0x0003`, `0x0002`
+a| `9` | System slots | 1  a| `0x0014`
+a| `10` | Onboard devices information | 1  a| `0x0010`
+a| `11` | OEM strings | 1  a| `0x0013`
+a| `13` | Firmware language information | 1  a| `0x0017`
+a| `16` | Physical memory array | 1  a| `0x0005`
+a| `17` | Memory device | 2  a| `0x0006`, `0x0008`
+a| `19` | Memory array mapped address | 1  a| `0x000A`
+a| `20` | Memory device mapped address | 2  a| `0x0007`, `0x0009`
+a| `22` | Portable battery | 1  a| `0x0015`
+a| `32` | System boot information | 1  a| `0x000F`
+a| `41` | Onboard devices extended information | 2  a| `0x0011`, `0x0012`
+a| `127` | End of table | 1  a| `0xFFFD`
+a| `131` | Intel vPro information | 1  a| `0x0018`
+a| `137` | OEM-specific | 1  a| `0x0016`
+|===
+== ProBook 450 G2 K9K29EA (probook-450-g2-k9k29ea.bin)
+
+[horizontal]
+File path:: `hp/probook-450-g2-k9k29ea.bin`
+Product name:: HP ProBook 450 G2
+Product version:: A3009DD10303
+Product family:: 103C_5336AN G=N L=BUS B=HP S=PRO
+Firmware vendor:: Hewlett-Packard
+Firmware version:: M73 Ver. 01.53
+Release date:: 2019-10-16
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0019`
+a| `7` | Cache information | 4  a| `0x0018`, `0x001A`, `0x001B`, `0x001C`
+a| `8` | Port connector information | 6  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`
+a| `9` | System slots | 1  a| `0x000F`
+a| `10` | Onboard devices information | 1  a| `0x0005`
+a| `11` | OEM strings | 1  a| `0x000E`
+a| `13` | Firmware language information | 1  a| `0x0012`
+a| `16` | Physical memory array | 1  a| `0x0013`
+a| `17` | Memory device | 2  a| `0x0014`, `0x0015`
+a| `19` | Memory array mapped address | 1  a| `0x0017`
+a| `20` | Memory device mapped address | 1  a| `0x0016`
+a| `22` | Portable battery | 1  a| `0x0010`
+a| `32` | System boot information | 1  a| `0x0004`
+a| `41` | Onboard devices extended information | 2  a| `0x0006`, `0x0007`
+a| `127` | End of table | 1  a| `0xFFFD`
+a| `137` | OEM-specific | 1  a| `0x0011`
 |===
 == ProLiant BL460c G1 416656-B21 (proliant-bl460c-g1-416656-b21.bin)
 
@@ -159,27 +914,27 @@ a| `20` | Memory device mapped address | 8  a| `0x1400`, `0x1401`, `0x1402`, `0x
 a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 2  a| `0xC500`, `0xC506`
+a| `197` | HP/HPE processor specific information | 2  a| `0xC500`, `0xC506`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
-a| `204` | OEM-specific | 1  a| `0xCC00`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
+a| `204` | HP/HPE system/rack locator | 1  a| `0xCC00`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
 a| `210` | OEM-specific | 1  a| `0xD200`
-a| `211` | OEM-specific | 2  a| `0xD300`, `0xD306`
-a| `212` | OEM-specific | 1  a| `0xD400`
+a| `211` | HP/HPE processor TControl information | 2  a| `0xD300`, `0xD306`
+a| `212` | HP/HPE 64-bit CRU information | 1  a| `0xD400`
 a| `213` | OEM-specific | 1  a| `0xD500`
 a| `214` | OEM-specific | 1  a| `0xD600`
 a| `215` | OEM-specific | 1  a| `0xD700`
 a| `218` | OEM-specific | 1  a| `0xDC00`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 a| `220` | OEM-specific | 1  a| `0xDC01`
-a| `221` | OEM-specific | 1  a| `0xDD00`
+a| `221` | HP/HPE BIOS iSCSI NIC PCI and MAC information | 1  a| `0xDD00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
 a| `223` | OEM-specific | 1  a| `0xDF00`
 |===
@@ -216,30 +971,30 @@ a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `39` | System power supply | 2  a| `0x2700`, `0x2701`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC101`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC101`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 2  a| `0xC500`, `0xC506`
+a| `197` | HP/HPE processor specific information | 2  a| `0xC500`, `0xC506`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 18  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 18  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `211` | OEM-specific | 2  a| `0xD300`, `0xD306`
-a| `212` | OEM-specific | 1  a| `0xD400`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `211` | HP/HPE processor TControl information | 2  a| `0xD300`, `0xD306`
+a| `212` | HP/HPE 64-bit CRU information | 1  a| `0xD400`
 a| `215` | OEM-specific | 1  a| `0xD700`
 a| `218` | OEM-specific | 6  a| `0x1301`, `0x1304`, `0x1305`, `0x1306`, `0x1307`, `0xDC00`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 a| `220` | OEM-specific | 1  a| `0xDC01`
-a| `221` | OEM-specific | 1  a| `0xDD00`
+a| `221` | HP/HPE BIOS iSCSI NIC PCI and MAC information | 1  a| `0xDD00`
 a| `223` | OEM-specific | 1  a| `0xDF00`
-a| `224` | OEM-specific | 1  a| `0xE000`
-a| `226` | OEM-specific | 1  a| `0xE200`
+a| `224` | HP/HPE trusted module status | 1  a| `0xE000`
+a| `226` | HP/HPE physical attribute information | 1  a| `0xE200`
 a| `227` | OEM-specific | 18  a| `0xE300`, `0xE301`, `0xE302`, `0xE303`, `0xE304`, `0xE305`, `0xE306`, `0xE307`, `0xE308`, `0xE309`, `0xE30A`, `0xE30B`, `0xE30C`, `0xE30D`, `0xE30E`, `0xE30F`, `0xE310`, `0xE311`
 a| `228` | OEM-specific | 8  a| `0xE400`, `0xE401`, `0xE402`, `0xE403`, `0xE404`, `0xE405`, `0xE406`, `0xE407`
-a| `229` | OEM-specific | 1  a| `0xE500`
-a| `230` | OEM-specific | 2  a| `0xE600`, `0xE601`
+a| `229` | HP/HPE reserved memory location | 1  a| `0xE500`
+a| `230` | HP/HPE power supply information | 2  a| `0xE600`, `0xE601`
 |===
 == ProLiant DL385 G1 [1] (proliant-dl385-g1-1.bin)
 
@@ -273,21 +1028,21 @@ a| `19` | Memory array mapped address | 2  a| `0x1300`, `0x1301`
 a| `20` | Memory device mapped address | 8  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`
 a| `32` | System boot information | 1  a| `0x2000`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 2  a| `0xC506`, `0xC504`
+a| `197` | HP/HPE processor specific information | 2  a| `0xC506`, `0xC504`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `212` | OEM-specific | 2  a| `0xD400`, `0xD401`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 2  a| `0xD400`, `0xD401`
 a| `213` | OEM-specific | 1  a| `0xD500`
 a| `214` | OEM-specific | 1  a| `0xD600`
 a| `217` | OEM-specific | 2  a| `0xD900`, `0xD906`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 |===
 == ProLiant DL385 G1 [2] (proliant-dl385-g1-2.bin)
 
@@ -321,17 +1076,17 @@ a| `19` | Memory array mapped address | 2  a| `0x1300`, `0x1301`
 a| `20` | Memory device mapped address | 8  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`
 a| `32` | System boot information | 1  a| `0x2000`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 2  a| `0xC506`, `0xC504`
+a| `197` | HP/HPE processor specific information | 2  a| `0xC506`, `0xC504`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `212` | OEM-specific | 2  a| `0xD400`, `0xD401`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 2  a| `0xD400`, `0xD401`
 a| `213` | OEM-specific | 1  a| `0xD500`
 a| `214` | OEM-specific | 1  a| `0xD600`
 a| `217` | OEM-specific | 2  a| `0xD900`, `0xD906`
@@ -368,21 +1123,21 @@ a| `19` | Memory array mapped address | 2  a| `0x1300`, `0x1301`
 a| `20` | Memory device mapped address | 8  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`
 a| `32` | System boot information | 1  a| `0x2000`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 2  a| `0xC506`, `0xC504`
+a| `197` | HP/HPE processor specific information | 2  a| `0xC506`, `0xC504`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `212` | OEM-specific | 2  a| `0xD400`, `0xD401`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 2  a| `0xD400`, `0xD401`
 a| `213` | OEM-specific | 1  a| `0xD500`
 a| `214` | OEM-specific | 1  a| `0xD600`
 a| `217` | OEM-specific | 2  a| `0xD900`, `0xD906`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 |===
 == ProLiant DL385 G2 (proliant-dl385-g2.bin)
 
@@ -417,21 +1172,21 @@ a| `20` | Memory device mapped address | 8  a| `0x1400`, `0x1401`, `0x1402`, `0x
 a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 2  a| `0xC500`, `0xC501`
+a| `197` | HP/HPE processor specific information | 2  a| `0xC500`, `0xC501`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 8  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `212` | OEM-specific | 1  a| `0xD400`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 1  a| `0xD400`
 a| `215` | OEM-specific | 1  a| `0xD700`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 a| `220` | OEM-specific | 1  a| `0xDC00`
-a| `221` | OEM-specific | 1  a| `0xDD00`
+a| `221` | HP/HPE BIOS iSCSI NIC PCI and MAC information | 1  a| `0xDD00`
 |===
 == ProLiant DL580 G5 438087-371 (proliant-dl580-g5-438087-371.bin)
 
@@ -466,27 +1221,27 @@ a| `20` | Memory device mapped address | 32  a| `0x1400`, `0x1401`, `0x1402`, `0
 a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 4  a| `0xC501`, `0xC502`, `0xC503`, `0xC504`
+a| `197` | HP/HPE processor specific information | 4  a| `0xC501`, `0xC502`, `0xC503`, `0xC504`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `211` | OEM-specific | 4  a| `0xD301`, `0xD302`, `0xD303`, `0xD304`
-a| `212` | OEM-specific | 1  a| `0xD400`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `211` | HP/HPE processor TControl information | 4  a| `0xD301`, `0xD302`, `0xD303`, `0xD304`
+a| `212` | HP/HPE 64-bit CRU information | 1  a| `0xD400`
 a| `213` | OEM-specific | 1  a| `0xD500`
 a| `214` | OEM-specific | 1  a| `0xD600`
 a| `215` | OEM-specific | 1  a| `0xD700`
 a| `218` | OEM-specific | 4  a| `0xDA00`, `0xDA00`, `0xDA00`, `0xDA00`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 a| `220` | OEM-specific | 1  a| `0xDC00`
-a| `221` | OEM-specific | 1  a| `0xDD00`
+a| `221` | HP/HPE BIOS iSCSI NIC PCI and MAC information | 1  a| `0xDD00`
 a| `223` | OEM-specific | 1  a| `0xDF00`
-a| `224` | OEM-specific | 1  a| `0xE000`
+a| `224` | HP/HPE trusted module status | 1  a| `0xE000`
 |===
 == ProLiant DL585 G1 [1] (proliant-dl585-g1-1.bin)
 
@@ -519,20 +1274,20 @@ a| `19` | Memory array mapped address | 4  a| `0x1300`, `0x1301`, `0x1302`, `0x1
 a| `20` | Memory device mapped address | 32  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`, `0x140E`, `0x140F`, `0x1410`, `0x1411`, `0x1412`, `0x1413`, `0x1414`, `0x1415`, `0x1416`, `0x1417`, `0x1418`, `0x1419`, `0x141A`, `0x141B`, `0x141C`, `0x141D`, `0x141E`, `0x141F`
 a| `32` | System boot information | 1  a| `0x2000`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 4  a| `0xC506`, `0xC504`, `0xC502`, `0xC500`
+a| `197` | HP/HPE processor specific information | 4  a| `0xC506`, `0xC504`, `0xC502`, `0xC500`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `212` | OEM-specific | 2  a| `0xD400`, `0xD401`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 2  a| `0xD400`, `0xD401`
 a| `213` | OEM-specific | 1  a| `0xD500`
 a| `214` | OEM-specific | 1  a| `0xD600`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 |===
 == ProLiant DL585 G1 [2] (proliant-dl585-g1-2.bin)
 
@@ -565,20 +1320,20 @@ a| `19` | Memory array mapped address | 4  a| `0x1300`, `0x1301`, `0x1302`, `0x1
 a| `20` | Memory device mapped address | 32  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`, `0x140E`, `0x140F`, `0x1410`, `0x1411`, `0x1412`, `0x1413`, `0x1414`, `0x1415`, `0x1416`, `0x1417`, `0x1418`, `0x1419`, `0x141A`, `0x141B`, `0x141C`, `0x141D`, `0x141E`, `0x141F`
 a| `32` | System boot information | 1  a| `0x2000`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 4  a| `0xC506`, `0xC504`, `0xC502`, `0xC500`
+a| `197` | HP/HPE processor specific information | 4  a| `0xC506`, `0xC504`, `0xC502`, `0xC500`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `212` | OEM-specific | 2  a| `0xD400`, `0xD401`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 2  a| `0xD400`, `0xD401`
 a| `213` | OEM-specific | 1  a| `0xD500`
 a| `214` | OEM-specific | 1  a| `0xD600`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 |===
 == ProLiant DL585 G1 [3] (proliant-dl585-g1-3.bin)
 
@@ -611,21 +1366,71 @@ a| `19` | Memory array mapped address | 4  a| `0x1300`, `0x1301`, `0x1302`, `0x1
 a| `20` | Memory device mapped address | 32  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`, `0x140E`, `0x140F`, `0x1410`, `0x1411`, `0x1412`, `0x1413`, `0x1414`, `0x1415`, `0x1416`, `0x1417`, `0x1418`, `0x1419`, `0x141A`, `0x141B`, `0x141C`, `0x141D`, `0x141E`, `0x141F`
 a| `32` | System boot information | 1  a| `0x2000`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 4  a| `0xC506`, `0xC504`, `0xC502`, `0xC500`
+a| `197` | HP/HPE processor specific information | 4  a| `0xC506`, `0xC504`, `0xC502`, `0xC500`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 16  a| `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 16  a| `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `212` | OEM-specific | 2  a| `0xD400`, `0xD401`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 2  a| `0xD400`, `0xD401`
 a| `213` | OEM-specific | 1  a| `0xD500`
 a| `214` | OEM-specific | 1  a| `0xD600`
 a| `218` | OEM-specific | 32  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA08`, `0xDA09`, `0xDA0A`, `0xDA0B`, `0xDA10`, `0xDA11`, `0xDA12`, `0xDA13`, `0xDA18`, `0xDA19`, `0xDA1A`, `0xDA1B`, `0xDA21`, `0xDA22`, `0xDA23`, `0xDA24`, `0xDA25`, `0xDA26`, `0xDA27`, `0xDA28`, `0xDA29`, `0xDA2A`, `0xDA2B`, `0xDA2C`, `0xDA2D`, `0xDA2E`, `0xDA2F`, `0xDA30`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
+|===
+== ProLiant DL585 G2 413930-371 (proliant-dl585-g2-413930-371.bin)
+
+[horizontal]
+File path:: `hp/proliant-dl585-g2-413930-371.bin`
+Product name:: ProLiant DL585 G2
+Product version:: None
+Product family:: ProLiant
+Firmware vendor:: HP
+Firmware version:: A07
+Release date:: 2008-09-27
+SMBIOS version:: 2.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0100`
+a| `3` | System enclosure or chassis | 1  a| `0x0300`
+a| `4` | Processor information | 4  a| `0x0400`, `0x0401`, `0x0402`, `0x0403`
+a| `7` | Cache information | 8  a| `0x0710`, `0x0711`, `0x0712`, `0x0713`, `0x0720`, `0x0721`, `0x0722`, `0x0723`
+a| `8` | Port connector information | 5  a| `0x0801`, `0x0802`, `0x0803`, `0x0804`, `0x0805`
+a| `9` | System slots | 9  a| `0x0901`, `0x0902`, `0x0903`, `0x0904`, `0x0905`, `0x0906`, `0x0907`, `0x0908`, `0x0909`
+a| `11` | OEM strings | 1  a| `0x0B00`
+a| `16` | Physical memory array | 1  a| `0x1000`
+a| `17` | Memory device | 32  a| `0x1100`, `0x1101`, `0x1102`, `0x1103`, `0x1104`, `0x1105`, `0x1106`, `0x1107`, `0x1108`, `0x1109`, `0x110A`, `0x110B`, `0x110C`, `0x110D`, `0x110E`, `0x110F`, `0x1110`, `0x1111`, `0x1112`, `0x1113`, `0x1114`, `0x1115`, `0x1116`, `0x1117`, `0x1118`, `0x1119`, `0x111A`, `0x111B`, `0x111C`, `0x111D`, `0x111E`, `0x111F`
+a| `19` | Memory array mapped address | 4  a| `0x1300`, `0x1301`, `0x1302`, `0x1303`
+a| `20` | Memory device mapped address | 32  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`, `0x140E`, `0x140F`, `0x1410`, `0x1411`, `0x1412`, `0x1413`, `0x1414`, `0x1415`, `0x1416`, `0x1417`, `0x1418`, `0x1419`, `0x141A`, `0x141B`, `0x141C`, `0x141D`, `0x141E`, `0x141F`
+a| `32` | System boot information | 1  a| `0x2000`
+a| `38` | IPMI device information | 1  a| `0x2600`
+a| `127` | End of table | 1  a| `0x7F00`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
+a| `196` | OEM-specific | 1  a| `0xC400`
+a| `197` | HP/HPE processor specific information | 4  a| `0xC500`, `0xC501`, `0xC502`, `0xC503`
+a| `198` | OEM-specific | 1  a| `0xC600`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
+a| `205` | OEM-specific | 1  a| `0xCD00`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 1  a| `0xD400`
+a| `215` | OEM-specific | 1  a| `0xD700`
+a| `218` | OEM-specific | 5  a| `0x0734`, `0x0732`, `0x0733`, `0x0734`, `0xDC01`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
+a| `220` | OEM-specific | 1  a| `0xDC00`
+a| `221` | HP/HPE BIOS iSCSI NIC PCI and MAC information | 1  a| `0xDD00`
 |===
 == ProLiant DL585 G2 (proliant-dl585-g2.bin)
 
@@ -660,28 +1465,71 @@ a| `20` | Memory device mapped address | 32  a| `0x1400`, `0x1401`, `0x1402`, `0
 a| `32` | System boot information | 1  a| `0x2000`
 a| `38` | IPMI device information | 1  a| `0x2600`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `193` | OEM-specific | 1  a| `0xC100`
-a| `194` | OEM-specific | 1  a| `0xC200`
-a| `195` | OEM-specific | 1  a| `0xC300`
+a| `193` | HP/HPE other ROM information | 1  a| `0xC100`
+a| `194` | HP/HPE Super I/O enable/disable indicator | 1  a| `0xC200`
+a| `195` | HP/HPE server system ID | 1  a| `0xC300`
 a| `196` | OEM-specific | 1  a| `0xC400`
-a| `197` | OEM-specific | 4  a| `0xC500`, `0xC501`, `0xC502`, `0xC503`
+a| `197` | HP/HPE processor specific information | 4  a| `0xC500`, `0xC501`, `0xC502`, `0xC503`
 a| `198` | OEM-specific | 1  a| `0xC600`
-a| `199` | OEM-specific | 1  a| `0xC700`
-a| `202` | OEM-specific | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
+a| `199` | HP/HPE CPU microcode patch support information | 1  a| `0xC700`
+a| `202` | HP/HPE DIMM location record | 32  a| `0xCA00`, `0xCA01`, `0xCA02`, `0xCA03`, `0xCA04`, `0xCA05`, `0xCA06`, `0xCA07`, `0xCA08`, `0xCA09`, `0xCA0A`, `0xCA0B`, `0xCA0C`, `0xCA0D`, `0xCA0E`, `0xCA0F`, `0xCA10`, `0xCA11`, `0xCA12`, `0xCA13`, `0xCA14`, `0xCA15`, `0xCA16`, `0xCA17`, `0xCA18`, `0xCA19`, `0xCA1A`, `0xCA1B`, `0xCA1C`, `0xCA1D`, `0xCA1E`, `0xCA1F`
 a| `205` | OEM-specific | 1  a| `0xCD00`
-a| `209` | OEM-specific | 1  a| `0xD100`
-a| `212` | OEM-specific | 1  a| `0xD400`
+a| `209` | HP/HPE BIOS PXE NIC PCI and MAC information | 1  a| `0xD100`
+a| `212` | HP/HPE 64-bit CRU information | 1  a| `0xD400`
 a| `215` | OEM-specific | 1  a| `0xD700`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | HP/HPE ProLiant information | 1  a| `0xDB00`
 a| `220` | OEM-specific | 1  a| `0xDC00`
-a| `221` | OEM-specific | 1  a| `0xDD00`
+a| `221` | HP/HPE BIOS iSCSI NIC PCI and MAC information | 1  a| `0xDD00`
+|===
+== Spectre Pro x360 G2 V1B01EA (spectre-pro-x360-g2-v1b01ea.bin)
+
+[horizontal]
+File path:: `hp/spectre-pro-x360-g2-v1b01ea.bin`
+Product name:: HP Spectre Pro x360 G2
+Product version:: 
+Product family:: 103C_5336AN G=N L=CON B=HP S=SPT
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: F.28
+Release date:: 2021-08-25
+SMBIOS version:: 2.8
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0014`
+a| `7` | Cache information | 4  a| `0x0010`, `0x0011`, `0x0012`, `0x0013`
+a| `8` | Port connector information | 8  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x0024`
+a| `9` | System slots | 1  a| `0x000B`
+a| `11` | OEM strings | 1  a| `0x000C`
+a| `13` | Firmware language information | 1  a| `0x0025`
+a| `14` | Group associations | 2  a| `0x0027`, `0x0028`
+a| `16` | Physical memory array | 1  a| `0x0015`
+a| `17` | Memory device | 2  a| `0x0016`, `0x0017`
+a| `19` | Memory array mapped address | 1  a| `0x0018`
+a| `20` | Memory device mapped address | 2  a| `0x001A`, `0x001B`
+a| `22` | Portable battery | 1  a| `0x000D`
+a| `32` | System boot information | 1  a| `0x000E`
+a| `41` | Onboard devices extended information | 2  a| `0x000F`, `0x0022`
+a| `127` | End of table | 1  a| `0x002A`
+a| `130` | Intel Active Management Technology information | 1  a| `0x001C`
+a| `131` | Intel vPro information | 1  a| `0x001D`
+a| `136` | OEM-specific | 1  a| `0x0026`
+a| `219` | Intel Management Engine interface information | 1  a| `0x0029`
+a| `221` | Intel firmware version information | 6  a| `0x0019`, `0x001E`, `0x001F`, `0x0020`, `0x0021`, `0x0023`
 |===
 == Z600 WD059AV (z600-wd059av.bin)
 
 [horizontal]
 File path:: `hp/z600-wd059av.bin`
 Product name:: HP Z600 Workstation
-Product version:: None
+Product version:: 
 Product family:: 103C_53335X
 Firmware vendor:: Hewlett-Packard
 Firmware version:: 786G4 v03.54

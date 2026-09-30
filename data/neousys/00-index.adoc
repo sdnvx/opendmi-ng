@@ -50,12 +50,12 @@ a| `41` | Onboard devices extended information | 1  a| `0x0032`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0033`
 a| `129` | OEM-specific | 1  a| `0x0034`
-a| `130` | OEM-specific | 1  a| `0x0035`
-a| `131` | OEM-specific | 1  a| `0x0036`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0035`
+a| `131` | Intel vPro information | 1  a| `0x0036`
 a| `136` | OEM-specific | 1  a| `0x0037`
-a| `219` | OEM-specific | 1  a| `0x0038`
-a| `221` | OEM-specific | 6  a| `0x0039`, `0x003A`, `0x003B`, `0x003C`, `0x003D`, `0x003E`
-a| `222` | OEM-specific | 1  a| `0x003F`
+a| `219` | Intel Management Engine interface information | 1  a| `0x0038`
+a| `221` | Intel firmware version information | 6  a| `0x0039`, `0x003A`, `0x003B`, `0x003C`, `0x003D`, `0x003E`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x003F`
 |===
 == Nuvo-9000 A3 RPL/ADL-S (nuvo-9000-a3-rpl-adl-s.bin)
 
@@ -106,9 +106,9 @@ a| `43` | TPM device | 1  a| `0x0038`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0039`
 a| `129` | OEM-specific | 1  a| `0x003A`
-a| `130` | OEM-specific | 1  a| `0x003B`
-a| `131` | OEM-specific | 1  a| `0x003C`
+a| `130` | Intel Active Management Technology information | 1  a| `0x003B`
+a| `131` | Intel vPro information | 1  a| `0x003C`
 a| `136` | OEM-specific | 1  a| `0x003D`
-a| `219` | OEM-specific | 1  a| `0x003E`
-a| `221` | OEM-specific | 6  a| `0x003F`, `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`
+a| `219` | Intel Management Engine interface information | 1  a| `0x003E`
+a| `221` | Intel firmware version information | 6  a| `0x003F`, `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`
 |===

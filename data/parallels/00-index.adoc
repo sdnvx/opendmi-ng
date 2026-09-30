@@ -1,0 +1,34 @@
+= Parallels
+:toc:
+:toclevels: 1
+
+== Parallels Virtual Platform 3.0 (virtual-platform-3.0.bin)
+
+[horizontal]
+File path:: `parallels/virtual-platform-3.0.bin`
+Product name:: Parallels Virtual Platform
+Product version:: None
+Product family:: -
+Firmware vendor:: Parallels Software International Inc.
+Firmware version:: 3.0
+Release date:: 2008-09-06
+SMBIOS version:: 2.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `3` | System enclosure or chassis | 1  a| `0x0002`
+a| `4` | Processor information | 1  a| `0x0003`
+a| `9` | System slots | 6  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`
+a| `10` | Onboard devices information | 1  a| `0x000A`
+a| `16` | Physical memory array | 1  a| `0x000B`
+a| `17` | Memory device | 4  a| `0x000C`, `0x000D`, `0x000E`, `0x000F`
+a| `19` | Memory array mapped address | 1  a| `0x0010`
+a| `32` | System boot information | 1  a| `0x0011`
+a| `127` | End of table | 1  a| `0x0012`
+|===

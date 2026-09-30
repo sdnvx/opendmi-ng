@@ -1,0 +1,8830 @@
+entry:
+  smbios-version: '2.3'
+table:
+- handle: 0
+  type: 0
+  length: 65
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: American Megatrends Inc.
+    version: 090008
+    bios-segment: 61440
+    release-date: '2018-12-07'
+    rom-size: 262144
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: true
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: true
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: true
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: true
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: true
+      nec-pc-98: false
+    features-ex:
+      acpi-support: false
+      usb-legacy-support: false
+      agp-support: true
+      boot-i2o: false
+      boot-ls120: true
+      boot-atapi-zip: true
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: false
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+- handle: 1
+  type: 1
+  length: 101
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System information
+  attributes:
+    vendor: Microsoft Corporation
+    product: Virtual Machine
+    version: '7.0'
+    serial-number: 0000-0005-5301-3467-9772-0247-82
+    uuid: 4CBEFC30-FBE1-4FCE-9A5B-566B2432BA90
+    wakeup-type: power-switch
+- handle: 2
+  type: 2
+  length: 84
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Baseboard or module information
+  attributes:
+    vendor: Microsoft Corporation
+    product: Virtual Machine
+    version: '7.0'
+    serial-number: 0000-0011-1225-7872-2890-3655-84
+    asset-tag: null
+    features:
+      is-hosting-board: false
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: false
+      is-hot-swappable: false
+    location: null
+    chassis-handle: null
+    type: null
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 110
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Microsoft Corporation
+    type: desktop
+    is-lock-present: false
+    version: '7.0'
+    serial-number: 2375-8005-5890-8536-6551-7651-07
+    asset-tag: 7783-7084-3265-9085-8269-3286-77
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: other
+    security-status: other
+    oem-defined: 0
+    height: null
+    power-cord-count: null
+    element-count: 0
+    element-size: 0
+    elements: []
+- handle: 4
+  type: 11
+  length: 118
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 3
+    strings:
+    - '[MS_VM_CERT/SHA1/9b80ca0d5dd061ec9da4e494f4c3fd1196270c22]'
+    - '00000000000000000000000000000000'
+    - To be filed by MSFT
+- handle: 5
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: intel-xeon
+    vendor: None
+    id: a6060600fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 106
+      stepping: 6
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
+    version: Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
+    voltage: 1.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3500
+    current-speed: 2800
+    is-populated: true
+    status: enabled
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 6
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: intel-xeon
+    vendor: None
+    id: a6060600fffb8b1f
+    signature:
+      type: 0
+      family: 6
+      model: 106
+      stepping: 6
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: false
+      pbe: false
+    version: Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
+    voltage: 1.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3500
+    current-speed: 2800
+    is-populated: true
+    status: enabled
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 7
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 8
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 9
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 10
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 11
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 12
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 13
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 14
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 15
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 16
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 17
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 18
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 19
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 20
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 21
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 22
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 23
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 24
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 25
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 26
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 27
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 28
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 29
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 30
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 31
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 32
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 33
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 34
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 35
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 36
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 37
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 38
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 39
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 40
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 41
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 42
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 43
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 44
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 45
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 46
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 47
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 48
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 49
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 50
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 51
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 52
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 53
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 54
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 55
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 56
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 57
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 58
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 59
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 60
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 61
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 62
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 63
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 64
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 65
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 66
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 67
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 68
+  type: 4
+  length: 123
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: unknown
+    vendor: None
+    id: '0000000000000000'
+    version: None
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: false
+      2v9: true
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 69
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB
+    internal-connector: cn-36
+    external-designator: USB1
+    external-connector: cn-36
+    port-type: usb
+- handle: 70
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB
+    internal-connector: cn-36
+    external-designator: USB2
+    external-connector: cn-36
+    port-type: usb
+- handle: 71
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: COM1
+    internal-connector: db-9-f
+    external-designator: COM1
+    external-connector: db-9-f
+    port-type: serial-16550a
+- handle: 72
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: COM2
+    internal-connector: db-9-f
+    external-designator: COM2
+    external-connector: db-9-f
+    port-type: serial-16550a
+- handle: 73
+  type: 8
+  length: 23
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Printer
+    internal-connector: db-25-m
+    external-designator: Lpt1
+    external-connector: db-25-m
+    port-type: parallel-ecp-epp
+- handle: 74
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Video
+    internal-connector: db-15-m
+    external-designator: Video
+    external-connector: db-15-f
+    port-type: video
+- handle: 75
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Keyboard
+    internal-connector: ps-2
+    external-designator: Keyboard
+    external-connector: ps-2
+    port-type: keyboard
+- handle: 76
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Mouse
+    internal-connector: ps-2
+    external-designator: Mouse
+    external-connector: ps-2
+    port-type: mouse
+- handle: 77
+  type: 10
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: To Be filled by O.E.M.
+- handle: 78
+  type: 12
+  length: 75
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - To Be Filled By O.E.M.
+    - To Be Filled By O.E.M.
+    - To Be Filled By O.E.M.
+- handle: 79
+  type: 13
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - enUS
+    flags:
+      is-abbreviated: true
+    current-language: enUS
+- handle: 80
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 81
+  type: 16
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Physical memory array
+  attributes:
+    location: unknown
+    use: system
+    error-correction: none
+    maximum-capacity: unknown
+    error-handle: 80
+    device-count: 125
+- handle: 82
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 1073742847
+    range-size: 1073742848
+    array-handle: 81
+    partition-width: 1
+- handle: 83
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 11811161087
+    range-size: 7516193792
+    array-handle: 81
+    partition-width: 1
+- handle: 84
+  type: 126
+  length: 17
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fg9UAAAAAAAAAAAAUQD/
+- handle: 85
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 1073741824
+    form-factor: unknown
+    device-set: 0
+    device-locator: M0
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 86
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 1073742847
+    range-size: 1073742848
+    device-handle: 85
+    array-addr-handle: 82
+    partition-pos: 0
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 87
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 7516192768
+    form-factor: unknown
+    device-set: 0
+    device-locator: M1
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 88
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 11811161087
+    range-size: 7516193792
+    device-handle: 87
+    array-addr-handle: 83
+    partition-pos: 0
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 89
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M2
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 90
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNaAAAAAAAAAAAAWQBUAAAAAA==
+- handle: 91
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M3
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 92
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNcAAAAAAAAAAAAWwBUAAAAAA==
+- handle: 93
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M4
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 94
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNeAAAAAAAAAAAAXQBUAAAAAA==
+- handle: 95
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M5
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 96
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNgAAAAAAAAAAAAXwBUAAAAAA==
+- handle: 97
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M6
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 98
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNiAAAAAAAAAAAAYQBUAAAAAA==
+- handle: 99
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M7
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 100
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNkAAAAAAAAAAAAYwBUAAAAAA==
+- handle: 101
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M8
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 102
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNmAAAAAAAAAAAAZQBUAAAAAA==
+- handle: 103
+  type: 17
+  length: 46
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M9
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 104
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNoAAAAAAAAAAAAZwBUAAAAAA==
+- handle: 105
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M10
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 106
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNqAAAAAAAAAAAAaQBUAAAAAA==
+- handle: 107
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M11
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 108
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNsAAAAAAAAAAAAawBUAAAAAA==
+- handle: 109
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M12
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 110
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNuAAAAAAAAAAAAbQBUAAAAAA==
+- handle: 111
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M13
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 112
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNwAAAAAAAAAAAAbwBUAAAAAA==
+- handle: 113
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M14
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 114
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNyAAAAAAAAAAAAcQBUAAAAAA==
+- handle: 115
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M15
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 116
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhN0AAAAAAAAAAAAcwBUAAAAAA==
+- handle: 117
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M16
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 118
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhN2AAAAAAAAAAAAdQBUAAAAAA==
+- handle: 119
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M17
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 120
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhN4AAAAAAAAAAAAdwBUAAAAAA==
+- handle: 121
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M18
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 122
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhN6AAAAAAAAAAAAeQBUAAAAAA==
+- handle: 123
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M19
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 124
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhN8AAAAAAAAAAAAewBUAAAAAA==
+- handle: 125
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M20
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 126
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhN+AAAAAAAAAAAAfQBUAAAAAA==
+- handle: 127
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M21
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 128
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOAAAAAAAAAAAAAfwBUAAAAAA==
+- handle: 129
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M22
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 130
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOCAAAAAAAAAAAAgQBUAAAAAA==
+- handle: 131
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M23
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 132
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOEAAAAAAAAAAAAgwBUAAAAAA==
+- handle: 133
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M24
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 134
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOGAAAAAAAAAAAAhQBUAAAAAA==
+- handle: 135
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M25
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 136
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOIAAAAAAAAAAAAhwBUAAAAAA==
+- handle: 137
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M26
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 138
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOKAAAAAAAAAAAAiQBUAAAAAA==
+- handle: 139
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M27
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 140
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOMAAAAAAAAAAAAiwBUAAAAAA==
+- handle: 141
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M28
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 142
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOOAAAAAAAAAAAAjQBUAAAAAA==
+- handle: 143
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M29
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 144
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOQAAAAAAAAAAAAjwBUAAAAAA==
+- handle: 145
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M30
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 146
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOSAAAAAAAAAAAAkQBUAAAAAA==
+- handle: 147
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M31
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 148
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOUAAAAAAAAAAAAkwBUAAAAAA==
+- handle: 149
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M32
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 150
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOWAAAAAAAAAAAAlQBUAAAAAA==
+- handle: 151
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M33
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 152
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOYAAAAAAAAAAAAlwBUAAAAAA==
+- handle: 153
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M34
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 154
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOaAAAAAAAAAAAAmQBUAAAAAA==
+- handle: 155
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M35
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 156
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOcAAAAAAAAAAAAmwBUAAAAAA==
+- handle: 157
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M36
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 158
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOeAAAAAAAAAAAAnQBUAAAAAA==
+- handle: 159
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M37
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 160
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOgAAAAAAAAAAAAnwBUAAAAAA==
+- handle: 161
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M38
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 162
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOiAAAAAAAAAAAAoQBUAAAAAA==
+- handle: 163
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M39
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 164
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOkAAAAAAAAAAAAowBUAAAAAA==
+- handle: 165
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M40
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 166
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOmAAAAAAAAAAAApQBUAAAAAA==
+- handle: 167
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M41
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 168
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOoAAAAAAAAAAAApwBUAAAAAA==
+- handle: 169
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M42
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 170
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOqAAAAAAAAAAAAqQBUAAAAAA==
+- handle: 171
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M43
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 172
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOsAAAAAAAAAAAAqwBUAAAAAA==
+- handle: 173
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M44
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 174
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOuAAAAAAAAAAAArQBUAAAAAA==
+- handle: 175
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M45
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 176
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOwAAAAAAAAAAAArwBUAAAAAA==
+- handle: 177
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M46
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 178
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhOyAAAAAAAAAAAAsQBUAAAAAA==
+- handle: 179
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M47
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 180
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhO0AAAAAAAAAAAAswBUAAAAAA==
+- handle: 181
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M48
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 182
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhO2AAAAAAAAAAAAtQBUAAAAAA==
+- handle: 183
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M49
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 184
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhO4AAAAAAAAAAAAtwBUAAAAAA==
+- handle: 185
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M50
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 186
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhO6AAAAAAAAAAAAuQBUAAAAAA==
+- handle: 187
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M51
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 188
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhO8AAAAAAAAAAAAuwBUAAAAAA==
+- handle: 189
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M52
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 190
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhO+AAAAAAAAAAAAvQBUAAAAAA==
+- handle: 191
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M53
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 192
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPAAAAAAAAAAAAAvwBUAAAAAA==
+- handle: 193
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M54
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 194
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPCAAAAAAAAAAAAwQBUAAAAAA==
+- handle: 195
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M55
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 196
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPEAAAAAAAAAAAAwwBUAAAAAA==
+- handle: 197
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M56
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 198
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPGAAAAAAAAAAAAxQBUAAAAAA==
+- handle: 199
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M57
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 200
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPIAAAAAAAAAAAAxwBUAAAAAA==
+- handle: 201
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M58
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 202
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPKAAAAAAAAAAAAyQBUAAAAAA==
+- handle: 203
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M59
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 204
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPMAAAAAAAAAAAAywBUAAAAAA==
+- handle: 205
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M60
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 206
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPOAAAAAAAAAAAAzQBUAAAAAA==
+- handle: 207
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M61
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 208
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPQAAAAAAAAAAAAzwBUAAAAAA==
+- handle: 209
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M62
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 210
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPSAAAAAAAAAAAA0QBUAAAAAA==
+- handle: 211
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M63
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 212
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPUAAAAAAAAAAAA0wBUAAAAAA==
+- handle: 213
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M64
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 214
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPWAAAAAAAAAAAA1QBUAAAAAA==
+- handle: 215
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M65
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 216
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPYAAAAAAAAAAAA1wBUAAAAAA==
+- handle: 217
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M66
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 218
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPaAAAAAAAAAAAA2QBUAAAAAA==
+- handle: 219
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M67
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 220
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPcAAAAAAAAAAAA2wBUAAAAAA==
+- handle: 221
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M68
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 222
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPeAAAAAAAAAAAA3QBUAAAAAA==
+- handle: 223
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M69
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 224
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPgAAAAAAAAAAAA3wBUAAAAAA==
+- handle: 225
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M70
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 226
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPiAAAAAAAAAAAA4QBUAAAAAA==
+- handle: 227
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M71
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 228
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPkAAAAAAAAAAAA4wBUAAAAAA==
+- handle: 229
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M71
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 230
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPmAAAAAAAAAAAA5QBUAAAAAA==
+- handle: 231
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M73
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 232
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPoAAAAAAAAAAAA5wBUAAAAAA==
+- handle: 233
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M74
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 234
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPqAAAAAAAAAAAA6QBUAAAAAA==
+- handle: 235
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M75
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 236
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPsAAAAAAAAAAAA6wBUAAAAAA==
+- handle: 237
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M76
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 238
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPuAAAAAAAAAAAA7QBUAAAAAA==
+- handle: 239
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M77
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 240
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPwAAAAAAAAAAAA7wBUAAAAAA==
+- handle: 241
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M78
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 242
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhPyAAAAAAAAAAAA8QBUAAAAAA==
+- handle: 243
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M79
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 244
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhP0AAAAAAAAAAAA8wBUAAAAAA==
+- handle: 245
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M80
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 246
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhP2AAAAAAAAAAAA9QBUAAAAAA==
+- handle: 247
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M81
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 248
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhP4AAAAAAAAAAAA9wBUAAAAAA==
+- handle: 249
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M82
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 250
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhP6AAAAAAAAAAAA+QBUAAAAAA==
+- handle: 251
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M83
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 252
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhP8AAAAAAAAAAAA+wBUAAAAAA==
+- handle: 253
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M84
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 254
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhP+AAAAAAAAAAAA/QBUAAAAAA==
+- handle: 255
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M85
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 256
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMAAQAAAAAAAAAA/wBUAAAAAA==
+- handle: 257
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M86
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 258
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMCAQAAAAAAAAAAAQFUAAAAAA==
+- handle: 259
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M87
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 260
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMEAQAAAAAAAAAAAwFUAAAAAA==
+- handle: 261
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M88
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 262
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMGAQAAAAAAAAAABQFUAAAAAA==
+- handle: 263
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M89
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 264
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMIAQAAAAAAAAAABwFUAAAAAA==
+- handle: 265
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M90
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 266
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMKAQAAAAAAAAAACQFUAAAAAA==
+- handle: 267
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M91
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 268
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMMAQAAAAAAAAAACwFUAAAAAA==
+- handle: 269
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M92
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 270
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMOAQAAAAAAAAAADQFUAAAAAA==
+- handle: 271
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M93
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 272
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMQAQAAAAAAAAAADwFUAAAAAA==
+- handle: 273
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M94
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 274
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMSAQAAAAAAAAAAEQFUAAAAAA==
+- handle: 275
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M95
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 276
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMUAQAAAAAAAAAAEwFUAAAAAA==
+- handle: 277
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M96
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 278
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMWAQAAAAAAAAAAFQFUAAAAAA==
+- handle: 279
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M97
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 280
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMYAQAAAAAAAAAAFwFUAAAAAA==
+- handle: 281
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M98
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 282
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMaAQAAAAAAAAAAGQFUAAAAAA==
+- handle: 283
+  type: 17
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M99
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 284
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMcAQAAAAAAAAAAGwFUAAAAAA==
+- handle: 285
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M100
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 286
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMeAQAAAAAAAAAAHQFUAAAAAA==
+- handle: 287
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M101
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 288
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMgAQAAAAAAAAAAHwFUAAAAAA==
+- handle: 289
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M102
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 290
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMiAQAAAAAAAAAAIQFUAAAAAA==
+- handle: 291
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M103
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 292
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMkAQAAAAAAAAAAIwFUAAAAAA==
+- handle: 293
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M104
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 294
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMmAQAAAAAAAAAAJQFUAAAAAA==
+- handle: 295
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M105
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 296
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMoAQAAAAAAAAAAJwFUAAAAAA==
+- handle: 297
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M106
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 298
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMqAQAAAAAAAAAAKQFUAAAAAA==
+- handle: 299
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M107
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 300
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMsAQAAAAAAAAAAKwFUAAAAAA==
+- handle: 301
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M108
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 302
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMuAQAAAAAAAAAALQFUAAAAAA==
+- handle: 303
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M109
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 304
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMwAQAAAAAAAAAALwFUAAAAAA==
+- handle: 305
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M110
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 306
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhMyAQAAAAAAAAAAMQFUAAAAAA==
+- handle: 307
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M111
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 308
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhM0AQAAAAAAAAAAMwFUAAAAAA==
+- handle: 309
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M112
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 310
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhM2AQAAAAAAAAAANQFUAAAAAA==
+- handle: 311
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M113
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 312
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhM4AQAAAAAAAAAANwFUAAAAAA==
+- handle: 313
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M114
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 314
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhM6AQAAAAAAAAAAOQFUAAAAAA==
+- handle: 315
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M115
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 316
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhM8AQAAAAAAAAAAOwFUAAAAAA==
+- handle: 317
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M116
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 318
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhM+AQAAAAAAAAAAPQFUAAAAAA==
+- handle: 319
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M117
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 320
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNAAQAAAAAAAAAAPwFUAAAAAA==
+- handle: 321
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M118
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 322
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNCAQAAAAAAAAAAQQFUAAAAAA==
+- handle: 323
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M119
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 324
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNEAQAAAAAAAAAAQwFUAAAAAA==
+- handle: 325
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M120
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 326
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNGAQAAAAAAAAAARQFUAAAAAA==
+- handle: 327
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M121
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 328
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNIAQAAAAAAAAAARwFUAAAAAA==
+- handle: 329
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M122
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 330
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNKAQAAAAAAAAAASQFUAAAAAA==
+- handle: 331
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M123
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 332
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNMAQAAAAAAAAAASwFUAAAAAA==
+- handle: 333
+  type: 17
+  length: 48
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 81
+    error-info-handle: 80
+    total-width: unknown
+    data-width: unknown
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: M124
+    bank-locator: None
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft
+    serial-number: None
+    asset-tag: None
+    part-number: None
+- handle: 334
+  type: 126
+  length: 21
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fhNOAQAAAAAAAAAATQFUAAAAAA==
+- handle: 335
+  type: 23
+  length: 15
+  level: '2.2'
+  state:
+  - decoded
+  description: System reset
+  attributes:
+    is-enabled: false
+    boot-on-watchdog: reserved
+    boot-on-limit: reserved
+    has-watchdog: false
+    reset-count: unknown
+    reset-limit: unknown
+    timer-interval: unknown
+    timeout: unknown
+- handle: 336
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 337
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

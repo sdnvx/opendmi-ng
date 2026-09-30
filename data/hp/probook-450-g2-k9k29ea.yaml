@@ -1,0 +1,745 @@
+entry:
+  smbios-version: '2.7'
+table:
+- handle: 0
+  type: 0
+  length: 67
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: Hewlett-Packard
+    version: M73 Ver. 01.53
+    bios-segment: 61440
+    release-date: '2019-10-16'
+    rom-size: 6291456
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: true
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: true
+      bios-boot-spec: true
+      boot-network-fn-key: true
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '1.53'
+    controller-version: '89.35'
+- handle: 1
+  type: 1
+  length: 131
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Hewlett-Packard
+    product: HP ProBook 450 G2
+    version: A3009DD10303
+    serial-number: CND522816B
+    uuid: F71C79FF-F14A-11E4-9608-1069800000FF
+    wakeup-type: power-switch
+    sku-number: K9K29EA#UUG
+    family: 103C_5336AN G=N L=BUS B=HP S=PRO
+- handle: 2
+  type: 2
+  length: 73
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Hewlett-Packard
+    product: '2248'
+    version: KBC Version 59.23
+    serial-number: PEUZTG51V8RXUM
+    asset-tag: null
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: ''
+    chassis-handle: 3
+    type: unknown
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 47
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Hewlett-Packard
+    type: notebook
+    is-lock-present: false
+    version: null
+    serial-number: CND522816B
+    asset-tag: ''
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: other
+    security-status: other
+    oem-defined: 0
+    height: null
+    power-cord-count: null
+    element-count: 0
+    element-size: 0
+    elements: []
+- handle: 25
+  type: 4
+  length: 156
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U3E1
+    type: central
+    family: intel-core-i3
+    vendor: Intel(R) Corporation
+    id: d4060300fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 61
+      stepping: 4
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i3-5010U CPU @ 2.10GHz
+    voltage: 0.8
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 2100
+    current-speed: 2100
+    is-populated: true
+    status: enabled
+    upgrade: socket-bga1168
+    l1-cache-handle: 26
+    l2-cache-handle: 27
+    l3-cache-handle: 28
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 2
+    core-enabled: 2
+    thread-count: 4
+- handle: 24
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1 Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: parity
+    type: data
+    associativity: 8-way
+- handle: 26
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1 Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: parity
+    type: instruction
+    associativity: 8-way
+- handle: 27
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2 Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 28
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3 Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 3145728
+    installed-size: 3145728
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: multi-bit
+    type: unified
+    associativity: 12-way
+- handle: 8
+  type: 8
+  length: 37
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Ctrl0Port0
+    internal-connector: sas-sata
+    external-designator: Primary HDD Bay
+    external-connector: sas-sata
+    port-type: sata
+- handle: 9
+  type: 8
+  length: 49
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Ctrl0Port5
+    internal-connector: sas-sata
+    external-designator: Docking Station Upgrade Bay
+    external-connector: sas-sata
+    port-type: sata
+- handle: 10
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Ctrl0Port4
+    internal-connector: sas-sata
+    external-designator: eSATA
+    external-connector: sas-sata
+    port-type: sata
+- handle: 11
+  type: 8
+  length: 43
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Ctrl0Port3
+    internal-connector: sas-sata
+    external-designator: Docking Station eSATA
+    external-connector: sas-sata
+    port-type: sata
+- handle: 12
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Ctrl0Port2
+    internal-connector: sas-sata
+    external-designator: mSATA
+    external-connector: sas-sata
+    port-type: sata
+- handle: 13
+  type: 8
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Ctrl0Port1
+    internal-connector: sas-sata
+    external-designator: Upgrade Bay
+    external-connector: sas-sata
+    port-type: sata
+- handle: 15
+  type: 9
+  length: 24
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI SLOT1
+    type: pci
+    bus-width: 32-bit
+    usage: available
+    length: long
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 5
+  type: 10
+  length: 10
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: '64'
+- handle: 14
+  type: 11
+  length: 140
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 6
+    strings:
+    - FBYTE#3X47676J6S6Z6b7J7M7Q7W7saBaqawce.Q7;
+    - BUILDID#14WWR4DW601#SUUG#DUUG;
+    - ABS 70/71 79 7A 7B 7C
+    - CSM v0x.xx
+    - HP_Mute_LED_0_0
+    - www.hp.com
+- handle: 18
+  type: 13
+  length: 107
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en-US
+    - da-DK
+    - nl-NL
+    - fi-FI
+    - fr-FR
+    - de-DE
+    - it-IT
+    - ja-JP
+    - no-NO
+    - pt-PT
+    - es-ES
+    - sv-SE
+    - zh-CN
+    - zh-TW
+    flags:
+      is-abbreviated: true
+    current-language: it-IT
+- handle: 19
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 17179869184
+    error-handle: 65534
+    device-count: 2
+- handle: 20
+  type: 17
+  length: 73
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 19
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: dimm
+    device-set: 0
+    device-locator: Bottom-Slot 1(left)
+    bank-locator: BANK 0
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: null
+    serial-number: null
+    asset-tag: '9876543210'
+    part-number: null
+    rank: unknown
+    configured-speed: unknown
+- handle: 21
+  type: 17
+  length: 110
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 19
+    error-info-handle: 65534
+    total-width: 64
+    data-width: 64
+    size: 8589934592
+    form-factor: sodimm
+    device-set: 0
+    device-locator: Bottom-Slot 2(right)
+    bank-locator: BANK 2
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1600
+    vendor: Samsung
+    serial-number: '32821519'
+    asset-tag: '9876543210'
+    part-number: M471B1G73QH0-YK0
+    rank: unknown
+    configured-speed: unknown
+- handle: 23
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 8589934591
+    range-size: 8589934592
+    array-handle: 19
+    partition-width: 2
+- handle: 22
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 8589934591
+    range-size: 8589934592
+    device-handle: 21
+    array-addr-handle: 23
+    partition-pos: 1
+    interleave-pos: 2
+    interleave-depth: 1
+- handle: 16
+  type: 22
+  length: 58
+  level: '2.2'
+  state:
+  - decoded
+  description: Portable battery
+  attributes:
+    location: Primary
+    vendor: 13-42
+    manufacture-date: '2019-05-23'
+    serial-number: null
+    name: VI04041
+    chemistry: unknown
+    capacity: 32.56
+    voltage: 14.8
+    sbds-version: '1.1'
+    maximum-error: unknown
+    sbds-serial-number: 53992
+    sbds-chemistry: LION
+    oem-defined: 0
+- handle: 4
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 6
+  type: 41
+  length: 15
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: '64'
+    type: video
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 2
+      function-number: 0
+- handle: 7
+  type: 41
+  length: 22
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: WLAN
+    type: ethernet
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 9
+      device-number: 0
+      function-number: 0
+- handle: 17
+  type: 137
+  length: 14
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    iQwRAAEA8APw/wAA
+- handle: 65533
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

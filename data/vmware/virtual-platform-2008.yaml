@@ -1,0 +1,1304 @@
+entry:
+  smbios-version: '2.3'
+table:
+- handle: 0
+  type: 0
+  length: 62
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: Phoenix Technologies LTD
+    version: '6.00'
+    bios-segment: 59281
+    release-date: '2008-01-30'
+    rom-size: 65536
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: true
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: true
+      pnp-support: true
+      apm-support: true
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: true
+      boot-cd: false
+      boot-selectable: false
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: false
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: false
+      keyboard-support: false
+      serial-support: false
+      printer-support: false
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: false
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: true
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: false
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+- handle: 1
+  type: 1
+  length: 123
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System information
+  attributes:
+    vendor: VMware, Inc.
+    product: VMware Virtual Platform
+    version: None
+    serial-number: VMware-50 36 00 e5 9f 24 76 3a-84 d1 b1 7d fc b7 4a ff
+    uuid: E5003650-249F-3A76-84D1-B17DFCB74AFF
+    wakeup-type: power-switch
+- handle: 2
+  type: 2
+  length: 70
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Baseboard or module information
+  attributes:
+    vendor: Intel Corporation
+    product: 440BX Desktop Reference Platform
+    version: None
+    serial-number: None
+    asset-tag: null
+    features:
+      is-hosting-board: false
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: false
+      is-hot-swappable: false
+    location: null
+    chassis-handle: null
+    type: null
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 53
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: No Enclosure
+    type: other
+    is-lock-present: false
+    version: N/A
+    serial-number: None
+    asset-tag: No Asset Tag
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 4660
+    height: null
+    power-cord-count: null
+    element-count: 0
+    element-size: 0
+    elements: []
+- handle: 4
+  type: 4
+  length: 78
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: 'CPU socket #0'
+    type: central
+    family: intel-pentium-pro
+    vendor: GenuineIntel
+    id: f8060000fffbeb0f
+    signature:
+      type: 0
+      family: 6
+      model: 15
+      stepping: 8
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: false
+      tm: false
+      pbe: false
+    version: Pentium(R) Pro
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: true
+      2v9: false
+    external-clock: unknown
+    maximum-speed: 2133
+    current-speed: 2133
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 13
+    l2-cache-handle: 14
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 5
+  type: 4
+  length: 96
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: 'CPU socket #1'
+    type: central
+    family: unknown
+    vendor: '000000000000'
+    id: '0000000000000000'
+    version: '00000000000000000000000000000000'
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: true
+      2v9: false
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: socket-zif
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 6
+  type: 4
+  length: 96
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: 'CPU socket #2'
+    type: central
+    family: unknown
+    vendor: '000000000000'
+    id: '0000000000000000'
+    version: '00000000000000000000000000000000'
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: true
+      2v9: false
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: socket-zif
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 7
+  type: 4
+  length: 96
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: 'CPU socket #3'
+    type: central
+    family: unknown
+    vendor: '000000000000'
+    id: '0000000000000000'
+    version: '00000000000000000000000000000000'
+    voltage: null
+    supported-voltages:
+      5v: false
+      3v3: true
+      2v9: false
+    external-clock: unknown
+    maximum-speed: unknown
+    current-speed: unknown
+    is-populated: false
+    status: unknown
+    upgrade: socket-zif
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 8
+  type: 5
+  length: 26
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  description: Memory controller information
+  attributes:
+    error-detection: none
+    error-correction:
+      other: false
+      unknown: false
+      none: true
+      single-bit: false
+      double-bit: false
+      scrubbing: false
+    supported-interleave: 1-way
+    current-interleave: 1-way
+    maximum-module-size: 2147483648
+    maximum-memory-size: 8589934592
+    supported-speeds:
+      other: false
+      unknown: false
+      70ns: true
+      60ns: true
+      50ns: false
+    supported-types:
+      other: false
+      unknown: false
+      standard: false
+      fpm: true
+      edo: true
+      parity: false
+      ecc: false
+      simm: false
+      dimm: true
+      burst-edo: false
+      sdram: true
+    required-voltages:
+      5v: false
+      3v3: true
+      2v9: false
+    slot-count: 4
+    module-handles:
+    - 9
+    - 10
+    - 11
+    - 12
+    enabled-error-correction:
+      other: false
+      unknown: false
+      none: true
+      single-bit: false
+      double-bit: false
+      scrubbing: false
+- handle: 9
+  type: 6
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Memory module information
+  attributes:
+    socket: 'RAM socket #0'
+    bank-connection-1: 1
+    bank-connection-2: 0
+    current-speed: null
+    current-type:
+      other: false
+      unknown: false
+      standard: false
+      fpm: false
+      edo: true
+      parity: false
+      ecc: false
+      simm: false
+      dimm: true
+      burst-edo: false
+      sdram: false
+    installed-size:
+      size: 2147483648
+      bank-count: 1
+      status: present
+    enabled-size:
+      size: 2147483648
+      bank-count: 1
+      status: present
+    error-status:
+      uncorrectable: false
+      correctable: false
+      event-log: false
+- handle: 10
+  type: 6
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Memory module information
+  attributes:
+    socket: 'RAM socket #1'
+    bank-connection-1: 3
+    bank-connection-2: 2
+    current-speed: null
+    current-type:
+      other: false
+      unknown: false
+      standard: false
+      fpm: false
+      edo: true
+      parity: false
+      ecc: false
+      simm: false
+      dimm: true
+      burst-edo: false
+      sdram: false
+    installed-size:
+      size: null
+      bank-count: 1
+      status: not-installed
+    enabled-size:
+      size: null
+      bank-count: 1
+      status: not-installed
+    error-status:
+      uncorrectable: false
+      correctable: false
+      event-log: false
+- handle: 11
+  type: 6
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Memory module information
+  attributes:
+    socket: 'RAM socket #2'
+    bank-connection-1: 5
+    bank-connection-2: 4
+    current-speed: null
+    current-type:
+      other: false
+      unknown: false
+      standard: false
+      fpm: false
+      edo: true
+      parity: false
+      ecc: false
+      simm: false
+      dimm: true
+      burst-edo: false
+      sdram: false
+    installed-size:
+      size: null
+      bank-count: 1
+      status: not-installed
+    enabled-size:
+      size: null
+      bank-count: 1
+      status: not-installed
+    error-status:
+      uncorrectable: false
+      correctable: false
+      event-log: false
+- handle: 12
+  type: 6
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Memory module information
+  attributes:
+    socket: 'RAM socket #3'
+    bank-connection-1: 7
+    bank-connection-2: 6
+    current-speed: null
+    current-type:
+      other: false
+      unknown: false
+      standard: false
+      fpm: false
+      edo: true
+      parity: false
+      ecc: false
+      simm: false
+      dimm: true
+      burst-edo: false
+      sdram: false
+    installed-size:
+      size: null
+      bank-count: 1
+      status: not-installed
+    enabled-size:
+      size: null
+      bank-count: 1
+      status: not-installed
+    error-status:
+      uncorrectable: false
+      correctable: false
+      event-log: false
+- handle: 13
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1 Cache
+    level: 1
+    socketed: true
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 16384
+    installed-size: 16384
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: true
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: unknown
+    type: unknown
+    associativity: unknown
+- handle: 14
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2 Cache
+    level: 2
+    socketed: true
+    location: external
+    enabled: true
+    mode: write-back
+    maximum-size: 524288
+    installed-size: 16777216
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: true
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: true
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: unknown
+    type: unknown
+    associativity: unknown
+- handle: 15
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J19
+    internal-connector: dil-9pin
+    external-designator: COM 1
+    external-connector: db-9-m
+    port-type: serial-16550a
+- handle: 16
+  type: 8
+  length: 23
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J23
+    internal-connector: dil-25pin
+    external-designator: Parallel
+    external-connector: db-25-f
+    port-type: parallel-ecp-epp
+- handle: 17
+  type: 8
+  length: 23
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J11
+    internal-connector: none
+    external-designator: Keyboard
+    external-connector: circular-din-8-m
+    port-type: keyboard
+- handle: 18
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J12
+    internal-connector: none
+    external-designator: PS/2 Mouse
+    external-connector: circular-din-8-m
+    port-type: keyboard
+- handle: 19
+  type: 9
+  length: 26
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: ISA Slot J8
+    type: isa
+    bus-width: 16-bit
+    usage: unknown
+    length: short
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: false
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 20
+  type: 9
+  length: 26
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: ISA Slot J9
+    type: isa
+    bus-width: 16-bit
+    usage: unknown
+    length: short
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: false
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 21
+  type: 9
+  length: 27
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: ISA Slot J10
+    type: isa
+    bus-width: 16-bit
+    usage: unknown
+    length: short
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: false
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 22
+  type: 9
+  length: 27
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI Slot J11
+    type: pci
+    bus-width: 32-bit
+    usage: in-use
+    length: long
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 23
+  type: 9
+  length: 27
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI Slot J12
+    type: pci
+    bus-width: 32-bit
+    usage: in-use
+    length: long
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 24
+  type: 9
+  length: 27
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI Slot J13
+    type: pci
+    bus-width: 32-bit
+    usage: in-use
+    length: long
+    ident: 3
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 25
+  type: 9
+  length: 27
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCI Slot J14
+    type: pci
+    bus-width: 32-bit
+    usage: in-use
+    length: long
+    ident: 4
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 26
+  type: 10
+  length: 31
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 2
+    instances:
+    - type: video
+      is-enabled: false
+      description: VMware SVGA II
+    - type: sound
+      is-enabled: false
+      description: ES1371
+- handle: 27
+  type: 11
+  length: 96
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 2
+    strings:
+    - '[MS_VM_CERT/SHA1/27d66596a61c48dd3dc7216fd715126e33f59ae7]'
+    - Welcome to the Virtual Machine
+- handle: 28
+  type: 15
+  length: 31
+  level: '2.1'
+  state:
+  - decoded
+  description: System event log
+  attributes:
+    area-length: 16
+    header-offset: 0
+    data-offset: 16
+    access-method: data-functions
+    access-address: 0
+    status:
+      log-area-valid: false
+      log-area-full: true
+    change-token: 54
+    header-format: type-1
+    descriptors:
+    - type: post-error
+      data-format: post-results
+    - type: single-bit-ecc
+      data-format: multiple-event
+    - type: multi-bit-ecc
+      data-format: multiple-event
+- handle: 29
+  type: 16
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 4294967296
+    error-handle: 65534
+    device-count: 4
+- handle: 30
+  type: 17
+  length: 52
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 29
+    error-info-handle: null
+    total-width: 32
+    data-width: 32
+    size: 2147483648
+    form-factor: dimm
+    device-set: 0
+    device-locator: 'RAM slot #0'
+    bank-locator: 'RAM slot #0'
+    memory-type: dram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: true
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 31
+  type: 17
+  length: 52
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 29
+    error-info-handle: null
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: dimm
+    device-set: 0
+    device-locator: 'RAM slot #1'
+    bank-locator: 'RAM slot #1'
+    memory-type: dram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: true
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 32
+  type: 17
+  length: 52
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 29
+    error-info-handle: null
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: dimm
+    device-set: 0
+    device-locator: 'RAM slot #2'
+    bank-locator: 'RAM slot #2'
+    memory-type: dram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: true
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 33
+  type: 17
+  length: 52
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 29
+    error-info-handle: null
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: dimm
+    device-set: 0
+    device-locator: 'RAM slot #3'
+    bank-locator: 'RAM slot #3'
+    memory-type: dram
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: true
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+- handle: 34
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 35
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 2147483647
+    range-size: 2147483648
+    array-handle: 29
+    partition-width: 2
+- handle: 36
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 2147483647
+    range-size: 2147483648
+    device-handle: 30
+    array-addr-handle: 35
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 37
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 2147482624
+    end-addr: 2147483647
+    range-size: 1024
+    device-handle: 31
+    array-addr-handle: 35
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 38
+  type: 23
+  length: 15
+  level: '2.2'
+  state:
+  - decoded
+  description: System reset
+  attributes:
+    is-enabled: true
+    boot-on-watchdog: avoid-reboot
+    boot-on-limit: avoid-reboot
+    has-watchdog: true
+    reset-count: unknown
+    reset-limit: unknown
+    timer-interval: unknown
+    timeout: unknown
+- handle: 39
+  type: 24
+  length: 7
+  level: '2.2'
+  state:
+  - decoded
+  description: Hardware security
+  attributes:
+    front-panel-reset: unknown
+    admin-password: enabled
+    keyboard-password: unknown
+    poweron-password: disabled
+- handle: 40
+  type: 30
+  length: 13
+  level: '2.2'
+  state:
+  - decoded
+  description: Out-of-band remote access
+  attributes:
+    vendor: Intel
+    connections:
+      is-inbound-enabled: true
+      is-outbound-enabled: false
+- handle: 41
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: reserved
+- handle: 42
+  type: 33
+  length: 33
+  level: '2.3'
+  state:
+  - decoded
+  description: 64-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: 2147483648
+    device-addr: 2147483648
+    resolution: unknown
+- handle: 43
+  type: 126
+  length: 6
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fgQrAA==
+- handle: 44
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

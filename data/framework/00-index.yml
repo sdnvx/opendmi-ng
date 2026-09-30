@@ -1,0 +1,18 @@
+vendor: Framework
+files:
+  laptop-12-13th-gen-intel.bin:
+    product: Laptop 12 (13th Gen Intel Core)
+    source: https://github.com/FrameworkComputer/framework-system
+    license: BSD-3-Clause
+  laptop-13-12th-gen-intel.bin:
+    product: Laptop 13 (12th Gen Intel Core)
+    source: https://github.com/FrameworkComputer/framework-system
+    license: BSD-3-Clause
+  laptop-13-13th-gen-intel.bin:
+    product: Laptop 13 (13th Gen Intel Core)
+    source: https://github.com/FrameworkComputer/framework-system
+    license: BSD-3-Clause
+  laptop-13-intel-core-ultra-1.bin:
+    product: Laptop 13 (Intel Core Ultra Series 1)
+    source: https://github.com/FrameworkComputer/framework-system
+    license: BSD-3-Clause

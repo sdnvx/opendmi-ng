@@ -1,4 +1,28 @@
 vendor: Intel
 files:
+  nuc8i3beh.bin:
+    product: NUC8i3BEH
+    source: https://github.com/Lorys89/Intel-NUC8-Hackintosh
+    license: MIT
+  nuc8i7hvk.bin:
+    product: NUC8i7HVK
+    source: https://github.com/Baio1977/Intel-NUC8i7HN
+    license: none
+  nuc10i5fnh.bin:
+    product: NUC10i5FNH
+    source: https://github.com/Lorys89/Intel-NUC10-Hackintosh
+    license: MIT
   nuc-nuc5ppyb.bin:
     product: NUC NUC5PPYB
+  s2600kp.bin:
+    product: S2600KP
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  s2600tp.bin:
+    product: S2600TP
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  s2600wtt.bin:
+    product: S2600WTT
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0

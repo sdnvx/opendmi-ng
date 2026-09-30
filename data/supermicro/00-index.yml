@@ -1,9 +1,25 @@
 vendor: SuperMicro
 files:
+  h8qg6.bin:
+    product: H8QG6
+    source: https://github.com/siderolabs/go-smbios
+    license: MPL-2.0
+  sys-1027r-wrf.bin:
+    product: SYS-1027R-WRF
+    source: https://github.com/siderolabs/go-smbios
+    license: MPL-2.0
   sys-5019s-l.bin:
     product: SYS-5019S-L
   sys-5019s-m.bin:
     product: SYS-5019-M
+  x9dbl-if.bin:
+    product: X9DBL-iF
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
+  x10dal-i.bin:
+    product: X10DAL-i
+    source: https://github.com/jcreekmore/dmidecode
+    license: MIT
   x10ddw-i.bin:
     product: X10DDW-I
   x10sll-f.bin:

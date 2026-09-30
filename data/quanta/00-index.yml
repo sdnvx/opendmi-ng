@@ -1,0 +1,10 @@
+vendor: Quanta
+files:
+  d51b-2u-dual-10g-lom.bin:
+    product: D51B-2U (dual 10G LoM)
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  quantaplex-t41s-2u.bin:
+    product: QuantaPlex T41S-2U
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0

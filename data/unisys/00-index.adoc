@@ -1,0 +1,138 @@
+= Unisys
+:toc:
+:toclevels: 1
+
+== ES3020 (es3020.bin)
+
+[horizontal]
+File path:: `unisys/es3020.bin`
+Product name:: ES3020
+Product version:: None
+Product family:: -
+Firmware vendor:: UNISYS Corp.
+Firmware version:: A10
+Release date:: 2003-10-14
+SMBIOS version:: 2.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0100`
+a| `2` | Baseboard or module information | 1  a| `0x0200`
+a| `3` | System enclosure or chassis | 1  a| `0x0300`
+a| `4` | Processor information | 2  a| `0x0400`, `0x0401`
+a| `7` | Cache information | 6  a| `0x0700`, `0x0701`, `0x0702`, `0x0703`, `0x0704`, `0x0705`
+a| `8` | Port connector information | 12  a| `0x0800`, `0x0801`, `0x0802`, `0x0803`, `0x0804`, `0x0805`, `0x0806`, `0x0807`, `0x0808`, `0x0809`, `0x080A`, `0x080B`
+a| `9` | System slots | 8  a| `0x0900`, `0x0901`, `0x0902`, `0x0903`, `0x0904`, `0x0905`, `0x0906`, `0x0907`
+a| `10` | Onboard devices information | 1  a| `0x0A00`
+a| `11` | OEM strings | 1  a| `0x0B00`
+a| `12` | System configuration options | 1  a| `0x0C00`
+a| `13` | Firmware language information | 1  a| `0x0D00`
+a| `16` | Physical memory array | 1  a| `0x1000`
+a| `17` | Memory device | 6  a| `0x1100`, `0x1101`, `0x1102`, `0x1103`, `0x1104`, `0x1105`
+a| `19` | Memory array mapped address | 1  a| `0x1300`
+a| `20` | Memory device mapped address | 2  a| `0x1404`, `0x1405`
+a| `32` | System boot information | 1  a| `0x2000`
+a| `38` | IPMI device information | 1  a| `0x2600`
+a| `126` | Inactive | 13  a| `0x1301`, `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`
+a| `127` | End of table | 1  a| `0x7F00`
+a| `208` | OEM-specific | 1  a| `0xD000`
+a| `209` | OEM-specific | 1  a| `0xD100`
+a| `210` | OEM-specific | 2  a| `0xD200`, `0xD201`
+a| `212` | OEM-specific | 3  a| `0xD400`, `0xD401`, `0xD402`
+a| `216` | OEM-specific | 1  a| `0xD800`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0xDE00`
+|===
+== ES3040 (es3040.bin)
+
+[horizontal]
+File path:: `unisys/es3040.bin`
+Product name:: ES3040
+Product version:: None
+Product family:: -
+Firmware vendor:: UNISYS Corp.
+Firmware version:: A14
+Release date:: 2004-01-15
+SMBIOS version:: 2.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0100`
+a| `2` | Baseboard or module information | 1  a| `0x0200`
+a| `3` | System enclosure or chassis | 1  a| `0x0300`
+a| `4` | Processor information | 4  a| `0x0400`, `0x0401`, `0x0402`, `0x0403`
+a| `7` | Cache information | 12  a| `0x0700`, `0x0701`, `0x0702`, `0x0703`, `0x0704`, `0x0705`, `0x0706`, `0x0707`, `0x0708`, `0x0709`, `0x070A`, `0x070B`
+a| `8` | Port connector information | 9  a| `0x0800`, `0x0801`, `0x0802`, `0x0803`, `0x0804`, `0x0805`, `0x0806`, `0x0807`, `0x0808`
+a| `9` | System slots | 11  a| `0x0900`, `0x0901`, `0x0902`, `0x0903`, `0x0904`, `0x0905`, `0x0906`, `0x0907`, `0x0908`, `0x0909`, `0x090A`
+a| `10` | Onboard devices information | 1  a| `0x0A00`
+a| `11` | OEM strings | 1  a| `0x0B00`
+a| `12` | System configuration options | 1  a| `0x0C00`
+a| `13` | Firmware language information | 1  a| `0x0D00`
+a| `16` | Physical memory array | 1  a| `0x1000`
+a| `17` | Memory device | 16  a| `0x1100`, `0x1101`, `0x1102`, `0x1103`, `0x1104`, `0x1105`, `0x1106`, `0x1107`, `0x1108`, `0x1109`, `0x110A`, `0x110B`, `0x110C`, `0x110D`, `0x110E`, `0x110F`
+a| `19` | Memory array mapped address | 2  a| `0x1300`, `0x1301`
+a| `20` | Memory device mapped address | 32  a| `0x1420`, `0x1421`, `0x1422`, `0x1423`, `0x1424`, `0x1425`, `0x1426`, `0x1427`, `0x1428`, `0x1429`, `0x142A`, `0x142B`, `0x142C`, `0x142D`, `0x142E`, `0x142F`, `0x1430`, `0x1431`, `0x1432`, `0x1433`, `0x1434`, `0x1435`, `0x1436`, `0x1437`, `0x1438`, `0x1439`, `0x143A`, `0x143B`, `0x143C`, `0x143D`, `0x143E`, `0x143F`
+a| `32` | System boot information | 1  a| `0x2000`
+a| `38` | IPMI device information | 1  a| `0x2600`
+a| `126` | Inactive | 20  a| `0x1400`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`, `0x140E`, `0x140F`, `0x1410`, `0x1411`, `0x1412`, `0x1413`
+a| `127` | End of table | 1  a| `0x7F00`
+a| `208` | OEM-specific | 1  a| `0xD000`
+a| `210` | OEM-specific | 1  a| `0xD200`
+a| `212` | OEM-specific | 3  a| `0xD400`, `0xD401`, `0xD402`
+a| `216` | OEM-specific | 1  a| `0xD800`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0xDE00`
+|===
+== ES3120L (es3120l.bin)
+
+[horizontal]
+File path:: `unisys/es3120l.bin`
+Product name:: ES3120L
+Product version:: None
+Product family:: -
+Firmware vendor:: Unisys System
+Firmware version:: A00
+Release date:: 2004-07-22
+SMBIOS version:: 2.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0100`
+a| `2` | Baseboard or module information | 1  a| `0x0200`
+a| `3` | System enclosure or chassis | 1  a| `0x0300`
+a| `4` | Processor information | 2  a| `0x0400`, `0x0401`
+a| `7` | Cache information | 6  a| `0x0700`, `0x0701`, `0x0702`, `0x0703`, `0x0704`, `0x0705`
+a| `8` | Port connector information | 13  a| `0x0800`, `0x0801`, `0x0802`, `0x0803`, `0x0804`, `0x0805`, `0x0806`, `0x0807`, `0x0809`, `0x080A`, `0x080B`, `0x080C`, `0x080D`
+a| `9` | System slots | 4  a| `0x0900`, `0x0901`, `0x0902`, `0x0907`
+a| `10` | Onboard devices information | 1  a| `0x0A00`
+a| `11` | OEM strings | 1  a| `0x0B00`
+a| `12` | System configuration options | 1  a| `0x0C00`
+a| `13` | Firmware language information | 1  a| `0x0D00`
+a| `16` | Physical memory array | 1  a| `0x1000`
+a| `17` | Memory device | 6  a| `0x1100`, `0x1101`, `0x1102`, `0x1103`, `0x1104`, `0x1105`
+a| `19` | Memory array mapped address | 1  a| `0x1300`
+a| `20` | Memory device mapped address | 1  a| `0x1400`
+a| `32` | System boot information | 1  a| `0x2000`
+a| `38` | IPMI device information | 1  a| `0x2600`
+a| `126` | Inactive | 33  a| `0x0808`, `0x0903`, `0x0904`, `0x0905`, `0x0906`, `0x7E00`, `0x1301`, `0x1401`, `0x1402`, `0x1403`, `0x1404`, `0x1405`, `0x1406`, `0x1407`, `0x1408`, `0x1409`, `0x140A`, `0x140B`, `0x140C`, `0x140D`, `0x1420`, `0x1421`, `0x1424`, `0x1425`, `0x1428`, `0x1429`, `0x1430`, `0x1431`, `0x1434`, `0x1435`, `0x1438`, `0x1439`, `0xD100`
+a| `127` | End of table | 1  a| `0x7F00`
+a| `208` | OEM-specific | 1  a| `0xD000`
+a| `210` | OEM-specific | 1  a| `0xD200`
+a| `212` | OEM-specific | 4  a| `0xD400`, `0xD401`, `0xD402`, `0xD403`
+a| `216` | OEM-specific | 1  a| `0xD800`
+a| `218` | OEM-specific | 1  a| `0xDA00`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0xDE00`
+|===

@@ -1,0 +1,14 @@
+vendor: Unisys
+files:
+  es3020.bin:
+    product: ES3020
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  es3040.bin:
+    product: ES3040
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  es3120l.bin:
+    product: ES3120L
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later

@@ -1,0 +1,1799 @@
+entry:
+  smbios-version: '3.3'
+table:
+- handle: 0
+  type: 0
+  length: 91
+  level: '3.1'
+  state:
+  - decoded
+  description: Platform firmware information
+  attributes:
+    vendor: Viking Enterprise Solutions
+    version: 0ACSY001-MWH3LJ-15.09.00
+    bios-segment: 61440
+    release-date: '2023-05-16'
+    rom-size: 16777216
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: true
+      floppy-toshiba-support: true
+      floppy-525-360k-support: true
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: true
+      keyboard-support: false
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: true
+      nec-pc-98: false
+    features-ex:
+      acpi-support: false
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '5.22'
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 77
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: iXsystems
+    product: TRUENAS-F60-HA
+    version: '001'
+    serial-number: AAAAAAAA
+    uuid: 00000000-0000-0000-0000-000000000000
+    wakeup-type: power-switch
+    sku-number: Mismatch
+    family: null
+- handle: 2
+  type: 2
+  length: 84
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: iXsystems
+    product: TRUENAS-F60-HA
+    version: PCA-01183-01-A
+    serial-number: AAAAAAAAAAAAAAAA
+    asset-tag: AAAAAAAA
+    features:
+      is-hosting-board: true
+      require-daughter-board: true
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: true
+    location: '1'
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 108
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Viking Enterprise Solutions
+    type: multi-system
+    is-lock-present: false
+    version: VSS2249RQ-CH-12
+    serial-number: AAAAAAAAAAAAAAAA
+    asset-tag: AAAAAAAA
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: unknown
+    oem-defined: 0
+    height: 2
+    power-cord-count: 2
+    element-count: 0
+    element-size: 0
+    elements: []
+    sku-number: Default string
+- handle: 4
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J145
+    internal-connector: none
+    external-designator: USB3
+    external-connector: access-bus
+    port-type: usb
+- handle: 5
+  type: 8
+  length: 18
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3
+    internal-connector: none
+    external-designator: USB3
+    external-connector: access-bus
+    port-type: usb
+- handle: 6
+  type: 8
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J15
+    internal-connector: none
+    external-designator: MGMT RJ45 Port
+    external-connector: rj-45
+    port-type: network
+- handle: 7
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J129
+    internal-connector: none
+    external-designator: VGA
+    external-connector: db-15-f
+    port-type: video
+- handle: 8
+  type: 8
+  length: 36
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J133 - Serial Port Header
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: serial-16550a
+- handle: 9
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J5 - LPC Header
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 10
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA8 - SATA Port 8
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 11
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA9 - SATA Port 9
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 12
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA10 - SATA Port 10
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 13
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA11 - SATA Port 11
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 14
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA12 - SATA Port 12
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 15
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA13 - SATA Port 13
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 16
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA14 - SATA Port 14
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 17
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA15 - SATA Port 15
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 18
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE1
+    type: pci-e
+    bus-width: 16x
+    usage: unknown
+    length: long
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 19
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE2
+    type: pci-e
+    bus-width: 16x
+    usage: unknown
+    length: long
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 20
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE3
+    type: pci-e
+    bus-width: 16x
+    usage: unknown
+    length: long
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 21
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE4
+    type: pci-e
+    bus-width: 16x
+    usage: unknown
+    length: long
+    ident: 3
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: true
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 22
+  type: 10
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: To Be Filled By O.E.M.
+- handle: 23
+  type: 11
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - Default string
+- handle: 24
+  type: 12
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - Default string
+- handle: 25
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 26
+  type: 26
+  length: 29
+  level: '2.2'
+  state:
+  - decoded
+  description: Voltage probe
+  attributes:
+    description: LM78A
+    location: power-unit
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 27
+  type: 28
+  length: 29
+  level: '2.2'
+  state:
+  - decoded
+  description: Temperature probe
+  attributes:
+    description: LM78A
+    location: power-unit
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 28
+  type: 27
+  length: 30
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Cooling device
+  attributes:
+    probe-handle: 27
+    type: power-supply-fan
+    status: ok
+    group: 1
+    oem-defined: 0
+    nominal-speed: unknown
+    description: Cooling Dev 1
+- handle: 29
+  type: 29
+  length: 27
+  level: '2.2'
+  state:
+  - decoded
+  description: Electrical current probe
+  attributes:
+    description: ABC
+    location: power-unit
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 30
+  type: 39
+  length: 80
+  level: 2.3.1
+  state:
+  - decoded
+  - linked
+  description: System power supply
+  attributes:
+    group: 1
+    location: Left PSU
+    name: DPS-1600EB A
+    vendor: DELTA
+    serial-number: GSAD2031004530
+    asset-tag: None
+    part-number: None
+    revision: S5F
+    maximum-capacity: 1600
+    hot-swappable: true
+    present: true
+    unplugged: false
+    range-switching: auto
+    status: ok
+    type: switching
+    voltage-probe-handle: null
+    cooling-device-handle: null
+    current-probe-handle: null
+- handle: 31
+  type: 39
+  length: 81
+  level: 2.3.1
+  state:
+  - decoded
+  - linked
+  description: System power supply
+  attributes:
+    group: 1
+    location: Right PSU
+    name: DPS-1600EB A
+    vendor: DELTA
+    serial-number: GSAD2031004526
+    asset-tag: None
+    part-number: None
+    revision: S5F
+    maximum-capacity: 1600
+    hot-swappable: true
+    present: true
+    unplugged: false
+    range-switching: auto
+    status: ok
+    type: switching
+    voltage-probe-handle: null
+    cooling-device-handle: null
+    current-probe-handle: null
+- handle: 32
+  type: 44
+  length: 11
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  description: Processor additional information
+  attributes:
+    processor-handle: null
+    architecture: ia32
+    data: '00'
+- handle: 33
+  type: 38
+  length: 20
+  level: '2.3'
+  state:
+  - decoded
+  description: IPMI device information
+  attributes:
+    interface-type: kcs
+    specification-version: '2.0'
+    i2c-target-address: 32
+    nv-storage-address: null
+    base-address: 3234
+    base-address-lsb: 0
+    base-address-type: io
+    interrupt-trigger-mode: null
+    interrupt-polarity: null
+    interrupt-number: null
+    register-spacing: 1
+- handle: 34
+  type: 42
+  length: 19
+  level: '3.2'
+  state:
+  - decoded
+  description: Management controller host interface
+  attributes:
+    if-type: keyboard-controller-style
+    if-data: ff000000
+    protocol-records:
+    - type: ipmi
+      data: ffffffff
+- handle: 35
+  type: 15
+  length: 75
+  level: '2.1'
+  state:
+  - decoded
+  description: System event log
+  attributes:
+    area-length: 0
+    header-offset: 0
+    data-offset: 16
+    access-method: memory-mapped-32bit-address
+    access-address: 4283785216
+    status:
+      log-area-valid: true
+      log-area-full: false
+    change-token: 1073
+    header-format: type-1
+    descriptors:
+    - type: single-bit-ecc
+      data-format: multiple-event-handle
+    - type: multi-bit-ecc
+      data-format: multiple-event-handle
+    - type: parity
+      data-format: none
+    - type: bus-timeout
+      data-format: none
+    - type: io-channel-check
+      data-format: none
+    - type: software-nmi
+      data-format: none
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: pci-parity
+      data-format: multiple-event-handle
+    - type: pci-system
+      data-format: multiple-event-handle
+    - type: cpu-failure
+      data-format: none
+    - type: eisa-failsafe-timeout
+      data-format: none
+    - type: memory-log-disabled
+      data-format: none
+    - type: logging-disabled
+      data-format: none
+    - type: limit-exceeded
+      data-format: none
+    - type: timer-expired
+      data-format: none
+    - type: config-info
+      data-format: none
+    - type: hard-disk-info
+      data-format: none
+    - type: reconfigured
+      data-format: none
+    - type: cpu-complex-error
+      data-format: none
+    - type: log-cleared
+      data-format: none
+    - type: system-boot
+      data-format: none
+    - type: end-of-log
+      data-format: none
+    - type: oem-specific
+      data-format: oem-specific
+    - type: oem-specific
+      data-format: oem-specific
+- handle: 36
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 37
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: multi-bit
+    maximum-capacity: 4398046511104
+    error-handle: 36
+    device-count: 8
+- handle: 38
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 2415919103
+    range-size: 2415919104
+    array-handle: 37
+    partition-width: 8
+- handle: 39
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 276756955135
+    range-size: 272461987840
+    array-handle: 37
+    partition-width: 8
+- handle: 40
+  type: 7
+  length: 39
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L1 - Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 2097152
+    installed-size: 2097152
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 41
+  type: 7
+  length: 39
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L2 - Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 16777216
+    installed-size: 16777216
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 42
+  type: 7
+  length: 39
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L3 - Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 268435456
+    installed-size: 268435456
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 16-way
+- handle: 43
+  type: 4
+  length: 153
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: P0
+    type: central
+    family: amd-zen
+    vendor: Advanced Micro Devices, Inc.
+    id: 110fa000fffb8b17
+    signature:
+      type: 0
+      family: 25
+      model: 1
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
+    version: AMD EPYC 7543P 32-Core Processor
+    voltage: 1.1
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3725
+    current-speed: 2800
+    is-populated: true
+    status: enabled
+    upgrade: socket-sp3
+    l1-cache-handle: 40
+    l2-cache-handle: 41
+    l3-cache-handle: 42
+    serial-number: AAAAAAA
+    asset-tag: AAAAAAA
+    part-number: Unknown
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 32
+    core-enabled: 32
+    thread-count: 64
+- handle: 44
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 45
+  type: 17
+  length: 159
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 37
+    error-info-handle: 44
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL A
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 3200
+    vendor: Samsung
+    serial-number: AAAAAAAA
+    asset-tag: null
+    part-number: M393A4G43AB3-CWE
+    rank: 2
+    configured-speed: 3200
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 52864
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 46
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 34359738367
+    range-size: 34359738368
+    device-handle: 45
+    array-addr-handle: 39
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 47
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 48
+  type: 17
+  length: 159
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 37
+    error-info-handle: 47
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL B
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 3200
+    vendor: Samsung
+    serial-number: AAAAAAAA
+    asset-tag: null
+    part-number: M393A4G43AB3-CWE
+    rank: 2
+    configured-speed: 3200
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 52864
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 49
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 34359738368
+    end-addr: 68719476735
+    range-size: 34359738368
+    device-handle: 48
+    array-addr-handle: 39
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 50
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 51
+  type: 17
+  length: 159
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 37
+    error-info-handle: 50
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL C
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 3200
+    vendor: Samsung
+    serial-number: AAAAAAAA
+    asset-tag: null
+    part-number: M393A4G43AB3-CWE
+    rank: 2
+    configured-speed: 3200
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 52864
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 52
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 103079215104
+    end-addr: 137438953471
+    range-size: 34359738368
+    device-handle: 51
+    array-addr-handle: 39
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 53
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 54
+  type: 17
+  length: 159
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 37
+    error-info-handle: 53
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL D
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 3200
+    vendor: Samsung
+    serial-number: AAAAAAAA
+    asset-tag: null
+    part-number: M393A4G43AB3-CWE
+    rank: 2
+    configured-speed: 3200
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 52864
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 55
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 103079215103
+    range-size: 34359738368
+    device-handle: 54
+    array-addr-handle: 39
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 56
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 57
+  type: 17
+  length: 159
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 37
+    error-info-handle: 56
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL E
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 3200
+    vendor: Samsung
+    serial-number: AAAAAAAA
+    asset-tag: null
+    part-number: M393A4G43AB3-CWE
+    rank: 2
+    configured-speed: 3200
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 52864
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 58
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 206158430208
+    end-addr: 240518168575
+    range-size: 34359738368
+    device-handle: 57
+    array-addr-handle: 39
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 59
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 60
+  type: 17
+  length: 159
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 37
+    error-info-handle: 59
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL F
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 3200
+    vendor: Samsung
+    serial-number: AAAAAAAA
+    asset-tag: null
+    part-number: M393A4G43AB3-CWE
+    rank: 2
+    configured-speed: 3200
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 52864
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 61
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 240518168576
+    end-addr: 274877906943
+    range-size: 34359738368
+    device-handle: 60
+    array-addr-handle: 39
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 62
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 63
+  type: 17
+  length: 159
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 37
+    error-info-handle: 62
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL G
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 3200
+    vendor: Samsung
+    serial-number: AAAAAAAA
+    asset-tag: null
+    part-number: M393A4G43AB3-CWE
+    rank: 2
+    configured-speed: 3200
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 52864
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 64
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 171798691840
+    end-addr: 206158430207
+    range-size: 34359738368
+    device-handle: 63
+    array-addr-handle: 39
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 65
+  type: 18
+  length: 25
+  level: '2.1'
+  state:
+  - decoded
+  description: 32-bit memory error information
+  attributes:
+    type: ok
+    granularity: unknown
+    operation: unknown
+    vendor-syndrome: 0
+    array-addr: unknown
+    device-addr: unknown
+    resolution: unknown
+- handle: 66
+  type: 17
+  length: 159
+  level: '3.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 37
+    error-info-handle: 65
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM 0
+    bank-locator: P0 CHANNEL H
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 3200
+    vendor: Samsung
+    serial-number: AAAAAAAA
+    asset-tag: null
+    part-number: M393A4G43AB3-CWE
+    rank: 2
+    configured-speed: 3200
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+    memory-technology: dram
+    memory-mode-caps: 8
+    firmware-version: Unknown
+    module-vendor-id: 52864
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 34359738368
+    cache-size: 0
+    logical-size: 0
+- handle: 67
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 137438953472
+    end-addr: 171798691839
+    range-size: 34359738368
+    device-handle: 66
+    array-addr-handle: 39
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 68
+  type: 41
+  length: 34
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard Ethernet x710
+    type: ethernet
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 194
+      device-number: 0
+      function-number: 0
+- handle: 70
+  type: 41
+  length: 34
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard Ethernet x710
+    type: ethernet
+    is-enabled: true
+    instance: 2
+    address:
+      segment-group: 0
+      bus-number: 194
+      device-number: 0
+      function-number: 1
+- handle: 72
+  type: 41
+  length: 34
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard Video AST2500
+    type: video
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 202
+      device-number: 0
+      function-number: 0
+- handle: 74
+  type: 13
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 110
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

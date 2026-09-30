@@ -4,12 +4,28 @@ files:
     product: B50-70 20384
   b590.bin:
     product: B590
+  ideapad-330s-15ikb-81f5.bin:
+    product: IdeaPad 330S-15IKB 81F5
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   ideapad-g580-20150.bin:
     product: IdeaPad G580 20150
+  ideapad-l340-15irh-gaming-81lk.bin:
+    product: IdeaPad L340-15IRH Gaming 81LK [1]
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  ideapad-l340-15irh-gaming-81lk-2.bin:
+    product: IdeaPad L340-15IRH Gaming 81LK [2]
+    source: https://github.com/Baio1977/Lenovo-IdeaPad-L340-Gaming
+    license: none
   ideapad-slim-5-14irl8.bin:
     product: IdeaPad Slim 5 14IRL8
   ideapad-z565-20066.bin:
     product: IdeaPad Z565 20066
+  legion-5-15imh05h-81y6.bin:
+    product: Legion 5 15IMH05H 81Y6
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   thinkbook-15-g2-itl-20ve.bin:
     product: ThinkBook 15 G2 ITL 20VE
   thinkcentre-m70s-11db.bin:
@@ -20,13 +36,81 @@ files:
     product: ThinkCentre M720q 10T8
   thinkcentre-m720s-10st.bin:
     product: ThinkCentre M720s 10ST
+  thinkpad-e14-gen-5-21jr.bin:
+    product: ThinkPad E14 Gen 5 21JR
+    source: https://github.com/5T33Z0/Lenovo-ThinkPad-E14-Gen-5-AMD-OpenCore
+    license: none
+  thinkpad-l15-gen-1-20u4.bin:
+    product: ThinkPad L15 Gen 1 20U4
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  thinkpad-l420-7854.bin:
+    product: ThinkPad L420 7854
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   thinkpad-t14-g2a-20xk.bin:
     product: ThinkPad T14 Gen 2a 20XK
   thinkpad-t14-g3-21aj.bin:
     product: ThinkPad T14 Gen 3 21AJ
+  thinkpad-t14-gen-1-20s1.bin:
+    product: ThinkPad T14 Gen 1 20S1
+    source: https://github.com/Baio1977/Lenovo-Thinkpad-T14
+    license: none
   thinkpad-t61p-6460-6xg.bin:
     product: ThinkPad T61p 6460-6XG
+  thinkpad-t430-2347.bin:
+    product: ThinkPad T430 2347
+    source: https://github.com/jcreekmore/dmidecode
+    license: MIT
+  thinkpad-t480s-20l8.bin:
+    product: ThinkPad T480s 20L8
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
+  thinkpad-t490-20n2.bin:
+    product: ThinkPad T490 20N2
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
+  thinkpad-t490-20n3.bin:
+    product: ThinkPad T490 20N3
+    source: https://github.com/5T33Z0/Thinkpad-T490-Hackintosh-OpenCore
+    license: none
+  thinkpad-w510-4319.bin:
+    product: ThinkPad W510 4319
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
+  thinkpad-x1-tablet-gen-3-20kk.bin:
+    product: ThinkPad X1 Tablet Gen 3 20KK
+    source: https://github.com/Baio1977/Lenovo-ThinkPad-X1-Tablet-Gen3
+    license: none
+  thinkpad-x131e-3367.bin:
+    product: ThinkPad X131e 3367
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   thinkpad-x220-4290le6.bin:
     product: ThinkPad X220 4290LE6
+  thinkpad-x240-20am.bin:
+    product: ThinkPad X240 20AM
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  thinkpad-x280-20ke.bin:
+    product: ThinkPad X280 20KE
+    source: https://github.com/Baio1977/Lenovo-ThinkPad-X280
+    license: none
   thinkpad-x280-20kf.bin:
     product: ThinkPad X280 20KF
+  v130-15ikb-81hn.bin:
+    product: V130-15IKB 81HN
+    source: https://github.com/Baio1977/Lenovo-V130-15IKB-Kabylake
+    license: none
+  yoga-530-14ikb-81ek.bin:
+    product: Yoga 530-14IKB 81EK
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  yoga-c640-13iml-81ue.bin:
+    product: Yoga C640-13IML 81UE
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  yoga-slim-7-14iil05-82a1.bin:
+    product: Yoga Slim 7 14IIL05 82A1
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none

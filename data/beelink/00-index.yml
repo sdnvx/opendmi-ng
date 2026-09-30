@@ -1,5 +1,9 @@
 vendor: BeeLink
 files:
+  eq12.bin:
+    product: EQ12
+    source: https://github.com/siderolabs/go-smbios
+    license: MPL-2.0
   sei.bin:
     product: SEi
   ser.bin:

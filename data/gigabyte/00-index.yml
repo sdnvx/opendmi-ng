@@ -1,5 +1,9 @@
 vendor: Gigabyte
 files:
+  b460-aorus-pro-ac.bin:
+    product: B460 AORUS PRO AC
+    source: https://github.com/ByteMatrix123/Gigabyte-B460-AORUS-PRO-AC-Hackintosh
+    license: none
   b550-aorus-master.bin:
     product: B550 AORUS MASTER
   b550i-aorus-pro-ax.bin:
@@ -12,5 +16,33 @@ files:
     product: G5 MF
   ga-970a-ds3p.bin:
     product: GA-970A DS3P
+  ga-ma74gmt-s2.bin:
+    product: GA-MA74GMT-S2
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
+  h610m-h-v2-ddr4.bin:
+    product: H610M H V2 DDR4
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   j4005n-d2p-cf.bin:
     product: J4005N D2P-CF
+  noname-server-f15.bin:
+    product: Noname server (F15)
+    source: https://github.com/tohas1986/smbios_parser
+    license: none
+  x399-aorus-xtreme.bin:
+    product: X399 AORUS XTREME
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
+  z390-m-gaming.bin:
+    product: Z390 M GAMING
+    source: https://github.com/Baio1977/GA-Z390M-Gaming
+    license: none
+  z490-vision-g.bin:
+    product: Z490 VISION G
+    source: https://github.com/5T33Z0/Gigabyte-Z490-Vision-G-Hackintosh-OpenCore
+    license: BSD-3-Clause
+  z490m-gaming-x.bin:
+    product: Z490M GAMING X
+    source: https://github.com/Baio1977/GA-Z490M-Gaming-X
+    license: none

@@ -1,0 +1,438 @@
+entry:
+  smbios-version: '3.1'
+table:
+- handle: 0
+  type: 0
+  length: 86
+  level: '3.1'
+  state:
+  - decoded
+  description: Platform firmware information
+  attributes:
+    vendor: Microsoft Corporation
+    version: Hyper-V UEFI Release v4.1
+    bios-segment: 0
+    release-date: '2026-04-22'
+    rom-size: 65536
+    features:
+      unknown: false
+      unsupported: true
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: false
+      pcmcia-support: false
+      pnp-support: true
+      apm-support: false
+      upgradeable-flash: false
+      shadowing-allowed: false
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: false
+      keyboard-support: false
+      serial-support: true
+      printer-support: false
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: false
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: false
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: true
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '4.1'
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 146
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Microsoft Corporation
+    product: Virtual Machine
+    version: Hyper-V UEFI Release v4.1
+    serial-number: 0000-0005-2732-6600-7449-1576-92
+    uuid: 492E677E-AC26-403C-85C9-E36A31DC5C46
+    wakeup-type: power-switch
+    sku-number: None
+    family: Virtual Machine
+- handle: 2
+  type: 3
+  length: 155
+  level: '3.9'
+  state:
+  - decoded
+  description: System enclosure or chassis
+  attributes:
+    vendor: Microsoft Corporation
+    type: desktop
+    is-lock-present: false
+    version: Hyper-V UEFI Release v4.1
+    serial-number: 0991-1843-9868-6260-3513-8262-07
+    asset-tag: 7783-7084-3265-9085-8269-3286-77
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: unknown
+    oem-defined: 0
+    height: null
+    power-cord-count: null
+    element-count: 0
+    element-size: 0
+    elements: []
+    sku-number: Virtual Machine
+    rack-type: null
+    rack-height: 0
+- handle: 3
+  type: 2
+  length: 136
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Microsoft Corporation
+    product: Virtual Machine
+    version: Hyper-V UEFI Release v4.1
+    serial-number: 0000-0009-6404-8652-2605-8209-98
+    asset-tag: None
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: false
+      is-hot-swappable: false
+    location: Virtual Machine
+    chassis-handle: 2
+    type: motherboard
+    contained-objects: []
+- handle: 4
+  type: 4
+  length: 149
+  level: '3.8'
+  state:
+  - decoded
+  - linked
+  description: Processor information
+  attributes:
+    socket-designation: None
+    type: central
+    family: amd-zen
+    vendor: Advanced Micro Devices, Inc.
+    id: '0000000000000000'
+    signature:
+      type: 0
+      family: 0
+      model: 0
+      stepping: 0
+    flags:
+      fpu: false
+      vme: false
+      de: false
+      pse: false
+      tsc: false
+      msr: false
+      pae: false
+      mce: false
+      cx8: false
+      apic: false
+      sep: false
+      mtrr: false
+      pge: false
+      mca: false
+      cmov: false
+      pat: false
+      pse-36: false
+      psn: false
+      clfsh: false
+      ds: false
+      acpi: false
+      mmx: false
+      fxsr: false
+      sse: false
+      sse2: false
+      ss: false
+      htt: false
+      tm: false
+      pbe: false
+    version: AMD EPYC 9V74 80-Core Processor
+    voltage: 0.9
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3700
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: none
+    l1-cache-handle: null
+    l2-cache-handle: null
+    l3-cache-handle: null
+    serial-number: None
+    asset-tag: None
+    part-number: None
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 2
+    core-enabled: 2
+    thread-count: 4
+    thread-enabled: unknown
+    socket-type: null
+- handle: 5
+  type: 11
+  length: 118
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 3
+    strings:
+    - '[MS_VM_CERT/SHA1/9b80ca0d5dd061ec9da4e494f4c3fd1196270c22]'
+    - '00000000000000000000000000000000'
+    - To be filled by OEM
+- handle: 6
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 0
+    error-handle: 65534
+    device-count: 2
+- handle: 7
+  type: 17
+  length: 149
+  level: '3.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device
+  attributes:
+    array-handle: 6
+    error-info-handle: 65534
+    total-width: unknown
+    data-width: unknown
+    size: 1073741824
+    form-factor: unknown
+    device-set: 0
+    device-locator: M0001
+    bank-locator: None
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft Corporation
+    serial-number: None
+    asset-tag: None
+    part-number: None
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: unknown
+    maximum-voltage: unknown
+    configured-voltage: unknown
+    memory-technology: null
+    memory-mode-caps: 0
+    firmware-version: null
+    module-vendor-id: unknown
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 0
+    cache-size: 0
+    logical-size: 0
+    pmic0-vendor-id: unknown
+    pmic0-revision: 0
+    rcd-vendor-id: unknown
+    rcd-revision: 0
+- handle: 8
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 1073742847
+    range-size: 1073742848
+    array-handle: 6
+    partition-width: 0
+- handle: 9
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 1073742847
+    range-size: 1073742848
+    device-handle: 7
+    array-addr-handle: 8
+    partition-pos: unknown
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 10
+  type: 17
+  length: 149
+  level: '3.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device
+  attributes:
+    array-handle: 6
+    error-info-handle: 65534
+    total-width: unknown
+    data-width: unknown
+    size: 16106127360
+    form-factor: unknown
+    device-set: 0
+    device-locator: M0002
+    bank-locator: None
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: Microsoft Corporation
+    serial-number: None
+    asset-tag: None
+    part-number: None
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: unknown
+    maximum-voltage: unknown
+    configured-voltage: unknown
+    memory-technology: null
+    memory-mode-caps: 0
+    firmware-version: null
+    module-vendor-id: unknown
+    module-product-id: unknown
+    controller-vendor-id: unknown
+    controller-product-id: unknown
+    non-volatile-size: 0
+    volatile-size: 0
+    cache-size: 0
+    logical-size: 0
+    pmic0-vendor-id: unknown
+    pmic0-revision: 0
+    rcd-vendor-id: unknown
+    rcd-revision: 0
+- handle: 11
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 20401095679
+    range-size: 16106128384
+    array-handle: 6
+    partition-width: 0
+- handle: 12
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 20401095679
+    range-size: 16106128384
+    device-handle: 10
+    array-addr-handle: 11
+    partition-pos: unknown
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 13
+  type: 32
+  length: 13
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 65279
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

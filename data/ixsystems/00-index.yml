@@ -1,0 +1,18 @@
+vendor: iXsystems
+files:
+  freenas-mini-3.0-x.bin:
+    product: FreeNAS Mini 3.0-X
+    source: https://github.com/truenas/truenas_pydmi
+    license: LGPL-3.0
+  truenas-f60-ha.bin:
+    product: TrueNAS F60-HA
+    source: https://github.com/truenas/truenas_pydmi
+    license: LGPL-3.0
+  truenas-h30-ha.bin:
+    product: TrueNAS H30-HA
+    source: https://github.com/truenas/truenas_pydmi
+    license: LGPL-3.0
+  truenas-m50-ha.bin:
+    product: TrueNAS M50-HA
+    source: https://github.com/truenas/truenas_pydmi
+    license: LGPL-3.0

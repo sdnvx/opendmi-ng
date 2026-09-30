@@ -12,7 +12,7 @@ Product family:: minipc_Series
 Firmware vendor:: American Megatrends International, LLC.
 Firmware version:: 1.07
 Release date:: 2025-09-12
-SMBIOS version:: 3.7.1
+SMBIOS version:: 3.7
 
 === Contents
 

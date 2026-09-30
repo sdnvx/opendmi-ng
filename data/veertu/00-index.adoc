@@ -1,0 +1,33 @@
+= Veertu
+:toc:
+:toclevels: 1
+
+== Anka Macmini6,2 (macmini6-2.bin)
+
+[horizontal]
+File path:: `veertu/macmini6-2.bin`
+Product name:: Macmini6,2
+Product version:: 1.0
+Product family:: Macmini
+Firmware vendor:: VEERTU
+Firmware version:: 1.00
+Release date:: 2017-01-01
+SMBIOS version:: 2.64
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 4  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`
+a| `16` | Physical memory array | 1  a| `0x0008`
+a| `17` | Memory device | 2  a| `0x0009`, `0x000A`
+a| `19` | Memory array mapped address | 2  a| `0x000B`, `0x000C`
+a| `32` | System boot information | 1  a| `0x000D`
+a| `127` | End of table | 1  a| `0xFEFF`
+|===

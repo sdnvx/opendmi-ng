@@ -12,7 +12,7 @@ Product family:: Modern
 Firmware vendor:: American Megatrends Inc.
 Firmware version:: E1551IMS.10C
 Release date:: 2019-12-12
-SMBIOS version:: 3.2.1
+SMBIOS version:: 3.2
 
 === Contents
 
@@ -48,10 +48,10 @@ a| `36` | Management device threshold data | 5  a| `0x0027`, `0x002A`, `0x002D`,
 a| `39` | System power supply | 1  a| `0x0039`
 a| `41` | Onboard devices extended information | 14  a| `0x004B`, `0x004C`, `0x004D`, `0x004E`, `0x004F`, `0x0050`, `0x0051`, `0x0052`, `0x0053`, `0x0054`, `0x0055`, `0x0056`, `0x0057`, `0x0058`
 a| `127` | End of table | 1  a| `0x005E`
-a| `131` | OEM-specific | 1  a| `0x0049`
+a| `131` | Intel vPro information | 1  a| `0x0049`
 a| `136` | OEM-specific | 1  a| `0x005A`
-a| `219` | OEM-specific | 1  a| `0x005D`
-a| `221` | OEM-specific | 6  a| `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0059`
+a| `219` | Intel Management Engine interface information | 1  a| `0x005D`
+a| `221` | Intel firmware version information | 6  a| `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0059`
 |===
 == MS-7210 945GM2-FI (ms-7210.bin)
 
@@ -87,6 +87,56 @@ a| `20` | Memory device mapped address | 4  a| `0x0011`, `0x0013`, `0x0015`, `0x
 a| `32` | System boot information | 1  a| `0x0018`
 a| `127` | End of table | 1  a| `0x0019`
 |===
+== MS-7816 (ms-7816.bin)
+
+[horizontal]
+File path:: `msi/ms-7816.bin`
+Product name:: MS-7816
+Product version:: 1.0
+Product family:: To be filled by O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: V2.14B14
+Release date:: 2018-07-13
+SMBIOS version:: 2.8
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x003D`
+a| `7` | Cache information | 3  a| `0x003E`, `0x003F`, `0x0040`
+a| `8` | Port connector information | 22  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`
+a| `9` | System slots | 7  a| `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`
+a| `11` | OEM strings | 1  a| `0x0021`
+a| `12` | System configuration options | 1  a| `0x0022`
+a| `13` | Firmware language information | 1  a| `0x0052`
+a| `16` | Physical memory array | 1  a| `0x0041`
+a| `17` | Memory device | 4  a| `0x0042`, `0x0044`, `0x0046`, `0x0048`
+a| `19` | Memory array mapped address | 1  a| `0x004A`
+a| `20` | Memory device mapped address | 4  a| `0x0043`, `0x0045`, `0x0047`, `0x0049`
+a| `24` | Hardware security | 1  a| `0x0023`
+a| `26` | Voltage probe | 2  a| `0x0026`, `0x0035`
+a| `27` | Cooling device | 3  a| `0x002C`, `0x002F`, `0x0037`
+a| `28` | Temperature probe | 2  a| `0x0029`, `0x0036`
+a| `29` | Electrical current probe | 2  a| `0x0032`, `0x0038`
+a| `32` | System boot information | 1  a| `0x0024`
+a| `34` | Management device | 1  a| `0x0025`
+a| `35` | Management device component | 5  a| `0x0028`, `0x002B`, `0x002E`, `0x0031`, `0x0034`
+a| `36` | Management device threshold data | 5  a| `0x0027`, `0x002A`, `0x002D`, `0x0030`, `0x0033`
+a| `39` | System power supply | 1  a| `0x0039`
+a| `41` | Onboard devices extended information | 3  a| `0x003A`, `0x003B`, `0x003C`
+a| `127` | End of table | 1  a| `0x0054`
+a| `130` | Intel Active Management Technology information | 1  a| `0x004F`
+a| `131` | Intel vPro information | 1  a| `0x0050`
+a| `136` | OEM-specific | 1  a| `0x004E`
+a| `143` | OEM-specific | 1  a| `0x0051`
+|===
 == Pro B650-S WiFi (pro-b650-s-wifi.bin)
 
 [horizontal]
@@ -97,7 +147,7 @@ Product family:: To be filled by O.E.M.
 Firmware vendor:: American Megatrends International, LLC.
 Firmware version:: 1.G0
 Release date:: 2024-10-09
-SMBIOS version:: 3.7.1
+SMBIOS version:: 3.7
 
 === Contents
 

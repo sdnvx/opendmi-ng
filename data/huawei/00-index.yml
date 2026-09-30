@@ -6,3 +6,7 @@ files:
     product: MateBook D 14 2023 MDF-X
   matebook-d14-2024-mdg-x.bin:
     product: MateBook D 14 2024 MDG-X
+  nblb-wax9n.bin:
+    product: NBLB-WAX9N
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none

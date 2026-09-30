@@ -1,0 +1,1806 @@
+entry:
+  smbios-version: '2.8'
+table:
+- handle: 0
+  type: 0
+  length: 79
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: American Megatrends Inc.
+    version: S2S_3A14
+    bios-segment: 61440
+    release-date: '2014-09-18'
+    rom-size: 8388608
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '5.6'
+    controller-version: '3.16'
+- handle: 1
+  type: 1
+  length: 151
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Quanta Computer Inc
+    product: QuantaPlex T41S-2U
+    version: To be filled by O.E.M.
+    serial-number: QTFCKJ51300099
+    uuid: 07A9500A-7C08-1000-A3D9-2C600C7A7FE0
+    wakeup-type: power-switch
+    sku-number: To be filled by O.E.M.
+    family: To be filled by O.E.M.
+- handle: 2
+  type: 2
+  length: 92
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Quanta Computer Inc
+    product: S2S-MB
+    version: 31S2SMB0050
+    serial-number: WKJ51100604
+    asset-tag: ''
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: To be filled by O.E.M.
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 98
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Quanta Computer Inc
+    type: rack-mount
+    is-lock-present: false
+    version: X5M
+    serial-number: To be filled by O.E.M.
+    asset-tag: ''
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 0
+    height: null
+    power-cord-count: 1
+    element-count: 1
+    element-size: 3
+    elements:
+    - type: null
+      board-type: null
+      minimum-count: 0
+      maximum-count: unknown
+    sku-number: To be filled by O.E.M.
+- handle: 4
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J26-B2B_CONN_0
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 5
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J46-B2B_CONN_1
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 6
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: U60-SATA_PORT
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sas
+- handle: 7
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J27-ITP
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 8
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J39-HDD_PORT_0-3
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: sas
+- handle: 9
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J40-HDD_PORT_4-7
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: sas
+- handle: 10
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J12-TPM
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 11
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J37-SATA_0-3
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 12
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J49-sSATA_0-3
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 13
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J31-SATA_6G
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 14
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J41-SATA_6G
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 15
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: J34-USB
+    external-connector: access-bus
+    port-type: usb
+- handle: 16
+  type: 8
+  length: 17
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: J9-VGA
+    external-connector: access-bus
+    port-type: usb
+- handle: 17
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: J21-COMA
+    external-connector: db-9-m
+    port-type: serial-16550a
+- handle: 18
+  type: 8
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: J6-BMC_MANAGEMENT_PORT
+    external-connector: rj-45
+    port-type: network
+- handle: 19
+  type: 9
+  length: 27
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: OCP_Slot
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: in-use
+    length: short
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 1
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 20
+  type: 9
+  length: 31
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser0_Slot0
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: available
+    length: short
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 128
+      device-number: 3
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 21
+  type: 9
+  length: 31
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser0_Slot1
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: in-use
+    length: short
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 3
+      function-number: 2
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 22
+  type: 41
+  length: 20
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: AST2400
+    type: video
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 1
+      bus-number: 6
+      device-number: 0
+      function-number: 0
+- handle: 23
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: SATA_Controller
+    type: sata-controller
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 1
+      bus-number: 0
+      device-number: 31
+      function-number: 2
+- handle: 24
+  type: 41
+  length: 29
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: sSATA_Controller
+    type: sata-controller
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 1
+      bus-number: 0
+      device-number: 17
+      function-number: 4
+- handle: 36
+  type: 11
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - To Be Filled By O.E.M.
+- handle: 40
+  type: 38
+  length: 20
+  level: '2.3'
+  state:
+  - decoded
+  description: IPMI device information
+  attributes:
+    interface-type: kcs
+    specification-version: '2.0'
+    i2c-target-address: 32
+    nv-storage-address: null
+    base-address: 3234
+    base-address-lsb: 0
+    base-address-type: io
+    interrupt-trigger-mode: null
+    interrupt-polarity: null
+    interrupt-number: null
+    register-spacing: 1
+- handle: 54
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: multi-bit
+    maximum-capacity: 274877906944
+    error-handle: 65534
+    device-count: 4
+- handle: 55
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 68719476735
+    range-size: 68719476736
+    array-handle: 54
+    partition-width: 4
+- handle: 56
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 54
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_A0
+    bank-locator: _Node0_Channel0_Dimm0
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B4582
+    asset-tag: DIMM_A0_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 57
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 54
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_A1
+    bank-locator: _Node0_Channel0_Dimm1
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B4576
+    asset-tag: DIMM_A1_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 58
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 54
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_B0
+    bank-locator: _Node0_Channel1_Dimm0
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B443A
+    asset-tag: DIMM_B0_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 59
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 54
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_B1
+    bank-locator: _Node0_Channel1_Dimm1
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B4477
+    asset-tag: DIMM_B1_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 60
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: multi-bit
+    maximum-capacity: 274877906944
+    error-handle: 65534
+    device-count: 4
+- handle: 61
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 137438953471
+    range-size: 68719476736
+    array-handle: 60
+    partition-width: 4
+- handle: 62
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 60
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_C0
+    bank-locator: _Node0_Channel2_Dimm0
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B45A4
+    asset-tag: DIMM_C0_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 63
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 60
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_C1
+    bank-locator: _Node0_Channel2_Dimm1
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B43D5
+    asset-tag: DIMM_C1_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 64
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 60
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_D0
+    bank-locator: _Node0_Channel3_Dimm0
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B43E0
+    asset-tag: DIMM_D0_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 65
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 60
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_D1
+    bank-locator: _Node0_Channel3_Dimm1
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B43D7
+    asset-tag: DIMM_D1_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 66
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: multi-bit
+    maximum-capacity: 274877906944
+    error-handle: 65534
+    device-count: 4
+- handle: 67
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 137438953472
+    end-addr: 206158430207
+    range-size: 68719476736
+    array-handle: 66
+    partition-width: 4
+- handle: 68
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 66
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_E0
+    bank-locator: _Node1_Channel0_Dimm0
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B4442
+    asset-tag: DIMM_E0_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 69
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 66
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_E1
+    bank-locator: _Node1_Channel0_Dimm1
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B4435
+    asset-tag: DIMM_E1_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 70
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 66
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_F0
+    bank-locator: _Node1_Channel1_Dimm0
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B4577
+    asset-tag: DIMM_F0_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 71
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 66
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_F1
+    bank-locator: _Node1_Channel1_Dimm1
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B445D
+    asset-tag: DIMM_F1_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 72
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: multi-bit
+    maximum-capacity: 274877906944
+    error-handle: 65534
+    device-count: 4
+- handle: 73
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 206158430208
+    end-addr: 274877906943
+    range-size: 68719476736
+    array-handle: 72
+    partition-width: 4
+- handle: 74
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 72
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_G0
+    bank-locator: _Node1_Channel2_Dimm0
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B445B
+    asset-tag: DIMM_G0_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 75
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 72
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_G1
+    bank-locator: _Node1_Channel2_Dimm1
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B445F
+    asset-tag: DIMM_G1_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 76
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 72
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_H0
+    bank-locator: _Node1_Channel3_Dimm0
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B443D
+    asset-tag: DIMM_H0_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 77
+  type: 17
+  length: 125
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 72
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_H1
+    bank-locator: _Node1_Channel3_Dimm1
+    memory-type: other
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Samsung
+    serial-number: 713B457A
+    asset-tag: DIMM_H1_AssetTag
+    part-number: M393A2G40DB0-CPB
+    rank: 2
+    configured-speed: 1866
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 78
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L1
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 655360
+    installed-size: 655360
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: parity
+    type: other
+    associativity: 8-way
+- handle: 79
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L2
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 2621440
+    installed-size: 2621440
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 80
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L3
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 26214400
+    installed-size: 26214400
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 20-way
+- handle: 81
+  type: 4
+  length: 100
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: SOCKET 0
+    type: central
+    family: intel-xeon
+    vendor: Intel
+    id: f2060300fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 63
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) CPU E5-2650 v3 @ 2.30GHz
+    voltage: 0.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 2300
+    current-speed: 2300
+    is-populated: true
+    status: enabled
+    upgrade: socket-lga2011-3
+    l1-cache-handle: 78
+    l2-cache-handle: 79
+    l3-cache-handle: 80
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 10
+    core-enabled: 10
+    thread-count: 20
+- handle: 82
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L1
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 655360
+    installed-size: 655360
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: parity
+    type: other
+    associativity: 8-way
+- handle: 83
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L2
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 2621440
+    installed-size: 2621440
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 84
+  type: 7
+  length: 36
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: CPU Internal L3
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 26214400
+    installed-size: 26214400
+    supported-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: true
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 20-way
+- handle: 85
+  type: 4
+  length: 100
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: SOCKET 1
+    type: central
+    family: intel-xeon
+    vendor: Intel
+    id: f2060300fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 63
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) CPU E5-2650 v3 @ 2.30GHz
+    voltage: 0.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 2300
+    current-speed: 2300
+    is-populated: true
+    status: enabled
+    upgrade: socket-lga2011-3
+    l1-cache-handle: 82
+    l2-cache-handle: 83
+    l3-cache-handle: 84
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 10
+    core-enabled: 10
+    thread-count: 20
+- handle: 107
+  type: 13
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 108
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

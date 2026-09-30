@@ -1,0 +1,2355 @@
+entry:
+  smbios-version: '2.7'
+table:
+- handle: 0
+  type: 0
+  length: 90
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: Intel Corporation
+    version: SE5C610.86B.01.01.0009.060120151350
+    bios-segment: 61440
+    release-date: '2015-06-01'
+    rom-size: 16777216
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: true
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: true
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: true
+      boot-atapi-zip: true
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: true
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: null
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 77
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: EMC
+    product: S2600TP
+    version: FFF
+    serial-number: FC6AT154900065
+    uuid: 008AEFFD-5F45-E511-906E-000FFEE922EE
+    wakeup-type: power-switch
+    sku-number: SKU Number
+    family: Family
+- handle: 2
+  type: 2
+  length: 104
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Intel Corporation
+    product: S2600TP
+    version: H26989-251
+    serial-number: BQTP53840065
+    asset-tag: Base Board Asset Tag
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: Part Component
+    chassis-handle: 0
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 121
+  level: '3.9'
+  state:
+  - decoded
+  description: System enclosure or chassis
+  attributes:
+    vendor: '...............................'
+    type: rack-mount
+    is-lock-present: false
+    version: 105-000-479-02
+    serial-number: FC6ND154900242
+    asset-tag: FC6AT154900065_100-400-075-02_FFF
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 0
+    height: null
+    power-cord-count: null
+    element-count: 0
+    element-size: 0
+    elements: []
+    sku-number: null
+    rack-type: null
+    rack-height: 0
+- handle: 9
+  type: 11
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - To Be Filled By O.E.M.
+- handle: 11
+  type: 13
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - enUS
+    flags:
+      is-abbreviated: true
+    current-language: enUS
+- handle: 12
+  type: 27
+  length: 17
+  level: '2.7'
+  state:
+  - decoded
+  description: Cooling device
+  attributes:
+    probe-handle: 11
+    type: fan
+    status: ok
+    group: 1
+    oem-defined: 0
+    nominal-speed: unknown
+    description: null
+- handle: 13
+  type: 28
+  length: 29
+  level: '2.2'
+  state:
+  - decoded
+  description: Temperature probe
+  attributes:
+    description: LM78A
+    location: system-mgmt-module
+    status: null
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 14
+  type: 32
+  length: 13
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 15
+  type: 34
+  length: 20
+  level: '2.3'
+  state:
+  - decoded
+  description: Management device
+  attributes:
+    description: UNKNOWN
+    type: unknown
+    address: 0
+    address-type: unknown
+- handle: 16
+  type: 35
+  length: 35
+  level: '2.3'
+  state:
+  - decoded
+  description: Management device component
+  attributes:
+    description: To Be Filled By O.E.M.
+    device-handle: 13
+    component-handle: 10
+    threshold-handle: 15
+- handle: 17
+  type: 36
+  length: 18
+  level: '2.3'
+  state:
+  - decoded
+  description: Management device threshold data
+  attributes:
+    lower-non-critical: unknown
+    upper-non-critical: unknown
+    lower-critical: unknown
+    upper-critical: unknown
+    lower-non-recoverable: unknown
+    upper-non-recoverable: unknown
+- handle: 19
+  type: 24
+  length: 7
+  level: '2.2'
+  state:
+  - decoded
+  description: Hardware security
+  attributes:
+    front-panel-reset: disabled
+    admin-password: enabled
+    keyboard-password: not-implemented
+    poweron-password: disabled
+- handle: 23
+  type: 39
+  length: 184
+  level: 2.3.1
+  state:
+  - decoded
+  description: System power supply
+  attributes:
+    group: 1
+    location: To Be Filled By O.E.M.
+    name: To Be Filled By O.E.M.
+    vendor: To Be Filled By O.E.M.
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: To Be Filled By O.E.M.
+    revision: To Be Filled By O.E.M.
+    maximum-capacity: unknown
+    hot-swappable: false
+    present: true
+    unplugged: false
+    range-switching: unknown
+    status: unknown
+    type: unknown
+    voltage-probe-handle: 0
+    cooling-device-handle: 10
+    current-probe-handle: 0
+- handle: 24
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 524288
+    installed-size: 524288
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 8-way
+- handle: 25
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 2097152
+    installed-size: 2097152
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 26
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 20971520
+    installed-size: 20971520
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: full
+- handle: 27
+  type: 4
+  length: 117
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU1
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: f2060300fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 63
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
+    voltage: 1.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 4000
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: socket-lga2011-3
+    l1-cache-handle: 24
+    l2-cache-handle: 25
+    l3-cache-handle: 26
+    serial-number: ''
+    asset-tag: ''
+    part-number: ''
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 8
+    core-enabled: 8
+    thread-count: 16
+- handle: 28
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 524288
+    installed-size: 524288
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 8-way
+- handle: 29
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 2097152
+    installed-size: 2097152
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 30
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 20971520
+    installed-size: 20971520
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: full
+- handle: 31
+  type: 4
+  length: 117
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU2
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: f2060300fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 63
+      stepping: 2
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
+    voltage: 1.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 4000
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: socket-lga2011-3
+    l1-cache-handle: 28
+    l2-cache-handle: 29
+    l3-cache-handle: 30
+    serial-number: ''
+    asset-tag: ''
+    part-number: ''
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 8
+    core-enabled: 8
+    thread-count: 16
+- handle: 32
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: single-bit
+    maximum-capacity: 274877906944
+    error-handle: 65534
+    device-count: 8
+- handle: 33
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 137438953471
+    range-size: 137438953472
+    array-handle: 32
+    partition-width: 8
+- handle: 34
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_A1
+    bank-locator: NODE 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C57BF
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 35
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 17179869183
+    range-size: 17179869184
+    device-handle: 34
+    array-addr-handle: 33
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 36
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_A2
+    bank-locator: NODE 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C57BD
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 37
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 17179869184
+    end-addr: 34359738367
+    range-size: 17179869184
+    device-handle: 36
+    array-addr-handle: 33
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 38
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_B1
+    bank-locator: NODE 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C5786
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 39
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 34359738368
+    end-addr: 51539607551
+    range-size: 17179869184
+    device-handle: 38
+    array-addr-handle: 33
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 40
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_B2
+    bank-locator: NODE 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C57BE
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 41
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 51539607552
+    end-addr: 68719476735
+    range-size: 17179869184
+    device-handle: 40
+    array-addr-handle: 33
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 42
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_C1
+    bank-locator: NODE 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C57E5
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 43
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 85899345919
+    range-size: 17179869184
+    device-handle: 42
+    array-addr-handle: 33
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 44
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_C2
+    bank-locator: NODE 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C5772
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 45
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 85899345920
+    end-addr: 103079215103
+    range-size: 17179869184
+    device-handle: 44
+    array-addr-handle: 33
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 46
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_D1
+    bank-locator: NODE 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C57E6
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 47
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 103079215104
+    end-addr: 120259084287
+    range-size: 17179869184
+    device-handle: 46
+    array-addr-handle: 33
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 48
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 32
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_D2
+    bank-locator: NODE 1
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C5761
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 49
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 120259084288
+    end-addr: 137438953471
+    range-size: 17179869184
+    device-handle: 48
+    array-addr-handle: 33
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 50
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: single-bit
+    maximum-capacity: 274877906944
+    error-handle: 65534
+    device-count: 8
+- handle: 51
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 137438953472
+    end-addr: 274877906943
+    range-size: 137438953472
+    array-handle: 50
+    partition-width: 8
+- handle: 52
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 50
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_E1
+    bank-locator: NODE 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C5770
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 53
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 137438953472
+    end-addr: 154618822655
+    range-size: 17179869184
+    device-handle: 52
+    array-addr-handle: 51
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 54
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 50
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_E2
+    bank-locator: NODE 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C5771
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 55
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 154618822656
+    end-addr: 171798691839
+    range-size: 17179869184
+    device-handle: 54
+    array-addr-handle: 51
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 56
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 50
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_F1
+    bank-locator: NODE 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C5773
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 57
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 171798691840
+    end-addr: 188978561023
+    range-size: 17179869184
+    device-handle: 56
+    array-addr-handle: 51
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 58
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 50
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_F2
+    bank-locator: NODE 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C576B
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 59
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 188978561024
+    end-addr: 206158430207
+    range-size: 17179869184
+    device-handle: 58
+    array-addr-handle: 51
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 60
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 50
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_G1
+    bank-locator: NODE 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C5810
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 61
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 206158430208
+    end-addr: 223338299391
+    range-size: 17179869184
+    device-handle: 60
+    array-addr-handle: 51
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 62
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 50
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_G2
+    bank-locator: NODE 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C57E2
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 63
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 223338299392
+    end-addr: 240518168575
+    range-size: 17179869184
+    device-handle: 62
+    array-addr-handle: 51
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 64
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 50
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_H1
+    bank-locator: NODE 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C57D3
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 65
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 240518168576
+    end-addr: 257698037759
+    range-size: 17179869184
+    device-handle: 64
+    array-addr-handle: 51
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 66
+  type: 17
+  length: 89
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 50
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 17179869184
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_H2
+    bank-locator: NODE 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: Micron
+    serial-number: 103C57D1
+    asset-tag: ''
+    part-number: 36ASF2G72PZ-2G1A2
+    rank: 2
+    configured-speed: 1866
+- handle: 67
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 257698037760
+    end-addr: 274877906943
+    range-size: 17179869184
+    device-handle: 66
+    array-addr-handle: 51
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 18
+  type: 38
+  length: 20
+  level: '2.3'
+  state:
+  - decoded
+  description: IPMI device information
+  attributes:
+    interface-type: kcs
+    specification-version: '2.0'
+    i2c-target-address: 32
+    nv-storage-address: null
+    base-address: 3234
+    base-address-lsb: 0
+    base-address-type: io
+    interrupt-trigger-mode: null
+    interrupt-polarity: null
+    interrupt-number: null
+    register-spacing: 1
+- handle: 4
+  type: 8
+  length: 31
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: J7A1 - Serial Port A
+    external-connector: db-9-m
+    port-type: serial-16550a
+- handle: 68
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: J3A1 - Rear USB 0
+    external-connector: access-bus
+    port-type: usb
+- handle: 69
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: J3A1 - Rear USB 1
+    external-connector: access-bus
+    port-type: usb
+- handle: 70
+  type: 8
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: J4A1 - VGA
+    external-connector: db-15-f
+    port-type: video
+- handle: 71
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: JA6A1 - NIC 1
+    external-connector: rj-45
+    port-type: network
+- handle: 72
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: JA5A1 - NIC 2
+    external-connector: rj-45
+    port-type: network
+- handle: 73
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: null
+    internal-connector: none
+    external-designator: JA2A1 - RMM NIC
+    external-connector: rj-45
+    port-type: network
+- handle: 74
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2C4 - Internal USB
+    internal-connector: access-bus
+    external-designator: null
+    external-connector: none
+    port-type: usb
+- handle: 75
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1A2 - RMM4 Lite
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 76
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3C2 - SATA 0
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 77
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2C3 - SATA 1
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 78
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2C2 - SATA 2
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 79
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2C1 - SATA 3
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 80
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J7C3 - SATA DOM
+    internal-connector: sas-sata
+    external-designator: null
+    external-connector: none
+    port-type: sata
+- handle: 81
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J7A5 - RISER_SLOT_1
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 82
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1C2 - RISER_SLOT_2
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 83
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1G1 - RISER_SLOT_3
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 84
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1J1 - RISER_SLOT_4
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 5
+  type: 9
+  length: 33
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser 2 Slot 2
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: available
+    length: long
+    ident: 803
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 1
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 6
+  type: 9
+  length: 33
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser 1 Slot 1
+    type: pci-e-g3-x16
+    bus-width: 16x
+    usage: available
+    length: long
+    ident: 785
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 2
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 7
+  type: 9
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser 2 Slot 1-1
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: available
+    length: long
+    ident: 801
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 3
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 8
+  type: 9
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser 2 Slot 1-2
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: in-use
+    length: long
+    ident: 802
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 3
+      function-number: 2
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 85
+  type: 9
+  length: 34
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser 3, slot 2
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: in-use
+    length: long
+    ident: 818
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 128
+      device-number: 1
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 86
+  type: 9
+  length: 34
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser 3, slot 1
+    type: pci-e-g3-x16
+    bus-width: 16x
+    usage: available
+    length: long
+    ident: 817
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 128
+      device-number: 3
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 87
+  type: 9
+  length: 34
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: Riser 4, slot 1
+    type: pci-e-g3-x16
+    bus-width: 16x
+    usage: available
+    length: long
+    ident: 833
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 128
+      device-number: 2
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 88
+  type: 10
+  length: 111
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 4
+    instances:
+    - type: video
+      is-enabled: true
+      description: ServerEngines Pilot III
+    - type: ethernet
+      is-enabled: true
+      description: Intel I350
+    - type: sata-controller
+      is-enabled: true
+      description: PCH Integrated SATA Controller
+    - type: sata-controller
+      is-enabled: true
+      description: PCH Integrated sSATA Controller
+- handle: 10
+  type: 12
+  length: 252
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - 'J7C2: Close to boot with MFG mode'
+    - 'J7B2 2-3: Close for BIOS Image swap'
+    - 'J5D2 2-3: ME force update'
+    - 'J7A7 2-3: Recovery BIOS'
+    - 'J7A6 2-3: Clear password'
+    - 'J7A3 2-3: Clear CMOS register'
+    - 'J7A2 2-3: Force BMC update'
+    - 'J7B3 1-2: PLD program enable'
+    - 'J6C2: RAID key'
+- handle: 20
+  type: 41
+  length: 36
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: ServerEngines Pilot III
+    type: video
+    is-enabled: true
+    instance: 0
+    address:
+      segment-group: 0
+      bus-number: 6
+      device-number: 0
+      function-number: 0
+- handle: 21
+  type: 41
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Intel I350
+    type: ethernet
+    is-enabled: true
+    instance: 0
+    address:
+      segment-group: 0
+      bus-number: 7
+      device-number: 0
+      function-number: 0
+- handle: 22
+  type: 41
+  length: 43
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: PCH Integrated SATA Controller
+    type: sata-controller
+    is-enabled: true
+    instance: 0
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 31
+      function-number: 2
+- handle: 89
+  type: 41
+  length: 44
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: PCH Integrated sSATA Controller
+    type: sata-controller
+    is-enabled: true
+    instance: 0
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 17
+      function-number: 4
+- handle: 65279
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

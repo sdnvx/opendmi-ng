@@ -1,0 +1,89 @@
+= QEMU
+:toc:
+:toclevels: 1
+
+== KVM BIOS (2007) (kvm-bios-2007.bin)
+
+[horizontal]
+File path:: `qemu/kvm-bios-2007.bin`
+Product name:: None
+Product version:: None
+Product family:: None
+Firmware vendor:: QEMU
+Firmware version:: QEMU
+Release date:: 2007-01-01
+SMBIOS version:: 2.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0100`
+a| `3` | System enclosure or chassis | 1  a| `0x0300`
+a| `4` | Processor information | 1  a| `0x0401`
+a| `16` | Physical memory array | 1  a| `0x1000`
+a| `17` | Memory device | 1  a| `0x1100`
+a| `19` | Memory array mapped address | 1  a| `0x1300`
+a| `20` | Memory device mapped address | 1  a| `0x1400`
+a| `32` | System boot information | 1  a| `0x2000`
+a| `127` | End of table | 1  a| `0x7F00`
+|===
+== Standard PC (i440FX + PIIX) 9.2 (pc-i440fx-9.2.bin)
+
+[horizontal]
+File path:: `qemu/pc-i440fx-9.2.bin`
+Product name:: Standard PC (i440FX + PIIX, 1996)
+Product version:: pc-i440fx-9.2
+Product family:: None
+Firmware vendor:: SeaBIOS
+Firmware version:: 1.17.0-5.fc42
+Release date:: 2014-04-01
+SMBIOS version:: 2.8
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0100`
+a| `3` | System enclosure or chassis | 1  a| `0x0300`
+a| `4` | Processor information | 1  a| `0x0400`
+a| `16` | Physical memory array | 1  a| `0x1000`
+a| `17` | Memory device | 1  a| `0x1100`
+a| `19` | Memory array mapped address | 2  a| `0x1300`, `0x1301`
+a| `32` | System boot information | 1  a| `0x2000`
+a| `127` | End of table | 1  a| `0x7F00`
+|===
+== Standard PC (Q35 + ICH9) 10.0 (pc-q35-10.0.bin)
+
+[horizontal]
+File path:: `qemu/pc-q35-10.0.bin`
+Product name:: Standard PC (Q35 + ICH9, 2009)
+Product version:: pc-q35-10.0
+Product family:: None
+Firmware vendor:: SeaBIOS
+Firmware version:: 1.16.3-debian-1.16.3-2
+Release date:: 2014-04-01
+SMBIOS version:: 2.8
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0100`
+a| `3` | System enclosure or chassis | 1  a| `0x0300`
+a| `4` | Processor information | 4  a| `0x0400`, `0x0401`, `0x0402`, `0x0403`
+a| `16` | Physical memory array | 1  a| `0x1000`
+a| `17` | Memory device | 1  a| `0x1100`
+a| `19` | Memory array mapped address | 2  a| `0x1300`, `0x1301`
+a| `32` | System boot information | 1  a| `0x2000`
+a| `127` | End of table | 1  a| `0x7F00`
+|===

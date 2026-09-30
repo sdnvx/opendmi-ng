@@ -2,3 +2,7 @@ vendor: Miscellaneous
 files:
   noname-1.bin:
     product: Noname [1]
+  x99h.bin:
+    product: X99H
+    source: https://github.com/kennyluvvuu/RusyaHackintosh
+    license: none

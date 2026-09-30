@@ -1,0 +1,14 @@
+vendor: QEMU
+files:
+  kvm-bios-2007.bin:
+    product: KVM BIOS (2007)
+    source: https://github.com/nima/python-dmidecode
+    license: GPL-2.0
+  pc-i440fx-9.2.bin:
+    product: Standard PC (i440FX + PIIX) 9.2
+    source: https://github.com/LazySeldi/lazybios
+    license: MIT
+  pc-q35-10.0.bin:
+    product: Standard PC (Q35 + ICH9) 10.0
+    source: https://github.com/truenas/truenas_pydmi
+    license: LGPL-3.0

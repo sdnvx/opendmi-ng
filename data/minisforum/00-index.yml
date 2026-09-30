@@ -1,0 +1,6 @@
+vendor: Minisforum
+files:
+  um790-pro.bin:
+    product: UM790 Pro
+    source: https://github.com/siderolabs/go-smbios
+    license: MPL-2.0

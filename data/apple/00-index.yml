@@ -1,0 +1,6 @@
+vendor: Apple
+files:
+  imac11-3.bin:
+    product: iMac11,3
+    source: https://github.com/5T33Z0/iMac-2010-Big-Sur
+    license: none

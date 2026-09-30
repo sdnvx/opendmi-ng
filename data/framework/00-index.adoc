@@ -1,0 +1,222 @@
+= Framework
+:toc:
+:toclevels: 1
+
+== Laptop 12 (13th Gen Intel Core) (laptop-12-13th-gen-intel.bin)
+
+[horizontal]
+File path:: `framework/laptop-12-13th-gen-intel.bin`
+Product name:: Laptop 12 (13th Gen Intel Core)
+Product version:: A5
+Product family:: Laptop 12
+Firmware vendor:: INSYDE Corp.
+Firmware version:: 03.05
+Release date:: 2025-09-08
+SMBIOS version:: 3.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 8  a| `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`
+a| `8` | Port connector information | 4  a| `0x000D`, `0x000E`, `0x000F`, `0x0010`
+a| `9` | System slots | 2  a| `0x0011`, `0x0012`
+a| `11` | OEM strings | 1  a| `0x0013`
+a| `12` | System configuration options | 1  a| `0x0014`
+a| `13` | Firmware language information | 1  a| `0x0015`
+a| `14` | Group associations | 2  a| `0x0016`, `0x0032`
+a| `15` | System event log | 1  a| `0x0017`
+a| `16` | Physical memory array | 1  a| `0x0018`
+a| `17` | Memory device | 1  a| `0x0019`
+a| `19` | Memory array mapped address | 1  a| `0x001A`
+a| `20` | Memory device mapped address | 1  a| `0x001B`
+a| `21` | Built-in pointing device | 1  a| `0x001C`
+a| `22` | Portable battery | 1  a| `0x001D`
+a| `24` | Hardware security | 1  a| `0x001E`
+a| `26` | Voltage probe | 1  a| `0x001F`
+a| `27` | Cooling device | 1  a| `0x0020`
+a| `28` | Temperature probe | 1  a| `0x0021`
+a| `32` | System boot information | 1  a| `0x0022`
+a| `39` | System power supply | 1  a| `0x0023`
+a| `40` | Additional information | 1  a| `0x0024`
+a| `41` | Onboard devices extended information | 1  a| `0x0025`
+a| `43` | TPM device | 1  a| `0x0026`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0027`
+a| `129` | OEM-specific | 1  a| `0x0028`
+a| `131` | Intel vPro information | 1  a| `0x0029`
+a| `136` | OEM-specific | 1  a| `0x002A`
+a| `219` | Intel Management Engine interface information | 1  a| `0x002B`
+a| `221` | Intel firmware version information | 6  a| `0x002C`, `0x002D`, `0x002E`, `0x002F`, `0x0030`, `0x0031`
+|===
+== Laptop 13 (12th Gen Intel Core) (laptop-13-12th-gen-intel.bin)
+
+[horizontal]
+File path:: `framework/laptop-13-12th-gen-intel.bin`
+Product name:: Laptop (12th Gen Intel Core)
+Product version:: A8
+Product family:: 13in Laptop
+Firmware vendor:: INSYDE Corp.
+Firmware version:: 03.19
+Release date:: 2025-09-18
+SMBIOS version:: 3.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 8  a| `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`
+a| `8` | Port connector information | 4  a| `0x000D`, `0x000E`, `0x000F`, `0x0010`
+a| `9` | System slots | 2  a| `0x0011`, `0x0012`
+a| `11` | OEM strings | 1  a| `0x0013`
+a| `12` | System configuration options | 1  a| `0x0014`
+a| `13` | Firmware language information | 1  a| `0x0015`
+a| `14` | Group associations | 2  a| `0x0016`, `0x0035`
+a| `15` | System event log | 1  a| `0x0017`
+a| `16` | Physical memory array | 1  a| `0x0018`
+a| `17` | Memory device | 2  a| `0x0019`, `0x001A`
+a| `19` | Memory array mapped address | 1  a| `0x001B`
+a| `20` | Memory device mapped address | 2  a| `0x001C`, `0x001D`
+a| `21` | Built-in pointing device | 1  a| `0x001E`
+a| `22` | Portable battery | 1  a| `0x001F`
+a| `24` | Hardware security | 1  a| `0x0020`
+a| `26` | Voltage probe | 1  a| `0x0021`
+a| `27` | Cooling device | 1  a| `0x0022`
+a| `28` | Temperature probe | 1  a| `0x0023`
+a| `32` | System boot information | 1  a| `0x0024`
+a| `39` | System power supply | 1  a| `0x0025`
+a| `40` | Additional information | 1  a| `0x0026`
+a| `41` | Onboard devices extended information | 1  a| `0x0027`
+a| `43` | TPM device | 1  a| `0x0028`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0029`
+a| `129` | OEM-specific | 1  a| `0x002A`
+a| `130` | Intel Active Management Technology information | 1  a| `0x002B`
+a| `131` | Intel vPro information | 1  a| `0x002C`
+a| `136` | OEM-specific | 1  a| `0x002D`
+a| `219` | Intel Management Engine interface information | 1  a| `0x002E`
+a| `221` | Intel firmware version information | 6  a| `0x002F`, `0x0030`, `0x0031`, `0x0032`, `0x0033`, `0x0034`
+|===
+== Laptop 13 (13th Gen Intel Core) (laptop-13-13th-gen-intel.bin)
+
+[horizontal]
+File path:: `framework/laptop-13-13th-gen-intel.bin`
+Product name:: Laptop (13th Gen Intel Core)
+Product version:: 76
+Product family:: 13in Laptop
+Firmware vendor:: INSYDE Corp.
+Firmware version:: 03.09
+Release date:: 2025-08-18
+SMBIOS version:: 3.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 8  a| `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`
+a| `8` | Port connector information | 4  a| `0x000D`, `0x000E`, `0x000F`, `0x0010`
+a| `9` | System slots | 2  a| `0x0011`, `0x0012`
+a| `11` | OEM strings | 1  a| `0x0013`
+a| `12` | System configuration options | 1  a| `0x0014`
+a| `13` | Firmware language information | 1  a| `0x0015`
+a| `14` | Group associations | 2  a| `0x0016`, `0x0035`
+a| `15` | System event log | 1  a| `0x0017`
+a| `16` | Physical memory array | 1  a| `0x0018`
+a| `17` | Memory device | 2  a| `0x0019`, `0x001A`
+a| `19` | Memory array mapped address | 1  a| `0x001B`
+a| `20` | Memory device mapped address | 2  a| `0x001C`, `0x001D`
+a| `21` | Built-in pointing device | 1  a| `0x001E`
+a| `22` | Portable battery | 1  a| `0x001F`
+a| `24` | Hardware security | 1  a| `0x0020`
+a| `26` | Voltage probe | 1  a| `0x0021`
+a| `27` | Cooling device | 1  a| `0x0022`
+a| `28` | Temperature probe | 1  a| `0x0023`
+a| `32` | System boot information | 1  a| `0x0024`
+a| `39` | System power supply | 1  a| `0x0025`
+a| `40` | Additional information | 1  a| `0x0026`
+a| `41` | Onboard devices extended information | 1  a| `0x0027`
+a| `43` | TPM device | 1  a| `0x0028`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0029`
+a| `129` | OEM-specific | 1  a| `0x002A`
+a| `130` | Intel Active Management Technology information | 1  a| `0x002B`
+a| `131` | Intel vPro information | 1  a| `0x002C`
+a| `136` | OEM-specific | 1  a| `0x002D`
+a| `219` | Intel Management Engine interface information | 1  a| `0x002E`
+a| `221` | Intel firmware version information | 6  a| `0x002F`, `0x0030`, `0x0031`, `0x0032`, `0x0033`, `0x0034`
+|===
+== Laptop 13 (Intel Core Ultra Series 1) (laptop-13-intel-core-ultra-1.bin)
+
+[horizontal]
+File path:: `framework/laptop-13-intel-core-ultra-1.bin`
+Product name:: Laptop 13 (Intel Core Ultra Series 1)
+Product version:: *
+Product family:: Laptop
+Firmware vendor:: INSYDE Corp.
+Firmware version:: 03.06
+Release date:: 2025-08-08
+SMBIOS version:: 3.6
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 8  a| `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`
+a| `8` | Port connector information | 4  a| `0x000D`, `0x000E`, `0x000F`, `0x0010`
+a| `9` | System slots | 2  a| `0x0011`, `0x0012`
+a| `11` | OEM strings | 1  a| `0x0013`
+a| `12` | System configuration options | 1  a| `0x0014`
+a| `13` | Firmware language information | 1  a| `0x0015`
+a| `14` | Group associations | 2  a| `0x0016`, `0x0034`
+a| `15` | System event log | 1  a| `0x0017`
+a| `16` | Physical memory array | 1  a| `0x0018`
+a| `17` | Memory device | 2  a| `0x0019`, `0x001A`
+a| `19` | Memory array mapped address | 1  a| `0x001B`
+a| `20` | Memory device mapped address | 2  a| `0x001C`, `0x001D`
+a| `21` | Built-in pointing device | 1  a| `0x001E`
+a| `22` | Portable battery | 1  a| `0x001F`
+a| `24` | Hardware security | 1  a| `0x0020`
+a| `26` | Voltage probe | 1  a| `0x0021`
+a| `27` | Cooling device | 1  a| `0x0022`
+a| `28` | Temperature probe | 1  a| `0x0023`
+a| `32` | System boot information | 1  a| `0x0024`
+a| `39` | System power supply | 1  a| `0x0025`
+a| `40` | Additional information | 1  a| `0x0026`
+a| `41` | Onboard devices extended information | 1  a| `0x0027`
+a| `43` | TPM device | 1  a| `0x0028`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0029`
+a| `129` | OEM-specific | 1  a| `0x002A`
+a| `131` | Intel vPro information | 1  a| `0x002B`
+a| `136` | OEM-specific | 1  a| `0x002C`
+a| `219` | Intel Management Engine interface information | 1  a| `0x002D`
+a| `221` | Intel firmware version information | 6  a| `0x002E`, `0x002F`, `0x0030`, `0x0031`, `0x0032`, `0x0033`
+|===

@@ -4,6 +4,10 @@ files:
     product: Modern 15 A10M
   ms-7210.bin:
     product: MS-7210 945GM2-FI
+  ms-7816.bin:
+    product: MS-7816
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
   pro-b650-s-wifi.bin:
     product: Pro B650-S WiFi
   wind-u100.bin:

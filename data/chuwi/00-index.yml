@@ -1,0 +1,6 @@
+vendor: Chuwi
+files:
+  corebook-x.bin:
+    product: CoreBook X
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none

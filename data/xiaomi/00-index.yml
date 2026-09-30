@@ -1,0 +1,10 @@
+vendor: Xiaomi
+files:
+  mi-gaming-laptop-15.6.bin:
+    product: Mi Gaming Laptop 15.6
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  tm1701.bin:
+    product: TM1701
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none

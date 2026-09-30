@@ -1,4 +1,8 @@
 vendor: Fujitsu
 files:
+  esprimo-q958.bin:
+    product: ESPRIMO Q958
+    source: https://github.com/5T33Z0/Fujitsu-Esprimo-Q958-Hackintosh-OpenCore
+    license: GPL-3.0
   lifebook-s-4546.bin:
     product: LifeBook S-4546

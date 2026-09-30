@@ -1,0 +1,115 @@
+= Xiaomi
+:toc:
+:toclevels: 1
+
+== Mi Gaming Laptop 15.6 (mi-gaming-laptop-15.6.bin)
+
+[horizontal]
+File path:: `xiaomi/mi-gaming-laptop-15.6.bin`
+Product name:: Mi Gaming Laptop 15.6
+Product version:: 
+Product family:: Mi Laptop
+Firmware vendor:: TIMI
+Firmware version:: XMGCF5R0P0303
+Release date:: 2019-09-18
+SMBIOS version:: 3.0.1
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 17  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`
+a| `9` | System slots | 5  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`
+a| `11` | OEM strings | 1  a| `0x001E`
+a| `12` | System configuration options | 1  a| `0x001F`
+a| `13` | Firmware language information | 1  a| `0x0020`
+a| `14` | Group associations | 3  a| `0x0021`, `0x0022`, `0x0023`
+a| `15` | System event log | 1  a| `0x0024`
+a| `16` | Physical memory array | 1  a| `0x0025`
+a| `17` | Memory device | 2  a| `0x0026`, `0x0027`
+a| `19` | Memory array mapped address | 1  a| `0x0028`
+a| `20` | Memory device mapped address | 2  a| `0x0029`, `0x002A`
+a| `21` | Built-in pointing device | 1  a| `0x002B`
+a| `22` | Portable battery | 1  a| `0x002C`
+a| `24` | Hardware security | 1  a| `0x002D`
+a| `26` | Voltage probe | 1  a| `0x002E`
+a| `27` | Cooling device | 1  a| `0x002F`
+a| `28` | Temperature probe | 1  a| `0x0030`
+a| `32` | System boot information | 1  a| `0x0031`
+a| `39` | System power supply | 1  a| `0x0032`
+a| `40` | Additional information | 1  a| `0x0033`
+a| `41` | Onboard devices extended information | 1  a| `0x0034`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0035`
+a| `129` | OEM-specific | 1  a| `0x0036`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0037`
+a| `131` | Intel vPro information | 1  a| `0x0038`
+a| `136` | OEM-specific | 1  a| `0x0039`
+a| `219` | Intel Management Engine interface information | 1  a| `0x003A`
+a| `221` | Intel firmware version information | 5  a| `0x003B`, `0x003C`, `0x003D`, `0x003E`, `0x003F`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0040`
+|===
+== TM1701 (tm1701.bin)
+
+[horizontal]
+File path:: `xiaomi/tm1701.bin`
+Product name:: TM1701
+Product version:: 
+Product family:: Timibook
+Firmware vendor:: INSYDE Corp.
+Firmware version:: XMAKB5R0P0502
+Release date:: 2017-10-13
+SMBIOS version:: 3.0
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 17  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`
+a| `9` | System slots | 5  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`
+a| `11` | OEM strings | 1  a| `0x001E`
+a| `12` | System configuration options | 1  a| `0x001F`
+a| `13` | Firmware language information | 1  a| `0x0020`
+a| `14` | Group associations | 3  a| `0x0021`, `0x0022`, `0x0023`
+a| `15` | System event log | 1  a| `0x0024`
+a| `16` | Physical memory array | 1  a| `0x0025`
+a| `17` | Memory device | 2  a| `0x0026`, `0x0027`
+a| `19` | Memory array mapped address | 1  a| `0x0028`
+a| `20` | Memory device mapped address | 2  a| `0x0029`, `0x002A`
+a| `21` | Built-in pointing device | 1  a| `0x002B`
+a| `22` | Portable battery | 1  a| `0x002C`
+a| `24` | Hardware security | 1  a| `0x002D`
+a| `26` | Voltage probe | 1  a| `0x002E`
+a| `27` | Cooling device | 1  a| `0x002F`
+a| `28` | Temperature probe | 1  a| `0x0030`
+a| `32` | System boot information | 1  a| `0x0031`
+a| `39` | System power supply | 1  a| `0x0032`
+a| `40` | Additional information | 1  a| `0x0033`
+a| `41` | Onboard devices extended information | 1  a| `0x0034`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `128` | OEM-specific | 1  a| `0x0035`
+a| `129` | OEM-specific | 1  a| `0x0036`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0037`
+a| `131` | Intel vPro information | 1  a| `0x0038`
+a| `133` | OEM-specific | 1  a| `0x0039`
+a| `136` | OEM-specific | 1  a| `0x003A`
+a| `219` | Intel Management Engine interface information | 1  a| `0x003B`
+a| `221` | Intel firmware version information | 4  a| `0x003C`, `0x003D`, `0x003E`, `0x003F`
+a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0040`
+|===

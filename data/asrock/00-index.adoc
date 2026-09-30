@@ -12,7 +12,7 @@ Product family:: To Be Filled By O.E.M.
 Firmware vendor:: American Megatrends International, LLC.
 Firmware version:: P3.40
 Release date:: 2024-01-18
-SMBIOS version:: 3.3.1
+SMBIOS version:: 3.3
 
 === Contents
 
@@ -48,7 +48,7 @@ Product family:: To Be Filled By O.E.M.
 Firmware vendor:: American Megatrends Inc.
 Firmware version:: P1.60
 Release date:: 2020-09-03
-SMBIOS version:: 3.2.1
+SMBIOS version:: 3.2
 
 === Contents
 
@@ -72,11 +72,11 @@ a| `20` | Memory device mapped address | 2  a| `0x0013`, `0x0014`
 a| `32` | System boot information | 1  a| `0x000C`
 a| `41` | Onboard devices extended information | 10  a| `0x0020`, `0x0021`, `0x0022`, `0x0023`, `0x0024`, `0x0025`, `0x0026`, `0x0027`, `0x0028`, `0x0029`
 a| `127` | End of table | 1  a| `0x002E`
-a| `130` | OEM-specific | 1  a| `0x001E`
-a| `131` | OEM-specific | 1  a| `0x001F`
+a| `130` | Intel Active Management Technology information | 1  a| `0x001E`
+a| `131` | Intel vPro information | 1  a| `0x001F`
 a| `136` | OEM-specific | 1  a| `0x002D`
-a| `219` | OEM-specific | 1  a| `0x002C`
-a| `221` | OEM-specific | 6  a| `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x002A`
+a| `219` | Intel Management Engine interface information | 1  a| `0x002C`
+a| `221` | Intel firmware version information | 6  a| `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x002A`
 |===
 == H61M-GS (h61m-gs.bin)
 
@@ -110,7 +110,43 @@ a| `19` | Memory array mapped address | 1  a| `0x0012`
 a| `20` | Memory device mapped address | 2  a| `0x000F`, `0x0011`
 a| `32` | System boot information | 1  a| `0x0008`
 a| `127` | End of table | 1  a| `0x0016`
-a| `131` | OEM-specific | 1  a| `0x0015`
+a| `131` | Intel vPro information | 1  a| `0x0015`
+|===
+== X570D4U (x570d4u.bin)
+
+[horizontal]
+File path:: `asrock/x570d4u.bin`
+Product name:: To Be Filled By O.E.M.
+Product version:: To Be Filled By O.E.M.
+Product family:: To Be Filled By O.E.M.
+Firmware vendor:: American Megatrends International, LLC.
+Firmware version:: P1.20
+Release date:: 2021-05-19
+SMBIOS version:: 3.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0013`
+a| `7` | Cache information | 3  a| `0x0010`, `0x0011`, `0x0012`
+a| `10` | Onboard devices information | 1  a| `0x0004`
+a| `11` | OEM strings | 1  a| `0x0005`
+a| `13` | Firmware language information | 1  a| `0x001E`
+a| `16` | Physical memory array | 1  a| `0x000D`
+a| `17` | Memory device | 4  a| `0x0015`, `0x0017`, `0x001A`, `0x001C`
+a| `18` | 32-bit memory error information | 5  a| `0x000C`, `0x0014`, `0x0016`, `0x0019`, `0x001B`
+a| `19` | Memory array mapped address | 2  a| `0x000E`, `0x000F`
+a| `20` | Memory device mapped address | 2  a| `0x0018`, `0x001D`
+a| `32` | System boot information | 1  a| `0x0006`
+a| `44` | Processor additional information | 1  a| `0x0007`
+a| `127` | End of table | 1  a| `0x001F`
 |===
 == X870E Nova WiFi (x870e-nova-wifi.bin)
 
@@ -120,9 +156,9 @@ Product name:: X870E Nova WiFi
 Product version:: Default string
 Product family:: Default string
 Firmware vendor:: American Megatrends International, LLC.
-Firmware version:: 3.5
+Firmware version:: 3.50
 Release date:: 2025-09-18
-SMBIOS version:: 3.4.1
+SMBIOS version:: 3.4
 
 === Contents
 

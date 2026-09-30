@@ -1,4 +1,24 @@
 vendor: Acer
 files:
+  aspire-a515-51g.bin:
+    product: Aspire A515-51G
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  aspire-a515-52.bin:
+    product: Aspire A515-52
+    source: https://github.com/Edwardwich/ACER-A515-52-Hackintosh
+    license: none
+  aspire-a515-52g.bin:
+    product: Aspire A515-52G
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
   nitro-an515-31.bin:
     product: Nitro 5 AN515-31
+  nitro-an515-52.bin:
+    product: Nitro AN515-52
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  predator-g9-592.bin:
+    product: Predator G9-592
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none

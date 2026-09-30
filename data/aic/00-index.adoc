@@ -7,7 +7,7 @@
 [horizontal]
 File path:: `aic/ha401-lb2.bin`
 Product name:: HA401-LB2
-Product version:: 1
+Product version:: 01
 Product family:: Type1Family
 Firmware vendor:: INSYDE Corp.
 Firmware version:: LIBRV090
@@ -40,12 +40,12 @@ a| `127` | End of table | 1  a| `0xFEFF`
 [horizontal]
 File path:: `aic/ha401-vg.bin`
 Product name:: HA401-VG
-Product version:: 1
+Product version:: 01
 Product family:: Type1Family
 Firmware vendor:: INSYDE Corp.
 Firmware version:: VIRH_1.03.0
 Release date:: 2021-08-31
-SMBIOS version:: 3.0.1
+SMBIOS version:: 3.0
 
 === Contents
 

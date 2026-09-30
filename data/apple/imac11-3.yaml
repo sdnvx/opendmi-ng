@@ -1,0 +1,2489 @@
+entry:
+  smbios-version: '2.4'
+table:
+- handle: 0
+  type: 4
+  length: 158
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U2E1
+    type: central
+    family: intel-pentium-4
+    vendor: Intel(R) Corporation
+    id: e5060100fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 30
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 133
+    maximum-speed: 2930
+    current-speed: 2930
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 4
+    l2-cache-handle: 3
+    l3-cache-handle: 1
+    serial-number: null
+    asset-tag: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    part-number: null
+- handle: 1
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 2
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: data
+    associativity: 8-way
+- handle: 3
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 4
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 4-way
+- handle: 5
+  type: 4
+  length: 158
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U2E1
+    type: central
+    family: intel-pentium-4
+    vendor: Intel(R) Corporation
+    id: e5060100fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 30
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 133
+    maximum-speed: 2930
+    current-speed: 2930
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 9
+    l2-cache-handle: 8
+    l3-cache-handle: 6
+    serial-number: null
+    asset-tag: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    part-number: null
+- handle: 6
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 7
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: data
+    associativity: 8-way
+- handle: 8
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 9
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 4-way
+- handle: 10
+  type: 4
+  length: 158
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U2E1
+    type: central
+    family: intel-pentium-4
+    vendor: Intel(R) Corporation
+    id: e5060100fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 30
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 133
+    maximum-speed: 2930
+    current-speed: 2930
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 14
+    l2-cache-handle: 13
+    l3-cache-handle: 11
+    serial-number: null
+    asset-tag: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    part-number: null
+- handle: 11
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 12
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: data
+    associativity: 8-way
+- handle: 13
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 14
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 4-way
+- handle: 15
+  type: 4
+  length: 158
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U2E1
+    type: central
+    family: intel-pentium-4
+    vendor: Intel(R) Corporation
+    id: e5060100fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 30
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 133
+    maximum-speed: 2930
+    current-speed: 2930
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 19
+    l2-cache-handle: 18
+    l3-cache-handle: 16
+    serial-number: null
+    asset-tag: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    part-number: null
+- handle: 16
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 17
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: data
+    associativity: 8-way
+- handle: 18
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 19
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 4-way
+- handle: 20
+  type: 4
+  length: 158
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U2E1
+    type: central
+    family: intel-pentium-4
+    vendor: Intel(R) Corporation
+    id: e5060100fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 30
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 133
+    maximum-speed: 2930
+    current-speed: 2930
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 24
+    l2-cache-handle: 23
+    l3-cache-handle: 21
+    serial-number: null
+    asset-tag: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    part-number: null
+- handle: 21
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 22
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: data
+    associativity: 8-way
+- handle: 23
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 24
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 4-way
+- handle: 25
+  type: 4
+  length: 158
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U2E1
+    type: central
+    family: intel-pentium-4
+    vendor: Intel(R) Corporation
+    id: e5060100fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 30
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 133
+    maximum-speed: 2930
+    current-speed: 2930
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 29
+    l2-cache-handle: 28
+    l3-cache-handle: 26
+    serial-number: null
+    asset-tag: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    part-number: null
+- handle: 26
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 27
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: data
+    associativity: 8-way
+- handle: 28
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 29
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 4-way
+- handle: 30
+  type: 4
+  length: 158
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U2E1
+    type: central
+    family: intel-pentium-4
+    vendor: Intel(R) Corporation
+    id: e5060100fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 30
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 133
+    maximum-speed: 2930
+    current-speed: 2930
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 34
+    l2-cache-handle: 33
+    l3-cache-handle: 31
+    serial-number: null
+    asset-tag: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    part-number: null
+- handle: 31
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 32
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: data
+    associativity: 8-way
+- handle: 33
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 34
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 4-way
+- handle: 35
+  type: 4
+  length: 158
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U2E1
+    type: central
+    family: intel-pentium-4
+    vendor: Intel(R) Corporation
+    id: e5060100fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 30
+      stepping: 5
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 133
+    maximum-speed: 2930
+    current-speed: 2930
+    is-populated: true
+    status: enabled
+    upgrade: socket-zif
+    l1-cache-handle: 39
+    l2-cache-handle: 38
+    l3-cache-handle: 36
+    serial-number: null
+    asset-tag: Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz
+    part-number: null
+- handle: 36
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 8388608
+    installed-size: 8388608
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 37
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: data
+    associativity: 8-way
+- handle: 38
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 8-way
+- handle: 39
+  type: 7
+  length: 28
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: Unknown
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 32768
+    installed-size: 32768
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 4-way
+- handle: 40
+  type: 16
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 17179869184
+    error-handle: 65534
+    device-count: 4
+- handle: 41
+  type: 17
+  length: 106
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 40
+    error-info-handle: null
+    total-width: 64
+    data-width: 64
+    size: 4294967296
+    form-factor: sodimm
+    device-set: 0
+    device-locator: DIMM0
+    bank-locator: BANK 0
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1333
+    vendor: '0x80CE'
+    serial-number: '0x4445326D'
+    asset-tag: Unknown
+    part-number: '0x4D34373142353237334348302D4348392020'
+- handle: 42
+  type: 130
+  length: 188
+  level: null
+  state: []
+  description: Intel Active Management Technology information
+  data: !!binary |
+    groqACkAAACwAJIQCwMDGQIJA1IBCAwAPgBpeGkwaREgiQAFPDwA8IMBAAAAAAAAAAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAA8RRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAIDOARYmREUybaXeTTQ3MUI1MjczQ0gwLUNIOSAgAACAzgAAAFhFNDQwMDEB
+    AAAAAAAAAAAAAAAAMDkG
+- handle: 43
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 4294967295
+    range-size: 4294967296
+    device-handle: 41
+    array-addr-handle: 53
+    partition-pos: unknown
+    interleave-pos: 1
+    interleave-depth: 1
+- handle: 44
+  type: 17
+  length: 106
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 40
+    error-info-handle: null
+    total-width: 64
+    data-width: 64
+    size: 4294967296
+    form-factor: sodimm
+    device-set: 0
+    device-locator: DIMM0
+    bank-locator: BANK 1
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1333
+    vendor: '0x80CE'
+    serial-number: '0x4445326D'
+    asset-tag: Unknown
+    part-number: '0x4D34373142353237334348302D4348392020'
+- handle: 45
+  type: 130
+  length: 188
+  level: null
+  state: []
+  description: Intel Active Management Technology information
+  data: !!binary |
+    grotACwAAACwAJIQCwMDGQIJA1IBCAwAPgBpeGkwaREgiQAFPDwA8IMBAAAAAAAAAAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAA8RRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAIDOARYmREUybaXeTTQ3MUI1MjczQ0gwLUNIOSAgAACAzgAAAFhFNDQwMDEB
+    AAAAAAAAAAAAAAAAMDkG
+- handle: 46
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 8589934591
+    range-size: 4294967296
+    device-handle: 44
+    array-addr-handle: 53
+    partition-pos: unknown
+    interleave-pos: 1
+    interleave-depth: 1
+- handle: 47
+  type: 17
+  length: 106
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 40
+    error-info-handle: null
+    total-width: 64
+    data-width: 64
+    size: 4294967296
+    form-factor: sodimm
+    device-set: 0
+    device-locator: DIMM1
+    bank-locator: BANK 0
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1333
+    vendor: '0x80CE'
+    serial-number: '0x4445326D'
+    asset-tag: Unknown
+    part-number: '0x4D34373142353237334348302D4348392020'
+- handle: 48
+  type: 130
+  length: 188
+  level: null
+  state: []
+  description: Intel Active Management Technology information
+  data: !!binary |
+    growAC8AAACwAJIQCwMDGQIJA1IBCAwAPgBpeGkwaREgiQAFPDwA8IMBAAAAAAAAAAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAA8RRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAIDOARYmREUybaXeTTQ3MUI1MjczQ0gwLUNIOSAgAACAzgAAAFhFNDQwMDEB
+    AAAAAAAAAAAAAAAAMDkG
+- handle: 49
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 4294967295
+    range-size: 4294967296
+    device-handle: 47
+    array-addr-handle: 53
+    partition-pos: unknown
+    interleave-pos: 2
+    interleave-depth: 1
+- handle: 50
+  type: 17
+  length: 106
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 40
+    error-info-handle: null
+    total-width: 64
+    data-width: 64
+    size: 4294967296
+    form-factor: sodimm
+    device-set: 0
+    device-locator: DIMM1
+    bank-locator: BANK 1
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 1333
+    vendor: '0x80CE'
+    serial-number: '0x4445326D'
+    asset-tag: Unknown
+    part-number: '0x4D34373142353237334348302D4348392020'
+- handle: 51
+  type: 130
+  length: 188
+  level: null
+  state: []
+  description: Intel Active Management Technology information
+  data: !!binary |
+    grozADIAAACwAJIQCwMDGQIJA1IBCAwAPgBpeGkwaREgiQAFPDwA8IMBAAAAAAAAAAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAA8RRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAIDOARYmREUybaXeTTQ3MUI1MjczQ0gwLUNIOSAgAACAzgAAAFhFNDQwMDEB
+    AAAAAAAAAAAAAAAAMDkG
+- handle: 52
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 8589934591
+    range-size: 4294967296
+    device-handle: 50
+    array-addr-handle: 53
+    partition-pos: unknown
+    interleave-pos: 2
+    interleave-depth: 1
+- handle: 53
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 17179869183
+    range-size: 17179869184
+    array-handle: 40
+    partition-width: 4
+- handle: 54
+  type: 0
+  length: 58
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: Apple Inc.
+    version: 99.0.0.0.0
+    bios-segment: 0
+    release-date: '2019-06-13'
+    rom-size: 4194304
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: false
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: false
+      keyboard-support: false
+      serial-support: false
+      printer-support: false
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: false
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: true
+      smart-battery: true
+      bios-boot-spec: false
+      boot-network-fn-key: true
+      content-distribution: false
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '0.1'
+    controller-version: null
+- handle: 55
+  type: 1
+  length: 69
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Apple Inc.
+    product: iMac11,3
+    version: '1.0'
+    serial-number: W80330ZJDB6
+    uuid: 26C75BA3-7D69-5D1E-B485-0952B72F517D
+    wakeup-type: power-switch
+    sku-number: null
+    family: iMac
+- handle: 56
+  type: 2
+  length: 83
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Apple Inc.
+    product: Mac-F2238BAE
+    version: iMac11,3
+    serial-number: C02028601KGDD0D1G
+    asset-tag: null
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: Part Component
+    chassis-handle: 57
+    type: motherboard
+    contained-objects: []
+- handle: 57
+  type: 3
+  length: 58
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Apple Inc.
+    type: all-in-one
+    is-lock-present: false
+    version: Mac-F2238BAE
+    serial-number: W80330ZJDB6
+    asset-tag: null
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: other
+    security-status: other
+    oem-defined: 0
+    height: null
+    power-cord-count: null
+    element-count: 0
+    element-size: 0
+    elements: []
+- handle: 58
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: other
+    external-designator: Mini DisplayPort
+    external-connector: none
+    port-type: other
+- handle: 59
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: other
+    external-designator: FireWire 800
+    external-connector: none
+    port-type: other
+- handle: 60
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: Ethernet
+    external-connector: rj-45
+    port-type: network
+- handle: 61
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB0
+    external-connector: access-bus
+    port-type: usb
+- handle: 62
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB1
+    external-connector: access-bus
+    port-type: usb
+- handle: 63
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB2
+    external-connector: access-bus
+    port-type: usb
+- handle: 64
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: USB3
+    external-connector: access-bus
+    port-type: usb
+- handle: 65
+  type: 8
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: Audio Line In
+    external-connector: mini-jack
+    port-type: audio
+- handle: 66
+  type: 8
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: Audio Line Out
+    external-connector: mini-jack
+    port-type: audio
+- handle: 67
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA Port A
+    internal-connector: onboard-ide
+    external-designator: None
+    external-connector: none
+    port-type: other
+- handle: 68
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: SATA Port B
+    internal-connector: onboard-ide
+    external-designator: None
+    external-connector: none
+    port-type: other
+- handle: 69
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: None
+    internal-connector: none
+    external-designator: None
+    external-connector: other
+    port-type: other
+- handle: 70
+  type: 8
+  length: 23
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Speaker
+    internal-connector: other
+    external-designator: None
+    external-connector: none
+    port-type: other
+- handle: 71
+  type: 8
+  length: 19
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: FHB
+    internal-connector: other
+    external-designator: None
+    external-connector: none
+    port-type: other
+- handle: 72
+  type: 9
+  length: 22
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: AirPort
+    type: pci-e
+    bus-width: 1x
+    usage: available
+    length: short
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: true
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 73
+  type: 10
+  length: 8
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: null
+- handle: 74
+  type: 10
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: sound
+      is-enabled: true
+      description: Azalia Audio Codec
+- handle: 75
+  type: 10
+  length: 37
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: ethernet
+      is-enabled: true
+      description: Caesar II Ethernet Controller
+- handle: 76
+  type: 10
+  length: 12
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: other
+      is-enabled: true
+      description: SATA
+- handle: 77
+  type: 12
+  length: 7
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options: []
+- handle: 78
+  type: 13
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - null
+    flags:
+      is-abbreviated: false
+    current-language: null
+- handle: 79
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 80
+  type: 131
+  length: 8
+  level: null
+  state: []
+  description: Intel vPro information
+  data: !!binary |
+    gwZQAAEH
+- handle: 81
+  type: 128
+  length: 90
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    gFhRAAMAAAAjlAzAP/8f/wECAwAAAAAAAKDy//8v+f8AEML//x/r/wAg7P//X+7/AAAAAAAAAAAA
+    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+- handle: 82
+  type: 132
+  length: 8
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    hAZSAMAS
+- handle: 65533
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

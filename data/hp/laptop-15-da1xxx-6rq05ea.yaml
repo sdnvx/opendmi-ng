@@ -1,0 +1,1176 @@
+entry:
+  smbios-version: 3.0.1
+table:
+- handle: 0
+  type: 0
+  length: 50
+  level: '3.1'
+  state:
+  - decoded
+  description: Platform firmware information
+  attributes:
+    vendor: Insyde
+    version: F.38
+    bios-segment: 57344
+    release-date: '2021-08-31'
+    rom-size: 13631488
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: true
+      floppy-toshiba-support: true
+      floppy-525-360k-support: true
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: false
+      keyboard-support: true
+      serial-support: false
+      printer-support: false
+      video-cga-mono-support: true
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '15.38'
+    controller-version: '70.38'
+- handle: 1
+  type: 1
+  length: 119
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: HP
+    product: HP Laptop 15-da1xxx
+    version: Type1ProductConfigId
+    serial-number: CND9223TW6
+    uuid: B7E323BF-397C-E911-8101-9C7BEF20245D
+    wakeup-type: power-switch
+    sku-number: 6RQ05EA#BH5
+    family: 103C_5335KV HP Notebook
+- handle: 2
+  type: 2
+  length: 107
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: HP
+    product: '8533'
+    version: '70.38'
+    serial-number: PHRXKC21VCBQOO
+    asset-tag: Type2 - Board Asset Tag
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: Type2 - Board Chassis Location
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 84
+  level: '3.9'
+  state:
+  - decoded
+  description: System enclosure or chassis
+  attributes:
+    vendor: HP
+    type: notebook
+    is-lock-present: false
+    version: Chassis Version
+    serial-number: CND9223TW6
+    asset-tag: Chassis Asset Tag
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 270
+    height: null
+    power-cord-count: 1
+    element-count: 0
+    element-size: 0
+    elements: []
+    sku-number: SKU Number
+    rack-type: null
+    rack-height: 0
+- handle: 4
+  type: 4
+  length: 185
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: U3E1
+    type: central
+    family: intel-core-i5
+    vendor: Intel(R) Corporation
+    id: ec060800fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 142
+      stepping: 12
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz
+    voltage: 0.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3900
+    current-speed: 1485
+    is-populated: true
+    status: enabled
+    upgrade: socket-bga1528
+    l1-cache-handle: 5
+    l2-cache-handle: 6
+    l3-cache-handle: 7
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: To Be Filled By O.E.M.
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 4
+    core-enabled: 4
+    thread-count: 8
+- handle: 5
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L1 Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 262144
+    installed-size: 262144
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: parity
+    type: unified
+    associativity: 8-way
+- handle: 6
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L2 Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1048576
+    installed-size: 1048576
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 4-way
+- handle: 7
+  type: 7
+  length: 37
+  level: '3.1'
+  state:
+  - decoded
+  description: Cache information
+  attributes:
+    socket-designator: L3 Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 6291456
+    installed-size: 6291456
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: multi-bit
+    type: unified
+    associativity: 12-way
+- handle: 8
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Ctrl0Port5
+    internal-connector: sas-sata
+    external-designator: HDD1
+    external-connector: sas-sata
+    port-type: sata
+- handle: 9
+  type: 9
+  length: 26
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: M.2 SSD
+    type: pci-e-g3-x4
+    bus-width: 4x
+    usage: in-use
+    length: long
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 29
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 10
+  type: 11
+  length: 157
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 9
+    strings:
+    - $HP$
+    - LOC#ABA
+    - BCU_Y
+    - ABS 70/71 78 79 7A 7B
+    - OemString5
+    - HP_Mute_LED_P_G
+    - FBYTE#3K3Q3Y6E6a7K7P7W7d7jawbCbhcbfP.54;
+    - BUILDID#18WW2PDD302#SBH5#DBH5;
+    - OemString9
+- handle: 11
+  type: 12
+  length: 126
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - ConfigOptions1
+    - ConfigOptions2
+    - ConfigOptions3
+    - ConfigOptions4
+    - ConfigOptions5
+    - ConfigOptions6
+    - ConfigOptions7
+    - ConfigOptions8
+- handle: 12
+  type: 13
+  length: 109
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1,0
+    - fr|FR|iso8859-1,0
+    - es|ES|iso8859-1,0
+    - zh|TW|unicode,0
+    - zh|CN|unicode,0
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1,0
+- handle: 13
+  type: 14
+  length: 42
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Group associations
+  attributes:
+    group-name: Intel(R) Silicon View Technology
+    items:
+    - type: 222
+      handle: 45
+- handle: 14
+  type: 14
+  length: 14
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Group associations
+  attributes:
+    group-name: $MEI
+    items:
+    - type: 221
+      handle: 40
+- handle: 15
+  type: 14
+  length: 14
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Group associations
+  attributes:
+    group-name: $MEI
+    items:
+    - type: 219
+      handle: 39
+- handle: 16
+  type: 15
+  length: 31
+  level: '2.1'
+  state:
+  - decoded
+  description: System event log
+  attributes:
+    area-length: 0
+    header-offset: 0
+    data-offset: 8192
+    access-method: data-functions
+    access-address: 0
+    status:
+      log-area-valid: true
+      log-area-full: false
+    change-token: 305419896
+    header-format: oem-specific
+    descriptors:
+    - type: post-memory-resize
+      data-format: none
+    - type: post-error
+      data-format: post-results
+    - type: log-cleared
+      data-format: none
+- handle: 17
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 34359738368
+    error-handle: null
+    device-count: 2
+- handle: 18
+  type: 17
+  length: 117
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 17
+    error-info-handle: null
+    total-width: 64
+    data-width: 64
+    size: 4294967296
+    form-factor: sodimm
+    device-set: 0
+    device-locator: Bottom-Slot 1(left)
+    bank-locator: BANK 0
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2400
+    vendor: Samsung
+    serial-number: 2374A5C9
+    asset-tag: '9876543210'
+    part-number: M471A5244BB0-CRC
+    rank: 1
+    configured-speed: 2400
+    minimum-voltage: 1.25
+    maximum-voltage: 1.5
+    configured-voltage: 1.2
+- handle: 19
+  type: 17
+  length: 119
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 17
+    error-info-handle: null
+    total-width: 64
+    data-width: 64
+    size: 4294967296
+    form-factor: sodimm
+    device-set: 0
+    device-locator: Bottom-Slot 2(right)
+    bank-locator: BANK 2
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2400
+    vendor: SK Hynix
+    serial-number: 2B5D78C2
+    asset-tag: '9876543210'
+    part-number: HMA851S6AFR6N-UH
+    rank: 1
+    configured-speed: 2400
+    minimum-voltage: 1.25
+    maximum-voltage: 1.5
+    configured-voltage: 1.2
+- handle: 20
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 8589934591
+    range-size: 8589934592
+    array-handle: 17
+    partition-width: 2
+- handle: 21
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 4294967295
+    range-size: 4294967296
+    device-handle: 18
+    array-addr-handle: 20
+    partition-pos: 1
+    interleave-pos: 1
+    interleave-depth: 1
+- handle: 22
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 4294967295
+    range-size: 4294967296
+    device-handle: 19
+    array-addr-handle: 20
+    partition-pos: 1
+    interleave-pos: 2
+    interleave-depth: 1
+- handle: 23
+  type: 21
+  length: 9
+  level: '2.1'
+  state:
+  - decoded
+  description: Built-in pointing device
+  attributes:
+    type: touch-pad
+    interface: ps2
+    button-count: 4
+- handle: 24
+  type: 22
+  length: 81
+  level: '2.2'
+  state:
+  - decoded
+  description: Portable battery
+  attributes:
+    location: Primary
+    vendor: 333-27-33-A
+    manufacture-date: '2019-04-10'
+    serial-number: 04451 04/10/2019
+    name: HT03041
+    chemistry: unknown
+    capacity: 41.05
+    voltage: 11.34
+    sbds-version: '1'
+    maximum-error: 1
+    sbds-serial-number: 4451
+    sbds-chemistry: LION
+    oem-defined: 657164
+- handle: 25
+  type: 24
+  length: 7
+  level: '2.2'
+  state:
+  - decoded
+  description: Hardware security
+  attributes:
+    front-panel-reset: not-implemented
+    admin-password: disabled
+    keyboard-password: not-implemented
+    poweron-password: not-implemented
+- handle: 26
+  type: 26
+  length: 51
+  level: '2.2'
+  state:
+  - decoded
+  description: Voltage probe
+  attributes:
+    description: Voltage Probe Description
+    location: unknown
+    status: unknown
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 32768
+    nominal-value: 0
+- handle: 27
+  type: 27
+  length: 43
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Cooling device
+  attributes:
+    probe-handle: 28
+    type: fan
+    status: ok
+    group: 0
+    oem-defined: 0
+    nominal-speed: 8192
+    description: Cooling Device Description
+- handle: 28
+  type: 28
+  length: 55
+  level: '2.2'
+  state:
+  - decoded
+  description: Temperature probe
+  attributes:
+    description: Temperature Probe Description
+    location: unknown
+    status: unknown
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 32768
+    nominal-value: 0.0
+- handle: 29
+  type: 32
+  length: 13
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 30
+  type: 39
+  length: 114
+  level: 2.3.1
+  state:
+  - decoded
+  - linked
+  description: System power supply
+  attributes:
+    group: 0
+    location: OEM Define 0
+    name: OEM Define 1
+    vendor: OEM Define 2
+    serial-number: OEM Define 3
+    asset-tag: OEM Define 4
+    part-number: OEM Define 5
+    revision: OEM Define 6
+    maximum-capacity: 75
+    hot-swappable: false
+    present: false
+    unplugged: true
+    range-switching: auto
+    status: ok
+    type: regulator
+    voltage-probe-handle: null
+    cooling-device-handle: null
+    current-probe-handle: null
+- handle: 31
+  type: 40
+  length: 57
+  level: '2.6'
+  state:
+  - decoded
+  description: Additional information
+  attributes:
+    entries:
+    - referenced-handle: 16
+      referenced-offset: 5
+      string: PCIExpressx16
+      value: aa
+    - referenced-handle: 0
+      referenced-offset: 5
+      string: 'Compiler Version: VC 9.0'
+      value: '00'
+- handle: 32
+  type: 41
+  length: 49
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Realtek Gaming GBE Family Controller
+    type: ethernet
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 2
+      device-number: 0
+      function-number: 0
+- handle: 33
+  type: 41
+  length: 17
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: WLAN
+    type: other
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 3
+      device-number: 0
+      function-number: 0
+- handle: 34
+  type: 128
+  length: 49
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    gAgiAFWqVao=
+  strings:
+  - Oem Type 128 Test 1
+  - Oem Type 128 Test 2
+- handle: 35
+  type: 129
+  length: 39
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    gQgjAAEBAgE=
+  strings:
+  - Insyde_ASF_001
+  - Insyde_ASF_002
+- handle: 36
+  type: 130
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: true
+    is-enabled: true
+    is-ider-enabled: true
+    is-sol-enabled: true
+    is-network-enabled: true
+    is-kvm-enabled: true
+    extended-data: 165
+    oem-capabilities:
+    - 191
+    - 2
+    - 192
+    - 0
+- handle: 37
+  type: 131
+  length: 66
+  level: null
+  state:
+  - decoded
+  description: Intel vPro information
+  attributes:
+    flags-1: 49
+    mebx-version:
+      major: 0
+      minor: 0
+      hotfix: 0
+      build: 0
+    lpc-devfn: 248
+    lpc-device-id: 40324
+    flags-2: 1
+    me-version:
+      major: 12
+      minor: 0
+      hotfix: 81
+      build: 1753
+    gbe-devfn: 254
+    gbe-device-id: null
+    flags-3: 38
+- handle: 38
+  type: 136
+  length: 8
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    iAYmAP//
+- handle: 39
+  type: 219
+  length: 127
+  level: null
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: consumer
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2684355141
+      - 2249195782
+      - 32
+      - 18436
+      - 0
+      - 1073741824
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    - name: MEI4
+      is-present: true
+      hfsts:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+- handle: 40
+  type: 221
+  length: 78
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CPU
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 94
+      build: 64
+    - component: uCode Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 234
+    - component: TXT ACM version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+- handle: 41
+  type: 221
+  length: 93
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - ME
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 94
+      build: 64
+    - component: MEBx version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: ME Firmware Version
+      version-string: Consumer SKU
+      major: 12
+      minor: 0
+      revision: 81
+      build: 1753
+- handle: 42
+  type: 221
+  length: 354
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CNL PCH
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 94
+      build: 64
+    - component: PCH-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 48
+    - component: PCH-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 48
+    - component: OPROM - RST - RAID
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: CNL PCH H A0 Hsio Version
+      version-string: null
+      major: 2
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH H Ax Hsio Version
+      version-string: null
+      major: 9
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH H Bx Hsio Version
+      version-string: null
+      major: 10
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH LP B0 Hsio Version
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH LP Bx Hsio Version
+      version-string: null
+      major: 6
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH LP Dx Hsio Version
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 0
+      build: 0
+- handle: 43
+  type: 221
+  length: 208
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SA - System Agent
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 94
+      build: 64
+    - component: Reference Code - MRC
+      version-string: null
+      major: 0
+      minor: 7
+      revision: 1
+      build: 104
+    - component: SA - PCIe Version
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 94
+      build: 64
+    - component: SA-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SA-CRID Original Value
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 12
+    - component: SA-CRID New Value
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 12
+    - component: OPROM - VBIOS
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+- handle: 44
+  type: 221
+  length: 32
+  level: null
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: FSP Binary Version
+      version-string: null
+      major: 4
+      minor: 0
+      revision: 0
+      build: 0
+- handle: 45
+  type: 222
+  length: 72
+  level: null
+  state:
+  - decoded
+  description: Intel Silicon View Technology milestones
+  attributes:
+    version: 1
+    parameter: 153
+    milestones:
+    - code: 16
+      name: Memory Init Complete
+    - code: 32
+      name: End of DXE Phase
+    - code: 48
+      name: BIOS Boot Complete
+- handle: 65279
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

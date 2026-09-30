@@ -1,0 +1,3172 @@
+entry:
+  smbios-version: '2.6'
+table:
+- handle: 0
+  type: 0
+  length: 72
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: American Megatrends Inc.
+    version: '3.00'
+    bios-segment: 61440
+    release-date: '2012-09-04'
+    rom-size: 2097152
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: true
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: true
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: true
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: true
+      boot-atapi-zip: true
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '8.16'
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 85
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Supermicro
+    product: H8QG6
+    version: '1234567890'
+    serial-number: '1234567890'
+    uuid: 47513848-0036-3000-48FE-003048FEC30C
+    wakeup-type: power-switch
+    sku-number: '1234567890'
+    family: Server
+- handle: 2
+  type: 2
+  length: 77
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Supermicro
+    product: H8QG6
+    version: '1234567890'
+    serial-number: '1234567890'
+    asset-tag: '1234567890'
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: '1234567890'
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 67
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Supermicro
+    type: main-server
+    is-lock-present: false
+    version: '1234567890'
+    serial-number: '1234567890.'
+    asset-tag: '1234567890'
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 0
+    height: 2
+    power-cord-count: 1
+    element-count: 0
+    element-size: 0
+    elements: []
+- handle: 4
+  type: 4
+  length: 189
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 1
+    type: central
+    family: amd-opteron
+    vendor: AMD
+    id: 910f1000fffb8b17
+    signature:
+      type: 0
+      family: 16
+      model: 9
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
+    version: AMD Opteron(tm) Processor 6174
+    voltage: 1.1
+    supported-voltages: null
+    external-clock: 200
+    maximum-speed: 2200
+    current-speed: 2200
+    is-populated: true
+    status: enabled
+    upgrade: socket-g34
+    l1-cache-handle: 5
+    l2-cache-handle: 6
+    l3-cache-handle: 7
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: To Be Filled By O.E.M.
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 12
+    core-enabled: 12
+    thread-count: 12
+- handle: 5
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1572864
+    installed-size: 1572864
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 2-way
+- handle: 6
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 6291456
+    installed-size: 6291456
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 16-way
+- handle: 7
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 10485760
+    installed-size: 10485760
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: other
+- handle: 8
+  type: 4
+  length: 189
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 2
+    type: central
+    family: amd-opteron
+    vendor: AMD
+    id: 910f1000fffb8b17
+    signature:
+      type: 0
+      family: 16
+      model: 9
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
+    version: AMD Opteron(tm) Processor 6174
+    voltage: 1.0
+    supported-voltages: null
+    external-clock: 200
+    maximum-speed: 2200
+    current-speed: 2200
+    is-populated: true
+    status: enabled
+    upgrade: socket-g34
+    l1-cache-handle: 9
+    l2-cache-handle: 10
+    l3-cache-handle: 11
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: To Be Filled By O.E.M.
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 12
+    core-enabled: 12
+    thread-count: 12
+- handle: 9
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1572864
+    installed-size: 1572864
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 2-way
+- handle: 10
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 6291456
+    installed-size: 6291456
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 16-way
+- handle: 11
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 10485760
+    installed-size: 10485760
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: other
+- handle: 12
+  type: 4
+  length: 189
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 3
+    type: central
+    family: amd-opteron
+    vendor: AMD
+    id: 910f1000fffb8b17
+    signature:
+      type: 0
+      family: 16
+      model: 9
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
+    version: AMD Opteron(tm) Processor 6174
+    voltage: 1.0
+    supported-voltages: null
+    external-clock: 200
+    maximum-speed: 2200
+    current-speed: 2200
+    is-populated: true
+    status: enabled
+    upgrade: socket-g34
+    l1-cache-handle: 13
+    l2-cache-handle: 14
+    l3-cache-handle: 15
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: To Be Filled By O.E.M.
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 12
+    core-enabled: 12
+    thread-count: 12
+- handle: 13
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1572864
+    installed-size: 1572864
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 2-way
+- handle: 14
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 6291456
+    installed-size: 6291456
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 16-way
+- handle: 15
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 10485760
+    installed-size: 10485760
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: other
+- handle: 16
+  type: 4
+  length: 189
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 4
+    type: central
+    family: amd-opteron
+    vendor: AMD
+    id: 910f1000fffb8b17
+    signature:
+      type: 0
+      family: 16
+      model: 9
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
+    version: AMD Opteron(tm) Processor 6174
+    voltage: 1.0
+    supported-voltages: null
+    external-clock: 200
+    maximum-speed: 2200
+    current-speed: 2200
+    is-populated: true
+    status: enabled
+    upgrade: socket-g34
+    l1-cache-handle: 17
+    l2-cache-handle: 18
+    l3-cache-handle: 19
+    serial-number: To Be Filled By O.E.M.
+    asset-tag: To Be Filled By O.E.M.
+    part-number: To Be Filled By O.E.M.
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 12
+    core-enabled: 12
+    thread-count: 12
+- handle: 17
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 1572864
+    installed-size: 1572864
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 2-way
+- handle: 18
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 6291456
+    installed-size: 6291456
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 16-way
+- handle: 19
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 10485760
+    installed-size: 10485760
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: other
+- handle: 20
+  type: 9
+  length: 27
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: UIO PCIE
+    type: pci-e
+    bus-width: 8x
+    usage: available
+    length: short
+    ident: 5
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: null
+      bus-number: null
+      device-number: null
+      function-number: null
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 21
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE1
+    type: pci-e
+    bus-width: 8x
+    usage: available
+    length: short
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: null
+      bus-number: null
+      device-number: null
+      function-number: null
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 22
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE2
+    type: pci-e
+    bus-width: 16x
+    usage: available
+    length: short
+    ident: 2
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: null
+      bus-number: null
+      device-number: null
+      function-number: null
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 23
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE3
+    type: pci-e
+    bus-width: 8x
+    usage: available
+    length: short
+    ident: 3
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: null
+      bus-number: null
+      device-number: null
+      function-number: null
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 24
+  type: 9
+  length: 24
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: PCIE4
+    type: pci-e
+    bus-width: 16x
+    usage: in-use
+    length: short
+    ident: 4
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: null
+      bus-number: 3
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 25
+  type: 11
+  length: 52
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 2
+    strings:
+    - To Be Filled By O.E.M.
+    - To Be Filled By O.E.M.
+- handle: 26
+  type: 15
+  length: 57
+  level: '2.1'
+  state:
+  - decoded
+  description: System event log
+  attributes:
+    area-length: 1008
+    header-offset: 2064
+    data-offset: 2064
+    access-method: data-functions
+    access-address: 1
+    status:
+      log-area-valid: true
+      log-area-full: false
+    change-token: 0
+    header-format: no-header
+    descriptors:
+    - type: single-bit-ecc
+      data-format: multiple-event-handle
+    - type: multi-bit-ecc
+      data-format: multiple-event-handle
+    - type: parity
+      data-format: multiple-event
+    - type: io-channel-check
+      data-format: multiple-event
+    - type: post-error
+      data-format: post-results
+    - type: pci-parity
+      data-format: multiple-event-handle
+    - type: pci-system
+      data-format: multiple-event-handle
+    - type: cpu-failure
+      data-format: multiple-event-handle
+    - type: limit-exceeded
+      data-format: multiple-event-system-management
+    - type: oem-specific
+      data-format: post-results
+    - type: oem-specific
+      data-format: multiple-event-handle
+- handle: 27
+  type: 16
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: multi-bit
+    maximum-capacity: 412316860416
+    error-handle: 65534
+    device-count: 32
+- handle: 28
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 137438953471
+    range-size: 137438953472
+    array-handle: 27
+    partition-width: 255
+- handle: 29
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P1_1A
+    bank-locator: '0'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFDE
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 30
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 4294967295
+    range-size: 4294967296
+    device-handle: 29
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 31
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P1_1B
+    bank-locator: '1'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFB3
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 32
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 8589934591
+    range-size: 4294967296
+    device-handle: 31
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 33
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P1_2A
+    bank-locator: '2'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFE6
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 34
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 8589934592
+    end-addr: 12884901887
+    range-size: 4294967296
+    device-handle: 33
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 35
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P1_2B
+    bank-locator: '3'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D01D
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 36
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 12884901888
+    end-addr: 17179869183
+    range-size: 4294967296
+    device-handle: 35
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 37
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P1_3A
+    bank-locator: '4'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D025
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 38
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 17179869184
+    end-addr: 21474836479
+    range-size: 4294967296
+    device-handle: 37
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 39
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P1_3B
+    bank-locator: '5'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D026
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 40
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 21474836480
+    end-addr: 25769803775
+    range-size: 4294967296
+    device-handle: 39
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 41
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P1_4A
+    bank-locator: '6'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CF96
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 42
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 25769803776
+    end-addr: 30064771071
+    range-size: 4294967296
+    device-handle: 41
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 43
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P1_4B
+    bank-locator: '7'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D023
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 44
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 30064771072
+    end-addr: 34359738367
+    range-size: 4294967296
+    device-handle: 43
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 45
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P2_1A
+    bank-locator: '8'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4454E1A8
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 46
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 34359738368
+    end-addr: 38654705663
+    range-size: 4294967296
+    device-handle: 45
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 47
+  type: 17
+  length: 79
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P2_1B
+    bank-locator: '9'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D07A
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 48
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 38654705664
+    end-addr: 42949672959
+    range-size: 4294967296
+    device-handle: 47
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 49
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P2_2A
+    bank-locator: '10'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFAB
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 50
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 42949672960
+    end-addr: 47244640255
+    range-size: 4294967296
+    device-handle: 49
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 51
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P2_2B
+    bank-locator: '11'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D071
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 52
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 47244640256
+    end-addr: 51539607551
+    range-size: 4294967296
+    device-handle: 51
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 53
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P2_3A
+    bank-locator: '12'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFA1
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 54
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 51539607552
+    end-addr: 55834574847
+    range-size: 4294967296
+    device-handle: 53
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 55
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P2_3B
+    bank-locator: '13'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFD0
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 56
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 55834574848
+    end-addr: 60129542143
+    range-size: 4294967296
+    device-handle: 55
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 57
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P2_4A
+    bank-locator: '14'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CF9B
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 58
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 60129542144
+    end-addr: 64424509439
+    range-size: 4294967296
+    device-handle: 57
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 59
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P2_4B
+    bank-locator: '15'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D075
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 60
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 64424509440
+    end-addr: 68719476735
+    range-size: 4294967296
+    device-handle: 59
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 61
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P3_1A
+    bank-locator: '16'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFDA
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 62
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 73014444031
+    range-size: 4294967296
+    device-handle: 61
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 63
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P3_1B
+    bank-locator: '17'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D02C
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 64
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 73014444032
+    end-addr: 77309411327
+    range-size: 4294967296
+    device-handle: 63
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 65
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P3_2A
+    bank-locator: '18'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFD2
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 66
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 77309411328
+    end-addr: 81604378623
+    range-size: 4294967296
+    device-handle: 65
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 67
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P3_2B
+    bank-locator: '19'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFD6
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 68
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 81604378624
+    end-addr: 85899345919
+    range-size: 4294967296
+    device-handle: 67
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 69
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P3_3A
+    bank-locator: '20'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D01B
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 70
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 85899345920
+    end-addr: 90194313215
+    range-size: 4294967296
+    device-handle: 69
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 71
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P3_3B
+    bank-locator: '21'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFCD
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 72
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 90194313216
+    end-addr: 94489280511
+    range-size: 4294967296
+    device-handle: 71
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 73
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P3_4A
+    bank-locator: '22'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D06D
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 74
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 94489280512
+    end-addr: 98784247807
+    range-size: 4294967296
+    device-handle: 73
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 75
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P3_4B
+    bank-locator: '23'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D066
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 76
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 98784247808
+    end-addr: 103079215103
+    range-size: 4294967296
+    device-handle: 75
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 77
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P4_1A
+    bank-locator: '24'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CF92
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 78
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 103079215104
+    end-addr: 107374182399
+    range-size: 4294967296
+    device-handle: 77
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 79
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P4_1B
+    bank-locator: '25'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 475E9D29
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 80
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 107374182400
+    end-addr: 111669149695
+    range-size: 4294967296
+    device-handle: 79
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 81
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P4_2A
+    bank-locator: '26'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 475FA535
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 82
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 111669149696
+    end-addr: 115964116991
+    range-size: 4294967296
+    device-handle: 81
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 83
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P4_2B
+    bank-locator: '27'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 475E9DC2
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 84
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 115964116992
+    end-addr: 120259084287
+    range-size: 4294967296
+    device-handle: 83
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 85
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P4_3A
+    bank-locator: '28'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459CFF1
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 86
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 120259084288
+    end-addr: 124554051583
+    range-size: 4294967296
+    device-handle: 85
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 87
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P4_3B
+    bank-locator: '29'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 475E9D5A
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 88
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 124554051584
+    end-addr: 128849018879
+    range-size: 4294967296
+    device-handle: 87
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 89
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P4_4A
+    bank-locator: '30'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 4459D045
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 90
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 128849018880
+    end-addr: 133143986175
+    range-size: 4294967296
+    device-handle: 89
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 91
+  type: 17
+  length: 80
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 27
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: P4_4B
+    bank-locator: '31'
+    memory-type: ddr3
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: true
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: Samsung
+    serial-number: 475E9D52
+    asset-tag: ''
+    part-number: M393B5270CH0-CH9
+    rank: 1
+- handle: 92
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 133143986176
+    end-addr: 137438953471
+    range-size: 4294967296
+    device-handle: 91
+    array-addr-handle: 28
+    partition-pos: 0
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 93
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 94
+  type: 38
+  length: 20
+  level: '2.3'
+  state:
+  - decoded
+  description: IPMI device information
+  attributes:
+    interface-type: kcs
+    specification-version: '2.0'
+    i2c-target-address: 32
+    nv-storage-address: null
+    base-address: 3234
+    base-address-lsb: 0
+    base-address-type: io
+    interrupt-trigger-mode: null
+    interrupt-polarity: null
+    interrupt-number: null
+    register-spacing: 1
+- handle: 95
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

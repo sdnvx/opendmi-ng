@@ -1,0 +1,6 @@
+vendor: Veertu
+files:
+  macmini6-2.bin:
+    product: Anka Macmini6,2
+    source: https://github.com/LazySeldi/lazybios
+    license: MIT

@@ -1,8 +1,212 @@
 vendor: Dell
 files:
+  dimension-4400.bin:
+    product: Dimension 4400
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
   g15-5510.bin:
     product: G15 5510
+  inspiron-5370.bin:
+    product: Inspiron 5370
+    source: https://github.com/dreamwhite/dell-inspiron-5370-hackintosh
+    license: GPL-3.0
+  latitude-5280.bin:
+    product: Latitude 5280
+    source: https://github.com/Baio1977/Dell-Latitude-5280
+    license: none
+  latitude-5400.bin:
+    product: Latitude 5400
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  latitude-7389.bin:
+    product: Latitude 7389
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  latitude-7390.bin:
+    product: Latitude 7390
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  latitude-7490.bin:
+    product: Latitude 7490
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  latitude-d500.bin:
+    product: Latitude D500
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  latitude-d610.bin:
+    product: Latitude D610
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  latitude-e7450.bin:
+    product: Latitude E7450
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  optiplex-9030-aio.bin:
+    product: OptiPlex 9030 AIO
+    source: https://github.com/Lorys89/DELL_OPTIPLEX_9030_AIO
+    license: none
+  optiplex-gx110.bin:
+    product: OptiPlex GX110
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  powerapp-web-110.bin:
+    product: PowerApp.web 110
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-400sc.bin:
+    product: PowerEdge 400SC
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-500sc.bin:
+    product: PowerEdge 500SC
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-600sc.bin:
+    product: PowerEdge 600SC
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-650.bin:
+    product: PowerEdge 650
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-1300-600.bin:
+    product: PowerEdge 1300/600
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-1650.bin:
+    product: PowerEdge 1650
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-1655mc-1.bin:
+    product: PowerEdge 1655MC [1]
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-1655mc-2.bin:
+    product: PowerEdge 1655MC [2]
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-1750-1.bin:
+    product: PowerEdge 1750 [1]
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-1750-2.bin:
+    product: PowerEdge 1750 [2]
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
   poweredge-1800.bin:
     product: PowerEdge 1800
+  poweredge-1850.bin:
+    product: PowerEdge 1850
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-2450.bin:
+    product: PowerEdge 2450
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-2500.bin:
+    product: PowerEdge 2500
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-2600.bin:
+    product: PowerEdge 2600
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-2650.bin:
+    product: PowerEdge 2650
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-4400.bin:
+    product: PowerEdge 4400
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-4600.bin:
+    product: PowerEdge 4600
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-6450-550.bin:
+    product: PowerEdge 6450/550
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-6600.bin:
+    product: PowerEdge 6600
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-8450.bin:
+    product: PowerEdge 8450
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-c6320.bin:
+    product: PowerEdge C6320
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  poweredge-r630.bin:
+    product: PowerEdge R630
+    source: https://github.com/siderolabs/go-smbios
+    license: MPL-2.0
+  poweredge-r630-2.bin:
+    product: PowerEdge R630 [2]
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  poweredge-r640.bin:
+    product: PowerEdge R640
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  poweredge-r730.bin:
+    product: PowerEdge R730
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  poweredge-r730xd.bin:
+    product: PowerEdge R730xd
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  poweredge-r740xd.bin:
+    product: PowerEdge R740xd
+    source: https://github.com/InfraSIM/infrasim-compute
+    license: Apache-2.0
+  poweredge-r777sd.bin:
+    product: PowerEdge R777sd
+    source: https://github.com/jcreekmore/dmidecode
+    license: MIT
+  poweredge-sc420.bin:
+    product: PowerEdge SC420
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  powervault-755n.bin:
+    product: PowerVault 755N
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
   precision-490.bin:
     product: Precision 490
+  precision-m3800.bin:
+    product: Precision M3800
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  precision-t7600.bin:
+    product: Precision T7600
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  precision-tower-3620.bin:
+    product: Precision Tower 3620
+    source: https://github.com/jcreekmore/dmidecode
+    license: MIT
+  precision-workstation-390.bin:
+    product: Precision WorkStation 390
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later
+  vostro-5490.bin:
+    product: Vostro 5490
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  xps-13-9300.bin:
+    product: XPS 13 9300
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  xps-13-9350.bin:
+    product: XPS 13 9350
+    source: https://github.com/Baio1977/Hackintosh-EFI-Collection
+    license: none
+  xps-13-9365.bin:
+    product: XPS 13 9365
+    source: https://github.com/dell/libsmbios
+    license: OSL-2.1 OR GPL-2.0-or-later

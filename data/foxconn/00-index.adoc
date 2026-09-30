@@ -8,7 +8,7 @@
 File path:: `foxconn/m61pmv.bin`
 Product name:: M61PMV
 Product version:: FAB 1.1
-Product family:: None
+Product family:: 
 Firmware vendor:: Phoenix Technologies, LTD
 Firmware version:: P08
 Release date:: 2009-12-04

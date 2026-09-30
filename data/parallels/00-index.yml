@@ -1,0 +1,6 @@
+vendor: Parallels
+files:
+  virtual-platform-3.0.bin:
+    product: Parallels Virtual Platform 3.0
+    source: https://github.com/nima/python-dmidecode
+    license: GPL-2.0

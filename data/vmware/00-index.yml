@@ -2,5 +2,13 @@ vendor: VMware
 files:
   fusion-pro-25h2.bin:
     product: Fusion Pro 25H2
+  virtual-platform-2008.bin:
+    product: Virtual Platform (2008)
+    source: https://github.com/nima/python-dmidecode
+    license: GPL-2.0
+  virtual-platform-2017.bin:
+    product: Virtual Platform (2017)
+    source: https://github.com/u-root/u-root
+    license: BSD-3-Clause
   workstation-pro-17.bin:
     product: Workstation Pro 17

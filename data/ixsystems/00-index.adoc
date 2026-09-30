@@ -1,0 +1,173 @@
+= iXsystems
+:toc:
+:toclevels: 1
+
+== FreeNAS Mini 3.0-X (freenas-mini-3.0-x.bin)
+
+[horizontal]
+File path:: `ixsystems/freenas-mini-3.0-x.bin`
+Product name:: FREENAS-MINI-3.0-X
+Product version:: To Be Filled By O.E.M.
+Product family:: To Be Filled By O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: L1.42A
+Release date:: 2019-10-22
+SMBIOS version:: 3.0
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0012`
+a| `7` | Cache information | 2  a| `0x0010`, `0x0011`
+a| `9` | System slots | 1  a| `0x0004`
+a| `11` | OEM strings | 1  a| `0x0005`
+a| `15` | System event log | 1  a| `0x0007`
+a| `16` | Physical memory array | 1  a| `0x0008`
+a| `17` | Memory device | 4  a| `0x000A`, `0x000C`, `0x000D`, `0x000F`
+a| `19` | Memory array mapped address | 1  a| `0x0009`
+a| `20` | Memory device mapped address | 2  a| `0x000B`, `0x000E`
+a| `32` | System boot information | 1  a| `0x0006`
+a| `127` | End of table | 1  a| `0x0015`
+|===
+== TrueNAS F60-HA (truenas-f60-ha.bin)
+
+[horizontal]
+File path:: `ixsystems/truenas-f60-ha.bin`
+Product name:: TRUENAS-F60-HA
+Product version:: 001
+Product family:: None
+Firmware vendor:: Viking Enterprise Solutions
+Firmware version:: 0ACSY001-MWH3LJ-15.09.00
+Release date:: 2023-05-16
+SMBIOS version:: 3.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x002B`
+a| `7` | Cache information | 3  a| `0x0028`, `0x0029`, `0x002A`
+a| `8` | Port connector information | 14  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`
+a| `9` | System slots | 4  a| `0x0012`, `0x0013`, `0x0014`, `0x0015`
+a| `10` | Onboard devices information | 1  a| `0x0016`
+a| `11` | OEM strings | 1  a| `0x0017`
+a| `12` | System configuration options | 1  a| `0x0018`
+a| `13` | Firmware language information | 1  a| `0x004A`
+a| `15` | System event log | 1  a| `0x0023`
+a| `16` | Physical memory array | 1  a| `0x0025`
+a| `17` | Memory device | 8  a| `0x002D`, `0x0030`, `0x0033`, `0x0036`, `0x0039`, `0x003C`, `0x003F`, `0x0042`
+a| `18` | 32-bit memory error information | 9  a| `0x0024`, `0x002C`, `0x002F`, `0x0032`, `0x0035`, `0x0038`, `0x003B`, `0x003E`, `0x0041`
+a| `19` | Memory array mapped address | 2  a| `0x0026`, `0x0027`
+a| `20` | Memory device mapped address | 8  a| `0x002E`, `0x0031`, `0x0034`, `0x0037`, `0x003A`, `0x003D`, `0x0040`, `0x0043`
+a| `26` | Voltage probe | 1  a| `0x001A`
+a| `27` | Cooling device | 1  a| `0x001C`
+a| `28` | Temperature probe | 1  a| `0x001B`
+a| `29` | Electrical current probe | 1  a| `0x001D`
+a| `32` | System boot information | 1  a| `0x0019`
+a| `38` | IPMI device information | 1  a| `0x0021`
+a| `39` | System power supply | 2  a| `0x001E`, `0x001F`
+a| `41` | Onboard devices extended information | 3  a| `0x0044`, `0x0046`, `0x0048`
+a| `42` | Management controller host interface | 1  a| `0x0022`
+a| `44` | Processor additional information | 1  a| `0x0020`
+a| `127` | End of table | 1  a| `0x006E`
+|===
+== TrueNAS H30-HA (truenas-h30-ha.bin)
+
+[horizontal]
+File path:: `ixsystems/truenas-h30-ha.bin`
+Product name:: TRUENAS-H30-HA
+Product version:: 1.0
+Product family:: Family
+Firmware vendor:: American Megatrends International, LLC.
+Firmware version:: 1.8.V2
+Release date:: 2025-01-06
+SMBIOS version:: 3.5
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x002A`
+a| `7` | Cache information | 3  a| `0x0027`, `0x0028`, `0x0029`
+a| `8` | Port connector information | 6  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`
+a| `9` | System slots | 2  a| `0x000A`, `0x000B`
+a| `11` | OEM strings | 1  a| `0x000C`
+a| `15` | System event log | 1  a| `0x0026`
+a| `16` | Physical memory array | 1  a| `0x002D`
+a| `17` | Memory device | 4  a| `0x002E`, `0x0030`, `0x0032`, `0x0034`
+a| `19` | Memory array mapped address | 2  a| `0x0036`, `0x0037`
+a| `20` | Memory device mapped address | 4  a| `0x0038`, `0x0039`, `0x003A`, `0x003B`
+a| `32` | System boot information | 1  a| `0x000D`
+a| `38` | IPMI device information | 1  a| `0x001A`
+a| `39` | System power supply | 2  a| `0x000E`, `0x000F`
+a| `40` | Additional information | 11  a| `0x003F`, `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0045`, `0x0046`, `0x0047`, `0x0048`, `0x0049`
+a| `41` | Onboard devices extended information | 9  a| `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`
+a| `42` | Management controller host interface | 1  a| `0x004B`
+a| `43` | TPM device | 1  a| `0x0025`
+a| `44` | Processor additional information | 1  a| `0x0019`
+a| `127` | End of table | 1  a| `0x004C`
+a| `130` | Intel Active Management Technology information | 1  a| `0x003E`
+a| `133` | OEM-specific | 1  a| `0x003C`
+a| `199` | OEM-specific | 1  a| `0x004A`
+|===
+== TrueNAS M50-HA (truenas-m50-ha.bin)
+
+[horizontal]
+File path:: `ixsystems/truenas-m50-ha.bin`
+Product name:: TRUENAS-M50-HA
+Product version:: 123456789
+Product family:: SMC X11
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: 3.3aV3
+Release date:: 2020-12-03
+SMBIOS version:: 3.2.1
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 2  a| `0x003C`, `0x0040`
+a| `7` | Cache information | 6  a| `0x0039`, `0x003A`, `0x003B`, `0x003D`, `0x003E`, `0x003F`
+a| `8` | Port connector information | 6  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`
+a| `9` | System slots | 6  a| `0x0045`, `0x0047`, `0x0049`, `0x004B`, `0x004D`, `0x004F`
+a| `11` | OEM strings | 1  a| `0x000A`
+a| `13` | Firmware language information | 1  a| `0x0059`
+a| `15` | System event log | 1  a| `0x000E`
+a| `16` | Physical memory array | 1  a| `0x000F`
+a| `17` | Memory device | 16  a| `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `19` | Memory array mapped address | 4  a| `0x0020`, `0x0026`, `0x002C`, `0x002F`
+a| `20` | Memory device mapped address | 16  a| `0x0021`, `0x0022`, `0x0023`, `0x0024`, `0x0025`, `0x0027`, `0x0028`, `0x0029`, `0x002A`, `0x002B`, `0x002D`, `0x002E`, `0x0030`, `0x0031`, `0x0032`, `0x0033`
+a| `32` | System boot information | 1  a| `0x000B`
+a| `38` | IPMI device information | 1  a| `0x000C`
+a| `39` | System power supply | 2  a| `0x0051`, `0x0052`
+a| `40` | Additional information | 9  a| `0x0046`, `0x0048`, `0x004A`, `0x004C`, `0x004E`, `0x0050`, `0x0054`, `0x0056`, `0x0058`
+a| `41` | Onboard devices extended information | 3  a| `0x0053`, `0x0055`, `0x0057`
+a| `42` | Management controller host interface | 1  a| `0x000D`
+a| `127` | End of table | 1  a| `0x005A`
+a| `133` | OEM-specific | 1  a| `0x0034`
+|===

@@ -1,0 +1,74 @@
+= Quanta
+:toc:
+:toclevels: 1
+
+== D51B-2U (dual 10G LoM) (d51b-2u-dual-10g-lom.bin)
+
+[horizontal]
+File path:: `quanta/d51b-2u-dual-10g-lom.bin`
+Product name:: D51B-2U (dual 10G LoM)
+Product version:: To be filled by O.E.M.
+Product family:: To be filled by O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: S2B_3A17
+Release date:: 2014-11-07
+SMBIOS version:: 2.8
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 2  a| `0x0059`, `0x005D`
+a| `7` | Cache information | 6  a| `0x0056`, `0x0057`, `0x0058`, `0x005A`, `0x005B`, `0x005C`
+a| `8` | Port connector information | 17  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`
+a| `9` | System slots | 6  a| `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`
+a| `11` | OEM strings | 1  a| `0x0024`
+a| `13` | Firmware language information | 1  a| `0x007A`
+a| `16` | Physical memory array | 4  a| `0x0036`, `0x003E`, `0x0046`, `0x004E`
+a| `17` | Memory device | 24  a| `0x0038`, `0x0039`, `0x003A`, `0x003B`, `0x003C`, `0x003D`, `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0045`, `0x0048`, `0x0049`, `0x004A`, `0x004B`, `0x004C`, `0x004D`, `0x0050`, `0x0051`, `0x0052`, `0x0053`, `0x0054`, `0x0055`
+a| `19` | Memory array mapped address | 4  a| `0x0037`, `0x003F`, `0x0047`, `0x004F`
+a| `38` | IPMI device information | 1  a| `0x0028`
+a| `41` | Onboard devices extended information | 5  a| `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `127` | End of table | 1  a| `0x007B`
+|===
+== QuantaPlex T41S-2U (quantaplex-t41s-2u.bin)
+
+[horizontal]
+File path:: `quanta/quantaplex-t41s-2u.bin`
+Product name:: QuantaPlex T41S-2U
+Product version:: To be filled by O.E.M.
+Product family:: To be filled by O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: S2S_3A14
+Release date:: 2014-09-18
+SMBIOS version:: 2.8
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 2  a| `0x0051`, `0x0055`
+a| `7` | Cache information | 6  a| `0x004E`, `0x004F`, `0x0050`, `0x0052`, `0x0053`, `0x0054`
+a| `8` | Port connector information | 15  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`
+a| `9` | System slots | 3  a| `0x0013`, `0x0014`, `0x0015`
+a| `11` | OEM strings | 1  a| `0x0024`
+a| `13` | Firmware language information | 1  a| `0x006B`
+a| `16` | Physical memory array | 4  a| `0x0036`, `0x003C`, `0x0042`, `0x0048`
+a| `17` | Memory device | 16  a| `0x0038`, `0x0039`, `0x003A`, `0x003B`, `0x003E`, `0x003F`, `0x0040`, `0x0041`, `0x0044`, `0x0045`, `0x0046`, `0x0047`, `0x004A`, `0x004B`, `0x004C`, `0x004D`
+a| `19` | Memory array mapped address | 4  a| `0x0037`, `0x003D`, `0x0043`, `0x0049`
+a| `38` | IPMI device information | 1  a| `0x0028`
+a| `41` | Onboard devices extended information | 3  a| `0x0016`, `0x0017`, `0x0018`
+a| `127` | End of table | 1  a| `0x006C`
+|===
