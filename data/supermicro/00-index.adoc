@@ -37,6 +37,33 @@ a| `32` | System boot information | 1  a| `0x005D`
 a| `38` | IPMI device information | 1  a| `0x005E`
 a| `127` | End of table | 1  a| `0x005F`
 |===
+== H8QM8 (h8qm8.bin)
+
+[horizontal]
+File path:: `supermicro/h8qm8.bin`
+Product name:: H8QM8
+Product version:: 1234567890
+Product family:: To Be Filled By O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: 080014
+Release date:: 2009-05-14
+SMBIOS version:: 2.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 4  a| `0x0004`, `0x0008`, `0x000C`, `0x0010`
+a| `7` | Cache information | 12  a| `0x0005`, `0x0006`, `0x0007`, `0x0009`, `0x000A`, `0x000B`, `0x000D`, `0x000E`, `0x000F`, `0x0011`, `0x0012`, `0x0013`
+a| `8` | Port connector information | 3  a| `0x0014`, `0x0015`, `0x0016`
+a| `127` | End of table | 1  a| `0x0017`
+|===
 == SYS-1027R-WRF (sys-1027r-wrf.bin)
 
 [horizontal]

@@ -94,12 +94,58 @@ a| `24` | Hardware security | 1  a| `0x0036`
 a| `126` | Inactive | 15  a| `0x0012`, `0x0013`, `0x0015`, `0x0016`, `0x0018`, `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x0021`, `0x0022`, `0x0023`, `0x0024`, `0x0025`, `0x0028`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `129` | OEM-specific | 1  a| `0x000A`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x000B`, `0x0031`
+a| `131` | Intel vPro information | 2  a| `0x000B`, `0x0031`
 a| `132` | OEM-specific | 1  a| `0x0037`
 a| `133` | OEM-specific | 1  a| `0x0033`
-a| `134` | Lenovo date record | 1  a| `0x0004`
-a| `135` | Lenovo ThinkPad device presence detection | 3  a| `0x0032`, `0x0034`, `0x0038`
+a| `134` | Lenovo TPM information | 1  a| `0x0004`
+a| `135` | Lenovo bay I/O | 3  a| `0x0032`, `0x0034`, `0x0038`
 a| `140` | Lenovo ThinkPad embedded controller program | 1  a| `0x0039`
+|===
+== IdeaPad 100S-11IBY 80R2 (ideapad-100s-11iby-80r2.bin)
+
+[horizontal]
+File path:: `lenovo/ideapad-100s-11iby-80r2.bin`
+Product name:: 80R2
+Product version:: Lenovo ideapad 100S-11IBY
+Product family:: IDEAPAD
+Firmware vendor:: LENOVO
+Firmware version:: E2CN13WW
+Release date:: 2015-12-22
+SMBIOS version:: 2.8
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `6` | Memory module information | 2  a| `0x0005`, `0x0006`
+a| `7` | Cache information | 3  a| `0x0007`, `0x0008`, `0x0009`
+a| `8` | Port connector information | 7  a| `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`
+a| `11` | OEM strings | 1  a| `0x0011`
+a| `12` | System configuration options | 1  a| `0x0012`
+a| `13` | Firmware language information | 1  a| `0x0013`
+a| `16` | Physical memory array | 1  a| `0x0014`
+a| `17` | Memory device | 2  a| `0x0015`, `0x0016`
+a| `19` | Memory array mapped address | 1  a| `0x0017`
+a| `20` | Memory device mapped address | 2  a| `0x0018`, `0x0019`
+a| `22` | Portable battery | 1  a| `0x001A`
+a| `24` | Hardware security | 1  a| `0x001B`
+a| `26` | Voltage probe | 1  a| `0x001C`
+a| `28` | Temperature probe | 1  a| `0x001D`
+a| `32` | System boot information | 1  a| `0x001E`
+a| `39` | System power supply | 1  a| `0x001F`
+a| `41` | Onboard devices extended information | 1  a| `0x0020`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `133` | OEM-specific | 1  a| `0x0021`
+a| `148` | OEM-specific | 1  a| `0x0022`
+a| `200` | Lenovo machine type model | 1  a| `0x0023`
+a| `248` | OEM-specific | 1  a| `0x0024`
 |===
 == IdeaPad 330S-15IKB 81F5 (ideapad-330s-15ikb-81f5.bin)
 
@@ -150,7 +196,7 @@ a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0035`
 a| `129` | OEM-specific | 1  a| `0x0036`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0037`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0038`
+a| `131` | Intel vPro information | 1  a| `0x0038`
 a| `133` | OEM-specific | 1  a| `0x0039`
 a| `136` | OEM-specific | 1  a| `0x003A`
 a| `200` | Lenovo machine type model | 1  a| `0x003B`
@@ -258,7 +304,7 @@ a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0034`
 a| `129` | OEM-specific | 1  a| `0x0035`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0036`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0037`
+a| `131` | Intel vPro information | 1  a| `0x0037`
 a| `133` | OEM-specific | 1  a| `0x0038`
 a| `136` | OEM-specific | 1  a| `0x0039`
 a| `200` | Lenovo machine type model | 1  a| `0x003A`
@@ -316,7 +362,7 @@ a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0033`
 a| `129` | OEM-specific | 1  a| `0x0034`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0035`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0036`
+a| `131` | Intel vPro information | 1  a| `0x0036`
 a| `133` | OEM-specific | 1  a| `0x0037`
 a| `136` | OEM-specific | 1  a| `0x0038`
 a| `200` | Lenovo machine type model | 1  a| `0x0039`
@@ -374,7 +420,7 @@ a| `43` | TPM device | 1  a| `0x003E`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x003F`
 a| `129` | OEM-specific | 1  a| `0x0040`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0041`
+a| `131` | Intel vPro information | 1  a| `0x0041`
 a| `133` | OEM-specific | 1  a| `0x0042`
 a| `136` | OEM-specific | 1  a| `0x0043`
 a| `200` | Lenovo machine type model | 1  a| `0x0044`
@@ -475,7 +521,7 @@ a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0035`
 a| `129` | OEM-specific | 1  a| `0x0036`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0037`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0038`
+a| `131` | Intel vPro information | 1  a| `0x0038`
 a| `133` | OEM-specific | 1  a| `0x0039`
 a| `136` | OEM-specific | 1  a| `0x003A`
 a| `200` | Lenovo machine type model | 1  a| `0x003B`
@@ -534,7 +580,7 @@ a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0035`
 a| `129` | OEM-specific | 1  a| `0x0036`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0037`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0038`
+a| `131` | Intel vPro information | 1  a| `0x0038`
 a| `133` | OEM-specific | 1  a| `0x0039`
 a| `136` | OEM-specific | 1  a| `0x003A`
 a| `200` | Lenovo machine type model | 1  a| `0x003B`
@@ -589,9 +635,9 @@ a| `39` | System power supply | 1  a| `0x0043`
 a| `41` | Onboard devices extended information | 3  a| `0x0044`, `0x0045`, `0x0046`
 a| `127` | End of table | 1  a| `0x0000`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0054`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0055`
+a| `131` | Intel vPro information | 1  a| `0x0055`
 a| `133` | OEM-specific | 1  a| `0x0051`
-a| `140` | Lenovo ThinkPad embedded controller program | 1  a| `0x005B`
+a| `140` | Lenovo OEM data | 1  a| `0x005B`
 a| `221` | Intel firmware version information | 5  a| `0x0056`, `0x0057`, `0x0058`, `0x0059`, `0x005A`
 |===
 == ThinkCentre M70s 11DB (thinkcentre-m70s-11db.bin)
@@ -641,7 +687,7 @@ a| `41` | Onboard devices extended information | 8  a| `0x0056`, `0x0057`, `0x00
 a| `43` | TPM device | 1  a| `0x003B`
 a| `127` | End of table | 1  a| `0x0000`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0054`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0055`
+a| `131` | Intel vPro information | 1  a| `0x0055`
 a| `133` | OEM-specific | 1  a| `0x0047`
 a| `221` | Intel firmware version information | 6  a| `0x004A`, `0x004B`, `0x004C`, `0x004D`, `0x004E`, `0x004F`
 |===
@@ -695,7 +741,7 @@ a| `41` | Onboard devices extended information | 12  a| `0x0052`, `0x0053`, `0x0
 a| `43` | TPM device | 1  a| `0x0049`
 a| `127` | End of table | 1  a| `0x0065`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0050`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0051`, `0x005F`
+a| `131` | Intel vPro information | 2  a| `0x0051`, `0x005F`
 a| `133` | OEM-specific | 1  a| `0x004A`
 a| `136` | OEM-specific | 1  a| `0x0060`
 a| `219` | Intel Management Engine interface information | 1  a| `0x0064`
@@ -751,7 +797,7 @@ a| `41` | Onboard devices extended information | 12  a| `0x0056`, `0x0057`, `0x0
 a| `43` | TPM device | 1  a| `0x004B`
 a| `127` | End of table | 1  a| `0x0069`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0054`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0055`, `0x0063`
+a| `131` | Intel vPro information | 2  a| `0x0055`, `0x0063`
 a| `133` | OEM-specific | 1  a| `0x004C`
 a| `136` | OEM-specific | 1  a| `0x0064`
 a| `219` | Intel Management Engine interface information | 1  a| `0x0068`
@@ -799,9 +845,9 @@ a| `127` | End of table | 1  a| `0xFEFF`
 a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x002C`
 a| `132` | OEM-specific | 1  a| `0x002F`
 a| `134` | Lenovo date record | 1  a| `0x000D`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0028`, `0x0036`
+a| `135` | Lenovo bay I/O | 2  a| `0x0028`, `0x0036`
 a| `136` | OEM-specific | 1  a| `0x002D`
-a| `140` | Lenovo ThinkPad embedded controller program | 2  a| `0x0027`, `0x0037`
+a| `140` | Lenovo OEM data | 2  a| `0x0027`, `0x0037`
 a| `141` | OEM-specific | 5  a| `0x0031`, `0x0032`, `0x0033`, `0x0034`, `0x0035`
 |===
 == ThinkPad L15 Gen 1 20U4 (thinkpad-l15-gen-1-20u4.bin)
@@ -844,13 +890,13 @@ a| `24` | Hardware security | 1  a| `0x0030`
 a| `126` | Inactive | 11  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001F`, `0x0021`, `0x0022`, `0x0023`, `0x0025`, `0x002A`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x002E`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x002F`, `0x0037`
+a| `131` | Intel vPro information | 2  a| `0x002F`, `0x0037`
 a| `132` | OEM-specific | 1  a| `0x0031`
 a| `133` | OEM-specific | 1  a| `0x002C`
 a| `134` | Lenovo date record | 1  a| `0x0002`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x002D`, `0x0043`
+a| `135` | Lenovo bay I/O | 2  a| `0x002D`, `0x0043`
 a| `136` | OEM-specific | 1  a| `0x0038`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x002B`, `0x003A`, `0x003B`, `0x0041`, `0x0042`
+a| `140` | Lenovo OEM data | 5  a| `0x002B`, `0x003A`, `0x003B`, `0x0041`, `0x0042`
 a| `141` | OEM-specific | 5  a| `0x003C`, `0x003D`, `0x003E`, `0x003F`, `0x0040`
 a| `219` | Intel Management Engine interface information | 1  a| `0x0033`
 a| `221` | Intel firmware version information | 6  a| `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`
@@ -895,9 +941,9 @@ a| `32` | System boot information | 1  a| `0x0026`
 a| `127` | End of table | 1  a| `0x0030`
 a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0027`
 a| `133` | OEM-specific | 1  a| `0x0028`
-a| `134` | Lenovo date record | 1  a| `0x0029`
+a| `134` | Lenovo TPM information | 1  a| `0x0029`
 a| `135` | Lenovo ThinkPad device presence detection | 5  a| `0x002A`, `0x002B`, `0x002C`, `0x002D`, `0x002E`
-a| `200` | Lenovo machine type model | 1  a| `0x002F`
+a| `200` | OEM-specific | 1  a| `0x002F`
 |===
 == ThinkPad T14 Gen 2a 20XK (thinkpad-t14-g2a-20xk.bin)
 
@@ -942,9 +988,9 @@ a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0034`
 a| `132` | OEM-specific | 1  a| `0x0037`
 a| `133` | OEM-specific | 1  a| `0x002E`
 a| `134` | Lenovo date record | 1  a| `0x000D`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0030`, `0x0043`
+a| `135` | Lenovo bay I/O | 2  a| `0x0030`, `0x0043`
 a| `136` | OEM-specific | 1  a| `0x0035`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x002F`, `0x003E`, `0x003F`, `0x0040`, `0x0041`
+a| `140` | Lenovo OEM data | 5  a| `0x002F`, `0x003E`, `0x003F`, `0x0040`, `0x0041`
 a| `141` | OEM-specific | 6  a| `0x0039`, `0x003A`, `0x003B`, `0x003C`, `0x003D`, `0x0042`
 |===
 == ThinkPad T14 Gen 3 21AJ (thinkpad-t14-g3-21aj.bin)
@@ -988,13 +1034,13 @@ a| `43` | TPM device | 1  a| `0x000B`
 a| `126` | Inactive | 11  a| `0x0023`, `0x0024`, `0x0025`, `0x0026`, `0x0027`, `0x0028`, `0x002A`, `0x002B`, `0x002C`, `0x002E`, `0x0033`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0037`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0038`, `0x0041`
+a| `131` | Intel vPro information | 2  a| `0x0038`, `0x0041`
 a| `132` | OEM-specific | 1  a| `0x003D`
 a| `133` | OEM-specific | 2  a| `0x0034`, `0x0035`
 a| `134` | Lenovo date record | 1  a| `0x0000`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0036`, `0x004B`
+a| `135` | Lenovo bay I/O | 2  a| `0x0036`, `0x004B`
 a| `136` | OEM-specific | 1  a| `0x0042`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x0039`, `0x0044`, `0x0045`, `0x004C`, `0x004D`
+a| `140` | Lenovo OEM data | 5  a| `0x0039`, `0x0044`, `0x0045`, `0x004C`, `0x004D`
 a| `141` | OEM-specific | 6  a| `0x0046`, `0x0047`, `0x0048`, `0x0049`, `0x004A`, `0x004E`
 a| `219` | Intel Management Engine interface information | 1  a| `0x003B`
 a| `221` | Intel firmware version information | 6  a| `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`
@@ -1039,17 +1085,70 @@ a| `24` | Hardware security | 1  a| `0x0030`
 a| `126` | Inactive | 11  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001F`, `0x0021`, `0x0022`, `0x0023`, `0x0025`, `0x002A`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x002E`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x002F`, `0x0037`
+a| `131` | Intel vPro information | 2  a| `0x002F`, `0x0037`
 a| `132` | OEM-specific | 1  a| `0x0031`
 a| `133` | OEM-specific | 1  a| `0x002C`
 a| `134` | Lenovo date record | 1  a| `0x0010`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x002D`, `0x0044`
+a| `135` | Lenovo bay I/O | 2  a| `0x002D`, `0x0044`
 a| `136` | OEM-specific | 1  a| `0x0038`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x002B`, `0x003F`, `0x0040`, `0x0041`, `0x0042`
+a| `140` | Lenovo OEM data | 5  a| `0x002B`, `0x003F`, `0x0040`, `0x0041`, `0x0042`
 a| `141` | OEM-specific | 6  a| `0x003A`, `0x003B`, `0x003C`, `0x003D`, `0x003E`, `0x0043`
 a| `219` | Intel Management Engine interface information | 1  a| `0x0033`
 a| `221` | Intel firmware version information | 6  a| `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`
 a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0000`
+|===
+== ThinkPad T410 25375W8 (thinkpad-t410-25375w8.bin)
+
+[horizontal]
+File path:: `lenovo/thinkpad-t410-25375w8.bin`
+Product name:: 25375W8
+Product version:: ThinkPad T410
+Product family:: ThinkPad T410
+Firmware vendor:: LENOVO
+Firmware version:: 6IET74WW (1.34 )
+Release date:: 2010-10-25
+SMBIOS version:: 2.6
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0006`
+a| `5` | Memory controller information | 1  a| `0x0007`
+a| `6` | Memory module information | 2  a| `0x0008`, `0x0009`
+a| `7` | Cache information | 3  a| `0x000A`, `0x000B`, `0x000C`
+a| `8` | Port connector information | 20  a| `0x000D`, `0x000E`, `0x000F`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x0021`
+a| `9` | System slots | 2  a| `0x0023`, `0x0024`
+a| `10` | Onboard devices information | 1  a| `0x0026`
+a| `11` | OEM strings | 1  a| `0x0027`
+a| `13` | Firmware language information | 1  a| `0x0028`
+a| `15` | System event log | 1  a| `0x0029`
+a| `16` | Physical memory array | 1  a| `0x002A`
+a| `17` | Memory device | 2  a| `0x002B`, `0x002C`
+a| `18` | 32-bit memory error information | 1  a| `0x002D`
+a| `19` | Memory array mapped address | 1  a| `0x002E`
+a| `20` | Memory device mapped address | 2  a| `0x002F`, `0x0030`
+a| `21` | Built-in pointing device | 2  a| `0x0031`, `0x0032`
+a| `22` | Portable battery | 1  a| `0x0033`
+a| `24` | Hardware security | 1  a| `0x0035`
+a| `32` | System boot information | 1  a| `0x0036`
+a| `126` | Inactive | 6  a| `0x0004`, `0x0005`, `0x0010`, `0x0022`, `0x0025`, `0x0034`
+a| `127` | End of table | 1  a| `0x004D`
+a| `129` | OEM-specific | 1  a| `0x004A`
+a| `130` | Intel Active Management Technology information | 1  a| `0x004B`
+a| `131` | OEM-specific | 3  a| `0x0037`, `0x0038`, `0x004C`
+a| `132` | OEM-specific | 1  a| `0x0039`
+a| `133` | OEM-specific | 1  a| `0x003A`
+a| `134` | Lenovo date record | 2  a| `0x003B`, `0x003C`
+a| `135` | Lenovo mobile PC OEM data | 5  a| `0x003D`, `0x003E`, `0x003F`, `0x0040`, `0x0041`
+a| `136` | OEM-specific | 1  a| `0x0042`
+a| `140` | Lenovo OEM data | 7  a| `0x0043`, `0x0044`, `0x0045`, `0x0046`, `0x0047`, `0x0048`, `0x0049`
 |===
 == ThinkPad T430 2347 (thinkpad-t430-2347.bin)
 
@@ -1096,10 +1195,10 @@ a| `130` | Intel Active Management Technology information | 1  a| `0x0035`
 a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0033`, `0x0036`
 a| `132` | OEM-specific | 1  a| `0x0040`
 a| `133` | OEM-specific | 1  a| `0x0038`
-a| `134` | Lenovo date record | 2  a| `0x0000`, `0x000D`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0037`, `0x0041`
+a| `134` | Lenovo TPM information | 2  a| `0x0000`, `0x000D`
+a| `135` | Lenovo bay I/O | 2  a| `0x0037`, `0x0041`
 a| `136` | OEM-specific | 1  a| `0x0034`
-a| `140` | Lenovo ThinkPad embedded controller program | 7  a| `0x003A`, `0x003B`, `0x003C`, `0x003D`, `0x003E`, `0x0042`, `0x0043`
+a| `140` | Lenovo OEM data | 7  a| `0x003A`, `0x003B`, `0x003C`, `0x003D`, `0x003E`, `0x0042`, `0x0043`
 |===
 == ThinkPad T480s 20L8 (thinkpad-t480s-20l8.bin)
 
@@ -1141,13 +1240,13 @@ a| `24` | Hardware security | 1  a| `0x002F`
 a| `126` | Inactive | 11  a| `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0019`, `0x001B`, `0x001C`, `0x001D`, `0x001F`, `0x0025`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0028`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0029`, `0x0034`
+a| `131` | Intel vPro information | 2  a| `0x0029`, `0x0034`
 a| `132` | OEM-specific | 1  a| `0x0030`
 a| `133` | OEM-specific | 1  a| `0x0026`
 a| `134` | Lenovo date record | 1  a| `0x0002`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0027`, `0x003B`
+a| `135` | Lenovo bay I/O | 2  a| `0x0027`, `0x003B`
 a| `136` | OEM-specific | 1  a| `0x0035`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x0036`, `0x0037`, `0x0038`, `0x0039`, `0x003A`
+a| `140` | Lenovo OEM data | 5  a| `0x0036`, `0x0037`, `0x0038`, `0x0039`, `0x003A`
 a| `219` | Intel Management Engine interface information | 1  a| `0x003D`
 a| `221` | Intel firmware version information | 4  a| `0x002A`, `0x002B`, `0x002C`, `0x002D`
 a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0000`
@@ -1192,13 +1291,13 @@ a| `24` | Hardware security | 1  a| `0x0033`
 a| `126` | Inactive | 13  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001F`, `0x0020`, `0x0022`, `0x0023`, `0x0024`, `0x0025`, `0x0027`, `0x002D`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0031`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0032`, `0x0038`
+a| `131` | Intel vPro information | 2  a| `0x0032`, `0x0038`
 a| `132` | OEM-specific | 1  a| `0x0034`
 a| `133` | OEM-specific | 1  a| `0x002F`
 a| `134` | Lenovo date record | 1  a| `0x0010`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0030`, `0x0043`
+a| `135` | Lenovo bay I/O | 2  a| `0x0030`, `0x0043`
 a| `136` | OEM-specific | 1  a| `0x0039`
-a| `140` | Lenovo ThinkPad embedded controller program | 6  a| `0x002E`, `0x003B`, `0x003C`, `0x003D`, `0x0040`, `0x0041`
+a| `140` | Lenovo OEM data | 6  a| `0x002E`, `0x003B`, `0x003C`, `0x003D`, `0x0040`, `0x0041`
 a| `141` | OEM-specific | 1  a| `0x0042`
 a| `219` | Intel Management Engine interface information | 1  a| `0x003F`
 a| `221` | Intel firmware version information | 6  a| `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`
@@ -1244,13 +1343,13 @@ a| `24` | Hardware security | 1  a| `0x0033`
 a| `126` | Inactive | 13  a| `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001F`, `0x0020`, `0x0022`, `0x0023`, `0x0024`, `0x0025`, `0x0027`, `0x002D`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0031`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0032`, `0x0038`
+a| `131` | Intel vPro information | 2  a| `0x0032`, `0x0038`
 a| `132` | OEM-specific | 1  a| `0x0034`
 a| `133` | OEM-specific | 1  a| `0x002F`
 a| `134` | Lenovo date record | 1  a| `0x0010`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0030`, `0x0042`
+a| `135` | Lenovo bay I/O | 2  a| `0x0030`, `0x0042`
 a| `136` | OEM-specific | 1  a| `0x0039`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x002E`, `0x003B`, `0x003C`, `0x003F`, `0x0040`
+a| `140` | Lenovo OEM data | 5  a| `0x002E`, `0x003B`, `0x003C`, `0x003F`, `0x0040`
 a| `141` | OEM-specific | 1  a| `0x0041`
 a| `219` | Intel Management Engine interface information | 1  a| `0x003E`
 a| `221` | Intel firmware version information | 6  a| `0x0006`, `0x0007`, `0x0008`, `0x0009`, `0x000A`, `0x000B`
@@ -1301,11 +1400,11 @@ a| `126` | Inactive | 17  a| `0x0004`, `0x0005`, `0x0010`, `0x0011`, `0x0017`, `
 a| `127` | End of table | 1  a| `0x0048`
 a| `129` | OEM-specific | 1  a| `0x0046`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0047`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0038`, `0x0039`
+a| `131` | OEM-specific | 2  a| `0x0038`, `0x0039`
 a| `132` | OEM-specific | 1  a| `0x003A`
 a| `133` | OEM-specific | 1  a| `0x003B`
 a| `134` | Lenovo date record | 2  a| `0x003C`, `0x003D`
-a| `135` | Lenovo ThinkPad device presence detection | 4  a| `0x003E`, `0x003F`, `0x0040`, `0x0041`
+a| `135` | Lenovo mobile PC OEM data | 4  a| `0x003E`, `0x003F`, `0x0040`, `0x0041`
 a| `136` | OEM-specific | 1  a| `0x0042`
 a| `137` | OEM-specific | 1  a| `0x0043`
 a| `138` | OEM-specific | 1  a| `0x0044`
@@ -1356,13 +1455,115 @@ a| `126` | Inactive | 15  a| `0x0004`, `0x0005`, `0x0011`, `0x0012`, `0x0014`, `
 a| `127` | End of table | 1  a| `0x0051`
 a| `129` | OEM-specific | 1  a| `0x004E`
 a| `130` | Intel Active Management Technology information | 1  a| `0x004F`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 3  a| `0x003B`, `0x003C`, `0x0050`
+a| `131` | OEM-specific | 3  a| `0x003B`, `0x003C`, `0x0050`
 a| `132` | OEM-specific | 1  a| `0x003D`
 a| `133` | OEM-specific | 1  a| `0x003E`
 a| `134` | Lenovo date record | 2  a| `0x003F`, `0x0040`
-a| `135` | Lenovo ThinkPad device presence detection | 5  a| `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0045`
+a| `135` | Lenovo mobile PC OEM data | 5  a| `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0045`
 a| `136` | OEM-specific | 1  a| `0x0046`
-a| `140` | Lenovo ThinkPad embedded controller program | 7  a| `0x0047`, `0x0048`, `0x0049`, `0x004A`, `0x004B`, `0x004C`, `0x004D`
+a| `140` | Lenovo OEM data | 7  a| `0x0047`, `0x0048`, `0x0049`, `0x004A`, `0x004B`, `0x004C`, `0x004D`
+|===
+== ThinkPad W510 4391AK3 (thinkpad-w510-4391ak3.bin)
+
+[horizontal]
+File path:: `lenovo/thinkpad-w510-4391ak3.bin`
+Product name:: 4391AK3
+Product version:: ThinkPad W510
+Product family:: ThinkPad W510
+Firmware vendor:: LENOVO
+Firmware version:: 6NET54WW (1.17 )
+Release date:: 2010-04-19
+SMBIOS version:: 2.6
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0006`
+a| `5` | Memory controller information | 1  a| `0x0007`
+a| `6` | Memory module information | 4  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`
+a| `7` | Cache information | 3  a| `0x000C`, `0x000D`, `0x000E`
+a| `8` | Port connector information | 19  a| `0x000F`, `0x0010`, `0x0011`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x0021`, `0x0023`
+a| `9` | System slots | 2  a| `0x0025`, `0x0026`
+a| `10` | Onboard devices information | 1  a| `0x0028`
+a| `11` | OEM strings | 1  a| `0x0029`
+a| `13` | Firmware language information | 1  a| `0x002A`
+a| `15` | System event log | 1  a| `0x002B`
+a| `16` | Physical memory array | 1  a| `0x002C`
+a| `17` | Memory device | 4  a| `0x002D`, `0x002E`, `0x002F`, `0x0030`
+a| `18` | 32-bit memory error information | 1  a| `0x0031`
+a| `19` | Memory array mapped address | 1  a| `0x0032`
+a| `20` | Memory device mapped address | 2  a| `0x0033`, `0x0034`
+a| `21` | Built-in pointing device | 2  a| `0x0035`, `0x0036`
+a| `22` | Portable battery | 1  a| `0x0037`
+a| `24` | Hardware security | 1  a| `0x0039`
+a| `32` | System boot information | 1  a| `0x003A`
+a| `126` | Inactive | 7  a| `0x0004`, `0x0005`, `0x0012`, `0x0022`, `0x0024`, `0x0027`, `0x0038`
+a| `127` | End of table | 1  a| `0x0051`
+a| `129` | OEM-specific | 1  a| `0x004E`
+a| `130` | Intel Active Management Technology information | 1  a| `0x004F`
+a| `131` | OEM-specific | 3  a| `0x003B`, `0x003C`, `0x0050`
+a| `132` | OEM-specific | 1  a| `0x003D`
+a| `133` | OEM-specific | 1  a| `0x003E`
+a| `134` | Lenovo date record | 2  a| `0x003F`, `0x0040`
+a| `135` | Lenovo mobile PC OEM data | 5  a| `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0045`
+a| `136` | OEM-specific | 1  a| `0x0046`
+a| `140` | Lenovo OEM data | 7  a| `0x0047`, `0x0048`, `0x0049`, `0x004A`, `0x004B`, `0x004C`, `0x004D`
+|===
+== ThinkPad W530 24412Q4 (thinkpad-w530-24412q4.bin)
+
+[horizontal]
+File path:: `lenovo/thinkpad-w530-24412q4.bin`
+Product name:: 24412Q4
+Product version:: ThinkPad W530
+Product family:: ThinkPad W530
+Firmware vendor:: LENOVO
+Firmware version:: G5ET92WW (2.52 )
+Release date:: 2013-02-27
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x000E`
+a| `1` | System information | 1  a| `0x000F`
+a| `2` | Baseboard or module information | 1  a| `0x0010`
+a| `3` | System enclosure or chassis | 1  a| `0x0011`
+a| `4` | Processor information | 1  a| `0x0001`
+a| `7` | Cache information | 4  a| `0x0002`, `0x0003`, `0x0004`, `0x0005`
+a| `8` | Port connector information | 9  a| `0x0012`, `0x0013`, `0x0016`, `0x0019`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x0026`
+a| `9` | System slots | 2  a| `0x0028`, `0x0029`
+a| `10` | Onboard devices information | 1  a| `0x002B`
+a| `12` | System configuration options | 1  a| `0x002C`
+a| `13` | Firmware language information | 1  a| `0x002D`
+a| `15` | System event log | 1  a| `0x0039`
+a| `16` | Physical memory array | 1  a| `0x0007`
+a| `17` | Memory device | 4  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`
+a| `18` | 32-bit memory error information | 1  a| `0x0030`
+a| `19` | Memory array mapped address | 1  a| `0x000C`
+a| `21` | Built-in pointing device | 2  a| `0x0031`, `0x0032`
+a| `22` | Portable battery | 1  a| `0x002E`
+a| `24` | Hardware security | 1  a| `0x0041`
+a| `126` | Inactive | 15  a| `0x0014`, `0x0015`, `0x0017`, `0x0018`, `0x001A`, `0x001F`, `0x0020`, `0x0021`, `0x0022`, `0x0023`, `0x0024`, `0x0025`, `0x0027`, `0x002A`, `0x002F`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `129` | OEM-specific | 1  a| `0x0006`
+a| `130` | Intel Active Management Technology information | 1  a| `0x0035`
+a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0033`, `0x0036`
+a| `132` | OEM-specific | 1  a| `0x0042`
+a| `133` | OEM-specific | 1  a| `0x0038`
+a| `134` | Lenovo TPM information | 2  a| `0x0000`, `0x000D`
+a| `135` | Lenovo bay I/O | 2  a| `0x0037`, `0x0043`
+a| `136` | OEM-specific | 1  a| `0x0034`
+a| `140` | Lenovo OEM data | 9  a| `0x003A`, `0x003B`, `0x003C`, `0x003D`, `0x003E`, `0x003F`, `0x0040`, `0x0044`, `0x0045`
 |===
 == ThinkPad X1 Tablet Gen 3 20KK (thinkpad-x1-tablet-gen-3-20kk.bin)
 
@@ -1404,13 +1605,13 @@ a| `24` | Hardware security | 1  a| `0x002F`
 a| `126` | Inactive | 11  a| `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0019`, `0x001B`, `0x001C`, `0x001D`, `0x001F`, `0x0025`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0028`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0029`, `0x0034`
+a| `131` | Intel vPro information | 2  a| `0x0029`, `0x0034`
 a| `132` | OEM-specific | 1  a| `0x0030`
 a| `133` | OEM-specific | 1  a| `0x0026`
 a| `134` | Lenovo date record | 1  a| `0x0002`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0027`, `0x003B`
+a| `135` | Lenovo bay I/O | 2  a| `0x0027`, `0x003B`
 a| `136` | OEM-specific | 1  a| `0x0035`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x0036`, `0x0037`, `0x0038`, `0x0039`, `0x003A`
+a| `140` | Lenovo OEM data | 5  a| `0x0036`, `0x0037`, `0x0038`, `0x0039`, `0x003A`
 a| `219` | Intel Management Engine interface information | 1  a| `0x003D`
 a| `221` | Intel firmware version information | 4  a| `0x002A`, `0x002B`, `0x002C`, `0x002D`
 a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0000`
@@ -1456,11 +1657,64 @@ a| `129` | OEM-specific | 1  a| `0x0006`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0027`
 a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0020`, `0x0028`
 a| `133` | OEM-specific | 1  a| `0x0029`
-a| `134` | Lenovo date record | 2  a| `0x0000`, `0x000B`
-a| `135` | Lenovo ThinkPad device presence detection | 3  a| `0x0021`, `0x002A`, `0x002C`
+a| `134` | Lenovo TPM information | 2  a| `0x0000`, `0x000B`
+a| `135` | Lenovo mobile PC OEM data | 3  a| `0x0021`, `0x002A`, `0x002C`
 a| `136` | OEM-specific | 1  a| `0x0026`
 a| `140` | Lenovo ThinkPad embedded controller program | 2  a| `0x002D`, `0x002E`
-a| `200` | Lenovo machine type model | 1  a| `0x0022`
+a| `200` | OEM-specific | 1  a| `0x0022`
+|===
+== ThinkPad X201 3626PL2 (thinkpad-x201-3626pl2.bin)
+
+[horizontal]
+File path:: `lenovo/thinkpad-x201-3626pl2.bin`
+Product name:: 3626PL2
+Product version:: ThinkPad X201
+Product family:: ThinkPad X201
+Firmware vendor:: LENOVO
+Firmware version:: 6QET70WW (1.40 )
+Release date:: 2012-10-11
+SMBIOS version:: 2.6
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0006`
+a| `5` | Memory controller information | 1  a| `0x0007`
+a| `6` | Memory module information | 2  a| `0x0008`, `0x0009`
+a| `7` | Cache information | 3  a| `0x000A`, `0x000B`, `0x000C`
+a| `8` | Port connector information | 11  a| `0x000D`, `0x000E`, `0x0011`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x0020`, `0x0021`
+a| `9` | System slots | 2  a| `0x0023`, `0x0025`
+a| `10` | Onboard devices information | 1  a| `0x0026`
+a| `11` | OEM strings | 1  a| `0x0027`
+a| `13` | Firmware language information | 1  a| `0x0028`
+a| `15` | System event log | 1  a| `0x0029`
+a| `16` | Physical memory array | 1  a| `0x002A`
+a| `17` | Memory device | 2  a| `0x002B`, `0x002C`
+a| `18` | 32-bit memory error information | 1  a| `0x002D`
+a| `19` | Memory array mapped address | 1  a| `0x002E`
+a| `20` | Memory device mapped address | 2  a| `0x002F`, `0x0030`
+a| `21` | Built-in pointing device | 2  a| `0x0031`, `0x0032`
+a| `22` | Portable battery | 1  a| `0x0033`
+a| `24` | Hardware security | 1  a| `0x0035`
+a| `32` | System boot information | 1  a| `0x0036`
+a| `126` | Inactive | 15  a| `0x0004`, `0x0005`, `0x000F`, `0x0010`, `0x0012`, `0x0013`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0022`, `0x0024`, `0x0034`
+a| `127` | End of table | 1  a| `0x004D`
+a| `129` | OEM-specific | 1  a| `0x004A`
+a| `130` | Intel Active Management Technology information | 1  a| `0x004B`
+a| `131` | OEM-specific | 3  a| `0x0037`, `0x0038`, `0x004C`
+a| `132` | OEM-specific | 1  a| `0x0039`
+a| `133` | OEM-specific | 1  a| `0x003A`
+a| `134` | Lenovo date record | 2  a| `0x003B`, `0x003C`
+a| `135` | Lenovo mobile PC OEM data | 5  a| `0x003D`, `0x003E`, `0x003F`, `0x0040`, `0x0041`
+a| `136` | OEM-specific | 1  a| `0x0042`
+a| `140` | Lenovo OEM data | 7  a| `0x0043`, `0x0044`, `0x0045`, `0x0046`, `0x0047`, `0x0048`, `0x0049`
 |===
 == ThinkPad X220 4290LE6 (thinkpad-x220-4290le6.bin)
 
@@ -1503,13 +1757,13 @@ a| `126` | Inactive | 15  a| `0x0013`, `0x0014`, `0x0016`, `0x0017`, `0x0019`, `
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `129` | OEM-specific | 1  a| `0x0009`
 a| `130` | Intel Active Management Technology information | 1  a| `0x000A`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x000B`, `0x0031`
+a| `131` | Intel vPro information | 2  a| `0x000B`, `0x0031`
 a| `132` | OEM-specific | 1  a| `0x003D`
 a| `133` | OEM-specific | 1  a| `0x0035`
-a| `134` | Lenovo date record | 2  a| `0x0000`, `0x000C`
-a| `135` | Lenovo ThinkPad device presence detection | 3  a| `0x0033`, `0x0034`, `0x003E`
+a| `134` | Lenovo TPM information | 2  a| `0x0000`, `0x000C`
+a| `135` | Lenovo bay I/O | 3  a| `0x0033`, `0x0034`, `0x003E`
 a| `136` | OEM-specific | 1  a| `0x0032`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x0037`, `0x0038`, `0x0039`, `0x003A`, `0x003B`
+a| `140` | Lenovo OEM data | 5  a| `0x0037`, `0x0038`, `0x0039`, `0x003A`, `0x003B`
 |===
 == ThinkPad X240 20AM (thinkpad-x240-20am.bin)
 
@@ -1556,9 +1810,9 @@ a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0028`, `0x002C
 a| `132` | OEM-specific | 1  a| `0x0038`
 a| `133` | OEM-specific | 1  a| `0x002D`
 a| `134` | Lenovo date record | 2  a| `0x0009`, `0x002A`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x002E`, `0x0039`
+a| `135` | Lenovo bay I/O | 2  a| `0x002E`, `0x0039`
 a| `136` | OEM-specific | 1  a| `0x0029`
-a| `140` | Lenovo ThinkPad embedded controller program | 8  a| `0x0031`, `0x0032`, `0x0033`, `0x0034`, `0x0035`, `0x0036`, `0x003A`, `0x003B`
+a| `140` | Lenovo OEM data | 8  a| `0x0031`, `0x0032`, `0x0033`, `0x0034`, `0x0035`, `0x0036`, `0x003A`, `0x003B`
 |===
 == ThinkPad X280 20KE (thinkpad-x280-20ke.bin)
 
@@ -1600,13 +1854,13 @@ a| `24` | Hardware security | 1  a| `0x002F`
 a| `126` | Inactive | 11  a| `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0019`, `0x001B`, `0x001C`, `0x001D`, `0x001F`, `0x0025`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0028`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0029`, `0x0034`
+a| `131` | Intel vPro information | 2  a| `0x0029`, `0x0034`
 a| `132` | OEM-specific | 1  a| `0x0030`
 a| `133` | OEM-specific | 1  a| `0x0026`
 a| `134` | Lenovo date record | 1  a| `0x0002`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0027`, `0x003B`
+a| `135` | Lenovo bay I/O | 2  a| `0x0027`, `0x003B`
 a| `136` | OEM-specific | 1  a| `0x0035`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x0036`, `0x0037`, `0x0038`, `0x003C`, `0x003D`
+a| `140` | Lenovo OEM data | 5  a| `0x0036`, `0x0037`, `0x0038`, `0x003C`, `0x003D`
 a| `219` | Intel Management Engine interface information | 1  a| `0x003A`
 a| `221` | Intel firmware version information | 4  a| `0x002A`, `0x002B`, `0x002C`, `0x002D`
 a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0000`
@@ -1651,16 +1905,54 @@ a| `24` | Hardware security | 1  a| `0x002F`
 a| `126` | Inactive | 11  a| `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0019`, `0x001B`, `0x001C`, `0x001D`, `0x001F`, `0x0025`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0028`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 2  a| `0x0029`, `0x0034`
+a| `131` | Intel vPro information | 2  a| `0x0029`, `0x0034`
 a| `132` | OEM-specific | 1  a| `0x0030`
 a| `133` | OEM-specific | 1  a| `0x0026`
 a| `134` | Lenovo date record | 1  a| `0x0002`
-a| `135` | Lenovo ThinkPad device presence detection | 2  a| `0x0027`, `0x003B`
+a| `135` | Lenovo bay I/O | 2  a| `0x0027`, `0x003B`
 a| `136` | OEM-specific | 1  a| `0x0035`
-a| `140` | Lenovo ThinkPad embedded controller program | 5  a| `0x0036`, `0x0037`, `0x0038`, `0x003C`, `0x003D`
+a| `140` | Lenovo OEM data | 5  a| `0x0036`, `0x0037`, `0x0038`, `0x003C`, `0x003D`
 a| `219` | Intel Management Engine interface information | 1  a| `0x003A`
 a| `221` | Intel firmware version information | 4  a| `0x002A`, `0x002B`, `0x002C`, `0x002D`
 a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0000`
+|===
+== ThinkSystem SR950 7X12 (thinksystem-sr950-7x12.bin)
+
+[horizontal]
+File path:: `lenovo/thinksystem-sr950-7x12.bin`
+Product name:: ThinkSystem SR950 -[7X12ABC1WW]-
+Product version:: 07
+Product family:: ThinkSystem
+Firmware vendor:: Lenovo
+Firmware version:: -[PSE119Z-1.50]-
+Release date:: 2018-12-21
+SMBIOS version:: 3.2.1
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 8  a| `0x00AD`, `0x00B1`, `0x00B5`, `0x00B9`, `0x00BA`, `0x00BB`, `0x00BC`, `0x00BD`
+a| `7` | Cache information | 12  a| `0x00AA`, `0x00AB`, `0x00AC`, `0x00AE`, `0x00AF`, `0x00B0`, `0x00B2`, `0x00B3`, `0x00B4`, `0x00B6`, `0x00B7`, `0x00B8`
+a| `8` | Port connector information | 10  a| `0x2E32`, `0x2E33`, `0x2E34`, `0x2E35`, `0x2E36`, `0x2E37`, `0x2E38`, `0x2E39`, `0x2E3A`, `0x2E3B`
+a| `9` | System slots | 7  a| `0x2E3C`, `0x2E3D`, `0x2E3E`, `0x2E3F`, `0x2E40`, `0x2E41`, `0x2E42`
+a| `11` | OEM strings | 8  a| `0x01FA`, `0x01FC`, `0x01FE`, `0x0200`, `0x0202`, `0x0204`, `0x0206`, `0x0208`
+a| `12` | System configuration options | 16  a| `0x020A`, `0x020C`, `0x020E`, `0x0210`, `0x0212`, `0x0214`, `0x0216`, `0x0218`, `0x021A`, `0x021C`, `0x021E`, `0x0220`, `0x0222`, `0x0224`, `0x0226`, `0x0228`
+a| `13` | Firmware language information | 1  a| `0x2E31`
+a| `16` | Physical memory array | 1  a| `0x0020`
+a| `17` | Memory device | 96  a| `0x0022`, `0x0024`, `0x0026`, `0x0028`, `0x0029`, `0x002B`, `0x002D`, `0x002F`, `0x0031`, `0x0033`, `0x0034`, `0x0036`, `0x0038`, `0x003A`, `0x003C`, `0x003E`, `0x003F`, `0x0041`, `0x0043`, `0x0045`, `0x0047`, `0x0049`, `0x004A`, `0x004C`, `0x004E`, `0x0050`, `0x0052`, `0x0054`, `0x0055`, `0x0057`, `0x0059`, `0x005B`, `0x005D`, `0x005F`, `0x0060`, `0x0062`, `0x0064`, `0x0066`, `0x0068`, `0x006A`, `0x006B`, `0x006D`, `0x006F`, `0x0071`, `0x0073`, `0x0075`, `0x0076`, `0x0078`, `0x0079`, `0x007A`, `0x007B`, `0x007C`, `0x007D`, `0x007E`, `0x007F`, `0x0080`, `0x0081`, `0x0082`, `0x0083`, `0x0084`, `0x0085`, `0x0086`, `0x0087`, `0x0088`, `0x0089`, `0x008A`, `0x008B`, `0x008C`, `0x008D`, `0x008E`, `0x008F`, `0x0090`, `0x0091`, `0x0092`, `0x0093`, `0x0094`, `0x0095`, `0x0096`, `0x0097`, `0x0098`, `0x0099`, `0x009A`, `0x009B`, `0x009C`, `0x009D`, `0x009E`, `0x009F`, `0x00A0`, `0x00A1`, `0x00A2`, `0x00A3`, `0x00A4`, `0x00A5`, `0x00A6`, `0x00A7`, `0x00A8`
+a| `19` | Memory array mapped address | 8  a| `0x0021`, `0x002C`, `0x0037`, `0x0042`, `0x004D`, `0x0058`, `0x0063`, `0x006E`
+a| `32` | System boot information | 1  a| `0x000D`
+a| `38` | IPMI device information | 1  a| `0x0016`
+a| `41` | Onboard devices extended information | 1  a| `0x2E46`
+a| `42` | Management controller host interface | 1  a| `0x2E30`
+a| `127` | End of table | 1  a| `0x2E47`
 |===
 == V130-15IKB 81HN (v130-15ikb-81hn.bin)
 
@@ -1702,7 +1994,7 @@ a| `24` | Hardware security | 1  a| `0x002D`
 a| `32` | System boot information | 1  a| `0x002A`
 a| `127` | End of table | 1  a| `0xFEFF`
 a| `130` | Intel Active Management Technology information | 1  a| `0x002F`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0030`
+a| `131` | Intel vPro information | 1  a| `0x0030`
 a| `133` | OEM-specific | 1  a| `0x002C`
 a| `200` | Lenovo machine type model | 1  a| `0x002B`
 a| `219` | Intel Management Engine interface information | 1  a| `0x0037`
@@ -1759,7 +2051,7 @@ a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0034`
 a| `129` | OEM-specific | 1  a| `0x0035`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0036`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0037`
+a| `131` | Intel vPro information | 1  a| `0x0037`
 a| `133` | OEM-specific | 1  a| `0x0038`
 a| `136` | OEM-specific | 1  a| `0x0039`
 a| `200` | Lenovo machine type model | 1  a| `0x003A`
@@ -1767,6 +2059,41 @@ a| `219` | Intel Management Engine interface information | 1  a| `0x003B`
 a| `221` | Intel firmware version information | 4  a| `0x003C`, `0x003D`, `0x003E`, `0x003F`
 a| `222` | Intel Silicon View Technology milestones | 1  a| `0x0040`
 a| `248` | OEM-specific | 1  a| `0x0041`
+|===
+== Yoga C630-13Q50 81JL (yoga-c630-13q50-81jl.bin)
+
+[horizontal]
+File path:: `lenovo/yoga-c630-13q50-81jl.bin`
+Product name:: 81JL
+Product version:: Lenovo YOGA C630-13Q50
+Product family:: YOGA C630-13Q50
+Firmware vendor:: LENOVO
+Firmware version:: 9UCN23WW(V1.06)
+Release date:: 2018-10-25
+SMBIOS version:: 3.0
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0001`
+a| `1` | System information | 1  a| `0x0007`
+a| `2` | Baseboard or module information | 1  a| `0x000C`
+a| `3` | System enclosure or chassis | 1  a| `0x000D`
+a| `4` | Processor information | 1  a| `0x0006`
+a| `7` | Cache information | 4  a| `0x0002`, `0x0003`, `0x0004`, `0x0005`
+a| `11` | OEM strings | 1  a| `0x000E`
+a| `16` | Physical memory array | 1  a| `0x0008`
+a| `17` | Memory device | 1  a| `0x0009`
+a| `19` | Memory array mapped address | 1  a| `0x000A`
+a| `24` | Hardware security | 1  a| `0x000F`
+a| `127` | End of table | 1  a| `0xFEFF`
+a| `133` | OEM-specific | 1  a| `0x0010`
+a| `200` | Lenovo machine type model | 1  a| `0x0011`
+a| `248` | OEM-specific | 1  a| `0x0012`
+a| `255` | OEM-specific | 1  a| `0x000B`
 |===
 == Yoga C640-13IML 81UE (yoga-c640-13iml-81ue.bin)
 
@@ -1807,7 +2134,7 @@ a| `32` | System boot information | 1  a| `0x0013`
 a| `39` | System power supply | 1  a| `0x0042`
 a| `41` | Onboard devices extended information | 4  a| `0x0043`, `0x0044`, `0x0045`, `0x0046`
 a| `127` | End of table | 1  a| `0xFEFF`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x0052`
+a| `131` | Intel vPro information | 1  a| `0x0052`
 a| `133` | OEM-specific | 1  a| `0x004F`
 a| `136` | OEM-specific | 1  a| `0x003F`
 a| `200` | Lenovo machine type model | 1  a| `0x004E`
@@ -1866,7 +2193,7 @@ a| `127` | End of table | 1  a| `0xFEFF`
 a| `128` | OEM-specific | 1  a| `0x0037`
 a| `129` | OEM-specific | 1  a| `0x0038`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0039`
-a| `131` | Lenovo ThinkVantage Technologies enablement | 1  a| `0x003A`
+a| `131` | Intel vPro information | 1  a| `0x003A`
 a| `133` | OEM-specific | 1  a| `0x003B`
 a| `136` | OEM-specific | 1  a| `0x003C`
 a| `200` | Lenovo machine type model | 1  a| `0x003D`

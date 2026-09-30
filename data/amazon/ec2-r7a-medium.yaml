@@ -1,0 +1,416 @@
+entry:
+  smbios-version: '2.7'
+table:
+- handle: 0
+  type: 0
+  length: 51
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: Amazon EC2
+    version: '1.0'
+    bios-segment: 61440
+    release-date: '2017-10-16'
+    rom-size: 65536
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: false
+      shadowing-allowed: false
+      vesa-support: false
+      escd-support: false
+      boot-cd: false
+      boot-selectable: false
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: false
+      keyboard-support: false
+      serial-support: false
+      printer-support: false
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: false
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: false
+      boot-network-fn-key: false
+      content-distribution: false
+      uefi-spec: false
+      virtual-machine: true
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '1.0'
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 87
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Amazon EC2
+    product: r7a.medium
+    version: null
+    serial-number: ec26ef31-2bad-e1ea-1835-47985450d991
+    uuid: EC26EF31-2BAD-E1EA-1835-47985450D991
+    wakeup-type: power-switch
+    sku-number: null
+    family: null
+- handle: 2
+  type: 2
+  length: 47
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Amazon EC2
+    product: null
+    version: null
+    serial-number: null
+    asset-tag: i-0d36cfafc1ced0e42
+    features:
+      is-hosting-board: false
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: false
+      is-hot-swappable: false
+    location: null
+    chassis-handle: 3
+    type: other
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 44
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Amazon EC2
+    type: other
+    is-lock-present: false
+    version: null
+    serial-number: null
+    asset-tag: Amazon EC2
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 0
+    height: null
+    power-cord-count: 1
+    element-count: 0
+    element-size: 0
+    elements: []
+- handle: 4
+  type: 4
+  length: 92
+  level: '2.6'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 0
+    type: central
+    family: amd-zen
+    vendor: Advanced Micro Devices, Inc.
+    id: 110fa100fffb8b17
+    signature:
+      type: 0
+      family: 25
+      model: 17
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: false
+      acpi: false
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: false
+      htt: true
+      tm: false
+      pbe: false
+    version: AMD EPYC 9R14
+    voltage: 0.9
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 3700
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: socket-sp5
+    l1-cache-handle: 5
+    l2-cache-handle: 6
+    l3-cache-handle: 7
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 1
+    core-enabled: 1
+    thread-count: 1
+- handle: 5
+  type: 7
+  length: 31
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1 - Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 6291456
+    installed-size: 6291456
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 6
+  type: 7
+  length: 31
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2 - Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 100663296
+    installed-size: 100663296
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 8-way
+- handle: 7
+  type: 7
+  length: 31
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3 - Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 402653184
+    installed-size: 402653184
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: false
+    speed: 1
+    error-correction: multi-bit
+    type: unified
+    associativity: 16-way
+- handle: 8
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: unknown
+    maximum-capacity: 8589934592
+    error-handle: 65534
+    device-count: 1
+- handle: 9
+  type: 17
+  length: 36
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 8
+    error-info-handle: 65534
+    total-width: 80
+    data-width: 64
+    size: 8589934592
+    form-factor: dimm
+    device-set: 0
+    device-locator: null
+    bank-locator: null
+    memory-type: ddr5
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: true
+      static-column: false
+      pseudo-static: false
+      rambus: true
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: true
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 4800
+    vendor: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    rank: unknown
+    configured-speed: unknown
+- handle: 10
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 8589934591
+    range-size: 8589934592
+    array-handle: 8
+    partition-width: 1
+- handle: 11
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 8589934591
+    range-size: 8589934592
+    device-handle: 9
+    array-addr-handle: 10
+    partition-pos: 1
+    interleave-pos: 0
+    interleave-depth: 0
+- handle: 12
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

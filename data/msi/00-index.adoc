@@ -53,6 +53,42 @@ a| `136` | OEM-specific | 1  a| `0x005A`
 a| `219` | Intel Management Engine interface information | 1  a| `0x005D`
 a| `221` | Intel firmware version information | 6  a| `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0059`
 |===
+== MS-171F (ms-171f.bin)
+
+[horizontal]
+File path:: `msi/ms-171f.bin`
+Product name:: MS-171F
+Product version:: Ver 1.000
+Product family:: To Be Filled By O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: A171FIZT V1.05
+Release date:: 2008-12-05
+SMBIOS version:: 2.5
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 24  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `9` | System slots | 2  a| `0x0020`, `0x0021`
+a| `10` | Onboard devices information | 1  a| `0x0022`
+a| `13` | Firmware language information | 1  a| `0x0023`
+a| `15` | System event log | 1  a| `0x0024`
+a| `16` | Physical memory array | 1  a| `0x0025`
+a| `17` | Memory device | 2  a| `0x0027`, `0x0029`
+a| `19` | Memory array mapped address | 1  a| `0x0026`
+a| `20` | Memory device mapped address | 2  a| `0x0028`, `0x002A`
+a| `32` | System boot information | 1  a| `0x002B`
+a| `127` | End of table | 1  a| `0x002C`
+|===
 == MS-7210 945GM2-FI (ms-7210.bin)
 
 [horizontal]

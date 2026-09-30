@@ -6,6 +6,10 @@ files:
     license: OSL-2.1 OR GPL-2.0-or-later
   g15-5510.bin:
     product: G15 5510
+  g15-5515.bin:
+    product: G15 5515
+    source: https://bugzilla.kernel.org/attachment.cgi?id=306930
+    license: none
   inspiron-5370.bin:
     product: Inspiron 5370
     source: https://github.com/dreamwhite/dell-inspiron-5370-hackintosh
@@ -38,6 +42,16 @@ files:
     product: Latitude D610
     source: https://github.com/dell/libsmbios
     license: OSL-2.1 OR GPL-2.0-or-later
+  latitude-e6230-1.bin:
+    product: Latitude E6230 [1]
+    source: https://bugzilla.kernel.org/attachment.cgi?id=107261
+    license: none
+    converted: dmidecode -u
+  latitude-e6230-2.bin:
+    product: Latitude E6230 [2]
+    source: https://bugzilla.kernel.org/attachment.cgi?id=117581
+    license: none
+    converted: dmidecode -u
   latitude-e7450.bin:
     product: Latitude E7450
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection
@@ -136,6 +150,11 @@ files:
     product: PowerEdge 8450
     source: https://github.com/dell/libsmbios
     license: OSL-2.1 OR GPL-2.0-or-later
+  poweredge-c6220.bin:
+    product: PowerEdge C6220
+    source: https://bugzilla.redhat.com/attachment.cgi?id=860089
+    license: none
+    converted: dmidecode -u
   poweredge-c6320.bin:
     product: PowerEdge C6320
     source: https://github.com/InfraSIM/infrasim-compute
@@ -194,6 +213,10 @@ files:
     product: Precision WorkStation 390
     source: https://github.com/dell/libsmbios
     license: OSL-2.1 OR GPL-2.0-or-later
+  studio-1555.bin:
+    product: Studio 1555
+    source: https://bugzilla.kernel.org/attachment.cgi?id=161261
+    license: none
   vostro-5490.bin:
     product: Vostro 5490
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection

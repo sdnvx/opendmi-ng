@@ -1,0 +1,6 @@
+vendor: NEC
+files:
+  pc-lz750ls.bin:
+    product: PC-LZ750LS
+    source: https://bugzilla.kernel.org/attachment.cgi?id=119011
+    license: none

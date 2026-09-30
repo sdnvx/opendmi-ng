@@ -1,7 +1,16 @@
 vendor: Toshiba
 files:
+  satellite-c655d.bin:
+    product: Satellite C655D
+    source: https://bugzilla.kernel.org/attachment.cgi?id=28151
+    license: none
+    converted: dmidecode -u
   satellite-c850-c1k.bin:
     product: Satellite C850-C1K
+  satellite-l505d.bin:
+    product: Satellite L505D
+    source: https://bugzilla.kernel.org/attachment.cgi?id=26963
+    license: none
   satellite-pro-l70-a.bin:
     product: Satellite Pro L70-A
     source: https://github.com/u-root/u-root

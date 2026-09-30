@@ -2,6 +2,11 @@ vendor: Miscellaneous
 files:
   noname-1.bin:
     product: Noname [1]
+  nvidia-nforce.bin:
+    product: nVidia nForce
+    source: https://www.mail-archive.com/coreboot@coreboot.org/msg07876.html
+    license: none
+    converted: dmidecode -u
   x99h.bin:
     product: X99H
     source: https://github.com/kennyluvvuu/RusyaHackintosh

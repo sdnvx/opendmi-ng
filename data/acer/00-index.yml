@@ -1,5 +1,15 @@
 vendor: Acer
 files:
+  aspire-3680.bin:
+    product: Aspire 3680
+    source: https://www.mail-archive.com/coreboot@coreboot.org/msg08088.html
+    license: none
+    converted: dmidecode -u
+  aspire-5720.bin:
+    product: Aspire 5720
+    source: https://bugzilla.kernel.org/attachment.cgi?id=14412
+    license: none
+    converted: dmidecode -u
   aspire-a515-51g.bin:
     product: Aspire A515-51G
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection

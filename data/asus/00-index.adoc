@@ -131,6 +131,43 @@ a| `32` | System boot information | 1  a| `0x0028`
 a| `41` | Onboard devices extended information | 3  a| `0x0029`, `0x002A`, `0x002B`
 a| `127` | End of table | 1  a| `0x0038`
 |===
+== M4A785-M (m4a785-m.bin)
+
+[horizontal]
+File path:: `asus/m4a785-m.bin`
+Product name:: System Product Name
+Product version:: System Version
+Product family:: To Be Filled By O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: 1006
+Release date:: 2010-08-18
+SMBIOS version:: 2.5
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 32  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x0021`, `0x0022`, `0x0023`, `0x0024`, `0x0025`, `0x0026`, `0x0027`
+a| `9` | System slots | 4  a| `0x0028`, `0x0029`, `0x002A`, `0x002B`
+a| `10` | Onboard devices information | 4  a| `0x002C`, `0x002D`, `0x002E`, `0x002F`
+a| `11` | OEM strings | 1  a| `0x0030`
+a| `13` | Firmware language information | 1  a| `0x0031`
+a| `15` | System event log | 1  a| `0x0032`
+a| `16` | Physical memory array | 1  a| `0x0033`
+a| `17` | Memory device | 4  a| `0x0035`, `0x0037`, `0x0039`, `0x003B`
+a| `19` | Memory array mapped address | 1  a| `0x0034`
+a| `20` | Memory device mapped address | 4  a| `0x0036`, `0x0038`, `0x003A`, `0x003C`
+a| `32` | System boot information | 1  a| `0x003D`
+a| `127` | End of table | 1  a| `0x003E`
+|===
 == M4A88TD-M/USB3 (m4a88td-m-usb3.bin)
 
 [horizontal]
@@ -167,6 +204,45 @@ a| `19` | Memory array mapped address | 1  a| `0x0035`
 a| `20` | Memory device mapped address | 4  a| `0x0037`, `0x0039`, `0x003B`, `0x003D`
 a| `32` | System boot information | 1  a| `0x003E`
 a| `127` | End of table | 1  a| `0x003F`
+|===
+== M5A97 PRO (m5a97-pro.bin)
+
+[horizontal]
+File path:: `asus/m5a97-pro.bin`
+Product name:: To be filled by O.E.M.
+Product version:: To be filled by O.E.M.
+Product family:: To be filled by O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: 1604
+Release date:: 2012-10-16
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 24  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `9` | System slots | 3  a| `0x0020`, `0x0021`, `0x0022`
+a| `10` | Onboard devices information | 1  a| `0x0023`
+a| `11` | OEM strings | 1  a| `0x0024`
+a| `12` | System configuration options | 1  a| `0x0025`
+a| `13` | Firmware language information | 1  a| `0x0035`
+a| `16` | Physical memory array | 1  a| `0x0026`
+a| `17` | Memory device | 4  a| `0x0028`, `0x002A`, `0x002C`, `0x002E`
+a| `19` | Memory array mapped address | 1  a| `0x0027`
+a| `20` | Memory device mapped address | 4  a| `0x0029`, `0x002B`, `0x002D`, `0x002F`
+a| `32` | System boot information | 1  a| `0x0030`
+a| `41` | Onboard devices extended information | 3  a| `0x0031`, `0x0032`, `0x0033`
+a| `127` | End of table | 1  a| `0x0037`
+a| `139` | OEM-specific | 1  a| `0x0034`
 |===
 == N551JX (n551jx.bin)
 
@@ -301,6 +377,44 @@ a| `133` | OEM-specific | 1  a| `0x0059`
 a| `136` | OEM-specific | 2  a| `0x005A`, `0x005D`
 a| `219` | Intel Management Engine interface information | 1  a| `0x005C`
 a| `221` | Intel firmware version information | 6  a| `0x0040`, `0x0041`, `0x0042`, `0x0043`, `0x0044`, `0x0058`
+|===
+== R252B (r252b.bin)
+
+[horizontal]
+File path:: `asus/r252b.bin`
+Product name:: R252B
+Product version:: 1.0
+Product family:: ASUS Family
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: 205
+Release date:: 2012-02-20
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 2  a| `0x0005`, `0x0006`
+a| `8` | Port connector information | 24  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `9` | System slots | 3  a| `0x0020`, `0x0021`, `0x0022`
+a| `10` | Onboard devices information | 1  a| `0x0023`
+a| `11` | OEM strings | 1  a| `0x0024`
+a| `12` | System configuration options | 1  a| `0x0025`
+a| `13` | Firmware language information | 1  a| `0x0032`
+a| `16` | Physical memory array | 1  a| `0x0026`
+a| `17` | Memory device | 2  a| `0x0028`, `0x002A`
+a| `19` | Memory array mapped address | 1  a| `0x0027`
+a| `20` | Memory device mapped address | 1  a| `0x0029`
+a| `32` | System boot information | 1  a| `0x002C`
+a| `126` | Inactive | 2  a| `0x0007`, `0x002B`
+a| `127` | End of table | 1  a| `0x0034`
 |===
 == ROG STRIX Z690-A GAMING WIFI D4 (rog-strix-z690-a-gaming-wifi-d4.bin)
 
@@ -546,6 +660,44 @@ a| `41` | Onboard devices extended information | 3  a| `0x0024`, `0x0025`, `0x00
 a| `42` | Management controller host interface | 1  a| `0x0028`
 a| `127` | End of table | 1  a| `0x0050`
 a| `133` | OEM-specific | 1  a| `0x003E`
+|===
+== SABERTOOTH 990FX R2.0 [2] (sabertooth-990fx-r2.0-2.bin)
+
+[horizontal]
+File path:: `asus/sabertooth-990fx-r2.0-2.bin`
+Product name:: To be filled by O.E.M.
+Product version:: To be filled by O.E.M.
+Product family:: To be filled by O.E.M.
+Firmware vendor:: American Megatrends Inc.
+Firmware version:: 2501
+Release date:: 2014-04-08
+SMBIOS version:: 2.7
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `7` | Cache information | 3  a| `0x0005`, `0x0006`, `0x0007`
+a| `8` | Port connector information | 28  a| `0x0008`, `0x0009`, `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`, `0x0020`, `0x0021`, `0x0022`, `0x0023`
+a| `9` | System slots | 6  a| `0x0024`, `0x0025`, `0x0026`, `0x0027`, `0x0028`, `0x0029`
+a| `10` | Onboard devices information | 1  a| `0x002A`
+a| `11` | OEM strings | 1  a| `0x002B`
+a| `12` | System configuration options | 1  a| `0x002C`
+a| `13` | Firmware language information | 1  a| `0x003B`
+a| `16` | Physical memory array | 1  a| `0x002D`
+a| `17` | Memory device | 4  a| `0x002F`, `0x0031`, `0x0033`, `0x0035`
+a| `19` | Memory array mapped address | 1  a| `0x002E`
+a| `20` | Memory device mapped address | 4  a| `0x0030`, `0x0032`, `0x0034`, `0x0036`
+a| `32` | System boot information | 1  a| `0x0037`
+a| `41` | Onboard devices extended information | 3  a| `0x0038`, `0x0039`, `0x003A`
+a| `127` | End of table | 1  a| `0x003D`
 |===
 == SABERTOOTH 990FX R2.0 (sabertooth-990fx-r2.0.bin)
 

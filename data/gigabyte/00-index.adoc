@@ -368,6 +368,46 @@ a| `194` | OEM-specific | 1  a| `0x0032`
 a| `196` | OEM-specific | 1  a| `0x0033`
 a| `198` | OEM-specific | 1  a| `0x0034`
 |===
+== GA-MA78GM-S2H (ga-ma78gm-s2h.bin)
+
+[horizontal]
+File path:: `gigabyte/ga-ma78gm-s2h.bin`
+Product name:: GA-MA78GM-S2H
+Product version:: 
+Product family:: 
+Firmware vendor:: Award Software International, Inc.
+Firmware version:: F5
+Release date:: 2008-06-18
+SMBIOS version:: 2.4
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `5` | Memory controller information | 1  a| `0x0005`
+a| `6` | Memory module information | 4  a| `0x0006`, `0x0007`, `0x0008`, `0x0009`
+a| `7` | Cache information | 4  a| `0x000A`, `0x000B`, `0x000C`, `0x000D`
+a| `8` | Port connector information | 18  a| `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
+a| `9` | System slots | 8  a| `0x0020`, `0x0021`, `0x0022`, `0x0023`, `0x0024`, `0x0025`, `0x0026`, `0x0027`
+a| `13` | Firmware language information | 1  a| `0x0028`
+a| `16` | Physical memory array | 1  a| `0x0029`
+a| `17` | Memory device | 4  a| `0x002A`, `0x002B`, `0x002C`, `0x002D`
+a| `19` | Memory array mapped address | 1  a| `0x002E`
+a| `20` | Memory device mapped address | 4  a| `0x002F`, `0x0030`, `0x0031`, `0x0032`
+a| `32` | System boot information | 1  a| `0x0033`
+a| `127` | End of table | 1  a| `0x0038`
+a| `188` | OEM-specific | 1  a| `0x0034`
+a| `190` | OEM-specific | 1  a| `0x0035`
+a| `192` | OEM-specific | 1  a| `0x0036`
+a| `194` | OEM-specific | 1  a| `0x0037`
+|===
 == H610M H V2 DDR4 (h610m-h-v2-ddr4.bin)
 
 [horizontal]
@@ -459,6 +499,42 @@ a| `32` | System boot information | 1  a| `0x0029`
 a| `41` | Onboard devices extended information | 11  a| `0x0030`, `0x0031`, `0x0032`, `0x0033`, `0x0034`, `0x0035`, `0x0036`, `0x0037`, `0x0038`, `0x0039`, `0x003A`
 a| `127` | End of table | 1  a| `0x003E`
 |===
+== nForce (nforce.bin)
+
+[horizontal]
+File path:: `gigabyte/nforce.bin`
+Product name:: 
+Product version:: 
+Product family:: -
+Firmware vendor:: Award Software International, Inc.
+Firmware version:: F7
+Release date:: 2008-10-23
+SMBIOS version:: 2.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 2  a| `0x0004`, `0x0005`
+a| `5` | Memory controller information | 1  a| `0x0006`
+a| `6` | Memory module information | 4  a| `0x0007`, `0x0008`, `0x0009`, `0x000A`
+a| `7` | Cache information | 4  a| `0x000B`, `0x000C`, `0x000D`, `0x000E`
+a| `8` | Port connector information | 9  a| `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`
+a| `9` | System slots | 6  a| `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`
+a| `13` | Firmware language information | 1  a| `0x001E`
+a| `16` | Physical memory array | 1  a| `0x001F`
+a| `17` | Memory device | 4  a| `0x0020`, `0x0021`, `0x0022`, `0x0023`
+a| `19` | Memory array mapped address | 1  a| `0x0024`
+a| `20` | Memory device mapped address | 4  a| `0x0025`, `0x0026`, `0x0027`, `0x0028`
+a| `32` | System boot information | 1  a| `0x0029`
+a| `127` | End of table | 1  a| `0x002A`
+|===
 == Noname server (F15) (noname-server-f15.bin)
 
 [horizontal]
@@ -495,8 +571,8 @@ a| `42` | Management controller host interface | 1  a| `0x001C`
 a| `127` | End of table | 1  a| `0x006F`
 a| `128` | OEM-specific | 1  a| `0x0057`
 a| `129` | OEM-specific | 14  a| `0x005C`, `0x005D`, `0x005E`, `0x005F`, `0x0060`, `0x0061`, `0x0062`, `0x0063`, `0x0064`, `0x0065`, `0x0066`, `0x0067`, `0x0068`, `0x0069`
-a| `130` | Intel Active Management Technology information | 4  a| `0x0058`, `0x0059`, `0x005A`, `0x005B`
-a| `131` | Intel vPro information | 2  a| `0x006A`, `0x006B`
+a| `130` | OEM-specific | 4  a| `0x0058`, `0x0059`, `0x005A`, `0x005B`
+a| `131` | OEM-specific | 2  a| `0x006A`, `0x006B`
 a| `132` | OEM-specific | 2  a| `0x006C`, `0x006D`
 a| `133` | OEM-specific | 1  a| `0x006E`
 |===

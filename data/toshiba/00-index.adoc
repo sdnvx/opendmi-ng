@@ -2,6 +2,48 @@
 :toc:
 :toclevels: 1
 
+== Satellite C655D (satellite-c655d.bin)
+
+[horizontal]
+File path:: `toshiba/satellite-c655d.bin`
+Product name:: Satellite C655D
+Product version:: PSC16U-002010
+Product family:: Type1Family
+Firmware vendor:: Insyde Corp.
+Firmware version:: 1.40
+Release date:: 2010-05-19
+SMBIOS version:: 2.6
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0020`
+a| `5` | Memory controller information | 1  a| `0x002E`
+a| `6` | Memory module information | 2  a| `0x0026`, `0x002A`
+a| `7` | Cache information | 2  a| `0x0021`, `0x0022`
+a| `8` | Port connector information | 16  a| `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`
+a| `9` | System slots | 5  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`
+a| `11` | OEM strings | 1  a| `0x0009`
+a| `12` | System configuration options | 1  a| `0x000A`
+a| `16` | Physical memory array | 1  a| `0x0023`
+a| `17` | Memory device | 2  a| `0x0024`, `0x0028`
+a| `18` | 32-bit memory error information | 3  a| `0x0025`, `0x0029`, `0x002C`
+a| `19` | Memory array mapped address | 1  a| `0x002D`
+a| `20` | Memory device mapped address | 2  a| `0x0027`, `0x002B`
+a| `21` | Built-in pointing device | 1  a| `0x000B`
+a| `32` | System boot information | 1  a| `0x000C`
+a| `40` | Additional information | 1  a| `0x001E`
+a| `41` | Onboard devices extended information | 1  a| `0x001F`
+a| `127` | End of table | 1  a| `0x002F`
+a| `129` | OEM-specific | 1  a| `0x000D`
+|===
 == Satellite C850-C1K (satellite-c850-c1k.bin)
 
 [horizontal]
@@ -52,6 +94,48 @@ a| `128` | OEM-specific | 1  a| `0x0039`
 a| `129` | OEM-specific | 1  a| `0x003A`
 a| `130` | Intel Active Management Technology information | 1  a| `0x003B`
 a| `136` | OEM-specific | 1  a| `0x003C`
+|===
+== Satellite L505D (satellite-l505d.bin)
+
+[horizontal]
+File path:: `toshiba/satellite-l505d.bin`
+Product name:: Satellite L505D
+Product version:: PSLV6U-028007
+Product family:: Type1Family
+Firmware vendor:: Insyde Corp.
+Firmware version:: 1.00
+Release date:: 2009-09-07
+SMBIOS version:: 2.6
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0020`
+a| `5` | Memory controller information | 1  a| `0x002D`
+a| `6` | Memory module information | 2  a| `0x0026`, `0x0029`
+a| `7` | Cache information | 3  a| `0x0021`, `0x0022`, `0x0023`
+a| `8` | Port connector information | 16  a| `0x000E`, `0x000F`, `0x0010`, `0x0011`, `0x0012`, `0x0013`, `0x0014`, `0x0015`, `0x0016`, `0x0017`, `0x0018`, `0x0019`, `0x001A`, `0x001B`, `0x001C`, `0x001D`
+a| `9` | System slots | 5  a| `0x0004`, `0x0005`, `0x0006`, `0x0007`, `0x0008`
+a| `11` | OEM strings | 1  a| `0x0009`
+a| `12` | System configuration options | 1  a| `0x000A`
+a| `16` | Physical memory array | 1  a| `0x0024`
+a| `17` | Memory device | 2  a| `0x0025`, `0x0027`
+a| `18` | 32-bit memory error information | 2  a| `0x0028`, `0x002B`
+a| `19` | Memory array mapped address | 1  a| `0x002C`
+a| `20` | Memory device mapped address | 1  a| `0x002A`
+a| `21` | Built-in pointing device | 1  a| `0x000B`
+a| `32` | System boot information | 1  a| `0x000C`
+a| `40` | Additional information | 1  a| `0x001E`
+a| `41` | Onboard devices extended information | 1  a| `0x001F`
+a| `127` | End of table | 1  a| `0x002E`
+a| `129` | OEM-specific | 1  a| `0x000D`
 |===
 == Satellite Pro L70-A (satellite-pro-l70-a.bin)
 

@@ -1,0 +1,1429 @@
+entry:
+  smbios-version: 3.1.1
+table:
+- handle: 0
+  type: 0
+  length: 68
+  level: '3.1'
+  state:
+  - decoded
+  description: Platform firmware information
+  attributes:
+    vendor: American Megatrends Inc.
+    version: '4.10'
+    bios-segment: 61440
+    release-date: '2019-06-14'
+    rom-size: 5046272
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: true
+      keyboard-support: false
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '5.13'
+    controller-version: '4.7'
+- handle: 1
+  type: 1
+  length: 100
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: GPD
+    product: MicroPC
+    version: Default string
+    serial-number: Default string
+    uuid: 03000200-0400-0500-0006-000700080009
+    wakeup-type: power-switch
+    sku-number: Default string
+    family: Default string
+- handle: 2
+  type: 2
+  length: 106
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Default string
+    product: Default string
+    version: Default string
+    serial-number: Default string
+    asset-tag: Default string
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: Default string
+    chassis-handle: 3
+    type: motherboard
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 98
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Default string
+    type: notebook
+    is-lock-present: false
+    version: Default string
+    serial-number: Default string
+    asset-tag: Default string
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 0
+    height: null
+    power-cord-count: 1
+    element-count: 0
+    element-size: 3
+    elements: []
+    sku-number: Default string
+- handle: 8
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1A1
+    internal-connector: none
+    external-designator: PS2Mouse
+    external-connector: ps-2
+    port-type: mouse
+- handle: 9
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1A1
+    internal-connector: none
+    external-designator: Keyboard
+    external-connector: ps-2
+    port-type: keyboard
+- handle: 10
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2A1
+    internal-connector: none
+    external-designator: TV Out
+    external-connector: hpcn-14
+    port-type: other
+- handle: 11
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2A2A
+    internal-connector: none
+    external-designator: COM A
+    external-connector: db-9-m
+    port-type: serial-16550a
+- handle: 12
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2A2B
+    internal-connector: none
+    external-designator: Video
+    external-connector: db-15-f
+    port-type: video
+- handle: 13
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3A1
+    internal-connector: none
+    external-designator: USB1
+    external-connector: access-bus
+    port-type: usb
+- handle: 14
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3A1
+    internal-connector: none
+    external-designator: USB2
+    external-connector: access-bus
+    port-type: usb
+- handle: 15
+  type: 8
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3A1
+    internal-connector: none
+    external-designator: USB3
+    external-connector: access-bus
+    port-type: usb
+- handle: 16
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9A1 - TPM HDR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 17
+  type: 8
+  length: 35
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9C1 - PCIE DOCKING CONN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 18
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2B3 - CPU FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 19
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J6C2 - EXT HDMI
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 20
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J3C1 - GMCH FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 21
+  type: 8
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1D1 - ITP
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 22
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9E2 - MDC INTPSR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 23
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9E4 - MDC INTPSR
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 24
+  type: 8
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9E3 - LPC HOT DOCKING
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 25
+  type: 8
+  length: 29
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9E1 - SCAN MATRIX
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 26
+  type: 8
+  length: 31
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J9G1 - LPC SIDE BAND
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 27
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J8F1 - UNIFIED
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 28
+  type: 8
+  length: 22
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J6F1 - LVDS
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 29
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2F1 - LAI FAN
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 30
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J2G1 - GFX VID
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 31
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1G6 - AC JACK
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 32
+  type: 10
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: video
+      is-enabled: true
+      description: To Be Filled By O.E.M.
+- handle: 33
+  type: 11
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 1
+    strings:
+    - Default string
+- handle: 34
+  type: 12
+  length: 21
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - Default string
+- handle: 35
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 34359738368
+    error-handle: 65534
+    device-count: 2
+- handle: 36
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 8589934591
+    range-size: 8589934592
+    array-handle: 35
+    partition-width: 2
+- handle: 37
+  type: 17
+  length: 122
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 35
+    error-info-handle: 65534
+    total-width: 16
+    data-width: 16
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: A1_DIMM0
+    bank-locator: A1_BANK0
+    memory-type: lpddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: ABCD
+    serial-number: '1234'
+    asset-tag: '9876543210'
+    part-number: '123456789012345678'
+    rank: unknown
+    configured-speed: 2133
+    minimum-voltage: 1.1
+    maximum-voltage: 1.5
+    configured-voltage: 1.1
+- handle: 38
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 4294967295
+    range-size: 4294967296
+    device-handle: 37
+    array-addr-handle: 36
+    partition-pos: unknown
+    interleave-pos: 1
+    interleave-depth: 2
+- handle: 39
+  type: 17
+  length: 122
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 35
+    error-info-handle: 65534
+    total-width: 16
+    data-width: 16
+    size: 4294967296
+    form-factor: dimm
+    device-set: 0
+    device-locator: A1_DIMM1
+    bank-locator: A1_BANK1
+    memory-type: lpddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2133
+    vendor: ABCD
+    serial-number: '1234'
+    asset-tag: '9876543210'
+    part-number: '123456789012345678'
+    rank: unknown
+    configured-speed: 2133
+    minimum-voltage: 1.1
+    maximum-voltage: 1.5
+    configured-voltage: 1.1
+- handle: 40
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 4294967296
+    end-addr: 8589934591
+    range-size: 4294967296
+    device-handle: 39
+    array-addr-handle: 36
+    partition-pos: unknown
+    interleave-pos: 2
+    interleave-depth: 2
+- handle: 41
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 46
+  type: 7
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: !!binary |
+      /wuXysaeAxVDUFUgSW50ZXJuYWwgTDE=
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 229376
+    installed-size: 229376
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: parity
+    type: other
+    associativity: other
+- handle: 47
+  type: 7
+  length: 44
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: !!binary |
+      GHJO+4ss269DUFUgSW50ZXJuYWwgTDI=
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 4194304
+    installed-size: 4194304
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 48
+  type: 4
+  length: 128
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: SOCKET 0
+    type: central
+    family: intel-celeron
+    vendor: Intel
+    id: a1060700fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 122
+      stepping: 1
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Celeron(R) N4100 CPU @ 1.10GHz
+    voltage: 1.2
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 2700
+    current-speed: 1100
+    is-populated: true
+    status: enabled
+    upgrade: other
+    l1-cache-handle: 46
+    l2-cache-handle: 47
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: Fill By OEM
+    part-number: Fill By OEM
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 4
+    core-enabled: 4
+    thread-count: 4
+- handle: 49
+  type: 41
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - RTK Ethernet
+    type: ethernet
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 2
+      device-number: 0
+      function-number: 0
+- handle: 50
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+- handle: 51
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 2
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 1
+- handle: 52
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 3
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 3
+- handle: 53
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Video
+    type: video
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 2
+      function-number: 0
+- handle: 54
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 4
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 13
+      function-number: 0
+- handle: 55
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 5
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 13
+      function-number: 2
+- handle: 56
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Sound
+    type: sound
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 14
+      function-number: 0
+- handle: 57
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 6
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 15
+      function-number: 0
+- handle: 58
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 7
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 17
+      function-number: 0
+- handle: 59
+  type: 41
+  length: 27
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - SATA
+    type: sata-controller
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 18
+      function-number: 0
+- handle: 60
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 8
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 21
+      function-number: 0
+- handle: 61
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 9
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 22
+      function-number: 0
+- handle: 62
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 10
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 22
+      function-number: 1
+- handle: 63
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 11
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 22
+      function-number: 2
+- handle: 64
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 12
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 22
+      function-number: 3
+- handle: 65
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 13
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 23
+      function-number: 0
+- handle: 66
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 14
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 23
+      function-number: 1
+- handle: 67
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 15
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 23
+      function-number: 2
+- handle: 68
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 16
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 23
+      function-number: 3
+- handle: 69
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 17
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 24
+      function-number: 0
+- handle: 70
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 18
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 24
+      function-number: 1
+- handle: 71
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 19
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 24
+      function-number: 2
+- handle: 72
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 20
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 24
+      function-number: 3
+- handle: 73
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 21
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 25
+      function-number: 0
+- handle: 74
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 22
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 25
+      function-number: 1
+- handle: 75
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 23
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 25
+      function-number: 2
+- handle: 76
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 24
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 28
+      function-number: 0
+- handle: 77
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 25
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 30
+      function-number: 0
+- handle: 78
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 26
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 31
+      function-number: 0
+- handle: 79
+  type: 41
+  length: 28
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard - Other
+    type: other
+    is-enabled: true
+    instance: 27
+    address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 31
+      function-number: 1
+- handle: 80
+  type: 13
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 81
+  type: 9
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J7H1
+    type: pci-e-g2-x4
+    bus-width: 4x
+    usage: in-use
+    length: short
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 19
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 82
+  type: 9
+  length: 23
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: J8H1
+    type: pci-e-g2-x2
+    bus-width: 2x
+    usage: available
+    length: short
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: true
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: true
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 20
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 83
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

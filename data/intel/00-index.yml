@@ -1,5 +1,10 @@
 vendor: Intel
 files:
+  alviso.bin:
+    product: Alviso
+    source: https://www.mail-archive.com/coreboot@coreboot.org/msg07748.html
+    license: none
+    converted: dmidecode -u
   nuc8i3beh.bin:
     product: NUC8i3BEH
     source: https://github.com/Lorys89/Intel-NUC8-Hackintosh

@@ -52,6 +52,11 @@ files:
     product: OMEN Laptop 15-ek0xxx 3H851EA
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection
     license: none
+  pavilion-dv6.bin:
+    product: Pavilion dv6
+    source: https://bugzilla.kernel.org/attachment.cgi?id=24308
+    license: none
+    converted: dmidecode -u
   pavilion-gaming-laptop-16-a0xxx-2z2e5ea.bin:
     product: Pavilion Gaming Laptop 16-a0xxx 2Z2E5EA
     source: https://github.com/Baio1977/HP16-Pavilion-Gaming

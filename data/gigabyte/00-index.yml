@@ -20,12 +20,20 @@ files:
     product: GA-MA74GMT-S2
     source: https://github.com/u-root/u-root
     license: BSD-3-Clause
+  ga-ma78gm-s2h.bin:
+    product: GA-MA78GM-S2H
+    source: https://bugzilla.redhat.com/attachment.cgi?id=853362
+    license: none
   h610m-h-v2-ddr4.bin:
     product: H610M H V2 DDR4
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection
     license: none
   j4005n-d2p-cf.bin:
     product: J4005N D2P-CF
+  nforce.bin:
+    product: nForce
+    source: https://bugzilla.redhat.com/attachment.cgi?id=449322
+    license: none
   noname-server-f15.bin:
     product: Noname server (F15)
     source: https://github.com/tohas1986/smbios_parser

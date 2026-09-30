@@ -1,0 +1,2496 @@
+entry:
+  smbios-version: '3.0'
+table:
+- handle: 0
+  type: 0
+  length: 83
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: Cisco Systems, Inc.
+    version: C220M5.4.0.2a.0.1102180244
+    bios-segment: 61440
+    release-date: '2018-11-02'
+    rom-size: 16777216
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: false
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: false
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: false
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: false
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: true
+      floppy-35-720k-support: true
+      floppy-35-2m88-support: true
+      print-screen-support: false
+      keyboard-support: false
+      serial-support: true
+      printer-support: false
+      video-cga-mono-support: false
+      nec-pc-98: false
+    features-ex:
+      acpi-support: true
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: false
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: true
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '5.12'
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 76
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: Cisco Systems Inc
+    product: UCSC-C220-M5SX
+    version: A0
+    serial-number: WZP23040266
+    uuid: C554F458-115F-BA48-B4CA-D6E95840B25A
+    wakeup-type: other
+    sku-number: null
+    family: null
+- handle: 2
+  type: 2
+  length: 82
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  description: Baseboard or module information
+  attributes:
+    vendor: Cisco Systems Inc
+    product: UCSC-C220-M5SX
+    version: 74-105772-01
+    serial-number: WZP2304Z05H
+    asset-tag: Unknown
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: null
+    chassis-handle: 3
+    type: server-blade
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 78
+  level: '2.7'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: Cisco Systems Inc
+    type: rack-mount
+    is-lock-present: false
+    version: 74-105774-0
+    serial-number: WZP23040266
+    asset-tag: Unknown
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 100181
+    height: 1
+    power-cord-count: 2
+    element-count: 1
+    element-size: 3
+    elements:
+    - type: null
+      board-type: server-blade
+      minimum-count: 0
+      maximum-count: 4
+    sku-number: ''
+- handle: 4
+  type: 8
+  length: 61
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: CN16
+    internal-connector: none
+    external-designator: CN16 - 60-Pin Front Panel(Video USB Serial A)
+    external-connector: other
+    port-type: other
+- handle: 5
+  type: 8
+  length: 46
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: RJ3
+    internal-connector: none
+    external-designator: RJ3 - Management Ethernet RJ-45
+    external-connector: rj-45
+    port-type: other
+- handle: 6
+  type: 8
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: RJ1
+    internal-connector: none
+    external-designator: RJ1 - 10 GE Port 1
+    external-connector: rj-45
+    port-type: other
+- handle: 7
+  type: 8
+  length: 33
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: RJ2
+    internal-connector: none
+    external-designator: RJ2 - 10 GE Port 2
+    external-connector: rj-45
+    port-type: other
+- handle: 8
+  type: 8
+  length: 38
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB1
+    internal-connector: none
+    external-designator: USB1 - USB Rear Port 1
+    external-connector: access-bus
+    port-type: usb
+- handle: 9
+  type: 8
+  length: 38
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: USB2
+    internal-connector: none
+    external-designator: USB2 - USB Rear Port 2
+    external-connector: access-bus
+    port-type: usb
+- handle: 10
+  type: 8
+  length: 34
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: COM1
+    internal-connector: none
+    external-designator: COM1 - Serial Port
+    external-connector: other
+    port-type: other
+- handle: 11
+  type: 8
+  length: 31
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: VGA1
+    internal-connector: none
+    external-designator: VGA1 - VGA Port
+    external-connector: db-15-f
+    port-type: video
+- handle: 12
+  type: 8
+  length: 38
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: HBA - 64-Pin Disk Backplane
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 13
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Riser1 - PCIe Riser 1
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 14
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Riser2 - PCIe Riser 2
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 15
+  type: 8
+  length: 28
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: CN33 - TPM Header
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 16
+  type: 8
+  length: 27
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: CN35 - SD Slot 1
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 17
+  type: 8
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: CN2 - MicroSD Slot on Riser1
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 18
+  type: 8
+  length: 34
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: On Riser1 - PCIe Slot 1
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 19
+  type: 8
+  length: 34
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: On Riser2 - PCIe Slot 2
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 20
+  type: 8
+  length: 25
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Slot12 - mRAID
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 21
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: Slot11 - MLOM
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 22
+  type: 8
+  length: 32
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: CN35 - MStrorage slot
+    internal-connector: other
+    external-designator: null
+    external-connector: none
+    port-type: other
+- handle: 24
+  type: 12
+  length: 355
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - JP38:Pin 7-8 Close to set ME in recovery mode
+    - JP38:Pin 9-10 Close to clear RTC registers
+    - JP38:Pin 13-14 Close to clear BIOS password
+    - JP38:Pin 1-2 Close to LPC/ESPI and open to SPI
+    - JP38:Pin 3-4 Close to flash security override enable
+    - JP38:Pin 5-6 Close for slave ESPI flash sharing
+    - JP38:Pin 11-12 Close to recover BIOS
+    - JP38:Pin 15-16 BIOS image swap
+- handle: 25
+  type: 24
+  length: 7
+  level: '2.2'
+  state:
+  - decoded
+  description: Hardware security
+  attributes:
+    front-panel-reset: disabled
+    admin-password: disabled
+    keyboard-password: disabled
+    poweron-password: disabled
+- handle: 26
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 27
+  type: 41
+  length: 25
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard IGD
+    type: video
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: null
+      device-number: null
+      function-number: null
+- handle: 28
+  type: 41
+  length: 35
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: ServerEngine Pilot IV
+    type: other
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: null
+      device-number: null
+      function-number: null
+- handle: 29
+  type: 41
+  length: 36
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: LSI3108 SAS Controller
+    type: sas-controller
+    is-enabled: true
+    instance: 2
+    address:
+      segment-group: 16
+      bus-number: null
+      device-number: null
+      function-number: null
+- handle: 30
+  type: 41
+  length: 26
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard LAN1
+    type: ethernet
+    is-enabled: true
+    instance: 1
+    address:
+      segment-group: 0
+      bus-number: 59
+      device-number: 0
+      function-number: 0
+- handle: 31
+  type: 41
+  length: 26
+  level: '2.6'
+  state:
+  - decoded
+  description: Onboard devices extended information
+  attributes:
+    designator: Onboard LAN2
+    type: ethernet
+    is-enabled: true
+    instance: 2
+    address:
+      segment-group: 0
+      bus-number: 59
+      device-number: 0
+      function-number: 1
+- handle: 32
+  type: 38
+  length: 20
+  level: '2.3'
+  state:
+  - decoded
+  description: IPMI device information
+  attributes:
+    interface-type: kcs
+    specification-version: '2.0'
+    i2c-target-address: 32
+    nv-storage-address: null
+    base-address: 3234
+    base-address-lsb: 0
+    base-address-type: io
+    interrupt-trigger-mode: null
+    interrupt-polarity: null
+    interrupt-number: null
+    register-spacing: 1
+- handle: 33
+  type: 42
+  length: 14
+  level: '2.7'
+  state:
+  - decoded
+  - incomplete
+  description: Management controller host interface
+  attributes:
+    if-type: keyboard-controller-style
+    if-data: null
+- handle: 47
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: single-bit
+    maximum-capacity: 2473901162496
+    error-handle: 65534
+    device-count: 6
+- handle: 48
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 103079215103
+    range-size: 103079215104
+    array-handle: 47
+    partition-width: 3
+- handle: 49
+  type: 17
+  length: 127
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 47
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_A1
+    bank-locator: NODE 0 CHANNEL 0 DIMM 0
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: '0xCE00'
+    serial-number: '31983345'
+    asset-tag: DIMM_A1_AssetTag
+    part-number: M393A4K40BB2-CTD
+    rank: 2
+    configured-speed: 2666
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 50
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 34359738367
+    range-size: 34359738368
+    device-handle: 49
+    array-addr-handle: 48
+    partition-pos: 1
+    interleave-pos: 1
+    interleave-depth: 3
+- handle: 51
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 47
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_A2
+    bank-locator: NODE 0 CHANNEL 0 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 52
+  type: 17
+  length: 127
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 47
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_B1
+    bank-locator: NODE 0 CHANNEL 1 DIMM 0
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: '0xCE00'
+    serial-number: '31983347'
+    asset-tag: DIMM_B1_AssetTag
+    part-number: M393A4K40BB2-CTD
+    rank: 2
+    configured-speed: 2666
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 53
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 34359738368
+    end-addr: 68719476735
+    range-size: 34359738368
+    device-handle: 52
+    array-addr-handle: 48
+    partition-pos: 1
+    interleave-pos: 2
+    interleave-depth: 3
+- handle: 54
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 47
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_B2
+    bank-locator: NODE 0 CHANNEL 1 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 55
+  type: 17
+  length: 127
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 47
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_C1
+    bank-locator: NODE 0 CHANNEL 2 DIMM 0
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: '0xCE00'
+    serial-number: '31983346'
+    asset-tag: DIMM_C1_AssetTag
+    part-number: M393A4K40BB2-CTD
+    rank: 2
+    configured-speed: 2666
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 56
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 68719476736
+    end-addr: 103079215103
+    range-size: 34359738368
+    device-handle: 55
+    array-addr-handle: 48
+    partition-pos: 1
+    interleave-pos: 3
+    interleave-depth: 3
+- handle: 57
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 47
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_C2
+    bank-locator: NODE 0 CHANNEL 2 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 58
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: single-bit
+    maximum-capacity: 2473901162496
+    error-handle: 65534
+    device-count: 6
+- handle: 59
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 58
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_D1
+    bank-locator: NODE 0 CHANNEL 3 DIMM 0
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 60
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 58
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_D2
+    bank-locator: NODE 0 CHANNEL 3 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 61
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 58
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_E1
+    bank-locator: NODE 0 CHANNEL 4 DIMM 0
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 62
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 58
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_E2
+    bank-locator: NODE 0 CHANNEL 4 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 63
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 58
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_F1
+    bank-locator: NODE 0 CHANNEL 5 DIMM 0
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 64
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 58
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_F2
+    bank-locator: NODE 0 CHANNEL 5 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 65
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: single-bit
+    maximum-capacity: 2473901162496
+    error-handle: 65534
+    device-count: 6
+- handle: 66
+  type: 19
+  length: 33
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory array mapped address
+  attributes:
+    start-addr: 103079215104
+    end-addr: 206158430207
+    range-size: 103079215104
+    array-handle: 65
+    partition-width: 3
+- handle: 67
+  type: 17
+  length: 127
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 65
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_G1
+    bank-locator: NODE 1 CHANNEL 0 DIMM 0
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: '0xCE00'
+    serial-number: 319833B8
+    asset-tag: DIMM_G1_AssetTag
+    part-number: M393A4K40BB2-CTD
+    rank: 2
+    configured-speed: 2666
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 68
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 103079215104
+    end-addr: 137438953471
+    range-size: 34359738368
+    device-handle: 67
+    array-addr-handle: 66
+    partition-pos: 1
+    interleave-pos: 1
+    interleave-depth: 3
+- handle: 69
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 65
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_G2
+    bank-locator: NODE 1 CHANNEL 0 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 70
+  type: 17
+  length: 127
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 65
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_H1
+    bank-locator: NODE 1 CHANNEL 1 DIMM 0
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: '0xCE00'
+    serial-number: 3198287D
+    asset-tag: DIMM_H1_AssetTag
+    part-number: M393A4K40BB2-CTD
+    rank: 2
+    configured-speed: 2666
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 71
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 137438953472
+    end-addr: 171798691839
+    range-size: 34359738368
+    device-handle: 70
+    array-addr-handle: 66
+    partition-pos: 1
+    interleave-pos: 2
+    interleave-depth: 3
+- handle: 72
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 65
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_H2
+    bank-locator: NODE 1 CHANNEL 1 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 73
+  type: 17
+  length: 127
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 65
+    error-info-handle: 65534
+    total-width: 72
+    data-width: 64
+    size: 34359738368
+    form-factor: dimm
+    device-set: 0
+    device-locator: DIMM_J1
+    bank-locator: NODE 1 CHANNEL 2 DIMM 0
+    memory-type: ddr4
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 2666
+    vendor: '0xCE00'
+    serial-number: '31982967'
+    asset-tag: DIMM_J1_AssetTag
+    part-number: M393A4K40BB2-CTD
+    rank: 2
+    configured-speed: 2666
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 74
+  type: 20
+  length: 37
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Memory device mapped address
+  attributes:
+    start-addr: 171798691840
+    end-addr: 206158430207
+    range-size: 34359738368
+    device-handle: 73
+    array-addr-handle: 66
+    partition-pos: 1
+    interleave-pos: 3
+    interleave-depth: 3
+- handle: 75
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 65
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_J2
+    bank-locator: NODE 1 CHANNEL 2 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 76
+  type: 16
+  length: 25
+  level: '2.7'
+  state:
+  - decoded
+  - linked
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: single-bit
+    maximum-capacity: 2473901162496
+    error-handle: 65534
+    device-count: 6
+- handle: 77
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 76
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_K1
+    bank-locator: NODE 1 CHANNEL 3 DIMM 0
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 78
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 76
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_K2
+    bank-locator: NODE 1 CHANNEL 3 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 79
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 76
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_L1
+    bank-locator: NODE 1 CHANNEL 4 DIMM 0
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 80
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 76
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_L2
+    bank-locator: NODE 1 CHANNEL 4 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 81
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 76
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_M1
+    bank-locator: NODE 1 CHANNEL 5 DIMM 0
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 82
+  type: 17
+  length: 105
+  level: '2.8'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 76
+    error-info-handle: 65534
+    total-width: 0
+    data-width: 0
+    size: 0
+    form-factor: unknown
+    device-set: 0
+    device-locator: DIMM_M2
+    bank-locator: NODE 1 CHANNEL 5 DIMM 1
+    memory-type: unknown
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: true
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: false
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: unknown
+    vendor: NO DIMM
+    serial-number: NO DIMM
+    asset-tag: NO DIMM
+    part-number: NO DIMM
+    rank: unknown
+    configured-speed: unknown
+    minimum-voltage: 1.2
+    maximum-voltage: 1.2
+    configured-voltage: 1.2
+- handle: 83
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 917504
+    installed-size: 917504
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 8-way
+- handle: 84
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 14680064
+    installed-size: 14680064
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 85
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 20185088
+    installed-size: 20185088
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: full
+- handle: 86
+  type: 4
+  length: 124
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU1
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: 54060500fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 85
+      stepping: 4
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) Gold 6132 CPU @ 2.60GHz
+    voltage: 1.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 4000
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: socket-lga3647-1
+    l1-cache-handle: 83
+    l2-cache-handle: 84
+    l3-cache-handle: 85
+    serial-number: null
+    asset-tag: UNKNOWN
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 14
+    core-enabled: 14
+    thread-count: 28
+- handle: 87
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1-Cache
+    level: 1
+    socketed: false
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 917504
+    installed-size: 917504
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: instruction
+    associativity: 8-way
+- handle: 88
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2-Cache
+    level: 2
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 14680064
+    installed-size: 14680064
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: 16-way
+- handle: 89
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L3-Cache
+    level: 3
+    socketed: false
+    location: internal
+    enabled: true
+    mode: variable
+    maximum-size: 20185088
+    installed-size: 20185088
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: true
+      asynchronous: false
+    speed: 0
+    error-correction: single-bit
+    type: unified
+    associativity: full
+- handle: 90
+  type: 4
+  length: 124
+  level: '3.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU2
+    type: central
+    family: intel-xeon
+    vendor: Intel(R) Corporation
+    id: 54060500fffbebbf
+    signature:
+      type: 0
+      family: 6
+      model: 85
+      stepping: 4
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: true
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: Intel(R) Xeon(R) Gold 6132 CPU @ 2.60GHz
+    voltage: 1.6
+    supported-voltages: null
+    external-clock: 100
+    maximum-speed: 4000
+    current-speed: 2600
+    is-populated: true
+    status: enabled
+    upgrade: socket-lga3647-1
+    l1-cache-handle: 87
+    l2-cache-handle: 88
+    l3-cache-handle: 89
+    serial-number: null
+    asset-tag: UNKNOWN
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: true
+      hardware-thread: true
+      execute-protection: true
+      enhanced-virtualization: true
+      power-perf-control: true
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 14
+    core-enabled: 14
+    thread-count: 28
+- handle: 95
+  type: 9
+  length: 27
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: SlotID:1
+    type: pci-e-g3-x16
+    bus-width: 16x
+    usage: in-use
+    length: long
+    ident: 1
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 94
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 96
+  type: 9
+  length: 30
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: SlotID:MLOM
+    type: pci-e-g3-x16
+    bus-width: 16x
+    usage: in-use
+    length: long
+    ident: 5
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 24
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 97
+  type: 9
+  length: 31
+  level: '2.6'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: SlotID:MRAID
+    type: pci-e-g3-x8
+    bus-width: 8x
+    usage: in-use
+    length: long
+    ident: 6
+    features:
+      unknown: false
+      has-5v0-support: false
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: true
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 61
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 98
+  type: 13
+  length: 39
+  level: '2.0'
+  state:
+  - decoded
+  description: Firmware language information
+  attributes:
+    languages:
+    - en|US|iso8859-1
+    flags:
+      is-abbreviated: false
+    current-language: en|US|iso8859-1
+- handle: 99
+  type: 201
+  length: 22
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yQxjAAEGXl9hYmNk
+  strings:
+  - SlotID:1
+- handle: 100
+  type: 201
+  length: 20
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yQdkAAEBGA==
+  strings:
+  - SlotID:MLOM
+- handle: 101
+  type: 201
+  length: 21
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yQdlAAEBPQ==
+  strings:
+  - SlotID:MRAID
+- handle: 102
+  type: 201
+  length: 17
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yQdmAAEBOw==
+  strings:
+  - SlotID:L
+- handle: 103
+  type: 202
+  length: 54
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yhVnAAMRNwBCAP8AogECETcCFwMA
+  strings:
+  - Cisco UCS VIC 1455
+  - SlotID:1
+  - N/A
+- handle: 104
+  type: 202
+  length: 98
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yhVoAAOAhhUhAAACAQECETcBMwMA
+  strings:
+  - Intel(R) I350-mLOM 1 Gbps Network Controller
+  - SlotID:MLOM
+  - 0x80000E78-1.812.1
+- handle: 105
+  type: 202
+  length: 111
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yhVpAAMQAAAUAAQBAQECETcCDgMA
+  strings:
+  - Cisco 12G Modular RAID Controller with 2GB cache(Max 16 drives)
+  - SlotID:MRAID
+  - 50.6.0-1838
+- handle: 106
+  type: 202
+  length: 71
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yhVqAAOAhhVjAAACAQECETcBowMA
+  strings:
+  - Cisco(R) LOM X550-T2
+  - SlotID:L
+  - 0x80000AF9-1.812.1
+- handle: 107
+  type: 203
+  length: 38
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    yyRrAANqCgQEAAAAAwAAAAMAAAAAAAAAAAAAAAAAAwEAAAAA
+- handle: 108
+  type: 204
+  length: 30
+  level: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    zBxsAAMAAQIAAAgAAAAAAAAAAAAAAAAAAAAAAA==
+- handle: 111
+  type: 11
+  length: 20
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 2
+    strings:
+    - Cisco
+    - Unknown
+- handle: 114
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

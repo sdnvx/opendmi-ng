@@ -10,6 +10,14 @@ files:
     product: K53U
   m4a88td-m-usb3.bin:
     product: M4A88TD-M/USB3
+  m4a785-m.bin:
+    product: M4A785-M
+    source: https://bugzilla.redhat.com/attachment.cgi?id=855044
+    license: none
+  m5a97-pro.bin:
+    product: M5A97 PRO
+    source: https://bugzilla.kernel.org/attachment.cgi?id=221691
+    license: none
   n551jx.bin:
     product: N551JX
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection
@@ -18,6 +26,11 @@ files:
     product: PRIME B350-Plus
   prime-h610m-r.bin:
     product: PRIME H610M-R
+  r252b.bin:
+    product: R252B
+    source: https://bugzilla.kernel.org/attachment.cgi?id=72987
+    license: none
+    converted: dmidecode -u
   rog-strix-z690-a-gaming-wifi-d4.bin:
     product: ROG STRIX Z690-A GAMING WIFI D4
     source: https://github.com/Baio1977/Hackintosh-EFI-Collection
@@ -32,6 +45,10 @@ files:
     product: RS520-E9-RS8
   sabertooth-990fx-r2.0.bin:
     product: SABERTOOTH 990FX R2.0
+  sabertooth-990fx-r2.0-2.bin:
+    product: SABERTOOTH 990FX R2.0 [2]
+    source: https://bugzilla.kernel.org/attachment.cgi?id=221661
+    license: none
   strix-17-gl703ge.bin:
     product: Strix 17 GL703GE
     source: https://github.com/Baio1977/Asus-ROG-GL703ge

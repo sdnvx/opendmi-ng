@@ -1,0 +1,7 @@
+vendor: Packard Bell
+files:
+  imedia-s3210.bin:
+    product: iMedia S3210
+    source: https://www.mail-archive.com/debian-bugs-closed@lists.debian.org/msg684086.html
+    license: none
+    converted: dmidecode -u

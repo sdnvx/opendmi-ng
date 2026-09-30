@@ -2,6 +2,11 @@ vendor: MSI
 files:
   modern-15-a10m.bin:
     product: Modern 15 A10M
+  ms-171f.bin:
+    product: MS-171F
+    source: https://bugzilla.kernel.org/attachment.cgi?id=19843
+    license: none
+    converted: dmidecode -u
   ms-7210.bin:
     product: MS-7210 945GM2-FI
   ms-7816.bin:

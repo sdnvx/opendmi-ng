@@ -529,3 +529,53 @@ the systems. The dumps are kept here as test data only.
   - `data/lenovo/v130-15ikb-81hn.bin`
 - <https://github.com/kennyluvvuu/RusyaHackintosh>, commit `71388a5469d4`:
   - `data/misc/x99h.bin`
+
+### Bug reports and mailing lists
+
+The following dumps are attached to bug reports or posted to mailing lists,
+with no license, by the users of the systems. They are kept here as test data
+only.
+
+Binary dumps, as `dmidecode --dump-bin` writes them:
+
+- `data/amazon/ec2-r7a-medium.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=1981395>
+- `data/asus/m4a785-m.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=855044>
+- `data/asus/m5a97-pro.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=221691>
+- `data/asus/sabertooth-990fx-r2.0-2.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=221661>
+- `data/cisco/ucsc-c220-m5sx.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=1581936>
+- `data/dell/g15-5515.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=306930>
+- `data/dell/studio-1555.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=161261>
+- `data/gigabyte/ga-ma78gm-s2h.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=853362>
+- `data/gigabyte/nforce.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=449322>
+- `data/lenovo/ideapad-100s-11iby-80r2.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=206071>
+- `data/lenovo/thinkpad-t410-25375w8.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=510166>
+- `data/lenovo/thinkpad-w510-4391ak3.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=733232>
+- `data/lenovo/thinksystem-sr950-7x12.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=1522302>
+- `data/lenovo/yoga-c630-13q50-81jl.bin`: <https://raw.githubusercontent.com/aarch64-laptops/build/2e58842f5fa2f87771c2df017ae4d8c65225ef10/misc/lenovo-yoga-c630/dmidecode.dump>, commit `2e58842f5fa2`
+- `data/nec/pc-lz750ls.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=119011>
+- `data/qemu/red-hat-kvm.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=517420>
+- `data/samsung/700z3c-700z5c.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=154751>
+- `data/samsung/sx20s.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=24426>
+- `data/supermicro/h8qm8.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=379259>
+- `data/toshiba/satellite-l505d.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=26963>
+
+Dumps rebuilt from the output of `dmidecode -u` by `tools/dmidecode-to-bin.py`,
+with an entry point made anew:
+
+- `data/acer/aspire-3680.bin`: <https://www.mail-archive.com/coreboot@coreboot.org/msg08088.html>
+- `data/acer/aspire-5720.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=14412>
+- `data/asus/r252b.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=72987>
+- `data/dell/latitude-e6230-1.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=107261>
+- `data/dell/latitude-e6230-2.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=117581>
+- `data/dell/poweredge-c6220.bin`: <https://bugzilla.redhat.com/attachment.cgi?id=860089>
+- `data/gpd/micropc.bin`: <https://github.com/smuellerDD/lrng/files/10832386/dmidecode_u.log>
+- `data/hp/pavilion-dv6.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=24308>
+- `data/intel/alviso.bin`: <https://www.mail-archive.com/coreboot@coreboot.org/msg07748.html>
+- `data/lenovo/thinkpad-w530-24412q4.bin`: <https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=181282#c0>
+- `data/lenovo/thinkpad-x201-3626pl2.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=107133>
+- `data/misc/nvidia-nforce.bin`: <https://www.mail-archive.com/coreboot@coreboot.org/msg07876.html>
+- `data/msi/ms-171f.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=19843>
+- `data/packard-bell/imedia-s3210.bin`: <https://www.mail-archive.com/debian-bugs-closed@lists.debian.org/msg684086.html>
+- `data/samsung/n150-n210-n220.bin`: <https://www.mail-archive.com/platform-driver-x86@vger.kernel.org/msg01310.html>
+- `data/sony/vaio-vpccw1s1e.bin`: <https://bugzilla.opensuse.org/attachment.cgi?id=337344>
+- `data/toshiba/satellite-c655d.bin`: <https://bugzilla.kernel.org/attachment.cgi?id=28151>

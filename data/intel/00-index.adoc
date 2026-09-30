@@ -2,6 +2,43 @@
 :toc:
 :toclevels: 1
 
+== Alviso (alviso.bin)
+
+[horizontal]
+File path:: `intel/alviso.bin`
+Product name:: 
+Product version:: 
+Product family:: -
+Firmware vendor:: Insyde Software Corporation
+Firmware version:: V1.01A
+Release date:: 2005-03-23
+SMBIOS version:: 2.3
+
+=== Contents
+
+[cols="1,3,1,2"]
+|===
+| Type | Description | Count | Handles
+
+a| `0` | Platform firmware information | 1  a| `0x0000`
+a| `1` | System information | 1  a| `0x0001`
+a| `2` | Baseboard or module information | 1  a| `0x0002`
+a| `3` | System enclosure or chassis | 1  a| `0x0003`
+a| `4` | Processor information | 1  a| `0x0004`
+a| `5` | Memory controller information | 1  a| `0x0005`
+a| `6` | Memory module information | 2  a| `0x0006`, `0x0007`
+a| `7` | Cache information | 2  a| `0x0008`, `0x0009`
+a| `8` | Port connector information | 5  a| `0x000A`, `0x000B`, `0x000C`, `0x000D`, `0x000E`
+a| `9` | System slots | 1  a| `0x000F`
+a| `10` | Onboard devices information | 1  a| `0x0010`
+a| `11` | OEM strings | 1  a| `0x0011`
+a| `12` | System configuration options | 1  a| `0x0012`
+a| `16` | Physical memory array | 1  a| `0x0013`
+a| `17` | Memory device | 2  a| `0x0014`, `0x0015`
+a| `21` | Built-in pointing device | 1  a| `0x0016`
+a| `22` | Portable battery | 1  a| `0x0017`
+a| `127` | End of table | 1  a| `0x0018`
+|===
 == NUC NUC5PPYB (nuc-nuc5ppyb.bin)
 
 [horizontal]

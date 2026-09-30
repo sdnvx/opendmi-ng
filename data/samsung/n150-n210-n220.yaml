@@ -1,0 +1,671 @@
+entry:
+  smbios-version: '2.5'
+table:
+- handle: 0
+  type: 0
+  length: 85
+  level: '2.4'
+  state:
+  - decoded
+  - partial
+  description: Platform firmware information
+  attributes:
+    vendor: Phoenix Technologies Ltd.
+    version: 06JI.M053.20100129.JIP
+    bios-segment: 58910
+    release-date: '2010-01-29'
+    rom-size: 2097152
+    features:
+      unknown: false
+      unsupported: false
+      isa-support: true
+      mca-support: false
+      eisa-support: false
+      pci-support: true
+      pcmcia-support: false
+      pnp-support: true
+      apm-support: false
+      upgradeable-flash: true
+      shadowing-allowed: true
+      vesa-support: false
+      escd-support: true
+      boot-cd: true
+      boot-selectable: true
+      socketed-rom: true
+      boot-pcmcia-support: false
+      edd-support: true
+      floppy-nec-support: false
+      floppy-toshiba-support: false
+      floppy-525-360k-support: false
+      floppy-525-1m2-support: false
+      floppy-35-720k-support: false
+      floppy-35-2m88-support: false
+      print-screen-support: true
+      keyboard-support: true
+      serial-support: true
+      printer-support: true
+      video-cga-mono-support: true
+      nec-pc-98: false
+    features-ex:
+      acpi-support: false
+      usb-legacy-support: true
+      agp-support: false
+      boot-i2o: false
+      boot-ls120: false
+      boot-atapi-zip: false
+      boot-ieee1394: false
+      smart-battery: true
+      bios-boot-spec: true
+      boot-network-fn-key: false
+      content-distribution: true
+      uefi-spec: false
+      virtual-machine: false
+      mfg-mode-support: false
+      mfg-mode-enabled: false
+    platform-version: '6.0'
+    controller-version: null
+- handle: 1
+  type: 1
+  length: 138
+  level: '2.4'
+  state:
+  - decoded
+  description: System information
+  attributes:
+    vendor: SAMSUNG ELECTRONICS CO., LTD.
+    product: N150/N210/N220
+    version: Not Applicable
+    serial-number: ZO1193HZ200860
+    uuid: 30E8B540-1DE8-11B2-8000-E54EB00EA058
+    wakeup-type: power-switch
+    sku-number: '1234567890'
+    family: '1234567890'
+- handle: 2
+  type: 2
+  length: 107
+  level: '2.0'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Baseboard or module information
+  attributes:
+    vendor: SAMSUNG ELECTRONICS CO., LTD.
+    product: N150/N210/N220
+    version: Not Applicable
+    serial-number: 123490EN400015
+    asset-tag: SAMSUNG
+    features:
+      is-hosting-board: true
+      require-daughter-board: false
+      is-removable: false
+      is-replaceable: true
+      is-hot-swappable: false
+    location: null
+    chassis-handle: null
+    type: null
+    contained-objects: []
+- handle: 3
+  type: 3
+  length: 87
+  level: '2.3'
+  state:
+  - decoded
+  - partial
+  description: System enclosure or chassis
+  attributes:
+    vendor: SAMSUNG ELECTRONICS CO., LTD.
+    type: notebook
+    is-lock-present: false
+    version: N/A
+    serial-number: None
+    asset-tag: No Asset Tag
+    bootup-state: ok
+    power-supply-state: ok
+    thermal-state: ok
+    security-status: none
+    oem-defined: 4660
+    height: null
+    power-cord-count: null
+    element-count: 0
+    element-size: 0
+    elements: []
+- handle: 4
+  type: 4
+  length: 56
+  level: '2.5'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Processor information
+  attributes:
+    socket-designation: CPU 1
+    type: central
+    family: other
+    vendor: Intel
+    id: ca060100fffbe9bf
+    signature:
+      type: 0
+      family: 6
+      model: 28
+      stepping: 10
+    flags:
+      fpu: true
+      vme: true
+      de: true
+      pse: true
+      tsc: true
+      msr: true
+      pae: true
+      mce: true
+      cx8: true
+      apic: true
+      sep: true
+      mtrr: true
+      pge: true
+      mca: true
+      cmov: true
+      pat: true
+      pse-36: false
+      psn: false
+      clfsh: true
+      ds: true
+      acpi: true
+      mmx: true
+      fxsr: true
+      sse: true
+      sse2: true
+      ss: true
+      htt: true
+      tm: true
+      pbe: true
+    version: C1
+    voltage: 1.8
+    supported-voltages: null
+    external-clock: unknown
+    maximum-speed: 3300
+    current-speed: 1600
+    is-populated: true
+    status: enabled
+    upgrade: socket-lga775
+    l1-cache-handle: 5
+    l2-cache-handle: 6
+    l3-cache-handle: null
+    serial-number: null
+    asset-tag: null
+    part-number: null
+    features:
+      unknown: false
+      capable-64bit: true
+      multicore: false
+      hardware-thread: false
+      execute-protection: false
+      enhanced-virtualization: false
+      power-perf-control: false
+      capable-128bit: false
+      arm64-soc-id: false
+    core-count: 1
+    core-enabled: 1
+    thread-count: 2
+- handle: 5
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L1 Cache
+    level: 1
+    socketed: true
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 16384
+    installed-size: 16384
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: true
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: false
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: true
+    speed: 0
+    error-correction: unknown
+    type: unknown
+    associativity: unknown
+- handle: 6
+  type: 7
+  length: 29
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: Cache information
+  attributes:
+    socket-designator: L2 Cache
+    level: 2
+    socketed: true
+    location: internal
+    enabled: true
+    mode: write-back
+    maximum-size: 524288
+    installed-size: 524288
+    supported-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: true
+      pipeline-burst: true
+      synchronous: false
+      asynchronous: true
+    current-sram:
+      other: false
+      unknown: false
+      non-burst: false
+      burst: true
+      pipeline-burst: false
+      synchronous: false
+      asynchronous: false
+    speed: 0
+    error-correction: unknown
+    type: unknown
+    associativity: unknown
+- handle: 7
+  type: 8
+  length: 24
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1A1
+    internal-connector: none
+    external-designator: Keyboard
+    external-connector: circular-din-8-m
+    port-type: keyboard
+- handle: 8
+  type: 8
+  length: 26
+  level: '2.0'
+  state:
+  - decoded
+  description: Port connector information
+  attributes:
+    internal-designator: J1A1
+    internal-connector: none
+    external-designator: PS/2 Mouse
+    external-connector: circular-din-8-m
+    port-type: keyboard
+- handle: 9
+  type: 9
+  length: 34
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: 'PCIe Slot #1 - J7C1'
+    type: pci-e
+    bus-width: 32-bit
+    usage: unknown
+    length: long
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 10
+  type: 9
+  length: 34
+  level: '2.1'
+  state:
+  - decoded
+  - partial
+  description: System slots
+  attributes:
+    designator: 'PCIe Slot #2 - J3B1'
+    type: pci-e
+    bus-width: 32-bit
+    usage: unknown
+    length: long
+    ident: 0
+    features:
+      unknown: false
+      has-5v0-support: true
+      has-3v3-support: true
+      has-shared-opening: false
+      has-pccard-16-support: false
+      has-cardbus-support: false
+      has-zoom-video-support: false
+      has-modem-ring-resume-support: false
+    features-ex:
+      has-pme-support: false
+      has-hotplug-support: false
+      has-smbus-support: false
+      has-bifurcation-support: false
+      has-async-removal-support: false
+      is-cxl-10-capable: false
+      is-cxl-20-capable: false
+      is-cxl-30-capable: false
+    base-address:
+      segment-group: 0
+      bus-number: 0
+      device-number: 0
+      function-number: 0
+    peer-groups: []
+    information: null
+    physical-width: null
+    pitch: null
+    height: null
+- handle: 11
+  type: 10
+  length: 16
+  level: '2.0'
+  state:
+  - decoded
+  description: Onboard devices information
+  attributes:
+    instance-count: 1
+    instances:
+    - type: sound
+      is-enabled: false
+      description: HD-Audio
+- handle: 12
+  type: 11
+  length: 30
+  level: '2.0'
+  state:
+  - decoded
+  description: OEM strings
+  attributes:
+    string-count: 2
+    strings:
+    - AABAAAAAAAAA
+    - 2010/03/13
+- handle: 13
+  type: 12
+  length: 45
+  level: '2.0'
+  state:
+  - decoded
+  description: System configuration options
+  attributes:
+    options:
+    - Jumper settings can be described here.
+- handle: 14
+  type: 16
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Physical memory array
+  attributes:
+    location: motherboard
+    use: system
+    error-correction: none
+    maximum-capacity: 8589934592
+    error-handle: 65534
+    device-count: 4
+- handle: 15
+  type: 17
+  length: 144
+  level: '2.3'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device
+  attributes:
+    array-handle: 14
+    error-info-handle: null
+    total-width: 64
+    data-width: 64
+    size: 2147483648
+    form-factor: sodimm
+    device-set: 1
+    device-locator: J6G1
+    bank-locator: DIMM 0
+    memory-type: ddr2
+    memory-type-details:
+      reserved: false
+      other: false
+      unknown: false
+      fast-paged: false
+      static-column: false
+      pseudo-static: false
+      rambus: false
+      synchronous: true
+      cmos: false
+      edo: false
+      window-dram: false
+      cache-dram: false
+      non-volatile: false
+      registered: false
+      unbuffered: false
+      lrdimm: false
+    maximum-speed: 667
+    vendor: 48spaces
+    serial-number: '01234567'
+    asset-tag: '01234567'
+    part-number: 012345678901234567890123456789012345
+- handle: 16
+  type: 19
+  length: 17
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory array mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 2147483647
+    range-size: 2147483648
+    array-handle: 14
+    partition-width: 2
+- handle: 17
+  type: 20
+  length: 21
+  level: '2.1'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Memory device mapped address
+  attributes:
+    start-addr: 0
+    end-addr: 2147483647
+    range-size: 2147483648
+    device-handle: 15
+    array-addr-handle: 16
+    partition-pos: unknown
+    interleave-pos: unknown
+    interleave-depth: unknown
+- handle: 18
+  type: 23
+  length: 15
+  level: '2.2'
+  state:
+  - decoded
+  description: System reset
+  attributes:
+    is-enabled: true
+    boot-on-watchdog: avoid-reboot
+    boot-on-limit: avoid-reboot
+    has-watchdog: true
+    reset-count: unknown
+    reset-limit: unknown
+    timer-interval: unknown
+    timeout: unknown
+- handle: 19
+  type: 24
+  length: 7
+  level: '2.2'
+  state:
+  - decoded
+  description: Hardware security
+  attributes:
+    front-panel-reset: unknown
+    admin-password: disabled
+    keyboard-password: unknown
+    poweron-password: disabled
+- handle: 20
+  type: 25
+  length: 11
+  level: '2.2'
+  state:
+  - decoded
+  description: System power controls
+  attributes:
+    poweron-month: 12
+    poweron-day: 31
+    poweron-hour: 23
+    poweron-minute: 59
+    poweron-second: 59
+- handle: 21
+  type: 26
+  length: 35
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Voltage probe
+  attributes:
+    description: Voltage Probe
+    location: processor
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 22
+  type: 27
+  length: 14
+  level: '2.2'
+  state:
+  - decoded
+  - linked
+  - partial
+  description: Cooling device
+  attributes:
+    probe-handle: 23
+    type: fan
+    status: ok
+    group: 0
+    oem-defined: 0
+    nominal-speed: unknown
+- handle: 23
+  type: 28
+  length: 39
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Temperature probe
+  attributes:
+    description: Temperature Probe
+    location: processor
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 24
+  type: 29
+  length: 46
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Electrical current probe
+  attributes:
+    description: Electrical Current Probe
+    location: processor
+    status: ok
+    maximum-value: unknown
+    minimum-value: unknown
+    resolution: unknown
+    tolerance: unknown
+    accuracy: unknown
+    oem-defined: 0
+    nominal-value: unknown
+- handle: 25
+  type: 30
+  length: 13
+  level: '2.2'
+  state:
+  - decoded
+  description: Out-of-band remote access
+  attributes:
+    vendor: Intel
+    connections:
+      is-inbound-enabled: true
+      is-outbound-enabled: false
+- handle: 26
+  type: 32
+  length: 22
+  level: null
+  state:
+  - decoded
+  description: System boot information
+  attributes:
+    status: no-errors-detected
+- handle: 27
+  type: 126
+  length: 6
+  level: null
+  state: []
+  description: Inactive
+  data: !!binary |
+    fgQbAA==
+- handle: 28
+  type: 127
+  length: 6
+  level: null
+  state: []
+  description: End of table

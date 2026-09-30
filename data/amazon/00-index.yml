@@ -1,0 +1,6 @@
+vendor: Amazon
+files:
+  ec2-r7a-medium.bin:
+    product: EC2 r7a.medium
+    source: https://bugzilla.redhat.com/attachment.cgi?id=1981395
+    license: none
