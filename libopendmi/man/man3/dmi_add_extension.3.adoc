@@ -1,0 +1,112 @@
+ifdef::backend-manpage[]
+= dmi_add_extension(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_add_extension
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_add_extension - enable an extension module in an OpenDMI context.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/context.h>
+
+bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module);
+----
+
+== Description
+
+The `dmi_add_extension` function enables an extension module in a context,
+so that the structures of the types the module defines are decoded by its
+specifications. The modules of the vendors are declared in the headers under
+`<opendmi/module/>`, e.g. `dmi_hpe_module` in `<opendmi/module/hpe.h>`.
+
+The specifications of the module are mapped to the type numbers they give,
+or to the ones the relocations of the enabled modules place them at, and the
+ones bound to a range of generations of a platform are mapped only if the
+generation of the platform lies within the range, see `dmi_get_platform`(3).
+Specifications told apart by their signatures share a type number, and the
+modules flagged with `DMI_MODULE_FLAG_YIELD` give way to the other enabled
+modules instead of conflicting with them.
+
+The module is checked against the enabled ones before it is enabled, and is
+not enabled if a type number it maps a specification to is taken by another
+module. The structures decoded before are not decoded again, and keep the
+specifications they have been decoded by.
+
+A module enabled this way stays enabled as the context is closed and opened
+again, until the context is destroyed. Its specifications are chosen again
+as the context is opened, once the platform is known, see `dmi_open`(3) and
+`dmi_load`(3). The modules of the platform, which the context enables as it
+is opened when it has `DMI_CONTEXT_FLAG_AUTO_MODULES`, see `dmi_create`(3),
+stay enabled only until it is closed.
+
+=== Parameters
+
+`context`::
+Context to enable the module in, which may be open or closed.
+
+`module`::
+Extension module to enable.
+
+== Return value
+
+Returns `true` if the module has been enabled, and `false` otherwise. On
+failure, the enabled modules and the specifications chosen are left as they
+were.
+
+== Errors
+
+`DMI_ERROR_NULL_ARGUMENT`::
+Module is `nullptr`.
+
+`DMI_ERROR_MODULE_CONFLICT`::
+Module is enabled already, either with `dmi_add_extension` or for the
+platform as the context was opened, or its specifications have the same type
+numbers as the specifications of the enabled modules.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory is exhausted.
+
+== Examples
+
+[source, c]
+----
+#include <opendmi/module/hpe.h>
+
+if (!dmi_add_extension(context, &dmi_hpe_module) ||
+    !dmi_load(context, "dump.bin")) {
+    const dmi_error_t *error;
+
+    while ((error = dmi_error_get_first(context)) != nullptr)
+        fprintf(stderr, "%s\n", dmi_error_message(error->reason));
+}
+----
+
+== See also
+
+`dmi_create`(3),
+`dmi_open`(3),
+`dmi_load`(3),
+`dmi_set_platform`(3),
+`dmi_get_platform`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

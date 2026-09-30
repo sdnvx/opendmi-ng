@@ -109,6 +109,46 @@ function readSummary(text)
     return name.replace(/\s+/g, ' ').trim().match(/^.+? - (.+?)\.?$/)?.[1]
 }
 
+// Pages of the manual pages the book includes, by the names and sections the
+// manual pages are referred to by, e.g. dmi_open(3). A manual page describing
+// several functions or types is installed under the name of each, the other
+// names being links to its source, which are looked up next to it
+function listManPages(pages)
+{
+    const byFile = new Map(pages.map((page) => [fs.realpathSync(page.file), page.page]))
+    const dirs   = new Set(pages.map((page) => path.dirname(page.file)))
+    const names  = new Map()
+
+    for (const dir of dirs) {
+        for (const entry of fs.readdirSync(dir)) {
+            const name = entry.match(/^(.+)\.(\d\w*)\.adoc$/)
+
+            if (name === null)
+                continue
+
+            const page = byFile.get(fs.realpathSync(path.join(dir, entry)))
+
+            if (page !== undefined)
+                names.set(`${name[1]}(${name[2]})`, page)
+        }
+    }
+
+    return names
+}
+
+// Manual pages refer to each other the way manual pages do, e.g. `dmi_open`(3),
+// which the pages of the site turn into links to the pages of the site. The
+// manual pages the book does not include, e.g. the ones of the system, are
+// left as they are, and so are the references of a page to itself
+function linkManPages(text, page, names)
+{
+    return text.replace(/`([\w.-]+)`\((\d\w*)\)/g, (ref, name, section) => {
+        const target = names.get(`${name}(${section})`)
+
+        return (target && target !== page) ? `xref:${target}[${ref}]` : ref
+    })
+}
+
 function relativePath(file)
 {
     return path.relative(source, file).split(path.sep).join('/')
@@ -300,11 +340,15 @@ const title = fs.readFileSync(path.join(source, 'index.adoc'), 'utf8').match(/^=
 
 fs.rmSync(collected, { recursive: true, force: true })
 
-for (const page of listPages(book)) {
+const pages    = listPages(book)
+const manPages = listManPages(pages)
+
+for (const page of pages) {
     const target = path.join(output, 'pages', page.page)
+    const text   = fs.readFileSync(page.file, 'utf8')
 
     fs.mkdirSync(path.dirname(target), { recursive: true })
-    fs.copyFileSync(page.file, target)
+    fs.writeFileSync(target, linkManPages(text, page.page, manPages))
 }
 
 for (const part of listParts(book))

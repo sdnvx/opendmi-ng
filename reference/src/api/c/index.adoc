@@ -4,6 +4,7 @@
 
 == `<opendmi/context.h>`
 
+include::../../../../libopendmi/man/man3/dmi_add_extension.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_close.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_create.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_destroy.3.adoc[leveloffset=2]
@@ -191,6 +192,7 @@ include::../../../../libopendmi/man/man3/dmi_uuid_encode.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/version.h>`
 
+include::../../../../libopendmi/man/man3/dmi_version.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_version_format.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_version_format_ex.3.adoc[leveloffset=2]
 

@@ -1,0 +1,110 @@
+ifdef::backend-manpage[]
+= dmi_version(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_version
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_version, dmi_version_major, dmi_version_minor, dmi_version_revision -
+SMBIOS version numbers.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/version.h>
+
+typedef uint32_t dmi_version_t;
+
+#define DMI_VERSION(major, minor, revision) ...
+#define DMI_VERSION_NONE DMI_VERSION(0, 0, 0)
+
+dmi_version_t dmi_version(unsigned int major, unsigned int minor,
+                          unsigned int revision);
+
+unsigned int dmi_version_major(dmi_version_t version);
+unsigned int dmi_version_minor(dmi_version_t version);
+unsigned int dmi_version_revision(dmi_version_t version);
+----
+
+== Description
+
+A `dmi_version_t` value is a version number of the SMBIOS specification, or
+of another specification a structure refers to, e.g. the IPMI specification
+a management controller conforms to. The major version is held in bits 16 to
+23, the minor version in bits 8 to 15, and the revision in bits 0 to 7, so
+version numbers compare the way the versions do, e.g. `version >=
+DMI_VERSION(3, 0, 0)`.
+
+The `dmi_version` function and the `DMI_VERSION` macro construct a version
+number from its components, each of which is cut to its eight low bits. The
+macro is a constant expression, and is used where one is required, e.g. in
+the initializers of static variables.
+
+The `dmi_version_major`, `dmi_version_minor` and `dmi_version_revision`
+functions give the components of a version number back.
+
+`DMI_VERSION_NONE`, which is zero, stands for a version which is unknown or
+not given, e.g. by a field present in every version of a structure.
+
+These functions are defined in the header rather than in the library, as
+inline functions in C, and as `constexpr` functions in C++, where they are
+used in constant expressions too.
+
+=== Parameters
+
+`major`::
+Major version number, from 0 to 255.
+
+`minor`::
+Minor version number, from 0 to 255.
+
+`revision`::
+Revision number, from 0 to 255.
+
+`version`::
+Version number.
+
+== Return value
+
+The `dmi_version` function returns the version number constructed.
+
+The `dmi_version_major`, `dmi_version_minor` and `dmi_version_revision`
+functions return the component of the version number, from 0 to 255.
+
+== Errors
+
+None.
+
+== Examples
+
+[source, c]
+----
+dmi_version_t version = dmi_version(3, 4, 0);
+
+if (version >= DMI_VERSION(3, 0, 0))
+    printf("SMBIOS %u.%u\n", dmi_version_major(version), dmi_version_minor(version));
+----
+
+== See also
+
+`dmi_version_format`(3),
+`dmi_version_format_ex`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]
