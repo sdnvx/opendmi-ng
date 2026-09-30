@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_acer_hotkey(3)
+= dmi_acer_hotkey_entry(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_acer_hotkey
+= dmi_acer_hotkey_entry
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_acer_hotkey - Acer hotkey structure
+dmi_acer_hotkey_entry - Acer hotkey structure
 
 == Library
 
@@ -24,17 +24,17 @@ endif::[]
 ----
 #include <opendmi/entity/acer/hotkeys.h>
 
-typedef struct dmi_acer_hotkey {
+typedef struct dmi_acer_hotkey_entry {
     uint8_t key;
     uint8_t kind;
     uint16_t function;
-} dmi_acer_hotkey_t;
+} dmi_acer_hotkey_entry_t;
 ----
 
 == Description
 
-The `dmi_acer_hotkey_t` structure describes a hotkey, as an element of the
-`hotkeys` field of `dmi_acer_hotkeys_t`.
+The `dmi_acer_hotkey_entry_t` structure describes a hotkey, as an element of
+the `hotkeys` field of `dmi_acer_hotkeys_t`.
 
 === Fields
 

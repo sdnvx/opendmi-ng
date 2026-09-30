@@ -47,16 +47,16 @@ static const dmi_attribute_t dmi_acer_hotkeys_attrs[] =
         .code  = "hotkeys",
         .name  = "Hotkeys",
         .attrs = DMI_ATTRIBUTES({
-            DMI_ATTRIBUTE(dmi_acer_hotkey_t, key, INTEGER, {
+            DMI_ATTRIBUTE(dmi_acer_hotkey_entry_t, key, INTEGER, {
                 .code  = "key",
                 .name  = "Key",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
-            DMI_ATTRIBUTE(dmi_acer_hotkey_t, kind, INTEGER, {
+            DMI_ATTRIBUTE(dmi_acer_hotkey_entry_t, kind, INTEGER, {
                 .code  = "kind",
                 .name  = "Kind"
             }),
-            DMI_ATTRIBUTE(dmi_acer_hotkey_t, function, INTEGER, {
+            DMI_ATTRIBUTE(dmi_acer_hotkey_entry_t, function, INTEGER, {
                 .code  = "function",
                 .name  = "Function",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
@@ -95,9 +95,9 @@ const dmi_entity_spec_t dmi_acer_hotkeys_spec =
         DMI_FIELD_ARRAY(dmi_acer_hotkeys_t, hotkeys, hotkey_count,
             .stride = 4,
             .fields = DMI_FIELDS({
-                DMI_FIELD(dmi_acer_hotkey_t, key,      dmi_byte_t),
-                DMI_FIELD(dmi_acer_hotkey_t, kind,     dmi_byte_t),
-                DMI_FIELD(dmi_acer_hotkey_t, function, dmi_word_t),
+                DMI_FIELD(dmi_acer_hotkey_entry_t, key,      dmi_byte_t),
+                DMI_FIELD(dmi_acer_hotkey_entry_t, kind,     dmi_byte_t),
+                DMI_FIELD(dmi_acer_hotkey_entry_t, function, dmi_word_t),
                 {}
             })),
         {}

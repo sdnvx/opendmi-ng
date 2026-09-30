@@ -32,7 +32,7 @@ typedef struct dmi_acer_hotkeys {
     uint16_t other_functions;
     uint8_t comm_key;
     size_t hotkey_count;
-    dmi_acer_hotkey_t *hotkeys;
+    dmi_acer_hotkey_entry_t *hotkeys;
 } dmi_acer_hotkeys_t;
 ----
 
@@ -84,12 +84,13 @@ are decoded by `dmi_acer_hotkeys_basic_spec` into the same structure.
 Number of the hotkeys.
 
 `hotkeys`::
-Hotkeys, see `dmi_acer_hotkey`(3). May be `nullptr` when `hotkey_count` is 0.
+Hotkeys, see `dmi_acer_hotkey_entry`(3). May be `nullptr` when `hotkey_count`
+is 0.
 
 == See also
 
 `dmi_entity_info`(3),
-`dmi_acer_hotkey`(3)
+`dmi_acer_hotkey_entry`(3)
 
 == Standards
 

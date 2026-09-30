@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_acer_hotkeys dmi_acer_hotkeys_t;
-typedef struct dmi_acer_hotkey  dmi_acer_hotkey_t;
+#ifndef DMI_ACER_HOTKEYS_T
+#   define DMI_ACER_HOTKEYS_T
+    typedef struct dmi_acer_hotkeys dmi_acer_hotkeys_t;
+#endif // !DMI_ACER_HOTKEYS_T
+
+#ifndef DMI_ACER_HOTKEY_ENTRY_T
+#   define DMI_ACER_HOTKEY_ENTRY_T
+    typedef struct dmi_acer_hotkey_entry dmi_acer_hotkey_entry_t;
+#endif // !DMI_ACER_HOTKEY_ENTRY_T
 
 /**
  * @brief Communication function of the hotkeys, as a bit of the
@@ -31,7 +38,7 @@ typedef enum dmi_acer_comm_function
 /**
  * @brief Hotkey, as the structure lists it past the function bitmaps.
  */
-struct dmi_acer_hotkey
+struct dmi_acer_hotkey_entry
 {
     /**
      * @brief Number of the key, whose high bits tell the button group:
@@ -103,7 +110,7 @@ struct dmi_acer_hotkeys
      * @brief Hotkeys, which run to the end of the structure. May be
      * @c nullptr when `hotkey_count` is 0.
      */
-    dmi_acer_hotkey_t *hotkeys;
+    dmi_acer_hotkey_entry_t *hotkeys;
 };
 
 /**
