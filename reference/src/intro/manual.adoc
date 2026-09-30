@@ -45,8 +45,9 @@ is available as a PDF and on the website of the project.
 == Conventions
 
 Code, commands, file names and literal values are set in `monospace`. Manual
-pages are referred to by their names and sections, e.g. `opendmi`(1) or
-`dmi_open`(3).
+pages of this manual are referred to by their names, which link to the pages,
+e.g. `opendmi`(1) or `dmi_open`(3). Other manual pages, e.g. the ones of the
+system, are referred to by their names and sections, e.g. `man`(1).
 
 Numbers written with the `0x` prefix, e.g. `0x1F`, are hexadecimal, and the
 rest are decimal.

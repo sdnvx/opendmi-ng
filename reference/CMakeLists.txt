@@ -20,6 +20,7 @@ if(ASCIIDOCTOR_PDF_FOUND)
         COMMAND ${ASCIIDOCTOR_PDF_EXECUTABLE}
             --require asciidoctor-pdf
             --require ${CMAKE_CURRENT_SOURCE_DIR}/extensions/opendmi-converter.rb
+            --require ${CMAKE_CURRENT_SOURCE_DIR}/extensions/opendmi-manpages.rb
             --backend pdf
             --attribute pdf-themesdir=${CMAKE_CURRENT_SOURCE_DIR}/themes
             --attribute pdf-fontsdir=${CMAKE_CURRENT_SOURCE_DIR}/fonts
@@ -31,6 +32,7 @@ if(ASCIIDOCTOR_PDF_FOUND)
         DEPENDS
             themes/opendmi-theme.yml
             extensions/opendmi-converter.rb
+            extensions/opendmi-manpages.rb
             ${CMAKE_SOURCE_DIR}/LICENSE.md
             ${CMAKE_SOURCE_DIR}/common/opendmi-logo-square-compact.svg
             ${REFERENCE_SOURCES}

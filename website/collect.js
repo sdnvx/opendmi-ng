@@ -140,7 +140,9 @@ function listManPages(pages)
 // which the pages of the site turn into links to the pages of the site. Pages
 // of the site are named without the sections, the way their titles name them,
 // and the references of a page to itself are not linked. The manual pages the
-// book does not include, e.g. the ones of the system, are left as they are
+// book does not include, e.g. the ones of the system, are left as they are.
+// The PDF links the pages the same way, see opendmi-manpages.rb among the
+// extensions of the reference manual
 function linkManPages(text, page, names)
 {
     return text.replace(/`([\w.-]+)`\((\d\w*)\)/g, (ref, name, section) => {
@@ -282,6 +284,7 @@ function buildPdf(target, build)
     execFileSync(process.env.ASCIIDOCTOR_PDF || 'asciidoctor-pdf', [
         '--require', 'asciidoctor-pdf',
         '--require', path.join(reference, 'extensions', 'opendmi-converter.rb'),
+        '--require', path.join(reference, 'extensions', 'opendmi-manpages.rb'),
         '--backend', 'pdf',
         '--attribute', `pdf-themesdir=${path.join(reference, 'themes')}`,
         '--attribute', `pdf-fontsdir=${path.join(reference, 'fonts')}`,
