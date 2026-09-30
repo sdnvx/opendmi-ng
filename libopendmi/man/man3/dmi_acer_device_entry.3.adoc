@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_acer_device(3)
+= dmi_acer_device_entry(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_acer_device
+= dmi_acer_device_entry
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_acer_device - Acer device structure
+dmi_acer_device_entry - Acer device structure
 
 == Library
 
@@ -24,17 +24,17 @@ endif::[]
 ----
 #include <opendmi/entity/acer/devices.h>
 
-typedef struct dmi_acer_device {
+typedef struct dmi_acer_device_entry {
     dmi_acer_device_kind_t kind;
     uint16_t vendor_id;
     uint16_t device_id;
-} dmi_acer_device_t;
+} dmi_acer_device_entry_t;
 ----
 
 == Description
 
-The `dmi_acer_device_t` structure describes a device of an Acer laptop, as an
-element of the `devices` field of `dmi_acer_devices_t`.
+The `dmi_acer_device_entry_t` structure describes a device of an Acer laptop,
+as an element of the `devices` field of `dmi_acer_devices_t`.
 
 === Fields
 

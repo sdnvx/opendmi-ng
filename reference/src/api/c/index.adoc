@@ -578,7 +578,7 @@ include::../../../../libopendmi/man/man3/dmi_lenovo_tvt.3.adoc[leveloffset=2]
 == `<opendmi/entity/acer/devices.h>`
 
 include::../../../../libopendmi/man/man3/dmi_acer_devices.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_acer_device.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_acer_device_entry.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_acer_device_kind.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/acer/hotkeys.h>`

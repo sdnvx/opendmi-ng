@@ -26,7 +26,7 @@ endif::[]
 
 typedef struct dmi_acer_devices {
     size_t device_count;
-    dmi_acer_device_t *devices;
+    dmi_acer_device_entry_t *devices;
 } dmi_acer_devices_t;
 ----
 
@@ -52,12 +52,13 @@ established are named after their position.
 Number of the devices.
 
 `devices`::
-Devices, see `dmi_acer_device`(3). May be `nullptr` when `device_count` is 0.
+Devices, see `dmi_acer_device_entry`(3). May be `nullptr` when `device_count`
+is 0.
 
 == See also
 
 `dmi_entity_info`(3),
-`dmi_acer_device`(3)
+`dmi_acer_device_entry`(3)
 
 == Standards
 

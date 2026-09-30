@@ -46,7 +46,7 @@ const char *dmi_acer_device_kind_name(dmi_acer_device_kind_t value);
 == Description
 
 The `dmi_acer_device_kind_t` enumeration tells the kind of a device of an
-Acer laptop, and is the type of the `kind` field of `dmi_acer_device_t`.
+Acer laptop, and is the type of the `kind` field of `dmi_acer_device_entry_t`.
 
 The kinds are reverse engineered from the PCI and USB IDs of the devices of
 the data corpus. The ones named are given to the devices of a single class on
@@ -96,7 +96,7 @@ None.
 
 == See also
 
-`dmi_acer_device`(3)
+`dmi_acer_device_entry`(3)
 
 == Standards
 

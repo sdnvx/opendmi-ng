@@ -110,9 +110,9 @@ const dmi_entity_spec_t dmi_acer_devices_spec =
         DMI_FIELD_ARRAY(dmi_acer_devices_t, devices, device_count,
             .stride = 5,
             .fields = DMI_FIELDS({
-                DMI_FIELD(dmi_acer_device_t, kind,      dmi_byte_t),
-                DMI_FIELD(dmi_acer_device_t, vendor_id, dmi_word_t),
-                DMI_FIELD(dmi_acer_device_t, device_id, dmi_word_t),
+                DMI_FIELD(dmi_acer_device_entry_t, kind,      dmi_byte_t),
+                DMI_FIELD(dmi_acer_device_entry_t, vendor_id, dmi_word_t),
+                DMI_FIELD(dmi_acer_device_entry_t, device_id, dmi_word_t),
                 {}
             })),
         {}
@@ -123,19 +123,19 @@ const dmi_entity_spec_t dmi_acer_devices_spec =
             .code  = "devices",
             .name  = "Devices",
             .attrs = DMI_ATTRIBUTES({
-                DMI_ATTRIBUTE(dmi_acer_device_t, kind, ENUM, {
+                DMI_ATTRIBUTE(dmi_acer_device_entry_t, kind, ENUM, {
                     .code   = "kind",
                     .name   = "Kind",
                     .values = &dmi_acer_device_kind_names,
                     .flags  = DMI_ATTRIBUTE_FLAG_OPEN
                 }),
-                DMI_ATTRIBUTE(dmi_acer_device_t, vendor_id, INTEGER, {
+                DMI_ATTRIBUTE(dmi_acer_device_entry_t, vendor_id, INTEGER, {
                     .code   = "vendor-id",
                     .name   = "Vendor ID",
                     .unspec = dmi_value_ptr((uint16_t)0),
                     .flags  = DMI_ATTRIBUTE_FLAG_HEX
                 }),
-                DMI_ATTRIBUTE(dmi_acer_device_t, device_id, INTEGER, {
+                DMI_ATTRIBUTE(dmi_acer_device_entry_t, device_id, INTEGER, {
                     .code   = "device-id",
                     .name   = "Device ID",
                     .unspec = dmi_value_ptr((uint16_t)0),

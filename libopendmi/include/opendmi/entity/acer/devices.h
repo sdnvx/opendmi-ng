@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_acer_devices dmi_acer_devices_t;
-typedef struct dmi_acer_device  dmi_acer_device_t;
+#ifndef DMI_ACER_DEVICES_T
+#   define DMI_ACER_DEVICES_T
+    typedef struct dmi_acer_devices dmi_acer_devices_t;
+#endif // !DMI_ACER_DEVICES_T
+
+#ifndef DMI_ACER_DEVICE_ENTRY_T
+#   define DMI_ACER_DEVICE_ENTRY_T
+    typedef struct dmi_acer_device_entry dmi_acer_device_entry_t;
+#endif // !DMI_ACER_DEVICE_ENTRY_T
 
 /**
  * @brief Kinds of the devices of Acer laptops.
@@ -45,7 +52,7 @@ typedef enum dmi_acer_device_kind
 /**
  * @brief Device of an Acer laptop.
  */
-struct dmi_acer_device
+struct dmi_acer_device_entry
 {
     /**
      * @brief Kind of the device, whose meaning is not established, see
@@ -82,7 +89,7 @@ struct dmi_acer_devices
      * @brief Devices, which run to the end of the structure. May be
      * @c nullptr when `device_count` is 0.
      */
-    dmi_acer_device_t *devices;
+    dmi_acer_device_entry_t *devices;
 };
 
 /**
