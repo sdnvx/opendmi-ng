@@ -81,6 +81,7 @@ static const dmi_lint_rule_t *const dmi_lint_rule_list[] =
     &dmi_lint_entry_entity_count_rule,
     &dmi_lint_entry_entity_max_size_rule,
     &dmi_lint_table_truncated_rule,
+    &dmi_lint_table_invalid_header_rule,
     &dmi_lint_table_terminator_rule,
     &dmi_lint_table_trailing_data_rule,
     &dmi_lint_table_required_rule,

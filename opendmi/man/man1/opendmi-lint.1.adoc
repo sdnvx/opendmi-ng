@@ -179,6 +179,16 @@ Severity: error.
 +
 Table ends after a whole structure, rather than in the middle of one.
 
+`table.invalid-header`::
+Severity: error.
++
+Headers of the structures have valid lengths, so that the table is read to its
+end. Structures are located by the lengths of the ones before them, so a header
+of an invalid length stops the reading: a header of no length, which stands for
+the end of the table, of another type than the end-of-table structure while
+data follows it, or a header of a length shorter than itself. The issue tells
+the offset of the header and how many bytes of the table are left unread.
+
 `table.terminator`::
 Severity: warning, or error with *--producer*.
 +

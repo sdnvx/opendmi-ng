@@ -27,6 +27,7 @@ static int test_lint_teardown(void **pstate);
 static void test_lint_rules(void **pstate);
 static void test_lint_clean_dump(void **pstate);
 static void test_lint_trailing_data(void **pstate);
+static void test_lint_invalid_header(void **pstate);
 static void test_lint_profile(void **pstate);
 static void test_lint_rule_filter(void **pstate);
 static void test_lint_closed_context(void **pstate);
@@ -46,6 +47,10 @@ static const char *test_clean_path = OPENDMI_TEST_DATA "/acer/nitro-an515-31.bin
 
 // Dump with 290 bytes past the end-of-table structure
 static const char *test_trailing_path = OPENDMI_TEST_DATA "/lenovo/thinkcentre-m700-10hy.bin";
+
+// Dump whose table is broken by a header of no length, which the firmware has
+// written over along with the strings of the structures before it
+static const char *test_invalid_header_path = OPENDMI_TEST_DATA "/supermicro/h8qm8.bin";
 
 // Dump with an IPMI device structure, and the copy of it the test breaks
 static const char *test_ipmi_path = OPENDMI_TEST_DATA "/asus/rs100-x7.bin";
@@ -81,6 +86,7 @@ int main(void)
         cmocka_unit_test(test_lint_rules),
         cmocka_unit_test(test_lint_clean_dump),
         cmocka_unit_test(test_lint_trailing_data),
+        cmocka_unit_test(test_lint_invalid_header),
         cmocka_unit_test(test_lint_profile),
         cmocka_unit_test(test_lint_rule_filter),
         cmocka_unit_test(test_lint_closed_context),
@@ -254,6 +260,49 @@ static void test_lint_trailing_data(void **pstate)
 
     assert_int_equal(count, 1);
     assert_int_equal(severity, DMI_LINT_SEVERITY_NOTE);
+}
+
+static void test_lint_invalid_header(void **pstate)
+{
+    test_lint_state_t *state = *pstate;
+    dmi_lint_severity_t severity = DMI_LINT_SEVERITY_NONE;
+
+    // Header of no length found in the data is taken for the end of the table,
+    // which goes on past it
+    size_t count = test_lint_count_rule(state, test_invalid_header_path, "table.invalid-header",
+                                        DMI_LINT_PROFILE_READER, &severity);
+
+    assert_int_equal(count, 1);
+    assert_int_equal(severity, DMI_LINT_SEVERITY_ERROR);
+
+    // The rest of the table is not taken for data past the end of it
+    count = test_lint_count_rule(state, test_invalid_header_path, "table.trailing-data",
+                                 DMI_LINT_PROFILE_READER, nullptr);
+    assert_int_equal(count, 0);
+
+    // Header of a length shorter than itself stops the walk as well, and is
+    // not taken for the end of the data
+    test_lint_patch(state->context, test_clean_path, DMI_TYPE_ID(BASEBOARD), 0x01, 0x02);
+
+    count = test_lint_count_rule(state, test_broken_path, "table.invalid-header",
+                                 DMI_LINT_PROFILE_READER, nullptr);
+    assert_int_equal(count, 1);
+
+    count = test_lint_count_rule(state, test_broken_path, "table.truncated",
+                                 DMI_LINT_PROFILE_READER, nullptr);
+    assert_int_equal(count, 0);
+
+    // Header of no length in the middle of the data
+    test_lint_patch(state->context, test_clean_path, DMI_TYPE_ID(BASEBOARD), 0x01, 0x00);
+
+    count = test_lint_count_rule(state, test_broken_path, "table.invalid-header",
+                                 DMI_LINT_PROFILE_READER, nullptr);
+    assert_int_equal(count, 1);
+
+    // Clean data has none
+    count = test_lint_count_rule(state, test_clean_path, "table.invalid-header",
+                                 DMI_LINT_PROFILE_PRODUCER, nullptr);
+    assert_int_equal(count, 0);
 }
 
 static void test_lint_profile(void **pstate)

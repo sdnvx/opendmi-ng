@@ -17,7 +17,22 @@
  */
 #define DMI_LINT_RESERVED_HANDLE 0xFF00
 
+/**
+ * @internal
+ * @brief Header which stops the walk of the table before its end.
+ */
+typedef enum dmi_lint_table_stop
+{
+    DMI_LINT_TABLE_STOP_NONE = 0,   ///< Table is walked to its end
+    DMI_LINT_TABLE_STOP_ZERO_LENGTH, ///< Header of no length and of another type than end-of-table
+    DMI_LINT_TABLE_STOP_SHORT_LENGTH ///< Header of a length shorter than itself
+} dmi_lint_table_stop_t;
+
+static dmi_lint_table_stop_t dmi_lint_table_find_stop(dmi_lint_t *lint, size_t *poffset,
+                                                      const dmi_data_t **pheader);
+
 static void dmi_lint_table_truncated(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_lint_table_invalid_header(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_table_terminator(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_table_trailing_data(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_table_required(dmi_lint_t *lint, const dmi_entity_t *entity);
@@ -32,6 +47,18 @@ const dmi_lint_rule_t dmi_lint_table_truncated_rule =
     .check  = dmi_lint_table_truncated,
     .params = {
         .name              = "Table holds every structure completely",
+        .severity          = DMI_LINT_SEVERITY_ERROR,
+        .producer_severity = DMI_LINT_SEVERITY_ERROR
+    }
+};
+
+const dmi_lint_rule_t dmi_lint_table_invalid_header_rule =
+{
+    .code   = "table.invalid-header",
+    .scope  = DMI_LINT_SCOPE_TABLE,
+    .check  = dmi_lint_table_invalid_header,
+    .params = {
+        .name              = "Structure headers are valid, so that the table is read to its end",
         .severity          = DMI_LINT_SEVERITY_ERROR,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
@@ -116,6 +143,14 @@ static void dmi_lint_table_truncated(dmi_lint_t *lint, const dmi_entity_t *entit
 
     const dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
 
+    // Header whose length is shorter than itself stops the walk as the end of
+    // the data does, and is reported on its own
+    size_t offset;
+    const dmi_data_t *header;
+
+    if (dmi_lint_table_find_stop(lint, &offset, &header) == DMI_LINT_TABLE_STOP_SHORT_LENGTH)
+        return;
+
     if (dmi_registry_status(registry) & DMI_REGISTRY_STATUS_TRUNCATED) {
         dmi_lint_issue(lint, nullptr, nullptr, DMI_LINT_NO_OFFSET,
                        "table ends in the middle of a structure");
@@ -140,6 +175,14 @@ static void dmi_lint_table_trailing_data(dmi_lint_t *lint, const dmi_entity_t *e
     if (terminator == nullptr)
         return;
 
+    // Data past a header taken for the end of the table by mistake is the
+    // rest of the table, which is reported on its own
+    size_t stop;
+    const dmi_data_t *header;
+
+    if (dmi_lint_table_find_stop(lint, &stop, &header) == DMI_LINT_TABLE_STOP_ZERO_LENGTH)
+        return;
+
     size_t offset = dmi_lint_entity_offset(lint, terminator);
     if (offset == DMI_LINT_NO_OFFSET)
         return;
@@ -151,6 +194,98 @@ static void dmi_lint_table_trailing_data(dmi_lint_t *lint, const dmi_entity_t *e
         dmi_lint_issue(lint, nullptr, nullptr, end,
                        "table has %zu bytes past the end-of-table structure", size - end);
     }
+}
+
+static void dmi_lint_table_invalid_header(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_unused(entity);
+
+    size_t offset;
+    const dmi_data_t *header;
+    size_t size = dmi_lint_context(lint)->state.table->length;
+
+    switch (dmi_lint_table_find_stop(lint, &offset, &header)) {
+    case DMI_LINT_TABLE_STOP_ZERO_LENGTH:
+        dmi_lint_issue(lint, nullptr, nullptr, offset,
+                       "header of type %u and of no length is taken for the end of the table, "
+                       "while %zu bytes of the table follow it",
+                       (unsigned)header[0], size - offset - sizeof(dmi_header_t));
+        break;
+
+    case DMI_LINT_TABLE_STOP_SHORT_LENGTH:
+        dmi_lint_issue(lint, nullptr, nullptr, offset,
+                       "header of type %u declares a length of %u bytes, shorter than the header, "
+                       "so the %zu bytes of the table from it on cannot be read",
+                       (unsigned)header[0], (unsigned)header[1], size - offset);
+        break;
+
+    default:
+        break;
+    }
+}
+
+//
+// Structures are located by the lengths of the ones before them, so a header
+// of an invalid length stops the walk of the table. A header of no length
+// stands for the end of the table whatever type it names, which firmware
+// relies on, e.g. by padding the table with zeros, so it is taken for a broken
+// one only when the bytes past it are not all zero. A header of a length
+// shorter than itself is found past the last structure read.
+//
+static dmi_lint_table_stop_t dmi_lint_table_find_stop(dmi_lint_t *lint, size_t *poffset,
+                                                      const dmi_data_t **pheader)
+{
+    const dmi_context_t *context = dmi_lint_context(lint);
+    const dmi_buffer_t  *table   = context->state.table;
+    const dmi_entity_t  *terminator = dmi_lint_totals(lint)->terminator;
+
+    if (table == nullptr)
+        return DMI_LINT_TABLE_STOP_NONE;
+
+    if (terminator != nullptr) {
+        size_t offset = dmi_lint_entity_offset(lint, terminator);
+        if (offset == DMI_LINT_NO_OFFSET)
+            return DMI_LINT_TABLE_STOP_NONE;
+
+        const dmi_data_t *header = dmi_buffer_at(table, offset, table->length - offset);
+        if ((header == nullptr) or (header[1] != 0) or (header[0] == DMI_TYPE_ID(END_OF_TABLE)))
+            return DMI_LINT_TABLE_STOP_NONE;
+
+        for (size_t i = sizeof(dmi_header_t); i < table->length - offset; i++) {
+            if (header[i] != 0) {
+                *poffset = offset;
+                *pheader = header;
+                return DMI_LINT_TABLE_STOP_ZERO_LENGTH;
+            }
+        }
+
+        return DMI_LINT_TABLE_STOP_NONE;
+    }
+
+    // Walk stops past the last structure it has read
+    dmi_registry_iter_t iter;
+    size_t offset = 0;
+
+    if (not dmi_registry_iter_init(&iter, dmi_get_registry((dmi_context_t *)context), nullptr))
+        return DMI_LINT_TABLE_STOP_NONE;
+
+    for (dmi_entity_t *entity; (entity = dmi_registry_iter_next(&iter)) != nullptr; ) {
+        size_t start = dmi_lint_entity_offset(lint, entity);
+
+        if ((start != DMI_LINT_NO_OFFSET) and (start + entity->total_length > offset))
+            offset = start + entity->total_length;
+    }
+
+    if (table->length - offset < sizeof(dmi_header_t))
+        return DMI_LINT_TABLE_STOP_NONE;
+
+    const dmi_data_t *header = dmi_buffer_at(table, offset, sizeof(dmi_header_t));
+    if ((header == nullptr) or (header[1] == 0) or (header[1] >= sizeof(dmi_header_t)))
+        return DMI_LINT_TABLE_STOP_NONE;
+
+    *poffset = offset;
+    *pheader = header;
+    return DMI_LINT_TABLE_STOP_SHORT_LENGTH;
 }
 
 //

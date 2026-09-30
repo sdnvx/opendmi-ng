@@ -72,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `lint` command checking SMBIOS data against the specification rules
 - Add `dmi_lint` API and lint rules registry
 - Add lint rules for structures, strings, values, references, additional information entries and data quality
+- Add `table.invalid-header` lint rule reporting structure headers which stop reading the table
 - Add lint rules of structure types to their specifications
 - Add `targets`, `minimum` and `maximum` attribute parameters for lint rules
 - Add `dmi_reader_mark()`, `dmi_reader_rewind()` and `dmi_reader_skip_ex()` functions
