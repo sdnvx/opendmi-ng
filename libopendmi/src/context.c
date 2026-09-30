@@ -808,6 +808,55 @@ void dmi_destroy(dmi_context_t *context)
     dmi_free(context);
 }
 
+bool dmi_anonymize_context(dmi_context_t *context)
+{
+    if (context == nullptr)
+        return false;
+
+    dmi_buffer_t *table = dmi_buffer_create(context);
+    if (table == nullptr)
+        return false;
+
+    if (not dmi_anonymize(context, table)) {
+        dmi_buffer_destroy(table);
+        return false;
+    }
+
+    // Structures are read anew from the copy, which has the very layout of
+    // the table, so the platform and the modules told from it stay the same.
+    // The old structures are kept until the new ones are read, so that the
+    // context is left as it is on failure
+    dmi_buffer_t   *old_table    = context->state.table;
+    dmi_registry_t *old_registry = context->state.registry;
+    const char     *old_vendor   = context->state.vendor_name;
+
+    context->state.table    = table;
+    context->state.registry = dmi_registry_create(context, 0);
+
+    bool success = (context->state.registry != nullptr) and
+                   dmi_registry_scan(context->state.registry) and
+                   dmi_setup_vendor(context) and
+                   dmi_registry_decode(context->state.registry) and
+                   (((context->flags & DMI_CONTEXT_FLAG_LINK) == 0) or
+                    dmi_registry_link(context->state.registry));
+
+    if (not success) {
+        if (context->state.registry != nullptr)
+            dmi_registry_destroy(context->state.registry);
+        dmi_buffer_destroy(table);
+
+        context->state.table       = old_table;
+        context->state.registry    = old_registry;
+        context->state.vendor_name = old_vendor;
+        return false;
+    }
+
+    dmi_registry_destroy(old_registry);
+    dmi_buffer_destroy(old_table);
+
+    return true;
+}
+
 static bool dmi_open_ex(
         dmi_context_t       *context,
         const dmi_backend_t *backend,

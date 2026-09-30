@@ -100,7 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `dmi_filter_add_module()` function
 - Add structure specification signatures (`dmi_signature_t`) for structures of different layouts sharing a type number
 - Add extension module groups (`dmi_module_group_t`) and `group-assoc.member` lint rule
-- Add `dmi_anonymize()` function and `--anonymize` option of `dump` command
+- Add `dmi_anonymize()` and `dmi_anonymize_context()` functions and `--anonymize` option of `dump` and `export` commands
 - Add `-O`/`--overlay` global option to apply additional information entries
 - Add Boot Integrity Services (BIS) entry point decoder
 - Add processor additional information decoder

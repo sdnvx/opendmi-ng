@@ -1,0 +1,1 @@
+dmi_anonymize.3.adoc

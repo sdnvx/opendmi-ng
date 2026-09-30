@@ -56,6 +56,32 @@ __BEGIN_DECLS
  */
 __dmi_api bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table);
 
+/**
+ * @brief Anonymize the structure table of a context in place.
+ *
+ * Replaces the table of the context with the anonymized copy of it
+ * `dmi_anonymize`(3) makes, and reads its structures anew, so that everything
+ * decoded from the context afterwards, e.g. an export of it, identifies the
+ * system no more than the copy does. The copy has the very layout of the
+ * table, so the platform and the extension modules told from the table stay
+ * the same.
+ *
+ * The structures read from the context before are destroyed, so the pointers
+ * to them, and to the information decoded from them, are no longer valid. On
+ * failure, the context is left as it is.
+ *
+ * @param[in] context Open DMI context, whose structures are decoded.
+ *
+ * @error DMI_ERROR_INVALID_STATE Context is not open, or its structures carry
+ *        additional information entries applied to them
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory cannot be allocated
+ * @error DMI_ERROR_INTERNAL Random key cannot be generated, or a structure
+ *        is not encoded back into its own length
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+__dmi_api bool dmi_anonymize_context(dmi_context_t *context);
+
 __END_DECLS
 
 #endif // !OPENDMI_ANONYMIZE_H

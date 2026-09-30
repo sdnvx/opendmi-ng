@@ -48,7 +48,7 @@ directory.
 Overwrite the output file if it exists. Without this option an existing file is
 left alone and the command fails.
 
-*-a*, *--anonymize*::
+*-A*, *--anonymize*::
 Replace the values identifying the system, e.g. serial numbers, asset tags,
 UUIDs and MAC addresses, so that the dump can be shared. The values are
 replaced with ones of the same length and format wherever the table holds

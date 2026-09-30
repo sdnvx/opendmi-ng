@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_anonymize - make an anonymized copy of the SMBIOS table of a context.
+dmi_anonymize, dmi_anonymize_context - make an anonymized copy of the SMBIOS table of a context, or anonymize the context in place.
 
 == Library
 
@@ -25,6 +25,7 @@ endif::[]
 #include <opendmi/anonymize.h>
 
 bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table);
+bool dmi_anonymize_context(dmi_context_t *context);
 ----
 
 == Description
@@ -73,6 +74,16 @@ a serial number may take.
 The context itself is left as it is: its structures keep the values they have
 been decoded with.
 
+The `dmi_anonymize_context` function makes the copy the same way, puts it in
+place of the table of the context, and reads the structures anew from it, so
+that everything decoded from the context afterwards, e.g. an export, holds the
+replaced values, as the *--anonymize* option of `opendmi-export`(1) does. The
+copy has the very layout of the table, so the platform and the extension
+modules told from the table stay the same. The structures read before are
+destroyed, so the pointers to them and to the information decoded from them
+are no longer valid. If the copy cannot be made or read, the context is left
+as it is.
+
 === Parameters
 
 `context`::
@@ -84,12 +95,14 @@ the copy cannot be made.
 
 == Return value
 
-Returns `true` if the copy has been made, and `false` otherwise.
+`dmi_anonymize` returns `true` if the copy has been made, and
+`dmi_anonymize_context` if the context has been anonymized; both return
+`false` otherwise.
 
 == Errors
 
 `DMI_ERROR_NULL_ARGUMENT`::
-Table is `nullptr`.
+Table is `nullptr` (`dmi_anonymize` only).
 
 `DMI_ERROR_INVALID_STATE`::
 Context is not open, or it has been opened with `DMI_CONTEXT_FLAG_OVERLAY`,
@@ -115,7 +128,8 @@ such a value. The tables to be shared are worth a look before they are.
 
 `dmi_save`(3),
 `dmi_load`(3),
-`opendmi-dump`(1)
+`opendmi-dump`(1),
+`opendmi-export`(1)
 
 ifdef::backend-manpage[]
 == Copying

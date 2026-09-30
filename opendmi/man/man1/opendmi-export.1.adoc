@@ -65,6 +65,13 @@ asks the other formats for.
 Overwrite the output file if it exists. Without this option an existing file is
 left alone and the command fails.
 
+*-A*, *--anonymize*::
+Replace the values identifying the system, e.g. serial numbers, asset tags,
+UUIDs and MAC addresses, so that the document can be shared. The values are
+replaced the way *opendmi dump --anonymize* replaces them, see
+`opendmi-dump`(1), and the structures are exported with the replaced values.
+The command fails with the global *--overlay* option.
+
 == Filter options
 
 *-H* _handle_, *--handle*=_handle_::
@@ -132,6 +139,13 @@ Export everything to YAML, which is the default format:
 
 ....
 $ opendmi export -o smbios.yaml
+....
+
+Export to YAML with serial numbers, asset tags, UUIDs and MAC addresses
+replaced, to be attached to a bug report:
+
+....
+$ opendmi export --anonymize -o smbios.yaml
 ....
 
 Export to JSON with the values written for a person rather than for a program:
