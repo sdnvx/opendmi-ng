@@ -11,7 +11,7 @@ point, and a `dmi:entity` element for every structure:
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
-<dmi:dump created-at="2026-09-30T02:40:02" xmlns:dmi="https://opendmi.org/schemas/opendmi.xsd">
+<dmi:dump created-at="2026-09-30T02:40:02Z" xmlns:dmi="https://opendmi.org/schemas/opendmi.xsd">
   <dmi:entry smbios-version="3.4" table-area-address="0x20" table-area-size="1920"/>
   <dmi:entity handle="0x000a" type="7" length="39" state="decoded">
     <dmi:cache>
@@ -47,7 +47,7 @@ attributes:
 == Document and entry point
 
 `dmi:dump` has the `created-at` attribute, which gives the time the document
-was written at, in UTC, e.g. `2026-09-30T02:40:02`.
+was written at, in UTC, e.g. `2026-09-30T02:40:02Z`.
 
 `dmi:entry` has the attributes:
 

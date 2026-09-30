@@ -113,13 +113,9 @@
         },
 
         "attributeValue": {
-            "description": "Value of an attribute: a string, null if the value is not specified, \"unknown\" if the data says that it is unknown, an object of flag codes and booleans for a set of flags, an object of attribute codes and values for a nested structure, or an array of values",
+            "description": "Value of an attribute: a scalar, null if the value is not specified, \"unknown\" if the data says that it is unknown, an object of flag codes and booleans for a set of flags, an object of attribute codes and values for a nested structure, or an array of values",
             "anyOf": [
-                { "type": ["null", "string"] },
-                {
-                    "type": "object",
-                    "additionalProperties": { "type": "boolean" }
-                },
+                { "type": ["null", "boolean", "integer", "number", "string"] },
                 { "$ref": "#/$defs/attributes" },
                 {
                     "type": "array",
@@ -134,7 +130,9 @@
             "properties": {
                 "id": {
                     "description": "Property identifier",
-                    "$ref": "#/$defs/hex16"
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
                 },
                 "code": {
                     "description": "Code of the property, or null if the identifier is not known",
@@ -164,8 +162,9 @@
                 },
                 "offset": {
                     "description": "Offset of the field the entry refers to",
-                    "type": "string",
-                    "pattern": "^0x[0-9a-f]{2}$"
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
                 },
                 "value": {
                     "description": "Value of the entry, as hexadecimal digits",
@@ -182,13 +181,9 @@
 
         "handle": {
             "description": "Structure handle",
-            "$ref": "#/$defs/hex16"
-        },
-
-        "hex16": {
-            "description": "16-bit value, as four lowercase hexadecimal digits",
-            "type": "string",
-            "pattern": "^0x[0-9a-f]{4}$"
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
         },
 
         "version": {

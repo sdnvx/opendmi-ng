@@ -73,7 +73,7 @@ static const struct {
     const char *plain;
     const char *pretty;
 } test_pretty_values[] = {
-    { "json", "\"rom-size\": \"65536\"",    "\"rom-size\": \"64 KiB\""    },
+    { "json", "\"rom-size\": 65536",        "\"rom-size\": \"64 KiB\""    },
     { "yaml", "rom-size: 65536",            "rom-size: \"64 KiB\""        },
     { "xml",  "<rom-size>65536</rom-size>", "<rom-size>64 KiB</rom-size>" }
 };
@@ -510,17 +510,17 @@ static void test_format_properties(void **pstate)
             "json",
             "\"properties\": [\n"
             "                {\n"
-            "                    \"id\": \"0x0001\",\n"
+            "                    \"id\": 1,\n"
             "                    \"code\": \"uefi-device-path\",\n"
             "                    \"value\": \"P\"\n"
             "                },\n"
             "                {\n"
-            "                    \"id\": \"0x8001\",\n"
+            "                    \"id\": 32769,\n"
             "                    \"code\": \"vendor-specific\",\n"
             "                    \"value\": \"V\"\n"
             "                },\n"
             "                {\n"
-            "                    \"id\": \"0xc001\",\n"
+            "                    \"id\": 49153,\n"
             "                    \"code\": \"oem-specific\",\n"
             "                    \"value\": null\n"
             "                }\n"
@@ -650,16 +650,16 @@ static void test_format_overlays(void **pstate)
             "json",
             "\"overlays\": [\n"
             "                {\n"
-            "                    \"source\": \"0x0040\",\n"
+            "                    \"source\": 64,\n"
             "                    \"index\": 0,\n"
-            "                    \"offset\": \"0x05\",\n"
+            "                    \"offset\": 5,\n"
             "                    \"value\": \"01\",\n"
             "                    \"string\": \"Note\"\n"
             "                },\n"
             "                {\n"
-            "                    \"source\": \"0x0040\",\n"
+            "                    \"source\": 64,\n"
             "                    \"index\": 1,\n"
-            "                    \"offset\": \"0x05\",\n"
+            "                    \"offset\": 5,\n"
             "                    \"value\": \"01\",\n"
             "                    \"string\": null\n"
             "                }\n"

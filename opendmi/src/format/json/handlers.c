@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <string.h>
 #include <limits.h>
 #include <assert.h>
 
@@ -120,14 +121,11 @@ bool dmi_json_table_start(dmi_json_session_t *session)
 bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *entity)
 {
     bool result;
-    char entity_handle[8];
     char *entity_level = nullptr;
     const char *entity_description;
 
     assert(session != nullptr);
     assert(entity != nullptr);
-
-    snprintf(entity_handle, sizeof(entity_handle), "0x%04hx", entity->handle);
 
     if (entity->level != DMI_VERSION_NONE) {
         entity_level = dmi_version_format(entity->level);
@@ -140,7 +138,7 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
     result =
         dmi_json_mapping_start(session) and
         dmi_json_label(session, "handle") and
-        dmi_json_scalar(session, entity_handle) and
+        dmi_json_scalar(session, (int)entity->handle) and
         dmi_json_label(session, "type") and
         dmi_json_scalar(session, entity->type) and
         dmi_json_label(session, "length") and
@@ -344,7 +342,35 @@ bool dmi_json_entity_attr_value(
         if (text == nullptr)
             break;
 
-        if (not dmi_json_scalar(session, text))
+        // Values formatted for a person are text, whatever they hold, and so
+        // are the values of the kinds other than numbers and booleans
+        bool written = false;
+
+        if (not session->options.pretty) {
+            switch (attr->type) {
+            case DMI_ATTRIBUTE_TYPE_BOOL:
+                // Attribute may name its states by codes other than booleans
+                if ((strcmp(text, "true") == 0) or (strcmp(text, "false") == 0)) {
+                    if (not dmi_json_scalar_bool(session, strcmp(text, "true") == 0))
+                        break;
+                    written = true;
+                }
+                break;
+
+            case DMI_ATTRIBUTE_TYPE_HANDLE:
+            case DMI_ATTRIBUTE_TYPE_INTEGER:
+            case DMI_ATTRIBUTE_TYPE_DECIMAL:
+            case DMI_ATTRIBUTE_TYPE_SIZE:
+            case DMI_ATTRIBUTE_TYPE_ADDRESS:
+                written = dmi_json_scalar_number(session, text);
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        if (not written and not dmi_json_scalar(session, text))
             break;
 
         success = true;
@@ -413,15 +439,12 @@ bool dmi_json_entity_properties(dmi_json_session_t *session, const dmi_entity_t 
     dmi_format_property_iter_init(&iter, entity);
 
     while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
-        char id[8];
         const char *code = dmi_code_lookup(&dmi_property_names, property->ident);
-
-        snprintf(id, sizeof(id), "0x%04x", (unsigned)property->ident);
 
         result =
             dmi_json_mapping_start(session) and
             dmi_json_label(session, "id") and
-            dmi_json_scalar(session, id) and
+            dmi_json_scalar(session, (int)property->ident) and
             dmi_json_label(session, "code") and
             ((code != nullptr) ?
                 dmi_json_scalar(session, code) :
@@ -452,11 +475,6 @@ bool dmi_json_entity_overlays(dmi_json_session_t *session, const dmi_entity_t *e
 
     for (const dmi_entity_overlay_t *overlay = entity->overlays; overlay != nullptr; overlay = overlay->next) {
         const char *string = overlay->entry->string;
-        char source[8];
-        char offset[8];
-
-        snprintf(source, sizeof(source), "0x%04hx", overlay->source->handle);
-        snprintf(offset, sizeof(offset), "0x%02x", overlay->entry->ref_offset);
 
         char *value = dmi_format_overlay_value(entity, overlay, session->options.pretty);
         if (value == nullptr)
@@ -465,11 +483,11 @@ bool dmi_json_entity_overlays(dmi_json_session_t *session, const dmi_entity_t *e
         result =
             dmi_json_mapping_start(session) and
             dmi_json_label(session, "source") and
-            dmi_json_scalar(session, source) and
+            dmi_json_scalar(session, (int)overlay->source->handle) and
             dmi_json_label(session, "index") and
             dmi_json_scalar(session, overlay->index) and
             dmi_json_label(session, "offset") and
-            dmi_json_scalar(session, offset) and
+            dmi_json_scalar(session, (int)overlay->entry->ref_offset) and
             dmi_json_label(session, "value") and
             dmi_json_scalar(session, value) and
             dmi_json_label(session, "string") and

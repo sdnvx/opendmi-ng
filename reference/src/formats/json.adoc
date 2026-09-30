@@ -14,7 +14,7 @@ point and whose `table` member holds the array of the structures:
     },
     "table": [
         {
-            "handle": "0x000a",
+            "handle": 10,
             "type": 7,
             "length": 39,
             "level": "3.1",
@@ -24,15 +24,15 @@ point and whose `table` member holds the array of the structures:
             "description": "Cache information",
             "attributes": {
                 "socket-designator": "L1 - Cache",
-                "level": "1",
-                "socketed": "false",
+                "level": 1,
+                "socketed": false,
                 "mode": "write-back",
-                "installed-size": "1310720",
+                "installed-size": 1310720,
                 "supported-sram": {
                     "burst": false,
                     "pipeline-burst": true
                 },
-                "speed": "1",
+                "speed": 1,
                 "associativity": "8-way"
             }
         }
@@ -46,7 +46,7 @@ attributes:
 [source,json]
 ----
 {
-    "handle": "0x0005",
+    "handle": 5,
     "type": 11,
     "length": 21,
     "level": "2.0",
@@ -63,15 +63,25 @@ attributes:
 
 == Values
 
-Types, lengths and the indexes of the additional information entries are
-numbers. Handles, the offsets of the entries and the identifiers of the
-properties are strings of hexadecimal numbers with lowercase digits, e.g.
-`"0x000a"`, since JSON has no hexadecimal numbers.
+Values are written the same way as in YAML, so that a JSON document and a
+YAML one, loaded by their readers, hold the same data:
 
-Values of the attributes are strings, whatever their kind is, numbers and
-booleans included, e.g. `"1310720"` and `"false"`, and are converted by the
-program reading them. The flags of the sets are the only booleans, and
-the values which are not specified are `null`.
+* Handles, types, lengths, the identifiers of the properties, the indexes and
+  the offsets of the additional information entries and the values of the
+  numeric attributes, i.e. integers, fixed-point numbers, sizes, addresses and
+  handles, are numbers. JSON has no hexadecimal numbers, so the ones the other
+  formats write in hexadecimal are written as decimal ones, e.g. `10` for the
+  handle `0x000a`.
+* Booleans are `true` or `false`, and so are the flags of the sets. The codes
+  a boolean attribute may give to its states instead are strings.
+* Other values, e.g. strings, codes of the enumerations, versions, dates,
+  UUIDs and the string `unknown`, are strings.
+* Values which are not specified are `null`.
+* With `--pretty`, every value of an attribute is a string.
+
+Numbers are written with all their digits, and sizes and addresses may take
+64 bits, which is more than the readers keeping the numbers as floating-point
+ones, e.g. the ones of JavaScript, hold exactly.
 
 A string which is not valid UTF-8, which the firmware may hold, has the bytes
 which are not valid replaced by the replacement character, U+FFFD, since JSON

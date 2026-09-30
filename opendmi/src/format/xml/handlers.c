@@ -119,7 +119,7 @@ bool dmi_xml_dump_start(dmi_xml_session_t *session)
         if (xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("created-at"),
-                    "%04u-%02u-%02uT%02u:%02u:%02u",
+                    "%04u-%02u-%02uT%02u:%02u:%02uZ",
                     tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
                     tm.tm_hour, tm.tm_min, tm.tm_sec) < 0)
             break;

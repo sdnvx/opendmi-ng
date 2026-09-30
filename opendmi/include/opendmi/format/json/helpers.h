@@ -17,6 +17,7 @@ bool dmi_json_label(dmi_json_session_t *session, const char *value);
 
 bool dmi_json_scalar_str(dmi_json_session_t *session, const char *value);
 bool dmi_json_scalar_int(dmi_json_session_t *session, intmax_t value);
+bool dmi_json_scalar_number(dmi_json_session_t *session, const char *value);
 bool dmi_json_scalar_bool(dmi_json_session_t *session, bool value);
 bool dmi_json_scalar_null(dmi_json_session_t *session);
 

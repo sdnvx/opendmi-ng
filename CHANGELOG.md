@@ -112,6 +112,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Decode Acer hotkey functions (type 170), including the list of the hotkeys past the function bitmaps, and enable the `acer` module for the systems of Acer with the firmware of other vendors
 - Decode Lenovo OEM data of types 135 and 140: device presence detection, bay I/O and ThinkPad embedded controller program, and the number, the revision and the data of the other OEM structures
 - Add `dmi_string_is_placeholder()`, and take `Fill By OEM`, `No Asset Tag`, `Empty`, `[Empty]`, `NULL`, `INVALID` and `NO DIMM` for placeholders too
+- Add File formats part to the reference manual, which describes the YAML, JSON and XML documents the `export` command writes
+- Add list of the extension modules and the structures they describe to the Command line tool part of the reference manual
+- Publish the schemas of the exported documents on the project website, at the addresses of their identifiers
 
 ### Changed
 
@@ -171,6 +174,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace AMI type 221 (`ami-221`) with Intel firmware version information of the `intel` module, whose unknown fields turned out to be the parts of the version
 - Rename Intel RSD module to `intel-rsd` (`dmi_intel_rsd_module`, `<opendmi/module/intel-rsd.h>`), which is only enabled explicitly, and move the headers of its structures from `<opendmi/entity/intel/rsd-*.h>` to `<opendmi/entity/intel-rsd/*.h>`
 - Match the structures of a module in the `--module` and `--all-modules` filter options of the tool whether the module is enabled at the time the options are parsed or not
+- Write numbers and booleans in JSON output as JSON numbers and booleans, the way YAML output writes them, including handles, property identifiers and additional information entry offsets
+- Move XML namespace and schema identifiers to `https://opendmi.org/schemas/`
+- Mark the time of XML documents as UTC with the `Z` suffix
 
 ### Fixed
 
@@ -211,6 +217,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix handles of Intel RSD memory device extended information and physical device mapping not checked against the types they refer to
 - Fix zero indices of Intel RSD TPM configurations and FPGAs not reported by lint
 - Fix Dell protected area type 1 and type 2 structure types identifiers
+- Fix YAML schema describing a layout the exported documents do not have, which left the regression tests validating nothing, and complete JSON and XML schemas, which described next to nothing
+- Fix XML namespace of the exported documents differing from the one of the schema
+- Fix structure level written as `0.0` instead of `null` in JSON output for the structures which have no versions
 
 ## [0.4.1] - September 18, 2026
 

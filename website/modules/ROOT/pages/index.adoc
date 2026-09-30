@@ -22,7 +22,7 @@ Building OpenDMI from sources, and the first steps with the tool and the
 library.
 
 xref:reference:cli/index.adoc[Command line tool]::
-The `opendmi` tool and its commands.
+The `opendmi` tool, its commands and the extension modules.
 
 xref:reference:api/c/index.adoc[C library]::
 Functions and types of the `libopendmi` library, grouped by the headers
@@ -31,6 +31,10 @@ declaring them.
 xref:reference:internals/index.adoc[Behind the scenes]::
 How the library works inside, and how it is extended with structure types of
 its own.
+
+xref:reference:formats/index.adoc[File formats]::
+Layout of the YAML, JSON and XML documents the tool exports, and the schemas
+describing them.
 
 xref:reference:specs/index.adoc[Specifications]::
 Layout of the structures OpenDMI decodes, field by field, including the ones
