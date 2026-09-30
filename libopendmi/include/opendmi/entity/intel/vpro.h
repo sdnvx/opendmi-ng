@@ -380,8 +380,8 @@ struct dmi_intel_vpro
     uint8_t gbe_bus;
 
     /**
-     * @brief PCI device ID of the wired network controller, `0xFFFF` if it
-     * is absent.
+     * @brief PCI device ID of the wired network controller, `0xFFFF` or zero
+     * if it is absent.
      */
     uint16_t gbe_device_id;
 

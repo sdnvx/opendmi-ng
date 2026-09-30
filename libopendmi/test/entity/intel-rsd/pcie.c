@@ -33,8 +33,8 @@ static const uint8_t test_data[] = {
     192, 0x17, 0x00, 0x30,          // Header
     0x01,                           // PCI class
     0x05, 0x00,                     // Slot number
-    0x86, 0x80, 0x53, 0x09,         // Vendor ID, device ID
-    0x86, 0x80, 0x70, 0x37,         // Sub-vendor ID, sub-device ID
+    0x86, 0x80, 0x53, 0x09,         // Vendor ID, device ID (Intel P3700)
+    0x86, 0x80, 0x02, 0x37,         // Sub-vendor ID, sub-device ID
     0x03, 0x00, 0x00, 0x00,         // Link speed
     0x04, 0x00, 0x00, 0x00,         // Link width
     0, 0
@@ -99,7 +99,7 @@ static void test_rsd_pcie_decode(void **pstate)
     assert_int_equal(info->vendor_id, 0x8086);
     assert_int_equal(info->device_id, 0x0953);
     assert_int_equal(info->sub_vendor_id, 0x8086);
-    assert_int_equal(info->sub_device_id, 0x3770);
+    assert_int_equal(info->sub_device_id, 0x3702);
     assert_int_equal(info->link_speed, 3);
     assert_int_equal(info->link_width, 4);
 

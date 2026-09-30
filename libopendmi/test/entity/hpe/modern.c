@@ -139,11 +139,12 @@ static void test_hpe_device_correlation(void **pstate)
 {
     test_state_t *state = *pstate;
 
-    // Port of a NIC in slot 1, bifurcated from the slot of handle 0x0901
+    // Port of an HPE 562SFP+ (Intel X710) in slot 1, bifurcated from the slot
+    // of handle 0x0901
     static const uint8_t data[] = {
         203, 0x28, 0x00, 0xCB,
         0x00, 0x09, 0xFE, 0xFF,
-        0x86, 0x80, 0x72, 0x15, 0x3C, 0x10, 0xFC, 0x22,
+        0x86, 0x80, 0x72, 0x15, 0x3C, 0x10, 0xFD, 0x22,
         0x02, 0x00, 0xFE, 0xFF,
         0x01, 0x00,
         0x05, 0x0A, 0x01, 0x02, 0xFF, 0x00,
@@ -168,7 +169,7 @@ static void test_hpe_device_correlation(void **pstate)
     assert_int_equal(info->pci_vendor_id, 0x8086);
     assert_int_equal(info->pci_device_id, 0x1572);
     assert_int_equal(info->pci_subvendor_id, 0x103C);
-    assert_int_equal(info->pci_subdevice_id, 0x22FC);
+    assert_int_equal(info->pci_subdevice_id, 0x22FD);
     assert_int_equal(info->pci_class, 0x02);
     assert_true(info->is_peer_bifurcated);
     assert_false(info->is_upstream);

@@ -174,14 +174,14 @@ bus.
 | Wired NIC Device ID
 | `WORD`
 | `NUMBER`
-| PCI device ID of the wired network controller, `0xFFFF` if absent
+| PCI device ID of the wired network controller, `0xFFFF` or zero if absent, e.g. on the platforms of Meteor Lake, which have no integrated one
 
 | `0x2C`
 | 2.0+
 | Reserved
 | 8 BYTEs
 | Varies
-| Reserved by the guide, which gives the wireless network controller from `0x2E` on. Some firmware holds a PCI device ID of the processor or of the chipset at `0x30`, e.g. `0x0A04` of the host bridge of Intel Haswell-ULT or `0x0416` of the graphics of Intel Haswell, which is not decoded
+| Reserved by the guide, which gives the wireless network controller from `0x2E` on, as its device and function, its bus and its device ID. The firmware of HP laptops gives the host bridge at 0:0.0 there instead, e.g. device ID `0x0104` of Intel Sandy Bridge, `0x0A04` of Haswell-ULT, `0x1604` of Broadwell-U and `0x2A40` of GM45, while other firmware holds `0xFF00` or `0x00FF` at `0x30`. Not decoded
 
 | `0x34`
 | 2.0+
