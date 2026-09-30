@@ -1,0 +1,84 @@
+ifdef::backend-manpage[]
+= dmi_ami_firewire_guid(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_ami_firewire_guid
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_ami_firewire_guid - AMI FireWire GUID structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/ami/firewire-guid.h>
+
+typedef struct dmi_ami_firewire_guid {
+    dmi_binary_t signature;
+    dmi_binary_t data;
+    uint8_t unknown;
+    const char *name;
+} dmi_ami_firewire_guid_t;
+----
+
+== Description
+
+The `dmi_ami_firewire_guid_t` structure holds the decoded AMI FireWire GUID,
+which keeps the data holding the GUID of the IEEE 1394 (FireWire) controller
+of the board, under the name `V1394GUID`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_ami_firewire_guid_spec`, of type `DMI_TYPE(ami_firewire_guid)`,
+declared in `<opendmi/module/ami.h>`, once the AMI extension module
+(`dmi_ami_module`) is enabled, which is done for the platforms whose firmware
+vendor is AMI when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives
+as long as the context it has been decoded in.
+
+The layout is reverse engineered from a single structure of the data corpus,
+so the layout of the data is not established, and the data is kept as a
+whole. The data identifies the board: it is replaced when the table is
+anonymized, see `dmi_anonymize`(3).
+
+=== Fields
+
+`signature`::
+Signature of the structure, `FE DC BA 98 76 54 32 10`, which the structure is
+told by, along with its length of 54 bytes.
+
+`data`::
+Data holding the GUID of the controller, 40 bytes, which begin like the bus
+information block of the configuration ROM of IEEE 1394.
+
+`unknown`::
+Value whose meaning is not established, 0 in all known data.
+
+`name`::
+Name of the data, `V1394GUID`.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_anonymize`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by AMI firmware, and reverse
+engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

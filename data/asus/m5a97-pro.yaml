@@ -1134,12 +1134,13 @@ table:
   type: 139
   length: 65
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    izY0AP7cuph2VDIQBAQyVfgAogKhAEBjBhFEMAPfQLIAIABzPBAIAAAAAAAAAAAAAAAAAAAB
-  strings:
-  - V1394GUID
+  state:
+  - decoded
+  description: AMI FireWire GUID
+  attributes:
+    name: V1394GUID
+    data: 04043255f800a202a10040630611443003df40b2002000733c100800000000000000000000000000
+    unknown: 0
 - handle: 53
   type: 13
   length: 145

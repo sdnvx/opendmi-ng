@@ -144,6 +144,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/module/acer.h
 
     include/opendmi/module/ami.h
+    include/opendmi/entity/ami/firewire-guid.h
 
     include/opendmi/module/apple.h
 
@@ -434,6 +435,7 @@ target_sources(opendmi-object
         src/module/acer.c
 
         src/module/ami.c
+        src/entity/ami/firewire-guid.c
 
         src/module/apple.c
 
@@ -900,6 +902,7 @@ opendmi_test(entity/intel-rsd/storage-device SOURCES test/entity/intel-rsd/stora
 opendmi_test(entity/intel-rsd/tpm SOURCES test/entity/intel-rsd/tpm.c)
 opendmi_test(entity/intel-rsd/txt SOURCES test/entity/intel-rsd/txt.c)
 opendmi_test(entity/acer/hotkeys SOURCES test/entity/acer/hotkeys.c)
+opendmi_test(entity/ami/firewire-guid SOURCES test/entity/ami/firewire-guid.c)
 opendmi_test(entity/apple/decode SOURCES test/entity/apple/decode.c)
 opendmi_test(entity/cisco/ucs SOURCES test/entity/cisco/ucs.c)
 opendmi_test(entity/dell/calling-iface SOURCES test/entity/dell/calling-iface.c)

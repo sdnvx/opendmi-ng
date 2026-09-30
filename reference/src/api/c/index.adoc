@@ -584,6 +584,10 @@ include::../../../../libopendmi/man/man3/dmi_acer_device_kind.3.adoc[leveloffset
 include::../../../../libopendmi/man/man3/dmi_acer_hotkeys.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_acer_hotkey.3.adoc[leveloffset=2]
 
+== `<opendmi/entity/ami/firewire-guid.h>`
+
+include::../../../../libopendmi/man/man3/dmi_ami_firewire_guid.3.adoc[leveloffset=2]
+
 == `<opendmi/entity/apple/firmware-volume.h>`
 
 include::../../../../libopendmi/man/man3/dmi_apple_firmware_volume.3.adoc[leveloffset=2]

@@ -1,0 +1,71 @@
+= AMI FireWire GUID (Type 139)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Keeps the data holding the GUID of the IEEE 1394 (FireWire) controller of the
+board, under the name `V1394GUID`. The data corpus holds a single structure of
+the kind, on ASUS M5A97 PRO, so the layout of the data is not established:
+it begins like the bus information block of the configuration ROM of IEEE
+1394, with the lengths of the block and of its CRC, `04 04`, followed by the
+CRC and the options of the bus, and the OUI of VIA, `00 40 63`, is found
+further on.
+
+The structure is told by its signature at offset `0x04` and by its length.
+The data identifies the board, and is replaced when the table is anonymized.
+
+.AMI FireWire GUID structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `139`
+| AMI FireWire GUID indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x36`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Signature
+| 8 BYTEs
+| `FE DC BA 98 76 54 32 10`
+|
+
+| `0x0C`
+| 2.0+
+| Data
+| 40 BYTEs
+| Varies
+| Data holding the GUID of the controller
+
+| `0x34`
+| 2.0+
+| Unknown
+| `BYTE`
+| `0`
+| Meaning not established
+
+| `0x35`
+| 2.0+
+| Name
+| `BYTE`
+| `STRING`
+| Name of the data, `V1394GUID`
+|===

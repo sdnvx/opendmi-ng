@@ -56,6 +56,14 @@ ru_RU {
     additional-info {
         name { "Дополнительные сведения" }
     }
+    ami-firewire-guid {
+        attribute {
+            data { "Данные" }
+            name { "Имя" }
+            unknown { "Неизвестно" }
+        }
+        name { "GUID FireWire AMI" }
+    }
     apple-extended-feature {
         large-basesystem { "Большой образ BaseSystem" }
         unknown-bit-32 { "Неизвестный бит 32" }
