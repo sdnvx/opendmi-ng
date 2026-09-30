@@ -30,6 +30,10 @@ Behind the scenes::
 How the library works inside: how the data is read and decoded, how a
 structure type is described to the library, and how it is extended.
 
+File formats::
+The documents `opendmi export` writes in YAML, JSON and XML: how they are
+structured and how the values of the attributes are written in them.
+
 Specifications::
 The layouts of the structures OpenDMI decodes, field by field, including the
 ones the vendors define.
