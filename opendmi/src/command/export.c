@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <assert.h>
 
+#include <opendmi/anonymize.h>
 #include <opendmi/context.h>
 #include <opendmi/format.h>
 #include <opendmi/internal.h>
@@ -25,6 +26,7 @@ typedef struct dmi_export_config
     const dmi_format_t *output_format;
     dmi_format_options_t options;
     bool force;
+    bool anonymize;
 } dmi_export_config_t;
 
 static void dmi_export_usage(void);
@@ -36,7 +38,8 @@ static dmi_export_config_t dmi_export_config =
     .output_path   = nullptr,
     .output_format = nullptr,
     .options       = {},
-    .force         = false
+    .force         = false,
+    .anonymize     = false
 };
 
 static const dmi_option_set_t dmi_export_options =
@@ -88,6 +91,12 @@ static const dmi_option_set_t dmi_export_options =
             .long_names  = (const char *[]){ "force", nullptr },
             .description = "Overwrite existing files",
             .value       = &dmi_export_config.force
+        },
+        {
+            .short_names = "A",
+            .long_names  = (const char *[]){ "anonymize", nullptr },
+            .description = "Anonymize serial numbers, asset tags, UUIDs and MAC addresses",
+            .value       = &dmi_export_config.anonymize
         },
         {}
     }
@@ -146,6 +155,15 @@ static int dmi_export_main(dmi_context_t *context, int argc, char *argv[])
 
     if (dmi_export_config.output_format == nullptr)
         dmi_export_config.output_format = dmi_format_default;
+
+    // Data is anonymized before the output file is created, so that no file
+    // is left behind on failure
+    if (dmi_export_config.anonymize) {
+        if (not dmi_anonymize_context(context)) {
+            dmi_command_trace(context);
+            return EXIT_FAILURE;
+        }
+    }
 
     if (dmi_export_config.output_path != nullptr) {
         if (dmi_export_config.force)

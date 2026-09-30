@@ -55,7 +55,7 @@ static const dmi_option_set_t dmi_dump_options =
             .value       = &dmi_dump_config.force
         },
         {
-            .short_names = "a",
+            .short_names = "A",
             .long_names  = (const char *[]){ "anonymize", nullptr },
             .description = "Anonymize serial numbers, asset tags, UUIDs and MAC addresses",
             .value       = &dmi_dump_config.anonymize

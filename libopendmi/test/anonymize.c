@@ -23,6 +23,8 @@
 #include <opendmi/entity/system.h>
 #include <opendmi/entity/hpe/nic.h>
 #include <opendmi/entity/hpe/physical-attrs.h>
+#include <opendmi/module.h>
+#include <opendmi/module/dell.h>
 #include <opendmi/module/hpe.h>
 
 static void test_anonymize_serials(void **pstate);
@@ -31,6 +33,7 @@ static void test_anonymize_placeholders(void **pstate);
 static void test_anonymize_proliant(void **pstate);
 static void test_anonymize_random_key(void **pstate);
 static void test_anonymize_overlay(void **pstate);
+static void test_anonymize_context(void **pstate);
 
 static dmi_context_t *test_open(const char *path, dmi_context_flags_t flags);
 static dmi_context_t *test_anonymized(dmi_context_t *context);
@@ -55,7 +58,8 @@ int main(void)
         cmocka_unit_test(test_anonymize_placeholders),
         cmocka_unit_test(test_anonymize_proliant),
         cmocka_unit_test(test_anonymize_random_key),
-        cmocka_unit_test(test_anonymize_overlay)
+        cmocka_unit_test(test_anonymize_overlay),
+        cmocka_unit_test(test_anonymize_context)
     };
 
     int rv = cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -205,6 +209,44 @@ static void test_anonymize_overlay(void **pstate)
     assert_false(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE | DMI_SAVE_FLAG_ANONYMIZE));
 
     dmi_buffer_destroy(table);
+    dmi_destroy(context);
+}
+
+static void test_anonymize_context(void **pstate)
+{
+    dmi_unused(pstate);
+
+    // Structures are read anew from the anonymized table, in place
+    dmi_context_t *context = test_open(test_dell_path, DMI_CONTEXT_FLAG_AUTO_MODULES | DMI_CONTEXT_FLAG_LINK);
+
+    const dmi_system_t *system = test_info(context, DMI_TYPE(system));
+    char *product = strdup(system->product);
+    assert_non_null(product);
+
+    assert_true(dmi_anonymize_context(context));
+
+    system = test_info(context, DMI_TYPE(system));
+    test_same_format("FY59ZK3", system->serial_number);
+    assert_string_equal(system->product, product);
+
+    const dmi_chassis_t *chassis = test_info(context, DMI_TYPE(chassis));
+    assert_string_equal(chassis->serial_number, system->serial_number);
+
+    // Modules told from the table stay enabled
+    assert_true(dmi_has_extension(context, dmi_module_find("dell")));
+    assert_non_null(dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(dell_revisions), false));
+
+    free(product);
+    dmi_destroy(context);
+
+    // Context whose structures carry additional information is left as it is
+    context = test_open(test_dell_path, DMI_CONTEXT_FLAG_OVERLAY);
+
+    assert_false(dmi_anonymize_context(context));
+
+    system = test_info(context, DMI_TYPE(system));
+    assert_string_equal(system->serial_number, "FY59ZK3");
+
     dmi_destroy(context);
 }
 

@@ -62,10 +62,11 @@ as _(planned)_ are scheduled for the 1.0 release.
 
 * Structures are shown, listed, explained and exported with the `opendmi` tool,
   and the table can be dumped to a file.
-* Dumps can be anonymized to be shared, e.g. in a bug report: serial numbers,
-  asset tags, UUIDs and MAC addresses are replaced wherever the table holds
-  them with values of the same length and format, under a random key which is
-  never saved, and the dump keeps the layout of the table.
+* Dumps and exported documents can be anonymized to be shared, e.g. in a bug
+  report: serial numbers, asset tags, UUIDs and MAC addresses are replaced
+  wherever the table holds them with values of the same length and format,
+  under a random key which is never saved, and the dump keeps the layout of
+  the table.
 * Structures are selected by handle, by type, by the module providing them and
   by state.
 * Output is text for a person, with colors and a pager, or JSON, XML and YAML
