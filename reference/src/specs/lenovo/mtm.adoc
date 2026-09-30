@@ -1,0 +1,57 @@
+= Lenovo Machine Type Model (Type 200)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Tells the brand of an IdeaPad or a ThinkBook, `IdeaPad` for both, and its full
+machine type model, e.g. `20VE00U9RU`, of which the system information (type
+1) holds only the machine type, e.g. `20VE`.
+
+.Lenovo Machine Type Model structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `200`
+| Lenovo Machine Type Model indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Brand
+| `BYTE`
+| `STRING`
+| 
+
+| `0x05`
+| 2.0+
+| Machine Type Model
+| `BYTE`
+| `STRING`
+| 
+
+| `0x06`
+| 2.0+
+| Data
+| 10 BYTEs
+| Varies
+| Meaning not established, e.g. `01 27 01 14 01 50 B2 80 01 05`
+|===

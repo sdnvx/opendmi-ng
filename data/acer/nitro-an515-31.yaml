@@ -551,28 +551,133 @@ table:
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0ATADEAAAAAAAAAAAAAAPgATp0AAAAAAQAAAAgACwBhDTIAAAAAAP4A//8AAAAAAP8AACYAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Intel vPro information
+  attributes:
+    flags-1: 49
+    mebx-version:
+      major: 0
+      minor: 0
+      hotfix: 0
+      build: 0
+    lpc-devfn: 248
+    lpc-device-id: 40270
+    flags-2: 1
+    me-version:
+      major: 11
+      minor: 8
+      hotfix: 50
+      build: 3425
+    gbe-devfn: 254
+    gbe-device-id: null
+    flags-3: 38
 - handle: 20
   type: 170
   length: 80
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    qk4UAAEAAAB/AA8ABgADAgEAQQIEAEICIABDAkAARAIIAEUCEABIAgEASQICAGECCABiAgEAYwIC
-    AGQCBACBAgQAgwICAIcCAAKKAgAQ
+  state:
+  - decoded
+  description: Acer hotkey functions
+  attributes:
+    comm-functions:
+      wifi: true
+      3g: false
+      wimax: false
+      bluetooth: false
+    app-functions: 0
+    media-functions: 127
+    display-functions: 15
+    other-functions: 6
+    comm-key: 3
+    hotkeys:
+    - key: 3
+      kind: 2
+      function: 1
+    - key: 65
+      kind: 2
+      function: 4
+    - key: 66
+      kind: 2
+      function: 32
+    - key: 67
+      kind: 2
+      function: 64
+    - key: 68
+      kind: 2
+      function: 8
+    - key: 69
+      kind: 2
+      function: 16
+    - key: 72
+      kind: 2
+      function: 1
+    - key: 73
+      kind: 2
+      function: 2
+    - key: 97
+      kind: 2
+      function: 8
+    - key: 98
+      kind: 2
+      function: 1
+    - key: 99
+      kind: 2
+      function: 2
+    - key: 100
+      kind: 2
+      function: 4
+    - key: 129
+      kind: 2
+      function: 4
+    - key: 131
+      kind: 2
+      function: 2
+    - key: 135
+      kind: 2
+      function: 512
+    - key: 138
+      kind: 2
+      function: 4096
 - handle: 21
   type: 171
   length: 56
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    qzYVAATaCyFWFQAAAAABhoAXWQLeEBAdA94QEB0FhoBxnQeGgCUnEQAAAAANAAAAABYAAAAA
+  state:
+  - decoded
+  description: Acer device list
+  attributes:
+    devices:
+    - kind: 4
+      vendor-id: 3034
+      device-id: 22049
+    - kind: 21
+      vendor-id: null
+      device-id: null
+    - kind: 1
+      vendor-id: 32902
+      device-id: 22807
+    - kind: 2
+      vendor-id: 4318
+      device-id: 7440
+    - kind: 3
+      vendor-id: 4318
+      device-id: 7440
+    - kind: 5
+      vendor-id: 32902
+      device-id: 40305
+    - kind: 7
+      vendor-id: 32902
+      device-id: 10021
+    - kind: 17
+      vendor-id: null
+      device-id: null
+    - kind: 13
+      vendor-id: null
+      device-id: null
+    - kind: 22
+      vendor-id: null
+      device-id: null
 - handle: 22
   type: 172
   length: 29
@@ -585,15 +690,45 @@ table:
   type: 219
   length: 97
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    21EXAAEDAUUCAJAGARCAIAAAAABACAAAAAAAAAAAQAL///////////////////////////////8D
-    AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  strings:
-  - MEI1
-  - MEI2
-  - MEI3
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: consumer
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2415919685
+      - 2148532486
+      - 32
+      - 540672
+      - 0
+      - 1073741824
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 - handle: 24
   type: 221
   length: 78
@@ -772,14 +907,19 @@ table:
   type: 222
   length: 72
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3g4cAAGZAAMQASACMAM=
-  strings:
-  - Memory Init Complete
-  - End of DXE Phase
-  - BIOS Boot Complete
+  state:
+  - decoded
+  description: Intel Silicon View Technology milestones
+  attributes:
+    version: 1
+    parameter: 153
+    milestones:
+    - code: 16
+      name: Memory Init Complete
+    - code: 32
+      name: End of DXE Phase
+    - code: 48
+      name: BIOS Boot Complete
 - handle: 29
   type: 248
   length: 13

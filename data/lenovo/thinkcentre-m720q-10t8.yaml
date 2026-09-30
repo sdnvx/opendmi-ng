@@ -1712,19 +1712,47 @@ table:
   type: 130
   length: 22
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    ghRQACRBTVQAAAAAAKWvAsAAAAA=
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: false
+    is-enabled: false
+    is-ider-enabled: false
+    is-sol-enabled: false
+    is-network-enabled: false
+    is-kvm-enabled: false
+    extended-data: 165
+    oem-capabilities:
+    - 175
+    - 2
+    - 192
+    - 0
 - handle: 81
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0BRADEAAAAMAAAAAAALAPgACKMAAAAAAQAAAAAADACTBSMAAAAAAP4AvBUAAAAAAAAAACIAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Lenovo ThinkVantage Technologies enablement
+  attributes:
+    flags-1: 49
+    mebx-version:
+      major: 12
+      minor: 0
+      hotfix: 0
+      build: 11
+    lpc-devfn: 248
+    lpc-device-id: 41736
+    flags-2: 1
+    me-version:
+      major: 12
+      minor: 0
+      hotfix: 35
+      build: 1427
+    gbe-devfn: 254
+    gbe-device-id: 5564
+    flags-3: 34
 - handle: 82
   type: 41
   length: 28
@@ -2014,12 +2042,13 @@ table:
   type: 131
   length: 38
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    gxZfAAECAAAAAAAAAAAAAAAAAACAAQ==
-  strings:
-  - TVT-Enablement
+  state:
+  - decoded
+  description: Lenovo ThinkVantage Technologies enablement
+  attributes:
+    version: 1
+    features: 02000000000000000000000000000080
+    is-diagnostics: true
 - handle: 96
   type: 136
   length: 8
@@ -2083,16 +2112,54 @@ table:
   type: 219
   length: 127
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    22pkAAEEAUUCAJAGARCAIAAAAABAAAAAAAAABAAAQAL///////////////////////////////8D
-    AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-  strings:
-  - MEI1
-  - MEI2
-  - MEI3
-  - MEI4
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: consumer
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2415919685
+      - 2148532486
+      - 32
+      - 16384
+      - 0
+      - 1073741828
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    - name: MEI4
+      is-present: true
+      hfsts:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 - handle: 101
   type: 127
   length: 6

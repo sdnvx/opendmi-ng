@@ -5,14 +5,19 @@ table:
   type: 222
   length: 72
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3g4AAAGZAAMQASACMAM=
-  strings:
-  - Memory Init Complete
-  - End of DXE Phase
-  - BIOS Boot Complete
+  state:
+  - decoded
+  description: Intel Silicon View Technology milestones
+  attributes:
+    version: 1
+    parameter: 153
+    milestones:
+    - code: 16
+      name: Memory Init Complete
+    - code: 32
+      name: End of DXE Phase
+    - code: 48
+      name: BIOS Boot Complete
 - handle: 1
   type: 14
   length: 42
@@ -30,10 +35,11 @@ table:
   type: 134
   length: 15
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    hg0CACcGGSAAAAAAAA==
+  state:
+  - decoded
+  description: Lenovo date record
+  attributes:
+    date: '2019-06-27'
 - handle: 3
   type: 16
   length: 25
@@ -827,27 +833,58 @@ table:
   type: 135
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    hxMnAFRQBwJCQVkgSS9PIAQAAA==
+  state:
+  - decoded
+  description: Lenovo ThinkPad device presence detection
+  attributes:
+    number: 2
+    version: 4
+    data: '0000'
 - handle: 40
   type: 130
   length: 22
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    ghQoACRBTVQAAAAAAKWvAsAAAAA=
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: false
+    is-enabled: false
+    is-ider-enabled: false
+    is-sol-enabled: false
+    is-network-enabled: false
+    is-kvm-enabled: false
+    extended-data: 165
+    oem-capabilities:
+    - 175
+    - 2
+    - 192
+    - 0
 - handle: 41
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0ApADEAAAALAAAAAAAKAPgATp0AAAAAAQAAAAgACwAGDkEAAAAAAP4A2BUAAAAAAAAAACIAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Lenovo ThinkVantage Technologies enablement
+  attributes:
+    flags-1: 49
+    mebx-version:
+      major: 11
+      minor: 0
+      hotfix: 0
+      build: 10
+    lpc-devfn: 248
+    lpc-device-id: 40270
+    flags-2: 1
+    me-version:
+      major: 11
+      minor: 8
+      hotfix: 65
+      build: 3590
+    gbe-devfn: 254
+    gbe-device-id: 5592
+    flags-3: 34
 - handle: 42
   type: 221
   length: 104
@@ -1116,12 +1153,13 @@ table:
   type: 131
   length: 38
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    gxY0AAEAAAAAAAAAAAAAAAAAAAAAAQ==
-  strings:
-  - TVT-Enablement
+  state:
+  - decoded
+  description: Lenovo ThinkVantage Technologies enablement
+  attributes:
+    version: 1
+    features: '00000000000000000000000000000000'
+    is-diagnostics: false
 - handle: 53
   type: 136
   length: 8
@@ -1134,26 +1172,35 @@ table:
   type: 140
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    jBM2AExFTk9WTwsEAbIATVMgAA==
+  state:
+  - decoded
+  description: Lenovo ThinkPad embedded controller program
+  attributes:
+    number: 4
+    revision: 1
+    data: b2004d532000
 - handle: 55
   type: 140
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    jBM3AExFTk9WTwsFAQYAAAAAAA==
+  state:
+  - decoded
+  description: Lenovo ThinkPad embedded controller program
+  attributes:
+    number: 5
+    revision: 1
+    data: '060000000000'
 - handle: 56
   type: 140
   length: 25
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    jBc4AExFTk9WTwsGAYoTAAAAAAAAAAA=
+  state:
+  - decoded
+  description: Lenovo ThinkPad embedded controller program
+  attributes:
+    number: 6
+    revision: 1
+    data: 8a130000000000000000
 - handle: 57
   type: 14
   length: 14
@@ -1171,42 +1218,79 @@ table:
   type: 219
   length: 97
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    21E6AAEDAUUCAKAGARCAIAAAAABACAABHwAAyQpARAL///////////////////////////////8D
-    AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  strings:
-  - MEI1
-  - MEI2
-  - MEI3
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: consumer
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2684355141
+      - 2148532486
+      - 32
+      - 540672
+      - 7937
+      - 1145047753
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 - handle: 59
   type: 135
   length: 20
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    hxI7AFRQBwEBAAMAAAAAAAAA
+  state:
+  - decoded
+  description: Lenovo ThinkPad device presence detection
+  attributes:
+    number: 1
+    revision: 1
+    data: '000300000000000000'
 - handle: 60
   type: 140
   length: 36
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    jA88AExFTk9WTwsHAQEC
-  strings:
-  - N20HT28W
-  - 10/08/2020
+  state:
+  - decoded
+  description: Lenovo ThinkPad embedded controller program
+  attributes:
+    number: 7
+    revision: 1
+    version: N20HT28W
+    release-date: 10/08/2020
 - handle: 61
   type: 140
   length: 45
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    jCs9AExFTk9WTwsIAf///////////////////////////////////////w==
+  state:
+  - decoded
+  description: Lenovo ThinkPad embedded controller program
+  attributes:
+    number: 8
+    revision: 1
+    data: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 - handle: 65279
   type: 127
   length: 6

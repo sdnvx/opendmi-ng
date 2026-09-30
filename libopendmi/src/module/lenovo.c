@@ -7,6 +7,7 @@
 #include <opendmi/module/lenovo.h>
 
 #include <opendmi/entity/lenovo/oem.h>
+#include <opendmi/entity/lenovo/records.h>
 #include <opendmi/entity/lenovo/tvt.h>
 
 /**
@@ -18,6 +19,9 @@ const dmi_module_t dmi_lenovo_module =
     .name      = "IBM/Lenovo extensions",
     .entities  = (const dmi_entity_spec_t *[]){
         &dmi_lenovo_tvt_spec,
+        &dmi_lenovo_date_spec,
+        &dmi_lenovo_tpm_info_spec,
+        &dmi_lenovo_mtm_spec,
         // Specifications of the OEM structures of known layouts come first,
         // since the first signature a structure matches is the one it takes
         &dmi_lenovo_device_presence_spec,

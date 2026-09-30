@@ -1,0 +1,57 @@
+= Dell Token References, Type 2 (Type 221)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Lists tokens the calling interface (type 218) or the indexed I/O access (type
+212) defines, e.g. `0xF600` and `0xF601` in `dell/g15-5510.bin`, following two
+values whose meaning is not established.
+
+.Dell Token References, Type 2 structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `221`
+| Dell Token References, Type 2 indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x13`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Unknown 1
+| `BYTE`
+| Varies
+| `0` or `3`
+
+| `0x05`
+| 2.0+
+| Unknown 2
+| `WORD`
+| Varies
+| `1` in all known data
+
+| `0x07`
+| 2.0+
+| Tokens
+| 6 WORDs
+| Varies
+| Tokens, zero for none
+|===

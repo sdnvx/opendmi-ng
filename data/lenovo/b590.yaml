@@ -5,13 +5,18 @@ table:
   type: 134
   length: 42
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    hhAEAABTVE0gAQEAAAIBAg==
-  strings:
-  - TPM INFO
-  - System Reserved
+  state:
+  - decoded
+  description: Lenovo date record
+  attributes:
+    vendor: 'STM '
+    unknown-1: 0
+    unknown-2:
+    - 1
+    - 1
+    unknown-3: 0
+    unknown-4: 2
+    description: System Reserved
 - handle: 5
   type: 4
   length: 193
@@ -253,11 +258,27 @@ table:
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0ALABAAAAAAAAAAAAAAAPgAVx7/////ASAAAAEACACIBSgAAAAAAMgA//8AAAAAAAAAACAAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Lenovo ThinkVantage Technologies enablement
+  attributes:
+    flags-1: 16
+    mebx-version:
+      major: 0
+      minor: 0
+      hotfix: 0
+      build: 0
+    lpc-devfn: 248
+    lpc-device-id: 7767
+    flags-2: 8193
+    me-version:
+      major: 8
+      minor: 1
+      hotfix: 40
+      build: 1416
+    gbe-devfn: 200
+    gbe-device-id: null
+    flags-3: 32
 - handle: 12
   type: 16
   length: 25
@@ -982,21 +1003,24 @@ table:
   type: 131
   length: 38
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    gxYxAAEIAAAAAAAAAAAAAAAAAAAAAQ==
-  strings:
-  - TVT-Enablement
+  state:
+  - decoded
+  description: Lenovo ThinkVantage Technologies enablement
+  attributes:
+    version: 1
+    features: 08000000000000000000000000000000
+    is-diagnostics: false
 - handle: 50
   type: 135
   length: 76
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    h0oyAFRQBwJCQVkgSS9PIAMABv8AAAAAAAAA/wAAAAAAAAD/AAAAAAAAAP8AAAAAAAAA/wAAAAAA
-    AAD/AAAAAAAAAAYEAf////8=
+  state:
+  - decoded
+  description: Lenovo ThinkPad device presence detection
+  attributes:
+    number: 2
+    version: 3
+    data: 0006ff00000000000000ff00000000000000ff00000000000000ff00000000000000ff00000000000000ff00000000000000060401ffffffff
 - handle: 51
   type: 133
   length: 21
@@ -1011,10 +1035,14 @@ table:
   type: 135
   length: 12
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    hwo0AFRQBwMBBA==
+  state:
+  - decoded
+  description: Lenovo ThinkPad device presence detection
+  attributes:
+    number: 3
+    revision: 1
+    devices: 4
+    is-fingerprint-reader: false
 - handle: 53
   type: 15
   length: 83
@@ -1116,21 +1144,25 @@ table:
   type: 135
   length: 20
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    hxI4AFRQBwEB0gAAAAAAAAAA
+  state:
+  - decoded
+  description: Lenovo ThinkPad device presence detection
+  attributes:
+    number: 1
+    revision: 1
+    data: d20000000000000000
 - handle: 57
   type: 140
   length: 36
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    jA85AExFTk9WTwsHAQEC
-  strings:
-  - H5EC34WW
-  - 10/05/2011
+  state:
+  - decoded
+  description: Lenovo ThinkPad embedded controller program
+  attributes:
+    number: 7
+    revision: 1
+    version: H5EC34WW
+    release-date: 10/05/2011
 - handle: 65279
   type: 127
   length: 6

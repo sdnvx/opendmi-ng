@@ -13,6 +13,15 @@ ru_RU {
         wimax { "WiMAX" }
         bluetooth { "Bluetooth" }
     }
+    acer-devices {
+        attribute {
+            device-id { "Идентификатор устройства" }
+            devices { "Устройства" }
+            kind { "Вид" }
+            vendor-id { "Идентификатор производителя" }
+        }
+        name { "Список устройств Acer" }
+    }
     acer-hotkeys {
         attribute {
             app-functions { "Функции кнопки приложений" }
@@ -743,11 +752,41 @@ ru_RU {
         ieee-1284-c-14 { "Mini-Centronics Type-14" }
         ieee-1284-c-26 { "Mini-Centronics Type-26" }
     }
+    dell-system-id {
+        attribute {
+            identifier { "Идентификатор" }
+            system-id { "Системный идентификатор" }
+        }
+        name { "Запись Dell о системном идентификаторе" }
+    }
+    dell-token-refs-1 {
+        attribute {
+            tokens { "Токены" }
+        }
+        name { "Ссылки на токены Dell, вид 1" }
+    }
+    dell-token-refs-2 {
+        attribute {
+            tokens { "Токены" }
+            unknown-1 { "Неизвестное 1" }
+            unknown-2 { "Неизвестное 2" }
+        }
+        name { "Ссылки на токены Dell, вид 2" }
+    }
     dell-value-format {
         scan-code { "Буквенно-цифровой, скан-коды" }
         ascii { "Буквенно-цифровой, ASCII" }
         scan-code-ns { "Буквенно-цифровой, скан-коды (NS)" }
         ascii-ns { "Буквенно-цифровой, ASCII (NS)" }
+    }
+    dell-video-rom {
+        attribute {
+            unknown-1 { "Неизвестное 1" }
+            unknown-2 { "Неизвестное 2" }
+            vendor { "Производитель" }
+            version { "Версия" }
+        }
+        name { "Сведения о видео-BIOS Dell" }
     }
     end-of-table {
         name { "Конец таблицы" }
@@ -1815,6 +1854,12 @@ ru_RU {
         }
         name { "Отсеки ввода-вывода Lenovo" }
     }
+    lenovo-date {
+        attribute {
+            date { "Дата" }
+        }
+        name { "Запись Lenovo с датой" }
+    }
     lenovo-device-presence {
         attribute {
             devices { "Биты присутствия устройств" }
@@ -1841,6 +1886,14 @@ ru_RU {
         }
         name { "OEM-данные мобильных ПК Lenovo" }
     }
+    lenovo-mtm {
+        attribute {
+            brand { "Бренд" }
+            data { "Данные" }
+            mtm { "Тип и модель машины" }
+        }
+        name { "Тип и модель машины Lenovo" }
+    }
     lenovo-oem {
         attribute {
             data { "Данные" }
@@ -1848,6 +1901,17 @@ ru_RU {
             revision { "Ревизия OEM-структуры" }
         }
         name { "OEM-данные Lenovo" }
+    }
+    lenovo-tpm-info {
+        attribute {
+            description { "Описание" }
+            unknown-1 { "Неизвестное 1" }
+            unknown-2 { "Неизвестное 2" }
+            unknown-3 { "Неизвестное 3" }
+            unknown-4 { "Неизвестное 4" }
+            vendor { "Идентификатор производителя TPM" }
+        }
+        name { "Сведения Lenovo о TPM" }
     }
     lenovo-tvt {
         attribute {

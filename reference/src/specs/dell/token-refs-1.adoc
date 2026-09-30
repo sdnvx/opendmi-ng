@@ -1,0 +1,46 @@
+= Dell Token References, Type 1 (Type 220)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Lists tokens the calling interface (type 218) or the indexed I/O access (type
+212) defines, which the structures of a table group by the device they belong
+to, e.g. `0xF100` and `0xF102`, `0xF110` and `0xF112` in `dell/g15-5510.bin`,
+or `0xF420`, `0xF410`, `0xF430` and `0xF440` in `dell/precision-490.bin`. The
+tokens are SMI ones, which are named in no public source, and the meaning of
+the groups is not established.
+
+.Dell Token References, Type 1 structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `220`
+| Dell Token References, Type 1 indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x16`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Tokens
+| 9 WORDs
+| Varies
+| Tokens, zero for none
+|===

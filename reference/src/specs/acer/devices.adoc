@@ -1,0 +1,69 @@
+= Acer Device List (Type 171)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Lists the devices of a laptop by their PCI or USB vendor and device IDs.
+Devices run to the end of the structure, which carries no number of them of
+its own, and the absent ones have zero IDs.
+
+In `acer/nitro-an515-31.bin`, the kinds match the devices as follows: `1`
+Intel UHD Graphics 620 (`8086:5917`), `2` and `3` NVIDIA GeForce MX150
+(`10DE:1D10`), `4` Realtek webcam (`0BDA:5621`), `5` Intel audio (`8086:9D71`)
+and `7` Intel Wi-Fi 6E AX210 (`8086:2725`).
+
+.Acer Device List structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `171`
+| Acer Device List indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Devices
+| 5 BYTEs each
+| Varies
+| Devices, see below
+|===
+
+.Device
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x00`
+| Kind
+| `BYTE`
+| Kind of the device
+
+| `0x01`
+| Vendor ID
+| `WORD`
+| PCI or USB vendor ID, zero if the device is absent
+
+| `0x03`
+| Device ID
+| `WORD`
+| PCI or USB device ID, zero if the device is absent
+|===

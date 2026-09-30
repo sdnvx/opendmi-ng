@@ -19,6 +19,9 @@
 #include <opendmi/entity/dell/protected-area-2.h>
 #include <opendmi/entity/dell/calling-iface.h>
 #include <opendmi/entity/dell/hotkeys.h>
+#include <opendmi/entity/dell/system-id.h>
+#include <opendmi/entity/dell/token-refs.h>
+#include <opendmi/entity/dell/video-rom.h>
 
 /**
  * @brief Dell extension module.
@@ -37,7 +40,11 @@ const dmi_module_t dmi_dell_module =
         &dmi_dell_indexed_io_spec,
         &dmi_dell_protected_area_1_spec,
         &dmi_dell_protected_area_2_spec,
+        &dmi_dell_video_rom_spec,
         &dmi_dell_calling_iface_spec,
+        &dmi_dell_token_refs_1_spec,
+        &dmi_dell_token_refs_2_spec,
+        &dmi_dell_system_id_spec,
         nullptr
     },
     .platforms = DMI_PLATFORMS({

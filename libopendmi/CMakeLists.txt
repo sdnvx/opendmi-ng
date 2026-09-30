@@ -148,9 +148,13 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/module/apple.h
 
     include/opendmi/module/dell.h
+    include/opendmi/entity/acer/devices.h
     include/opendmi/entity/acer/hotkeys.h
     include/opendmi/entity/dell/common.h
     include/opendmi/entity/dell/hotkeys.h
+    include/opendmi/entity/dell/system-id.h
+    include/opendmi/entity/dell/token-refs.h
+    include/opendmi/entity/dell/video-rom.h
     include/opendmi/entity/dell/bios-flags.h
     include/opendmi/entity/dell/calling-iface.h
     include/opendmi/entity/dell/indexed-io.h
@@ -212,6 +216,7 @@ set(LIBOPENDMI_HEADERS
 
     include/opendmi/module/lenovo.h
     include/opendmi/entity/lenovo/oem.h
+    include/opendmi/entity/lenovo/records.h
     include/opendmi/entity/lenovo/tvt.h
 
     include/opendmi/module/sun.h
@@ -417,9 +422,13 @@ target_sources(opendmi-object
         src/module/apple.c
 
         src/module/dell.c
+        src/entity/acer/devices.c
         src/entity/acer/hotkeys.c
         src/entity/dell/common-names.c
         src/entity/dell/hotkeys.c
+        src/entity/dell/system-id.c
+        src/entity/dell/token-refs.c
+        src/entity/dell/video-rom.c
         src/entity/dell/bios-flags.c
         src/entity/dell/calling-iface.c
         src/entity/dell/calling-iface-handlers.c
@@ -502,6 +511,7 @@ target_sources(opendmi-object
 
         src/module/lenovo.c
         src/entity/lenovo/oem.c
+        src/entity/lenovo/records.c
         src/entity/lenovo/tvt.c
 
         src/module/sun.c
@@ -861,6 +871,7 @@ opendmi_test(entity/dell/calling-iface SOURCES test/entity/dell/calling-iface.c)
 opendmi_test(entity/dell/hotkeys SOURCES test/entity/dell/hotkeys.c)
 opendmi_test(entity/dell/indexed-io SOURCES test/entity/dell/indexed-io.c)
 opendmi_test(entity/dell/protected-area SOURCES test/entity/dell/protected-area.c)
+opendmi_test(entity/dell/records SOURCES test/entity/dell/records.c)
 opendmi_test(entity/sun/extended SOURCES test/entity/sun/extended.c)
 opendmi_test(entity/battery SOURCES test/entity/battery.c)
 opendmi_test(entity/bis-entry-point SOURCES test/entity/bis-entry-point.c)

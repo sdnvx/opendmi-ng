@@ -1,0 +1,51 @@
+= Dell System ID Record (Type 255)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Holds the system ID of the platform in hexadecimal digits, e.g. `0A64` in
+`dell/g15-5510.bin`, which the revisions and IDs (type 208) and the OEM
+strings (type 11, key `1`) hold too, along with an identifier beginning with
+`_SID`, whose meaning is not established.
+
+.Dell System ID Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `255`
+| Dell System ID Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Identifier
+| `BYTE`
+| `STRING`
+| Identifier beginning with `_SID`
+
+| `0x05`
+| 2.0+
+| System ID
+| `BYTE`
+| `STRING`
+| System ID, in hexadecimal digits
+|===

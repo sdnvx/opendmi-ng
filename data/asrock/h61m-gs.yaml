@@ -623,11 +623,27 @@ table:
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0AVADUAAAAAAAAAAAAAAPgAXBwAAAAAAQAAAAEACADgBAAAAAAAAMgA//8AAAAAAAAAACYAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Intel vPro information
+  attributes:
+    flags-1: 53
+    mebx-version:
+      major: 0
+      minor: 0
+      hotfix: 0
+      build: 0
+    lpc-devfn: 248
+    lpc-device-id: 7260
+    flags-2: 1
+    me-version:
+      major: 8
+      minor: 1
+      hotfix: 0
+      build: 1248
+    gbe-devfn: 200
+    gbe-device-id: null
+    flags-3: 38
 - handle: 22
   type: 127
   length: 6

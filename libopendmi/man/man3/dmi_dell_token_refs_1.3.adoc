@@ -1,0 +1,71 @@
+ifdef::backend-manpage[]
+= dmi_dell_token_refs_1(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_token_refs_1
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_token_refs_1 - Dell token references structure, type 1
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/token-refs.h>
+
+typedef struct dmi_dell_token_refs_1 {
+    uint16_t tokens[9];
+} dmi_dell_token_refs_1_t;
+----
+
+== Description
+
+The `dmi_dell_token_refs_1_t` structure holds the decoded Dell token
+references of type 220, which list tokens the calling interface (type 218) or
+the indexed I/O access (type 212) defines, grouped by the device they belong
+to. The meaning of the groups is not established.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_dell_token_refs_1_spec`, of type `DMI_TYPE(DELL_TOKEN_REFS_1)`,
+declared in `<opendmi/module/dell.h>`, once the Dell extension module
+(`dmi_dell_module`) is enabled. It lives as long as the context it has been
+decoded in.
+
+The layout is reverse engineered from the dumps of the data corpus, since no
+public source describes the structure, and the members whose meaning is not
+established are named after their position.
+
+=== Fields
+
+`tokens`::
+Tokens, zero for none.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_dell_token_refs_2`(3),
+`dmi_dell_calling_iface`(3),
+`dmi_dell_indexed_io`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, and reverse
+engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

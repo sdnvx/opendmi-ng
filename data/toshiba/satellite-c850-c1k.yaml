@@ -1462,10 +1462,22 @@ table:
   type: 130
   length: 22
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    ghQ7ACRBTVQBAQEBAaUfAgAAAAA=
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: true
+    is-enabled: true
+    is-ider-enabled: true
+    is-sol-enabled: true
+    is-network-enabled: true
+    is-kvm-enabled: false
+    extended-data: 165
+    oem-capabilities:
+    - 31
+    - 2
+    - 0
+    - 0
 - handle: 60
   type: 136
   length: 8

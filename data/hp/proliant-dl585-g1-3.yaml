@@ -2655,31 +2655,43 @@ table:
   type: 193
   length: 30
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    wQcAwQEBAg==
-  strings:
-  - 08/26/2005
-  - 03/16/2004
+  state:
+  - decoded
+  - partial
+  description: HP/HPE other ROM information
+  attributes:
+    is-redundant-rom: true
+    redundant-rom-version: 08/26/2005
+    bootblock-version: 03/16/2004
+    oem-rom-filename: null
+    oem-rom-date: null
 - handle: 49664
   type: 194
   length: 7
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    wgUAwgk=
+  state:
+  - decoded
+  description: HP/HPE Super I/O enable/disable indicator
+  attributes:
+    is-serial-a-enabled: true
+    is-serial-b-enabled: false
+    is-parallel-enabled: false
+    is-floppy-enabled: true
+    is-virtual-serial-enabled: false
 - handle: 49920
   type: 195
   length: 16
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    wwUAwwE=
-  strings:
-  - $0E11073A
+  state:
+  - decoded
+  - partial
+  description: HP/HPE server system ID
+  attributes:
+    system-id: $0E11073A
+    platform-id:
+    - 0
+    - 0
+    guid: null
 - handle: 50176
   type: 196
   length: 7
@@ -2692,34 +2704,86 @@ table:
   type: 197
   length: 12
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    xQoGxQYEAAH/Ag==
+  state:
+  - decoded
+  - partial
+  description: HP/HPE processor specific information
+  attributes:
+    processor-handle: 1030
+    apic-id: 0
+    is-bsp: true
+    is-x2apic: false
+    is-thermal-margining: false
+    slot: null
+    socket: 2
+    maximum-power: null
+    x2apic-id: null
+    uuid: null
+    interconnect-speed: null
+    qdf: null
 - handle: 50436
   type: 197
   length: 12
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    xQoExQQEAgD/AQ==
+  state:
+  - decoded
+  - partial
+  description: HP/HPE processor specific information
+  attributes:
+    processor-handle: 1028
+    apic-id: 2
+    is-bsp: false
+    is-x2apic: false
+    is-thermal-margining: false
+    slot: null
+    socket: 1
+    maximum-power: null
+    x2apic-id: null
+    uuid: null
+    interconnect-speed: null
+    qdf: null
 - handle: 50434
   type: 197
   length: 12
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    xQoCxQIEAAD/Aw==
+  state:
+  - decoded
+  - partial
+  description: HP/HPE processor specific information
+  attributes:
+    processor-handle: 1026
+    apic-id: 0
+    is-bsp: false
+    is-x2apic: false
+    is-thermal-margining: false
+    slot: null
+    socket: 3
+    maximum-power: null
+    x2apic-id: null
+    uuid: null
+    interconnect-speed: null
+    qdf: null
 - handle: 50432
   type: 197
   length: 12
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    xQoAxQAEAAD/BA==
+  state:
+  - decoded
+  - partial
+  description: HP/HPE processor specific information
+  attributes:
+    processor-handle: 1024
+    apic-id: 0
+    is-bsp: false
+    is-x2apic: false
+    is-thermal-margining: false
+    slot: null
+    socket: 4
+    maximum-power: null
+    x2apic-id: null
+    uuid: null
+    interconnect-speed: null
+    qdf: null
 - handle: 50688
   type: 198
   length: 12
@@ -2732,10 +2796,20 @@ table:
   type: 199
   length: 42
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    xygAxzkAAAAEIAYCSAAAADoAAAAEIAYCSgAAAEEAAAAEICUCUAEAAA==
+  state:
+  - decoded
+  description: HP/HPE CPU microcode patch support information
+  attributes:
+    patches:
+    - cpuid: 72
+      date: '2004-02-06'
+      patch-id: 57
+    - cpuid: 74
+      date: '2004-02-06'
+      patch-id: 58
+    - cpuid: 336
+      date: '2004-02-25'
+      patch-id: 65
 - handle: 55841
   type: 218
   length: 10
@@ -2772,34 +2846,114 @@ table:
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggEygQRAQU=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4356
+    board: 1
+    dimm: 5
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51717
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggFygURAQY=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4357
+    board: 1
+    dimm: 6
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51718
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggGygYRAQc=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4358
+    board: 1
+    dimm: 7
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51719
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggHygcRAQg=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4359
+    board: 1
+    dimm: 8
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 55845
   type: 218
   length: 10
@@ -2836,34 +2990,114 @@ table:
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggMygwRAgU=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4364
+    board: 2
+    dimm: 5
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51725
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggNyg0RAgY=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4365
+    board: 2
+    dimm: 6
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51726
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggOyg4RAgc=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4366
+    board: 2
+    dimm: 7
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51727
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggPyg8RAgg=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4367
+    board: 2
+    dimm: 8
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 55849
   type: 218
   length: 10
@@ -2900,34 +3134,114 @@ table:
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggUyhQRAwU=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4372
+    board: 3
+    dimm: 5
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51733
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggVyhURAwY=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4373
+    board: 3
+    dimm: 6
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51734
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggWyhYRAwc=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4374
+    board: 3
+    dimm: 7
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51735
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggXyhcRAwg=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4375
+    board: 3
+    dimm: 8
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 55853
   type: 218
   length: 10
@@ -2964,34 +3278,114 @@ table:
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggcyhwRBAU=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4380
+    board: 4
+    dimm: 5
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51741
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggdyh0RBAY=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4381
+    board: 4
+    dimm: 6
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51742
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggeyh4RBAc=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4382
+    board: 4
+    dimm: 7
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 51743
   type: 202
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    yggfyh8RBAg=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE DIMM location record
+  attributes:
+    device-handle: 4383
+    board: 4
+    dimm: 8
+    processor: null
+    logical-dimm: null
+    uefi-device-path: null
+    uefi-device-name: null
+    device-name: null
+    controller: null
+    channel: null
+    ie-dimm: null
+    ie-pldm-id: null
+    vendor-id: null
+    device-id: null
+    controller-vendor-id: null
+    controller-device-id: null
+    interleave: null
+    part-number: null
+    channel-index: null
 - handle: 52480
   type: 205
   length: 24
@@ -3004,26 +3398,45 @@ table:
   type: 209
   length: 22
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    0RQA0TACABTCWEX5MQIAFMJYRfg=
+  state:
+  - decoded
+  description: HP/HPE BIOS PXE NIC PCI and MAC information
+  attributes:
+    ports:
+    - state: installed
+      bus: 2
+      devfn: 48
+      mac-address: 00:14:c2:58:45:f9
+    - state: installed
+      bus: 2
+      devfn: 49
+      mac-address: 00:14:c2:58:45:f8
 - handle: 54272
   type: 212
   length: 26
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    1BgA1CRDUlUAAPf/AAAAAABAAAAAAAAA
+  state:
+  - decoded
+  description: HP/HPE 64-bit CRU information
+  attributes:
+    signature: $CRU
+    address: 4294377472
+    length: 16384
+    offset: 0
+    entry-point: 4294377472
 - handle: 54273
   type: 212
   length: 26
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    1BgB1CRTSEYAyPj/AAAAAABAAAAAAAAA
+  state:
+  - decoded
+  description: HP/HPE 64-bit CRU information
+  attributes:
+    signature: $SHF
+    address: 4294494208
+    length: 16384
+    offset: 0
+    entry-point: 4294494208
 - handle: 54528
   type: 213
   length: 30
@@ -3044,10 +3457,16 @@ table:
   type: 219
   length: 10
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2wgA2wUAAAA=
+  state:
+  - decoded
+  - partial
+  description: HP/HPE ProLiant information
+  attributes:
+    power-features: 5
+    omega-features: 0
+    misc-features: 0
+    is-icru: false
+    is-uefi: false
 - handle: 32512
   type: 127
   length: 6

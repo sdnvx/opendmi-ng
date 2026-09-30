@@ -148,14 +148,28 @@ Left:
 * Lenovo 140: OEM structures 0 to 6, 8 and 9, e.g. 9, which refers to two
   strings (`1.32` on ThinkPad T14 Gen 2a), and 8, which holds all bits set.
 
+=== Undocumented structures
+
+Done: reverse engineered from the corpus and decoded: Acer 171, Dell 216,
+220, 221 and 255, Lenovo 134 (date and TPM information) and 200. The rest is
+described in the Undocumented structures chapter of the reference manual.
+
+Left, waiting for more dumps:
+
+* Types 128 (Insyde sample), 129 (Intel ASF), 133 and 136, found on the
+  firmware of several vendors, whose meaning no public source tells.
+* Dell 179, 217 and 222; the SMI tokens `0xF1xx` to `0xF6xx` the token
+  references refer to, which the token list of `libsmbios` does not name.
+* HP ProLiant G1 to G6 types 196, 198, 205, 210, 213 to 215, 217, 218, 220,
+  222, 223, 227 and 228, and the types of HP Z600.
+* Lenovo 131 (CMOS layout of ThinkPad T61p), 132, 137 to 139 and 141, and the
+  data of 200 past the strings.
+* Acer 172 and 248, MSI and Fujitsu 143, and Foxconn 188 to 194.
+
 === AMI specifics
 
 Not decoded by dmidecode, reverse engineering to be finished:
 
-* Type 133, 44 bytes, with identical content on ASUS and Gigabyte boards
-  (`asus/prime-h610m-r.bin`, `gigabyte/b760m-ds3h-gen5.bin`).
-* Type 136, 8 bytes of zeroes on the same boards (Lenovo has a different
-  6-byte type 136).
 * Additional information (type 40) used as key-value storage: values are
   always 4 bytes regardless of the referenced field size, and strings are
   e.g. `PRODUCT_LINE`, `PRODUCT_SKU`, `YEAR`, `AGESA!V9 ComboAm5PI 1.2.0.3g`.

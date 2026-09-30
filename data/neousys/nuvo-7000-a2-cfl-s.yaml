@@ -1124,19 +1124,47 @@ table:
   type: 130
   length: 22
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    ghQ1ACRBTVQBAQEBAaW/AsAAAQA=
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: true
+    is-enabled: true
+    is-ider-enabled: true
+    is-sol-enabled: true
+    is-network-enabled: true
+    is-kvm-enabled: true
+    extended-data: 165
+    oem-capabilities:
+    - 191
+    - 2
+    - 192
+    - 0
 - handle: 54
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0A2ADUAAAAMAAAAAAAKAPgABqMAAAAACYAAAAAADACNBSAAAAAAAP4AuxUAAAAAAP8AACYAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Intel vPro information
+  attributes:
+    flags-1: 53
+    mebx-version:
+      major: 12
+      minor: 0
+      hotfix: 0
+      build: 10
+    lpc-devfn: 248
+    lpc-device-id: 41734
+    flags-2: 32777
+    me-version:
+      major: 12
+      minor: 0
+      hotfix: 32
+      build: 1421
+    gbe-devfn: 254
+    gbe-device-id: 5563
+    flags-3: 38
 - handle: 55
   type: 136
   length: 8
@@ -1149,16 +1177,54 @@ table:
   type: 219
   length: 127
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    22o4AAEEAUUCAJAGgRCGMAAAAABIAAAAAAAABgAAwAL///////////////////////////////8D
-    AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-  strings:
-  - MEI1
-  - MEI2
-  - MEI3
-  - MEI4
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: corporate
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2415919685
+      - 2249228550
+      - 48
+      - 18432
+      - 0
+      - 3221225478
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    - name: MEI4
+      is-present: true
+      hfsts:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 - handle: 57
   type: 221
   length: 78
@@ -1439,14 +1505,19 @@ table:
   type: 222
   length: 72
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3g4/AAGZAAMQASACMAM=
-  strings:
-  - Memory Init Complete
-  - End of DXE Phase
-  - BIOS Boot Complete
+  state:
+  - decoded
+  description: Intel Silicon View Technology milestones
+  attributes:
+    version: 1
+    parameter: 153
+    milestones:
+    - code: 16
+      name: Memory Init Complete
+    - code: 32
+      name: End of DXE Phase
+    - code: 48
+      name: BIOS Boot Complete
 - handle: 65279
   type: 127
   length: 6

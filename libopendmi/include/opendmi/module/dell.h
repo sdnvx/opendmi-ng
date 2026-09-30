@@ -25,7 +25,11 @@ typedef enum dmi_dell_type
     DMI_TYPE_DELL_INDEXED_IO        = 212, ///< Dell indexed IO
     DMI_TYPE_DELL_PROTECTED_AREA_1  = 213, ///< Dell protected area type 1
     DMI_TYPE_DELL_PROTECTED_AREA_2  = 214, ///< Dell protected area type 2
-    DMI_TYPE_DELL_CALLING_IFACE     = 218  ///< Dell calling interface
+    DMI_TYPE_DELL_VIDEO_ROM         = 216, ///< Dell video BIOS information
+    DMI_TYPE_DELL_CALLING_IFACE     = 218, ///< Dell calling interface
+    DMI_TYPE_DELL_TOKEN_REFS_1      = 220, ///< Dell token references type 1
+    DMI_TYPE_DELL_TOKEN_REFS_2      = 221, ///< Dell token references type 2
+    DMI_TYPE_DELL_SYSTEM_ID         = 255  ///< Dell system ID record
 } dmi_dell_type_t;
 
 __BEGIN_DECLS

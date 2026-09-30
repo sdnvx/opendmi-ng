@@ -1,0 +1,74 @@
+ifdef::backend-manpage[]
+= dmi_dell_system_id(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_dell_system_id
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_dell_system_id - Dell system ID record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/dell/system-id.h>
+
+typedef struct dmi_dell_system_id {
+    const char *identifier;
+    const char *system_id;
+} dmi_dell_system_id_t;
+----
+
+== Description
+
+The `dmi_dell_system_id_t` structure holds the decoded Dell system ID record
+(type 255), which holds the system ID of the platform in hexadecimal digits,
+as the revisions and IDs (type 208) and the OEM strings (type 11, key `1`)
+hold it too, along with an identifier whose meaning is not established. The
+identifier is replaced when the table is anonymized, see `dmi_anonymize`(3),
+since it may identify the system.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_dell_system_id_spec`, of type `DMI_TYPE(DELL_SYSTEM_ID)`, declared in
+`<opendmi/module/dell.h>`, once the Dell extension module (`dmi_dell_module`)
+is enabled. It lives as long as the context it has been decoded in.
+
+The layout is reverse engineered from the dumps of the data corpus, since no
+public source describes the structure, and the members whose meaning is not
+established are named after their position.
+
+=== Fields
+
+`identifier`::
+Identifier beginning with `_SID`, whose meaning is not established.
+
+`system_id`::
+System ID, in hexadecimal digits.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_dell_revisions`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Dell firmware, and reverse
+engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

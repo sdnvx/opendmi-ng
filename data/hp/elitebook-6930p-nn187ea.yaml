@@ -557,19 +557,47 @@ table:
   type: 130
   length: 22
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    ghQTACRBTVQBAQEBAaULAgAAAAA=
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: true
+    is-enabled: true
+    is-ider-enabled: true
+    is-sol-enabled: true
+    is-network-enabled: true
+    is-kvm-enabled: false
+    extended-data: 165
+    oem-capabilities:
+    - 11
+    - 2
+    - 0
+    - 0
 - handle: 20
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0AUABUAAAAAAEAqBQAAAPgAFykAAAAACQAAAAEABAAOBAMAAQAAAMgA9RAAAAAAQCoAAE8AAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Intel vPro information
+  attributes:
+    flags-1: 21
+    mebx-version:
+      major: 0
+      minor: 10816
+      hotfix: 5
+      build: 0
+    lpc-devfn: 248
+    lpc-device-id: 10519
+    flags-2: 9
+    me-version:
+      major: 4
+      minor: 1
+      hotfix: 3
+      build: 1038
+    gbe-devfn: 200
+    gbe-device-id: 4341
+    flags-3: 79
 - handle: 65533
   type: 127
   length: 6

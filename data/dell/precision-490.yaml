@@ -2536,98 +2536,213 @@ table:
   type: 220
   length: 24
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3BYA3CD0AAAQ9AAAAAAw9ED0AAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 62496
+    - 0
+    - 62480
+    - 0
+    - 0
+    - 62512
+    - 62528
+    - 0
+    - 0
 - handle: 56321
   type: 220
   length: 24
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3BYB3CH0AAAR9AAAAAAx9EH0AAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 62497
+    - 0
+    - 62481
+    - 0
+    - 0
+    - 62513
+    - 62529
+    - 0
+    - 0
 - handle: 56322
   type: 220
   length: 24
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3BYC3CL0AAAS9AAAAAAy9EL0AAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 62498
+    - 0
+    - 62482
+    - 0
+    - 0
+    - 62514
+    - 62530
+    - 0
+    - 0
 - handle: 56323
   type: 220
   length: 24
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3BYD3CP0AAAT9AAAAAAz9EP0AAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 62499
+    - 0
+    - 62483
+    - 0
+    - 0
+    - 62515
+    - 62531
+    - 0
+    - 0
 - handle: 56324
   type: 220
   length: 24
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3BYE3CT0AAAU9AAAAAA09ET0AAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 62500
+    - 0
+    - 62484
+    - 0
+    - 0
+    - 62516
+    - 62532
+    - 0
+    - 0
 - handle: 56337
   type: 220
   length: 24
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3BYR3CDzAAAQ8wAAAAAw8wAAAAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 62240
+    - 0
+    - 62224
+    - 0
+    - 0
+    - 62256
+    - 0
+    - 0
+    - 0
 - handle: 56338
   type: 220
   length: 24
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3BYS3CHzAAAR8wAAAAAx8wAAAAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 1
+  attributes:
+    tokens:
+    - 62241
+    - 0
+    - 62225
+    - 0
+    - 0
+    - 62257
+    - 0
+    - 0
+    - 0
 - handle: 56576
   type: 221
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3RMA3QABAAAAEPUAAAAAAAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 2
+  attributes:
+    unknown-1: 0
+    unknown-2: 1
+    tokens:
+    - 0
+    - 62736
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56577
   type: 221
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3RMB3QABAAAAEfUAAAAAAAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 2
+  attributes:
+    unknown-1: 0
+    unknown-2: 1
+    tokens:
+    - 0
+    - 62737
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56578
   type: 221
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3RMC3QABAAAAEvUAAAAAAAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 2
+  attributes:
+    unknown-1: 0
+    unknown-2: 1
+    tokens:
+    - 0
+    - 62738
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56579
   type: 221
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3RMD3QABAAAAE/UAAAAAAAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 2
+  attributes:
+    unknown-1: 0
+    unknown-2: 1
+    tokens:
+    - 0
+    - 62739
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56580
   type: 221
   length: 21
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3RME3QABAAAAFPUAAAAAAAAAAA==
+  state:
+  - decoded
+  description: Dell token references, type 2
+  attributes:
+    unknown-1: 0
+    unknown-2: 1
+    tokens:
+    - 0
+    - 62740
+    - 0
+    - 0
+    - 0
+    - 0
 - handle: 56832
   type: 222
   length: 18

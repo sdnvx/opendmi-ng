@@ -1430,19 +1430,47 @@ table:
   type: 130
   length: 26
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    ghg7ACRBTVQBAQEBAaXvAsA/AQBFAAEG
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: true
+    is-enabled: true
+    is-ider-enabled: true
+    is-sol-enabled: true
+    is-network-enabled: true
+    is-kvm-enabled: true
+    extended-data: 165
+    oem-capabilities:
+    - 239
+    - 2
+    - 192
+    - 63
 - handle: 60
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0A8ADUAAAAAAAAAAAAAAPgAkXoAAAAAKeAAAAEAEADpCSAAAAAAAP4AHBoAAAAAAAAAACYAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Intel vPro information
+  attributes:
+    flags-1: 53
+    mebx-version:
+      major: 0
+      minor: 0
+      hotfix: 0
+      build: 0
+    lpc-devfn: 248
+    lpc-device-id: 31377
+    flags-2: 57385
+    me-version:
+      major: 16
+      minor: 1
+      hotfix: 32
+      build: 2537
+    gbe-devfn: 254
+    gbe-device-id: 6684
+    flags-3: 38
 - handle: 61
   type: 136
   length: 8
@@ -1455,16 +1483,54 @@ table:
   type: 219
   length: 127
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    22o+AAEEAUUCAJAGgYUwMAAAAABAAAADAQAABgBgwAL///////////////////////////////8D
-    AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-  strings:
-  - MEI1
-  - MEI2
-  - MEI3
-  - MEI4
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: corporate
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2415919685
+      - 814055686
+      - 48
+      - 16384
+      - 259
+      - 3227516934
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    - name: MEI4
+      is-present: true
+      hfsts:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 - handle: 63
   type: 221
   length: 32

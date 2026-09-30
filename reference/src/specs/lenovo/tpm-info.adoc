@@ -1,0 +1,86 @@
+= Lenovo TPM Information (Type 134)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Tells the vendor of the TPM of a ThinkPad by its TCG vendor ID, e.g. `ATML`
+for Atmel in `lenovo/thinkpad-t61p-6460-6xg.bin`, or `STM ` for
+STMicroelectronics in `lenovo/thinkpad-x220-4290le6.bin`. The structures are
+told from the date records of the same type by their first string, `TPM INFO`.
+
+.Lenovo TPM Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `134`
+| Lenovo TPM Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x10`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Unknown 1
+| `BYTE`
+| Varies
+| `0` in all known data
+
+| `0x05`
+| 2.0+
+| TPM Vendor ID
+| 4 BYTEs
+| Varies
+| TCG vendor ID of the TPM, in ASCII
+
+| `0x09`
+| 2.0+
+| Unknown 2
+| 2 BYTEs
+| Varies
+| `01 01` in all known data
+
+| `0x0B`
+| 2.0+
+| Unknown 3
+| `WORD`
+| Varies
+| `0` in all known data
+
+| `0x0D`
+| 2.0+
+| Unknown 4
+| `BYTE`
+| Varies
+| `0`, `2` or `3`
+
+| `0x0E`
+| 2.0+
+| Signature
+| `BYTE`
+| `STRING`
+| `TPM INFO`
+
+| `0x0F`
+| 2.0+
+| Description
+| `BYTE`
+| `STRING`
+| `System Reserved`
+|===

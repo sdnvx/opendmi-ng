@@ -12,6 +12,7 @@ Acer laptops carry the firmware of other vendors, e.g. Insyde, and the
 structures of Acer are decoded for the platforms whose system vendor is Acer.
 
 include::acer/hotkeys.adoc[leveloffset=2]
+include::acer/devices.adoc[leveloffset=2]
 
 == Dell-specific structures
 
@@ -24,7 +25,11 @@ include::dell/infrared-port.adoc[leveloffset=2]
 include::dell/indexed-io.adoc[leveloffset=2]
 include::dell/protected-area-1.adoc[leveloffset=2]
 include::dell/protected-area-2.adoc[leveloffset=2]
+include::dell/video-rom.adoc[leveloffset=2]
 include::dell/calling-iface.adoc[leveloffset=2]
+include::dell/token-refs-1.adoc[leveloffset=2]
+include::dell/token-refs-2.adoc[leveloffset=2]
+include::dell/system-id.adoc[leveloffset=2]
 
 == HP/HPE-specific structures
 
@@ -98,8 +103,11 @@ include::intel/rsd-phys-device-mapping.adoc[leveloffset=2]
 == Lenovo-specific structures
 
 include::lenovo/tvt.adoc[leveloffset=2]
+include::lenovo/date.adoc[leveloffset=2]
+include::lenovo/tpm-info.adoc[leveloffset=2]
 include::lenovo/mobile-oem.adoc[leveloffset=2]
 include::lenovo/oem.adoc[leveloffset=2]
+include::lenovo/mtm.adoc[leveloffset=2]
 
 == Sun-specific structures
 
@@ -108,3 +116,5 @@ include::sun/port-ex.adoc[leveloffset=2]
 include::sun/pcie-root-complex.adoc[leveloffset=2]
 include::sun/memory-array-ex.adoc[leveloffset=2]
 include::sun/memory-device-ex.adoc[leveloffset=2]
+
+include::undocumented.adoc[leveloffset=1]

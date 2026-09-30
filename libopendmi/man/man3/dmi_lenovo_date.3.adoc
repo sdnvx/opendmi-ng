@@ -1,0 +1,76 @@
+ifdef::backend-manpage[]
+= dmi_lenovo_date(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lenovo_date
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lenovo_date - Lenovo date record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/lenovo/records.h>
+
+typedef struct dmi_lenovo_date {
+    uint32_t raw_date;
+    dmi_date_t date;
+} dmi_lenovo_date_t;
+----
+
+== Description
+
+The `dmi_lenovo_date_t` structure holds the decoded Lenovo date record (type
+134) of a ThinkPad. The date is earlier than the release date of the firmware
+and falls within the years the model has been made in, and so is probably its
+manufacture date.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_lenovo_date_spec`, of type `DMI_TYPE(LENOVO_DATE)`, declared in
+`<opendmi/module/lenovo.h>`, once the Lenovo extension module
+(`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
+It lives as long as the context it has been decoded in. The structures of type
+134 holding TPM information instead are told by their first string, see
+`dmi_lenovo_tpm_info`(3).
+
+The layout is reverse engineered from the dumps of the data corpus, since no
+public source describes the structure, and the members whose meaning is not
+established are named after their position.
+
+=== Fields
+
+`raw_date`::
+Date, as the structure holds it: day, month and year in binary-coded decimal,
+the year low byte first.
+
+`date`::
+Date.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_lenovo_tpm_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Lenovo firmware, and
+reverse engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

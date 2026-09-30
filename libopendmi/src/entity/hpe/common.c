@@ -4,34 +4,9 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <ctype.h>
-
 #include <opendmi/internal.h>
 
 #include <opendmi/entity/hpe/common-internal.h>
-
-const char *dmi_hpe_text(const dmi_data_t *data, size_t length, char *buffer, bool trim)
-{
-    size_t count = 0;
-
-    if (data == nullptr)
-        return nullptr;
-
-    for (size_t i = 0; i < length; i++) {
-        unsigned char c = data[i];
-
-        if (not isprint(c))
-            return nullptr;
-        if (trim and (c == ' '))
-            continue;
-
-        buffer[count++] = (char)c;
-    }
-
-    buffer[count] = 0;
-
-    return (count > 0) ? buffer : nullptr;
-}
 
 const dmi_name_set_t dmi_hpe_flag_names =
 {

@@ -9,7 +9,6 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/common-internal.h>
 #include <opendmi/entity/hpe/cru-internal.h>
 
 const dmi_entity_spec_t dmi_hpe_cru_spec =
@@ -75,7 +74,7 @@ bool dmi_hpe_cru_derive(dmi_entity_t *entity)
         return false;
 
     info->entry_point = info->address + info->offset;
-    info->signature   = dmi_hpe_text(info->signature_raw.data, info->signature_raw.length,
+    info->signature   = dmi_text_from_bytes(info->signature_raw.data, info->signature_raw.length,
                                      info->signature_buffer, false);
 
     return true;

@@ -1129,11 +1129,27 @@ table:
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0A6ADUAAAAAAAAAAAAAAPgAnVEAAAAAISAAAAEAEACxCBsAAAAAAP4A//8AAAAAAAAAACIAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Intel vPro information
+  attributes:
+    flags-1: 53
+    mebx-version:
+      major: 0
+      minor: 0
+      hotfix: 0
+      build: 0
+    lpc-devfn: 248
+    lpc-device-id: 20893
+    flags-2: 8225
+    me-version:
+      major: 16
+      minor: 1
+      hotfix: 27
+      build: 2225
+    gbe-devfn: 254
+    gbe-device-id: null
+    flags-3: 34
 - handle: 57
   type: 17
   length: 178
@@ -1372,16 +1388,54 @@ table:
   type: 219
   length: 127
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    22oKAAEEAUUCAJAGAYUyIAAAAABAAAADHwQCzwNgRAL///////////////////////////////8D
-    AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-  strings:
-  - MEI1
-  - MEI2
-  - MEI3
-  - MEI4
+  state:
+  - decoded
+  description: Intel Management Engine interface information
+  attributes:
+    version: 1
+    state: normal
+    mode: normal
+    error-code: 0
+    is-init-complete: true
+    is-manufacturing: false
+    sku: consumer
+    devices:
+    - name: MEI1
+      is-present: true
+      hfsts:
+      - 2415919685
+      - 847577350
+      - 32
+      - 16384
+      - 33824515
+      - 1147143119
+    - name: MEI2
+      is-present: false
+      hfsts:
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+      - 4294967295
+    - name: MEI3
+      is-present: true
+      hfsts:
+      - 2147483648
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    - name: MEI4
+      is-present: true
+      hfsts:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 - handle: 65279
   type: 127
   length: 6

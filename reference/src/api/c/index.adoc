@@ -539,9 +539,20 @@ include::../../../../libopendmi/man/man3/dmi_lenovo_device_presence.3.adoc[level
 include::../../../../libopendmi/man/man3/dmi_lenovo_bay_io.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_lenovo_ecp.3.adoc[leveloffset=2]
 
+== `<opendmi/entity/lenovo/records.h>`
+
+include::../../../../libopendmi/man/man3/dmi_lenovo_date.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_lenovo_mtm.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_lenovo_tpm_info.3.adoc[leveloffset=2]
+
 == `<opendmi/entity/lenovo/tvt.h>`
 
 include::../../../../libopendmi/man/man3/dmi_lenovo_tvt.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/acer/devices.h>`
+
+include::../../../../libopendmi/man/man3/dmi_acer_devices.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_acer_device.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/acer/hotkeys.h>`
 
@@ -603,6 +614,19 @@ include::../../../../libopendmi/man/man3/dmi_dell_revisions.3.adoc[leveloffset=2
 include::../../../../libopendmi/man/man3/dmi_dell_serial_port.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_dell_serial_port_caps.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_dell_serial_port_connector_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/system-id.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_system_id.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/token-refs.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_token_refs_1.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_dell_token_refs_2.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/dell/video-rom.h>`
+
+include::../../../../libopendmi/man/man3/dmi_dell_video_rom.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/hpe/backplane.h>`
 

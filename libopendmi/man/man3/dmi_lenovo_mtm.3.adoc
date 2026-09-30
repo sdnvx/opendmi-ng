@@ -1,0 +1,77 @@
+ifdef::backend-manpage[]
+= dmi_lenovo_mtm(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lenovo_mtm
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lenovo_mtm - Lenovo machine type model structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/lenovo/records.h>
+
+typedef struct dmi_lenovo_mtm {
+    const char *brand;
+    const char *mtm;
+    dmi_binary_t data;
+} dmi_lenovo_mtm_t;
+----
+
+== Description
+
+The `dmi_lenovo_mtm_t` structure holds the decoded Lenovo machine type model
+(type 200) of an IdeaPad or a ThinkBook, which tells its brand and its full
+machine type model, e.g. `20VE00U9RU`, of which the system information (type
+1) holds only the machine type, e.g. `20VE`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_lenovo_mtm_spec`, of type `DMI_TYPE(LENOVO_MTM)`, declared in
+`<opendmi/module/lenovo.h>`, once the Lenovo extension module
+(`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
+It lives as long as the context it has been decoded in.
+
+The layout is reverse engineered from the dumps of the data corpus, since no
+public source describes the structure, and the members whose meaning is not
+established are named after their position.
+
+=== Fields
+
+`brand`::
+Brand, e.g. `IdeaPad`, which ThinkBooks hold too.
+
+`mtm`::
+Machine type model.
+
+`data`::
+Bytes past the strings, whose meaning is not established.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_system`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Lenovo firmware, and
+reverse engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

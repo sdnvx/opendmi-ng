@@ -1,0 +1,102 @@
+ifdef::backend-manpage[]
+= dmi_lenovo_tpm_info(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lenovo_tpm_info
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lenovo_tpm_info - Lenovo TPM information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/lenovo/records.h>
+
+typedef struct dmi_lenovo_tpm_info {
+    uint8_t unknown_1;
+    dmi_binary_t vendor_raw;
+    char vendor_buffer[5];
+    const char *vendor;
+    uint8_t unknown_2[2];
+    uint16_t unknown_3;
+    uint8_t unknown_4;
+    const char *signature;
+    const char *description;
+} dmi_lenovo_tpm_info_t;
+----
+
+== Description
+
+The `dmi_lenovo_tpm_info_t` structure holds the decoded Lenovo TPM information
+(type 134) of a ThinkPad, which tells the vendor of its TPM by the TCG vendor
+ID, e.g. `ATML` for Atmel or `STM ` for STMicroelectronics. The structures are
+told from the date records of the same type, see `dmi_lenovo_date`(3), by
+their first string, `TPM INFO`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_lenovo_tpm_info_spec`, of type `DMI_TYPE(LENOVO_DATE)`, declared in
+`<opendmi/module/lenovo.h>`, once the Lenovo extension module
+(`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms.
+It lives as long as the context it has been decoded in.
+
+The layout is reverse engineered from the dumps of the data corpus, since no
+public source describes the structure, and the members whose meaning is not
+established are named after their position.
+
+=== Fields
+
+`unknown_1`::
+Value whose meaning is not established, `0` in all known data.
+
+`vendor_raw`::
+TCG vendor ID of the TPM, as the structure holds it.
+
+`vendor_buffer`::
+TCG vendor ID of the TPM, which `vendor` points to.
+
+`vendor`::
+TCG vendor ID of the TPM, e.g. `ATML`, or `nullptr` if it is not printable.
+
+`unknown_2`::
+Values whose meaning is not established, `1` and `1` in all known data.
+
+`unknown_3`::
+Value whose meaning is not established, `0` in all known data.
+
+`unknown_4`::
+Value whose meaning is not established, `0`, `2` or `3` in the known data.
+
+`signature`::
+Signature, `TPM INFO`.
+
+`description`::
+Description of the rest, `System Reserved`.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_lenovo_date`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Lenovo firmware, and
+reverse engineered from the data corpus.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

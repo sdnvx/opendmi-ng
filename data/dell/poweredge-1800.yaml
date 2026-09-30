@@ -2027,13 +2027,14 @@ table:
   type: 216
   length: 32
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2AkA2AECAQAA
-  strings:
-  - ATI
-  - RADEON 7000 V6.11
+  state:
+  - decoded
+  description: Dell video BIOS information
+  attributes:
+    vendor: ATI
+    version: RADEON 7000 V6.11
+    unknown-1: 1
+    unknown-2: 0
 - handle: 56832
   type: 222
   length: 17

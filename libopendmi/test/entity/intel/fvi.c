@@ -17,6 +17,7 @@
 #include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
+#include <opendmi/entity/dell/token-refs.h>
 #include <opendmi/entity/hpe/nic.h>
 
 #include <opendmi/entity/intel/fvi.h>
@@ -241,7 +242,7 @@ static void test_fvi_dell(void **pstate)
 
     entity = dmi_registry_lookup_first(registry, DMI_TYPE(INTEL_FVI), false);
     assert_non_null(entity);
-    assert_null(entity->spec);
+    assert_ptr_equal(entity->spec, &dmi_dell_token_refs_2_spec);
 }
 
 static void test_fvi_proliant(void **pstate)

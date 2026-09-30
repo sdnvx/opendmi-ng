@@ -161,3 +161,26 @@ bool dmi_string_is_placeholder(const char *text)
 
     return false;
 }
+
+const char *dmi_text_from_bytes(const uint8_t *data, size_t length, char *buffer, bool trim)
+{
+    size_t count = 0;
+
+    if (data == nullptr)
+        return nullptr;
+
+    for (size_t i = 0; i < length; i++) {
+        unsigned char c = data[i];
+
+        if (not isprint(c))
+            return nullptr;
+        if (trim and (c == ' '))
+            continue;
+
+        buffer[count++] = (char)c;
+    }
+
+    buffer[count] = 0;
+
+    return (count > 0) ? buffer : nullptr;
+}

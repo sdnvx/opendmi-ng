@@ -16,7 +16,8 @@
  */
 typedef enum dmi_acer_type
 {
-    DMI_TYPE_ACER_HOTKEYS = 170 ///< Hotkey functions
+    DMI_TYPE_ACER_HOTKEYS = 170, ///< Hotkey functions
+    DMI_TYPE_ACER_DEVICES = 171  ///< Device list
 } dmi_acer_type_t;
 
 __BEGIN_DECLS

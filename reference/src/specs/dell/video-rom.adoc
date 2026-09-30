@@ -1,0 +1,64 @@
+= Dell Video BIOS Information (Type 216)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Tells the vendor and the version of the video BIOS, e.g. `"Intel Corp."` and
+`"2089"` in `dell/g15-5510.bin`, or `ATI` and `RADEON 7000 V6.11` in
+`dell/poweredge-1800.bin`.
+
+.Dell Video BIOS Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `216`
+| Dell Video BIOS Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Vendor
+| `BYTE`
+| `STRING`
+| Vendor of the video BIOS, which may be quoted
+
+| `0x05`
+| 2.0+
+| Version
+| `BYTE`
+| `STRING`
+| Version of the video BIOS, which may be quoted
+
+| `0x06`
+| 2.0+
+| Unknown 1
+| `BYTE`
+| Varies
+| `1` in all known data
+
+| `0x07`
+| 2.0+
+| Unknown 2
+| `WORD`
+| Varies
+| `0x0088` and `0`
+|===

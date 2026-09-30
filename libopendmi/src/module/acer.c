@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/module/acer.h>
+#include <opendmi/entity/acer/devices.h>
 #include <opendmi/entity/acer/hotkeys.h>
 
 /**
@@ -16,6 +17,7 @@ const dmi_module_t dmi_acer_module =
     .name      = "Acer extensions",
     .entities  = (const dmi_entity_spec_t *[]){
         &dmi_acer_hotkeys_spec,
+        &dmi_acer_devices_spec,
         nullptr
     },
     //

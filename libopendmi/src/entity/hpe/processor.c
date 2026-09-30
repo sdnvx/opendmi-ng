@@ -9,7 +9,6 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/common-internal.h>
 #include <opendmi/entity/hpe/processor-internal.h>
 
 const dmi_entity_spec_t dmi_hpe_processor_spec =
@@ -144,7 +143,7 @@ bool dmi_hpe_processor_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    info->qdf = dmi_hpe_text(info->qdf_raw, sizeof(info->qdf_raw), info->qdf_buffer, true);
+    info->qdf = dmi_text_from_bytes(info->qdf_raw, sizeof(info->qdf_raw), info->qdf_buffer, true);
 
     return true;
 }

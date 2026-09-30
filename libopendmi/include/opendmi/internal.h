@@ -19,6 +19,9 @@
  */
 
 #include <iso646.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #include <opendmi/defs.h>
 
@@ -45,6 +48,11 @@ const char *dmi_locale_string(const char *table, const char *key);
 // Look up the text of a value which has no text of its own, e.g. an unknown
 // enumeration identifier, falling back to the English one
 const char *dmi_value_text(const char *key, const char *fallback);
+
+// Text the bytes of a structure spell, e.g. a signature, copied into a buffer
+// at least one byte longer and terminated, leaving the spaces out if trim is
+// set; nullptr if the bytes are not all printable or leave nothing but spaces
+const char *dmi_text_from_bytes(const uint8_t *data, size_t length, char *buffer, bool trim);
 
 // Cross-platform attribute unused macro
 #define dmi_unused(x) (void)(x)

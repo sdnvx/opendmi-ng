@@ -111,6 +111,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Decode Dell BIOS flags (type 177) and hotkeys (type 178)
 - Decode Acer hotkey functions (type 170), including the list of the hotkeys past the function bitmaps, and enable the `acer` module for the systems of Acer with the firmware of other vendors
 - Decode Lenovo OEM data of types 135 and 140: device presence detection, bay I/O and ThinkPad embedded controller program, and the number, the revision and the data of the other OEM structures
+- Decode structures reverse engineered from the data corpus: Acer device list (type 171), Dell video BIOS information (type 216), token references (types 220 and 221) and system ID record (type 255), Lenovo date record and TPM information (type 134) and machine type model (type 200)
+- Describe the structures of the data corpus whose meaning is not established in the reference manual
 - Add `dmi_string_is_placeholder()`, and take `Fill By OEM`, `No Asset Tag`, `Empty`, `[Empty]`, `NULL`, `INVALID` and `NO DIMM` for placeholders too
 - Add File formats part to the reference manual, which describes the YAML, JSON and XML documents the `export` command writes
 - Add list of the extension modules and the structures they describe to the Command line tool part of the reference manual

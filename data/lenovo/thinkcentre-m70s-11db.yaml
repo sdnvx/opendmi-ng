@@ -1767,19 +1767,47 @@ table:
   type: 130
   length: 22
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    ghRUACRBTVQAAAAAAKWvAsAAAAA=
+  state:
+  - decoded
+  description: Intel Active Management Technology information
+  attributes:
+    is-supported: false
+    is-enabled: false
+    is-ider-enabled: false
+    is-sol-enabled: false
+    is-network-enabled: false
+    is-kvm-enabled: false
+    extended-data: 165
+    oem-capabilities:
+    - 175
+    - 2
+    - 192
+    - 0
 - handle: 85
   type: 131
   length: 66
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    g0BVADUAAAAOAAAAAAAEAPgAhAYAAAAAAQAAAAAADgBlBCEAAAAAAP4ATQ0AAAAAAAAAACYAAAB2
-    UHJvAAAAAA==
+  state:
+  - decoded
+  description: Lenovo ThinkVantage Technologies enablement
+  attributes:
+    flags-1: 53
+    mebx-version:
+      major: 14
+      minor: 0
+      hotfix: 0
+      build: 4
+    lpc-devfn: 248
+    lpc-device-id: 1668
+    flags-2: 1
+    me-version:
+      major: 14
+      minor: 0
+      hotfix: 33
+      build: 1125
+    gbe-devfn: 254
+    gbe-device-id: 3405
+    flags-3: 38
 - handle: 86
   type: 41
   length: 28

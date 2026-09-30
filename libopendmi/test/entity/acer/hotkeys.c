@@ -16,6 +16,7 @@
 #include <opendmi/test/logger.h>
 #include <opendmi/module/acer.h>
 
+#include <opendmi/entity/acer/devices.h>
 #include <opendmi/entity/acer/hotkeys.h>
 
 static int test_setup(void **pstate);
@@ -23,13 +24,15 @@ static int test_teardown(void **pstate);
 static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec);
 
 static void test_acer_hotkeys(void **pstate);
+static void test_acer_devices(void **pstate);
 
 static const char *test_nitro_path = OPENDMI_TEST_DATA "/acer/nitro-an515-31.bin";
 
 int main(void)
 {
     const struct CMUnitTest tests[] = {
-        cmocka_unit_test_setup_teardown(test_acer_hotkeys, test_setup, test_teardown)
+        cmocka_unit_test_setup_teardown(test_acer_hotkeys, test_setup, test_teardown),
+        cmocka_unit_test_setup_teardown(test_acer_devices, test_setup, test_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -73,6 +76,27 @@ static void test_acer_hotkeys(void **pstate)
 }
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
+
+static void test_acer_devices(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_load(context, test_nitro_path));
+
+    // Webcam of Realtek, graphics of Intel and NVIDIA, and the wireless
+    // network adapter of Intel, the absent devices having no IDs
+    const dmi_acer_devices_t *info = test_info(context, 0x0015, &dmi_acer_devices_spec);
+    assert_int_equal(info->device_count, 10);
+    assert_int_equal(info->devices[0].kind, 0x04);
+    assert_int_equal(info->devices[0].vendor_id, 0x0BDA);
+    assert_int_equal(info->devices[0].device_id, 0x5621);
+    assert_int_equal(info->devices[1].vendor_id, 0x0000);
+    assert_int_equal(info->devices[2].vendor_id, 0x8086);
+    assert_int_equal(info->devices[3].vendor_id, 0x10DE);
+    assert_int_equal(info->devices[3].device_id, 0x1D10);
+    assert_int_equal(info->devices[6].kind, 0x07);
+    assert_int_equal(info->devices[6].device_id, 0x2725);
+}
 
 static int test_setup(void **pstate)
 {
