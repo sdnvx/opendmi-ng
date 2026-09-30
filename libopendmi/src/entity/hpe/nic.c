@@ -63,7 +63,7 @@ const dmi_entity_spec_t dmi_hpe_pxe_nic_spec =
                 DMI_ATTRIBUTE(dmi_hpe_nic_port_t, mac_address, BINARY, {
                     .code  = "mac-address",
                     .name  = "MAC address",
-                    .flags = DMI_ATTRIBUTE_FLAG_MAC
+                    .flags = DMI_ATTRIBUTE_FLAG_MAC | DMI_ATTRIBUTE_FLAG_PRIVATE
                 }),
                 {}
             })
@@ -133,7 +133,7 @@ const dmi_entity_spec_t dmi_hpe_iscsi_nic_spec =
                 DMI_ATTRIBUTE(dmi_hpe_nic_port_t, mac_address, BINARY, {
                     .code  = "mac-address",
                     .name  = "MAC address",
-                    .flags = DMI_ATTRIBUTE_FLAG_MAC
+                    .flags = DMI_ATTRIBUTE_FLAG_MAC | DMI_ATTRIBUTE_FLAG_PRIVATE
                 }),
                 {}
             })

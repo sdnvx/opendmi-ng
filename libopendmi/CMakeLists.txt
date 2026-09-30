@@ -43,6 +43,7 @@ target_include_directories(opendmi-object
 )
 
 set(LIBOPENDMI_HEADERS
+    include/opendmi/anonymize.h
     include/opendmi/attribute.h
     include/opendmi/backend.h
     include/opendmi/buffer.h
@@ -222,6 +223,7 @@ set(LIBOPENDMI_HEADERS
 
 target_sources(opendmi-object
     PRIVATE
+        src/anonymize.c
         src/attribute.c
         src/backend.c
         src/buffer.c
@@ -773,6 +775,7 @@ endfunction()
 
 opendmi_test(attribute SOURCES test/attribute.c)
 opendmi_test(error SOURCES test/error.c)
+opendmi_test(anonymize SOURCES test/anonymize.c)
 opendmi_test(context SOURCES test/context.c)
 opendmi_test(entity SOURCES test/entity.c)
 opendmi_test(entry SOURCES test/entry.c)

@@ -55,7 +55,8 @@ const dmi_entity_spec_t dmi_hpe_system_id_spec =
         DMI_ATTRIBUTE(dmi_hpe_system_id_t, guid, UUID, {
             .code   = "guid",
             .name   = "GUID",
-            .unspec = &(const dmi_uuid_t){}
+            .unspec = &(const dmi_uuid_t){},
+            .flags  = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         {}
     })

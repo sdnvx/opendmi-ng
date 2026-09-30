@@ -188,8 +188,9 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
             .name = "Part number"
         }),
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, serial_number, STRING, {
-            .code = "serial-number",
-            .name = "Serial number"
+            .code  = "serial-number",
+            .name  = "Serial number",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, segment, INTEGER, {
             .code  = "segment",

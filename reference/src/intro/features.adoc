@@ -59,6 +59,10 @@ as _(planned)_ are scheduled for the 1.0 release.
 
 * Structures are shown, listed, explained and exported with the `opendmi` tool,
   and the table can be dumped to a file.
+* Dumps can be anonymized to be shared, e.g. in a bug report: serial numbers,
+  asset tags, UUIDs and MAC addresses are replaced wherever the table holds
+  them with values of the same length and format, under a random key which is
+  never saved, and the dump keeps the layout of the table.
 * Structures are selected by handle, by type, by the module providing them and
   by state.
 * Output is text for a person, with colors and a pager, or JSON, XML and YAML
@@ -87,6 +91,8 @@ as _(planned)_ are scheduled for the 1.0 release.
 * Structures can be encoded back into their bytes, either keeping the bytes the
   structure has been decoded from, or writing them the way the specification
   does.
+* Values identifying the system are marked in the specifications of the
+  structures, and an anonymized copy of the table is made from them.
 * Errors are collected in a queue of the context, and logging is directed to a
   handler of the application.
 * The library depends on nothing but the system, and on ICU4C for the

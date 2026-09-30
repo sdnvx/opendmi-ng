@@ -84,7 +84,14 @@ typedef enum dmi_attribute_flag
      * Value is a JEDEC JEP106 identification code, whose last byte carries an
      * odd parity bit, see `value.jep106` of `dmi_lint`(3).
      */
-    DMI_ATTRIBUTE_FLAG_JEP106 = 0x40
+    DMI_ATTRIBUTE_FLAG_JEP106 = 0x40,
+
+    /**
+     * Value identifies the system rather than describes it, e.g. a serial
+     * number, an asset tag, a UUID or a MAC address, and is replaced when the
+     * table is anonymized, see `dmi_anonymize`(3).
+     */
+    DMI_ATTRIBUTE_FLAG_PRIVATE = 0x80
 } dmi_attribute_flag_t;
 
 struct dmi_attribute_ops

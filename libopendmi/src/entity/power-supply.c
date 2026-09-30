@@ -80,11 +80,13 @@ const dmi_entity_spec_t dmi_power_supply_spec =
         }),
         DMI_ATTRIBUTE(dmi_power_supply_t, serial_number, STRING, {
             .code    = "serial-number",
-            .name    = "Serial number"
+            .name    = "Serial number",
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_power_supply_t, asset_tag, STRING, {
             .code    = "asset-tag",
-            .name    = "Asset tag"
+            .name    = "Asset tag",
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_power_supply_t, part_number, STRING, {
             .code    = "part-number",

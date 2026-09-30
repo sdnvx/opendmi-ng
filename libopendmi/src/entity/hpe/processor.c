@@ -114,7 +114,7 @@ const dmi_entity_spec_t dmi_hpe_processor_spec =
             .code   = "uuid",
             .name   = "Unique identifier",
             .unspec = dmi_value_ptr((uint64_t)0),
-            .flags  = DMI_ATTRIBUTE_FLAG_HEX
+            .flags  = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_processor_t, interconnect_speed, INTEGER, {
             .code   = "interconnect-speed",

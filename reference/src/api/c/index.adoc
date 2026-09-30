@@ -19,6 +19,10 @@ include::../../../../libopendmi/man/man3/dmi_set_log_level.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_set_logger.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_set_platform.3.adoc[leveloffset=2]
 
+== `<opendmi/anonymize.h>`
+
+include::../../../../libopendmi/man/man3/dmi_anonymize.3.adoc[leveloffset=2]
+
 == `<opendmi/platform.h>`
 
 include::../../../../libopendmi/man/man3/dmi_platform_clone.3.adoc[leveloffset=2]

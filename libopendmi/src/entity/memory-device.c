@@ -181,12 +181,14 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_ATTRIBUTE(dmi_memory_device_t, serial_number, STRING, {
             .code    = "serial-number",
             .name    = "Serial number",
-            .level   = DMI_VERSION(2, 3, 0)
+            .level   = DMI_VERSION(2, 3, 0),
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, asset_tag, STRING, {
             .code    = "asset-tag",
             .name    = "Asset tag",
-            .level   = DMI_VERSION(2, 3, 0)
+            .level   = DMI_VERSION(2, 3, 0),
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, part_number, STRING, {
             .code    = "part-number",

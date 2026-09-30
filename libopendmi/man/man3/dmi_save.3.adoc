@@ -24,7 +24,12 @@ endif::[]
 ----
 #include <opendmi/context.h>
 
-bool dmi_save(dmi_context_t *context, const char *path, bool overwrite);
+typedef enum dmi_save_flags {
+    DMI_SAVE_FLAG_OVERWRITE = (1 << 0),
+    DMI_SAVE_FLAG_ANONYMIZE = (1 << 1)
+} dmi_save_flags_t;
+
+bool dmi_save(dmi_context_t *context, const char *path, unsigned flags);
 ----
 
 == Description
@@ -39,9 +44,15 @@ the address of the table the entry point holds is set to its offset within
 the file. A context read on a platform which gives no access to the entry
 point has none, and a 64-bit entry point is made up for it.
 
-An existing file is replaced only when `overwrite` is `true`. A regular file
-the dump has failed to be written into is removed, so that no incomplete
-dump is left behind.
+An existing file is replaced only with `DMI_SAVE_FLAG_OVERWRITE`. A regular
+file the dump has failed to be written into is removed, so that no
+incomplete dump is left behind.
+
+With `DMI_SAVE_FLAG_ANONYMIZE`, the table written is the copy
+`dmi_anonymize`(3) makes of it, in which the values identifying the system,
+e.g. serial numbers, asset tags, UUIDs and MAC addresses, are replaced. The
+copy has the length and the layout of the table, so the entry point holds for
+it as it is, and the context itself is left as it is.
 
 === Parameters
 
@@ -51,8 +62,16 @@ Open context to save.
 `path`::
 Path to the dump file.
 
-`overwrite`::
+`flags`::
+Flags of `dmi_save_flags_t`, zero for none:
++
+--
+`DMI_SAVE_FLAG_OVERWRITE`:::
 Replace the file if it exists, rather than failing.
+
+`DMI_SAVE_FLAG_ANONYMIZE`:::
+Write the anonymized copy of the table, see `dmi_anonymize`(3).
+--
 
 == Return value
 
@@ -64,20 +83,29 @@ Returns `true` if the dump has been written, and `false` otherwise.
 Path is `nullptr`.
 
 `DMI_ERROR_INVALID_STATE`::
-Context is not open.
+Context is not open, or the table is to be anonymized and its structures
+carry additional information entries applied to them.
 
 `DMI_ERROR_INVALID_EPS_LENGTH`::
 Entry point is longer than an entry point can be.
 
 `DMI_ERROR_FILE_OPEN`::
-File cannot be created, or exists and `overwrite` is `false`.
+File cannot be created, or exists and `DMI_SAVE_FLAG_OVERWRITE` is not
+set.
 
 `DMI_ERROR_FILE_WRITE`::
 File cannot be written.
 
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory for the anonymized copy cannot be allocated.
+
+`DMI_ERROR_INTERNAL`::
+Table cannot be anonymized, see `dmi_anonymize`(3).
+
 == See also
 
 `dmi_load`(3),
+`dmi_anonymize`(3),
 `dmi_open`(3),
 `dmi_close`(3)
 

@@ -10,6 +10,7 @@
 #include <opendmi/context.h>
 #include <opendmi/lint.h>
 #include <opendmi/internal.h>
+#include <opendmi/utils/string.h>
 
 #include <opendmi/lint/quality.h>
 
@@ -28,41 +29,6 @@ const dmi_lint_rule_t dmi_lint_quality_placeholder_rule =
     }
 };
 
-//
-// Strings which firmware leaves in place of the data it has none of. They are
-// valid strings, so they are worth a note rather than an error, but nothing
-// is to be made of them.
-//
-static const char *const dmi_lint_placeholders[] =
-{
-    "To Be Filled By O.E.M.",
-    "To be filled by O.E.M.",
-    "Filled By OEM",
-    "Default string",
-    "Default",
-    "System manufacturer",
-    "System Product Name",
-    "System Version",
-    "System Serial Number",
-    "System SKU Number",
-    "Chassis Manufacture",
-    "Chassis Version",
-    "Chassis Serial Number",
-    "Not Specified",
-    "Not Applicable",
-    "Not Available",
-    "None",
-    "Unknown",
-    "N/A",
-    "NA",
-    "TBD",
-    "OEM",
-    "0123456789",
-    "123456789",
-    "XXXXXXXX",
-    nullptr
-};
-
 static void dmi_lint_quality_placeholder(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     for (size_t i = 0; i < entity->string_count; i++) {
@@ -71,13 +37,9 @@ static void dmi_lint_quality_placeholder(dmi_lint_t *lint, const dmi_entity_t *e
         if ((text == nullptr) or (*text == 0))
             continue;
 
-        for (const char *const *item = dmi_lint_placeholders; *item != nullptr; item++) {
-            if (strcasecmp(text, *item) != 0)
-                continue;
-
+        if (dmi_string_is_placeholder(text)) {
             dmi_lint_issue(lint, entity, nullptr, dmi_lint_string_offset(lint, entity, i + 1),
                            "string %zu holds a placeholder: \"%s\"", i + 1, text);
-            break;
         }
     }
 }

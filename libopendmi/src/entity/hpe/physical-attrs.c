@@ -40,12 +40,14 @@ const dmi_entity_spec_t dmi_hpe_physical_attrs_legacy_spec =
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, identifier, STRING, {
-            .code = "identifier",
-            .name = "Product and serial number"
+            .code  = "identifier",
+            .name  = "Product and serial number",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, serial_number, STRING, {
-            .code = "serial-number",
-            .name = "Serial number"
+            .code  = "serial-number",
+            .name  = "Serial number",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         {}
     }),
@@ -83,11 +85,13 @@ const dmi_entity_spec_t dmi_hpe_physical_attrs_spec =
         DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, uuid, UUID, {
             .code   = "uuid",
             .name   = "UUID",
-            .unspec = &(const dmi_uuid_t){}
+            .unspec = &(const dmi_uuid_t){},
+            .flags  = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, serial_number, STRING, {
-            .code = "serial-number",
-            .name = "Serial number"
+            .code  = "serial-number",
+            .name  = "Serial number",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         {}
     })

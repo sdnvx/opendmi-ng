@@ -1,0 +1,125 @@
+ifdef::backend-manpage[]
+= dmi_anonymize(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_anonymize
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_anonymize - make an anonymized copy of the SMBIOS table of a context.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/anonymize.h>
+
+bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table);
+----
+
+== Description
+
+The `dmi_anonymize` function writes into `table` a copy of the structure table
+of an open context, in which the values identifying the system rather than
+describing it are replaced, so that the data can be shared, e.g. in a bug
+report or in a collection of test data. `dmi_save`(3) writes such a copy into
+a dump file with `DMI_SAVE_FLAG_ANONYMIZE`, and so does the *--anonymize*
+option of `opendmi-dump`(1).
+
+The values replaced are the ones of the attributes marked with
+`DMI_ATTRIBUTE_FLAG_PRIVATE` in the specifications of the structures: serial
+numbers, asset tags, UUIDs, MAC addresses and the like, of the standard
+structures and of the vendor-specific ones the enabled modules decode.
+
+The copy has the very layout of the table, so that it decodes the way the
+table does, and everything but the replaced values stays as it is:
+
+* Every value is replaced with one of the same length. Strings keep their
+  letters, digits and punctuation in place, e.g. a serial number of an upper
+  case letter followed by digits is replaced with another one of that kind.
+* MAC addresses keep their first three bytes, which tell the manufacturer of
+  the device rather than the device.
+* UUIDs keep their version and variant.
+* Values which identify nothing are kept: empty and blank strings, the
+  placeholders firmware vendors leave in place, e.g. `To Be Filled By
+  O.E.M.`, values of one repeated byte, e.g. all zeros, and the values
+  standing for "unspecified".
+
+A value is replaced the same way wherever the table holds it, e.g. a service
+tag serving as the serial number of both the system and the chassis. A value
+which looks like an identifier, a single word holding digits, is also looked
+for in the rest of the table and replaced there, e.g. in the OEM strings, in
+the options of the system configuration, or in the bytes of a vendor-specific
+structure holding it in place. A value which does not, e.g. `Battery 0` put in
+place of the serial number of a battery, is replaced only where the attribute
+holds it, so that the names it happens to be part of are kept.
+
+The replacements are made from the values by a keyed hash, SipHash-2-4, whose
+key is taken from the random number generator of the system each time a table
+is anonymized and is never saved. The same value is thus replaced differently
+in every copy, and the original values cannot be recovered by trying the ones
+a serial number may take.
+
+The context itself is left as it is: its structures keep the values they have
+been decoded with.
+
+=== Parameters
+
+`context`::
+Open context, whose structures are decoded.
+
+`table`::
+Buffer to write the copy into. The data it holds is replaced, and dropped if
+the copy cannot be made.
+
+== Return value
+
+Returns `true` if the copy has been made, and `false` otherwise.
+
+== Errors
+
+`DMI_ERROR_NULL_ARGUMENT`::
+Table is `nullptr`.
+
+`DMI_ERROR_INVALID_STATE`::
+Context is not open, or it has been opened with `DMI_CONTEXT_FLAG_OVERLAY`,
+whose structures are decoded from copies carrying additional information
+entries rather than from the table.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory cannot be allocated.
+
+`DMI_ERROR_INTERNAL`::
+Random key cannot be generated, or a structure is not encoded back into its
+own length.
+
+== Notes
+
+Values of the structures no enabled module decodes are replaced only where
+they repeat a value found elsewhere, so a table carrying unknown OEM
+structures may still identify its system. The same holds for free-form
+strings, e.g. OEM strings (type 11), which are not replaced unless they hold
+such a value. The tables to be shared are worth a look before they are.
+
+== See also
+
+`dmi_save`(3),
+`dmi_load`(3),
+`opendmi-dump`(1)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -80,7 +80,8 @@ const dmi_entity_spec_t dmi_battery_spec =
         }),
         DMI_ATTRIBUTE(dmi_battery_t, serial_number, STRING, {
             .code    = "serial-number",
-            .name    = "Serial number"
+            .name    = "Serial number",
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_battery_t, name, STRING, {
             .code    = "name",
@@ -120,7 +121,8 @@ const dmi_entity_spec_t dmi_battery_spec =
         DMI_ATTRIBUTE(dmi_battery_t, sbds_serial_number, INTEGER, {
             .code    = "sbds-serial-number",
             .name    = "SBDS serial number",
-            .level   = DMI_VERSION(2, 2, 0)
+            .level   = DMI_VERSION(2, 2, 0),
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_battery_t, sbds_chemistry, STRING, {
             .code    = "sbds-chemistry",

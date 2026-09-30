@@ -21,9 +21,10 @@ endif::[]
 == Description
 
 The *dump* command writes the entry point and the whole table to a binary file,
-byte for byte, without decoding anything. The result is the data as the
-firmware wrote it, which is what to keep when the data has to be looked at
-later, or on another machine, or reported to someone else.
+byte for byte, without decoding anything, unless the dump is to be anonymized.
+The result is the data as the firmware wrote it, which is what to keep when the
+data has to be looked at later, or on another machine, or reported to someone
+else.
 
 Dump files are interchangeable with the ones of `dmidecode --dump-bin`, in both
 directions: a dump written here is read by `dmidecode --from-dump`, and a dump
@@ -46,6 +47,15 @@ directory.
 *-F*, *--force*::
 Overwrite the output file if it exists. Without this option an existing file is
 left alone and the command fails.
+
+*-a*, *--anonymize*::
+Replace the values identifying the system, e.g. serial numbers, asset tags,
+UUIDs and MAC addresses, so that the dump can be shared. The values are
+replaced with ones of the same length and format wherever the table holds
+them, under a random key which is never saved, and the dump keeps the layout
+of the table. Values of the structures no enabled module decodes are replaced
+only where they repeat a value found elsewhere, see `dmi_anonymize`(3). The
+command fails with the global *--overlay* option.
 
 == Exit status
 
@@ -77,6 +87,12 @@ Refresh a dump which is already there:
 
 ....
 $ opendmi dump -F -o smbios.bin
+....
+
+Dump the table to attach it to a bug report:
+
+....
+$ opendmi dump --anonymize -o smbios.bin
 ....
 
 == See also

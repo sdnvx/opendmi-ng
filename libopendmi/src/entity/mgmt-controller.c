@@ -52,7 +52,8 @@
     }),                                                                       \
     DMI_ATTRIBUTE(__type, serial_number, STRING, {                            \
         .code  = "serial-number",                                             \
-        .name  = "Serial number"                                              \
+        .name  = "Serial number",                                             \
+        .flags = DMI_ATTRIBUTE_FLAG_PRIVATE                                   \
     })
 
 #define DMI_MGMT_NHI_V2_ATTRS(__type)                                         \
@@ -84,7 +85,7 @@ static const dmi_attribute_t dmi_mgmt_nhi_usb_v2_attrs[] =
     DMI_ATTRIBUTE(dmi_mgmt_nhi_usb_v2_t, mac_address, BINARY, {
         .code  = "mac-address",
         .name  = "MAC address",
-        .flags = DMI_ATTRIBUTE_FLAG_MAC
+        .flags = DMI_ATTRIBUTE_FLAG_MAC | DMI_ATTRIBUTE_FLAG_PRIVATE
     }),
     DMI_MGMT_NHI_V2_ATTRS(dmi_mgmt_nhi_usb_v2_t),
     {}
@@ -96,7 +97,7 @@ static const dmi_attribute_t dmi_mgmt_nhi_pci_v2_attrs[] =
     DMI_ATTRIBUTE(dmi_mgmt_nhi_pci_v2_t, mac_address, BINARY, {
         .code  = "mac-address",
         .name  = "MAC address",
-        .flags = DMI_ATTRIBUTE_FLAG_MAC
+        .flags = DMI_ATTRIBUTE_FLAG_MAC | DMI_ATTRIBUTE_FLAG_PRIVATE
     }),
     DMI_ATTRIBUTE(dmi_mgmt_nhi_pci_v2_t, segment_group, INTEGER, {
         .code  = "segment-group",
@@ -189,7 +190,8 @@ static const dmi_attribute_t dmi_mgmt_redfish_over_ip_attrs[] =
 {
     DMI_ATTRIBUTE(dmi_mgmt_redfish_over_ip_t, service_uuid, UUID, {
         .code   = "service-uuid",
-        .name   = "Service UUID"
+        .name   = "Service UUID",
+        .flags  = DMI_ATTRIBUTE_FLAG_PRIVATE
     }),
     DMI_ATTRIBUTE(dmi_mgmt_redfish_over_ip_t, host_ip_assignment, ENUM, {
         .code   = "host-ip-assignment",
@@ -225,7 +227,8 @@ static const dmi_attribute_t dmi_mgmt_redfish_over_ip_attrs[] =
     }),
     DMI_ATTRIBUTE(dmi_mgmt_redfish_over_ip_t, service_hostname, STRING, {
         .code   = "service-hostname",
-        .name   = "Service hostname"
+        .name   = "Service hostname",
+        .flags  = DMI_ATTRIBUTE_FLAG_PRIVATE
     }),
     {}
 };

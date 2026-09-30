@@ -256,6 +256,22 @@ struct dmi_context
     dmi_context_state_t state;
 };
 
+/**
+ * @brief Flags of `dmi_save`(3).
+ */
+typedef enum dmi_save_flags
+{
+    /**
+     * Overwrite the file if it exists.
+     */
+    DMI_SAVE_FLAG_OVERWRITE = (1 << 0),
+
+    /**
+     * Replace the values identifying the system, see `dmi_anonymize`(3).
+     */
+    DMI_SAVE_FLAG_ANONYMIZE = (1 << 1)
+} dmi_save_flags_t;
+
 __BEGIN_DECLS
 
 /**
@@ -384,15 +400,28 @@ __dmi_api bool dmi_load(dmi_context_t *context, const char *path);
  * point structure, padded with zeroes to #DMI_ENTRY_MAX_SIZE bytes, followed
  * by the structure table. The table address in the entry point is set to the
  * table offset in the file. If the context has no entry point data, a 64-bit
- * entry point is generated.
+ * entry point is generated. With `DMI_SAVE_FLAG_ANONYMIZE`, the table is the
+ * copy `dmi_anonymize`(3) makes of it, and the context itself is left as it
+ * is.
  *
- * @param[in] context   DMI context handle.
- * @param[in] path      Path to dump file.
- * @param[in] overwrite Overwrite existing files flag
+ * @param[in] context DMI context handle.
+ * @param[in] path    Path to dump file.
+ * @param[in] flags   Flags of `dmi_save_flags_t`.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Path is `nullptr`
+ * @error DMI_ERROR_INVALID_STATE Context is not open, or its structures carry
+ *        additional information entries applied to them and the table is to
+ *        be anonymized
+ * @error DMI_ERROR_INVALID_EPS_LENGTH Entry point is longer than a dump holds
+ * @error DMI_ERROR_FILE_OPEN File cannot be created, or exists and is not to
+ *        be overwritten
+ * @error DMI_ERROR_FILE_WRITE File cannot be written
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory cannot be allocated
+ * @error DMI_ERROR_INTERNAL Table cannot be anonymized
  *
  * @return The function returns `true` on success and `false` otherwise.
  */
-__dmi_api bool dmi_save(dmi_context_t *context, const char *path, bool overwrite);
+__dmi_api bool dmi_save(dmi_context_t *context, const char *path, unsigned flags);
 
 /**
  * @brief Set logging handler.

@@ -73,7 +73,7 @@ const dmi_entity_spec_t dmi_hpe_drive_spec =
         DMI_ATTRIBUTE(dmi_hpe_drive_t, unique_id, INTEGER, {
             .code  = "unique-id",
             .name  = "Unique ID",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+            .flags = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_drive_t, legacy_capacity, INTEGER, {
             .code = "legacy-capacity",
@@ -108,8 +108,9 @@ const dmi_entity_spec_t dmi_hpe_drive_spec =
             .values  = &dmi_hpe_drive_health_names
         }),
         DMI_ATTRIBUTE(dmi_hpe_drive_t, serial_number, STRING, {
-            .code = "serial-number",
-            .name = "Serial number"
+            .code  = "serial-number",
+            .name  = "Serial number",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_drive_t, model_number, STRING, {
             .code = "model-number",

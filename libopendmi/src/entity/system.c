@@ -66,12 +66,14 @@ const dmi_entity_spec_t dmi_system_spec =
         }),
         DMI_ATTRIBUTE(dmi_system_t, serial_number, STRING, {
             .code    = "serial-number",
-            .name    = "Serial number"
+            .name    = "Serial number",
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_system_t, uuid, UUID, {
             .code    = "uuid",
             .name    = "UUID",
-            .level   = DMI_VERSION(2, 1, 0)
+            .level   = DMI_VERSION(2, 1, 0),
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_system_t, wakeup_type, ENUM, {
             .code    = "wakeup-type",

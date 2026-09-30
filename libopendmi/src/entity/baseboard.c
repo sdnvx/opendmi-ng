@@ -84,11 +84,13 @@ const dmi_entity_spec_t dmi_baseboard_spec =
         }),
         DMI_ATTRIBUTE(dmi_baseboard_t, serial_number, STRING, {
             .code    = "serial-number",
-            .name    = "Serial number"
+            .name    = "Serial number",
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_baseboard_t, asset_tag, STRING, {
             .code    = "asset-tag",
-            .name    = "Asset tag"
+            .name    = "Asset tag",
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_baseboard_t, features, SET, {
             .code    = "features",

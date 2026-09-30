@@ -164,7 +164,7 @@ static void test_context_dump_save_after_close(void **pstate)
 
     // Never opened
     dmi_error_clear(context);
-    assert_false(dmi_save(context, test_save_path, true));
+    assert_false(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_STATE);
 
     // Opened and then closed
@@ -172,7 +172,7 @@ static void test_context_dump_save_after_close(void **pstate)
     assert_true(dmi_close(context));
 
     dmi_error_clear(context);
-    assert_false(dmi_save(context, test_save_path, true));
+    assert_false(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_STATE);
 
     remove(test_save_path);
@@ -183,7 +183,7 @@ static void test_context_dump_save_roundtrip(void **pstate)
     dmi_context_t *context = *pstate;
 
     assert_true(dmi_load(context, test_dump_path));
-    assert_true(dmi_save(context, test_save_path, true));
+    assert_true(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
     assert_true(dmi_close(context));
 
     assert_true(dmi_load(context, test_save_path));
@@ -199,10 +199,10 @@ static void test_context_dump_save_errors(void **pstate)
     assert_true(dmi_load(context, test_dump_path));
 
     // Existing file is not overwritten
-    assert_true(dmi_save(context, test_save_path, false));
+    assert_true(dmi_save(context, test_save_path, 0));
 
     dmi_error_clear(context);
-    assert_false(dmi_save(context, test_save_path, false));
+    assert_false(dmi_save(context, test_save_path, 0));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN);
 
     remove(test_save_path);
@@ -215,7 +215,7 @@ static void test_context_dump_save_errors(void **pstate)
     fclose(device);
 
     dmi_error_clear(context);
-    assert_false(dmi_save(context, "/dev/full", true));
+    assert_false(dmi_save(context, "/dev/full", DMI_SAVE_FLAG_OVERWRITE));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_WRITE);
 
     device = fopen("/dev/full", "r");
@@ -255,7 +255,7 @@ static void test_context_dump_save_relocated(void **pstate)
         dmi_version_t version = context->state.smbios_version;
         size_t count = dmi_get_registry(context)->count;
 
-        assert_true(dmi_save(context, test_save_path, true));
+        assert_true(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
         assert_true(dmi_close(context));
 
         test_dump_verify(context, source->data + DMI_ENTRY_MAX_SIZE, size - DMI_ENTRY_MAX_SIZE);
@@ -288,7 +288,7 @@ static void test_context_dump_save_generated(void **pstate)
     context->state.entry = nullptr;
     context->state.entry_spec = nullptr;
 
-    assert_true(dmi_save(context, test_save_path, true));
+    assert_true(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
 
     size_t table_size = context->state.table->length;
     dmi_data_t *table = dmi_alloc(context, table_size);

@@ -39,20 +39,23 @@ const dmi_entity_spec_t dmi_hpe_rack_locator_spec =
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_hpe_rack_locator_t, rack_name, STRING, {
-            .code = "rack-name",
-            .name = "Rack name"
+            .code  = "rack-name",
+            .name  = "Rack name",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_rack_locator_t, enclosure_name, STRING, {
-            .code = "enclosure-name",
-            .name = "Enclosure name"
+            .code  = "enclosure-name",
+            .name  = "Enclosure name",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_rack_locator_t, enclosure_model, STRING, {
             .code = "enclosure-model",
             .name = "Enclosure model"
         }),
         DMI_ATTRIBUTE(dmi_hpe_rack_locator_t, enclosure_serial, STRING, {
-            .code = "enclosure-serial",
-            .name = "Enclosure serial number"
+            .code  = "enclosure-serial",
+            .name  = "Enclosure serial number",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_rack_locator_t, bay_count, INTEGER, {
             .code = "bay-count",

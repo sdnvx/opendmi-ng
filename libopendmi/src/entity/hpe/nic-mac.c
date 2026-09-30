@@ -74,7 +74,7 @@ const dmi_entity_spec_t dmi_hpe_nic_mac_spec =
         DMI_ATTRIBUTE(dmi_hpe_nic_mac_t, mac_address, BINARY, {
             .code  = "mac-address",
             .name  = "MAC address",
-            .flags = DMI_ATTRIBUTE_FLAG_MAC
+            .flags = DMI_ATTRIBUTE_FLAG_MAC | DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_nic_mac_t, uefi_device_path, STRING, {
             .code = "uefi-device-path",

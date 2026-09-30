@@ -106,3 +106,58 @@ bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value)
 
     return true;
 }
+
+//
+// Strings which firmware leaves in place of the data it has none of. They are
+// valid strings, so they are worth a note rather than an error, but nothing
+// is to be made of them.
+//
+static const char *const dmi_string_placeholders[] =
+{
+    "To Be Filled By O.E.M.",
+    "To be filled by O.E.M.",
+    "Filled By OEM",
+    "Default string",
+    "Default",
+    "System manufacturer",
+    "System Product Name",
+    "System Version",
+    "System Serial Number",
+    "System SKU Number",
+    "Chassis Manufacture",
+    "Chassis Version",
+    "Chassis Serial Number",
+    "Not Specified",
+    "Not Applicable",
+    "Not Available",
+    "None",
+    "Unknown",
+    "N/A",
+    "NA",
+    "TBD",
+    "OEM",
+    "0123456789",
+    "123456789",
+    "XXXXXXXX",
+    "Fill By OEM",
+    "No Asset Tag",
+    "Empty",
+    "[Empty]",
+    "NULL",
+    "INVALID",
+    "NO DIMM",
+    nullptr
+};
+
+bool dmi_string_is_placeholder(const char *text)
+{
+    if (text == nullptr)
+        return false;
+
+    for (const char *const *item = dmi_string_placeholders; *item != nullptr; item++) {
+        if (strcasecmp(text, *item) == 0)
+            return true;
+    }
+
+    return false;
+}

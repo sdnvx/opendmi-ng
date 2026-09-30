@@ -106,9 +106,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Decode HP/HPE server structures documented by dmidecode: other ROM information (type 193), Super I/O enable/disable indicator (194), server system ID (195), processor specific information (197), CPU microcode patches (199), DIMM location records (202), system/rack locator (204), PXE and iSCSI NIC information (209 and 221), processor TControl (211), 64-bit CRU information (212), ProLiant information (219), trusted module status (224), physical attributes (226), reserved memory locations (229) and power supply information (230), each for the generations of the servers it is known for
 - Decode the rest of the HP/HPE server structures documented by dmidecode: device correlation records (type 203), version indicators (216) with their version data formatted, DIMM attributes (232), NIC PCI and MAC information (233), HDD backplane FRU information (236), DIMM vendor information (237), USB port and device correlation records (238 and 239), firmware inventory records (240), hard drive inventory records (242), DIMM current configuration records (244) and extension board inventory records (245), whose board type selects the layout
 - Show MAC addresses of HP/HPE BIOS PXE and iSCSI NIC information as addresses
+- Add `dmi_anonymize()`, which makes a copy of the table with serial numbers, asset tags, UUIDs and MAC addresses replaced wherever the table holds them, keeping its layout, and `DMI_ATTRIBUTE_FLAG_PRIVATE`, which marks the attributes it replaces
+- Add `--anonymize` option of the `dump` command
+- Add `dmi_string_is_placeholder()`, and take `Fill By OEM`, `No Asset Tag`, `Empty`, `[Empty]`, `NULL`, `INVALID` and `NO DIMM` for placeholders too
 
 ### Changed
 
+- Replace the `overwrite` argument of `dmi_save()` with the flags of `dmi_save_flags_t`, `DMI_SAVE_FLAG_OVERWRITE` and `DMI_SAVE_FLAG_ANONYMIZE`
 - Lowercase the names of command line arguments
 - Move internal definitions from `<opendmi/defs.h>` to a private header
 - Remove unused compatibility macros from public headers

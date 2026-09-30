@@ -65,7 +65,7 @@ const dmi_entity_spec_t dmi_hpe_backplane_spec =
             .code   = "wwid",
             .name   = "SAS expander WWID",
             .unspec = dmi_value_ptr((uint64_t)0),
-            .flags  = DMI_ATTRIBUTE_FLAG_HEX
+            .flags  = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_backplane_t, bay_count, INTEGER, {
             .code = "bay-count",

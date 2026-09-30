@@ -58,8 +58,9 @@ const dmi_entity_spec_t dmi_hpe_dimm_vendor_spec =
             .name = "DIMM manufacturer part number"
         }),
         DMI_ATTRIBUTE(dmi_hpe_dimm_vendor_t, serial_number, STRING, {
-            .code = "serial-number",
-            .name = "DIMM vendor serial number"
+            .code  = "serial-number",
+            .name  = "DIMM vendor serial number",
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_hpe_dimm_vendor_t, manufacture_year, INTEGER, {
             .code   = "manufacture-year",

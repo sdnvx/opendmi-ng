@@ -84,7 +84,8 @@ const dmi_entity_spec_t dmi_intel_rsd_storage_device_spec =
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_storage_device_t, serial_number, STRING, {
             .code    = "serial-number",
-            .name    = "Serial number"
+            .name    = "Serial number",
+            .flags   = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_storage_device_t, pci_class, INTEGER, {
             .code    = "pci-class",

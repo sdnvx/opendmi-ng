@@ -138,6 +138,7 @@ ru_RU {
         "Enable pretty output" { "Включить форматированный вывод" }
         "Raw output (default if stdout is a pipe)" { "Необработанный вывод (по умолчанию, если stdout — канал)" }
         "Overwrite existing files" { "Перезаписывать существующие файлы" }
+        "Anonymize serial numbers, asset tags, UUIDs and MAC addresses" { "Анонимизировать серийные номера, инвентарные номера, UUID и MAC-адреса" }
         "Set output file path (default: smbios.bin)" { "Задать путь к файлу вывода (по умолчанию: smbios.bin)" }
         "Set output file path (default: stdout)" { "Задать путь к файлу вывода (по умолчанию: stdout)" }
         "Set output format (default: yaml)" { "Задать формат вывода (по умолчанию: yaml)" }

@@ -14,6 +14,7 @@ typedef struct dmi_dump_config
 {
     char *output_path;
     bool  force;
+    bool  anonymize;
 } dmi_dump_config_t;
 
 static void dmi_dump_usage(void);
@@ -22,7 +23,8 @@ static int dmi_dump_main(dmi_context_t *context, int argc, char *argv[]);
 static dmi_dump_config_t dmi_dump_config =
 {
     .output_path = "smbios.bin",
-    .force       = false
+    .force       = false,
+    .anonymize   = false
 };
 
 static const dmi_option_set_t dmi_dump_options =
@@ -52,6 +54,12 @@ static const dmi_option_set_t dmi_dump_options =
             .description = "Overwrite existing files",
             .value       = &dmi_dump_config.force
         },
+        {
+            .short_names = "a",
+            .long_names  = (const char *[]){ "anonymize", nullptr },
+            .description = "Anonymize serial numbers, asset tags, UUIDs and MAC addresses",
+            .value       = &dmi_dump_config.anonymize
+        },
         {}
     }
 };
@@ -78,7 +86,13 @@ static int dmi_dump_main(dmi_context_t *context, int argc, char *argv[])
     dmi_unused(argc);
     dmi_unused(argv);
 
-    if (not dmi_save(context, dmi_dump_config.output_path, dmi_dump_config.force)) {
+    unsigned flags = 0;
+    if (dmi_dump_config.force)
+        flags |= DMI_SAVE_FLAG_OVERWRITE;
+    if (dmi_dump_config.anonymize)
+        flags |= DMI_SAVE_FLAG_ANONYMIZE;
+
+    if (not dmi_save(context, dmi_dump_config.output_path, flags)) {
         dmi_command_trace(context);
         return EXIT_FAILURE;
     }

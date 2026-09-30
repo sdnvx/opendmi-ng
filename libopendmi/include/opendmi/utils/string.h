@@ -97,6 +97,19 @@ __dmi_api void dmi_string_toupper(char *str);
  */
 __dmi_api bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value);
 
+/**
+ * @brief Check whether a string is a placeholder of the firmware vendor.
+ *
+ * Firmware leaves strings such as `To Be Filled By O.E.M.` or `Default
+ * string` in place of the data it has none of. They are compared regardless
+ * of case.
+ *
+ * @param[in] text String to check, or @c nullptr.
+ *
+ * @return `true` if @p text is a placeholder, `false` otherwise.
+ */
+__dmi_api bool dmi_string_is_placeholder(const char *text);
+
 __END_DECLS
 
 #endif // !OPENDMI_UTILS_STRING_H

@@ -84,7 +84,7 @@ const dmi_entity_spec_t dmi_intel_rsd_network_card_spec =
         DMI_ATTRIBUTE(dmi_intel_rsd_network_card_t, mac_address, BINARY, {
             .code  = "mac-address",
             .name  = "MAC address",
-            .flags = DMI_ATTRIBUTE_FLAG_MAC
+            .flags = DMI_ATTRIBUTE_FLAG_MAC | DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         DMI_ATTRIBUTE(dmi_intel_rsd_network_card_t, firmware_version, STRING, {
             .code = "firmware-version",

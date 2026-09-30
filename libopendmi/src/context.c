@@ -16,6 +16,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <opendmi/anonymize.h>
 #include <opendmi/context.h>
 #include <opendmi/entry.h>
 #include <opendmi/entity.h>
@@ -537,9 +538,8 @@ bool dmi_load(dmi_context_t *context, const char *path)
     return dmi_open_ex(context, &dmi_dump_backend, path);
 }
 
-bool dmi_save(dmi_context_t *context, const char *path, bool overwrite)
+bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
 {
-    int flags;
     int fd;
     bool success;
 
@@ -554,6 +554,7 @@ bool dmi_save(dmi_context_t *context, const char *path, bool overwrite)
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
         return false;
     }
+
     // Backends which have no access to the entry point leave the context
     // without one, and its data is generated on saving
     if ((context->state.entry != nullptr) and
@@ -567,16 +568,35 @@ bool dmi_save(dmi_context_t *context, const char *path, bool overwrite)
     if (not dmi_dump_entry_build(context, entry))
         return false;
 
-    flags = O_CREAT | O_WRONLY | O_TRUNC;
-#if defined(O_BINARY)
-    flags |= O_BINARY;
-#endif
-    if (not overwrite)
-        flags |= O_EXCL;
+    // Anonymized copy has the length of the table, so the entry point built
+    // for the table holds for it too
+    const dmi_buffer_t *table = context->state.table;
+    dmi_buffer_t *anonymized = nullptr;
 
-    fd = open(path, flags, 0666);
+    if (flags & DMI_SAVE_FLAG_ANONYMIZE) {
+        anonymized = dmi_buffer_create(context);
+        if (anonymized == nullptr)
+            return false;
+
+        if (not dmi_anonymize(context, anonymized)) {
+            dmi_buffer_destroy(anonymized);
+            return false;
+        }
+
+        table = anonymized;
+    }
+
+    int mode = O_CREAT | O_WRONLY | O_TRUNC;
+#if defined(O_BINARY)
+    mode |= O_BINARY;
+#endif
+    if (not (flags & DMI_SAVE_FLAG_OVERWRITE))
+        mode |= O_EXCL;
+
+    fd = open(path, mode, 0666);
     if (fd < 0) {
         dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+        dmi_buffer_destroy(anonymized);
         return false;
     }
 
@@ -588,7 +608,7 @@ bool dmi_save(dmi_context_t *context, const char *path, bool overwrite)
     do {
         if (not dmi_dump_write(context, fd, path, entry, sizeof(entry)))
             break;
-        if (not dmi_dump_write(context, fd, path, context->state.table->data, context->state.table->length))
+        if (not dmi_dump_write(context, fd, path, table->data, table->length))
             break;
 
         success = true;
@@ -603,6 +623,8 @@ bool dmi_save(dmi_context_t *context, const char *path, bool overwrite)
     // Do not leave incomplete dump behind
     if ((not success) and is_regular)
         remove(path);
+
+    dmi_buffer_destroy(anonymized);
 
     return success;
 }
