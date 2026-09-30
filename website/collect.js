@@ -137,15 +137,19 @@ function listManPages(pages)
 }
 
 // Manual pages refer to each other the way manual pages do, e.g. `dmi_open`(3),
-// which the pages of the site turn into links to the pages of the site. The
-// manual pages the book does not include, e.g. the ones of the system, are
-// left as they are, and so are the references of a page to itself
+// which the pages of the site turn into links to the pages of the site. Pages
+// of the site are named without the sections, the way their titles name them,
+// and the references of a page to itself are not linked. The manual pages the
+// book does not include, e.g. the ones of the system, are left as they are
 function linkManPages(text, page, names)
 {
     return text.replace(/`([\w.-]+)`\((\d\w*)\)/g, (ref, name, section) => {
         const target = names.get(`${name}(${section})`)
 
-        return (target && target !== page) ? `xref:${target}[${ref}]` : ref
+        if (target === undefined)
+            return ref
+
+        return (target !== page) ? `xref:${target}[\`${name}\`]` : `\`${name}\``
     })
 }
 
