@@ -6,6 +6,7 @@
 #
 import os
 import re
+import hashlib
 import sys
 import logging
 import subprocess
@@ -22,6 +23,9 @@ num_updated = 0
 num_skipped = 0
 num_orphans = 0
 num_errors  = 0
+
+# Dumps by the checksums of their data, which tell the duplicates
+checksums = {}
 
 yaml.SafeLoader.yaml_implicit_resolvers = {
     k: [r for r in v if r[0] != 'tag:yaml.org,2002:timestamp'] for
@@ -44,6 +48,26 @@ def data_files(vendor_dir: str):
             continue
 
         yield entry.path
+
+def update_checksum(file_path: str):
+    """Write the checksum of a dump next to it, in the format of sha256sum."""
+    with open(file_path, 'rb') as dump_file:
+        digest = hashlib.sha256(dump_file.read()).hexdigest()
+
+    checksums.setdefault(digest, []).append(os.path.relpath(file_path, data_dir))
+
+    base, _ = os.path.splitext(file_path)
+    line = f"{digest}  {os.path.basename(file_path)}\n"
+
+    try:
+        with open(base + ".sha256") as checksum_file:
+            if checksum_file.read() == line:
+                return
+    except FileNotFoundError:
+        pass
+
+    with open(base + ".sha256", 'w') as checksum_file:
+        checksum_file.write(line)
 
 def load_index(index_path: str):
     with open(index_path) as index_file:
@@ -179,6 +203,8 @@ def process_vendor(vendor_dir: str):
             file_name = os.path.basename(file_path)
 
             logging.info(f"==> {vendor_rel}/{file_name}...")
+            update_checksum(file_path)
+
             if not file_name in index['files']:
                 logging.warning("No entry found, skipping")
                 num_skipped += 1
@@ -212,7 +238,14 @@ def main(args: list[str]):
     for vendor_dir in vendor_dirs():
         process_vendor(vendor_dir)
 
-    logging.info(f"Updated: {num_updated}, skipped: {num_skipped}, orphans: {num_orphans}, errors: {num_errors}")
+    for paths in checksums.values():
+        if len(paths) > 1:
+            logging.warning(f"Duplicate dumps: {', '.join(sorted(paths))}")
+
+    num_duplicates = sum(len(paths) - 1 for paths in checksums.values())
+
+    logging.info(f"Updated: {num_updated}, skipped: {num_skipped}, orphans: {num_orphans}, errors: {num_errors}, "
+                 f"duplicates: {num_duplicates}")
     logging.info("")
 
 if __name__ == "__main__":

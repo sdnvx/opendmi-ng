@@ -708,6 +708,9 @@ table:
     gbe-devfn: 229
     gbe-bus: 36
     gbe-device-id: null
+    host-devfn: 0
+    host-bus: 0
+    host-device-id: 260
     bios-capabilities:
       vtx-configurable: false
       vtd-configurable: false
