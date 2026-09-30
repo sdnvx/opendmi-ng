@@ -1,0 +1,65 @@
+ifdef::backend-manpage[]
+= dmi_apple_flash_region(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_apple_flash_region
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_apple_flash_region - Region of the flash memory of Apple firmware
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/apple/firmware-volume.h>
+
+typedef struct dmi_apple_flash_region {
+    dmi_apple_region_type_t type;
+    uint32_t start_address;
+    uint32_t end_address;
+} dmi_apple_flash_region_t;
+----
+
+== Description
+
+The `dmi_apple_flash_region_t` structure describes a region of the flash
+memory of the firmware, and is the type of the elements of the `regions`
+array of `dmi_apple_firmware_volume_t`.
+
+=== Fields
+
+`type`::
+Type of the region, see `dmi_apple_region_type`(3).
+
+`start_address`::
+Start address of the region.
+
+`end_address`::
+End address of the region.
+
+== See also
+
+`dmi_apple_firmware_volume`(3), `dmi_apple_region_type`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Macs, and
+laid out as the `AppleSmBios.h` header of OpenCore describes it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

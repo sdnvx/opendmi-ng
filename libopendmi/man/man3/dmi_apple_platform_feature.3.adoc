@@ -1,0 +1,65 @@
+ifdef::backend-manpage[]
+= dmi_apple_platform_feature(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_apple_platform_feature
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_apple_platform_feature - Apple platform feature information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/apple/platform-feature.h>
+
+typedef struct dmi_apple_platform_feature {
+    uint64_t features;
+} dmi_apple_platform_feature_t;
+----
+
+== Description
+
+The `dmi_apple_platform_feature_t` structure holds the decoded Apple platform
+feature information (type 133), which tells the features of the platform,
+which macOS reads. Older Macs carry no such structure.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_apple_platform_feature_spec`, of type `DMI_TYPE(apple_platform_feature)`, declared in `<opendmi/module/apple.h>`,
+once the Apple extension module (`dmi_apple_module`) is enabled, which is done
+for the platforms of Apple firmware when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`features`::
+Features of the platform, a set of `dmi_apple_platform_feature_bit_t` bits,
+see `dmi_apple_platform_feature_bit`(3).
+
+== See also
+
+`dmi_apple_platform_feature_bit`(3), `dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Macs, and
+laid out as the `AppleSmBios.h` header of OpenCore describes it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

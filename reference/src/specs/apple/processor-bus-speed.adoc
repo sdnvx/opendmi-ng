@@ -1,0 +1,43 @@
+= Apple Processor Bus Speed Information (Type 132)
+:sectnums:
+:sectlinks:
+
+Source: the `AppleSmBios.h` header of OpenCore, `Include/Apple/IndustryStandard`.
+
+Tells the speed of the bus of the processor, e.g. `4800` for the QuickPath
+Interconnect of 4.8 GT/s in `apple/imac11-3.bin`. OpenCore sets it to four
+times the external clock of the processor.
+
+.Apple Processor Bus Speed Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `132`
+| Apple Processor Bus Speed Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Processor Bus Speed
+| `WORD`
+| Varies
+| Speed of the bus, in megatransfers per second
+|===

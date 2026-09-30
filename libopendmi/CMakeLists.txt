@@ -150,6 +150,12 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/module/dell.h
     include/opendmi/entity/acer/devices.h
     include/opendmi/entity/acer/hotkeys.h
+    include/opendmi/entity/apple/firmware-volume.h
+    include/opendmi/entity/apple/memory-spd-data.h
+    include/opendmi/entity/apple/platform-feature.h
+    include/opendmi/entity/apple/processor-bus-speed.h
+    include/opendmi/entity/apple/processor-type.h
+    include/opendmi/entity/apple/smc-version.h
     include/opendmi/entity/dell/common.h
     include/opendmi/entity/dell/device-bay.h
     include/opendmi/entity/dell/device-names.h
@@ -428,6 +434,12 @@ target_sources(opendmi-object
         src/module/dell.c
         src/entity/acer/devices.c
         src/entity/acer/hotkeys.c
+        src/entity/apple/firmware-volume.c
+        src/entity/apple/memory-spd-data.c
+        src/entity/apple/platform-feature.c
+        src/entity/apple/processor-bus-speed.c
+        src/entity/apple/processor-type.c
+        src/entity/apple/smc-version.c
         src/entity/dell/common-names.c
         src/entity/dell/device-bay.c
         src/entity/dell/device-names.c
@@ -874,6 +886,7 @@ opendmi_test(entity/intel-rsd/storage-device SOURCES test/entity/intel-rsd/stora
 opendmi_test(entity/intel-rsd/tpm SOURCES test/entity/intel-rsd/tpm.c)
 opendmi_test(entity/intel-rsd/txt SOURCES test/entity/intel-rsd/txt.c)
 opendmi_test(entity/acer/hotkeys SOURCES test/entity/acer/hotkeys.c)
+opendmi_test(entity/apple/decode SOURCES test/entity/apple/decode.c)
 opendmi_test(entity/dell/calling-iface SOURCES test/entity/dell/calling-iface.c)
 opendmi_test(entity/dell/hotkeys SOURCES test/entity/dell/hotkeys.c)
 opendmi_test(entity/dell/indexed-io SOURCES test/entity/dell/indexed-io.c)

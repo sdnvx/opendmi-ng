@@ -1,0 +1,74 @@
+ifdef::backend-manpage[]
+= dmi_apple_processor_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_apple_processor_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_apple_processor_type - Apple processor type information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/apple/processor-type.h>
+
+typedef struct dmi_apple_processor_type {
+    uint8_t generation;
+    dmi_apple_processor_class_t processor_class;
+} dmi_apple_processor_type_t;
+----
+
+== Description
+
+The `dmi_apple_processor_type_t` structure holds the decoded Apple processor
+type information (type 131), which tells the type of the processor, by which
+macOS names it. The type is a word whose high byte is the class of the
+processor and whose low byte is its generation within the class, e.g.
+`0x0701` for the first generation of Intel Core i7. Newer firmware follows the
+type with two reserved bytes.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_apple_processor_type_spec`, of type `DMI_TYPE(apple_processor_type)`, declared in `<opendmi/module/apple.h>`,
+once the Apple extension module (`dmi_apple_module`) is enabled, which is done
+for the platforms of Apple firmware when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context it has been
+decoded in.
+
+The Intel reference code gives type 131 to the Intel vPro information too,
+which is told apart by its signature.
+
+=== Fields
+
+`generation`::
+Generation of the processor within its class, the minor type.
+
+`processor_class`::
+Class of the processor, the major type, see `dmi_apple_processor_class`(3).
+
+== See also
+
+`dmi_apple_processor_class`(3), `dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Macs, and
+laid out as the `AppleSmBios.h` header of OpenCore describes it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

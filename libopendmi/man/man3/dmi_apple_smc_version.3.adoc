@@ -1,0 +1,74 @@
+ifdef::backend-manpage[]
+= dmi_apple_smc_version(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_apple_smc_version
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_apple_smc_version - Apple SMC version information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/apple/smc-version.h>
+
+typedef struct dmi_apple_smc_version {
+    dmi_binary_t version_raw;
+    const char *version;
+    char version_buffer[DMI_APPLE_SMC_VERSION_SIZE + 1];
+} dmi_apple_smc_version_t;
+----
+
+== Description
+
+The `dmi_apple_smc_version_t` structure holds the decoded Apple SMC version
+information (type 134), which tells the version of the firmware of the System
+Management Controller (SMC). Newer Macs carry no such structure.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_apple_smc_version_spec`, of type `DMI_TYPE(apple_smc_version)`, declared in `<opendmi/module/apple.h>`,
+once the Apple extension module (`dmi_apple_module`) is enabled, which is done
+for the platforms of Apple firmware when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`version_raw`::
+Version of the SMC firmware, as the structure holds it, of
+`DMI_APPLE_SMC_VERSION_SIZE` (16) bytes.
+
+`version`::
+Version of the SMC firmware as text, e.g. `2.15f7`, which the bytes of zero
+end. `nullptr` if the structure holds no text.
+
+`version_buffer`::
+Buffer holding the text of `version`.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Macs, and
+laid out as the `AppleSmBios.h` header of OpenCore describes it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

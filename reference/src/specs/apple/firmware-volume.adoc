@@ -1,0 +1,142 @@
+= Apple Firmware Volume Information (Type 128)
+:sectnums:
+:sectlinks:
+
+Source: the `AppleSmBios.h` header of OpenCore, `Include/Apple/IndustryStandard`.
+
+Tells the features of the firmware, which macOS and its boot loader read,
+and the layout of its flash memory. The features are 64 bits wide: the
+structure holds their low 32 bits, and newer firmware their high 32 bits as
+the extended features. `apple/imac11-3.bin` carries the structure of 88 bytes,
+without the extended features.
+
+.Apple Firmware Volume Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `128`
+| Apple Firmware Volume Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Number of Regions
+| `BYTE`
+| Varies
+| Number of the regions of the flash memory
+
+| `0x05`
+| 2.0+
+| Reserved
+| 3 `BYTE`
+| `0`
+| 
+
+| `0x08`
+| 2.0+
+| Firmware Features
+| `DWORD`
+| Bit field
+| Features of the firmware, bits 0 to 31, see <<apple-firmware-features>>
+
+| `0x0C`
+| 2.0+
+| Firmware Features Mask
+| `DWORD`
+| Bit field
+| Features the firmware tells
+
+| `0x10`
+| 2.0+
+| Region Type Map
+| 8 `BYTE`
+| Enum
+| Types of the regions, see <<apple-region-types>>
+
+| `0x18`
+| 2.0+
+| Flash Map
+| 64 `BYTE`
+| Varies
+| Start and end addresses of the regions, a `DWORD` each
+
+| `0x58`
+| 2.0+
+| Extended Firmware Features
+| `DWORD`
+| Bit field
+| Features of the firmware, bits 32 to 63, on newer firmware
+
+| `0x5C`
+| 2.0+
+| Extended Firmware Features Mask
+| `DWORD`
+| Bit field
+| Extended features the firmware tells, on newer firmware
+|===
+
+[#apple-firmware-features, reftext=Firmware Features]
+== Apple Firmware Volume Information -- Firmware Features
+
+.Apple Firmware Volume Information: Firmware Features
+[width=100%, cols="1,6"]
+|===
+| Bit | Meaning
+
+| 0 | Supports booting legacy operating systems (CSM)
+| 1 | Supports booting from optical drives
+| 2 | Supports target disk mode
+| 4 | Supports network boot
+| 5 | Supports the recovery embedded into the firmware (SlingShot)
+| 8 | Supports wireless networks in the firmware
+| 10 | Bit 0 of the platform security policy
+| 11 | Bit 1 of the platform security policy
+| 12 | Firmware is locked
+| 14 | Supports USB 2.0 in the firmware
+| 17 | USB ports are not substituted with others by macOS
+| 19 | Supports APFS
+| 20 | Supports APFS, unused by the known Macs
+| 22 | Supports Apple tamper resistant boot X
+| 24 | Supports the platform security policy
+| 25 | Supports the extended features
+| 28 | Memory map is not adjusted by the boot loader on hibernation wake
+| 29 | Supports UEFI Windows boot
+| 31 | Memory map is not adjusted by the boot loader for the boot script
+| 35 | Supports the large BaseSystem, which macOS 12 requires
+|===
+
+The other bits are of no known meaning.
+
+[#apple-region-types, reftext=Region Types]
+== Apple Firmware Volume Information -- Region Types
+
+.Apple Firmware Volume Information: Region Types
+[width=100%, cols="1,6"]
+|===
+| Value | Meaning
+
+| `0` | Entry is not used
+| `1` | Recovery firmware
+| `2` | Main firmware
+| `3` | Non-volatile variables (NVRAM)
+| `4` | Configuration
+| `5` | Diagnostics vault
+|===

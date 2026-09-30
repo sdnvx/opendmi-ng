@@ -1,0 +1,75 @@
+= Apple Processor Type Information (Type 131)
+:sectnums:
+:sectlinks:
+
+Source: the `AppleSmBios.h` header of OpenCore, `Include/Apple/IndustryStandard`.
+
+Tells the type of the processor, by which macOS names it, e.g. `0x0701` for
+the first generation of Intel Core i7 in `apple/imac11-3.bin`. The Intel
+reference code gives type 131 to the Intel vPro information too.
+
+.Apple Processor Type Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `131`
+| Apple Processor Type Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Processor Type
+| `WORD`
+| Varies
+| Class of the processor in the high byte, see <<apple-processor-classes>>, and its generation within the class in the low byte
+
+| `0x06`
+| 2.0+
+| Reserved
+| 2 `BYTE`
+| `0`
+| On newer firmware
+|===
+
+[#apple-processor-classes, reftext=Processor Classes]
+== Apple Processor Type Information -- Processor Classes
+
+.Apple Processor Type Information: Processor Classes
+[width=100%, cols="1,6"]
+|===
+| Value | Meaning
+
+| `0x00` | Unknown
+| `0x02` | Intel Core
+| `0x03` | Intel Core 2
+| `0x04` | Intel Xeon (Penryn)
+| `0x05` | Intel Xeon (Nehalem)
+| `0x06` | Intel Core i5
+| `0x07` | Intel Core i7
+| `0x09` | Intel Core i3
+| `0x0A` | Intel Xeon E5
+| `0x0B` | Intel Core M
+| `0x0C` | Intel Core m3
+| `0x0D` | Intel Core m5
+| `0x0E` | Intel Core m7
+| `0x0F` | Intel Xeon W
+| `0x10` | Intel Core i9
+|===

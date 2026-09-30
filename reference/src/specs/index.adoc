@@ -14,6 +14,19 @@ structures of Acer are decoded for the platforms whose system vendor is Acer.
 include::acer/hotkeys.adoc[leveloffset=2]
 include::acer/devices.adoc[leveloffset=2]
 
+== Apple-specific structures
+
+Macs carry structures of Apple, which OpenCore also adds to the tables of the
+other systems it boots macOS on. The structures are decoded for the platforms
+whose firmware vendor is Apple.
+
+include::apple/firmware-volume.adoc[leveloffset=2]
+include::apple/memory-spd-data.adoc[leveloffset=2]
+include::apple/processor-type.adoc[leveloffset=2]
+include::apple/processor-bus-speed.adoc[leveloffset=2]
+include::apple/platform-feature.adoc[leveloffset=2]
+include::apple/smc-version.adoc[leveloffset=2]
+
 == Dell-specific structures
 
 include::dell/bios-flags.adoc[leveloffset=2]

@@ -1,0 +1,66 @@
+ifdef::backend-manpage[]
+= dmi_apple_processor_bus_speed(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_apple_processor_bus_speed
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_apple_processor_bus_speed - Apple processor bus speed information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/apple/processor-bus-speed.h>
+
+typedef struct dmi_apple_processor_bus_speed {
+    uint16_t speed;
+} dmi_apple_processor_bus_speed_t;
+----
+
+== Description
+
+The `dmi_apple_processor_bus_speed_t` structure holds the decoded Apple
+processor bus speed information (type 132), which tells the speed of the bus
+of the processor, e.g. of its front-side bus or QuickPath Interconnect.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_apple_processor_bus_speed_spec`, of type `DMI_TYPE(apple_processor_bus_speed)`, declared in `<opendmi/module/apple.h>`,
+once the Apple extension module (`dmi_apple_module`) is enabled, which is done
+for the platforms of Apple firmware when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context it has been
+decoded in.
+
+=== Fields
+
+`speed`::
+Speed of the bus, in megatransfers per second, e.g. `4800` for a QuickPath
+Interconnect of 4.8 GT/s. OpenCore sets it to four times the external clock
+of the processor.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Macs, and
+laid out as the `AppleSmBios.h` header of OpenCore describes it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

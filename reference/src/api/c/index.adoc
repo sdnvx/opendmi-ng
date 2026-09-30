@@ -565,6 +565,36 @@ include::../../../../libopendmi/man/man3/dmi_acer_device.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_acer_hotkeys.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_acer_hotkey.3.adoc[leveloffset=2]
 
+== `<opendmi/entity/apple/firmware-volume.h>`
+
+include::../../../../libopendmi/man/man3/dmi_apple_firmware_volume.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_apple_flash_region.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_apple_firmware_feature.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_apple_extended_feature.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_apple_region_type.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/apple/memory-spd-data.h>`
+
+include::../../../../libopendmi/man/man3/dmi_apple_memory_spd_data.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/apple/platform-feature.h>`
+
+include::../../../../libopendmi/man/man3/dmi_apple_platform_feature.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_apple_platform_feature_bit.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/apple/processor-bus-speed.h>`
+
+include::../../../../libopendmi/man/man3/dmi_apple_processor_bus_speed.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/apple/processor-type.h>`
+
+include::../../../../libopendmi/man/man3/dmi_apple_processor_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_apple_processor_class.3.adoc[leveloffset=2]
+
+== `<opendmi/entity/apple/smc-version.h>`
+
+include::../../../../libopendmi/man/man3/dmi_apple_smc_version.3.adoc[leveloffset=2]
+
 == `<opendmi/entity/dell/bios-flags.h>`
 
 include::../../../../libopendmi/man/man3/dmi_dell_bios_flags.3.adoc[leveloffset=2]

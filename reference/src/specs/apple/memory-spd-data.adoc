@@ -1,0 +1,66 @@
+= Apple Memory SPD Data (Type 130)
+:sectnums:
+:sectlinks:
+
+Source: the `AppleSmBios.h` header of OpenCore, `Include/Apple/IndustryStandard`.
+
+Holds the serial presence detect (SPD) data of a memory module, or a part of
+it, e.g. the first 176 bytes of the SPD data of the DDR3 modules of
+`apple/imac11-3.bin`. The firmware adds a structure for each memory module.
+The Intel reference code gives type 130 to the Intel Active Management
+Technology information too.
+
+.Apple Memory SPD Data structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `130`
+| Apple Memory SPD Data indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Memory Device Handle
+| `WORD`
+| Varies
+| Handle of the memory device (type 17) of the module
+
+| `0x06`
+| 2.0+
+| Offset
+| `WORD`
+| Varies
+| Offset of the data within the SPD data of the module
+
+| `0x08`
+| 2.0+
+| Size
+| `WORD`
+| Varies
+| Length of the data, in bytes
+
+| `0x0A`
+| 2.0+
+| Data
+| Varies
+| Varies
+| SPD data
+|===

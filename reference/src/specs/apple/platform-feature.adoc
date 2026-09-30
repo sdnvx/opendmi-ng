@@ -1,0 +1,58 @@
+= Apple Platform Feature Information (Type 133)
+:sectnums:
+:sectlinks:
+
+Source: the `AppleSmBios.h` header of OpenCore, `Include/Apple/IndustryStandard`.
+
+Tells the features of the platform, which macOS reads. Older Macs carry no
+such structure.
+
+.Apple Platform Feature Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `133`
+| Apple Platform Feature Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Platform Feature
+| `QWORD`
+| Bit field
+| Features of the platform, see <<apple-platform-features>>
+|===
+
+[#apple-platform-features, reftext=Platform Features]
+== Apple Platform Feature Information -- Platform Features
+
+.Apple Platform Feature Information: Platform Features
+[width=100%, cols="1,6"]
+|===
+| Bit | Meaning
+
+| 1 | System memory is soldered, and cannot be replaced
+| 2 | Headless GPU, of no display connectors, is present
+| 3 | Supports host power management
+| 4 | Supports the chime at boot
+|===
+
+The other bits are of no known meaning.

@@ -1,0 +1,97 @@
+ifdef::backend-manpage[]
+= dmi_apple_firmware_volume(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_apple_firmware_volume
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_apple_firmware_volume - Apple firmware volume information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/apple/firmware-volume.h>
+
+typedef struct dmi_apple_firmware_volume {
+    uint8_t region_count;
+    uint32_t features;
+    uint32_t features_mask;
+    uint8_t region_types[DMI_APPLE_FLASH_REGION_COUNT];
+    dmi_apple_flash_region_t regions[DMI_APPLE_FLASH_REGION_COUNT];
+    uint32_t extended_features;
+    uint32_t extended_features_mask;
+} dmi_apple_firmware_volume_t;
+----
+
+== Description
+
+The `dmi_apple_firmware_volume_t` structure holds the decoded Apple firmware
+volume information (type 128), which tells the features of the firmware, which
+macOS and its boot loader read, and the layout of its flash memory.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_apple_firmware_volume_spec`, of type `DMI_TYPE(apple_firmware_volume)`, declared in `<opendmi/module/apple.h>`,
+once the Apple extension module (`dmi_apple_module`) is enabled, which is done
+for the platforms of Apple firmware when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context it has been
+decoded in.
+
+The features are 64 bits wide: the structure holds their low 32 bits and,
+on newer firmware, their high 32 bits as the extended features, which the
+older firmware does not tell.
+
+=== Fields
+
+`region_count`::
+Number of the regions of the flash memory.
+
+`features`::
+Features of the firmware, a set of `dmi_apple_firmware_feature_t` bits, see
+`dmi_apple_firmware_feature`(3).
+
+`features_mask`::
+Mask of the features the firmware tells.
+
+`region_types`::
+Types of the regions, as the data holds them, before the regions.
+
+`regions`::
+Regions of the flash memory, whose types are taken from `region_types`, see
+`dmi_apple_flash_region`(3). The entries past `region_count` are not used.
+
+`extended_features`::
+Extended features of the firmware, the high 32 bits of the features, a set of
+`dmi_apple_extended_feature_t` bits, see `dmi_apple_extended_feature`(3).
+Zero when the structure is too short to hold them.
+
+`extended_features_mask`::
+Mask of the extended features the firmware tells. Zero when the structure is
+too short to hold it.
+
+== See also
+
+`dmi_apple_flash_region`(3), `dmi_apple_firmware_feature`(3), `dmi_apple_extended_feature`(3), `dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Macs, and
+laid out as the `AppleSmBios.h` header of OpenCore describes it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -37,8 +37,8 @@ a| `19` | Memory array mapped address | 1  a| `0x0035`
 a| `20` | Memory device mapped address | 4  a| `0x002B`, `0x002E`, `0x0031`, `0x0034`
 a| `32` | System boot information | 1  a| `0x004F`
 a| `127` | End of table | 1  a| `0xFFFD`
-a| `128` | OEM-specific | 1  a| `0x0051`
-a| `130` | Intel Active Management Technology information | 4  a| `0x002A`, `0x002D`, `0x0030`, `0x0033`
-a| `131` | Intel vPro information | 1  a| `0x0050`
-a| `132` | OEM-specific | 1  a| `0x0052`
+a| `128` | Apple firmware volume information | 1  a| `0x0051`
+a| `130` | Apple memory SPD data | 4  a| `0x002A`, `0x002D`, `0x0030`, `0x0033`
+a| `131` | Apple processor type information | 1  a| `0x0050`
+a| `132` | Apple processor bus speed information | 1  a| `0x0052`
 |===

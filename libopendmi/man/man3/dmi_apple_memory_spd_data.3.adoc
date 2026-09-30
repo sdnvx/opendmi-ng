@@ -1,0 +1,79 @@
+ifdef::backend-manpage[]
+= dmi_apple_memory_spd_data(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_apple_memory_spd_data
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_apple_memory_spd_data - Apple memory SPD data structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/apple/memory-spd-data.h>
+
+typedef struct dmi_apple_memory_spd_data {
+    dmi_handle_t handle;
+    uint16_t offset;
+    uint16_t size;
+    dmi_binary_t data;
+} dmi_apple_memory_spd_data_t;
+----
+
+== Description
+
+The `dmi_apple_memory_spd_data_t` structure holds the decoded Apple memory SPD
+data (type 130): the serial presence detect (SPD) data of a memory module, or a
+part of it. The firmware adds a structure for each memory module.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_apple_memory_spd_data_spec`, of type `DMI_TYPE(apple_memory_spd_data)`, declared in `<opendmi/module/apple.h>`,
+once the Apple extension module (`dmi_apple_module`) is enabled, which is done
+for the platforms of Apple firmware when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context it has been
+decoded in.
+
+The Intel reference code gives type 130 to the Intel Active Management
+Technology information too, which is told apart by its signature.
+
+=== Fields
+
+`handle`::
+Handle of the memory device (type 17) of the module.
+
+`offset`::
+Offset of the data within the SPD data of the module.
+
+`size`::
+Length of the data, in bytes.
+
+`data`::
+SPD data.
+
+== See also
+
+`dmi_memory_device`(3), `dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the firmware of Macs, and
+laid out as the `AppleSmBios.h` header of OpenCore describes it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

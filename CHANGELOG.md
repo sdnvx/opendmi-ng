@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add HP/HPE server structures decoders
 - Add Lenovo ThinkVantage Technologies (131) and OEM data (135, 140) decoders
 - Add Acer hotkey functions (170) decoder
+- Add Apple firmware volume (128), memory SPD data (130), processor type (131), processor bus speed (132), platform feature (133) and SMC version (134) decoders
 - Add decoders of structures reverse-engineered from the data corpus
 - Show TPM device vendor ID and TPM firmware version according to the TPM version
 - Show Intel RSD network card and HP/HPE NIC MAC addresses

@@ -96,6 +96,7 @@ the system.
 | Type | Code | Name
 
 | 170 | `acer-hotkeys` | Acer hotkey functions
+| 171 | `acer-devices` | Acer device list
 |===
 
 == ami
@@ -105,16 +106,35 @@ for the ones the firmware of AMI adds.
 
 == apple
 
-Module of the firmware of Apple. It describes no structures yet, and is
-reserved for the ones the firmware of Apple adds.
+Structures of the firmware of Macs, laid out as the `AppleSmBios.h` header of
+OpenCore describes them. The module is enabled by the vendor of the firmware,
+which OpenCore sets to Apple on the other systems too. Apple gives types 130
+and 131 to structures of its own, which the Intel structures of the same types
+are told apart from by their signatures.
+
+[cols="1,3,5"]
+|===
+| Type | Code | Name
+
+| 128 | `apple-firmware-volume`     | Apple firmware volume information
+| 130 | `apple-memory-spd-data`     | Apple memory SPD data
+| 131 | `apple-processor-type`      | Apple processor type information
+| 132 | `apple-processor-bus-speed` | Apple processor bus speed information
+| 133 | `apple-platform-feature`    | Apple platform feature information
+| 134 | `apple-smc-version`         | Apple SMC version information
+|===
 
 == dell
 
-Structures of the Dell platforms. Dell gives types 221 and 222 to structures
-of its own, and places the structures of the Intel reference code 16 types
-lower: the management engine interface at type 203, the firmware version
-information at type 205 and the milestones of the Silicon View Technology at
-type 206.
+Structures of the Dell platforms, which the module is enabled for by the
+vendor of either the firmware or the system, and by the firmware of Unisys,
+which carries the firmware of Dell on the servers Dell makes for Unisys. Dell
+gives types 221 and 222 to structures of its own, and places the structures of
+the Intel reference code 16 types lower: the management engine interface at
+type 203, the firmware version information at type 205 and the milestones of
+the Silicon View Technology at type 206. Some platforms, e.g. Precision Tower
+3620, place them 16 types higher instead: the management engine interface at
+type 235 and the firmware version information at type 237.
 
 [cols="1,3,5"]
 |===
@@ -129,7 +149,14 @@ type 206.
 | 212 | `dell-indexed-io`       | Dell indexed IO
 | 213 | `dell-protected-area-1` | Dell protected area type 1
 | 214 | `dell-protected-area-2` | Dell protected area type 2
+| 216 | `dell-video-rom`        | Dell video BIOS information
 | 218 | `dell-calling-iface`    | Dell calling interface
+| 219 | `dell-device-bay`       | Dell device bay
+| 220 | `dell-token-refs-1`     | Dell token references, type 1
+| 221 | `dell-token-refs-2`     | Dell token references, type 2
+| 223 | `dell-memory-ids`       | Dell memory module identifiers
+| 225 | `dell-device-names`     | Dell device names
+| 255 | `dell-system-id`        | Dell system ID record
 |===
 
 == hpe
@@ -208,6 +235,7 @@ structures the names stand for, wherever the vendor places them.
 | 219 | `intel-mei`  | Intel Management Engine interface information
 | 221 | `intel-fvi`  | Intel firmware version information
 | 222 | `intel-svt`  | Intel Silicon View Technology milestones
+| 222 | `intel-svt-aligned` | Intel Silicon View Technology milestones, aligned layout
 |===
 
 == intel-rsd

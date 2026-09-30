@@ -40,6 +40,123 @@ ru_RU {
     additional-info {
         name { "Дополнительные сведения" }
     }
+    apple-extended-feature {
+        large-basesystem { "Большой образ BaseSystem" }
+        unknown-bit-32 { "Неизвестный бит 32" }
+        unknown-bit-33 { "Неизвестный бит 33" }
+        unknown-bit-34 { "Неизвестный бит 34" }
+    }
+    apple-firmware-feature {
+        csm-legacy-mode { "Загрузка старых ОС (CSM)" }
+        cd-drive-boot { "Загрузка с оптических дисков" }
+        target-disk-mode { "Режим внешнего диска" }
+        unknown-bit-3 { "Неизвестный бит 3" }
+        net-boot { "Загрузка по сети" }
+        sling-shot { "Встроенное восстановление (SlingShot)" }
+        unknown-bit-6 { "Неизвестный бит 6" }
+        unknown-bit-7 { "Неизвестный бит 7" }
+        wireless { "Беспроводные сети" }
+        unknown-bit-9 { "Неизвестный бит 9" }
+        security-policy-1 { "Бит 0 политики безопасности платформы" }
+        security-policy-2 { "Бит 1 политики безопасности платформы" }
+        firmware-locked { "Прошивка заблокирована" }
+        unknown-bit-13 { "Неизвестный бит 13" }
+        high-speed-usb { "USB 2.0" }
+        unknown-bit-15 { "Неизвестный бит 15" }
+        unknown-bit-16 { "Неизвестный бит 16" }
+        no-usb-substitute-workaround { "Без подмены портов USB" }
+        unknown-bit-18 { "Неизвестный бит 18" }
+        apfs { "APFS" }
+        apfs-extra { "APFS (дополнительный бит)" }
+        unknown-bit-21 { "Неизвестный бит 21" }
+        trbx { "Защищённая загрузка X" }
+        unknown-bit-23 { "Неизвестный бит 23" }
+        security-policy { "Политика безопасности платформы" }
+        extended-features { "Расширенные возможности прошивки" }
+        unknown-bit-26 { "Неизвестный бит 26" }
+        unknown-bit-27 { "Неизвестный бит 27" }
+        no-mba-s4-workaround { "Без правки карты памяти при выходе из гибернации" }
+        uefi-windows-boot { "Загрузка Windows в режиме UEFI" }
+        unknown-bit-30 { "Неизвестный бит 30" }
+        no-bootscript-workaround { "Без правки карты памяти для загрузочного сценария" }
+    }
+    apple-firmware-volume {
+        attribute {
+            end-address { "Конечный адрес" }
+            extended-features { "Расширенные возможности прошивки" }
+            extended-features-mask { "Маска расширенных возможностей прошивки" }
+            features { "Возможности прошивки" }
+            features-mask { "Маска возможностей прошивки" }
+            region-count { "Число областей" }
+            regions { "Области" }
+            start-address { "Начальный адрес" }
+        }
+        name { "Сведения о томе прошивки Apple" }
+    }
+    apple-memory-spd-data {
+        attribute {
+            handle { "Дескриптор устройства памяти" }
+        }
+        name { "Данные SPD памяти Apple" }
+    }
+    apple-platform-feature {
+        attribute {
+            features { "Возможности платформы" }
+        }
+        name { "Сведения о возможностях платформы Apple" }
+    }
+    apple-platform-feature-bit {
+        unknown-bit-0 { "Неизвестный бит 0" }
+        soldered-memory { "Распаянная системная память" }
+        headless-gpu { "Графический процессор без выходов" }
+        host-pm { "Управление питанием хоста" }
+        power-chime { "Звук при включении" }
+    }
+    apple-processor-bus-speed {
+        attribute {
+            speed { "Скорость шины" }
+        }
+        name { "Сведения о скорости шины процессора Apple" }
+    }
+    apple-processor-class {
+        unknown { "Неизвестный" }
+        core { "Intel Core" }
+        core-2 { "Intel Core 2" }
+        xeon-penryn { "Intel Xeon (Penryn)" }
+        xeon-nehalem { "Intel Xeon (Nehalem)" }
+        core-i5 { "Intel Core i5" }
+        core-i7 { "Intel Core i7" }
+        core-i3 { "Intel Core i3" }
+        xeon-e5 { "Intel Xeon E5" }
+        core-m { "Intel Core M" }
+        core-m3 { "Intel Core m3" }
+        core-m5 { "Intel Core m5" }
+        core-m7 { "Intel Core m7" }
+        xeon-w { "Intel Xeon W" }
+        core-i9 { "Intel Core i9" }
+    }
+    apple-processor-type {
+        attribute {
+            class { "Класс процессора" }
+            generation { "Поколение" }
+        }
+        name { "Сведения о типе процессора Apple" }
+    }
+    apple-region-type {
+        unused { "Не используется" }
+        recovery { "Восстановление" }
+        main { "Основная прошивка" }
+        nvram { "NVRAM" }
+        config { "Конфигурация" }
+        diagvault { "Хранилище диагностики" }
+    }
+    apple-smc-version {
+        attribute {
+            version { "Версия SMC" }
+            version-raw { "Данные версии SMC" }
+        }
+        name { "Сведения о версии SMC Apple" }
+    }
     attribute {
         access-address { "Адрес метода доступа" }
         access-method { "Метод доступа" }

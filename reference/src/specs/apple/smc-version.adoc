@@ -1,0 +1,42 @@
+= Apple SMC Version Information (Type 134)
+:sectnums:
+:sectlinks:
+
+Source: the `AppleSmBios.h` header of OpenCore, `Include/Apple/IndustryStandard`.
+
+Tells the version of the firmware of the System Management Controller (SMC).
+Newer Macs carry no such structure.
+
+.Apple SMC Version Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `134`
+| Apple SMC Version Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| SMC Version
+| 16 `BYTE`
+| Varies
+| Version of the SMC firmware, e.g. `2.15f7` as text followed by bytes of zero
+|===

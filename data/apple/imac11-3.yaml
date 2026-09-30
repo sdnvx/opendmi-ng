@@ -1767,13 +1767,14 @@ table:
   type: 130
   length: 188
   level: null
-  state: []
-  description: Intel Active Management Technology information
-  data: !!binary |
-    groqACkAAACwAJIQCwMDGQIJA1IBCAwAPgBpeGkwaREgiQAFPDwA8IMBAAAAAAAAAAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAA8RRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAIDOARYmREUybaXeTTQ3MUI1MjczQ0gwLUNIOSAgAACAzgAAAFhFNDQwMDEB
-    AAAAAAAAAAAAAAAAMDkG
+  state:
+  - decoded
+  description: Apple memory SPD data
+  attributes:
+    handle: 41
+    offset: 0
+    size: 176
+    data: 92100b0303190209035201080c003e00697869306911208900053c3c00f08301000000000000000000000000000000000000000000000000000000000f114500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ce0116264445326da5de4d34373142353237334348302d4348392020000080ce0000005845343430303101000000000000000000000000303906
 - handle: 43
   type: 20
   length: 21
@@ -1838,13 +1839,14 @@ table:
   type: 130
   length: 188
   level: null
-  state: []
-  description: Intel Active Management Technology information
-  data: !!binary |
-    grotACwAAACwAJIQCwMDGQIJA1IBCAwAPgBpeGkwaREgiQAFPDwA8IMBAAAAAAAAAAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAA8RRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAIDOARYmREUybaXeTTQ3MUI1MjczQ0gwLUNIOSAgAACAzgAAAFhFNDQwMDEB
-    AAAAAAAAAAAAAAAAMDkG
+  state:
+  - decoded
+  description: Apple memory SPD data
+  attributes:
+    handle: 44
+    offset: 0
+    size: 176
+    data: 92100b0303190209035201080c003e00697869306911208900053c3c00f08301000000000000000000000000000000000000000000000000000000000f114500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ce0116264445326da5de4d34373142353237334348302d4348392020000080ce0000005845343430303101000000000000000000000000303906
 - handle: 46
   type: 20
   length: 21
@@ -1909,13 +1911,14 @@ table:
   type: 130
   length: 188
   level: null
-  state: []
-  description: Intel Active Management Technology information
-  data: !!binary |
-    growAC8AAACwAJIQCwMDGQIJA1IBCAwAPgBpeGkwaREgiQAFPDwA8IMBAAAAAAAAAAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAA8RRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAIDOARYmREUybaXeTTQ3MUI1MjczQ0gwLUNIOSAgAACAzgAAAFhFNDQwMDEB
-    AAAAAAAAAAAAAAAAMDkG
+  state:
+  - decoded
+  description: Apple memory SPD data
+  attributes:
+    handle: 47
+    offset: 0
+    size: 176
+    data: 92100b0303190209035201080c003e00697869306911208900053c3c00f08301000000000000000000000000000000000000000000000000000000000f114500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ce0116264445326da5de4d34373142353237334348302d4348392020000080ce0000005845343430303101000000000000000000000000303906
 - handle: 49
   type: 20
   length: 21
@@ -1980,13 +1983,14 @@ table:
   type: 130
   length: 188
   level: null
-  state: []
-  description: Intel Active Management Technology information
-  data: !!binary |
-    grozADIAAACwAJIQCwMDGQIJA1IBCAwAPgBpeGkwaREgiQAFPDwA8IMBAAAAAAAAAAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAA8RRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAIDOARYmREUybaXeTTQ3MUI1MjczQ0gwLUNIOSAgAACAzgAAAFhFNDQwMDEB
-    AAAAAAAAAAAAAAAAMDkG
+  state:
+  - decoded
+  description: Apple memory SPD data
+  attributes:
+    handle: 50
+    offset: 0
+    size: 176
+    data: 92100b0303190209035201080c003e00697869306911208900053c3c00f08301000000000000000000000000000000000000000000000000000000000f114500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ce0116264445326da5de4d34373142353237334348302d4348392020000080ce0000005845343430303101000000000000000000000000303906
 - handle: 52
   type: 20
   length: 21
@@ -2460,27 +2464,97 @@ table:
   type: 131
   length: 8
   level: null
-  state: []
-  description: Intel vPro information
-  data: !!binary |
-    gwZQAAEH
+  state:
+  - decoded
+  - partial
+  description: Apple processor type information
+  attributes:
+    class: core-i7
+    generation: 1
 - handle: 81
   type: 128
   length: 90
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    gFhRAAMAAAAjlAzAP/8f/wECAwAAAAAAAKDy//8v+f8AEML//x/r/wAg7P//X+7/AAAAAAAAAAAA
-    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+  state:
+  - decoded
+  - partial
+  description: Apple firmware volume information
+  attributes:
+    region-count: 3
+    features:
+      csm-legacy-mode: true
+      cd-drive-boot: true
+      target-disk-mode: false
+      unknown-bit-3: false
+      net-boot: false
+      sling-shot: true
+      unknown-bit-6: false
+      unknown-bit-7: false
+      wireless: false
+      unknown-bit-9: false
+      security-policy-1: true
+      security-policy-2: false
+      firmware-locked: true
+      unknown-bit-13: false
+      high-speed-usb: false
+      unknown-bit-15: true
+      unknown-bit-16: false
+      no-usb-substitute-workaround: false
+      unknown-bit-18: true
+      apfs: true
+      apfs-extra: false
+      unknown-bit-21: false
+      trbx: false
+      unknown-bit-23: false
+      security-policy: false
+      extended-features: false
+      unknown-bit-26: false
+      unknown-bit-27: false
+      no-mba-s4-workaround: false
+      uefi-windows-boot: false
+      unknown-bit-30: true
+      no-bootscript-workaround: true
+    features-mask: 4280287039
+    regions:
+    - type: recovery
+      start-address: 4294090752
+      end-address: 4294520831
+    - type: main
+      start-address: 4290908160
+      end-address: 4293599231
+    - type: nvram
+      start-address: 4293664768
+      end-address: 4293812223
+    - type: unused
+      start-address: 0
+      end-address: 0
+    - type: unused
+      start-address: 0
+      end-address: 0
+    - type: unused
+      start-address: 0
+      end-address: 0
+    - type: unused
+      start-address: 0
+      end-address: 0
+    - type: unused
+      start-address: 0
+      end-address: 0
+    extended-features:
+      unknown-bit-32: false
+      unknown-bit-33: false
+      unknown-bit-34: false
+      large-basesystem: false
+    extended-features-mask: 0
 - handle: 82
   type: 132
   length: 8
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    hAZSAMAS
+  state:
+  - decoded
+  description: Apple processor bus speed information
+  attributes:
+    speed: 4800
 - handle: 65533
   type: 127
   length: 6
