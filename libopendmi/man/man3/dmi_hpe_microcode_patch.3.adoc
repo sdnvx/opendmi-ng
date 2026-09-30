@@ -1,0 +1,71 @@
+ifdef::backend-manpage[]
+= dmi_hpe_microcode_patch(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_microcode_patch
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_microcode_patch - HP/HPE CPU microcode patch structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/microcode.h>
+
+typedef struct dmi_hpe_microcode_patch {
+    uint32_t patch_id;
+    uint32_t raw_date;
+    dmi_date_t date;
+    uint32_t cpuid;
+} dmi_hpe_microcode_patch_t;
+----
+
+== Description
+
+The `dmi_hpe_microcode_patch_t` structure describes a CPU microcode patch the
+firmware carries, as an element of the `patches` field of
+`dmi_hpe_microcode_t`.
+
+=== Fields
+
+`patch_id`::
+Patch ID, which is the microcode revision.
+
+`raw_date`::
+Release date of the patch, as the microcode header gives it: the month, the
+day and the year in binary-coded decimal.
+
+`date`::
+Release date of the patch.
+
+`cpuid`::
+Processor signature (CPUID leaf 1 EAX) the patch applies to. AMD platforms
+leave the base family out.
+
+== See also
+
+`dmi_hpe_microcode`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

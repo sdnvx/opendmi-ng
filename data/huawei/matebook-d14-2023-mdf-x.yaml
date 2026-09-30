@@ -1304,99 +1304,266 @@ table:
   type: 221
   length: 32
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3QwoAAEBAAQAAAAA
-  strings:
-  - FSP Binary Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: FSP Binary Version
+      version-string: null
+      major: 4
+      minor: 0
+      revision: 0
+      build: 0
 - handle: 41
   type: 221
   length: 78
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3RopAAMBAAwAdRAAAgAAAAQmAAMA//////8=
-  strings:
-  - Reference Code - CPU
-  - uCode Version
-  - TXT ACM version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CPU
+      version-string: null
+      major: 12
+      minor: 0
+      revision: 117
+      build: 16
+    - component: uCode Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 4
+      build: 38
+    - component: TXT ACM version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
 - handle: 42
   type: 221
   length: 93
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3RoqAAMBAAwAdRAAAgAAAAAAAAMEEAEZAQg=
-  strings:
-  - Reference Code - ME
-  - MEBx version
-  - ME Firmware Version
-  - Consumer SKU
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - ME
+      version-string: null
+      major: 12
+      minor: 0
+      revision: 117
+      build: 16
+    - component: MEBx version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: ME Firmware Version
+      version-string: Consumer SKU
+      major: 16
+      minor: 1
+      revision: 25
+      build: 2049
 - handle: 43
   type: 221
   length: 173
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3S8rAAYBAAwAdRAAAgP//////wQA////AQAFAP///wEABgD//////wcABAAAAAA=
-  strings:
-  - Reference Code - PCH
-  - PCH-CRID Status
-  - Disabled
-  - PCH-CRID Original Value
-  - PCH-CRID New Value
-  - OPROM - RST - RAID
-  - PCH Hsio Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - PCH
+      version-string: null
+      major: 12
+      minor: 0
+      revision: 117
+      build: 16
+    - component: PCH-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 1
+    - component: PCH-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 1
+    - component: OPROM - RST - RAID
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH Hsio Version
+      version-string: null
+      major: 4
+      minor: 0
+      revision: 0
+      build: 0
 - handle: 44
   type: 221
   length: 361
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3VIsAAsBAAwAdRAAAgAAAAQ8AAMADAB1EAAEBf//////BgAAAAACAAcAAAAAAgAIAP//////CQAk
-    AAYAAAoAAAAAFiALAAAAAAAADAD//////w==
-  strings:
-  - Reference Code - SA - System Agent
-  - Reference Code - MRC
-  - SA - PCIe Version
-  - SA-CRID Status
-  - Disabled
-  - SA-CRID Original Value
-  - SA-CRID New Value
-  - OPROM - VBIOS
-  - IO Manageability Engine FW Version
-  - PHY Build Version
-  - Thunderbolt(TM) FW Version
-  - System Agent Manageability Engine FW Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SA - System Agent
+      version-string: null
+      major: 12
+      minor: 0
+      revision: 117
+      build: 16
+    - component: Reference Code - MRC
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 4
+      build: 60
+    - component: SA - PCIe Version
+      version-string: null
+      major: 12
+      minor: 0
+      revision: 117
+      build: 16
+    - component: SA-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SA-CRID Original Value
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 2
+    - component: SA-CRID New Value
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 2
+    - component: OPROM - VBIOS
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: IO Manageability Engine FW Version
+      version-string: null
+      major: 36
+      minor: 0
+      revision: 6
+      build: 0
+    - component: PHY Build Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 8214
+    - component: Thunderbolt(TM) FW Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: System Agent Manageability Engine FW Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
 - handle: 45
   type: 221
   length: 323
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3VItAAsBAP//////AgD//////wME//////8FBv//////Bwj//////wkA//////8KAP//////CwAB
-    GgAAAAwAACEAYRANAP//////DgAABwAAAA==
-  strings:
-  - Lan Phy Version
-  - Sensor Firmware Version
-  - Debug Mode Status
-  - 'Enabled '
-  - Performance Mode Status
-  - Disabled
-  - Debug Use USB(Disabled:Serial)
-  - Disabled
-  - ICC Overclocking Version
-  - UNDI Version
-  - EC FW Version
-  - GOP Version
-  - Royal Park Version
-  - Platform Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Lan Phy Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Sensor Firmware Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Mode Status
+      version-string: Enabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Performance Mode Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Use USB(Disabled:Serial)
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: ICC Overclocking Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: UNDI Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: EC FW Version
+      version-string: null
+      major: 1
+      minor: 26
+      revision: 0
+      build: 0
+    - component: GOP Version
+      version-string: null
+      major: 0
+      minor: 33
+      revision: 0
+      build: 4193
+    - component: Royal Park Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Platform Version
+      version-string: null
+      major: 0
+      minor: 7
+      revision: 0
+      build: 0
 - handle: 65279
   type: 127
   length: 6

@@ -1,0 +1,117 @@
+ifdef::backend-manpage[]
+= dmi_hpe_trusted_module(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_trusted_module
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_trusted_module - HP/HPE trusted module status structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/trusted-module.h>
+
+typedef struct dmi_hpe_trusted_module {
+    dmi_hpe_tm_presence_t presence;
+    bool is_orom_measuring;
+    bool is_hidden;
+    dmi_hpe_tm_disable_reason_t disable_reason;
+    uint8_t error_condition;
+    dmi_hpe_tm_type_t type;
+    bool is_standard_algorithm;
+    bool is_chinese_algorithm;
+    dmi_hpe_tm_mounting_t mounting;
+    dmi_hpe_tm_fips_t fips;
+    dmi_handle_t version_handle;
+    dmi_hpe_tm_chip_t chip;
+} dmi_hpe_trusted_module_t;
+----
+
+== Description
+
+The `dmi_hpe_trusted_module_t` structure holds the decoded HP/HPE trusted
+module (TPM or TCM) status, which tells whether a trusted module is present
+and enabled, and what kind of module it is.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_trusted_module_spec`, of type `DMI_TYPE(HPE_TRUSTED_MODULE)`,
+declared in `<opendmi/module/hpe.h>`, once the HPE extension module
+(`dmi_hpe_module`) is enabled, which it is for HP and HPE servers. It lives as
+long as the context it has been decoded in.
+
+The structures of the older servers hold the presence only, and the other
+fields are then zero, which the enumerations name as not specified.
+
+=== Fields
+
+`presence`::
+Presence of the module, see `dmi_hpe_tm_presence`(3).
+
+`is_orom_measuring`::
+Whether option ROMs are measured.
+
+`is_hidden`::
+Whether the module is hidden.
+
+`disable_reason`::
+Reason the module is disabled for, see `dmi_hpe_tm_disable_reason`(3).
+
+`error_condition`::
+Error condition of the module, `1` for a self-test failure.
+
+`type`::
+Type of the module, see `dmi_hpe_tm_type`(3).
+
+`is_standard_algorithm`::
+Whether the standard algorithms are supported.
+
+`is_chinese_algorithm`::
+Whether the Chinese algorithms are supported.
+
+`mounting`::
+How the module is mounted, see `dmi_hpe_tm_mounting`(3).
+
+`fips`::
+FIPS certification of the module, see `dmi_hpe_tm_fips`(3).
+
+`version_handle`::
+Handle of the version indicator (type 216) of the firmware of the module. Set
+to `DMI_HANDLE_INVALID` when the structure holds none.
+
+`chip`::
+Chip of the module, see `dmi_hpe_tm_chip`(3).
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_tm_presence`(3),
+`dmi_hpe_tm_disable_reason`(3),
+`dmi_hpe_tm_type`(3),
+`dmi_hpe_tm_mounting`(3),
+`dmi_hpe_tm_fips`(3),
+`dmi_hpe_tm_chip`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

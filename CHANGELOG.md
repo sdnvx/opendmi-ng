@@ -83,6 +83,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add manual pages for the buffer, reader, writer, decoder and encoder APIs
 - Add missing `*_name()` functions for the enumerations
 - Add processor upgrade value 0xFF of SMBIOS 3.8, which refers to the socket type
+- Add `dmi_platform_t`, telling the vendor, the product, the family and the generation of the platform, with `dmi_platform_create()`, `dmi_platform_clone()`, `dmi_platform_set_product()`, `dmi_platform_set_family()` and `dmi_platform_destroy()`
+- Add `dmi_get_platform()` and `dmi_set_platform()`, which give the platform the structures are decoded for, and set another one
+- Add `dmi_string_set()`, which replaces an owned string with a copy of another one
+- Tell the family and the generation of HP and HPE servers from their product names
+- Add `DMI_CONTEXT_FLAG_AUTO_MODULES`, which enables the extension modules of the platform as the context is opened, and the `--no-auto-modules` option of the tool, which keeps them disabled
+- Add platform conditions of extension modules, generation ranges of structure specifications and relocations of structures, which vendors place at type numbers of their own
+- Add `dmi_filter_add_module()`, which matches structures by the module of their specification
+- Add `DMI_MODULE_FLAG_YIELD`, whose modules give their types way to the other enabled modules, `DMI_VENDOR_ANY` platform condition, and relocations to no type for the structures the platforms of a vendor never carry
+- Add `intel` module of the structures of the Intel reference code, enabled for the platforms of Intel processors
+- Tell the vendors of the system (type 1), the baseboard (type 2) and the processors (type 4) of the platform apart from the vendor of the firmware, and add platform conditions on them
+- Add AMD, Honor and Huawei vendors
+- Decode Intel Management Engine interface information (type 219, `intel-mei`), with the state, the operation mode and the SKU of the Management Engine firmware, at type 203 on Dell platforms
+- Add signatures of structure specifications (`dmi_signature_t`), which tell structures of different layouts at the same type number in the same table apart by their content, and map a type number to up to `DMI_TYPE_CANDIDATES` specifications
+- Decode Intel vPro information (type 131, `intel-vpro`), with the versions of the Management Engine firmware and of its BIOS extension, and the PCI functions of the chipset and of the network controller
+- Decode Intel Active Management Technology information (type 130, `intel-amt`), told by its `$AMT` signature
+- Decode Intel Silicon View Technology milestones (type 222, `intel-svt`), at type 206 on Dell platforms
+- Add groups of extension modules (`dmi_module_group_t`), which name the group associations whose members are structures of a specification, and `group-assoc.member` lint rule, which checks them
+- Decode Lenovo ThinkVantage Technologies enablement (type 131, `lenovo-tvt`), which Lenovo tables hold along with Intel vPro information
+- Add `DMI_FIELD_VECTOR` and `DMI_ATTRIBUTE_VECTOR`, which describe a fixed number of elements held in place
+- Decode Intel firmware version information (type 221, `intel-fvi`) on Intel platforms of any firmware vendor, at type 205 on Dell platforms
+- Decode HP/HPE server structures documented by dmidecode: other ROM information (type 193), Super I/O enable/disable indicator (194), server system ID (195), processor specific information (197), CPU microcode patches (199), DIMM location records (202), system/rack locator (204), PXE and iSCSI NIC information (209 and 221), processor TControl (211), 64-bit CRU information (212), ProLiant information (219), trusted module status (224), physical attributes (226), reserved memory locations (229) and power supply information (230), each for the generations of the servers it is known for
+- Decode the rest of the HP/HPE server structures documented by dmidecode: device correlation records (type 203), version indicators (216) with their version data formatted, DIMM attributes (232), NIC PCI and MAC information (233), HDD backplane FRU information (236), DIMM vendor information (237), USB port and device correlation records (238 and 239), firmware inventory records (240), hard drive inventory records (242), DIMM current configuration records (244) and extension board inventory records (245), whose board type selects the layout
+- Show MAC addresses of HP/HPE BIOS PXE and iSCSI NIC information as addresses
 
 ### Changed
 
@@ -132,6 +155,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Give the end of a mapped address range carried in kilobytes as its last byte, the way the extended fields do
 - Name slot type 0x0B as the specification does, "Proprietary memory card slot"
 - Remove the declaration of `dmi_pointing_device_decode()`, which is defined nowhere, and the typedefs of the structures which do not exist
+- Check the type of the specification a structure is decoded by instead of its type number in `dmi_entity_info()` and `dmi_entity_data()`
+- Enable the extension modules of the platform in the tool by default
+- Rename `vendor` member of `dmi_platform_t` and `dmi_platform_match_t` to `firmware_vendor`, and make `DMI_VENDOR_ANY` zero, so that the members a platform condition leaves out are satisfied by any platform
+- Tell Huawei and Honor firmware apart from AMI one
+- Show arrays nested in structures in all output formats
+- Name structures after the specification they are decoded by in `dmi_entity_name()`, and find the type number the structures of a specification are found at in `dmi_type_find()`
+- Replace AMI type 221 (`ami-221`) with Intel firmware version information of the `intel` module, whose unknown fields turned out to be the parts of the version
+- Rename Intel RSD module to `intel-rsd` (`dmi_intel_rsd_module`, `<opendmi/module/intel-rsd.h>`), which is only enabled explicitly, and move the headers of its structures from `<opendmi/entity/intel/rsd-*.h>` to `<opendmi/entity/intel-rsd/*.h>`
+- Match the structures of a module in the `--module` and `--all-modules` filter options of the tool whether the module is enabled at the time the options are parsed or not
 
 ### Fixed
 

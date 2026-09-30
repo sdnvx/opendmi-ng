@@ -1,0 +1,82 @@
+ifdef::backend-manpage[]
+= dmi_lenovo_tvt(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lenovo_tvt
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lenovo_tvt - Lenovo ThinkVantage Technologies enablement structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/lenovo/tvt.h>
+
+typedef struct dmi_lenovo_tvt {
+    uint8_t version;
+    dmi_binary_t features;
+    bool is_diagnostics;
+    const char *signature;
+} dmi_lenovo_tvt_t;
+----
+
+== Description
+
+The `dmi_lenovo_tvt_t` structure holds the decoded Lenovo ThinkVantage
+Technologies enablement, which tells the technologies the platform enables by
+128 bits, of which only the last one is known.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_lenovo_tvt_spec`, of type `DMI_TYPE(LENOVO_TVT)`, declared in
+`<opendmi/module/lenovo.h>`, once the Lenovo extension module
+(`dmi_lenovo_module`) is enabled, which is done for IBM and Lenovo platforms
+when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the
+context it has been decoded in.
+
+The structures are told by their length, 0x16 bytes, and by their first
+string, `TVT-Enablement`, since Intel vPro information takes type 131 in the
+same table, see `dmi_intel_vpro`(3).
+
+=== Fields
+
+`version`::
+Version of the structure.
+
+`features`::
+Bits of the technologies, 16 bytes, from the least significant bit of the
+first byte up.
+
+`is_diagnostics`::
+Whether the diagnostics (PC-Doctor) are available, as bit 127 tells.
+
+`signature`::
+Signature of the structure, `TVT-Enablement`.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_intel_vpro`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Lenovo firmware, as
+dmidecode describes it.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

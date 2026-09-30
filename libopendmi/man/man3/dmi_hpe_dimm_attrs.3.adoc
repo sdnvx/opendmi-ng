@@ -1,0 +1,107 @@
+ifdef::backend-manpage[]
+= dmi_hpe_dimm_attrs(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_dimm_attrs
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_dimm_attrs - HP/HPE DIMM attributes record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/dimm-attrs.h>
+
+typedef struct dmi_hpe_dimm_attrs {
+    dmi_handle_t device_handle;
+    uint32_t attributes;
+    dmi_hpe_flag_t smart_memory;
+    dmi_hpe_flag_t load_reduced;
+    dmi_hpe_flag_t standard_memory;
+    uint16_t minimum_voltage;
+    uint16_t configured_voltage;
+    bool is_config_error;
+    bool is_training_error;
+    dmi_hpe_encryption_t encryption;
+} dmi_hpe_dimm_attrs_t;
+----
+
+== Description
+
+The `dmi_hpe_dimm_attrs_t` structure holds the decoded HP/HPE DIMM attributes
+record, which tells what the memory device structure (type 17) of a DIMM
+socket does not: whether the module is an HPE one, and the voltages it runs
+at. There is a record for each socket.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_dimm_attrs_spec`, of type `DMI_TYPE(HPE_DIMM_ATTRS)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers from Gen9 onwards. It lives as
+long as the context it has been decoded in.
+
+=== Fields
+
+`device_handle`::
+Handle of the memory device structure (type 17).
+
+`attributes`::
+Attributes of the module, as the structure holds them.
+
+`smart_memory`::
+Whether the module is HPE SmartMemory, as bits 0 and 1 of the attributes tell,
+see `dmi_hpe_flag`(3).
+
+`load_reduced`::
+Whether the module is a load reduced one (LRDIMM), as bits 2 and 3 of the
+attributes tell, see `dmi_hpe_flag`(3).
+
+`standard_memory`::
+Whether the module is HPE standard memory, as bits 4 and 5 of the attributes
+tell, see `dmi_hpe_flag`(3).
+
+`minimum_voltage`::
+Minimum operating voltage in millivolts, zero if unknown.
+
+`configured_voltage`::
+Configured operating voltage in millivolts, zero if unknown.
+
+`is_config_error`::
+Whether the module is mapped out because of a configuration error.
+
+`is_training_error`::
+Whether the module is mapped out because of a training error.
+
+`encryption`::
+Encryption status of the module, see `dmi_hpe_encryption`(3). Set to
+`UINT8_MAX` when the structure holds none.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_flag`(3),
+`dmi_hpe_encryption`(3),
+`dmi_memory_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

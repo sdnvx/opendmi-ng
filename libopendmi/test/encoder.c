@@ -705,7 +705,7 @@ static void test_encoder_modules(void **pstate)
     dmi_context_t *context = *pstate;
 
     assert_true(dmi_add_extension(context, dmi_module_find("dell")));
-    assert_true(dmi_add_extension(context, dmi_module_find("intel")));
+    assert_true(dmi_add_extension(context, dmi_module_find("intel-rsd")));
 
     // Calling interface of Dell Precision 490, with an unused token added,
     // which the canonical mode leaves out along with the rest of the marker
@@ -832,8 +832,10 @@ static void test_encoder_corpus(void **pstate)
 
     for (int i = 0; i < test_dump_count; i++) {
         // Structures are linked, since linking leaves the members the fields
-        // decode into as they are, and the writer writes them back
-        dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK);
+        // decode into as they are, and the writer writes them back. Modules
+        // of the platform are enabled, so that their structures are written
+        // back too
+        dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_AUTO_MODULES);
         assert_non_null(context);
 
         if (not dmi_load(context, test_dumps[i])) {

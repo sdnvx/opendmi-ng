@@ -1,0 +1,77 @@
+ifdef::backend-manpage[]
+= dmi_hpe_board_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_board_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_board_type, dmi_hpe_board_type_name - HP/HPE extension board types
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/extension-board.h>
+
+typedef enum dmi_hpe_board_type {
+    DMI_HPE_BOARD_TYPE_RISER     = 0x00,
+    DMI_HPE_BOARD_TYPE_MHS_RISER = 0x01
+} dmi_hpe_board_type_t;
+
+const char *dmi_hpe_board_type_name(dmi_hpe_board_type_t value);
+----
+
+== Description
+
+The `dmi_hpe_board_type_t` enumeration tells the type of an extension board,
+which selects the layout of the rest of the structure, and is the type of the
+`board_type` field of `dmi_hpe_riser_t` and of `dmi_hpe_mhs_riser_t`.
+
+The `dmi_hpe_board_type_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_HPE_BOARD_TYPE_RISER`::
+PCIe riser.
+
+`DMI_HPE_BOARD_TYPE_MHS_RISER`::
+PCIe riser of an MHS platform.
+
+== Return value
+
+`dmi_hpe_board_type_name` returns the name of the value, translated to the language of the
+current locale when a translation is available, or `nullptr` if the value
+has no name. The returned string must not be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_hpe_riser`(3),
+`dmi_hpe_mhs_riser`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

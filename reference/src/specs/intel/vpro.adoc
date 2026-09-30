@@ -1,0 +1,184 @@
+= Intel vPro Information (Type 131)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus, whose versions
+match the ones of Intel firmware version information (type 221).
+
+Describes the parts of the platform Intel vPro technology relies on: the
+versions of the Management Engine firmware and of its BIOS extension (MEBx),
+and the PCI functions of the chipset and of the network controller the
+Management Engine uses. The structure is found on Intel platforms whether
+they are of vPro or not.
+
+The structure is told by the `vPro` signature at offset `0x38`, since some
+vendors give type 131 to structures of their own in the same table, e.g.
+Lenovo ThinkVantage Technologies enablement. PCI functions are given as their
+device and function numbers on bus 0, `(device << 3) | function`.
+
+.Intel vPro Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `131`
+| Intel vPro Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x40`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Flags 1
+| `DWORD`
+| `BITFIELD`
+| Capability flags, whose meaning is not established
+
+| `0x08`
+| 2.0+
+| MEBx Major Version
+| `WORD`
+| `NUMBER`
+| Version of the Management Engine BIOS extension, all zeroes if not reported
+
+| `0x0A`
+| 2.0+
+| MEBx Minor Version
+| `WORD`
+| `NUMBER`
+|
+
+| `0x0C`
+| 2.0+
+| MEBx Hotfix
+| `WORD`
+| `NUMBER`
+|
+
+| `0x0E`
+| 2.0+
+| MEBx Build Number
+| `WORD`
+| `NUMBER`
+|
+
+| `0x10`
+| 2.0+
+| LPC Device and Function
+| `WORD`
+| `NUMBER`
+| PCI device and function of the LPC bridge, `0xF8` for 0:1F.0
+
+| `0x12`
+| 2.0+
+| LPC Device ID
+| `WORD`
+| `NUMBER`
+| PCI device ID of the LPC bridge, which tells the chipset
+
+| `0x14`
+| 2.0+
+| Reserved
+| `DWORD`
+| `0`
+| `0xFFFFFFFF` on older platforms
+
+| `0x18`
+| 2.0+
+| Flags 2
+| `DWORD`
+| `BITFIELD`
+| Capability flags of the Management Engine, whose meaning is not established
+
+| `0x1C`
+| 2.0+
+| ME Minor Version
+| `WORD`
+| `NUMBER`
+| Version of the Management Engine firmware, as the firmware reports it
+
+| `0x1E`
+| 2.0+
+| ME Major Version
+| `WORD`
+| `NUMBER`
+|
+
+| `0x20`
+| 2.0+
+| ME Build Number
+| `WORD`
+| `NUMBER`
+|
+
+| `0x22`
+| 2.0+
+| ME Hotfix
+| `WORD`
+| `NUMBER`
+|
+
+| `0x24`
+| 2.0+
+| Reserved
+| `DWORD`
+| `0`
+|
+
+| `0x28`
+| 2.0+
+| GbE Device and Function
+| `WORD`
+| `NUMBER`
+| PCI device and function of the Gigabit Ethernet controller, `0xFE` for 0:1F.6, `0xC8` for 0:19.0
+
+| `0x2A`
+| 2.0+
+| GbE Device ID
+| `WORD`
+| `NUMBER`
+| PCI device ID of the Gigabit Ethernet controller, `0xFFFF` if absent
+
+| `0x2C`
+| 2.0+
+| Reserved
+| 8 BYTEs
+| Varies
+|
+
+| `0x34`
+| 2.0+
+| Flags 3
+| `DWORD`
+| `BITFIELD`
+| Feature flags, whose meaning is not established
+
+| `0x38`
+| 2.0+
+| Signature
+| 4 BYTEs
+| `vPro`
+|
+
+| `0x3C`
+| 2.0+
+| Reserved
+| `DWORD`
+| `0`
+|
+|===

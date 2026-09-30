@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-fpga.h>
+#include <opendmi/entity/intel-rsd/fpga.h>
 
 typedef enum dmi_intel_rsd_fpga_hps_isa {
     DMI_INTEL_RSD_FPGA_HPS_ISA_X86     = 0x00,

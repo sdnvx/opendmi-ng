@@ -1,0 +1,143 @@
+ifdef::backend-manpage[]
+= dmi_hpe_drive(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_drive
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_drive - HP/HPE hard drive inventory record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/drive.h>
+
+typedef struct dmi_hpe_drive {
+    dmi_handle_t correlation_handle;
+    dmi_hpe_drive_type_t drive_type;
+    uint64_t unique_id;
+    uint32_t legacy_capacity;
+    uint64_t power_on_hours;
+    uint8_t power;
+    dmi_hpe_drive_form_t form_factor;
+    dmi_hpe_drive_health_t health;
+    const char *serial_number;
+    const char *model_number;
+    const char *firmware_revision;
+    const char *location;
+    dmi_hpe_encryption_t encryption;
+    uint64_t capacity;
+    uint32_t block_size;
+    uint16_t rotation_speed;
+    uint16_t negotiated_speed;
+    uint16_t capable_speed;
+} dmi_hpe_drive_t;
+----
+
+== Description
+
+The `dmi_hpe_drive_t` structure holds the decoded HP/HPE hard drive inventory
+record, which describes an NVMe or SATA drive attached to the system directly,
+which the firmware has found at boot. Drives behind a storage controller, e.g.
+a Smart Array one, and the ones plugged in later are not described.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_drive_spec`, of type `DMI_TYPE(HPE_DRIVE)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers from Gen10 onwards. It lives as
+long as the context it has been decoded in.
+
+The older structures hold the capacity in megabytes only, and `capacity` is
+then zero.
+
+=== Fields
+
+`correlation_handle`::
+Handle of the device correlation record (type 203).
+
+`drive_type`::
+Type of the drive, see `dmi_hpe_drive_type`(3).
+
+`unique_id`::
+Unique ID of the drive: WWID of SATA drives, and IEEE extended unique
+identifier of NVMe ones.
+
+`legacy_capacity`::
+Capacity of the drive in megabytes.
+
+`power_on_hours`::
+Number of the hours the drive has been powered on for.
+
+`power`::
+Power of the drive in watts, zero if unknown.
+
+`form_factor`::
+Form factor of the drive, see `dmi_hpe_drive_form`(3).
+
+`health`::
+Health status of the drive, see `dmi_hpe_drive_health`(3).
+
+`serial_number`::
+Serial number of the drive.
+
+`model_number`::
+Model number of the drive.
+
+`firmware_revision`::
+Firmware revision of the drive.
+
+`location`::
+Location of the drive.
+
+`encryption`::
+Encryption status of the drive, as the firmware tells it, see
+`dmi_hpe_encryption`(3). Set to `UINT8_MAX` when the structure holds none.
+
+`capacity`::
+Capacity of the drive in bytes, zero if the structure holds none.
+
+`block_size`::
+Size of a logical block in bytes, zero if the structure holds none.
+
+`rotation_speed`::
+Nominal rotation speed in RPM: zero if not reported, and one for solid state
+drives.
+
+`negotiated_speed`::
+Negotiated speed of the bus in Gbit/s, zero if unknown.
+
+`capable_speed`::
+Fastest speed of the bus the drive is capable of in Gbit/s, zero if unknown.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_drive_type`(3),
+`dmi_hpe_drive_form`(3),
+`dmi_hpe_drive_health`(3),
+`dmi_hpe_encryption`(3),
+`dmi_hpe_device_correlation`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

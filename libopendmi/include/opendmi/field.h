@@ -79,6 +79,13 @@ typedef enum dmi_field_type
     DMI_FIELD_TYPE_ARRAY,
 
     /**
+     * @brief Fixed number of the elements described by the fields of
+     * `dmi_field_params_t`, which the structure holds in a row and the decoded
+     * one holds in place, in an array member of its own.
+     */
+    DMI_FIELD_TYPE_VECTOR,
+
+    /**
      * @brief Range of the bits of a byte, a word or a wider unit, which
      * several fields of a structure share.
      *
@@ -330,6 +337,12 @@ struct dmi_field_params
     dmi_member_ref_t stride_member;
 
     /**
+     * @brief Number of the elements of a vector, which is the number of the
+     * elements of the array member holding them.
+     */
+    size_t count;
+
+    /**
      * @brief Member holding the number of the elements which have been
      * decoded, which is no greater than the number the data declares.
      */
@@ -478,6 +491,24 @@ struct dmi_field
             .counter = dmi_member(__entity, __counter),     \
             __VA_ARGS__                                     \
         }                                                   \
+    }
+
+/**
+ * @brief Fixed number of the elements described by their own fields, which the
+ * structure holds in a row, decoded into the array member @p __member in place.
+ *
+ * The number of the elements is the one of the array member. Vectors of plain
+ * values describe their element by `DMI_FIELD_ELEMENT()`, the way arrays do.
+ */
+#define DMI_FIELD_VECTOR(__entity, __member, ...)                     \
+    {                                                                 \
+        .member = dmi_member_array(__entity, __member),               \
+        .type   = DMI_FIELD_TYPE_VECTOR,                              \
+        .params = {                                                   \
+            .count = dmi_member_size(__entity, __member) /            \
+                     dmi_element_size(__entity, __member),            \
+            __VA_ARGS__                                               \
+        }                                                             \
     }
 
 /**

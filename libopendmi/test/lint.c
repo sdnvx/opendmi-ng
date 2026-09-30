@@ -13,6 +13,7 @@
 #include <opendmi/context.h>
 #include <opendmi/error.h>
 #include <opendmi/lint.h>
+#include <opendmi/module.h>
 #include <opendmi/log.h>
 #include <opendmi/entry.h>
 #include <opendmi/utils.h>
@@ -30,6 +31,9 @@ static void test_lint_profile(void **pstate);
 static void test_lint_rule_filter(void **pstate);
 static void test_lint_closed_context(void **pstate);
 static void test_lint_raw_data(void **pstate);
+static void test_lint_group_member(void **pstate);
+
+static size_t test_lint_count_group_member(const char *path, unsigned flags, const char *module);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -70,7 +74,8 @@ int main(void)
         cmocka_unit_test(test_lint_profile),
         cmocka_unit_test(test_lint_rule_filter),
         cmocka_unit_test(test_lint_closed_context),
-        cmocka_unit_test(test_lint_raw_data)
+        cmocka_unit_test(test_lint_raw_data),
+        cmocka_unit_test(test_lint_group_member)
     };
 
     return cmocka_run_group_tests(tests, test_lint_setup, test_lint_teardown);
@@ -341,6 +346,64 @@ static void test_lint_raw_data(void **pstate)
 
     assert_int_equal(count, 1);
     assert_int_equal(severity, DMI_LINT_SEVERITY_WARNING);
+}
+
+//
+// Members of well-known groups are the structures the groups list, and the
+// ones which are not are placed at a type number the modules do not know of.
+//
+static void test_lint_group_member(void **pstate)
+{
+    dmi_unused(pstate);
+
+    static const char *dell_path = OPENDMI_TEST_DATA "/dell/g15-5510.bin";
+    static const char *nuvo_path = OPENDMI_TEST_DATA "/neousys/nuvo-7000-a2-cfl-s.bin";
+
+    // Structures Dell relocates are unknown without its module: six firmware
+    // version information structures and one of Silicon View Technology,
+    // while the placeholder member of the interfaces group is left to links
+    assert_int_equal(test_lint_count_group_member(dell_path, 0, "intel"), 7);
+
+    // ...and are known with it
+    assert_int_equal(test_lint_count_group_member(dell_path, DMI_CONTEXT_FLAG_AUTO_MODULES, nullptr), 0);
+
+    // Firmware of Neousys lists firmware version information among the
+    // interfaces of the Management Engine
+    assert_int_equal(test_lint_count_group_member(nuvo_path, DMI_CONTEXT_FLAG_AUTO_MODULES, nullptr), 1);
+}
+
+static size_t test_lint_count_group_member(const char *path, unsigned flags, const char *module)
+{
+    dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK | flags);
+    assert_non_null(context);
+
+    dmi_set_logger(context, &test_logger);
+    dmi_set_log_level(context, DMI_LOG_ERROR);
+
+    if (module != nullptr)
+        assert_true(dmi_add_extension(context, dmi_module_find(module)));
+
+    assert_true(dmi_load(context, path));
+
+    test_lint_only_rule = dmi_lint_rule_find(context, "group-assoc.member");
+    assert_non_null(test_lint_only_rule);
+
+    const dmi_lint_options_t options =
+    {
+        .profile     = DMI_LINT_PROFILE_READER,
+        .all         = true,
+        .rule_filter = test_lint_accept_only
+    };
+
+    test_lint_report_t report = {};
+    assert_true(dmi_lint(context, &options, test_lint_handler, &report));
+
+    dmi_destroy(context);
+
+    if (report.total > 0)
+        assert_int_equal(report.severity, DMI_LINT_SEVERITY_NOTE);
+
+    return report.total;
 }
 
 static void test_lint_closed_context(void **pstate)

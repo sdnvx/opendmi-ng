@@ -1,0 +1,82 @@
+ifdef::backend-manpage[]
+= dmi_intel_svt(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_svt
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_svt - Intel Silicon View Technology milestones structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/svt.h>
+
+typedef struct dmi_intel_svt {
+    uint8_t version;
+    uint16_t parameter;
+    size_t milestone_count;
+    dmi_intel_svt_milestone_t *milestones;
+} dmi_intel_svt_t;
+----
+
+== Description
+
+The `dmi_intel_svt_t` structure holds the decoded Intel Silicon View
+Technology (SVT) milestones: the milestones of the boot the firmware reports
+to the debug and validation tools of Intel.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_intel_svt_spec`, of type `DMI_TYPE(INTEL_SVT)`, declared in
+`<opendmi/module/intel.h>`, once the Intel extension module
+(`dmi_intel_module`) is enabled. It lives as long as the context it has been
+decoded in.
+
+The Intel reference code gives the structures type 222, but vendors who give
+that type to structures of their own place them elsewhere or not at all:
+Dell places them at type 206, and HP servers carry none. A group association
+(type 14) named `Intel(R) Silicon View Technology` often refers to the
+structure.
+
+=== Fields
+
+`version`::
+Version of the structure, 1 in all known data.
+
+`parameter`::
+Value whose meaning is not established, `0x0099` in all known data.
+
+`milestone_count`::
+Number of elements of `milestones`.
+
+`milestones`::
+Milestones, see `dmi_intel_svt_milestone`(3). May be `nullptr` when
+`milestone_count` is 0.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_intel_svt_milestone`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

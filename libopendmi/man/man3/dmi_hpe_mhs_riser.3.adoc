@@ -1,0 +1,101 @@
+ifdef::backend-manpage[]
+= dmi_hpe_mhs_riser(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_mhs_riser
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_mhs_riser - HP/HPE MHS PCIe riser inventory record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/extension-board.h>
+
+typedef struct dmi_hpe_mhs_riser {
+    dmi_hpe_board_type_t board_type;
+    uint8_t riser_id;
+    uint8_t firmware_major;
+    uint8_t firmware_minor;
+    bool is_downgradable;
+    const char *name;
+    uint8_t slot_total;
+    size_t slot_count;
+    uint8_t *slot_ids;
+} dmi_hpe_mhs_riser_t;
+----
+
+== Description
+
+The `dmi_hpe_mhs_riser_t` structure holds the decoded HP/HPE extension board
+inventory record of a PCIe riser of an MHS platform. It is returned by
+`dmi_entity_info`(3) for the structures of board type
+`DMI_HPE_BOARD_TYPE_MHS_RISER`.
+
+The structures are decoded by `dmi_hpe_riser_spec` and
+`dmi_hpe_mhs_riser_spec`, of type `DMI_TYPE(HPE_EXTENSION_BOARD)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. The board type at offset `0x04`
+selects the specification, and the structures of other board types are not
+decoded. The structure lives as long as the context it has been decoded in.
+
+=== Fields
+
+`board_type`::
+Type of the board, `DMI_HPE_BOARD_TYPE_MHS_RISER`, see
+`dmi_hpe_board_type`(3).
+
+`riser_id`::
+ID of the riser.
+
+`firmware_major`::
+Major version of the firmware of the riser, zero if the riser has no firmware.
+
+`firmware_minor`::
+Minor version of the firmware of the riser.
+
+`is_downgradable`::
+Whether the firmware of the riser may be downgraded.
+
+`name`::
+Name of the riser.
+
+`slot_total`::
+Number of the slots the structure declares.
+
+`slot_count`::
+Number of elements of `slot_ids`, which is smaller than `slot_total` when the
+data ends before the last slot.
+
+`slot_ids`::
+IDs of the slots of the riser. May be `nullptr` when `slot_count` is 0.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_riser`(3),
+`dmi_hpe_board_type`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

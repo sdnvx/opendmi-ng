@@ -1,0 +1,77 @@
+ifdef::backend-manpage[]
+= dmi_intel_mei_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_mei_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_mei_device - interface of the Intel Management Engine
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/mei.h>
+
+typedef struct dmi_intel_mei_device {
+    const char *name;
+    uint32_t hfsts[6];
+    bool is_present;
+} dmi_intel_mei_device_t;
+----
+
+== Description
+
+The `dmi_intel_mei_device_t` structure describes a Host Embedded Controller
+Interface (HECI) of the Intel Management Engine, and is the type of the
+elements of the `devices` array of `dmi_intel_mei_t`.
+
+The interfaces are the PCI functions 0:16.0, 0:16.1, 0:16.4 and 0:16.5, named
+`MEI1` to `MEI4`. The firmware status registers are the ones of the PCI
+configuration space of the function, at offsets 0x40, 0x48, 0x60, 0x64, 0x68
+and 0x6C. An absent function reads with all bits set.
+
+=== Fields
+
+`name`::
+Name of the interface, e.g. `MEI1`.
+
+`hfsts`::
+Firmware status registers HFSTS1 to HFSTS6. Their meaning depends on the
+interface, and on the generation of the Management Engine for all but the
+first and the third registers of the first interface: the first one tells
+the working state, the operation mode and the error code, the third one the
+SKU, and the sixth one the state of Intel Boot Guard on the generations which
+have it.
+
+`is_present`::
+Whether the function is present, i.e. its registers do not have all bits set.
+
+== See also
+
+`dmi_intel_mei`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code,
+which gives the structures type 219 by default. The layouts of the firmware
+status registers are the ones of the Intel Management Engine, as coreboot
+describes them.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

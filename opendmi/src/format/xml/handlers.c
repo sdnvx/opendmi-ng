@@ -286,7 +286,7 @@ bool dmi_xml_entity_attr(
         if (xmlTextWriterStartElement(session->writer, dmi_xml_string(attr->params.code)) < 0)
             break;
 
-        if (not dmi_member_is_present(variant->counter)) {
+        if (not dmi_attribute_is_array(variant)) {
             if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
                 rv = dmi_xml_entity_attr_struct(session, variant, value);
             else
@@ -363,10 +363,16 @@ bool dmi_xml_entity_attr_struct(
         if (xmlTextWriterStartElement(session->writer, dmi_xml_string(child_attr->params.code)) < 0)
             return false;
 
-        // Nested structures are written as nested elements
-        bool result = (child->type == DMI_ATTRIBUTE_TYPE_STRUCT) ?
-            dmi_xml_entity_attr_struct(session, child, ptr) :
-            dmi_xml_entity_attr_value(session, child, ptr);
+        // Nested structures are written as nested elements, and arrays as
+        // lists, whose counters are members of the same structure
+        bool result;
+
+        if (dmi_attribute_is_array(child))
+            result = dmi_xml_entity_attr_array(session, child, value, ptr);
+        else if (child->type == DMI_ATTRIBUTE_TYPE_STRUCT)
+            result = dmi_xml_entity_attr_struct(session, child, ptr);
+        else
+            result = dmi_xml_entity_attr_value(session, child, ptr);
         if (not result)
             return false;
 

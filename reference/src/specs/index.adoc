@@ -18,7 +18,56 @@ include::dell/protected-area-1.adoc[leveloffset=2]
 include::dell/protected-area-2.adoc[leveloffset=2]
 include::dell/calling-iface.adoc[leveloffset=2]
 
-== Intel-specific structures
+== HP/HPE-specific structures
+
+HP and HPE servers add structures of their own, some of which have changed
+their layouts or have been deprecated over the generations of the servers:
+up to G7, the generations are named `G1` to `G7`, and `Gen8` onwards. The
+generation is told from the product name of the system information (type 1).
+Type 219 and type 221 are taken on these servers by structures of their own,
+and the Intel reference code structures of these types are not decoded there.
+
+include::hpe/rom-info.adoc[leveloffset=2]
+include::hpe/super-io.adoc[leveloffset=2]
+include::hpe/system-id.adoc[leveloffset=2]
+include::hpe/processor.adoc[leveloffset=2]
+include::hpe/microcode.adoc[leveloffset=2]
+include::hpe/dimm-location.adoc[leveloffset=2]
+include::hpe/device-correlation.adoc[leveloffset=2]
+include::hpe/rack-locator.adoc[leveloffset=2]
+include::hpe/nic.adoc[leveloffset=2]
+include::hpe/tcontrol.adoc[leveloffset=2]
+include::hpe/cru.adoc[leveloffset=2]
+include::hpe/version.adoc[leveloffset=2]
+include::hpe/proliant-info.adoc[leveloffset=2]
+include::hpe/trusted-module.adoc[leveloffset=2]
+include::hpe/physical-attrs.adoc[leveloffset=2]
+include::hpe/reserved-memory.adoc[leveloffset=2]
+include::hpe/power-supply.adoc[leveloffset=2]
+include::hpe/dimm-attrs.adoc[leveloffset=2]
+include::hpe/nic-mac.adoc[leveloffset=2]
+include::hpe/backplane.adoc[leveloffset=2]
+include::hpe/dimm-vendor.adoc[leveloffset=2]
+include::hpe/usb-port.adoc[leveloffset=2]
+include::hpe/usb-device.adoc[leveloffset=2]
+include::hpe/inventory.adoc[leveloffset=2]
+include::hpe/drive.adoc[leveloffset=2]
+include::hpe/dimm-config.adoc[leveloffset=2]
+include::hpe/extension-board.adoc[leveloffset=2]
+
+== Intel reference code structures
+
+The Intel reference code, which the firmware of Intel platforms includes
+whatever its vendor is, adds structures of its own. Their types are taken by
+structures of some vendors, which place them at other types or not at all.
+
+include::intel/amt.adoc[leveloffset=2]
+include::intel/vpro.adoc[leveloffset=2]
+include::intel/mei.adoc[leveloffset=2]
+include::intel/fvi.adoc[leveloffset=2]
+include::intel/svt.adoc[leveloffset=2]
+
+== Intel RSD structures
 
 The structures of Intel Rack Scale Design (RSD) describe the devices of a
 system to the management software of the rack, which reads them from the
@@ -37,6 +86,10 @@ include::intel/rsd-memory-device.adoc[leveloffset=2]
 include::intel/rsd-fpga.adoc[leveloffset=2]
 include::intel/rsd-cabled-pcie.adoc[leveloffset=2]
 include::intel/rsd-phys-device-mapping.adoc[leveloffset=2]
+
+== Lenovo-specific structures
+
+include::lenovo/tvt.adoc[leveloffset=2]
 
 == Sun-specific structures
 

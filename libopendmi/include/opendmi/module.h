@@ -10,17 +10,130 @@
 #pragma once
 
 #include <opendmi/entity.h>
+#include <opendmi/platform.h>
 
-typedef struct dmi_module dmi_module_t;
+typedef struct dmi_module       dmi_module_t;
+typedef struct dmi_relocation   dmi_relocation_t;
+typedef struct dmi_module_group dmi_module_group_t;
+
+/**
+ * @brief Extension module flags.
+ */
+typedef enum dmi_module_flags
+{
+    /**
+     * Specifications of the module give way to the specifications of the other
+     * enabled modules of the same type numbers, instead of conflicting with
+     * them. Meant for the modules of structures which platforms of any vendor
+     * may carry, e.g. the ones of the Intel reference code, at type numbers
+     * which vendors also give to structures of their own.
+     */
+    DMI_MODULE_FLAG_YIELD = (1 << 0)
+} dmi_module_flags_t;
+
+/**
+ * @brief Structure a vendor places at a type number of its own.
+ *
+ * Structures defined by others, e.g. by the Intel reference code, are placed
+ * by some vendors at type numbers other than the original ones, since the
+ * original numbers are taken by their own structures. The data is laid out
+ * as the original specification describes it.
+ */
+struct dmi_relocation
+{
+    /**
+     * @brief Specification of the structure, @c nullptr to terminate a list
+     * of relocations.
+     */
+    const dmi_entity_spec_t *spec;
+
+    /**
+     * @brief Type number the vendor places the structure at, or
+     * `DMI_TYPE_INVALID` if the platforms of the vendor never carry the
+     * structure, and the type number is given to other structures.
+     */
+    dmi_type_t type;
+};
+
+/**
+ * @brief List of relocations, terminated by an empty entry.
+ */
+#define DMI_RELOCATIONS(...) (const dmi_relocation_t[])__VA_ARGS__
+
+/**
+ * @brief Group association (type 14) whose members are structures of
+ * a specification.
+ *
+ * Firmware often lists the structures of a kind by a group of a well-known
+ * name, e.g. the Intel reference code lists its firmware version information
+ * by the `Firmware Version Info` group. Members of such a group are checked
+ * to be decoded by the specification, which tells the structures a vendor
+ * places at a type number the module does not know of.
+ */
+struct dmi_module_group
+{
+    /**
+     * @brief Name of the group, @c nullptr to terminate a list of groups.
+     */
+    const char *name;
+
+    /**
+     * @brief Specification the members of the group are decoded by.
+     */
+    const dmi_entity_spec_t *spec;
+};
+
+/**
+ * @brief List of groups, terminated by an empty entry.
+ */
+#define DMI_GROUPS(...) (const dmi_module_group_t[])__VA_ARGS__
 
 /**
  * @brief DMI extension module.
  */
 struct dmi_module
 {
+    /**
+     * @brief Module code.
+     */
     const char *code;
+
+    /**
+     * @brief Module name.
+     */
     const char *name;
+
+    /**
+     * @brief Specifications of the structure types the module brings,
+     * terminated by @c nullptr.
+     */
     const dmi_entity_spec_t **entities;
+
+    /**
+     * @brief Module flags, a combination of `dmi_module_flags_t` values.
+     */
+    unsigned flags;
+
+    /**
+     * @brief Platforms the module is enabled for automatically as the context
+     * is opened, terminated by `DMI_PLATFORM_NULL`. @c nullptr for modules
+     * which are only enabled explicitly.
+     */
+    const dmi_platform_match_t *platforms;
+
+    /**
+     * @brief Structures of other modules, which the platforms of the module
+     * place at type numbers of their own, terminated by an entry with no
+     * specification. Relocations apply while the module is enabled, to the
+     * specifications of the enabled modules.
+     */
+    const dmi_relocation_t *relocations;
+
+    /**
+     * @brief Group associations whose members are structures of the module,
+     * terminated by an entry with no name.
+     */
+    const dmi_module_group_t *groups;
 
     /**
      * @brief Next registered module. Used for modules registered with

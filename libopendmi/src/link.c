@@ -118,13 +118,15 @@ static bool dmi_attributes_link_list(
 
         dmi_data_t *ptr = info + resolved->value.offset;
 
-        if (not dmi_member_is_present(resolved->counter)) {
+        if (not dmi_attribute_is_array(resolved)) {
             if (not dmi_attributes_link_list(entity, resolved->params.attrs, ptr))
                 success = false;
             continue;
         }
 
-        dmi_data_t *element = *(dmi_data_t **)ptr;
+        // Elements of an array are kept apart from the structure, while the
+        // ones of a vector are held in place, and both are linked in place
+        dmi_data_t *element = (dmi_data_t *)dmi_attribute_get_elements(resolved, ptr);
 
         size_t count = 0;
         if (element != nullptr)
@@ -156,12 +158,12 @@ static bool dmi_attributes_link_handle(
     const dmi_data_t *ptr    = info + attr->value.offset;
     dmi_entity_t    **target = (dmi_entity_t **)(info + attr->params.link.offset);
 
-    if (not dmi_member_is_present(attr->counter)) {
+    if (not dmi_attribute_is_array(attr)) {
         return dmi_registry_resolve_any(registry, dmi_deref(dmi_handle_t, ptr),
                                         attr->params.targets, target);
     }
 
-    const dmi_handle_t *handles = *(const dmi_handle_t * const *)ptr;
+    const dmi_handle_t *handles = dmi_attribute_get_elements(attr, ptr);
 
     size_t count = 0;
     if (handles != nullptr)

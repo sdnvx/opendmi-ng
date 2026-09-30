@@ -1,0 +1,89 @@
+ifdef::backend-manpage[]
+= dmi_hpe_physical_attrs(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_physical_attrs
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_physical_attrs - HP/HPE physical attribute information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/physical-attrs.h>
+
+typedef struct dmi_hpe_physical_attrs {
+    dmi_uuid_t uuid;
+    dmi_binary_t identifier_raw;
+    char identifier_buffer[17];
+    const char *identifier;
+    const char *serial_number;
+} dmi_hpe_physical_attrs_t;
+----
+
+== Description
+
+The `dmi_hpe_physical_attrs_t` structure holds the decoded HP/HPE physical
+attribute information, which keeps the physical serial number and UUID of the
+server, whose standard fields hold virtual ones, e.g. on Synergy, where a
+workload moves from one server to another along with its identity.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_physical_attrs_legacy_spec` up to G7, and by
+`dmi_hpe_physical_attrs_spec` from Gen8 onwards, of type
+`DMI_TYPE(HPE_PHYSICAL_ATTRS)`, declared in `<opendmi/module/hpe.h>`, once the
+HPE extension module (`dmi_hpe_module`) is enabled, which it is for HP and HPE
+servers. It lives as long as the context it has been decoded in.
+
+Up to G7, the structure holds 16 characters instead of the UUID: the product
+number and the serial number, which `identifier` points to, and `uuid` is
+zero. From Gen8 onwards, `identifier` is `nullptr`. The structures of unknown
+generation are not decoded.
+
+=== Fields
+
+`uuid`::
+Physical UUID, from Gen8 onwards.
+
+`identifier_raw`::
+Product number and serial number, 16 characters, up to G7, as the structure
+holds them.
+
+`identifier_buffer`::
+Product number and serial number, which `identifier` points to.
+
+`identifier`::
+Product number and serial number, e.g. `484184GB894484YN`, or `nullptr` if
+they are not printable.
+
+`serial_number`::
+Physical serial number.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_system`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

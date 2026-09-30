@@ -128,8 +128,8 @@ static void dmi_lint_link_walk(
 
         const dmi_data_t *ptr = dmi_member_ptr(info, resolved->value, dmi_data_t);
 
-        if (dmi_member_is_present(resolved->counter)) {
-            const dmi_data_t *element = dmi_deref(dmi_data_t *, ptr);
+        if (dmi_attribute_is_array(resolved)) {
+            const dmi_data_t *element = dmi_attribute_get_elements(resolved, ptr);
             size_t count = (element != nullptr) ? dmi_attribute_get_count(resolved, info) : 0;
 
             for (size_t i = 0; i < count; i++, element += resolved->value.size) {
@@ -252,8 +252,8 @@ static bool dmi_lint_link_references(
 
         const dmi_data_t *ptr = dmi_member_ptr(info, resolved->value, dmi_data_t);
 
-        if (dmi_member_is_present(resolved->counter)) {
-            const dmi_data_t *element = dmi_deref(dmi_data_t *, ptr);
+        if (dmi_attribute_is_array(resolved)) {
+            const dmi_data_t *element = dmi_attribute_get_elements(resolved, ptr);
             size_t count = (element != nullptr) ? dmi_attribute_get_count(resolved, info) : 0;
 
             for (size_t i = 0; i < count; i++, element += resolved->value.size) {

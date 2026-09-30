@@ -1,0 +1,125 @@
+ifdef::backend-manpage[]
+= dmi_hpe_processor(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_processor
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_processor - HP/HPE processor specific information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/processor.h>
+
+typedef struct dmi_hpe_processor {
+    dmi_handle_t processor_handle;
+    uint8_t apic_id;
+    bool is_bsp;
+    bool is_x2apic;
+    bool is_thermal_margining;
+    uint8_t slot;
+    uint8_t socket;
+    uint16_t maximum_power;
+    uint32_t x2apic_id;
+    uint64_t uuid;
+    uint16_t interconnect_speed;
+    uint8_t qdf_raw[6];
+    char qdf_buffer[7];
+    const char *qdf;
+} dmi_hpe_processor_t;
+----
+
+== Description
+
+The `dmi_hpe_processor_t` structure holds the decoded HP/HPE processor
+specific information, which supplements the processor information (type 4) of
+each processor socket or slot with the numbers the server tells its processors
+by.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_processor_spec`, of type `DMI_TYPE(HPE_PROCESSOR)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+The structure has grown with the generations of the servers: fields the data
+ends before are set to the values they have when not specified.
+
+=== Fields
+
+`processor_handle`::
+Handle of the processor information structure (type 4).
+
+`apic_id`::
+Local APIC ID of the processor.
+
+`is_bsp`::
+Whether the processor is the bootstrap processor.
+
+`is_x2apic`::
+Whether the processor runs in the x2APIC mode.
+
+`is_thermal_margining`::
+Whether advanced thermal margining is enabled.
+
+`slot`::
+Physical slot, as the silk screen names it. Set to `UINT8_MAX` when the
+processor is not in a slot.
+
+`socket`::
+Physical socket, as the silk screen names it. Set to `UINT8_MAX` when the
+processor is not in a socket.
+
+`maximum_power`::
+Rated maximum power of the processor in watts, zero if unknown.
+
+`x2apic_id`::
+x2APIC ID of the processor, valid in the x2APIC mode. Set to `UINT32_MAX` when
+the structure holds none.
+
+`uuid`::
+Unique identifier of the processor, zero if unknown.
+
+`interconnect_speed`::
+Speed of the interconnect in MT/s, zero if unknown.
+
+`qdf_raw`::
+QDF or S-Spec number of Intel processors, six characters padded with spaces,
+as the structure holds them.
+
+`qdf_buffer`::
+QDF or S-Spec number with the spaces left out, which `qdf` points to.
+
+`qdf`::
+QDF or S-Spec number of Intel processors, `nullptr` if the structure holds
+none.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_processor`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

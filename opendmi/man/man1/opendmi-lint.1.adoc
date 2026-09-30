@@ -474,6 +474,15 @@ Severity: warning, or error with *--producer*.
 Physical width of the slot is at least the width of its bus, since a card as
 wide as the bus has to fit the slot.
 
+`group-assoc.member`::
+Severity: note, or warning with *--producer*.
++
+Members of the groups of well-known names are the structures the groups
+list, e.g. the members of the `Firmware Version Info` group are Intel
+firmware version information. A member which is not is placed by the vendor
+at a type number no enabled module knows of, or is listed by mistake.
+Checked for the groups of the enabled modules.
+
 `system-event-log.area`::
 Severity: warning, or error with *--producer*.
 +
@@ -664,14 +673,15 @@ both are written in the same format other than a free-form one.
 Severity: warning, or error with *--producer*.
 +
 Cable indices of an Intel RSD cabled PCIe port start at lane 0, 4, 8 or 12,
-since every cable carries a group of four lanes. Checked with the `intel`
+since every cable carries a group of four lanes. Checked with the `intel-rsd`
 module enabled.
 
 `intel-rsd-cabled-pcie.cable-count`::
 Severity: warning, or error with *--producer*.
 +
 Intel RSD cabled PCIe port declares no more than the four cable indices the
-specification lays out. Checked with the `intel` module enabled.
+specification lays out. Checked with the `intel-rsd` module
+enabled.
 
 == Exit status
 

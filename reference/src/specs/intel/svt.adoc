@@ -1,0 +1,87 @@
+= Intel Silicon View Technology Milestones (Type 222)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus.
+
+Lists the milestones of the boot the firmware reports to the debug and
+validation tools of Intel Silicon View Technology (SVT). A group association
+(type 14) named `Intel(R) Silicon View Technology` often refers to the
+structure. The reference code gives the structure type 222, which Dell places
+at type 206, while HP servers carry none.
+
+.Intel Silicon View Technology Milestones structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `222`
+| Intel Silicon View Technology Milestones indicator, `206` on Dell platforms
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x08` + 2 × Milestone Count
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Version
+| `BYTE`
+| `NUMBER`
+| `1` in all known data
+
+| `0x05`
+| 2.0+
+| Parameter
+| `WORD`
+| Varies
+| Meaning not established, `0x0099` in all known data
+
+| `0x07`
+| 2.0+
+| Milestone Count
+| `BYTE`
+| `NUMBER`
+|
+
+| `0x08`
+| 2.0+
+| Milestones
+| Varies
+| Varies
+| Milestones, see <<intel-svt-milestones>>
+|===
+
+[#intel-svt-milestones, reftext=Milestones]
+== Intel Silicon View Technology Milestones -- Milestones
+
+.Intel Silicon View Technology Milestones: Milestone
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| Code
+| `BYTE`
+| `NUMBER`
+| `0x10`, `0x20` and `0x30` in all known data
+
+| `0x01`
+| Name
+| `BYTE`
+| `STRING`
+| `Memory Init Complete`, `End of DXE Phase` and `BIOS Boot Complete`
+|===

@@ -15,14 +15,14 @@
 #include <opendmi/error.h>
 #include <opendmi/log.h>
 #include <opendmi/module.h>
-#include <opendmi/module/intel.h>
+#include <opendmi/module/intel-rsd.h>
 #include <opendmi/registry.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
 
-#include <opendmi/entity/intel/rsd-network-card.h>
-#include <opendmi/entity/intel/rsd-processor-cpuid.h>
+#include <opendmi/entity/intel-rsd/network-card.h>
+#include <opendmi/entity/intel-rsd/processor-cpuid.h>
 
 static int test_context_setup(void **pstate);
 static int test_context_teardown(void **pstate);
@@ -104,7 +104,7 @@ static void test_context_close_resets_state(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    const dmi_entity_spec_t **type_map = context->type_map;
+    dmi_type_candidates_t *type_map = context->type_map;
     unsigned int flags = context->flags;
 
     assert_true(dmi_load(context, test_dump_path));
@@ -314,7 +314,7 @@ static void test_context_add_extension(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    const dmi_module_t *module = dmi_module_find("intel");
+    const dmi_module_t *module = dmi_module_find("intel-rsd");
     assert_non_null(module);
 
     assert_false(dmi_has_extension(context, module));

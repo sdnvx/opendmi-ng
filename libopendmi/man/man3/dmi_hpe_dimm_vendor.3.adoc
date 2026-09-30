@@ -1,0 +1,85 @@
+ifdef::backend-manpage[]
+= dmi_hpe_dimm_vendor(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_dimm_vendor
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_dimm_vendor - HP/HPE DIMM vendor information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/dimm-vendor.h>
+
+typedef struct dmi_hpe_dimm_vendor {
+    dmi_handle_t device_handle;
+    const char *manufacturer;
+    const char *part_number;
+    const char *serial_number;
+    uint8_t manufacture_year;
+    uint8_t manufacture_week;
+} dmi_hpe_dimm_vendor_t;
+----
+
+== Description
+
+The `dmi_hpe_dimm_vendor_t` structure holds the decoded HP/HPE DIMM vendor
+information, which tells the actual manufacturer of the module of a memory
+device (type 17), whose standard fields hold the ones of HPE.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_dimm_vendor_spec`, of type `DMI_TYPE(HPE_DIMM_VENDOR)`, declared
+in `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`)
+is enabled, which it is for HP and HPE servers from Gen9 onwards. It lives as
+long as the context it has been decoded in.
+
+=== Fields
+
+`device_handle`::
+Handle of the memory device structure (type 17).
+
+`manufacturer`::
+Manufacturer of the module.
+
+`part_number`::
+Part number of the module, as its manufacturer gives it.
+
+`serial_number`::
+Serial number of the module, as its manufacturer gives it.
+
+`manufacture_year`::
+Last two digits of the year the module was manufactured in, from 2000, zero if
+unknown.
+
+`manufacture_week`::
+Week of the year the module was manufactured in, zero if unknown.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_memory_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

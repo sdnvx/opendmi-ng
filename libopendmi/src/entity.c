@@ -100,6 +100,38 @@ static bool dmi_entity_decode_strings(dmi_entity_t *entity);
  */
 static char *dmi_entity_string_trim(dmi_context_t *context, const char *ptr);
 
+/**
+ * @internal
+ * @brief Get type of the specification an entity is decoded by.
+ *
+ * @details
+ * Some vendors place structures defined by others at their own type numbers,
+ * e.g. Dell moves Intel reference code structures 16 types down. Such
+ * structures are decoded by the specification of the original type, and their
+ * data is laid out as that type expects, so the original type is the one
+ * callers check against.
+ */
+static dmi_type_t dmi_entity_spec_type(const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Choose the specification a structure is decoded by.
+ *
+ * @details
+ * Specifications with signatures are tried first, in the order they are
+ * mapped, and the specification of the type without a signature is taken for
+ * the structures no signature matches.
+ *
+ * @return Specification, or @c nullptr if the structure is of no known type.
+ */
+static const dmi_entity_spec_t *dmi_entity_spec_select(const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check whether a structure matches a signature.
+ */
+static bool dmi_entity_signature_match(const dmi_entity_t *entity, const dmi_signature_t *signature);
+
 dmi_entity_t *dmi_entity_create(
         dmi_context_t      *context,
         const dmi_buffer_t *buffer,
@@ -200,7 +232,7 @@ bool dmi_entity_decode(dmi_entity_t *entity)
 
     dmi_context_t *context = entity->context;
 
-    const dmi_entity_spec_t *spec = dmi_type_spec(entity->context, entity->type);
+    const dmi_entity_spec_t *spec = dmi_entity_spec_select(entity);
     if (spec == nullptr)
         return true;
 
@@ -399,6 +431,12 @@ const char *dmi_entity_name(const dmi_entity_t *entity)
     if (entity == nullptr)
         return nullptr;
 
+    // Specifications of a type may be told apart by the content of the
+    // structure, which the type alone does not tell
+    const dmi_entity_spec_t *spec = (entity->spec != nullptr) ? entity->spec : dmi_entity_spec_select(entity);
+    if (spec != nullptr)
+        return dmi_spec_name(spec);
+
     return dmi_type_name(entity->context, entity->type);
 }
 
@@ -407,7 +445,7 @@ const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t type)
     if (entity == nullptr)
         return nullptr;
 
-    if ((type != DMI_TYPE_ANY) and (entity->type != type)) {
+    if ((type != DMI_TYPE_ANY) and (dmi_entity_spec_type(entity) != type)) {
         dmi_error_raise(entity->context, DMI_ERROR_INVALID_ENTITY_TYPE);
         return nullptr;
     }
@@ -420,7 +458,7 @@ void *dmi_entity_info(const dmi_entity_t *entity, dmi_type_t type)
     if (entity == nullptr)
         return nullptr;
 
-    if ((type != DMI_TYPE_ANY) and (entity->type != type)) {
+    if ((type != DMI_TYPE_ANY) and (dmi_entity_spec_type(entity) != type)) {
         dmi_error_raise(entity->context, DMI_ERROR_INVALID_ENTITY_TYPE);
         return nullptr;
     }
@@ -591,6 +629,68 @@ void dmi_entity_destroy(dmi_entity_t *entity)
 
     dmi_buffer_destroy(entity->overlay);
     dmi_free(entity);
+}
+
+static dmi_type_t dmi_entity_spec_type(const dmi_entity_t *entity)
+{
+    const dmi_entity_spec_t *spec = entity->spec;
+
+    // Specification is bound on decoding, and raw data may be requested
+    // before that
+    if (spec == nullptr)
+        spec = dmi_entity_spec_select(entity);
+
+    return (spec != nullptr) ? spec->type : entity->type;
+}
+
+static const dmi_entity_spec_t *dmi_entity_spec_select(const dmi_entity_t *entity)
+{
+    const dmi_type_t type = entity->type;
+
+    if ((type <= DMI_TYPE_INVALID) or (type > DMI_TYPE_MAX))
+        return nullptr;
+
+    const dmi_type_candidates_t *candidates = &entity->context->type_map[type];
+
+    for (size_t i = 1; i < DMI_TYPE_CANDIDATES; i++) {
+        const dmi_entity_spec_t *spec = (*candidates)[i];
+
+        if (spec == nullptr)
+            break;
+        if (dmi_entity_signature_match(entity, spec->params.signature))
+            return spec;
+    }
+
+    return (*candidates)[0];
+}
+
+static bool dmi_entity_signature_match(const dmi_entity_t *entity, const dmi_signature_t *signature)
+{
+    if (signature == nullptr)
+        return false;
+
+    // Length of the formatted area is the one the header declares
+    if ((signature->length != 0) and (entity->body_length != signature->length))
+        return false;
+
+    if (signature->bytes != nullptr) {
+        if (signature->offset + signature->size > entity->body_length)
+            return false;
+
+        const dmi_data_t *data = dmi_buffer_at(dmi_entity_buffer(entity),
+                                               dmi_entity_offset(entity) + signature->offset,
+                                               signature->size);
+        if ((data == nullptr) or (memcmp(data, signature->bytes, signature->size) != 0))
+            return false;
+    }
+
+    if (signature->string != 0) {
+        const char *text = dmi_entity_string_ex(entity, signature->string, true);
+        if ((text == nullptr) or (signature->text == nullptr) or (strcmp(text, signature->text) != 0))
+            return false;
+    }
+
+    return true;
 }
 
 static bool dmi_entity_decode_length(

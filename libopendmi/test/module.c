@@ -13,17 +13,19 @@
 #include <opendmi/internal.h>
 #include <opendmi/module.h>
 #include <opendmi/module/intel.h>
+#include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel/rsd-network-card.h>
-#include <opendmi/entity/intel/rsd-processor-cpuid.h>
+#include <opendmi/entity/intel-rsd/network-card.h>
+#include <opendmi/entity/intel-rsd/processor-cpuid.h>
 
 static void test_module_builtin(void **pstate);
 static void test_module_register(void **pstate);
 static void test_module_unique_types(void **pstate);
-static void test_module_intel_types(void **pstate);
+static void test_module_intel_rsd_types(void **pstate);
 static void test_module_unique_attribute_codes(void **pstate);
 
 static void assert_unique_attribute_codes(const char *spec_code, const dmi_attribute_t *attrs);
+static bool test_generations_overlap(const dmi_generations_t *first, const dmi_generations_t *second);
 
 int main(void)
 {
@@ -31,7 +33,7 @@ int main(void)
         cmocka_unit_test(test_module_builtin),
         cmocka_unit_test(test_module_register),
         cmocka_unit_test(test_module_unique_types),
-        cmocka_unit_test(test_module_intel_types),
+        cmocka_unit_test(test_module_intel_rsd_types),
         cmocka_unit_test(test_module_unique_attribute_codes)
     };
 
@@ -43,7 +45,7 @@ static void test_module_builtin(void **pstate)
     dmi_unused(pstate);
 
     static const char *codes[] = {
-        "acer", "ami", "apple", "dell", "hpe", "intel", "lenovo", "sun"
+        "acer", "ami", "apple", "dell", "hpe", "intel", "intel-rsd", "lenovo", "sun"
     };
 
     size_t count = 0;
@@ -82,6 +84,7 @@ static void test_module_register(void **pstate)
     assert_ptr_equal(dmi_module_find("external-1"), &external_1);
     assert_ptr_equal(dmi_module_find("external-2"), &external_2);
     assert_ptr_equal(dmi_module_find("intel"), &dmi_intel_module);
+    assert_ptr_equal(dmi_module_find("intel-rsd"), &dmi_intel_rsd_module);
 
     // Registered modules follow built-in ones in the order of registration
     const dmi_module_t *module = dmi_module_next(nullptr);
@@ -109,15 +112,26 @@ static void test_module_unique_types(void **pstate)
 
         for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++) {
             for (const dmi_entity_spec_t **pnext = pspec + 1; *pnext != nullptr; pnext++) {
-                if ((*pspec)->type == (*pnext)->type)
-                    fail_msg("Module %s: %s and %s have the same type %d", module->code,
-                             (*pspec)->code, (*pnext)->code, (int)(*pspec)->type);
+                if ((*pspec)->type != (*pnext)->type)
+                    continue;
+
+                // Specifications of the same type apply to different
+                // generations of the platform, or are told apart by the
+                // content of the structure
+                if (not test_generations_overlap(&(*pspec)->params.generations,
+                                                 &(*pnext)->params.generations))
+                    continue;
+                if (((*pspec)->params.signature != nullptr) or ((*pnext)->params.signature != nullptr))
+                    continue;
+
+                fail_msg("Module %s: %s and %s have the same type %d", module->code,
+                         (*pspec)->code, (*pnext)->code, (int)(*pspec)->type);
             }
         }
     }
 }
 
-static void test_module_intel_types(void **pstate)
+static void test_module_intel_rsd_types(void **pstate)
 {
     dmi_unused(pstate);
 
@@ -134,7 +148,7 @@ static void test_module_unique_attribute_codes(void **pstate)
     assert_non_null(context);
 
     for (size_t type = 0; type <= DMI_TYPE_MAX; type++) {
-        const dmi_entity_spec_t *spec = context->type_map[type];
+        const dmi_entity_spec_t *spec = context->type_map[type][0];
         if (spec != nullptr)
             assert_unique_attribute_codes(spec->code, spec->attributes);
     }
@@ -168,4 +182,13 @@ static void assert_unique_attribute_codes(const char *spec_code, const dmi_attri
         // Structure attributes have their own namespace
         assert_unique_attribute_codes(spec_code, attr->params.attrs);
     }
+}
+
+static bool test_generations_overlap(const dmi_generations_t *first, const dmi_generations_t *second)
+{
+    // Zero bounds leave ranges open
+    unsigned first_max  = (first->maximum != 0) ? first->maximum : UINT_MAX;
+    unsigned second_max = (second->maximum != 0) ? second->maximum : UINT_MAX;
+
+    return (first->minimum <= second_max) and (second->minimum <= first_max);
 }

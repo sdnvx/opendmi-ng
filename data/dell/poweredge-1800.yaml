@@ -4,11 +4,16 @@ table:
 - handle: 55808
   type: 218
   length: 13
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2gsA2rIAFwAOIAA=
+  level: '2.0'
+  state:
+  - decoded
+  - incomplete
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 23
+    supported-commands: 2100736
+    tokens: []
 - handle: 0
   type: 0
   length: 70
@@ -1503,67 +1508,521 @@ table:
 - handle: 53248
   type: 208
   length: 12
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    0AoA0AEF/gCDAQ==
+  level: '2.2'
+  state:
+  - decoded
+  - partial
+  description: Dell revisions and IDs
+  attributes:
+    implementation-version: '1.5'
+    system-id: 387
+    hardware-revision: 0
+    manufacture-date: null
+    first-poweron-date: null
 - handle: 53504
   type: 209
   length: 14
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    0QwA0XgDBwMED4AF
+  level: '2.2'
+  state:
+  - decoded
+  description: Dell parallel port
+  attributes:
+    base-address: 888
+    irq-number: 7
+    connector: db-25-f
+    pinout: ps2
+    capabilities:
+      xt-at: true
+      ps2: true
+      ecp: true
+      epp: true
+      pc-98: false
+      pc-98-hireso: false
+      pc-h98: false
+      dma-support: true
+    security: external-iface-enabled
 - handle: 53760
   type: 210
   length: 14
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    0gwA0vgDBAMGgAQF
+  level: '2.2'
+  state:
+  - decoded
+  description: Dell serial port
+  attributes:
+    base-address: 1016
+    irq-number: 4
+    connector: db-9-m
+    capabilities: 16550a
+    maximum-speed: 115200
+    security: external-iface-enabled
 - handle: 54272
   type: 212
   length: 169
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    1KcA1HAAcQAAEC0uAwARf4AEABF/AAcAJZ8ACAAlnyAJACWfQAoAJZ9gCwAlfwAMACV/gA8AJfgA
-    EQAl+AESACX4Ai5AJfgDL0Al+AQAACX4BUIAEf4BQwAR/gBEABGfIEUAEZ8AMUAR+wAyQBH7BJ0A
-    Ef0CngAR/QCfACb+AaAAJv4AUQAmPwBSACY/QFMAJj+AVAAmP8AoQCbfIClAJt8A//8AAAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell indexed IO
+  attributes:
+    index-port: 112
+    data-port: 113
+    check-type: word-checksum
+    check-start: 16
+    check-end: 45
+    check-index: 46
+    tokens:
+    - id: 3
+      location: 17
+      and-mask: 127
+      or-value: 128
+    - id: 4
+      location: 17
+      and-mask: 127
+      or-value: 0
+    - id: 7
+      location: 37
+      and-mask: 159
+      or-value: 0
+    - id: 8
+      location: 37
+      and-mask: 159
+      or-value: 32
+    - id: 9
+      location: 37
+      and-mask: 159
+      or-value: 64
+    - id: 10
+      location: 37
+      and-mask: 159
+      or-value: 96
+    - id: 11
+      location: 37
+      and-mask: 127
+      or-value: 0
+    - id: 12
+      location: 37
+      and-mask: 127
+      or-value: 128
+    - id: 15
+      location: 37
+      and-mask: 248
+      or-value: 0
+    - id: 17
+      location: 37
+      and-mask: 248
+      or-value: 1
+    - id: 18
+      location: 37
+      and-mask: 248
+      or-value: 2
+    - id: 16430
+      location: 37
+      and-mask: 248
+      or-value: 3
+    - id: 16431
+      location: 37
+      and-mask: 248
+      or-value: 4
+    - id: 66
+      location: 17
+      and-mask: 254
+      or-value: 1
+    - id: 67
+      location: 17
+      and-mask: 254
+      or-value: 0
+    - id: 68
+      location: 17
+      and-mask: 159
+      or-value: 32
+    - id: 69
+      location: 17
+      and-mask: 159
+      or-value: 0
+    - id: 16433
+      location: 17
+      and-mask: 251
+      or-value: 0
+    - id: 16434
+      location: 17
+      and-mask: 251
+      or-value: 4
+    - id: 157
+      location: 17
+      and-mask: 253
+      or-value: 2
+    - id: 158
+      location: 17
+      and-mask: 253
+      or-value: 0
+    - id: 159
+      location: 38
+      and-mask: 254
+      or-value: 1
+    - id: 160
+      location: 38
+      and-mask: 254
+      or-value: 0
+    - id: 81
+      location: 38
+      and-mask: 63
+      or-value: 0
+    - id: 82
+      location: 38
+      and-mask: 63
+      or-value: 64
+    - id: 83
+      location: 38
+      and-mask: 63
+      or-value: 128
+    - id: 84
+      location: 38
+      and-mask: 63
+      or-value: 192
+    - id: 16424
+      location: 38
+      and-mask: 223
+      or-value: 32
+    - id: 16425
+      location: 38
+      and-mask: 223
+      or-value: 0
 - handle: 54273
   type: 212
   length: 204
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    1MoB1HAAcQADQFltawB4f4BsAHh/AFgAePoFWQB4+gBcAHi/QF0AeL8ABIB4/QIBoHj9AAhAUf4B
-    CUBR/gAKQFH9AgtAUf0AGQBV5wAaAFXnCBsAVecQ/wBVn0D+AFWfIP0AVZ8AHgBV/QBQAFX9AooA
-    Vf4BiwBV/gC/AFP+AMAAU/4BM0BT5wA0QFPnCDVAU+cQNkBT5xgaQFP9AhtAU/0AHEBT+wQdQFP7
-    AG4AWPwBLQBY/AIuAFj8ACJAWO8QI0BY7wD//wAAAA==
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell indexed IO
+  attributes:
+    index-port: 112
+    data-port: 113
+    check-type: word-checksum-negated
+    check-start: 64
+    check-end: 89
+    check-index: 109
+    tokens:
+    - id: 107
+      location: 120
+      and-mask: 127
+      or-value: 128
+    - id: 108
+      location: 120
+      and-mask: 127
+      or-value: 0
+    - id: 88
+      location: 120
+      and-mask: 250
+      or-value: 5
+    - id: 89
+      location: 120
+      and-mask: 250
+      or-value: 0
+    - id: 92
+      location: 120
+      and-mask: 191
+      or-value: 64
+    - id: 93
+      location: 120
+      and-mask: 191
+      or-value: 0
+    - id: 32772
+      location: 120
+      and-mask: 253
+      or-value: 2
+    - id: 40961
+      location: 120
+      and-mask: 253
+      or-value: 0
+    - id: 16392
+      location: 81
+      and-mask: 254
+      or-value: 1
+    - id: 16393
+      location: 81
+      and-mask: 254
+      or-value: 0
+    - id: 16394
+      location: 81
+      and-mask: 253
+      or-value: 2
+    - id: 16395
+      location: 81
+      and-mask: 253
+      or-value: 0
+    - id: 25
+      location: 85
+      and-mask: 231
+      or-value: 0
+    - id: 26
+      location: 85
+      and-mask: 231
+      or-value: 8
+    - id: 27
+      location: 85
+      and-mask: 231
+      or-value: 16
+    - id: 255
+      location: 85
+      and-mask: 159
+      or-value: 64
+    - id: 254
+      location: 85
+      and-mask: 159
+      or-value: 32
+    - id: 253
+      location: 85
+      and-mask: 159
+      or-value: 0
+    - id: 30
+      location: 85
+      and-mask: 253
+      or-value: 0
+    - id: 80
+      location: 85
+      and-mask: 253
+      or-value: 2
+    - id: 138
+      location: 85
+      and-mask: 254
+      or-value: 1
+    - id: 139
+      location: 85
+      and-mask: 254
+      or-value: 0
+    - id: 191
+      location: 83
+      and-mask: 254
+      or-value: 0
+    - id: 192
+      location: 83
+      and-mask: 254
+      or-value: 1
+    - id: 16435
+      location: 83
+      and-mask: 231
+      or-value: 0
+    - id: 16436
+      location: 83
+      and-mask: 231
+      or-value: 8
+    - id: 16437
+      location: 83
+      and-mask: 231
+      or-value: 16
+    - id: 16438
+      location: 83
+      and-mask: 231
+      or-value: 24
+    - id: 16410
+      location: 83
+      and-mask: 253
+      or-value: 2
+    - id: 16411
+      location: 83
+      and-mask: 253
+      or-value: 0
+    - id: 16412
+      location: 83
+      and-mask: 251
+      or-value: 4
+    - id: 16413
+      location: 83
+      and-mask: 251
+      or-value: 0
+    - id: 110
+      location: 88
+      and-mask: 252
+      or-value: 1
+    - id: 45
+      location: 88
+      and-mask: 252
+      or-value: 2
+    - id: 46
+      location: 88
+      and-mask: 252
+      or-value: 0
+    - id: 16418
+      location: 88
+      and-mask: 239
+      or-value: 16
+    - id: 16419
+      location: 88
+      and-mask: 239
+      or-value: 0
 - handle: 54274
   type: 212
   length: 49
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    1C8C1HAAcQADQFlt2ABVf4DZAFV/AADAXAAKA8BnAAWDAHYAAIQAdwAA//8AAAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell indexed IO
+  attributes:
+    index-port: 112
+    data-port: 113
+    check-type: word-checksum-negated
+    check-start: 64
+    check-end: 89
+    check-index: 109
+    tokens:
+    - id: 216
+      location: 85
+      and-mask: 127
+      or-value: 128
+    - id: 217
+      location: 85
+      and-mask: 127
+      or-value: 0
+    - id: 49152
+      location: 92
+      and-mask: 0
+      string-length: 10
+    - id: 49155
+      location: 103
+      and-mask: 0
+      string-length: 5
+    - id: 131
+      location: 118
+      and-mask: 0
+      string-length: 0
+    - id: 132
+      location: 119
+      and-mask: 0
+      string-length: 0
 - handle: 54275
   type: 212
   length: 179
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    1LED1HIAcwAAQF1eKAFK/AApAUr8ASoBSvwCAkBK9wABQEr3CNEAfv4A0gB+/gEqQH77ACtAfvsE
-    0wAAAALUAAYAAgCQLAAAAZAtAAAXAUv+ABgBS/4BGQFL/QAaAUv9AjUBTPwANwFM/AE5AUz8AjsB
-    TPMEPQFM8wjeAHb+ASZAQv4BJ0BC/gA3QEL7ADhAQvsEAABH/gEAAEf+AKEASPwCowBI/AGiAEj8
-    AP//AAAA
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell indexed IO
+  attributes:
+    index-port: 114
+    data-port: 115
+    check-type: word-checksum
+    check-start: 64
+    check-end: 93
+    check-index: 94
+    tokens:
+    - id: 296
+      location: 74
+      and-mask: 252
+      or-value: 0
+    - id: 297
+      location: 74
+      and-mask: 252
+      or-value: 1
+    - id: 298
+      location: 74
+      and-mask: 252
+      or-value: 2
+    - id: 16386
+      location: 74
+      and-mask: 247
+      or-value: 0
+    - id: 16385
+      location: 74
+      and-mask: 247
+      or-value: 8
+    - id: 209
+      location: 126
+      and-mask: 254
+      or-value: 0
+    - id: 210
+      location: 126
+      and-mask: 254
+      or-value: 1
+    - id: 16426
+      location: 126
+      and-mask: 251
+      or-value: 0
+    - id: 16427
+      location: 126
+      and-mask: 251
+      or-value: 4
+    - id: 211
+      location: 0
+      and-mask: 0
+      string-length: 2
+    - id: 212
+      location: 6
+      and-mask: 0
+      string-length: 2
+    - id: 36864
+      location: 44
+      and-mask: 0
+      string-length: 0
+    - id: 36865
+      location: 45
+      and-mask: 0
+      string-length: 0
+    - id: 279
+      location: 75
+      and-mask: 254
+      or-value: 0
+    - id: 280
+      location: 75
+      and-mask: 254
+      or-value: 1
+    - id: 281
+      location: 75
+      and-mask: 253
+      or-value: 0
+    - id: 282
+      location: 75
+      and-mask: 253
+      or-value: 2
+    - id: 309
+      location: 76
+      and-mask: 252
+      or-value: 0
+    - id: 311
+      location: 76
+      and-mask: 252
+      or-value: 1
+    - id: 313
+      location: 76
+      and-mask: 252
+      or-value: 2
+    - id: 315
+      location: 76
+      and-mask: 243
+      or-value: 4
+    - id: 317
+      location: 76
+      and-mask: 243
+      or-value: 8
+    - id: 222
+      location: 118
+      and-mask: 254
+      or-value: 1
+    - id: 16422
+      location: 66
+      and-mask: 254
+      or-value: 1
+    - id: 16423
+      location: 66
+      and-mask: 254
+      or-value: 0
+    - id: 16439
+      location: 66
+      and-mask: 251
+      or-value: 0
+    - id: 16440
+      location: 66
+      and-mask: 251
+      or-value: 4
+    - id: 161
+      location: 72
+      and-mask: 252
+      or-value: 2
+    - id: 163
+      location: 72
+      and-mask: 252
+      or-value: 1
+    - id: 162
+      location: 72
+      and-mask: 252
+      or-value: 0
 - handle: 55296
   type: 216
   length: 32

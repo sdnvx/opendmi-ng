@@ -187,8 +187,25 @@ struct dmi_attribute_params
 
 struct dmi_attribute
 {
+    /**
+     * @brief Member holding the value: the value itself, a pointer to the
+     * elements of an array, or the first element of a vector, in which case
+     * its size is the size of an element.
+     */
     dmi_member_ref_t value;
+
+    /**
+     * @brief Member holding the number of the elements of an array, which is
+     * left unset for the attributes other than arrays.
+     */
     dmi_member_ref_t counter;
+
+    /**
+     * @brief Number of the elements of a vector, which the structure holds in
+     * place, and zero for the attributes other than vectors.
+     */
+    size_t count;
+
     dmi_attribute_type_t type;
     dmi_attribute_params_t params;
 };
@@ -229,6 +246,20 @@ struct dmi_attribute_variant
         .counter = dmi_member(__entity, __counter),                     \
         .type    = DMI_ATTRIBUTE_TYPE_ ## __type,                       \
         .params  = __VA_ARGS__                                          \
+    }
+
+/**
+ * @brief Attribute of a fixed number of the elements the structure holds in
+ * place, in the array member @p __member, which is shown the way an array is.
+ */
+#define DMI_ATTRIBUTE_VECTOR(__entity, __member, __type, ...)             \
+    {                                                                     \
+        .value   = dmi_member_array(__entity, __member),                  \
+        .counter = DMI_MEMBER_NULL,                                       \
+        .count   = dmi_member_size(__entity, __member) /                  \
+                   dmi_element_size(__entity, __member),                  \
+        .type    = DMI_ATTRIBUTE_TYPE_ ## __type,                         \
+        .params  = __VA_ARGS__                                            \
     }
 
 /**
@@ -352,11 +383,11 @@ __dmi_api intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void
 __dmi_api uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value);
 
 /**
- * @brief Reads the number of elements of an array attribute.
+ * @brief Reads the number of elements of an array or a vector attribute.
  *
- * Interprets the counter member referenced by `attr->counter` as an unsigned
- * integer whose width is determined by `attr->counter.size` (1, 2, 4, or 8
- * bytes).
+ * For an array, interprets the counter member referenced by `attr->counter`
+ * as an unsigned integer whose width is determined by `attr->counter.size`
+ * (1, 2, 4, or 8 bytes). For a vector, returns its fixed number of elements.
  *
  * @param attr Attribute descriptor; must not be @c nullptr.
  * @param info Pointer to the decoded entity data; must not be @c nullptr.
@@ -364,6 +395,30 @@ __dmi_api uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const vo
  *         counter or its width is not supported.
  */
 __dmi_api size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
+
+/**
+ * @brief Check whether an attribute holds several elements: an array, whose
+ * elements are kept apart from the structure, or a vector, whose elements are
+ * held in place.
+ *
+ * @param attr Attribute descriptor; must not be @c nullptr.
+ * @return `true` for arrays and vectors, `false` otherwise.
+ */
+__dmi_api bool dmi_attribute_is_array(const dmi_attribute_t *attr);
+
+/**
+ * @brief Get the first element of an array or a vector attribute.
+ *
+ * Elements of an array are kept apart from the structure, and the member
+ * points to them, while the elements of a vector are the member itself.
+ * Elements follow each other `attr->value.size` bytes apart.
+ *
+ * @param attr  Attribute descriptor; must not be @c nullptr.
+ * @param value Pointer to the member of the attribute; must not be @c nullptr.
+ * @return The first element, or @c nullptr if an array holds none and has not
+ *         been allocated.
+ */
+__dmi_api const void *dmi_attribute_get_elements(const dmi_attribute_t *attr, const void *value);
 
 /**
  * @brief Get printable name of an attribute.

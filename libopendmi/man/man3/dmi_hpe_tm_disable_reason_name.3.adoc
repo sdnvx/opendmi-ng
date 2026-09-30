@@ -1,0 +1,1 @@
+dmi_hpe_tm_disable_reason.3.adoc

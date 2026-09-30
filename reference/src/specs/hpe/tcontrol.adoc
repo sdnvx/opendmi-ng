@@ -1,0 +1,51 @@
+= HP/HPE Processor TControl Information (Type 211)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Gives the Tcontrol value of a processor, which Intel programs into each
+processor after the thermal properties of its transistors. The servers begin
+to spin up the fans at this temperature. The processor information structure
+(type 4) tells whether the processor is installed.
+
+.HP/HPE Processor TControl Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `211`
+| HP/HPE Processor TControl Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x07`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Processor Handle
+| `WORD`
+| Varies
+| Handle of the processor information structure (type 4)
+
+| `0x06`
+| 2.0+
+| Tcontrol
+| `BYTE`
+| `NUMBER`
+| Tcontrol value, zero if not available
+|===

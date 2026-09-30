@@ -1,0 +1,116 @@
+= HP/HPE Processor Specific Information (Type 197)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Supplements the processor information (type 4) of each processor socket or
+slot with the numbers the server tells its processors by. The structure is
+ignored for the empty sockets. It has grown with the generations of the
+servers, and its fields past the physical socket are absent from the older
+ones. dmidecode decodes the structure from Gen9 onwards, while the older
+servers of the data corpus carry the same layout.
+
+.HP/HPE Processor Specific Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `197`
+| HP/HPE Processor Specific Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Processor Handle
+| `WORD`
+| Varies
+| Handle of the processor information structure (type 4)
+
+| `0x06`
+| 2.0+
+| APIC ID
+| `BYTE`
+| `NUMBER`
+| Local APIC ID of the processor
+
+| `0x07`
+| 2.0+
+| Status
+| `BYTE`
+| `BITFIELD`
+| Bit 0: bootstrap processor, bit 1: x2APIC mode, bit 2: advanced thermal margining
+
+| `0x08`
+| 2.0+
+| Physical Slot
+| `BYTE`
+| `NUMBER`
+| As the silk screen names it, `0xFF` if the processor is not in a slot
+
+| `0x09`
+| 2.0+
+| Physical Socket
+| `BYTE`
+| `NUMBER`
+| As the silk screen names it, `0xFF` if the processor is not in a socket
+
+| `0x0A`
+| 2.0+
+| Maximum Power
+| `WORD`
+| `NUMBER`
+| Rated maximum power in watts, zero if unknown
+
+| `0x0C`
+| 2.0+
+| x2APIC ID
+| `DWORD`
+| `NUMBER`
+| x2APIC ID of the processor, valid in the x2APIC mode
+
+| `0x10`
+| 2.0+
+| Processor UUID
+| `QWORD`
+| `NUMBER`
+| Unique identifier of the processor
+
+| `0x18`
+| 2.0+
+| Interconnect Speed
+| `WORD`
+| `NUMBER`
+| Speed of the interconnect in MT/s
+
+| `0x1A`
+| 2.0+
+| QDF/S-Spec
+| 6 BYTEs
+| Varies
+| QDF or S-Spec number of Intel processors, in ASCII padded with spaces
+
+| `0x20`
+| 2.0+
+| Reserved
+| `DWORD`
+| Varies
+| Reserved from Gen11 onwards
+|===

@@ -1,0 +1,114 @@
+= Intel Active Management Technology Information (Type 130)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus, and consistent
+with the AMT information of the Intel reference code.
+
+Tells whether the platform supports Intel Active Management Technology (AMT),
+and which of its features are enabled. The structure is told by the `$AMT`
+signature at offset `0x04`.
+
+.Intel Active Management Technology Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `130`
+| Intel Active Management Technology Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x14` or `0x18`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Signature
+| 4 BYTEs
+| `$AMT`
+|
+
+| `0x08`
+| 2.0+
+| AMT Supported
+| `BYTE`
+| `BOOLEAN`
+|
+
+| `0x09`
+| 2.0+
+| AMT Enabled
+| `BYTE`
+| `BOOLEAN`
+|
+
+| `0x0A`
+| 2.0+
+| IDE-R Enabled
+| `BYTE`
+| `BOOLEAN`
+| IDE redirection
+
+| `0x0B`
+| 2.0+
+| SOL Enabled
+| `BYTE`
+| `BOOLEAN`
+| Serial over LAN
+
+| `0x0C`
+| 2.0+
+| Network Enabled
+| `BYTE`
+| `BOOLEAN`
+| Network interface of AMT
+
+| `0x0D`
+| 2.0+
+| Extended Data
+| `BYTE`
+| `0xA5`
+| Marker of the extended data
+
+| `0x0E`
+| 2.0+
+| OEM Capabilities
+| 4 BYTEs
+| `BITFIELD`
+| Capabilities the platform vendor gives to AMT, whose meaning is not established
+
+| `0x12`
+| 2.0+
+| KVM Enabled
+| `BYTE`
+| `BOOLEAN`
+| Keyboard, video and mouse redirection
+
+| `0x13`
+| 2.0+
+| Reserved
+| `BYTE`
+| `0`
+|
+
+| `0x14`
+| 2.0+
+| Reserved
+| 4 BYTEs
+| Varies
+| Present in the structures of length `0x18`, whose meaning is not established
+|===

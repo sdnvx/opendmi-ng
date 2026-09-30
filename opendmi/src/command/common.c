@@ -35,8 +35,6 @@ static bool dmi_filter_config_enable_all(dmi_context_t *context, const char *val
 static bool dmi_filter_config_add_module(dmi_context_t *context, const char *value);
 static bool dmi_filter_config_add_all_modules(dmi_context_t *context, const char *value);
 
-static bool dmi_filter_config_add_module_types(const dmi_module_t *module);
-
 dmi_filter_config_t dmi_filter_config =
 {
     .filter = {
@@ -121,7 +119,7 @@ const dmi_option_set_t dmi_filter_options =
         {
             .short_names = "m",
             .long_names  = (const char *[]){ "module", nullptr },
-            .description = "Show entries provided by enabled module",
+            .description = "Show entries provided by module",
             .handler     = dmi_filter_config_add_module,
             .argument    = {
                 .name     = "module",
@@ -132,7 +130,7 @@ const dmi_option_set_t dmi_filter_options =
         {
             .short_names = "M",
             .long_names  = (const char *[]){ "all-modules", nullptr },
-            .description = "Show entries provided by all enabled modules",
+            .description = "Show entries provided by all modules",
             .handler     = dmi_filter_config_add_all_modules
         },
         {
@@ -451,7 +449,7 @@ static bool dmi_filter_config_enable_all(dmi_context_t *context, const char *val
 
 static bool dmi_filter_config_add_module(dmi_context_t *context, const char *value)
 {
-    assert(context != nullptr);
+    dmi_unused(context);
     assert(value != nullptr);
 
     const dmi_module_t *module = dmi_module_find(value);
@@ -460,53 +458,26 @@ static bool dmi_filter_config_add_module(dmi_context_t *context, const char *val
         return false;
     }
 
-    // Entities provided by the module are decoded only if it is enabled
-    if (not dmi_has_extension(context, module)) {
-        dmi_command_message("Module %s is not enabled", value);
-        return false;
-    }
-
-    return dmi_filter_config_add_module_types(module);
-}
-
-static bool dmi_filter_config_add_all_modules(dmi_context_t *context, const char *value)
-{
-    bool found = false;
-
-    assert(context != nullptr);
-    dmi_unused(value);
-
-    for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
-        if ((module->entities == nullptr) or (*module->entities == nullptr))
-            continue;
-        if (not dmi_has_extension(context, module))
-            continue;
-
-        if (not dmi_filter_config_add_module_types(module))
-            return false;
-
-        found = true;
-    }
-
-    // Empty filter matches all entries, so this is an error
-    if (not found) {
-        dmi_command_message("No modules providing entries are enabled");
-        return false;
-    }
-
-    return true;
-}
-
-static bool dmi_filter_config_add_module_types(const dmi_module_t *module)
-{
-    // Empty filter matches all entries, so this is an error
+    // Modules may be enabled for the platform only as the data is opened,
+    // and entries of the modules which are not enabled are just not matched
     if ((module->entities == nullptr) or (*module->entities == nullptr)) {
         dmi_command_message("Module %s does not provide any entries", module->code);
         return false;
     }
 
-    for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++) {
-        if (not dmi_filter_add_type(&dmi_filter_config.filter, (*pspec)->type))
+    return dmi_filter_add_module(&dmi_filter_config.filter, module);
+}
+
+static bool dmi_filter_config_add_all_modules(dmi_context_t *context, const char *value)
+{
+    dmi_unused(context);
+    dmi_unused(value);
+
+    for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
+        if ((module->entities == nullptr) or (*module->entities == nullptr))
+            continue;
+
+        if (not dmi_filter_add_module(&dmi_filter_config.filter, module))
             return false;
     }
 

@@ -1,0 +1,75 @@
+ifdef::backend-manpage[]
+= dmi_hpe_nic_info(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_nic_info
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_nic_info - HP/HPE BIOS PXE and iSCSI NIC PCI and MAC information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/nic.h>
+
+typedef struct dmi_hpe_nic_info {
+    size_t port_count;
+    dmi_hpe_nic_port_t *ports;
+} dmi_hpe_nic_info_t;
+----
+
+== Description
+
+The `dmi_hpe_nic_info_t` structure holds the decoded HP/HPE BIOS PXE NIC PCI
+and MAC information, and BIOS iSCSI NIC PCI and MAC information, which list
+the network ports the firmware boots from over PXE or iSCSI.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_pxe_nic_spec`, of type `DMI_TYPE(HPE_PXE_NIC)`, and by
+`dmi_hpe_iscsi_nic_spec`, of type `DMI_TYPE(HPE_ISCSI_NIC)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+Ports run to the end of the structure, which carries no number of them of its
+own. The iSCSI ports are listed up to G7 only: from Gen8 onwards, type 221 is
+not used by HPE, and is decoded as the Intel firmware version information, see
+`dmi_intel_fvi`(3).
+
+=== Fields
+
+`port_count`::
+Number of ports.
+
+`ports`::
+Ports, see `dmi_hpe_nic_port`(3). May be `nullptr` when `port_count` is 0.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_nic_port`(3),
+`dmi_intel_fvi`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

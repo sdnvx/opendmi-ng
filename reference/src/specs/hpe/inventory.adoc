@@ -1,0 +1,84 @@
+= HP/HPE Firmware Inventory Record (Type 240)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Tells the version of the firmware of a device which reports it through its
+UEFI driver, and the device correlation record (type 203) of the device.
+
+.HP/HPE Firmware Inventory Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `240`
+| HP/HPE Firmware Inventory Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x27`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Device Correlation Handle
+| `WORD`
+| Varies
+| Handle of the device correlation record (type 203)
+
+| `0x06`
+| 2.0+
+| Package Version
+| `DWORD`
+| `NUMBER`
+| Version of the package of all the firmware of the device
+
+| `0x0A`
+| 2.0+
+| Version String
+| `BYTE`
+| `STRING`
+| 
+
+| `0x0B`
+| 2.0+
+| Image Size
+| `QWORD`
+| `NUMBER`
+| Size of the firmware image in bytes, zero if not available
+
+| `0x13`
+| 2.0+
+| Attributes Defined
+| `QWORD`
+| `BITFIELD`
+| Bit 0: updatable, bit 1: reset required, bit 2: authentication required, bit 3: in use, bit 4: UEFI image
+
+| `0x1B`
+| 2.0+
+| Attributes Set
+| `QWORD`
+| `BITFIELD`
+| Values of the defined attributes, bit for bit
+
+| `0x23`
+| 2.0+
+| Lowest Supported Version
+| `DWORD`
+| `NUMBER`
+| Zero if not available
+|===

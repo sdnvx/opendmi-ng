@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-memory-device.h>
+#include <opendmi/entity/intel-rsd/memory-device.h>
 
 typedef enum dmi_intel_rsd_memory_type {
     DMI_INTEL_RSD_MEMORY_TYPE_DIMM     = 0x00,

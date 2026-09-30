@@ -1,0 +1,87 @@
+ifdef::backend-manpage[]
+= dmi_hpe_rack_locator(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_rack_locator
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_rack_locator - HP/HPE system/rack locator structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/rack-locator.h>
+
+typedef struct dmi_hpe_rack_locator {
+    const char *rack_name;
+    const char *enclosure_name;
+    const char *enclosure_model;
+    const char *server_bay;
+    uint8_t bay_count;
+    uint8_t filled_bay_count;
+    const char *enclosure_serial;
+} dmi_hpe_rack_locator_t;
+----
+
+== Description
+
+The `dmi_hpe_rack_locator_t` structure holds the decoded HP/HPE system/rack
+locator, which tells where a blade server is: the rack, the enclosure and the
+bay.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_rack_locator_spec`, of type `DMI_TYPE(HPE_RACK_LOCATOR)`, declared
+in `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`)
+is enabled, which it is for HP and HPE servers. It lives as long as the
+context it has been decoded in.
+
+=== Fields
+
+`rack_name`::
+Name of the rack.
+
+`enclosure_name`::
+Name of the enclosure.
+
+`enclosure_model`::
+Model of the enclosure.
+
+`server_bay`::
+Bay of the server.
+
+`bay_count`::
+Number of the bays of the enclosure.
+
+`filled_bay_count`::
+Number of the filled bays of the enclosure.
+
+`enclosure_serial`::
+Serial number of the enclosure.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

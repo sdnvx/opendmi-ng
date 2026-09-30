@@ -1,0 +1,86 @@
+= HP/HPE DIMM Attributes Record (Type 232)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Tells what the memory device structure (type 17) of a DIMM socket does not:
+whether the module is an HPE one, and the voltages it runs at. There is a
+record for each socket. The structure is decoded from Gen9 onwards, and the
+shortest structures end after the configured voltage, at `0x0E`.
+
+.HP/HPE DIMM Attributes Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `232`
+| HP/HPE DIMM Attributes Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Memory Device Handle
+| `WORD`
+| Varies
+| Handle of the memory device structure (type 17)
+
+| `0x06`
+| 2.0+
+| Attributes
+| `DWORD`
+| `BITFIELD`
+| Bits 0-1: HPE SmartMemory, `0` no, `1` yes, others unknown. Bit 2: bit 3 is defined, bit 3: load reduced DIMM. Bit 4: bit 5 is defined, bit 5: HPE standard memory
+
+| `0x0A`
+| 2.0+
+| Minimum Voltage
+| `WORD`
+| `NUMBER`
+| Minimum operating voltage in millivolts, zero if unknown
+
+| `0x0C`
+| 2.0+
+| Configured Voltage
+| `WORD`
+| `NUMBER`
+| Configured operating voltage in millivolts, zero if unknown
+
+| `0x0E`
+| 2.0+
+| Reserved
+| 20 BYTEs
+| Varies
+| 
+
+| `0x22`
+| 2.0+
+| Map-Out Reason
+| `BYTE`
+| `BITFIELD`
+| Bit 0: configuration error, bit 1: training error
+
+| `0x23`
+| 2.0+
+| Encryption Status
+| `BYTE`
+| `ENUM`
+| `0`: not encrypted, `1`: encrypted, `2`: unknown, `3`: not supported
+|===

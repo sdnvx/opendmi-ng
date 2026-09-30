@@ -1,0 +1,85 @@
+ifdef::backend-manpage[]
+= dmi_hpe_riser(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_riser
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_riser - HP/HPE PCIe riser inventory record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/extension-board.h>
+
+typedef struct dmi_hpe_riser {
+    dmi_hpe_board_type_t board_type;
+    dmi_hpe_riser_position_t position;
+    uint8_t riser_id;
+    uint8_t cpld_version;
+    const char *name;
+} dmi_hpe_riser_t;
+----
+
+== Description
+
+The `dmi_hpe_riser_t` structure holds the decoded HP/HPE extension board
+inventory record of a PCIe riser, which ML, DL and Alletra servers have from
+Gen11 onwards. It is returned by `dmi_entity_info`(3) for the structures of
+board type `DMI_HPE_BOARD_TYPE_RISER`.
+
+The structures are decoded by `dmi_hpe_riser_spec` and
+`dmi_hpe_mhs_riser_spec`, of type `DMI_TYPE(HPE_EXTENSION_BOARD)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. The board type at offset `0x04`
+selects the specification, and the structures of other board types are not
+decoded. The structure lives as long as the context it has been decoded in.
+
+=== Fields
+
+`board_type`::
+Type of the board, `DMI_HPE_BOARD_TYPE_RISER`, see `dmi_hpe_board_type`(3).
+
+`position`::
+Position of the riser, see `dmi_hpe_riser_position`(3).
+
+`riser_id`::
+ID of the riser.
+
+`cpld_version`::
+Version of the CPLD of the riser in bits 0 to 6, bit 7 telling a `B.` release,
+zero if the riser has no CPLD.
+
+`name`::
+Name of the riser.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_mhs_riser`(3),
+`dmi_hpe_board_type`(3),
+`dmi_hpe_riser_position`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

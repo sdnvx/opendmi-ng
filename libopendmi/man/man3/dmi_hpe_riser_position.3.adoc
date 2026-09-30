@@ -1,0 +1,87 @@
+ifdef::backend-manpage[]
+= dmi_hpe_riser_position(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_riser_position
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_riser_position, dmi_hpe_riser_position_name - HP/HPE PCIe riser positions
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/extension-board.h>
+
+typedef enum dmi_hpe_riser_position {
+    DMI_HPE_RISER_POSITION_PRIMARY    = 0x01,
+    DMI_HPE_RISER_POSITION_SECONDARY  = 0x02,
+    DMI_HPE_RISER_POSITION_TERTIARY   = 0x03,
+    DMI_HPE_RISER_POSITION_QUATERNARY = 0x04,
+    DMI_HPE_RISER_POSITION_FRONT      = 0x0A
+} dmi_hpe_riser_position_t;
+
+const char *dmi_hpe_riser_position_name(dmi_hpe_riser_position_t value);
+----
+
+== Description
+
+The `dmi_hpe_riser_position_t` enumeration tells the position of a PCIe riser,
+and is the type of the `position` field of `dmi_hpe_riser_t`.
+
+The `dmi_hpe_riser_position_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_HPE_RISER_POSITION_PRIMARY`::
+Primary.
+
+`DMI_HPE_RISER_POSITION_SECONDARY`::
+Secondary.
+
+`DMI_HPE_RISER_POSITION_TERTIARY`::
+Tertiary.
+
+`DMI_HPE_RISER_POSITION_QUATERNARY`::
+Quaternary.
+
+`DMI_HPE_RISER_POSITION_FRONT`::
+Front.
+
+== Return value
+
+`dmi_hpe_riser_position_name` returns the name of the value, translated to the language of the
+current locale when a translation is available, or `nullptr` if the value
+has no name. The returned string must not be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_hpe_riser`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

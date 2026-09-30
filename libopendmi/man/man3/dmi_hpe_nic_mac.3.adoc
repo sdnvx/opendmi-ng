@@ -1,0 +1,90 @@
+ifdef::backend-manpage[]
+= dmi_hpe_nic_mac(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_nic_mac
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_nic_mac - HP/HPE NIC PCI and MAC information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/nic-mac.h>
+
+typedef struct dmi_hpe_nic_mac {
+    uint16_t segment;
+    uint8_t bus;
+    uint8_t devfn;
+    dmi_binary_t mac_address;
+    dmi_hpe_nic_state_t state;
+    uint8_t port;
+    const char *uefi_device_path;
+} dmi_hpe_nic_mac_t;
+----
+
+== Description
+
+The `dmi_hpe_nic_mac_t` structure holds the decoded HP/HPE NIC PCI and MAC
+information, which describes a network port the firmware boots from over PXE,
+one per structure.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_nic_mac_spec`, of type `DMI_TYPE(HPE_NIC)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+=== Fields
+
+`segment`::
+PCI segment group, zero for a single group topology.
+
+`bus`::
+PCI bus.
+
+`devfn`::
+PCI device and function, `(device << 3) | function`.
+
+`mac_address`::
+MAC address.
+
+`state`::
+State of the port, see `dmi_hpe_nic_state`(3): disabled if the bus and the
+device are zero, and not installed if they have all bits set.
+
+`port`::
+Number of the port. Set to `UINT8_MAX` when the structure holds none.
+
+`uefi_device_path`::
+UEFI device path of the port.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_nic_state`(3),
+`dmi_hpe_nic_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

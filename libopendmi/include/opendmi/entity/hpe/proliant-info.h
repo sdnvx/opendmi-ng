@@ -1,0 +1,56 @@
+//
+// OpenDMI: Cross-platform DMI/SMBIOS framework
+// Copyright (c) 2025-2026, The OpenDMI contributors
+//
+// SPDX-License-Identifier: BSD-3-Clause
+//
+#ifndef OPENDMI_ENTITY_HPE_PROLIANT_INFO_H
+#define OPENDMI_ENTITY_HPE_PROLIANT_INFO_H
+
+#pragma once
+
+#include <opendmi/entity.h>
+
+typedef struct dmi_hpe_proliant_info dmi_hpe_proliant_info_t;
+
+/**
+ * @brief HP/HPE ProLiant information (type 219).
+ *
+ * Gives the feature flags of a server, which the watchdog timer driver reads.
+ */
+struct dmi_hpe_proliant_info
+{
+    /**
+     * @brief Power features, whose meaning is not documented.
+     */
+    uint32_t power_features;
+
+    /**
+     * @brief Omega features, whose meaning is not documented.
+     */
+    uint32_t omega_features;
+
+    /**
+     * @brief Miscellaneous features.
+     */
+    uint32_t misc_features;
+
+    /**
+     * @brief Whether the integrated CRU (iCRU) is supported, as bit 0 of the
+     * miscellaneous features tells.
+     */
+    bool is_icru;
+
+    /**
+     * @brief Whether the firmware is UEFI one, as bits 10 and 12 of the
+     * miscellaneous features tell.
+     */
+    bool is_uefi;
+};
+
+/**
+ * @brief HP/HPE ProLiant information entity specification.
+ */
+extern __dmi_api const dmi_entity_spec_t dmi_hpe_proliant_info_spec;
+
+#endif // !OPENDMI_ENTITY_HPE_PROLIANT_INFO_H

@@ -85,8 +85,131 @@ static bool dmi_open_ex(
 /**
  * @internal
  * @brief Setup vendor-specific extensions.
+ *
+ * @details
+ * Tells the vendor and the platform from the firmware and system information,
+ * enables the modules of the platform, if requested, and maps the
+ * specifications of the enabled modules for the platform.
  */
 static bool dmi_setup_extensions(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Tell the vendor from the firmware information.
+ *
+ * @return `false` if the vendor is not told in strict mode, `true` otherwise.
+ */
+static bool dmi_setup_vendor(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Enable the modules of the platform.
+ *
+ * @details
+ * Modules whose types conflict with the modules enabled before are skipped.
+ *
+ * @return `false` if memory is exhausted, `true` otherwise.
+ */
+static bool dmi_setup_platform_modules(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Tell the platform from the firmware and system information, which
+ * may be missing.
+ *
+ * @return `false` if memory is exhausted, `true` otherwise.
+ */
+static bool dmi_platform_detect(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Get decoded information of the first structure of a type, which may
+ * be missing or malformed.
+ */
+static const void *dmi_platform_info(dmi_registry_t *registry, dmi_type_t type);
+
+/**
+ * @internal
+ * @brief Tell the vendor from a vendor name, `DMI_VENDOR_OTHER` if unknown.
+ */
+static dmi_vendor_t dmi_platform_vendor(const char *name);
+
+/**
+ * @internal
+ * @brief Get the platform the structures are decoded for: the one set
+ * explicitly, or the one told from the data.
+ */
+static const dmi_platform_t *dmi_context_platform(const dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Get enabled module by index.
+ *
+ * @details
+ * Modules enabled explicitly go first, followed by the ones enabled for the
+ * platform, and by @p extra, the module which is being enabled.
+ *
+ * @return Module, or @c nullptr past the last one.
+ */
+static const dmi_module_t *dmi_module_at(
+        const dmi_context_t *context,
+        const dmi_module_t  *extra,
+        size_t               index);
+
+/**
+ * @internal
+ * @brief Get type number a specification is mapped to.
+ *
+ * @details
+ * The relocations of the enabled modules and of @p extra give some
+ * specifications type numbers of their own, while the rest are mapped to
+ * their types.
+ */
+static dmi_type_t dmi_spec_relocate(
+        const dmi_context_t     *context,
+        const dmi_module_t      *extra,
+        const dmi_entity_spec_t *spec);
+
+/**
+ * @internal
+ * @brief Map specifications to types for the platform of the context.
+ *
+ * @details
+ * Standard specifications are mapped first, followed by the specifications of
+ * the enabled modules and of @p extra, which apply to the platform, and by
+ * the ones of the modules which yield their types to the rest, into the types
+ * left free. The map of the context is not changed, so that it stays as it was
+ * on conflicts.
+ *
+ * @param[in]  context Context descriptor.
+ * @param[in]  extra   Module which is being enabled, or @c nullptr.
+ * @param[in]  report  Whether a conflict is raised as an error.
+ * @param[out] map     Map of `DMI_TYPE_MAX + 1` candidate lists to fill.
+ *
+ * @return `true` on success, `false` if two specifications are mapped to the
+ *         same type.
+ */
+static bool dmi_types_map(
+        dmi_context_t         *context,
+        const dmi_module_t    *extra,
+        bool                   report,
+        dmi_type_candidates_t *map);
+
+/**
+ * @internal
+ * @brief Map a specification to a type.
+ *
+ * @details
+ * Specification without a signature takes the first candidate of the type,
+ * and the ones with signatures take the rest.
+ *
+ * @return `true` on success, `false` if the type has another specification
+ *         without a signature, or no room for one more with a signature.
+ */
+static bool dmi_types_map_one(
+        dmi_type_candidates_t   *candidates,
+        const dmi_entity_spec_t *spec,
+        bool                     yield);
 
 /**
  * @internal
@@ -266,20 +389,12 @@ dmi_context_t *dmi_create(unsigned int flags)
 
     do {
         // Allocate type map
-        context->type_map = dmi_alloc_array(context, sizeof(dmi_entity_spec_t *), DMI_TYPE_MAX + 1);
+        context->type_map = dmi_alloc_array(context, sizeof(dmi_type_candidates_t), DMI_TYPE_MAX + 1);
         if (context->type_map == nullptr)
             break;
 
-        // Initialize type map
-        for (size_t i = 0; i < countof(dmi_entity_specs); i++) {
-            const dmi_entity_spec_t *spec = dmi_entity_specs[i];
-
-            if (spec == nullptr)
-                continue;
-
-            context->type_map[spec->type] = spec;
-        }
-
+        // Initialize type map, which has no modules to conflict yet
+        dmi_types_map(context, nullptr, false, context->type_map);
 
         success = true;
     } while (false);
@@ -334,26 +449,10 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
         return false;
     }
 
-    if (module->entities) {
-        const dmi_entity_spec_t **pspec;
-
-        // Check type map and module itself for conflicts
-        for (pspec = module->entities; *pspec != nullptr; pspec++) {
-            dmi_type_t type = (*pspec)->type;
-            bool conflict = (context->type_map[type] != nullptr);
-
-            for (const dmi_entity_spec_t **pprev = module->entities; pprev != pspec; pprev++) {
-                if ((*pprev)->type == type)
-                    conflict = true;
-            }
-
-            if (conflict) {
-                dmi_error_raise_ex(context, DMI_ERROR_MODULE_CONFLICT, "%s: type %d",
-                                   module->name, (int)type);
-                return false;
-            }
-        }
-    }
+    // Check the module against the enabled ones, before it is enabled
+    dmi_type_candidates_t map[DMI_TYPE_MAX + 1];
+    if (not dmi_types_map(context, module, true, map))
+        return false;
 
     // Register enabled module
     if (not dmi_vector_push(&context->modules, (uintptr_t)module)) {
@@ -362,11 +461,7 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
     }
 
     // Update type map
-    if (module->entities) {
-        for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++) {
-            context->type_map[(*pspec)->type] = *pspec;
-        }
-    }
+    memcpy(context->type_map, map, sizeof(map));
 
     return true;
 }
@@ -381,7 +476,50 @@ bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module)
             return true;
     }
 
+    for (size_t i = 0; i < context->state.modules.length; i++) {
+        if (context->state.modules.data[i] == (uintptr_t)module)
+            return true;
+    }
+
     return false;
+}
+
+const dmi_platform_t *dmi_get_platform(const dmi_context_t *context)
+{
+    if (context == nullptr)
+        return nullptr;
+
+    return dmi_context_platform(context);
+}
+
+bool dmi_set_platform(dmi_context_t *context, const dmi_platform_t *platform)
+{
+    if (context == nullptr)
+        return false;
+
+    dmi_platform_t *copy = nullptr;
+    if (platform != nullptr) {
+        copy = dmi_platform_clone(platform);
+        if (copy == nullptr) {
+            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+            return false;
+        }
+    }
+
+    dmi_platform_t *previous = context->platform;
+    context->platform = copy;
+
+    dmi_type_candidates_t map[DMI_TYPE_MAX + 1];
+    if (not dmi_types_map(context, nullptr, true, map)) {
+        context->platform = previous;
+        dmi_platform_destroy(copy);
+        return false;
+    }
+
+    memcpy(context->type_map, map, sizeof(map));
+    dmi_platform_destroy(previous);
+
+    return true;
 }
 
 bool dmi_load(dmi_context_t *context, const char *path)
@@ -474,14 +612,15 @@ dmi_type_t dmi_type_find(dmi_context_t *context, const char *code)
     if ((context == nullptr) or (code == nullptr))
         return DMI_TYPE_INVALID;
 
+    // Type number is the one the structures are found at, which relocations
+    // may make different from the type of the specification
     for (size_t i = 0; i <= DMI_TYPE_MAX; i++) {
-        const dmi_entity_spec_t *spec = context->type_map[i];
+        for (size_t j = 0; j < DMI_TYPE_CANDIDATES; j++) {
+            const dmi_entity_spec_t *spec = context->type_map[i][j];
 
-        if (spec == nullptr)
-            continue;
-
-        if (strcmp(spec->code, code) == 0)
-            return spec->type;
+            if ((spec != nullptr) and (strcmp(spec->code, code) == 0))
+                return (dmi_type_t)i;
+        }
     }
 
     return DMI_TYPE_INVALID;
@@ -497,7 +636,10 @@ const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type)
         return nullptr;
     }
 
-    return context->type_map[type];
+    // Types told by signatures only are represented by the first of them
+    const dmi_type_candidates_t *candidates = &context->type_map[type];
+
+    return ((*candidates)[0] != nullptr) ? (*candidates)[0] : (*candidates)[1];
 }
 
 const char *dmi_spec_name(const dmi_entity_spec_t *spec)
@@ -602,8 +744,17 @@ bool dmi_close(dmi_context_t *context)
     dmi_buffer_destroy(context->state.entry);
     dmi_buffer_destroy(context->state.table);
 
+    dmi_vector_clear(&context->state.modules);
+    dmi_platform_destroy(context->state.platform);
+
     memset(&context->state, 0, sizeof(context->state));
     context->state.vendor = DMI_VENDOR_OTHER;
+
+    // Modules enabled for the platform are gone, and so are specifications
+    // of the modules enabled explicitly, which apply to its generations only.
+    // What is left has been mapped without conflicts before, so the map is
+    // updated in place.
+    dmi_types_map(context, nullptr, false, context->type_map);
 
     return true;
 }
@@ -613,11 +764,15 @@ void dmi_destroy(dmi_context_t *context)
     if (context == nullptr)
         return;
 
+    // Modules are dropped before closing, since closing maps the modules
+    // enabled explicitly again, and they need not outlive the context
+    dmi_vector_clear(&context->modules);
+
     // Close and free context
     dmi_close(context);
     dmi_error_clear(context);
 
-    dmi_vector_clear(&context->modules);
+    dmi_platform_destroy(context->platform);
     dmi_free(context->type_map);
     dmi_free(context);
 }
@@ -731,6 +886,44 @@ static bool dmi_open_ex(
 
 static bool dmi_setup_extensions(dmi_context_t *context)
 {
+    if (not dmi_setup_vendor(context))
+        return false;
+
+    // Platform told from the data is kept even if another one has been set,
+    // so that it is used again once that one is unset
+    if (not dmi_platform_detect(context))
+        return false;
+
+    const dmi_platform_t *platform = dmi_context_platform(context);
+    dmi_log_info(context, "Platform: %s, family %s, generation %u%s",
+                 (platform->product != nullptr) ? platform->product : "unknown",
+                 (platform->family != nullptr) ? platform->family : "unknown",
+                 platform->generation,
+                 (context->platform != nullptr) ? " (set explicitly)" : "");
+    dmi_log_info(context, "Platform vendors: firmware %s, system %s, baseboard %s, processor %s",
+                 dmi_vendor_name(platform->firmware_vendor),
+                 dmi_vendor_name(platform->system_vendor),
+                 dmi_vendor_name(platform->baseboard_vendor),
+                 dmi_vendor_name(platform->processor_vendor));
+
+    if (context->flags & DMI_CONTEXT_FLAG_AUTO_MODULES) {
+        if (not dmi_setup_platform_modules(context))
+            return false;
+    }
+
+    // Modules enabled before the context has been opened are mapped for the
+    // platform only now
+    dmi_type_candidates_t map[DMI_TYPE_MAX + 1];
+    if (not dmi_types_map(context, nullptr, true, map))
+        return false;
+
+    memcpy(context->type_map, map, sizeof(map));
+
+    return true;
+}
+
+static bool dmi_setup_vendor(dmi_context_t *context)
+{
     dmi_entity_t *entity;
     const dmi_firmware_t *firmware;
     const dmi_vendor_spec_t *vendor;
@@ -767,15 +960,244 @@ static bool dmi_setup_extensions(dmi_context_t *context)
     dmi_log_info(context, "SMBIOS vendor: %s (%s)",
                  dmi_vendor_name(context->state.vendor), firmware->vendor);
 
-    //
-    // TODO: Implement fully-feature module probing
-    //
-    //if ((vendor != nullptr) and (vendor->module != nullptr)) {
-    //    if (!dmi_add_extension(context, vendor->module))
-    //        return false;
-    //}
+    return true;
+}
+
+static bool dmi_setup_platform_modules(dmi_context_t *context)
+{
+    const dmi_platform_t *platform = dmi_context_platform(context);
+
+    for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
+        if ((module->platforms == nullptr) or dmi_has_extension(context, module))
+            continue;
+
+        bool matched = false;
+        for (const dmi_platform_match_t *match = module->platforms; match->firmware_vendor != DMI_VENDOR_INVALID; match++) {
+            if (dmi_platform_match(platform, match)) {
+                matched = true;
+                break;
+            }
+        }
+
+        if (not matched)
+            continue;
+
+        // Modules enabled explicitly take precedence
+        dmi_type_candidates_t map[DMI_TYPE_MAX + 1];
+        if (not dmi_types_map(context, module, false, map)) {
+            dmi_log_notice(context, "Extension %s conflicts with enabled extensions, skipping",
+                           module->name);
+            continue;
+        }
+
+        if (not dmi_vector_push(&context->state.modules, (uintptr_t)module)) {
+            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+            return false;
+        }
+
+        dmi_log_info(context, "Enabling extension for the platform: %s", module->name);
+    }
 
     return true;
+}
+
+static bool dmi_platform_detect(dmi_context_t *context)
+{
+    dmi_registry_t *registry = context->state.registry;
+
+    dmi_platform_t *platform = dmi_platform_create(context);
+    if (platform == nullptr)
+        return false;
+
+    platform->firmware_vendor = context->state.vendor;
+
+    // System, baseboard and processor information is optional, and the
+    // platform is told without it
+    const char *product = nullptr;
+    const dmi_system_t *system = dmi_platform_info(registry, DMI_TYPE(SYSTEM));
+    if (system != nullptr) {
+        platform->system_vendor = dmi_platform_vendor(system->vendor);
+        product = system->product;
+    }
+
+    const dmi_baseboard_t *baseboard = dmi_platform_info(registry, DMI_TYPE(BASEBOARD));
+    if (baseboard != nullptr)
+        platform->baseboard_vendor = dmi_platform_vendor(baseboard->vendor);
+
+    // Sockets may be empty, so the first processor of a known vendor is taken
+    dmi_registry_iter_t iter;
+    dmi_registry_iter_init(&iter, registry, nullptr);
+
+    dmi_entity_t *entity;
+    while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+        if ((entity->type != DMI_TYPE(PROCESSOR)) or not dmi_entity_decode(entity))
+            continue;
+
+        const dmi_processor_t *processor = dmi_entity_info(entity, DMI_TYPE(PROCESSOR));
+        platform->processor_vendor = dmi_platform_vendor(processor->vendor);
+        if (platform->processor_vendor != DMI_VENDOR_OTHER)
+            break;
+    }
+
+    bool success = dmi_platform_set_product(platform, product);
+
+    const dmi_vendor_spec_t *vendor = dmi_vendor_detect(context->state.vendor_name);
+    if (success and (vendor != nullptr) and (vendor->detect != nullptr) and (product != nullptr))
+        success = vendor->detect(platform);
+
+    if (not success) {
+        dmi_platform_destroy(platform);
+        return false;
+    }
+
+    dmi_platform_destroy(context->state.platform);
+    context->state.platform = platform;
+
+    return true;
+}
+
+static const void *dmi_platform_info(dmi_registry_t *registry, dmi_type_t type)
+{
+    dmi_entity_t *entity = dmi_registry_lookup_first(registry, type, true);
+
+    if ((entity == nullptr) or not dmi_entity_decode(entity))
+        return nullptr;
+
+    return dmi_entity_info(entity, type);
+}
+
+static dmi_vendor_t dmi_platform_vendor(const char *name)
+{
+    const dmi_vendor_spec_t *vendor = dmi_vendor_detect(name);
+
+    return (vendor != nullptr) ? vendor->id : DMI_VENDOR_OTHER;
+}
+
+static const dmi_platform_t *dmi_context_platform(const dmi_context_t *context)
+{
+    return (context->platform != nullptr) ? context->platform : context->state.platform;
+}
+
+static const dmi_module_t *dmi_module_at(
+        const dmi_context_t *context,
+        const dmi_module_t  *extra,
+        size_t               index)
+{
+    if (index < context->modules.length)
+        return (const dmi_module_t *)context->modules.data[index];
+    index -= context->modules.length;
+
+    if (index < context->state.modules.length)
+        return (const dmi_module_t *)context->state.modules.data[index];
+    index -= context->state.modules.length;
+
+    return (index == 0) ? extra : nullptr;
+}
+
+static dmi_type_t dmi_spec_relocate(
+        const dmi_context_t     *context,
+        const dmi_module_t      *extra,
+        const dmi_entity_spec_t *spec)
+{
+    const dmi_module_t *module;
+
+    for (size_t i = 0; (module = dmi_module_at(context, extra, i)) != nullptr; i++) {
+        if (module->relocations == nullptr)
+            continue;
+
+        for (const dmi_relocation_t *relocation = module->relocations; relocation->spec != nullptr; relocation++) {
+            if (relocation->spec == spec)
+                return relocation->type;
+        }
+    }
+
+    return spec->type;
+}
+
+static bool dmi_types_map(
+        dmi_context_t         *context,
+        const dmi_module_t    *extra,
+        bool                   report,
+        dmi_type_candidates_t *map)
+{
+    const dmi_platform_t *platform = dmi_context_platform(context);
+    const dmi_module_t   *module;
+
+    memset(map, 0, sizeof(*map) * (DMI_TYPE_MAX + 1));
+
+    for (size_t i = 0; i < countof(dmi_entity_specs); i++) {
+        const dmi_entity_spec_t *spec = dmi_entity_specs[i];
+
+        if (spec != nullptr)
+            map[spec->type][0] = spec;
+    }
+
+    // Modules which yield their types to the rest are mapped last, into the
+    // types left free
+    for (int pass = 0; pass < 2; pass++) {
+        bool yield = (pass == 1);
+
+        for (size_t i = 0; (module = dmi_module_at(context, extra, i)) != nullptr; i++) {
+            if ((module->entities == nullptr) or (((module->flags & DMI_MODULE_FLAG_YIELD) != 0) != yield))
+                continue;
+
+            for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++) {
+                const dmi_entity_spec_t *spec = *pspec;
+
+                // Specifications of other generations of the platform are left out
+                if (not dmi_platform_in_generations(platform, &spec->params.generations))
+                    continue;
+
+                // Platforms which never carry the structure are told by
+                // a relocation to no type
+                dmi_type_t type = dmi_spec_relocate(context, extra, spec);
+                if (type == DMI_TYPE_INVALID)
+                    continue;
+
+                if (dmi_types_map_one(&map[type], spec, yield))
+                    continue;
+
+                if (report) {
+                    dmi_error_raise_ex(context, DMI_ERROR_MODULE_CONFLICT, "%s: type %d",
+                                       module->name, (int)type);
+                }
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+static bool dmi_types_map_one(
+        dmi_type_candidates_t   *candidates,
+        const dmi_entity_spec_t *spec,
+        bool                     yield)
+{
+    // The same specification may be brought by several modules
+    for (size_t i = 0; i < DMI_TYPE_CANDIDATES; i++) {
+        if ((*candidates)[i] == spec)
+            return true;
+    }
+
+    // Structures of the type which no signature matches are decoded by the
+    // specification without one, which the type has one of at most
+    if (spec->params.signature == nullptr) {
+        if ((*candidates)[0] != nullptr)
+            return yield;
+
+        (*candidates)[0] = spec;
+        return true;
+    }
+
+    for (size_t i = 1; i < DMI_TYPE_CANDIDATES; i++) {
+        if ((*candidates)[i] == nullptr) {
+            (*candidates)[i] = spec;
+            return true;
+        }
+    }
+
+    return yield;
 }
 
 static void dmi_version_fixup(dmi_context_t *context)

@@ -1,0 +1,79 @@
+= HP/HPE NIC PCI and MAC Information (Type 233)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Describes a network port the firmware boots from over PXE, one per structure.
+The shortest structures end after the first 6 bytes of the MAC address, at
+`0x0E`. A port is disabled if its bus and device are zero, and not installed
+if they have all bits set.
+
+.HP/HPE NIC PCI and MAC Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `233`
+| HP/HPE NIC PCI and MAC Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Segment Group
+| `WORD`
+| `NUMBER`
+| PCI segment group, zero for a single group topology
+
+| `0x06`
+| 2.0+
+| Bus
+| `BYTE`
+| `NUMBER`
+| PCI bus
+
+| `0x07`
+| 2.0+
+| Device and Function
+| `BYTE`
+| `NUMBER`
+| PCI device and function
+
+| `0x08`
+| 2.0+
+| MAC Address
+| 32 BYTEs
+| Varies
+| MAC address padded with zeroes
+
+| `0x28`
+| 2.0+
+| Port
+| `BYTE`
+| `NUMBER`
+| Number of the port
+
+| `0x29`
+| 2.0+
+| UEFI Device Path
+| `BYTE`
+| `STRING`
+| UEFI device path of the port
+|===

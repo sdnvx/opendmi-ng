@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-processor-cpuid.h>
+#include <opendmi/entity/intel-rsd/processor-cpuid.h>
 
 typedef enum dmi_intel_rsd_cpuid_subtype {
     DMI_INTEL_RSD_CPUID_SUBTYPE_BASIC    = 0x01,

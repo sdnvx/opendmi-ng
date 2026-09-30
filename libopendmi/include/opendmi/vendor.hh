@@ -20,11 +20,14 @@ namespace dmi {
         invalid = capi::DMI_VENDOR_INVALID, ///< Invalid
         other   = capi::DMI_VENDOR_OTHER,   ///< Other
         acer    = capi::DMI_VENDOR_ACER,    ///< Acer
+        amd     = capi::DMI_VENDOR_AMD,     ///< AMD
         ami     = capi::DMI_VENDOR_AMI,     ///< AMI
         apple   = capi::DMI_VENDOR_APPLE,   ///< Apple
         dell    = capi::DMI_VENDOR_DELL,    ///< Dell
+        honor   = capi::DMI_VENDOR_HONOR,   ///< Honor
         hp      = capi::DMI_VENDOR_HP,      ///< HP
         hpe     = capi::DMI_VENDOR_HPE,     ///< HPE
+        huawei  = capi::DMI_VENDOR_HUAWEI,  ///< Huawei
         ibm     = capi::DMI_VENDOR_IBM,     ///< IBM
         intel   = capi::DMI_VENDOR_INTEL,   ///< Intel
         lenovo  = capi::DMI_VENDOR_LENOVO,  ///< Lenovo

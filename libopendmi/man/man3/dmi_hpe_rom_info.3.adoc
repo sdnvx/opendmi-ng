@@ -1,0 +1,83 @@
+ifdef::backend-manpage[]
+= dmi_hpe_rom_info(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_rom_info
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_rom_info - HP/HPE other ROM information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/rom-info.h>
+
+typedef struct dmi_hpe_rom_info {
+    bool is_redundant_rom;
+    const char *redundant_rom_version;
+    const char *bootblock_version;
+    const char *oem_rom_filename;
+    const char *oem_rom_date;
+} dmi_hpe_rom_info_t;
+----
+
+== Description
+
+The `dmi_hpe_rom_info_t` structure holds the decoded HP/HPE other ROM
+information: the redundant system ROM and the OEM ROM image of the server.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_rom_info_spec`, of type `DMI_TYPE(HPE_ROM_INFO)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+Fields of the OEM ROM image are absent from the structures of the older
+servers, and are then `nullptr`.
+
+=== Fields
+
+`is_redundant_rom`::
+Whether a redundant ROM is installed.
+
+`redundant_rom_version`::
+Version of the redundant ROM, which is its release date.
+
+`bootblock_version`::
+Version string up to Gen8, whose meaning is not documented. Its dates are
+earlier than the ones of the ROM, which suggests the boot block. Gen9 onwards
+reserve the byte.
+
+`oem_rom_filename`::
+File name of the OEM ROM image, blank if there is none.
+
+`oem_rom_date`::
+Build date of the OEM ROM image.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

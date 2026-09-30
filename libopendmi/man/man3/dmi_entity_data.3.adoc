@@ -33,6 +33,13 @@ The `dmi_entity_data` function returns a pointer to the raw SMBIOS structure
 data, including the structure header. The entity type is verified against the
 expected `type` parameter before returning the data.
 
+A structure is checked against the specification it is decoded by, rather than
+against its type number. Some vendors place structures defined by others at
+type numbers of their own, e.g. Dell moves Intel reference code structures 16
+types down. Such a structure matches the type of its original specification,
+since its data is laid out as that type expects, while `dmi_entity_type`(3)
+still returns the type number found in the table.
+
 === Parameters
 
 `entity`::

@@ -1,0 +1,57 @@
+= HP/HPE Server System ID (Type 195)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Gives the unique ID of the system, which replaces the EISA ID of the older
+systems where the EISA ID port is absent, and the platform ID iLO tells the
+platform and its flash deliverables by.
+
+.HP/HPE Server System ID structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `195`
+| HP/HPE Server System ID indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| System ID
+| `BYTE`
+| `STRING`
+| Server system ID, e.g. `$0E110761`
+
+| `0x05`
+| 2.0+
+| Platform ID
+| 2 BYTEs
+| Varies
+| Low and high bytes of the platform ID, from the XREG register of the CPLD
+
+| `0x07`
+| 2.0+
+| GUID
+| 16 BYTEs
+| `UUID`
+| Reserved from Gen11 onwards
+|===

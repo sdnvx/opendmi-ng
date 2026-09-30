@@ -27,7 +27,7 @@ void dmi_format_array_iter_init(
     assert(value != nullptr);
 
     iter->attr  = attr;
-    iter->next  = dmi_deref(dmi_data_t *, value);
+    iter->next  = dmi_attribute_get_elements(attr, value);
     iter->count = dmi_attribute_get_count(attr, info);
     iter->index = SIZE_MAX;
 

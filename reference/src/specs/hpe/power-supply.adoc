@@ -1,0 +1,77 @@
+= HP/HPE Power Supply Information (Type 230)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Supplements the system power supply information (type 39) with the actual
+manufacturer of the power supply and the way its FRU is accessed.
+
+.HP/HPE Power Supply Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `230`
+| HP/HPE Power Supply Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x0B`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Power Supply Handle
+| `WORD`
+| Varies
+| Handle of the system power supply structure (type 39)
+
+| `0x06`
+| 2.0+
+| Manufacturer
+| `BYTE`
+| `STRING`
+| Actual manufacturer
+
+| `0x07`
+| 2.0+
+| Revision
+| `BYTE`
+| `STRING`
+| 
+
+| `0x08`
+| 2.0+
+| FRU Access Method
+| `BYTE`
+| `ENUM`
+| `0`: not available, `1`: IPMI I2C, `2`: iLO, `3`: chassis manager
+
+| `0x09`
+| 2.0+
+| I2C Bus
+| `BYTE`
+| `NUMBER`
+| I2C bus, or I2C segment with iLO, `0xFF` if not available
+
+| `0x0A`
+| 2.0+
+| I2C Address
+| `BYTE`
+| `NUMBER`
+| I2C address shifted left by one bit, `0xFF` if not available
+|===

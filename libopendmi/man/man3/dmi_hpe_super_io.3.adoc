@@ -1,0 +1,79 @@
+ifdef::backend-manpage[]
+= dmi_hpe_super_io(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_super_io
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_super_io - HP/HPE Super I/O enable/disable indicator structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/super-io.h>
+
+typedef struct dmi_hpe_super_io {
+    bool is_serial_a_enabled;
+    bool is_serial_b_enabled;
+    bool is_parallel_enabled;
+    bool is_floppy_enabled;
+    bool is_virtual_serial_enabled;
+} dmi_hpe_super_io_t;
+----
+
+== Description
+
+The `dmi_hpe_super_io_t` structure holds the decoded HP/HPE Super I/O
+enable/disable indicator, which tells which ports of the Super I/O controller
+are enabled.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_super_io_spec`, of type `DMI_TYPE(HPE_SUPER_IO)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+=== Fields
+
+`is_serial_a_enabled`::
+Whether serial port A is enabled.
+
+`is_serial_b_enabled`::
+Whether serial port B is enabled.
+
+`is_parallel_enabled`::
+Whether the parallel port is enabled.
+
+`is_floppy_enabled`::
+Whether the floppy disk port is enabled.
+
+`is_virtual_serial_enabled`::
+Whether the virtual serial port is enabled.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

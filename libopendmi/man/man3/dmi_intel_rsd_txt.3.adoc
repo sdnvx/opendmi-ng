@@ -22,8 +22,8 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-txt.h>
-#include <opendmi/module/intel.h>
+#include <opendmi/entity/intel-rsd/txt.h>
+#include <opendmi/module/intel-rsd.h>
 
 typedef struct dmi_intel_rsd_txt {
     dmi_intel_rsd_txt_status_t status;
@@ -37,10 +37,10 @@ structure (type 196) of Intel Rack Scale Design (RSD) firmware: whether Intel
 Trusted Execution Technology (TXT) is enabled on the platform.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_TXT)`, once the Intel extension module
-(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
-in the context with `dmi_add_extension()`. It lives as long as the context it
-has been decoded in.
+`DMI_TYPE(INTEL_RSD_TXT)`, once the Intel RSD extension module
+(`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
+enabled in the context with `dmi_add_extension()`. It lives as long as the
+context it has been decoded in.
 
 === Fields
 

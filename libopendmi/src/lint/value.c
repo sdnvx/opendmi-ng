@@ -216,9 +216,9 @@ static void dmi_lint_value_walk(
         const dmi_data_t *ptr = dmi_member_ptr(info, resolved->value, dmi_data_t);
 
         // Arrays keep their elements apart from the structure, and an empty
-        // array is not allocated at all
-        if (dmi_member_is_present(resolved->counter)) {
-            const dmi_data_t *element = dmi_deref(dmi_data_t *, ptr);
+        // array is not allocated at all, while vectors hold them in place
+        if (dmi_attribute_is_array(resolved)) {
+            const dmi_data_t *element = dmi_attribute_get_elements(resolved, ptr);
             size_t count = (element != nullptr) ? dmi_attribute_get_count(resolved, info) : 0;
 
             for (size_t i = 0; i < count; i++, element += resolved->value.size) {

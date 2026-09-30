@@ -1,0 +1,77 @@
+ifdef::backend-manpage[]
+= dmi_platform_set_product(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_platform_set_product
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_platform_set_product, dmi_platform_set_family - set the strings of a platform descriptor.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/platform.h>
+
+bool dmi_platform_set_product(dmi_platform_t *platform, const char *product);
+bool dmi_platform_set_family(dmi_platform_t *platform, const char *family);
+----
+
+== Description
+
+The `dmi_platform_set_product` function sets the product name of a platform,
+and the `dmi_platform_set_family` function sets the code of its product
+family, as the vendor defines it, e.g. `DMI_HPE_FAMILY_SERVER`.
+
+The platform holds copies of the strings, which it frees when they are set
+again or when it is destroyed, so the caller keeps its own. Passing `nullptr`
+clears the string.
+
+The product name is told from the system information (type 1) as a context
+is opened, and the family by the vendor, from the product name. They are
+set by the caller for a platform given to a context with
+`dmi_set_platform`(3).
+
+=== Parameters
+
+`platform`::
+Platform to update.
+
+`product`::
+Product name, or `nullptr`.
+
+`family`::
+Family code, or `nullptr`.
+
+== Return value
+
+Returns `true` on success, and `false` if `platform` is `nullptr` or memory
+is exhausted, in which case the string is left as it was.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory is exhausted, reported to the context of `platform`, if it has one.
+
+== See also
+
+`dmi_platform_create`(3),
+`dmi_set_platform`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

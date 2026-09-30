@@ -15,11 +15,24 @@
 #include <opendmi/backend.h>
 #include <opendmi/vendor.h>
 #include <opendmi/module.h>
+#include <opendmi/platform.h>
 #include <opendmi/registry.h>
 #include <opendmi/utils/vector.h>
 #include <opendmi/utils/version.h>
 
 typedef struct dmi_context_state dmi_context_state_t;
+
+/**
+ * @brief Number of the specifications a type number is mapped to at most.
+ */
+#define DMI_TYPE_CANDIDATES 4
+
+/**
+ * @brief Specifications a type number is mapped to: the one without a
+ * signature, or @c nullptr, followed by the ones with signatures, see
+ * `dmi_signature_t`, and @c nullptr past the last one.
+ */
+typedef const dmi_entity_spec_t *dmi_type_candidates_t[DMI_TYPE_CANDIDATES];
 
 #ifndef DMI_ENTRY_SPEC_T
 #   define DMI_ENTRY_SPEC_T
@@ -60,7 +73,16 @@ typedef enum dmi_context_flags
      * (type 40) applied. Entries usually do not carry field values, but
      * annotations with placeholder values, so this is disabled by default.
      */
-    DMI_CONTEXT_FLAG_OVERLAY = (1 << 2)
+    DMI_CONTEXT_FLAG_OVERLAY = (1 << 2),
+
+    /**
+     * Enable the extension modules of the platform as the context is opened,
+     * in addition to the ones enabled explicitly. A module is enabled for the
+     * platforms its `platforms` member lists, unless its types conflict with
+     * the types of the modules enabled before. Modules enabled this way stay
+     * enabled until the context is closed.
+     */
+    DMI_CONTEXT_FLAG_AUTO_MODULES = (1 << 3)
 } dmi_context_flags_t;
 
 /**
@@ -169,6 +191,18 @@ struct dmi_context_state
     const char *vendor_name;
 
     /**
+     * @brief Platform the data comes from, as told from the data, owned by
+     * the context.
+     */
+    dmi_platform_t *platform;
+
+    /**
+     * @brief Extension modules enabled for the platform as the context was
+     * opened (`const dmi_module_t *`).
+     */
+    dmi_vector_t modules;
+
+    /**
      * @brief Entity registry.
      */
     dmi_registry_t *registry;
@@ -192,12 +226,19 @@ struct dmi_context
     /**
      * @brief Entity specifications map.
      */
-    const dmi_entity_spec_t **type_map;
+    dmi_type_candidates_t *type_map;
 
     /**
-     * @brief Enabled extension modules (`const dmi_module_t *`).
+     * @brief Extension modules enabled explicitly (`const dmi_module_t *`).
      */
     dmi_vector_t modules;
+
+    /**
+     * @brief Platform set with `dmi_set_platform()`, which is used instead of
+     * the one told from the data, owned by the context. @c nullptr if none
+     * has been set.
+     */
+    dmi_platform_t *platform;
 
     /**
      * @brief Error state.
@@ -242,14 +283,24 @@ __dmi_api unsigned dmi_get_flags(const dmi_context_t *context);
  * @brief Add DMI extension.
  *
  * Registers entity specifications provided by @p module in the context and
- * adds the module to the list of enabled modules. Fails if any of the entity
- * types is already registered, including the case when the module is already
- * enabled.
+ * adds the module to the list of enabled modules. Specifications are mapped
+ * to their types, or to the types the relocations of the enabled modules
+ * give them, and the ones bound to a range of platform generations are mapped
+ * only if the generation of the platform lies within the range. Fails if any
+ * of the types is already mapped to another specification, including the
+ * case when the module is already enabled.
+ *
+ * Modules enabled before the context is opened are mapped again as it is
+ * opened, once the platform is known.
  *
  * @param[in] context DMI context handle.
  * @param[in] module  Extension module to enable.
  *
  * @return The function returns `true` on success and `false` otherwise.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT The module is `nullptr`.
+ * @error DMI_ERROR_MODULE_CONFLICT The module is already enabled, or its
+ *        types are mapped to specifications of other modules.
  */
 __dmi_api bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module);
 
@@ -260,9 +311,50 @@ __dmi_api bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *mod
  * @param[in] module  Extension module.
  *
  * @return `true` if @p module has been enabled with `dmi_add_extension()`,
- *         `false` otherwise.
+ *         or for the platform as the context was opened; `false` otherwise.
  */
 __dmi_api bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module);
+
+/**
+ * @brief Get the platform of the context.
+ *
+ * The platform is told from the firmware and system information as the
+ * context is opened, and is gone when it is closed. A platform set with
+ * `dmi_set_platform()` is used instead, whether the context is open or not.
+ *
+ * @param[in] context DMI context handle.
+ *
+ * @return The platform, which belongs to the context and is valid until the
+ *         context is closed or the platform is set again, or @c nullptr if
+ *         @p context is @c nullptr or there is no platform, since the context
+ *         is closed and no platform has been set.
+ */
+__dmi_api const dmi_platform_t *dmi_get_platform(const dmi_context_t *context);
+
+/**
+ * @brief Set the platform of the context.
+ *
+ * Sets the platform the structures are decoded for, instead of the one told
+ * from the data, and maps the specifications of the enabled modules for it
+ * again. This allows decoding the data of a platform whose firmware
+ * information is missing or wrong, and decoding structures without opening
+ * the context. A platform set this way is kept as the context is opened and
+ * closed. Passing @c nullptr makes the context use the platform told from the
+ * data again.
+ *
+ * The context keeps a copy of @p platform, which the caller still owns.
+ *
+ * @param[in] context  DMI context handle.
+ * @param[in] platform Platform to set, or @c nullptr.
+ *
+ * @return `true` on success, `false` otherwise. On failure, the platform
+ *         and the mapping of the specifications are left unchanged.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
+ * @error DMI_ERROR_MODULE_CONFLICT The specifications of the enabled modules
+ *        which apply to the platform are mapped to the same type.
+ */
+__dmi_api bool dmi_set_platform(dmi_context_t *context, const dmi_platform_t *platform);
 
 /**
  * @brief Open DMI context.

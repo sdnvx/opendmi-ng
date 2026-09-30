@@ -1,0 +1,82 @@
+ifdef::backend-manpage[]
+= dmi_hpe_reserved_memory_entry(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_reserved_memory_entry
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_reserved_memory_entry - HP/HPE reserved memory region structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/reserved-memory.h>
+
+typedef struct dmi_hpe_reserved_memory_entry {
+    dmi_binary_t signature_raw;
+    char signature_buffer[5];
+    const char *signature;
+    uint64_t address;
+    uint32_t raw_size;
+    bool is_kilobytes;
+    uint64_t size;
+} dmi_hpe_reserved_memory_entry_t;
+----
+
+== Description
+
+The `dmi_hpe_reserved_memory_entry_t` structure describes a memory region the
+firmware reserves, as an element of the `entries` field of
+`dmi_hpe_reserved_memory_t`.
+
+=== Fields
+
+`signature_raw`::
+Signature, as the structure holds it.
+
+`signature_buffer`::
+Signature, which `signature` points to.
+
+`signature`::
+Signature, which tells what the region is for, e.g. `$HDD`, or `nullptr` if it
+is not printable.
+
+`address`::
+Physical address.
+
+`raw_size`::
+Size in the units `is_kilobytes` tells.
+
+`is_kilobytes`::
+Whether the size is in kilobytes rather than in bytes.
+
+`size`::
+Size in bytes.
+
+== See also
+
+`dmi_hpe_reserved_memory`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

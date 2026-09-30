@@ -39,6 +39,14 @@ bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type)
     return dmi_vector_push(&filter->types, (uintptr_t)type);
 }
 
+bool dmi_filter_add_module(dmi_filter_t *filter, const dmi_module_t *module)
+{
+    if ((filter == nullptr) or (module == nullptr))
+        return false;
+
+    return dmi_vector_push(&filter->modules, (uintptr_t)module);
+}
+
 bool dmi_filter_is_empty(const dmi_filter_t *filter)
 {
     if (filter == nullptr)
@@ -46,7 +54,8 @@ bool dmi_filter_is_empty(const dmi_filter_t *filter)
 
     return
         (filter->handles.length == 0) and
-        (filter->types.length == 0);
+        (filter->types.length == 0) and
+        (filter->modules.length == 0);
 }
 
 bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity)
@@ -98,6 +107,22 @@ bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity)
         }
     }
 
+    // Filter specific modules by the specification the entity is decoded by,
+    // since the type number depends on the platform
+    if ((filter->modules.length > 0) and (entity->spec != nullptr)) {
+        for (size_t i = 0; i < filter->modules.length; i++) {
+            const dmi_module_t *module = (const dmi_module_t *)filter->modules.data[i];
+
+            if (module->entities == nullptr)
+                continue;
+
+            for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++) {
+                if (*pspec == entity->spec)
+                    return true;
+            }
+        }
+    }
+
     return false;
 }
 
@@ -108,6 +133,7 @@ void dmi_filter_destroy(dmi_filter_t *filter)
 
     dmi_vector_clear(&filter->handles);
     dmi_vector_clear(&filter->types);
+    dmi_vector_clear(&filter->modules);
 
     dmi_free(filter);
 }

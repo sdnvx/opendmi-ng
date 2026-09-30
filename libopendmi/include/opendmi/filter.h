@@ -10,6 +10,7 @@
 #pragma once
 
 #include <opendmi/types.h>
+#include <opendmi/module.h>
 #include <opendmi/utils/vector.h>
 
 typedef struct dmi_filter dmi_filter_t;
@@ -32,6 +33,7 @@ struct dmi_filter
     unsigned mask;
     dmi_vector_t handles;
     dmi_vector_t types;
+    dmi_vector_t modules;
 };
 
 __BEGIN_DECLS
@@ -40,8 +42,8 @@ __BEGIN_DECLS
  * @brief Create a filter.
  *
  * Allocates and initialises a new filter bound to @p context. The category
- * mask is set to `DMI_FILTER_MASK_ALL` and the handle and type lists are
- * empty, so the filter matches all entities until constraints are added.
+ * mask is set to `DMI_FILTER_MASK_ALL` and the handle, type and module lists
+ * are empty, so the filter matches all entities until constraints are added.
  *
  * @param[in] context Context handle.
  *
@@ -80,15 +82,32 @@ __dmi_api bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
 __dmi_api bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_t type);
 
 /**
- * @brief Check whether the filter has no handle or type constraints.
+ * @brief Add a module constraint to the filter.
+ *
+ * Registers @p module as one of the allowed modules. Once at least one module
+ * has been added, entities decoded by the specifications of the module are
+ * matched, whatever type numbers the platform places them at. Entities of
+ * a module which is not enabled are not decoded by its specifications, and
+ * are not matched.
+ *
+ * @param[in,out] filter Filter to update.
+ * @param[in]     module Module to allow.
+ *
+ * @return `true` on success, `false` if @p filter or @p module is @c nullptr,
+ *         or the module could not be stored.
+ */
+__dmi_api bool dmi_filter_add_module(dmi_filter_t *filter, const dmi_module_t *module);
+
+/**
+ * @brief Check whether the filter has no handle, type or module constraints.
  *
  * An empty filter matches every entity that satisfies the category mask,
- * without restricting by specific handles or types.
+ * without restricting by specific handles, types or modules.
  *
  * @param[in] filter Filter to check.
  *
- * @return `true` if both the handle and type lists are empty, or if @p filter
- *         is @c nullptr; `false` otherwise.
+ * @return `true` if the handle, type and module lists are empty, or if
+ *         @p filter is @c nullptr; `false` otherwise.
  */
 __dmi_api bool dmi_filter_is_empty(const dmi_filter_t *filter);
 
@@ -101,10 +120,10 @@ __dmi_api bool dmi_filter_is_empty(const dmi_filter_t *filter);
  *    and unknown-spec state are checked against `filter->mask`. The entity is
  *    rejected if any applicable bit is absent from the mask.
  *
- * 2. **Handle/type lists** — if the filter is non-empty, the entity must match
- *    at least one entry in the handle list or at least one entry in the type
- *    list. If the filter is empty, every entity that passed the mask check is
- *    accepted.
+ * 2. **Handle/type/module lists** — if the filter is non-empty, the entity
+ *    must match at least one entry in the handle list, the type list or the
+ *    module list. If the filter is empty, every entity that passed the mask
+ *    check is accepted.
  *
  * @param[in] filter Filter descriptor.
  * @param[in] entity Entity to test.
@@ -117,8 +136,8 @@ __dmi_api bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *
 /**
  * @brief Destroy a filter.
  *
- * Releases all resources associated with @p filter, including the handle and
- * type constraint lists. Does nothing if @p filter is @c nullptr.
+ * Releases all resources associated with @p filter, including the handle,
+ * type and module constraint lists. Does nothing if @p filter is @c nullptr.
  *
  * @param[in] filter Filter to destroy.
  */

@@ -35,6 +35,7 @@
 #define TEST_TYPE_ARRAY    202
 #define TEST_TYPE_OFFSET   203
 #define TEST_TYPE_BARE     204
+#define TEST_TYPE_VECTOR   205
 
 typedef struct test_state test_state_t;
 
@@ -272,6 +273,82 @@ static const dmi_byte_t test_bare_data[] = {
     0x00, 0x00
 };
 
+//
+// Vectors of plain values and of structures, which the structure holds in
+// place
+//
+
+typedef struct test_vector_pair
+{
+    uint8_t  a;
+    uint16_t b;
+} test_vector_pair_t;
+
+typedef struct test_vector
+{
+    uint16_t           words[3];
+    test_vector_pair_t pairs[2];
+} test_vector_t;
+
+static const dmi_entity_spec_t test_vector_spec =
+{
+    .type = TEST_TYPE_VECTOR,
+    .code = "test-vector",
+    .name = "Test vector",
+
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x10,
+        .decoded_length  = sizeof(test_vector_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD_VECTOR(test_vector_t, words,
+            .fields = DMI_FIELDS({
+                DMI_FIELD_ELEMENT(test_vector_t, words, dmi_word_t),
+                {}
+            })),
+        DMI_FIELD_VECTOR(test_vector_t, pairs,
+            .fields = DMI_FIELDS({
+                DMI_FIELD(test_vector_pair_t, a, dmi_byte_t),
+                DMI_FIELD(test_vector_pair_t, b, dmi_word_t),
+                {}
+            })),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
+        DMI_ATTRIBUTE_VECTOR(test_vector_t, words, INTEGER, {
+            .code = "words",
+            .name = "Words"
+        }),
+        DMI_ATTRIBUTE_VECTOR(test_vector_t, pairs, STRUCT, {
+            .code  = "pairs",
+            .name  = "Pairs",
+            .attrs = DMI_ATTRIBUTES({
+                DMI_ATTRIBUTE(test_vector_pair_t, a, INTEGER, {
+                    .code = "a",
+                    .name = "A"
+                }),
+                DMI_ATTRIBUTE(test_vector_pair_t, b, INTEGER, {
+                    .code = "b",
+                    .name = "B"
+                }),
+                {}
+            })
+        }),
+        {}
+    })
+};
+
+static const dmi_byte_t test_vector_data[] = {
+    TEST_TYPE_VECTOR, 0x10, 0x34, 0x12,
+    0x11, 0x22, 0x33, 0x44, 0x55, 0x66,
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06,
+
+    0x00, 0x00
+};
+
 static dmi_module_t test_module =
 {
     .code     = "test-fields",
@@ -281,6 +358,7 @@ static dmi_module_t test_module =
         &test_array_spec,
         &test_offset_spec,
         &test_bare_spec,
+        &test_vector_spec,
         nullptr
     }
 };
@@ -304,6 +382,7 @@ static void test_field_required(void **pstate);
 static void test_field_array(void **pstate);
 static void test_field_array_truncated(void **pstate);
 static void test_field_array_empty(void **pstate);
+static void test_field_vector(void **pstate);
 
 static void test_field_offset_mismatch(void **pstate);
 static void test_field_no_fields(void **pstate);
@@ -313,6 +392,7 @@ static void test_field_encode_preserve(void **pstate);
 static void test_field_encode_canonical(void **pstate);
 static void test_field_encode_truncated(void **pstate);
 static void test_field_encode_array(void **pstate);
+static void test_field_encode_vector(void **pstate);
 
 static void test_field_kilobytes(void **pstate);
 static void test_field_get_set(void **pstate);
@@ -338,6 +418,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_field_array, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_array_truncated, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_array_empty, test_field_setup, test_field_teardown),
+        cmocka_unit_test_setup_teardown(test_field_vector, test_field_setup, test_field_teardown),
 
         cmocka_unit_test_setup_teardown(test_field_offset_mismatch, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_no_fields, test_field_setup, test_field_teardown),
@@ -347,6 +428,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_field_encode_canonical, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_truncated, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_array, test_field_setup, test_field_teardown),
+        cmocka_unit_test_setup_teardown(test_field_encode_vector, test_field_setup, test_field_teardown),
 
         cmocka_unit_test(test_field_kilobytes),
         cmocka_unit_test(test_field_get_set)
@@ -694,6 +776,43 @@ static void test_field_array_truncated(void **pstate)
 }
 
 //
+// Vectors hold their elements in place, whose number is the one of the array
+// member, and are shown the way arrays are.
+//
+static void test_field_vector(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    const test_vector_t *info = test_field_decode(
+            state, test_vector_data, sizeof(test_vector_data), 0, TEST_TYPE_VECTOR, true);
+
+    assert_non_null(info);
+    assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+
+    assert_int_equal(info->words[0], 0x2211);
+    assert_int_equal(info->words[1], 0x4433);
+    assert_int_equal(info->words[2], 0x6655);
+
+    assert_int_equal(info->pairs[0].a, 0x01);
+    assert_int_equal(info->pairs[0].b, 0x0302);
+    assert_int_equal(info->pairs[1].a, 0x04);
+    assert_int_equal(info->pairs[1].b, 0x0605);
+
+    const dmi_attribute_t *words = &test_vector_spec.attributes[0];
+    const dmi_attribute_t *pairs = &test_vector_spec.attributes[1];
+
+    assert_true(dmi_attribute_is_array(words));
+    assert_int_equal(dmi_attribute_get_count(words, info), 3);
+    assert_int_equal(dmi_attribute_get_count(pairs, info), 2);
+    assert_int_equal(words->value.size, sizeof(uint16_t));
+    assert_int_equal(pairs->value.size, sizeof(test_vector_pair_t));
+
+    // Elements of a vector are the member itself
+    assert_ptr_equal(dmi_attribute_get_elements(words, info->words), info->words);
+    assert_ptr_equal(dmi_attribute_get_elements(pairs, info->pairs), info->pairs);
+}
+
+//
 // Array of no elements leaves nothing to read, and the one running to the
 // end of a structure which ends where the elements do is complete.
 //
@@ -879,6 +998,20 @@ static void test_field_encode_array(void **pstate)
 
     assert_int_equal(buffer->length, 0x11);
     assert_memory_equal(buffer->data, test_array_data, 0x11);
+
+    dmi_buffer_destroy(buffer);
+}
+
+static void test_field_encode_vector(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    test_field_decode(state, test_vector_data, sizeof(test_vector_data), 0, TEST_TYPE_VECTOR, true);
+
+    dmi_buffer_t *buffer = test_field_encode(state, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE);
+
+    assert_int_equal(buffer->length, 0x10);
+    assert_memory_equal(buffer->data, test_vector_data, 0x10);
 
     dmi_buffer_destroy(buffer);
 }

@@ -237,13 +237,13 @@ bool dmi_text_entity_attr(
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t%s:", dmi_attribute_name(attr, owner));
 
     // Print attribute value
-    if (not dmi_member_is_present(variant->counter)) {
+    if (not dmi_attribute_is_array(variant)) {
         if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
             dmi_text_entity_attr_struct(session, variant, value, 2, owner);
         else
             dmi_text_entity_attr_value(session, variant, value, nullptr, 1);
     } else {
-        dmi_text_entity_attr_array(session, variant, entity->info, value, owner);
+        dmi_text_entity_attr_array(session, variant, entity->info, value, 1, owner);
     }
 
     return true;
@@ -254,6 +254,7 @@ void dmi_text_entity_attr_array(
         const dmi_attribute_t *attr,
         const dmi_data_t      *info,
         const void            *value,
+        unsigned int           depth,
         const char            *owner)
 {
     assert(session != nullptr);
@@ -269,11 +270,12 @@ void dmi_text_entity_attr_array(
     dmi_format_array_iter_init(&iter, attr, info, value);
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %zu items\n", iter.count);
 
+    // Elements are indented one level deeper than the array
     while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%zu:", iter.index);
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%zu:", (int)(depth + 1), "\t\t\t\t\t\t\t\t", iter.index);
 
         if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-            dmi_text_entity_attr_struct(session, attr, ptr, 3, owner);
+            dmi_text_entity_attr_struct(session, attr, ptr, depth + 2, owner);
         } else {
             const char *descr = nullptr;
 
@@ -284,7 +286,7 @@ void dmi_text_entity_attr_array(
                 descr = dmi_entity_name(entity);
             }
 
-            dmi_text_entity_attr_value(session, attr, ptr, descr, 2);
+            dmi_text_entity_attr_value(session, attr, ptr, descr, depth + 1);
         }
     }
 }
@@ -317,7 +319,10 @@ void dmi_text_entity_attr_struct(
         // Fields are indented one level deeper than the structure
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s:", (int)depth, "\t\t\t\t\t\t\t\t", dmi_attribute_name(child_attr, owner));
 
-        if (child->type == DMI_ATTRIBUTE_TYPE_STRUCT)
+        // Counters of nested arrays are members of the same structure
+        if (dmi_attribute_is_array(child))
+            dmi_text_entity_attr_array(session, child, value, ptr, depth, owner);
+        else if (child->type == DMI_ATTRIBUTE_TYPE_STRUCT)
             dmi_text_entity_attr_struct(session, child, ptr, depth + 1, owner);
         else
             dmi_text_entity_attr_value(session, child, ptr, nullptr, depth);

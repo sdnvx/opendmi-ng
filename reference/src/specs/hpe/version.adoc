@@ -1,0 +1,290 @@
+= HP/HPE Version Indicator Record (Type 216)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Tells the version of a firmware component of the server, e.g. of a CPLD or of
+a power management controller, which type 193 does not scale to. There is a
+record for each component. The structure is decoded from Gen8 onwards.
+
+The version data is laid out as its format tells. Format 5 is laid out
+differently on Gen9 servers, where it is the one of format 4, and on Gen10 and
+Gen10 Plus servers, where it takes the low nibbles of bytes 1, 3, 5 and 6.
+Words are held low byte first.
+
+.HP/HPE Version Indicator Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `216`
+| HP/HPE Version Indicator Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x17`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Firmware Type
+| `WORD`
+| `ENUM`
+| See below
+
+| `0x06`
+| 2.0+
+| Firmware Name
+| `BYTE`
+| `STRING`
+| 
+
+| `0x07`
+| 2.0+
+| Firmware Version
+| `BYTE`
+| `STRING`
+| 
+
+| `0x08`
+| 2.0+
+| Data Format
+| `BYTE`
+| `ENUM`
+| Format of the version data, see below
+
+| `0x09`
+| 2.0+
+| Version Data
+| 12 BYTEs
+| Varies
+| 
+
+| `0x15`
+| 2.0+
+| Unique ID
+| `WORD`
+| `NUMBER`
+| Unique ID of the firmware flash, zero if none
+|===
+
+.Data format
+[width=100%, cols="1,4"]
+|===
+| Value | Version
+
+| `0`
+| No version data
+
+| `1`
+| `0x`byte 1 bits 0-6, followed by ` B.0x`byte 0 bits 0-6 if bit 7 of byte 0 is set
+
+| `2`
+| Byte 0 bits 4-7 `.` byte 0 bits 0-3
+
+| `3`
+| Reserved
+
+| `4`
+| Byte 0 bits 4-7 `.` byte 0 bits 0-3 `.` byte 1 bits 0-6
+
+| `5`
+| Depends on the generation, see above
+
+| `6`
+| Byte 1 `.` byte 0
+
+| `7`
+| `v`byte 0`.`byte 1 `(`byte 2`/`byte 3`/`word 4`)`
+
+| `8`
+| Word 4 `.` word 0
+
+| `9`
+| Byte 0 `.` byte 1 `.` word 2
+
+| `10`
+| Byte 0 `.` byte 1 `.` byte 2 `Build` byte 3
+
+| `11`
+| Word 2 `.` word 0, then double word 4
+
+| `12`
+| Word 0 `.` word 2 `.` word 4 `.` word 6
+
+| `13`
+| Byte 0
+
+| `14`
+| Byte 0 `.` byte 1 `.` byte 2 `.` word 3
+
+| `15`
+| Word 0 `.` word 2 `.` word 4 `.` word 6 `(`byte 8`/`byte 9`/`word 10`)`
+
+| `16`
+| Characters of bytes 0 to 3 `.` byte 4 and byte 5
+
+| `17`
+| Double word 0 in hexadecimal
+
+| `18`
+| Byte 0 `.` byte 1 of two digits
+
+| `19`
+| `0x`byte 0 `.0x`byte 1 `.0x`byte 2
+
+| `20`
+| Byte 0 `.` byte 1 `.` byte 2 `.` byte 3
+|===
+
+.Firmware type
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0x01`
+| System ROM
+
+| `0x02`
+| Redundant system ROM
+
+| `0x03`
+| System ROM bootblock
+
+| `0x04`
+| Power management controller firmware
+
+| `0x05`
+| Power management controller firmware bootloader
+
+| `0x06`
+| SL chassis firmware
+
+| `0x07`
+| SL chassis firmware bootloader
+
+| `0x08`
+| Hardware PAL/CPLD
+
+| `0x09`
+| SPS firmware (ME firmware)
+
+| `0x0A`
+| SL chassis PAL/CPLD
+
+| `0x0B`
+| Compatibility support module (CSM)
+
+| `0x0C`
+| APML
+
+| `0x0D`
+| Smart storage battery (Megacell) firmware
+
+| `0x0E`
+| Trusted module (TPM or TCM) firmware
+
+| `0x0F`
+| NVMe backplane firmware
+
+| `0x10`
+| Intelligent Provisioning
+
+| `0x11`
+| SPI descriptor version
+
+| `0x12`
+| Innovation Engine firmware (IE firmware)
+
+| `0x13`
+| UMB backplane firmware
+
+| `0x14`
+| Embedded diagnostics
+
+| `0x20`
+| EL chassis abstraction revision
+
+| `0x21`
+| EL chassis firmware revision
+
+| `0x22`
+| EL chassis PAL/CPLD
+
+| `0x23`
+| EL cartridge abstraction revision
+
+| `0x30`
+| Embedded video controller
+
+| `0x31`
+| PCIe riser programmable logic device
+
+| `0x32`
+| PCIe card CPLD
+
+| `0x33`
+| Intel NVMe VROC
+
+| `0x34`
+| Intel SATA VROC
+
+| `0x35`
+| Intel SPS firmware
+
+| `0x36`
+| Secondary system programmable logic device
+
+| `0x37`
+| CPU mezzanine board CPLD
+
+| `0x38`
+| Intel Arctic Sound-M accelerator firmware
+
+| `0x39`
+| Ampere system control processor (SCP)
+
+| `0x3A`
+| Intel CFR information
+
+| `0x3B`
+| OCP card
+
+| `0x3C`
+| DC-SCM CPLD
+
+| `0x3D`
+| Power distribution board CPLD
+
+| `0x3E`
+| PCIe switch board CPLD
+
+| `0x3F`
+| Sideband board CPLD
+
+| `0x40`
+| PCIe riser MCU firmware
+
+| `0x41`
+| PCIe switch board firmware
+
+| `0x42`
+| Power supply firmware
+
+| `0x43`
+| BMC firmware
+|===

@@ -14,6 +14,7 @@
 #include <opendmi/module/dell.h>
 #include <opendmi/module/hpe.h>
 #include <opendmi/module/intel.h>
+#include <opendmi/module/intel-rsd.h>
 #include <opendmi/module/lenovo.h>
 #include <opendmi/module/sun.h>
 
@@ -25,6 +26,7 @@ const dmi_module_t *const dmi_builtin_modules[] =
     &dmi_dell_module,
     &dmi_hpe_module,
     &dmi_intel_module,
+    &dmi_intel_rsd_module,
     &dmi_lenovo_module,
     &dmi_sun_module,
     nullptr

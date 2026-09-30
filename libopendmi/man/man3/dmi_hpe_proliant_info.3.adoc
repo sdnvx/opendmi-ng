@@ -1,0 +1,86 @@
+ifdef::backend-manpage[]
+= dmi_hpe_proliant_info(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_proliant_info
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_proliant_info - HP/HPE ProLiant information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/proliant-info.h>
+
+typedef struct dmi_hpe_proliant_info {
+    uint32_t power_features;
+    uint32_t omega_features;
+    uint32_t misc_features;
+    bool is_icru;
+    bool is_uefi;
+} dmi_hpe_proliant_info_t;
+----
+
+== Description
+
+The `dmi_hpe_proliant_info_t` structure holds the decoded HP/HPE ProLiant
+information, which gives the feature flags of the server the watchdog timer
+driver reads.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_proliant_info_spec`, of type `DMI_TYPE(HPE_PROLIANT_INFO)`,
+declared in `<opendmi/module/hpe.h>`, once the HPE extension module
+(`dmi_hpe_module`) is enabled, which it is for HP and HPE servers. It lives as
+long as the context it has been decoded in.
+
+HP and HPE servers give type 219 to this structure, and the Intel Management
+Engine interface information is not decoded on them, see `dmi_intel_mei`(3).
+Features the data ends before are zero.
+
+=== Fields
+
+`power_features`::
+Power features, whose meaning is not documented.
+
+`omega_features`::
+Omega features, whose meaning is not documented.
+
+`misc_features`::
+Miscellaneous features.
+
+`is_icru`::
+Whether the integrated CRU (iCRU) is supported, as bit 0 of the miscellaneous
+features tells.
+
+`is_uefi`::
+Whether the firmware is UEFI one, as bits 10 and 12 of the miscellaneous
+features tell.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_intel_mei`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

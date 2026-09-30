@@ -1,0 +1,113 @@
+ifdef::backend-manpage[]
+= dmi_hpe_usb_device(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_usb_device
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_usb_device - HP/HPE USB device correlation record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/usb-device.h>
+
+typedef struct dmi_hpe_usb_device {
+    dmi_handle_t port_handle;
+    uint16_t vendor_id;
+    bool is_sd_card_present;
+    uint8_t usb_class;
+    uint8_t usb_subclass;
+    uint8_t usb_protocol;
+    uint16_t product_id;
+    uint32_t raw_capacity;
+    uint64_t capacity;
+    const char *uefi_device_path;
+    const char *uefi_device_name;
+    const char *device_name;
+    const char *location;
+} dmi_hpe_usb_device_t;
+----
+
+== Description
+
+The `dmi_hpe_usb_device_t` structure holds the decoded HP/HPE USB device
+correlation record, which describes a USB device the firmware has found at
+boot on a USB port, and the UEFI boot entries naming it. Devices plugged in
+later are not described.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_usb_device_spec`, of type `DMI_TYPE(HPE_USB_DEVICE)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers with UEFI firmware from Gen9
+onwards. It lives as long as the context it has been decoded in.
+
+=== Fields
+
+`port_handle`::
+Handle of the USB port connector correlation record (type 238).
+
+`vendor_id`::
+USB vendor ID of the device.
+
+`is_sd_card_present`::
+Whether an embedded SD card is present.
+
+`usb_class`::
+USB class code of the device.
+
+`usb_subclass`::
+USB subclass code of the device.
+
+`usb_protocol`::
+USB protocol code of the device.
+
+`product_id`::
+USB product ID of the device.
+
+`raw_capacity`::
+Capacity of the device in megabytes, zero if not applicable.
+
+`capacity`::
+Capacity of the device in bytes, zero if not applicable.
+
+`uefi_device_path`::
+UEFI device path.
+
+`uefi_device_name`::
+UEFI device structured name.
+
+`device_name`::
+Device name.
+
+`location`::
+Location of the device.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_usb_port`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

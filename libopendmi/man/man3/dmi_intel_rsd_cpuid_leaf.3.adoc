@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-processor-cpuid.h>
+#include <opendmi/entity/intel-rsd/processor-cpuid.h>
 
 typedef struct dmi_intel_rsd_cpuid_leaf {
     uint32_t leaf;

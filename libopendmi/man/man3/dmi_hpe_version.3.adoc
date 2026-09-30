@@ -1,0 +1,100 @@
+ifdef::backend-manpage[]
+= dmi_hpe_version(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_version
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_version - HP/HPE version indicator record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/version.h>
+
+typedef struct dmi_hpe_version {
+    dmi_hpe_firmware_type_t firmware_type;
+    const char *firmware_name;
+    const char *version_string;
+    uint8_t data_format;
+    uint8_t version_data[12];
+    char version_buffer[48];
+    const char *version;
+    uint16_t unique_id;
+} dmi_hpe_version_t;
+----
+
+== Description
+
+The `dmi_hpe_version_t` structure holds the decoded HP/HPE version indicator
+record, which tells the version of a firmware component of the server, e.g. of
+a CPLD or of a power management controller. There is a record for each
+component.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_version_spec`, of type `DMI_TYPE(HPE_VERSION)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers from Gen8 onwards. It lives as
+long as the context it has been decoded in.
+
+The version data is formatted into `version` the way HPE tools show it. Format
+5 is laid out differently on Gen9 and on Gen10 and Gen10 Plus servers, and is
+not formatted on the others.
+
+=== Fields
+
+`firmware_type`::
+Firmware component, see `dmi_hpe_firmware_type`(3).
+
+`firmware_name`::
+Name of the firmware.
+
+`version_string`::
+Version of the firmware, as a string.
+
+`data_format`::
+Format of `version_data`, zero if there is none.
+
+`version_data`::
+Version of the firmware, in the format `data_format` tells.
+
+`version_buffer`::
+Version of the firmware formatted from `version_data`, which `version` points
+to.
+
+`version`::
+Version of the firmware formatted from `version_data`, or `nullptr` if there
+is none or its format is not known.
+
+`unique_id`::
+Unique ID of the firmware flash, zero if none.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_firmware_type`(3),
+`dmi_hpe_trusted_module`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

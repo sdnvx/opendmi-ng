@@ -1,0 +1,68 @@
+= HP/HPE BIOS NIC PCI and MAC Information (Type 209, 221)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Lists the network ports the firmware boots from: over PXE with type 209, and
+over iSCSI with type 221. Ports run to the end of the structure, which carries
+no number of them of its own. A port is disabled if its bus and device are
+zero, and not installed if they have all bits set.
+
+Type 221 is deprecated from Gen8 onwards, and takes the Intel firmware version
+information on the newer servers.
+
+.HP/HPE BIOS NIC PCI and MAC Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `209, 221`
+| HP/HPE BIOS NIC PCI and MAC Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Ports
+| 8 BYTEs each
+| Varies
+| Ports, see below
+|===
+
+.Port
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x00`
+| Device and Function
+| `BYTE`
+| PCI device and function, `(device << 3) \| function`
+
+| `0x01`
+| Bus
+| `BYTE`
+| PCI bus
+
+| `0x02`
+| MAC Address
+| 6 BYTEs
+| 
+|===

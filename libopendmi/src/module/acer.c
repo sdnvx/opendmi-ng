@@ -11,7 +11,11 @@
  */
 const dmi_module_t dmi_acer_module =
 {
-    .code     = "acer",
-    .name     = "Acer extensions",
-    .entities = nullptr
+    .code      = "acer",
+    .name      = "Acer extensions",
+    .entities  = nullptr,
+    .platforms = DMI_PLATFORMS({
+        { .firmware_vendor = DMI_VENDOR_ACER },
+        DMI_PLATFORM_NULL
+    })
 };

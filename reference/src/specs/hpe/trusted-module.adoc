@@ -1,0 +1,185 @@
+= HP/HPE Trusted Module Status (Type 224)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Tells whether a trusted module (TPM or TCM) is present and enabled, and what
+kind of module it is. The older servers hold the status only.
+
+.HP/HPE Trusted Module Status structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `224`
+| HP/HPE Trusted Module Status indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Status
+| `BYTE`
+| `BITFIELD`
+| Bits 0-1: presence, bit 2: option ROMs are measured, bit 3: hidden
+
+| `0x05`
+| 2.0+
+| Extended Status
+| `BYTE`
+| `BITFIELD`
+| Bits 0-1: disable reason, bits 2-5: error condition, `1` for a self-test failure
+
+| `0x06`
+| 2.0+
+| Module Type
+| `BYTE`
+| `BITFIELD`
+| Bits 0-3: type, bit 4: standard algorithms supported, bit 5: Chinese algorithms supported
+
+| `0x07`
+| 2.0+
+| Module Attributes
+| `BYTE`
+| `BITFIELD`
+| Bits 0-1: mounting, bits 2-3: FIPS certification
+
+| `0x08`
+| 2.0+
+| Version Handle
+| `WORD`
+| Varies
+| Handle of the version indicator (type 216) of the firmware of the module
+
+| `0x0A`
+| 2.0+
+| Chip Identifier
+| `WORD`
+| `ENUM`
+| 
+|===
+
+.Presence
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0`
+| Not present
+
+| `1`
+| Present and enabled
+
+| `2`
+| Present and disabled
+|===
+
+.Disable reason
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0`
+| Not specified
+
+| `1`
+| Disabled by the user
+
+| `2`
+| Error condition
+|===
+
+.Type
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0`
+| Not specified
+
+| `1`
+| TPM 1.2
+
+| `2`
+| TPM 2.0
+
+| `3`
+| Intel PTT firmware TPM
+|===
+
+.Mounting
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0`
+| Not specified
+
+| `1`
+| Pluggable and optional
+
+| `2`
+| Pluggable but standard
+
+| `3`
+| Soldered down on the system board
+|===
+
+.FIPS certification
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0`
+| Not specified
+
+| `1`
+| Not FIPS certified
+
+| `2`
+| FIPS certified
+|===
+
+.Chip identifier
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0`
+| None
+
+| `1`
+| STMicro TPM of Gen10
+
+| `2`
+| Intel firmware TPM (PTT)
+
+| `3`
+| Nationz TPM
+
+| `4`
+| STMicro TPM of Gen10 Plus
+
+| `5`
+| STMicro TPM of Gen11
+
+| `6`
+| STMicro TPM of Gen12
+|===

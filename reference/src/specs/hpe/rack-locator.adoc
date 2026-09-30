@@ -1,0 +1,83 @@
+= HP/HPE System/Rack Locator (Type 204)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Tells where a blade server is: the rack, the enclosure and the bay.
+
+.HP/HPE System/Rack Locator structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `204`
+| HP/HPE System/Rack Locator indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x0B`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Rack Name
+| `BYTE`
+| `STRING`
+| 
+
+| `0x05`
+| 2.0+
+| Enclosure Name
+| `BYTE`
+| `STRING`
+| 
+
+| `0x06`
+| 2.0+
+| Enclosure Model
+| `BYTE`
+| `STRING`
+| 
+
+| `0x07`
+| 2.0+
+| Server Bay
+| `BYTE`
+| `STRING`
+| 
+
+| `0x08`
+| 2.0+
+| Enclosure Bays
+| `BYTE`
+| `NUMBER`
+| Number of the bays of the enclosure
+
+| `0x09`
+| 2.0+
+| Bays Filled
+| `BYTE`
+| `NUMBER`
+| Number of the filled bays of the enclosure
+
+| `0x0A`
+| 2.0+
+| Enclosure Serial Number
+| `BYTE`
+| `STRING`
+| 
+|===

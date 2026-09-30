@@ -1,0 +1,1 @@
+dmi_platform_set_product.3.adoc

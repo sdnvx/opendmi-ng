@@ -1,0 +1,62 @@
+ifdef::backend-manpage[]
+= dmi_platform_destroy(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_platform_destroy
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_platform_destroy - destroy a platform descriptor.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/platform.h>
+
+void dmi_platform_destroy(dmi_platform_t *platform);
+----
+
+== Description
+
+The `dmi_platform_destroy` function destroys a platform along with the
+product name and the family code it holds. It does nothing if `platform` is
+`nullptr`.
+
+The platform of a context, returned by `dmi_get_platform`(3), belongs to the
+context, and is not destroyed by the caller.
+
+=== Parameters
+
+`platform`::
+Platform to destroy, or `nullptr`.
+
+== Return value
+
+None.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_platform_create`(3),
+`dmi_platform_clone`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

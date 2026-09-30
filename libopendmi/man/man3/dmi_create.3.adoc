@@ -60,6 +60,13 @@ additional information entries (type 40) applied. Entries usually carry
 annotations with placeholder values rather than the values of fields, so
 this is not done by default.
 
+`DMI_CONTEXT_FLAG_AUTO_MODULES` enables the extension modules of the
+platform as the context is opened, in addition to the ones enabled with
+`dmi_add_extension`(3), unless their types conflict with the types of the
+modules enabled before. The platform is told from the firmware and system
+information, see `dmi_get_platform`(3), and the modules enabled this way
+stay enabled until the context is closed.
+
 A new context logs nothing, since it has no logging handler until
 `dmi_set_logger`(3) gives it one. Its logging level is `DMI_LOG_DEBUG`.
 

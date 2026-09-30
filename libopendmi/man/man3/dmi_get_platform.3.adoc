@@ -1,0 +1,121 @@
+ifdef::backend-manpage[]
+= dmi_get_platform(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_get_platform
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_get_platform - get the platform of an OpenDMI context.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/context.h>
+
+const dmi_platform_t *dmi_get_platform(const dmi_context_t *context);
+----
+
+== Description
+
+The `dmi_get_platform` function returns the platform the structures of the
+vendor-specific types of a context are decoded for: the one set with
+`dmi_set_platform`(3), if any, or else the one the data of the context comes
+from.
+
+The platform is told as the context is opened, from the firmware information
+(type 0), the system information (type 1), the baseboard information (type 2)
+and the processor information (type 4):
+
+`firmware_vendor`::
+Vendor of the platform firmware, `DMI_VENDOR_OTHER` if unknown.
+
+`system_vendor`::
+Vendor of the system, `DMI_VENDOR_OTHER` if unknown.
+
+`baseboard_vendor`::
+Vendor of the baseboard, `DMI_VENDOR_OTHER` if unknown.
+
+`processor_vendor`::
+Vendor of the processors, told by the first processor of a known vendor,
+since sockets may be empty. `DMI_VENDOR_OTHER` if unknown.
+
+`product`::
+Product name, `nullptr` if the table has no system information.
+
+`family`::
+Code of the product family, as the vendor defines it, e.g. `"server"` for
+HP and HPE servers, `nullptr` if the vendor tells no family.
+
+`generation`::
+Generation of the platform within its family, as the vendor numbers it, e.g.
+`DMI_HPE_GEN10`. Generations are ordered, so that a later one has a greater
+number. Zero means that the generation is unknown.
+
+The vendors are told apart, since each of them adds structures of its own:
+e.g. the firmware of AMI is found on the boards of many vendors, and the
+structures of the Intel reference code on Intel platforms of any vendor.
+The vendor of the firmware tells the family and the generation from the
+product name, since the layouts of its structures depend on them. The extension modules of the
+platform are enabled for it when the context has
+`DMI_CONTEXT_FLAG_AUTO_MODULES`, and the specifications of the modules are
+chosen for its generation.
+
+A closed context has no platform, unless one has been set with
+`dmi_set_platform`(3), which is kept as the context is opened and closed.
+
+The platform belongs to the context, and is not destroyed by the caller. It
+is valid until the context is closed or the platform is set again.
+
+=== Parameters
+
+`context`::
+Context to query.
+
+== Return value
+
+Returns the platform, or `nullptr` if `context` is `nullptr`, or if the
+context is closed and no platform has been set.
+
+== Errors
+
+None.
+
+== Examples
+
+[source, c]
+----
+const dmi_platform_t *platform = dmi_get_platform(context);
+
+if ((platform != nullptr) &&
+    (platform->firmware_vendor == DMI_VENDOR_HPE) &&
+    (platform->generation >= DMI_HPE_GEN10))
+    ...
+----
+
+== See also
+
+`dmi_set_platform`(3),
+`dmi_platform_create`(3),
+`dmi_open`(3),
+`dmi_create`(3),
+`dmi_platform_match`(3),
+`dmi_platform_in_generations`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

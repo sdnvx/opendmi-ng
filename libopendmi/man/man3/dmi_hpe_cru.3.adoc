@@ -1,0 +1,90 @@
+ifdef::backend-manpage[]
+= dmi_hpe_cru(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_cru
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_cru - HP/HPE 64-bit CRU information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/cru.h>
+
+typedef struct dmi_hpe_cru {
+    dmi_binary_t signature_raw;
+    char signature_buffer[5];
+    const char *signature;
+    uint64_t address;
+    uint32_t length;
+    uint32_t offset;
+    uint64_t entry_point;
+} dmi_hpe_cru_t;
+----
+
+== Description
+
+The `dmi_hpe_cru_t` structure holds the decoded HP/HPE 64-bit CRU information,
+which tells where the 64-bit entry point of the Compaq ROM Utility (CRU)
+services of the firmware is, which the watchdog timer driver calls.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_cru_spec`, of type `DMI_TYPE(HPE_CRU)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+The structure is decoded up to Gen8 only, which is the last generation known
+to have it.
+
+=== Fields
+
+`signature_raw`::
+Signature, as the structure holds it.
+
+`signature_buffer`::
+Signature, which `signature` points to.
+
+`signature`::
+Signature, `$CRU`, or `nullptr` if it is not printable.
+
+`address`::
+Physical address of the service area.
+
+`length`::
+Length of the service area.
+
+`offset`::
+Offset of the entry point within the service area.
+
+`entry_point`::
+Physical address of the entry point.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

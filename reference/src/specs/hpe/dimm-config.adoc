@@ -1,0 +1,94 @@
+= HP/HPE DIMM Current Configuration Record (Type 244)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Describes a memory region configured on a module of a memory device (type 17),
+e.g. of a persistent memory one, and the interleave set it belongs to. There
+is a record for each region, and the number of the regions of a module is the
+one its DIMM attributes record (type 232) tells. The shortest structures end
+after the interleave set index, at `0x14`.
+
+.HP/HPE DIMM Current Configuration Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `244`
+| HP/HPE DIMM Current Configuration Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Memory Device Handle
+| `WORD`
+| Varies
+| Handle of the memory device structure (type 17)
+
+| `0x06`
+| 2.0+
+| Region ID
+| `BYTE`
+| `NUMBER`
+| Unique on the module
+
+| `0x07`
+| 2.0+
+| Region Type
+| `WORD`
+| `BITFIELD`
+| Bit 0: volatile, bit 1: byte accessible persistent, bit 2: block I/O
+
+| `0x09`
+| 2.0+
+| Region Size
+| `QWORD`
+| `NUMBER`
+| Size of the region in mebibytes
+
+| `0x11`
+| 2.0+
+| Passphrase State
+| `BYTE`
+| `NUMBER`
+| Non-zero if a passphrase is enabled, byte accessible persistent regions only
+
+| `0x12`
+| 2.0+
+| Interleave Set Index
+| `WORD`
+| `NUMBER`
+| 1-based, unique per set; regions of the same index are interleaved
+
+| `0x14`
+| 2.0+
+| Interleave DIMM Count
+| `BYTE`
+| `NUMBER`
+| Number of the DIMMs of the interleave set
+
+| `0x15`
+| 2.0+
+| Interleave Set Health
+| `BYTE`
+| `ENUM`
+| `0`: healthy, `1`: DIMM missing, `2`: configuration inactive, `3`: SPA missing, `4`: new goal, `5`: locked
+|===

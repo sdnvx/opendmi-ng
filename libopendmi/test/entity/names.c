@@ -12,10 +12,10 @@
 
 #include <opendmi/entity/chassis.h>
 #include <opendmi/entity/dell/common.h>
-#include <opendmi/entity/intel/rsd-fpga.h>
-#include <opendmi/entity/intel/rsd-memory-device.h>
-#include <opendmi/entity/intel/rsd-phys-device-mapping.h>
-#include <opendmi/entity/intel/rsd-processor-cpuid.h>
+#include <opendmi/entity/intel-rsd/fpga.h>
+#include <opendmi/entity/intel-rsd/memory-device.h>
+#include <opendmi/entity/intel-rsd/phys-device-mapping.h>
+#include <opendmi/entity/intel-rsd/processor-cpuid.h>
 #include <opendmi/entity/mgmt-controller.h>
 #include <opendmi/entity/processor-ex.h>
 #include <opendmi/entity/system-boot.h>

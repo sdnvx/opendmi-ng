@@ -1,0 +1,104 @@
+ifdef::backend-manpage[]
+= dmi_intel_amt(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_amt
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_amt - Intel Active Management Technology information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/amt.h>
+
+typedef struct dmi_intel_amt {
+    dmi_binary_t signature;
+    bool is_supported;
+    bool is_enabled;
+    bool is_ider_enabled;
+    bool is_sol_enabled;
+    bool is_network_enabled;
+    uint8_t extended_data;
+    uint8_t oem_capabilities[4];
+    bool is_kvm_enabled;
+} dmi_intel_amt_t;
+----
+
+== Description
+
+The `dmi_intel_amt_t` structure holds the decoded Intel Active Management
+Technology (AMT) information, which tells whether the platform supports AMT,
+and which of its features are enabled.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_intel_amt_spec`, of type `DMI_TYPE(INTEL_AMT)`, declared in
+`<opendmi/module/intel.h>`, once the Intel extension module
+(`dmi_intel_module`) is enabled, which is done for any platform with Intel
+processors when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as
+long as the context it has been decoded in. The structures are told by the
+`$AMT` signature at offset 0x04.
+
+The names of the fields are the ones the structure is known by; the data of
+the corpus agrees with them, e.g. the features are enabled on the platforms
+whose Management Engine firmware is of the corporate SKU, see
+`dmi_intel_me_sku`(3).
+
+=== Fields
+
+`signature`::
+Signature of the structure, `$AMT`.
+
+`is_supported`::
+Whether the platform supports AMT.
+
+`is_enabled`::
+Whether AMT is enabled.
+
+`is_ider_enabled`::
+Whether IDE redirection (IDE-R) is enabled.
+
+`is_sol_enabled`::
+Whether Serial over LAN (SOL) is enabled.
+
+`is_network_enabled`::
+Whether the network interface of AMT is enabled.
+
+`extended_data`::
+Marker of the extended data, `0xA5` in all known data.
+
+`oem_capabilities`::
+Capabilities the platform vendor gives to AMT, four bytes, whose meaning is
+not established.
+
+`is_kvm_enabled`::
+Whether keyboard, video and mouse (KVM) redirection is enabled.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_intel_vpro`(3),
+`dmi_intel_mei`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

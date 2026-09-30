@@ -1,0 +1,106 @@
+//
+// OpenDMI: Cross-platform DMI/SMBIOS framework
+// Copyright (c) 2025-2026, The OpenDMI contributors
+//
+// SPDX-License-Identifier: BSD-3-Clause
+//
+#include <opendmi/field.h>
+#include <opendmi/utils.h>
+#include <opendmi/internal.h>
+#include <opendmi/module/hpe.h>
+
+#include <opendmi/entity/hpe/common-internal.h>
+#include <opendmi/entity/hpe/physical-attrs-internal.h>
+
+//
+// Up to G7, the structure holds 16 characters instead of the UUID, e.g.
+// "484184GB894484YN": the product number and the serial number
+//
+const dmi_entity_spec_t dmi_hpe_physical_attrs_legacy_spec =
+{
+    .type        = DMI_TYPE(HPE_PHYSICAL_ATTRS),
+    .code        = "hpe-physical-attrs-legacy",
+    .name        = "HP/HPE physical attribute information",
+    .description = (const char *[]){
+        "Keeps the physical product number and serial number of the server.",
+        //
+        nullptr
+    },
+    .params = {
+        .generations    = { .maximum = DMI_HPE_GEN7 },
+        .minimum_length = 0x15,
+        .decoded_length = sizeof(dmi_hpe_physical_attrs_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD_BINARY(dmi_hpe_physical_attrs_t, identifier_raw, 16),
+        DMI_FIELD_STRING(dmi_hpe_physical_attrs_t, serial_number),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
+        DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, identifier, STRING, {
+            .code = "identifier",
+            .name = "Product and serial number"
+        }),
+        DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, serial_number, STRING, {
+            .code = "serial-number",
+            .name = "Serial number"
+        }),
+        {}
+    }),
+
+    .handlers = {
+        .derive = dmi_hpe_physical_attrs_derive
+    }
+};
+
+const dmi_entity_spec_t dmi_hpe_physical_attrs_spec =
+{
+    .type        = DMI_TYPE(HPE_PHYSICAL_ATTRS),
+    .code        = "hpe-physical-attrs",
+    .name        = "HP/HPE physical attribute information",
+    .description = (const char *[]){
+        "Keeps the physical serial number and UUID of the server, whose "
+        "standard fields hold virtual ones, e.g. on Synergy, where a workload "
+        "moves from one server to another along with its identity.",
+        //
+        nullptr
+    },
+    .params = {
+        .generations    = { .minimum = DMI_HPE_GEN8 },
+        .minimum_length = 0x15,
+        .decoded_length = sizeof(dmi_hpe_physical_attrs_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD_UUID(dmi_hpe_physical_attrs_t, uuid),
+        DMI_FIELD_STRING(dmi_hpe_physical_attrs_t, serial_number),
+        {}
+    }),
+
+    .attributes = DMI_ATTRIBUTES({
+        DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, uuid, UUID, {
+            .code   = "uuid",
+            .name   = "UUID",
+            .unspec = &(const dmi_uuid_t){}
+        }),
+        DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, serial_number, STRING, {
+            .code = "serial-number",
+            .name = "Serial number"
+        }),
+        {}
+    })
+};
+
+bool dmi_hpe_physical_attrs_derive(dmi_entity_t *entity)
+{
+    dmi_hpe_physical_attrs_t *info = dmi_entity_info(entity, DMI_TYPE(HPE_PHYSICAL_ATTRS));
+    if (info == nullptr)
+        return false;
+
+    info->identifier = dmi_hpe_text(info->identifier_raw.data, info->identifier_raw.length,
+                                    info->identifier_buffer, false);
+
+    return true;
+}

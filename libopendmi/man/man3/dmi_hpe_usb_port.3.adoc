@@ -1,0 +1,107 @@
+ifdef::backend-manpage[]
+= dmi_hpe_usb_port(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_usb_port
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_usb_port - HP/HPE USB port connector correlation record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/usb-port.h>
+
+typedef struct dmi_hpe_usb_port {
+    dmi_handle_t port_handle;
+    uint8_t bus;
+    uint8_t devfn;
+    dmi_hpe_usb_location_t location;
+    dmi_hpe_usb_sharing_t sharing;
+    uint8_t instance;
+    uint8_t hub_instance;
+    dmi_hpe_usb_speed_t speed;
+    const char *uefi_device_path;
+    uint16_t segment;
+} dmi_hpe_usb_port_t;
+----
+
+== Description
+
+The `dmi_hpe_usb_port_t` structure holds the decoded HP/HPE USB port connector
+correlation record, which correlates a USB port connector (type 8) with its
+USB controller, its location and the UEFI device path of its endpoint.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_usb_port_spec`, of type `DMI_TYPE(HPE_USB_PORT)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers from Gen9 onwards. It lives as
+long as the context it has been decoded in.
+
+=== Fields
+
+`port_handle`::
+Handle of the port connector structure (type 8).
+
+`bus`::
+PCI bus of the USB controller of the port.
+
+`devfn`::
+PCI device and function of the USB controller of the port, `(device << 3) |
+function`.
+
+`location`::
+Location of the port, see `dmi_hpe_usb_location`(3).
+
+`sharing`::
+Sharing of the port with the management controller, see
+`dmi_hpe_usb_sharing`(3).
+
+`instance`::
+Instance of the port among the ports of its type.
+
+`hub_instance`::
+Instance of the internal hub the port is behind. Set to `0xFE` when not
+applicable.
+
+`speed`::
+Speed the firmware configures the port for, see `dmi_hpe_usb_speed`(3).
+
+`uefi_device_path`::
+UEFI device path of the USB endpoint.
+
+`segment`::
+PCI segment group of the USB controller.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_usb_location`(3),
+`dmi_hpe_usb_sharing`(3),
+`dmi_hpe_usb_speed`(3),
+`dmi_hpe_usb_device`(3),
+`dmi_port_connector`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

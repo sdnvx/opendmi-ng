@@ -1,0 +1,184 @@
+ifdef::backend-manpage[]
+= dmi_hpe_device_correlation(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_device_correlation
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_device_correlation - HP/HPE device correlation record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/device-correlation.h>
+
+typedef struct dmi_hpe_device_correlation {
+    dmi_handle_t device_handle;
+    dmi_handle_t smbus_handle;
+    uint16_t pci_vendor_id;
+    uint16_t pci_device_id;
+    uint16_t pci_subvendor_id;
+    uint16_t pci_subdevice_id;
+    uint8_t pci_class;
+    uint8_t pci_subclass;
+    dmi_handle_t parent_handle;
+    bool is_peer_bifurcated;
+    bool is_upstream;
+    dmi_hpe_device_type_t device_type;
+    dmi_hpe_device_location_t device_location;
+    uint8_t instance;
+    uint8_t sub_instance;
+    uint8_t bay;
+    uint8_t enclosure;
+    const char *uefi_device_path;
+    const char *uefi_device_name;
+    const char *device_name;
+    const char *uefi_location;
+    dmi_handle_t physical_handle;
+    const char *part_number;
+    const char *serial_number;
+    uint16_t segment;
+    uint8_t bus;
+    uint8_t devfn;
+} dmi_hpe_device_correlation_t;
+----
+
+== Description
+
+The `dmi_hpe_device_correlation_t` structure holds the decoded HP/HPE device
+correlation record, which correlates a device with the system slot (type 9) or
+the onboard device (type 41) it is found at, and with the UEFI boot entries
+naming it.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_device_correlation_spec`, of type
+`DMI_TYPE(HPE_DEVICE_CORRELATION)`, declared in `<opendmi/module/hpe.h>`, once
+the HPE extension module (`dmi_hpe_module`) is enabled, which it is for HP and
+HPE servers from Gen9 onwards. It lives as long as the context it has been
+decoded in.
+
+The structure has grown with the generations of the servers: strings the data
+ends before are `nullptr`, `physical_handle` is `DMI_HANDLE_INVALID`, and the
+PCI location is zero.
+
+=== Fields
+
+`device_handle`::
+Handle of the system slot (type 9) or the onboard device (type 41) structure.
+Set to `0xFFFE` when not applicable.
+
+`smbus_handle`::
+Handle of the SMBus segment record (type 228). Set to `0xFFFE` when not
+applicable.
+
+`pci_vendor_id`::
+PCI vendor ID of the device. Set to `0xFFFF` when the device is not present.
+
+`pci_device_id`::
+PCI device ID of the device. Set to `0xFFFF` when the device is not present.
+
+`pci_subvendor_id`::
+PCI subsystem vendor ID of the device. Set to `0xFFFF` when the device is not
+present.
+
+`pci_subdevice_id`::
+PCI subsystem ID of the device. Set to `0xFFFF` when the device is not
+present.
+
+`pci_class`::
+PCI class code of the device. Set to `0xFF` when the device is not present.
+
+`pci_subclass`::
+PCI subclass code of the device. Set to `0xFF` when the device is not present.
+
+`parent_handle`::
+Handle of the device correlation record of the parent device. Set to `0xFFFE`
+when not applicable.
+
+`is_peer_bifurcated`::
+Whether the device is a peer bifurcated one, whose physical slot
+`physical_handle` tells.
+
+`is_upstream`::
+Whether the device is an upstream one.
+
+`device_type`::
+Type of the device, UEFI only, see `dmi_hpe_device_type`(3).
+
+`device_location`::
+Location of the device, see `dmi_hpe_device_location`(3).
+
+`instance`::
+Instance of the device.
+
+`sub_instance`::
+Sub-instance of the device: the port of a NIC, or the bay of an NVMe drive.
+
+`bay`::
+Bay of the device, zero if unknown. Set to `0xFF` when not shown.
+
+`enclosure`::
+Enclosure of the device, zero if unknown. Set to `0xFF` when not shown.
+
+`uefi_device_path`::
+UEFI device path.
+
+`uefi_device_name`::
+UEFI device structured name.
+
+`device_name`::
+UEFI device name.
+
+`uefi_location`::
+UEFI location.
+
+`physical_handle`::
+Handle of the system slot structure (type 9) of the real physical slot, valid
+only if `is_peer_bifurcated` is set.
+
+`part_number`::
+Part number of the PCI device.
+
+`serial_number`::
+Serial number of the PCI device.
+
+`segment`::
+PCI segment group, zero for a single group topology.
+
+`bus`::
+PCI bus.
+
+`devfn`::
+PCI device and function, `(device << 3) | function`.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_device_type`(3),
+`dmi_hpe_device_location`(3),
+`dmi_slot`(3),
+`dmi_onboard_device_ex`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

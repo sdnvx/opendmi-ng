@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-phys-device-mapping.h>
+#include <opendmi/entity/intel-rsd/phys-device-mapping.h>
 
 typedef struct dmi_intel_rsd_phys_device {
     dmi_handle_t handle;

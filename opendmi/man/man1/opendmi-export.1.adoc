@@ -103,9 +103,10 @@ as raw data.
 Do not export the structures of the unknown types.
 
 *-m* _module_, *--module*=_module_::
-Only export the structures described by the named module, which has to be
-enabled with the global *--module* option. The option may be given several
-times.
+Only export the structures described by the named module, whatever type numbers
+the platform places them at. The module has to be enabled, either for the
+platform or with the global *--module* option, or else nothing it describes is
+decoded. The option may be given several times.
 
 *-M*, *--all-modules*::
 Only export the structures described by the enabled modules.

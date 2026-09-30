@@ -22,8 +22,8 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-tpm.h>
-#include <opendmi/module/intel.h>
+#include <opendmi/entity/intel-rsd/tpm.h>
+#include <opendmi/module/intel-rsd.h>
 
 typedef struct dmi_intel_rsd_tpm {
     uint8_t config_index;
@@ -41,10 +41,10 @@ and whether it is enabled. The pod manager selects the configuration to use
 by its index.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_TPM)`, once the Intel extension module
-(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
-in the context with `dmi_add_extension()`. It lives as long as the context it
-has been decoded in.
+`DMI_TYPE(INTEL_RSD_TPM)`, once the Intel RSD extension module
+(`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
+enabled in the context with `dmi_add_extension()`. It lives as long as the
+context it has been decoded in.
 
 === Fields
 

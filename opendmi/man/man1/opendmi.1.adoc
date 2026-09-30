@@ -96,7 +96,15 @@ default. Only used by the backends which read physical memory.
 *-m* _module_, *--module*=_module_::
 Enable the named extension module, so that the structures it describes are
 decoded instead of being left unknown. The option may be given several times.
-See `opendmi-modules`(1) for the modules available.
+Modules enabled this way take precedence over the ones enabled for the
+platform. See `opendmi-modules`(1) for the modules available.
+
+*-M*, *--no-auto-modules*::
+Do not enable the modules of the platform automatically. By default, the
+modules of the platform the data comes from are enabled as the data is read,
+e.g. the *dell* module for a Dell platform, or the *hpe* module for an HP or
+HPE server, unless the structures they describe conflict with the ones of the
+modules enabled with *--module*.
 
 *-O*, *--overlay*::
 Apply additional information entries (type 40) to the structures they refer

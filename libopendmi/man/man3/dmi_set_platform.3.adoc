@@ -1,0 +1,101 @@
+ifdef::backend-manpage[]
+= dmi_set_platform(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_set_platform
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_set_platform - set the platform of an OpenDMI context.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/context.h>
+
+bool dmi_set_platform(dmi_context_t *context, const dmi_platform_t *platform);
+----
+
+== Description
+
+The `dmi_set_platform` function sets the platform the structures of a
+context are decoded for, instead of the one told from its data as it is
+opened, see `dmi_get_platform`(3). This allows decoding the data of a
+platform whose firmware or system information is missing or wrong, and
+decoding structures of a known generation without opening the context.
+
+The context keeps a copy of the platform, which it destroys when the
+platform is set again or the context is destroyed, so the caller still owns
+`platform` and destroys it with `dmi_platform_destroy`(3). The platform set
+is kept as the context is opened and closed. Passing `nullptr` makes the
+context use the platform told from its data again, at once if it is open.
+
+The specifications of the enabled modules are chosen for the platform again
+at once. The structures decoded before are not decoded again, and keep the
+specifications they have been decoded by.
+
+=== Parameters
+
+`context`::
+Context to update.
+
+`platform`::
+Platform to set, or `nullptr`.
+
+== Return value
+
+Returns `true` on success, and `false` otherwise. On failure, the platform
+and the specifications chosen are left as they were.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory is exhausted.
+
+`DMI_ERROR_MODULE_CONFLICT`::
+Specifications of the enabled modules, which apply to the platform, have the
+same type.
+
+== Examples
+
+[source, c]
+----
+dmi_platform_t *platform = dmi_platform_create(context);
+bool success = false;
+
+if (platform != nullptr) {
+    platform->firmware_vendor = DMI_VENDOR_HPE;
+    platform->generation      = DMI_HPE_GEN10;
+
+    success = dmi_platform_set_family(platform, DMI_HPE_FAMILY_SERVER) &&
+              dmi_set_platform(context, platform) &&
+              dmi_add_extension(context, &dmi_hpe_module);
+
+    dmi_platform_destroy(platform);
+}
+----
+
+== See also
+
+`dmi_get_platform`(3),
+`dmi_platform_create`(3),
+`dmi_open`(3),
+`dmi_load`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

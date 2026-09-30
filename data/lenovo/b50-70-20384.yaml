@@ -1644,22 +1644,32 @@ table:
   type: 221
   length: 35
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3QxBAAEBAAEHAAAA
-  strings:
-  - Reference Code - ACPI
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - ACPI
+      version-string: null
+      major: 1
+      minor: 7
+      revision: 0
+      build: 0
 - handle: 66
   type: 221
   length: 48
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3QxCAAEBAAEHAAAA
-  strings:
-  - Reference Code - Intel Rapid Start
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - Intel Rapid Start
+      version-string: null
+      major: 1
+      minor: 7
+      revision: 0
+      build: 0
 - handle: 67
   type: 127
   length: 6

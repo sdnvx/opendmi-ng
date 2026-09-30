@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-txt.h>
+#include <opendmi/entity/intel-rsd/txt.h>
 
 typedef enum dmi_intel_rsd_txt_status {
     DMI_INTEL_RSD_TXT_STATUS_DISABLED = 0x00,

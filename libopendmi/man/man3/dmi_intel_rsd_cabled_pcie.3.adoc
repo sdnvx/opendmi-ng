@@ -22,8 +22,8 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-cabled-pcie.h>
-#include <opendmi/module/intel.h>
+#include <opendmi/entity/intel-rsd/cabled-pcie.h>
+#include <opendmi/module/intel-rsd.h>
 
 typedef struct dmi_intel_rsd_cabled_pcie {
     dmi_pci_slot_t pci_slot_id;
@@ -44,10 +44,10 @@ Cable Management Interface (CMI) controller of such a port, and none if the
 platform has no cabled PCIe ports.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_CABLED_PCIE)`, once the Intel extension module
-(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
-in the context with `dmi_add_extension()`. It lives as long as the context it
-has been decoded in.
+`DMI_TYPE(INTEL_RSD_CABLED_PCIE)`, once the Intel RSD extension module
+(`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
+enabled in the context with `dmi_add_extension()`. It lives as long as the
+context it has been decoded in.
 
 === Fields
 

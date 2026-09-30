@@ -1,0 +1,111 @@
+ifdef::backend-manpage[]
+= dmi_platform_create(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_platform_create
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_platform_create - create a platform descriptor.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/platform.h>
+
+dmi_platform_t *dmi_platform_create(dmi_context_t *context);
+----
+
+== Description
+
+The `dmi_platform_create` function creates a platform descriptor, which
+tells the vendor, the product, the family and the generation of the platform
+the SMBIOS data comes from:
+
+[source, c]
+----
+struct dmi_platform
+{
+    dmi_context_t *context;
+    dmi_vendor_t   firmware_vendor;
+    dmi_vendor_t   system_vendor;
+    dmi_vendor_t   baseboard_vendor;
+    dmi_vendor_t   processor_vendor;
+    char          *product;
+    char          *family;
+    unsigned       generation;
+};
+----
+
+The new platform has the vendors `DMI_VENDOR_OTHER`, no product name, no
+family and an unknown generation, which is zero. The vendors and the
+generation are plain values, which the caller sets directly, see
+`dmi_get_platform`(3) for their meaning. The product
+name and the family code are owned by the platform, and are set with
+`dmi_platform_set_product`(3) and `dmi_platform_set_family`(3), which copy
+them.
+
+A context tells the platform of its data itself as it is opened, see
+`dmi_get_platform`(3). A platform created by the caller is given to a
+context with `dmi_set_platform`(3), which keeps a copy of it, so the caller
+destroys the platform with `dmi_platform_destroy`(3) whenever it is done
+with it.
+
+=== Parameters
+
+`context`::
+Context the platform belongs to, whose error queue its errors are raised
+against, or `nullptr`, in which case errors are not reported.
+
+== Return value
+
+Returns the platform on success, or `nullptr` on failure.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory is exhausted.
+
+== Examples
+
+[source, c]
+----
+dmi_platform_t *platform = dmi_platform_create(context);
+
+if (platform == nullptr)
+    return false;
+
+platform->firmware_vendor = DMI_VENDOR_HPE;
+platform->generation      = DMI_HPE_GEN10;
+
+bool success = dmi_platform_set_family(platform, DMI_HPE_FAMILY_SERVER) &&
+               dmi_set_platform(context, platform);
+
+dmi_platform_destroy(platform);
+----
+
+== See also
+
+`dmi_platform_clone`(3),
+`dmi_platform_destroy`(3),
+`dmi_platform_set_product`(3),
+`dmi_set_platform`(3),
+`dmi_get_platform`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

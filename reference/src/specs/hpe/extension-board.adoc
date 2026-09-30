@@ -1,0 +1,111 @@
+= HP/HPE Extension Board Inventory Record (Type 245)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Describes an extension board installed in the server, e.g. a PCIe riser, as
+ML, DL and Alletra servers do from Gen11 onwards. The board type selects the
+layout of the rest of the structure, and the structures of other board types
+are not decoded.
+
+.HP/HPE Extension Board Inventory Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `245`
+| HP/HPE Extension Board Inventory Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Board Type
+| `BYTE`
+| `ENUM`
+| `0`: PCIe riser, `1`: PCIe riser of an MHS platform
+|===
+
+.PCIe riser (board type 0)
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x05`
+| Riser Position
+| `BYTE`
+| `1`: primary, `2`: secondary, `3`: tertiary, `4`: quaternary, `10`: front
+
+| `0x06`
+| Riser ID
+| `BYTE`
+| 
+
+| `0x07`
+| CPLD Version
+| `BYTE`
+| Bits 0-6: version, bit 7: `B.` release; zero if the riser has no CPLD
+
+| `0x08`
+| Riser Name
+| `STRING`
+| 
+|===
+
+.PCIe riser of an MHS platform (board type 1)
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x05`
+| Riser ID
+| `BYTE`
+| 
+
+| `0x06`
+| Firmware Major Version
+| `BYTE`
+| Zero if the riser has no firmware
+
+| `0x07`
+| Firmware Minor Version
+| `BYTE`
+| 
+
+| `0x08`
+| Miscellaneous Attributes
+| `BYTE`
+| Bit 0: the firmware may be downgraded
+
+| `0x09`
+| Riser Name
+| `STRING`
+| 
+
+| `0x0A`
+| Slot Count
+| `BYTE`
+| 
+
+| `0x0B`
+| Slot IDs
+| Slot Count BYTEs
+| One per slot
+|===

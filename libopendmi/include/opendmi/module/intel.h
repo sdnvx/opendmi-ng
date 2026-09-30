@@ -12,20 +12,18 @@
 #include <opendmi/module.h>
 
 /**
- * @brief Intel structure type identifiers.
+ * @brief Intel reference code structure type identifiers.
+ *
+ * These are the type numbers of the Intel reference code, which some vendors
+ * relocate, see `dmi_relocation_t`.
  */
 typedef enum dmi_intel_type
 {
-    DMI_TYPE_INTEL_RSD_NETWORK_CARD        = 190, ///< Intel RSD Network card information
-    DMI_TYPE_INTEL_RSD_PCIE                = 192, ///< Intel RSD PCIe information
-    DMI_TYPE_INTEL_RSD_PROCESSOR_CPUID     = 193, ///< Intel RSD Processor CPUID information
-    DMI_TYPE_INTEL_RSD_STORAGE_DEVICE      = 194, ///< Intel RSD Storage device information
-    DMI_TYPE_INTEL_RSD_TPM                 = 195, ///< Intel RSD TPM information
-    DMI_TYPE_INTEL_RSD_TXT                 = 196, ///< Intel RSD TXT information
-    DMI_TYPE_INTEL_RSD_MEMORY_DEVICE       = 197, ///< Intel RSD Memory device extended information
-    DMI_TYPE_INTEL_RSD_FPGA                = 198, ///< Intel RSD FPGA information
-    DMI_TYPE_INTEL_RSD_CABLED_PCIE         = 199, ///< Intel RSD Cabled PCIe port information
-    DMI_TYPE_INTEL_RSD_PHYS_DEVICE_MAPPING = 200  ///< Intel RSD SMBIOS physical device mapping
+    DMI_TYPE_INTEL_AMT  = 130, ///< Intel Active Management Technology information
+    DMI_TYPE_INTEL_VPRO = 131, ///< Intel vPro information
+    DMI_TYPE_INTEL_MEI  = 219, ///< Intel Management Engine interface information
+    DMI_TYPE_INTEL_FVI  = 221, ///< Intel firmware version information
+    DMI_TYPE_INTEL_SVT  = 222  ///< Intel Silicon View Technology milestones
 } dmi_intel_type_t;
 
 __BEGIN_DECLS

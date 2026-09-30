@@ -22,8 +22,8 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-processor-cpuid.h>
-#include <opendmi/module/intel.h>
+#include <opendmi/entity/intel-rsd/processor-cpuid.h>
+#include <opendmi/module/intel-rsd.h>
 
 typedef struct dmi_intel_rsd_processor_cpuid {
     const char *socket_designation;
@@ -52,10 +52,10 @@ subleaf 0, leaves 15h and 16h, leaf 17h with subleaves 0 to 3, leaves
 80000000h to 80000004h, and 80000006h to 80000008h.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID)`, once the Intel extension module
-(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
-in the context with `dmi_add_extension()`. It lives as long as the context it
-has been decoded in.
+`DMI_TYPE(INTEL_RSD_PROCESSOR_CPUID)`, once the Intel RSD extension module
+(`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
+enabled in the context with `dmi_add_extension()`. It lives as long as the
+context it has been decoded in.
 
 === Fields
 

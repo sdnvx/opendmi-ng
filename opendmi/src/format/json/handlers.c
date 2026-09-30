@@ -212,7 +212,7 @@ bool dmi_json_entity_attr(
         if (not dmi_json_label(session, attr->params.code))
             break;
 
-        if (not dmi_member_is_present(variant->counter)) {
+        if (not dmi_attribute_is_array(variant)) {
             if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
                 result = dmi_json_entity_attr_struct(session, variant, value);
             else
@@ -289,12 +289,16 @@ bool dmi_json_entity_attr_struct(
 
         const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
 
-        // Nested structures are written as nested mappings
-        bool result =
-            dmi_json_label(session, child_attr->params.code) and
-            ((child->type == DMI_ATTRIBUTE_TYPE_STRUCT) ?
-                dmi_json_entity_attr_struct(session, child, ptr) :
-                dmi_json_entity_attr_value(session, child, ptr));
+        // Nested structures are written as nested mappings, and arrays as
+        // sequences, whose counters are members of the same structure
+        bool result = dmi_json_label(session, child_attr->params.code);
+
+        if (result and dmi_attribute_is_array(child))
+            result = dmi_json_entity_attr_array(session, child, value, ptr);
+        else if (result and (child->type == DMI_ATTRIBUTE_TYPE_STRUCT))
+            result = dmi_json_entity_attr_struct(session, child, ptr);
+        else if (result)
+            result = dmi_json_entity_attr_value(session, child, ptr);
 
         if (not result)
             return false;

@@ -1,0 +1,62 @@
+ifdef::backend-manpage[]
+= dmi_intel_svt_milestone(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_svt_milestone
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_svt_milestone - milestone of the boot reported by Intel Silicon View Technology
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/svt.h>
+
+typedef struct dmi_intel_svt_milestone {
+    uint8_t code;
+    const char *name;
+} dmi_intel_svt_milestone_t;
+----
+
+== Description
+
+The `dmi_intel_svt_milestone_t` structure describes a milestone of the boot,
+and is the type of the elements of the `milestones` array of
+`dmi_intel_svt_t`. All known data lists the same milestones: `0x10` for
+`Memory Init Complete`, `0x20` for `End of DXE Phase` and `0x30` for
+`BIOS Boot Complete`.
+
+=== Fields
+
+`code`::
+Code of the milestone.
+
+`name`::
+Name of the milestone.
+
+== See also
+
+`dmi_intel_svt`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

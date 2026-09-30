@@ -1,0 +1,89 @@
+ifdef::backend-manpage[]
+= dmi_platform_in_generations(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_platform_in_generations
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_platform_in_generations - check whether a platform is of the generations of a range.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/platform.h>
+
+bool dmi_platform_in_generations(const dmi_platform_t *platform,
+                                 const dmi_generations_t *generations);
+----
+
+== Description
+
+The `dmi_platform_in_generations` function checks whether the generation of
+a platform lies within a range, which a structure specification applies to
+by its `params.generations` member:
+
+[source, c]
+----
+struct dmi_generations
+{
+    unsigned minimum;
+    unsigned maximum;
+};
+----
+
+Both bounds are included in the range, and a zero bound leaves the range
+unbounded on its side. A range with both bounds zero applies to every
+platform. A bounded range never applies to a platform whose generation is
+unknown, since the layouts of different generations are told apart by their
+ranges only.
+
+=== Parameters
+
+`platform`::
+Platform to check.
+
+`generations`::
+Range of generations, `nullptr` for an unbounded one.
+
+== Return value
+
+Returns `true` if the range is unbounded, or if the generation of the
+platform is known and lies within the range, and `false` otherwise.
+
+== Errors
+
+None.
+
+== Examples
+
+[source, c]
+----
+const dmi_generations_t gen9_onwards = { .minimum = DMI_HPE_GEN9 };
+
+if (dmi_platform_in_generations(dmi_get_platform(context), &gen9_onwards))
+    ...
+----
+
+== See also
+
+`dmi_get_platform`(3),
+`dmi_platform_match`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,147 @@
+ifdef::backend-manpage[]
+= dmi_hpe_dimm_location(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_dimm_location
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_dimm_location - HP/HPE DIMM location record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/dimm-location.h>
+
+typedef struct dmi_hpe_dimm_location {
+    dmi_handle_t device_handle;
+    uint8_t board;
+    uint8_t dimm;
+    uint8_t processor;
+    uint8_t logical_dimm;
+    const char *uefi_device_path;
+    const char *uefi_device_name;
+    const char *device_name;
+    uint8_t controller;
+    uint8_t channel;
+    uint8_t ie_dimm;
+    uint8_t ie_pldm_id;
+    uint16_t vendor_id;
+    uint16_t device_id;
+    uint16_t controller_vendor_id;
+    uint16_t controller_device_id;
+    uint8_t interleave;
+    const char *part_number;
+    uint8_t channel_index;
+} dmi_hpe_dimm_location_t;
+----
+
+== Description
+
+The `dmi_hpe_dimm_location_t` structure holds the decoded HP/HPE DIMM location
+record, which tells where the DIMM socket of a memory device (type 17) is: the
+memory board, the processor and the channel it belongs to. There is a record
+for each socket, including the ones of the memory boards which are not
+installed.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_dimm_location_spec`, of type `DMI_TYPE(HPE_DIMM_LOCATION)`,
+declared in `<opendmi/module/hpe.h>`, once the HPE extension module
+(`dmi_hpe_module`) is enabled, which it is for HP and HPE servers. It lives as
+long as the context it has been decoded in.
+
+The structure has grown with the generations of the servers: fields the data
+ends before are set to the values they have when not specified, and strings to
+`nullptr`.
+
+=== Fields
+
+`device_handle`::
+Handle of the memory device structure (type 17).
+
+`board`::
+1-based number of the memory board. Set to `UINT8_MAX` for the sockets of the
+system board.
+
+`dimm`::
+1-based number of the DIMM.
+
+`processor`::
+1-based number of the processor. Set to `UINT8_MAX` when not shown.
+
+`logical_dimm`::
+1-based logical number of the DIMM, as ACPI numbers it, zero if unspecified.
+
+`uefi_device_path`::
+UEFI device path.
+
+`uefi_device_name`::
+UEFI device structured name.
+
+`device_name`::
+Device name.
+
+`controller`::
+1-based number of the memory controller, zero if unknown.
+
+`channel`::
+1-based number of the memory channel, as the silk screen names it, zero if
+unknown.
+
+`ie_dimm`::
+0-based number of the DIMM, as the Innovation Engine reports it. Set to
+`UINT8_MAX` when not supported. Reserved from Gen12 onwards.
+
+`ie_pldm_id`::
+Sensor ID of the Innovation Engine. Set to `UINT8_MAX` when not supported.
+Reserved from Gen12 onwards.
+
+`vendor_id`::
+Manufacturer ID code of the module, as the SPD gives it.
+
+`device_id`::
+Product ID code of the module, NVDIMMs only.
+
+`controller_vendor_id`::
+Manufacturer ID code of the controller, NVDIMMs only.
+
+`controller_device_id`::
+Product ID code of the controller, NVDIMMs only.
+
+`interleave`::
+1-based interleave set within the processor, zero if unknown.
+
+`part_number`::
+HPE part number, from the OEM area of the SPD.
+
+`channel_index`::
+0-based index of the DIMM within its channel. Set to `UINT8_MAX` when
+unspecified.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_memory_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -29,6 +29,7 @@ void dmi_text_entity_attr_array(
         const dmi_attribute_t *attr,
         const dmi_data_t      *info,
         const void            *value,
+        unsigned int           depth,
         const char            *owner);
 
 void dmi_text_entity_attr_struct(

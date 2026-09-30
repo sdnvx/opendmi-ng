@@ -25,8 +25,22 @@ giving the name of each module and the vendor it covers.
 
 A module describes the OEM-specific structures of a vendor, which are the ones
 of types 128 to 255. Those types mean different things to different vendors, so
-nothing is decoded until a module is enabled with the global *--module* option;
-until then such structures are shown as raw data.
+a module is only enabled for the platforms of its vendor: automatically, as the
+data is read, or with the global *--module* option. The structures no enabled
+module describes are shown as raw data. The global *--no-auto-modules* option
+leaves the modules of the platform disabled.
+
+Some modules depend on the product line and the generation of the platform
+too, which are told from the system information: the *hpe* module is enabled
+for HP and HPE servers only, and decodes the structures of each generation by
+their own layout.
+
+The *intel* module describes the structures of the Intel reference code,
+which the firmware of any vendor may carry, and is enabled for any platform.
+The modules of the vendors take precedence over it where they give the same
+types to structures of their own. The *intel-rsd* module describes the
+structures of Intel Rack Scale Design, found on the platforms built to it
+only, and is enabled with *--module*.
 
 The name printed here is what *--module* takes, both as a global option which
 enables a module and as a filter option which limits the output to the
@@ -61,7 +75,8 @@ List the modules available:
 $ opendmi modules
 ....
 
-Decode the structures of a vendor with the module for it:
+Decode the structures of a vendor with the module for it, when the data does
+not tell the vendor:
 
 ....
 $ opendmi -m lenovo show

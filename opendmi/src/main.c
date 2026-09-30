@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
     argc--, argv++;
 
     // Create DMI context
-    context = dmi_create(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_RELAXED);
+    context = dmi_create(DMI_CONTEXT_FLAG_LINK | DMI_CONTEXT_FLAG_AUTO_MODULES | DMI_CONTEXT_FLAG_RELAXED);
     if (context == nullptr) {
         fprintf(stderr, "Unable to create DMI context\n");
         return EXIT_FAILURE;

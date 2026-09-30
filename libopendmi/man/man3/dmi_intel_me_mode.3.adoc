@@ -1,0 +1,96 @@
+ifdef::backend-manpage[]
+= dmi_intel_me_mode(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_me_mode
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_me_mode, dmi_intel_me_mode_name - Intel Management Engine firmware operation modes
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/mei.h>
+
+typedef enum dmi_intel_me_mode {
+    DMI_INTEL_ME_MODE_NORMAL           = 0x00,
+    DMI_INTEL_ME_MODE_DEBUG            = 0x02,
+    DMI_INTEL_ME_MODE_DISABLED         = 0x03,
+    DMI_INTEL_ME_MODE_OVERRIDE_JUMPER  = 0x04,
+    DMI_INTEL_ME_MODE_OVERRIDE_MESSAGE = 0x05,
+    DMI_INTEL_ME_MODE_UNSPEC           = 0xFF
+} dmi_intel_me_mode_t;
+
+const char *dmi_intel_me_mode_name(dmi_intel_me_mode_t value);
+----
+
+== Description
+
+The `dmi_intel_me_mode_t` enumeration tells the operation mode of the Intel
+Management Engine firmware, as bits 16 to 19 of the first firmware status
+register (HFSTS1) of the first interface tell it, and is the type of the
+`mode` field of `dmi_intel_mei_t`. Other values may be found in the data, and
+are kept as they are.
+
+The `dmi_intel_me_mode_name` function returns the name of a value, as the command line
+tool shows it.
+
+=== Values
+
+`DMI_INTEL_ME_MODE_NORMAL`::
+Firmware runs normally.
+
+`DMI_INTEL_ME_MODE_DEBUG`::
+Firmware runs in the debug mode.
+
+`DMI_INTEL_ME_MODE_DISABLED`::
+Firmware has been disabled temporarily, e.g. by the firmware of the host.
+
+`DMI_INTEL_ME_MODE_OVERRIDE_JUMPER`::
+Security of the firmware is overridden by a jumper, which allows it to be rewritten.
+
+`DMI_INTEL_ME_MODE_OVERRIDE_MESSAGE`::
+Security of the firmware is overridden by a message from the host, which allows it to be rewritten.
+
+`DMI_INTEL_ME_MODE_UNSPEC`::
+Mode is unknown, since the first interface is absent.
+
+== Return value
+
+`dmi_intel_me_mode_name` returns the name of the value, translated to the language of the
+current locale when a translation is available, or `nullptr` if the value
+has no name. The returned string must not be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_intel_mei`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code,
+which gives the structures type 219 by default. The layouts of the firmware
+status registers are the ones of the Intel Management Engine, as coreboot
+describes them.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

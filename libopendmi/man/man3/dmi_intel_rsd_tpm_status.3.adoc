@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-tpm.h>
+#include <opendmi/entity/intel-rsd/tpm.h>
 
 typedef enum dmi_intel_rsd_tpm_status {
     DMI_INTEL_RSD_TPM_STATUS_DISABLED = 0x00,

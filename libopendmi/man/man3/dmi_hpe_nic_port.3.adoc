@@ -1,0 +1,70 @@
+ifdef::backend-manpage[]
+= dmi_hpe_nic_port(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_nic_port
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_nic_port - HP/HPE network boot port structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/nic.h>
+
+typedef struct dmi_hpe_nic_port {
+    uint8_t devfn;
+    uint8_t bus;
+    dmi_binary_t mac_address;
+    dmi_hpe_nic_state_t state;
+} dmi_hpe_nic_port_t;
+----
+
+== Description
+
+The `dmi_hpe_nic_port_t` structure describes a network port the firmware boots
+from, as an element of the `ports` field of `dmi_hpe_nic_info_t`.
+
+=== Fields
+
+`devfn`::
+PCI device and function, `(device << 3) | function`.
+
+`bus`::
+PCI bus.
+
+`mac_address`::
+MAC address.
+
+`state`::
+State of the port, see `dmi_hpe_nic_state`(3): disabled if the bus and the
+device are zero, and not installed if they have all bits set.
+
+== See also
+
+`dmi_hpe_nic_info`(3),
+`dmi_hpe_nic_state`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

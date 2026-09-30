@@ -1,0 +1,93 @@
+= HP/HPE HDD Backplane FRU Information (Type 236)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Describes a drive backplane: where its FRU is, and the SAS expander and the
+drive bays it has. The structure is decoded up to Gen10 Plus, from which the
+bay counts behind the ports and the name are deprecated. The shortest
+structures end after the NVRAM ID, at `0x09`.
+
+.HP/HPE HDD Backplane FRU Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `236`
+| HP/HPE HDD Backplane FRU Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| FRU I2C Address
+| `BYTE`
+| `NUMBER`
+| I2C address of the FRU, shifted left by one bit
+
+| `0x05`
+| 2.0+
+| Box Number
+| `WORD`
+| `NUMBER`
+| 
+
+| `0x07`
+| 2.0+
+| NVRAM ID
+| `WORD`
+| `NUMBER`
+| 
+
+| `0x09`
+| 2.0+
+| SAS Expander WWID
+| `QWORD`
+| `NUMBER`
+| 
+
+| `0x11`
+| 2.0+
+| Total Bays
+| `BYTE`
+| `NUMBER`
+| Number of the SAS drive bays
+
+| `0x12`
+| 2.0+
+| A0 Bays
+| `BYTE`
+| `NUMBER`
+| Number of the SAS drive bays behind port `0xA0`
+
+| `0x13`
+| 2.0+
+| A2 Bays
+| `BYTE`
+| `NUMBER`
+| Number of the SAS drive bays behind port `0xA2`
+
+| `0x14`
+| 2.0+
+| Name
+| `BYTE`
+| `STRING`
+| Name of the backplane
+|===

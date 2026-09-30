@@ -1,0 +1,72 @@
+ifdef::backend-manpage[]
+= dmi_hpe_microcode(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_microcode
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_microcode - HP/HPE CPU microcode patch support information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/microcode.h>
+
+typedef struct dmi_hpe_microcode {
+    size_t patch_count;
+    dmi_hpe_microcode_patch_t *patches;
+} dmi_hpe_microcode_t;
+----
+
+== Description
+
+The `dmi_hpe_microcode_t` structure holds the decoded HP/HPE CPU microcode
+patch support information, which lists the CPU microcode patches the firmware
+carries.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_microcode_spec`, of type `DMI_TYPE(HPE_MICROCODE)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+Patches run to the end of the structure, which carries no number of them of
+its own.
+
+=== Fields
+
+`patch_count`::
+Number of patches.
+
+`patches`::
+Patches, see `dmi_hpe_microcode_patch`(3). May be `nullptr` when `patch_count`
+is 0.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_microcode_patch`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

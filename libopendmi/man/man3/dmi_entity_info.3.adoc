@@ -37,6 +37,13 @@ The returned pointer should be cast to the appropriate type-specific structure
 (e.g., `dmi_cooling_device_t *` for cooling device entities). The entity must
 have been previously decoded with `dmi_entity_decode`(3).
 
+A structure is checked against the specification it is decoded by, rather than
+against its type number. Some vendors place structures defined by others at
+type numbers of their own, e.g. Dell moves Intel reference code structures 16
+types down. Such a structure matches the type of its original specification,
+since its data is laid out as that type expects, while `dmi_entity_type`(3)
+still returns the type number found in the table.
+
 === Parameters
 
 `entity`::

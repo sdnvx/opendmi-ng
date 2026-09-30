@@ -1,0 +1,64 @@
+= HP/HPE 64-bit CRU Information (Type 212)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, the `hpwdt` watchdog timer driver of Linux, and the dumps of the data corpus.
+
+Tells where the 64-bit entry point of the Compaq ROM Utility (CRU) services of
+the firmware is, which the watchdog timer driver calls. The structure is known
+up to Gen8.
+
+.HP/HPE 64-bit CRU Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `212`
+| HP/HPE 64-bit CRU Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x18`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Signature
+| 4 BYTEs
+| `$CRU`
+| 
+
+| `0x08`
+| 2.0+
+| Physical Address
+| `QWORD`
+| Varies
+| Physical address of the service area
+
+| `0x10`
+| 2.0+
+| Length
+| `DWORD`
+| `NUMBER`
+| Length of the service area
+
+| `0x14`
+| 2.0+
+| Entry Point Offset
+| `DWORD`
+| `NUMBER`
+| Offset of the entry point within the service area
+|===

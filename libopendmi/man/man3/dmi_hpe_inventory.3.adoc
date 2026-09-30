@@ -1,0 +1,115 @@
+ifdef::backend-manpage[]
+= dmi_hpe_inventory(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_inventory
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_inventory - HP/HPE firmware inventory record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/inventory.h>
+
+typedef struct dmi_hpe_inventory {
+    dmi_handle_t correlation_handle;
+    uint32_t package_version;
+    const char *version_string;
+    uint64_t image_size;
+    uint64_t attrs_defined;
+    uint64_t attrs_set;
+    dmi_hpe_flag_t is_updatable;
+    dmi_hpe_flag_t is_reset_required;
+    dmi_hpe_flag_t is_auth_required;
+    dmi_hpe_flag_t is_in_use;
+    dmi_hpe_flag_t is_uefi_image;
+    uint32_t lowest_version;
+} dmi_hpe_inventory_t;
+----
+
+== Description
+
+The `dmi_hpe_inventory_t` structure holds the decoded HP/HPE firmware
+inventory record, which tells the version of the firmware of a device which
+reports it through its UEFI driver.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_inventory_spec`, of type `DMI_TYPE(HPE_INVENTORY)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+The attributes of the firmware image are defined by the bits of
+`attrs_defined`, and set by the ones of `attrs_set`; a flag is
+`DMI_HPE_FLAG_UNSPEC` when the record does not define it, see
+`dmi_hpe_flag`(3).
+
+=== Fields
+
+`correlation_handle`::
+Handle of the device correlation record (type 203).
+
+`package_version`::
+Version of the package of all the firmware of the device.
+
+`version_string`::
+Version of the firmware, as a string.
+
+`image_size`::
+Size of the firmware image in bytes, zero if not available.
+
+`attrs_defined`::
+Mask of the attributes the record defines: bit 0 updatable, bit 1 reset
+required, bit 2 authentication required, bit 3 in use, bit 4 UEFI image.
+
+`attrs_set`::
+Mask of the defined attributes which are set.
+
+`is_updatable`::
+Whether the firmware is updatable.
+
+`is_reset_required`::
+Whether a reset is required after an update.
+
+`is_auth_required`::
+Whether an update requires authentication.
+
+`is_in_use`::
+Whether the firmware image is in use.
+
+`is_uefi_image`::
+Whether the firmware image is a UEFI one.
+
+`lowest_version`::
+Lowest version the firmware may be downgraded to, zero if not available.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_flag`(3),
+`dmi_hpe_device_correlation`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -22,7 +22,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-cabled-pcie.h>
+#include <opendmi/entity/intel-rsd/cabled-pcie.h>
 
 typedef struct dmi_intel_rsd_cabled_pcie_port {
     unsigned index;

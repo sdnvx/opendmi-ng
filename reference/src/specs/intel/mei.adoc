@@ -1,0 +1,201 @@
+= Intel Management Engine Interface Information (Type 219)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus. The layouts of
+the firmware status registers are the ones coreboot describes in
+`src/soc/intel/common/block/include/intelblocks/cse.h` and the `me.h` headers
+of the systems on a chip.
+
+Keeps the firmware status registers of the Host Embedded Controller
+Interfaces (HECI) of the Intel Management Engine, as the firmware of the host
+has read them at boot. A group association (type 14) named `$MEI` often refers
+to the structure.
+
+The structures are found on Intel platforms whatever the vendor of the
+firmware is. The reference code gives them type 219 by default, which some
+vendors give to structures of their own: Dell places the structures at type
+203, while HP servers carry none.
+
+.Intel Management Engine Interface Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `219`
+| Intel Management Engine Interface Information indicator, `203` on Dell
+platforms
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure, `0x06` + 25 × Interface Count
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Version
+| `BYTE`
+| `NUMBER`
+| `1` in all known data
+
+| `0x05`
+| 2.0+
+| Interface Count
+| `BYTE`
+| `NUMBER`
+| Number of interfaces, 3 or 4
+
+| `0x06`
+| 2.0+
+| Interfaces
+| Varies
+| Varies
+| Interfaces, see <<intel-mei-interfaces>>
+|===
+
+[#intel-mei-interfaces, reftext=Interfaces]
+== Intel Management Engine Interface Information -- Interfaces
+
+The interfaces are the PCI functions 0:16.0, 0:16.1, 0:16.4 and 0:16.5, named
+`MEI1` to `MEI4`. The registers are the ones of the PCI configuration space of
+the function, at offsets 0x40, 0x48, 0x60, 0x64, 0x68 and 0x6C. An absent
+function reads with all bits set.
+
+.Intel Management Engine Interface Information: Interface
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| Name
+| `BYTE`
+| `STRING`
+| Name of the interface, e.g. `MEI1`
+
+| `0x01`
+| HFSTS1
+| `DWORD`
+| `BITFIELD`
+| Firmware status register 1, see <<intel-mei-hfsts1>>
+
+| `0x05`
+| HFSTS2
+| `DWORD`
+| `BITFIELD`
+| Firmware status register 2: boot progress, which depends on the generation
+
+| `0x09`
+| HFSTS3
+| `DWORD`
+| `BITFIELD`
+| Firmware status register 3, see <<intel-mei-hfsts3>>
+
+| `0x0D`
+| HFSTS4
+| `DWORD`
+| `BITFIELD`
+| Firmware status register 4, which depends on the generation
+
+| `0x11`
+| HFSTS5
+| `DWORD`
+| `BITFIELD`
+| Firmware status register 5, which depends on the generation
+
+| `0x15`
+| HFSTS6
+| `DWORD`
+| `BITFIELD`
+| Firmware status register 6, which tells the state of Intel Boot Guard on the
+generations which have it, and depends on the generation
+|===
+
+[#intel-mei-hfsts1, reftext=HFSTS1]
+== Intel Management Engine Interface Information -- HFSTS1
+
+The layout of the first register of the first interface is the same in all
+generations of the Management Engine.
+
+.Intel Management Engine Interface Information: HFSTS1
+[width=100%, cols="1,2,5"]
+|===
+| Bits | Name | Description
+
+| 0-3
+| Working State
+| `0` reset, `1` initializing, `2` recovery, `4` M3 without UMA, `5` normal,
+`6` waiting, `7` transition, `8` invalid CPU plugged in
+
+| 4
+| Manufacturing Mode
+| Firmware is in the manufacturing mode, in which the platform is not locked
+down yet
+
+| 5
+| FPT Bad
+| Flash partition table is corrupted
+
+| 6-8
+| Operation State
+| Power state of the firmware
+
+| 9
+| Initialization Complete
+| Firmware has completed its initialization
+
+| 10
+| Bring-up Load Failure
+|
+
+| 11
+| Update in Progress
+| Firmware is being updated
+
+| 12-15
+| Error Code
+| `0` if there is no error
+
+| 16-19
+| Operation Mode
+| `0` normal, `2` debug, `3` temporarily disabled, `4` security override by
+jumper, `5` security override by message
+
+| 20-31
+| Reserved
+|
+|===
+
+[#intel-mei-hfsts3, reftext=HFSTS3]
+== Intel Management Engine Interface Information -- HFSTS3
+
+.Intel Management Engine Interface Information: HFSTS3
+[width=100%, cols="1,2,5"]
+|===
+| Bits | Name | Description
+
+| 0-3
+| Reserved
+|
+
+| 4-6
+| Firmware SKU
+| `2` consumer, `3` corporate, `5` lite. Matches the version string of the
+`ME Firmware Version` component of Intel firmware version information
+
+| 7-31
+| Reserved
+| Depend on the generation
+|===

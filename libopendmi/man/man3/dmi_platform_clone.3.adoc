@@ -1,0 +1,62 @@
+ifdef::backend-manpage[]
+= dmi_platform_clone(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_platform_clone
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_platform_clone - create a copy of a platform descriptor.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/platform.h>
+
+dmi_platform_t *dmi_platform_clone(const dmi_platform_t *platform);
+----
+
+== Description
+
+The `dmi_platform_clone` function creates a copy of a platform, which
+belongs to the same context, has the same vendor and generation, and holds
+copies of the product name and the family code. The copy is independent of
+the original, and is destroyed with `dmi_platform_destroy`(3).
+
+=== Parameters
+
+`platform`::
+Platform to copy.
+
+== Return value
+
+Returns the copy on success, or `nullptr` if `platform` is `nullptr` or
+memory is exhausted.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory is exhausted, reported to the context of `platform`, if it has one.
+
+== See also
+
+`dmi_platform_create`(3),
+`dmi_platform_destroy`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

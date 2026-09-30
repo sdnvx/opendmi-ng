@@ -11,7 +11,11 @@
  */
 const dmi_module_t dmi_apple_module =
 {
-    .code     = "apple",
-    .name     = "Apple extensions",
-    .entities = nullptr
+    .code      = "apple",
+    .name      = "Apple extensions",
+    .entities  = nullptr,
+    .platforms = DMI_PLATFORMS({
+        { .firmware_vendor = DMI_VENDOR_APPLE },
+        DMI_PLATFORM_NULL
+    })
 };

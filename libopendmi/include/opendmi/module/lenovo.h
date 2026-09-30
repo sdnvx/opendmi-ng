@@ -11,6 +11,14 @@
 
 #include <opendmi/module.h>
 
+/**
+ * @brief Lenovo structure type identifiers.
+ */
+typedef enum dmi_lenovo_type
+{
+    DMI_TYPE_LENOVO_TVT = 131 ///< ThinkVantage Technologies enablement
+} dmi_lenovo_type_t;
+
 __BEGIN_DECLS
 
 extern __dmi_api const dmi_module_t dmi_lenovo_module;

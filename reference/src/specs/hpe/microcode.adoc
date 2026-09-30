@@ -1,0 +1,65 @@
+= HP/HPE CPU Microcode Patch Support Information (Type 199)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Lists the CPU microcode patches the firmware carries. Patches run to the end
+of the structure, which carries no number of them of its own. dmidecode
+decodes the structure from Gen9 onwards, while the older servers of the data
+corpus carry the same layout.
+
+.HP/HPE CPU Microcode Patch Support Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `199`
+| HP/HPE CPU Microcode Patch Support Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Patches
+| 12 BYTEs each
+| Varies
+| Patches, see below
+|===
+
+.Patch
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x00`
+| Patch ID
+| `DWORD`
+| Microcode revision
+
+| `0x04`
+| Date
+| `DWORD`
+| Release date in binary-coded decimal, `0xMMDDYYYY`, as the microcode header gives it
+
+| `0x08`
+| CPUID
+| `DWORD`
+| Processor signature (CPUID leaf 1 EAX) the patch applies to. AMD platforms leave the base family out
+|===

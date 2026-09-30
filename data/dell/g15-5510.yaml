@@ -4,164 +4,1629 @@ table:
 - handle: 55808
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsA2rIAfP8ftlAOAA4ABAAQABAAAQAeAB4AAAAoACgAAAApACkAAQAqACoAAgArACsA//8sACwA
-    //9CAEIAAQBDAEMAAABQAFAAAQBVAFUAAABXAFcABQBlAGUAAABmAGYAAQBtAG0ABQB9AH0A//+Q
-    AJAAAQCRAJEAAACSAJIAAgCTAJMAAQCUAJQAAACXAJcAAQCYAJgAAACbAJsAAQCcAJwAAACfAJ8A
-    AACgAKAAAQChAKEAAACjAKMAAQCmAKYABQCnAKcABgDRANEAAQDSANIAAADqAOoAAADrAOsAAQDs
-    AOwAAgDtAO0AAADwAPAAAQD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 14
+      location: 14
+      value: 4
+    - id: 16
+      location: 16
+      value: 1
+    - id: 30
+      location: 30
+      value: 0
+    - id: 40
+      location: 40
+      value: 0
+    - id: 41
+      location: 41
+      value: 1
+    - id: 42
+      location: 42
+      value: 2
+    - id: 43
+      location: 43
+      value: 65535
+    - id: 44
+      location: 44
+      value: 65535
+    - id: 66
+      location: 66
+      value: 1
+    - id: 67
+      location: 67
+      value: 0
+    - id: 80
+      location: 80
+      value: 1
+    - id: 85
+      location: 85
+      value: 0
+    - id: 87
+      location: 87
+      value: 5
+    - id: 101
+      location: 101
+      value: 0
+    - id: 102
+      location: 102
+      value: 1
+    - id: 109
+      location: 109
+      value: 5
+    - id: 125
+      location: 125
+      value: 65535
+    - id: 144
+      location: 144
+      value: 1
+    - id: 145
+      location: 145
+      value: 0
+    - id: 146
+      location: 146
+      value: 2
+    - id: 147
+      location: 147
+      value: 1
+    - id: 148
+      location: 148
+      value: 0
+    - id: 151
+      location: 151
+      value: 1
+    - id: 152
+      location: 152
+      value: 0
+    - id: 155
+      location: 155
+      value: 1
+    - id: 156
+      location: 156
+      value: 0
+    - id: 159
+      location: 159
+      value: 0
+    - id: 160
+      location: 160
+      value: 1
+    - id: 161
+      location: 161
+      value: 0
+    - id: 163
+      location: 163
+      value: 1
+    - id: 166
+      location: 166
+      value: 5
+    - id: 167
+      location: 167
+      value: 6
+    - id: 209
+      location: 209
+      value: 1
+    - id: 210
+      location: 210
+      value: 0
+    - id: 234
+      location: 234
+      value: 0
+    - id: 235
+      location: 235
+      value: 1
+    - id: 236
+      location: 236
+      value: 2
+    - id: 237
+      location: 237
+      value: 0
+    - id: 240
+      location: 240
+      value: 1
 - handle: 55809
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsB2rIAfP8ftlDxAPEAAADyAPIAAQDzAPMAAgD1APUABAD2APYAAAAJAQkBAAAOAQ4BAQAPAQ8B
-    AAAQARABAQARAREBAAAXARcBAAAYARgBAQAjASMBAAAkASQBAQAlASUBAAAmASYBAQAnAScBAwAr
-    ASsBAQAsASwBAAA1ATUB/wA3ATcBAAA4ATgBAQA5ATkBAgBGAUYBAABHAUcBAQBKAUoBAABLAUsB
-    AQBMAUwBAQBNAU0BAABOAU4BAABPAU8BAQBSAVIBAQBTAVMBAABUAVQBAABVAVUBAQBxAXEBAABy
-    AXIBAQBzAXMBAAB0AXQBAQD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 241
+      location: 241
+      value: 0
+    - id: 242
+      location: 242
+      value: 1
+    - id: 243
+      location: 243
+      value: 2
+    - id: 245
+      location: 245
+      value: 4
+    - id: 246
+      location: 246
+      value: 0
+    - id: 265
+      location: 265
+      value: 0
+    - id: 270
+      location: 270
+      value: 1
+    - id: 271
+      location: 271
+      value: 0
+    - id: 272
+      location: 272
+      value: 1
+    - id: 273
+      location: 273
+      value: 0
+    - id: 279
+      location: 279
+      value: 0
+    - id: 280
+      location: 280
+      value: 1
+    - id: 291
+      location: 291
+      value: 0
+    - id: 292
+      location: 292
+      value: 1
+    - id: 293
+      location: 293
+      value: 0
+    - id: 294
+      location: 294
+      value: 1
+    - id: 295
+      location: 295
+      value: 3
+    - id: 299
+      location: 299
+      value: 1
+    - id: 300
+      location: 300
+      value: 0
+    - id: 309
+      location: 309
+      value: 255
+    - id: 311
+      location: 311
+      value: 0
+    - id: 312
+      location: 312
+      value: 1
+    - id: 313
+      location: 313
+      value: 2
+    - id: 326
+      location: 326
+      value: 0
+    - id: 327
+      location: 327
+      value: 1
+    - id: 330
+      location: 330
+      value: 0
+    - id: 331
+      location: 331
+      value: 1
+    - id: 332
+      location: 332
+      value: 1
+    - id: 333
+      location: 333
+      value: 0
+    - id: 334
+      location: 334
+      value: 0
+    - id: 335
+      location: 335
+      value: 1
+    - id: 338
+      location: 338
+      value: 1
+    - id: 339
+      location: 339
+      value: 0
+    - id: 340
+      location: 340
+      value: 0
+    - id: 341
+      location: 341
+      value: 1
+    - id: 369
+      location: 369
+      value: 0
+    - id: 370
+      location: 370
+      value: 1
+    - id: 371
+      location: 371
+      value: 0
+    - id: 372
+      location: 372
+      value: 1
 - handle: 55810
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsC2rIAfP8ftlB/AX8BAACAAYABAQCJAYkBAACKAYoBAQCYAZgBBACbAZsBAACcAZwBAQChAaEB
-    AACiAaIBAQCjAaMBAACkAaQBAQClAaUBAACmAaYBAQCnAacBAACoAagBAQCpAakBAACqAaoBAQCr
-    AasBAACsAawBAQCtAa0BAACuAa4BAQCvAa8BAACwAbABAQCxAbEBAACyAbIBAQCzAbMBAAC0AbQB
-    AQC1AbUBAAC2AbYBAQC3AbcBAAC4AbgBAQC5AbkBAAC6AboBAQC7AbsBAAC8AbwBAQC9Ab0BAAC+
-    Ab4BAQC/Ab8BAADAAcABAQD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 383
+      location: 383
+      value: 0
+    - id: 384
+      location: 384
+      value: 1
+    - id: 393
+      location: 393
+      value: 0
+    - id: 394
+      location: 394
+      value: 1
+    - id: 408
+      location: 408
+      value: 4
+    - id: 411
+      location: 411
+      value: 0
+    - id: 412
+      location: 412
+      value: 1
+    - id: 417
+      location: 417
+      value: 0
+    - id: 418
+      location: 418
+      value: 1
+    - id: 419
+      location: 419
+      value: 0
+    - id: 420
+      location: 420
+      value: 1
+    - id: 421
+      location: 421
+      value: 0
+    - id: 422
+      location: 422
+      value: 1
+    - id: 423
+      location: 423
+      value: 0
+    - id: 424
+      location: 424
+      value: 1
+    - id: 425
+      location: 425
+      value: 0
+    - id: 426
+      location: 426
+      value: 1
+    - id: 427
+      location: 427
+      value: 0
+    - id: 428
+      location: 428
+      value: 1
+    - id: 429
+      location: 429
+      value: 0
+    - id: 430
+      location: 430
+      value: 1
+    - id: 431
+      location: 431
+      value: 0
+    - id: 432
+      location: 432
+      value: 1
+    - id: 433
+      location: 433
+      value: 0
+    - id: 434
+      location: 434
+      value: 1
+    - id: 435
+      location: 435
+      value: 0
+    - id: 436
+      location: 436
+      value: 1
+    - id: 437
+      location: 437
+      value: 0
+    - id: 438
+      location: 438
+      value: 1
+    - id: 439
+      location: 439
+      value: 0
+    - id: 440
+      location: 440
+      value: 1
+    - id: 441
+      location: 441
+      value: 0
+    - id: 442
+      location: 442
+      value: 1
+    - id: 443
+      location: 443
+      value: 0
+    - id: 444
+      location: 444
+      value: 1
+    - id: 445
+      location: 445
+      value: 0
+    - id: 446
+      location: 446
+      value: 1
+    - id: 447
+      location: 447
+      value: 0
+    - id: 448
+      location: 448
+      value: 1
 - handle: 55811
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsD2rIAfP8ftlDEAcQBAADFAcUBAQDSAdIBAADTAdMBAQDUAdQBAADVAdUBAQDeAd4BAADfAd8B
-    AQDgAeABBQDhAeEBAADqAeoBAADrAesBAQD8AfwBAAD9Af0BAQACAgICAAADAgMCAQAEAgQCAAAF
-    AgUCAQAWAhYCBgAtAi0CAQAxAjECBAAyAjICAgAzAjMCAQBEAkQCAQBFAkUCAABLAksCAQBMAkwC
-    AABiAmICAQBjAmMCAABkAmQCAQBlAmUCAABmAmYCAQBnAmcCAABoAmgCAQBpAmkCAABsAmwCAQBt
-    Am0CAABuAm4CAAB1AnUCAAD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 452
+      location: 452
+      value: 0
+    - id: 453
+      location: 453
+      value: 1
+    - id: 466
+      location: 466
+      value: 0
+    - id: 467
+      location: 467
+      value: 1
+    - id: 468
+      location: 468
+      value: 0
+    - id: 469
+      location: 469
+      value: 1
+    - id: 478
+      location: 478
+      value: 0
+    - id: 479
+      location: 479
+      value: 1
+    - id: 480
+      location: 480
+      value: 5
+    - id: 481
+      location: 481
+      value: 0
+    - id: 490
+      location: 490
+      value: 0
+    - id: 491
+      location: 491
+      value: 1
+    - id: 508
+      location: 508
+      value: 0
+    - id: 509
+      location: 509
+      value: 1
+    - id: 514
+      location: 514
+      value: 0
+    - id: 515
+      location: 515
+      value: 1
+    - id: 516
+      location: 516
+      value: 0
+    - id: 517
+      location: 517
+      value: 1
+    - id: 534
+      location: 534
+      value: 6
+    - id: 557
+      location: 557
+      value: 1
+    - id: 561
+      location: 561
+      value: 4
+    - id: 562
+      location: 562
+      value: 2
+    - id: 563
+      location: 563
+      value: 1
+    - id: 580
+      location: 580
+      value: 1
+    - id: 581
+      location: 581
+      value: 0
+    - id: 587
+      location: 587
+      value: 1
+    - id: 588
+      location: 588
+      value: 0
+    - id: 610
+      location: 610
+      value: 1
+    - id: 611
+      location: 611
+      value: 0
+    - id: 612
+      location: 612
+      value: 1
+    - id: 613
+      location: 613
+      value: 0
+    - id: 614
+      location: 614
+      value: 1
+    - id: 615
+      location: 615
+      value: 0
+    - id: 616
+      location: 616
+      value: 1
+    - id: 617
+      location: 617
+      value: 0
+    - id: 620
+      location: 620
+      value: 1
+    - id: 621
+      location: 621
+      value: 0
+    - id: 622
+      location: 622
+      value: 0
+    - id: 629
+      location: 629
+      value: 0
 - handle: 55812
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsE2rIAfP8ftlB2AnYCAQCFAoUCAQCGAoYCAACjAqMCAQCkAqQCAAClAqUCAQCmAqYCAAC7ArsC
-    AQC8ArwCAAC9Ar0CAQC+Ar4CAADjAuMCAQDkAuQCAADlAuUCAQDrAusCBgD0AvQCAQD1AvUCAAD2
-    AvYCCAD9Av0CAQD+Av4CAAAPAw8DAgASAxIDAwATAxMDAQAUAxQDAAAVAxUDAQAWAxYDAAAXAxcD
-    AQAYAxgDAAAZAxkDAQAaAxoDAAAbAxsDAQAcAxwDAAAdAx0DAQAeAx4DAAAfAx8DAQAgAyADAAAm
-    AyYDAQApAykDAQAqAyoDAAD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 630
+      location: 630
+      value: 1
+    - id: 645
+      location: 645
+      value: 1
+    - id: 646
+      location: 646
+      value: 0
+    - id: 675
+      location: 675
+      value: 1
+    - id: 676
+      location: 676
+      value: 0
+    - id: 677
+      location: 677
+      value: 1
+    - id: 678
+      location: 678
+      value: 0
+    - id: 699
+      location: 699
+      value: 1
+    - id: 700
+      location: 700
+      value: 0
+    - id: 701
+      location: 701
+      value: 1
+    - id: 702
+      location: 702
+      value: 0
+    - id: 739
+      location: 739
+      value: 1
+    - id: 740
+      location: 740
+      value: 0
+    - id: 741
+      location: 741
+      value: 1
+    - id: 747
+      location: 747
+      value: 6
+    - id: 756
+      location: 756
+      value: 1
+    - id: 757
+      location: 757
+      value: 0
+    - id: 758
+      location: 758
+      value: 8
+    - id: 765
+      location: 765
+      value: 1
+    - id: 766
+      location: 766
+      value: 0
+    - id: 783
+      location: 783
+      value: 2
+    - id: 786
+      location: 786
+      value: 3
+    - id: 787
+      location: 787
+      value: 1
+    - id: 788
+      location: 788
+      value: 0
+    - id: 789
+      location: 789
+      value: 1
+    - id: 790
+      location: 790
+      value: 0
+    - id: 791
+      location: 791
+      value: 1
+    - id: 792
+      location: 792
+      value: 0
+    - id: 793
+      location: 793
+      value: 1
+    - id: 794
+      location: 794
+      value: 0
+    - id: 795
+      location: 795
+      value: 1
+    - id: 796
+      location: 796
+      value: 0
+    - id: 797
+      location: 797
+      value: 1
+    - id: 798
+      location: 798
+      value: 0
+    - id: 799
+      location: 799
+      value: 1
+    - id: 800
+      location: 800
+      value: 0
+    - id: 806
+      location: 806
+      value: 1
+    - id: 809
+      location: 809
+      value: 1
+    - id: 810
+      location: 810
+      value: 0
 - handle: 55813
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsF2rIAfP8ftlArAysDAQAsAywDAAAtAy0DAQAuAy4DAAAzAzMDAwA0AzQDAQA1AzUDAgA4AzgD
-    AQA5AzkDAAA6AzoDAQA7AzsDAABBA0EDAwBCA0IDBABDA0MDBQBGA0YDAQBHA0cDAgBIA0gDBQBJ
-    A0kD//9KA0oD//9PA08DAQBQA1ADAABhA2EDAQBiA2IDAABnA2cD//9sA2wDAABtA20DAQBvA28D
-    //9yA3IDAABzA3MDAQB0A3QDAAB1A3UDAQB2A3YDAQB3A3cDAAB4A3gDAQB5A3kDAACBA4EDAACC
-    A4IDAQCDA4MDBwCXA5cDAQD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 811
+      location: 811
+      value: 1
+    - id: 812
+      location: 812
+      value: 0
+    - id: 813
+      location: 813
+      value: 1
+    - id: 814
+      location: 814
+      value: 0
+    - id: 819
+      location: 819
+      value: 3
+    - id: 820
+      location: 820
+      value: 1
+    - id: 821
+      location: 821
+      value: 2
+    - id: 824
+      location: 824
+      value: 1
+    - id: 825
+      location: 825
+      value: 0
+    - id: 826
+      location: 826
+      value: 1
+    - id: 827
+      location: 827
+      value: 0
+    - id: 833
+      location: 833
+      value: 3
+    - id: 834
+      location: 834
+      value: 4
+    - id: 835
+      location: 835
+      value: 5
+    - id: 838
+      location: 838
+      value: 1
+    - id: 839
+      location: 839
+      value: 2
+    - id: 840
+      location: 840
+      value: 5
+    - id: 841
+      location: 841
+      value: 65535
+    - id: 842
+      location: 842
+      value: 65535
+    - id: 847
+      location: 847
+      value: 1
+    - id: 848
+      location: 848
+      value: 0
+    - id: 865
+      location: 865
+      value: 1
+    - id: 866
+      location: 866
+      value: 0
+    - id: 871
+      location: 871
+      value: 65535
+    - id: 876
+      location: 876
+      value: 0
+    - id: 877
+      location: 877
+      value: 1
+    - id: 879
+      location: 879
+      value: 65535
+    - id: 882
+      location: 882
+      value: 0
+    - id: 883
+      location: 883
+      value: 1
+    - id: 884
+      location: 884
+      value: 0
+    - id: 885
+      location: 885
+      value: 1
+    - id: 886
+      location: 886
+      value: 1
+    - id: 887
+      location: 887
+      value: 0
+    - id: 888
+      location: 888
+      value: 1
+    - id: 889
+      location: 889
+      value: 0
+    - id: 897
+      location: 897
+      value: 0
+    - id: 898
+      location: 898
+      value: 1
+    - id: 899
+      location: 899
+      value: 7
+    - id: 919
+      location: 919
+      value: 1
 - handle: 55814
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsG2rIAfP8ftlCYA5gDAACZA5kDAQCaA5oDAACiA6IDAQCjA6MDAACkA6QDAAClA6UDAQC+A74D
-    ///BA8EDAgDCA8IDAwDDA8MDBADFA8UDAQDGA8YDAADHA8cDAQDIA8gDAgDJA8kDAQDKA8oDAADL
-    A8sD///NA80DAQDOA84DAADTA9MD///UA9QDAQDVA9UDAADWA9YDAQDXA9cDAADaA9oDAADbA9sD
-    AQDcA9wDAADdA90DAQDeA94DAADfA98DAQDgA+ADAADhA+EDAQDiA+IDAADjA+MDAQDkA+QDAADl
-    A+UDAQDmA+YDAADnA+cDAQD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 920
+      location: 920
+      value: 0
+    - id: 921
+      location: 921
+      value: 1
+    - id: 922
+      location: 922
+      value: 0
+    - id: 930
+      location: 930
+      value: 1
+    - id: 931
+      location: 931
+      value: 0
+    - id: 932
+      location: 932
+      value: 0
+    - id: 933
+      location: 933
+      value: 1
+    - id: 958
+      location: 958
+      value: 65535
+    - id: 961
+      location: 961
+      value: 2
+    - id: 962
+      location: 962
+      value: 3
+    - id: 963
+      location: 963
+      value: 4
+    - id: 965
+      location: 965
+      value: 1
+    - id: 966
+      location: 966
+      value: 0
+    - id: 967
+      location: 967
+      value: 1
+    - id: 968
+      location: 968
+      value: 2
+    - id: 969
+      location: 969
+      value: 1
+    - id: 970
+      location: 970
+      value: 0
+    - id: 971
+      location: 971
+      value: 65535
+    - id: 973
+      location: 973
+      value: 1
+    - id: 974
+      location: 974
+      value: 0
+    - id: 979
+      location: 979
+      value: 65535
+    - id: 980
+      location: 980
+      value: 1
+    - id: 981
+      location: 981
+      value: 0
+    - id: 982
+      location: 982
+      value: 1
+    - id: 983
+      location: 983
+      value: 0
+    - id: 986
+      location: 986
+      value: 0
+    - id: 987
+      location: 987
+      value: 1
+    - id: 988
+      location: 988
+      value: 0
+    - id: 989
+      location: 989
+      value: 1
+    - id: 990
+      location: 990
+      value: 0
+    - id: 991
+      location: 991
+      value: 1
+    - id: 992
+      location: 992
+      value: 0
+    - id: 993
+      location: 993
+      value: 1
+    - id: 994
+      location: 994
+      value: 0
+    - id: 995
+      location: 995
+      value: 1
+    - id: 996
+      location: 996
+      value: 0
+    - id: 997
+      location: 997
+      value: 1
+    - id: 998
+      location: 998
+      value: 0
+    - id: 999
+      location: 999
+      value: 1
 - handle: 55815
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsH2rIAfP8ftlDoA+gDAADpA+kDAQDqA+oDAADrA+sDAQDsA+wDAADtA+0DAQDuA+4DAADvA+8D
-    AQDwA/ADAADxA/EDAQDyA/IDAADzA/MDAQD0A/QDAAD1A/UDAQD2A/YDAQD3A/cDAAD+A/4DAQD/
-    A/8DAAABBAEEAQACBAIEAAADBAMEAQAEBAQEAAAFBAUEBQAGBAYEBAAKBAoEAAALBAsEAQAMBAwE
-    AAANBA0EAQAOBA4EAAAPBA8EAQAQBBAEAAARBBEEAQASBBIEAAATBBMEAQAUBBQEAAAVBBUEAQAW
-    BBYEAAAXBBcEAQAYBBgEAAD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 1000
+      location: 1000
+      value: 0
+    - id: 1001
+      location: 1001
+      value: 1
+    - id: 1002
+      location: 1002
+      value: 0
+    - id: 1003
+      location: 1003
+      value: 1
+    - id: 1004
+      location: 1004
+      value: 0
+    - id: 1005
+      location: 1005
+      value: 1
+    - id: 1006
+      location: 1006
+      value: 0
+    - id: 1007
+      location: 1007
+      value: 1
+    - id: 1008
+      location: 1008
+      value: 0
+    - id: 1009
+      location: 1009
+      value: 1
+    - id: 1010
+      location: 1010
+      value: 0
+    - id: 1011
+      location: 1011
+      value: 1
+    - id: 1012
+      location: 1012
+      value: 0
+    - id: 1013
+      location: 1013
+      value: 1
+    - id: 1014
+      location: 1014
+      value: 1
+    - id: 1015
+      location: 1015
+      value: 0
+    - id: 1022
+      location: 1022
+      value: 1
+    - id: 1023
+      location: 1023
+      value: 0
+    - id: 1025
+      location: 1025
+      value: 1
+    - id: 1026
+      location: 1026
+      value: 0
+    - id: 1027
+      location: 1027
+      value: 1
+    - id: 1028
+      location: 1028
+      value: 0
+    - id: 1029
+      location: 1029
+      value: 5
+    - id: 1030
+      location: 1030
+      value: 4
+    - id: 1034
+      location: 1034
+      value: 0
+    - id: 1035
+      location: 1035
+      value: 1
+    - id: 1036
+      location: 1036
+      value: 0
+    - id: 1037
+      location: 1037
+      value: 1
+    - id: 1038
+      location: 1038
+      value: 0
+    - id: 1039
+      location: 1039
+      value: 1
+    - id: 1040
+      location: 1040
+      value: 0
+    - id: 1041
+      location: 1041
+      value: 1
+    - id: 1042
+      location: 1042
+      value: 0
+    - id: 1043
+      location: 1043
+      value: 1
+    - id: 1044
+      location: 1044
+      value: 0
+    - id: 1045
+      location: 1045
+      value: 1
+    - id: 1046
+      location: 1046
+      value: 0
+    - id: 1047
+      location: 1047
+      value: 1
+    - id: 1048
+      location: 1048
+      value: 0
 - handle: 55816
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsI2rIAfP8ftlAZBBkEAQAaBBoEAQAbBBsEAAAcBBwEAQAdBB0EAAAeBB4EAQAfBB8EAAAgBCAE
-    //8kBCQEAQAlBCUEAAAoBCgEBAApBCkEAAAqBCoEAgAxBDEE//8yBDIEAQAzBDMEAAA2BDYEAQA3
-    BDcEAAA4BDgEAQA5BDkEAAA6BDoEAQA7BDsEAABABEAEAQBBBEEEAABCBEIEAQBDBEMEAABGBEYE
-    AQBHBEcEAABIBEgEAABJBEkEAgBKBEoEAQBLBEsEAQBMBEwEAABNBE0EAABOBE4EAQBPBE8EAgBQ
-    BFAE//9RBFEE//9SBFIE////////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 1049
+      location: 1049
+      value: 1
+    - id: 1050
+      location: 1050
+      value: 1
+    - id: 1051
+      location: 1051
+      value: 0
+    - id: 1052
+      location: 1052
+      value: 1
+    - id: 1053
+      location: 1053
+      value: 0
+    - id: 1054
+      location: 1054
+      value: 1
+    - id: 1055
+      location: 1055
+      value: 0
+    - id: 1056
+      location: 1056
+      value: 65535
+    - id: 1060
+      location: 1060
+      value: 1
+    - id: 1061
+      location: 1061
+      value: 0
+    - id: 1064
+      location: 1064
+      value: 4
+    - id: 1065
+      location: 1065
+      value: 0
+    - id: 1066
+      location: 1066
+      value: 2
+    - id: 1073
+      location: 1073
+      value: 65535
+    - id: 1074
+      location: 1074
+      value: 1
+    - id: 1075
+      location: 1075
+      value: 0
+    - id: 1078
+      location: 1078
+      value: 1
+    - id: 1079
+      location: 1079
+      value: 0
+    - id: 1080
+      location: 1080
+      value: 1
+    - id: 1081
+      location: 1081
+      value: 0
+    - id: 1082
+      location: 1082
+      value: 1
+    - id: 1083
+      location: 1083
+      value: 0
+    - id: 1088
+      location: 1088
+      value: 1
+    - id: 1089
+      location: 1089
+      value: 0
+    - id: 1090
+      location: 1090
+      value: 1
+    - id: 1091
+      location: 1091
+      value: 0
+    - id: 1094
+      location: 1094
+      value: 1
+    - id: 1095
+      location: 1095
+      value: 0
+    - id: 1096
+      location: 1096
+      value: 0
+    - id: 1097
+      location: 1097
+      value: 2
+    - id: 1098
+      location: 1098
+      value: 1
+    - id: 1099
+      location: 1099
+      value: 1
+    - id: 1100
+      location: 1100
+      value: 0
+    - id: 1101
+      location: 1101
+      value: 0
+    - id: 1102
+      location: 1102
+      value: 1
+    - id: 1103
+      location: 1103
+      value: 2
+    - id: 1104
+      location: 1104
+      value: 65535
+    - id: 1105
+      location: 1105
+      value: 65535
+    - id: 1106
+      location: 1106
+      value: 65535
 - handle: 55817
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsJ2rIAfP8ftlBTBFMEAQBUBFQEAABhBGEEAQBiBGIEAABjBGMECABkBGQECQBlBGUECgBoBGgE
-    AQBpBGkEAAB7BHsEAQB8BHwEAAB/BH8EAgCCBIIE//+DBIMEAQCEBIQEAACHBIcEAQCIBIgEAACM
-    BIwEAQCNBI0EAACOBI4EAQCPBI8EAACYBJgE//+ZBJkEAACaBJoEAQCbBJsEAgCcBJwEAQCdBJ0E
-    AACnBKcEAwCoBKgEAQCpBKkEAgCqBKoEAQCrBKsEAACsBKwEAQCtBK0EAACuBK4EAQCvBK8EAADR
-    BNEEAQDSBNIEAADTBNMEAQD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 1107
+      location: 1107
+      value: 1
+    - id: 1108
+      location: 1108
+      value: 0
+    - id: 1121
+      location: 1121
+      value: 1
+    - id: 1122
+      location: 1122
+      value: 0
+    - id: 1123
+      location: 1123
+      value: 8
+    - id: 1124
+      location: 1124
+      value: 9
+    - id: 1125
+      location: 1125
+      value: 10
+    - id: 1128
+      location: 1128
+      value: 1
+    - id: 1129
+      location: 1129
+      value: 0
+    - id: 1147
+      location: 1147
+      value: 1
+    - id: 1148
+      location: 1148
+      value: 0
+    - id: 1151
+      location: 1151
+      value: 2
+    - id: 1154
+      location: 1154
+      value: 65535
+    - id: 1155
+      location: 1155
+      value: 1
+    - id: 1156
+      location: 1156
+      value: 0
+    - id: 1159
+      location: 1159
+      value: 1
+    - id: 1160
+      location: 1160
+      value: 0
+    - id: 1164
+      location: 1164
+      value: 1
+    - id: 1165
+      location: 1165
+      value: 0
+    - id: 1166
+      location: 1166
+      value: 1
+    - id: 1167
+      location: 1167
+      value: 0
+    - id: 1176
+      location: 1176
+      value: 65535
+    - id: 1177
+      location: 1177
+      value: 0
+    - id: 1178
+      location: 1178
+      value: 1
+    - id: 1179
+      location: 1179
+      value: 2
+    - id: 1180
+      location: 1180
+      value: 1
+    - id: 1181
+      location: 1181
+      value: 0
+    - id: 1191
+      location: 1191
+      value: 3
+    - id: 1192
+      location: 1192
+      value: 1
+    - id: 1193
+      location: 1193
+      value: 2
+    - id: 1194
+      location: 1194
+      value: 1
+    - id: 1195
+      location: 1195
+      value: 0
+    - id: 1196
+      location: 1196
+      value: 1
+    - id: 1197
+      location: 1197
+      value: 0
+    - id: 1198
+      location: 1198
+      value: 1
+    - id: 1199
+      location: 1199
+      value: 0
+    - id: 1233
+      location: 1233
+      value: 1
+    - id: 1234
+      location: 1234
+      value: 0
+    - id: 1235
+      location: 1235
+      value: 1
 - handle: 55818
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsK2rIAfP8ftlDUBNQEAADVBNUEAQDWBNYEAADXBNcEAQDYBNgEAADcBNwE///dBN0E///gBOAE
-    AQDhBOEEAADiBOIEAQDjBOMEAADkBOQE///lBOUE///mBOYEAQDnBOcEAADqBOoEAQDrBOsEAADs
-    BOwEAQDtBO0EAAD+BP4EAQD/BP8EAAAABQAF//8SBRIFAAATBRMFAQAUBRQFAgAVBRUFAQAWBRYF
-    AQAXBRcFAAAaBRoFAQAbBRsFAAAcBRwFAQAdBR0FAAAsBSwF//8wBTAFAQAxBTEFAAAyBTIF//83
-    BTcFAAA4BTgFAQA5BTkFAwD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 1236
+      location: 1236
+      value: 0
+    - id: 1237
+      location: 1237
+      value: 1
+    - id: 1238
+      location: 1238
+      value: 0
+    - id: 1239
+      location: 1239
+      value: 1
+    - id: 1240
+      location: 1240
+      value: 0
+    - id: 1244
+      location: 1244
+      value: 65535
+    - id: 1245
+      location: 1245
+      value: 65535
+    - id: 1248
+      location: 1248
+      value: 1
+    - id: 1249
+      location: 1249
+      value: 0
+    - id: 1250
+      location: 1250
+      value: 1
+    - id: 1251
+      location: 1251
+      value: 0
+    - id: 1252
+      location: 1252
+      value: 65535
+    - id: 1253
+      location: 1253
+      value: 65535
+    - id: 1254
+      location: 1254
+      value: 1
+    - id: 1255
+      location: 1255
+      value: 0
+    - id: 1258
+      location: 1258
+      value: 1
+    - id: 1259
+      location: 1259
+      value: 0
+    - id: 1260
+      location: 1260
+      value: 1
+    - id: 1261
+      location: 1261
+      value: 0
+    - id: 1278
+      location: 1278
+      value: 1
+    - id: 1279
+      location: 1279
+      value: 0
+    - id: 1280
+      location: 1280
+      value: 65535
+    - id: 1298
+      location: 1298
+      value: 0
+    - id: 1299
+      location: 1299
+      value: 1
+    - id: 1300
+      location: 1300
+      value: 2
+    - id: 1301
+      location: 1301
+      value: 1
+    - id: 1302
+      location: 1302
+      value: 1
+    - id: 1303
+      location: 1303
+      value: 0
+    - id: 1306
+      location: 1306
+      value: 1
+    - id: 1307
+      location: 1307
+      value: 0
+    - id: 1308
+      location: 1308
+      value: 1
+    - id: 1309
+      location: 1309
+      value: 0
+    - id: 1324
+      location: 1324
+      value: 65535
+    - id: 1328
+      location: 1328
+      value: 1
+    - id: 1329
+      location: 1329
+      value: 0
+    - id: 1330
+      location: 1330
+      value: 65535
+    - id: 1335
+      location: 1335
+      value: 0
+    - id: 1336
+      location: 1336
+      value: 1
+    - id: 1337
+      location: 1337
+      value: 3
 - handle: 55819
   type: 218
   length: 253
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2vsL2rIAfP8ftlA6BToFAgA7BTsFAABBBUEFAQBCBUIFAABDBUMFAQBEBUQFAABHBUcFAABIBUgF
-    AQBOBU4FAQBPBU8FAABQBVAFAQBRBVEFAABYBVgFAQBZBVkFAABaBVoFAQBbBVsFAABcBVwFAQBd
-    BV0FAABeBV4FAQBfBV8FAABgBWAF//9lBWUF//9tBW0FAQBuBW4FAAByBXIFAABzBXMFAQB0BXQF
-    AgB1BXUFAQB2BXYFAAB3BXcF//9KQEpAAQBLQEtAAABMQExA//9PQE9AAQBQQFBAAAAPgA+A//8R
-    gBGAAQASgBKA//8TgBOAAAD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 1338
+      location: 1338
+      value: 2
+    - id: 1339
+      location: 1339
+      value: 0
+    - id: 1345
+      location: 1345
+      value: 1
+    - id: 1346
+      location: 1346
+      value: 0
+    - id: 1347
+      location: 1347
+      value: 1
+    - id: 1348
+      location: 1348
+      value: 0
+    - id: 1351
+      location: 1351
+      value: 0
+    - id: 1352
+      location: 1352
+      value: 1
+    - id: 1358
+      location: 1358
+      value: 1
+    - id: 1359
+      location: 1359
+      value: 0
+    - id: 1360
+      location: 1360
+      value: 1
+    - id: 1361
+      location: 1361
+      value: 0
+    - id: 1368
+      location: 1368
+      value: 1
+    - id: 1369
+      location: 1369
+      value: 0
+    - id: 1370
+      location: 1370
+      value: 1
+    - id: 1371
+      location: 1371
+      value: 0
+    - id: 1372
+      location: 1372
+      value: 1
+    - id: 1373
+      location: 1373
+      value: 0
+    - id: 1374
+      location: 1374
+      value: 1
+    - id: 1375
+      location: 1375
+      value: 0
+    - id: 1376
+      location: 1376
+      value: 65535
+    - id: 1381
+      location: 1381
+      value: 65535
+    - id: 1389
+      location: 1389
+      value: 1
+    - id: 1390
+      location: 1390
+      value: 0
+    - id: 1394
+      location: 1394
+      value: 0
+    - id: 1395
+      location: 1395
+      value: 1
+    - id: 1396
+      location: 1396
+      value: 2
+    - id: 1397
+      location: 1397
+      value: 1
+    - id: 1398
+      location: 1398
+      value: 0
+    - id: 1399
+      location: 1399
+      value: 65535
+    - id: 16458
+      location: 16458
+      value: 1
+    - id: 16459
+      location: 16459
+      value: 0
+    - id: 16460
+      location: 16460
+      value: 65535
+    - id: 16463
+      location: 16463
+      value: 1
+    - id: 16464
+      location: 16464
+      value: 0
+    - id: 32783
+      location: 32783
+      value: 65535
+    - id: 32785
+      location: 32785
+      value: 1
+    - id: 32786
+      location: 32786
+      value: 65535
+    - id: 32787
+      location: 32787
+      value: 0
 - handle: 55820
   type: 218
   length: 31
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2h0M2rIAfP8ftlAUgBSAAAAAoACgAQD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 32788
+      location: 32788
+      value: 0
+    - id: 40960
+      location: 40960
+      value: 1
 - handle: 55821
   type: 218
   length: 115
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2nEN2rIAfP8ftlAA8QDxAQAC8QLxAQAQ8RDxAQAS8RLxAQAg8SDxAQAi8SLxAQAw8TDxAQAy8TLx
-    AQBA8UDxAQBC8ULxAQBQ8VDxAQBS8VLxAQAA9gD2AQAB9gH2AQAQ9hD2AQAR9hH2AQD/////AAA=
+  level: '2.0'
+  state:
+  - decoded
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 124
+    supported-commands: 1354113023
+    tokens:
+    - id: 61696
+      location: 61696
+      value: 1
+    - id: 61698
+      location: 61698
+      value: 1
+    - id: 61712
+      location: 61712
+      value: 1
+    - id: 61714
+      location: 61714
+      value: 1
+    - id: 61728
+      location: 61728
+      value: 1
+    - id: 61730
+      location: 61730
+      value: 1
+    - id: 61744
+      location: 61744
+      value: 1
+    - id: 61746
+      location: 61746
+      value: 1
+    - id: 61760
+      location: 61760
+      value: 1
+    - id: 61762
+      location: 61762
+      value: 1
+    - id: 61776
+      location: 61776
+      value: 1
+    - id: 61778
+      location: 61778
+      value: 1
+    - id: 62976
+      location: 62976
+      value: 1
+    - id: 62977
+      location: 62977
+      value: 1
+    - id: 62992
+      location: 62992
+      value: 1
+    - id: 62993
+      location: 62993
+      value: 1
 - handle: 1
   type: 0
   length: 54
@@ -1314,7 +2779,7 @@ table:
   length: 14
   level: null
   state: []
-  description: OEM-specific
+  description: Dell BIOS flags
   data: !!binary |
     sQwAsR4AAAAAAAAA
 - handle: 45568
@@ -1356,96 +2821,254 @@ table:
   type: 205
   length: 24
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    zQwAzQEBAAIAABQS
-  strings:
-  - BIOS Guard
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: BIOS Guard
+      version-string: null
+      major: 2
+      minor: 0
+      revision: 0
+      build: 4628
 - handle: 52481
   type: 205
   length: 78
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    zRoBzQMBAAkAPyAAAgAAAADqAAMAAQYAAAA=
-  strings:
-  - Reference Code - CPU
-  - uCode Version
-  - TXT ACM version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CPU
+      version-string: null
+      major: 9
+      minor: 0
+      revision: 63
+      build: 32
+    - component: uCode Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 234
+    - component: TXT ACM version
+      version-string: null
+      major: 1
+      minor: 6
+      revision: 0
+      build: 0
 - handle: 52482
   type: 205
   length: 93
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    zRoCzQMBAAkAPyAAAgAAAAAAAAMEDgE1cQY=
-  strings:
-  - Reference Code - ME
-  - MEBx version
-  - ME Firmware Version
-  - Consumer SKU
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - ME
+      version-string: null
+      major: 9
+      minor: 0
+      revision: 63
+      build: 32
+    - component: MEBx version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: ME Firmware Version
+      version-string: Consumer SKU
+      major: 14
+      minor: 1
+      revision: 53
+      build: 1649
 - handle: 52483
   type: 205
   length: 216
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    zTYDzQcBAAkAPyAAAgP//////wQA////AAAFAP///wAABgACCgAAAAcAG/////8IAAD/////
-  strings:
-  - Reference Code - CML PCH
-  - PCH-CRID Status
-  - Disabled
-  - PCH-CRID Original Value
-  - PCH-CRID New Value
-  - OPROM - RST - RAID
-  - ChipsetInit Base Version
-  - ChipsetInit Oem Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CML PCH
+      version-string: null
+      major: 9
+      minor: 0
+      revision: 63
+      build: 32
+    - component: PCH-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 0
+    - component: PCH-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 0
+    - component: OPROM - RST - RAID
+      version-string: null
+      major: 2
+      minor: 10
+      revision: 0
+      build: 0
+    - component: ChipsetInit Base Version
+      version-string: null
+      major: 27
+      minor: null
+      revision: null
+      build: null
+    - component: ChipsetInit Oem Version
+      version-string: null
+      major: 0
+      minor: null
+      revision: null
+      build: null
 - handle: 52484
   type: 205
   length: 208
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    zTYEzQcBAAkAPyAAAgAAAABLAAMACQA/IAAEBf//////BgAAAAACAAcAAAAAAgAIAP//////
-  strings:
-  - Reference Code - SA - System Agent
-  - Reference Code - MRC
-  - SA - PCIe Version
-  - SA-CRID Status
-  - Disabled
-  - SA-CRID Original Value
-  - SA-CRID New Value
-  - OPROM - VBIOS
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SA - System Agent
+      version-string: null
+      major: 9
+      minor: 0
+      revision: 63
+      build: 32
+    - component: Reference Code - MRC
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 75
+    - component: SA - PCIe Version
+      version-string: null
+      major: 9
+      minor: 0
+      revision: 63
+      build: 32
+    - component: SA-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SA-CRID Original Value
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 2
+    - component: SA-CRID New Value
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 2
+    - component: OPROM - VBIOS
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
 - handle: 52485
   type: 205
   length: 353
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    zVkFzQwBAP//////AgD//////wME//////8FBv//////Bwj//////wkAAAAAAAAKAP//////CwD/
-    /wAAAAwAAAkABxENAP//////DgAABwAAAA8AAAIADwA=
-  strings:
-  - Lan Phy Version
-  - Sensor Firmware Version
-  - Debug Mode Status
-  - Disabled
-  - Performance Mode Status
-  - Disabled
-  - Debug Use USB(Disabled:Serial)
-  - Disabled
-  - ICC Overclocking Version
-  - UNDI Version
-  - EC FW Version
-  - GOP Version
-  - Royal Park Version
-  - Platform Version
-  - Client Silicon Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Lan Phy Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Sensor Firmware Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Mode Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Performance Mode Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Use USB(Disabled:Serial)
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: ICC Overclocking Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: UNDI Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: EC FW Version
+      version-string: null
+      major: null
+      minor: null
+      revision: 0
+      build: 0
+    - component: GOP Version
+      version-string: null
+      major: 0
+      minor: 9
+      revision: 0
+      build: 4359
+    - component: Royal Park Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Platform Version
+      version-string: null
+      major: 0
+      minor: 7
+      revision: 0
+      build: 0
+    - component: Client Silicon Version
+      version-string: null
+      major: 0
+      minor: 2
+      revision: 0
+      build: 15
 - handle: 52736
   type: 206
   length: 72
@@ -1461,14 +3084,16 @@ table:
 - handle: 53248
   type: 208
   length: 35
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    0BAA0AMR/gBkCgECAAAAAA==
-  strings:
-  - '20211129'
-  - '20230523'
+  level: '2.2'
+  state:
+  - decoded
+  description: Dell revisions and IDs
+  attributes:
+    implementation-version: '3.17'
+    system-id: 2660
+    hardware-revision: 0
+    manufacture-date: '20211129'
+    first-poweron-date: '20230523'
 - handle: 55296
   type: 216
   length: 31

@@ -78,6 +78,10 @@ Table area is empty, or a structure runs past its end.
 Table holds no platform firmware information structure, in the strict mode
 only.
 
+`DMI_ERROR_MODULE_CONFLICT`::
+Specifications of the modules enabled with `dmi_add_extension`(3), which
+apply to the platform, have the same type.
+
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory is exhausted.
 
@@ -104,6 +108,7 @@ dmi_destroy(context);
 `dmi_save`(3),
 `dmi_close`(3),
 `dmi_create`(3),
+`dmi_get_platform`(3),
 `dmi_error_get_first`(3)
 
 ifdef::backend-manpage[]

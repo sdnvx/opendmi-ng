@@ -32,14 +32,31 @@ const dmi_module_t dmi_dell_module =
 
 The modules of the library are built in, and listed in
 `dmi_builtin_modules`, so that they are linked into a static build as well:
-`acer`, `ami`, `apple`, `dell`, `hpe`, `intel`, `lenovo` and `sun`. The tool
+`acer`, `ami`, `apple`, `dell`, `hpe`, `intel`, `intel-rsd`, `lenovo` and
+`sun`. The tool
 lists them with `opendmi modules`, and `opendmi types -m dell` lists the types
 a module brings.
 
 == Enabling a module
 
-A module is enabled in a context before the data is opened, since the
-structures are decoded as the context is opened:
+A module is enabled for the platforms it lists, as the context is opened,
+when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`, which the tool always
+gives it unless told otherwise by its `--no-auto-modules` option:
+
+[source,c]
+----
+const dmi_module_t dmi_dell_module =
+{
+    ...
+    .platforms = DMI_PLATFORMS({
+        { .firmware_vendor = DMI_VENDOR_DELL },
+        DMI_PLATFORM_NULL
+    })
+};
+----
+
+A program enables a module explicitly before the data is opened, e.g. when
+the data does not tell the vendor, and the tool does with its `-m` option:
 
 [source,c]
 ----
@@ -56,14 +73,196 @@ if ((context == nullptr) ||
 Enabling a module maps the types it brings to their specifications in the
 context. A type is mapped to one specification at a time, so a module which
 brings a type another enabled module already has, or the same module enabled
-twice, fails with `DMI_ERROR_MODULE_CONFLICT`. Structures of the types no
-enabled module brings are left undecoded, with their headers and strings
-only.
+twice, fails with `DMI_ERROR_MODULE_CONFLICT`. Modules enabled explicitly
+take precedence: a module of the platform whose types conflict with them is
+skipped. Structures of the types no enabled module brings are left
+undecoded, with their headers and strings only.
 
-The vendor of the platform is told from the platform firmware information as
-the context is opened, while the module of the vendor is not enabled by
-itself yet _(planned)_: the program enables it, and the tool does with its
-`-m` option.
+Modules enabled for the platform stay enabled until the context is closed,
+while the ones enabled explicitly stay for the next data to be opened.
+
+== Platform
+
+The platform the data comes from, `dmi_platform_t`, is told as the context is
+opened, before the rest of the table is decoded: the vendor of the firmware
+from the platform firmware information (type 0), the vendor and the product
+name of the system from the system information (type 1), the vendor of the
+baseboard from the baseboard information (type 2), and the vendor of the
+processors from the processor information (type 4). The vendors are told
+apart, since each of them adds structures of its own: the firmware of AMI,
+e.g., is found on the boards of many vendors. The vendor of the firmware
+tells the family and the generation of the product by the `detect` handler
+of its `dmi_vendor_spec_t`, since the structures of a vendor often depend on
+them. HP and HPE, e.g., give the same
+type numbers to different structures in their workstations and their
+servers, and to different layouts in different generations of the servers.
+
+A module lists the platforms it is enabled for by conditions on the vendors
+and the family, whose members left out are satisfied by any platform:
+
+[source,c]
+----
+.platforms = DMI_PLATFORMS({
+    { .firmware_vendor = DMI_VENDOR_HP,  .family = DMI_HPE_FAMILY_SERVER },
+    { .firmware_vendor = DMI_VENDOR_HPE, .family = DMI_HPE_FAMILY_SERVER },
+    DMI_PLATFORM_NULL
+})
+----
+
+and a specification the generations it applies to, which the vendor numbers
+so that a later generation has a greater number:
+
+[source,c]
+----
+.params = {
+    .generations = { .minimum = DMI_HPE_GEN9 },
+    ...
+}
+----
+
+Both bounds are included, and a zero bound leaves the range open on its side.
+A module may bring several specifications of the same type, whose ranges do
+not overlap, and the one of the generation of the platform is chosen. A
+bounded range is never chosen while the generation is unknown, so that no
+structure is decoded by the layout of another generation. The rest of the
+specifications leave the range zeroed, and apply to all generations.
+
+The platform is available through `dmi_get_platform`, and belongs to the
+context. A program sets another one when the data does not tell it, or to
+decode structures without opening any data: it creates a platform with
+`dmi_platform_create`, which owns the strings set with
+`dmi_platform_set_product` and `dmi_platform_set_family`, and gives it to the
+context with `dmi_set_platform`, which keeps a copy of it:
+
+[source,c]
+----
+dmi_platform_t *platform = dmi_platform_create(context);
+
+platform->firmware_vendor = DMI_VENDOR_HPE;
+platform->generation      = DMI_HPE_GEN10;
+dmi_platform_set_family(platform, DMI_HPE_FAMILY_SERVER);
+
+dmi_set_platform(context, platform);
+dmi_platform_destroy(platform);
+----
+
+== Structures of any platform
+
+Some structures are defined neither by the vendor of the platform nor by the
+specification, but by a third party whose code the firmware of many vendors
+includes, e.g. the Intel reference code. Their module is enabled for the
+platforms of any vendor, by a condition on the vendor of the processors
+rather than on the vendor of the firmware. Vendors give the same type numbers
+to structures of their own, so the module has `DMI_MODULE_FLAG_YIELD`, and its specifications give
+way to the specifications of the other enabled modules of the same types,
+rather than conflicting with them:
+
+[source,c]
+----
+const dmi_module_t dmi_intel_module =
+{
+    .code      = "intel",
+    .name      = "Intel extensions",
+    .entities  = ...,
+    .flags     = DMI_MODULE_FLAG_YIELD,
+    .platforms = DMI_PLATFORMS({
+        { .processor_vendor = DMI_VENDOR_INTEL },
+        DMI_PLATFORM_NULL
+    })
+};
+----
+
+The structures of Intel Rack Scale Design are only found on the platforms
+built to it, at type numbers of vendor structures, so their module,
+`intel-rsd`, is enabled explicitly.
+
+== Relocations
+
+Some vendors place structures defined by others at type numbers of their
+own, since the original numbers are taken by their own structures. Dell,
+e.g., places the structures of the Intel reference code 16 types down. The
+module of such a vendor lists the relocations, which apply while it is
+enabled, to the specifications of the other enabled modules:
+
+[source,c]
+----
+.relocations = DMI_RELOCATIONS({
+    { &dmi_intel_fvi_spec, 205 },
+    {}
+})
+----
+
+A vendor whose platforms never carry a structure, and give its type number to
+a structure the module of the vendor does not describe, relocates it to
+`DMI_TYPE_INVALID`, so that the type is left undecoded rather than decoded
+by a wrong layout:
+
+[source,c]
+----
+.relocations = DMI_RELOCATIONS({
+    { &dmi_intel_fvi_spec, DMI_TYPE_INVALID },
+    {}
+})
+----
+
+A relocated structure is decoded by its original specification, since its
+data is laid out as that specification describes it. `dmi_entity_type` gives
+the type number found in the table, while `dmi_entity_info` and
+`dmi_entity_data` check the type of the specification, so that the code
+which handles the structure does not depend on where the vendor places it.
+
+== Signatures
+
+Some tables hold structures of different layouts at the same type number,
+since two vendors whose code the firmware includes give it to structures of
+their own. Lenovo tables, e.g., hold both Intel vPro information and Lenovo
+ThinkVantage Technologies enablement at type 131. Neither the type number nor
+the platform tells them apart, so their specifications tell the content of
+the structures they describe by a signature, which is declared rather than
+checked by code of their own:
+
+[source,c]
+----
+.params = {
+    .signature = DMI_SIGNATURE({
+        .offset = 0x38,
+        .bytes  = "vPro",
+        .size   = 4
+    })
+}
+----
+
+A signature may name bytes at an offset, the length of the formatted area,
+and the text of a string, and a structure matches it if it meets all of the
+conditions it names. A type number is mapped to one specification without a
+signature at most, and to a few with signatures, up to
+`DMI_TYPE_CANDIDATES` in all. As a structure is decoded, the specifications
+with signatures are tried in the order they are mapped, and the one without
+a signature is taken for the structures no signature matches, which are left
+undecoded if there is none. The fields of a signature are kept in the decoded
+structure, so that it is written back with it.
+
+== Groups
+
+Firmware often lists the structures of a kind by a group association
+(type 14) of a well-known name, e.g. the Intel reference code lists its
+firmware version information by the `Firmware Version Info` group. A module
+names such groups along with the specifications of their members:
+
+[source,c]
+----
+.groups = DMI_GROUPS({
+    { "Firmware Version Info", &dmi_intel_fvi_spec },
+    {}
+})
+----
+
+Groups are not used to tell the structures, which their type numbers and
+signatures do, but to check them: the `group-assoc.member` lint rule reports
+the members of such a group which are not decoded by the specification. A
+report tells either a structure the vendor places at a type number no module
+knows of, which calls for a relocation, or a group the firmware lists a
+structure in by mistake.
 
 == Modules of a program
 

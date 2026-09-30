@@ -1,0 +1,97 @@
+ifdef::backend-manpage[]
+= dmi_platform_match(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_platform_match
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_platform_match - check whether a platform satisfies a condition.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/platform.h>
+
+bool dmi_platform_match(const dmi_platform_t *platform,
+                        const dmi_platform_match_t *match);
+----
+
+== Description
+
+The `dmi_platform_match` function checks a platform against a condition of
+an extension module, which lists the platforms it is enabled for by its
+`platforms` member:
+
+[source, c]
+----
+struct dmi_platform_match
+{
+    dmi_vendor_t firmware_vendor;
+    dmi_vendor_t system_vendor;
+    dmi_vendor_t baseboard_vendor;
+    dmi_vendor_t processor_vendor;
+    const char  *family;
+};
+----
+
+A platform satisfies a condition if it satisfies all of its members: each
+vendor of the condition is either `DMI_VENDOR_ANY` or the corresponding vendor
+of the platform, and the condition either names no family, or the family of
+the platform. `DMI_VENDOR_ANY` is zero, so the members a condition leaves out
+are satisfied by any platform, including one whose vendors are unknown. A list
+of conditions ends with `DMI_PLATFORM_NULL`, whose firmware vendor is
+`DMI_VENDOR_INVALID`.
+
+=== Parameters
+
+`platform`::
+Platform to check.
+
+`match`::
+Condition to check against.
+
+== Return value
+
+Returns `true` if the platform satisfies the condition, and `false`
+otherwise or if either argument is `nullptr`.
+
+== Errors
+
+None.
+
+== Examples
+
+[source, c]
+----
+const dmi_platform_match_t servers = {
+    .firmware_vendor = DMI_VENDOR_HPE,
+    .family          = DMI_HPE_FAMILY_SERVER
+};
+
+if (dmi_platform_match(dmi_get_platform(context), &servers))
+    ...
+----
+
+== See also
+
+`dmi_get_platform`(3),
+`dmi_platform_in_generations`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

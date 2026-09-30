@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include <opendmi/vendor.h>
+#include <opendmi/module/hpe.h>
 #include <opendmi/utils/name.h>
 
 static const dmi_name_set_t dmi_vendor_names =
@@ -19,6 +20,11 @@ static const dmi_name_set_t dmi_vendor_names =
             .id   = DMI_VENDOR_ACER,
             .code = "acer",
             .name = "Acer"
+        },
+        {
+            .id   = DMI_VENDOR_AMD,
+            .code = "amd",
+            .name = "AMD"
         },
         {
             .id   = DMI_VENDOR_AMI,
@@ -36,6 +42,11 @@ static const dmi_name_set_t dmi_vendor_names =
             .name = "Dell"
         },
         {
+            .id   = DMI_VENDOR_HONOR,
+            .code = "honor",
+            .name = "Honor"
+        },
+        {
             .id   = DMI_VENDOR_HP,
             .code = "hp",
             .name = "HP"
@@ -44,6 +55,11 @@ static const dmi_name_set_t dmi_vendor_names =
             .id   = DMI_VENDOR_HPE,
             .code = "hpe",
             .name = "HPE"
+        },
+        {
+            .id   = DMI_VENDOR_HUAWEI,
+            .code = "huawei",
+            .name = "Huawei"
         },
         {
             .id   = DMI_VENDOR_IBM,
@@ -75,13 +91,31 @@ static const dmi_vendor_spec_t dmi_vendor_specs[] =
         }
     },
     {
+        .id    = DMI_VENDOR_AMD,
+        .code  = "amd",
+        .names = (const char *[]){
+            "AMD",
+            "AMD processor",
+            "Advanced Micro Devices, Inc.",
+            "AuthenticAMD",
+            nullptr
+        }
+    },
+    {
         .id    = DMI_VENDOR_AMI,
         .code  = "ami",
         .names = (const char *[]){
             "American Megatrends Inc.",
             "American Megatrends International, LLC.",
-            "HUAWEI",
-            "HONOR",
+            nullptr
+        }
+    },
+    {
+        .id    = DMI_VENDOR_APPLE,
+        .code  = "apple",
+        .names = (const char *[]){
+            "Apple",
+            "Apple Inc.",
             nullptr
         }
     },
@@ -95,13 +129,22 @@ static const dmi_vendor_spec_t dmi_vendor_specs[] =
         }
     },
     {
+        .id    = DMI_VENDOR_HONOR,
+        .code  = "honor",
+        .names = (const char *[]){
+            "HONOR",
+            nullptr
+        }
+    },
+    {
         .id    = DMI_VENDOR_HP,
         .code  = "hp",
         .names = (const char *[]){
             "HP",
             "Hewlett-Packard",
             nullptr
-        }
+        },
+        .detect = dmi_hpe_platform_detect
     },
     {
         .id    = DMI_VENDOR_HPE,
@@ -109,6 +152,16 @@ static const dmi_vendor_spec_t dmi_vendor_specs[] =
         .names = (const char *[]){
             "HPE",
             "Hewlett-Packard Enterprise",
+            "Hewlett Packard Enterprise",
+            nullptr
+        },
+        .detect = dmi_hpe_platform_detect
+    },
+    {
+        .id    = DMI_VENDOR_HUAWEI,
+        .code  = "huawei",
+        .names = (const char *[]){
+            "HUAWEI",
             nullptr
         }
     },
@@ -125,6 +178,10 @@ static const dmi_vendor_spec_t dmi_vendor_specs[] =
         .code  = "intel",
         .names = (const char *[]){
             "Intel",
+            "Intel Corp.",
+            "Intel Corporation",
+            "Intel(R) Corporation",
+            "GenuineIntel",
             nullptr
         }
     },

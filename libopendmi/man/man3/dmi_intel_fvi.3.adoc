@@ -1,0 +1,111 @@
+ifdef::backend-manpage[]
+= dmi_intel_fvi(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_fvi
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_fvi - Intel firmware version information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/fvi.h>
+
+typedef struct dmi_intel_fvi {
+    size_t item_count;
+    dmi_intel_fvi_item_t *items;
+} dmi_intel_fvi_t;
+----
+
+== Description
+
+The `dmi_intel_fvi_t` structure holds the decoded Intel firmware version
+information: the versions of the firmware components of a platform, as the
+Intel reference code knows them, e.g. the reference code modules, the
+microcode, the Management Engine firmware and the option ROMs.
+
+Each module of the reference code adds a structure of its own, e.g. for the
+CPU, the Management Engine, the PCH or the System Agent, whose first item is
+the version of the reference code module itself, named `Reference Code -
+<module>`. The structures of a platform are often listed by a group
+association (type 14) named `Firmware Version Info`.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_intel_fvi_spec`, of type `DMI_TYPE(INTEL_FVI)`, declared in
+`<opendmi/module/intel.h>`, once the Intel extension module
+(`dmi_intel_module`) is enabled, which is done for any platform when the
+context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as long as the context
+it has been decoded in.
+
+The structures are found on Intel platforms whatever the vendor of the
+firmware is. The Intel reference code gives them type 221, but vendors who
+give that type to structures of their own place them elsewhere or not at
+all: Dell places them at type 205, and HP servers carry none. The type is
+checked against `DMI_TYPE(INTEL_FVI)` wherever the structure is placed, see
+`dmi_entity_info`(3).
+
+=== Fields
+
+`item_count`::
+Number of elements of `items`. Smaller than the number the structure declares
+when the data ends before the last item.
+
+`items`::
+Versions of the firmware components, in the order of the structure, see
+`dmi_intel_fvi_item`(3). May be `nullptr` when `item_count` is 0.
+
+== Examples
+
+[source, c]
+----
+dmi_registry_iter_t iter;
+dmi_entity_t *entity;
+
+dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr);
+
+while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+    if (entity->spec != &dmi_intel_fvi_spec)
+        continue;
+
+    const dmi_intel_fvi_t *info = dmi_entity_info(entity, DMI_TYPE(INTEL_FVI));
+
+    for (size_t i = 0; i < info->item_count; i++) {
+        const dmi_intel_fvi_item_t *item = &info->items[i];
+
+        printf("%s: %u.%u.%u.%u\n", item->component,
+               item->major, item->minor, item->revision, item->build);
+    }
+}
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_intel_fvi_item`(3),
+`dmi_get_platform`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code,
+whose firmware version information module gives the structures type 221 by
+default.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -363,6 +363,16 @@ static bool dmi_field_decode_one(
     case DMI_FIELD_TYPE_ARRAY:
         return dmi_field_decode_array(state, field, info);
 
+    // Elements of a vector are held in place, one after another, and are
+    // read the way the fields of a nested structure are
+    case DMI_FIELD_TYPE_VECTOR:
+        for (size_t i = 0; i < field->params.count; i++) {
+            if (not dmi_field_decode_nested(state, field->params.fields,
+                                            (dmi_data_t *)value + (i * field->member.size)))
+                return false;
+        }
+        return true;
+
     case DMI_FIELD_TYPE_STRUCT:
         return dmi_field_decode_nested(state, field->params.fields, value);
 
@@ -1044,6 +1054,14 @@ static bool dmi_field_encode_one(
     case DMI_FIELD_TYPE_ARRAY:
         return dmi_field_encode_array(output, field, info);
 
+    case DMI_FIELD_TYPE_VECTOR:
+        for (size_t i = 0; i < field->params.count; i++) {
+            if (not dmi_field_encode_list(output, field->params.fields,
+                                          (const dmi_data_t *)value + (i * field->member.size)))
+                return false;
+        }
+        return true;
+
     case DMI_FIELD_TYPE_STRUCT:
         return dmi_field_encode_list(output, field->params.fields, value);
 
@@ -1658,6 +1676,11 @@ static bool dmi_field_put_data(dmi_field_output_t *output, const dmi_field_t *fi
     }
 
     case DMI_FIELD_TYPE_BINARY:
+        // Field the source data ends before holds no bytes, and is written as
+        // zeroes, the way a structure of a later version is filled in
+        if (data->binary.length == 0)
+            return dmi_field_put_reserved(output, field->params.length);
+
         if (data->binary.length < field->params.length)
             return dmi_field_cannot_encode(output, "binary shorter than the field");
 
@@ -1744,6 +1767,14 @@ static size_t dmi_fields_size(const dmi_field_t *fields)
             if (nested == 0)
                 return 0;
             size += nested;
+            break;
+        }
+
+        case DMI_FIELD_TYPE_VECTOR: {
+            size_t nested = dmi_fields_size(field->params.fields);
+            if (nested == 0)
+                return 0;
+            size += nested * field->params.count;
             break;
         }
 

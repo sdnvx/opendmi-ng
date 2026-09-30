@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <opendmi/platform.h>
 #include <opendmi/reader.h>
 #include <opendmi/attribute.h>
 #include <opendmi/utils/vector.h>
@@ -28,6 +29,7 @@ typedef struct dmi_entity         dmi_entity_t;
 typedef struct dmi_entity_overlay dmi_entity_overlay_t;
 typedef struct dmi_entity_spec    dmi_entity_spec_t;
 typedef struct dmi_entity_params  dmi_entity_params_t;
+typedef struct dmi_signature      dmi_signature_t;
 typedef struct dmi_entity_ops     dmi_entity_ops_t;
 
 #ifndef DMI_LINT_RULE_T
@@ -117,6 +119,55 @@ extern __dmi_api const dmi_name_set_t dmi_property_names;
 /**
  * @brief Parameters of a structure type.
  */
+/**
+ * @brief Content a structure is told by, when structures of different layouts
+ * share a type number in the same table.
+ *
+ * Some vendors give a type number the structures of other vendors take, and
+ * both are found in the same table, e.g. Intel vPro information and Lenovo
+ * ThinkVantage Technologies enablement are both of type 131 on Lenovo
+ * platforms. A specification with a signature is chosen for the structures
+ * which match all the conditions it sets, and the specification of the type
+ * without a signature, if any, for the rest.
+ */
+struct dmi_signature
+{
+    /**
+     * @brief Length of the formatted area of the structure, zero for any.
+     */
+    size_t length;
+
+    /**
+     * @brief Offset of `bytes` from the beginning of the structure.
+     */
+    size_t offset;
+
+    /**
+     * @brief Bytes the structure holds at `offset`, @c nullptr for none.
+     */
+    const void *bytes;
+
+    /**
+     * @brief Number of `bytes`.
+     */
+    size_t size;
+
+    /**
+     * @brief Number of a string of the structure, zero for none.
+     */
+    unsigned string;
+
+    /**
+     * @brief Text of the string number `string`.
+     */
+    const char *text;
+};
+
+/**
+ * @brief Signature of a specification, see `dmi_signature_t`.
+ */
+#define DMI_SIGNATURE(...) (&(const dmi_signature_t)__VA_ARGS__)
+
 struct dmi_entity_params
 {
     /**
@@ -144,6 +195,27 @@ struct dmi_entity_params
      * interest.
      */
     dmi_version_t recommended_from;
+
+    /**
+     * @brief Generations of the platform the specification applies to, as
+     * the vendor of the module numbers them. Left zeroed for specifications
+     * which apply to all generations.
+     *
+     * A vendor may give the same type number to different structures in
+     * different generations of its platforms. A module then brings
+     * a specification for each layout, with ranges which do not overlap, and
+     * the one which applies to the platform is chosen as the context is
+     * opened. Specifications with a bounded range are not chosen while the
+     * generation is unknown.
+     */
+    dmi_generations_t generations;
+
+    /**
+     * @brief Content the structures of the specification are told by from
+     * the ones of other specifications of the same type number, @c nullptr
+     * for none. See `dmi_signature_t`.
+     */
+    const dmi_signature_t *signature;
 
     /**
      * @brief Should be set to true if the structure should be the only one
@@ -494,11 +566,21 @@ __BEGIN_DECLS
 
 /**
  * @brief Find entity type identifier by its code.
+ *
+ * Returns the type number the structures of the specification are found at,
+ * which relocations may make different from the type of the specification.
  */
 __dmi_api dmi_type_t dmi_type_find(dmi_context_t *context, const char *code);
 
 /**
  * @brief Get entity type specification.
+ *
+ * Returns the specification the type number is mapped to. A type may be
+ * mapped to several specifications told apart by signatures, see
+ * `dmi_signature_t`, which are chosen for each structure as it is decoded,
+ * and the type is represented by the one without a signature, or by the
+ * first one with a signature if there is none. The specification a structure
+ * is decoded by is the `spec` member of the entity.
  */
 __dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_t type);
 
@@ -683,7 +765,10 @@ __dmi_api const char *dmi_entity_name(const dmi_entity_t *entity);
  * @brief Get pointer to raw SMBIOS data area of entity of the specified type.
  *
  * Returns a pointer to the raw SMBIOS structure data (including the header)
- * if the entity matches the specified type.
+ * if the entity matches the specified type. The type is checked against the
+ * specification the entity is decoded by, so a structure which a vendor
+ * places at a type number of its own matches the type of its original
+ * specification.
  *
  * @param[in] entity Entity descriptor.
  * @param[in] type   Expected SMBIOS type. Pass `DMI_TYPE_INVALID` to skip
@@ -699,7 +784,10 @@ __dmi_api const void *dmi_entity_data(const dmi_entity_t *entity, dmi_type_t typ
  *
  * Returns a pointer to the decoded structure descriptor if the entity matches
  * the specified type. The returned pointer should be cast to the appropriate
- * structure type (e.g., `dmi_cooling_device_t *`).
+ * structure type (e.g., `dmi_cooling_device_t *`). The type is checked against
+ * the specification the entity is decoded by, so a structure which a vendor
+ * places at a type number of its own matches the type of its original
+ * specification.
  *
  * @param[in] entity Entity descriptor.
  * @param[in] type   Expected SMBIOS type. Pass `DMI_TYPE_INVALID` to skip

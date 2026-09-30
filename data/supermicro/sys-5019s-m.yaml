@@ -1300,51 +1300,143 @@ table:
   type: 221
   length: 78
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3Ro5AAMBAAQBAQUAAgAAAADeAAMAAAUAAAA=
-  strings:
-  - Reference Code - CPU
-  - uCode Version
-  - TXT ACM version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CPU
+      version-string: null
+      major: 4
+      minor: 1
+      revision: 1
+      build: 5
+    - component: uCode Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 222
+    - component: TXT ACM version
+      version-string: null
+      major: 0
+      minor: 5
+      revision: 0
+      build: 0
 - handle: 58
   type: 221
   length: 287
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3UQ6AAkBAAQBAQUAAgP//////wQA////MQAFAP///zEABgD//////wcAPgAAAAAIADQAAAAACQA+
-    AAAAAAoANAAAAAA=
-  strings:
-  - Reference Code - SKL PCH
-  - PCH-CRID Status
-  - Disabled
-  - PCH-CRID Original Value
-  - PCH-CRID New Value
-  - OPROM - RST - RAID
-  - SKL PCH H Bx Hsio Version
-  - SKL PCH H Dx Hsio Version
-  - SKL PCH LP Bx Hsio Version
-  - SKL PCH LP Cx Hsio Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SKL PCH
+      version-string: null
+      major: 4
+      minor: 1
+      revision: 1
+      build: 5
+    - component: PCH-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 49
+    - component: PCH-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 49
+    - component: OPROM - RST - RAID
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SKL PCH H Bx Hsio Version
+      version-string: null
+      major: 62
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH H Dx Hsio Version
+      version-string: null
+      major: 52
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH LP Bx Hsio Version
+      version-string: null
+      major: 62
+      minor: 0
+      revision: 0
+      build: 0
+    - component: SKL PCH LP Cx Hsio Version
+      version-string: null
+      major: 52
+      minor: 0
+      revision: 0
+      build: 0
 - handle: 59
   type: 221
   length: 208
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3TY7AAcBAAQBAQUAAgAEAQEFAAMABAEBAAAEBf//////BgD///8FAAcA////BQAIAP///wAA
-  strings:
-  - Reference Code - SA - System Agent
-  - Reference Code - MRC
-  - SA - PCIe Version
-  - SA-CRID Status
-  - Disabled
-  - SA-CRID Original Value
-  - SA-CRID New Value
-  - OPROM - VBIOS
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SA - System Agent
+      version-string: null
+      major: 4
+      minor: 1
+      revision: 1
+      build: 5
+    - component: Reference Code - MRC
+      version-string: null
+      major: 4
+      minor: 1
+      revision: 1
+      build: 5
+    - component: SA - PCIe Version
+      version-string: null
+      major: 4
+      minor: 1
+      revision: 1
+      build: 0
+    - component: SA-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SA-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 5
+    - component: SA-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 5
+    - component: OPROM - VBIOS
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 0
 - handle: 60
   type: 40
   length: 29

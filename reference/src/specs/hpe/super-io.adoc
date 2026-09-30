@@ -1,0 +1,41 @@
+= HP/HPE Super I/O Enable/Disable Indicator (Type 194)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Tells which ports of the Super I/O controller are enabled.
+
+.HP/HPE Super I/O Enable/Disable Indicator structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `194`
+| HP/HPE Super I/O Enable/Disable Indicator indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x05`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Device Status
+| `BYTE`
+| `BITFIELD`
+| Bit 0: serial port A, bit 1: serial port B, bit 2: parallel port, bit 3: floppy disk port, bit 4: virtual serial port
+|===

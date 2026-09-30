@@ -1,0 +1,120 @@
+= HP/HPE USB Device Correlation Record (Type 239)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Describes a USB device the firmware has found at boot on a USB port (type
+238), and the UEFI boot entries naming it. Devices plugged in later are not
+described. The structure is decoded from Gen9 onwards, UEFI firmware only.
+
+.HP/HPE USB Device Correlation Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `239`
+| HP/HPE USB Device Correlation Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x17`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| USB Port Handle
+| `WORD`
+| Varies
+| Handle of the USB port connector correlation record (type 238)
+
+| `0x06`
+| 2.0+
+| Vendor ID
+| `WORD`
+| `NUMBER`
+| USB vendor ID
+
+| `0x08`
+| 2.0+
+| Flags
+| `WORD`
+| `BITFIELD`
+| Bit 0: an embedded SD card is present
+
+| `0x0A`
+| 2.0+
+| Class
+| `BYTE`
+| `NUMBER`
+| USB class code
+
+| `0x0B`
+| 2.0+
+| Subclass
+| `BYTE`
+| `NUMBER`
+| USB subclass code
+
+| `0x0C`
+| 2.0+
+| Protocol
+| `BYTE`
+| `NUMBER`
+| USB protocol code
+
+| `0x0D`
+| 2.0+
+| Product ID
+| `WORD`
+| `NUMBER`
+| USB product ID
+
+| `0x0F`
+| 2.0+
+| Capacity
+| `DWORD`
+| `NUMBER`
+| Capacity in megabytes, zero if not applicable
+
+| `0x13`
+| 2.0+
+| UEFI Device Path
+| `BYTE`
+| `STRING`
+| 
+
+| `0x14`
+| 2.0+
+| UEFI Device Structured Name
+| `BYTE`
+| `STRING`
+| 
+
+| `0x15`
+| 2.0+
+| Device Name
+| `BYTE`
+| `STRING`
+| 
+
+| `0x16`
+| 2.0+
+| Location
+| `BYTE`
+| `STRING`
+| 
+|===

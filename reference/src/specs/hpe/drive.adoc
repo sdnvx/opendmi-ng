@@ -1,0 +1,216 @@
+= HP/HPE Hard Drive Inventory Record (Type 242)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Describes an NVMe or SATA drive attached to the system directly, which the
+firmware has found at boot. Drives behind a storage controller, e.g. a Smart
+Array one, and the ones plugged in later are not described. The structure is
+decoded from Gen10 onwards, and the shortest structures end after the firmware
+revision, at `0x2A`.
+
+.HP/HPE Hard Drive Inventory Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `242`
+| HP/HPE Hard Drive Inventory Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Device Correlation Handle
+| `WORD`
+| Varies
+| Handle of the device correlation record (type 203)
+
+| `0x06`
+| 2.0+
+| Drive Type
+| `BYTE`
+| `ENUM`
+| `0`: undetermined, `1`: NVMe SSD, `2`: SATA, `3`: SAS, `4`: SATA SSD, `5`: NVMe managed by VROC/VMD
+
+| `0x07`
+| 2.0+
+| Unique ID
+| `QWORD`
+| `NUMBER`
+| WWID of SATA drives, IEEE extended unique identifier of NVMe ones
+
+| `0x0F`
+| 2.0+
+| Capacity
+| `DWORD`
+| `NUMBER`
+| Capacity in megabytes
+
+| `0x13`
+| 2.0+
+| Power-On Hours
+| 16 BYTEs
+| `NUMBER`
+| 
+
+| `0x23`
+| 2.0+
+| Reserved
+| `BYTE`
+| Varies
+| 
+
+| `0x24`
+| 2.0+
+| Power
+| `BYTE`
+| `NUMBER`
+| Power in watts, zero if unknown
+
+| `0x25`
+| 2.0+
+| Form Factor
+| `BYTE`
+| `ENUM`
+| See below
+
+| `0x26`
+| 2.0+
+| Health
+| `BYTE`
+| `ENUM`
+| `0`: OK, `1`: warning, `2`: critical, `0xFF`: unknown
+
+| `0x27`
+| 2.0+
+| Serial Number
+| `BYTE`
+| `STRING`
+| 
+
+| `0x28`
+| 2.0+
+| Model Number
+| `BYTE`
+| `STRING`
+| 
+
+| `0x29`
+| 2.0+
+| Firmware Revision
+| `BYTE`
+| `STRING`
+| 
+
+| `0x2A`
+| 2.0+
+| Location
+| `BYTE`
+| `STRING`
+| 
+
+| `0x2B`
+| 2.0+
+| Encryption Status
+| `BYTE`
+| `ENUM`
+| `0`: not encrypted, `1`: encrypted, `2`: unknown, `3`: not supported
+
+| `0x2C`
+| 2.0+
+| Capacity
+| `QWORD`
+| `NUMBER`
+| Capacity in bytes
+
+| `0x34`
+| 2.0+
+| Block Size
+| `DWORD`
+| `NUMBER`
+| Size of a logical block in bytes
+
+| `0x38`
+| 2.0+
+| Rotational Speed
+| `WORD`
+| `NUMBER`
+| Nominal speed in RPM, `0` if not reported, `1` for solid state drives
+
+| `0x3A`
+| 2.0+
+| Negotiated Speed
+| `WORD`
+| `NUMBER`
+| Negotiated speed of the bus in Gbit/s, zero if unknown
+
+| `0x3C`
+| 2.0+
+| Capable Speed
+| `WORD`
+| `NUMBER`
+| Fastest speed of the bus the drive is capable of in Gbit/s, zero if unknown
+|===
+
+.Form factor
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0x02`
+| 3.5-inch
+
+| `0x03`
+| 2.5-inch
+
+| `0x04`
+| 1.8-inch
+
+| `0x05`
+| Smaller than 1.8-inch
+
+| `0x06`
+| mSATA
+
+| `0x07`
+| M.2
+
+| `0x08`
+| MicroSSD
+
+| `0x09`
+| CFast
+
+| `0x20`
+| EDSFF of unknown form factor
+
+| `0x21`
+| EDSFF 1U short
+
+| `0x22`
+| EDSFF 1U long
+
+| `0x23`
+| EDSFF E3 short
+
+| `0x24`
+| EDSFF E3 long
+|===

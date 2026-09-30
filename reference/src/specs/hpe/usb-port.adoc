@@ -1,0 +1,106 @@
+= HP/HPE USB Port Connector Correlation Record (Type 238)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Correlates a USB port connector (type 8) with its USB controller, its location
+and the UEFI device path of its endpoint. The structure is decoded from Gen9
+onwards.
+
+.HP/HPE USB Port Connector Correlation Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `238`
+| HP/HPE USB Port Connector Correlation Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Port Connector Handle
+| `WORD`
+| Varies
+| Handle of the port connector structure (type 8)
+
+| `0x06`
+| 2.0+
+| Bus
+| `BYTE`
+| `NUMBER`
+| PCI bus of the USB controller
+
+| `0x07`
+| 2.0+
+| Device and Function
+| `BYTE`
+| `NUMBER`
+| PCI device and function of the USB controller
+
+| `0x08`
+| 2.0+
+| Location
+| `BYTE`
+| `ENUM`
+| `0`: internal, `1`: front, `2`: rear, `3`: embedded internal SD card, `4`: iLO USB, `5`: USB hub of the NAND controller, `7`: debug port, `9`: OCP USB
+
+| `0x09`
+| 2.0+
+| Management Port
+| `WORD`
+| `ENUM`
+| `0`: not shared, `1`: shared with a physical switch, `2`: shared with automatic control
+
+| `0x0B`
+| 2.0+
+| Port Instance
+| `BYTE`
+| `NUMBER`
+| Instance among the ports of the type
+
+| `0x0C`
+| 2.0+
+| Parent Hub Instance
+| `BYTE`
+| `NUMBER`
+| Instance of the internal hub, `0xFE` if not applicable
+
+| `0x0D`
+| 2.0+
+| Port Speed
+| `BYTE`
+| `ENUM`
+| `1`: USB 1.1 full speed, `2`: USB 2.0 high speed, `3`: USB 3.0 super speed
+
+| `0x0E`
+| 2.0+
+| UEFI Device Path
+| `BYTE`
+| `STRING`
+| UEFI device path of the USB endpoint
+
+| `0x0F`
+| 2.0+
+| Segment Group
+| `WORD`
+| `NUMBER`
+| PCI segment group of the USB controller
+|===

@@ -9,6 +9,11 @@
 #include <ctype.h>
 #include <assert.h>
 
+#include <string.h>
+
+#include <opendmi/error.h>
+#include <opendmi/utils.h>
+#include <opendmi/internal.h>
 #include <opendmi/utils/string.h>
 
 int dmi_asprintf(char **strp, const char *format, ...)
@@ -80,4 +85,24 @@ void dmi_string_toupper(char *str)
         *str = toupper((int)*str);
         str++;
     }
+}
+
+bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value)
+{
+    assert(pstring != nullptr);
+
+    char *copy = nullptr;
+
+    if (value != nullptr) {
+        copy = strdup(value);
+        if (copy == nullptr) {
+            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+            return false;
+        }
+    }
+
+    dmi_free(*pstring);
+    *pstring = copy;
+
+    return true;
 }

@@ -1,0 +1,1 @@
+dmi_hpe_firmware_type.3.adoc

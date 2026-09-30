@@ -1,0 +1,75 @@
+ifdef::backend-manpage[]
+= dmi_hpe_system_id(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_system_id
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_system_id - HP/HPE server system ID structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/system-id.h>
+
+typedef struct dmi_hpe_system_id {
+    const char *system_id;
+    uint8_t platform_id[2];
+    dmi_uuid_t guid;
+} dmi_hpe_system_id_t;
+----
+
+== Description
+
+The `dmi_hpe_system_id_t` structure holds the decoded HP/HPE server system ID,
+which replaces the EISA ID of the older systems, and the platform ID iLO tells
+the platform by.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_system_id_spec`, of type `DMI_TYPE(HPE_SYSTEM_ID)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers. It lives as long as the context
+it has been decoded in.
+
+The platform ID and the GUID are absent from the structures of the older
+servers, and are then zero.
+
+=== Fields
+
+`system_id`::
+Server system ID, e.g. `$0E110761`.
+
+`platform_id`::
+Bytes of the platform ID, as the CPLD holds them, low byte first. The order
+the ID is written in is not documented.
+
+`guid`::
+GUID, reserved from Gen11 onwards.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

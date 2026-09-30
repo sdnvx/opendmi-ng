@@ -162,6 +162,12 @@ the fields are:
   described by fields of their own, or by one field for the arrays of plain
   values.
 
+| `DMI_FIELD_VECTOR`
+| A fixed number of elements in a row, held in place in an array member of the
+  decoded structure, whose number of elements it takes. The elements are
+  described the way the ones of an array are, e.g. the six firmware status
+  registers of an interface of the Intel Management Engine.
+
 | `DMI_FIELD_EXTENDED`
 | A wider field which a later version adds for a value the plain one is too
   narrow for. Both name the same member, and the plain one holding the value
@@ -364,7 +370,11 @@ referenced structure is put into once the table is linked.
 The attributes of a nested structure, and the variants of a variant value.
 
 An array of values is described by `DMI_ATTRIBUTE_ARRAY`, which names the
-member holding the number of the elements along with the array. The processor
+member holding the number of the elements along with the array, and a vector
+by `DMI_ATTRIBUTE_VECTOR`, whose number of elements is the one of the array
+member. Both are shown the same way, and `dmi_attribute_is_array` and
+`dmi_attribute_get_elements` tell the code which walks the attributes where
+the elements are. The processor
 information structure refers to its caches this way:
 
 [source,c]

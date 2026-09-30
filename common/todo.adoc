@@ -43,61 +43,89 @@ To do:
 
 === Module selection
 
-Modules are enabled only manually with `-m`, automatic selection in
-`dmi_setup_extensions()` is a TODO. Detecting the firmware vendor from type 0
-is not enough:
+Done: the platform (`dmi_platform_t`) is told from types 0 and 1, including
+the family and the generation of HP and HPE servers, and the modules of the
+platform are enabled as the context is opened. Modules of the structures
+any platform may carry, e.g. `intel`, yield their types to the modules of the
+vendors, and vendors relocate or suppress them.
 
-* Firmware vendor and system vendor are different layers, and both add
-  structures. AMI reports itself as the firmware vendor on ASUS, ASRock, MSI,
-  Gigabyte, Firebat, Beelink, ECS and Supermicro boards, but not every board
-  of these vendors has AMI firmware.
-* Intel platform structures come from Intel reference code, regardless of the
-  firmware vendor: they are found on AMI, Insyde, HP, Lenovo, Huawei and Honor
-  firmware alike (see below).
-* The same OEM type has different meaning in different firmware. Type 221 is
-  Intel firmware version information on Intel platforms, but HP ProLiant and
-  Dell put their own data there (with handle `0xDD00`). Type 133 is a 44-byte
-  structure on AMI boards, and a structure with a single string on Lenovo.
+The vendors of the firmware, the system, the baseboard and the processors
+are told apart, and the `intel` module is enabled for the platforms of Intel
+processors only.
 
-Ideas:
+Left:
 
-* Detect layers independently: firmware vendor (type 0), system and baseboard
-  vendors (types 1 and 2), and platform (e.g. processor manufacturer).
-* Add a `probe` handler to entity specifications, which checks structure
-  content (length formula, signatures such as `$AMT`, known strings), so that
-  one of several specifications for the same OEM type can be chosen.
-* Keep `-m` as a manual override.
+* Recognize more system and baseboard vendors (ASUS, ASRock, Gigabyte, MSI,
+  Supermicro), once their modules have structures to decode.
 
 === Intel firmware version information (type 221)
 
-Currently decoded by the `ami` module as `ami-221` with unknown fields, but it
-is not AMI specific. It is found on Intel platforms with AMI, Insyde, HP,
-Lenovo, Huawei, Honor and Supermicro firmware, with the same strings:
-`Reference Code - CPU`, `uCode Version`, `TXT ACM version`, `FSP Binary
-Version`. It looks like the firmware version information (FVI) structure of
-Intel reference code.
-
-Probable layout: entry count (BYTE), then 7-byte entries of component name
-(STRING), version (STRING), major, minor and revision (BYTE each) and build
-number (WORD). The current decoder reads the same 7 bytes as name, string and
-three unknown fields. E.g. `uCode Version` of `acer/nitro-an515-31.bin` has
-build number `0x0084`, which looks like the microcode revision.
+Done: decoded by the `intel` module as `intel-fvi`, with the layout
+confirmed by the corpus (e.g. `ME Firmware Version` 11.8.50.3425 of
+`acer/nitro-an515-31.bin`), at type 205 on Dell platforms and suppressed on
+HP servers.
 
 To do:
 
-* Confirm the layout, e.g. against public Intel reference code.
-* Move the decoder from the `ami` module to a platform (Intel) module and
-  decode version fields.
-* Decode type 221 of HP ProLiant and Dell separately, in their modules.
+* Show the versions of the reference code modules in hexadecimal, as the
+  firmware setup does, and the ones of the Management Engine in decimal.
+* Decode type 221 of Dell in its module; HP servers up to G7 have it
+  decoded as the iSCSI NIC information (`hpe-iscsi-nic`).
 
 === Other Intel platform structures
 
 Found on the same set of firmware vendors, not decoded by dmidecode:
 
-* Type 219 with strings `MEI1`, `MEI2`, `MEI3`, probably Intel ME interface
-  information.
-* Type 131, 64 bytes, probably Intel ME or vPro information.
-* Type 130 with `$AMT` signature (Lenovo), probably Intel AMT information.
+* Done: type 219 (`$MEI`, type 203 on Dell), decoded as `intel-mei`, with
+  HFSTS1 and HFSTS3 of the first interface. Left: HFSTS6 (Boot Guard), whose
+  layout depends on the ME generation, which FVI or `vPro` tell. Layout:
+  strings `MEI1` to `MEI4`: version
+  (BYTE, 1), count (BYTE), then 25-byte records of a name (STRING) and the six
+  firmware status registers HFSTS1 to HFSTS6 (DWORD each) of the HECI
+  function. All bits set mean that the function is absent. Bits 4 to 6 of
+  HFSTS3 are the SKU (2 consumer, 3 corporate), which matches the version
+  string of `ME Firmware Version` in all dumps; HFSTS6 tells the Boot Guard
+  state, laid out differently in different ME generations.
+* Done: type 222 (`intel-svt`, type 206 on Dell). Layout: version
+  (BYTE), unknown WORD `0x0099`, count (BYTE), then milestone code (BYTE) and
+  name (STRING) pairs.
+* Done: type 131 (`vPro`), decoded as `intel-vpro`, told by its signature
+  from Lenovo `TVT-Enablement` (`lenovo-tvt`) in the same table. Left: the
+  meaning of the three flag words, and type 131 `BOOTINF` of ThinkPad T61p.
+  Layout, offsets of the body: `vPro` signature at 0x34, MEBx version at 0x04
+  (four WORDs), PCI device/function of the LPC bridge and its device ID at
+  0x0C, ME firmware version at 0x18 (WORDs of minor, major, build and hotfix,
+  as the ME reports it), PCI device/function of the Gigabit Ethernet
+  controller and its device ID at 0x20, capability bits at 0x00, 0x14, 0x30.
+* Done: type 130 (`intel-amt`), told by its signature. Left: the OEM
+  capabilities and the last 4 bytes of the longer variant. Layout: AMT supported/enabled, IDE-R, SOL and
+  network flags, a `0xA5` marker and OEM capabilities, as in the Intel AMT
+  BIOS writer's guide.
+* Done: type 14 groups `$MEI`, `Firmware Version Info` and `Intel(R) Silicon
+  View Technology` are the groups of the `intel` module, which the
+  `group-assoc.member` lint rule checks the members of. The only report in the
+  corpus is `neousys/nuvo-7000-a2-cfl-s.bin`, whose `$MEI` group lists an
+  FVI structure.
+
+=== HP/HPE server structures
+
+Done: types 193, 194, 195, 197, 199, 202, 204, 209, 211, 212, 219, 221 (up
+to G7), 224, 226, 229 and 230, decoded by the `hpe` module with the layouts
+of dmidecode and checked against the ProLiant G1 to G6 dumps of the corpus.
+dmidecode decodes types 193, 199 and 202 from Gen9 onwards only, while the
+older servers carry the same layouts. Up to G7, type 226 holds the product
+number and the serial number in ASCII instead of the UUID.
+
+Done too, without dumps in the corpus: types 203, 216, 232, 233, 236 to
+240, 242, 244 and 245 (two layouts, told by the board type), checked against
+synthetic structures only.
+
+Left:
+
+* Dumps of Gen8 and later servers to check the layouts against, especially
+  the version data formats of type 216 and the generations they depend on.
+* Type 228 (SMBus segment record), which type 203 refers to and dmidecode
+  does not decode.
 
 === AMI specifics
 

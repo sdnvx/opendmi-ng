@@ -1,0 +1,71 @@
+= HP/HPE Other ROM Information (Type 193)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Describes the redundant system ROM and the OEM ROM image of the server.
+dmidecode decodes the structure from Gen9 onwards, while the older servers of
+the data corpus carry the same layout.
+
+.HP/HPE Other ROM Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `193`
+| HP/HPE Other ROM Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| ROM Flags
+| `BYTE`
+| `BITFIELD`
+| Bit 0 tells that a redundant ROM is installed
+
+| `0x05`
+| 2.0+
+| Redundant ROM Version
+| `BYTE`
+| `STRING`
+| Version of the redundant ROM, which is its release date
+
+| `0x06`
+| 2.0+
+| Boot Block Version
+| `BYTE`
+| `STRING`
+| Version whose meaning is not documented, reserved from Gen9 onwards. Its dates are earlier than the ones of the ROM, which suggests the boot block
+
+| `0x07`
+| 2.0+
+| OEM ROM File Name
+| `BYTE`
+| `STRING`
+| File name of the OEM ROM image, blank if there is none
+
+| `0x08`
+| 2.0+
+| OEM ROM Build Date
+| `BYTE`
+| `STRING`
+| Build date of the OEM ROM image
+|===

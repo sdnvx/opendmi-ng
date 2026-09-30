@@ -1,0 +1,119 @@
+= Intel Firmware Version Information (Type 221)
+:sectnums:
+:sectlinks:
+
+Source: reverse engineered from the dumps of the data corpus, and consistent
+with the firmware version information of the Intel reference code.
+
+Lists the versions of the firmware components of a platform, as the Intel
+reference code knows them: the reference code modules, the microcode, the
+Management Engine firmware, the option ROMs and others. Each module of the
+reference code, e.g. the CPU, the Management Engine, the PCH or the System
+Agent, adds a structure of its own, whose first item is the version of the
+module itself, named `Reference Code - <module>`. A group association
+(type 14) named `Firmware Version Info` often lists the structures of the
+platform.
+
+The structures are found on Intel platforms whatever the vendor of the
+firmware is. The reference code gives them type 221 by default, which some
+vendors give to structures of their own: Dell places the structures at type
+205, while HP servers carry none.
+
+.Intel Firmware Version Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `221`
+| Intel Firmware Version Information indicator, `205` on Dell platforms
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure, `0x05` + 7 × Item Count
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Item Count
+| `BYTE`
+| `NUMBER`
+| Number of items
+
+| `0x05`
+| 2.0+
+| Items
+| Varies
+| Varies
+| Versions of the firmware components, see <<intel-fvi-items>>
+|===
+
+[#intel-fvi-items, reftext=Items]
+== Intel Firmware Version Information -- Items
+
+Each part of the version is unspecified on its own, with all bits set.
+Components which carry a single number set that part only, e.g. the revision
+identifiers of the PCH and the System Agent set the build number, and the
+HSIO versions set the major version. Components which carry a state rather
+than a version, e.g. `PCH-CRID Status`, give it as the version string.
+
+The parts are written in decimal or in hexadecimal depending on the
+component: the versions of the Management Engine firmware in decimal, e.g.
+16.1.32.2473, and the versions of the reference code modules in hexadecimal,
+e.g. 7.0.5C.50. The microcode revision is the revision and the build number
+together.
+
+.Intel Firmware Version Information: Item
+[width=100%, cols="1,2,1,1,4"]
+|===
+| Offset | Name | Length | Value | Description
+
+| `0x00`
+| Component Name
+| `BYTE`
+| `STRING`
+| Name of the component, e.g. `Reference Code - CPU` or `ME Firmware Version`
+
+| `0x01`
+| Version String
+| `BYTE`
+| `STRING`
+| Version written as a string, or state of the component, e.g. `Consumer SKU`
+or `Disabled`
+
+| `0x02`
+| Major Version
+| `BYTE`
+| `NUMBER`
+| `0xFF` if unspecified
+
+| `0x03`
+| Minor Version
+| `BYTE`
+| `NUMBER`
+| `0xFF` if unspecified
+
+| `0x04`
+| Revision
+| `BYTE`
+| `NUMBER`
+| `0xFF` if unspecified
+
+| `0x05`
+| Build Number
+| `WORD`
+| `NUMBER`
+| `0xFFFF` if unspecified
+|===

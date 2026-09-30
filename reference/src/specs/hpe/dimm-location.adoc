@@ -1,0 +1,172 @@
+= HP/HPE DIMM Location Record (Type 202)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Tells where the DIMM socket of a memory device (type 17) is: the memory board,
+the processor and the channel it belongs to. There is a record for each
+socket, including the ones of the memory boards which are not installed. The
+structure has grown with the generations of the servers, and the older ones
+end after the DIMM number. dmidecode decodes the structure from Gen9 onwards,
+while the older servers of the data corpus carry the same layout.
+
+.HP/HPE DIMM Location Record structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `202`
+| HP/HPE DIMM Location Record indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Memory Device Handle
+| `WORD`
+| Varies
+| Handle of the memory device structure (type 17)
+
+| `0x06`
+| 2.0+
+| Board Number
+| `BYTE`
+| `NUMBER`
+| 1-based number of the memory board, `0xFF` for the system board
+
+| `0x07`
+| 2.0+
+| DIMM Number
+| `BYTE`
+| `NUMBER`
+| 1-based number of the DIMM
+
+| `0x08`
+| 2.0+
+| Processor Number
+| `BYTE`
+| `NUMBER`
+| 1-based number of the processor, `0xFF` if not shown
+
+| `0x09`
+| 2.0+
+| Logical DIMM Number
+| `BYTE`
+| `NUMBER`
+| 1-based logical number of the DIMM, as ACPI numbers it
+
+| `0x0A`
+| 2.0+
+| UEFI Device Path
+| `BYTE`
+| `STRING`
+| 
+
+| `0x0B`
+| 2.0+
+| UEFI Device Name
+| `BYTE`
+| `STRING`
+| UEFI device structured name
+
+| `0x0C`
+| 2.0+
+| Device Name
+| `BYTE`
+| `STRING`
+| 
+
+| `0x0D`
+| 2.0+
+| Memory Controller Number
+| `BYTE`
+| `NUMBER`
+| 1-based
+
+| `0x0E`
+| 2.0+
+| Memory Channel Number
+| `BYTE`
+| `NUMBER`
+| 1-based, as the silk screen names it
+
+| `0x0F`
+| 2.0+
+| IE DIMM Number
+| `BYTE`
+| `NUMBER`
+| 0-based number of the DIMM, as the Innovation Engine reports it, `0xFF` if not supported. Reserved from Gen12 onwards
+
+| `0x10`
+| 2.0+
+| IE PLDM ID
+| `BYTE`
+| `NUMBER`
+| Sensor ID of the Innovation Engine, `0xFF` if not supported. Reserved from Gen12 onwards
+
+| `0x11`
+| 2.0+
+| Vendor ID
+| `WORD`
+| `NUMBER`
+| Manufacturer ID code of the module, as the SPD gives it
+
+| `0x13`
+| 2.0+
+| Device ID
+| `WORD`
+| `NUMBER`
+| Product ID code of the module, NVDIMMs only
+
+| `0x15`
+| 2.0+
+| Controller Vendor ID
+| `WORD`
+| `NUMBER`
+| Manufacturer ID code of the controller, NVDIMMs only
+
+| `0x17`
+| 2.0+
+| Controller Device ID
+| `WORD`
+| `NUMBER`
+| Product ID code of the controller, NVDIMMs only
+
+| `0x19`
+| 2.0+
+| Interleave
+| `BYTE`
+| `NUMBER`
+| 1-based interleave set within the processor
+
+| `0x1A`
+| 2.0+
+| Part Number
+| `BYTE`
+| `STRING`
+| HPE part number, from the OEM area of the SPD
+
+| `0x1B`
+| 2.0+
+| DIMM Index
+| `BYTE`
+| `NUMBER`
+| 0-based index of the DIMM within its channel
+|===

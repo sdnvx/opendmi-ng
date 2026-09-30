@@ -1,0 +1,66 @@
+= HP/HPE Reserved Memory Location (Type 229)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Tells where the memory regions the firmware reserves at boot are, which it
+reports to the operating system as reserved, e.g. the one the storage
+controller and iLO exchange the temperatures of the drives in. Regions run to
+the end of the structure, which carries no number of them of its own, and a
+table may hold several structures.
+
+.HP/HPE Reserved Memory Location structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `229`
+| HP/HPE Reserved Memory Location indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Regions
+| 16 BYTEs each
+| Varies
+| Regions, see below
+|===
+
+.Region
+[width=100%, cols="1,2,1,4"]
+|===
+| Offset | Name | Length | Description
+
+| `0x00`
+| Signature
+| 4 BYTEs
+| What the region is for, e.g. `$HDD`
+
+| `0x04`
+| Physical Address
+| `QWORD`
+| 
+
+| `0x0C`
+| Size
+| `DWORD`
+| Bits 0-30: size, bit 31: the size is in kilobytes rather than in bytes
+|===

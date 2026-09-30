@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-storage-device.h>
+#include <opendmi/entity/intel-rsd/storage-device.h>
 
 typedef enum dmi_intel_rsd_storage_proto {
     DMI_INTEL_RSD_STORAGE_PROTO_UNKNOWN = 0x00,

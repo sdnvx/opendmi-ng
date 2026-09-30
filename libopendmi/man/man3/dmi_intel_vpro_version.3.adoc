@@ -1,0 +1,75 @@
+ifdef::backend-manpage[]
+= dmi_intel_vpro_version(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_vpro_version
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_vpro_version - version of a firmware component given by Intel vPro information
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/vpro.h>
+
+typedef struct dmi_intel_vpro_version {
+    uint16_t major;
+    uint16_t minor;
+    uint16_t hotfix;
+    uint16_t build;
+} dmi_intel_vpro_version_t;
+----
+
+== Description
+
+The `dmi_intel_vpro_version_t` structure holds the version of a firmware
+component, as Intel vPro information gives it, see `dmi_intel_vpro`(3). The
+version of the Management Engine firmware is written as
+`major.minor.hotfix.build`, e.g. 14.5.12.1111.
+
+The structure holds the parts of the version in the order of their
+significance, whatever the order the data holds them in: the version of the
+BIOS extension is laid out from the major part down, while the one of the
+firmware is laid out as the firmware reports it, minor, major, build and
+hotfix.
+
+=== Fields
+
+`major`::
+Major version.
+
+`minor`::
+Minor version.
+
+`hotfix`::
+Hotfix number.
+
+`build`::
+Build number.
+
+== See also
+
+`dmi_intel_vpro`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

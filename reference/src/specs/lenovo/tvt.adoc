@@ -1,0 +1,58 @@
+= Lenovo ThinkVantage Technologies Enablement (Type 131)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Tells which ThinkVantage Technologies the platform enables, of which only the
+diagnostics are known. The structure is told by its length and by its first
+string, `TVT-Enablement`, since Intel vPro information takes type 131 in the
+same table.
+
+.Lenovo ThinkVantage Technologies Enablement structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `131`
+| Lenovo ThinkVantage Technologies Enablement indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x16`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+|
+
+| `0x04`
+| 2.0+
+| Version
+| `BYTE`
+| `NUMBER`
+| `1` in all known data
+
+| `0x05`
+| 2.0+
+| Features
+| 16 BYTEs
+| `BITFIELD`
+| Bits of the technologies, of which bit 127 tells that the diagnostics (PC-Doctor) are available
+
+| `0x15`
+| 2.0+
+| Signature
+| `BYTE`
+| `STRING`
+| `TVT-Enablement`
+|===

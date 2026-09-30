@@ -22,8 +22,8 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-network-card.h>
-#include <opendmi/module/intel.h>
+#include <opendmi/entity/intel-rsd/network-card.h>
+#include <opendmi/module/intel-rsd.h>
 
 #define DMI_INTEL_RSD_MAC_ADDRESS_LENGTH 32
 
@@ -51,10 +51,10 @@ speeds of the port, its MAC address, the version of the firmware of the card,
 and the index the BMC selects the port by to boot from the network.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(INTEL_RSD_NETWORK_CARD)`, once the Intel extension module
-(`dmi_intel_module`, declared in `<opendmi/module/intel.h>`) has been enabled
-in the context with `dmi_add_extension()`. It lives as long as the context it
-has been decoded in.
+`DMI_TYPE(INTEL_RSD_NETWORK_CARD)`, once the Intel RSD extension module
+(`dmi_intel_rsd_module`, declared in `<opendmi/module/intel-rsd.h>`) has been
+enabled in the context with `dmi_add_extension()`. It lives as long as the
+context it has been decoded in.
 
 === Fields
 

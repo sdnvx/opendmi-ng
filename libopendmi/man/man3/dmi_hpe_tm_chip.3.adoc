@@ -1,0 +1,96 @@
+ifdef::backend-manpage[]
+= dmi_hpe_tm_chip(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_tm_chip
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_tm_chip, dmi_hpe_tm_chip_name - HP/HPE trusted module chips
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/trusted-module.h>
+
+typedef enum dmi_hpe_tm_chip {
+    DMI_HPE_TM_CHIP_NONE           = 0x00,
+    DMI_HPE_TM_CHIP_STM_GEN10      = 0x01,
+    DMI_HPE_TM_CHIP_PTT            = 0x02,
+    DMI_HPE_TM_CHIP_NATIONZ        = 0x03,
+    DMI_HPE_TM_CHIP_STM_GEN10_PLUS = 0x04,
+    DMI_HPE_TM_CHIP_STM_GEN11      = 0x05,
+    DMI_HPE_TM_CHIP_STM_GEN12      = 0x06
+} dmi_hpe_tm_chip_t;
+
+const char *dmi_hpe_tm_chip_name(dmi_hpe_tm_chip_t value);
+----
+
+== Description
+
+The `dmi_hpe_tm_chip_t` enumeration tells the chip of a trusted module, and is
+the type of the `chip` field of `dmi_hpe_trusted_module_t`. Other values may
+be found in the data, and are kept as they are.
+
+The `dmi_hpe_tm_chip_name` function returns the name of a value, as the
+command line tool shows it.
+
+=== Values
+
+`DMI_HPE_TM_CHIP_NONE`::
+None.
+
+`DMI_HPE_TM_CHIP_STM_GEN10`::
+STMicro TPM of Gen10.
+
+`DMI_HPE_TM_CHIP_PTT`::
+Intel firmware TPM (PTT).
+
+`DMI_HPE_TM_CHIP_NATIONZ`::
+Nationz TPM.
+
+`DMI_HPE_TM_CHIP_STM_GEN10_PLUS`::
+STMicro TPM of Gen10 Plus.
+
+`DMI_HPE_TM_CHIP_STM_GEN11`::
+STMicro TPM of Gen11.
+
+`DMI_HPE_TM_CHIP_STM_GEN12`::
+STMicro TPM of Gen12.
+
+== Return value
+
+`dmi_hpe_tm_chip_name` returns the name of the value, translated to the language of the
+current locale when a translation is available, or `nullptr` if the value
+has no name. The returned string must not be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_hpe_trusted_module`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

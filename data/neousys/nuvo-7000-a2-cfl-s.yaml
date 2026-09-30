@@ -1163,102 +1163,278 @@ table:
   type: 221
   length: 78
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3Ro5AAMBAAcAXFAAAgAAAAC4AAMAAQUAAAA=
-  strings:
-  - Reference Code - CPU
-  - uCode Version
-  - TXT ACM version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CPU
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 92
+      build: 80
+    - component: uCode Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 184
+    - component: TXT ACM version
+      version-string: null
+      major: 1
+      minor: 5
+      revision: 0
+      build: 0
 - handle: 58
   type: 221
   length: 94
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3Ro6AAMBAAcAXFAAAgAMAAAKAAMEDAAgjQU=
-  strings:
-  - Reference Code - ME
-  - MEBx version
-  - ME Firmware Version
-  - Corporate SKU
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - ME
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 92
+      build: 80
+    - component: MEBx version
+      version-string: null
+      major: 12
+      minor: 0
+      revision: 0
+      build: 10
+    - component: ME Firmware Version
+      version-string: Corporate SKU
+      major: 12
+      minor: 0
+      revision: 32
+      build: 1421
 - handle: 59
   type: 221
   length: 354
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3VI7AAsBAAcAXFAAAgP//////wQA////EAAFAP///xAABgD//////wcAAgAAAAAIAAkAAAAACQAK
-    AAAAAAoABwAAAAALAAYAAAAADAAHAAAAAA==
-  strings:
-  - Reference Code - CNL PCH
-  - PCH-CRID Status
-  - Disabled
-  - PCH-CRID Original Value
-  - PCH-CRID New Value
-  - OPROM - RST - RAID
-  - CNL PCH H A0 Hsio Version
-  - CNL PCH H Ax Hsio Version
-  - CNL PCH H Bx Hsio Version
-  - CNL PCH LP B0 Hsio Version
-  - CNL PCH LP Bx Hsio Version
-  - CNL PCH LP Dx Hsio Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - CNL PCH
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 92
+      build: 80
+    - component: PCH-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: PCH-CRID Original Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 16
+    - component: PCH-CRID New Value
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: 16
+    - component: OPROM - RST - RAID
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: CNL PCH H A0 Hsio Version
+      version-string: null
+      major: 2
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH H Ax Hsio Version
+      version-string: null
+      major: 9
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH H Bx Hsio Version
+      version-string: null
+      major: 10
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH LP B0 Hsio Version
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH LP Bx Hsio Version
+      version-string: null
+      major: 6
+      minor: 0
+      revision: 0
+      build: 0
+    - component: CNL PCH LP Dx Hsio Version
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 0
+      build: 0
 - handle: 60
   type: 221
   length: 208
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3TY8AAcBAAcAXFAAAgAABwFnAAMABwBcUAAEBf//////BgAAAAANAAcAAAAADQAIAP//////
-  strings:
-  - Reference Code - SA - System Agent
-  - Reference Code - MRC
-  - SA - PCIe Version
-  - SA-CRID Status
-  - Disabled
-  - SA-CRID Original Value
-  - SA-CRID New Value
-  - OPROM - VBIOS
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Reference Code - SA - System Agent
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 92
+      build: 80
+    - component: Reference Code - MRC
+      version-string: null
+      major: 0
+      minor: 7
+      revision: 1
+      build: 103
+    - component: SA - PCIe Version
+      version-string: null
+      major: 7
+      minor: 0
+      revision: 92
+      build: 80
+    - component: SA-CRID Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: SA-CRID Original Value
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 13
+    - component: SA-CRID New Value
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 13
+    - component: OPROM - VBIOS
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
 - handle: 61
   type: 221
   length: 32
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3Qw9AAEBAAQAAAAA
-  strings:
-  - FSP Binary Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: FSP Binary Version
+      version-string: null
+      major: 4
+      minor: 0
+      revision: 0
+      build: 0
 - handle: 62
   type: 221
   length: 368
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    3Vk+AAwBAAAAAKYAAgD//////wME//////8FBv//////Bwj//////wkAAAAAAAAKAP//////CwD/
-    /wAAAAwA//////8NDgEEAQAADwAABwMAABAAAAIADgA=
-  strings:
-  - Lan Phy Version
-  - Sensor Firmware Version
-  - Debug Mode Status
-  - Disabled
-  - Performance Mode Status
-  - Disabled
-  - Debug Use USB(Disabled:Serial)
-  - Disabled
-  - ICC Overclocking Version
-  - UNDI Version
-  - EC FW Version
-  - GOP Version
-  - Royal Park Version
-  - BP1.4.3.0_RP03
-  - Platform Version
-  - Client Silicon Version
+  state:
+  - decoded
+  description: Intel firmware version information
+  attributes:
+    items:
+    - component: Lan Phy Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 166
+    - component: Sensor Firmware Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Mode Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Performance Mode Status
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Debug Use USB(Disabled:Serial)
+      version-string: Disabled
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: ICC Overclocking Version
+      version-string: null
+      major: 0
+      minor: 0
+      revision: 0
+      build: 0
+    - component: UNDI Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: EC FW Version
+      version-string: null
+      major: null
+      minor: null
+      revision: 0
+      build: 0
+    - component: GOP Version
+      version-string: null
+      major: null
+      minor: null
+      revision: null
+      build: null
+    - component: Royal Park Version
+      version-string: BP1.4.3.0_RP03
+      major: 1
+      minor: 4
+      revision: 1
+      build: 0
+    - component: Platform Version
+      version-string: null
+      major: 0
+      minor: 7
+      revision: 3
+      build: 0
+    - component: Client Silicon Version
+      version-string: null
+      major: 0
+      minor: 2
+      revision: 0
+      build: 14
 - handle: 63
   type: 222
   length: 72

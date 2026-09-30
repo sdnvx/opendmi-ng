@@ -254,9 +254,27 @@ size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info)
     assert(attr != nullptr);
     assert(info != nullptr);
 
+    if (attr->count != 0)
+        return attr->count;
+
     uintmax_t rv = dmi_attribute_read_uint(dmi_member_ptr(info, attr->counter, void), attr->counter.size);
 
     return (rv <= SIZE_MAX) ? (size_t)rv : 0;
+}
+
+bool dmi_attribute_is_array(const dmi_attribute_t *attr)
+{
+    assert(attr != nullptr);
+
+    return dmi_member_is_present(attr->counter) or (attr->count != 0);
+}
+
+const void *dmi_attribute_get_elements(const dmi_attribute_t *attr, const void *value)
+{
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    return (attr->count != 0) ? value : dmi_deref(void *, value);
 }
 
 const char *dmi_attribute_name(const dmi_attribute_t *attr, const char *owner)

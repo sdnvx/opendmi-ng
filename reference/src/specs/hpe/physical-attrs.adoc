@@ -1,0 +1,53 @@
+= HP/HPE Physical Attribute Information (Type 226)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`, and the dumps of the data corpus.
+
+Keeps the physical serial number and UUID of the server, whose standard fields
+hold virtual ones, e.g. on Synergy, where a workload moves from one server to
+another along with its identity.
+
+Up to G7, the servers of the data corpus hold 16 ASCII characters instead of
+the UUID: the product number and the serial number, e.g. `484184GB894484YN`.
+
+.HP/HPE Physical Attribute Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `226`
+| HP/HPE Physical Attribute Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| `0x15`
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| UUID
+| 16 BYTEs
+| `UUID`
+| Physical UUID from Gen8 onwards, zero if not specified. Product number and serial number up to G7
+
+| `0x14`
+| 2.0+
+| Serial Number
+| `BYTE`
+| `STRING`
+| Physical serial number
+|===

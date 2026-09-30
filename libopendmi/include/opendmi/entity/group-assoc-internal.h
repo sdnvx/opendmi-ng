@@ -19,4 +19,7 @@
 bool dmi_group_assoc_link(dmi_entity_t *entity);
 void dmi_group_assoc_cleanup(dmi_entity_t *entity);
 
+// Checks the lint rules of the specification perform, see group-assoc-rules.c
+void dmi_group_assoc_lint_member(dmi_lint_t *lint, const dmi_entity_t *entity);
+
 #endif // !OPENDMI_ENTITY_GROUP_ASSOC_INTERNAL_H

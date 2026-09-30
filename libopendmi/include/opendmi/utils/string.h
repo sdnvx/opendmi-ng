@@ -76,6 +76,27 @@ __dmi_api void dmi_string_tolower(char *str);
  */
 __dmi_api void dmi_string_toupper(char *str);
 
+/**
+ * @brief Replaces an owned string with a copy of another one.
+ *
+ * Copies @p value, frees the string @p pstring points to, and stores the copy
+ * in its place. The string is left as it was if memory is exhausted, so that
+ * a failure changes nothing.
+ *
+ * @param[in]     context Context whose error queue errors are raised against,
+ *                        or @c nullptr to report none.
+ * @param[in,out] pstring Pointer to the variable holding the string, which is
+ *                        either @c nullptr or allocated with `malloc()`. Must
+ *                        not be @c nullptr.
+ * @param[in]     value   String to copy, or @c nullptr to free the string and
+ *                        leave the variable holding @c nullptr.
+ *
+ * @return `true` on success, `false` if memory is exhausted.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
+ */
+__dmi_api bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value);
+
 __END_DECLS
 
 #endif // !OPENDMI_UTILS_STRING_H

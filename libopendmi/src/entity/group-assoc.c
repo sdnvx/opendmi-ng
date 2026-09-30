@@ -70,6 +70,15 @@ const dmi_entity_spec_t dmi_group_assoc_spec =
         {}
     }),
 
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("group-assoc.member", dmi_group_assoc_lint_member, {
+            .name              = "Members of well-known groups are the structures they list",
+            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .producer_severity = DMI_LINT_SEVERITY_WARNING
+        }),
+        {}
+    }),
+
     .handlers = {
         .link    = dmi_group_assoc_link,
         .cleanup = dmi_group_assoc_cleanup

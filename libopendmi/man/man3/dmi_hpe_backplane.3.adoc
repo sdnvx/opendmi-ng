@@ -1,0 +1,95 @@
+ifdef::backend-manpage[]
+= dmi_hpe_backplane(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_backplane
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_backplane - HP/HPE HDD backplane FRU information structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/backplane.h>
+
+typedef struct dmi_hpe_backplane {
+    uint8_t i2c_address;
+    uint16_t box_number;
+    uint16_t nvram_id;
+    uint64_t wwid;
+    uint8_t bay_count;
+    uint8_t a0_bay_count;
+    uint8_t a2_bay_count;
+    const char *name;
+} dmi_hpe_backplane_t;
+----
+
+== Description
+
+The `dmi_hpe_backplane_t` structure holds the decoded HP/HPE HDD backplane FRU
+information, which describes a drive backplane: where its FRU is, and the SAS
+expander and the drive bays it has.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_backplane_spec`, of type `DMI_TYPE(HPE_BACKPLANE)`, declared in
+`<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`) is
+enabled, which it is for HP and HPE servers up to Gen10 Plus. It lives as long
+as the context it has been decoded in.
+
+Fields the data ends before are zero, and the name `nullptr`.
+
+=== Fields
+
+`i2c_address`::
+I2C address of the FRU of the backplane, shifted left by one bit.
+
+`box_number`::
+Box number of the backplane.
+
+`nvram_id`::
+NVRAM ID of the backplane.
+
+`wwid`::
+WWID of the SAS expander, zero if unknown.
+
+`bay_count`::
+Number of the SAS drive bays.
+
+`a0_bay_count`::
+Number of the SAS drive bays behind port 0xA0, deprecated from Gen10 Plus
+onwards.
+
+`a2_bay_count`::
+Number of the SAS drive bays behind port 0xA2, deprecated from Gen10 Plus
+onwards.
+
+`name`::
+Name of the backplane, deprecated from Gen10 Plus onwards.
+
+== See also
+
+`dmi_entity_info`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

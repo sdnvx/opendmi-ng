@@ -23,7 +23,7 @@ endif::[]
 
 [source, c]
 ----
-#include <opendmi/entity/intel/rsd-fpga.h>
+#include <opendmi/entity/intel-rsd/fpga.h>
 
 typedef enum dmi_intel_rsd_fpga_memory_tech {
     DMI_INTEL_RSD_FPGA_MEMORY_TECH_NONE  = 0x00,

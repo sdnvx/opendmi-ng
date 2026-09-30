@@ -1,0 +1,108 @@
+ifdef::backend-manpage[]
+= dmi_hpe_dimm_config(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_dimm_config
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_dimm_config - HP/HPE DIMM current configuration record structure
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/dimm-config.h>
+
+typedef struct dmi_hpe_dimm_config {
+    dmi_handle_t device_handle;
+    uint8_t region_id;
+    bool is_volatile;
+    bool is_byte_accessible;
+    bool is_block_io;
+    uint64_t raw_size;
+    uint64_t size;
+    bool is_passphrase_enabled;
+    uint16_t interleave_set;
+    uint8_t interleave_dimm_count;
+    dmi_hpe_interleave_health_t interleave_health;
+} dmi_hpe_dimm_config_t;
+----
+
+== Description
+
+The `dmi_hpe_dimm_config_t` structure holds the decoded HP/HPE DIMM current
+configuration record, which describes a memory region configured on a module
+of a memory device (type 17), e.g. of a persistent memory one, and the
+interleave set it belongs to. There is a record for each region.
+
+The structure is returned by `dmi_entity_info`(3) for the structures decoded
+by `dmi_hpe_dimm_config_spec`, of type `DMI_TYPE(HPE_DIMM_CONFIG)`, declared
+in `<opendmi/module/hpe.h>`, once the HPE extension module (`dmi_hpe_module`)
+is enabled, which it is for HP and HPE servers. It lives as long as the
+context it has been decoded in.
+
+=== Fields
+
+`device_handle`::
+Handle of the memory device structure (type 17).
+
+`region_id`::
+ID of the region, unique on the module.
+
+`is_volatile`::
+Whether the region is volatile, its data lost on a power cycle.
+
+`is_byte_accessible`::
+Whether the region is byte accessible persistent memory, its data kept through
+a reset.
+
+`is_block_io`::
+Whether the region is block I/O persistent memory.
+
+`raw_size`::
+Size of the region in mebibytes, as the structure holds it.
+
+`size`::
+Size of the region in bytes.
+
+`is_passphrase_enabled`::
+Whether a passphrase is required, byte accessible persistent regions only.
+
+`interleave_set`::
+1-based index of the interleave set of the region, unique per set. Regions of
+the same index are interleaved.
+
+`interleave_dimm_count`::
+Number of the DIMMs of the interleave set.
+
+`interleave_health`::
+Health of the interleave set, see `dmi_hpe_interleave_health`(3).
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_hpe_interleave_health`(3),
+`dmi_memory_device`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their
+servers; the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

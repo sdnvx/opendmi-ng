@@ -1,0 +1,78 @@
+= HP/HPE DIMM Vendor Information (Type 237)
+:sectnums:
+:sectlinks:
+
+Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
+
+Tells the actual manufacturer of the module of a memory device (type 17),
+whose standard fields hold the ones of HPE. The structure is decoded from Gen9
+onwards.
+
+.HP/HPE DIMM Vendor Information structure
+[width=100%, cols="1,1,2,1,1,4"]
+|===
+| Offset | Version | Name | Length | Value | Description
+
+| `0x00`
+| 2.0+
+| Type
+| `BYTE`
+| `237`
+| HP/HPE DIMM Vendor Information indicator
+
+| `0x01`
+| 2.0+
+| Length
+| `BYTE`
+| Varies
+| Length of the structure
+
+| `0x02`
+| 2.0+
+| Handle
+| `WORD`
+| Varies
+| 
+
+| `0x04`
+| 2.0+
+| Memory Device Handle
+| `WORD`
+| Varies
+| Handle of the memory device structure (type 17)
+
+| `0x06`
+| 2.0+
+| Manufacturer
+| `BYTE`
+| `STRING`
+| 
+
+| `0x07`
+| 2.0+
+| Part Number
+| `BYTE`
+| `STRING`
+| As the manufacturer gives it
+
+| `0x08`
+| 2.0+
+| Serial Number
+| `BYTE`
+| `STRING`
+| As the manufacturer gives it
+
+| `0x09`
+| 2.0+
+| Manufacture Year
+| `BYTE`
+| `BCD`
+| Last two digits of the year, from 2000
+
+| `0x0A`
+| 2.0+
+| Manufacture Week
+| `BYTE`
+| `BCD`
+| 
+|===

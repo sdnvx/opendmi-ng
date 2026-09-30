@@ -1,0 +1,95 @@
+ifdef::backend-manpage[]
+= dmi_intel_fvi_item(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_fvi_item
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_fvi_item - version of a firmware component listed by Intel firmware version information
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/fvi.h>
+
+typedef struct dmi_intel_fvi_item {
+    const char *component;
+    const char *version_string;
+    uint8_t major;
+    uint8_t minor;
+    uint8_t revision;
+    uint16_t build;
+} dmi_intel_fvi_item_t;
+----
+
+== Description
+
+The `dmi_intel_fvi_item_t` structure describes the version of a firmware
+component, and is the type of the elements of the `items` array of
+`dmi_intel_fvi_t`.
+
+Each part of the version is unspecified on its own. Components which carry a
+single number set that part only, e.g. the revision identifiers of the PCH
+and the System Agent (`PCH-CRID Original Value`) set the build number, and
+the HSIO versions set the major version. Components which carry a state
+rather than a version, e.g. `PCH-CRID Status`, leave the version unspecified,
+and give the state as the version string. Some components give their version
+as a string only, e.g. `FSP Binary Version` on some platforms.
+
+The parts are written in decimal or in hexadecimal depending on the
+component: the versions of the Management Engine firmware are usually shown
+in decimal, e.g. 16.1.32.2473, while the versions of the reference code
+modules are shown in hexadecimal, e.g. 7.0.5C.50. The microcode revision is
+the revision and the build number together, `(revision << 16) | build`.
+
+=== Fields
+
+`component`::
+Name of the component, e.g. `Reference Code - CPU`, `uCode Version` or
+`ME Firmware Version`.
+
+`version_string`::
+Version of the component written as a string, or its state, e.g. `Consumer
+SKU` for the Management Engine firmware or `Disabled`. `nullptr` if the
+component has none.
+
+`major`::
+Major version. `UINT8_MAX` means unspecified.
+
+`minor`::
+Minor version. `UINT8_MAX` means unspecified.
+
+`revision`::
+Revision. `UINT8_MAX` means unspecified.
+
+`build`::
+Build number. `UINT16_MAX` means unspecified.
+
+== See also
+
+`dmi_intel_fvi`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by the Intel reference code,
+whose firmware version information module gives the structures type 221 by
+default.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

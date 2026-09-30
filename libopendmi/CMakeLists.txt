@@ -58,6 +58,7 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/lint.h
     include/opendmi/log.h
     include/opendmi/module.h
+    include/opendmi/platform.h
     include/opendmi/registry.h
     include/opendmi/encoder.h
     include/opendmi/entity.h
@@ -142,7 +143,6 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/module/acer.h
 
     include/opendmi/module/ami.h
-    include/opendmi/entity/ami/type-221.h
 
     include/opendmi/module/apple.h
 
@@ -159,20 +159,56 @@ set(LIBOPENDMI_HEADERS
     include/opendmi/entity/dell/serial-port.h
 
     include/opendmi/module/hpe.h
+    include/opendmi/entity/hpe/backplane.h
+    include/opendmi/entity/hpe/common.h
+    include/opendmi/entity/hpe/cru.h
+    include/opendmi/entity/hpe/device-correlation.h
+    include/opendmi/entity/hpe/dimm-attrs.h
+    include/opendmi/entity/hpe/dimm-config.h
+    include/opendmi/entity/hpe/dimm-location.h
+    include/opendmi/entity/hpe/dimm-vendor.h
+    include/opendmi/entity/hpe/drive.h
+    include/opendmi/entity/hpe/extension-board.h
+    include/opendmi/entity/hpe/inventory.h
+    include/opendmi/entity/hpe/microcode.h
+    include/opendmi/entity/hpe/nic.h
+    include/opendmi/entity/hpe/nic-mac.h
+    include/opendmi/entity/hpe/physical-attrs.h
+    include/opendmi/entity/hpe/power-supply.h
+    include/opendmi/entity/hpe/processor.h
+    include/opendmi/entity/hpe/proliant-info.h
+    include/opendmi/entity/hpe/rack-locator.h
+    include/opendmi/entity/hpe/reserved-memory.h
+    include/opendmi/entity/hpe/rom-info.h
+    include/opendmi/entity/hpe/super-io.h
+    include/opendmi/entity/hpe/system-id.h
+    include/opendmi/entity/hpe/tcontrol.h
+    include/opendmi/entity/hpe/trusted-module.h
+    include/opendmi/entity/hpe/usb-device.h
+    include/opendmi/entity/hpe/usb-port.h
+    include/opendmi/entity/hpe/version.h
 
     include/opendmi/module/intel.h
-    include/opendmi/entity/intel/rsd-cabled-pcie.h
-    include/opendmi/entity/intel/rsd-fpga.h
-    include/opendmi/entity/intel/rsd-memory-device.h
-    include/opendmi/entity/intel/rsd-network-card.h
-    include/opendmi/entity/intel/rsd-pcie.h
-    include/opendmi/entity/intel/rsd-phys-device-mapping.h
-    include/opendmi/entity/intel/rsd-processor-cpuid.h
-    include/opendmi/entity/intel/rsd-storage-device.h
-    include/opendmi/entity/intel/rsd-tpm.h
-    include/opendmi/entity/intel/rsd-txt.h
+    include/opendmi/entity/intel/amt.h
+    include/opendmi/entity/intel/fvi.h
+    include/opendmi/entity/intel/mei.h
+    include/opendmi/entity/intel/svt.h
+    include/opendmi/entity/intel/vpro.h
+
+    include/opendmi/module/intel-rsd.h
+    include/opendmi/entity/intel-rsd/cabled-pcie.h
+    include/opendmi/entity/intel-rsd/fpga.h
+    include/opendmi/entity/intel-rsd/memory-device.h
+    include/opendmi/entity/intel-rsd/network-card.h
+    include/opendmi/entity/intel-rsd/pcie.h
+    include/opendmi/entity/intel-rsd/phys-device-mapping.h
+    include/opendmi/entity/intel-rsd/processor-cpuid.h
+    include/opendmi/entity/intel-rsd/storage-device.h
+    include/opendmi/entity/intel-rsd/tpm.h
+    include/opendmi/entity/intel-rsd/txt.h
 
     include/opendmi/module/lenovo.h
+    include/opendmi/entity/lenovo/tvt.h
 
     include/opendmi/module/sun.h
     include/opendmi/entity/sun/memory-array-ex.h
@@ -211,6 +247,7 @@ target_sources(opendmi-object
         src/lint/value.c
         src/log.c
         src/module.c
+        src/platform.c
         src/registry.c
         src/reader.c
         src/utils.c
@@ -268,6 +305,7 @@ target_sources(opendmi-object
         src/entity/firmware-language-names.c
         src/entity/group-assoc.c
         src/entity/group-assoc-handlers.c
+        src/entity/group-assoc-rules.c
         src/entity/hardware-security.c
         src/entity/hardware-security-names.c
         src/entity/ipmi-device.c
@@ -370,8 +408,6 @@ target_sources(opendmi-object
         src/module/acer.c
 
         src/module/ami.c
-        src/entity/ami/type-221.c
-        src/entity/ami/type-221-handlers.c
 
         src/module/apple.c
 
@@ -396,31 +432,69 @@ target_sources(opendmi-object
         src/entity/dell/serial-port-names.c
 
         src/module/hpe.c
+        src/entity/hpe/backplane.c
+        src/entity/hpe/common.c
+        src/entity/hpe/cru.c
+        src/entity/hpe/device-correlation.c
+        src/entity/hpe/dimm-attrs.c
+        src/entity/hpe/dimm-config.c
+        src/entity/hpe/dimm-location.c
+        src/entity/hpe/dimm-vendor.c
+        src/entity/hpe/drive.c
+        src/entity/hpe/extension-board.c
+        src/entity/hpe/inventory.c
+        src/entity/hpe/microcode.c
+        src/entity/hpe/nic.c
+        src/entity/hpe/nic-mac.c
+        src/entity/hpe/physical-attrs.c
+        src/entity/hpe/power-supply.c
+        src/entity/hpe/processor.c
+        src/entity/hpe/proliant-info.c
+        src/entity/hpe/rack-locator.c
+        src/entity/hpe/reserved-memory.c
+        src/entity/hpe/rom-info.c
+        src/entity/hpe/super-io.c
+        src/entity/hpe/system-id.c
+        src/entity/hpe/tcontrol.c
+        src/entity/hpe/trusted-module.c
+        src/entity/hpe/usb-device.c
+        src/entity/hpe/usb-port.c
+        src/entity/hpe/version.c
 
         src/module/intel.c
-        src/entity/intel/rsd-cabled-pcie.c
-        src/entity/intel/rsd-cabled-pcie-handlers.c
-        src/entity/intel/rsd-cabled-pcie-rules.c
-        src/entity/intel/rsd-fpga.c
-        src/entity/intel/rsd-fpga-names.c
-        src/entity/intel/rsd-memory-device.c
-        src/entity/intel/rsd-memory-device-names.c
-        src/entity/intel/rsd-network-card.c
-        src/entity/intel/rsd-pcie.c
-        src/entity/intel/rsd-phys-device-mapping.c
-        src/entity/intel/rsd-phys-device-mapping-handlers.c
-        src/entity/intel/rsd-phys-device-mapping-names.c
-        src/entity/intel/rsd-processor-cpuid.c
-        src/entity/intel/rsd-processor-cpuid-handlers.c
-        src/entity/intel/rsd-processor-cpuid-names.c
-        src/entity/intel/rsd-storage-device.c
-        src/entity/intel/rsd-storage-device-names.c
-        src/entity/intel/rsd-tpm.c
-        src/entity/intel/rsd-tpm-names.c
-        src/entity/intel/rsd-txt.c
-        src/entity/intel/rsd-txt-names.c
+        src/entity/intel/amt.c
+        src/entity/intel/fvi.c
+        src/entity/intel/fvi-handlers.c
+        src/entity/intel/mei.c
+        src/entity/intel/mei-handlers.c
+        src/entity/intel/mei-names.c
+        src/entity/intel/svt.c
+        src/entity/intel/vpro.c
+        src/module/intel-rsd.c
+        src/entity/intel-rsd/cabled-pcie.c
+        src/entity/intel-rsd/cabled-pcie-handlers.c
+        src/entity/intel-rsd/cabled-pcie-rules.c
+        src/entity/intel-rsd/fpga.c
+        src/entity/intel-rsd/fpga-names.c
+        src/entity/intel-rsd/memory-device.c
+        src/entity/intel-rsd/memory-device-names.c
+        src/entity/intel-rsd/network-card.c
+        src/entity/intel-rsd/pcie.c
+        src/entity/intel-rsd/phys-device-mapping.c
+        src/entity/intel-rsd/phys-device-mapping-handlers.c
+        src/entity/intel-rsd/phys-device-mapping-names.c
+        src/entity/intel-rsd/processor-cpuid.c
+        src/entity/intel-rsd/processor-cpuid-handlers.c
+        src/entity/intel-rsd/processor-cpuid-names.c
+        src/entity/intel-rsd/storage-device.c
+        src/entity/intel-rsd/storage-device-names.c
+        src/entity/intel-rsd/tpm.c
+        src/entity/intel-rsd/tpm-names.c
+        src/entity/intel-rsd/txt.c
+        src/entity/intel-rsd/txt-names.c
 
         src/module/lenovo.c
+        src/entity/lenovo/tvt.c
 
         src/module/sun.c
         src/entity/sun/memory-array-ex.c
@@ -704,6 +778,7 @@ opendmi_test(entity SOURCES test/entity.c)
 opendmi_test(entry SOURCES test/entry.c)
 opendmi_test(module SOURCES test/module.c)
 opendmi_test(module/static SOURCES test/module.c LIBRARY opendmi-static)
+opendmi_test(platform SOURCES test/platform.c)
 opendmi_test(registry SOURCES test/registry.c)
 opendmi_test(dump SOURCES test/dump.c)
 opendmi_test(locale SOURCES test/locale.c)
@@ -752,17 +827,25 @@ opendmi_test(entity/ipmi-device SOURCES test/entity/ipmi-device.c)
 opendmi_test(entity/firmware-inventory SOURCES test/entity/firmware-inventory.c)
 opendmi_test(entity/names SOURCES test/entity/names.c)
 opendmi_test(entity/mgmt-controller SOURCES test/entity/mgmt-controller.c)
-opendmi_test(entity/intel/rsd-cabled-pcie SOURCES test/entity/intel/rsd-cabled-pcie.c)
-opendmi_test(entity/intel/rsd-fpga SOURCES test/entity/intel/rsd-fpga.c)
-opendmi_test(entity/intel/rsd-memory-device SOURCES test/entity/intel/rsd-memory-device.c)
-opendmi_test(entity/intel/rsd-network-card SOURCES test/entity/intel/rsd-network-card.c)
-opendmi_test(entity/intel/rsd-pcie SOURCES test/entity/intel/rsd-pcie.c)
-opendmi_test(entity/intel/rsd-phys-device-mapping SOURCES test/entity/intel/rsd-phys-device-mapping.c)
-opendmi_test(entity/intel/rsd-processor-cpuid SOURCES test/entity/intel/rsd-processor-cpuid.c)
-opendmi_test(entity/intel/rsd-rules SOURCES test/entity/intel/rsd-rules.c)
-opendmi_test(entity/intel/rsd-storage-device SOURCES test/entity/intel/rsd-storage-device.c)
-opendmi_test(entity/intel/rsd-tpm SOURCES test/entity/intel/rsd-tpm.c)
-opendmi_test(entity/intel/rsd-txt SOURCES test/entity/intel/rsd-txt.c)
+opendmi_test(entity/hpe/modern SOURCES test/entity/hpe/modern.c)
+opendmi_test(entity/hpe/proliant SOURCES test/entity/hpe/proliant.c)
+opendmi_test(entity/intel/amt SOURCES test/entity/intel/amt.c)
+opendmi_test(entity/intel/fvi SOURCES test/entity/intel/fvi.c)
+opendmi_test(entity/intel/mei SOURCES test/entity/intel/mei.c)
+opendmi_test(entity/intel/svt SOURCES test/entity/intel/svt.c)
+opendmi_test(entity/intel/vpro SOURCES test/entity/intel/vpro.c)
+opendmi_test(entity/lenovo/tvt SOURCES test/entity/lenovo/tvt.c)
+opendmi_test(entity/intel-rsd/cabled-pcie SOURCES test/entity/intel-rsd/cabled-pcie.c)
+opendmi_test(entity/intel-rsd/fpga SOURCES test/entity/intel-rsd/fpga.c)
+opendmi_test(entity/intel-rsd/memory-device SOURCES test/entity/intel-rsd/memory-device.c)
+opendmi_test(entity/intel-rsd/network-card SOURCES test/entity/intel-rsd/network-card.c)
+opendmi_test(entity/intel-rsd/pcie SOURCES test/entity/intel-rsd/pcie.c)
+opendmi_test(entity/intel-rsd/phys-device-mapping SOURCES test/entity/intel-rsd/phys-device-mapping.c)
+opendmi_test(entity/intel-rsd/processor-cpuid SOURCES test/entity/intel-rsd/processor-cpuid.c)
+opendmi_test(entity/intel-rsd/rules SOURCES test/entity/intel-rsd/rules.c)
+opendmi_test(entity/intel-rsd/storage-device SOURCES test/entity/intel-rsd/storage-device.c)
+opendmi_test(entity/intel-rsd/tpm SOURCES test/entity/intel-rsd/tpm.c)
+opendmi_test(entity/intel-rsd/txt SOURCES test/entity/intel-rsd/txt.c)
 opendmi_test(entity/dell/calling-iface SOURCES test/entity/dell/calling-iface.c)
 opendmi_test(entity/dell/indexed-io SOURCES test/entity/dell/indexed-io.c)
 opendmi_test(entity/dell/protected-area SOURCES test/entity/dell/protected-area.c)

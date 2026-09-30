@@ -10,9 +10,6 @@ ru_RU {
     additional-info {
         name { "Дополнительные сведения" }
     }
-    ami-221 {
-        name { "AMI, тип 221" }
-    }
     attribute {
         access-address { "Адрес метода доступа" }
         access-method { "Метод доступа" }
@@ -936,8 +933,694 @@ ru_RU {
         not-implemented { "Не реализовано" }
         unknown { "Неизвестный" }
     }
+    hpe-backplane {
+        attribute {
+            a0-bay-count { "Отсеков за портом A0" }
+            a2-bay-count { "Отсеков за портом A2" }
+            bay-count { "Всего отсеков SAS" }
+            box-number { "Номер корзины" }
+            i2c-address { "Адрес FRU на шине I2C" }
+            name { "Имя объединительной платы" }
+            nvram-id { "Идентификатор NVRAM" }
+            wwid { "WWID расширителя SAS" }
+        }
+        name { "Сведения HP/HPE о FRU объединительной платы дисков" }
+    }
+    hpe-board-type {
+        riser { "Райзер PCIe" }
+        mhs-riser { "Райзер PCIe платформы MHS" }
+    }
+    hpe-cru {
+        attribute {
+            address { "Физический адрес" }
+            entry-point { "Адрес точки входа" }
+            length { "Длина" }
+            offset { "Смещение точки входа" }
+            signature { "Сигнатура" }
+        }
+        name { "Сведения HP/HPE о 64-битном CRU" }
+    }
+    hpe-device-correlation {
+        attribute {
+            bay { "Отсек" }
+            bus { "Шина PCI" }
+            devfn { "Устройство и функция PCI" }
+            device-handle { "Дескриптор связанного устройства" }
+            device-location { "Расположение устройства" }
+            device-name { "Имя устройства" }
+            device-type { "Тип устройства" }
+            enclosure { "Корзина" }
+            instance { "Экземпляр устройства" }
+            is-peer-bifurcated { "Устройство с разделением линий слота" }
+            is-upstream { "Вышестоящее устройство" }
+            parent-handle { "Дескриптор родителя" }
+            part-number { "Артикул" }
+            pci-class { "Код класса PCI" }
+            pci-device-id { "Идентификатор устройства PCI" }
+            pci-subclass { "Код подкласса PCI" }
+            pci-subdevice-id { "Идентификатор подсистемы PCI" }
+            pci-subvendor-id { "Идентификатор производителя подсистемы PCI" }
+            pci-vendor-id { "Идентификатор производителя PCI" }
+            physical-handle { "Дескриптор физического слота" }
+            segment { "Группа сегментов PCI" }
+            serial-number { "Серийный номер" }
+            smbus-handle { "Дескриптор сегмента SMBus" }
+            sub-instance { "Подэкземпляр устройства" }
+            uefi-device-name { "Структурированное имя устройства UEFI" }
+            uefi-device-path { "Путь к устройству UEFI" }
+            uefi-location { "Расположение UEFI" }
+        }
+        name { "Запись HP/HPE о соответствии устройств" }
+    }
+    hpe-device-location {
+        unknown { "Неизвестно" }
+        embedded { "Встроенное" }
+        ilo-media { "Виртуальный носитель iLO" }
+        front-usb { "Передний порт USB" }
+        rear-usb { "Задний порт USB" }
+        internal-usb { "Внутренний USB" }
+        internal-sd { "Внутренняя карта SD" }
+        virtual-usb { "Внутренний виртуальный USB (встроенная NAND)" }
+        embedded-sata { "Встроенный порт SATA" }
+        embedded-array { "Встроенный Smart Array" }
+        pci-slot { "Слот PCI" }
+        ram { "Оперативная память" }
+        usb { "USB" }
+        dynamic-array { "Контроллер Dynamic Smart Array" }
+        url { "URL" }
+        nvme-bay { "Отсек диска NVMe" }
+        nvdimm-processor { "Процессор NVDIMM" }
+        nvdimm-board { "Плата NVDIMM" }
+        nvme-riser { "Райзер NVMe" }
+        nvdimm-namespace { "Пространство имён NVDIMM" }
+        vroc-sata { "VROC SATA" }
+        vroc-nvme { "VROC NVMe" }
+    }
+    hpe-device-type {
+        unknown { "Неизвестный" }
+        flexible-lom { "Flexible LOM" }
+        embedded-lom { "Встроенный LOM" }
+        slot-nic { "Сетевой адаптер в слоте" }
+        storage { "Контроллер хранилища" }
+        smart-array { "Контроллер Smart Array" }
+        usb-disk { "Жёсткий диск USB" }
+        other-pci { "Другое устройство PCI" }
+        ram-disk { "RAM-диск" }
+        firmware-volume { "Том прошивки" }
+        uefi-shell { "Оболочка UEFI" }
+        usb-boot { "Общая загрузочная запись UEFI USB" }
+        dynamic-array { "Контроллер Dynamic Smart Array" }
+        file { "Файл" }
+        nvme { "Жёсткий диск NVMe" }
+        nvdimm { "NVDIMM" }
+        embedded-gpu { "Встроенный графический процессор" }
+    }
+    hpe-dimm-attrs {
+        attribute {
+            attributes { "Атрибуты" }
+            configured-voltage { "Настроенное напряжение" }
+            device-handle { "Дескриптор устройства памяти" }
+            encryption { "Состояние шифрования" }
+            is-config-error { "Отключён из-за ошибки конфигурации" }
+            is-training-error { "Отключён из-за ошибки обучения" }
+            load-reduced { "DIMM со сниженной нагрузкой" }
+            minimum-voltage { "Минимальное напряжение" }
+            smart-memory { "HPE SmartMemory" }
+            standard-memory { "Штатная память HPE" }
+        }
+        name { "Атрибуты DIMM HP/HPE" }
+    }
+    hpe-dimm-config {
+        attribute {
+            device-handle { "Дескриптор устройства памяти" }
+            interleave-dimm-count { "DIMM в наборе чередования" }
+            interleave-health { "Состояние набора чередования" }
+            interleave-set { "Номер набора чередования" }
+            is-block-io { "Постоянная память с блочным доступом" }
+            is-byte-accessible { "Постоянная память с побайтовым доступом" }
+            is-passphrase-enabled { "Парольная фраза включена" }
+            is-volatile { "Энергозависимая" }
+            region-id { "Идентификатор области" }
+            size { "Размер" }
+        }
+        name { "Текущая конфигурация DIMM HP/HPE" }
+    }
+    hpe-dimm-location {
+        attribute {
+            board { "Номер платы" }
+            channel { "Номер канала памяти" }
+            channel-index { "Номер DIMM в канале" }
+            controller { "Номер контроллера памяти" }
+            controller-device-id { "Идентификатор продукта контроллера" }
+            controller-vendor-id { "Идентификатор производителя контроллера" }
+            device-handle { "Дескриптор устройства памяти" }
+            device-id { "Идентификатор устройства" }
+            device-name { "Имя устройства" }
+            dimm { "Номер DIMM" }
+            ie-dimm { "Номер DIMM IE" }
+            ie-pldm-id { "Идентификатор PLDM IE" }
+            interleave { "Оптимальное чередование" }
+            logical-dimm { "Номер логического DIMM" }
+            part-number { "Артикул" }
+            processor { "Номер процессора" }
+            uefi-device-name { "Имя устройства UEFI" }
+            uefi-device-path { "Путь к устройству UEFI" }
+            vendor-id { "Идентификатор производителя" }
+        }
+        name { "Расположение DIMM HP/HPE" }
+    }
+    hpe-dimm-vendor {
+        attribute {
+            device-handle { "Дескриптор устройства памяти" }
+            manufacture-week { "Неделя выпуска" }
+            manufacture-year { "Год выпуска" }
+            manufacturer { "Производитель DIMM" }
+            part-number { "Артикул производителя DIMM" }
+            serial-number { "Серийный номер производителя DIMM" }
+        }
+        name { "Сведения HP/HPE о производителе DIMM" }
+    }
+    hpe-drive {
+        attribute {
+            block-size { "Размер блока" }
+            capable-speed { "Максимальная скорость" }
+            capacity { "Ёмкость" }
+            correlation-handle { "Дескриптор записи о соответствии устройств" }
+            drive-type { "Тип диска" }
+            encryption { "Состояние шифрования" }
+            firmware-revision { "Ревизия прошивки" }
+            form-factor { "Форм-фактор" }
+            health { "Состояние" }
+            legacy-capacity { "Ёмкость в мегабайтах" }
+            location { "Расположение" }
+            model-number { "Модель" }
+            negotiated-speed { "Согласованная скорость" }
+            power { "Мощность" }
+            power-on-hours { "Время работы" }
+            rotation-speed { "Скорость вращения" }
+            serial-number { "Серийный номер" }
+            unique-id { "Уникальный идентификатор" }
+        }
+        name { "Запись HP/HPE об инвентаре жёстких дисков" }
+    }
+    hpe-drive-form {
+        3.5-inch { "3,5 дюйма" }
+        2.5-inch { "2,5 дюйма" }
+        1.8-inch { "1,8 дюйма" }
+        smaller { "Меньше 1,8 дюйма" }
+        msata { "mSATA" }
+        m2 { "M.2" }
+        micro-ssd { "MicroSSD" }
+        cfast { "CFast" }
+        edsff { "EDSFF неизвестного форм-фактора" }
+        edsff-1u-s { "EDSFF 1U короткий" }
+        edsff-1u-l { "EDSFF 1U длинный" }
+        edsff-e3-s { "EDSFF E3 короткий" }
+        edsff-e3-l { "EDSFF E3 длинный" }
+    }
+    hpe-drive-health {
+        ok { "Исправен" }
+        warning { "Предупреждение" }
+        critical { "Критическое" }
+        unknown { "Неизвестно" }
+    }
+    hpe-drive-type {
+        undetermined { "Не определён" }
+        nvme-ssd { "NVMe SSD" }
+        sata { "SATA" }
+        sas { "SAS" }
+        sata-ssd { "SATA SSD" }
+        nvme-vroc { "NVMe под управлением VROC/VMD" }
+    }
+    hpe-encryption {
+        none { "Не зашифрован" }
+        encrypted { "Зашифрован" }
+        unknown { "Неизвестно" }
+        unsupported { "Не поддерживается" }
+    }
+    hpe-firmware-type {
+        system-rom { "Системное ПЗУ" }
+        redundant-rom { "Резервное системное ПЗУ" }
+        bootblock { "Загрузочный блок системного ПЗУ" }
+        pmc { "Прошивка контроллера управления питанием" }
+        pmc-bootloader { "Загрузчик прошивки контроллера управления питанием" }
+        sl-chassis { "Прошивка шасси SL" }
+        sl-chassis-loader { "Загрузчик прошивки шасси SL" }
+        cpld { "Аппаратная PAL/CPLD" }
+        sps { "Прошивка SPS (прошивка ME)" }
+        sl-chassis-cpld { "PAL/CPLD шасси SL" }
+        csm { "Модуль поддержки совместимости (CSM)" }
+        apml { "APML" }
+        battery { "Прошивка батареи Smart Storage (Megacell)" }
+        trusted-module { "Прошивка доверенного модуля (TPM или TCM)" }
+        nvme-backplane { "Прошивка объединительной платы NVMe" }
+        provisioning { "Intelligent Provisioning" }
+        spi-descriptor { "Версия дескриптора SPI" }
+        ie { "Прошивка Innovation Engine (IE)" }
+        umb-backplane { "Прошивка объединительной платы UMB" }
+        diagnostics { "Встроенная диагностика" }
+        el-chassis-abstract { "Ревизия абстракции шасси EL" }
+        el-chassis { "Ревизия прошивки шасси EL" }
+        el-chassis-cpld { "PAL/CPLD шасси EL" }
+        el-cartridge { "Ревизия абстракции картриджа EL" }
+        video { "Встроенный видеоконтроллер" }
+        riser-cpld { "Программируемая логика райзера PCIe" }
+        card-cpld { "CPLD платы PCIe" }
+        vroc-nvme { "Intel NVMe VROC" }
+        vroc-sata { "Intel SATA VROC" }
+        intel-sps { "Прошивка Intel SPS" }
+        secondary-cpld { "Вторичная программируемая логика системы" }
+        mezzanine-cpld { "CPLD мезонинной платы процессора" }
+        arctic-sound { "Прошивка ускорителя Intel Arctic Sound-M" }
+        ampere-scp { "Процессор управления системой Ampere (SCP)" }
+        intel-cfr { "Сведения Intel CFR" }
+        ocp { "Плата OCP" }
+        dc-scm-cpld { "CPLD DC-SCM" }
+        power-board-cpld { "CPLD платы распределения питания" }
+        switch-board-cpld { "CPLD платы коммутатора PCIe" }
+        sideband-board-cpld { "CPLD платы боковых каналов" }
+        riser-mcu { "Прошивка микроконтроллера райзера PCIe" }
+        switch-board { "Прошивка платы коммутатора PCIe" }
+        power-supply { "Прошивка блока питания" }
+        bmc { "Прошивка BMC" }
+    }
+    hpe-flag {
+        no { "Нет" }
+        yes { "Да" }
+    }
+    hpe-fru-access {
+        none { "Недоступен" }
+        ipmi { "IPMI I2C" }
+        ilo { "iLO" }
+        chassis { "Менеджер шасси" }
+    }
+    hpe-interleave-health {
+        healthy { "Исправен" }
+        dimm-missing { "DIMM отсутствует" }
+        inactive { "Конфигурация неактивна" }
+        spa-missing { "SPA отсутствует" }
+        new-goal { "Новая цель" }
+        locked { "Заблокирован" }
+    }
+    hpe-inventory {
+        attribute {
+            attrs-defined { "Определённые атрибуты" }
+            attrs-set { "Установленные атрибуты" }
+            correlation-handle { "Дескриптор записи о соответствии устройств" }
+            image-size { "Размер образа" }
+            is-auth-required { "Требуется аутентификация" }
+            is-in-use { "Используется" }
+            is-reset-required { "Требуется сброс" }
+            is-uefi-image { "Образ UEFI" }
+            is-updatable { "Обновляемая" }
+            lowest-version { "Минимальная поддерживаемая версия" }
+            package-version { "Версия пакета" }
+            version-string { "Версия строкой" }
+        }
+        name { "Запись HP/HPE об инвентаре прошивок" }
+    }
+    hpe-iscsi-nic {
+        attribute {
+            bus { "Шина PCI" }
+            devfn { "Устройство и функция PCI" }
+            mac-address { "MAC-адрес" }
+            ports { "Порты" }
+            state { "Состояние" }
+        }
+        name { "Сведения HP/HPE о PCI и MAC сетевых адаптеров iSCSI" }
+    }
+    hpe-mhs-riser {
+        attribute {
+            board-type { "Тип платы" }
+            firmware-major { "Старшая версия прошивки" }
+            firmware-minor { "Младшая версия прошивки" }
+            is-downgradable { "Допускает откат версии" }
+            name { "Имя райзера" }
+            riser-id { "Идентификатор райзера" }
+            slot-ids { "Идентификаторы слотов" }
+            slot-total { "Число слотов" }
+        }
+        name { "Запись HP/HPE об инвентаре плат расширения" }
+    }
+    hpe-microcode {
+        attribute {
+            cpuid { "Идентификатор процессора" }
+            date { "Дата" }
+            patch-id { "Исправление" }
+            patches { "Исправления" }
+        }
+        name { "Сведения HP/HPE о поддержке исправлений микрокода процессора" }
+    }
+    hpe-nic-mac {
+        attribute {
+            bus { "Шина PCI" }
+            devfn { "Устройство и функция PCI" }
+            mac-address { "MAC-адрес" }
+            port { "Порт" }
+            segment { "Группа сегментов PCI" }
+            state { "Состояние" }
+            uefi-device-path { "Путь к устройству UEFI" }
+        }
+        name { "Сведения HP/HPE о PCI и MAC сетевого адаптера" }
+    }
+    hpe-nic-state {
+        installed { "Установлен" }
+        disabled { "Отключён" }
+        not-installed { "Не установлен" }
+    }
+    hpe-physical-attrs {
+        attribute {
+            serial-number { "Серийный номер" }
+            uuid { "UUID" }
+        }
+        name { "Сведения HP/HPE о физических атрибутах" }
+    }
+    hpe-physical-attrs-legacy {
+        attribute {
+            identifier { "Артикул и серийный номер" }
+            serial-number { "Серийный номер" }
+        }
+        name { "Сведения HP/HPE о физических атрибутах" }
+    }
+    hpe-power-supply {
+        attribute {
+            fru-access { "Способ доступа к FRU" }
+            i2c-address { "Адрес I2C" }
+            i2c-bus { "Шина или сегмент I2C" }
+            manufacturer { "Производитель" }
+            power-supply-handle { "Дескриптор блока питания" }
+            revision { "Ревизия" }
+        }
+        name { "Сведения HP/HPE о блоке питания" }
+    }
+    hpe-processor {
+        attribute {
+            apic-id { "Идентификатор APIC" }
+            interconnect-speed { "Скорость межпроцессорной шины" }
+            is-bsp { "Загрузочный процессор" }
+            is-thermal-margining { "Расширенный температурный запас" }
+            is-x2apic { "x2APIC" }
+            maximum-power { "Максимальная мощность" }
+            processor-handle { "Дескриптор процессора" }
+            qdf { "QDF/S-Spec" }
+            slot { "Физический слот" }
+            socket { "Физический разъём" }
+            uuid { "Уникальный идентификатор" }
+            x2apic-id { "Идентификатор x2APIC" }
+        }
+        name { "Сведения HP/HPE о процессоре" }
+    }
+    hpe-proliant-info {
+        attribute {
+            is-icru { "iCRU" }
+            is-uefi { "UEFI" }
+            misc-features { "Прочие возможности" }
+            omega-features { "Возможности Omega" }
+            power-features { "Возможности питания" }
+        }
+        name { "Сведения HP/HPE о ProLiant" }
+    }
+    hpe-pxe-nic {
+        attribute {
+            bus { "Шина PCI" }
+            devfn { "Устройство и функция PCI" }
+            mac-address { "MAC-адрес" }
+            ports { "Порты" }
+            state { "Состояние" }
+        }
+        name { "Сведения HP/HPE о PCI и MAC сетевых адаптеров PXE" }
+    }
+    hpe-rack-locator {
+        attribute {
+            bay-count { "Отсеков в корзине" }
+            enclosure-model { "Модель корзины" }
+            enclosure-name { "Имя корзины" }
+            enclosure-serial { "Серийный номер корзины" }
+            filled-bay-count { "Занято отсеков" }
+            rack-name { "Имя стойки" }
+            server-bay { "Отсек сервера" }
+        }
+        name { "Расположение HP/HPE системы в стойке" }
+    }
+    hpe-reserved-memory {
+        attribute {
+            address { "Физический адрес" }
+            entries { "Области памяти" }
+            signature { "Сигнатура" }
+            size { "Размер" }
+        }
+        name { "Расположение HP/HPE зарезервированной памяти" }
+    }
+    hpe-riser {
+        attribute {
+            board-type { "Тип платы" }
+            cpld-version { "Версия CPLD" }
+            name { "Имя райзера" }
+            position { "Положение райзера" }
+            riser-id { "Идентификатор райзера" }
+        }
+        name { "Запись HP/HPE об инвентаре плат расширения" }
+    }
+    hpe-riser-position {
+        primary { "Первичный" }
+        secondary { "Вторичный" }
+        tertiary { "Третичный" }
+        quaternary { "Четвертичный" }
+        front { "Передний" }
+    }
+    hpe-rom-info {
+        attribute {
+            bootblock-version { "Версия загрузочного блока" }
+            is-redundant-rom { "Резервное ПЗУ установлено" }
+            oem-rom-date { "Дата сборки образа ПЗУ OEM" }
+            oem-rom-filename { "Имя файла образа ПЗУ OEM" }
+            redundant-rom-version { "Версия резервного ПЗУ" }
+        }
+        name { "Сведения HP/HPE о прочих ПЗУ" }
+    }
+    hpe-super-io {
+        attribute {
+            is-floppy-enabled { "Порт дисковода включён" }
+            is-parallel-enabled { "Параллельный порт включён" }
+            is-serial-a-enabled { "Последовательный порт A включён" }
+            is-serial-b-enabled { "Последовательный порт B включён" }
+            is-virtual-serial-enabled { "Виртуальный последовательный порт включён" }
+        }
+        name { "Признаки включения портов Super I/O HP/HPE" }
+    }
+    hpe-system-id {
+        attribute {
+            guid { "GUID" }
+            platform-id { "Идентификатор платформы" }
+            system-id { "Системный идентификатор сервера" }
+        }
+        name { "Системный идентификатор сервера HP/HPE" }
+    }
+    hpe-tcontrol {
+        attribute {
+            processor-handle { "Дескриптор процессора" }
+            tcontrol { "Значение TControl" }
+        }
+        name { "Сведения HP/HPE о TControl процессора" }
+    }
+    hpe-tm-chip {
+        none { "Нет" }
+        stm-gen10 { "TPM STMicro для Gen10" }
+        ptt { "Встроенный TPM Intel (PTT)" }
+        nationz { "TPM Nationz" }
+        stm-gen10-plus { "TPM STMicro для Gen10 Plus" }
+        stm-gen11 { "TPM STMicro для Gen11" }
+        stm-gen12 { "TPM STMicro для Gen12" }
+    }
+    hpe-tm-disable-reason {
+        user { "Отключён пользователем" }
+        error { "Ошибка" }
+    }
+    hpe-tm-fips {
+        not-certified { "Не сертифицирован FIPS" }
+        certified { "Сертифицирован FIPS" }
+    }
+    hpe-tm-mounting {
+        optional { "Съёмный, необязательный" }
+        standard { "Съёмный, штатный" }
+        soldered { "Распаян на системной плате" }
+    }
+    hpe-tm-presence {
+        absent { "Отсутствует" }
+        enabled { "Присутствует и включён" }
+        disabled { "Присутствует и отключён" }
+    }
+    hpe-tm-type {
+        tpm-1.2 { "TPM 1.2" }
+        tpm-2.0 { "TPM 2.0" }
+        ptt { "Встроенный TPM Intel PTT" }
+    }
+    hpe-trusted-module {
+        attribute {
+            chip { "Идентификатор микросхемы" }
+            disable-reason { "Причина отключения" }
+            error-condition { "Код ошибки" }
+            fips { "Сертификация FIPS" }
+            is-chinese-algorithm { "Поддержка китайских алгоритмов" }
+            is-hidden { "Скрыт" }
+            is-orom-measuring { "Измерение дополнительных ПЗУ" }
+            is-standard-algorithm { "Поддержка стандартных алгоритмов" }
+            mounting { "Атрибуты доверенного модуля" }
+            presence { "Состояние" }
+            type { "Тип" }
+            version-handle { "Дескриптор индикатора версии" }
+        }
+        name { "Состояние доверенного модуля HP/HPE" }
+    }
+    hpe-usb-device {
+        attribute {
+            capacity { "Ёмкость" }
+            device-name { "Имя устройства" }
+            is-sd-card-present { "Встроенная карта SD установлена" }
+            location { "Расположение устройства" }
+            port-handle { "Дескриптор порта USB" }
+            product-id { "Идентификатор продукта USB" }
+            uefi-device-name { "Имя устройства UEFI" }
+            uefi-device-path { "Путь к устройству UEFI" }
+            usb-class { "Класс USB" }
+            usb-protocol { "Протокол USB" }
+            usb-subclass { "Подкласс USB" }
+            vendor-id { "Идентификатор производителя USB" }
+        }
+        name { "Запись HP/HPE о соответствии устройств USB" }
+    }
+    hpe-usb-location {
+        internal { "Внутренний" }
+        front { "Спереди сервера" }
+        rear { "Сзади сервера" }
+        sd-card { "Встроенная внутренняя карта SD" }
+        ilo { "USB iLO" }
+        nand-hub { "Хаб USB контроллера NAND" }
+        debug { "Отладочный порт" }
+        ocp { "USB OCP" }
+    }
+    hpe-usb-port {
+        attribute {
+            bus { "Шина PCI" }
+            devfn { "Устройство и функция PCI" }
+            hub-instance { "Экземпляр порта родительского хаба" }
+            instance { "Экземпляр порта" }
+            location { "Расположение" }
+            port-handle { "Дескриптор разъёма" }
+            segment { "Группа сегментов PCI" }
+            sharing { "Порт управления" }
+            speed { "Скорость порта" }
+            uefi-device-path { "Путь к устройству UEFI" }
+        }
+        name { "Запись HP/HPE о соответствии разъёмов USB" }
+    }
+    hpe-usb-sharing {
+        none { "Не разделяется" }
+        switch { "Разделяется физическим переключателем" }
+        automatic { "Разделяется автоматически" }
+    }
+    hpe-usb-speed {
+        full { "USB 1.1 Full Speed" }
+        high { "USB 2.0 High Speed" }
+        super { "USB 3.0 SuperSpeed" }
+    }
+    hpe-version {
+        attribute {
+            data-format { "Формат данных версии" }
+            firmware-name { "Имя прошивки" }
+            firmware-type { "Тип прошивки" }
+            unique-id { "Уникальный идентификатор" }
+            version { "Версия" }
+            version-data { "Данные версии" }
+            version-string { "Версия прошивки строкой" }
+        }
+        name { "Запись HP/HPE об индикаторе версии" }
+    }
     inactive {
         name { "Неактивная структура" }
+    }
+    intel-amt {
+        attribute {
+            extended-data { "Маркер расширенных данных" }
+            is-enabled { "Включена" }
+            is-ider-enabled { "Перенаправление IDE включено" }
+            is-kvm-enabled { "Перенаправление KVM включено" }
+            is-network-enabled { "Сеть включена" }
+            is-sol-enabled { "Serial over LAN включён" }
+            is-supported { "Поддерживается" }
+            oem-capabilities { "Возможности OEM" }
+        }
+        name { "Сведения Intel Active Management Technology" }
+    }
+    intel-fvi {
+        attribute {
+            build { "Номер сборки" }
+            component { "Компонент" }
+            version-string { "Версия строкой" }
+        }
+        name { "Сведения о версиях прошивки Intel" }
+    }
+    intel-me-mode {
+        unspecified { "Не указан" }
+        normal { "Обычный" }
+        debug { "Отладка" }
+        disabled { "Временно отключена" }
+        override-jumper { "Обход защиты перемычкой" }
+        override-message { "Обход защиты командой" }
+    }
+    intel-me-sku {
+        unspecified { "Не указана" }
+        consumer { "Consumer" }
+        corporate { "Corporate" }
+        lite { "Lite" }
+    }
+    intel-me-state {
+        unspecified { "Не указано" }
+        reset { "Сброс" }
+        init { "Инициализация" }
+        recovery { "Восстановление" }
+        m3-no-uma { "M3 без UMA" }
+        normal { "Обычное" }
+        wait { "Ожидание" }
+        transition { "Переход" }
+        invalid-cpu { "Установлен неподходящий процессор" }
+    }
+    intel-mei {
+        attribute {
+            devices { "Интерфейсы" }
+            error-code { "Код ошибки" }
+            hfsts { "Регистры состояния прошивки" }
+            is-init-complete { "Инициализация завершена" }
+            is-manufacturing { "Производственный режим" }
+            is-present { "Присутствует" }
+            sku { "Редакция прошивки" }
+            state { "Состояние прошивки" }
+        }
+        name { "Сведения об интерфейсах Intel Management Engine" }
+    }
+    intel-svt {
+        attribute {
+            code { "Код" }
+            milestones { "Контрольные точки" }
+            parameter { "Параметр" }
+        }
+        name { "Контрольные точки Intel Silicon View Technology" }
+    }
+    intel-vpro {
+        attribute {
+            build { "Номер сборки" }
+            flags-1 { "Флаги 1" }
+            flags-2 { "Флаги 2" }
+            flags-3 { "Флаги 3" }
+            gbe-device-id { "Идентификатор устройства Gigabit Ethernet" }
+            gbe-devfn { "Устройство и функция Gigabit Ethernet" }
+            hotfix { "Исправление" }
+            lpc-device-id { "Идентификатор устройства моста LPC" }
+            lpc-devfn { "Устройство и функция моста LPC" }
+            me-version { "Версия прошивки ME" }
+            mebx-version { "Версия MEBx" }
+        }
+        name { "Сведения Intel vPro" }
     }
     intel-rsd-cabled-pcie {
         name { "Кабельный порт PCIe Intel RSD" }
@@ -1091,8 +1774,16 @@ ru_RU {
         edge { "По фронту" }
         level { "По уровню" }
     }
+    lenovo-tvt {
+        attribute {
+            features { "Функции" }
+            is-diagnostics { "Диагностика доступна" }
+        }
+        name { "Включение технологий Lenovo ThinkVantage" }
+    }
     lint-rule {
         "slot.width" { "Физическая ширина слота покрывает ширину его шины" }
+        "group-assoc.member" { "Члены известных групп являются перечисляемыми ими структурами" }
         "system-event-log.area" { "Заголовок и данные журнала находятся в его области" }
         "system-event-log.descriptors" { "Дескрипторы поддерживаемых типов журналов имеют ожидаемую длину" }
         "mgmt-controller-host-if.records" { "Записи протоколов умещаются в содержащую их структуру" }
@@ -2467,11 +3158,14 @@ ru_RU {
     vendor {
         other { "Другой" }
         acer { "Acer" }
+        amd { "AMD" }
         ami { "AMI" }
         apple { "Apple" }
         dell { "Dell" }
+        honor { "Honor" }
         hp { "HP" }
         hpe { "HPE" }
+        huawei { "Huawei" }
         ibm { "IBM" }
         intel { "Intel" }
         lenovo { "Lenovo" }
