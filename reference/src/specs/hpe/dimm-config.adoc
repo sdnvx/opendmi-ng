@@ -6,8 +6,10 @@ Source: dmidecode, `dmioem.c`. No dumps of the data corpus hold the structure.
 
 Describes a memory region configured on a module of a memory device (type 17),
 e.g. of a persistent memory one, and the interleave set it belongs to. There
-is a record for each region, and the number of the regions of a module is the
-one its DIMM attributes record (type 232) tells. The shortest structures end
+is a record for each region. dmidecode says the number of the regions of
+a module is given by the DIMM attributes record (type 232), whose layout it
+leaves reserved where the number would be, so the number is not known from
+the data. The shortest structures end
 after the interleave set index, at `0x14`.
 
 .HP/HPE DIMM Current Configuration Record structure
@@ -40,7 +42,7 @@ after the interleave set index, at `0x14`.
 | 2.0+
 | Memory Device Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the memory device structure (type 17)
 
 | `0x06`
@@ -90,5 +92,5 @@ after the interleave set index, at `0x14`.
 | Interleave Set Health
 | `BYTE`
 | `ENUM`
-| `0`: healthy, `1`: DIMM missing, `2`: configuration inactive, `3`: SPA missing, `4`: new goal, `5`: locked
+| `0`: healthy, `1`: DIMM missing, `2`: configuration inactive, `3`: SPA missing, `4`: new goal, `5`: locked. Values `6` to `0xFF` are reserved.
 |===

@@ -59,7 +59,8 @@ Corporate firmware, which the platforms of Intel vPro have, with Intel Active Ma
 Lite firmware, e.g. of the Chromebooks.
 
 `DMI_INTEL_ME_SKU_UNSPEC`::
-SKU is unknown, since the first interface is absent.
+SKU is unknown, since the first interface is absent, or since the register
+holds zero for it, as the firmware of Management Engine 11.0 may.
 
 == Return value
 

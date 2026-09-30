@@ -32,7 +32,10 @@ typedef struct dmi_intel_amt {
     bool is_sol_enabled;
     bool is_network_enabled;
     uint8_t extended_data;
-    uint8_t oem_capabilities[4];
+    dmi_intel_amt_oem_caps_1_t oem_capabilities_1;
+    dmi_intel_amt_terminal_t terminal;
+    dmi_intel_amt_oem_caps_3_t oem_capabilities_3;
+    dmi_intel_amt_oem_caps_4_t oem_capabilities_4;
     bool is_kvm_enabled;
 } dmi_intel_amt_t;
 ----
@@ -51,10 +54,13 @@ processors when the context has `DMI_CONTEXT_FLAG_AUTO_MODULES`. It lives as
 long as the context it has been decoded in. The structures are told by the
 `$AMT` signature at offset 0x04.
 
-The names of the fields are the ones the structure is known by; the data of
-the corpus agrees with them, e.g. the features are enabled on the platforms
-whose Management Engine firmware is of the corporate SKU, see
-`dmi_intel_me_sku`(3).
+The fields are the ones of the AMT information table of the Intel AMT
+implementation and reference guide. The data of the corpus agrees with them,
+e.g. the features are enabled on the platforms whose Management Engine
+firmware is of the corporate SKU, see `dmi_intel_me_sku`(3), while the flags
+are not consistent with each other on every platform: some give the network
+as enabled while AMT is not supported. The guide gives the values from 2 on
+as not applicable, which are taken as set.
 
 === Fields
 
@@ -68,7 +74,8 @@ Whether the platform supports AMT.
 Whether AMT is enabled.
 
 `is_ider_enabled`::
-Whether IDE redirection (IDE-R) is enabled.
+Whether storage redirection is enabled: IDE redirection (IDE-R), or USB
+redirection (USB-R) from AMT 11.0 onwards.
 
 `is_sol_enabled`::
 Whether Serial over LAN (SOL) is enabled.
@@ -77,11 +84,22 @@ Whether Serial over LAN (SOL) is enabled.
 Whether the network interface of AMT is enabled.
 
 `extended_data`::
-Marker of the extended data, `0xA5` in all known data.
+Extended data, which Intel leaves to the platform vendor, `0xA5` in all known
+data.
 
-`oem_capabilities`::
-Capabilities the platform vendor gives to AMT, four bytes, whose meaning is
-not established.
+`oem_capabilities_1`::
+Features of AMT the platform supports, see `dmi_intel_amt_oem_caps_1`(3).
+
+`terminal`::
+Terminal emulation of Serial over LAN, from the low nibble of the second byte
+of the OEM capabilities, see `dmi_intel_amt_terminal`(3).
+
+`oem_capabilities_3`::
+Security capabilities of the platform, see `dmi_intel_amt_oem_caps_3`(3).
+
+`oem_capabilities_4`::
+Targets of the remote boot the platform supports, see
+`dmi_intel_amt_oem_caps_4`(3).
 
 `is_kvm_enabled`::
 Whether keyboard, video and mouse (KVM) redirection is enabled.
@@ -89,12 +107,17 @@ Whether keyboard, video and mouse (KVM) redirection is enabled.
 == See also
 
 `dmi_entity_info`(3),
+`dmi_intel_amt_oem_caps_1`(3),
+`dmi_intel_amt_oem_caps_3`(3),
+`dmi_intel_amt_oem_caps_4`(3),
+`dmi_intel_amt_terminal`(3),
 `dmi_intel_vpro`(3),
 `dmi_intel_mei`(3)
 
 == Standards
 
-Not part of the SMBIOS specification. Defined by the Intel reference code.
+Not part of the SMBIOS specification. Defined by Intel, as the AMT
+information table of the Intel AMT implementation and reference guide.
 
 ifdef::backend-manpage[]
 == Copying

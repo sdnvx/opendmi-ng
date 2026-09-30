@@ -4,9 +4,8 @@
 
 Source: reverse engineered from the dumps of the data corpus.
 
-Holds a date of a ThinkPad, which is earlier than the release date of its
-firmware and falls within the years the model has been made in, and so is
-probably its manufacture date, e.g. November 27, 2021 in
+Holds a date of a ThinkPad, which falls within the years the model has been made
+in, and so is probably its manufacture date, e.g. November 27, 2021 in
 `lenovo/thinkpad-t14-g2a-20xk.bin`. Structures of type 134 holding TPM
 information instead are told by their first string, `TPM INFO`.
 

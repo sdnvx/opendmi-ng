@@ -1104,23 +1104,50 @@ table:
   - decoded
   description: Intel vPro information
   attributes:
-    flags-1: 0
+    cpu-capabilities:
+      vmx-enabled: false
+      smx-enabled: false
+      txt-capable: false
+      txt-enabled: false
+      vtx-capable: false
+      vtx-enabled: false
     mebx-version:
       major: 0
       minor: 0
       hotfix: 0
       build: 0
     lpc-devfn: 0
+    lpc-bus: 0
     lpc-device-id: 0
-    flags-2: 0
+    me-capabilities:
+      me-enabled: false
+      qst: false
+      asf: false
+      amt: false
+      sbt: false
+      l3: false
     me-version:
       major: 0
       minor: 0
       hotfix: 0
       build: 0
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 0
+    gbe-bus: 0
     gbe-device-id: 0
-    flags-3: 0
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: false
+      txt-configurable: false
+      tpm-configurable: false
+      me-configurable: false
+      va-extensions: false
+      spi-data-reserved: false
+    va-version: 0
 - handle: 65279
   type: 127
   length: 6

@@ -45,7 +45,7 @@ kind of module it is. The older servers hold the status only.
 | Extended Status
 | `BYTE`
 | `BITFIELD`
-| Bits 0-1: disable reason, bits 2-5: error condition, `1` for a self-test failure
+| Bits 0-1: disable reason, meaningful for a disabled module only; bits 2-5: error condition, meaningful for a module disabled for an error only
 
 | `0x06`
 | 2.0+
@@ -65,7 +65,7 @@ kind of module it is. The older servers hold the status only.
 | 2.0+
 | Version Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the version indicator (type 216) of the firmware of the module
 
 | `0x0A`
@@ -73,7 +73,7 @@ kind of module it is. The older servers hold the status only.
 | Chip Identifier
 | `WORD`
 | `ENUM`
-| 
+| The low byte tells the chip, the high byte is reserved
 |===
 
 .Presence
@@ -155,6 +155,18 @@ kind of module it is. The older servers hold the status only.
 
 | `2`
 | FIPS certified
+|===
+
+.Error condition
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0`
+| Not specified
+
+| `1`
+| Self-test failure
 |===
 
 .Chip identifier

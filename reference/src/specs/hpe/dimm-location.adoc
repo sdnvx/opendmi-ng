@@ -41,7 +41,7 @@ while the older servers of the data corpus carry the same layout.
 | 2.0+
 | Memory Device Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the memory device structure (type 17)
 
 | `0x06`
@@ -140,7 +140,7 @@ while the older servers of the data corpus carry the same layout.
 | Controller Vendor ID
 | `WORD`
 | `NUMBER`
-| Manufacturer ID code of the controller, NVDIMMs only
+| Manufacturer ID code of the controller, NVDIMMs only, as the SPD gives it: the number of continuation codes in the low byte, whose bit 7 is a parity bit, and the JEP106 code in the high byte
 
 | `0x17`
 | 2.0+
@@ -168,5 +168,5 @@ while the older servers of the data corpus carry the same layout.
 | DIMM Index
 | `BYTE`
 | `NUMBER`
-| 0-based index of the DIMM within its channel
+| 0-based index of the DIMM within its channel, present in the structures of 28 bytes or more
 |===

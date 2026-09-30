@@ -34,6 +34,9 @@ as _(planned)_ are scheduled for the 1.0 release.
 * Structures the vendors define are decoded by extension modules for Acer, AMI,
   Apple, Dell, HP/HPE, Intel, IBM/Lenovo and Sun, and their layouts are
   described in the specifications part of this manual.
+* vPro, AMT, MEI, FVI, SVT and RSD structures, which the Intel reference code
+  adds on almost every Intel platform, are decoded field by field, even where
+  vendors move them, while `dmidecode` shows them as raw data.
 * Modules are enabled on demand, so that a type number a vendor reuses is
   decoded the way that vendor defines it.
 * Structure types are described by their layout on the wire rather than

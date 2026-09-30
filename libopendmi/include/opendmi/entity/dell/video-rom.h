@@ -35,12 +35,14 @@ struct dmi_dell_video_rom
     const char *version;
 
     /**
-     * @brief Value whose meaning is not established, `1` in all known data.
+     * @brief Value whose meaning is not established, `1`, or `0` on the
+     * PowerEdge servers of the 13th and 14th generations, in the known data.
      */
     uint8_t unknown_1;
 
     /**
-     * @brief Value whose meaning is not established.
+     * @brief Value whose meaning is not established, `0`, `0x0088`, `0x0110`
+     * or `0x03F0` in the known data.
      */
     uint16_t unknown_2;
 };

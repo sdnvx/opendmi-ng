@@ -555,23 +555,50 @@ table:
   - decoded
   description: Intel vPro information
   attributes:
-    flags-1: 49
+    cpu-capabilities:
+      vmx-enabled: true
+      smx-enabled: false
+      txt-capable: false
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: true
     mebx-version:
       major: 0
       minor: 0
       hotfix: 0
       build: 0
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 40270
-    flags-2: 1
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: false
+      sbt: false
+      l3: false
     me-version:
       major: 11
       minor: 8
       hotfix: 50
       build: 3425
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 254
+    gbe-bus: 0
     gbe-device-id: null
-    flags-3: 38
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: true
+      txt-configurable: true
+      tpm-configurable: false
+      me-configurable: false
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 20
   type: 170
   length: 80
@@ -585,6 +612,7 @@ table:
       3g: false
       wimax: false
       bluetooth: true
+      rf-button: false
     app-functions: 0
     media-functions: 127
     display-functions: 15
@@ -648,37 +676,37 @@ table:
   description: Acer device list
   attributes:
     devices:
-    - kind: 4
+    - kind: camera
       vendor-id: 1032
       device-id: 41056
-    - kind: 8
+    - kind: bluetooth
       vendor-id: 1161
       device-id: 57500
-    - kind: 21
+    - kind: unknown-21
       vendor-id: null
       device-id: null
-    - kind: 1
+    - kind: unknown-1
       vendor-id: 32902
       device-id: 22807
-    - kind: 2
+    - kind: unknown-2
       vendor-id: 4318
       device-id: 5965
-    - kind: 3
+    - kind: unknown-3
       vendor-id: 4318
       device-id: 5965
-    - kind: 5
+    - kind: audio
       vendor-id: 32902
       device-id: 40305
-    - kind: 7
+    - kind: wlan
       vendor-id: 5772
       device-id: 66
-    - kind: 17
+    - kind: unknown-17
       vendor-id: null
       device-id: null
-    - kind: 13
+    - kind: unknown-13
       vendor-id: null
       device-id: null
-    - kind: 22
+    - kind: unknown-22
       vendor-id: null
       device-id: null
 - handle: 22
@@ -700,12 +728,13 @@ table:
     version: 1
     state: normal
     mode: normal
-    error-code: 0
+    error-code: none
     is-init-complete: true
     is-manufacturing: false
     sku: consumer
     devices:
     - name: MEI1
+      is-reported: true
       is-present: true
       hfsts:
       - 2684355141
@@ -715,6 +744,7 @@ table:
       - 0
       - 1073741824
     - name: MEI2
+      is-reported: true
       is-present: false
       hfsts:
       - 4294967295
@@ -724,6 +754,7 @@ table:
       - 4294967295
       - 4294967295
     - name: MEI3
+      is-reported: true
       is-present: true
       hfsts:
       - 2147483648

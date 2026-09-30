@@ -18,14 +18,14 @@ typedef struct dmi_dell_system_id dmi_dell_system_id_t;
  *
  * Holds the system ID of the platform in hexadecimal digits, e.g. `0A64`,
  * which the revisions and IDs (type 208) and the OEM strings (type 11, key
- * `1`) hold too, along with an identifier beginning with `_SID`. Reverse
- * engineered from the data corpus.
+ * `1`) hold too, along with an identifier, which begins with `_SID` in most
+ * known data. Reverse engineered from the data corpus.
  */
 struct dmi_dell_system_id
 {
     /**
-     * @brief Identifier beginning with `_SID`, whose meaning is not
-     * established.
+     * @brief Identifier whose meaning is not established, beginning with
+     * `_SID` in most known data, e.g. `dellDelldellDELL` in the rest.
      */
     const char *identifier;
 

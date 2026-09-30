@@ -6,7 +6,8 @@ Source: dmidecode, `dmioem.c`, the `hpwdt` watchdog timer driver of Linux, and t
 
 Gives the feature flags of the server, which the watchdog timer driver reads.
 The servers give type 219 to this structure, which Intel reference code gives
-to the Management Engine interface information.
+to the Management Engine interface information. The oldest servers carry the
+power features only, in structures of 8 bytes.
 
 .HP/HPE ProLiant Information structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -60,5 +61,10 @@ to the Management Engine interface information.
 | Miscellaneous Features
 | `DWORD`
 | `BITFIELD`
-| Bit 0: integrated CRU (iCRU) is supported, bits 10 and 12: UEFI firmware
+| Bit 0: integrated CRU (iCRU) is supported, bits 10 and 12: UEFI firmware, see below
 |===
+
+The sources disagree on the bits of the UEFI firmware: dmidecode takes either
+of bits 10 and 12, mask `0x1400`, while the `hpwdt` driver takes either of
+bits 3 and 10, mask `0x408`. Bit 10 is common to both, and the meaning of
+bits 3 and 12 is not established. OpenDMI follows dmidecode.

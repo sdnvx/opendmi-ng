@@ -46,6 +46,32 @@ struct dmi_hpe_rom_info
      * @brief Build date of the OEM ROM image.
      */
     const char *oem_rom_date;
+
+    /**
+     * @brief String whose meaning is not established, e.g. `2.9` on a G6
+     * server.
+     */
+    const char *unknown_string;
+
+    /**
+     * @brief Whether the version of the redundant ROM is shown, which it is
+     * when a redundant ROM is installed, up to Gen11. Gen12 onwards reserve
+     * the field.
+     */
+    bool has_redundant_rom_version;
+
+    /**
+     * @brief Whether the file name and the build date of the OEM ROM image
+     * are shown, which they are when the file name is neither empty nor
+     * begins with blanks.
+     */
+    bool has_oem_rom;
+
+    /**
+     * @brief Whether the structure holds the string whose meaning is not
+     * established, which the structures shorter than 10 bytes leave out.
+     */
+    bool has_unknown_string;
 };
 
 /**

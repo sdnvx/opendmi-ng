@@ -343,13 +343,14 @@ static void test_platform_hpe_detect(void **pstate)
         { DMI_VENDOR_HPE, "ProLiant DL380 Gen11",       DMI_HPE_FAMILY_SERVER, DMI_HPE_GEN11      },
         { DMI_VENDOR_HPE, "ProLiant DL380 Gen12",       DMI_HPE_FAMILY_SERVER, DMI_HPE_GEN12      },
 
-        // Servers of HPE without generation are Gen10 Plus or later
+        // Servers naming no generation are taken for Gen10 Plus when of
+        // HPE, and for G6 when of HP, the way dmidecode takes them
         { DMI_VENDOR_HPE, "Edgeline e920t",             DMI_HPE_FAMILY_SERVER, DMI_HPE_GEN10_PLUS },
-        { DMI_VENDOR_HP,  "ProLiant ML110",             DMI_HPE_FAMILY_SERVER, 0                  },
+        { DMI_VENDOR_HP,  "ProLiant ML110",             DMI_HPE_FAMILY_SERVER, DMI_HPE_GEN6       },
 
         // Generation is a word of its own
-        { DMI_VENDOR_HP,  "ProLiant DL360G6",           DMI_HPE_FAMILY_SERVER, 0                  },
-        { DMI_VENDOR_HP,  "ProLiant DL360 G6x",         DMI_HPE_FAMILY_SERVER, 0                  },
+        { DMI_VENDOR_HP,  "ProLiant DL360G5",           DMI_HPE_FAMILY_SERVER, DMI_HPE_GEN6       },
+        { DMI_VENDOR_HP,  "ProLiant DL360 G5x",         DMI_HPE_FAMILY_SERVER, DMI_HPE_GEN6       },
         { DMI_VENDOR_HPE, "ProLiant DL360 Gen10 Plusx", DMI_HPE_FAMILY_SERVER, DMI_HPE_GEN10      },
 
         // Other products have no family, whatever their names look like

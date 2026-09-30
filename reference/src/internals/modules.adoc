@@ -247,14 +247,15 @@ checked by code of their own:
 ----
 
 A signature may name bytes at an offset, the length of the formatted area,
-and the text of a string, and a structure matches it if it meets all of the
-conditions it names. A type number is mapped to one specification without a
-signature at most, and to a few with signatures, up to
-`DMI_TYPE_CANDIDATES` in all. As a structure is decoded, the specifications
-with signatures are tried in the order they are mapped, and the one without
-a signature is taken for the structures no signature matches, which are left
-undecoded if there is none. The fields of a signature are kept in the decoded
-structure, so that it is written back with it.
+the text of a string, and that the structure carries no strings at all, and
+a structure matches it if it meets all of the conditions it names. A type
+number is mapped to one specification without a signature at most, and to a
+few with signatures, up to `DMI_TYPE_CANDIDATES` in all. As a structure is
+decoded, the specifications with signatures are tried in the order they are
+mapped, and the one without a signature is taken for the structures no
+signature matches, which are left undecoded if there is none. The fields of
+a signature are kept in the decoded structure, so that it is written back
+with it.
 
 The specifications told apart by signatures decode into different structure
 types, e.g. `DMI_TYPE(intel_vpro)` and `DMI_TYPE(lenovo_tvt)`, so asking for

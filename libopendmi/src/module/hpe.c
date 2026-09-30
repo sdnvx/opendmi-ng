@@ -184,8 +184,13 @@ bool dmi_hpe_platform_detect(dmi_platform_t *platform)
         return true;
     }
 
+    // Servers which name no generation are taken for the newest generation
+    // HPE firmware may be of, and for the oldest one HP named, the way
+    // dmidecode takes them
     if (platform->firmware_vendor == DMI_VENDOR_HPE)
         platform->generation = DMI_HPE_GEN10_PLUS;
+    else
+        platform->generation = DMI_HPE_GEN6;
 
     return true;
 }

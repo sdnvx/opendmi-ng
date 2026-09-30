@@ -123,8 +123,9 @@ struct dmi_hpe_device_correlation
     uint8_t pci_subclass;
 
     /**
-     * @brief Handle of the device correlation record of the parent device.
-     * Set to `0xFFFE` when not applicable.
+     * @brief Handle of the parent device. Set to `0xFFFE` when not
+     * applicable. The structure it refers to is not documented, and is
+     * presumably the device correlation record of the parent device.
      */
     dmi_handle_t parent_handle;
 
@@ -222,6 +223,13 @@ struct dmi_hpe_device_correlation
      * @brief PCI device and function, `(device << 3) | function`.
      */
     uint8_t devfn;
+
+    /**
+     * @brief Whether the structure holds the PCI segment group, the bus, the
+     * device and the function, which the structures shorter than 40 bytes
+     * leave out. The fields are not shown then.
+     */
+    bool has_pci_location;
 };
 
 /**

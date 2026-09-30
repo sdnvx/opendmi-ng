@@ -28,6 +28,7 @@ typedef struct dmi_hpe_system_id {
     const char *system_id;
     uint8_t platform_id[2];
     dmi_uuid_t guid;
+    bool has_platform_id;
 } dmi_hpe_system_id_t;
 ----
 
@@ -57,6 +58,10 @@ the ID is written in is not documented.
 
 `guid`::
 GUID, reserved from Gen11 onwards.
+
+`has_platform_id`::
+Whether the structure holds the platform ID, which the structures of 5 bytes
+leave out. The field is not shown then.
 
 == See also
 

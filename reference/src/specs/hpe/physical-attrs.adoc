@@ -10,6 +10,9 @@ another along with its identity.
 
 Up to G7, the servers of the data corpus hold 16 ASCII characters instead of
 the UUID: the product number and the serial number, e.g. `484184GB894484YN`.
+dmidecode decodes the field as a UUID on every server. The data corpus holds
+the characters on a G6 server only, so the boundary between G7 and Gen8 is an
+inference, taken where the naming of the generations changes.
 
 .HP/HPE Physical Attribute Information structure
 [width=100%, cols="1,1,2,1,1,4"]

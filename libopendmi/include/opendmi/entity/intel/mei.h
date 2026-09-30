@@ -23,6 +23,7 @@ typedef enum dmi_intel_me_state
     DMI_INTEL_ME_STATE_RESET        = 0x00, ///< Reset
     DMI_INTEL_ME_STATE_INIT         = 0x01, ///< Initializing
     DMI_INTEL_ME_STATE_RECOVERY     = 0x02, ///< Recovery
+    DMI_INTEL_ME_STATE_TEST         = 0x03, ///< Test
     DMI_INTEL_ME_STATE_M3_NO_UMA    = 0x04, ///< M3 without UMA
     DMI_INTEL_ME_STATE_NORMAL       = 0x05, ///< Normal
     DMI_INTEL_ME_STATE_WAIT         = 0x06, ///< Waiting
@@ -30,6 +31,19 @@ typedef enum dmi_intel_me_state
     DMI_INTEL_ME_STATE_INVALID_CPU  = 0x08, ///< Invalid CPU plugged in
     DMI_INTEL_ME_STATE_UNSPEC       = 0xFF  ///< Unspecified
 } dmi_intel_me_state_t;
+
+/**
+ * @brief Error codes of the Management Engine firmware, as bits 12 to 15 of
+ * the first firmware status register tell them.
+ */
+typedef enum dmi_intel_me_error
+{
+    DMI_INTEL_ME_ERROR_NONE          = 0x00, ///< No error
+    DMI_INTEL_ME_ERROR_UNCATEGORIZED = 0x01, ///< Uncategorized failure
+    DMI_INTEL_ME_ERROR_IMAGE         = 0x03, ///< Image failure
+    DMI_INTEL_ME_ERROR_DEBUG         = 0x04, ///< Debug failure
+    DMI_INTEL_ME_ERROR_UNSPEC        = 0xFF  ///< Unspecified
+} dmi_intel_me_error_t;
 
 /**
  * @brief Operation modes of the Management Engine firmware, as bits 16 to 19
@@ -71,21 +85,28 @@ struct dmi_intel_mei_device
     /**
      * @brief Firmware status registers HFSTS1 to HFSTS6, as the PCI
      * configuration space of the function holds them at offsets 0x40, 0x48,
-     * 0x60, 0x64, 0x68 and 0x6C. All bits are set if the function is absent.
+     * 0x60, 0x64, 0x68 and 0x6C. All bits are set if the function is absent,
+     * and all are zero if the interface is not reported.
      *
      * The meaning of the registers depends on the interface, and on the
      * generation of the Management Engine for all but the first and the third
      * registers of the first interface: the first one tells the working state,
-     * the operation mode and the error code, the third one the firmware SKU,
-     * and the sixth one the state of Intel Boot Guard on the generations which
-     * have it.
+     * the operation mode and the error code, and the third one the firmware
+     * SKU.
      */
     uint32_t hfsts[6];
 
     /**
-     * @brief Whether the function is present.
+     * @brief Whether the function is present, which the registers of all
+     * bits set tell it is not. Not shown if the interface is not reported.
      */
     bool is_present;
+
+    /**
+     * @brief Whether the interface is reported, which the registers of all
+     * zeroes tell it is not. The registers are not shown then.
+     */
+    bool is_reported;
 };
 
 /**
@@ -116,7 +137,8 @@ struct dmi_intel_mei
 
     /**
      * @brief Working state of the firmware. `DMI_INTEL_ME_STATE_UNSPEC` if the
-     * first interface is absent.
+     * first interface is absent or not reported, as are the other fields the
+     * first register tells.
      */
     dmi_intel_me_state_t state;
 
@@ -127,10 +149,10 @@ struct dmi_intel_mei
     dmi_intel_me_mode_t mode;
 
     /**
-     * @brief Error code of the firmware, zero if there is no error. Set to
-     * `UINT8_MAX` if the first interface is absent.
+     * @brief Error code of the firmware. `DMI_INTEL_ME_ERROR_UNSPEC` if the
+     * first interface is absent.
      */
-    uint8_t error_code;
+    dmi_intel_me_error_t error_code;
 
     /**
      * @brief Whether the firmware has completed its initialization.
@@ -145,7 +167,8 @@ struct dmi_intel_mei
 
     /**
      * @brief SKU of the firmware. `DMI_INTEL_ME_SKU_UNSPEC` if the first
-     * interface is absent.
+     * interface is absent, or if the register holds zero for the SKU, as the
+     * firmware of Management Engine 11.0 may.
      */
     dmi_intel_me_sku_t sku;
 };
@@ -158,6 +181,7 @@ extern __dmi_api const dmi_entity_spec_t dmi_intel_mei_spec;
 __BEGIN_DECLS
 
 __dmi_api const char *dmi_intel_me_state_name(dmi_intel_me_state_t value);
+__dmi_api const char *dmi_intel_me_error_name(dmi_intel_me_error_t value);
 __dmi_api const char *dmi_intel_me_mode_name(dmi_intel_me_mode_t value);
 __dmi_api const char *dmi_intel_me_sku_name(dmi_intel_me_sku_t value);
 

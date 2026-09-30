@@ -40,10 +40,10 @@ typedef struct dmi_lenovo_tpm_info {
 == Description
 
 The `dmi_lenovo_tpm_info_t` structure holds the decoded Lenovo TPM information
-(type 134) of a ThinkPad, which tells the vendor of its TPM by the TCG vendor
-ID, e.g. `ATML` for Atmel or `STM ` for STMicroelectronics. The structures are
-told from the date records of the same type, see `dmi_lenovo_date`(3), by
-their first string, `TPM INFO`.
+(type 134) of a Lenovo laptop, which tells the vendor of its TPM by the TCG
+vendor ID, e.g. `ATML` for Atmel or `STM ` for STMicroelectronics. The
+structures are told from the date records of the same type, see
+`dmi_lenovo_date`(3), by their first string, `TPM INFO`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_lenovo_tpm_info_spec`, of type `DMI_TYPE(lenovo_tpm_info)`, declared in

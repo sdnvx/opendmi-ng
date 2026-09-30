@@ -39,7 +39,7 @@ shortest structures end after the configured voltage, at `0x0E`.
 | 2.0+
 | Memory Device Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the memory device structure (type 17)
 
 | `0x06`

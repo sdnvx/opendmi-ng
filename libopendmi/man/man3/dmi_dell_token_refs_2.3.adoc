@@ -33,12 +33,14 @@ typedef struct dmi_dell_token_refs_2 {
 
 == Description
 
-The `dmi_dell_token_refs_2_t` structure holds the decoded Dell token
-references of type 221, which list tokens the calling interface (type 218) or
-the indexed I/O access (type 212) defines, following two values whose meaning
-is not established. Dell gives type 221 to this structure, and the Intel
-firmware version information is found at type 205 on Dell platforms, see
-`dmi_intel_fvi`(3).
+The `dmi_dell_token_refs_2_t` structure holds the decoded Dell token references
+of type 221, which list tokens, most of which the calling interface (type 218)
+or the indexed I/O access (type 212) of the same table defines, following two
+values whose meaning is not established. Dell gives type 221 to this structure,
+and the Intel firmware version information is found at type 205 or 237 on most
+Dell platforms, see `dmi_intel_fvi`(3). Some of them, e.g. XPS 13 9350, keep it
+at type 221, where the structure of Dell is told from it by its length of 19
+bytes and by carrying no strings.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_dell_token_refs_2_spec`, of type `DMI_TYPE(dell_token_refs_2)`,
@@ -53,10 +55,10 @@ established are named after their position.
 === Fields
 
 `unknown_1`::
-Value whose meaning is not established, `0` or `3` in the known data.
+Value whose meaning is not established, `0`, `2` or `3` in the known data.
 
 `unknown_2`::
-Value whose meaning is not established, `1` in all known data.
+Value whose meaning is not established, `0` or `1` in the known data.
 
 `tokens`::
 Tokens, zero for none.

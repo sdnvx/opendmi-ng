@@ -13,6 +13,82 @@
 
 static void dmi_acer_devices_cleanup(dmi_entity_t *entity);
 
+// Kinds are reverse engineered from the PCI and USB IDs of the devices of the
+// data corpus: the ones given to the devices of a single class are named by
+// it, and the other ones found in it by their values
+static const dmi_name_set_t dmi_acer_device_kind_names =
+{
+    .code  = "acer-device-kind",
+    .names = DMI_NAMES({
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_1,
+            .code = "unknown-1",
+            .name = "Unknown 1"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_2,
+            .code = "unknown-2",
+            .name = "Unknown 2"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_3,
+            .code = "unknown-3",
+            .name = "Unknown 3"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_CAMERA,
+            .code = "camera",
+            .name = "Webcam"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_AUDIO,
+            .code = "audio",
+            .name = "Audio"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_WLAN,
+            .code = "wlan",
+            .name = "Wireless network adapter"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_BLUETOOTH,
+            .code = "bluetooth",
+            .name = "Bluetooth adapter"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_13,
+            .code = "unknown-13",
+            .name = "Unknown 13"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_17,
+            .code = "unknown-17",
+            .name = "Unknown 17"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_19,
+            .code = "unknown-19",
+            .name = "Unknown 19"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_21,
+            .code = "unknown-21",
+            .name = "Unknown 21"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_22,
+            .code = "unknown-22",
+            .name = "Unknown 22"
+        },
+        {
+            .id   = DMI_ACER_DEVICE_KIND_UNKNOWN_25,
+            .code = "unknown-25",
+            .name = "Unknown 25"
+        },
+        {}
+    })
+};
+
 const dmi_entity_spec_t dmi_acer_devices_spec =
 {
     .type        = DMI_TYPE(acer_devices),
@@ -47,10 +123,11 @@ const dmi_entity_spec_t dmi_acer_devices_spec =
             .code  = "devices",
             .name  = "Devices",
             .attrs = DMI_ATTRIBUTES({
-                DMI_ATTRIBUTE(dmi_acer_device_t, kind, INTEGER, {
-                    .code  = "kind",
-                    .name  = "Kind",
-                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                DMI_ATTRIBUTE(dmi_acer_device_t, kind, ENUM, {
+                    .code   = "kind",
+                    .name   = "Kind",
+                    .values = &dmi_acer_device_kind_names,
+                    .flags  = DMI_ATTRIBUTE_FLAG_OPEN
                 }),
                 DMI_ATTRIBUTE(dmi_acer_device_t, vendor_id, INTEGER, {
                     .code   = "vendor-id",
@@ -74,6 +151,11 @@ const dmi_entity_spec_t dmi_acer_devices_spec =
         .cleanup = dmi_acer_devices_cleanup
     }
 };
+
+const char *dmi_acer_device_kind_name(dmi_acer_device_kind_t value)
+{
+    return dmi_name_lookup(&dmi_acer_device_kind_names, (int)value);
+}
 
 static void dmi_acer_devices_cleanup(dmi_entity_t *entity)
 {

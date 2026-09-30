@@ -4,12 +4,14 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <opendmi/context.h>
 #include <opendmi/field.h>
+#include <opendmi/platform.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/backplane.h>
+#include <opendmi/entity/hpe/backplane-internal.h>
 
 const dmi_entity_spec_t dmi_hpe_backplane_spec =
 {
@@ -71,18 +73,49 @@ const dmi_entity_spec_t dmi_hpe_backplane_spec =
             .code = "bay-count",
             .name = "Total SAS bays"
         }),
-        DMI_ATTRIBUTE(dmi_hpe_backplane_t, a0_bay_count, INTEGER, {
-            .code = "a0-bay-count",
-            .name = "A0 bay count"
+        // Fields deprecated from Gen10 Plus onwards are not shown there
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_backplane_t, has_legacy_details, {
+            .code     = "a0-bay-count",
+            .name     = "A0 bay count",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_backplane_t, a0_bay_count, INTEGER, {}),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_backplane_t, a2_bay_count, INTEGER, {
-            .code = "a2-bay-count",
-            .name = "A2 bay count"
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_backplane_t, has_legacy_details, {
+            .code     = "a2-bay-count",
+            .name     = "A2 bay count",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_backplane_t, a2_bay_count, INTEGER, {}),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_backplane_t, name, STRING, {
-            .code = "name",
-            .name = "Backplane name"
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_backplane_t, has_legacy_details, {
+            .code     = "name",
+            .name     = "Backplane name",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_backplane_t, name, STRING, {}),
+                {}
+            })
         }),
         {}
-    })
+    }),
+
+    .handlers = {
+        .derive = dmi_hpe_backplane_derive
+    }
 };
+
+bool dmi_hpe_backplane_derive(dmi_entity_t *entity)
+{
+    dmi_hpe_backplane_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_backplane));
+    if (info == nullptr)
+        return false;
+
+    const dmi_platform_t *platform = dmi_get_platform(dmi_entity_context(entity));
+    unsigned generation = (platform != nullptr) ? platform->generation : 0;
+
+    info->has_legacy_details = (generation < DMI_HPE_GEN10_PLUS);
+
+    return true;
+}

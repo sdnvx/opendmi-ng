@@ -32,6 +32,7 @@ typedef struct dmi_hpe_cru {
     uint32_t length;
     uint32_t offset;
     uint64_t entry_point;
+    bool is_cru;
 } dmi_hpe_cru_t;
 ----
 
@@ -59,7 +60,9 @@ Signature, as the structure holds it.
 Signature, which `signature` points to.
 
 `signature`::
-Signature, `$CRU`, or `nullptr` if it is not printable.
+Signature, `$CRU` for the CRU services, or `nullptr` if it is not printable.
+Some servers carry records of other signatures too, e.g. `$SHF`, whose meaning
+is not known.
 
 `address`::
 Physical address of the service area.
@@ -72,6 +75,11 @@ Offset of the entry point within the service area.
 
 `entry_point`::
 Physical address of the entry point.
+
+`is_cru`::
+Whether the record describes the CRU services, as its signature `$CRU` tells.
+The address, the length, the offset and the entry point are shown for these
+records only.
 
 == See also
 

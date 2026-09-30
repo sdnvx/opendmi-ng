@@ -93,8 +93,13 @@ Some firmware does not pack the structure, e.g. the one of Dell XPS 13 9365,
 which carries `01 00 99 00 03 10 01 20 02 30 03 00` where other firmware
 carries `01 99 00 03 10 01 20 02 30 03`: the parameter is aligned to two
 bytes, and the milestones are followed by a byte which makes the length of
-the structure even. The structure is told by the byte of zero at `0x05`,
-where the packed layout holds the low byte of the parameter.
+the structure even. The length of such structures is `0x0A` + 2 × Milestone
+Count, e.g. `0x10` for three milestones, where the packed layout has `0x0E`.
+
+Both layouts are told by the version and the parameter, `1` and `0x0099`,
+which every known structure holds, so that the structures vendors give type
+222 are not taken for the milestones on the systems whose firmware names no
+vendor, e.g. the ones of Dell on PowerEdge servers.
 
 .Intel Silicon View Technology Milestones structure, aligned layout
 [width=100%, cols="1,2,1,1,4"]

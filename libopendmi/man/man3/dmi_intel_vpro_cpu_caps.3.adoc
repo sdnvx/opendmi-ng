@@ -1,0 +1,89 @@
+ifdef::backend-manpage[]
+= dmi_intel_vpro_cpu_caps(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_vpro_cpu_caps
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_vpro_cpu_caps - Intel vPro capabilities of the processor
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/vpro.h>
+
+typedef union dmi_intel_vpro_cpu_caps {
+    dmi_dword_t __value;
+    struct {
+        dmi_dword_t is_vmx_enabled : 1;
+        dmi_dword_t is_smx_enabled : 1;
+        dmi_dword_t is_txt_capable : 1;
+        dmi_dword_t is_txt_enabled : 1;
+        dmi_dword_t is_vtx_capable : 1;
+        dmi_dword_t is_vtx_enabled : 1;
+        dmi_dword_t __reserved     : 26;
+    };
+} dmi_intel_vpro_cpu_caps_t;
+----
+
+== Description
+
+The `dmi_intel_vpro_cpu_caps_t` union holds the capabilities of the processor, as Intel vPro information gives them. It is the type of the `cpu_capabilities` field of `dmi_intel_vpro_t`.
+
+The union is packed into a double word: the bits can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the bits, as the double word the structure carries them in,
+`is_vmx_enabled` being bit 0.
+
+`is_vmx_enabled`::
+Set if the virtual machine extensions (VMX) are enabled.
+
+`is_smx_enabled`::
+Set if the safer mode extensions (SMX) are enabled.
+
+`is_txt_capable`::
+Set if the processor supports Trusted Execution Technology (TXT).
+
+`is_txt_enabled`::
+Set if Trusted Execution Technology is enabled.
+
+`is_vtx_capable`::
+Set if the processor supports Virtualization Technology (VT-x).
+
+`is_vtx_enabled`::
+Set if Virtualization Technology is enabled.
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_intel_vpro`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel, as the vPro
+verification table of the Intel AMT implementation and reference guide.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

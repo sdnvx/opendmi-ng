@@ -23,11 +23,15 @@
 #include <opendmi/entity/hpe/device-correlation.h>
 #include <opendmi/entity/hpe/dimm-attrs.h>
 #include <opendmi/entity/hpe/dimm-config.h>
+#include <opendmi/entity/hpe/dimm-location.h>
 #include <opendmi/entity/hpe/dimm-vendor.h>
 #include <opendmi/entity/hpe/drive.h>
 #include <opendmi/entity/hpe/extension-board.h>
 #include <opendmi/entity/hpe/inventory.h>
 #include <opendmi/entity/hpe/nic-mac.h>
+#include <opendmi/entity/hpe/processor.h>
+#include <opendmi/entity/hpe/rom-info.h>
+#include <opendmi/entity/hpe/trusted-module.h>
 #include <opendmi/entity/hpe/usb-device.h>
 #include <opendmi/entity/hpe/usb-port.h>
 #include <opendmi/entity/hpe/version.h>
@@ -53,10 +57,15 @@ static void test_hpe_inventory(void **pstate);
 static void test_hpe_drive(void **pstate);
 static void test_hpe_dimm_config(void **pstate);
 static void test_hpe_extension_board(void **pstate);
+static void test_hpe_trusted_module(void **pstate);
+static void test_hpe_rom_info(void **pstate);
+static void test_hpe_processor(void **pstate);
+static void test_hpe_dimm_location(void **pstate);
 
 static void test_hpe_generation(test_state_t *state, unsigned generation);
 static const void *test_hpe_decode(test_state_t *state, const void *data, size_t size,
                                    const dmi_entity_spec_t *spec);
+static const dmi_attribute_t *test_hpe_attribute(test_state_t *state, const char *code);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -73,7 +82,11 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_hpe_inventory, test_hpe_setup, test_hpe_teardown),
         cmocka_unit_test_setup_teardown(test_hpe_drive, test_hpe_setup, test_hpe_teardown),
         cmocka_unit_test_setup_teardown(test_hpe_dimm_config, test_hpe_setup, test_hpe_teardown),
-        cmocka_unit_test_setup_teardown(test_hpe_extension_board, test_hpe_setup, test_hpe_teardown)
+        cmocka_unit_test_setup_teardown(test_hpe_extension_board, test_hpe_setup, test_hpe_teardown),
+        cmocka_unit_test_setup_teardown(test_hpe_trusted_module, test_hpe_setup, test_hpe_teardown),
+        cmocka_unit_test_setup_teardown(test_hpe_rom_info, test_hpe_setup, test_hpe_teardown),
+        cmocka_unit_test_setup_teardown(test_hpe_processor, test_hpe_setup, test_hpe_teardown),
+        cmocka_unit_test_setup_teardown(test_hpe_dimm_location, test_hpe_setup, test_hpe_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -169,6 +182,32 @@ static void test_hpe_device_correlation(void **pstate)
     assert_string_equal(info->part_number, "P21933-B21");
     assert_int_equal(info->bus, 0x5C);
     assert_int_equal(info->devfn, 0x08);
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "physical-handle"), info));
+
+    // Slot handle is given for the peer bifurcated devices only
+    uint8_t other[sizeof(data)];
+    memcpy(other, data, sizeof(other));
+    other[0x14] = 0x00;
+
+    info = test_hpe_decode(state, other, sizeof(other), &dmi_hpe_device_correlation_spec);
+    assert_false(info->is_peer_bifurcated);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "physical-handle"), info));
+
+    // Structures shorter than 40 bytes end before the PCI location, which is
+    // not shown
+    assert_true(info->has_pci_location);
+
+    uint8_t shorter[sizeof(data) - 4];
+    memcpy(shorter, data, 0x24);
+    memcpy(shorter + 0x24, data + 0x28, sizeof(data) - 0x28);
+    shorter[0x01] = 0x24;
+
+    info = test_hpe_decode(state, shorter, sizeof(shorter), &dmi_hpe_device_correlation_spec);
+    assert_false(info->has_pci_location);
+    assert_string_equal(info->part_number, "P21933-B21");
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "segment"), info));
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "bus"), info));
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "devfn"), info));
 
     // Structures are decoded from Gen9 onwards only
     test_hpe_generation(state, DMI_HPE_GEN8);
@@ -323,6 +362,17 @@ static void test_hpe_backplane(void **pstate)
     assert_int_equal(info->wwid, 0x0102030405060708);
     assert_int_equal(info->bay_count, 8);
     assert_string_equal(info->name, "8SFF");
+    assert_true(info->has_legacy_details);
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "a0-bay-count"), info));
+
+    // Bays of the ports and the name are deprecated from Gen10 Plus onwards
+    test_hpe_generation(state, DMI_HPE_GEN10_PLUS);
+    info = test_hpe_decode(state, data, sizeof(data), &dmi_hpe_backplane_spec);
+    assert_false(info->has_legacy_details);
+
+    static const char *deprecated[] = { "a0-bay-count", "a2-bay-count", "name" };
+    for (size_t i = 0; i < countof(deprecated); i++)
+        assert_null(dmi_attribute_resolve(test_hpe_attribute(state, deprecated[i]), info));
 
     // Structures are not known from Gen11 onwards
     test_hpe_generation(state, DMI_HPE_GEN11);
@@ -392,6 +442,26 @@ static void test_hpe_usb(void **pstate)
     assert_false(usb->is_sd_card_present);
     assert_int_equal(usb->usb_class, 0x08);
     assert_int_equal(usb->product_id, 0x5581);
+
+    // Subclass and protocol of mass storage devices are named
+    const dmi_attribute_t *subclass = dmi_attribute_resolve(test_hpe_attribute(state, "usb-subclass"), usb);
+    assert_non_null(subclass);
+    assert_int_equal(subclass->type, DMI_ATTRIBUTE_TYPE_ENUM);
+    assert_string_equal(dmi_hpe_usb_storage_subclass_name(usb->usb_subclass), "SCSI transparent command set");
+    assert_string_equal(dmi_hpe_usb_storage_proto_name(usb->usb_protocol), "Bulk-only transport");
+    assert_string_equal(dmi_hpe_usb_hub_proto_name(DMI_HPE_USB_HUB_PROTO_MULTI_TT),
+                        "Hi-speed with multiple transaction translators");
+    assert_string_equal(dmi_hpe_usb_storage_subclass_name((dmi_hpe_usb_storage_subclass_t)0x10), "Reserved");
+
+    // Codes of the other classes are shown as they are
+    uint8_t other[sizeof(device)];
+    memcpy(other, device, sizeof(other));
+    other[0x0A] = 0x03;
+
+    usb = test_hpe_decode(state, other, sizeof(other), &dmi_hpe_usb_device_spec);
+    subclass = dmi_attribute_resolve(test_hpe_attribute(state, "usb-subclass"), usb);
+    assert_non_null(subclass);
+    assert_int_equal(subclass->type, DMI_ATTRIBUTE_TYPE_INTEGER);
     assert_int_equal(usb->capacity, UINT64_C(30000) * 1024 * 1024);
     assert_string_equal(usb->location, "Front");
 }
@@ -492,6 +562,33 @@ static void test_hpe_dimm_config(void **pstate)
     assert_int_equal(info->interleave_set, 3);
     assert_int_equal(info->interleave_dimm_count, 6);
     assert_int_equal(info->interleave_health, DMI_HPE_INTERLEAVE_HEALTH_HEALTHY);
+
+    // Passphrase is enabled for any state other than zero, and health 0xFF
+    // is a reserved value rather than a missing one
+    uint8_t other[sizeof(data)];
+    memcpy(other, data, sizeof(other));
+    other[0x11] = 0x02;
+    other[0x15] = 0xFF;
+
+    info = test_hpe_decode(state, other, sizeof(other), &dmi_hpe_dimm_config_spec);
+    assert_int_equal(info->passphrase_state, 0x02);
+    assert_true(info->is_passphrase_enabled);
+    assert_int_equal(info->interleave_health, 0xFF);
+    assert_string_equal(dmi_hpe_interleave_health_name(info->interleave_health), "Reserved");
+
+    // Health of the structures ending before it is told apart from the values
+    static const uint8_t shortest[] = {
+        244, 0x14, 0x01, 0xF4,
+        0x00, 0x11, 0x01, 0x02, 0x00,
+        0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x03, 0x00,
+        0x00, 0x00
+    };
+
+    info = test_hpe_decode(state, shortest, sizeof(shortest), &dmi_hpe_dimm_config_spec);
+    assert_false(info->is_passphrase_enabled);
+    assert_int_equal(info->interleave_health, DMI_HPE_INTERLEAVE_HEALTH_ABSENT);
+    assert_null(dmi_hpe_interleave_health_name(info->interleave_health));
 }
 
 static void test_hpe_extension_board(void **pstate)
@@ -509,7 +606,8 @@ static void test_hpe_extension_board(void **pstate)
     const dmi_hpe_riser_t *info = test_hpe_decode(state, riser, sizeof(riser), &dmi_hpe_riser_spec);
     assert_int_equal(info->position, DMI_HPE_RISER_POSITION_PRIMARY);
     assert_int_equal(info->riser_id, 5);
-    assert_int_equal(info->cpld_version, 0x83);
+    assert_int_equal(info->cpld_version, 0x03);
+    assert_true(info->is_cpld_b_release);
     assert_string_equal(info->name, "Primary");
 
     static const uint8_t mhs[] = {
@@ -541,6 +639,209 @@ static void test_hpe_extension_board(void **pstate)
     assert_non_null(state->entity);
     dmi_entity_decode(state->entity);
     assert_null(state->entity->spec);
+}
+
+static void test_hpe_trusted_module(void **pstate)
+{
+    test_state_t *state = *pstate;
+
+    // TPM 2.0 soldered down and FIPS certified, disabled for a self-test
+    // failure, whose chip is told by the low byte of the identifier
+    static const uint8_t full[] = {
+        224, 0x0C, 0x00, 0xE0,
+        0x02, 0x06, 0x02, 0x0B, 0x00, 0xD8, 0x05, 0x80,
+        0x00, 0x00
+    };
+
+    const dmi_hpe_trusted_module_t *info = test_hpe_decode(state, full, sizeof(full), &dmi_hpe_trusted_module_spec);
+    assert_int_equal(info->presence, DMI_HPE_TM_PRESENCE_DISABLED);
+    assert_int_equal(info->disable_reason, DMI_HPE_TM_DISABLE_REASON_ERROR);
+    assert_int_equal(info->error_condition, DMI_HPE_TM_ERROR_SELF_TEST);
+    assert_int_equal(info->type, DMI_HPE_TM_TYPE_TPM_2_0);
+    assert_int_equal(info->mounting, DMI_HPE_TM_MOUNTING_SOLDERED);
+    assert_int_equal(info->fips, DMI_HPE_TM_FIPS_CERTIFIED);
+    assert_int_equal(info->version_handle, 0xD800);
+    assert_int_equal(info->chip, DMI_HPE_TM_CHIP_STM_GEN11);
+    assert_true(info->has_extended_status);
+    assert_true(info->has_chip);
+    assert_string_equal(dmi_hpe_tm_error_name(info->error_condition), "Self-test failure");
+
+    static const char *shown[] = { "disable-reason", "error-condition", "type", "chip" };
+    for (size_t i = 0; i < countof(shown); i++)
+        assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, shown[i]), info));
+
+    // Module disabled by the user has no error condition, and an enabled one
+    // no disable reason
+    uint8_t other[sizeof(full)];
+    memcpy(other, full, sizeof(other));
+    other[0x05] = 0x01;
+
+    info = test_hpe_decode(state, other, sizeof(other), &dmi_hpe_trusted_module_spec);
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "disable-reason"), info));
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "error-condition"), info));
+
+    other[0x04] = 0x01;
+
+    info = test_hpe_decode(state, other, sizeof(other), &dmi_hpe_trusted_module_spec);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "disable-reason"), info));
+
+    // Structures of 5 bytes hold the status only
+    static const uint8_t status[] = {
+        224, 0x05, 0x01, 0xE0,
+        0x00,
+        0x00, 0x00
+    };
+
+    info = test_hpe_decode(state, status, sizeof(status), &dmi_hpe_trusted_module_spec);
+    assert_false(info->has_extended_status);
+    assert_false(info->has_chip);
+
+    static const char *hidden[] = {
+        "type", "is-standard-algorithm", "is-chinese-algorithm", "mounting", "fips",
+        "version-handle", "chip"
+    };
+    for (size_t i = 0; i < countof(hidden); i++)
+        assert_null(dmi_attribute_resolve(test_hpe_attribute(state, hidden[i]), info));
+}
+
+static void test_hpe_rom_info(void **pstate)
+{
+    test_state_t *state = *pstate;
+
+    // Redundant ROM installed, along with an image of the OEM ROM
+    static const uint8_t data[] = {
+        193, 0x0A, 0x00, 0xC1,
+        0x01, 0x01, 0x02, 0x03, 0x04, 0x00,
+        'U', '3', '2', 0x00,
+        '0', '1', '/', '1', '0', '/', '2', '0', '2', '4', 0x00,
+        'O', 'E', 'M', '.', 'B', 'I', 'N', 0x00,
+        '0', '2', '/', '2', '0', '/', '2', '0', '2', '4', 0x00,
+        0x00
+    };
+
+    const dmi_hpe_rom_info_t *info = test_hpe_decode(state, data, sizeof(data), &dmi_hpe_rom_info_spec);
+    assert_true(info->is_redundant_rom);
+    assert_true(info->has_redundant_rom_version);
+    assert_true(info->has_oem_rom);
+    assert_string_equal(info->oem_rom_filename, "OEM.BIN");
+    assert_string_equal(info->oem_rom_date, "02/20/2024");
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "redundant-rom-version"), info));
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "oem-rom-filename"), info));
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "oem-rom-date"), info));
+
+    // Name of the image beginning with blanks tells there is none
+    uint8_t blank[sizeof(data)];
+    memcpy(blank, data, sizeof(blank));
+    memcpy(blank + 0x19, "  ", 2);
+
+    info = test_hpe_decode(state, blank, sizeof(blank), &dmi_hpe_rom_info_spec);
+    assert_false(info->has_oem_rom);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "oem-rom-filename"), info));
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "oem-rom-date"), info));
+
+    // Version of the redundant ROM is not shown when there is none
+    uint8_t single[sizeof(data)];
+    memcpy(single, data, sizeof(single));
+    single[0x04] = 0x00;
+
+    info = test_hpe_decode(state, single, sizeof(single), &dmi_hpe_rom_info_spec);
+    assert_false(info->is_redundant_rom);
+    assert_false(info->has_redundant_rom_version);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "redundant-rom-version"), info));
+
+    // Version of the redundant ROM is reserved from Gen12 onwards
+    test_hpe_generation(state, DMI_HPE_GEN12);
+
+    info = test_hpe_decode(state, data, sizeof(data), &dmi_hpe_rom_info_spec);
+    assert_true(info->is_redundant_rom);
+    assert_false(info->has_redundant_rom_version);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "redundant-rom-version"), info));
+}
+
+static void test_hpe_processor(void **pstate)
+{
+    test_state_t *state = *pstate;
+
+    // Bootstrap processor in the x2APIC mode
+    static const uint8_t data[] = {
+        197, 0x10, 0x00, 0xC5,
+        0x00, 0x04, 0x02, 0x03, 0x00, 0x01,
+        0x5F, 0x00,
+        0x20, 0x00, 0x00, 0x00,
+        0x00, 0x00
+    };
+
+    const dmi_hpe_processor_t *info = test_hpe_decode(state, data, sizeof(data), &dmi_hpe_processor_spec);
+    assert_true(info->is_x2apic);
+    assert_int_equal(info->x2apic_id, 0x20);
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "x2apic-id"), info));
+
+    // x2APIC ID is not shown outside the x2APIC mode
+    uint8_t xapic[sizeof(data)];
+    memcpy(xapic, data, sizeof(xapic));
+    xapic[0x07] = 0x01;
+
+    info = test_hpe_decode(state, xapic, sizeof(xapic), &dmi_hpe_processor_spec);
+    assert_false(info->is_x2apic);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "x2apic-id"), info));
+}
+
+static void test_hpe_dimm_location(void **pstate)
+{
+    test_state_t *state = *pstate;
+
+    // Second DIMM of channel 1 on memory board 1, on an NVDIMM controller
+    // of Micron
+    static const uint8_t data[] = {
+        202, 0x1C, 0x00, 0xCA,
+        0x00, 0x11, 0x01, 0x03, 0x02, 0x05,
+        0x00, 0x00, 0x00,
+        0x00, 0x01, 0x04, 0x07,
+        0x86, 0x80, 0x34, 0x12, 0x00, 0x2C, 0x78, 0x56,
+        0x01, 0x00, 0x01,
+        0x00, 0x00
+    };
+
+    const dmi_hpe_dimm_location_t *info = test_hpe_decode(state, data, sizeof(data), &dmi_hpe_dimm_location_spec);
+    assert_int_equal(info->board, 1);
+    assert_false(info->is_system_board);
+    assert_true(info->has_ie);
+    assert_int_equal(info->ie_dimm, 4);
+    assert_int_equal(info->ie_pldm_id, 7);
+    assert_int_equal(info->controller_vendor_id, 0x2C00);
+    assert_true(info->has_channel_index);
+    assert_int_equal(info->channel_index, 1);
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "board"), info));
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "ie-dimm"), info));
+    assert_non_null(dmi_attribute_resolve(test_hpe_attribute(state, "channel-index"), info));
+    assert_true(test_hpe_attribute(state, "controller-vendor-id")->params.flags & DMI_ATTRIBUTE_FLAG_JEP106);
+
+    // Board number of 0xFF stands for the system board
+    uint8_t system[sizeof(data)];
+    memcpy(system, data, sizeof(system));
+    system[0x06] = 0xFF;
+
+    info = test_hpe_decode(state, system, sizeof(system), &dmi_hpe_dimm_location_spec);
+    assert_true(info->is_system_board);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "board"), info));
+
+    // Structures shorter than 28 bytes end before the index of the DIMM
+    uint8_t shorter[sizeof(data) - 1];
+    memcpy(shorter, data, 0x1B);
+    memcpy(shorter + 0x1B, data + 0x1C, 2);
+    shorter[0x01] = 0x1B;
+
+    info = test_hpe_decode(state, shorter, sizeof(shorter), &dmi_hpe_dimm_location_spec);
+    assert_false(info->has_channel_index);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "channel-index"), info));
+
+    // Fields of the Innovation Engine are reserved from Gen12 onwards
+    test_hpe_generation(state, DMI_HPE_GEN12);
+
+    info = test_hpe_decode(state, data, sizeof(data), &dmi_hpe_dimm_location_spec);
+    assert_false(info->has_ie);
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "ie-dimm"), info));
+    assert_null(dmi_attribute_resolve(test_hpe_attribute(state, "ie-pldm-id"), info));
 }
 
 static void test_hpe_generation(test_state_t *state, unsigned generation)
@@ -582,4 +883,14 @@ static const void *test_hpe_decode(test_state_t *state, const void *data, size_t
     assert_non_null(info);
 
     return info;
+}
+
+static const dmi_attribute_t *test_hpe_attribute(test_state_t *state, const char *code)
+{
+    for (const dmi_attribute_t *attr = state->entity->spec->attributes; attr->params.name != nullptr; attr++) {
+        if (strcmp(attr->params.code, code) == 0)
+            return attr;
+    }
+
+    fail_msg("No attribute %s", code);
 }

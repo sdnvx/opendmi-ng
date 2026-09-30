@@ -34,9 +34,10 @@ typedef struct dmi_lenovo_mtm {
 == Description
 
 The `dmi_lenovo_mtm_t` structure holds the decoded Lenovo machine type model
-(type 200) of an IdeaPad or a ThinkBook, which tells its brand and its full
-machine type model, e.g. `20VE00U9RU`, of which the system information (type
-1) holds only the machine type, e.g. `20VE`.
+(type 200) of a consumer or small business laptop of Lenovo, e.g. an IdeaPad, a
+Yoga, a Legion or a ThinkBook, which tells its brand, `IdeaPad` for all of them,
+and its full machine type model, e.g. `20VE00U9RU`, of which the system
+information (type 1) holds only the machine type, e.g. `20VE`.
 
 The structure is returned by `dmi_entity_info`(3) for the structures decoded
 by `dmi_lenovo_mtm_spec`, of type `DMI_TYPE(lenovo_mtm)`, declared in
@@ -46,7 +47,9 @@ It lives as long as the context it has been decoded in.
 
 The layout is reverse engineered from the dumps of the data corpus, since no
 public source describes the structure, and the members whose meaning is not
-established are named after their position.
+established are named after their position. The structures are 16 bytes long.
+ThinkPads carry structures of 7 bytes at the same type, which refer to three
+strings and whose meaning is not known, and which are left undecoded.
 
 === Fields
 

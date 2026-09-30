@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/system-id.h>
+#include <opendmi/entity/hpe/system-id-internal.h>
 
 const dmi_entity_spec_t dmi_hpe_system_id_spec =
 {
@@ -47,10 +47,20 @@ const dmi_entity_spec_t dmi_hpe_system_id_spec =
             .code = "system-id",
             .name = "Server system ID"
         }),
-        DMI_ATTRIBUTE_VECTOR(dmi_hpe_system_id_t, platform_id, INTEGER, {
-            .code  = "platform-id",
-            .name  = "Platform ID",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        // Platform ID is not shown when the structure is too short to hold
+        // it
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_system_id_t, has_platform_id, {
+            .code     = "platform-id",
+            .name     = "Platform ID",
+            .variants = DMI_VARIANTS({
+                {
+                    .selector  = true,
+                    .attribute = DMI_ATTRIBUTE_VECTOR(dmi_hpe_system_id_t, platform_id, INTEGER, {
+                        .flags = DMI_ATTRIBUTE_FLAG_HEX
+                    })
+                },
+                {}
+            })
         }),
         DMI_ATTRIBUTE(dmi_hpe_system_id_t, guid, UUID, {
             .code   = "guid",
@@ -59,5 +69,20 @@ const dmi_entity_spec_t dmi_hpe_system_id_spec =
             .flags  = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         {}
-    })
+    }),
+
+    .handlers = {
+        .derive = dmi_hpe_system_id_derive
+    }
 };
+
+bool dmi_hpe_system_id_derive(dmi_entity_t *entity)
+{
+    dmi_hpe_system_id_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_system_id));
+    if (info == nullptr)
+        return false;
+
+    info->has_platform_id = (entity->body_length >= 0x07);
+
+    return true;
+}

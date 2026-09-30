@@ -17,7 +17,9 @@ platform.
 The structures are found on Intel platforms whatever the vendor of the
 firmware is. The reference code gives them type 221 by default, which some
 vendors give to structures of their own: Dell places the structures at type
-205, while HP servers carry none.
+205 or 237, or keeps them at type 221 on some systems, e.g. XPS 13 9350,
+where its own structures of that type are told apart by their length of 19
+bytes and by carrying no strings, while HP servers carry none.
 
 .Intel Firmware Version Information structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -72,8 +74,17 @@ than a version, e.g. `PCH-CRID Status`, give it as the version string.
 The parts are written in decimal or in hexadecimal depending on the
 component: the versions of the Management Engine firmware in decimal, e.g.
 16.1.32.2473, and the versions of the reference code modules in hexadecimal,
-e.g. 7.0.5C.50. The microcode revision is the revision and the build number
-together.
+e.g. 7.0.5C.50.
+
+The revision of the microcode, `uCode Version`, is the revision followed by the
+low byte of the build number, `(revision << 8) | build`: e.g. revision 4 and
+build 55 stand for 0x437 of Alder Lake-P, and revision 0x41 and build 14 for
+0x410E of Raptor Lake-P. The older platforms give it in the build number
+alone, e.g. build 234 for 0xEA.
+
+Some items whose other parts are all unspecified give the build number as
+`0x00FF` rather than `0xFFFF`, e.g. `UNDI Version` and `MEBx version` on some
+platforms, which is presumably a byte of all bits set.
 
 .Intel Firmware Version Information: Item
 [width=100%, cols="1,2,1,1,4"]

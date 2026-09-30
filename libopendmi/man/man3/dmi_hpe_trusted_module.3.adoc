@@ -29,7 +29,7 @@ typedef struct dmi_hpe_trusted_module {
     bool is_orom_measuring;
     bool is_hidden;
     dmi_hpe_tm_disable_reason_t disable_reason;
-    uint8_t error_condition;
+    dmi_hpe_tm_error_t error_condition;
     dmi_hpe_tm_type_t type;
     bool is_standard_algorithm;
     bool is_chinese_algorithm;
@@ -37,6 +37,8 @@ typedef struct dmi_hpe_trusted_module {
     dmi_hpe_tm_fips_t fips;
     dmi_handle_t version_handle;
     dmi_hpe_tm_chip_t chip;
+    bool has_extended_status;
+    bool has_chip;
 } dmi_hpe_trusted_module_t;
 ----
 
@@ -67,10 +69,12 @@ Whether option ROMs are measured.
 Whether the module is hidden.
 
 `disable_reason`::
-Reason the module is disabled for, see `dmi_hpe_tm_disable_reason`(3).
+Reason the module is disabled for, see `dmi_hpe_tm_disable_reason`(3). It is
+shown for a disabled module only.
 
 `error_condition`::
-Error condition of the module, `1` for a self-test failure.
+Error condition the module is disabled for, see `dmi_hpe_tm_error`(3). It is
+shown for a module disabled for an error only.
 
 `type`::
 Type of the module, see `dmi_hpe_tm_type`(3).
@@ -92,7 +96,17 @@ Handle of the version indicator (type 216) of the firmware of the module. Set
 to `DMI_HANDLE_INVALID` when the structure holds none.
 
 `chip`::
-Chip of the module, see `dmi_hpe_tm_chip`(3).
+Chip of the module, see `dmi_hpe_tm_chip`(3), told by the low byte of the
+identifier word: the high byte is reserved.
+
+`has_extended_status`::
+Whether the structure holds the fields from `disable_reason` to
+`version_handle`, which the structures of 5 bytes leave out. The fields are
+not shown then.
+
+`has_chip`::
+Whether the structure holds the chip identifier, which the structures shorter
+than 12 bytes leave out. The field is not shown then.
 
 == See also
 
@@ -102,7 +116,8 @@ Chip of the module, see `dmi_hpe_tm_chip`(3).
 `dmi_hpe_tm_type`(3),
 `dmi_hpe_tm_mounting`(3),
 `dmi_hpe_tm_fips`(3),
-`dmi_hpe_tm_chip`(3)
+`dmi_hpe_tm_chip`(3),
+`dmi_hpe_tm_error`(3)
 
 == Standards
 

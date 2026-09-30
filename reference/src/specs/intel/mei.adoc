@@ -9,13 +9,18 @@ of the systems on a chip.
 
 Keeps the firmware status registers of the Host Embedded Controller
 Interfaces (HECI) of the Intel Management Engine, as the firmware of the host
-has read them at boot. A group association (type 14) named `$MEI` often refers
-to the structure.
+has read them at boot. Most tables hold a group association (type 14) named
+`$MEI`, which is not a reliable way to find the structure: in about half of
+the tables of the data corpus the group gives handle 0, and in some it refers
+to Intel firmware version information (type 221) or to other structures.
 
 The structures are found on Intel platforms whatever the vendor of the
 firmware is. The reference code gives them type 219 by default, which some
 vendors give to structures of their own: Dell places the structures at type
-203, while HP servers carry none.
+203 or 235, or keeps them at type 219 on some systems, e.g. XPS 13 9350, while
+HP servers carry none. The structure is told by its version, `1`, and by the
+name of the first interface, `MEI1`, which every known structure holds, so
+that the structures vendors give the same types are not taken for it.
 
 .Intel Management Engine Interface Information structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -72,7 +77,8 @@ platforms
 The interfaces are the PCI functions 0:16.0, 0:16.1, 0:16.4 and 0:16.5, named
 `MEI1` to `MEI4`. The registers are the ones of the PCI configuration space of
 the function, at offsets 0x40, 0x48, 0x60, 0x64, 0x68 and 0x6C. An absent
-function reads with all bits set.
+function reads with all bits set. Interfaces whose registers are all zeroes
+are not reported, e.g. `MEI4` on most platforms of the data corpus.
 
 .Intel Management Engine Interface Information: Interface
 [width=100%, cols="1,2,1,1,4"]
@@ -119,8 +125,9 @@ function reads with all bits set.
 | HFSTS6
 | `DWORD`
 | `BITFIELD`
-| Firmware status register 6, which tells the state of Intel Boot Guard on the
-generations which have it, and depends on the generation
+| Firmware status register 6, which depends on the generation. coreboot
+describes only bits 30 and 31 of it, for Skylake, as the commit state of the
+field programmable fuses (FPF)
 |===
 
 [#intel-mei-hfsts1, reftext=HFSTS1]
@@ -136,8 +143,10 @@ generations of the Management Engine.
 
 | 0-3
 | Working State
-| `0` reset, `1` initializing, `2` recovery, `4` M3 without UMA, `5` normal,
-`6` waiting, `7` transition, `8` invalid CPU plugged in
+| `0` reset, `1` initializing, `2` recovery, `3` test, `4` M3 without UMA
+(disabled on the 6 series chipsets), `5` normal, `6` waiting for the platform
+to be disabled, `7` transition of the operation state, `8` invalid CPU plugged
+in
 
 | 4
 | Manufacturing Mode
@@ -150,7 +159,9 @@ down yet
 
 | 6-8
 | Operation State
-| Power state of the firmware
+| Power state of the firmware: `0` preboot, `1` M0 with UMA, `2` M0 power
+gated, `4` M3 without UMA, `5` M0 without UMA, `6` bring-up, `7` M0 without
+UMA with an error
 
 | 9
 | Initialization Complete
@@ -166,17 +177,36 @@ down yet
 
 | 12-15
 | Error Code
-| `0` if there is no error
+| `0` no error, `1` uncategorized failure, `3` image failure, `4` debug
+failure
 
 | 16-19
 | Operation Mode
 | `0` normal, `2` debug, `3` temporarily disabled, `4` security override by
 jumper, `5` security override by message
 
-| 20-31
+| 20-23
 | Reserved
 |
+
+| 24
+| Boot Options Present
+|
+
+| 25-29
+| Reserved
+|
+
+| 30
+| D3 Support Valid
+|
+
+| 31
+| D0i3 Support Valid
+|
 |===
+
+The bits from 20 on are the ones coreboot gives for Skylake and later.
 
 [#intel-mei-hfsts3, reftext=HFSTS3]
 == Intel Management Engine Interface Information -- HFSTS3
@@ -192,8 +222,9 @@ jumper, `5` security override by message
 
 | 4-6
 | Firmware SKU
-| `2` consumer, `3` corporate, `5` lite. Matches the version string of the
-`ME Firmware Version` component of Intel firmware version information
+| `2` consumer, `3` corporate, `5` lite, `0` for none on some firmware of
+Management Engine 11.0. Matches the version string of the `ME Firmware
+Version` component of Intel firmware version information otherwise
 
 | 7-31
 | Reserved

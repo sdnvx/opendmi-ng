@@ -161,6 +161,12 @@ struct dmi_signature
      * @brief Text of the string number `string`.
      */
     const char *text;
+
+    /**
+     * @brief Whether the structure carries no strings, which tells it from
+     * the structures of the same length which refer to strings.
+     */
+    bool no_strings;
 };
 
 /**
@@ -766,7 +772,11 @@ __dmi_api dmi_type_id_t dmi_entity_type_id(const dmi_entity_t *entity);
 /**
  * @brief Get entity type name.
  *
- * Returns the human-readable name of the entity's SMBIOS structure type.
+ * Returns the human-readable name of the entity's SMBIOS structure type, as
+ * the specification describing the structure names it. Structures which no
+ * specification describes, e.g. the ones no signature of their type matches,
+ * are named after the range of their type: "OEM-specific" from 128 onwards,
+ * and "Unknown" below.
  *
  * @param[in] entity Entity descriptor.
  *

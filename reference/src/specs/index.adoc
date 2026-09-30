@@ -53,6 +53,9 @@ HP and HPE servers add structures of their own, some of which have changed
 their layouts or have been deprecated over the generations of the servers:
 up to G7, the generations are named `G1` to `G7`, and `Gen8` onwards. The
 generation is told from the product name of the system information (type 1).
+Servers whose product name tells no generation are taken for Gen10 Plus when
+their firmware is of HPE, and for G6 when it is of HP, the way dmidecode takes
+them.
 Type 219 and type 221 are taken on these servers by structures of their own,
 and the Intel reference code structures of these types are not decoded there.
 

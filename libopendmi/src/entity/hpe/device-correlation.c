@@ -118,11 +118,12 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
             .unspec = dmi_value_ptr((uint8_t)UINT8_MAX),
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
         }),
+        // Structure the handle refers to is not documented, so it is not
+        // checked
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, parent_handle, HANDLE, {
-            .code    = "parent-handle",
-            .name    = "Parent handle",
-            .unspec  = dmi_value_ptr((dmi_handle_t)0xFFFE),
-            .targets = dmi_types(DMI_TYPE(hpe_device_correlation))
+            .code   = "parent-handle",
+            .name   = "Parent handle",
+            .unspec = dmi_value_ptr((dmi_handle_t)0xFFFE)
         }),
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, is_peer_bifurcated, BOOL, {
             .code = "is-peer-bifurcated",
@@ -178,10 +179,18 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
             .code = "uefi-location",
             .name = "UEFI location"
         }),
-        DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, physical_handle, HANDLE, {
-            .code    = "physical-handle",
-            .name    = "Physical slot handle",
-            .targets = dmi_types(DMI_TYPE(system_slots))
+        // Slot is given for the peer bifurcated devices only
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_device_correlation_t, is_peer_bifurcated, {
+            .code     = "physical-handle",
+            .name     = "Physical slot handle",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_device_correlation_t, physical_handle, HANDLE, {
+                    .code    = "physical-handle",
+                    .name    = "Physical slot handle",
+                    .targets = dmi_types(DMI_TYPE(system_slots))
+                }),
+                {}
+            })
         }),
         DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, part_number, STRING, {
             .code = "part-number",
@@ -192,23 +201,49 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
             .name  = "Serial number",
             .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
-        DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, segment, INTEGER, {
-            .code  = "segment",
-            .name  = "PCI segment group",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        // Structures shorter than 40 bytes leave the PCI location out
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_device_correlation_t, has_pci_location, {
+            .code     = "segment",
+            .name     = "PCI segment group",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_device_correlation_t, segment, INTEGER, {
+                    .code  = "segment",
+                    .name  = "PCI segment group",
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, bus, INTEGER, {
-            .code  = "bus",
-            .name  = "PCI bus",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_device_correlation_t, has_pci_location, {
+            .code     = "bus",
+            .name     = "PCI bus",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_device_correlation_t, bus, INTEGER, {
+                    .code  = "bus",
+                    .name  = "PCI bus",
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_device_correlation_t, devfn, INTEGER, {
-            .code  = "devfn",
-            .name  = "PCI device and function",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_device_correlation_t, has_pci_location, {
+            .code     = "devfn",
+            .name     = "PCI device and function",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_device_correlation_t, devfn, INTEGER, {
+                    .code  = "devfn",
+                    .name  = "PCI device and function",
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
         {}
-    })
+    }),
+
+    .handlers = {
+        .derive = dmi_hpe_device_correlation_derive
+    }
 };
 
 const dmi_name_set_t dmi_hpe_device_type_names =
@@ -430,4 +465,15 @@ const dmi_name_set_t dmi_hpe_device_location_names =
 const char *dmi_hpe_device_location_name(dmi_hpe_device_location_t value)
 {
     return dmi_name_lookup(&dmi_hpe_device_location_names, (int)value);
+}
+
+bool dmi_hpe_device_correlation_derive(dmi_entity_t *entity)
+{
+    dmi_hpe_device_correlation_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_device_correlation));
+    if (info == nullptr)
+        return false;
+
+    info->has_pci_location = (entity->body_length >= 0x28);
+
+    return true;
 }

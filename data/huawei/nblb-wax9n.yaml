@@ -698,12 +698,13 @@ table:
     version: 1
     state: normal
     mode: normal
-    error-code: 0
+    error-code: none
     is-init-complete: true
     is-manufacturing: false
     sku: consumer
     devices:
     - name: MEI1
+      is-reported: true
       is-present: true
       hfsts:
       - 2684355141
@@ -713,6 +714,7 @@ table:
       - 0
       - 1073741830
     - name: MEI2
+      is-reported: true
       is-present: false
       hfsts:
       - 4294967295
@@ -722,6 +724,7 @@ table:
       - 4294967295
       - 4294967295
     - name: MEI3
+      is-reported: true
       is-present: true
       hfsts:
       - 2147483648
@@ -731,14 +734,7 @@ table:
       - 0
       - 0
     - name: MEI4
-      is-present: true
-      hfsts:
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
+      is-reported: false
 - handle: 24
   type: 221
   length: 78

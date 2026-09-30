@@ -28,6 +28,7 @@ typedef enum dmi_intel_me_state {
     DMI_INTEL_ME_STATE_RESET       = 0x00,
     DMI_INTEL_ME_STATE_INIT        = 0x01,
     DMI_INTEL_ME_STATE_RECOVERY    = 0x02,
+    DMI_INTEL_ME_STATE_TEST        = 0x03,
     DMI_INTEL_ME_STATE_M3_NO_UMA   = 0x04,
     DMI_INTEL_ME_STATE_NORMAL      = 0x05,
     DMI_INTEL_ME_STATE_WAIT        = 0x06,
@@ -61,23 +62,27 @@ Firmware is initializing.
 `DMI_INTEL_ME_STATE_RECOVERY`::
 Firmware runs in the recovery mode, e.g. after its image has been found corrupted.
 
+`DMI_INTEL_ME_STATE_TEST`::
+Firmware runs its tests.
+
 `DMI_INTEL_ME_STATE_M3_NO_UMA`::
-Firmware runs in the M3 power state, without the memory of the host.
+Firmware runs in the M3 power state, without the memory of the host. coreboot
+names the value disabled for the 6 series chipsets.
 
 `DMI_INTEL_ME_STATE_NORMAL`::
 Firmware runs normally.
 
 `DMI_INTEL_ME_STATE_WAIT`::
-Firmware waits.
+Firmware waits for the platform to be disabled.
 
 `DMI_INTEL_ME_STATE_TRANSITION`::
-Firmware changes its state.
+Firmware changes its operation state.
 
 `DMI_INTEL_ME_STATE_INVALID_CPU`::
 Processor does not match the firmware.
 
 `DMI_INTEL_ME_STATE_UNSPEC`::
-State is unknown, since the first interface is absent.
+State is unknown, since the first interface is absent or not reported.
 
 == Return value
 

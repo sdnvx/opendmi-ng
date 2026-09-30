@@ -4,21 +4,26 @@ table:
 - handle: 55808
   type: 218
   length: 13
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2gsA2rIAFyAOEAM=
+  level: '2.0'
+  state:
+  - decoded
+  - incomplete
+  description: Dell calling interface
+  attributes:
+    command-io-address: 178
+    command-io-code: 23
+    supported-commands: 51383840
+    tokens: []
 - handle: 0
   type: 0
-  length: 44
+  length: 52
   level: '2.4'
   state:
   - decoded
   - partial
   description: Platform firmware information
   attributes:
-    vendor: ''
+    vendor: Dell Inc.
     version: 2.1.5
     bios-segment: 61440
     release-date: '2016-04-11'
@@ -74,13 +79,13 @@ table:
     controller-version: null
 - handle: 256
   type: 1
-  length: 84
+  length: 92
   level: '2.4'
   state:
   - decoded
   description: System information
   attributes:
-    vendor: ''
+    vendor: Dell Inc.
     product: R730 Base
     version: null
     serial-number: BPMY082
@@ -90,7 +95,7 @@ table:
     family: null
 - handle: 512
   type: 2
-  length: 47
+  length: 55
   level: '2.0'
   state:
   - decoded
@@ -98,7 +103,7 @@ table:
   - partial
   description: Baseboard or module information
   attributes:
-    vendor: ''
+    vendor: Dell Inc.
     product: 04N3DF
     version: A07
     serial-number: .BPMY082.CN779215A5018M.
@@ -115,14 +120,14 @@ table:
     contained-objects: []
 - handle: 768
   type: 3
-  length: 33
+  length: 41
   level: '2.7'
   state:
   - decoded
   - partial
   description: System enclosure or chassis
   attributes:
-    vendor: ''
+    vendor: Dell Inc.
     type: rack-mount
     is-lock-present: true
     version: null
@@ -2347,102 +2352,157 @@ table:
   type: 177
   length: 14
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    sQwAsQACAAAAAAAA
+  state:
+  - decoded
+  description: Dell BIOS flags
+  attributes:
+    flags: 512
+    is-acpi-wmi: false
 - handle: 53248
   type: 208
   length: 18
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    0BAA0AIA/gAnBgAAAAEAAA==
+  level: '2.2'
+  state:
+  - decoded
+  description: Dell revisions and IDs
+  attributes:
+    implementation-version: '2.0'
+    system-id: 1575
+    hardware-revision: 0
+    manufacture-date: null
+    first-poweron-date: null
 - handle: 53760
   type: 210
   length: 14
-  level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    0gwA0vgCAwMGgAQF
+  level: '2.2'
+  state:
+  - decoded
+  description: Dell serial port
+  attributes:
+    base-address: 760
+    irq-number: 3
+    connector: db-9-m
+    capabilities: 16550a
+    maximum-speed: 115200
+    security: external-iface-enabled
 - handle: 55296
   type: 216
   length: 35
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    2AkA2AECAPAD
-  strings:
-  - Matrox
-  - '{* Content TBD *}'
+  state:
+  - decoded
+  description: Dell video BIOS information
+  attributes:
+    vendor: Matrox
+    version: '{* Content TBD *}'
+    unknown-1: 0
+    unknown-2: 1008
 - handle: 56832
   type: 222
   length: 18
   level: null
-  state:
-  - decoded
-  - incomplete
-  description: Intel Silicon View Technology milestones
-  attributes:
-    version: 0
-    parameter: 65344
-    milestones:
-    - code: 0
-      name: null
-    - code: 0
-      name: null
-    - code: 0
-      name: null
-    - code: 0
-      name: null
+  state: []
+  description: OEM-specific
+  data: !!binary |
+    3hAA3gBA//8AAAAAAAEAAA==
 - handle: 57600
   type: 225
   length: 40
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    4Q0A4QEBAAQAAgEEAA==
-  strings:
-  - CPU.Socket.1
-  - CPU.Socket.2
+  state:
+  - decoded
+  description: Dell device names
+  attributes:
+    unknown: 1
+    devices:
+    - fqdd: CPU.Socket.1
+      handle: 1024
+      unknown: 0
+    - fqdd: CPU.Socket.2
+      handle: 1025
+      unknown: 0
 - handle: 57601
   type: 225
   length: 468
   level: null
-  state: []
-  description: OEM-specific
-  data: !!binary |
-    4WUB4QEBABEAAgERAAMCEQAEAxEABQQRAAYFEQAHBhEACAcRAAkIEQAKCREACwoRAAwLEQANDBEA
-    Dg0RAA8OEQAQDxEAERARABIREQATEhEAFBMRABUUEQAWFREAFxYRABgXEQA=
-  strings:
-  - DIMM.Socket.A1
-  - DIMM.Socket.A2
-  - DIMM.Socket.A3
-  - DIMM.Socket.A4
-  - DIMM.Socket.A5
-  - DIMM.Socket.A6
-  - DIMM.Socket.A7
-  - DIMM.Socket.A8
-  - DIMM.Socket.A9
-  - DIMM.Socket.A10
-  - DIMM.Socket.A11
-  - DIMM.Socket.A12
-  - DIMM.Socket.B1
-  - DIMM.Socket.B2
-  - DIMM.Socket.B3
-  - DIMM.Socket.B4
-  - DIMM.Socket.B5
-  - DIMM.Socket.B6
-  - DIMM.Socket.B7
-  - DIMM.Socket.B8
-  - DIMM.Socket.B9
-  - DIMM.Socket.B10
-  - DIMM.Socket.B11
-  - DIMM.Socket.B12
+  state:
+  - decoded
+  description: Dell device names
+  attributes:
+    unknown: 1
+    devices:
+    - fqdd: DIMM.Socket.A1
+      handle: 4352
+      unknown: 0
+    - fqdd: DIMM.Socket.A2
+      handle: 4353
+      unknown: 0
+    - fqdd: DIMM.Socket.A3
+      handle: 4354
+      unknown: 0
+    - fqdd: DIMM.Socket.A4
+      handle: 4355
+      unknown: 0
+    - fqdd: DIMM.Socket.A5
+      handle: 4356
+      unknown: 0
+    - fqdd: DIMM.Socket.A6
+      handle: 4357
+      unknown: 0
+    - fqdd: DIMM.Socket.A7
+      handle: 4358
+      unknown: 0
+    - fqdd: DIMM.Socket.A8
+      handle: 4359
+      unknown: 0
+    - fqdd: DIMM.Socket.A9
+      handle: 4360
+      unknown: 0
+    - fqdd: DIMM.Socket.A10
+      handle: 4361
+      unknown: 0
+    - fqdd: DIMM.Socket.A11
+      handle: 4362
+      unknown: 0
+    - fqdd: DIMM.Socket.A12
+      handle: 4363
+      unknown: 0
+    - fqdd: DIMM.Socket.B1
+      handle: 4364
+      unknown: 0
+    - fqdd: DIMM.Socket.B2
+      handle: 4365
+      unknown: 0
+    - fqdd: DIMM.Socket.B3
+      handle: 4366
+      unknown: 0
+    - fqdd: DIMM.Socket.B4
+      handle: 4367
+      unknown: 0
+    - fqdd: DIMM.Socket.B5
+      handle: 4368
+      unknown: 0
+    - fqdd: DIMM.Socket.B6
+      handle: 4369
+      unknown: 0
+    - fqdd: DIMM.Socket.B7
+      handle: 4370
+      unknown: 0
+    - fqdd: DIMM.Socket.B8
+      handle: 4371
+      unknown: 0
+    - fqdd: DIMM.Socket.B9
+      handle: 4372
+      unknown: 0
+    - fqdd: DIMM.Socket.B10
+      handle: 4373
+      unknown: 0
+    - fqdd: DIMM.Socket.B11
+      handle: 4374
+      unknown: 0
+    - fqdd: DIMM.Socket.B12
+      handle: 4375
+      unknown: 0
 - handle: 65279
   type: 127
   length: 6

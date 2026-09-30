@@ -2284,11 +2284,25 @@ table:
     is-network-enabled: false
     is-kvm-enabled: false
     extended-data: 165
-    oem-capabilities:
-    - 175
-    - 2
-    - 192
-    - 0
+    oem-capabilities-1:
+      storage-redirection: true
+      sol: true
+      bios-reflash: true
+      bios-setup: true
+      bios-pause: false
+      floppy-boot-block: true
+      cd-boot-block: false
+    terminal: vt100-plus
+    oem-capabilities-3:
+      secure-erase: true
+      secure-boot: true
+    oem-capabilities-4:
+      thunderbolt-dock: false
+      https-boot: false
+      pba-boot: false
+      winre-boot: false
+      nonsecure-boot: false
+      wifi-coexistence: false
 - handle: 61479
   type: 131
   length: 66
@@ -2297,23 +2311,50 @@ table:
   - decoded
   description: Intel vPro information
   attributes:
-    flags-1: 49
+    cpu-capabilities:
+      vmx-enabled: true
+      smx-enabled: false
+      txt-capable: false
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: true
     mebx-version:
       major: 11
       minor: 0
       hotfix: 0
       build: 10
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 40270
-    flags-2: 1
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: false
+      sbt: false
+      l3: false
     me-version:
       major: 11
       minor: 8
       hotfix: 92
       build: 4222
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 254
+    gbe-bus: 0
     gbe-device-id: null
-    flags-3: 34
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: true
+      txt-configurable: false
+      tpm-configurable: false
+      me-configurable: false
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 61480
   type: 205
   length: 78
@@ -2648,12 +2689,13 @@ table:
     version: 1
     state: normal
     mode: normal
-    error-code: 0
+    error-code: none
     is-init-complete: true
     is-manufacturing: false
     sku: consumer
     devices:
     - name: MEI1
+      is-reported: true
       is-present: true
       hfsts:
       - 2415919685
@@ -2663,6 +2705,7 @@ table:
       - 7937
       - 1203768265
     - name: MEI2
+      is-reported: true
       is-present: false
       hfsts:
       - 4294967295
@@ -2672,6 +2715,7 @@ table:
       - 4294967295
       - 4294967295
     - name: MEI3
+      is-reported: true
       is-present: true
       hfsts:
       - 2147483648

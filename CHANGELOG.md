@@ -5,6 +5,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Name subclasses and protocols of USB mass storage devices and hubs in HP/HPE USB device correlation records
+- Add `no_strings` to structure signatures, which tells the structures carrying no strings
+- Name radio button bit of Acer communication functions, the way the Acer WMI driver of Linux names it
+- Name kinds of Acer devices: the webcam, the audio, the wireless network and the Bluetooth adapters the PCI and USB IDs of the data corpus tell, and the other kinds found in it by their values
+- Add `DMI_ATTRIBUTE_FLAG_OPEN` for enumerations which name some of the values only, whose other values `value.invalid-enum` does not report
+- Add processor signature of HP/HPE CPU microcode patches, with the base family put back on AMD platforms the way dmidecode does
+- Add string at offset 0x09 of HP/HPE other ROM information, whose meaning is not established
+- Decode capabilities of the processor, of the Management Engine, of the TPM and of the BIOS in Intel vPro information, as the Intel AMT implementation guide gives them, and the memory controller hub of its older layout
+- Decode OEM capabilities of Intel AMT information and the terminal emulation of Serial over LAN, as the Intel AMT implementation guide gives them
+- Name error codes and the test working state of Intel Management Engine firmware, the way coreboot names them
+- Add `is_reported` to interfaces of Intel Management Engine interface information, which tells the interfaces whose registers are all zeroes
+
+### Changed
+
+- Take HP servers naming no generation for G6, the way dmidecode does
+- Show fields of HP/HPE trusted module status only when the structure holds them and they apply
+- Hide A0 and A2 bay counts and names of HP/HPE drive backplanes from Gen10 Plus onwards
+- Split CPLD version of HP/HPE risers into the version and the `B.` release flag
+- Replace the vector of tokens of Dell token references, type 1, with an array of `token_count` elements
+- Tell Intel Management Engine interface information and Silicon View Technology milestones by their signatures
+- Show fields of HP/HPE ProLiant information and server system ID only when the structure holds them
+- Show fields of HP/HPE 64-bit CRU information for the records of the `$CRU` signature only
+- Show physical slot of HP/HPE device correlation records for peer bifurcated devices only
+- Enable Lenovo module by the vendor of the system too, the way dmidecode tells Lenovo systems
+- Require 12 bytes of Dell BIOS flags, the way the Dell SMBIOS WMI driver of Linux does
+- Show redundant ROM version of HP/HPE other ROM information only when the redundant ROM is installed, up to Gen11, and the OEM ROM image only when named, the way dmidecode does
+- Show x2APIC ID of HP/HPE processor specific information in the x2APIC mode only
+- Show board number of HP/HPE DIMM location records for memory boards only, fields of the Innovation Engine up to Gen11 only, and the DIMM index only when the structure holds it
+- Show PCI location of HP/HPE device correlation records only when the structure holds it
+- Check controller manufacturer ID of HP/HPE DIMM location records as a JEDEC code
+- Stop checking parent handle of HP/HPE device correlation records against the device correlation records, which is not documented
+- Replace `flags_1`, `flags_2` and `flags_3` of Intel vPro information with `cpu_capabilities`, `me_capabilities` and `bios_capabilities`, and split the PCI bus out of `lpc_devfn` and `gbe_devfn`
+- Replace `oem_capabilities` of Intel AMT information with `oem_capabilities_1`, `terminal`, `oem_capabilities_3` and `oem_capabilities_4`
+- Make error code of Intel Management Engine interface information a `dmi_intel_me_error_t`, unspecified as `DMI_INTEL_ME_ERROR_UNSPEC`
+- Hide registers of Intel Management Engine interfaces which are not reported, and take the state of the firmware as unknown when the first one is not
+
+### Fixed
+
+- Fix passphrase state of HP/HPE DIMM configuration read from bit 0 only
+- Fix HP/HPE interleave set health 0xFF shown as unspecified instead of reserved
+- Fix chip of HP/HPE trusted modules told by the whole identifier word instead of its low byte
+- Fix Intel firmware version and Management Engine interface information kept by Dell at their own types decoded as Dell structures or left undecoded
+- Fix Dell token references, type 1, of 20 bytes rejected as too short
+- Fix structures of other vendors at type 222 decoded as Intel Silicon View Technology milestones
+- Fix structures of 7 bytes of ThinkPads decoded as Lenovo machine type model
+- Fix number of the communication function key of Acer hotkey functions of 15 bytes lost
+- Fix zero SKU of Intel Management Engine firmware reported as an invalid value
+- Fix YAML and JSON export describing structures by their type number instead of the specification decoding them
+- Fix structures no specification matches named after a specification of their type
+- Fix handles of Dell device names not checked against the types they refer to
+- Fix JEDEC codes copied from the SPD, which carry a parity bit in the number of continuation codes, reported by `value.jep106` as leading to bank 129
+
 ## [0.5.0] - September 30, 2026
 
 ### Added

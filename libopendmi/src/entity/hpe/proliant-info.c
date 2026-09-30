@@ -45,23 +45,42 @@ const dmi_entity_spec_t dmi_hpe_proliant_info_spec =
             .name  = "Power features",
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_hpe_proliant_info_t, omega_features, INTEGER, {
-            .code  = "omega-features",
-            .name  = "Omega features",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        // Features the structure is too short to hold are not shown
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_proliant_info_t, has_omega_features, {
+            .code     = "omega-features",
+            .name     = "Omega features",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_proliant_info_t, omega_features, INTEGER, {
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_proliant_info_t, misc_features, INTEGER, {
-            .code  = "misc-features",
-            .name  = "Miscellaneous features",
-            .flags = DMI_ATTRIBUTE_FLAG_HEX
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_proliant_info_t, has_misc_features, {
+            .code     = "misc-features",
+            .name     = "Miscellaneous features",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_proliant_info_t, misc_features, INTEGER, {
+                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_proliant_info_t, is_icru, BOOL, {
-            .code = "is-icru",
-            .name = "iCRU"
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_proliant_info_t, has_misc_features, {
+            .code     = "is-icru",
+            .name     = "iCRU",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_proliant_info_t, is_icru, BOOL, {}),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_proliant_info_t, is_uefi, BOOL, {
-            .code = "is-uefi",
-            .name = "UEFI"
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_proliant_info_t, has_misc_features, {
+            .code     = "is-uefi",
+            .name     = "UEFI",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_proliant_info_t, is_uefi, BOOL, {}),
+                {}
+            })
         }),
         {}
     }),
@@ -76,6 +95,9 @@ bool dmi_hpe_proliant_info_derive(dmi_entity_t *entity)
     dmi_hpe_proliant_info_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_proliant_info));
     if (info == nullptr)
         return false;
+
+    info->has_omega_features = (entity->body_length >= 0x0C);
+    info->has_misc_features  = (entity->body_length >= 0x14);
 
     info->is_icru = (info->misc_features & 0x0001) != 0;
     info->is_uefi = (info->misc_features & 0x1400) != 0;

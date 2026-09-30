@@ -54,7 +54,15 @@ const dmi_entity_spec_t dmi_intel_svt_spec =
     },
     .params = {
         .minimum_length = 0x08,
-        .decoded_length = sizeof(dmi_intel_svt_t)
+        .decoded_length = sizeof(dmi_intel_svt_t),
+        // Version 1 and parameter 0x0099, which every known structure holds,
+        // tell it from the structures of the vendors at the same type, e.g.
+        // the ones of Dell on the systems whose firmware names no vendor
+        .signature      = DMI_SIGNATURE({
+            .offset = 0x04,
+            .bytes  = (const uint8_t[]){ 0x01, 0x99, 0x00 },
+            .size   = 3
+        })
     },
 
     .fields = DMI_FIELDS({
@@ -92,12 +100,12 @@ const dmi_entity_spec_t dmi_intel_svt_aligned_spec =
     .params = {
         .minimum_length = 0x0A,
         .decoded_length = sizeof(dmi_intel_svt_t),
-        // Byte which aligns the parameter, where the other layout holds the
-        // low byte of the parameter
+        // Version 1 and parameter 0x0099, with the byte which aligns the
+        // parameter between them
         .signature      = DMI_SIGNATURE({
-            .offset = 0x05,
-            .bytes  = (const uint8_t[]){ 0x00 },
-            .size   = 1
+            .offset = 0x04,
+            .bytes  = (const uint8_t[]){ 0x01, 0x00, 0x99, 0x00 },
+            .size   = 4
         })
     },
 

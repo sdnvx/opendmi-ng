@@ -7,7 +7,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo date record
+  description: Lenovo TPM information
   attributes:
     vendor: 'STM '
     unknown-1: 0
@@ -260,25 +260,52 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkVantage Technologies enablement
+  description: Intel vPro information
   attributes:
-    flags-1: 16
+    cpu-capabilities:
+      vmx-enabled: false
+      smx-enabled: false
+      txt-capable: false
+      txt-enabled: false
+      vtx-capable: true
+      vtx-enabled: false
     mebx-version:
       major: 0
       minor: 0
       hotfix: 0
       build: 0
     lpc-devfn: 248
+    lpc-bus: 0
     lpc-device-id: 7767
-    flags-2: 8193
+    me-capabilities:
+      me-enabled: true
+      qst: false
+      asf: false
+      amt: false
+      sbt: false
+      l3: false
     me-version:
       major: 8
       minor: 1
       hotfix: 40
       build: 1416
+    tpm-capabilities:
+      present: false
+      enabled: false
+    tcg-major: 0
+    tcg-minor: 0
     gbe-devfn: 200
+    gbe-bus: 0
     gbe-device-id: null
-    flags-3: 32
+    bios-capabilities:
+      vtx-configurable: false
+      vtd-configurable: false
+      txt-configurable: false
+      tpm-configurable: false
+      me-configurable: false
+      va-extensions: true
+      spi-data-reserved: false
+    va-version: 0
 - handle: 12
   type: 16
   length: 25
@@ -1016,7 +1043,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad device presence detection
+  description: Lenovo bay I/O
   attributes:
     number: 2
     version: 3
@@ -1146,7 +1173,7 @@ table:
   level: null
   state:
   - decoded
-  description: Lenovo ThinkPad device presence detection
+  description: Lenovo mobile PC OEM data
   attributes:
     number: 1
     revision: 1

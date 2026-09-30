@@ -85,10 +85,26 @@ static void test_amt_decode(void **pstate)
     assert_true(info->is_network_enabled);
     assert_true(info->is_kvm_enabled);
     assert_int_equal(info->extended_data, 0xA5);
-    assert_int_equal(info->oem_capabilities[0], 0xBF);
-    assert_int_equal(info->oem_capabilities[1], 0x02);
-    assert_int_equal(info->oem_capabilities[2], 0xC0);
-    assert_int_equal(info->oem_capabilities[3], 0x00);
+
+    // Every feature but blocking the boot from the CD, with the reserved bit
+    // set, as most firmware does
+    assert_int_equal(info->oem_capabilities_1.__value, 0xBF);
+    assert_true(info->oem_capabilities_1.is_storage_redirection_supported);
+    assert_true(info->oem_capabilities_1.is_sol_supported);
+    assert_true(info->oem_capabilities_1.is_bios_reflash_supported);
+    assert_true(info->oem_capabilities_1.is_bios_setup_supported);
+    assert_true(info->oem_capabilities_1.is_bios_pause_supported);
+    assert_true(info->oem_capabilities_1.is_floppy_boot_blockable);
+    assert_false(info->oem_capabilities_1.is_cd_boot_blockable);
+
+    assert_int_equal(info->terminal, DMI_INTEL_AMT_TERMINAL_VT100_PLUS);
+    assert_string_equal(dmi_intel_amt_terminal_name(info->terminal), "VT100+");
+
+    assert_int_equal(info->oem_capabilities_3.__value, 0xC0);
+    assert_true(info->oem_capabilities_3.is_secure_erase_supported);
+    assert_true(info->oem_capabilities_3.is_secure_boot_supported);
+
+    assert_int_equal(info->oem_capabilities_4.__value, 0x00);
 }
 
 static void test_amt_extended(void **pstate)
@@ -105,7 +121,16 @@ static void test_amt_extended(void **pstate)
     const dmi_intel_amt_t *info = dmi_entity_info(entity, DMI_TYPE(intel_amt));
     assert_non_null(info);
     assert_true(info->is_enabled);
-    assert_int_equal(info->oem_capabilities[0], 0xEF);
+    assert_int_equal(info->oem_capabilities_1.__value, 0xEF);
+
+    // Secure Boot, and the Thunderbolt dock alone of the remote boot
+    assert_int_equal(info->oem_capabilities_3.__value, 0x80);
+    assert_false(info->oem_capabilities_3.is_secure_erase_supported);
+    assert_true(info->oem_capabilities_3.is_secure_boot_supported);
+
+    assert_int_equal(info->oem_capabilities_4.__value, 0x01);
+    assert_true(info->oem_capabilities_4.is_thunderbolt_dock_supported);
+    assert_false(info->oem_capabilities_4.is_https_boot_supported);
 }
 
 static void test_amt_signature(void **pstate)
@@ -124,6 +149,26 @@ static void test_amt_signature(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_null(entity->spec);
+    dmi_entity_destroy(entity);
+
+    // ...while the one with it is, of VT-UTF8 and of a single target of the
+    // remote boot, the high nibble of the terminal byte being left out
+    memcpy(data + 0x04, "$AMT", 4);
+    data[0x0F] = 0x13;
+    data[0x11] = 0x04;
+
+    entity = dmi_test_entity_create(buffer, data, sizeof(data));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+    assert_ptr_equal(entity->spec, &dmi_intel_amt_spec);
+
+    const dmi_intel_amt_t *info = dmi_entity_info(entity, DMI_TYPE(intel_amt));
+    assert_non_null(info);
+    assert_int_equal(info->terminal, DMI_INTEL_AMT_TERMINAL_VT_UTF8);
+    assert_string_equal(dmi_intel_amt_terminal_name(info->terminal), "VT-UTF8");
+    assert_false(info->oem_capabilities_4.is_https_boot_supported);
+    assert_true(info->oem_capabilities_4.is_pba_boot_supported);
+    assert_null(dmi_intel_amt_terminal_name((dmi_intel_amt_terminal_t)0x05));
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);

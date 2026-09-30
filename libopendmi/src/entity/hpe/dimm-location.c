@@ -4,12 +4,14 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <opendmi/context.h>
 #include <opendmi/field.h>
+#include <opendmi/platform.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/dimm-location.h>
+#include <opendmi/entity/hpe/dimm-location-internal.h>
 
 const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
 {
@@ -74,10 +76,17 @@ const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
             .name    = "Memory device handle",
             .targets = dmi_types(DMI_TYPE(memory_device))
         }),
-        DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, board, INTEGER, {
-            .code   = "board",
-            .name   = "Board number",
-            .unspec = dmi_value_ptr((uint8_t)UINT8_MAX)
+        DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, is_system_board, BOOL, {
+            .code = "is-system-board",
+            .name = "System board"
+        }),
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_dimm_location_t, is_system_board, {
+            .code     = "board",
+            .name     = "Board number",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(false, dmi_hpe_dimm_location_t, board, INTEGER, {}),
+                {}
+            })
         }),
         DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, dimm, INTEGER, {
             .code = "dimm",
@@ -115,15 +124,30 @@ const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
             .name   = "Memory channel number",
             .unspec = dmi_value_ptr((uint8_t)0)
         }),
-        DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, ie_dimm, INTEGER, {
-            .code   = "ie-dimm",
-            .name   = "IE DIMM number",
-            .unspec = dmi_value_ptr((uint8_t)UINT8_MAX)
+        // Fields of the Innovation Engine are reserved from Gen12 onwards
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_dimm_location_t, has_ie, {
+            .code     = "ie-dimm",
+            .name     = "IE DIMM number",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_dimm_location_t, ie_dimm, INTEGER, {
+                    .code   = "ie-dimm",
+                    .name   = "IE DIMM number",
+                    .unspec = dmi_value_ptr((uint8_t)UINT8_MAX)
+                }),
+                {}
+            })
         }),
-        DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, ie_pldm_id, INTEGER, {
-            .code   = "ie-pldm-id",
-            .name   = "IE PLDM ID",
-            .unspec = dmi_value_ptr((uint8_t)UINT8_MAX)
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_dimm_location_t, has_ie, {
+            .code     = "ie-pldm-id",
+            .name     = "IE PLDM ID",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_dimm_location_t, ie_pldm_id, INTEGER, {
+                    .code   = "ie-pldm-id",
+                    .name   = "IE PLDM ID",
+                    .unspec = dmi_value_ptr((uint8_t)UINT8_MAX)
+                }),
+                {}
+            })
         }),
         DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, vendor_id, INTEGER, {
             .code   = "vendor-id",
@@ -141,7 +165,7 @@ const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
             .code   = "controller-vendor-id",
             .name   = "Controller manufacturer ID",
             .unspec = dmi_value_ptr((uint16_t)0),
-            .flags  = DMI_ATTRIBUTE_FLAG_HEX
+            .flags  = DMI_ATTRIBUTE_FLAG_HEX | DMI_ATTRIBUTE_FLAG_JEP106
         }),
         DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, controller_device_id, INTEGER, {
             .code   = "controller-device-id",
@@ -158,11 +182,34 @@ const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
             .code = "part-number",
             .name = "Part number"
         }),
-        DMI_ATTRIBUTE(dmi_hpe_dimm_location_t, channel_index, INTEGER, {
-            .code   = "channel-index",
-            .name   = "DIMM index",
-            .unspec = dmi_value_ptr((uint8_t)UINT8_MAX)
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_dimm_location_t, has_channel_index, {
+            .code     = "channel-index",
+            .name     = "DIMM index",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_dimm_location_t, channel_index, INTEGER, {}),
+                {}
+            })
         }),
         {}
-    })
+    }),
+
+    .handlers = {
+        .derive = dmi_hpe_dimm_location_derive
+    }
 };
+
+bool dmi_hpe_dimm_location_derive(dmi_entity_t *entity)
+{
+    dmi_hpe_dimm_location_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_dimm_location));
+    if (info == nullptr)
+        return false;
+
+    const dmi_platform_t *platform = dmi_get_platform(dmi_entity_context(entity));
+    unsigned generation = (platform != nullptr) ? platform->generation : 0;
+
+    info->is_system_board   = (info->board == UINT8_MAX);
+    info->has_ie            = (generation < DMI_HPE_GEN12);
+    info->has_channel_index = (entity->body_length >= 0x1C);
+
+    return true;
+}

@@ -133,7 +133,7 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
             return false;
     }
 
-    entity_description = dmi_type_name(session->context, entity->type_id);
+    entity_description = dmi_entity_name(entity);
 
     result =
         dmi_json_mapping_start(session) and

@@ -100,7 +100,9 @@ struct dmi_hpe_dimm_location
     uint16_t device_id;
 
     /**
-     * @brief Manufacturer ID code of the controller, NVDIMMs only.
+     * @brief Manufacturer ID code of the controller, NVDIMMs only, as the
+     * SPD gives it: the number of continuation codes in the low byte, whose
+     * bit 7 is a parity bit, and the JEP106 code in the high byte.
      */
     uint16_t controller_vendor_id;
 
@@ -121,9 +123,27 @@ struct dmi_hpe_dimm_location
 
     /**
      * @brief 0-based index of the DIMM within its channel. Set to
-     * `UINT8_MAX` when unspecified.
+     * `UINT8_MAX` when the structure holds none.
      */
     uint8_t channel_index;
+
+    /**
+     * @brief Whether the socket is one of the system board, which the board
+     * number of `UINT8_MAX` tells. The board number is not shown then.
+     */
+    bool is_system_board;
+
+    /**
+     * @brief Whether the fields of the Innovation Engine are shown, which
+     * they are up to Gen11.
+     */
+    bool has_ie;
+
+    /**
+     * @brief Whether the structure holds the index of the DIMM within its
+     * channel, which the structures shorter than 28 bytes leave out.
+     */
+    bool has_channel_index;
 };
 
 /**

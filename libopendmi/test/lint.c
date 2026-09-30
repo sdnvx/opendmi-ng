@@ -32,8 +32,12 @@ static void test_lint_rule_filter(void **pstate);
 static void test_lint_closed_context(void **pstate);
 static void test_lint_raw_data(void **pstate);
 static void test_lint_group_member(void **pstate);
+static void test_lint_jep106_parity(void **pstate);
+static void test_lint_open_enum(void **pstate);
 
 static size_t test_lint_count_group_member(const char *path, unsigned flags, const char *module);
+static size_t test_lint_count_module_rule(const char *path, const char *module, const char *code);
+static void test_lint_patch(dmi_context_t *context, const char *path, dmi_byte_t type, size_t offset, dmi_byte_t value);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -46,6 +50,12 @@ static const char *test_trailing_path = OPENDMI_TEST_DATA "/lenovo/thinkcentre-m
 // Dump with an IPMI device structure, and the copy of it the test breaks
 static const char *test_ipmi_path = OPENDMI_TEST_DATA "/asus/rs100-x7.bin";
 static const char *test_broken_path = "lint-test.bin";
+
+// Dump whose memory devices give the codes of JEDEC as the SPD does
+static const char *test_jep106_path = OPENDMI_TEST_DATA "/ixsystems/truenas-m50-ha.bin";
+
+// Offset of the kind of the first device of the Acer device list
+static const size_t test_acer_kind = 0x04;
 
 // Offset of the revision of the IPMI specification within the structure
 static const size_t test_ipmi_revision = 0x05;
@@ -75,7 +85,9 @@ int main(void)
         cmocka_unit_test(test_lint_rule_filter),
         cmocka_unit_test(test_lint_closed_context),
         cmocka_unit_test(test_lint_raw_data),
-        cmocka_unit_test(test_lint_group_member)
+        cmocka_unit_test(test_lint_group_member),
+        cmocka_unit_test(test_lint_jep106_parity),
+        cmocka_unit_test(test_lint_open_enum)
     };
 
     return cmocka_run_group_tests(tests, test_lint_setup, test_lint_teardown);
@@ -284,6 +296,20 @@ static void test_lint_rule_filter(void **pstate)
 }
 
 //
+// Codes of JEDEC copied from the SPD carry a parity bit in the number of
+// continuation bytes, e.g. 0xAD80 of SK hynix, which leads to the first bank.
+//
+static void test_lint_jep106_parity(void **pstate)
+{
+    test_lint_state_t *state = *pstate;
+
+    size_t count = test_lint_count_rule(state, test_jep106_path, "value.jep106",
+                                        DMI_LINT_PROFILE_READER, nullptr);
+
+    assert_int_equal(count, 0);
+}
+
+//
 // Break the binary-coded decimal of an IPMI device structure, and check that
 // the rule reading the raw data of the structures finds it.
 //
@@ -291,38 +317,74 @@ static void test_lint_raw_data(void **pstate)
 {
     test_lint_state_t *state = *pstate;
 
-    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    test_lint_patch(state->context, test_ipmi_path, DMI_TYPE_ID_IPMI_DEVICE, test_ipmi_revision, 0x1A);
+
+    dmi_lint_severity_t severity = DMI_LINT_SEVERITY_NONE;
+    size_t count = test_lint_count_rule(state, test_broken_path, "ipmi-device.revision",
+                                        DMI_LINT_PROFILE_READER, &severity);
+
+    remove(test_broken_path);
+
+    assert_int_equal(count, 1);
+    assert_int_equal(severity, DMI_LINT_SEVERITY_WARNING);
+}
+
+//
+// Enumerations which name some of the values only take the others too, e.g.
+// the kinds of the devices of Acer laptops, which are reverse engineered
+//
+static void test_lint_open_enum(void **pstate)
+{
+    test_lint_state_t *state = *pstate;
+
+    size_t count = test_lint_count_module_rule(test_clean_path, "acer", "value.invalid-enum");
+
+    test_lint_patch(state->context, test_clean_path, 171, test_acer_kind, 0x06);
+
+    size_t patched = test_lint_count_module_rule(test_broken_path, "acer", "value.invalid-enum");
+
+    remove(test_broken_path);
+
+    assert_int_equal(patched, count);
+}
+
+//
+// Copy a dump with a byte of the first structure of the type set to the
+// value, for the rules to find what has been broken.
+//
+static void test_lint_patch(dmi_context_t *context, const char *path, dmi_byte_t type, size_t offset, dmi_byte_t value)
+{
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
 
     assert_non_null(buffer);
-    assert_true(dmi_file_load(buffer, test_ipmi_path, -1, 0));
+    assert_true(dmi_file_load(buffer, path, -1, 0));
 
     size_t      size = buffer->length;
     dmi_data_t *data = buffer->data;
 
     // Structures follow the entry point, which is no longer than its maximum
-    size_t offset = DMI_ENTRY_MAX_SIZE;
-    bool broken = false;
+    size_t start = DMI_ENTRY_MAX_SIZE;
+    bool patched = false;
 
-    while ((offset + 4) < size) {
-        dmi_byte_t type   = data[offset];
-        dmi_byte_t length = data[offset + 1];
+    while ((start + 4) < size) {
+        dmi_byte_t length = data[start + 1];
 
-        if (type == DMI_TYPE_ID_IPMI_DEVICE) {
-            data[offset + test_ipmi_revision] = 0x1A;
-            broken = true;
+        if (data[start] == type) {
+            data[start + offset] = value;
+            patched = true;
             break;
         }
 
         // Strings of a structure end with a pair of zeroes
-        size_t end = offset + length;
+        size_t end = start + length;
 
         while (((end + 1) < size) and not ((data[end] == 0) and (data[end + 1] == 0)))
             end++;
 
-        offset = end + 2;
+        start = end + 2;
     }
 
-    assert_true(broken);
+    assert_true(patched);
 
     FILE *file = fopen(test_broken_path, "wb");
 
@@ -337,15 +399,6 @@ static void test_lint_raw_data(void **pstate)
     }
 
     dmi_buffer_destroy(buffer);
-
-    dmi_lint_severity_t severity = DMI_LINT_SEVERITY_NONE;
-    size_t count = test_lint_count_rule(state, test_broken_path, "ipmi-device.revision",
-                                        DMI_LINT_PROFILE_READER, &severity);
-
-    remove(test_broken_path);
-
-    assert_int_equal(count, 1);
-    assert_int_equal(severity, DMI_LINT_SEVERITY_WARNING);
 }
 
 //
@@ -422,4 +475,33 @@ static void test_lint_closed_context(void **pstate)
     assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
 
     assert_false(dmi_lint(nullptr, nullptr, nullptr, nullptr));
+}
+
+static size_t test_lint_count_module_rule(const char *path, const char *module, const char *code)
+{
+    dmi_context_t *context = dmi_create(DMI_CONTEXT_FLAG_LINK);
+    assert_non_null(context);
+
+    dmi_set_logger(context, &test_logger);
+    dmi_set_log_level(context, DMI_LOG_ERROR);
+
+    assert_true(dmi_add_extension(context, dmi_module_find(module)));
+    assert_true(dmi_load(context, path));
+
+    test_lint_only_rule = dmi_lint_rule_find(context, code);
+    assert_non_null(test_lint_only_rule);
+
+    const dmi_lint_options_t options =
+    {
+        .profile     = DMI_LINT_PROFILE_READER,
+        .all         = true,
+        .rule_filter = test_lint_accept_only
+    };
+
+    test_lint_report_t report = {};
+    assert_true(dmi_lint(context, &options, test_lint_handler, &report));
+
+    dmi_destroy(context);
+
+    return report.total;
 }

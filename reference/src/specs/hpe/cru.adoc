@@ -6,7 +6,9 @@ Source: dmidecode, `dmioem.c`, the `hpwdt` watchdog timer driver of Linux, and t
 
 Tells where the 64-bit entry point of the Compaq ROM Utility (CRU) services of
 the firmware is, which the watchdog timer driver calls. The structure is known
-up to Gen8.
+up to Gen8. Servers of AMD carry a record of another signature too, `$SHF`,
+whose meaning is not known: dmidecode and the watchdog timer driver read the
+rest of the fields of the records of the `$CRU` signature only.
 
 .HP/HPE 64-bit CRU Information structure
 [width=100%, cols="1,1,2,1,1,4"]

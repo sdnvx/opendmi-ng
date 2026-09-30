@@ -51,8 +51,13 @@ as a string only, e.g. `FSP Binary Version` on some platforms.
 The parts are written in decimal or in hexadecimal depending on the
 component: the versions of the Management Engine firmware are usually shown
 in decimal, e.g. 16.1.32.2473, while the versions of the reference code
-modules are shown in hexadecimal, e.g. 7.0.5C.50. The microcode revision is
-the revision and the build number together, `(revision << 16) | build`.
+modules are shown in hexadecimal, e.g. 7.0.5C.50.
+
+The revision of the microcode, `uCode Version`, is the revision followed by the
+low byte of the build number, `(revision << 8) | build`: e.g. revision 4 and
+build 55 stand for 0x437 of Alder Lake-P, and revision 0x41 and build 14 for
+0x410E of Raptor Lake-P. The older platforms give it in the build number
+alone, e.g. build 234 for 0xEA.
 
 === Fields
 
@@ -75,7 +80,10 @@ Minor version. `UINT8_MAX` means unspecified.
 Revision. `UINT8_MAX` means unspecified.
 
 `build`::
-Build number. `UINT16_MAX` means unspecified.
+Build number. `UINT16_MAX` means unspecified. Some items whose other parts
+are all unspecified give it as `0x00FF`, e.g. `UNDI Version` and `MEBx
+version` on some platforms, which is presumably a byte of all bits set, and
+is kept as it is.
 
 == See also
 

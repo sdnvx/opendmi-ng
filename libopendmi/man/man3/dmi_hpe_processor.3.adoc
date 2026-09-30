@@ -87,8 +87,8 @@ processor is not in a socket.
 Rated maximum power of the processor in watts, zero if unknown.
 
 `x2apic_id`::
-x2APIC ID of the processor, valid in the x2APIC mode. Set to `UINT32_MAX` when
-the structure holds none.
+x2APIC ID of the processor, valid in the x2APIC mode, and not shown when
+`is_x2apic` is not set. Set to `UINT32_MAX` when the structure holds none.
 
 `uuid`::
 Unique identifier of the processor, zero if unknown.

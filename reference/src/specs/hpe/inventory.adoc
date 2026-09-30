@@ -37,7 +37,7 @@ UEFI driver, and the device correlation record (type 203) of the device.
 | 2.0+
 | Device Correlation Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the device correlation record (type 203)
 
 | `0x06`

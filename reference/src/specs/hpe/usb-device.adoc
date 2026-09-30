@@ -38,7 +38,7 @@ described. The structure is decoded from Gen9 onwards, UEFI firmware only.
 | 2.0+
 | USB Port Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the USB port connector correlation record (type 238)
 
 | `0x06`
@@ -67,14 +67,14 @@ described. The structure is decoded from Gen9 onwards, UEFI firmware only.
 | Subclass
 | `BYTE`
 | `NUMBER`
-| USB subclass code
+| USB subclass code, see <<hpe-usb-storage-subclasses>> for the mass storage class (`0x08`)
 
 | `0x0C`
 | 2.0+
 | Protocol
 | `BYTE`
 | `NUMBER`
-| USB protocol code
+| USB protocol code, see <<hpe-usb-storage-protocols>> for the mass storage class (`0x08`) and <<hpe-usb-hub-protocols>> for the hub class (`0x09`)
 
 | `0x0D`
 | 2.0+
@@ -117,4 +117,53 @@ described. The structure is decoded from Gen9 onwards, UEFI firmware only.
 | `BYTE`
 | `STRING`
 | 
+|===
+
+The codes are the ones the USB Implementers Forum defines for the classes,
+named the way dmidecode names them. The codes of the other classes are shown
+as they are.
+
+[#hpe-usb-storage-subclasses, reftext=Mass storage subclasses]
+.Mass storage subclass
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0x00` | SCSI command set not reported
+| `0x01` | Reduced block commands (RBC)
+| `0x02` | ATAPI
+| `0x03` | QIC-157, obsolete
+| `0x04` | USB floppy interface (UFI)
+| `0x05` | SFF-8070i, obsolete
+| `0x06` | SCSI transparent command set
+| `0x07` | LSD FS
+| `0x08` | IEEE 1667
+| `0xFF` | Vendor-specific
+|===
+
+Subclasses `0x09` to `0xFE` are reserved.
+
+[#hpe-usb-storage-protocols, reftext=Mass storage protocols]
+.Mass storage protocol
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0x00` | Control/bulk/interrupt transport with command completion interrupt
+| `0x01` | Control/bulk/interrupt transport without command completion interrupt
+| `0x02` | Obsolete
+| `0x50` | Bulk-only transport
+| `0x62` | USB attached SCSI (UAS)
+| `0xFF` | Vendor-specific
+|===
+
+[#hpe-usb-hub-protocols, reftext=Hub protocols]
+.Hub protocol
+[width=100%, cols="1,4"]
+|===
+| Value | Meaning
+
+| `0x00` | Full speed
+| `0x01` | Hi-speed with a single transaction translator
+| `0x02` | Hi-speed with multiple transaction translators
 |===

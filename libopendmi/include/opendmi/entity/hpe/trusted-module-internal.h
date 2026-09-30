@@ -21,5 +21,8 @@ extern const dmi_name_set_t dmi_hpe_tm_type_names;
 extern const dmi_name_set_t dmi_hpe_tm_mounting_names;
 extern const dmi_name_set_t dmi_hpe_tm_fips_names;
 extern const dmi_name_set_t dmi_hpe_tm_chip_names;
+extern const dmi_name_set_t dmi_hpe_tm_error_names;
+
+bool dmi_hpe_trusted_module_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_TRUSTED_MODULE_INTERNAL_H

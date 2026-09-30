@@ -252,6 +252,10 @@ static void dmi_lint_value_check_enum(dmi_lint_t *lint, const dmi_lint_value_t *
     if ((attr->type != DMI_ATTRIBUTE_TYPE_ENUM) or (attr->params.values == nullptr))
         return;
 
+    // Enumerations which name some of the values only take the others too
+    if (attr->params.flags & DMI_ATTRIBUTE_FLAG_OPEN)
+        return;
+
     if (dmi_lint_value_is_special(value))
         return;
 
@@ -436,7 +440,9 @@ static void dmi_lint_value_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 //
 // Codes of JEP106 are a number of continuation bytes and the code itself,
 // whose high bit makes the number of the set bits odd. A code without it is
-// either taken from the wrong place, or byte-swapped.
+// either taken from the wrong place, or byte-swapped. Codes copied from the
+// SPD carry a parity bit in the number of continuation bytes as well, e.g.
+// 0x80 for the first bank, which is not a part of the number.
 //
 static void dmi_lint_value_check_jep106(dmi_lint_t *lint, const dmi_lint_value_t *value)
 {
@@ -454,7 +460,7 @@ static void dmi_lint_value_check_jep106(dmi_lint_t *lint, const dmi_lint_value_t
 
     // Low byte counts the continuation codes leading to the bank of the
     // manufacturer, and JEDEC has published nine banks
-    uintmax_t continuations = code & 0xFF;
+    uintmax_t continuations = code & 0x7F;
 
     if (continuations > DMI_LINT_JEP106_BANKS) {
         dmi_lint_value_report(lint, value, "code 0x%04jX leads to bank %ju, while JEDEC has "

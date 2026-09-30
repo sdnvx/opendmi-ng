@@ -13,6 +13,7 @@
 #include <opendmi/entity.h>
 #include <opendmi/internal.h>
 #include <opendmi/registry.h>
+#include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 #include <opendmi/module/dell.h>
 #include <opendmi/module/intel.h>
@@ -43,6 +44,7 @@ static void test_dell_memory_ids(void **pstate);
 static void test_dell_device_names(void **pstate);
 static void test_dell_platforms(void **pstate);
 static void test_dell_relocations(void **pstate);
+static void test_dell_intel_native(void **pstate);
 
 static const char *test_g15_path = OPENDMI_TEST_DATA "/dell/g15-5510.bin";
 static const char *test_poweredge_path = OPENDMI_TEST_DATA "/dell/poweredge-1800.bin";
@@ -53,6 +55,9 @@ static const char *test_poweredge_r640_path = OPENDMI_TEST_DATA "/dell/poweredge
 static const char *test_poweredge_8450_path = OPENDMI_TEST_DATA "/dell/poweredge-8450.bin";
 static const char *test_precision_3620_path = OPENDMI_TEST_DATA "/dell/precision-tower-3620.bin";
 static const char *test_unisys_path = OPENDMI_TEST_DATA "/unisys/es3020.bin";
+static const char *test_t7600_path = OPENDMI_TEST_DATA "/dell/precision-t7600.bin";
+static const char *test_xps_9350_path = OPENDMI_TEST_DATA "/dell/xps-13-9350.bin";
+static const char *test_m3800_path = OPENDMI_TEST_DATA "/dell/precision-m3800.bin";
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -66,7 +71,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_dell_memory_ids, test_setup, test_teardown),
         cmocka_unit_test_setup_teardown(test_dell_device_names, test_setup, test_teardown),
         cmocka_unit_test_setup_teardown(test_dell_platforms, test_setup, test_teardown),
-        cmocka_unit_test_setup_teardown(test_dell_relocations, test_setup, test_teardown)
+        cmocka_unit_test_setup_teardown(test_dell_relocations, test_setup, test_teardown),
+        cmocka_unit_test_setup_teardown(test_dell_intel_native, test_setup, test_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -98,6 +104,7 @@ static void test_dell_token_refs(void **pstate)
     assert_true(dmi_load(context, test_precision_path));
 
     const dmi_dell_token_refs_1_t *refs = test_info(context, 0xDC00, &dmi_dell_token_refs_1_spec);
+    assert_int_equal(refs->token_count, 9);
     assert_int_equal(refs->tokens[0], 0xF420);
     assert_int_equal(refs->tokens[2], 0xF410);
     assert_int_equal(refs->tokens[5], 0xF430);
@@ -208,6 +215,20 @@ static void test_dell_device_names(void **pstate)
     entity = dmi_registry_lookup(dmi_get_registry(context), dimms->devices[12].handle,
                                  DMI_TYPE(memory_device), false);
     assert_non_null(entity);
+
+    // Handles refer to processors and memory devices only
+    const dmi_attribute_t *devices = dmi_dell_device_names_spec.attributes;
+    while ((devices->params.code != nullptr) and (strcmp(devices->params.code, "devices") != 0))
+        devices++;
+    assert_non_null(devices->params.code);
+
+    const dmi_attribute_t *handle = devices->params.attrs;
+    while ((handle->params.code != nullptr) and (strcmp(handle->params.code, "handle") != 0))
+        handle++;
+    assert_non_null(handle->params.targets);
+    assert_ptr_equal(handle->params.targets[0], DMI_TYPE(processor));
+    assert_ptr_equal(handle->params.targets[1], DMI_TYPE(memory_device));
+    assert_null(handle->params.targets[2]);
 }
 
 static void test_dell_platforms(void **pstate)
@@ -285,4 +306,65 @@ static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const 
     assert_non_null(info);
 
     return info;
+}
+
+//
+// Some systems keep the structures of the Intel reference code at their own
+// types, where the structures of Dell are told apart by their signatures, and
+// the structures of type 220 hold 8 tokens on some systems
+//
+static void test_dell_intel_native(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_load(context, test_xps_9350_path));
+
+    dmi_registry_t *registry = dmi_get_registry(context);
+
+    dmi_entity_t *entity = dmi_registry_lookup(registry, 0xF02A, DMI_TYPE_ANY, false);
+    assert_non_null(entity);
+    assert_ptr_equal(entity->spec, &dmi_intel_fvi_spec);
+
+    entity = dmi_registry_lookup(registry, 0xF03C, DMI_TYPE_ANY, false);
+    assert_non_null(entity);
+    assert_ptr_equal(entity->spec, &dmi_intel_mei_spec);
+
+    entity = dmi_registry_lookup(registry, 0xDD00, DMI_TYPE_ANY, false);
+    assert_non_null(entity);
+    assert_ptr_equal(entity->spec, &dmi_dell_token_refs_2_spec);
+
+    // Firmware version information of two items is as long as the structure
+    // of Dell, and is told from it by the strings it refers to
+    static const uint8_t fvi[] = {
+        221, 0x13, 0x00, 0xF1,
+        0x02,
+        0x01, 0x02, 0x01, 0x02, 0x03, 0x04, 0x00,
+        0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+        'M', 'E', 0x00, '1', '.', '2', 0x00, 'B', 'I', 'O', 'S', 0x00,
+        0x00
+    };
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    entity = dmi_test_entity_create(buffer, fvi, sizeof(fvi));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+    assert_ptr_equal(entity->spec, &dmi_intel_fvi_spec);
+    dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
+
+    // Structure of Dell of an unknown layout is not taken for the interface
+    // information of the Management Engine
+    dmi_close(context);
+    assert_true(dmi_load(context, test_m3800_path));
+
+    entity = dmi_registry_lookup_first_id(dmi_get_registry(context), 219, false);
+    assert_non_null(entity);
+    assert_null(entity->spec);
+
+    dmi_close(context);
+    assert_true(dmi_load(context, test_t7600_path));
+
+    const dmi_dell_token_refs_1_t *refs = test_info(context, 0xDC00, &dmi_dell_token_refs_1_spec);
+    assert_int_equal(refs->token_count, 8);
+    assert_int_equal(refs->tokens[0], 0xF000);
 }

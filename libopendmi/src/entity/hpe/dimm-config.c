@@ -38,8 +38,8 @@ const dmi_entity_spec_t dmi_hpe_dimm_config_spec =
 
         DMI_FIELD(dmi_hpe_dimm_config_t, raw_size, dmi_qword_t),
 
-        DMI_FIELD_BITS(dmi_hpe_dimm_config_t, is_passphrase_enabled, 1),
-        DMI_FIELD_PAD(dmi_byte_t),
+        // Passphrase is enabled for any state other than zero
+        DMI_FIELD(dmi_hpe_dimm_config_t, passphrase_state, dmi_byte_t),
 
         DMI_FIELD(dmi_hpe_dimm_config_t, interleave_set, dmi_word_t),
 
@@ -48,7 +48,7 @@ const dmi_entity_spec_t dmi_hpe_dimm_config_spec =
 
         DMI_FIELD_GROUP(),
         DMI_FIELD(dmi_hpe_dimm_config_t, interleave_health, dmi_byte_t,
-                  .absent = dmi_value_ptr(DMI_HPE_INTERLEAVE_HEALTH_UNSPEC)),
+                  .absent = dmi_value_ptr(DMI_HPE_INTERLEAVE_HEALTH_ABSENT)),
         {}
     }),
 
@@ -94,7 +94,7 @@ const dmi_entity_spec_t dmi_hpe_dimm_config_spec =
         DMI_ATTRIBUTE(dmi_hpe_dimm_config_t, interleave_health, ENUM, {
             .code   = "interleave-health",
             .name   = "Interleave set health",
-            .unspec = dmi_value_ptr(DMI_HPE_INTERLEAVE_HEALTH_UNSPEC),
+            .unspec = dmi_value_ptr(DMI_HPE_INTERLEAVE_HEALTH_ABSENT),
             .values = &dmi_hpe_interleave_health_names
         }),
         {}
@@ -111,7 +111,8 @@ bool dmi_hpe_dimm_config_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    info->size = info->raw_size * 1024 * 1024;
+    info->size                  = info->raw_size * 1024 * 1024;
+    info->is_passphrase_enabled = (info->passphrase_state != 0);
 
     return true;
 }
@@ -150,7 +151,15 @@ const dmi_name_set_t dmi_hpe_interleave_health_names =
             .code = "locked",
             .name = "Locked"
         },
-        DMI_NAME_UNSPEC(DMI_HPE_INTERLEAVE_HEALTH_UNSPEC),
+        {}
+    }),
+    .ranges = DMI_NAME_RANGES({
+        {
+            .start_id = DMI_HPE_INTERLEAVE_HEALTH_LOCKED + 1,
+            .end_id   = UINT8_MAX,
+            .code     = "reserved",
+            .name     = "Reserved"
+        },
         {}
     })
 };

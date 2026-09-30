@@ -1,0 +1,82 @@
+ifdef::backend-manpage[]
+= dmi_intel_vpro_mch_caps(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_vpro_mch_caps
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_vpro_mch_caps - Intel vPro capabilities of the memory controller hub
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/vpro.h>
+
+typedef union dmi_intel_vpro_mch_caps {
+    dmi_dword_t __value;
+    struct {
+        dmi_dword_t is_vtd_capable : 1;
+        dmi_dword_t is_vtd_enabled : 1;
+        dmi_dword_t is_txt_capable : 1;
+        dmi_dword_t is_txt_enabled : 1;
+        dmi_dword_t __reserved     : 28;
+    };
+} dmi_intel_vpro_mch_caps_t;
+----
+
+== Description
+
+The `dmi_intel_vpro_mch_caps_t` union holds the capabilities of the memory controller hub, which the older layout of Intel vPro information holds in place of the version of the BIOS extension. It is the type of the `mch_capabilities` field of `dmi_intel_vpro_t`.
+
+The union is packed into a double word: the bits can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the bits, as the double word at offset 0x0C of the structure,
+`is_vtd_capable` being bit 0.
+
+`is_vtd_capable`::
+Set if the chipset supports Virtualization Technology for Directed I/O
+(VT-d).
+
+`is_vtd_enabled`::
+Set if VT-d is enabled.
+
+`is_txt_capable`::
+Set if the chipset supports Trusted Execution Technology.
+
+`is_txt_enabled`::
+Set if Trusted Execution Technology is enabled.
+
+`__reserved`::
+Reserved bits, zero.
+
+== See also
+
+`dmi_intel_vpro`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel, as the vPro
+verification table of the Intel AMT implementation and reference guide.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

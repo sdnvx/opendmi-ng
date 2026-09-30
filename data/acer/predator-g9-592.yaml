@@ -712,6 +712,7 @@ table:
       3g: false
       wimax: false
       bluetooth: true
+      rf-button: false
     app-functions: 0
     media-functions: 127
     display-functions: 15
@@ -772,28 +773,28 @@ table:
   description: Acer device list
   attributes:
     devices:
-    - kind: 3
+    - kind: unknown-3
       vendor-id: 3034
       device-id: 790
-    - kind: 4
+    - kind: camera
       vendor-id: 7119
       device-id: 11393
-    - kind: 8
+    - kind: bluetooth
       vendor-id: 3315
       device-id: 58112
-    - kind: 1
+    - kind: unknown-1
       vendor-id: 32902
       device-id: 6427
-    - kind: 1
+    - kind: unknown-1
       vendor-id: 4318
       device-id: 5080
-    - kind: 5
+    - kind: audio
       vendor-id: 32902
       device-id: 41328
-    - kind: 7
+    - kind: wlan
       vendor-id: 5772
       device-id: 62
-    - kind: 19
+    - kind: unknown-19
       vendor-id: null
       device-id: null
 - handle: 25
@@ -815,12 +816,13 @@ table:
     version: 1
     state: normal
     mode: normal
-    error-code: 0
+    error-code: none
     is-init-complete: true
     is-manufacturing: false
-    sku: '0x0'
+    sku: null
     devices:
     - name: MEI1
+      is-reported: true
       is-present: true
       hfsts:
       - 2415919685
@@ -830,6 +832,7 @@ table:
       - 0
       - 1073741824
     - name: MEI2
+      is-reported: true
       is-present: false
       hfsts:
       - 4294967295
@@ -839,6 +842,7 @@ table:
       - 4294967295
       - 4294967295
     - name: MEI3
+      is-reported: true
       is-present: true
       hfsts:
       - 2147483648

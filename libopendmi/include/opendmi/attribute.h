@@ -91,7 +91,14 @@ typedef enum dmi_attribute_flag
      * number, an asset tag, a UUID or a MAC address, and is replaced when the
      * table is anonymized, see `dmi_anonymize`(3).
      */
-    DMI_ATTRIBUTE_FLAG_PRIVATE = 0x80
+    DMI_ATTRIBUTE_FLAG_PRIVATE = 0x80,
+
+    /**
+     * Enumeration names some of the values only, e.g. the ones established by
+     * reverse engineering, and the others are not errors, see
+     * `value.invalid-enum` of `dmi_lint`(3).
+     */
+    DMI_ATTRIBUTE_FLAG_OPEN = 0x100
 } dmi_attribute_flag_t;
 
 struct dmi_attribute_ops

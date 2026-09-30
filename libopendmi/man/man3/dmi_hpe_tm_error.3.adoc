@@ -1,0 +1,78 @@
+ifdef::backend-manpage[]
+= dmi_hpe_tm_error(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_tm_error
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_tm_error, dmi_hpe_tm_error_name - HP/HPE trusted module error conditions
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/hpe/trusted-module.h>
+
+typedef enum dmi_hpe_tm_error {
+    DMI_HPE_TM_ERROR_UNSPEC    = 0x00,
+    DMI_HPE_TM_ERROR_SELF_TEST = 0x01
+} dmi_hpe_tm_error_t;
+
+const char *dmi_hpe_tm_error_name(
+        dmi_hpe_tm_error_t value);
+----
+
+== Description
+
+The `dmi_hpe_tm_error_t` enumeration tells the error condition a trusted module
+is disabled for, and is the type of the `error_condition` field of
+`dmi_hpe_trusted_module_t`. The field is shown for a module disabled for an
+error only.
+
+The `dmi_hpe_tm_error_name` function returns the name of a value, as the command
+line tool shows it.
+
+=== Values
+
+`DMI_HPE_TM_ERROR_UNSPEC`::
+Not specified.
+
+`DMI_HPE_TM_ERROR_SELF_TEST`::
+Self-test failure.
+
+== Return value
+
+`dmi_hpe_tm_error_name` returns the name of the value, translated to the
+language of the current locale when a translation is available, or `nullptr` if
+the value has no name. The returned string must not be modified or freed.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_hpe_trusted_module`(3), `dmi_hpe_tm_disable_reason`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by HP and HPE for their servers;
+the layout is the one dmidecode documents.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software is
+granted under the terms of the BSD 3-Clause License.
+endif::[]

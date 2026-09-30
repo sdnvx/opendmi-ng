@@ -12,6 +12,22 @@ ru_RU {
         3g { "3G" }
         wimax { "WiMAX" }
         bluetooth { "Bluetooth" }
+        rf-button { "Кнопка радиомодулей" }
+    }
+    acer-device-kind {
+        unknown-1 { "Неизвестный 1" }
+        unknown-2 { "Неизвестный 2" }
+        unknown-3 { "Неизвестный 3" }
+        camera { "Веб-камера" }
+        audio { "Звук" }
+        wlan { "Беспроводной сетевой адаптер" }
+        bluetooth { "Адаптер Bluetooth" }
+        unknown-13 { "Неизвестный 13" }
+        unknown-17 { "Неизвестный 17" }
+        unknown-19 { "Неизвестный 19" }
+        unknown-21 { "Неизвестный 21" }
+        unknown-22 { "Неизвестный 22" }
+        unknown-25 { "Неизвестный 25" }
     }
     acer-devices {
         attribute {
@@ -1292,6 +1308,7 @@ ru_RU {
             ie-dimm { "Номер DIMM IE" }
             ie-pldm-id { "Идентификатор PLDM IE" }
             interleave { "Оптимальное чередование" }
+            is-system-board { "Системная плата" }
             logical-dimm { "Номер логического DIMM" }
             part-number { "Артикул" }
             processor { "Номер процессора" }
@@ -1433,6 +1450,7 @@ ru_RU {
         spa-missing { "SPA отсутствует" }
         new-goal { "Новая цель" }
         locked { "Заблокирован" }
+        reserved { "Зарезервировано" }
     }
     hpe-inventory {
         attribute {
@@ -1480,6 +1498,7 @@ ru_RU {
             date { "Дата" }
             patch-id { "Исправление" }
             patches { "Исправления" }
+            signature { "Сигнатура процессора" }
         }
         name { "Сведения HP/HPE о поддержке исправлений микрокода процессора" }
     }
@@ -1587,6 +1606,7 @@ ru_RU {
         attribute {
             board-type { "Тип платы" }
             cpld-version { "Версия CPLD" }
+            is-cpld-b-release { "Выпуск CPLD B." }
             name { "Имя райзера" }
             position { "Положение райзера" }
             riser-id { "Идентификатор райзера" }
@@ -1607,6 +1627,7 @@ ru_RU {
             oem-rom-date { "Дата сборки образа ПЗУ OEM" }
             oem-rom-filename { "Имя файла образа ПЗУ OEM" }
             redundant-rom-version { "Версия резервного ПЗУ" }
+            unknown-string { "Неизвестная строка" }
         }
         name { "Сведения HP/HPE о прочих ПЗУ" }
     }
@@ -1647,6 +1668,9 @@ ru_RU {
     hpe-tm-disable-reason {
         user { "Отключён пользователем" }
         error { "Ошибка" }
+    }
+    hpe-tm-error {
+        self-test { "Сбой самопроверки" }
     }
     hpe-tm-fips {
         not-certified { "Не сертифицирован FIPS" }
@@ -1701,6 +1725,11 @@ ru_RU {
         }
         name { "Запись HP/HPE о соответствии устройств USB" }
     }
+    hpe-usb-hub-protocol {
+        full-speed { "Full speed" }
+        single-tt { "Hi-speed с одним транслятором транзакций" }
+        multi-tt { "Hi-speed с несколькими трансляторами транзакций" }
+    }
     hpe-usb-location {
         internal { "Внутренний" }
         front { "Спереди сервера" }
@@ -1736,6 +1765,27 @@ ru_RU {
         high { "USB 2.0 High Speed" }
         super { "USB 3.0 SuperSpeed" }
     }
+    hpe-usb-storage-protocol {
+        cbi-interrupt { "CBI с прерыванием по завершении команды" }
+        cbi { "CBI без прерывания по завершении команды" }
+        obsolete { "Устаревший" }
+        bulk-only { "Bulk-only" }
+        uas { "USB Attached SCSI" }
+        vendor-specific { "Специфичный для производителя" }
+    }
+    hpe-usb-storage-subclass {
+        unreported { "Набор команд SCSI не сообщается" }
+        rbc { "RBC" }
+        atapi { "ATAPI" }
+        qic-157 { "QIC-157 (устаревший)" }
+        ufi { "UFI" }
+        sff-8070i { "SFF-8070i (устаревший)" }
+        scsi { "Прозрачный набор команд SCSI" }
+        lsd-fs { "LSD FS" }
+        ieee-1667 { "IEEE 1667" }
+        vendor-specific { "Специфичный для производителя" }
+        reserved { "Зарезервирован" }
+    }
     hpe-version {
         attribute {
             data-format { "Формат данных версии" }
@@ -1753,16 +1803,46 @@ ru_RU {
     }
     intel-amt {
         attribute {
-            extended-data { "Маркер расширенных данных" }
+            extended-data { "Расширенные данные" }
             is-enabled { "Включена" }
-            is-ider-enabled { "Перенаправление IDE включено" }
+            is-ider-enabled { "Перенаправление накопителей включено" }
             is-kvm-enabled { "Перенаправление KVM включено" }
             is-network-enabled { "Сеть включена" }
             is-sol-enabled { "Serial over LAN включён" }
             is-supported { "Поддерживается" }
-            oem-capabilities { "Возможности OEM" }
+            oem-capabilities-1 { "Возможности OEM" }
+            oem-capabilities-3 { "Возможности безопасности" }
+            oem-capabilities-4 { "Возможности удалённой загрузки" }
+            terminal { "Эмуляция терминала Serial over LAN" }
         }
         name { "Сведения Intel Active Management Technology" }
+    }
+    intel-amt-oem-caps-1 {
+        storage-redirection { "Перенаправление накопителей" }
+        sol { "Serial over LAN" }
+        bios-reflash { "Перепрошивка BIOS" }
+        bios-setup { "Вход в setup BIOS" }
+        bios-pause { "Приостановка BIOS" }
+        floppy-boot-block { "Запрет загрузки с дискеты" }
+        cd-boot-block { "Запрет загрузки с CD" }
+    }
+    intel-amt-oem-caps-3 {
+        secure-erase { "Remote Secure Erase" }
+        secure-boot { "Secure Boot в BIOS" }
+    }
+    intel-amt-oem-caps-4 {
+        thunderbolt-dock { "Док-станция Thunderbolt" }
+        https-boot { "Загрузка по HTTPS" }
+        pba-boot { "Загрузка локальной PBA" }
+        winre-boot { "Загрузка WinRE" }
+        nonsecure-boot { "Загрузка без Secure Boot" }
+        wifi-coexistence { "Совместная работа с Wi-Fi" }
+    }
+    intel-amt-terminal {
+        vt52 { "VT52" }
+        vt100-plus { "VT100+" }
+        vt-utf8 { "VT-UTF8" }
+        pc-ansi { "PC-ANSI" }
     }
     intel-fvi {
         attribute {
@@ -1771,6 +1851,13 @@ ru_RU {
             version-string { "Версия строкой" }
         }
         name { "Сведения о версиях прошивки Intel" }
+    }
+    intel-me-error {
+        unspecified { "Не указан" }
+        none { "Нет ошибки" }
+        uncategorized { "Сбой без категории" }
+        image { "Сбой образа" }
+        debug { "Сбой отладки" }
     }
     intel-me-mode {
         unspecified { "Не указан" }
@@ -1791,6 +1878,7 @@ ru_RU {
         reset { "Сброс" }
         init { "Инициализация" }
         recovery { "Восстановление" }
+        test { "Тестирование" }
         m3-no-uma { "M3 без UMA" }
         normal { "Обычное" }
         wait { "Ожидание" }
@@ -1805,6 +1893,7 @@ ru_RU {
             is-init-complete { "Инициализация завершена" }
             is-manufacturing { "Производственный режим" }
             is-present { "Присутствует" }
+            is-reported { "Сведения переданы" }
             sku { "Редакция прошивки" }
             state { "Состояние прошивки" }
         }
@@ -1828,19 +1917,64 @@ ru_RU {
     }
     intel-vpro {
         attribute {
+            bios-capabilities { "Возможности BIOS" }
             build { "Номер сборки" }
-            flags-1 { "Флаги 1" }
-            flags-2 { "Флаги 2" }
-            flags-3 { "Флаги 3" }
-            gbe-device-id { "Идентификатор устройства Gigabit Ethernet" }
-            gbe-devfn { "Устройство и функция Gigabit Ethernet" }
+            cpu-capabilities { "Возможности процессора" }
+            gbe-bus { "Шина проводного сетевого контроллера" }
+            gbe-device-id { "Идентификатор устройства проводного сетевого контроллера" }
+            gbe-devfn { "Устройство и функция проводного сетевого контроллера" }
             hotfix { "Исправление" }
+            lpc-bus { "Шина моста LPC" }
             lpc-device-id { "Идентификатор устройства моста LPC" }
             lpc-devfn { "Устройство и функция моста LPC" }
+            mch-bus { "Шина MCH" }
+            mch-capabilities { "Возможности MCH" }
+            mch-device-id { "Идентификатор устройства MCH" }
+            mch-devfn { "Устройство и функция MCH" }
+            me-capabilities { "Возможности ME" }
             me-version { "Версия прошивки ME" }
             mebx-version { "Версия MEBx" }
+            tcg-major { "Старший номер версии спецификации TCG" }
+            tcg-minor { "Младший номер версии спецификации TCG" }
+            tpm-capabilities { "Возможности TPM" }
+            va-version { "Код старшей версии Virtual Appliance" }
         }
         name { "Сведения Intel vPro" }
+    }
+    intel-vpro-bios-caps {
+        vtx-configurable { "VT-x настраивается в setup" }
+        vtd-configurable { "VT-d настраивается в setup" }
+        txt-configurable { "TXT настраивается в setup" }
+        tpm-configurable { "TPM настраивается в setup" }
+        me-configurable { "ME настраивается в setup" }
+        va-extensions { "Расширения Virtual Appliance" }
+        spi-data-reserved { "Область данных платформы во флеш-памяти SPI зарезервирована" }
+    }
+    intel-vpro-cpu-caps {
+        vmx-enabled { "VMX включены" }
+        smx-enabled { "SMX включены" }
+        txt-capable { "Поддержка TXT" }
+        txt-enabled { "TXT включена" }
+        vtx-capable { "Поддержка VT-x" }
+        vtx-enabled { "VT-x включена" }
+    }
+    intel-vpro-mch-caps {
+        vtd-capable { "Поддержка VT-d" }
+        vtd-enabled { "VT-d включена" }
+        txt-capable { "Поддержка TXT" }
+        txt-enabled { "TXT включена" }
+    }
+    intel-vpro-me-caps {
+        me-enabled { "ME включён" }
+        qst { "Quiet System Technology" }
+        asf { "Alert Standard Format" }
+        amt { "Active Management Technology" }
+        sbt { "Small Business Technology" }
+        l3 { "Управляемость уровня III" }
+    }
+    intel-vpro-tpm-caps {
+        present { "TPM на плате" }
+        enabled { "TPM включён" }
     }
     intel-rsd-cabled-pcie {
         name { "Кабельный порт PCIe Intel RSD" }

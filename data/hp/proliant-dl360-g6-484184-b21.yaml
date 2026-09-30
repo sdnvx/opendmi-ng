@@ -1734,8 +1734,7 @@ table:
     is-redundant-rom: true
     redundant-rom-version: 07/02/2013
     bootblock-version: 06/20/2009
-    oem-rom-filename: ''
-    oem-rom-date: ''
+    unknown-string: '2.9'
 - handle: 49664
   type: 194
   length: 7
@@ -1759,9 +1758,6 @@ table:
   description: HP/HPE server system ID
   attributes:
     system-id: $0E110782
-    platform-id:
-    - 0
-    - 0
     guid: null
 - handle: 50176
   type: 196
@@ -1788,7 +1784,6 @@ table:
     slot: null
     socket: 1
     maximum-power: 95
-    x2apic-id: null
     uuid: null
     interconnect-speed: null
     qdf: null
@@ -1809,7 +1804,6 @@ table:
     slot: null
     socket: 2
     maximum-power: 95
-    x2apic-id: null
     uuid: null
     interconnect-speed: null
     qdf: null
@@ -1851,15 +1845,19 @@ table:
   attributes:
     patches:
     - cpuid: 67236
+      signature: 67236
       date: '2008-10-30'
       patch-id: 12
     - cpuid: 67237
+      signature: 67237
       date: '2015-06-27'
       patch-id: 27
     - cpuid: 132801
+      signature: 132801
       date: '2009-12-22'
       patch-id: 6
     - cpuid: 132802
+      signature: 132802
       date: '2015-08-04'
       patch-id: 29
 - handle: 52480
@@ -1880,7 +1878,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4352
-    board: null
+    is-system-board: true
     dimm: 1
     processor: 1
     logical-dimm: null
@@ -1897,7 +1895,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51713
   type: 202
   length: 11
@@ -1908,7 +1905,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4353
-    board: null
+    is-system-board: true
     dimm: 2
     processor: 1
     logical-dimm: null
@@ -1925,7 +1922,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51714
   type: 202
   length: 11
@@ -1936,7 +1932,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4354
-    board: null
+    is-system-board: true
     dimm: 3
     processor: 1
     logical-dimm: null
@@ -1953,7 +1949,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51715
   type: 202
   length: 11
@@ -1964,7 +1959,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4355
-    board: null
+    is-system-board: true
     dimm: 4
     processor: 1
     logical-dimm: null
@@ -1981,7 +1976,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51716
   type: 202
   length: 11
@@ -1992,7 +1986,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4356
-    board: null
+    is-system-board: true
     dimm: 5
     processor: 1
     logical-dimm: null
@@ -2009,7 +2003,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51717
   type: 202
   length: 11
@@ -2020,7 +2013,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4357
-    board: null
+    is-system-board: true
     dimm: 6
     processor: 1
     logical-dimm: null
@@ -2037,7 +2030,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51718
   type: 202
   length: 11
@@ -2048,7 +2040,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4358
-    board: null
+    is-system-board: true
     dimm: 7
     processor: 1
     logical-dimm: null
@@ -2065,7 +2057,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51719
   type: 202
   length: 11
@@ -2076,7 +2067,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4359
-    board: null
+    is-system-board: true
     dimm: 8
     processor: 1
     logical-dimm: null
@@ -2093,7 +2084,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51720
   type: 202
   length: 11
@@ -2104,7 +2094,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4360
-    board: null
+    is-system-board: true
     dimm: 9
     processor: 1
     logical-dimm: null
@@ -2121,7 +2111,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51721
   type: 202
   length: 11
@@ -2132,7 +2121,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4361
-    board: null
+    is-system-board: true
     dimm: 1
     processor: 2
     logical-dimm: null
@@ -2149,7 +2138,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51722
   type: 202
   length: 11
@@ -2160,7 +2148,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4362
-    board: null
+    is-system-board: true
     dimm: 2
     processor: 2
     logical-dimm: null
@@ -2177,7 +2165,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51723
   type: 202
   length: 11
@@ -2188,7 +2175,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4363
-    board: null
+    is-system-board: true
     dimm: 3
     processor: 2
     logical-dimm: null
@@ -2205,7 +2192,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51724
   type: 202
   length: 11
@@ -2216,7 +2202,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4364
-    board: null
+    is-system-board: true
     dimm: 4
     processor: 2
     logical-dimm: null
@@ -2233,7 +2219,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51725
   type: 202
   length: 11
@@ -2244,7 +2229,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4365
-    board: null
+    is-system-board: true
     dimm: 5
     processor: 2
     logical-dimm: null
@@ -2261,7 +2246,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51726
   type: 202
   length: 11
@@ -2272,7 +2256,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4366
-    board: null
+    is-system-board: true
     dimm: 6
     processor: 2
     logical-dimm: null
@@ -2289,7 +2273,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51727
   type: 202
   length: 11
@@ -2300,7 +2283,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4367
-    board: null
+    is-system-board: true
     dimm: 7
     processor: 2
     logical-dimm: null
@@ -2317,7 +2300,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51728
   type: 202
   length: 11
@@ -2328,7 +2310,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4368
-    board: null
+    is-system-board: true
     dimm: 8
     processor: 2
     logical-dimm: null
@@ -2345,7 +2327,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 51729
   type: 202
   length: 11
@@ -2356,7 +2337,7 @@ table:
   description: HP/HPE DIMM location record
   attributes:
     device-handle: 4369
-    board: null
+    is-system-board: true
     dimm: 9
     processor: 2
     logical-dimm: null
@@ -2373,7 +2354,6 @@ table:
     controller-device-id: null
     interleave: null
     part-number: null
-    channel-index: null
 - handle: 53504
   type: 209
   length: 22
@@ -2422,10 +2402,6 @@ table:
   description: HP/HPE ProLiant information
   attributes:
     power-features: 3071
-    omega-features: 0
-    misc-features: 0
-    is-icru: false
-    is-uefi: false
 - handle: 56320
   type: 218
   length: 87
@@ -2482,15 +2458,6 @@ table:
     presence: absent
     is-orom-measuring: false
     is-hidden: false
-    disable-reason: null
-    error-condition: 0
-    type: null
-    is-standard-algorithm: false
-    is-chinese-algorithm: false
-    mounting: null
-    fips: null
-    version-handle: null
-    chip: none
 - handle: 57856
   type: 226
   length: 39

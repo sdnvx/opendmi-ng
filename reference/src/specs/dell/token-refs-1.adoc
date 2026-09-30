@@ -4,12 +4,12 @@
 
 Source: reverse engineered from the dumps of the data corpus.
 
-Lists tokens the calling interface (type 218) or the indexed I/O access (type
-212) defines, which the structures of a table group by the device they belong
-to, e.g. `0xF100` and `0xF102`, `0xF110` and `0xF112` in `dell/g15-5510.bin`,
-or `0xF420`, `0xF410`, `0xF430` and `0xF440` in `dell/precision-490.bin`. The
-tokens are SMI ones, which are named in no public source, and the meaning of
-the groups is not established.
+Lists tokens, most of which the calling interface (type 218) or the indexed I/O
+access (type 212) of the same table defines, which the structures of a table
+group by the device they belong to, e.g. `0xF100` and `0xF102`, `0xF110` and
+`0xF112` in `dell/g15-5510.bin`, or `0xF420`, `0xF410`, `0xF430` and `0xF440` in
+`dell/precision-490.bin`. The tokens are SMI ones, which are named in no public
+source, and the meaning of the groups is not established.
 
 .Dell Token References, Type 1 structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -27,8 +27,8 @@ the groups is not established.
 | 2.0+
 | Length
 | `BYTE`
-| `0x16`
-| Length of the structure
+| Varies
+| Length of the structure, `0x14` or `0x16` in the known data
 
 | `0x02`
 | 2.0+
@@ -40,7 +40,7 @@ the groups is not established.
 | `0x04`
 | 2.0+
 | Tokens
-| 9 WORDs
+| 2n BYTEs
 | Varies
-| Tokens, zero for none
+| Tokens, a `WORD` each, zero for none, which run to the end of the structure: 8 or 9 of them in the known data
 |===

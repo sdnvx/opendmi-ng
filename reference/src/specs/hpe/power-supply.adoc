@@ -37,7 +37,7 @@ manufacturer of the power supply and the way its FRU is accessed.
 | 2.0+
 | Power Supply Handle
 | `WORD`
-| Varies
+| `HANDLE`
 | Handle of the system power supply structure (type 39)
 
 | `0x06`

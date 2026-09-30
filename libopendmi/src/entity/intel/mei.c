@@ -25,7 +25,16 @@ const dmi_entity_spec_t dmi_intel_mei_spec =
     },
     .params = {
         .minimum_length = 0x06,
-        .decoded_length = sizeof(dmi_intel_mei_t)
+        .decoded_length = sizeof(dmi_intel_mei_t),
+        // Version 1 and the name of the first interface tell the structure
+        // from the ones of the vendors at the same types, e.g. of Dell
+        .signature      = DMI_SIGNATURE({
+            .offset = 0x04,
+            .bytes  = (const uint8_t[]){ 0x01 },
+            .size   = 1,
+            .string = 1,
+            .text   = "MEI1"
+        })
     },
 
     .fields = DMI_FIELDS({
@@ -61,10 +70,11 @@ const dmi_entity_spec_t dmi_intel_mei_spec =
             .unspec  = dmi_value_ptr(DMI_INTEL_ME_MODE_UNSPEC),
             .values  = &dmi_intel_me_mode_names
         }),
-        DMI_ATTRIBUTE(dmi_intel_mei_t, error_code, INTEGER, {
+        DMI_ATTRIBUTE(dmi_intel_mei_t, error_code, ENUM, {
             .code    = "error-code",
             .name    = "Error code",
-            .unspec  = dmi_value_ptr((uint8_t)UINT8_MAX)
+            .unspec  = dmi_value_ptr(DMI_INTEL_ME_ERROR_UNSPEC),
+            .values  = &dmi_intel_me_error_names
         }),
         DMI_ATTRIBUTE(dmi_intel_mei_t, is_init_complete, BOOL, {
             .code    = "is-init-complete",
@@ -88,14 +98,33 @@ const dmi_entity_spec_t dmi_intel_mei_spec =
                     .code = "name",
                     .name = "Name"
                 }),
-                DMI_ATTRIBUTE(dmi_intel_mei_device_t, is_present, BOOL, {
-                    .code = "is-present",
-                    .name = "Present"
+                DMI_ATTRIBUTE(dmi_intel_mei_device_t, is_reported, BOOL, {
+                    .code = "is-reported",
+                    .name = "Reported"
                 }),
-                DMI_ATTRIBUTE_VECTOR(dmi_intel_mei_device_t, hfsts, INTEGER, {
-                    .code  = "hfsts",
-                    .name  = "Firmware status",
-                    .flags = DMI_ATTRIBUTE_FLAG_HEX
+                // Interfaces whose registers are all zeroes tell nothing
+                DMI_ATTRIBUTE_VARIANT(dmi_intel_mei_device_t, is_reported, {
+                    .code     = "is-present",
+                    .name     = "Present",
+                    .variants = DMI_VARIANTS({
+                        DMI_VARIANT(true, dmi_intel_mei_device_t, is_present, BOOL, {}),
+                        {}
+                    })
+                }),
+                DMI_ATTRIBUTE_VARIANT(dmi_intel_mei_device_t, is_reported, {
+                    .code     = "hfsts",
+                    .name     = "Firmware status",
+                    .variants = DMI_VARIANTS({
+                        {
+                            .selector  = true,
+                            .attribute = DMI_ATTRIBUTE_VECTOR(dmi_intel_mei_device_t, hfsts, INTEGER, {
+                                .code  = "hfsts",
+                                .name  = "Firmware status",
+                                .flags = DMI_ATTRIBUTE_FLAG_HEX
+                            })
+                        },
+                        {}
+                    })
                 }),
                 {}
             })

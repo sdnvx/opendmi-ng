@@ -2,12 +2,15 @@
 :sectnums:
 :sectlinks:
 
-Source: the Dell WMI driver of Linux, `dell-wmi-base.c`, dmidecode, `dmioem.c`, and the dumps of the data corpus.
+Source: the Dell WMI driver of Linux, `dell-wmi-base.c`, and the dumps of the data corpus.
 
 Maps the scan codes of the hotkeys of a laptop to their functions, which the
 Dell WMI driver of Linux reads. Mappings run to the end of the structure,
-which carries no number of them of its own. Key codes `0x00FF` and `0xFFFF`
-are found for the keys with no function.
+which carries no number of them of its own. Key code `0xFFFF` is found for the
+keys of no known function, which the driver takes for an unknown key, while
+key code `0x00FF` stands for a function of its own, the third programmable
+key. The structures of the data corpus refer to one string of spaces, which no
+field refers to.
 
 .Dell Hotkeys structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -51,7 +54,7 @@ are found for the keys with no function.
 | `0x00`
 | Scan Code
 | `WORD`
-| Scan code the keyboard controller reports for the key
+| Scan code of the key, as the firmware reports it in the WMI events of the hotkeys
 
 | `0x02`
 | Key Code

@@ -1,0 +1,72 @@
+ifdef::backend-manpage[]
+= dmi_intel_amt_oem_caps_3(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_intel_amt_oem_caps_3
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_intel_amt_oem_caps_3 - Intel AMT security capabilities of the platform
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity/intel/amt.h>
+
+typedef union dmi_intel_amt_oem_caps_3 {
+    dmi_byte_t __value;
+    struct {
+        dmi_byte_t __reserved                : 6;
+        dmi_byte_t is_secure_erase_supported : 1;
+        dmi_byte_t is_secure_boot_supported  : 1;
+    };
+} dmi_intel_amt_oem_caps_3_t;
+----
+
+== Description
+
+The `dmi_intel_amt_oem_caps_3_t` union holds the third byte of the OEM capabilities of Intel AMT information: the security capabilities of the platform. It is the type of the `oem_capabilities_3` field of `dmi_intel_amt_t`.
+
+The union is packed into a single byte: the bits can be read either one by
+one, as bit fields, or all together, as `__value`.
+
+=== Fields
+
+`__value`::
+All the bits, as the byte the structure carries them in.
+
+`__reserved`::
+Reserved bits, zero.
+
+`is_secure_erase_supported`::
+Set if Remote Secure Erase is supported.
+
+`is_secure_boot_supported`::
+Set if the BIOS supports Secure Boot.
+
+== See also
+
+`dmi_intel_amt`(3)
+
+== Standards
+
+Not part of the SMBIOS specification. Defined by Intel, as the AMT
+information table of the Intel AMT implementation and reference guide.
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

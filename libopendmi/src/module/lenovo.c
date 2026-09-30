@@ -42,9 +42,16 @@ const dmi_module_t dmi_lenovo_module =
         &dmi_lenovo_oem_spec,
         nullptr
     },
+    //
+    // Systems of Lenovo may carry the firmware of other vendors, which is
+    // why they are told by the vendor of the system too, the way dmidecode
+    // tells them
+    //
     .platforms = DMI_PLATFORMS({
         { .firmware_vendor = DMI_VENDOR_IBM    },
         { .firmware_vendor = DMI_VENDOR_LENOVO },
+        { .system_vendor   = DMI_VENDOR_IBM    },
+        { .system_vendor   = DMI_VENDOR_LENOVO },
         DMI_PLATFORM_NULL
     })
 };

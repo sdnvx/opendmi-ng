@@ -39,11 +39,15 @@ static int test_hpe_teardown(void **pstate);
 static void test_hpe_blade_g1(void **pstate);
 static void test_hpe_rack_g6(void **pstate);
 static void test_hpe_generations(void **pstate);
+static void test_hpe_cru_records(void **pstate);
+static void test_hpe_amd_microcode(void **pstate);
 
 static const void *test_hpe_info(dmi_context_t *context, const dmi_type_t *type, const dmi_entity_spec_t *spec);
+static bool test_hpe_shown(dmi_context_t *context, const dmi_type_t *type, const char *code);
 
 static const char *test_bl460c_path = OPENDMI_TEST_DATA "/hp/proliant-bl460c-g1-416656-b21.bin";
 static const char *test_dl360_path = OPENDMI_TEST_DATA "/hp/proliant-dl360-g6-484184-b21.bin";
+static const char *test_dl385_path = OPENDMI_TEST_DATA "/hp/proliant-dl385-g1-1.bin";
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -52,7 +56,9 @@ int main(void)
     const struct CMUnitTest tests[] = {
         cmocka_unit_test_setup_teardown(test_hpe_blade_g1, test_hpe_setup, test_hpe_teardown),
         cmocka_unit_test_setup_teardown(test_hpe_rack_g6, test_hpe_setup, test_hpe_teardown),
-        cmocka_unit_test_setup_teardown(test_hpe_generations, test_hpe_setup, test_hpe_teardown)
+        cmocka_unit_test_setup_teardown(test_hpe_generations, test_hpe_setup, test_hpe_teardown),
+        cmocka_unit_test_setup_teardown(test_hpe_cru_records, test_hpe_setup, test_hpe_teardown),
+        cmocka_unit_test_setup_teardown(test_hpe_amd_microcode, test_hpe_setup, test_hpe_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -90,9 +96,22 @@ static void test_hpe_blade_g1(void **pstate)
     assert_true(rom->is_redundant_rom);
     assert_string_equal(rom->redundant_rom_version, "11/13/2007");
     assert_string_equal(rom->bootblock_version, "09/18/2006");
+    assert_true(rom->has_redundant_rom_version);
+    assert_false(rom->has_oem_rom);
+    assert_false(rom->has_unknown_string);
+    assert_true(test_hpe_shown(context, DMI_TYPE(hpe_rom_info), "redundant-rom-version"));
+    assert_false(test_hpe_shown(context, DMI_TYPE(hpe_rom_info), "oem-rom-filename"));
+    assert_false(test_hpe_shown(context, DMI_TYPE(hpe_rom_info), "unknown-string"));
 
+    // Structures of the oldest servers end before the fields added later,
+    // which are not shown
     const dmi_hpe_system_id_t *system = test_hpe_info(context, DMI_TYPE(hpe_system_id), &dmi_hpe_system_id_spec);
     assert_string_equal(system->system_id, "$0E110761");
+    assert_false(system->has_platform_id);
+
+    const dmi_hpe_proliant_info_t *proliant = test_hpe_info(context, DMI_TYPE(hpe_proliant_info), &dmi_hpe_proliant_info_spec);
+    assert_false(proliant->has_omega_features);
+    assert_false(proliant->has_misc_features);
 
     const dmi_hpe_processor_t *processor = test_hpe_info(context, DMI_TYPE(hpe_processor), &dmi_hpe_processor_spec);
     assert_int_equal(processor->processor_handle, 0x0400);
@@ -121,6 +140,7 @@ static void test_hpe_blade_g1(void **pstate)
 
     const dmi_hpe_cru_t *cru = test_hpe_info(context, DMI_TYPE(hpe_cru), &dmi_hpe_cru_spec);
     assert_string_equal(cru->signature, "$CRU");
+    assert_true(cru->is_cru);
     assert_int_equal(cru->address, 0xFFF6F800);
     assert_int_equal(cru->length, 0x4000);
     assert_int_equal(cru->entry_point, 0xFFF6F800);
@@ -131,6 +151,9 @@ static void test_hpe_blade_g1(void **pstate)
     assert_int_equal(microcode->patches[0].cpuid, 0x00010676);
     assert_int_equal(microcode->patches[0].patch_id, 0x0606);
     assert_int_equal(microcode->patches[0].date, dmi_date(2007, 9, 12));
+
+    // Signatures of Intel are held whole
+    assert_int_equal(microcode->patches[0].signature, 0x00010676);
 }
 
 static void test_hpe_rack_g6(void **pstate)
@@ -142,7 +165,18 @@ static void test_hpe_rack_g6(void **pstate)
     const dmi_hpe_processor_t *processor = test_hpe_info(context, DMI_TYPE(hpe_processor), &dmi_hpe_processor_spec);
     assert_int_equal(processor->maximum_power, 95);
     assert_int_equal(processor->x2apic_id, UINT32_MAX);
+    assert_false(processor->is_x2apic);
+    assert_false(test_hpe_shown(context, DMI_TYPE(hpe_processor), "x2apic-id"));
     assert_null(processor->qdf);
+
+    // Firmware of G6 fills the name of the OEM ROM image, which it has none
+    // of, with blanks, and adds a string of its own
+    const dmi_hpe_rom_info_t *rom = test_hpe_info(context, DMI_TYPE(hpe_rom_info), &dmi_hpe_rom_info_spec);
+    assert_false(rom->has_oem_rom);
+    assert_true(rom->has_unknown_string);
+    assert_string_equal(rom->unknown_string, "2.9");
+    assert_false(test_hpe_shown(context, DMI_TYPE(hpe_rom_info), "oem-rom-date"));
+    assert_true(test_hpe_shown(context, DMI_TYPE(hpe_rom_info), "unknown-string"));
 
     // Sockets of the system board, which are shorter than the ones of Gen9
     const dmi_hpe_dimm_location_t *dimm = test_hpe_info(context, DMI_TYPE(hpe_dimm_location), &dmi_hpe_dimm_location_spec);
@@ -151,6 +185,11 @@ static void test_hpe_rack_g6(void **pstate)
     assert_int_equal(dimm->dimm, 1);
     assert_int_equal(dimm->processor, 1);
     assert_int_equal(dimm->channel_index, UINT8_MAX);
+    assert_true(dimm->is_system_board);
+    assert_false(dimm->has_channel_index);
+    assert_true(dimm->has_ie);
+    assert_false(test_hpe_shown(context, DMI_TYPE(hpe_dimm_location), "board"));
+    assert_false(test_hpe_shown(context, DMI_TYPE(hpe_dimm_location), "channel-index"));
 
     const dmi_hpe_proliant_info_t *proliant = test_hpe_info(context, DMI_TYPE(hpe_proliant_info), &dmi_hpe_proliant_info_spec);
     assert_int_equal(proliant->power_features, 0x0BFF);
@@ -177,6 +216,54 @@ static void test_hpe_rack_g6(void **pstate)
     assert_string_equal(power->manufacturer, "DELTA");
     assert_int_equal(power->fru_access, DMI_HPE_FRU_ACCESS_ILO);
     assert_int_equal(power->i2c_address, 0xA4);
+}
+
+//
+// Servers of AMD carry a record of another signature along with the one of
+// the CRU services, whose fields are not shown
+//
+static void test_hpe_cru_records(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_load(context, test_dl385_path));
+
+    dmi_registry_t *registry = dmi_get_registry(context);
+
+    dmi_entity_t *entity = dmi_registry_lookup(registry, 0xD400, DMI_TYPE(hpe_cru), false);
+    assert_non_null(entity);
+    const dmi_hpe_cru_t *cru = dmi_entity_info(entity, DMI_TYPE(hpe_cru));
+    assert_non_null(cru);
+    assert_true(cru->is_cru);
+
+    entity = dmi_registry_lookup(registry, 0xD401, DMI_TYPE(hpe_cru), false);
+    assert_non_null(entity);
+    cru = dmi_entity_info(entity, DMI_TYPE(hpe_cru));
+    assert_non_null(cru);
+    assert_string_equal(cru->signature, "$SHF");
+    assert_false(cru->is_cru);
+
+    for (const dmi_attribute_t *attr = entity->spec->attributes; attr->params.name != nullptr; attr++) {
+        if (strcmp(attr->params.code, "signature") != 0)
+            assert_null(dmi_attribute_resolve(attr, cru));
+    }
+}
+
+//
+// Microcode patches of AMD leave the base family out, which is put back
+//
+static void test_hpe_amd_microcode(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    assert_true(dmi_load(context, test_dl385_path));
+
+    const dmi_hpe_microcode_t *microcode = test_hpe_info(context, DMI_TYPE(hpe_microcode), &dmi_hpe_microcode_spec);
+    assert_int_equal(microcode->patch_count, 4);
+    assert_int_equal(microcode->patches[0].cpuid, 0x00000048);
+    assert_int_equal(microcode->patches[0].signature, 0x00000F48);
+    assert_int_equal(microcode->patches[3].cpuid, 0x00000210);
+    assert_int_equal(microcode->patches[3].signature, 0x00020F10);
 }
 
 static void test_hpe_generations(void **pstate)
@@ -226,4 +313,17 @@ static const void *test_hpe_info(dmi_context_t *context, const dmi_type_t *type,
     assert_non_null(info);
 
     return info;
+}
+
+static bool test_hpe_shown(dmi_context_t *context, const dmi_type_t *type, const char *code)
+{
+    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), type, false);
+    assert_non_null(entity);
+
+    for (const dmi_attribute_t *attr = entity->spec->attributes; attr->params.name != nullptr; attr++) {
+        if (strcmp(attr->params.code, code) == 0)
+            return dmi_attribute_resolve(attr, dmi_entity_info(entity, type)) != nullptr;
+    }
+
+    fail_msg("No attribute %s", code);
 }

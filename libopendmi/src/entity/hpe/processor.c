@@ -103,11 +103,19 @@ const dmi_entity_spec_t dmi_hpe_processor_spec =
             .unit   = DMI_UNIT_WATT,
             .unspec = dmi_value_ptr((uint16_t)0)
         }),
-        DMI_ATTRIBUTE(dmi_hpe_processor_t, x2apic_id, INTEGER, {
-            .code   = "x2apic-id",
-            .name   = "x2APIC ID",
-            .unspec = dmi_value_ptr((uint32_t)UINT32_MAX),
-            .flags  = DMI_ATTRIBUTE_FLAG_HEX
+        // x2APIC ID means something in the x2APIC mode only
+        DMI_ATTRIBUTE_VARIANT(dmi_hpe_processor_t, is_x2apic, {
+            .code     = "x2apic-id",
+            .name     = "x2APIC ID",
+            .variants = DMI_VARIANTS({
+                DMI_VARIANT(true, dmi_hpe_processor_t, x2apic_id, INTEGER, {
+                    .code   = "x2apic-id",
+                    .name   = "x2APIC ID",
+                    .unspec = dmi_value_ptr((uint32_t)UINT32_MAX),
+                    .flags  = DMI_ATTRIBUTE_FLAG_HEX
+                }),
+                {}
+            })
         }),
         DMI_ATTRIBUTE(dmi_hpe_processor_t, uuid, INTEGER, {
             .code   = "uuid",

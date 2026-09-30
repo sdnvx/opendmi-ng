@@ -61,5 +61,18 @@ corpus carry the same layout.
 | `0x08`
 | CPUID
 | `DWORD`
-| Processor signature (CPUID leaf 1 EAX) the patch applies to. AMD platforms leave the base family out
+| Processor signature (CPUID leaf 1 EAX) the patch applies to. AMD platforms leave the base family out, see below
 |===
+
+AMD platforms leave out the byte of the signature which holds the base family,
+bits 8 to 15, and move the bytes above it down by one. The base family is 15
+on all AMD processors from the Athlon 64 onwards, whose extended family tells
+them apart, so the signature is put back by taking 15 for the base family, the
+way dmidecode does:
+
+* bits 0 to 7 are taken from byte 0;
+* bits 8 to 15 are set to `0x0F`;
+* bits 16 to 23 are taken from byte 1;
+* bits 24 to 27 are taken from the low nibble of byte 2.
+
+The signature put back is valid for the families of 15 onwards only.

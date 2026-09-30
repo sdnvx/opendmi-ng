@@ -4,9 +4,12 @@
 
 Source: reverse engineered from the dumps of the data corpus.
 
-Lists tokens the calling interface (type 218) or the indexed I/O access (type
-212) defines, e.g. `0xF600` and `0xF601` in `dell/g15-5510.bin`, following two
-values whose meaning is not established.
+Lists tokens, most of which the calling interface (type 218) or the indexed I/O
+access (type 212) of the same table defines, e.g. `0xF600` and `0xF601` in
+`dell/g15-5510.bin`, following two values whose meaning is not established. The
+structures are 19 bytes long and carry no strings, which tells them from the
+Intel firmware version information some systems, e.g. XPS 13 9350, keep at type
+221.
 
 .Dell Token References, Type 2 structure
 [width=100%, cols="1,1,2,1,1,4"]
@@ -39,14 +42,14 @@ values whose meaning is not established.
 | Unknown 1
 | `BYTE`
 | Varies
-| `0` or `3`
+| `0`, `2` or `3` in the known data
 
 | `0x05`
 | 2.0+
 | Unknown 2
 | `WORD`
 | Varies
-| `1` in all known data
+| `0` or `1` in the known data
 
 | `0x07`
 | 2.0+
