@@ -146,8 +146,8 @@ const dmi_entity_spec_t dmi_intel_vpro_spec =
         DMI_FIELD(dmi_intel_vpro_t, me_version.hotfix, dmi_word_t),
         DMI_FIELD(dmi_intel_vpro_t, tpm_capabilities, dmi_dword_t),
 
-        // Wireless controller follows the wired one, but its fields are
-        // reserved
+        // Wireless controller follows the wired one, whose place the firmware
+        // of HP laptops gives the host bridge, so it is not decoded
         DMI_FIELD(dmi_intel_vpro_t, gbe_devfn,     dmi_byte_t),
         DMI_FIELD(dmi_intel_vpro_t, gbe_bus,       dmi_byte_t),
         DMI_FIELD(dmi_intel_vpro_t, gbe_device_id, dmi_word_t),

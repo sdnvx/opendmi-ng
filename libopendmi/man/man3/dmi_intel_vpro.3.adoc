@@ -112,8 +112,9 @@ Capabilities of the Trusted Platform Module, see
 
 `gbe_devfn`, `gbe_bus`, `gbe_device_id`::
 PCI device and function of the wired network controller the Management Engine
-uses, its bus, and its device ID, `0xFFFF` if the controller is absent. The
-fields of the wireless controller which follow are reserved.
+uses, its bus, and its device ID, `0xFFFF` or zero if the controller is
+absent. The fields of the wireless controller which follow are not decoded:
+the firmware of HP laptops gives the host bridge there instead.
 
 `bios_capabilities`::
 Capabilities of the BIOS, see `dmi_intel_vpro_bios_caps`(3).

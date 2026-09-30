@@ -38,8 +38,8 @@ static const uint8_t test_data[] = {
     190, 0x3A, 0x00, 0x20,          // Header
     0x02,                           // PCI class
     0x03, 0x00,                     // PCI slot ID
-    0x86, 0x80, 0x93, 0x15,         // Vendor ID, device ID
-    0x86, 0x80, 0x01, 0x00,         // Sub-vendor ID, sub-device ID
+    0x86, 0x80, 0x72, 0x15,         // Vendor ID, device ID (Intel X710)
+    0x86, 0x80, 0x01, 0x00,         // Sub-vendor ID, sub-device ID (X710-4)
     0x10, 0x27, 0x00, 0x00,         // Maximum speed (10000 Mbps)
     0xE8, 0x03, 0x00, 0x00,         // Current speed (1000 Mbps)
     0x01, 0x00,                     // Port index
@@ -107,7 +107,7 @@ static void test_rsd_network_card_decode(void **pstate)
 
     assert_int_equal(info->pci_class, 0x02);
     assert_int_equal(info->vendor_id, 0x8086);
-    assert_int_equal(info->device_id, 0x1593);
+    assert_int_equal(info->device_id, 0x1572);
     assert_int_equal(info->maximum_speed, 10000);
     assert_int_equal(info->current_speed, 1000);
     assert_int_equal(info->port_index, 1);

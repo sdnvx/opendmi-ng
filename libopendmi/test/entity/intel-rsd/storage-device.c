@@ -38,8 +38,8 @@ static const uint8_t test_data[] = {
     0x00, 0x00,                     // RPM
     0x02, 0x03,                     // Model, serial number
     0x01,                           // PCI class
-    0x86, 0x80, 0x53, 0x09,         // Vendor ID, device ID
-    0x86, 0x80, 0x70, 0x37,         // Sub-vendor ID, sub-device ID
+    0x86, 0x80, 0x54, 0x0A,         // Vendor ID, device ID (Intel P4510)
+    0x86, 0x80, 0x02, 0x48,         // Sub-vendor ID, sub-device ID (U.2)
     0x04,                           // Firmware version
     'P', 'C', 'I', 'e', ' ', 'P', 'o', 'r', 't', ' ', '1', 0,
     'S', 'S', 'D', 'P', 'E', '2', 'K', 'X', '0', '1', '0', 'T', '8', 0,
@@ -113,9 +113,9 @@ static void test_rsd_storage_device_decode(void **pstate)
     assert_string_equal(info->serial_number, "PHLJ0001");
     assert_int_equal(info->pci_class, 0x01);
     assert_int_equal(info->vendor_id, 0x8086);
-    assert_int_equal(info->device_id, 0x0953);
+    assert_int_equal(info->device_id, 0x0A54);
     assert_int_equal(info->sub_vendor_id, 0x8086);
-    assert_int_equal(info->sub_device_id, 0x3770);
+    assert_int_equal(info->sub_device_id, 0x4802);
     assert_string_equal(info->firmware_version, "VDV10131");
 
     dmi_entity_destroy(entity);
