@@ -344,7 +344,7 @@ dmi_lint_severity_t dmi_lint_rule_severity(const dmi_lint_rule_t *rule, dmi_lint
     if (rule == nullptr)
         return DMI_LINT_SEVERITY_NONE;
 
-    return (profile == DMI_LINT_PROFILE_PRODUCER) ? rule->params.producer_severity : rule->params.severity;
+    return (profile == DMI_LINT_PROFILE_PRODUCER) ? rule->params.producer_severity : rule->params.reader_severity;
 }
 
 static bool dmi_lint_enabled(const dmi_lint_t *lint, const dmi_lint_rule_t *rule)

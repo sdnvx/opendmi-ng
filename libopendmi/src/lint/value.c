@@ -96,7 +96,7 @@ const dmi_lint_rule_t dmi_lint_value_invalid_enum_rule =
     .check  = dmi_lint_value_invalid_enum,
     .params = {
         .name              = "Values of enumerated fields are defined by the specification",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -108,7 +108,7 @@ const dmi_lint_rule_t dmi_lint_value_reserved_rule =
     .check  = dmi_lint_value_reserved,
     .params = {
         .name              = "Fields hold no values reserved by the specification",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -120,7 +120,7 @@ const dmi_lint_rule_t dmi_lint_value_reserved_bits_rule =
     .check  = dmi_lint_value_reserved_bits,
     .params = {
         .name              = "Bit fields have no bits reserved by the specification set",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -132,7 +132,7 @@ const dmi_lint_rule_t dmi_lint_value_bcd_rule =
     .check  = dmi_lint_value_bcd,
     .params = {
         .name              = "Fields encoded as binary-coded decimals hold decimal digits",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -144,7 +144,7 @@ const dmi_lint_rule_t dmi_lint_value_range_rule =
     .check  = dmi_lint_value_range,
     .params = {
         .name              = "Fields hold the values the specification allows them",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -156,7 +156,7 @@ const dmi_lint_rule_t dmi_lint_value_jep106_rule =
     .check  = dmi_lint_value_jep106,
     .params = {
         .name              = "Identification codes of JEDEC manufacturers carry their parity bit",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -168,7 +168,7 @@ const dmi_lint_rule_t dmi_lint_value_uuid_rule =
     .check  = dmi_lint_value_uuid,
     .params = {
         .name              = "UUIDs are set",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING,
         .optional          = true
     }

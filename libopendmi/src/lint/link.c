@@ -73,7 +73,7 @@ const dmi_lint_rule_t dmi_lint_link_dangling_rule =
     .check  = dmi_lint_link_dangling,
     .params = {
         .name              = "References point to the structures of the table",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -85,7 +85,7 @@ const dmi_lint_rule_t dmi_lint_link_self_rule =
     .check  = dmi_lint_link_self,
     .params = {
         .name              = "Structures do not reference themselves",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -97,7 +97,7 @@ const dmi_lint_rule_t dmi_lint_link_wrong_type_rule =
     .check  = dmi_lint_link_wrong_type,
     .params = {
         .name              = "References point to the structures of the types they expect",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -109,7 +109,7 @@ const dmi_lint_rule_t dmi_lint_link_orphan_rule =
     .check  = dmi_lint_link_orphan,
     .params = {
         .name              = "Structures are referenced by the rest of the table",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_NOTE,
         .optional          = true
     }

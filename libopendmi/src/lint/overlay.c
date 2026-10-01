@@ -31,7 +31,7 @@ const dmi_lint_rule_t dmi_lint_overlay_dangling_rule =
     .check  = dmi_lint_overlay_dangling,
     .params = {
         .name              = "Additional information entries refer to the structures of the table",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -43,7 +43,7 @@ const dmi_lint_rule_t dmi_lint_overlay_out_of_bounds_rule =
     .check  = dmi_lint_overlay_out_of_bounds,
     .params = {
         .name              = "Additional information entries refer to the fields of the structures",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -55,7 +55,7 @@ const dmi_lint_rule_t dmi_lint_overlay_empty_rule =
     .check  = dmi_lint_overlay_empty,
     .params = {
         .name              = "Additional information entries carry values",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING,
         .optional          = true
     }

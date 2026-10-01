@@ -112,12 +112,12 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("tpm-device.vendor", dmi_tpm_device_lint_vendor, {
             .name              = "Vendor identifier is stored in the order of the specification",
-            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .reader_severity   = DMI_LINT_SEVERITY_NOTE,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("tpm-device.version", dmi_tpm_device_lint_version, {
             .name              = "Specification version of the device is one the TCG has published",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

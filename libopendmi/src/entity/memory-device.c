@@ -354,37 +354,37 @@ const dmi_entity_spec_t dmi_memory_device_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("memory-device.extended-size", dmi_memory_device_lint_extended_size, {
             .name              = "Extended size is present when the plain one needs it",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("memory-device.width", dmi_memory_device_lint_width, {
             .name              = "Total width of the device covers its data width",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("memory-device.speed", dmi_memory_device_lint_speed, {
             .name              = "Device is configured no faster than it is capable of",
-            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .reader_severity   = DMI_LINT_SEVERITY_NOTE,
             .producer_severity = DMI_LINT_SEVERITY_WARNING
         }),
         DMI_LINT_RULE("memory-device.voltage", dmi_memory_device_lint_voltage, {
             .name              = "Configured voltage of the device is within its limits",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("memory-device.sizes", dmi_memory_device_lint_sizes, {
             .name              = "Volatile and non-volatile sizes fit the size of the device",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("memory-device.attributes", dmi_memory_device_lint_attributes, {
             .name              = "Attributes have no bits reserved by the specification set",
-            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .reader_severity   = DMI_LINT_SEVERITY_NOTE,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("memory-device.disabled", dmi_memory_device_lint_disabled, {
             .name              = "Device disabled because of an error has not been reported error-free",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

@@ -132,12 +132,12 @@ const dmi_entity_spec_t dmi_system_event_log_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("system-event-log.area", dmi_system_event_log_lint_area, {
             .name              = "Header and data of the log are within its area",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("system-event-log.descriptors", dmi_system_event_log_lint_descriptors, {
             .name              = "Descriptors of the supported log types are of the expected length",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

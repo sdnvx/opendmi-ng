@@ -82,12 +82,12 @@ const dmi_entity_spec_t dmi_mgmt_device_threshold_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("mgmt-device-threshold.order", dmi_mgmt_device_threshold_lint_order, {
             .name              = "Thresholds grow from non-recoverable to non-critical and back",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("mgmt-device-threshold.template", dmi_mgmt_device_threshold_lint_template, {
             .name              = "Thresholds hold values rather than the ordinals of their fields",
-            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .reader_severity   = DMI_LINT_SEVERITY_NOTE,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

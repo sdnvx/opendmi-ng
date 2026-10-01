@@ -31,7 +31,7 @@ const dmi_lint_rule_t dmi_lint_entity_below_minimum_rule =
     .check  = dmi_lint_entity_below_minimum,
     .params = {
         .name              = "Structure is long enough for its type",
-        .severity          = DMI_LINT_SEVERITY_ERROR,
+        .reader_severity   = DMI_LINT_SEVERITY_ERROR,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -43,7 +43,7 @@ const dmi_lint_rule_t dmi_lint_entity_unknown_length_rule =
     .check  = dmi_lint_entity_unknown_length,
     .params = {
         .name              = "Length of the structure matches a version of its specification",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -55,7 +55,7 @@ const dmi_lint_rule_t dmi_lint_entity_undecoded_rule =
     .check  = dmi_lint_entity_undecoded,
     .params = {
         .name              = "Structure has been decoded",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -67,7 +67,7 @@ const dmi_lint_rule_t dmi_lint_entity_newer_fields_rule =
     .check  = dmi_lint_entity_newer_fields,
     .params = {
         .name              = "Structure has no fields newer than the version of the entry point",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -79,7 +79,7 @@ const dmi_lint_rule_t dmi_lint_entity_newer_type_rule =
     .check  = dmi_lint_entity_newer_type,
     .params = {
         .name              = "Type of the structure is defined by the version of the entry point",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -91,7 +91,7 @@ const dmi_lint_rule_t dmi_lint_entity_unknown_type_rule =
     .check  = dmi_lint_entity_unknown_type,
     .params = {
         .name              = "Type of the structure is known",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING,
         .optional          = true
     }
@@ -104,7 +104,7 @@ const dmi_lint_rule_t dmi_lint_entity_obsolete_rule =
     .check  = dmi_lint_entity_obsolete,
     .params = {
         .name              = "Structure is not of a type obsoleted by the specification",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING,
         .optional          = true
     }

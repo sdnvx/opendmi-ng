@@ -35,7 +35,7 @@ cache information structure are declared with the rest of its specification:
     DMI_LINT_RULE("cache.size", dmi_cache_lint_size, {
         .name              = "Installed size of the cache fits its "
                              "maximum size",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }),
     {}

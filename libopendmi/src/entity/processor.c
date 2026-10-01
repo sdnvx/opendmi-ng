@@ -380,27 +380,27 @@ const dmi_entity_spec_t dmi_processor_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("processor.family", dmi_processor_lint_family, {
             .name              = "Extended family is present when the plain one needs it",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("processor.id", dmi_processor_lint_id, {
             .name              = "Words of the processor identifier are in the order of the specification",
-            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .reader_severity   = DMI_LINT_SEVERITY_NOTE,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("processor.cores", dmi_processor_lint_cores, {
             .name              = "Enabled cores and threads fit the ones the processor has",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("processor.speed", dmi_processor_lint_speed, {
             .name              = "Processor runs no faster than it is capable of",
-            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .reader_severity   = DMI_LINT_SEVERITY_NOTE,
             .producer_severity = DMI_LINT_SEVERITY_WARNING
         }),
         DMI_LINT_RULE("processor.cache", dmi_processor_lint_cache, {
             .name              = "Cache handles of the processor refer to the caches of their levels",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

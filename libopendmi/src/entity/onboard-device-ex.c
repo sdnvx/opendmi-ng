@@ -85,7 +85,7 @@ const dmi_entity_spec_t dmi_onboard_device_ex_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("onboard-device-ex.instance", dmi_onboard_device_ex_lint_instance, {
             .name              = "Instances of the devices of a type are unique",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

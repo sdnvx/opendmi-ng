@@ -89,7 +89,7 @@ const dmi_entity_spec_t dmi_power_controls_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("power-controls.bcd", dmi_power_controls_lint_bcd, {
             .name              = "Fields of the next scheduled power-on hold binary-coded decimals",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

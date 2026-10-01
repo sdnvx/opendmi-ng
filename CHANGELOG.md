@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Read the rank of memory devices as five bits, and describe the OK memory error type as unmapped memory devices too (SMBIOS 3.10)
 - Rename `dmi_acer_hotkey_t`, `dmi_acer_device_t`, `dmi_dell_device_name_t`, `dmi_dell_hotkey_t` and `dmi_dell_memory_id_t` to `*_entry_t`
+- Rename `severity` of `dmi_lint_rule_params_t` to `reader_severity`, after the profile it applies to, like `producer_severity`
 - Free the arrays of fields and of linked structures in the library, leaving cleanup handlers only what the handlers of a specification allocate
 - Tell the optional fields of HP/HPE, Intel and Dell structures by the groups holding them instead of their lengths, and leave the groups a structure does not hold out of canonical encoding
 - Save dumps through a temporary file, so that a failed `dmi_save()` leaves the target intact

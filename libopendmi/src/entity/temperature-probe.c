@@ -109,7 +109,7 @@ const dmi_entity_spec_t dmi_temperature_probe_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("temperature-probe.range", dmi_temperature_probe_lint_range, {
             .name              = "Nominal value of the probe is within its limits",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

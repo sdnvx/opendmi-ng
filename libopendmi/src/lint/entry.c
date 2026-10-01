@@ -29,7 +29,7 @@ const dmi_lint_rule_t dmi_lint_entry_checksum_rule =
     .check  = dmi_lint_entry_checksum,
     .params = {
         .name              = "Checksum of the entry point matches its data",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -41,7 +41,7 @@ const dmi_lint_rule_t dmi_lint_entry_length_rule =
     .check  = dmi_lint_entry_length,
     .params = {
         .name              = "Length of the entry point matches its format",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -53,7 +53,7 @@ const dmi_lint_rule_t dmi_lint_entry_table_address_rule =
     .check  = dmi_lint_entry_table_address,
     .params = {
         .name              = "Entry point points to the table",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -65,7 +65,7 @@ const dmi_lint_rule_t dmi_lint_entry_table_size_rule =
     .check  = dmi_lint_entry_table_size,
     .params = {
         .name              = "Size of the table matches the one declared by the entry point",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -77,7 +77,7 @@ const dmi_lint_rule_t dmi_lint_entry_entity_count_rule =
     .check  = dmi_lint_entry_entity_count,
     .params = {
         .name              = "Number of the structures matches the one declared by the entry point",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -89,7 +89,7 @@ const dmi_lint_rule_t dmi_lint_entry_entity_max_size_rule =
     .check  = dmi_lint_entry_entity_max_size,
     .params = {
         .name              = "Structures fit the maximum size declared by the entry point",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };

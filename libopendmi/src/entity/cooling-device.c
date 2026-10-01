@@ -101,7 +101,7 @@ const dmi_entity_spec_t dmi_cooling_device_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("cooling-device.probe", dmi_cooling_device_lint_probe, {
             .name              = "Probe of the cooling device is a temperature probe",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

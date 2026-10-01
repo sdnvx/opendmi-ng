@@ -23,7 +23,7 @@ const dmi_lint_rule_t dmi_lint_quality_placeholder_rule =
     .check  = dmi_lint_quality_placeholder,
     .params = {
         .name              = "Strings hold data rather than the placeholders of the firmware vendor",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING,
         .optional          = true
     }

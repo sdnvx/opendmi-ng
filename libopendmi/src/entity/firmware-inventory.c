@@ -145,7 +145,7 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("firmware-inventory.version", dmi_firmware_inventory_lint_version, {
             .name              = "Version of the firmware is no older than the lowest supported one",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

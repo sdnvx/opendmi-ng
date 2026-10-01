@@ -154,7 +154,7 @@ const dmi_entity_spec_t dmi_power_supply_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("power-supply.probes", dmi_power_supply_lint_probes, {
             .name              = "Probes of the power supply are of the kinds it measures",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

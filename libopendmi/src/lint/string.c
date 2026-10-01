@@ -33,7 +33,7 @@ const dmi_lint_rule_t dmi_lint_string_too_long_rule =
     .check  = dmi_lint_string_too_long,
     .params = {
         .name              = "Strings are no longer than the specification allows",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -45,7 +45,7 @@ const dmi_lint_rule_t dmi_lint_string_non_printable_rule =
     .check  = dmi_lint_string_non_printable,
     .params = {
         .name              = "Strings hold printable text",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -57,7 +57,7 @@ const dmi_lint_rule_t dmi_lint_string_blank_rule =
     .check  = dmi_lint_string_blank,
     .params = {
         .name              = "Strings are not blank",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING
     }
 };
@@ -69,7 +69,7 @@ const dmi_lint_rule_t dmi_lint_string_padded_rule =
     .check  = dmi_lint_string_padded,
     .params = {
         .name              = "Strings have no leading or trailing whitespace",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING,
         .optional          = true
     }
@@ -82,7 +82,7 @@ const dmi_lint_rule_t dmi_lint_string_unreferenced_rule =
     .check  = dmi_lint_string_unreferenced,
     .params = {
         .name              = "Every string is referenced by a field of its structure",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING,
         .optional          = true
     }

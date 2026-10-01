@@ -100,7 +100,7 @@ struct dmi_lint_rule_params
     /**
      * @brief Severity of the issues in the reader profile.
      */
-    dmi_lint_severity_t severity;
+    dmi_lint_severity_t reader_severity;
 
     /**
      * @brief Severity of the issues in the producer profile.

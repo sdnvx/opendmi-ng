@@ -166,12 +166,12 @@ const dmi_entity_spec_t dmi_cache_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("cache.size", dmi_cache_lint_size, {
             .name              = "Installed size of the cache fits its maximum size",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("cache.sram", dmi_cache_lint_sram, {
             .name              = "Current SRAM type of the cache is one of the supported ones",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

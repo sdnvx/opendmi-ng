@@ -127,12 +127,12 @@ const dmi_entity_spec_t dmi_firmware_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("firmware.rom-size", dmi_firmware_lint_rom_size, {
             .name              = "Extended ROM size is present when the plain one needs it",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("firmware.release-date", dmi_firmware_lint_release_date, {
             .name              = "Release date is written the way the specification requires",
-            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .reader_severity   = DMI_LINT_SEVERITY_NOTE,
             .producer_severity = DMI_LINT_SEVERITY_WARNING
         }),
         {}

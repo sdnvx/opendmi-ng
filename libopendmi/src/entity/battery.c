@@ -141,7 +141,7 @@ const dmi_entity_spec_t dmi_battery_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("portable-battery.sbds", dmi_battery_lint_sbds, {
             .name              = "Battery carries either its own values or the SBDS ones",
-            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .reader_severity   = DMI_LINT_SEVERITY_NOTE,
             .producer_severity = DMI_LINT_SEVERITY_WARNING
         }),
         {}

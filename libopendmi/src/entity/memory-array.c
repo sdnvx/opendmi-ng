@@ -99,17 +99,17 @@ const dmi_entity_spec_t dmi_memory_array_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("memory-array.extended-capacity", dmi_memory_array_lint_extended_capacity, {
             .name              = "Extended maximum capacity is present when the plain one needs it",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("memory-array.device-count", dmi_memory_array_lint_device_count, {
             .name              = "Number of the devices matches the ones referring to the array",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         DMI_LINT_RULE("memory-array.capacity", dmi_memory_array_lint_capacity, {
             .name              = "Devices of the array fit its maximum capacity",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

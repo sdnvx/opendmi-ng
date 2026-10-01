@@ -138,7 +138,7 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("ipmi-device.revision", dmi_ipmi_device_lint_revision, {
             .name              = "Revision of the IPMI specification is a binary-coded decimal",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

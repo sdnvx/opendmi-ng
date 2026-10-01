@@ -104,7 +104,7 @@ const dmi_entity_spec_t dmi_voltage_probe_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("voltage-probe.range", dmi_voltage_probe_lint_range, {
             .name              = "Nominal value of the probe is within its limits",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

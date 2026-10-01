@@ -47,7 +47,7 @@ const dmi_lint_rule_t dmi_lint_table_truncated_rule =
     .check  = dmi_lint_table_truncated,
     .params = {
         .name              = "Table holds every structure completely",
-        .severity          = DMI_LINT_SEVERITY_ERROR,
+        .reader_severity   = DMI_LINT_SEVERITY_ERROR,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -59,7 +59,7 @@ const dmi_lint_rule_t dmi_lint_table_invalid_header_rule =
     .check  = dmi_lint_table_invalid_header,
     .params = {
         .name              = "Structure headers are valid, so that the table is read to its end",
-        .severity          = DMI_LINT_SEVERITY_ERROR,
+        .reader_severity   = DMI_LINT_SEVERITY_ERROR,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -71,7 +71,7 @@ const dmi_lint_rule_t dmi_lint_table_terminator_rule =
     .check  = dmi_lint_table_terminator,
     .params = {
         .name              = "Table ends with an end-of-table structure",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -83,7 +83,7 @@ const dmi_lint_rule_t dmi_lint_table_trailing_data_rule =
     .check  = dmi_lint_table_trailing_data,
     .params = {
         .name              = "Table has no data past the end-of-table structure",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -95,7 +95,7 @@ const dmi_lint_rule_t dmi_lint_table_required_rule =
     .check  = dmi_lint_table_required,
     .params = {
         .name              = "Table has the structures required by the specification",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -107,7 +107,7 @@ const dmi_lint_rule_t dmi_lint_table_recommended_rule =
     .check  = dmi_lint_table_recommended,
     .params = {
         .name              = "Table has the structures recommended for the platform",
-        .severity          = DMI_LINT_SEVERITY_NOTE,
+        .reader_severity   = DMI_LINT_SEVERITY_NOTE,
         .producer_severity = DMI_LINT_SEVERITY_WARNING,
         .optional          = true
     }
@@ -120,7 +120,7 @@ const dmi_lint_rule_t dmi_lint_table_singleton_rule =
     .check  = dmi_lint_table_singleton,
     .params = {
         .name              = "Structures which have to be unique are not repeated",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };
@@ -132,7 +132,7 @@ const dmi_lint_rule_t dmi_lint_table_reserved_handle_rule =
     .check  = dmi_lint_table_reserved_handle,
     .params = {
         .name              = "Handles are outside of the range reserved by the specification",
-        .severity          = DMI_LINT_SEVERITY_WARNING,
+        .reader_severity   = DMI_LINT_SEVERITY_WARNING,
         .producer_severity = DMI_LINT_SEVERITY_ERROR
     }
 };

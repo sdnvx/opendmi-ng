@@ -322,7 +322,7 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("mgmt-controller-host-if.records", dmi_mgmt_controller_lint_records, {
             .name              = "Protocol records fit the structure holding them",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

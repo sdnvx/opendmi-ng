@@ -101,7 +101,7 @@ const dmi_entity_spec_t dmi_system_reset_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("system-reset.limit", dmi_system_reset_lint_limit, {
             .name              = "Number of the resets fits the limit of them",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

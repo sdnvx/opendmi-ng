@@ -86,7 +86,7 @@ const dmi_entity_spec_t dmi_memory_channel_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("memory-channel.load", dmi_memory_channel_lint_load, {
             .name              = "Devices of the channel fit the load it supports",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}

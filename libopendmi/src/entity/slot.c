@@ -177,7 +177,7 @@ const dmi_entity_spec_t dmi_slot_spec =
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("slot.width", dmi_slot_lint_width, {
             .name              = "Physical width of the slot covers the width of its bus",
-            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}
