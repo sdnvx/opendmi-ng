@@ -69,8 +69,6 @@ bool dmi_battery_encode_sbds_date(
  */
 bool dmi_battery_derive(dmi_entity_t *entity);
 
-// Checks the lint rules of the specification perform, see battery-rules.c
-
 /**
  * @internal
  * @brief Check that a battery provides either the SBDS values or its own

@@ -15,8 +15,6 @@
 
 #include <opendmi/entity/additional-info.h>
 
-// Operation handlers, see additional-info-handlers.c
-
 /**
  * @internal
  * @brief Decode the additional information entries of a structure.

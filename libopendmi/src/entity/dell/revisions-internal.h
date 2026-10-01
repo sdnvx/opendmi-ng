@@ -15,8 +15,6 @@
 
 #include <opendmi/entity/dell/revisions.h>
 
-// Operation handlers, see revisions-handlers.c
-
 /**
  * @internal
  * @brief Decode the implementation version.

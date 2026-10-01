@@ -112,8 +112,6 @@ bool dmi_memory_device_encode_size_ex(
         const void        *value,
         dmi_field_data_t  *data);
 
-// Checks the lint rules of the specification perform, see memory-device-rules.c
-
 /**
  * @internal
  * @brief Check that a size referring to the extended one comes with the
