@@ -260,6 +260,8 @@ target_sources(opendmi-object
         src/entry.c
         src/error.c
         src/field.c
+        src/field-decode.c
+        src/field-encode.c
         src/filter.c
         src/locale.c
         src/link.c
