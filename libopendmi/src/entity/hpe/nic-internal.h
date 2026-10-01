@@ -15,8 +15,24 @@
 
 #include <opendmi/entity/hpe/nic.h>
 
+/**
+ * @internal
+ * @brief Names of the states of a NIC port.
+ */
 extern const dmi_name_set_t dmi_hpe_nic_state_names;
 
+/**
+ * @internal
+ * @brief Derive the states of the ports of a NIC from their PCI locations.
+ *
+ * @details Port whose bus and device and function are all zero is disabled,
+ * one whose bus and device and function have all bits set is not installed,
+ * and any other one is installed.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_hpe_nic_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_NIC_INTERNAL_H

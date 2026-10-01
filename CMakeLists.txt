@@ -66,7 +66,10 @@ else()
 
     if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
        "${CMAKE_C_COMPILER_ID}" STREQUAL "AppleClang")
+        # Doc comments are checked against the declarations they are put on,
+        # which only Clang is able to do
         add_compile_options(
+            -Wdocumentation
             -Wno-unused-command-line-argument
             -Wno-gnu-zero-variadic-macro-arguments
             -Wno-keyword-macro

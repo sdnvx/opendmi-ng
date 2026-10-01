@@ -16,14 +16,17 @@
 
 #include <opendmi/entity/dell/calling-iface.h>
 
-#include "tokens-internal.h"
-
 /**
+ * @internal
  * @brief Size of the token in the structure.
  */
 #define DMI_DELL_CALLING_IFACE_TOKEN_SIZE 6
 
-// Operation handlers, see calling-iface-handlers.c
+
+/**
+ * @internal
+ * @brief Attributes of a token of the calling interface.
+ */
 extern const dmi_attribute_t dmi_dell_calling_iface_token_attrs[];
 
 /**

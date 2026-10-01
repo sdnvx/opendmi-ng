@@ -10,6 +10,7 @@
 #include <opendmi/module/dell.h>
 
 #include "calling-iface-internal.h"
+#include "tokens-internal.h"
 
 const dmi_attribute_t dmi_dell_calling_iface_token_attrs[] =
 {

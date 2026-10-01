@@ -16,12 +16,21 @@
 #include <opendmi/entity/intel-rsd/processor-cpuid.h>
 
 /**
+ * @internal
  * @brief Size of the leaf in the structure: EAX, EBX, ECX and EDX.
  */
 #define DMI_INTEL_RSD_CPUID_LEAF_SIZE 16
 
+/**
+ * @internal
+ * @brief Names of the subtypes of a CPUID structure.
+ */
 extern const dmi_name_set_t dmi_intel_rsd_cpuid_subtype_names;
 
+/**
+ * @internal
+ * @brief Attributes of a CPUID leaf.
+ */
 extern const dmi_attribute_t dmi_intel_rsd_cpuid_leaf_attrs[];
 
 /**

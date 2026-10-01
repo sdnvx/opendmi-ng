@@ -15,8 +15,16 @@
 
 #include <opendmi/entity/baseboard.h>
 
-// Value names, see baseboard-names.c
+/**
+ * @internal
+ * @brief Names of the baseboard types.
+ */
 extern const dmi_name_set_t dmi_baseboard_type_names;
+
+/**
+ * @internal
+ * @brief Names of the feature flags of a baseboard.
+ */
 extern const dmi_name_set_t dmi_baseboard_feature_names;
 
 #endif // !OPENDMI_ENTITY_BASEBOARD_INTERNAL_H

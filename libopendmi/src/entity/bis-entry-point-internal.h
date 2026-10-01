@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/bis-entry-point.h>
 
+/**
+ * @internal
+ * @brief Attributes of a real-mode address, which is a segment and an offset.
+ */
 extern const dmi_attribute_t dmi_bis_real_mode_address_attrs[];
 
 /**

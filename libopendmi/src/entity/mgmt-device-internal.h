@@ -15,8 +15,16 @@
 
 #include <opendmi/entity/mgmt-device.h>
 
-// Value names, see mgmt-device-names.c
+/**
+ * @internal
+ * @brief Names of the types of a management device.
+ */
 extern const dmi_name_set_t dmi_mgmt_device_type_names;
+
+/**
+ * @internal
+ * @brief Names of the address types of a management device.
+ */
 extern const dmi_name_set_t dmi_mgmt_device_addr_type_names;
 
 #endif // !OPENDMI_ENTITY_MGMT_DEVICE_INTERNAL_H

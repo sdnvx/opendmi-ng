@@ -15,8 +15,11 @@
 
 #include <opendmi/entity/battery.h>
 
+/**
+ * @internal
+ * @brief Names of the battery chemistries.
+ */
 extern const dmi_name_set_t dmi_battery_chemistry_names;
-
 
 /**
  * @internal

@@ -15,6 +15,16 @@
 
 #include <opendmi/entity/lenovo/oem.h>
 
+/**
+ * @internal
+ * @brief Derive the presence of the devices from the device presence bits.
+ *
+ * @details Bit 0 tells that a fingerprint reader is present.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_lenovo_device_presence_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_LENOVO_OEM_INTERNAL_H

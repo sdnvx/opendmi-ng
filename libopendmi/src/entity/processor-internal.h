@@ -23,12 +23,40 @@
  */
 #define DMI_PROCESSOR_ID_RESERVED 0xF000C000u
 
-// Value names, see processor-names.c
+/**
+ * @internal
+ * @brief Names of the processor types.
+ */
 extern const dmi_name_set_t dmi_processor_type_names;
+
+/**
+ * @internal
+ * @brief Names of the processor families.
+ */
 extern const dmi_name_set_t dmi_processor_family_names;
+
+/**
+ * @internal
+ * @brief Names of the statuses of a processor.
+ */
 extern const dmi_name_set_t dmi_processor_status_names;
+
+/**
+ * @internal
+ * @brief Names of the voltages a processor supports.
+ */
 extern const dmi_name_set_t dmi_processor_voltage_names;
+
+/**
+ * @internal
+ * @brief Names of the processor upgrades, which are the socket types.
+ */
 extern const dmi_name_set_t dmi_processor_upgrade_names;
+
+/**
+ * @internal
+ * @brief Names of the processor characteristics.
+ */
 extern const dmi_name_set_t dmi_processor_features_names;
 
 /**
@@ -37,8 +65,6 @@ extern const dmi_name_set_t dmi_processor_features_names;
  * register.
  */
 extern const dmi_name_set_t dmi_processor_x86_feature_names;
-
-// Operation handlers, see processor-handlers.c
 
 /**
  * @internal
@@ -88,8 +114,6 @@ bool dmi_processor_encode_voltage(
  * @return `true` on success, `false` otherwise.
  */
 bool dmi_processor_derive(dmi_entity_t *entity);
-
-// Checks the lint rules of the specification perform, see processor-rules.c
 
 /**
  * @internal

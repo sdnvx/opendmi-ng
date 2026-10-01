@@ -14,6 +14,10 @@
 
 #include <opendmi/entity/apple/processor-type.h>
 
+/**
+ * @internal
+ * @brief Names of the processor classes.
+ */
 extern const dmi_name_set_t dmi_apple_processor_class_names;
 
 #endif // !OPENDMI_ENTITY_APPLE_PROCESSOR_TYPE_INTERNAL_H

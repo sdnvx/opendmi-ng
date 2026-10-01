@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/intel-rsd/txt.h>
 
+/**
+ * @internal
+ * @brief Names of the states of Intel TXT.
+ */
 extern const dmi_name_set_t dmi_intel_rsd_txt_status_names;
 
 #endif // !OPENDMI_ENTITY_INTEL_RSD_TXT_INTERNAL_H

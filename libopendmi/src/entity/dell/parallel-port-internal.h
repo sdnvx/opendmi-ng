@@ -15,9 +15,22 @@
 
 #include <opendmi/entity/dell/parallel-port.h>
 
-// Value names, see parallel-port-names.c
+/**
+ * @internal
+ * @brief Names of the connector types of a parallel port.
+ */
 extern const dmi_name_set_t dmi_dell_parallel_port_connector_type_names;
+
+/**
+ * @internal
+ * @brief Names of the connector pinouts of a parallel port.
+ */
 extern const dmi_name_set_t dmi_dell_parallel_port_connector_pinout_names;
+
+/**
+ * @internal
+ * @brief Names of the capabilities of a parallel port.
+ */
 extern const dmi_name_set_t dmi_dell_parallel_port_caps_names;
 
 #endif // !OPENDMI_ENTITY_PARALLEL_PORT_INTERNAL_H

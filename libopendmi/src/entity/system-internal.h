@@ -15,7 +15,10 @@
 
 #include <opendmi/entity/system.h>
 
-// Value names, see system-names.c
+/**
+ * @internal
+ * @brief Names of the wake-up types of a system.
+ */
 extern const dmi_name_set_t dmi_system_wakeup_type_names;
 
 #endif // !OPENDMI_ENTITY_SYSTEM_INTERNAL_H

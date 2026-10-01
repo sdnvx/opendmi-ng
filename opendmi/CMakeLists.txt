@@ -62,7 +62,7 @@ else()
 endif()
 
 if(ENABLE_XML)
-    target_include_directories(opendmi-cli PUBLIC ${LIBXML2_INCLUDE_DIRS})
+    target_include_directories(opendmi-cli SYSTEM PUBLIC ${LIBXML2_INCLUDE_DIRS})
     target_sources(opendmi-cli
         PRIVATE
             src/format/xml.c
@@ -73,7 +73,7 @@ if(ENABLE_XML)
 endif()
 
 if(ENABLE_YAML)
-    target_include_directories(opendmi-cli PUBLIC ${LIBYAML_INCLUDE_DIRS})
+    target_include_directories(opendmi-cli SYSTEM PUBLIC ${LIBYAML_INCLUDE_DIRS})
     target_sources(opendmi-cli
         PRIVATE
             src/format/yaml.c
@@ -84,7 +84,7 @@ if(ENABLE_YAML)
 endif()
 
 if(ENABLE_JSON)
-    target_include_directories(opendmi-cli PUBLIC ${LIBYAJL_INCLUDE_DIRS})
+    target_include_directories(opendmi-cli SYSTEM PUBLIC ${LIBYAJL_INCLUDE_DIRS})
     target_sources(opendmi-cli
         PRIVATE
             src/format/json.c

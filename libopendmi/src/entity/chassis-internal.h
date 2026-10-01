@@ -15,8 +15,22 @@
 
 #include <opendmi/entity/chassis.h>
 
+/**
+ * @internal
+ * @brief Names of the chassis types.
+ */
 extern const dmi_name_set_t dmi_chassis_type_names;
+
+/**
+ * @internal
+ * @brief Names of the security statuses of a chassis.
+ */
 extern const dmi_name_set_t dmi_chassis_security_status_names;
+
+/**
+ * @internal
+ * @brief Names of the rack types.
+ */
 extern const dmi_name_set_t dmi_rack_type_names;
 
 /**

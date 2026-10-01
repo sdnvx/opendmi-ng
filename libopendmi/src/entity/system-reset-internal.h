@@ -15,10 +15,22 @@
 
 #include <opendmi/entity/system-reset.h>
 
-// Value names, see system-reset-names.c
+/**
+ * @internal
+ * @brief Names of the boot options taken on a watchdog reset or on reaching
+ * the reset limit.
+ */
 extern const dmi_name_set_t dmi_boot_option_names;
 
-// Checks the lint rules of the specification perform, see system-reset-rules.c
+/**
+ * @internal
+ * @brief Check that the number of resets does not exceed the reset limit.
+ *
+ * @details Counters holding `0xFFFF` are unknown, and are not checked.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_system_reset_lint_limit(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_SYSTEM_RESET_INTERNAL_H

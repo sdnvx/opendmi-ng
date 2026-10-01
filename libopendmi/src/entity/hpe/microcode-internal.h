@@ -15,6 +15,18 @@
 
 #include <opendmi/entity/hpe/microcode.h>
 
+/**
+ * @internal
+ * @brief Decode the processor signatures and the release dates of the
+ * microcode patches.
+ *
+ * @details AMD platforms leave the base family out of the signature, which is
+ * put back in place. Release dates are carried in BCD.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_hpe_microcode_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_MICROCODE_INTERNAL_H

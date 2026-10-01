@@ -15,9 +15,28 @@
 
 #include <opendmi/entity/memory-device.h>
 
+/**
+ * @internal
+ * @brief Names of the types of the memory devices.
+ */
 extern const dmi_name_set_t dmi_memory_device_type_names;
+
+/**
+ * @internal
+ * @brief Names of the type details of the memory devices.
+ */
 extern const dmi_name_set_t dmi_memory_device_type_detail_names;
+
+/**
+ * @internal
+ * @brief Names of the form factors of the memory devices.
+ */
 extern const dmi_name_set_t dmi_memory_device_form_factor_names;
+
+/**
+ * @internal
+ * @brief Names of the technologies of the memory devices.
+ */
 extern const dmi_name_set_t dmi_memory_device_tech_names;
 
 /**

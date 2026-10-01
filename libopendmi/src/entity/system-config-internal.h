@@ -15,8 +15,6 @@
 
 #include <opendmi/entity/system-config.h>
 
-// Operation handlers, see system-config-handlers.c
-
 /**
  * @internal
  * @brief Fill in the list of the configuration options.
@@ -30,6 +28,12 @@
  */
 bool dmi_system_config_opts_derive(dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Free the list of the configuration options of a decoded structure.
+ *
+ * @param[in,out] entity Structure being cleaned up.
+ */
 void dmi_system_config_opts_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_SYSTEM_CONFIG_INTERNAL_H

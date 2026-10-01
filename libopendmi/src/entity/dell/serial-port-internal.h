@@ -15,11 +15,17 @@
 
 #include <opendmi/entity/dell/serial-port.h>
 
-// Value names, see serial-port-names.c
+/**
+ * @internal
+ * @brief Names of the connector types of a serial port.
+ */
 extern const dmi_name_set_t dmi_dell_serial_port_connector_type_names;
-extern const dmi_name_set_t dmi_dell_serial_port_caps_names;
 
-// Operation handlers, see serial-port-handlers.c
+/**
+ * @internal
+ * @brief Names of the capabilities of a serial port.
+ */
+extern const dmi_name_set_t dmi_dell_serial_port_caps_names;
 
 /**
  * @internal

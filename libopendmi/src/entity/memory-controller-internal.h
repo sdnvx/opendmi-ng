@@ -15,10 +15,34 @@
 
 #include <opendmi/entity/memory-controller.h>
 
+/**
+ * @internal
+ * @brief Names of the error detecting methods.
+ */
 extern const dmi_name_set_t dmi_error_detect_method_names;
+
+/**
+ * @internal
+ * @brief Names of the error correcting capabilities.
+ */
 extern const dmi_name_set_t dmi_error_correct_caps_names;
+
+/**
+ * @internal
+ * @brief Names of the supported speeds of memory modules.
+ */
 extern const dmi_name_set_t dmi_memory_module_speed_names;
+
+/**
+ * @internal
+ * @brief Names of the memory interleave modes.
+ */
 extern const dmi_name_set_t dmi_memory_interleave_names;
+
+/**
+ * @internal
+ * @brief Names of the supported voltages of memory modules.
+ */
 extern const dmi_name_set_t dmi_memory_module_voltage_names;
 
 /**

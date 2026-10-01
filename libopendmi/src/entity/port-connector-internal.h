@@ -15,8 +15,16 @@
 
 #include <opendmi/entity/port-connector.h>
 
-// Value names, see port-connector-names.c
+/**
+ * @internal
+ * @brief Names of the connector types.
+ */
 extern const dmi_name_set_t dmi_connector_type_names;
+
+/**
+ * @internal
+ * @brief Names of the port types.
+ */
 extern const dmi_name_set_t dmi_port_type_names;
 
 #endif // !OPENDMI_ENTITY_PORT_CONNECTOR_INTERNAL_H

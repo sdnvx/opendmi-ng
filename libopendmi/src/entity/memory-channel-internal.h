@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/memory-channel.h>
 
+/**
+ * @internal
+ * @brief Names of the types of the memory channels.
+ */
 extern const dmi_name_set_t dmi_memory_channel_type_names;
 
 /**

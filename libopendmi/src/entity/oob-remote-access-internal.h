@@ -15,7 +15,10 @@
 
 #include <opendmi/entity/oob-remote-access.h>
 
-// Value names, see oob-remote-access-names.c
+/**
+ * @internal
+ * @brief Names of the connection flags of out-of-band remote access.
+ */
 extern const dmi_name_set_t dmi_oob_connection_names;
 
 #endif // !OPENDMI_ENTITY_OOB_REMOTE_ACCESS_INTERNAL_H

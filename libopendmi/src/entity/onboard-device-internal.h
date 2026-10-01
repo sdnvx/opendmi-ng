@@ -15,7 +15,10 @@
 
 #include <opendmi/entity/onboard-device.h>
 
-// Value names, see onboard-device-names.c
+/**
+ * @internal
+ * @brief Names of the types of the onboard devices.
+ */
 extern const dmi_name_set_t dmi_onboard_device_type_names;
 
 #endif // !OPENDMI_ENTITY_ONBOARD_DEVICE_INTERNAL_H

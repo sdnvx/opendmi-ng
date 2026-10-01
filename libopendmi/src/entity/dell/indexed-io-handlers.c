@@ -10,6 +10,7 @@
 #include <opendmi/module/dell.h>
 
 #include "indexed-io-internal.h"
+#include "tokens-internal.h"
 
 const dmi_attribute_t dmi_dell_indexed_io_token_attrs[] =
 {

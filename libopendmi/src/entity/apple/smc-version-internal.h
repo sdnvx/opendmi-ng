@@ -14,6 +14,17 @@
 
 #include <opendmi/entity/apple/smc-version.h>
 
+/**
+ * @internal
+ * @brief Take the SMC version text from the raw bytes of the field.
+ *
+ * @details Text is followed by bytes of zero up to the end of the field,
+ * which are left out of the version.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_apple_smc_version_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_APPLE_SMC_VERSION_INTERNAL_H

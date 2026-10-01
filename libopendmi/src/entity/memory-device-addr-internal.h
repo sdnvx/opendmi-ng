@@ -15,6 +15,18 @@
 
 #include <opendmi/entity/memory-device-addr.h>
 
+/**
+ * @internal
+ * @brief Check that the address range of a structure is well-formed.
+ *
+ * @details The extended addresses are used if, and only if, both of the 32-bit
+ * ones are `0xFFFFFFFF`, and are zero otherwise. The end of a range is above
+ * its start.
+ *
+ * @param[in] entity Structure being validated.
+ *
+ * @return `true` if the structure is valid, `false` otherwise.
+ */
 bool dmi_memory_device_addr_validate(dmi_entity_t *entity);
 
 /**
@@ -30,6 +42,14 @@ bool dmi_memory_device_addr_validate(dmi_entity_t *entity);
  */
 bool dmi_memory_device_addr_derive(dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Check that the address range of a memory device does not start above
+ * its end.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_memory_device_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 /**

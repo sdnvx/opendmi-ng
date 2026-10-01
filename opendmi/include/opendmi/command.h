@@ -31,9 +31,7 @@ typedef struct dmi_command dmi_command_t;
 typedef struct dmi_command_ops dmi_command_ops_t;
 
 /**
- * @brief Command usage handler.
- *
- * @param[in] context Context handle.
+ * @brief Command usage handler, which prints the usage of the command.
  */
 typedef void dmi_command_usage_fn(void);
 

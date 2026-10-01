@@ -15,6 +15,18 @@
 
 #include <opendmi/entity/hpe/proliant-info.h>
 
+/**
+ * @internal
+ * @brief Tell the features of the platform from the bits of the
+ * miscellaneous features.
+ *
+ * @details See the `is_icru` and `is_uefi` members of
+ * `dmi_hpe_proliant_info_t` for the bits each feature is told by.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_hpe_proliant_info_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_PROLIANT_INFO_INTERNAL_H

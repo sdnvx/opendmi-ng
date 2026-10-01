@@ -15,7 +15,16 @@
 
 #include <opendmi/entity/intel-rsd/memory-device.h>
 
+/**
+ * @internal
+ * @brief Names of the memory types.
+ */
 extern const dmi_name_set_t dmi_intel_rsd_memory_type_names;
+
+/**
+ * @internal
+ * @brief Names of the memory media.
+ */
 extern const dmi_name_set_t dmi_intel_rsd_memory_media_names;
 
 #endif // !OPENDMI_ENTITY_INTEL_RSD_MEMORY_DEVICE_INTERNAL_H

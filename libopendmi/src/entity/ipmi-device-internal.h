@@ -36,9 +36,28 @@
         {}                                                                                         \
     })
 
+/**
+ * @internal
+ * @brief Names of the IPMI interface types.
+ */
 extern const dmi_name_set_t dmi_ipmi_interface_names;
+
+/**
+ * @internal
+ * @brief Names of the types of the base address.
+ */
 extern const dmi_name_set_t dmi_ipmi_addr_type_names;
+
+/**
+ * @internal
+ * @brief Names of the trigger modes of the interrupt.
+ */
 extern const dmi_name_set_t dmi_ipmi_intr_trigger_names;
+
+/**
+ * @internal
+ * @brief Names of the polarities of the interrupt.
+ */
 extern const dmi_name_set_t dmi_ipmi_intr_polarity_names;
 
 /**

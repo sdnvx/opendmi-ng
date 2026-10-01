@@ -15,6 +15,17 @@
 
 #include <opendmi/entity/hpe/reserved-memory.h>
 
+/**
+ * @internal
+ * @brief Derive the sizes and the signatures of the reserved memory entries.
+ *
+ * @details Size of an entry is its raw size in bytes or in kilobytes, as the
+ * entry says, and the signature is the text its raw bytes spell.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_hpe_reserved_memory_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_RESERVED_MEMORY_INTERNAL_H

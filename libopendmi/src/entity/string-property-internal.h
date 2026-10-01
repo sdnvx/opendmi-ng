@@ -15,7 +15,18 @@
 
 #include <opendmi/entity/string-property.h>
 
-// Operation handlers, see string-property-handlers.c
+/**
+ * @internal
+ * @brief Attach a string property to the structure it belongs to.
+ *
+ * @param[in,out] entity Structure being linked.
+ *
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Parent handle is not specified, or refers
+ * to no structure
+ * @error DMI_ERROR_INVALID_ENTITY_TYPE Parent is a string property itself
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_string_property_link(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_STRING_PROPERTY_INTERNAL_H

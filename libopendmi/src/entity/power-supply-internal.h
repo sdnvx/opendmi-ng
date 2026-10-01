@@ -14,11 +14,29 @@
 
 #include <opendmi/entity/power-supply.h>
 
-// Value names, see power-supply-names.c
+/**
+ * @internal
+ * @brief Names of the power supply types.
+ */
 extern const dmi_name_set_t dmi_power_supply_type_names;
+
+/**
+ * @internal
+ * @brief Names of the input voltage range switching types.
+ */
 extern const dmi_name_set_t dmi_range_switching_type_names;
 
-// Checks the lint rules of the specification perform, see power-supply-rules.c
+/**
+ * @internal
+ * @brief Check that the voltage probe, the cooling device and the current
+ * probe handles refer to structures of the expected types.
+ *
+ * @details Handles which are unset or unsupported, and ones referring to
+ * missing structures, are not checked.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_power_supply_lint_probes(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_POWER_SUPPLY_INTERNAL_H

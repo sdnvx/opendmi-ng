@@ -15,7 +15,10 @@
 
 #include <opendmi/entity/hardware-security.h>
 
-// Value names, see hardware-security-names.c
+/**
+ * @internal
+ * @brief Names of the statuses of a hardware security setting.
+ */
 extern const dmi_name_set_t dmi_hardware_security_status_names;
 
 #endif // !OPENDMI_ENTITY_HARDWARE_SECURITY_INTERNAL_H

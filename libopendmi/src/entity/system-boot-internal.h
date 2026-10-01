@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/system-boot.h>
 
+/**
+ * @internal
+ * @brief Names of the system boot statuses.
+ */
 extern const dmi_name_set_t dmi_system_boot_status_names;
 
 /**

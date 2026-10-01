@@ -19,7 +19,7 @@ if(ICU_FOUND)
 
     add_dependencies(opendmi-object opendmi-resources)
 
-    target_include_directories(opendmi-object PRIVATE ${ICU_INCLUDE_DIRS})
+    target_include_directories(opendmi-object SYSTEM PRIVATE ${ICU_INCLUDE_DIRS})
     target_sources(opendmi-static PRIVATE ${LIBOPENDMI_RESOURCE_DATA})
     target_sources(opendmi-shared PRIVATE ${LIBOPENDMI_RESOURCE_DATA})
 

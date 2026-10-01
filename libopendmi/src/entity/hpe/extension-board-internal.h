@@ -15,7 +15,16 @@
 
 #include <opendmi/entity/hpe/extension-board.h>
 
+/**
+ * @internal
+ * @brief Names of the types of the extension boards.
+ */
 extern const dmi_name_set_t dmi_hpe_board_type_names;
+
+/**
+ * @internal
+ * @brief Names of the positions of the risers.
+ */
 extern const dmi_name_set_t dmi_hpe_riser_position_names;
 
 #endif // !OPENDMI_ENTITY_HPE_EXTENSION_BOARD_INTERNAL_H

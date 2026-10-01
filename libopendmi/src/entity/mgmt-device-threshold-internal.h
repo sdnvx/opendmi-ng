@@ -21,6 +21,11 @@
  *
  * @details Threshold values are in units of the component using them, and are
  * shown as they are stored, if the component is unknown.
+ *
+ * @param __type      Type of the component, as named by `DMI_TYPE_ID()`.
+ * @param __member    Member holding the threshold value.
+ * @param __attr_type Type of the attribute showing the value.
+ * @param ...         Further options of the attribute, e.g. its unit.
  */
 #define dmi_threshold_variant(__type, __member, __attr_type, ...)           \
     DMI_VARIANT(DMI_TYPE_ID(__type), dmi_mgmt_device_threshold_t, __member, \
@@ -30,6 +35,12 @@
                     __VA_ARGS__                                             \
                 })
 
+/**
+ * @internal
+ * @brief Variants of a threshold value for each type of the component.
+ *
+ * @details Values of an unknown component are shown as signed integers.
+ */
 #define dmi_threshold_variants(__member)                                                                   \
     DMI_VARIANTS({                                                                                         \
         dmi_threshold_variant(VOLTAGE_PROBE, __member, INTEGER, .unit = DMI_UNIT_MILLIVOLT),               \

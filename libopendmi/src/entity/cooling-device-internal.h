@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/cooling-device.h>
 
+/**
+ * @internal
+ * @brief Names of the types of a cooling device.
+ */
 extern const dmi_name_set_t dmi_cooling_device_type_names;
 
 /**
@@ -36,12 +40,30 @@ bool dmi_cooling_device_decode_speed(
         const dmi_field_data_t *data,
         void                   *value);
 
+/**
+ * @internal
+ * @brief Encode the nominal speed of a cooling device, which undoes
+ * `dmi_cooling_device_decode_speed()`.
+ *
+ * @param[in]  field Field being encoded.
+ * @param[in]  value Variable holding the speed.
+ * @param[out] data  Data the field is to carry.
+ *
+ * @return Always `true`.
+ */
 bool dmi_cooling_device_encode_speed(
         const dmi_field_t *field,
         const void        *value,
         dmi_field_data_t  *data);
 
-// Checks the lint rules of the specification perform, see cooling-device-rules.c
+/**
+ * @internal
+ * @brief Check that the temperature probe handle of a cooling device refers
+ * to a temperature probe.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_cooling_device_lint_probe(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_COOLING_DEVICE_INTERNAL_H

@@ -10,7 +10,18 @@
 #include <opendmi/internal.h>
 
 /**
- * @brief @internal
+ * @internal
+ * @brief Move the reader past a span of the data.
+ *
+ * @details The span is checked without computing its end, which could
+ * overflow.
+ *
+ * @param[in,out] reader   Reader to move.
+ * @param[in]     position Position the span starts at.
+ * @param[in]     length   Length of the span.
+ *
+ * @return `true` if the span fits in the data, `false` otherwise, in which
+ *         case the reader is left where it was.
  */
 static bool dmi_reader_advance(dmi_reader_t *reader, size_t position, size_t length);
 

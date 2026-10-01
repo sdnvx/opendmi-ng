@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/dell/infrared-port.h>
 
+/**
+ * @internal
+ * @brief Names of the infrared port protocols.
+ */
 extern const dmi_name_set_t dmi_dell_infrared_proto_names;
 
 /**

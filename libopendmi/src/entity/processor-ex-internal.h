@@ -15,7 +15,10 @@
 
 #include <opendmi/entity/processor-ex.h>
 
-// Value names, see processor-ex-names.c
+/**
+ * @internal
+ * @brief Names of the processor architectures.
+ */
 extern const dmi_name_set_t dmi_processor_arch_names;
 
 #endif // !OPENDMI_ENTITY_PROCESSOR_EX_INTERNAL_H

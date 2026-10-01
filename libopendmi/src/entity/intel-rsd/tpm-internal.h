@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/intel-rsd/tpm.h>
 
+/**
+ * @internal
+ * @brief Names of the TPM status values.
+ */
 extern const dmi_name_set_t dmi_intel_rsd_tpm_status_names;
 
 #endif // !OPENDMI_ENTITY_INTEL_RSD_TPM_INTERNAL_H

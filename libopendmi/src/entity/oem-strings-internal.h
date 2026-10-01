@@ -30,6 +30,12 @@
  */
 bool dmi_oem_strings_derive(dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Free the array of the OEM strings of a decoded structure.
+ *
+ * @param[in,out] entity Structure being cleaned up.
+ */
 void dmi_oem_strings_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_OEM_STRINGS_INTERNAL_H

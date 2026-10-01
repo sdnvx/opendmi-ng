@@ -34,7 +34,16 @@
  */
 #define DMI_MEMORY_ARRAY_CAPACITY_OFFSET_LENGTH 0x17
 
+/**
+ * @internal
+ * @brief Names of the locations of the memory arrays.
+ */
 extern const dmi_name_set_t dmi_memory_array_location_names;
+
+/**
+ * @internal
+ * @brief Names of the functions the memory arrays are used for.
+ */
 extern const dmi_name_set_t dmi_memory_array_usage_names;
 
 /**
@@ -56,8 +65,40 @@ size_t dmi_memory_array_devices(
         const dmi_entity_t *entity,
         dmi_size_t         *capacity);
 
+/**
+ * @internal
+ * @brief Check that the number of the devices an array declares matches the
+ * number of the memory devices which refer to it.
+ *
+ * @details Devices are counted whether they are populated or not, so the
+ * number is the one of the sockets of the array.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the sizes of the devices of an array do not add up to
+ * more than its maximum capacity.
+ *
+ * @details Arrays of unknown or zero maximum capacity are left out of the
+ * check.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_memory_array_lint_capacity(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that a maximum capacity referring to the extended one comes
+ * with the extended field.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_memory_array_lint_extended_capacity(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_MEMORY_ARRAY_INTERNAL_H

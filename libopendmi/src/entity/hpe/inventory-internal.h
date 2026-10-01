@@ -15,6 +15,14 @@
 
 #include <opendmi/entity/hpe/inventory.h>
 
+/**
+ * @internal
+ * @brief Derive the flags of the firmware component from its attributes.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_hpe_inventory_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_INVENTORY_INTERNAL_H

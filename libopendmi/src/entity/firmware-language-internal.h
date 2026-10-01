@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/firmware-language.h>
 
+/**
+ * @internal
+ * @brief Names of the flags of the language information.
+ */
 extern const dmi_name_set_t dmi_firmware_language_flag_names;
 
 /**
@@ -31,6 +35,12 @@ extern const dmi_name_set_t dmi_firmware_language_flag_names;
  */
 bool dmi_firmware_language_derive(dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Free the list of the languages available.
+ *
+ * @param[in,out] entity Structure being cleaned up.
+ */
 void dmi_firmware_language_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_FIRMWARE_LANGUAGE_INTERNAL_H

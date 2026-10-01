@@ -15,8 +15,22 @@
 
 #include <opendmi/entity/hpe/usb-port.h>
 
+/**
+ * @internal
+ * @brief Names of the locations of the USB ports.
+ */
 extern const dmi_name_set_t dmi_hpe_usb_location_names;
+
+/**
+ * @internal
+ * @brief Names of the ways a USB port is shared.
+ */
 extern const dmi_name_set_t dmi_hpe_usb_sharing_names;
+
+/**
+ * @internal
+ * @brief Names of the speed capabilities of the USB ports.
+ */
 extern const dmi_name_set_t dmi_hpe_usb_speed_names;
 
 #endif // !OPENDMI_ENTITY_HPE_USB_PORT_INTERNAL_H

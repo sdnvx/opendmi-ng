@@ -37,11 +37,35 @@
         {}                                                                                           \
     })
 
+/**
+ * @internal
+ * @brief Names of the formats of a firmware version.
+ */
 extern const dmi_name_set_t dmi_firmware_version_format_names;
+
+/**
+ * @internal
+ * @brief Names of the formats of a firmware identifier.
+ */
 extern const dmi_name_set_t dmi_firmware_ident_format_names;
+
+/**
+ * @internal
+ * @brief Names of the characteristics of a firmware component.
+ */
 extern const dmi_name_set_t dmi_firmware_inventory_feature_names;
+
+/**
+ * @internal
+ * @brief Names of the states of a firmware component.
+ */
 extern const dmi_name_set_t dmi_firmware_inventory_state_names;
 
+/**
+ * @internal
+ * @brief Attributes of a firmware version number, which is a major and a minor
+ * number.
+ */
 extern const dmi_attribute_t dmi_firmware_version_number_attrs[];
 
 /**

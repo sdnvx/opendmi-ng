@@ -17,16 +17,35 @@
 
 /**
  * @internal
- * @brief Offsets of the fields whose raw values the rules are checked
- * against, and the value standing for the extended ROM size.
+ * @brief Offset of the release date string index, whose raw value the rules
+ * are checked against.
  */
 #define DMI_FIRMWARE_DATE_OFFSET      0x08
 
+/**
+ * @internal
+ * @brief Offset of the ROM size, whose raw value the rules are checked
+ * against.
+ */
 #define DMI_FIRMWARE_ROM_SIZE_OFFSET  0x09
 
+/**
+ * @internal
+ * @brief Raw value of the ROM size which says that the actual size is held
+ * by the extended field.
+ */
 #define DMI_FIRMWARE_ROM_SIZE_EXTENDED 0xFF
 
+/**
+ * @internal
+ * @brief Names of the firmware features.
+ */
 extern const dmi_name_set_t dmi_firmware_feature_names;
+
+/**
+ * @internal
+ * @brief Names of the extended firmware features.
+ */
 extern const dmi_name_set_t dmi_firmware_feature_ex_names;
 
 /**
@@ -51,7 +70,8 @@ bool dmi_firmware_decode_date(
  * @internal
  * @brief Decode the size of the firmware ROM.
  *
- * @details ROM size is carried as the number of the 64K granules it takes.
+ * @details ROM size is carried as the number of the 64K granules it takes,
+ * less one.
  *
  * @param[in]  field Field being decoded.
  * @param[in]  data  Data the field carries.
@@ -64,6 +84,20 @@ bool dmi_firmware_decode_rom_size(
         const dmi_field_data_t *data,
         void                   *value);
 
+/**
+ * @internal
+ * @brief Decode the extended size of the firmware ROM.
+ *
+ * @details Extended size is carried in megabytes or in gigabytes, which the
+ * two most significant bits of the field tell apart, see
+ * `dmi_firmware_rom_size_ex()`.
+ *
+ * @param[in]  field Field being decoded.
+ * @param[in]  data  Data the field carries.
+ * @param[out] value Variable to store the size in.
+ *
+ * @return `true` if the data has been decoded, `false` otherwise.
+ */
 bool dmi_firmware_decode_rom_size_ex(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -107,6 +141,20 @@ bool dmi_firmware_encode_date(
         const void        *value,
         dmi_field_data_t  *data);
 
+/**
+ * @internal
+ * @brief Encode the size of the firmware ROM, which undoes
+ * `dmi_firmware_decode_rom_size()`.
+ *
+ * @details ROM size is written as the number of the 64K granules it takes,
+ * less one, and sizes below 64K are written as zero.
+ *
+ * @param[in]  field Field being encoded.
+ * @param[in]  value Variable holding the size.
+ * @param[out] data  Data the field is to carry.
+ *
+ * @return Always `true`.
+ */
 bool dmi_firmware_encode_rom_size(
         const dmi_field_t *field,
         const void        *value,

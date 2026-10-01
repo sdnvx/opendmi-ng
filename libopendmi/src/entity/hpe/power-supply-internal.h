@@ -15,6 +15,10 @@
 
 #include <opendmi/entity/hpe/power-supply.h>
 
+/**
+ * @internal
+ * @brief Names of the ways the FRU information is accessed.
+ */
 extern const dmi_name_set_t dmi_hpe_fru_access_names;
 
 #endif // !OPENDMI_ENTITY_HPE_POWER_SUPPLY_INTERNAL_H

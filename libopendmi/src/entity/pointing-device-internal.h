@@ -15,8 +15,16 @@
 
 #include <opendmi/entity/pointing-device.h>
 
-// Value names, see pointing-device-names.c
+/**
+ * @internal
+ * @brief Names of the types of the pointing devices.
+ */
 extern const dmi_name_set_t dmi_pointing_device_type_names;
+
+/**
+ * @internal
+ * @brief Names of the interfaces of the pointing devices.
+ */
 extern const dmi_name_set_t dmi_pointing_device_iface_names;
 
 #endif // !OPENDMI_ENTITY_POINTING_DEVICE_INTERNAL_H

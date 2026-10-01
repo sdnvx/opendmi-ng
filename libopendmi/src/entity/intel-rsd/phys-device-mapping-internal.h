@@ -16,12 +16,24 @@
 #include <opendmi/entity/intel-rsd/phys-device-mapping.h>
 
 /**
+ * @internal
  * @brief Size of the device location in the structure.
  */
 #define DMI_INTEL_RSD_PHYS_DEVICE_SIZE 4
 
+/**
+ * @internal
+ * @brief Names of the types of the physical devices.
+ */
 extern const dmi_name_set_t dmi_intel_rsd_phys_device_type_names;
 
+/**
+ * @internal
+ * @brief Attributes of a device location.
+ *
+ * @details Location numbers are named according to the device type, and the
+ * data of unknown device types is shown as stored.
+ */
 extern const dmi_attribute_t dmi_intel_rsd_phys_device_attrs[];
 
 /**
@@ -30,7 +42,12 @@ extern const dmi_attribute_t dmi_intel_rsd_phys_device_attrs[];
  * structure.
  *
  * @details Every device of a structure is of the type the structure declares,
- * and the location data means what that type says it does.
+ * and the location data means what that type says it does. The data of
+ * unknown device types is marked to be shown as stored.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 bool dmi_intel_rsd_phys_device_mapping_derive(dmi_entity_t *entity);
 

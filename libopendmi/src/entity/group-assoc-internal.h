@@ -15,6 +15,17 @@
 
 #include <opendmi/entity/group-assoc.h>
 
+/**
+ * @internal
+ * @brief Resolve the members of a group to the structures they refer to.
+ *
+ * @details Every member is resolved by its handle and type, and the ones
+ * which fail to resolve do not stop the rest from being resolved.
+ *
+ * @param[in,out] entity Structure being linked.
+ *
+ * @return `true` if all the members have been resolved, `false` otherwise.
+ */
 bool dmi_group_assoc_link(dmi_entity_t *entity);
 
 /**
