@@ -97,9 +97,9 @@ static void test_rsd_fpga_decode(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_data, sizeof(test_data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_int_equal(entity->body_length, 0x24);
     assert_true(dmi_entity_decode(entity));
@@ -139,8 +139,7 @@ static void test_rsd_fpga_decode(void **pstate)
     assert_int_equal(info->memory_speed, 3200);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_rsd_fpga_decode_short(void **pstate)
@@ -153,15 +152,14 @@ static void test_rsd_fpga_decode_short(void **pstate)
     data[1] = 0x23;
     memmove(data + 0x23, test_data + 0x24, sizeof(test_data) - 0x24);
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data) - 1);
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data) - 1);
     assert_non_null(entity);
     assert_false(dmi_entity_decode(entity));
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -188,7 +186,7 @@ static void test_rsd_fpga_variants(void **pstate)
         "hssi-port-count", "hssi-port-speed", "hssi-side-band-config"
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
 
     for (size_t i = 0; i < countof(test_cases); i++) {
         uint8_t data[sizeof(test_data)];
@@ -196,7 +194,7 @@ static void test_rsd_fpga_variants(void **pstate)
         data[0x05] = test_cases[i].type;
         data[0x0F] = test_cases[i].hssi_config;
 
-        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
+        dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -213,7 +211,7 @@ static void test_rsd_fpga_variants(void **pstate)
         dmi_entity_destroy(entity);
     }
 
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static const dmi_attribute_t *test_attribute(const dmi_entity_t *entity, const char *code)

@@ -133,9 +133,9 @@ static void decode_memory_device(
     // Move string set right after the structure
     memmove(data + length, data + 0x20, 6);
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -145,7 +145,7 @@ static void decode_memory_device(
     // Copy numeric fields only, string pointers are owned by the entity
     *result = *info;
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static dmi_size_t decode_memory_device_size(dmi_context_t *context, uint16_t size, uint32_t size_ex, uint8_t length)
@@ -288,9 +288,9 @@ static void test_memory_device_decode_speed(void **pstate)
         data[length]     = 0;
         data[length + 1] = 0;
 
-        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+        dmi_buffer_t *buffer = dmi_buffer_create(context);
+        dmi_entity_t *entity = dmi_test_entity_create(buffer, data, length + 2);
 
-        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, length + 2);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -305,8 +305,7 @@ static void test_memory_device_decode_speed(void **pstate)
         assert_int_equal(dmi_entity_is_partial(entity), length != 0x16);
 
         dmi_entity_destroy(entity);
-
-        dmi_buffer_destroy(entity_buffer);
+        dmi_buffer_destroy(buffer);
     }
 
     dmi_destroy(context);

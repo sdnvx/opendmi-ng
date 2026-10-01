@@ -96,9 +96,9 @@ static void test_rsd_network_card_decode(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_data, sizeof(test_data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -134,8 +134,7 @@ static void test_rsd_network_card_decode(void **pstate)
     assert_true(valid);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_rsd_network_card_decode_short(void **pstate)
@@ -152,13 +151,12 @@ static void test_rsd_network_card_decode_short(void **pstate)
     data[TEST_MAC_ADDRESS_OFFSET + 6]     = 0;
     data[TEST_MAC_ADDRESS_OFFSET + 6 + 1] = 0;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_false(dmi_entity_decode(entity));
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }

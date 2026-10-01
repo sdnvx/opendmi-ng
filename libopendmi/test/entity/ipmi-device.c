@@ -69,23 +69,23 @@ static void decode_ipmi_device_ex(
         data[0x11] = 0x00;                  // Interrupt number
     }
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, length + 2);
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, length + 2);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_false(dmi_entity_is_incomplete(entity));
 
     // Structure is written back as it has been read
-    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
 
-    assert_true(dmi_encoder_initialize(&encoder, buffer, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+    assert_true(dmi_encoder_initialize(&encoder, output, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
     assert_true(dmi_entity_encode(&encoder));
-    assert_int_equal(buffer->length, entity->body_length);
-    assert_memory_equal(buffer->data, data, buffer->length);
+    assert_int_equal(output->length, entity->body_length);
+    assert_memory_equal(output->data, data, output->length);
     dmi_encoder_finalize(&encoder);
-    dmi_buffer_destroy(buffer);
+    dmi_buffer_destroy(output);
 
     const dmi_ipmi_device_t *info = dmi_entity_info(entity, DMI_TYPE(ipmi_device));
     assert_non_null(info);
@@ -93,8 +93,7 @@ static void decode_ipmi_device_ex(
     *result = *info;
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
     dmi_destroy(context);
 }
 

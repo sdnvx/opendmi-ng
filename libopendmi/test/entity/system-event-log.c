@@ -63,9 +63,9 @@ static void test_system_event_log_access_address(void **pstate)
             0x00, 0x00
         };
 
-        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+        dmi_buffer_t *buffer = dmi_buffer_create(context);
+        dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -96,8 +96,7 @@ static void test_system_event_log_access_address(void **pstate)
         assert_int_equal(variant->type, test_cases[i].type);
 
         dmi_entity_destroy(entity);
-
-        dmi_buffer_destroy(entity_buffer);
+        dmi_buffer_destroy(buffer);
     }
 
     dmi_destroy(context);
@@ -155,9 +154,9 @@ static void test_system_event_log_descriptors(void **pstate)
         data[test_cases[i].length]     = 0;
         data[test_cases[i].length + 1] = 0;
 
-        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+        dmi_buffer_t *buffer = dmi_buffer_create(context);
+        dmi_entity_t *entity = dmi_test_entity_create(buffer, data, test_cases[i].length + 2);
 
-        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, test_cases[i].length + 2);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
         assert_int_equal(entity->level, dmi_version(2, 1, 0));
@@ -174,8 +173,7 @@ static void test_system_event_log_descriptors(void **pstate)
         }
 
         dmi_entity_destroy(entity);
-
-        dmi_buffer_destroy(entity_buffer);
+        dmi_buffer_destroy(buffer);
     }
 
     dmi_destroy(context);

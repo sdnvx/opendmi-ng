@@ -64,14 +64,15 @@ static void test_system_boot_status(void **pstate)
         data[test_cases[i].length]     = 0;
         data[test_cases[i].length + 1] = 0;
 
-        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+        dmi_buffer_t *buffer = dmi_buffer_create(context);
+        dmi_entity_t *entity = dmi_test_entity_create(buffer, data, test_cases[i].length + 2);
 
-        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, test_cases[i].length + 2);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
         const dmi_system_boot_t *info = dmi_entity_info(entity, DMI_TYPE(system_boot));
         assert_non_null(info);
+
         assert_int_equal(info->status, test_cases[i].status);
         assert_int_equal(info->status_data.length, test_cases[i].data_length);
         assert_int_equal(info->has_status_data, test_cases[i].has_data);
@@ -91,8 +92,7 @@ static void test_system_boot_status(void **pstate)
         assert_int_equal(dmi_attribute_resolve(attr, entity->info) != nullptr, test_cases[i].has_data);
 
         dmi_entity_destroy(entity);
-
-        dmi_buffer_destroy(entity_buffer);
+        dmi_buffer_destroy(buffer);
     }
 
     dmi_destroy(context);

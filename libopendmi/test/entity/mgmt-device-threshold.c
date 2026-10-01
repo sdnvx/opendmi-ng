@@ -85,15 +85,15 @@ static void test_mgmt_device_threshold_units(void **pstate)
     };
 
     // Values are shown as stored, until the component is known
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_string_equal(test_format(entity), "850");
     dmi_entity_destroy(entity);
 
     for (size_t i = 0; i < countof(test_cases); i++) {
-        entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
+        entity = dmi_test_entity_create(buffer, test_data, sizeof(test_data));
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -110,7 +110,7 @@ static void test_mgmt_device_threshold_units(void **pstate)
 
     }
 
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 
     dmi_destroy(context);
 }
@@ -123,9 +123,9 @@ static void test_mgmt_device_threshold_ambiguous(void **pstate)
     assert_non_null(context);
     dmi_set_logger(context, &test_logger);
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_data, sizeof(test_data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -147,7 +147,6 @@ static void test_mgmt_device_threshold_ambiguous(void **pstate)
 
     dmi_entity_destroy(entity);
 
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
     dmi_destroy(context);
 }

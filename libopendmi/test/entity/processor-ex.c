@@ -66,9 +66,9 @@ static void test_processor_ex_decode(void **pstate)
         data[test_cases[i].length]     = 0;
         data[test_cases[i].length + 1] = 0;
 
-        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+        dmi_buffer_t *buffer = dmi_buffer_create(context);
+        dmi_entity_t *entity = dmi_test_entity_create(buffer, data, test_cases[i].length + 2);
 
-        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, test_cases[i].length + 2);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
         assert_int_equal(dmi_entity_is_incomplete(entity), test_cases[i].incomplete);
@@ -88,8 +88,7 @@ static void test_processor_ex_decode(void **pstate)
         }
 
         dmi_entity_destroy(entity);
-
-        dmi_buffer_destroy(entity_buffer);
+        dmi_buffer_destroy(buffer);
     }
 
     dmi_destroy(context);

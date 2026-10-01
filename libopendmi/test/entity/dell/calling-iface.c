@@ -82,9 +82,9 @@ static void test_dell_calling_iface_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_false(dmi_entity_is_incomplete(entity));
@@ -103,8 +103,7 @@ static void test_dell_calling_iface_decode(void **pstate)
     assert_int_equal(info->tokens[1].id, 0x8002);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_dell_calling_iface_decode_truncated(void **pstate)
@@ -121,18 +120,18 @@ static void test_dell_calling_iface_decode_truncated(void **pstate)
         0x00, 0x00
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_true(dmi_entity_is_incomplete(entity));
 
     const dmi_dell_calling_iface_t *info = dmi_entity_info(entity, DMI_TYPE(dell_calling_iface));
     assert_non_null(info);
+
     assert_int_equal(info->token_count, 1);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }

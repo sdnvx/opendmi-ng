@@ -114,6 +114,7 @@ static dmi_entity_t *decode_chassis(dmi_buffer_t *buffer, const uint8_t *body, s
     memcpy(data + 4 + length, strings, sizeof(strings));
 
     dmi_entity_t *entity = dmi_test_entity_create(buffer, data, 4 + length + sizeof(strings));
+
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -123,11 +124,11 @@ static dmi_entity_t *decode_chassis(dmi_buffer_t *buffer, const uint8_t *body, s
 static void test_chassis_decode_v20(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
-    dmi_entity_t *entity = decode_chassis(entity_buffer, (const uint8_t[]){ 0x01, 0x17, 0x00, 0x00, 0x00 }, 5);
-
+    dmi_buffer_t  *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = decode_chassis(buffer, (const uint8_t[]){ 0x01, 0x17, 0x00, 0x00, 0x00 }, 5);
     const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
+
     assert_non_null(info);
 
     assert_string_equal(info->vendor, "Vendor");
@@ -138,14 +139,12 @@ static void test_chassis_decode_v20(void **pstate)
     assert_null(info->sku_number);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_chassis_decode_oem_defined(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     static const uint8_t body[] = {
         0x01, 0x17, 0x00, 0x00, 0x00,       // Strings and type
@@ -154,26 +153,30 @@ static void test_chassis_decode_oem_defined(void **pstate)
     };
 
     // OEM-defined field is not read partially
-    dmi_entity_t *entity = decode_chassis(entity_buffer, body, 0x0F - 4);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = decode_chassis(buffer, body, 0x0F - 4);
     const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
+
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
     assert_int_equal(info->oem_defined, 0);
     assert_true(dmi_entity_is_incomplete(entity));
+
     dmi_entity_destroy(entity);
 
-    entity = decode_chassis(entity_buffer, body, sizeof(body));
+    entity = decode_chassis(buffer, body, sizeof(body));
     info = dmi_entity_info(entity, DMI_TYPE(chassis));
+
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
     assert_int_equal(info->oem_defined, 0x12345678);
     assert_false(dmi_entity_is_incomplete(entity));
+
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_chassis_decode_elements(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     static const uint8_t body[] = {
         0x01, 0x17, 0x00, 0x00, 0x00,       // Strings and type
@@ -188,9 +191,10 @@ static void test_chassis_decode_elements(void **pstate)
         0x01, 0x10                          // Rack type and height
     };
 
-    dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
-
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = decode_chassis(buffer, body, sizeof(body));
     const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
+
     assert_non_null(info);
 
     assert_int_equal(entity->level, DMI_VERSION(3, 9, 0));
@@ -219,14 +223,12 @@ static void test_chassis_decode_elements(void **pstate)
     assert_int_equal(info->rack_height, 0x10);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_chassis_decode_elements_overflow(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Elements (255 x 255 bytes) do not fit into the structure
     static const uint8_t body[] = {
@@ -238,9 +240,10 @@ static void test_chassis_decode_elements_overflow(void **pstate)
         0x02
     };
 
-    dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
-
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = decode_chassis(buffer, body, sizeof(body));
     const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
+
     assert_non_null(info);
 
     // No element is completely present
@@ -250,14 +253,12 @@ static void test_chassis_decode_elements_overflow(void **pstate)
     assert_true(dmi_entity_is_incomplete(entity));
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_chassis_decode_short_elements(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Element records are shorter than 3 bytes
     static const uint8_t body[] = {
@@ -270,9 +271,10 @@ static void test_chassis_decode_short_elements(void **pstate)
         0x02
     };
 
-    dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
-
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = decode_chassis(buffer, body, sizeof(body));
     const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
+
     assert_non_null(info);
 
     assert_int_equal(info->element_count, 0);
@@ -282,14 +284,12 @@ static void test_chassis_decode_short_elements(void **pstate)
     assert_int_equal(entity->level, DMI_VERSION(2, 7, 0));
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_chassis_encode_short_elements(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Element records are shorter than 3 bytes, so they are stepped over
     // while decoding, and the SKU number string after them is still in place
@@ -303,7 +303,8 @@ static void test_chassis_encode_short_elements(void **pstate)
         0x02
     };
 
-    dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = decode_chassis(buffer, body, sizeof(body));
 
     // Elements are written back as they are, so the SKU number string after
     // them stays at its offset
@@ -320,14 +321,13 @@ static void test_chassis_encode_short_elements(void **pstate)
 
     dmi_buffer_destroy(output);
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_chassis_release_elements(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
 
     static const uint8_t body[] = {
         0x01, 0x17, 0x00, 0x00, 0x00,       // Strings and type
@@ -341,10 +341,12 @@ static void test_chassis_release_elements(void **pstate)
         0x01, 0x10                          // Rack type and height
     };
 
-    dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
-
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = decode_chassis(buffer, body, sizeof(body));
     const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
+
     assert_non_null(info);
+
     assert_non_null(info->elements);
     assert_int_equal(info->element_count, 2);
 
@@ -362,8 +364,6 @@ static void test_chassis_release_elements(void **pstate)
     // Structures with nothing to release are left as they are
     dmi_attributes_unlink(nullptr);
     dmi_fields_release(nullptr);
-
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }

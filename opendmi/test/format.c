@@ -198,9 +198,8 @@ static void test_format_set_high_bits(void **pstate)
 {
     const test_format_state_t *state = *pstate;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
-
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_firmware_data, sizeof(test_firmware_data));
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_firmware_data, sizeof(test_firmware_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -229,8 +228,7 @@ static void test_format_set_high_bits(void **pstate)
     }
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_format_invalid_utf8(void **pstate)
@@ -249,9 +247,8 @@ static void test_format_invalid_utf8(void **pstate)
     // characters
     static const char *codes[] = { "json", "yaml", "xml" };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
-
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     for (size_t i = 0; i < countof(codes); i++) {
@@ -276,8 +273,7 @@ static void test_format_invalid_utf8(void **pstate)
     }
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_format_yaml_quoting(void **pstate)
@@ -311,15 +307,15 @@ static void test_format_yaml_quoting(void **pstate)
         "level: '2.0'"
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
     char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
     assert_non_null(output);
 
     const char *missing = nullptr;
@@ -356,15 +352,15 @@ static void test_format_xml_flag_names(void **pstate)
         0x00, 0x00
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
     char *output = test_format_print(format, entity, false, DMI_FORMAT_MODE_NORMAL, false);
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
     assert_non_null(output);
 
     bool found = (strstr(output, "<flag name=\"5v\">true</flag>") != nullptr);
@@ -401,8 +397,8 @@ static void test_format_state(void **pstate)
     };
 
     // Complete SMBIOS 2.0 structure is decoded partially
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_firmware_data, sizeof(test_firmware_data));
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_firmware_data, sizeof(test_firmware_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -431,7 +427,7 @@ static void test_format_state(void **pstate)
 
     free(output);
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 
     assert_false(found);
 }
@@ -447,9 +443,9 @@ static void test_format_text_quiet(void **pstate)
         0x00, 0x00
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -459,8 +455,7 @@ static void test_format_text_quiet(void **pstate)
     char *quiet  = test_format_print(format, entity, false, DMI_FORMAT_MODE_QUIET, false);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 
     bool normal_header = (normal != nullptr) and (strstr(normal, "Handle 0x0020") != nullptr);
     bool normal_handle = (normal != nullptr) and (strstr(normal, "Memory error information handle") != nullptr);
@@ -749,9 +744,8 @@ static void test_format_pretty(void **pstate)
 {
     const test_format_state_t *state = *pstate;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
-
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_firmware_data, sizeof(test_firmware_data));
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_firmware_data, sizeof(test_firmware_data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -792,7 +786,7 @@ static void test_format_pretty(void **pstate)
     free(pretty);
 
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 
     assert_true(same);
 }
@@ -817,9 +811,8 @@ static void test_format_text_escape(void **pstate)
         "\t\t3: \"E\\u009BF\\x9BG\"\n"
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
-
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
     assert_non_null(entity);
 
     const dmi_format_t *format = dmi_format_get("text");
@@ -827,7 +820,7 @@ static void test_format_text_escape(void **pstate)
 
     char *output = test_format_print(format, entity, true, DMI_FORMAT_MODE_NORMAL, false);
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
     assert_non_null(output);
 
     // Output is plain ASCII, so no control characters except tabs and line

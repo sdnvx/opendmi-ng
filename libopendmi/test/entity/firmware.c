@@ -84,10 +84,12 @@ static int test_firmware_teardown(void **pstate)
 static void test_firmware_decode_v20(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[TEST_FIRMWARE_SIZE];
-    dmi_entity_t *entity = test_firmware_create(entity_buffer, data, 0x12);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_firmware_create(buffer, data, 0x12);
+
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 0, 0));
 
@@ -97,8 +99,7 @@ static void test_firmware_decode_v20(void **pstate)
     assert_false(info->features_ex.acpi_support);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 
     // Features are available since SMBIOS 2.0, extended features are not
     const dmi_attribute_t *features    = test_firmware_attribute("features");
@@ -111,10 +112,12 @@ static void test_firmware_decode_v20(void **pstate)
 static void test_firmware_decode_v21(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[TEST_FIRMWARE_SIZE];
-    dmi_entity_t *entity = test_firmware_create(entity_buffer, data, 0x13);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_firmware_create(buffer, data, 0x13);
+
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 1, 0));
 
@@ -125,8 +128,7 @@ static void test_firmware_decode_v21(void **pstate)
     assert_false(info->features_ex.uefi_spec);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 
     // Extension byte 1 is available since SMBIOS 2.1
     const dmi_attribute_t *features_ex = test_firmware_attribute("features-ex");
@@ -136,11 +138,13 @@ static void test_firmware_decode_v21(void **pstate)
 static void test_firmware_decode_v23(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Extension byte 2 is available since SMBIOS 2.3
     uint8_t data[TEST_FIRMWARE_SIZE];
-    dmi_entity_t *entity = test_firmware_create(entity_buffer, data, 0x14);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_firmware_create(buffer, data, 0x14);
+
     assert_non_null(entity);
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
 
@@ -150,14 +154,12 @@ static void test_firmware_decode_v23(void **pstate)
     assert_true(info->features_ex.uefi_spec);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_firmware_version_none(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Major number of 0xFF says there is no version, whatever the minor one
     uint8_t data[0x18 + sizeof(test_firmware_strings)];
@@ -170,7 +172,9 @@ static void test_firmware_version_none(void **pstate)
     data[0x17] = 0xFF;
     memcpy(data + 0x18, test_firmware_strings, sizeof(test_firmware_strings));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
+
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -181,19 +185,18 @@ static void test_firmware_version_none(void **pstate)
 
     // Minor number is kept when the structure is written back as it has
     // been read
-    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
 
-    assert_true(dmi_encoder_initialize(&encoder, buffer, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+    assert_true(dmi_encoder_initialize(&encoder, output, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
     assert_true(dmi_entity_encode(&encoder));
-    assert_int_equal(buffer->length, entity->body_length);
-    assert_memory_equal(buffer->data, data, buffer->length);
+    assert_int_equal(output->length, entity->body_length);
+    assert_memory_equal(output->data, data, output->length);
     dmi_encoder_finalize(&encoder);
-    dmi_buffer_destroy(buffer);
+    dmi_buffer_destroy(output);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static dmi_entity_t *test_firmware_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t length)

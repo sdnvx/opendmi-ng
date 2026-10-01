@@ -81,9 +81,9 @@ static void test_dell_protected_area_1_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -101,8 +101,7 @@ static void test_dell_protected_area_1_decode(void **pstate)
     assert_int_equal(info->check_index, 0x50);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_dell_protected_area_2_decode(void **pstate)
@@ -120,9 +119,9 @@ static void test_dell_protected_area_2_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -142,6 +141,5 @@ static void test_dell_protected_area_2_decode(void **pstate)
     assert_int_equal(info->range_check_index, 0x7E);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }

@@ -97,10 +97,12 @@ static void test_battery_chemistry_name(void **pstate)
 static void test_battery_decode_v21(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[TEST_BATTERY_SIZE];
-    dmi_entity_t *entity = test_battery_create(entity_buffer, data, 0x10);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_battery_create(buffer, data, 0x10);
+
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 1, 0));
@@ -125,10 +127,12 @@ static void test_battery_decode_v21(void **pstate)
 static void test_battery_decode_v22(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     uint8_t data[TEST_BATTERY_SIZE];
-    dmi_entity_t *entity = test_battery_create(entity_buffer, data, 0x1A);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_battery_create(buffer, data, 0x1A);
+
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 2, 0));
@@ -150,11 +154,13 @@ static void test_battery_decode_v22(void **pstate)
 static void test_battery_decode_short(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // SMBIOS 2.1 fields are mandatory
     uint8_t data[TEST_BATTERY_SIZE];
-    dmi_entity_t *entity = test_battery_create(entity_buffer, data, 0x0F);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_battery_create(buffer, data, 0x0F);
+
     assert_non_null(entity);
     assert_false(dmi_entity_decode(entity));
 
@@ -164,11 +170,13 @@ static void test_battery_decode_short(void **pstate)
 static void test_battery_decode_incomplete(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Only completely present SMBIOS 2.2 fields are decoded
     uint8_t data[TEST_BATTERY_SIZE];
-    dmi_entity_t *entity = test_battery_create(entity_buffer, data, 0x15);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_battery_create(buffer, data, 0x15);
+
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 2, 0));

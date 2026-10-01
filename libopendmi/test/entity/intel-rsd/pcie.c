@@ -84,9 +84,9 @@ static void test_rsd_pcie_decode(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_data, sizeof(test_data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_int_equal(entity->body_length, 0x17);
     assert_true(dmi_entity_decode(entity));
@@ -104,8 +104,7 @@ static void test_rsd_pcie_decode(void **pstate)
     assert_int_equal(info->link_width, 4);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -119,13 +118,12 @@ static void test_rsd_pcie_decode_short(void **pstate)
     memcpy(data, test_data, 0x16);
     data[1] = 0x16;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_false(dmi_entity_decode(entity));
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }

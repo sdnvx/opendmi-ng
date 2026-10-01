@@ -82,9 +82,9 @@ static dmi_size_t decode_memory_array_capacity(
     data[length]     = 0;
     data[length + 1] = 0;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, length + 2);
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, length + 2);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
 
@@ -93,7 +93,7 @@ static dmi_size_t decode_memory_array_capacity(
 
     dmi_size_t result = info->maximum_capacity;
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 
     return result;
 }

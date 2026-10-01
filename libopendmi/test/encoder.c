@@ -156,7 +156,6 @@ static void test_encode(
 static void test_encoder_reserved_bits(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // Power supply whose characteristics set the two reserved bits on top of
     // the ones carrying the fields
@@ -170,29 +169,29 @@ static void test_encoder_reserved_bits(void **pstate)
         0x00, 0x00
     };
 
-    dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_decode(buffer, data, sizeof(data));
 
     const dmi_power_supply_t *info = dmi_entity_info(entity, DMI_TYPE(power_supply));
     assert_non_null(info);
     assert_int_equal(info->type, 4);
 
-    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
-    assert_int_equal(buffer->length, 0x16);
-    assert_memory_equal(buffer->data, data, 0x16);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, output, &encoder);
+    assert_int_equal(output->length, 0x16);
+    assert_memory_equal(output->data, data, 0x16);
     dmi_encoder_finalize(&encoder);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
-    assert_int_equal(buffer->length, 0x16);
-    assert_int_equal(buffer->data[0x0E], 0x93);
-    assert_int_equal(buffer->data[0x0F], 0x11);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), output, &encoder);
+    assert_int_equal(output->length, 0x16);
+    assert_int_equal(output->data[0x0E], 0x93);
+    assert_int_equal(output->data[0x0F], 0x11);
     dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -213,33 +212,32 @@ static const uint8_t test_array_addr_ex[] = {
 static void test_encoder_extended_governed(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
-    dmi_entity_t *entity = test_decode(entity_buffer, test_array_addr_ex, sizeof(test_array_addr_ex));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_decode(buffer, test_array_addr_ex, sizeof(test_array_addr_ex));
 
     const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
     assert_non_null(info);
     assert_int_equal(info->start_addr, 0x0000010000000000uLL);
     assert_int_equal(info->end_addr,   0x000007FFFFFFFFFFuLL);
 
-    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
-    assert_int_equal(buffer->length, 0x1F);
-    assert_memory_equal(buffer->data, test_array_addr_ex, 0x1F);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, output, &encoder);
+    assert_int_equal(output->length, 0x1F);
+    assert_memory_equal(output->data, test_array_addr_ex, 0x1F);
     dmi_encoder_finalize(&encoder);
 
     // Starting address fits the plain field, but the ending one does not, so
     // both are carried by the extended fields
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
-    assert_int_equal(buffer->length, 0x1F);
-    assert_memory_equal(buffer->data, test_array_addr_ex, 0x1F);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), output, &encoder);
+    assert_int_equal(output->length, 0x1F);
+    assert_memory_equal(output->data, test_array_addr_ex, 0x1F);
     dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -315,34 +313,35 @@ static const uint8_t test_power_controls[] = {
 static void test_encoder_bcd_unknown(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
-    dmi_entity_t *entity = test_decode(entity_buffer, test_power_controls, sizeof(test_power_controls));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_decode(buffer, test_power_controls, sizeof(test_power_controls));
 
     const dmi_power_controls_t *info = dmi_entity_info(entity, DMI_TYPE(power_controls));
     assert_non_null(info);
+
     assert_int_equal(info->poweron_month,  USHRT_MAX);
     assert_int_equal(info->poweron_day,    31);
     assert_int_equal(info->poweron_hour,   23);
     assert_int_equal(info->poweron_minute, USHRT_MAX);
     assert_int_equal(info->poweron_second, 59);
 
-    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
-    assert_int_equal(buffer->length, 0x09);
-    assert_memory_equal(buffer->data, test_power_controls, 0x09);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, output, &encoder);
+    assert_int_equal(output->length, 0x09);
+    assert_memory_equal(output->data, test_power_controls, 0x09);
     dmi_encoder_finalize(&encoder);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
-    assert_int_equal(buffer->length, 0x09);
-    assert_memory_equal(buffer->data, test_power_controls, 0x09);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), output, &encoder);
+    assert_int_equal(output->length, 0x09);
+    assert_memory_equal(output->data, test_power_controls, 0x09);
     dmi_encoder_finalize(&encoder);
 
-    dmi_buffer_destroy(buffer);
+    dmi_buffer_destroy(output);
     dmi_entity_destroy(entity);
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -352,7 +351,6 @@ static void test_encoder_bcd_unknown(void **pstate)
 static void test_encoder_truncated(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
 
     // System information ending in the middle of the UUID
     static const uint8_t data[] = {
@@ -362,20 +360,21 @@ static void test_encoder_truncated(void **pstate)
         'A', 0x00, 0x00
     };
 
-    dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_decode(buffer, data, sizeof(data));
+
     assert_true(dmi_entity_is_incomplete(entity));
 
-    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
-    assert_int_equal(buffer->length, 0x0D);
-    assert_memory_equal(buffer->data, data, 0x0D);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, output, &encoder);
+    assert_int_equal(output->length, 0x0D);
+    assert_memory_equal(output->data, data, 0x0D);
     dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -396,32 +395,31 @@ static const uint8_t test_system_strings[] = {
 static void test_encoder_strings(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
-    dmi_entity_t  *entity  = test_decode(entity_buffer, test_system_strings, sizeof(test_system_strings));
-
     dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t  *entity  = test_decode(buffer, test_system_strings, sizeof(test_system_strings));
+
+    dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, buffer, &encoder);
-    assert_int_equal(buffer->length, 0x1B);
-    assert_memory_equal(buffer->data, test_system_strings, 0x1B);
+    test_encode(entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE, output, &encoder);
+    assert_int_equal(output->length, 0x1B);
+    assert_memory_equal(output->data, test_system_strings, 0x1B);
     assert_int_equal(encoder.string_count, 4);
     assert_string_equal(encoder.strings[3], "unused");
     dmi_encoder_finalize(&encoder);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), buffer, &encoder);
-    assert_int_equal(buffer->data[0x04], 1);
-    assert_int_equal(buffer->data[0x05], 2);
-    assert_int_equal(buffer->data[0x06], 1);
-    assert_int_equal(buffer->data[0x07], 0);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0), output, &encoder);
+    assert_int_equal(output->data[0x04], 1);
+    assert_int_equal(output->data[0x05], 2);
+    assert_int_equal(output->data[0x06], 1);
+    assert_int_equal(output->data[0x07], 0);
     assert_int_equal(encoder.string_count, 2);
     assert_string_equal(encoder.strings[0], "A");
     assert_string_equal(encoder.strings[1], "B");
     dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -431,25 +429,24 @@ static void test_encoder_strings(void **pstate)
 static void test_encoder_groups(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
-
-    dmi_entity_t *entity = test_decode(entity_buffer, test_system_strings, sizeof(test_system_strings));
 
     dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = test_decode(buffer, test_system_strings, sizeof(test_system_strings));
+
+    dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 1, 0), buffer, &encoder);
-    assert_int_equal(buffer->length, 0x19);
-    assert_int_equal(buffer->data[0x01], 0x19);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 1, 0), output, &encoder);
+    assert_int_equal(output->length, 0x19);
+    assert_int_equal(output->data[0x01], 0x19);
     dmi_encoder_finalize(&encoder);
 
-    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 0, 0), buffer, &encoder);
-    assert_int_equal(buffer->length, 0x08);
+    test_encode(entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(2, 0, 0), output, &encoder);
+    assert_int_equal(output->length, 0x08);
     dmi_encoder_finalize(&encoder);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -862,10 +859,10 @@ static void test_encoder_corpus(void **pstate)
 
             const char *code = (spec != nullptr) ? spec->code : "unknown";
 
-            dmi_buffer_t *buffer = dmi_buffer_create(context);
+            dmi_buffer_t *output = dmi_buffer_create(context);
             dmi_encoder_t encoder;
 
-                    assert_true(dmi_encoder_initialize(&encoder, buffer, entity,
+                    assert_true(dmi_encoder_initialize(&encoder, output, entity,
                                                DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
 
             if (not dmi_entity_encode(&encoder)) {
@@ -882,8 +879,8 @@ static void test_encoder_corpus(void **pstate)
             const dmi_data_t *data = dmi_buffer_at(dmi_entity_buffer(entity),
                                                   dmi_entity_offset(entity), entity->body_length);
 
-            bool matches = (buffer->length == entity->body_length) and
-                           (memcmp(buffer->data, data, buffer->length) == 0) and
+            bool matches = (output->length == entity->body_length) and
+                           (memcmp(output->data, data, output->length) == 0) and
                            (encoder.string_count == entity->string_count);
 
             for (size_t k = 0; matches and (k < encoder.string_count); k++)

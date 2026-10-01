@@ -79,13 +79,13 @@ static void assert_probe_values(const dmi_type_t *type, const test_probe_value_t
         0x00, 0x00                  // String set terminator
     };
 
-    uint8_t buffer[sizeof(data)];
-    memcpy(buffer, data, sizeof(data));
-    buffer[0] = (uint8_t)type->id;
+    uint8_t copy[sizeof(data)];
+    memcpy(copy, data, sizeof(data));
+    copy[0] = (uint8_t)type->id;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, copy, sizeof(copy));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, buffer, sizeof(buffer));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_non_null(entity->spec);
@@ -114,8 +114,7 @@ static void assert_probe_values(const dmi_type_t *type, const test_probe_value_t
     }
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
     dmi_destroy(context);
 }
 

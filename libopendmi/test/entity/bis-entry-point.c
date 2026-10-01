@@ -54,9 +54,9 @@ static void test_bis_entry_point_decode(void **pstate)
         if (not valid)
             data[0x04]++;
 
-        dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+        dmi_buffer_t *buffer = dmi_buffer_create(context);
+        dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-        dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
 
@@ -70,8 +70,7 @@ static void test_bis_entry_point_decode(void **pstate)
         assert_int_equal(info->is_valid, valid);
 
         dmi_entity_destroy(entity);
-
-        dmi_buffer_destroy(entity_buffer);
+        dmi_buffer_destroy(buffer);
     }
 
     dmi_destroy(context);

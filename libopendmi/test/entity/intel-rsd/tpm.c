@@ -82,23 +82,22 @@ static void test_rsd_tpm_decode(void **pstate)
 {
     dmi_context_t *context = *pstate;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, test_data, sizeof(test_data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, test_data, sizeof(test_data));
     assert_non_null(entity);
     assert_int_equal(entity->body_length, 0x07);
     assert_true(dmi_entity_decode(entity));
 
     const dmi_intel_rsd_tpm_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_tpm));
-    assert_non_null(info);
 
+    assert_non_null(info);
     assert_int_equal(info->config_index, 1);
     assert_string_equal(info->version, "TPM 2.0");
     assert_int_equal(info->status, DMI_INTEL_RSD_TPM_STATUS_ENABLED);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 //
@@ -112,13 +111,12 @@ static void test_rsd_tpm_decode_short(void **pstate)
     memcpy(data, test_data, 0x06);
     data[1] = 0x06;
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_false(dmi_entity_decode(entity));
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }

@@ -80,9 +80,9 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
         0x00, 0x00
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_true(dmi_entity_is_incomplete(entity));
@@ -142,8 +142,7 @@ static void test_rsd_phys_device_mapping_decode(void **pstate)
     }
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_rsd_phys_device_mapping_decode_unknown(void **pstate)
@@ -158,9 +157,9 @@ static void test_rsd_phys_device_mapping_decode_unknown(void **pstate)
         0x00, 0x00
     };
 
-    dmi_buffer_t *entity_buffer = dmi_buffer_create(context);
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));
 
-    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_false(dmi_entity_is_incomplete(entity));
@@ -174,6 +173,5 @@ static void test_rsd_phys_device_mapping_decode_unknown(void **pstate)
     assert_memory_equal(info->devices[0].data.data, data + 8, 2);
 
     dmi_entity_destroy(entity);
-
-    dmi_buffer_destroy(entity_buffer);
+    dmi_buffer_destroy(buffer);
 }
