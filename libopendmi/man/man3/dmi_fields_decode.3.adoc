@@ -71,6 +71,15 @@ have. String references, UUIDs, binary-coded decimals and bytes taken as they
 are have macros of their own: `DMI_FIELD_STRING`, `DMI_FIELD_UUID`,
 `DMI_FIELD_BCD` and `DMI_FIELD_BINARY`.
 
+=== Arrays
+
+`DMI_FIELD_ARRAY` declares a number of elements the data gives, which are
+decoded into an array of their own, allocated by the function: the member
+holds the pointer to the elements, and the counter the field names holds the
+number of the ones decoded in full. The arrays belong to the library, which
+frees them with the decoded structure, see `dmi_fields_release`(3), so the
+cleanup handler of a specification does not free them.
+
 === Values which need decoding
 
 A field whose value means something other than the number the data carries
@@ -136,6 +145,7 @@ const dmi_entity_spec_t dmi_slot_spec =
 == See also
 
 `dmi_fields_encode`(3),
+`dmi_fields_release`(3),
 `dmi_entity_decode`(3),
 `dmi_decoder_initialize`(3)
 

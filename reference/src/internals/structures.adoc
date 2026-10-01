@@ -482,4 +482,8 @@ they declare have been resolved, e.g. the references back from the referenced
 structures, or the handles whose type another member names.
 
 `cleanup`::
-Frees what the decoding has allocated beyond the decoded structure itself.
+Frees what the handlers of the specification have allocated beyond the
+decoded structure itself, e.g. the arrays a decoding or deriving handler fills
+in. The arrays the fields declare and the arrays of the linked structures
+belong to the library, which frees them on its own, so most specifications
+need no cleanup handler.

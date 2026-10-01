@@ -11,8 +11,6 @@
 
 #include <opendmi/entity/acer/devices.h>
 
-static void dmi_acer_devices_cleanup(dmi_entity_t *entity);
-
 // Kinds are reverse engineered from the PCI and USB IDs of the devices of the
 // data corpus: the ones given to the devices of a single class are named by
 // it, and the other ones found in it by their values
@@ -145,23 +143,10 @@ const dmi_entity_spec_t dmi_acer_devices_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_acer_devices_cleanup
-    }
+    })
 };
 
 const char *dmi_acer_device_kind_name(dmi_acer_device_kind_t value)
 {
     return dmi_name_lookup(&dmi_acer_device_kind_names, (int)value);
-}
-
-static void dmi_acer_devices_cleanup(dmi_entity_t *entity)
-{
-    dmi_acer_devices_t *info = dmi_entity_info(entity, DMI_TYPE(acer_devices));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->devices);
 }

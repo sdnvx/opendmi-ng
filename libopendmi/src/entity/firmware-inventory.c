@@ -152,7 +152,6 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
     }),
 
     .handlers = {
-        .derive  = dmi_firmware_inventory_derive,
-        .cleanup = dmi_firmware_inventory_cleanup
+        .derive  = dmi_firmware_inventory_derive
     }
 };

@@ -16,6 +16,5 @@
 #include <opendmi/entity/hpe/reserved-memory.h>
 
 bool dmi_hpe_reserved_memory_derive(dmi_entity_t *entity);
-void dmi_hpe_reserved_memory_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_RESERVED_MEMORY_INTERNAL_H

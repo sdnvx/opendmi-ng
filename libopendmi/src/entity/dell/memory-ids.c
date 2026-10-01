@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/memory-ids-internal.h>
+#include <opendmi/entity/dell/memory-ids.h>
 
 const dmi_entity_spec_t dmi_dell_memory_ids_spec =
 {
@@ -77,18 +77,5 @@ const dmi_entity_spec_t dmi_dell_memory_ids_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_dell_memory_ids_cleanup
-    }
+    })
 };
-
-void dmi_dell_memory_ids_cleanup(dmi_entity_t *entity)
-{
-    dmi_dell_memory_ids_t *info = dmi_entity_info(entity, DMI_TYPE(dell_memory_ids));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->modules);
-}

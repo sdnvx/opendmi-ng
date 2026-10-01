@@ -72,8 +72,7 @@ const dmi_entity_spec_t dmi_hpe_pxe_nic_spec =
     }),
 
     .handlers = {
-        .derive  = dmi_hpe_nic_derive,
-        .cleanup = dmi_hpe_nic_cleanup
+        .derive  = dmi_hpe_nic_derive
     }
 };
 
@@ -142,8 +141,7 @@ const dmi_entity_spec_t dmi_hpe_iscsi_nic_spec =
     }),
 
     .handlers = {
-        .derive  = dmi_hpe_nic_derive,
-        .cleanup = dmi_hpe_nic_cleanup
+        .derive  = dmi_hpe_nic_derive
     }
 };
 
@@ -193,13 +191,4 @@ bool dmi_hpe_nic_derive(dmi_entity_t *entity)
     }
 
     return true;
-}
-
-void dmi_hpe_nic_cleanup(dmi_entity_t *entity)
-{
-    dmi_hpe_nic_info_t *info = dmi_entity_info(entity, DMI_TYPE_ANY);
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->ports);
 }

@@ -106,8 +106,7 @@ const dmi_entity_spec_t dmi_acer_hotkeys_spec =
     .attributes = dmi_acer_hotkeys_attrs,
 
     .handlers = {
-        .derive  = dmi_acer_hotkeys_derive,
-        .cleanup = dmi_acer_hotkeys_cleanup
+        .derive  = dmi_acer_hotkeys_derive
     }
 };
 
@@ -191,13 +190,4 @@ bool dmi_acer_hotkeys_derive(dmi_entity_t *entity)
         info->comm_key = info->hotkeys[0].key;
 
     return true;
-}
-
-void dmi_acer_hotkeys_cleanup(dmi_entity_t *entity)
-{
-    dmi_acer_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(acer_hotkeys));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->hotkeys);
 }

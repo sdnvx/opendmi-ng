@@ -59,19 +59,6 @@ bool dmi_firmware_inventory_derive(dmi_entity_t *entity)
     return true;
 }
 
-void dmi_firmware_inventory_cleanup(dmi_entity_t *entity)
-{
-    dmi_firmware_inventory_t *info;
-
-    assert(entity != nullptr);
-
-    info = dmi_entity_info(entity, DMI_TYPE(firmware_inventory));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->components);
-}
-
 static void dmi_firmware_version_parse(
         const char                    *str,
         dmi_firmware_version_format_t  format,

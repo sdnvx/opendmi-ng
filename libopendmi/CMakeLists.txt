@@ -295,7 +295,6 @@ target_sources(opendmi-object
         src/entity/additional-info.c
         src/entity/additional-info-handlers.c
         src/entity/baseboard.c
-        src/entity/baseboard-handlers.c
         src/entity/baseboard-names.c
         src/entity/battery.c
         src/entity/battery-handlers.c
@@ -381,7 +380,6 @@ target_sources(opendmi-object
         src/entity/oem-strings.c
         src/entity/oem-strings-handlers.c
         src/entity/onboard-device.c
-        src/entity/onboard-device-handlers.c
         src/entity/onboard-device-names.c
         src/entity/onboard-device-ex.c
         src/entity/onboard-device-ex-rules.c
@@ -404,7 +402,6 @@ target_sources(opendmi-object
         src/entity/processor-ex.c
         src/entity/processor-ex-names.c
         src/entity/slot.c
-        src/entity/slot-handlers.c
         src/entity/slot-names.c
         src/entity/slot-rules.c
         src/entity/string-property.c
@@ -512,7 +509,6 @@ target_sources(opendmi-object
         src/entity/intel/amt.c
         src/entity/intel/asf.c
         src/entity/intel/fvi.c
-        src/entity/intel/fvi-handlers.c
         src/entity/intel/mei.c
         src/entity/intel/mei-handlers.c
         src/entity/intel/mei-names.c
@@ -521,7 +517,6 @@ target_sources(opendmi-object
         src/entity/intel/vpro.c
         src/module/intel-rsd.c
         src/entity/intel-rsd/cabled-pcie.c
-        src/entity/intel-rsd/cabled-pcie-handlers.c
         src/entity/intel-rsd/cabled-pcie-rules.c
         src/entity/intel-rsd/fpga.c
         src/entity/intel-rsd/fpga-names.c
@@ -550,11 +545,9 @@ target_sources(opendmi-object
         src/module/sun.c
         src/entity/sun/memory-array-ex.c
         src/entity/sun/memory-device-ex.c
-        src/entity/sun/memory-device-ex-handlers.c
         src/entity/sun/pcie-root-complex.c
         src/entity/sun/port-ex.c
         src/entity/sun/processor-ex.c
-        src/entity/sun/processor-ex-handlers.c
 
         src/backend/dump.c
 )

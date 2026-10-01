@@ -59,14 +59,3 @@ bool dmi_system_event_log_derive(dmi_entity_t *entity)
 
     return true;
 }
-
-void dmi_system_event_log_cleanup(dmi_entity_t *entity)
-{
-    dmi_system_event_log_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(system_event_log));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->descriptors);
-}

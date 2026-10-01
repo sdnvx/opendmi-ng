@@ -9,9 +9,11 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/attribute.h>
 #include <opendmi/context.h>
 #include <opendmi/encoder.h>
 #include <opendmi/entity.h>
+#include <opendmi/field.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
 #include <opendmi/test/entity.h>
@@ -29,6 +31,7 @@ static void test_chassis_decode_elements(void **pstate);
 static void test_chassis_decode_elements_overflow(void **pstate);
 static void test_chassis_decode_short_elements(void **pstate);
 static void test_chassis_encode_short_elements(void **pstate);
+static void test_chassis_release_elements(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -42,7 +45,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_chassis_decode_elements, test_chassis_setup, test_chassis_teardown),
         cmocka_unit_test_setup_teardown(test_chassis_decode_elements_overflow, test_chassis_setup, test_chassis_teardown),
         cmocka_unit_test_setup_teardown(test_chassis_decode_short_elements, test_chassis_setup, test_chassis_teardown),
-        cmocka_unit_test_setup_teardown(test_chassis_encode_short_elements, test_chassis_setup, test_chassis_teardown)
+        cmocka_unit_test_setup_teardown(test_chassis_encode_short_elements, test_chassis_setup, test_chassis_teardown),
+        cmocka_unit_test_setup_teardown(test_chassis_release_elements, test_chassis_setup, test_chassis_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -315,6 +319,50 @@ static void test_chassis_encode_short_elements(void **pstate)
     dmi_encoder_finalize(&encoder);
 
     dmi_buffer_destroy(output);
+    dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
+}
+
+static void test_chassis_release_elements(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
+    static const uint8_t body[] = {
+        0x01, 0x17, 0x00, 0x00, 0x00,       // Strings and type
+        0x03, 0x03, 0x03, 0x03,             // States
+        0x00, 0x00, 0x00, 0x00,             // OEM-defined
+        0x02, 0x02,                         // Height, power cords
+        0x02, 0x03,                         // Element count and size
+        0x0A, 0x01, 0x02,                   // Baseboard: server blade
+        0x91, 0x00, 0x04,                   // SMBIOS structure: memory device
+        0x02,                               // SKU number
+        0x01, 0x10                          // Rack type and height
+    };
+
+    dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
+
+    const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
+    assert_non_null(info);
+    assert_non_null(info->elements);
+    assert_int_equal(info->element_count, 2);
+
+    // Arrays the fields declare are freed and forgotten, so that releasing
+    // the structure again, or destroying it afterwards, frees nothing twice
+    dmi_attributes_unlink(entity);
+    dmi_fields_release(entity);
+
+    assert_null(info->elements);
+    assert_int_equal(info->element_count, 0);
+
+    dmi_attributes_unlink(entity);
+    dmi_fields_release(entity);
+
+    // Structures with nothing to release are left as they are
+    dmi_attributes_unlink(nullptr);
+    dmi_fields_release(nullptr);
+
     dmi_entity_destroy(entity);
 
     dmi_buffer_destroy(entity_buffer);

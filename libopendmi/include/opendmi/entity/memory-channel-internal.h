@@ -20,7 +20,6 @@ extern const dmi_name_set_t dmi_memory_channel_type_names;
 
 // Operation handlers, see memory-channel-handlers.c
 bool dmi_memory_channel_link(dmi_entity_t *entity);
-void dmi_memory_channel_cleanup(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see memory-channel-rules.c
 void dmi_memory_channel_lint_load(dmi_lint_t *lint, const dmi_entity_t *entity);

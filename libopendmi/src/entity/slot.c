@@ -181,9 +181,5 @@ const dmi_entity_spec_t dmi_slot_spec =
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_slot_cleanup
-    }
+    })
 };

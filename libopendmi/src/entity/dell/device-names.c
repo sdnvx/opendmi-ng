@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/device-names-internal.h>
+#include <opendmi/entity/dell/device-names.h>
 
 const dmi_entity_spec_t dmi_dell_device_names_spec =
 {
@@ -70,18 +70,5 @@ const dmi_entity_spec_t dmi_dell_device_names_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_dell_device_names_cleanup
-    }
+    })
 };
-
-void dmi_dell_device_names_cleanup(dmi_entity_t *entity)
-{
-    dmi_dell_device_names_t *info = dmi_entity_info(entity, DMI_TYPE(dell_device_names));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->devices);
-}

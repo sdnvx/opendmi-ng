@@ -87,6 +87,9 @@ static bool dmi_field_decode_nested(
         const dmi_field_t *fields,
         dmi_data_t        *info);
 
+static void dmi_field_release_list(const dmi_field_t *fields, dmi_data_t *info);
+static void dmi_field_release_array(const dmi_field_t *field, dmi_data_t *info);
+
 static bool dmi_field_decode_one(
         dmi_field_state_t  *state,
         const dmi_field_t  *field,
@@ -816,6 +819,10 @@ static bool dmi_field_decode_array(
         dmi_reader_mark_t start = dmi_reader_mark(state->reader);
 
         if (not dmi_field_decode_nested(state, field->params.fields, element)) {
+            // Element is not counted, so whatever it has allocated before
+            // failing is freed here rather than by the release of the array
+            dmi_field_release_list(field->params.fields, element);
+
             // The data running out stops exactly at the end of the structure,
             // while anything else leaves the element unread for its own reason
             state->incomplete = dmi_reader_is_done(state->reader);
@@ -964,6 +971,73 @@ static dmi_field_choice_t *dmi_field_choice_find(
         dmi_field_choice_t *choices,
         unsigned            count,
         size_t              offset);
+
+void dmi_fields_release(dmi_entity_t *entity)
+{
+    if ((entity == nullptr) or (entity->info == nullptr))
+        return;
+
+    const dmi_entity_spec_t *spec = entity->spec;
+
+    if ((spec == nullptr) or (spec->fields == nullptr))
+        return;
+
+    dmi_field_release_list(spec->fields, entity->info);
+}
+
+//
+// Free the arrays of a list of fields, descending into the nested structures
+// and the elements of vectors and arrays, which may hold arrays of their own.
+//
+static void dmi_field_release_list(const dmi_field_t *fields, dmi_data_t *info)
+{
+    if ((fields == nullptr) or (info == nullptr))
+        return;
+
+    for (const dmi_field_t *field = fields; field->type != DMI_FIELD_TYPE_NONE; field++) {
+        switch (field->type) {
+        case DMI_FIELD_TYPE_ARRAY:
+            dmi_field_release_array(field, info);
+            break;
+
+        case DMI_FIELD_TYPE_VECTOR:
+            for (size_t i = 0; i < field->params.count; i++)
+                dmi_field_release_list(field->params.fields,
+                                       info + field->member.offset + (i * field->member.size));
+            break;
+
+        case DMI_FIELD_TYPE_STRUCT:
+            dmi_field_release_list(field->params.fields, info + field->member.offset);
+            break;
+
+        default:
+            break;
+        }
+    }
+}
+
+//
+// Free the elements of an array, after whatever the decoded ones hold. Only
+// the counted elements have been decoded in full, and the one which has failed
+// has been released as it failed, so the others hold nothing.
+//
+static void dmi_field_release_array(const dmi_field_t *field, dmi_data_t *info)
+{
+    dmi_data_t **elements = (dmi_data_t **)(info + field->member.offset);
+
+    if (*elements == nullptr)
+        return;
+
+    size_t *counter = (size_t *)(info + field->params.counter.offset);
+
+    for (size_t i = 0; i < *counter; i++)
+        dmi_field_release_list(field->params.fields, *elements + (i * field->member.size));
+
+    dmi_free(*elements);
+
+    *elements = nullptr;
+    *counter  = 0;
+}
 
 bool dmi_fields_encode(dmi_encoder_t *encoder)
 {

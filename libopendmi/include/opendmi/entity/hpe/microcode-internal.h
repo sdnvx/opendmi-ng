@@ -16,6 +16,5 @@
 #include <opendmi/entity/hpe/microcode.h>
 
 bool dmi_hpe_microcode_derive(dmi_entity_t *entity);
-void dmi_hpe_microcode_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_MICROCODE_INTERNAL_H

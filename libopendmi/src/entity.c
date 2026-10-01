@@ -9,6 +9,7 @@
 #include <ctype.h>
 #include <assert.h>
 
+#include <opendmi/attribute.h>
 #include <opendmi/context.h>
 #include <opendmi/writer.h>
 #include <opendmi/decoder.h>
@@ -131,6 +132,20 @@ static const dmi_entity_spec_t *dmi_entity_spec_select(const dmi_entity_t *entit
  * @brief Check whether a structure matches a signature.
  */
 static bool dmi_entity_signature_match(const dmi_entity_t *entity, const dmi_signature_t *signature);
+
+/**
+ * @internal
+ * @brief Free what the decoded structure holds, leaving the structure itself
+ * to the caller.
+ *
+ * @details
+ * The arrays of the linked structures are freed first, while the arrays
+ * holding them are all there, whoever has allocated those. The cleanup
+ * handler of the specification then frees what its own handlers have
+ * allocated, and may still reach the arrays the fields declare, which are
+ * freed last.
+ */
+static void dmi_entity_release(dmi_entity_t *entity);
 
 dmi_entity_t *dmi_entity_create(
         dmi_context_t      *context,
@@ -299,10 +314,7 @@ bool dmi_entity_decode(dmi_entity_t *entity)
                                "0x%04x (%s)", entity->handle, entity->spec->name);
         }
 
-        // Call cleanup handler on errors
-        if (spec->handlers.cleanup != nullptr)
-            spec->handlers.cleanup(entity);
-
+        dmi_entity_release(entity);
         dmi_free(entity->info);
 
         entity->info  = nullptr;
@@ -612,9 +624,7 @@ void dmi_entity_destroy(dmi_entity_t *entity)
         return;
 
     if ((entity->spec != nullptr) and (entity->info != nullptr)) {
-        if (entity->spec->handlers.cleanup != nullptr)
-            entity->spec->handlers.cleanup(entity);
-
+        dmi_entity_release(entity);
         dmi_free(entity->info);
     }
 
@@ -821,6 +831,19 @@ static char *dmi_entity_string_trim(dmi_context_t *context, const char *ptr)
     memcpy(str, ptr, length);
 
     return str;
+}
+
+static void dmi_entity_release(dmi_entity_t *entity)
+{
+    assert(entity != nullptr);
+    assert(entity->spec != nullptr);
+
+    dmi_attributes_unlink(entity);
+
+    if (entity->spec->handlers.cleanup != nullptr)
+        entity->spec->handlers.cleanup(entity);
+
+    dmi_fields_release(entity);
 }
 
 static bool dmi_entity_apply_overlays(dmi_entity_t *entity)

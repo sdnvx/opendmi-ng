@@ -91,6 +91,7 @@ include::../../../../libopendmi/man/man3/dmi_type_spec.3.adoc[leveloffset=2]
 
 include::../../../../libopendmi/man/man3/dmi_fields_decode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_fields_encode.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_fields_release.3.adoc[leveloffset=2]
 
 == `<opendmi/buffer.h>`
 

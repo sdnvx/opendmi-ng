@@ -38,6 +38,4 @@ bool dmi_chassis_encode_maximum_count(
         const void        *value,
         dmi_field_data_t  *data);
 
-void dmi_chassis_cleanup(dmi_entity_t *entity);
-
 #endif // !OPENDMI_ENTITY_CHASSIS_INTERNAL_H

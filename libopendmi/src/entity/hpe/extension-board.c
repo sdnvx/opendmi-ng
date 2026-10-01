@@ -160,11 +160,7 @@ const dmi_entity_spec_t dmi_hpe_mhs_riser_spec =
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_hpe_mhs_riser_cleanup
-    }
+    })
 };
 
 const dmi_name_set_t dmi_hpe_board_type_names =
@@ -226,13 +222,4 @@ const dmi_name_set_t dmi_hpe_riser_position_names =
 const char *dmi_hpe_riser_position_name(dmi_hpe_riser_position_t value)
 {
     return dmi_name_lookup(&dmi_hpe_riser_position_names, (int)value);
-}
-
-void dmi_hpe_mhs_riser_cleanup(dmi_entity_t *entity)
-{
-    dmi_hpe_mhs_riser_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_mhs_riser));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->slot_ids);
 }

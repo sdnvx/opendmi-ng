@@ -86,18 +86,6 @@ bool dmi_memory_controller_link(dmi_entity_t *entity)
     return true;
 }
 
-void dmi_memory_controller_cleanup(dmi_entity_t *entity)
-{
-    dmi_memory_controller_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(memory_controller));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->module_handles);
-    dmi_free(info->modules);
-}
-
 //
 // Module size is written as the power of two it is a number of megabytes of,
 // which the widest size the member holds bounds.

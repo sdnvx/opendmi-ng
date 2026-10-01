@@ -128,7 +128,6 @@ const dmi_entity_spec_t dmi_memory_controller_spec =
 
     .handlers = {
         .derive  = dmi_memory_controller_derive,
-        .link    = dmi_memory_controller_link,
-        .cleanup = dmi_memory_controller_cleanup
+        .link    = dmi_memory_controller_link
     }
 };

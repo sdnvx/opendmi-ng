@@ -32,14 +32,3 @@ bool dmi_group_assoc_link(dmi_entity_t *entity)
 
     return success;
 }
-
-void dmi_group_assoc_cleanup(dmi_entity_t *entity)
-{
-    dmi_group_assoc_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(group_assoc));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->items);
-}

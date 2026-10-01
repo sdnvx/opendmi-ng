@@ -73,8 +73,7 @@ const dmi_entity_spec_t dmi_hpe_microcode_spec =
     }),
 
     .handlers = {
-        .derive  = dmi_hpe_microcode_derive,
-        .cleanup = dmi_hpe_microcode_cleanup
+        .derive  = dmi_hpe_microcode_derive
     }
 };
 
@@ -118,13 +117,4 @@ bool dmi_hpe_microcode_derive(dmi_entity_t *entity)
     }
 
     return true;
-}
-
-void dmi_hpe_microcode_cleanup(dmi_entity_t *entity)
-{
-    dmi_hpe_microcode_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_microcode));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->patches);
 }

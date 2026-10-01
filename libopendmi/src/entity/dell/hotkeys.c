@@ -8,8 +8,10 @@
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
+#include <opendmi/lint.h>
+#include <opendmi/utils/name.h>
 
-#include <opendmi/entity/dell/hotkeys-internal.h>
+#include <opendmi/entity/dell/hotkeys.h>
 
 const dmi_entity_spec_t dmi_dell_hotkeys_spec =
 {
@@ -59,18 +61,5 @@ const dmi_entity_spec_t dmi_dell_hotkeys_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_dell_hotkeys_cleanup
-    }
+    })
 };
-
-void dmi_dell_hotkeys_cleanup(dmi_entity_t *entity)
-{
-    dmi_dell_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(dell_hotkeys));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->hotkeys);
-}

@@ -119,14 +119,3 @@ bool dmi_intel_rsd_phys_device_mapping_derive(dmi_entity_t *entity)
 
     return true;
 }
-
-void dmi_intel_rsd_phys_device_mapping_cleanup(dmi_entity_t *entity)
-{
-    dmi_intel_rsd_phys_device_mapping_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_phys_device_mapping));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->devices);
-}

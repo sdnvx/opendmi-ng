@@ -68,8 +68,7 @@ const dmi_entity_spec_t dmi_hpe_reserved_memory_spec =
     }),
 
     .handlers = {
-        .derive  = dmi_hpe_reserved_memory_derive,
-        .cleanup = dmi_hpe_reserved_memory_cleanup
+        .derive  = dmi_hpe_reserved_memory_derive
     }
 };
 
@@ -88,13 +87,4 @@ bool dmi_hpe_reserved_memory_derive(dmi_entity_t *entity)
     }
 
     return true;
-}
-
-void dmi_hpe_reserved_memory_cleanup(dmi_entity_t *entity)
-{
-    dmi_hpe_reserved_memory_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_reserved_memory));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->entries);
 }

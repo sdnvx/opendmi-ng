@@ -93,7 +93,6 @@ const dmi_entity_spec_t dmi_memory_channel_spec =
     }),
 
     .handlers = {
-        .link    = dmi_memory_channel_link,
-        .cleanup = dmi_memory_channel_cleanup
+        .link    = dmi_memory_channel_link
     }
 };

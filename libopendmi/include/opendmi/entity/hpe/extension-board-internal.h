@@ -18,6 +18,4 @@
 extern const dmi_name_set_t dmi_hpe_board_type_names;
 extern const dmi_name_set_t dmi_hpe_riser_position_names;
 
-void dmi_hpe_mhs_riser_cleanup(dmi_entity_t *entity);
-
 #endif // !OPENDMI_ENTITY_HPE_EXTENSION_BOARD_INTERNAL_H

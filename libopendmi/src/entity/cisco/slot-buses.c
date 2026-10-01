@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/cisco.h>
 
-#include <opendmi/entity/cisco/slot-buses-internal.h>
+#include <opendmi/entity/cisco/slot-buses.h>
 
 const dmi_entity_spec_t dmi_cisco_slot_buses_spec =
 {
@@ -48,18 +48,5 @@ const dmi_entity_spec_t dmi_cisco_slot_buses_spec =
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_cisco_slot_buses_cleanup
-    }
+    })
 };
-
-void dmi_cisco_slot_buses_cleanup(dmi_entity_t *entity)
-{
-    dmi_cisco_slot_buses_t *info = dmi_entity_info(entity, DMI_TYPE(cisco_slot_buses));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->buses);
-}

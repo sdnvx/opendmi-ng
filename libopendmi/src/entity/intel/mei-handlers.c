@@ -65,14 +65,3 @@ bool dmi_intel_mei_derive(dmi_entity_t *entity)
 
     return true;
 }
-
-void dmi_intel_mei_cleanup(dmi_entity_t *entity)
-{
-    dmi_intel_mei_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->devices);
-}

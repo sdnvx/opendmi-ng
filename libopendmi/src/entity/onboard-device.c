@@ -81,9 +81,5 @@ const dmi_entity_spec_t dmi_onboard_device_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_onboard_device_cleanup
-    }
+    })
 };

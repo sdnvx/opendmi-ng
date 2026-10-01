@@ -21,6 +21,5 @@ extern const dmi_name_set_t dmi_intel_me_mode_names;
 extern const dmi_name_set_t dmi_intel_me_sku_names;
 
 bool dmi_intel_mei_derive(dmi_entity_t *entity);
-void dmi_intel_mei_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_INTEL_MEI_INTERNAL_H

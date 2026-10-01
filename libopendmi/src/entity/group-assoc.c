@@ -80,7 +80,6 @@ const dmi_entity_spec_t dmi_group_assoc_spec =
     }),
 
     .handlers = {
-        .link    = dmi_group_assoc_link,
-        .cleanup = dmi_group_assoc_cleanup
+        .link    = dmi_group_assoc_link
     }
 };

@@ -518,6 +518,21 @@ __dmi_api char *dmi_attribute_format(
  */
 __dmi_api bool dmi_attributes_link(dmi_entity_t *entity);
 
+/**
+ * @brief Free what linking the references the attributes declare has
+ * allocated, which are the arrays of the structures an array of handles is
+ * resolved into.
+ *
+ * The members holding the arrays are reset to `nullptr`, so that the function
+ * may be called more than once. `dmi_entity_decode()` and
+ * `dmi_entity_destroy()` call the function before the cleanup handler of the
+ * specification and `dmi_fields_release()`, since the arrays of handles may
+ * be held by the elements of the arrays either of them frees.
+ *
+ * @param[in,out] entity Structure to unlink, or `nullptr`.
+ */
+__dmi_api void dmi_attributes_unlink(dmi_entity_t *entity);
+
 __END_DECLS
 
 #endif // !OPENDMI_ATTRIBUTE_H

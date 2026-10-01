@@ -51,17 +51,6 @@ bool dmi_chassis_decode_maximum_count(
     return dmi_field_set(field, value, (data->number != 0) ? data->number : UINTMAX_MAX);
 }
 
-void dmi_chassis_cleanup(dmi_entity_t *entity)
-{
-    dmi_chassis_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(chassis));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->elements);
-}
-
 bool dmi_chassis_encode_element_type(
         const dmi_field_t *field,
         const void        *value,

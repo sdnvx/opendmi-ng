@@ -7,8 +7,10 @@
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
+#include <opendmi/field.h>
+#include <opendmi/lint.h>
 
-#include <opendmi/entity/intel/svt-internal.h>
+#include <opendmi/entity/intel/svt.h>
 
 // Attributes of both layouts, which decode into the same structure
 static const dmi_attribute_t dmi_intel_svt_attrs[] =
@@ -78,11 +80,7 @@ const dmi_entity_spec_t dmi_intel_svt_spec =
         {}
     }),
 
-    .attributes = dmi_intel_svt_attrs,
-
-    .handlers = {
-        .cleanup = dmi_intel_svt_cleanup
-    }
+    .attributes = dmi_intel_svt_attrs
 };
 
 const dmi_entity_spec_t dmi_intel_svt_aligned_spec =
@@ -127,20 +125,5 @@ const dmi_entity_spec_t dmi_intel_svt_aligned_spec =
         {}
     }),
 
-    .attributes = dmi_intel_svt_attrs,
-
-    .handlers = {
-        .cleanup = dmi_intel_svt_cleanup
-    }
+    .attributes = dmi_intel_svt_attrs
 };
-
-void dmi_intel_svt_cleanup(dmi_entity_t *entity)
-{
-    dmi_intel_svt_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(intel_svt));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->milestones);
-}

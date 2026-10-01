@@ -34,7 +34,6 @@ bool dmi_memory_controller_encode_size(
 
 bool dmi_memory_controller_derive(dmi_entity_t *entity);
 bool dmi_memory_controller_link(dmi_entity_t *entity);
-void dmi_memory_controller_cleanup(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see memory-controller-rules.c
 void dmi_memory_controller_lint_module_size(dmi_lint_t *lint, const dmi_entity_t *entity);

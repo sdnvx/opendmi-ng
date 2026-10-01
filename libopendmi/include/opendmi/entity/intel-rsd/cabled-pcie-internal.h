@@ -15,8 +15,6 @@
 
 #include <opendmi/entity/intel-rsd/cabled-pcie.h>
 
-void dmi_intel_rsd_cabled_pcie_cleanup(dmi_entity_t *entity);
-
 void dmi_intel_rsd_cabled_pcie_lint_start_lane(dmi_lint_t *lint, const dmi_entity_t *entity);
 void dmi_intel_rsd_cabled_pcie_lint_count(dmi_lint_t *lint, const dmi_entity_t *entity);
 

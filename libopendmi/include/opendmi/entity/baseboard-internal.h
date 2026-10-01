@@ -19,7 +19,4 @@
 extern const dmi_name_set_t dmi_baseboard_type_names;
 extern const dmi_name_set_t dmi_baseboard_feature_names;
 
-// Operation handlers, see baseboard-handlers.c
-void dmi_baseboard_cleanup(dmi_entity_t *entity);
-
 #endif // !OPENDMI_ENTITY_BASEBOARD_INTERNAL_H

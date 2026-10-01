@@ -18,7 +18,4 @@
 // Value names, see onboard-device-names.c
 extern const dmi_name_set_t dmi_onboard_device_type_names;
 
-// Operation handlers, see onboard-device-handlers.c
-void dmi_onboard_device_cleanup(dmi_entity_t *entity);
-
 #endif // !OPENDMI_ENTITY_ONBOARD_DEVICE_INTERNAL_H

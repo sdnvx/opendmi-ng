@@ -1,0 +1,81 @@
+ifdef::backend-manpage[]
+= dmi_fields_release(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_fields_release
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_fields_release - free what decoding a structure according to its fields has allocated.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+void dmi_fields_release(dmi_entity_t *entity);
+----
+
+== Description
+
+The `dmi_fields_release` function frees the arrays `dmi_fields_decode`(3) has
+allocated for a structure: the elements of every array the fields of its
+specification declare, including the arrays held by nested structures, by the
+elements of vectors and by the elements of other arrays, which are freed
+before the array holding them. The decoded structure itself is left to the
+caller.
+
+The members holding the arrays are reset to `nullptr`, and the counters of the
+decoded elements to zero, so the function may be called more than once, and a
+structure whose decoding has failed half way is released the same way: an
+element which has failed to decode has been released as it failed.
+
+`dmi_entity_decode`(3), when decoding fails, and `dmi_entity_destroy`(3) call
+the function on their own, after the cleanup handler of the specification.
+The handler therefore frees only what the handlers of the specification
+allocate themselves, e.g. an array a deriving handler fills in, and may still
+read the arrays the fields declare. The arrays of the structures the
+references of the attributes are resolved into are freed before the handler,
+by `dmi_attributes_unlink`, since the elements of those arrays may hold them.
+
+A structure decoded by a decoding handler of its own is released only as far
+as its specification declares fields.
+
+=== Parameters
+
+`entity`::
+Structure to release, or `nullptr`, in which case nothing is done. A structure
+which has not been decoded, or whose specification declares no fields, is left
+as it is.
+
+== Return value
+
+None.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_fields_decode`(3),
+`dmi_entity_decode`(3),
+`dmi_entity_destroy`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

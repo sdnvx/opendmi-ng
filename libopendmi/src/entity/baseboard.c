@@ -121,9 +121,5 @@ const dmi_entity_spec_t dmi_baseboard_spec =
             .link    = dmi_member(dmi_baseboard_t, objects)
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_baseboard_cleanup
-    }
+    })
 };

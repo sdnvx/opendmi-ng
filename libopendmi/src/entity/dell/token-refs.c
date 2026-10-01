@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/token-refs-internal.h>
+#include <opendmi/entity/dell/token-refs.h>
 
 const dmi_entity_spec_t dmi_dell_token_refs_1_spec =
 {
@@ -47,21 +47,8 @@ const dmi_entity_spec_t dmi_dell_token_refs_1_spec =
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_dell_token_refs_1_cleanup
-    }
+    })
 };
-
-void dmi_dell_token_refs_1_cleanup(dmi_entity_t *entity)
-{
-    dmi_dell_token_refs_1_t *info = dmi_entity_info(entity, DMI_TYPE(dell_token_refs_1));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->tokens);
-}
 
 const dmi_entity_spec_t dmi_dell_token_refs_2_spec =
 {

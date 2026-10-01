@@ -35,8 +35,11 @@ table, and the entity descriptor itself.
 
 If `entity` is `nullptr`, this function does nothing.
 
-If a type-specific cleanup handler is registered and decoded data is present,
-the cleanup handler is invoked before freeing the decoded data.
+If decoded data is present, what it holds is freed before the data itself:
+first the arrays of the structures the references of the attributes are
+resolved into, see `dmi_attributes_unlink`, then whatever the type-specific
+cleanup handler frees, if one is registered, and last the arrays the fields of
+the specification are decoded into, see `dmi_fields_release`(3).
 
 === Parameters
 

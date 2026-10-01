@@ -65,7 +65,6 @@ const dmi_entity_spec_t dmi_intel_rsd_phys_device_mapping_spec =
     }),
 
     .handlers = {
-        .derive  = dmi_intel_rsd_phys_device_mapping_derive,
-        .cleanup = dmi_intel_rsd_phys_device_mapping_cleanup
+        .derive  = dmi_intel_rsd_phys_device_mapping_derive
     }
 };

@@ -234,9 +234,5 @@ const dmi_entity_spec_t dmi_chassis_spec =
             .level   = DMI_VERSION(3, 9, 0)
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_chassis_cleanup
-    }
+    })
 };

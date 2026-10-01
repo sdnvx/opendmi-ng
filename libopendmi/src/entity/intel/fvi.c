@@ -7,8 +7,11 @@
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
+#include <opendmi/field.h>
+#include <opendmi/lint.h>
+#include <opendmi/utils/name.h>
 
-#include <opendmi/entity/intel/fvi-internal.h>
+#include <opendmi/entity/intel/fvi.h>
 
 const dmi_entity_spec_t dmi_intel_fvi_spec =
 {
@@ -81,9 +84,5 @@ const dmi_entity_spec_t dmi_intel_fvi_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_intel_fvi_cleanup
-    }
+    })
 };

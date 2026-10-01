@@ -133,7 +133,6 @@ const dmi_entity_spec_t dmi_intel_mei_spec =
     }),
 
     .handlers = {
-        .derive  = dmi_intel_mei_derive,
-        .cleanup = dmi_intel_mei_cleanup
+        .derive  = dmi_intel_mei_derive
     }
 };

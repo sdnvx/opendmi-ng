@@ -144,7 +144,6 @@ const dmi_entity_spec_t dmi_system_event_log_spec =
     }),
 
     .handlers = {
-        .derive  = dmi_system_event_log_derive,
-        .cleanup = dmi_system_event_log_cleanup
+        .derive  = dmi_system_event_log_derive
     }
 };

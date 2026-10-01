@@ -23,14 +23,26 @@ static bool dmi_attributes_have_links(const dmi_attribute_t *attrs);
 
 /**
  * @internal
- * @brief Walk the attributes of a structure, descending into the nested
+ * @brief Handler of a handle attribute the walk of the attributes reaches,
+ * given the structure holding the handle, which is an element of an array or
+ * a nested structure for the handles of one.
+ */
+typedef bool dmi_attributes_visit_fn(
+        const dmi_entity_t    *entity,
+        const dmi_attribute_t *attr,
+        dmi_data_t            *info);
+
+/**
+ * @internal
+ * @brief Walk the handle attributes of a structure, descending into the nested
  * structures and the arrays of them, since the handles of an element are
  * linked into the members of that element.
  */
-static bool dmi_attributes_link_list(
-        const dmi_entity_t    *entity,
-        const dmi_attribute_t *attrs,
-        dmi_data_t            *info);
+static bool dmi_attributes_walk(
+        const dmi_entity_t      *entity,
+        const dmi_attribute_t   *attrs,
+        dmi_data_t              *info,
+        dmi_attributes_visit_fn *visit);
 
 /**
  * @internal
@@ -39,6 +51,16 @@ static bool dmi_attributes_link_list(
  * of their own, one pointer per handle, which is allocated here.
  */
 static bool dmi_attributes_link_handle(
+        const dmi_entity_t    *entity,
+        const dmi_attribute_t *attr,
+        dmi_data_t            *info);
+
+/**
+ * @internal
+ * @brief Free the array of the structures an array of handles has been
+ * resolved into, which is the only thing linking allocates.
+ */
+static bool dmi_attributes_unlink_handle(
         const dmi_entity_t    *entity,
         const dmi_attribute_t *attr,
         dmi_data_t            *info);
@@ -57,7 +79,22 @@ bool dmi_attributes_link(dmi_entity_t *entity)
     if (entity->info == nullptr)
         return true;
 
-    return dmi_attributes_link_list(entity, spec->attributes, entity->info);
+    return dmi_attributes_walk(entity, spec->attributes, entity->info, dmi_attributes_link_handle);
+}
+
+void dmi_attributes_unlink(dmi_entity_t *entity)
+{
+    if (entity == nullptr)
+        return;
+
+    const dmi_entity_spec_t *spec = entity->spec;
+
+    if ((spec == nullptr) or (spec->attributes == nullptr))
+        return;
+    if (entity->info == nullptr)
+        return;
+
+    dmi_attributes_walk(entity, spec->attributes, entity->info, dmi_attributes_unlink_handle);
 }
 
 bool dmi_entity_is_linkable(const dmi_entity_t *entity)
@@ -89,12 +126,14 @@ static bool dmi_attributes_have_links(const dmi_attribute_t *attrs)
     return false;
 }
 
-static bool dmi_attributes_link_list(
-        const dmi_entity_t    *entity,
-        const dmi_attribute_t *attrs,
-        dmi_data_t            *info)
+static bool dmi_attributes_walk(
+        const dmi_entity_t      *entity,
+        const dmi_attribute_t   *attrs,
+        dmi_data_t              *info,
+        dmi_attributes_visit_fn *visit)
 {
     assert(entity != nullptr);
+    assert(visit != nullptr);
 
     if ((attrs == nullptr) or (info == nullptr))
         return true;
@@ -108,7 +147,7 @@ static bool dmi_attributes_link_list(
             continue;
 
         if (resolved->type == DMI_ATTRIBUTE_TYPE_HANDLE) {
-            if (not dmi_attributes_link_handle(entity, resolved, info))
+            if (not visit(entity, resolved, info))
                 success = false;
             continue;
         }
@@ -119,7 +158,7 @@ static bool dmi_attributes_link_list(
         dmi_data_t *ptr = info + resolved->value.offset;
 
         if (not dmi_attribute_is_array(resolved)) {
-            if (not dmi_attributes_link_list(entity, resolved->params.attrs, ptr))
+            if (not dmi_attributes_walk(entity, resolved->params.attrs, ptr, visit))
                 success = false;
             continue;
         }
@@ -133,7 +172,7 @@ static bool dmi_attributes_link_list(
             count = dmi_attribute_get_count(resolved, info);
 
         for (size_t i = 0; i < count; i++, element += resolved->value.size) {
-            if (not dmi_attributes_link_list(entity, resolved->params.attrs, element))
+            if (not dmi_attributes_walk(entity, resolved->params.attrs, element, visit))
                 success = false;
         }
     }
@@ -192,4 +231,24 @@ static bool dmi_attributes_link_handle(
     }
 
     return success;
+}
+
+static bool dmi_attributes_unlink_handle(
+        const dmi_entity_t    *entity,
+        const dmi_attribute_t *attr,
+        dmi_data_t            *info)
+{
+    dmi_unused(entity);
+
+    assert(attr != nullptr);
+
+    if (not dmi_member_is_present(attr->params.link) or not dmi_attribute_is_array(attr))
+        return true;
+
+    dmi_entity_t ***slot = (dmi_entity_t ***)(info + attr->params.link.offset);
+
+    dmi_free(*slot);
+    *slot = nullptr;
+
+    return true;
 }

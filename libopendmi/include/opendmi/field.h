@@ -762,6 +762,24 @@ __dmi_api bool dmi_fields_decode(dmi_decoder_t *decoder);
 __dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
 
 /**
+ * @brief Free what decoding a structure according to the fields of its
+ * specification has allocated.
+ *
+ * The elements of every array the fields declare are freed, including the
+ * arrays of nested structures and of the elements of other arrays, and the
+ * members holding them are reset to `nullptr`, so that the function may be
+ * called more than once. The decoded structure itself is left to the caller.
+ *
+ * `dmi_entity_decode()` and `dmi_entity_destroy()` call the function after
+ * the cleanup handler of the specification, so the handler frees only what
+ * the decoding, deriving or linking handlers of the specification allocate
+ * themselves, and may still reach the arrays the fields declare.
+ *
+ * @param[in,out] entity Decoded structure, or `nullptr`.
+ */
+__dmi_api void dmi_fields_release(dmi_entity_t *entity);
+
+/**
  * @brief Decode a value carried in kilobytes into the number of the bytes it
  * stands for, which is how the specification writes the sizes and the
  * addresses the fields of a structure are too narrow for.

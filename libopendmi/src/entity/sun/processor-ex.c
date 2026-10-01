@@ -7,8 +7,11 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/module/sun.h>
+#include <opendmi/field.h>
+#include <opendmi/lint.h>
+#include <opendmi/utils/name.h>
 
-#include <opendmi/entity/sun/processor-ex-internal.h>
+#include <opendmi/entity/sun/processor-ex.h>
 
 const dmi_entity_spec_t dmi_sun_processor_ex_spec =
 {
@@ -61,9 +64,5 @@ const dmi_entity_spec_t dmi_sun_processor_ex_spec =
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
         {}
-    }),
-
-    .handlers = {
-        .cleanup = dmi_sun_processor_ex_cleanup
-    }
+    })
 };

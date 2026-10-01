@@ -18,6 +18,5 @@
 extern const dmi_name_set_t dmi_hpe_nic_state_names;
 
 bool dmi_hpe_nic_derive(dmi_entity_t *entity);
-void dmi_hpe_nic_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_NIC_INTERNAL_H

@@ -43,7 +43,6 @@ extern const dmi_name_set_t dmi_event_log_data_format_names;
 extern const dmi_attribute_t dmi_system_log_type_descriptor_attrs[];
 extern const dmi_attribute_t dmi_system_log_io_ports_attrs[];
 bool dmi_system_event_log_derive(dmi_entity_t *entity);
-void dmi_system_event_log_cleanup(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see system-event-log-rules.c
 void dmi_system_event_log_lint_area(dmi_lint_t *lint, const dmi_entity_t *entity);

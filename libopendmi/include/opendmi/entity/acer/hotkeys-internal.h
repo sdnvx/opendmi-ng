@@ -18,6 +18,5 @@
 extern const dmi_name_set_t dmi_acer_comm_function_names;
 
 bool dmi_acer_hotkeys_derive(dmi_entity_t *entity);
-void dmi_acer_hotkeys_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_ACER_HOTKEYS_INTERNAL_H

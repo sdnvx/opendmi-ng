@@ -62,10 +62,6 @@ const dmi_entity_spec_t dmi_intel_rsd_cabled_pcie_spec =
         {}
     }),
 
-    .handlers = {
-        .cleanup = dmi_intel_rsd_cabled_pcie_cleanup
-    },
-
     .lint_rules = DMI_LINT_RULES({
         DMI_LINT_RULE("intel-rsd-cabled-pcie.start-lane", dmi_intel_rsd_cabled_pcie_lint_start_lane, {
             .name              = "Cable indices start at a lane which is a multiple of four",

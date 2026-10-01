@@ -39,14 +39,3 @@ bool dmi_memory_channel_link(dmi_entity_t *entity)
 
     return true;
 }
-
-void dmi_memory_channel_cleanup(dmi_entity_t *entity)
-{
-    dmi_memory_channel_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(memory_channel));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->devices);
-}
