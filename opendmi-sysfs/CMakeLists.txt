@@ -84,13 +84,13 @@ endif()
 # Kbuild tracks dependencies itself, so it is always run
 add_custom_target(opendmi-sysfs ALL
     COMMAND ${MAKE_EXECUTABLE} ${KBUILD_ARGS} -j${KBUILD_JOBS} modules
-    COMMENT "Building kernel module opendmi-sysfs.ko"
+    COMMENT "Building kernel module opendmi.ko"
     USES_TERMINAL
     VERBATIM
 )
 
 add_custom_target(opendmi-sysfs-clean
     COMMAND ${MAKE_EXECUTABLE} ${KBUILD_ARGS} clean
-    COMMENT "Cleaning kernel module opendmi-sysfs.ko"
+    COMMENT "Cleaning kernel module opendmi.ko"
     VERBATIM
 )

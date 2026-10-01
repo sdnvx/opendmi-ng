@@ -13,8 +13,12 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
-#include <opendmi/utils/file.h>
 #include <opendmi/backend/dump.h>
+
+// Files are not accessible from the kernel
+#if !defined(__KERNEL__)
+#   include <opendmi/utils/file.h>
+#endif
 
 /**
  * @internal
@@ -176,6 +180,15 @@ static bool dmi_dump_open(dmi_context_t *context, const char *path)
     return true;
 }
 
+#if defined(__KERNEL__)
+static bool dmi_dump_load(dmi_context_t *context, const char *path, dmi_buffer_t *buffer)
+{
+    // There is no file to check before loading it, see dmi_file_load()
+    dmi_unused(context);
+
+    return dmi_file_load(buffer, path, -1, 0);
+}
+#else
 static bool dmi_dump_load(dmi_context_t *context, const char *path, dmi_buffer_t *buffer)
 {
     dmi_file_stat_t st;
@@ -208,6 +221,7 @@ static bool dmi_dump_load(dmi_context_t *context, const char *path, dmi_buffer_t
 
     return dmi_file_load(buffer, path, -1, (size_t)st.st_size);
 }
+#endif // defined(__KERNEL__)
 
 static bool dmi_dump_read_entry(dmi_context_t *context, dmi_buffer_t *buffer)
 {

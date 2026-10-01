@@ -13,12 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `from` and `before` field parameters for the ranges of bits a version of the specification defines
 - Add `memory-device.attributes` and `memory-device.disabled` lint rules
 - Add manual pages of `<opendmi/locale.h>`, name set lookups, `dmi_spec_name`(3), `dmi_lint_rule_name`(3) and `dmi_type_*`(3) functions
+- Add `dmi_fields_release()` and `dmi_attributes_unlink()`, which free the arrays of decoded and linked structures
 - Add links to manual pages (website/reference)
 
 ### Changed
 
 - Read the rank of memory devices as five bits, and describe the OK memory error type as unmapped memory devices too (SMBIOS 3.10)
 - Rename `dmi_acer_hotkey_t`, `dmi_acer_device_t`, `dmi_dell_device_name_t`, `dmi_dell_hotkey_t` and `dmi_dell_memory_id_t` to `*_entry_t`
+- Free the arrays of fields and of linked structures in the library, leaving cleanup handlers only what the handlers of a specification allocate
 - Save dumps through a temporary file, so that a failed `dmi_save()` leaves the target intact
 - Check length and checksum of entry points found by scanning memory, the way dmidecode does
 - Default `list` to raw output when stdout is not a terminal, and drop the banner of `modules -r` and `types -r`
@@ -44,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix quitting the pager early reported as "Broken pipe", and signals ignored under `nohup` caught by the pager
 - Fix pager command line handling on POSIX and Windows
 - Fix log file left locked for other processes
+- Fix XML export reporting write failures as internal errors on NetBSD
 - Fix coverage builds, `build.sh distclean` able to delete the source tree, and the Python module not building
 - Fix number overflow not detected in the kernel module (opendmi-sysfs)
 - Display links to manual pages without section suffix (website/reference)
