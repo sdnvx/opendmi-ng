@@ -132,7 +132,7 @@ static void test_acer_hotkeys_basic(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_ptr_equal(entity->spec, &dmi_acer_hotkeys_basic_spec);
-    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(entity));
 
     const dmi_acer_hotkeys_t *info = dmi_entity_info(entity, DMI_TYPE(acer_hotkeys));
     assert_non_null(info);

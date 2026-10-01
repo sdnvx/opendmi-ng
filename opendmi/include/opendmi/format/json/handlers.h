@@ -29,27 +29,6 @@ bool dmi_json_entity_attr(
         const dmi_attribute_t *attr,
         const void            *value);
 
-bool dmi_json_entity_attr_array(
-        dmi_json_session_t    *session,
-        const dmi_attribute_t *attr,
-        const dmi_data_t      *info,
-        const void            *value);
-
-bool dmi_json_entity_attr_struct(
-        dmi_json_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value);
-
-bool dmi_json_entity_attr_value(
-        dmi_json_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value);
-
-bool dmi_json_entity_attr_set(
-        dmi_json_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value);
-
 bool dmi_json_entity_attrs_end(dmi_json_session_t *session, const dmi_entity_t *entity);
 bool dmi_json_entity_data(dmi_json_session_t *session, const dmi_entity_t *entity);
 bool dmi_json_entity_properties(dmi_json_session_t *session, const dmi_entity_t *entity);

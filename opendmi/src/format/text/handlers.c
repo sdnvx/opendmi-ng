@@ -27,6 +27,69 @@
 #include <opendmi/format/text/handlers.h>
 #include <opendmi/format/text/helpers.h>
 
+/**
+ * @internal
+ * @brief Print the name of a member, unless it is hidden.
+ */
+static dmi_attribute_walk_t dmi_text_attr_member(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Begin a nested structure, whose members are printed one level
+ * deeper.
+ */
+static dmi_attribute_walk_t dmi_text_attr_struct_start(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Print the number of the elements of an array, which are printed one
+ * level deeper.
+ */
+static dmi_attribute_walk_t dmi_text_attr_array_start(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief End a nested structure or an array, going back to the level of
+ * indentation of its member.
+ */
+static bool dmi_text_attr_outdent(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Print the index of an element of an array.
+ */
+static dmi_attribute_walk_t dmi_text_attr_item_start(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Print the value of a member or of an element of an array.
+ */
+static bool dmi_text_attr_value(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Print the flags of a set, each on a line of its own.
+ */
+static void dmi_text_entity_attr_set(
+        dmi_text_session_t    *session,
+        const dmi_attribute_t *attr,
+        const void            *value,
+        unsigned int           depth);
+
+/**
+ * @internal
+ * @brief Callbacks printing the attributes of a structure.
+ */
+static const dmi_attribute_visitor_t dmi_text_attr_visitor = {
+    .member_start = dmi_text_attr_member,
+    .struct_start = dmi_text_attr_struct_start,
+    .struct_end   = dmi_text_attr_outdent,
+    .array_start  = dmi_text_attr_array_start,
+    .array_end    = dmi_text_attr_outdent,
+    .item_start   = dmi_text_attr_item_start,
+    .value        = dmi_text_attr_value
+};
+
 void *dmi_text_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options)
 {
     assert(context != nullptr);
@@ -217,116 +280,94 @@ bool dmi_text_entity_attr(
     assert(session != nullptr);
     assert(entity != nullptr);
     assert(attr != nullptr);
-    assert(value != nullptr);
 
-    // Value of variant attribute is described by the variant
-    const dmi_attribute_t *variant = dmi_attribute_resolve(attr, entity->info);
-    if (variant == nullptr)
-        return true;
-
-    value = dmi_member_ptr(entity->info, variant->value, dmi_data_t);
-
-    if (dmi_text_is_hidden(session, variant))
-        return true;
+    dmi_unused(value);
 
     // Attributes are named after the structure they belong to, so that the
     // names which are common to structures can be translated once
-    const char *owner = (entity->spec != nullptr) ? entity->spec->code : nullptr;
+    session->owner = (entity->spec != nullptr) ? entity->spec->code : nullptr;
+    session->depth = 1;
 
-    // Print attribute name, values are preceded by spaces themselves
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t%s:", dmi_attribute_name(attr, owner));
-
-    // Print attribute value
-    if (not dmi_attribute_is_array(variant)) {
-        if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-            dmi_text_entity_attr_struct(session, variant, value, 2, owner);
-        else
-            dmi_text_entity_attr_value(session, variant, value, nullptr, 1);
-    } else {
-        dmi_text_entity_attr_array(session, variant, entity->info, value, 1, owner);
-    }
+    dmi_attribute_walk(attr, entity->info, &dmi_text_attr_visitor, session);
 
     return true;
 }
 
-void dmi_text_entity_attr_array(
-        dmi_text_session_t    *session,
-        const dmi_attribute_t *attr,
-        const dmi_data_t      *info,
-        const void            *value,
-        unsigned int           depth,
-        const char            *owner)
+static dmi_attribute_walk_t dmi_text_attr_member(void *context, const dmi_attribute_node_t *node)
 {
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(info != nullptr);
-    assert(value != nullptr);
+    dmi_text_session_t *session = context;
 
-    dmi_registry_t *registry = dmi_get_registry(session->context);
+    if (dmi_text_is_hidden(session, node->attr))
+        return DMI_ATTRIBUTE_WALK_SKIP;
 
-    dmi_format_array_iter_t iter;
-    const dmi_data_t *ptr;
+    // Values are preceded by spaces themselves
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s:", (int)session->depth, "\t\t\t\t\t\t\t\t",
+                    dmi_attribute_name(node->member, session->owner));
 
-    dmi_format_array_iter_init(&iter, attr, info, value);
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %zu items\n", iter.count);
-
-    // Elements are indented one level deeper than the array
-    while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%zu:", (int)(depth + 1), "\t\t\t\t\t\t\t\t", iter.index);
-
-        if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-            dmi_text_entity_attr_struct(session, attr, ptr, depth + 2, owner);
-        } else {
-            const char *descr = nullptr;
-
-            if (attr->type == DMI_ATTRIBUTE_TYPE_HANDLE) {
-                dmi_handle_t handle = dmi_deref(dmi_handle_t, ptr);
-                const dmi_entity_t *entity = dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, true);
-
-                descr = dmi_entity_name(entity);
-            }
-
-            dmi_text_entity_attr_value(session, attr, ptr, descr, depth + 1);
-        }
-    }
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
 }
 
-void dmi_text_entity_attr_struct(
-        dmi_text_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value,
-        unsigned int           depth,
-        const char            *owner)
+static dmi_attribute_walk_t dmi_text_attr_struct_start(void *context, const dmi_attribute_node_t *node)
 {
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
+    dmi_text_session_t *session = context;
 
-    const dmi_attribute_t *child_attr = nullptr;
+    dmi_unused(node);
 
+    // Fields are indented one level deeper than the structure
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
-    for (child_attr = attr->params.attrs; child_attr->params.name; child_attr++) {
-        // Value of variant attribute is described by the variant
-        const dmi_attribute_t *child = dmi_attribute_resolve(child_attr, value);
-        if (child == nullptr)
-            continue;
+    session->depth++;
 
-        const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
 
-        if (dmi_text_is_hidden(session, child))
-            continue;
+static dmi_attribute_walk_t dmi_text_attr_array_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
 
-        // Fields are indented one level deeper than the structure
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s:", (int)depth, "\t\t\t\t\t\t\t\t", dmi_attribute_name(child_attr, owner));
+    // Elements are indented one level deeper than the array
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %zu items\n", node->count);
+    session->depth++;
 
-        // Counters of nested arrays are members of the same structure
-        if (dmi_attribute_is_array(child))
-            dmi_text_entity_attr_array(session, child, value, ptr, depth, owner);
-        else if (child->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-            dmi_text_entity_attr_struct(session, child, ptr, depth + 1, owner);
-        else
-            dmi_text_entity_attr_value(session, child, ptr, nullptr, depth);
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static bool dmi_text_attr_outdent(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+
+    dmi_unused(node);
+
+    session->depth--;
+
+    return true;
+}
+
+static dmi_attribute_walk_t dmi_text_attr_item_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%zu:", (int)session->depth, "\t\t\t\t\t\t\t\t", node->index);
+
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static bool dmi_text_attr_value(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+    const char *descr = nullptr;
+
+    // Elements of an array of handles are described by the structures they
+    // refer to
+    if ((node->index != SIZE_MAX) and (node->attr->type == DMI_ATTRIBUTE_TYPE_HANDLE)) {
+        dmi_registry_t *registry = dmi_get_registry(session->context);
+        dmi_handle_t    handle   = dmi_deref(dmi_handle_t, node->value);
+
+        descr = dmi_entity_name(dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, true));
     }
+
+    dmi_text_entity_attr_value(session, node->attr, node->value, descr, session->depth);
+
+    return true;
 }
 
 void dmi_text_entity_attr_value(
@@ -396,7 +437,7 @@ void dmi_text_entity_attr_value(
         dmi_text_entity_attr_set(session, attr, value, depth + 1);
 }
 
-void dmi_text_entity_attr_set(
+static void dmi_text_entity_attr_set(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
         const void            *value,

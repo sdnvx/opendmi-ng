@@ -1,0 +1,208 @@
+ifdef::backend-manpage[]
+= dmi_attributes_walk(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_attributes_walk
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_attributes_walk, dmi_attribute_walk - walk the members of a decoded structure its attributes describe.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/attribute.h>
+
+typedef enum dmi_attribute_walk {
+    DMI_ATTRIBUTE_WALK_STOP,
+    DMI_ATTRIBUTE_WALK_CONTINUE,
+    DMI_ATTRIBUTE_WALK_SKIP
+} dmi_attribute_walk_t;
+
+typedef struct dmi_attribute_node {
+    const dmi_attribute_t *member;
+    const dmi_attribute_t *attr;
+    dmi_data_t            *info;
+    dmi_data_t            *value;
+    size_t                 index;
+    size_t                 count;
+} dmi_attribute_node_t;
+
+typedef dmi_attribute_walk_t dmi_attribute_enter_fn(void *context, const dmi_attribute_node_t *node);
+typedef bool dmi_attribute_leave_fn(void *context, const dmi_attribute_node_t *node);
+typedef bool dmi_attribute_visit_fn(void *context, const dmi_attribute_node_t *node);
+
+typedef struct dmi_attribute_visitor {
+    dmi_attribute_enter_fn *member_start;
+    dmi_attribute_leave_fn *member_end;
+    dmi_attribute_enter_fn *struct_start;
+    dmi_attribute_leave_fn *struct_end;
+    dmi_attribute_enter_fn *array_start;
+    dmi_attribute_leave_fn *array_end;
+    dmi_attribute_enter_fn *item_start;
+    dmi_attribute_leave_fn *item_end;
+    dmi_attribute_visit_fn *value;
+} dmi_attribute_visitor_t;
+
+bool dmi_attributes_walk(
+        const dmi_attribute_t         *attrs,
+        dmi_data_t                    *info,
+        const dmi_attribute_visitor_t *visitor,
+        void                          *context);
+
+bool dmi_attribute_walk(
+        const dmi_attribute_t         *attr,
+        dmi_data_t                    *info,
+        const dmi_attribute_visitor_t *visitor,
+        void                          *context);
+----
+
+== Description
+
+The `dmi_attributes_walk` function walks the members of a decoded structure
+the list of attributes `attrs` describes, in the order the list declares
+them, along with the members of the nested structures and the elements of
+arrays, and calls the callbacks of `visitor` for each place it reaches. The
+`dmi_attribute_walk` function walks a single member, the one `attr` describes.
+
+This is how the library links the references the attributes declare, see
+`dmi_attributes_link`, and how the command line tool writes structures in
+each of its output formats: the walk decides what is reached and in which
+order, and the callbacks what is done there.
+
+=== Walk
+
+A member is walked as follows:
+
+. The attribute describing the value is resolved first: a variant attribute is
+  described by the variant matching its selector, see `dmi_attribute_resolve`,
+  and a member no variant matches has no value, and is left out without any
+  callback.
+. `member_start` enters the member.
+. An array or a vector is entered with `array_start`, and each of its elements
+  with `item_start`, and left with `item_end` and `array_end`. An array whose
+  elements have not been allocated holds none, whatever its counter says.
+. A structure, either the member itself or an element of an array, is entered
+  with `struct_start`, its members are walked the same way in turn, and it is
+  left with `struct_end`.
+. Any other value, of a member or of an element, is given to `value`.
+. `member_end` leaves the member.
+
+An entering callback returns `DMI_ATTRIBUTE_WALK_CONTINUE` to go into what it
+enters, `DMI_ATTRIBUTE_WALK_SKIP` to leave it out, along with the matching
+leaving callback, and `DMI_ATTRIBUTE_WALK_STOP` to stop the walk. A leaving
+callback, and `value`, return `false` to stop the walk. Any callback may be
+`nullptr`, which goes on as if it had returned `DMI_ATTRIBUTE_WALK_CONTINUE`
+or `true`.
+
+=== Nodes
+
+Each callback is given the place the walk has reached as a
+`dmi_attribute_node_t`:
+
+`member`::
+Attribute naming the member, which is the declared one rather than its
+variant, e.g. for the label the member is written with.
+
+`attr`::
+Attribute describing the value, which is the variant of a variant attribute,
+and the array attribute for its elements.
+
+`info`::
+Structure holding the member, along with the counter of an array.
+
+`value`::
+Value: the member itself, or the element of an array.
+
+`index`::
+Index of the element of an array, or `SIZE_MAX` for a member.
+
+`count`::
+Number of the elements of an array, and zero otherwise.
+
+The node is valid during the callback only.
+
+=== Parameters
+
+`attrs`::
+Attributes of the structure, terminated with an empty attribute, or
+`nullptr`, in which case there is nothing to walk.
+
+`attr`::
+Attribute of the member to walk.
+
+`info`::
+Decoded structure, e.g. the `info` member of an entity, or `nullptr` for
+`dmi_attributes_walk`, in which case there is nothing to walk.
+
+`visitor`::
+Callbacks of the walk.
+
+`context`::
+Context passed to the callbacks as it is.
+
+== Return value
+
+Returns `false` if a callback has stopped the walk, and `true` otherwise.
+
+== Errors
+
+None: errors are left to the callbacks.
+
+== Example
+
+The following callbacks print the codes of the members of a structure, one
+per line, indented by the depth of nesting:
+
+[source, c]
+----
+static dmi_attribute_walk_t print_member(void *context, const dmi_attribute_node_t *node)
+{
+    printf("%*s%s\n", 2 * *(int *)context, "", node->member->params.code);
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static dmi_attribute_walk_t indent(void *context, const dmi_attribute_node_t *node)
+{
+    (*(int *)context)++;
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static bool outdent(void *context, const dmi_attribute_node_t *node)
+{
+    (*(int *)context)--;
+    return true;
+}
+
+static const dmi_attribute_visitor_t visitor = {
+    .member_start = print_member,
+    .struct_start = indent,
+    .struct_end   = outdent
+};
+
+int depth = 0;
+
+dmi_attributes_walk(entity->spec->attributes, entity->info, &visitor, &depth);
+----
+
+== See also
+
+`dmi_entity_info`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

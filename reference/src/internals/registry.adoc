@@ -30,6 +30,9 @@ carries fewer fields than the decoder knows of.
 The structure ends in the middle of the fields of a version, and the fields
 before that point have been decoded.
 
+Each flag has a predicate of its own, e.g. `dmi_entity_is_decoded`(3) and
+`dmi_entity_is_incomplete`(3), which reads better than testing the bits.
+
 A structure which cannot be decoded, e.g. because it is shorter than the
 minimum length of its type, stays in the registry undecoded: its header and
 its strings are still there, and `dmi_entity_info` gives `nullptr` for it.

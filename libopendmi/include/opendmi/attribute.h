@@ -326,6 +326,95 @@ struct dmi_attribute_variant
  */
 #define DMI_VARIANTS(...) (const dmi_attribute_variant_t[])__VA_ARGS__
 
+/**
+ * @brief What a walk of the attributes does after a callback of its visitor.
+ */
+typedef enum dmi_attribute_walk
+{
+    DMI_ATTRIBUTE_WALK_STOP,     ///< Stop the walk, which fails
+    DMI_ATTRIBUTE_WALK_CONTINUE, ///< Go on, into the value as well
+    DMI_ATTRIBUTE_WALK_SKIP      ///< Go on, leaving the value out
+} dmi_attribute_walk_t;
+
+typedef struct dmi_attribute_node    dmi_attribute_node_t;
+typedef struct dmi_attribute_visitor dmi_attribute_visitor_t;
+
+/**
+ * @brief Place a walk of the attributes has reached: a member of a structure,
+ * an element of an array, or the value of either.
+ */
+struct dmi_attribute_node
+{
+    /**
+     * @brief Attribute naming the member, which is the declared one rather
+     * than its variant.
+     */
+    const dmi_attribute_t *member;
+
+    /**
+     * @brief Attribute describing the value, which is the variant of a
+     * variant attribute, and the array attribute for its elements.
+     */
+    const dmi_attribute_t *attr;
+
+    /**
+     * @brief Structure holding the member, along with the counter of an
+     * array.
+     */
+    dmi_data_t *info;
+
+    /**
+     * @brief Value: the member itself, or the element of an array.
+     */
+    dmi_data_t *value;
+
+    /**
+     * @brief Index of the element of an array, or `SIZE_MAX` for a member.
+     */
+    size_t index;
+
+    /**
+     * @brief Number of the elements of an array, and zero otherwise.
+     */
+    size_t count;
+};
+
+/**
+ * @brief Callback entering a member, a structure, an array or an element of
+ * one, which tells whether the walk goes into it.
+ */
+typedef dmi_attribute_walk_t dmi_attribute_enter_fn(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @brief Callback leaving what the matching entering one has entered, which
+ * returns `false` to stop the walk.
+ */
+typedef bool dmi_attribute_leave_fn(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @brief Callback taking the value of a member or of an element, which is not
+ * a structure, and returns `false` to stop the walk.
+ */
+typedef bool dmi_attribute_visit_fn(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @brief Callbacks of a walk of the attributes, see `dmi_attributes_walk()`.
+ * Any of them may be @c nullptr, which goes on as if it had returned
+ * `DMI_ATTRIBUTE_WALK_CONTINUE` or `true`.
+ */
+struct dmi_attribute_visitor
+{
+    dmi_attribute_enter_fn *member_start; ///< Member of a structure, before its value
+    dmi_attribute_leave_fn *member_end;   ///< Member of a structure, after its value
+    dmi_attribute_enter_fn *struct_start; ///< Nested structure, before its members
+    dmi_attribute_leave_fn *struct_end;   ///< Nested structure, after its members
+    dmi_attribute_enter_fn *array_start;  ///< Array or vector, before its elements
+    dmi_attribute_leave_fn *array_end;    ///< Array or vector, after its elements
+    dmi_attribute_enter_fn *item_start;   ///< Element of an array, before its value
+    dmi_attribute_leave_fn *item_end;     ///< Element of an array, after its value
+    dmi_attribute_visit_fn *value;        ///< Value of a member or an element, which is not a structure
+};
+
 __BEGIN_DECLS
 
 /**
@@ -532,6 +621,58 @@ __dmi_api bool dmi_attributes_link(dmi_entity_t *entity);
  * @param[in,out] entity Structure to unlink, or `nullptr`.
  */
 __dmi_api void dmi_attributes_unlink(dmi_entity_t *entity);
+
+/**
+ * @brief Walk the members of a structure the attributes describe, along with
+ * the nested structures and the elements of arrays.
+ *
+ * Every attribute of the list is walked by `dmi_attribute_walk()`, in the
+ * order the list declares them.
+ *
+ * @param[in] attrs   Attributes of the structure, or @c nullptr.
+ * @param[in] info    Structure the attributes describe, or @c nullptr.
+ * @param[in] visitor Callbacks of the walk.
+ * @param[in] context Context passed to the callbacks.
+ *
+ * @return `false` if a callback has stopped the walk, `true` otherwise.
+ */
+__dmi_api bool dmi_attributes_walk(
+        const dmi_attribute_t         *attrs,
+        dmi_data_t                    *info,
+        const dmi_attribute_visitor_t *visitor,
+        void                          *context);
+
+/**
+ * @brief Walk a member of a structure the attribute describes.
+ *
+ * The variant of a variant attribute describes the value, and a member no
+ * variant matches has no value and is left out. The member is entered with
+ * `member_start`, and its value is walked according to the attribute
+ * describing it:
+ *
+ * - an array or a vector is entered with `array_start`, and each of its
+ *   elements with `item_start`;
+ * - a structure, either the member itself or an element of an array, is
+ *   entered with `struct_start`, and its members are walked in turn;
+ * - any other value, of a member or of an element, is given to `value`.
+ *
+ * Each entering callback is matched by the leaving one once the walk is out
+ * of what it has entered, unless it has returned `DMI_ATTRIBUTE_WALK_SKIP`,
+ * which leaves out the value it would enter, and the leaving callback along
+ * with it.
+ *
+ * @param[in] attr    Attribute of the member.
+ * @param[in] info    Structure holding the member.
+ * @param[in] visitor Callbacks of the walk.
+ * @param[in] context Context passed to the callbacks.
+ *
+ * @return `false` if a callback has stopped the walk, `true` otherwise.
+ */
+__dmi_api bool dmi_attribute_walk(
+        const dmi_attribute_t         *attr,
+        dmi_data_t                    *info,
+        const dmi_attribute_visitor_t *visitor,
+        void                          *context);
 
 __END_DECLS
 

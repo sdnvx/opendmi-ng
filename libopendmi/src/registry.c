@@ -557,7 +557,7 @@ bool dmi_registry_link(dmi_registry_t *registry)
             continue;
 
         // Undecoded entities have no data to link
-        if ((entity->state & DMI_ENTITY_STATE_DECODED) == 0)
+        if (not dmi_entity_is_decoded(entity))
             continue;
 
         dmi_log_debug(context, "0x%04zx: Handle 0x%04hx, length %zu, type %d (%s)",

@@ -235,7 +235,7 @@ static void test_processor_decode_incomplete(void **pstate)
 
     // Completely present cache handles are decoded
     assert_int_equal(entity->level, DMI_VERSION(2, 1, 0));
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(entity));
     assert_int_equal(info->l1_cache_handle, 0x0010);
     assert_int_equal(info->l2_cache_handle, 0x0011);
     assert_int_equal(info->l3_cache_handle, DMI_HANDLE_INVALID);

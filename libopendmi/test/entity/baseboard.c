@@ -122,7 +122,7 @@ static void test_baseboard_decode_chassis_handle(void **pstate)
         assert_string_equal(info->vendor, "Vendor");
         assert_int_equal(info->chassis_handle, (length == 0x0D) ? 0x0003 : DMI_HANDLE_INVALID);
         assert_int_equal(info->type, 0);
-        assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+        assert_true(dmi_entity_is_incomplete(entity));
         dmi_entity_destroy(entity);
     }
 
@@ -130,7 +130,7 @@ static void test_baseboard_decode_chassis_handle(void **pstate)
     info = dmi_entity_info(entity, DMI_TYPE(baseboard));
     assert_int_equal(info->chassis_handle, 0x0003);
     assert_int_equal(info->type, DMI_BASEBOARD_TYPE_MOTHERBOARD);
-    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(entity));
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(entity_buffer);
 }
@@ -191,7 +191,7 @@ static void test_baseboard_decode_objects_overflow(void **pstate)
     assert_int_equal(info->type, DMI_BASEBOARD_TYPE_MOTHERBOARD);
     assert_int_equal(info->object_count, 1);
     assert_int_equal(info->object_handles[0], 0x0010);
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(entity));
     dmi_entity_destroy(entity);
 
     // Number of handles is far beyond structure length
@@ -200,7 +200,7 @@ static void test_baseboard_decode_objects_overflow(void **pstate)
     info = dmi_entity_info(entity, DMI_TYPE(baseboard));
     assert_int_equal(info->object_count, 2);
     assert_int_equal(info->object_handles[1], 0x0011);
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(entity));
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(entity_buffer);
 }

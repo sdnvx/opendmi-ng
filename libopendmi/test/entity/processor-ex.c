@@ -71,7 +71,7 @@ static void test_processor_ex_decode(void **pstate)
         dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, test_cases[i].length + 2);
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
-        assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, test_cases[i].incomplete);
+        assert_int_equal(dmi_entity_is_incomplete(entity), test_cases[i].incomplete);
 
         const dmi_processor_ex_t *info = dmi_entity_info(entity, DMI_TYPE(processor_ex));
         assert_non_null(info);

@@ -161,7 +161,7 @@ static void test_system_event_log_descriptors(void **pstate)
         assert_non_null(entity);
         assert_true(dmi_entity_decode(entity));
         assert_int_equal(entity->level, dmi_version(2, 1, 0));
-        assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, test_cases[i].incomplete);
+        assert_int_equal(dmi_entity_is_incomplete(entity), test_cases[i].incomplete);
 
         const dmi_system_event_log_t *info = dmi_entity_info(entity, DMI_TYPE(system_event_log));
         assert_non_null(info);

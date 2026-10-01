@@ -242,7 +242,7 @@ bool dmi_entity_decode(dmi_entity_t *entity)
 {
     if (entity == nullptr)
         return false;
-    if (entity->state & DMI_ENTITY_STATE_DECODED)
+    if (dmi_entity_is_decoded(entity))
         return true;
 
     dmi_context_t *context = entity->context;
@@ -370,7 +370,7 @@ bool dmi_entity_link(dmi_entity_t *entity)
     if (not dmi_entity_is_linkable(entity))
         return false;
 
-    if (entity->state & DMI_ENTITY_STATE_LINKED)
+    if (dmi_entity_is_linked(entity))
         return true;
 
     // References the attributes declare are resolved first, so that the link
@@ -571,7 +571,7 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
     const dmi_additional_info_entry_t *entry = &info->entries[index];
 
     // Values are applied on decoding
-    if (entity->state & DMI_ENTITY_STATE_DECODED) {
+    if (dmi_entity_is_decoded(entity)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
                            "Additional information 0x%04x[%zu]: structure 0x%04x is already decoded",
                            source->handle, index, entity->handle);

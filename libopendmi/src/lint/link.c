@@ -26,14 +26,45 @@ static void dmi_lint_link_wrong_type(dmi_lint_t *lint, const dmi_entity_t *entit
 static void dmi_lint_link_self(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity);
 
-static void dmi_lint_link_walk(
-        dmi_lint_t            *lint,
-        const dmi_entity_t    *entity,
-        const dmi_attribute_t *attrs,
-        const void            *info,
-        dmi_lint_link_fn      *handler);
+/**
+ * @internal
+ * @brief Walk the references of a structure, descending into the nested
+ * structures and the arrays of handles, and give every handle to the handler.
+ */
+static void dmi_lint_link_walk(dmi_lint_t *lint, const dmi_entity_t *entity, dmi_lint_link_fn *handler);
+
+/**
+ * @internal
+ * @brief Give a value the walk of the references reaches to the handler of
+ * the check, if it is a handle.
+ */
+static bool dmi_lint_link_visit(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Tell whether a structure references a handle, descending into the
+ * nested structures and the arrays of handles the same way the walk does.
+ */
+static bool dmi_lint_link_references(const dmi_entity_t *entity, dmi_handle_t handle);
+
+/**
+ * @internal
+ * @brief Stop the walk of the references at the handle being looked for.
+ */
+static bool dmi_lint_link_match(void *context, const dmi_attribute_node_t *node);
 
 static bool dmi_lint_link_is_set(dmi_handle_t handle);
+
+/**
+ * @internal
+ * @brief State of a walk of the references a check of the links makes.
+ */
+typedef struct dmi_lint_link_walk
+{
+    dmi_lint_t         *lint;
+    const dmi_entity_t *entity;
+    dmi_lint_link_fn   *handler;
+} dmi_lint_link_walk_t;
 
 const dmi_lint_rule_t dmi_lint_link_dangling_rule =
 {
@@ -107,46 +138,32 @@ static bool dmi_lint_link_is_set(dmi_handle_t handle)
     return (handle != DMI_HANDLE_INVALID) and (handle != DMI_HANDLE_UNSUPPORTED);
 }
 
-//
-// Walk the references of a structure, descending into the nested structures
-// and the arrays of handles.
-//
-static void dmi_lint_link_walk(
-        dmi_lint_t            *lint,
-        const dmi_entity_t    *entity,
-        const dmi_attribute_t *attrs,
-        const void            *info,
-        dmi_lint_link_fn      *handler)
+static void dmi_lint_link_walk(dmi_lint_t *lint, const dmi_entity_t *entity, dmi_lint_link_fn *handler)
 {
-    if ((attrs == nullptr) or (info == nullptr))
+    static const dmi_attribute_visitor_t visitor = {
+        .value = dmi_lint_link_visit
+    };
+
+    if (entity->spec == nullptr)
         return;
 
-    for (const dmi_attribute_t *attr = attrs; attr->params.name != nullptr; attr++) {
-        const dmi_attribute_t *resolved = dmi_attribute_resolve(attr, info);
-        if (resolved == nullptr)
-            continue;
+    dmi_lint_link_walk_t walk = {
+        .lint    = lint,
+        .entity  = entity,
+        .handler = handler
+    };
 
-        const dmi_data_t *ptr = dmi_member_ptr(info, resolved->value, dmi_data_t);
+    dmi_attributes_walk(entity->spec->attributes, entity->info, &visitor, &walk);
+}
 
-        if (dmi_attribute_is_array(resolved)) {
-            const dmi_data_t *element = dmi_attribute_get_elements(resolved, ptr);
-            size_t count = (element != nullptr) ? dmi_attribute_get_count(resolved, info) : 0;
+static bool dmi_lint_link_visit(void *context, const dmi_attribute_node_t *node)
+{
+    const dmi_lint_link_walk_t *walk = context;
 
-            for (size_t i = 0; i < count; i++, element += resolved->value.size) {
-                if (resolved->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-                    dmi_lint_link_walk(lint, entity, resolved->params.attrs, element, handler);
-                else if (resolved->type == DMI_ATTRIBUTE_TYPE_HANDLE)
-                    handler(lint, entity, resolved, dmi_deref(dmi_handle_t, element));
-            }
+    if (node->attr->type == DMI_ATTRIBUTE_TYPE_HANDLE)
+        walk->handler(walk->lint, walk->entity, node->attr, dmi_deref(dmi_handle_t, node->value));
 
-            continue;
-        }
-
-        if (resolved->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-            dmi_lint_link_walk(lint, entity, resolved->params.attrs, ptr, handler);
-        else if (resolved->type == DMI_ATTRIBUTE_TYPE_HANDLE)
-            handler(lint, entity, resolved, dmi_deref(dmi_handle_t, ptr));
-    }
+    return true;
 }
 
 //
@@ -183,8 +200,7 @@ static void dmi_lint_link_check_type(
 
 static void dmi_lint_link_wrong_type(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_link_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                       entity->info, dmi_lint_link_check_type);
+    dmi_lint_link_walk(lint, entity, dmi_lint_link_check_type);
 }
 
 static void dmi_lint_link_dangling(dmi_lint_t *lint, const dmi_entity_t *entity);
@@ -222,62 +238,33 @@ static void dmi_lint_link_check_self(
 
 static void dmi_lint_link_dangling(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_link_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                       entity->info, dmi_lint_link_check_dangling);
+    dmi_lint_link_walk(lint, entity, dmi_lint_link_check_dangling);
 }
 
 static void dmi_lint_link_self(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_link_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                       entity->info, dmi_lint_link_check_self);
+    dmi_lint_link_walk(lint, entity, dmi_lint_link_check_self);
 }
 
-//
-// Tell whether a structure references a handle, descending into the nested
-// structures and the arrays of handles the same way the walk does.
-//
-static bool dmi_lint_link_references(
-        const dmi_attribute_t *attrs,
-        const void            *info,
-        dmi_handle_t           handle)
+static bool dmi_lint_link_references(const dmi_entity_t *entity, dmi_handle_t handle)
 {
-    if ((attrs == nullptr) or (info == nullptr))
+    static const dmi_attribute_visitor_t visitor = {
+        .value = dmi_lint_link_match
+    };
+
+    if (entity->spec == nullptr)
         return false;
 
-    for (const dmi_attribute_t *attr = attrs; attr->params.name != nullptr; attr++) {
-        const dmi_attribute_t *resolved = dmi_attribute_resolve(attr, info);
-        if (resolved == nullptr)
-            continue;
+    // Walk is stopped as soon as the handle is found
+    return not dmi_attributes_walk(entity->spec->attributes, entity->info, &visitor, &handle);
+}
 
-        const dmi_data_t *ptr = dmi_member_ptr(info, resolved->value, dmi_data_t);
+static bool dmi_lint_link_match(void *context, const dmi_attribute_node_t *node)
+{
+    const dmi_handle_t *handle = context;
 
-        if (dmi_attribute_is_array(resolved)) {
-            const dmi_data_t *element = dmi_attribute_get_elements(resolved, ptr);
-            size_t count = (element != nullptr) ? dmi_attribute_get_count(resolved, info) : 0;
-
-            for (size_t i = 0; i < count; i++, element += resolved->value.size) {
-                if (resolved->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-                    if (dmi_lint_link_references(resolved->params.attrs, element, handle))
-                        return true;
-                } else if ((resolved->type == DMI_ATTRIBUTE_TYPE_HANDLE) and
-                           (dmi_deref(dmi_handle_t, element) == handle)) {
-                    return true;
-                }
-            }
-
-            continue;
-        }
-
-        if (resolved->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-            if (dmi_lint_link_references(resolved->params.attrs, ptr, handle))
-                return true;
-        } else if ((resolved->type == DMI_ATTRIBUTE_TYPE_HANDLE) and
-                   (dmi_deref(dmi_handle_t, ptr) == handle)) {
-            return true;
-        }
-    }
-
-    return false;
+    return (node->attr->type != DMI_ATTRIBUTE_TYPE_HANDLE) or
+           (dmi_deref(dmi_handle_t, node->value) != *handle);
 }
 
 static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity)
@@ -305,10 +292,10 @@ static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity)
     dmi_handle_t handle = dmi_entity_handle(entity);
 
     while ((other = dmi_registry_iter_next(&iter)) != nullptr) {
-        if ((other == entity) or (other->spec == nullptr))
+        if (other == entity)
             continue;
 
-        if (dmi_lint_link_references(other->spec->attributes, other->info, handle))
+        if (dmi_lint_link_references(other, handle))
             return;
     }
 

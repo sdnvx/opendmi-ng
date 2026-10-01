@@ -158,14 +158,14 @@ static void test_chassis_decode_oem_defined(void **pstate)
     const dmi_chassis_t *info = dmi_entity_info(entity, DMI_TYPE(chassis));
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
     assert_int_equal(info->oem_defined, 0);
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(entity));
     dmi_entity_destroy(entity);
 
     entity = decode_chassis(entity_buffer, body, sizeof(body));
     info = dmi_entity_info(entity, DMI_TYPE(chassis));
     assert_int_equal(entity->level, DMI_VERSION(2, 3, 0));
     assert_int_equal(info->oem_defined, 0x12345678);
-    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(entity));
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(entity_buffer);
 }
@@ -247,7 +247,7 @@ static void test_chassis_decode_elements_overflow(void **pstate)
     assert_int_equal(info->power_cord_count, 2);
     assert_int_equal(info->element_count, 0);
     assert_null(info->sku_number);
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(entity));
 
     dmi_entity_destroy(entity);
 

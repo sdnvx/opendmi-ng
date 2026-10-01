@@ -157,7 +157,7 @@ static void dmi_lint_entity_unknown_length(dmi_lint_t *lint, const dmi_entity_t 
 {
     // Data of an incomplete structure ends in the middle of a set of fields,
     // so its length matches no version of the specification
-    if (entity->state & DMI_ENTITY_STATE_INCOMPLETE) {
+    if (dmi_entity_is_incomplete(entity)) {
         dmi_lint_issue(lint, entity, nullptr, dmi_lint_entity_offset(lint, entity),
                        "length of %zu bytes matches no version of the specification",
                        entity->body_length);
@@ -175,7 +175,7 @@ static void dmi_lint_entity_undecoded(dmi_lint_t *lint, const dmi_entity_t *enti
     if ((entity->spec->handlers.decode == nullptr) and (entity->spec->fields == nullptr))
         return;
 
-    if (entity->state & DMI_ENTITY_STATE_DECODED)
+    if (dmi_entity_is_decoded(entity))
         return;
 
     dmi_lint_issue(lint, entity, nullptr, dmi_lint_entity_offset(lint, entity),

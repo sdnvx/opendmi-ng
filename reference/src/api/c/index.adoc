@@ -76,6 +76,7 @@ include::../../../../libopendmi/man/man3/dmi_entity_destroy.3.adoc[leveloffset=2
 include::../../../../libopendmi/man/man3/dmi_entity_encode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_handle.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_info.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_entity_is_decoded.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_link.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_name.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_offset.3.adoc[leveloffset=2]
@@ -86,6 +87,10 @@ include::../../../../libopendmi/man/man3/dmi_spec_name.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_type_find.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_type_name.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_type_spec.3.adoc[leveloffset=2]
+
+== `<opendmi/attribute.h>`
+
+include::../../../../libopendmi/man/man3/dmi_attributes_walk.3.adoc[leveloffset=2]
 
 == `<opendmi/field.h>`
 

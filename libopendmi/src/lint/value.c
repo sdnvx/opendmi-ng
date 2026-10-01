@@ -57,12 +57,29 @@ static void dmi_lint_value_uuid(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_value_range(dmi_lint_t *lint, const dmi_entity_t *entity);
 static void dmi_lint_value_jep106(dmi_lint_t *lint, const dmi_entity_t *entity);
 
-static void dmi_lint_value_walk(
-        dmi_lint_t            *lint,
-        const dmi_entity_t    *entity,
-        const dmi_attribute_t *attrs,
-        const void            *info,
-        dmi_lint_value_fn     *handler);
+/**
+ * @internal
+ * @brief State of a walk of the values a check makes.
+ */
+typedef struct dmi_lint_value_walk
+{
+    dmi_lint_t         *lint;
+    const dmi_entity_t *entity;
+    dmi_lint_value_fn  *handler;
+} dmi_lint_value_walk_t;
+
+/**
+ * @internal
+ * @brief Walk the values of a structure, descending into the nested
+ * structures and the arrays, and give every value to the handler.
+ */
+static void dmi_lint_value_walk(dmi_lint_t *lint, const dmi_entity_t *entity, dmi_lint_value_fn *handler);
+
+/**
+ * @internal
+ * @brief Give a value the walk reaches to the handler of the check.
+ */
+static bool dmi_lint_value_visit(void *context, const dmi_attribute_node_t *node);
 
 static void dmi_lint_value_report(
         dmi_lint_t             *lint,
@@ -194,55 +211,36 @@ static bool dmi_lint_value_is_special(const dmi_lint_value_t *value)
            dmi_attribute_is_unspecified(value->attr, value->value);
 }
 
-//
-// Walk the values of a structure, descending into the nested structures and
-// the arrays, and hand every value to the handler.
-//
-static void dmi_lint_value_walk(
-        dmi_lint_t            *lint,
-        const dmi_entity_t    *entity,
-        const dmi_attribute_t *attrs,
-        const void            *info,
-        dmi_lint_value_fn     *handler)
+static void dmi_lint_value_walk(dmi_lint_t *lint, const dmi_entity_t *entity, dmi_lint_value_fn *handler)
 {
-    if ((attrs == nullptr) or (info == nullptr))
+    static const dmi_attribute_visitor_t visitor = {
+        .value = dmi_lint_value_visit
+    };
+
+    if (entity->spec == nullptr)
         return;
 
-    for (const dmi_attribute_t *attr = attrs; attr->params.name != nullptr; attr++) {
-        const dmi_attribute_t *resolved = dmi_attribute_resolve(attr, info);
-        if (resolved == nullptr)
-            continue;
+    dmi_lint_value_walk_t walk = {
+        .lint    = lint,
+        .entity  = entity,
+        .handler = handler
+    };
 
-        const dmi_data_t *ptr = dmi_member_ptr(info, resolved->value, dmi_data_t);
+    dmi_attributes_walk(entity->spec->attributes, entity->info, &visitor, &walk);
+}
 
-        // Arrays keep their elements apart from the structure, and an empty
-        // array is not allocated at all, while vectors hold them in place
-        if (dmi_attribute_is_array(resolved)) {
-            const dmi_data_t *element = dmi_attribute_get_elements(resolved, ptr);
-            size_t count = (element != nullptr) ? dmi_attribute_get_count(resolved, info) : 0;
+static bool dmi_lint_value_visit(void *context, const dmi_attribute_node_t *node)
+{
+    const dmi_lint_value_walk_t *walk = context;
 
-            for (size_t i = 0; i < count; i++, element += resolved->value.size) {
-                if (resolved->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-                    dmi_lint_value_walk(lint, entity, resolved->params.attrs, element, handler);
-                } else {
-                    handler(lint, &(dmi_lint_value_t){
-                        .entity = entity, .attr = resolved, .value = element, .index = i
-                    });
-                }
-            }
+    walk->handler(walk->lint, &(dmi_lint_value_t){
+        .entity = walk->entity,
+        .attr   = node->attr,
+        .value  = node->value,
+        .index  = node->index
+    });
 
-            continue;
-        }
-
-        if (resolved->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-            dmi_lint_value_walk(lint, entity, resolved->params.attrs, ptr, handler);
-            continue;
-        }
-
-        handler(lint, &(dmi_lint_value_t){
-            .entity = entity, .attr = resolved, .value = ptr, .index = SIZE_MAX
-        });
-    }
+    return true;
 }
 
 static void dmi_lint_value_check_enum(dmi_lint_t *lint, const dmi_lint_value_t *value)
@@ -433,8 +431,7 @@ static void dmi_lint_value_check_range(dmi_lint_t *lint, const dmi_lint_value_t 
 
 static void dmi_lint_value_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                        entity->info, dmi_lint_value_check_range);
+    dmi_lint_value_walk(lint, entity, dmi_lint_value_check_range);
 }
 
 //
@@ -483,36 +480,30 @@ static void dmi_lint_value_check_jep106(dmi_lint_t *lint, const dmi_lint_value_t
 
 static void dmi_lint_value_jep106(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                        entity->info, dmi_lint_value_check_jep106);
+    dmi_lint_value_walk(lint, entity, dmi_lint_value_check_jep106);
 }
 
 static void dmi_lint_value_invalid_enum(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                        entity->info, dmi_lint_value_check_enum);
+    dmi_lint_value_walk(lint, entity, dmi_lint_value_check_enum);
 }
 
 static void dmi_lint_value_reserved(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                        entity->info, dmi_lint_value_check_reserved);
+    dmi_lint_value_walk(lint, entity, dmi_lint_value_check_reserved);
 }
 
 static void dmi_lint_value_reserved_bits(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                        entity->info, dmi_lint_value_check_bits);
+    dmi_lint_value_walk(lint, entity, dmi_lint_value_check_bits);
 }
 
 static void dmi_lint_value_bcd(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                        entity->info, dmi_lint_value_check_bcd);
+    dmi_lint_value_walk(lint, entity, dmi_lint_value_check_bcd);
 }
 
 static void dmi_lint_value_uuid(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    dmi_lint_value_walk(lint, entity, entity->spec ? entity->spec->attributes : nullptr,
-                        entity->info, dmi_lint_value_check_uuid);
+    dmi_lint_value_walk(lint, entity, dmi_lint_value_check_uuid);
 }

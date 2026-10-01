@@ -752,8 +752,8 @@ static void test_field_group_stop(void **pstate)
 
     const test_fields_t *info = test_field_decode_fields(state, TEST_FIELDS_REQUIRED);
 
-    assert_true(state->entity->state & DMI_ENTITY_STATE_PARTIAL);
-    assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_partial(state->entity));
+    assert_false(dmi_entity_is_incomplete(state->entity));
     assert_int_equal(state->entity->level, DMI_VERSION(2, 0, 0));
 
     assert_int_equal(info->value_byte, 0x12);
@@ -767,7 +767,7 @@ static void test_field_group_stop(void **pstate)
     // the level of the structure
     info = test_field_decode_fields(state, TEST_FIELDS_REQUIRED + 1);
 
-    assert_true(state->entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_true(dmi_entity_is_partial(state->entity));
     assert_int_equal(state->entity->level, DMI_VERSION(3, 0, 0));
     assert_int_equal(info->maybe, UINT16_MAX);
 }
@@ -803,8 +803,8 @@ static void test_field_group_incomplete(void **pstate)
     // Structure ends in the middle of the word of the newest group
     const test_fields_t *info = test_field_decode_fields(state, TEST_FIELDS_LENGTH - 1);
 
-    assert_true(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
-    assert_false(state->entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_true(dmi_entity_is_incomplete(state->entity));
+    assert_false(dmi_entity_is_partial(state->entity));
 
     assert_int_equal(info->optional, 0x05);
     assert_int_equal(info->newest, 0);
@@ -839,7 +839,7 @@ static void test_field_array(void **pstate)
             state, test_array_data, sizeof(test_array_data), 0, &test_type_array, true);
 
     assert_non_null(info);
-    assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(state->entity));
 
     assert_int_equal(info->declared_count, 2);
     assert_int_equal(info->item_count, 2);
@@ -869,7 +869,7 @@ static void test_field_array_truncated(void **pstate)
             state, test_array_data, sizeof(test_array_data), 0x0C, &test_type_array, true);
 
     assert_non_null(info);
-    assert_true(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(state->entity));
 
     assert_int_equal(info->declared_count, 2);
     assert_int_equal(info->item_count, 1);
@@ -888,7 +888,7 @@ static void test_field_vector(void **pstate)
             state, test_vector_data, sizeof(test_vector_data), 0, &test_type_vector, true);
 
     assert_non_null(info);
-    assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(state->entity));
 
     assert_int_equal(info->words[0], 0x2211);
     assert_int_equal(info->words[1], 0x4433);
@@ -936,7 +936,7 @@ static void test_field_array_empty(void **pstate)
     assert_null(info->items);
 
     assert_int_equal(info->plain_count, 0);
-    assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(state->entity));
 }
 
 //

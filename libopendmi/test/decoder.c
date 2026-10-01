@@ -287,7 +287,7 @@ static void test_decoder_initialize_header_only(void **pstate)
 
     // Data is exhausted, so the structure is partial rather than incomplete
     assert_true(dmi_decoder_stop(&decoder));
-    assert_true(entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_true(dmi_entity_is_partial(entity));
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
@@ -638,8 +638,8 @@ static void test_decoder_stop(void **pstate)
 
     assert_true(dmi_decoder_stop(decoder));
 
-    assert_true(state->entity->state & DMI_ENTITY_STATE_PARTIAL);
-    assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_partial(state->entity));
+    assert_false(dmi_entity_is_incomplete(state->entity));
 }
 
 //
@@ -654,8 +654,8 @@ static void test_decoder_incomplete(void **pstate)
 
     assert_true(dmi_decoder_incomplete(decoder));
 
-    assert_true(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
-    assert_false(state->entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_true(dmi_entity_is_incomplete(state->entity));
+    assert_false(dmi_entity_is_partial(state->entity));
 
     // Bytes left over are ignored rather than consumed
     assert_uint_equal(dmi_decoder_remaining(decoder), 3);
@@ -668,7 +668,7 @@ static void test_decoder_incomplete_at_end(void **pstate)
     dmi_decoder_t *decoder = test_decoder_open(state, TEST_BODY_LENGTH);
 
     assert_true(dmi_decoder_incomplete(decoder));
-    assert_true(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(state->entity));
 }
 
 // Additional information carrying one entry, which writes `value` over the

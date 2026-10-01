@@ -146,6 +146,15 @@ struct dmi_format_property_iter
     size_t next;
 };
 
+/**
+ * @brief Tell a walk of the attributes whether to go on after a step, which
+ * stops it on failure.
+ */
+static inline dmi_attribute_walk_t dmi_format_walk(bool success)
+{
+    return success ? DMI_ATTRIBUTE_WALK_CONTINUE : DMI_ATTRIBUTE_WALK_STOP;
+}
+
 __BEGIN_DECLS
 
 /**

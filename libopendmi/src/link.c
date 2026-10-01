@@ -27,22 +27,39 @@ static bool dmi_attributes_have_links(const dmi_attribute_t *attrs);
  * given the structure holding the handle, which is an element of an array or
  * a nested structure for the handles of one.
  */
-typedef bool dmi_attributes_visit_fn(
+typedef bool dmi_attributes_link_fn(
         const dmi_entity_t    *entity,
         const dmi_attribute_t *attr,
         dmi_data_t            *info);
 
 /**
  * @internal
+ * @brief State of a walk linking or unlinking the handles of a structure.
+ */
+typedef struct dmi_link_walk
+{
+    const dmi_entity_t     *entity;
+    dmi_attributes_link_fn *handle;
+    bool                    success;
+} dmi_link_walk_t;
+
+/**
+ * @internal
  * @brief Walk the handle attributes of a structure, descending into the nested
  * structures and the arrays of them, since the handles of an element are
  * linked into the members of that element.
+ *
+ * @return `false` if a handle cannot be linked, `true` otherwise. The walk
+ * goes on past a handle which cannot, so that every other one is linked.
  */
-static bool dmi_attributes_walk(
-        const dmi_entity_t      *entity,
-        const dmi_attribute_t   *attrs,
-        dmi_data_t              *info,
-        dmi_attributes_visit_fn *visit);
+static bool dmi_attributes_link_walk(const dmi_entity_t *entity, dmi_attributes_link_fn *handle);
+
+/**
+ * @internal
+ * @brief Give a member the walk reaches to the handler, if it is a handle or
+ * an array of handles, which is linked as a whole.
+ */
+static dmi_attribute_walk_t dmi_attributes_link_member(void *context, const dmi_attribute_node_t *node);
 
 /**
  * @internal
@@ -79,7 +96,7 @@ bool dmi_attributes_link(dmi_entity_t *entity)
     if (entity->info == nullptr)
         return true;
 
-    return dmi_attributes_walk(entity, spec->attributes, entity->info, dmi_attributes_link_handle);
+    return dmi_attributes_link_walk(entity, dmi_attributes_link_handle);
 }
 
 void dmi_attributes_unlink(dmi_entity_t *entity)
@@ -94,7 +111,7 @@ void dmi_attributes_unlink(dmi_entity_t *entity)
     if (entity->info == nullptr)
         return;
 
-    dmi_attributes_walk(entity, spec->attributes, entity->info, dmi_attributes_unlink_handle);
+    dmi_attributes_link_walk(entity, dmi_attributes_unlink_handle);
 }
 
 bool dmi_entity_is_linkable(const dmi_entity_t *entity)
@@ -126,58 +143,34 @@ static bool dmi_attributes_have_links(const dmi_attribute_t *attrs)
     return false;
 }
 
-static bool dmi_attributes_walk(
-        const dmi_entity_t      *entity,
-        const dmi_attribute_t   *attrs,
-        dmi_data_t              *info,
-        dmi_attributes_visit_fn *visit)
+static bool dmi_attributes_link_walk(const dmi_entity_t *entity, dmi_attributes_link_fn *handle)
 {
-    assert(entity != nullptr);
-    assert(visit != nullptr);
+    static const dmi_attribute_visitor_t visitor = {
+        .member_start = dmi_attributes_link_member
+    };
 
-    if ((attrs == nullptr) or (info == nullptr))
-        return true;
+    dmi_link_walk_t walk = {
+        .entity  = entity,
+        .handle  = handle,
+        .success = true
+    };
 
-    bool success = true;
+    dmi_attributes_walk(entity->spec->attributes, entity->info, &visitor, &walk);
 
-    for (const dmi_attribute_t *attr = attrs; attr->type != DMI_ATTRIBUTE_TYPE_NONE; attr++) {
-        const dmi_attribute_t *resolved = dmi_attribute_resolve(attr, info);
+    return walk.success;
+}
 
-        if (resolved == nullptr)
-            continue;
+static dmi_attribute_walk_t dmi_attributes_link_member(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_link_walk_t *walk = context;
 
-        if (resolved->type == DMI_ATTRIBUTE_TYPE_HANDLE) {
-            if (not visit(entity, resolved, info))
-                success = false;
-            continue;
-        }
+    if (node->attr->type != DMI_ATTRIBUTE_TYPE_HANDLE)
+        return DMI_ATTRIBUTE_WALK_CONTINUE;
 
-        if (resolved->type != DMI_ATTRIBUTE_TYPE_STRUCT)
-            continue;
+    if (not walk->handle(walk->entity, node->attr, node->info))
+        walk->success = false;
 
-        dmi_data_t *ptr = info + resolved->value.offset;
-
-        if (not dmi_attribute_is_array(resolved)) {
-            if (not dmi_attributes_walk(entity, resolved->params.attrs, ptr, visit))
-                success = false;
-            continue;
-        }
-
-        // Elements of an array are kept apart from the structure, while the
-        // ones of a vector are held in place, and both are linked in place
-        dmi_data_t *element = (dmi_data_t *)dmi_attribute_get_elements(resolved, ptr);
-
-        size_t count = 0;
-        if (element != nullptr)
-            count = dmi_attribute_get_count(resolved, info);
-
-        for (size_t i = 0; i < count; i++, element += resolved->value.size) {
-            if (not dmi_attributes_walk(entity, resolved->params.attrs, element, visit))
-                success = false;
-        }
-    }
-
-    return success;
+    return DMI_ATTRIBUTE_WALK_SKIP;
 }
 
 static bool dmi_attributes_link_handle(

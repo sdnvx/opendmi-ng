@@ -17,6 +17,75 @@
 #include <opendmi/format/yaml/handlers.h>
 #include <opendmi/format/yaml/helpers.h>
 
+/**
+ * @internal
+ * @brief Write the label of a member, which is the code of its attribute.
+ */
+static dmi_attribute_walk_t dmi_yaml_attr_member(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Begin the mapping a nested structure is written as.
+ */
+static dmi_attribute_walk_t dmi_yaml_attr_struct_start(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief End the mapping a nested structure is written as.
+ */
+static bool dmi_yaml_attr_struct_end(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Begin the sequence an array is written as.
+ */
+static dmi_attribute_walk_t dmi_yaml_attr_array_start(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief End the sequence an array is written as.
+ */
+static bool dmi_yaml_attr_array_end(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Write the value of a member or of an element of an array.
+ */
+static bool dmi_yaml_attr_value(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Write a value as a scalar: null if it is unspecified, the word
+ * `unknown` if it is unknown, a mapping of the flags for a set, and the
+ * formatted value otherwise.
+ */
+static bool dmi_yaml_entity_attr_value(
+        dmi_yaml_session_t    *session,
+        const dmi_attribute_t *attr,
+        const void            *value);
+
+/**
+ * @internal
+ * @brief Write the flags of a set as a mapping of their codes to booleans.
+ */
+static bool dmi_yaml_entity_attr_set(
+        dmi_yaml_session_t    *session,
+        const dmi_attribute_t *attr,
+        const void            *value);
+
+/**
+ * @internal
+ * @brief Callbacks writing the attributes of a structure.
+ */
+static const dmi_attribute_visitor_t dmi_yaml_attr_visitor = {
+    .member_start = dmi_yaml_attr_member,
+    .struct_start = dmi_yaml_attr_struct_start,
+    .struct_end   = dmi_yaml_attr_struct_end,
+    .array_start  = dmi_yaml_attr_array_start,
+    .array_end    = dmi_yaml_attr_array_end,
+    .value        = dmi_yaml_attr_value
+};
+
 void *dmi_yaml_initialize(dmi_context_t *context, FILE *stream, const dmi_format_options_t *options)
 {
     assert(context != nullptr);
@@ -207,116 +276,53 @@ bool dmi_yaml_entity_attr(
     assert(session != nullptr);
     assert(entity != nullptr);
     assert(attr != nullptr);
-    assert(value != nullptr);
 
-    // Value of variant attribute is described by the variant
-    const dmi_attribute_t *variant = dmi_attribute_resolve(attr, entity->info);
-    if (variant == nullptr)
-        return true;
+    dmi_unused(value);
 
-    value = dmi_member_ptr(entity->info, variant->value, dmi_data_t);
-
-    bool success = false;
-
-    do {
-        bool result;
-
-        if (not dmi_yaml_label(session, attr->params.code))
-            break;
-
-        if (not dmi_attribute_is_array(variant)) {
-            if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-                result = dmi_yaml_entity_attr_struct(session, variant, value);
-            else
-                result = dmi_yaml_entity_attr_value(session, variant, value);
-        } else {
-            result = dmi_yaml_entity_attr_array(session, variant, entity->info, value);
-        }
-
-        if (not result)
-            break;
-
-        success = true;
-    } while (false);
-
-    return success;
+    // Nested structures are written as nested mappings, and arrays as
+    // sequences, whose counters are members of the same structure
+    return dmi_attribute_walk(attr, entity->info, &dmi_yaml_attr_visitor, session);
 }
 
-bool dmi_yaml_entity_attr_array(
-        dmi_yaml_session_t    *session,
-        const dmi_attribute_t *attr,
-        const dmi_data_t      *info,
-        const void            *value)
+static dmi_attribute_walk_t dmi_yaml_attr_member(void *context, const dmi_attribute_node_t *node)
 {
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(info != nullptr);
-    assert(value != nullptr);
-
-    dmi_format_array_iter_t iter;
-    const dmi_data_t *ptr;
-
-    if (not dmi_yaml_sequence_start(session, YAML_BLOCK_SEQUENCE_STYLE))
-        return false;
-
-    dmi_format_array_iter_init(&iter, attr, info, value);
-
-    while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
-        bool result;
-
-        if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-            result = dmi_yaml_entity_attr_struct(session, attr, ptr);
-        else
-            result = dmi_yaml_entity_attr_value(session, attr, ptr);
-
-        if (not result)
-            return false;
-    }
-
-    return dmi_yaml_sequence_end(session);
+    return dmi_format_walk(dmi_yaml_label(context, node->member->params.code));
 }
 
-bool dmi_yaml_entity_attr_struct(
-        dmi_yaml_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value)
+static dmi_attribute_walk_t dmi_yaml_attr_struct_start(void *context, const dmi_attribute_node_t *node)
 {
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
+    dmi_unused(node);
 
-    const dmi_attribute_t *child_attr = nullptr;
-
-    if (not dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE))
-        return false;
-
-    for (child_attr = attr->params.attrs; child_attr->params.name; child_attr++) {
-        // Value of variant attribute is described by the variant
-        const dmi_attribute_t *child = dmi_attribute_resolve(child_attr, value);
-        if (child == nullptr)
-            continue;
-
-        const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
-
-        // Nested structures are written as nested mappings, and arrays as
-        // sequences, whose counters are members of the same structure
-        bool result = dmi_yaml_label(session, child_attr->params.code);
-
-        if (result and dmi_attribute_is_array(child))
-            result = dmi_yaml_entity_attr_array(session, child, value, ptr);
-        else if (result and (child->type == DMI_ATTRIBUTE_TYPE_STRUCT))
-            result = dmi_yaml_entity_attr_struct(session, child, ptr);
-        else if (result)
-            result = dmi_yaml_entity_attr_value(session, child, ptr);
-
-        if (not result)
-            return false;
-    }
-
-    return dmi_yaml_mapping_end(session);
+    return dmi_format_walk(dmi_yaml_mapping_start(context, YAML_BLOCK_MAPPING_STYLE));
 }
 
-bool dmi_yaml_entity_attr_value(
+static bool dmi_yaml_attr_struct_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_yaml_mapping_end(context);
+}
+
+static dmi_attribute_walk_t dmi_yaml_attr_array_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_format_walk(dmi_yaml_sequence_start(context, YAML_BLOCK_SEQUENCE_STYLE));
+}
+
+static bool dmi_yaml_attr_array_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_yaml_sequence_end(context);
+}
+
+static bool dmi_yaml_attr_value(void *context, const dmi_attribute_node_t *node)
+{
+    return dmi_yaml_entity_attr_value(context, node->attr, node->value);
+}
+
+static bool dmi_yaml_entity_attr_value(
         dmi_yaml_session_t    *session,
         const dmi_attribute_t *attr,
         const void            *value)
@@ -384,7 +390,7 @@ bool dmi_yaml_entity_attr_value(
     return success;
 }
 
-bool dmi_yaml_entity_attr_set(
+static bool dmi_yaml_entity_attr_set(
         dmi_yaml_session_t    *session,
         const dmi_attribute_t *attr,
         const void            *value)

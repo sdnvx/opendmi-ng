@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `memory-device.attributes` and `memory-device.disabled` lint rules
 - Add manual pages of `<opendmi/locale.h>`, name set lookups, `dmi_spec_name`(3), `dmi_lint_rule_name`(3) and `dmi_type_*`(3) functions
 - Add `dmi_fields_release()` and `dmi_attributes_unlink()`, which free the arrays of decoded and linked structures
+- Add `dmi_attributes_walk()` and `dmi_attribute_walk()`, which walk the members of a decoded structure with callbacks of a visitor
+- Add `dmi_entity_is_decoded()`, `dmi_entity_is_linked()`, `dmi_entity_is_valid()`, `dmi_entity_is_incomplete()` and `dmi_entity_is_partial()`, which check the state of a structure
 - Add links to manual pages (website/reference)
 
 ### Changed

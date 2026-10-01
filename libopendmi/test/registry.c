@@ -395,12 +395,12 @@ static void test_registry_decode_malformed(void **pstate)
     }
 
     // Malformed entity is left undecoded
-    assert_false(device_b->state & DMI_ENTITY_STATE_DECODED);
+    assert_false(dmi_entity_is_decoded(device_b));
     assert_null(dmi_entity_info(device_b, DMI_TYPE(memory_device)));
 
     // Other entities are decoded and linked, including references to the malformed one
-    assert_true(device_a->state & DMI_ENTITY_STATE_DECODED);
-    assert_true(channel->state & DMI_ENTITY_STATE_LINKED);
+    assert_true(dmi_entity_is_decoded(device_a));
+    assert_true(dmi_entity_is_linked(channel));
 
     const dmi_memory_channel_t *channel_info = dmi_entity_info(channel, DMI_TYPE(memory_channel));
     const dmi_memory_device_t *device_a_info = dmi_entity_info(device_a, DMI_TYPE(memory_device));
@@ -454,7 +454,7 @@ static void test_registry_decode_all_strict(void **pstate)
     bool status  = registry->status & DMI_REGISTRY_STATUS_DECODED;
 
     const dmi_entity_t *array = dmi_registry_lookup(registry, 0x0001, DMI_TYPE(memory_array), false);
-    bool array_decoded = (array != nullptr) and (array->state & DMI_ENTITY_STATE_DECODED);
+    bool array_decoded = (array != nullptr) and dmi_entity_is_decoded(array);
 
     // Both malformed structures are reported
     bool length_found = false;

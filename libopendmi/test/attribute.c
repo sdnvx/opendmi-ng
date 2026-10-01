@@ -4,7 +4,9 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdint.h>
 #include <limits.h>
 #include <stdbool.h>
@@ -37,6 +39,8 @@ static void test_attribute_format_uuid(void **pstate);
 static void test_attribute_format_version(void **pstate);
 static void test_attribute_get_count(void **pstate);
 static void test_attribute_resolve(void **pstate);
+static void test_attribute_walk(void **pstate);
+static void test_attribute_walk_skip(void **pstate);
 static int free_attribute_value(void **pstate);
 
 static dmi_context_t *context = nullptr;
@@ -61,7 +65,9 @@ int main(void)
         cmocka_unit_test_teardown(test_attribute_format_uuid, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_version, free_attribute_value),
         cmocka_unit_test(test_attribute_get_count),
-        cmocka_unit_test(test_attribute_resolve)
+        cmocka_unit_test(test_attribute_resolve),
+        cmocka_unit_test(test_attribute_walk),
+        cmocka_unit_test(test_attribute_walk_skip)
     };
 
     return cmocka_run_group_tests(tests, test_attribute_setup, test_attribute_teardown);
@@ -792,3 +798,216 @@ static void test_attribute_resolve(void **pstate)
     assert_null(dmi_attribute_resolve(&without_default, &string));
 }
 
+// Structure the walk is tested on: a plain member, a nested structure, an
+// array of structures and an array of plain values
+typedef struct test_walk_inner
+{
+    uint8_t value;
+} test_walk_inner_t;
+
+typedef struct test_walk
+{
+    uint8_t            plain;
+    test_walk_inner_t  nested;
+    size_t             inner_count;
+    test_walk_inner_t *inners;
+    size_t             byte_count;
+    uint8_t           *bytes;
+} test_walk_t;
+
+static const dmi_attribute_t test_walk_inner_attrs[] = {
+    DMI_ATTRIBUTE(test_walk_inner_t, value, INTEGER, { .code = "value", .name = "Value" }),
+    {}
+};
+
+static const dmi_attribute_t test_walk_attrs[] = {
+    DMI_ATTRIBUTE(test_walk_t, plain, INTEGER, { .code = "plain", .name = "Plain" }),
+    DMI_ATTRIBUTE(test_walk_t, nested, STRUCT, {
+        .code  = "nested",
+        .name  = "Nested",
+        .attrs = test_walk_inner_attrs
+    }),
+    DMI_ATTRIBUTE_ARRAY(test_walk_t, inners, inner_count, STRUCT, {
+        .code  = "inners",
+        .name  = "Inners",
+        .attrs = test_walk_inner_attrs
+    }),
+    DMI_ATTRIBUTE_ARRAY(test_walk_t, bytes, byte_count, INTEGER, { .code = "bytes", .name = "Bytes" }),
+    {}
+};
+
+// Events of the walk, written one after another
+typedef struct test_walk_log
+{
+    char text[512];
+    const char *skip;
+} test_walk_log_t;
+
+static void test_walk_append(test_walk_log_t *log, const char *event, const dmi_attribute_node_t *node)
+{
+    size_t length = strlen(log->text);
+
+    if (node->index != SIZE_MAX)
+        snprintf(log->text + length, sizeof(log->text) - length, "%s:%zu ", event, node->index);
+    else if (strcmp(event, "value") == 0)
+        snprintf(log->text + length, sizeof(log->text) - length, "%s=%u ", event, *node->value);
+    else
+        snprintf(log->text + length, sizeof(log->text) - length, "%s(%s) ", event, node->member->params.code);
+}
+
+static dmi_attribute_walk_t test_walk_enter(test_walk_log_t *log, const char *event, const dmi_attribute_node_t *node)
+{
+    test_walk_append(log, event, node);
+
+    if ((log->skip != nullptr) and (strcmp(log->skip, node->member->params.code) == 0))
+        return DMI_ATTRIBUTE_WALK_SKIP;
+
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static dmi_attribute_walk_t test_walk_member_start(void *context, const dmi_attribute_node_t *node)
+{
+    return test_walk_enter(context, "member", node);
+}
+
+static bool test_walk_member_end(void *context, const dmi_attribute_node_t *node)
+{
+    test_walk_append(context, "/member", node);
+    return true;
+}
+
+static dmi_attribute_walk_t test_walk_struct_start(void *context, const dmi_attribute_node_t *node)
+{
+    test_walk_append(context, "struct", node);
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static bool test_walk_struct_end(void *context, const dmi_attribute_node_t *node)
+{
+    test_walk_append(context, "/struct", node);
+    return true;
+}
+
+static dmi_attribute_walk_t test_walk_array_start(void *context, const dmi_attribute_node_t *node)
+{
+    test_walk_log_t *log = context;
+    size_t length = strlen(log->text);
+
+    snprintf(log->text + length, sizeof(log->text) - length, "array[%zu] ", node->count);
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static bool test_walk_array_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    test_walk_log_t *log = context;
+    size_t length = strlen(log->text);
+
+    snprintf(log->text + length, sizeof(log->text) - length, "/array ");
+    return true;
+}
+
+static dmi_attribute_walk_t test_walk_item_start(void *context, const dmi_attribute_node_t *node)
+{
+    test_walk_append(context, "item", node);
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static bool test_walk_value(void *context, const dmi_attribute_node_t *node)
+{
+    test_walk_log_t *log = context;
+    size_t length = strlen(log->text);
+
+    snprintf(log->text + length, sizeof(log->text) - length, "value=%u ", *node->value);
+    return true;
+}
+
+static const dmi_attribute_visitor_t test_walk_visitor = {
+    .member_start = test_walk_member_start,
+    .member_end   = test_walk_member_end,
+    .struct_start = test_walk_struct_start,
+    .struct_end   = test_walk_struct_end,
+    .array_start  = test_walk_array_start,
+    .array_end    = test_walk_array_end,
+    .item_start   = test_walk_item_start,
+    .value        = test_walk_value
+};
+
+static void test_attribute_walk(void **pstate)
+{
+    dmi_unused(pstate);
+
+    test_walk_inner_t inners[] = { { .value = 3 }, { .value = 4 } };
+    uint8_t bytes[] = { 5 };
+
+    test_walk_t info = {
+        .plain       = 1,
+        .nested      = { .value = 2 },
+        .inner_count = countof(inners),
+        .inners      = inners,
+        .byte_count  = countof(bytes),
+        .bytes       = bytes
+    };
+
+    test_walk_log_t log = {};
+
+    assert_true(dmi_attributes_walk(test_walk_attrs, (dmi_data_t *)&info, &test_walk_visitor, &log));
+    assert_string_equal(log.text,
+        "member(plain) value=1 /member(plain) "
+        "member(nested) struct(nested) member(value) value=2 /member(value) /struct(nested) /member(nested) "
+        "member(inners) array[2] "
+            "item:0 struct:0 member(value) value=3 /member(value) /struct:0 "
+            "item:1 struct:1 member(value) value=4 /member(value) /struct:1 "
+        "/array /member(inners) "
+        "member(bytes) array[1] item:0 value=5 /array /member(bytes) ");
+
+    // Array which has not been allocated holds no elements, whatever its
+    // counter says
+    info.bytes = nullptr;
+    memset(log.text, 0, sizeof(log.text));
+
+    assert_true(dmi_attribute_walk(&test_walk_attrs[3], (dmi_data_t *)&info, &test_walk_visitor, &log));
+    assert_string_equal(log.text, "member(bytes) array[0] /array /member(bytes) ");
+}
+
+static dmi_attribute_walk_t test_walk_stop(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(context);
+
+    return (strcmp(node->member->params.code, "nested") == 0)
+         ? DMI_ATTRIBUTE_WALK_STOP
+         : DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static void test_attribute_walk_skip(void **pstate)
+{
+    dmi_unused(pstate);
+
+    test_walk_inner_t inners[] = { { .value = 3 } };
+
+    test_walk_t info = {
+        .plain       = 1,
+        .nested      = { .value = 2 },
+        .inner_count = countof(inners),
+        .inners      = inners
+    };
+
+    // Member skipped on entering is left out, along with its value and the
+    // leaving callback
+    test_walk_log_t log = { .skip = "nested" };
+
+    assert_true(dmi_attributes_walk(test_walk_attrs, (dmi_data_t *)&info, &test_walk_visitor, &log));
+    assert_string_equal(log.text,
+        "member(plain) value=1 /member(plain) "
+        "member(nested) "
+        "member(inners) array[1] item:0 struct:0 member(value) value=3 /member(value) /struct:0 /array /member(inners) "
+        "member(bytes) array[0] /array /member(bytes) ");
+
+    // Walk stopped by a callback fails, and goes no further
+    const dmi_attribute_visitor_t visitor = {
+        .member_start = test_walk_stop
+    };
+
+    assert_false(dmi_attributes_walk(test_walk_attrs, (dmi_data_t *)&info, &visitor, nullptr));
+}

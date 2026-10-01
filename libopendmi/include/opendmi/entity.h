@@ -569,6 +569,73 @@ struct dmi_entity_overlay
     dmi_entity_overlay_t *next;
 };
 
+/**
+ * @brief Check whether a structure has been decoded.
+ *
+ * @param[in] entity Structure in question.
+ *
+ * @return `true` if the state of the structure has
+ *         `DMI_ENTITY_STATE_DECODED` set, `false` otherwise.
+ */
+static inline bool dmi_entity_is_decoded(const dmi_entity_t *entity)
+{
+    return (entity->state & DMI_ENTITY_STATE_DECODED) != 0;
+}
+
+/**
+ * @brief Check whether the references of a structure have been resolved.
+ *
+ * @param[in] entity Structure in question.
+ *
+ * @return `true` if the state of the structure has
+ *         `DMI_ENTITY_STATE_LINKED` set, `false` otherwise.
+ */
+static inline bool dmi_entity_is_linked(const dmi_entity_t *entity)
+{
+    return (entity->state & DMI_ENTITY_STATE_LINKED) != 0;
+}
+
+/**
+ * @brief Check whether a structure has been validated.
+ *
+ * @param[in] entity Structure in question.
+ *
+ * @return `true` if the state of the structure has
+ *         `DMI_ENTITY_STATE_VALID` set, `false` otherwise.
+ */
+static inline bool dmi_entity_is_valid(const dmi_entity_t *entity)
+{
+    return (entity->state & DMI_ENTITY_STATE_VALID) != 0;
+}
+
+/**
+ * @brief Check whether the data of a structure ends in the middle of a part of
+ * it, which leaves the fields of that part undecoded.
+ *
+ * @param[in] entity Structure in question.
+ *
+ * @return `true` if the state of the structure has
+ *         `DMI_ENTITY_STATE_INCOMPLETE` set, `false` otherwise.
+ */
+static inline bool dmi_entity_is_incomplete(const dmi_entity_t *entity)
+{
+    return (entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0;
+}
+
+/**
+ * @brief Check whether a structure conforms to an older version of the
+ * specification, and holds fewer fields than the decoder knows.
+ *
+ * @param[in] entity Structure in question.
+ *
+ * @return `true` if the state of the structure has
+ *         `DMI_ENTITY_STATE_PARTIAL` set, `false` otherwise.
+ */
+static inline bool dmi_entity_is_partial(const dmi_entity_t *entity)
+{
+    return (entity->state & DMI_ENTITY_STATE_PARTIAL) != 0;
+}
+
 __BEGIN_DECLS
 
 /**

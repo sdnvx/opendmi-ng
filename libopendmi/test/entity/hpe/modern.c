@@ -867,7 +867,7 @@ static const void *test_hpe_decode(test_state_t *state, const void *data, size_t
     assert_non_null(state->entity);
     assert_true(dmi_entity_decode(state->entity));
     assert_ptr_equal(state->entity->spec, spec);
-    assert_false(state->entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(state->entity));
 
     // Layout covers every byte of the structure
     dmi_buffer_t *buffer = dmi_buffer_create(state->context);

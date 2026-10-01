@@ -301,8 +301,8 @@ static void test_memory_device_decode_speed(void **pstate)
         assert_int_equal(info->maximum_speed, (length == 0x17) ? 533 : 0);
 
         // Only partially present speed field makes the structure incomplete
-        assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, length == 0x16);
-        assert_int_equal((entity->state & DMI_ENTITY_STATE_PARTIAL) != 0, length != 0x16);
+        assert_int_equal(dmi_entity_is_incomplete(entity), length == 0x16);
+        assert_int_equal(dmi_entity_is_partial(entity), length != 0x16);
 
         dmi_entity_destroy(entity);
 

@@ -284,8 +284,8 @@ static void test_entity_stop(void **pstate)
     assert_true(dmi_decoder_skip(&decoder, sizeof(data) - 2 - sizeof(dmi_header_t)));
 
     assert_true(dmi_decoder_stop(&decoder));
-    assert_true(entity->state & DMI_ENTITY_STATE_PARTIAL);
-    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_partial(entity));
+    assert_false(dmi_entity_is_incomplete(entity));
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
@@ -311,8 +311,8 @@ static void test_entity_incomplete(void **pstate)
     assert_true(dmi_decoder_skip(&decoder, 1));
 
     assert_true(dmi_decoder_incomplete(&decoder));
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
-    assert_false(entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_true(dmi_entity_is_incomplete(entity));
+    assert_false(dmi_entity_is_partial(entity));
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);

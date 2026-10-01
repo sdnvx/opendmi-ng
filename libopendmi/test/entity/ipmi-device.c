@@ -74,7 +74,7 @@ static void decode_ipmi_device_ex(
     dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, length + 2);
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
-    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(entity));
 
     // Structure is written back as it has been read
     dmi_buffer_t *buffer = dmi_buffer_create(context);

@@ -249,6 +249,7 @@ target_sources(opendmi-object
     PRIVATE
         src/anonymize.c
         src/attribute.c
+        src/attribute-walk.c
         src/types.c
         src/backend.c
         src/buffer.c

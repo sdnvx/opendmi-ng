@@ -21,6 +21,64 @@
 
 /**
  * @internal
+ * @brief Begin the element a member is written as, named by the code of its
+ * attribute.
+ */
+static dmi_attribute_walk_t dmi_xml_attr_member_start(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Begin the `item` element an element of an array is written as.
+ */
+static dmi_attribute_walk_t dmi_xml_attr_item_start(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief End the element a member or an element of an array is written as.
+ */
+static bool dmi_xml_attr_end(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Write the value of a member or of an element of an array.
+ */
+static bool dmi_xml_attr_value(void *context, const dmi_attribute_node_t *node);
+
+/**
+ * @internal
+ * @brief Write a value as the text of its element: nothing if it is
+ * unspecified, the word `unknown` if it is unknown, the flags for a set, and
+ * the formatted value otherwise, whose unit is an attribute of the element.
+ */
+static bool dmi_xml_entity_attr_value(
+        dmi_xml_session_t     *session,
+        const dmi_attribute_t *attr,
+        const void            *value);
+
+/**
+ * @internal
+ * @brief Write the flags of a set as `flag` elements, along with the value of
+ * the set as an attribute.
+ */
+static bool dmi_xml_entity_attr_set(
+        dmi_xml_session_t     *session,
+        const dmi_attribute_t *attr,
+        const void            *value);
+
+/**
+ * @internal
+ * @brief Callbacks writing the attributes of a structure.
+ */
+static const dmi_attribute_visitor_t dmi_xml_attr_visitor = {
+    .member_start = dmi_xml_attr_member_start,
+    .member_end   = dmi_xml_attr_end,
+    .item_start   = dmi_xml_attr_item_start,
+    .item_end     = dmi_xml_attr_end,
+    .value        = dmi_xml_attr_value
+};
+
+/**
+ * @internal
  * @brief Write callback of the XML output buffer, which writes to the output
  * stream of the session and keeps the reason of a failure.
  */
@@ -290,121 +348,47 @@ bool dmi_xml_entity_attr(
     assert(session != nullptr);
     assert(entity != nullptr);
     assert(attr != nullptr);
-    assert(value != nullptr);
 
-    // Value of variant attribute is described by the variant
-    const dmi_attribute_t *variant = dmi_attribute_resolve(attr, entity->info);
-    if (variant == nullptr)
-        return true;
+    dmi_unused(value);
 
-    value = dmi_member_ptr(entity->info, variant->value, dmi_data_t);
-
-    bool success = false;
-
-    do {
-        bool rv;
-
-        if (not dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string(attr->params.code))))
-            break;
-
-        if (not dmi_attribute_is_array(variant)) {
-            if (variant->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-                rv = dmi_xml_entity_attr_struct(session, variant, value);
-            else
-                rv = dmi_xml_entity_attr_value(session, variant, value);
-        } else {
-            rv = dmi_xml_entity_attr_array(session, variant, entity->info, value);
-        }
-        if (not rv)
-            break;
-
-        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
-           break;
-
-        success = true;
-    } while (false);
-
-    return success;
+    // Nested structures are written as nested elements, and arrays as lists
+    // of items, whose counters are members of the same structure
+    return dmi_attribute_walk(attr, entity->info, &dmi_xml_attr_visitor, session);
 }
 
-bool dmi_xml_entity_attr_array(
-        dmi_xml_session_t     *session,
-        const dmi_attribute_t *attr,
-        const dmi_data_t      *info,
-        const void            *value)
+static dmi_attribute_walk_t dmi_xml_attr_member_start(void *context, const dmi_attribute_node_t *node)
 {
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(info != nullptr);
-    assert(value != nullptr);
+    dmi_xml_session_t *session = context;
 
-    dmi_format_array_iter_t iter;
-    const dmi_data_t *ptr;
-
-    dmi_format_array_iter_init(&iter, attr, info, value);
-
-    while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
-        if (not dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string("item"))))
-            return false;
-
-        if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-            if (not dmi_xml_entity_attr_struct(session, attr, ptr))
-                return false;
-        } else {
-            if (not dmi_xml_entity_attr_value(session, attr, ptr))
-                return false;
-        }
-
-        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
-            return false;
-    }
-
-    return true;
+    return dmi_format_walk(dmi_xml_check(session, xmlTextWriterStartElement(
+            session->writer, dmi_xml_string(node->member->params.code))));
 }
 
-bool dmi_xml_entity_attr_struct(
-        dmi_xml_session_t     *session,
-        const dmi_attribute_t *attr,
-        const void            *value)
+static dmi_attribute_walk_t dmi_xml_attr_item_start(void *context, const dmi_attribute_node_t *node)
 {
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
+    dmi_xml_session_t *session = context;
 
-    const dmi_attribute_t *child_attr = nullptr;
+    dmi_unused(node);
 
-    for (child_attr = attr->params.attrs; child_attr->params.name; child_attr++) {
-        // Value of variant attribute is described by the variant
-        const dmi_attribute_t *child = dmi_attribute_resolve(child_attr, value);
-        if (child == nullptr)
-            continue;
-
-        const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
-
-        if (not dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string(child_attr->params.code))))
-            return false;
-
-        // Nested structures are written as nested elements, and arrays as
-        // lists, whose counters are members of the same structure
-        bool result;
-
-        if (dmi_attribute_is_array(child))
-            result = dmi_xml_entity_attr_array(session, child, value, ptr);
-        else if (child->type == DMI_ATTRIBUTE_TYPE_STRUCT)
-            result = dmi_xml_entity_attr_struct(session, child, ptr);
-        else
-            result = dmi_xml_entity_attr_value(session, child, ptr);
-        if (not result)
-            return false;
-
-        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
-            return false;
-    }
-
-    return true;
+    return dmi_format_walk(dmi_xml_check(session, xmlTextWriterStartElement(
+            session->writer, dmi_xml_string("item"))));
 }
 
-bool dmi_xml_entity_attr_value(
+static bool dmi_xml_attr_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_xml_session_t *session = context;
+
+    dmi_unused(node);
+
+    return dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer));
+}
+
+static bool dmi_xml_attr_value(void *context, const dmi_attribute_node_t *node)
+{
+    return dmi_xml_entity_attr_value(context, node->attr, node->value);
+}
+
+static bool dmi_xml_entity_attr_value(
         dmi_xml_session_t     *session,
         const dmi_attribute_t *attr,
         const void            *value)
@@ -463,7 +447,7 @@ bool dmi_xml_entity_attr_value(
     return success;
 }
 
-bool dmi_xml_entity_attr_set(
+static bool dmi_xml_entity_attr_set(
         dmi_xml_session_t     *session,
         const dmi_attribute_t *attr,
         const void            *value)

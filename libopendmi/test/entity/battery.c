@@ -104,8 +104,8 @@ static void test_battery_decode_v21(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 1, 0));
-    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
-    assert_true(entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_false(dmi_entity_is_incomplete(entity));
+    assert_true(dmi_entity_is_partial(entity));
 
     const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(portable_battery));
     assert_non_null(info);
@@ -132,8 +132,8 @@ static void test_battery_decode_v22(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 2, 0));
-    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
-    assert_false(entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_false(dmi_entity_is_incomplete(entity));
+    assert_false(dmi_entity_is_partial(entity));
 
     const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(portable_battery));
     assert_non_null(info);
@@ -172,8 +172,8 @@ static void test_battery_decode_incomplete(void **pstate)
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
     assert_int_equal(entity->level, DMI_VERSION(2, 2, 0));
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
-    assert_false(entity->state & DMI_ENTITY_STATE_PARTIAL);
+    assert_true(dmi_entity_is_incomplete(entity));
+    assert_false(dmi_entity_is_partial(entity));
 
     const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(portable_battery));
     assert_non_null(info);

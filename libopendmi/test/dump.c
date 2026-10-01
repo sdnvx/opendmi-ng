@@ -431,7 +431,7 @@ static size_t test_dump_decode_all(dmi_context_t *context)
         for (size_t i = 1; i <= entity->string_count; i++)
             assert_non_null(dmi_entity_string_ex(entity, i, true));
 
-        if (entity->state & DMI_ENTITY_STATE_DECODED)
+        if (dmi_entity_is_decoded(entity))
             decoded++;
     }
 

@@ -363,7 +363,7 @@ static void test_encoder_truncated(void **pstate)
     };
 
     dmi_entity_t *entity = test_decode(entity_buffer, data, sizeof(data));
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(entity));
 
     dmi_buffer_t *buffer = dmi_buffer_create(context);
     dmi_encoder_t encoder;
@@ -857,7 +857,7 @@ static void test_encoder_corpus(void **pstate)
             bool modelled = (spec != nullptr) and
                             ((spec->fields != nullptr) or (spec->handlers.decode != nullptr));
 
-            if (modelled and ((entity->state & DMI_ENTITY_STATE_DECODED) == 0))
+            if (modelled and not dmi_entity_is_decoded(entity))
                 continue;
 
             const char *code = (spec != nullptr) ? spec->code : "unknown";
@@ -904,7 +904,7 @@ static void test_encoder_corpus(void **pstate)
             // mode would write in full
             const char *where = nullptr;
 
-            if ((spec != nullptr) and ((entity->state & DMI_ENTITY_STATE_INCOMPLETE) == 0) and
+            if ((spec != nullptr) and not dmi_entity_is_incomplete(entity) and
                 not test_canonical_roundtrip(context, entity, &where)) {
                 print_error("%s: handle 0x%04X (%s) is decoded into another structure "
                             "once written the canonical way: %s\n",

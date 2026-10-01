@@ -24,32 +24,22 @@ bool dmi_text_entity_attr(
         const dmi_attribute_t *attr,
         const void            *value);
 
-void dmi_text_entity_attr_array(
-        dmi_text_session_t    *session,
-        const dmi_attribute_t *attr,
-        const dmi_data_t      *info,
-        const void            *value,
-        unsigned int           depth,
-        const char            *owner);
-
-void dmi_text_entity_attr_struct(
-        dmi_text_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value,
-        unsigned int           depth,
-        const char            *owner);
-
+/**
+ * @brief Print a value, followed by the description of what it refers to, if
+ * there is one, and by the flags of a set, which are indented one level
+ * deeper than the value.
+ *
+ * @param[in] session Session of the text output.
+ * @param[in] attr    Attribute describing the value.
+ * @param[in] value   Value to print.
+ * @param[in] descr   Description of what the value refers to, or @c nullptr.
+ * @param[in] depth   Level of indentation of the value.
+ */
 void dmi_text_entity_attr_value(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
         const void            *value,
         const char            *descr,
-        unsigned int           depth);
-
-void dmi_text_entity_attr_set(
-        dmi_text_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value,
         unsigned int           depth);
 
 bool dmi_text_entity_data(dmi_text_session_t *session, const dmi_entity_t *entity);

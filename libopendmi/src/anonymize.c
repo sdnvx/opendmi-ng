@@ -119,16 +119,24 @@ static uint64_t dmi_anonymize_hash(const dmi_anonymizer_t *anon, const void *dat
 static uint64_t dmi_anonymize_next(uint64_t *state);
 
 static bool dmi_anonymize_entity(dmi_anonymizer_t *anon, dmi_entity_t *entity);
-static bool dmi_anonymize_attrs(
-        dmi_anonymizer_t      *anon,
-        const dmi_attribute_t *attrs,
-        dmi_byte_t            *info,
-        bool                  *changed);
-static bool dmi_anonymize_attr(
-        dmi_anonymizer_t      *anon,
-        const dmi_attribute_t *attr,
-        dmi_byte_t            *value,
-        bool                  *changed);
+
+/**
+ * @internal
+ * @brief State of a walk replacing the private values of a structure.
+ */
+typedef struct dmi_anonymize_walk
+{
+    dmi_anonymizer_t *anon;
+    bool              changed;
+} dmi_anonymize_walk_t;
+
+/**
+ * @internal
+ * @brief Replace a private value the walk of the attributes reaches, unless
+ * it is unspecified or unknown, which identifies nothing.
+ */
+static bool dmi_anonymize_visit(void *context, const dmi_attribute_node_t *node);
+
 static bool dmi_anonymize_member(
         dmi_anonymizer_t      *anon,
         const dmi_attribute_t *attr,
@@ -352,17 +360,24 @@ static bool dmi_anonymize_entity(dmi_anonymizer_t *anon, dmi_entity_t *entity)
 {
     if ((entity == nullptr) or (entity->spec == nullptr) or (entity->info == nullptr))
         return true;
-    if (not (entity->state & DMI_ENTITY_STATE_DECODED) or (entity->spec->attributes == nullptr))
+    if (not dmi_entity_is_decoded(entity) or (entity->spec->attributes == nullptr))
         return true;
 
     anon->entity = entity;
 
-    bool changed = false;
-    bool success = dmi_anonymize_attrs(anon, entity->spec->attributes, entity->info, &changed);
+    static const dmi_attribute_visitor_t visitor = {
+        .value = dmi_anonymize_visit
+    };
+
+    dmi_anonymize_walk_t walk = {
+        .anon = anon
+    };
+
+    bool success = dmi_attributes_walk(entity->spec->attributes, entity->info, &visitor, &walk);
 
     // Members replaced in the decoded structure are written by encoding it,
     // since only the specification knows where they are
-    if (success and changed)
+    if (success and walk.changed)
         success = dmi_anonymize_encode(anon, entity);
 
     dmi_anonymize_restore(anon);
@@ -370,56 +385,17 @@ static bool dmi_anonymize_entity(dmi_anonymizer_t *anon, dmi_entity_t *entity)
     return success;
 }
 
-static bool dmi_anonymize_attrs(
-        dmi_anonymizer_t      *anon,
-        const dmi_attribute_t *attrs,
-        dmi_byte_t            *info,
-        bool                  *changed)
+static bool dmi_anonymize_visit(void *context, const dmi_attribute_node_t *node)
 {
-    for (const dmi_attribute_t *attr = attrs; attr->type != DMI_ATTRIBUTE_TYPE_NONE; attr++) {
-        const dmi_attribute_t *resolved = dmi_attribute_resolve(attr, info);
-        if (resolved == nullptr)
-            continue;
-
-        dmi_byte_t *value = info + resolved->value.offset;
-
-        if (dmi_attribute_is_array(resolved)) {
-            dmi_byte_t *element = (dmi_byte_t *)dmi_attribute_get_elements(resolved, value);
-            size_t count = dmi_attribute_get_count(resolved, info);
-
-            for (size_t i = 0; (element != nullptr) and (i < count); i++) {
-                if (not dmi_anonymize_attr(anon, resolved, element, changed))
-                    return false;
-                element += resolved->value.size;
-            }
-        } else {
-            if (not dmi_anonymize_attr(anon, resolved, value, changed))
-                return false;
-        }
-    }
-
-    return true;
-}
-
-static bool dmi_anonymize_attr(
-        dmi_anonymizer_t      *anon,
-        const dmi_attribute_t *attr,
-        dmi_byte_t            *value,
-        bool                  *changed)
-{
-    if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
-        if (attr->params.attrs == nullptr)
-            return true;
-
-        return dmi_anonymize_attrs(anon, attr->params.attrs, value, changed);
-    }
+    dmi_anonymize_walk_t  *walk = context;
+    const dmi_attribute_t *attr = node->attr;
 
     if (not (attr->params.flags & DMI_ATTRIBUTE_FLAG_PRIVATE))
         return true;
-    if (dmi_attribute_is_unspecified(attr, value) or dmi_attribute_is_unknown(attr, value))
+    if (dmi_attribute_is_unspecified(attr, node->value) or dmi_attribute_is_unknown(attr, node->value))
         return true;
 
-    return dmi_anonymize_member(anon, attr, value, changed);
+    return dmi_anonymize_member(walk->anon, attr, node->value, &walk->changed);
 }
 
 static bool dmi_anonymize_member(

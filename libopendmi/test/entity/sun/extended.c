@@ -93,7 +93,7 @@ static void test_sun_processor_ex_decode(void **pstate)
     dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
-    assert_true(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_true(dmi_entity_is_incomplete(entity));
 
     const dmi_sun_processor_ex_t *info = dmi_entity_info(entity, DMI_TYPE(sun_processor_ex));
     assert_non_null(info);
@@ -215,7 +215,7 @@ static void test_sun_memory_device_ex_decode(void **pstate)
     dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
     assert_non_null(entity);
     assert_true(dmi_entity_decode(entity));
-    assert_false(entity->state & DMI_ENTITY_STATE_INCOMPLETE);
+    assert_false(dmi_entity_is_incomplete(entity));
 
     const dmi_sun_memory_device_ex_t *info = dmi_entity_info(entity, DMI_TYPE(sun_memory_device_ex));
     assert_non_null(info);

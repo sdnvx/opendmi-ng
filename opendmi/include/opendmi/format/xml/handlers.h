@@ -26,27 +26,6 @@ bool dmi_xml_entity_attr(
         const dmi_attribute_t *attr,
         const void            *value);
 
-bool dmi_xml_entity_attr_array(
-        dmi_xml_session_t     *session,
-        const dmi_attribute_t *attr,
-        const dmi_data_t      *info,
-        const void            *value);
-
-bool dmi_xml_entity_attr_struct(
-        dmi_xml_session_t     *session,
-        const dmi_attribute_t *attr,
-        const void            *value);
-
-bool dmi_xml_entity_attr_value(
-        dmi_xml_session_t     *session,
-        const dmi_attribute_t *attr,
-        const void            *value);
-
-bool dmi_xml_entity_attr_set(
-        dmi_xml_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value);
-
 bool dmi_xml_entity_attrs_end(dmi_xml_session_t *session, const dmi_entity_t *entity);
 bool dmi_xml_entity_data(dmi_xml_session_t *session, const dmi_entity_t *entity);
 bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *entity);

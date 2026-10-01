@@ -247,10 +247,10 @@ static void test_cache_decode_v21(void **pstate)
 
         // Incomplete SMBIOS 2.1 fields make the structure incomplete
         bool incomplete = (length > 0x0F) and (length < 0x13);
-        assert_int_equal((entity->state & DMI_ENTITY_STATE_INCOMPLETE) != 0, incomplete);
+        assert_int_equal(dmi_entity_is_incomplete(entity), incomplete);
 
         // Complete SMBIOS 2.0 and 2.1 structures do not contain SMBIOS 3.1 fields
-        assert_int_equal((entity->state & DMI_ENTITY_STATE_PARTIAL) != 0, not incomplete);
+        assert_int_equal(dmi_entity_is_partial(entity), not incomplete);
 
         // Only completely present SMBIOS 2.1 fields are decoded
         size_t fields = length - 0x0F;
