@@ -15,6 +15,22 @@
 
 __BEGIN_DECLS
 
+/**
+ * @brief Start the pager and redirect standard output to it.
+ *
+ * The pager is taken from `PAGER` environment variable. If the variable is
+ * not set, it is `less` on POSIX systems, unless it is not installed, and
+ * output is not paged on Windows. Empty value disables the pager. Calling the
+ * function again once the pager has been started does nothing.
+ *
+ * @param[in] context Context to raise errors on.
+ *
+ * @error DMI_ERROR_SYSTEM Pager command is invalid, or the pager cannot be started
+ * @error DMI_ERROR_OUT_OF_MEMORY Pager command cannot be expanded
+ * @error DMI_ERROR_FILE_DUP Standard output cannot be redirected
+ *
+ * @return `true` on success or if output is not paged, `false` otherwise.
+ */
 bool dmi_pager_start(dmi_context_t *context);
 
 /**

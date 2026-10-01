@@ -22,7 +22,7 @@
 
 static HANDLE dmi_pager_process = nullptr;
 
-static void dmi_wait_pager_exit(void)
+static void dmi_pager_wait_exit(void)
 {
     fclose(stdout); // Ensure the pager process receives EOF
 
@@ -128,7 +128,7 @@ bool dmi_pager_start(dmi_context_t *context)
         dmi_pager_process     = process_info.hProcess;
         process_info.hProcess = nullptr;
 
-        atexit(dmi_wait_pager_exit);
+        atexit(dmi_pager_wait_exit);
 
         success = true;
     } while (false);
