@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <cmocka.h>
 
 #include <opendmi/context.h>
@@ -33,10 +34,12 @@ static void test_context_reopen_after_failure(void **pstate);
 static void test_context_dump_save_after_close(void **pstate);
 static void test_context_dump_save_roundtrip(void **pstate);
 static void test_context_dump_save_errors(void **pstate);
+static void test_context_dump_save_overwrite(void **pstate);
 static void test_context_dump_save_relocated(void **pstate);
 static void test_context_dump_save_generated(void **pstate);
 static void test_context_add_extension(void **pstate);
 static void test_context_add_extension_duplicate(void **pstate);
+static void test_context_type_name(void **pstate);
 
 static bool test_dump_relocate(dmi_buffer_t *buffer, const char *path, bool legacy);
 static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, size_t table_size);
@@ -68,10 +71,12 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_context_dump_save_after_close, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_dump_save_roundtrip, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_dump_save_errors, test_context_setup, test_context_teardown),
+        cmocka_unit_test_setup_teardown(test_context_dump_save_overwrite, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_dump_save_relocated, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_dump_save_generated, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_add_extension, test_context_setup, test_context_teardown),
-        cmocka_unit_test_setup_teardown(test_context_add_extension_duplicate, test_context_setup, test_context_teardown)
+        cmocka_unit_test_setup_teardown(test_context_add_extension_duplicate, test_context_setup, test_context_teardown),
+        cmocka_unit_test_setup_teardown(test_context_type_name, test_context_setup, test_context_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -223,6 +228,51 @@ static void test_context_dump_save_errors(void **pstate)
         fclose(device);
     else
         fail_msg("Device /dev/full has been removed");
+}
+
+static void test_context_dump_save_overwrite(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    static const char junk[] = "Not a dump";
+
+    test_dump_write(test_save_path, (const dmi_data_t *)junk, sizeof(junk));
+
+#if !defined(_WIN32)
+    assert_int_equal(chmod(test_save_path, 0600), 0);
+#endif
+
+    assert_true(dmi_load(context, test_dump_path));
+
+    // Existing file is left intact unless it is to be overwritten
+    dmi_error_clear(context);
+    assert_false(dmi_save(context, test_save_path, 0));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN);
+
+    struct stat st;
+    assert_int_equal(stat(test_save_path, &st), 0);
+    assert_int_equal(st.st_size, sizeof(junk));
+
+    // Overwritten file is replaced as a whole, and keeps its permissions
+    assert_true(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
+    assert_true(dmi_close(context));
+
+    assert_int_equal(stat(test_save_path, &st), 0);
+#if !defined(_WIN32)
+    assert_int_equal(st.st_mode & 0777, 0600);
+#endif
+
+    assert_true(dmi_load(context, test_save_path));
+    assert_non_null(dmi_get_registry(context));
+    assert_true(dmi_close(context));
+
+    remove(test_save_path);
+
+    // Directory of the file must exist, and nothing is left behind there
+    dmi_error_clear(context);
+    assert_true(dmi_load(context, test_dump_path));
+    assert_false(dmi_save(context, "nonexistent-dir/dump.bin", DMI_SAVE_FLAG_OVERWRITE));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN);
 }
 
 static void test_context_dump_save_relocated(void **pstate)
@@ -383,6 +433,28 @@ static void test_context_add_extension_duplicate(void **pstate)
     // Type map is not modified on conflicts
     assert_null(dmi_type_spec(context, (dmi_type_id_t)250));
     assert_false(dmi_has_extension(context, &module));
+}
+
+static void test_context_type_name(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    // Types are named by their specifications
+    assert_string_equal(dmi_type_name(context, DMI_TYPE_ID_SYSTEM), "System information");
+
+    // Numbers with no specification are named by their range
+    assert_string_equal(dmi_type_name(context, (dmi_type_id_t)100), "Unknown");
+    assert_string_equal(dmi_type_name(context, (dmi_type_id_t)250), "OEM-specific");
+
+    // Numbers out of range are no type at all, OEM or not
+    dmi_error_clear(context);
+    assert_string_equal(dmi_type_name(context, (dmi_type_id_t)300), "Unknown");
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_string_equal(dmi_type_name(context, DMI_TYPE_ID_INVALID), "Unknown");
+
+    // Without a context, no specification is mapped
+    assert_string_equal(dmi_type_name(nullptr, DMI_TYPE_ID_SYSTEM), "Unknown");
+    assert_string_equal(dmi_type_name(nullptr, (dmi_type_id_t)250), "OEM-specific");
 }
 
 //

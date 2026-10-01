@@ -54,6 +54,17 @@ include::../../../../libopendmi/man/man3/dmi_error_raise_ex.3.adoc[leveloffset=2
 include::../../../../libopendmi/man/man3/dmi_log_message.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_log_message_va.3.adoc[leveloffset=2]
 
+== `<opendmi/locale.h>`
+
+include::../../../../libopendmi/man/man3/dmi_get_locale.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_locale_init.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_message_format.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_resource_close.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_resource_message.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_resource_open.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_resource_string.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_set_locale.3.adoc[leveloffset=2]
+
 == `<opendmi/entity.h>`
 
 include::../../../../libopendmi/man/man3/dmi_entity_buffer.3.adoc[leveloffset=2]
@@ -71,6 +82,10 @@ include::../../../../libopendmi/man/man3/dmi_entity_offset.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_string_ex.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_type.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_entity_type_id.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_spec_name.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_type_find.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_type_name.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_type_spec.3.adoc[leveloffset=2]
 
 == `<opendmi/field.h>`
 
@@ -160,6 +175,10 @@ include::../../../../libopendmi/man/man3/dmi_encoder_remaining.3.adoc[leveloffse
 include::../../../../libopendmi/man/man3/dmi_encoder_tell.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_encoder_writer.3.adoc[leveloffset=2]
 
+== `<opendmi/lint.h>`
+
+include::../../../../libopendmi/man/man3/dmi_lint_rule_name.3.adoc[leveloffset=2]
+
 == `<opendmi/utils.h>`
 
 include::../../../../libopendmi/man/man3/dmi_file_load.3.adoc[leveloffset=2]
@@ -184,6 +203,10 @@ include::../../../../libopendmi/man/man3/dmi_file_stat.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_file_tell.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_file_unlock.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_file_write.3.adoc[leveloffset=2]
+
+== `<opendmi/utils/name.h>`
+
+include::../../../../libopendmi/man/man3/dmi_name_lookup.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/uuid.h>`
 

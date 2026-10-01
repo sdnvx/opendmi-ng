@@ -18,6 +18,16 @@
 #include <opendmi/entity/string-property.h>
 #include <opendmi/entity/additional-info.h>
 
+/**
+ * @brief Type of scalar, which formatted attribute value is written as.
+ */
+typedef enum dmi_format_scalar
+{
+    DMI_FORMAT_SCALAR_STRING, ///< String
+    DMI_FORMAT_SCALAR_NUMBER, ///< Number
+    DMI_FORMAT_SCALAR_BOOL    ///< Boolean
+} dmi_format_scalar_t;
+
 typedef struct dmi_format_array_iter    dmi_format_array_iter_t;
 typedef struct dmi_format_flag          dmi_format_flag_t;
 typedef struct dmi_format_set_iter      dmi_format_set_iter_t;
@@ -264,6 +274,35 @@ char *dmi_format_attribute_value(
         const dmi_attribute_t *attr,
         const void            *value,
         bool                   pretty);
+
+/**
+ * @brief Classify formatted attribute value, which is formatted for machines.
+ *
+ * Values of the numeric types are numbers, and values of the boolean type are
+ * booleans, only if their text is a canonical number or boolean, which every
+ * output format reads the same way: `true` or `false` for booleans, and
+ * decimal integers and fixed-point numbers, which may be negative and have no
+ * leading zeros, or hexadecimal integers with lowercase `0x` prefix for
+ * numbers. Values of the other types, and the ones named by other codes (e.g.
+ * `no` or `on` for booleans), are strings.
+ *
+ * @param[in] attr Attribute descriptor.
+ * @param[in] text Formatted value.
+ *
+ * @return Type of scalar, which the value is to be written as.
+ */
+dmi_format_scalar_t dmi_format_scalar_classify(const dmi_attribute_t *attr, const char *text);
+
+/**
+ * @brief Check if text is a canonical number.
+ *
+ * @param[in] text NUL-terminated string.
+ *
+ * @return `true` if @p text is a decimal integer or fixed-point number, which
+ *         may be negative and has no leading zeros, or a hexadecimal integer
+ *         with lowercase `0x` prefix, `false` otherwise.
+ */
+bool dmi_format_is_number(const char *text);
 
 __END_DECLS
 

@@ -179,10 +179,10 @@ static int dmi_types_main(dmi_context_t *context, int argc, char *argv[])
     dmi_unused(argc);
     dmi_unused(argv);
 
-    if (dmi_tty_is_stdout())
+    dmi_types_config.show_raw = dmi_command_is_raw(dmi_types_config.show_raw);
+
+    if (not dmi_types_config.show_raw)
         dmi_command_banner();
-    else
-        dmi_types_config.show_raw = true;
 
     if (dmi_types_config.show_core)
         dmi_types_show_core(context);

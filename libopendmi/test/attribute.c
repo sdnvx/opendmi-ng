@@ -25,6 +25,7 @@ static void test_attribute_format_mac(void **pstate);
 static void test_attribute_format_ip(void **pstate);
 static void test_attribute_format_bool(void **pstate);
 static void test_attribute_format_bool_ex(void **pstate);
+static void test_attribute_format_bool_unnamed(void **pstate);
 static void test_attribute_format_decimal(void **pstate);
 static void test_attribute_format_enum(void **pstate);
 static void test_attribute_format_handle(void **pstate);
@@ -49,6 +50,7 @@ int main(void)
         cmocka_unit_test_teardown(test_attribute_format_ip, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_bool, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_bool_ex, free_attribute_value),
+        cmocka_unit_test_teardown(test_attribute_format_bool_unnamed, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_decimal, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_enum, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_handle, free_attribute_value),
@@ -294,7 +296,8 @@ static void test_attribute_format_bool_ex(void **pstate)
     const dmi_name_set_t test_values = {
         .names = (const dmi_name_t[]) {
             { .id = false, .code = "off", .name = "OFF" },
-            { .id = true,  .code = "on",  .name = "ON"  }
+            { .id = true,  .code = "on",  .name = "ON"  },
+            {}
         }
     };
 
@@ -338,6 +341,55 @@ static void test_attribute_format_bool_ex(void **pstate)
 
         assert_non_null(result);
         assert_string_equal(result, expected);
+
+        free(result);
+        *pstate = nullptr;
+    }
+}
+
+static void test_attribute_format_bool_unnamed(void **pstate)
+{
+    dmi_unused(pstate);
+
+    // Table naming only one of the values
+    const dmi_name_set_t test_values = {
+        .names = (const dmi_name_t[]) {
+            { .id = true, .code = "on", .name = "ON" },
+            {}
+        }
+    };
+
+    const dmi_attribute_t attr = {
+        .value   = {
+            .size   = sizeof(bool),
+            .offset = 0
+        },
+        .counter = DMI_MEMBER_NULL,
+        .type    = DMI_ATTRIBUTE_TYPE_BOOL,
+        .params  = {
+            .values = &test_values
+        }
+    };
+
+    const struct {
+        const void *value;
+        bool pretty;
+        const char *expected;
+    } test_data[] = {
+        { dmi_value_ptr((bool)0), true,  "no"    },
+        { dmi_value_ptr((bool)0), false, "false" },
+        { dmi_value_ptr((bool)1), true,  "ON"    },
+        { dmi_value_ptr((bool)1), false, "on"    }
+    };
+
+    *pstate = nullptr;
+
+    for (size_t i = 0; i < countof(test_data); i++) {
+        char *result = dmi_attribute_format(context, &attr, test_data[i].value, test_data[i].pretty);
+        *pstate = result;
+
+        assert_non_null(result);
+        assert_string_equal(result, test_data[i].expected);
 
         free(result);
         *pstate = nullptr;

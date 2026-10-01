@@ -25,6 +25,8 @@ static void test_additional_info_decode(void **pstate);
 static void test_additional_info_long_value(void **pstate);
 static void test_additional_info_short_entry(void **pstate);
 static void test_additional_info_truncated_value(void **pstate);
+static void test_additional_info_no_entries(void **pstate);
+static void test_additional_info_broken_entry(void **pstate);
 
 static dmi_entity_t *test_additional_info_create(
         dmi_buffer_t *buffer, dmi_data_t *data, size_t count,
@@ -45,7 +47,9 @@ int main(void)
         cmocka_unit_test(test_additional_info_decode),
         cmocka_unit_test(test_additional_info_long_value),
         cmocka_unit_test(test_additional_info_short_entry),
-        cmocka_unit_test(test_additional_info_truncated_value)
+        cmocka_unit_test(test_additional_info_truncated_value),
+        cmocka_unit_test(test_additional_info_no_entries),
+        cmocka_unit_test(test_additional_info_broken_entry)
     };
 
     return cmocka_run_group_tests(tests, test_additional_info_setup, test_additional_info_teardown);
@@ -180,6 +184,54 @@ static void test_additional_info_truncated_value(void **pstate)
     assert_non_null(info);
     assert_int_equal(info->entries[0].value.length, 2);
     assert_int_equal(info->entries[0].value.data[1], 0xBB);
+
+    dmi_entity_destroy(entity);
+}
+
+static void test_additional_info_no_entries(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
+    // Structure which declares no entries allocates nothing, whatever bytes
+    // it has after the count
+    static const dmi_data_t entries[] = { 0x06, 0x1E, 0x00, 0x05, 0x00, 0xAA };
+
+    dmi_data_t data[sizeof(entries) + TEST_ADDITIONAL_INFO_OVERHEAD];
+    dmi_entity_t *entity = test_additional_info_create(entity_buffer, data, 0, entries, sizeof(entries));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+
+    const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(additional_info));
+    assert_non_null(info);
+    assert_int_equal(info->entry_count, 0);
+    assert_null(info->entries);
+
+    dmi_entity_destroy(entity);
+}
+
+static void test_additional_info_broken_entry(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
+    // Second entry is shorter than its header
+    static const dmi_data_t entries[] = {
+        0x06, 0x1E, 0x00, 0x05, 0x00, 0xAA,
+        0x00, 0x1E, 0x00, 0x05, 0x00, 0xBB
+    };
+
+    dmi_data_t data[sizeof(entries) + TEST_ADDITIONAL_INFO_OVERHEAD];
+    dmi_entity_t *entity = test_additional_info_create(entity_buffer, data, 2, entries, sizeof(entries));
+    assert_non_null(entity);
+    assert_false(dmi_entity_decode(entity));
+
+    // Entries count covers only the entries decoded completely
+    const dmi_additional_info_t *info = dmi_entity_info(entity, DMI_TYPE(additional_info));
+    if (info != nullptr) {
+        assert_int_equal(info->entry_count, 1);
+        assert_int_equal(info->entries[0].value.data[0], 0xAA);
+    }
 
     dmi_entity_destroy(entity);
 }

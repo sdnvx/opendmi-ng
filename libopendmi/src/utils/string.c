@@ -41,8 +41,10 @@ int dmi_vasprintf(char **strp, const char *format, va_list args)
     va_copy(args_copy, args);
     int len = _vscprintf(format, args_copy);
     va_end(args_copy);
-    if (len < 0)
+    if (len < 0) {
+        *strp = nullptr;
         return -1;
+    }
 
     size_t size = (size_t)len + 1;
     char *str = malloc(size);
@@ -62,6 +64,10 @@ int dmi_vasprintf(char **strp, const char *format, va_list args)
     *strp = str;
 #else // !defined(_WIN32)
     rv = vasprintf(strp, format, args);
+
+    // glibc leaves the pointer undefined on failure, so do not pass it on
+    if (rv < 0)
+        *strp = nullptr;
 #endif // !defined(_WIN32)
 
     return rv;
@@ -72,7 +78,7 @@ void dmi_string_tolower(char *str)
     assert(str != nullptr);
 
     while (*str != 0) {
-        *str = tolower((int)*str);
+        *str = (char)tolower((unsigned char)*str);
         str++;
     }
 }
@@ -82,7 +88,7 @@ void dmi_string_toupper(char *str)
     assert(str != nullptr);
 
     while (*str != 0) {
-        *str = toupper((int)*str);
+        *str = (char)toupper((unsigned char)*str);
         str++;
     }
 }

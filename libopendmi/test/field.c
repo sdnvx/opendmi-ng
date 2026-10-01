@@ -445,6 +445,7 @@ static void test_field_encode_truncated(void **pstate);
 static void test_field_encode_array(void **pstate);
 static void test_field_encode_vector(void **pstate);
 static void test_field_encode_defined(void **pstate);
+static void test_field_encode_bcd_overflow(void **pstate);
 
 static void test_field_kilobytes(void **pstate);
 static void test_field_get_set(void **pstate);
@@ -483,6 +484,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_field_encode_array, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_vector, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_defined, test_field_setup, test_field_teardown),
+        cmocka_unit_test_setup_teardown(test_field_encode_bcd_overflow, test_field_setup, test_field_teardown),
 
         cmocka_unit_test(test_field_kilobytes),
         cmocka_unit_test(test_field_get_set)
@@ -1200,4 +1202,42 @@ static void test_field_get_set(void **pstate)
     // Member is wider than the field, so it holds what the field cannot
     assert_true(dmi_field_set(&field, &info.value_word, UINT32_MAX));
     assert_int_equal(dmi_field_get(&field, &info.value_word), UINT32_MAX);
+}
+
+//
+// Value with more digits than a BCD field holds is not cut to the ones which
+// fit, but cannot be written.
+//
+static void test_field_encode_bcd_overflow(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    test_fields_t *info = (test_fields_t *)test_field_decode_fields(state, 0);
+    info->bcd = 123;
+
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    assert_non_null(buffer);
+
+    for (int mode = 0; mode < 2; mode++) {
+        dmi_encoder_t encoder;
+
+        assert_true(dmi_encoder_initialize(&encoder, buffer, state->entity,
+                                           (mode == 0) ? DMI_ENCODE_MODE_PRESERVE : DMI_ENCODE_MODE_CANONICAL,
+                                           DMI_VERSION_NONE));
+        assert_false(dmi_fields_encode(&encoder));
+
+        const dmi_error_t *error = dmi_error_peek_last(state->context);
+        assert_non_null(error);
+        assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+
+        dmi_encoder_finalize(&encoder);
+    }
+
+    dmi_buffer_destroy(buffer);
+
+    // Largest value of two digits is still written
+    info->bcd = 99;
+
+    buffer = test_field_encode(state, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE);
+    dmi_buffer_destroy(buffer);
 }

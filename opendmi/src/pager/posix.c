@@ -15,6 +15,7 @@
 #include <spawn.h>
 #include <signal.h>
 #include <errno.h>
+#include <assert.h>
 
 #include <opendmi/context.h>
 #include <opendmi/pager.h>
@@ -37,7 +38,13 @@ static const char *dmi_pager_default = "less";
  */
 static const char *dmi_pager_default_options = "FRX";
 
-static pid_t dmi_pager_pid = -1;
+//
+// Process identifier of the pager, which is read and reset by the signal
+// handlers, so it is kept in an atomic type for them.
+//
+static_assert(sizeof(pid_t) <= sizeof(sig_atomic_t), "pid_t does not fit into sig_atomic_t");
+
+static volatile sig_atomic_t dmi_pager_pid = -1;
 
 /**
  * @brief Signals, on which the process waits for pager before exiting.
@@ -46,10 +53,12 @@ static const int dmi_pager_signals[] = { SIGINT, SIGQUIT, SIGTERM, SIGHUP };
 
 static void dmi_wait_pager(void)
 {
-    if (dmi_pager_pid > 0) {
+    pid_t pid = (pid_t)dmi_pager_pid;
+
+    if (pid > 0) {
         int ret;
         do {
-            ret = waitpid(dmi_pager_pid, NULL, 0);
+            ret = waitpid(pid, NULL, 0);
         } while (ret == -1 && errno == EINTR);
         dmi_pager_pid = -1;
     }
@@ -114,7 +123,13 @@ bool dmi_pager_start(dmi_context_t *context)
             break;
 
         case WRDE_NOSPACE:
+            // Words may be partially expanded, so they are to be freed
+            wordfree(&we);
             dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+            break;
+
+        default:
+            dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Unable to expand $PAGER value: '%s'", pager);
             break;
         }
 
@@ -156,13 +171,13 @@ bool dmi_pager_start(dmi_context_t *context)
             break;
         }
 
-        int spawn_rv = posix_spawnp(&dmi_pager_pid, we.we_wordv[0], &actions, NULL, we.we_wordv, environ);
+        pid_t pid = -1;
+        int spawn_rv = posix_spawnp(&pid, we.we_wordv[0], &actions, NULL, we.we_wordv, environ);
         posix_spawn_file_actions_destroy(&actions);
 
         if (spawn_rv != 0) {
             dmi_file_close(fds[STDIN_FILENO]);
             dmi_file_close(fds[STDOUT_FILENO]);
-            dmi_pager_pid = -1;
 
             // Output is not paged if default pager is not installed
             if ((spawn_rv == ENOENT) and is_default) {
@@ -182,24 +197,40 @@ bool dmi_pager_start(dmi_context_t *context)
             dmi_error_raise_ex(context, DMI_ERROR_FILE_DUP, "%s", strerror(errno));
             dmi_file_close(fds[STDIN_FILENO]);
             dmi_file_close(fds[STDOUT_FILENO]);
-            kill(dmi_pager_pid, SIGKILL);
-            waitpid(dmi_pager_pid, NULL, 0);
-            dmi_pager_pid = -1;
+            kill(pid, SIGKILL);
+            waitpid(pid, NULL, 0);
             break;
         }
 
         dmi_file_close(fds[STDIN_FILENO]);
         dmi_file_close(fds[STDOUT_FILENO]);
 
+        dmi_pager_pid = pid;
         atexit(dmi_wait_pager_exit);
 
         for (size_t i = 0; i < countof(dmi_pager_signals); i++) {
             struct sigaction action = {};
 
+            // Signals ignored by the parent process (e.g. SIGHUP by nohup)
+            // stay ignored
+            if ((sigaction(dmi_pager_signals[i], nullptr, &action) == 0) and
+                (action.sa_handler == SIG_IGN))
+                continue;
+
+            action = (struct sigaction){};
             action.sa_handler = dmi_wait_pager_signal;
             sigemptyset(&action.sa_mask);
             sigaction(dmi_pager_signals[i], &action, nullptr);
         }
+
+        // Output fails with EPIPE rather than terminates the process if the
+        // pager is quit before reading the whole output, so that it is told
+        // apart from other failures and the process exits normally
+        struct sigaction action = {};
+
+        action.sa_handler = SIG_IGN;
+        sigemptyset(&action.sa_mask);
+        sigaction(SIGPIPE, &action, nullptr);
 
         success = true;
     } while (false);
@@ -207,4 +238,11 @@ bool dmi_pager_start(dmi_context_t *context)
     wordfree(&we);
 
     return success;
+}
+
+bool dmi_pager_has_quit(const FILE *stream, int error)
+{
+    assert(stream != nullptr);
+
+    return (dmi_pager_pid > 0) and (stream == stdout) and (error == EPIPE);
 }

@@ -29,7 +29,7 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
     .type            = DMI_TYPE(ipmi_device),
     .params = {
         .minimum_version = DMI_VERSION(2, 3, 0),
-        .minimum_length  = 0x12,
+        .minimum_length  = 0x10,
         .decoded_length  = sizeof(dmi_ipmi_device_t)
     },
 
@@ -44,13 +44,20 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
         DMI_FIELD(dmi_ipmi_device_t, i2c_target_addr, dmi_byte_t),
         DMI_FIELD(dmi_ipmi_device_t, nv_storage_addr, dmi_byte_t),
 
-        // Base address and the byte after it, which holds the modifier of the
-        // address along with the interrupt information: the address means
-        // what the interface type and the modifier say it does, so the two
-        // are read as one
-        DMI_FIELD_SPLIT_BINARY(dmi_ipmi_device_t, sizeof(dmi_qword_t) + sizeof(dmi_byte_t),
-                               .decode = dmi_ipmi_device_decode_address,
-                               .encode = dmi_ipmi_device_encode_address),
+        // Base address means what the interface type says it does
+        DMI_FIELD_SPLIT(dmi_ipmi_device_t, dmi_qword_t,
+                        .decode = dmi_ipmi_device_decode_address,
+                        .encode = dmi_ipmi_device_encode_address),
+
+        // Base address modifier and interrupt information, along with the
+        // interrupt number, are optional: IPMI specification allows the
+        // structure to end before them, at offset 0x10
+        DMI_FIELD_GROUP(),
+
+        // Modifier carries the least significant bit of the address
+        DMI_FIELD_SPLIT(dmi_ipmi_device_t, dmi_byte_t,
+                        .decode = dmi_ipmi_device_decode_modifier,
+                        .encode = dmi_ipmi_device_encode_modifier),
 
         DMI_FIELD(dmi_ipmi_device_t, intr_number, dmi_byte_t),
         {}

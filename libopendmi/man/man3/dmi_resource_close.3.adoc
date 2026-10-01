@@ -1,0 +1,67 @@
+ifdef::backend-manpage[]
+= dmi_resource_close(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_resource_close
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_resource_close - close a package of translated strings.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/locale.h>
+
+void dmi_resource_close(dmi_resource_t *resource);
+----
+
+== Description
+
+The `dmi_resource_close` function closes a resource package opened by
+`dmi_resource_open`(3), and frees the handle.
+
+Strings looked up in the package are released with it, so every pointer
+returned for it by `dmi_resource_string`(3) becomes invalid, and so does the
+name returned by `dmi_get_locale`(3) when it is taken from this package.
+
+=== Thread safety
+
+Open packages are kept in a process-wide list, which the function changes, so
+it must not be called while other threads may use the library.
+
+=== Parameters
+
+`resource`::
+Resource handle to close, or `nullptr`, in which case nothing is done.
+
+== Return value
+
+None.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_resource_open`(3),
+`dmi_resource_string`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

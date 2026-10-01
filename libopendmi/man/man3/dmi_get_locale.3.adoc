@@ -1,0 +1,71 @@
+ifdef::backend-manpage[]
+= dmi_get_locale(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_get_locale
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_get_locale - get the locale used to translate printable strings.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/locale.h>
+
+const char *dmi_get_locale(void);
+----
+
+== Description
+
+The `dmi_get_locale` function tells the locale in which the library looks up
+printable strings.
+
+While a resource package is open, the name is the locale the most recently
+opened package has actually been opened with, which may be less specific than
+the one requested by `dmi_set_locale`(3) when there is no translation for the
+latter, e.g. `ru` for `ru_RU`, or `root` when there is no translation at all.
+The resources of the library itself are opened on the first lookup of a
+printable name.
+
+While no package is open, the name is the one last passed to
+`dmi_set_locale`(3), which is `nullptr` for the default locale of the
+environment.
+
+The name belongs to the library, and must not be freed. It is valid until the
+locale is changed by `dmi_set_locale`(3), or the package it is taken from is
+closed by `dmi_resource_close`(3).
+
+== Return value
+
+Returns the name of the locale, or `nullptr` if the default locale of the
+environment is requested and no package is open, if the locale of the package
+cannot be told, or if the library is built without ICU4C support.
+
+== Errors
+
+None: the function takes no context to raise errors in.
+
+== See also
+
+`dmi_set_locale`(3),
+`dmi_locale_init`(3),
+`dmi_resource_open`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

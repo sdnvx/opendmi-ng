@@ -110,9 +110,19 @@ bool __dmi_error_vraise(
 {
     size_t slot;
     dmi_error_t *error;
+    char *text = nullptr;
 
     if (context == nullptr)
         return false;
+
+    //
+    // Format the message before taking a slot: a failure here must neither
+    // leave a half-filled slot behind nor raise another error, which would
+    // take one more slot and push out an older error. The reason is kept
+    // on its own then, which is still worth reporting.
+    //
+    if (message != nullptr)
+        (void)dmi_vasprintf(&text, message, args);
 
     slot = dmi_error_slot_get(&context->error_queue);
     error = &context->error_queue.errors[slot];
@@ -121,22 +131,14 @@ bool __dmi_error_vraise(
     error->function = function;
     error->line     = line;
     error->reason   = reason;
-
-    if (message != nullptr) {
-        int rv = dmi_vasprintf(&error->message, message, args);
-
-        if ((rv < 0) or (error->message == nullptr)) {
-            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-            return false;
-        }
-    }
+    error->message  = text;
 
     if (error->message != nullptr)
         dmi_log_error(context, "%s: %s", dmi_error_message(error->reason), error->message);
     else
         dmi_log_error(context, "%s", dmi_error_message(error->reason));
 
-    return true;
+    return (message == nullptr) or (text != nullptr);
 }
 
 dmi_error_t *dmi_error_peek_first(dmi_context_t *context)

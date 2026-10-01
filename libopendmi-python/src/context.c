@@ -16,24 +16,17 @@ static void Context_dealloc(Context *self)
     Py_TYPE(self)->tp_free(self);
 }
 
-static PyObject *Context_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+static PyObject *Context_new(PyTypeObject *type, PyObject *Py_UNUSED(args), PyObject *Py_UNUSED(kwds))
 {
     Context *self;
-
-    dmi_unused(args);
-    dmi_unused(kwds);
 
     self = (Context *)type->tp_alloc(type, 0);
 
     return (PyObject *)self;
 }
 
-static int Context_init(Context *self, PyObject *args, PyObject *kwds)
+static int Context_init(Context *Py_UNUSED(self), PyObject *Py_UNUSED(args), PyObject *Py_UNUSED(kwds))
 {
-    dmi_unused(self);
-    dmi_unused(args);
-    dmi_unused(kwds);
-
     return 0;
 }
 
@@ -53,7 +46,9 @@ PyTypeObject Context_type = {
     .tp_doc            = PyDoc_STR("OpenDMI context"),
     .tp_basicsize      = sizeof(Context),
     .tp_itemsize       = 0,
-    .tp_flags          = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC,
+    // The context holds no references to Python objects, so it does not
+    // participate in garbage collection
+    .tp_flags          = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_new            = (newfunc)Context_new,
     .tp_init           = (initproc)Context_init,
     .tp_dealloc        = (destructor)Context_dealloc,

@@ -31,9 +31,14 @@
 #endif // ENABLE_CURSES
 
 #include <opendmi/internal.h>
+#include <opendmi/utils.h>
 #include <opendmi/utils/tty.h>
+#include <opendmi/utils/utf8.h>
+#include <opendmi/utils/locale.h>
 
 #include <opendmi/format/text/helpers.h>
+
+static bool dmi_text_is_char(uint32_t code);
 
 void dmi_text_printf(
         dmi_text_session_t *session,
@@ -79,4 +84,30 @@ void dmi_text_hex_data(dmi_text_session_t *session, const void *data, size_t len
         if ((i % 0x10 == 0x0f) or (i + 1 == length))
             fputc('\n', session->stream);
     }
+}
+
+const char *dmi_text_escape(dmi_text_session_t *session, const char *str, char **copy)
+{
+    assert(session != nullptr);
+    assert(str != nullptr);
+    assert(copy != nullptr);
+
+    *copy = nullptr;
+
+    if (dmi_utf8_is_valid_ex(str, dmi_text_is_char))
+        return str;
+
+    *copy = dmi_utf8_escape(session->context, str);
+    if (*copy == nullptr)
+        return dmi_tool_text("value", "error", "<error>");
+
+    return *copy;
+}
+
+//
+// Check if character may be written to a terminal as it is.
+//
+static bool dmi_text_is_char(uint32_t code)
+{
+    return not dmi_utf8_is_control(code);
 }

@@ -10,6 +10,7 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
+#include <opendmi/encoder.h>
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
@@ -24,6 +25,7 @@ static int test_firmware_teardown(void **pstate);
 static void test_firmware_decode_v20(void **pstate);
 static void test_firmware_decode_v21(void **pstate);
 static void test_firmware_decode_v23(void **pstate);
+static void test_firmware_version_none(void **pstate);
 
 static dmi_entity_t *test_firmware_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t length);
 static const dmi_attribute_t *test_firmware_attribute(const char *code);
@@ -49,7 +51,8 @@ int main(void)
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_firmware_decode_v20),
         cmocka_unit_test(test_firmware_decode_v21),
-        cmocka_unit_test(test_firmware_decode_v23)
+        cmocka_unit_test(test_firmware_decode_v23),
+        cmocka_unit_test(test_firmware_version_none)
     };
 
     return cmocka_run_group_tests(tests, test_firmware_setup, test_firmware_teardown);
@@ -145,6 +148,48 @@ static void test_firmware_decode_v23(void **pstate)
     assert_non_null(info);
     assert_true(info->features_ex.acpi_support);
     assert_true(info->features_ex.uefi_spec);
+
+    dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
+}
+
+static void test_firmware_version_none(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
+    // Major number of 0xFF says there is no version, whatever the minor one
+    uint8_t data[0x18 + sizeof(test_firmware_strings)];
+
+    memcpy(data, test_firmware_data, sizeof(test_firmware_data));
+    data[1] = 0x18;
+    data[0x14] = 0xFF;                              // Platform version
+    data[0x15] = 0x05;
+    data[0x16] = 0xFF;                              // Controller version
+    data[0x17] = 0xFF;
+    memcpy(data + 0x18, test_firmware_strings, sizeof(test_firmware_strings));
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+
+    const dmi_firmware_t *info = dmi_entity_info(entity, DMI_TYPE(firmware));
+    assert_non_null(info);
+    assert_int_equal(info->platform_version, DMI_VERSION_NONE);
+    assert_int_equal(info->controller_version, DMI_VERSION_NONE);
+
+    // Minor number is kept when the structure is written back as it has
+    // been read
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
+
+    assert_true(dmi_encoder_initialize(&encoder, buffer, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+    assert_true(dmi_entity_encode(&encoder));
+    assert_int_equal(buffer->length, entity->body_length);
+    assert_memory_equal(buffer->data, data, buffer->length);
+    dmi_encoder_finalize(&encoder);
+    dmi_buffer_destroy(buffer);
 
     dmi_entity_destroy(entity);
 

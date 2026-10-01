@@ -6,18 +6,15 @@
 #
 import os
 import getopt
-import subprocess
 import sys
 import yaml
 
 from yaml.loader import SafeLoader
-from jsonschema import validate
+from jsonschema import validate, ValidationError
 from colorama import init, Fore, Style
 
-tools_dir  = os.path.dirname(os.path.realpath(__file__))
-base_dir   = os.path.abspath(os.path.join(tools_dir, '..'))
+from opendmi_tools import base_dir, export_dump
 
-build_dir  = os.path.join(base_dir, "build/opendmi")
 schema_dir = os.path.join(base_dir, "opendmi/share/opendmi")
 data_dir   = os.path.join(base_dir, "data")
 
@@ -41,40 +38,32 @@ def load_yaml(path: str):
         with open(path) as file:
             return yaml.load(file, Loader=SafeLoader)
     except FileNotFoundError:
-        print(f"ERROR: File not found: ${path}")
+        print(f"ERROR: File not found: {path}", file=sys.stderr)
         return None
 
-def load_dump(dump_path: str):
-    env = os.environ.copy()
-    env["LANG"] = "en_US.UTF-8"
-    env["LC_ALL"] = "C"
-
+def validate_data(dump_path: str, data) -> bool:
     try:
-        process = subprocess.Popen(
-            [f"{build_dir}/bin/opendmi", "--file", dump_path, "export", "--all", "--format=yaml"],
-            stdout = subprocess.PIPE,
-            stderr = subprocess.PIPE,
-            env=env
-        )
-        stdout, stderr = process.communicate()
+        validate(data, schema)
+        return True
+    except ValidationError as e:
+        print(f"ERROR: Schema validation failed for {dump_path}: {e.message}", file=sys.stderr)
+        return False
 
-        return yaml.load(stdout, Loader=SafeLoader)
-    except subprocess.CalledProcessError as e:
-        print("Unable to read SMBIOS dump:")
-        print(e.stderr)
-
-def generate_spec(dump_path: str, spec_path: str):
+def generate_spec(dump_path: str, spec_path: str) -> bool:
     print(f"Generating: {dump_path.removeprefix(base_dir)} -> {spec_path.removeprefix(base_dir)}")
 
-    data = load_dump(dump_path)
-    validate(data, schema)
+    data = export_dump(dump_path)
+    if data is None or not validate_data(dump_path, data):
+        return False
 
     try:
         with open(spec_path, "w+") as file:
             yaml.dump(data, file, sort_keys=False)
     except OSError as e:
-        print("Unable to write specification:")
-        print(e.stderr)
+        print(f"ERROR: Unable to write specification: {spec_path}: {e.strerror}", file=sys.stderr)
+        return False
+
+    return True
 
 def generate_diff(old, new):
     if isinstance(old, dict) and isinstance(new, dict):
@@ -166,21 +155,37 @@ def render_node(key, value, sign, depth):
     else:
         print(f"{color}{sign} {indent}{k_prefix}{value}")
 
-def check_spec(dump_path: str, spec_path: str):
+def check_spec(dump_path: str, spec_path: str) -> bool:
     if not os.path.isfile(spec_path):
         print(f"Skipping: {dump_path} (no spec)")
-        return
+        return True
 
     print(f"Checking: {dump_path.removeprefix(base_dir)} <- {spec_path.removeprefix(base_dir)}")
     spec = load_yaml(spec_path)
-    data = load_dump(dump_path)
+    data = export_dump(dump_path)
+    if spec is None or data is None:
+        return False
 
     diff = generate_diff(spec, data)
     if diff:
         render_diff(diff)
+        return False
+
+    # Baselines are validated when generated, so an unchanged output is valid
+    return True
 
 def show_usage():
-    pass
+    print(f"Usage: {os.path.basename(sys.argv[0])} [options]")
+    print()
+    print("Decode every SMBIOS dump under data/ and compare the result with its YAML")
+    print("specification. Exits with a non-zero status if any check fails.")
+    print()
+    print("Options:")
+    print("    -h, --help      Print this help and exit")
+    print("    -b, --baseline  Regenerate the specifications instead of checking them")
+    print()
+    print("Environment:")
+    print("    BUILD_DIR       Build directory (default: build)")
 
 def main(argv) -> int:
     global schema
@@ -211,13 +216,23 @@ def main(argv) -> int:
     if schema == None:
         return os.EX_OSFILE
 
+    failed = []
     for dump_path, spec_path in data_files():
         if mode == "generate":
-            generate_spec(dump_path, spec_path)
+            success = generate_spec(dump_path, spec_path)
         else:
-            check_spec(dump_path, spec_path)
+            success = check_spec(dump_path, spec_path)
+
+        if not success:
+            failed.append(dump_path.removeprefix(base_dir))
+
+    if failed:
+        print(f"{Fore.RED}Failed: {len(failed)}", file=sys.stderr)
+        for path in failed:
+            print(f"    {path}", file=sys.stderr)
+        return 1
 
     return os.EX_OK
 
 if __name__ == "__main__":
-	main(sys.argv[1:])
+    sys.exit(main(sys.argv[1:]))

@@ -23,6 +23,8 @@ static void test_iter_array_empty(void **pstate);
 static void test_iter_set(void **pstate);
 static void test_iter_strings(void **pstate);
 static void test_iter_properties(void **pstate);
+static void test_iter_is_number(void **pstate);
+static void test_iter_scalar_classify(void **pstate);
 
 typedef struct test_iter_info
 {
@@ -38,6 +40,17 @@ static const dmi_name_set_t test_iter_flag_names =
         { 0,  "first",  "First"  },
         { 2,  "third",  "Third"  },
         { 63, "last",   "Last"   },
+        {}
+    })
+};
+
+// Boolean states named by codes other than booleans
+static const dmi_name_set_t test_iter_state_names =
+{
+    .code  = "test-states",
+    .names = DMI_NAMES({
+        { 0, "no", "No" },
+        { 1, "on", "On" },
         {}
     })
 };
@@ -59,7 +72,9 @@ int main(void)
         cmocka_unit_test(test_iter_array_empty),
         cmocka_unit_test(test_iter_set),
         cmocka_unit_test(test_iter_strings),
-        cmocka_unit_test(test_iter_properties)
+        cmocka_unit_test(test_iter_properties),
+        cmocka_unit_test(test_iter_is_number),
+        cmocka_unit_test(test_iter_scalar_classify)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -280,4 +295,60 @@ static void test_iter_properties(void **pstate)
     dmi_entity_destroy(parent);
     dmi_buffer_destroy(parent_buffer);
     dmi_destroy(context);
+}
+
+static void test_iter_is_number(void **pstate)
+{
+    dmi_unused(pstate);
+
+    // Canonical numbers
+    assert_true(dmi_format_is_number("0"));
+    assert_true(dmi_format_is_number("42"));
+    assert_true(dmi_format_is_number("-42"));
+    assert_true(dmi_format_is_number("0.5"));
+    assert_true(dmi_format_is_number("-12.75"));
+    assert_true(dmi_format_is_number("0x0"));
+    assert_true(dmi_format_is_number("0x00FF"));
+    assert_true(dmi_format_is_number("0xdeadbeef"));
+
+    // Octal in YAML 1.1 and invalid in JSON
+    assert_false(dmi_format_is_number("007"));
+    assert_false(dmi_format_is_number("-01"));
+
+    // Incomplete or malformed numbers
+    assert_false(dmi_format_is_number(""));
+    assert_false(dmi_format_is_number("-"));
+    assert_false(dmi_format_is_number("1."));
+    assert_false(dmi_format_is_number(".5"));
+    assert_false(dmi_format_is_number("1e5"));
+    assert_false(dmi_format_is_number("0x"));
+    assert_false(dmi_format_is_number("0X1F"));
+    assert_false(dmi_format_is_number("0xG"));
+    assert_false(dmi_format_is_number("12 MB"));
+    assert_false(dmi_format_is_number("unknown"));
+}
+
+static void test_iter_scalar_classify(void **pstate)
+{
+    dmi_unused(pstate);
+
+    const dmi_attribute_t bool_attr = { .type = DMI_ATTRIBUTE_TYPE_BOOL, .params = { .values = &test_iter_state_names } };
+    const dmi_attribute_t int_attr  = { .type = DMI_ATTRIBUTE_TYPE_INTEGER };
+    const dmi_attribute_t addr_attr = { .type = DMI_ATTRIBUTE_TYPE_ADDRESS };
+    const dmi_attribute_t str_attr  = { .type = DMI_ATTRIBUTE_TYPE_STRING };
+
+    // Booleans named by other codes are strings
+    assert_int_equal(dmi_format_scalar_classify(&bool_attr, "true"), DMI_FORMAT_SCALAR_BOOL);
+    assert_int_equal(dmi_format_scalar_classify(&bool_attr, "false"), DMI_FORMAT_SCALAR_BOOL);
+    assert_int_equal(dmi_format_scalar_classify(&bool_attr, "no"), DMI_FORMAT_SCALAR_STRING);
+    assert_int_equal(dmi_format_scalar_classify(&bool_attr, "on"), DMI_FORMAT_SCALAR_STRING);
+
+    // Numbers named by codes are strings
+    assert_int_equal(dmi_format_scalar_classify(&int_attr, "42"), DMI_FORMAT_SCALAR_NUMBER);
+    assert_int_equal(dmi_format_scalar_classify(&int_attr, "unknown"), DMI_FORMAT_SCALAR_STRING);
+    assert_int_equal(dmi_format_scalar_classify(&addr_attr, "0xFFFF0000"), DMI_FORMAT_SCALAR_NUMBER);
+
+    // Strings are strings, whatever they hold
+    assert_int_equal(dmi_format_scalar_classify(&str_attr, "42"), DMI_FORMAT_SCALAR_STRING);
+    assert_int_equal(dmi_format_scalar_classify(&str_attr, "true"), DMI_FORMAT_SCALAR_STRING);
 }

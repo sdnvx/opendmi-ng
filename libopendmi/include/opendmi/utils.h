@@ -11,6 +11,7 @@
 
 #include <opendmi/types.h>
 #include <opendmi/buffer.h>
+#include <opendmi/error.h>
 
 __BEGIN_DECLS
 
@@ -155,9 +156,11 @@ __END_DECLS
 /**
  * @brief Allocates a zero-initialised array.
  *
- * Equivalent to `dmi_alloc(context, size * count)`. On allocation failure and
- * when @p context is not @c nullptr, raises a `DMI_ERROR_OUT_OF_MEMORY` error on
- * @p context.
+ * Equivalent to `dmi_alloc(context, size * count)`, except that a product of
+ * @p size and @p count which does not fit in `size_t` fails rather than wraps
+ * around, since counts often come from firmware data. On allocation failure
+ * and when @p context is not @c nullptr, raises a `DMI_ERROR_OUT_OF_MEMORY`
+ * error on @p context.
  *
  * @param context DMI context used for error reporting, or @c nullptr to suppress
  *                error reporting.
@@ -167,6 +170,14 @@ __END_DECLS
  */
 static inline void *dmi_alloc_array(dmi_context_t *context, size_t size, size_t count)
 {
+    // Array which does not fit in the address space cannot be allocated
+    if ((size != 0) && (count > SIZE_MAX / size)) {
+        if (context != nullptr)
+            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+
+        return nullptr;
+    }
+
     return dmi_alloc(context, size * count);
 }
 

@@ -10,6 +10,7 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
+#include <opendmi/encoder.h>
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
@@ -27,6 +28,7 @@ static void test_chassis_decode_oem_defined(void **pstate);
 static void test_chassis_decode_elements(void **pstate);
 static void test_chassis_decode_elements_overflow(void **pstate);
 static void test_chassis_decode_short_elements(void **pstate);
+static void test_chassis_encode_short_elements(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -39,7 +41,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_chassis_decode_oem_defined, test_chassis_setup, test_chassis_teardown),
         cmocka_unit_test_setup_teardown(test_chassis_decode_elements, test_chassis_setup, test_chassis_teardown),
         cmocka_unit_test_setup_teardown(test_chassis_decode_elements_overflow, test_chassis_setup, test_chassis_teardown),
-        cmocka_unit_test_setup_teardown(test_chassis_decode_short_elements, test_chassis_setup, test_chassis_teardown)
+        cmocka_unit_test_setup_teardown(test_chassis_decode_short_elements, test_chassis_setup, test_chassis_teardown),
+        cmocka_unit_test_setup_teardown(test_chassis_encode_short_elements, test_chassis_setup, test_chassis_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -274,6 +277,44 @@ static void test_chassis_decode_short_elements(void **pstate)
     assert_string_equal(info->sku_number, "SKU");
     assert_int_equal(entity->level, DMI_VERSION(2, 7, 0));
 
+    dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
+}
+
+static void test_chassis_encode_short_elements(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
+    // Element records are shorter than 3 bytes, so they are stepped over
+    // while decoding, and the SKU number string after them is still in place
+    static const uint8_t body[] = {
+        0x01, 0x17, 0x00, 0x00, 0x00,
+        0x03, 0x03, 0x03, 0x03,
+        0x00, 0x00, 0x00, 0x00,
+        0x02, 0x02,
+        0x02, 0x02,
+        0x91, 0x00, 0x91, 0x00,
+        0x02
+    };
+
+    dmi_entity_t *entity = decode_chassis(entity_buffer, body, sizeof(body));
+
+    // Elements are written back as they are, so the SKU number string after
+    // them stays at its offset
+    dmi_buffer_t *output = dmi_buffer_create(context);
+    dmi_encoder_t encoder;
+
+    assert_true(dmi_encoder_initialize(&encoder, output, entity, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
+    assert_true(dmi_entity_encode(&encoder));
+    assert_int_equal(output->length, entity->body_length);
+    assert_memory_equal(output->data,
+                        dmi_buffer_at(entity->buffer, entity->offset, entity->body_length),
+                        output->length);
+    dmi_encoder_finalize(&encoder);
+
+    dmi_buffer_destroy(output);
     dmi_entity_destroy(entity);
 
     dmi_buffer_destroy(entity_buffer);

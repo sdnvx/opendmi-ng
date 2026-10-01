@@ -6,6 +6,7 @@
 //
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <cmocka.h>
 
 #include <opendmi/internal.h>
@@ -16,6 +17,7 @@ static void test_message_text(void **pstate);
 static void test_message_number(void **pstate);
 static void test_message_brace(void **pstate);
 static void test_message_invalid(void **pstate);
+static void test_locale_name_copied(void **pstate);
 
 int main(void)
 {
@@ -23,7 +25,8 @@ int main(void)
         cmocka_unit_test(test_message_text),
         cmocka_unit_test(test_message_number),
         cmocka_unit_test(test_message_brace),
-        cmocka_unit_test(test_message_invalid)
+        cmocka_unit_test(test_message_invalid),
+        cmocka_unit_test(test_locale_name_copied)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -98,4 +101,24 @@ static void test_message_invalid(void **pstate)
     assert_message("{0:byte}", args, countof(args), nullptr);
 
     assert_message(nullptr, args, countof(args), nullptr);
+}
+
+static void test_locale_name_copied(void **pstate)
+{
+    dmi_unused(pstate);
+
+    char name[] = "ru_RU";
+
+    // Locale is set only by the library built with ICU4C support
+    if (not dmi_set_locale(name))
+        skip();
+
+    // Name is kept by the library, not by the caller
+    memset(name, 'x', sizeof(name) - 1);
+
+    const char *locale = dmi_get_locale();
+    assert_non_null(locale);
+    assert_true(strncmp(locale, "ru", 2) == 0);
+
+    assert_true(dmi_set_locale(nullptr));
 }

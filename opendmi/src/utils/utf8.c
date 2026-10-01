@@ -85,6 +85,83 @@ char *dmi_utf8_repair_ex(dmi_context_t *context, const char *str, dmi_utf8_filte
     return result;
 }
 
+bool dmi_utf8_is_control(uint32_t code)
+{
+    return (code < 0x20u) or ((code >= 0x7Fu) and (code <= 0x9Fu));
+}
+
+char *dmi_utf8_escape(dmi_context_t *context, const char *str)
+{
+    assert(str != nullptr);
+
+    static const char digits[] = "0123456789ABCDEF";
+
+    const unsigned char *pos;
+    size_t size = 1;
+
+    // Calculate resulting string size
+    for (pos = dmi_cast(pos, str); *pos != 0; ) {
+        uint32_t code;
+        size_t length = dmi_utf8_decode(pos, &code);
+
+        if (length == 0) {
+            size += sizeof("\\xNN") - 1;
+            pos++;
+        } else if (dmi_utf8_is_control(code)) {
+            size += (code < 0x80u) ? sizeof("\\xNN") - 1 : sizeof("\\u00NN") - 1;
+            pos  += length;
+        } else {
+            size += length;
+            pos  += length;
+        }
+    }
+
+    char *result = dmi_alloc(context, size);
+    if (result == nullptr)
+        return nullptr;
+
+    char *out = result;
+
+    for (pos = dmi_cast(pos, str); *pos != 0; ) {
+        uint32_t code;
+        size_t length = dmi_utf8_decode(pos, &code);
+
+        if ((length != 0) and not dmi_utf8_is_control(code)) {
+            memcpy(out, pos, length);
+            out += length;
+            pos += length;
+            continue;
+        }
+
+        // Invalid bytes are escaped by their values, and valid control
+        // characters by their code points
+        unsigned value;
+
+        *out++ = '\\';
+        if (length == 0) {
+            value = *pos++;
+            *out++ = 'x';
+        } else if (code < 0x80u) {
+            value = code;
+            pos  += length;
+            *out++ = 'x';
+        } else {
+            value = code;
+            pos  += length;
+            *out++ = 'u';
+            *out++ = '0';
+            *out++ = '0';
+        }
+
+        *out++ = digits[(value >> 4) & 0x0Fu];
+        *out++ = digits[value & 0x0Fu];
+    }
+
+    *out = 0;
+
+    return result;
+}
+
 /**
  * @internal
  * @brief Get length of valid and accepted character at the beginning of the

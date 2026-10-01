@@ -118,4 +118,8 @@ static void test_name_lookup_rev(void **pstate)
     assert_int_equal(dmi_code_lookup_rev(&test_names, "inside"), 0x81);
     assert_int_equal(dmi_code_lookup_rev(&test_names, "range"), -1);
     assert_int_equal(dmi_code_lookup_rev(&test_names, "missing"), -1);
+
+    // Missing dictionary or code is not found
+    assert_int_equal(dmi_code_lookup_rev(nullptr, "inside"), -1);
+    assert_int_equal(dmi_code_lookup_rev(&test_names, nullptr), -1);
 }

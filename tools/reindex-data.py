@@ -9,15 +9,13 @@ import re
 import hashlib
 import sys
 import logging
-import subprocess
 import yaml
 import yaml.loader
 
+from opendmi_tools import base_dir, export_dump, opendmi_path
+
 # Resolve directory names
-tool_dir = os.path.dirname(os.path.realpath(__file__))
-base_dir = os.path.abspath(os.path.join(tool_dir, '..'))
 data_dir = os.path.join(base_dir, "data")
-build_dir = os.path.join(base_dir, "build/opendmi")
 
 num_updated = 0
 num_skipped = 0
@@ -103,31 +101,10 @@ def get_type_map(data: dict) -> dict:
 
     return type_map
 
-def read_file_data(file_path: str) -> dict:
-    try:
-        process = subprocess.Popen(
-            [
-                f"{build_dir}/bin/opendmi", "--file", file_path,
-                "export", "--all", "--format=yaml"
-            ],
-            stdout = subprocess.PIPE,
-            stderr = subprocess.PIPE
-        )
-        stdout, stderr = process.communicate()
-
-        sys.stdout.buffer.write(stderr)
-        sys.stdout.buffer.flush()
-
-        return yaml.load(stdout, Loader=yaml.loader.SafeLoader)
-    except subprocess.CalledProcessError as e:
-        logging.error("Unable to decode file")
-        print(e.stderr)
-        return None
-
 def process_file(file_path: str, spec: dict, out_file) -> bool:
     file_rel = os.path.relpath(file_path, data_dir)
 
-    data = read_file_data(file_path)
+    data = export_dump(file_path)
     if not data:
         logging.error("Update failed")
         return False
@@ -174,7 +151,7 @@ def process_file(file_path: str, spec: dict, out_file) -> bool:
     return True
 
 def process_vendor(vendor_dir: str):
-    global num_updated, num_orphans, num_skipped
+    global num_updated, num_orphans, num_skipped, num_errors
 
     vendor_rel = os.path.relpath(vendor_dir, base_dir)
     logging.info(f"=> {vendor_rel}")
@@ -235,6 +212,12 @@ def main(args: list[str]):
 
     logging.getLogger('').addHandler(console)
 
+    # Indexes are rewritten as they are processed, so nothing is touched
+    # unless the tool is there
+    if not os.access(opendmi_path, os.X_OK):
+        logging.error(f"Command line tool not found: {opendmi_path}")
+        return 1
+
     for vendor_dir in vendor_dirs():
         process_vendor(vendor_dir)
 
@@ -248,5 +231,7 @@ def main(args: list[str]):
                  f"duplicates: {num_duplicates}")
     logging.info("")
 
+    return 1 if num_errors else 0
+
 if __name__ == "__main__":
-	main(sys.argv[1:])
+    sys.exit(main(sys.argv[1:]))

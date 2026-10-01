@@ -54,8 +54,8 @@ its structure type, see `dmi_type`(3), whose `id` member is the number its
 specification gives it.
 
 Numbers are for what the table itself holds: the number a structure is found
-at, the structure types of the table, which `dmi_type_spec` and
-`dmi_type_name` look up in the context, the types the options of the tool
+at, the structure types of the table, which `dmi_type_spec`(3) and
+`dmi_type_name`(3) look up in the context, the types the options of the tool
 select, and the structures no specification describes, which
 `dmi_registry_lookup_first_id` finds.
 
@@ -70,6 +70,9 @@ Numbers of the structure types of the SMBIOS specification.
 == See also
 
 `dmi_type`(3),
+`dmi_type_name`(3),
+`dmi_type_spec`(3),
+`dmi_type_find`(3),
 `dmi_entity_type_id`(3)
 
 ifdef::backend-manpage[]

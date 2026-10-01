@@ -1,0 +1,146 @@
+ifdef::backend-manpage[]
+= dmi_message_format(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_message_format
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_message_format - format a message, substituting its arguments.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/locale.h>
+
+typedef enum dmi_message_arg_type {
+    DMI_MESSAGE_ARG_TEXT,
+    DMI_MESSAGE_ARG_NUMBER
+} dmi_message_arg_type_t;
+
+typedef struct dmi_message_arg {
+    dmi_message_arg_type_t type;
+
+    union {
+        const char *text;
+        intmax_t    number;
+    };
+} dmi_message_arg_t;
+
+#define DMI_MESSAGE_TEXT(value)   ...
+#define DMI_MESSAGE_NUMBER(value) ...
+
+char *dmi_message_format(
+        dmi_resource_t          *resource,
+        const char              *pattern,
+        const dmi_message_arg_t *args,
+        size_t                   count);
+----
+
+== Description
+
+The `dmi_message_format` function formats a message by substituting the
+placeholders of `pattern` with the arguments `args`. Unlike `printf`(3), the
+placeholders refer to the arguments by their indexes, so that a translation
+can put them in another order, and select the plural forms of words by
+numbers, so that it can agree words with numbers the way its language does.
+
+Placeholders of the pattern are:
+
+`{N}`::
+Argument number `N`, counted from zero: a text as it is, or a number in
+decimal.
+
+`{N:word}`::
+Plural form of `word` selected by the number of the argument `N`, which must
+be a number. The forms are the strings of the `plural/word` table of
+`resource`, keyed by the plural categories of the locale the resource is
+opened with, e.g. `one`, `few`, `many` and `other` in Russian. A category the
+table leaves out is given the `other` form.
+
+`{{`::
+Literal opening brace. A closing brace outside of a placeholder is taken as
+it is.
+
+`N` is a single digit, so a message has ten arguments at most.
+
+Plural categories follow the rules of the locale of the bundle the forms come
+from, e.g. `{0} {0:byte}` gives `1 byte` and `2 bytes` in English, while a
+Russian translation gives three different forms of the word for 1, 2 and 5
+bytes, of the `one`, `few` and `many` categories. The `root` bundle holds
+English forms, so the English rules are used for it. Patterns with plural
+forms need `resource` and ICU4C support; other patterns are formatted in any
+case, with or without them.
+
+Arguments are made with the `DMI_MESSAGE_TEXT` and `DMI_MESSAGE_NUMBER`
+macros, which give compound literals of `dmi_message_arg_t`:
+
+[source, c]
+----
+dmi_message_arg_t args[] = {
+    DMI_MESSAGE_NUMBER(count),
+    DMI_MESSAGE_TEXT(path)
+};
+
+char *text = dmi_message_format(resource, "{0} {0:structure} read from {1}",
+                                args, 2);
+----
+
+The caller is responsible for freeing the returned string.
+
+=== Parameters
+
+`resource`::
+Resource handle holding the plural forms, or `nullptr` for patterns with no
+plural forms.
+
+`pattern`::
+Message pattern.
+
+`args`::
+Arguments of the message. A text argument which is `nullptr` is substituted
+as an empty text.
+
+`count`::
+Number of the arguments.
+
+== Return value
+
+Returns the formatted message, or `nullptr` if:
+
+* `pattern` is `nullptr`;
+* the pattern has an opening brace with no closing one, or a placeholder
+  which is not of the forms above;
+* a placeholder refers to an argument past `count`;
+* a plural form is selected by a text argument, or no form of the word is
+  found, which is always the case when `resource` is `nullptr` or the library
+  is built without ICU4C support;
+* memory is exhausted.
+
+== Errors
+
+None: the function takes no context to raise errors in.
+
+== See also
+
+`dmi_resource_message`(3),
+`dmi_resource_open`(3),
+`dmi_resource_string`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

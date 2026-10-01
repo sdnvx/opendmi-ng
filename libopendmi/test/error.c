@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <wchar.h>
 #include <cmocka.h>
 
 #include <opendmi/context.h>
@@ -24,6 +25,7 @@ static void test_error_message_unknown(void **pstate);
 static void test_error_raise_null_context(void **pstate);
 static void test_error_raise(void **pstate);
 static void test_error_raise_ex(void **pstate);
+static void test_error_raise_ex_format_failure(void **pstate);
 static void test_error_peek_first_null_context(void **pstate);
 static void test_error_peek_first_empty(void **pstate);
 static void test_error_peek_first(void **pstate);
@@ -52,6 +54,7 @@ int main(void)
         cmocka_unit_test(test_error_raise_null_context),
         cmocka_unit_test(test_error_raise),
         cmocka_unit_test(test_error_raise_ex),
+        cmocka_unit_test(test_error_raise_ex_format_failure),
         cmocka_unit_test(test_error_peek_first_null_context),
         cmocka_unit_test(test_error_peek_first_empty),
         cmocka_unit_test(test_error_peek_first),
@@ -167,6 +170,32 @@ static void test_error_raise_ex(void **pstate)
 
     assert_non_null(error->message);
     assert_string_equal(error->message, "path: /dev/mem");
+
+    dmi_error_clear(context);
+}
+
+static void test_error_raise_ex_format_failure(void **pstate)
+{
+    dmi_context_t *context = dmi_cast(context, *pstate);
+    const dmi_error_t *error;
+
+#if defined(_WIN32)
+    // Conversion of wide characters is not known to fail the same way there
+    skip();
+#endif
+
+    dmi_error_clear(context);
+
+    // Wide character which the C locale cannot represent makes formatting
+    // fail. The error is kept without a message, and no other error is
+    // raised in its place.
+    assert_false(dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%ls", L"\x1234"));
+
+    error = dmi_error_peek_first(context);
+    assert_non_null(error);
+    assert_ptr_equal(error, dmi_error_peek_last(context));
+    assert_int_equal(error->reason, DMI_ERROR_FILE_OPEN);
+    assert_null(error->message);
 
     dmi_error_clear(context);
 }

@@ -10,7 +10,6 @@
 #pragma once
 
 #include <linux/kernel.h>
-#include <linux/kstrtox.h>
 #include <linux/slab.h>
 
 // Memory of the library is never used from atomic context, so the callers
@@ -43,17 +42,13 @@ static inline void free(void *ptr)
     kfree(ptr);
 }
 
-// Numbers are parsed by the deprecated functions of the kernel, since they
-// tell where parsing has stopped, as the C library ones do
+// Numbers are parsed as the C library does: the functions of the kernel
+// either do not tell where parsing has stopped (kstrto*()), or do not detect
+// overflow (simple_strto*()). On overflow, errno is set to ERANGE and the
+// maximum value is returned.
 
-static inline unsigned long strtoul(const char *str, char **end, int base)
-{
-    return simple_strtoul(str, end, (unsigned int)base);
-}
+unsigned long long strtoull(const char *str, char **end, int base);
 
-static inline unsigned long long strtoull(const char *str, char **end, int base)
-{
-    return simple_strtoull(str, end, (unsigned int)base);
-}
+unsigned long strtoul(const char *str, char **end, int base);
 
 #endif // !OPENDMI_COMPAT_STDLIB_H

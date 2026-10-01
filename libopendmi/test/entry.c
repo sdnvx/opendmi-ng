@@ -21,6 +21,7 @@ static int test_entry_teardown(void **pstate);
 static void test_entry_decode_legacy(void **pstate);
 static void test_entry_decode_legacy_checksum(void **pstate);
 static void test_entry_decode_v21(void **pstate);
+static void test_entry_decode_v21_short(void **pstate);
 static void test_entry_decode_v30(void **pstate);
 static void test_entry_decode_v30_length(void **pstate);
 
@@ -32,6 +33,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_entry_decode_legacy, test_entry_setup, test_entry_teardown),
         cmocka_unit_test_setup_teardown(test_entry_decode_legacy_checksum, test_entry_setup, test_entry_teardown),
         cmocka_unit_test_setup_teardown(test_entry_decode_v21, test_entry_setup, test_entry_teardown),
+        cmocka_unit_test_setup_teardown(test_entry_decode_v21_short, test_entry_setup, test_entry_teardown),
         cmocka_unit_test_setup_teardown(test_entry_decode_v30, test_entry_setup, test_entry_teardown),
         cmocka_unit_test_setup_teardown(test_entry_decode_v30_length, test_entry_setup, test_entry_teardown)
     };
@@ -168,6 +170,50 @@ static void test_entry_decode_v21(void **pstate)
 
     assert_int_equal(context->state.smbios_version, DMI_VERSION(2, 7, 0));
     assert_int_equal(context->state.entry_revision, 0x01);
+}
+
+static void test_entry_decode_v21_short(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    uint8_t buffer[0x1F] = {
+        '_', 'S', 'M', '_',             // Anchor
+        0x00,                           // Checksum
+        0x1E,                           // Entry point length
+        0x02, 0x01,                     // SMBIOS version
+        0x00, 0x01,                     // Maximum structure size
+        0x00,                           // Entry point revision
+        0x00, 0x00, 0x00, 0x00, 0x00    // Formatted area
+    };
+
+    // Entry point length of 0x1E, as incorrectly stated in SMBIOS 2.1,
+    // supplied at its exact length: the intermediate entry point lacks its
+    // BCD revision byte, which must not be read
+    fill_legacy_entry(buffer + 0x10, 0x21);
+    set_checksum(buffer, 0x04, 0x1E);
+
+    uint8_t *data = test_malloc(0x1E);
+    memcpy(data, buffer, 0x1E);
+
+    assert_true(dmi_entry_decode(context, data, 0x1E));
+
+    assert_int_equal(context->state.smbios_version, DMI_VERSION(2, 1, 0));
+    assert_int_equal(context->state.entry_version, DMI_VERSION(2, 1, 0));
+    assert_int_equal(context->state.entry_length, 0x1E);
+    assert_int_equal(context->state.entity_max_size, 0x100);
+    assert_int_equal(context->state.table_area_size, 0x1234);
+    assert_int_equal(context->state.table_area_addr, 0x000F0000);
+    assert_int_equal(context->state.entity_count, 42);
+
+    test_free(data);
+
+    // Same entry point in a larger buffer still has its intermediate entry
+    // point checksum verified
+    assert_true(dmi_entry_decode(context, buffer, sizeof(buffer)));
+    assert_int_equal(context->state.entry_length, 0x1E);
+
+    buffer[0x15]++;
+    buffer[0x04]--;
+    assert_false(dmi_entry_decode(context, buffer, sizeof(buffer)));
 }
 
 static void test_entry_decode_v30(void **pstate)

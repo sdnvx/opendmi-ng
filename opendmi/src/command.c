@@ -339,6 +339,22 @@ void dmi_command_trace(dmi_context_t *context)
     }
 }
 
+int dmi_command_flush(FILE *stream)
+{
+    assert(stream != nullptr);
+
+    errno = 0;
+    if ((fflush(stream) == 0) and not ferror(stream))
+        return 0;
+
+    return (errno != 0) ? errno : EIO;
+}
+
+bool dmi_command_is_raw(bool show_raw)
+{
+    return show_raw or not dmi_tty_is_stdout();
+}
+
 int dmi_command_run(
         const dmi_command_t *command,
         dmi_context_t       *context,
@@ -411,10 +427,16 @@ int dmi_command_run(
 
         rv = command->handlers.main(context, argc, argv);
 
-        // Commands may write to standard output directly, so check it here
-        if ((rv == EXIT_SUCCESS) and ((fflush(stdout) != 0) or ferror(stdout))) {
-            dmi_command_message_ex(command, "Unable to write output: %s", strerror(errno));
-            rv = EXIT_FAILURE;
+        // Commands may write to standard output directly, so check it here.
+        // Output is not an error if the pager has been quit before reading
+        // all of it.
+        if (rv == EXIT_SUCCESS) {
+            int error = dmi_command_flush(stdout);
+
+            if ((error != 0) and not dmi_pager_has_quit(stdout, error)) {
+                dmi_command_message_ex(command, "Unable to write output: %s", strerror(error));
+                rv = EXIT_FAILURE;
+            }
         }
     } while (false);
 

@@ -1,0 +1,142 @@
+ifdef::backend-manpage[]
+= dmi_name_lookup(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_name_lookup
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_name_lookup, dmi_name_lookup_ex, dmi_code_lookup, dmi_code_lookup_ex, dmi_code_lookup_rev - look up the name and the code of a value in a name set, and the value of a code.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/name.h>
+
+typedef enum dmi_name_type {
+    DMI_NAME_TYPE_NONE,
+    DMI_NAME_TYPE_EXACT,
+    DMI_NAME_TYPE_RANGE
+} dmi_name_type_t;
+
+typedef struct dmi_name {
+    int         id;
+    const char *code;
+    const char *name;
+} dmi_name_t;
+
+typedef struct dmi_name_range {
+    int         start_id;
+    int         end_id;
+    const char *code;
+    const char *name;
+} dmi_name_range_t;
+
+typedef struct dmi_name_set {
+    const char             *code;
+    const char             *name;
+    const char            **description;
+    const dmi_name_t       *names;
+    const dmi_name_range_t *ranges;
+} dmi_name_set_t;
+
+const char *dmi_name_lookup(const dmi_name_set_t *dict, int id);
+const char *dmi_name_lookup_ex(const dmi_name_set_t *dict, int id, dmi_name_type_t *ptype);
+
+const char *dmi_code_lookup(const dmi_name_set_t *dict, int id);
+const char *dmi_code_lookup_ex(const dmi_name_set_t *dict, int id, dmi_name_type_t *ptype);
+
+int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code);
+----
+
+== Description
+
+A name set, `dmi_name_set_t`, names the values of an enumeration or the bits
+of a set: every value has a code, a machine-readable identifier which is the
+same in every language, e.g. `desktop`, and a printable name, e.g.
+`Desktop`. The name sets of the library are what the `*_name` functions of
+the structure types, e.g. `dmi_chassis_type_name`(3), look the values up in.
+
+Values are named one by one by the `names` list, and in ranges by the
+`ranges` list, e.g. the values reserved for OEMs. Both lists are terminated by
+an entry whose `code` is `nullptr`, and either of them may be `nullptr`.
+
+The `dmi_name_lookup` function returns the printable name of the value `id`,
+and the `dmi_code_lookup` function returns its code. An entry of the value
+itself takes precedence over the ranges it belongs to; of several matching
+entries, the first one is taken.
+
+Printable names are translated to the locale set by `dmi_set_locale`(3), if
+the library has a translation for the entry: the translation is the string
+keyed by the code of the entry in the table named by the code of the set.
+Codes are never translated.
+
+The `_ex` variants also tell the kind of the matching entry, since the code
+and the name of a range are shared by all values of the range, so the value
+itself is needed to tell them apart.
+
+The `dmi_code_lookup_rev` function does the reverse: it returns the value
+whose code is `code`, e.g. to parse a value given by its code on the command
+line. Only the `names` list is searched, since the code of a range is shared
+by all values of the range and tells no value of its own; of several entries
+with the code, the first one is taken. Codes are compared exactly, case
+included.
+
+The strings belong to the name set or to the translation, and must not be
+freed. Untranslated strings are static; a translated name is valid until the
+locale is changed by `dmi_set_locale`(3).
+
+=== Parameters
+
+`dict`::
+Name set to look the value up in.
+
+`id`::
+Value to look up.
+
+`code`::
+Code to look up.
+
+`ptype`::
+Variable which receives the kind of the matching entry,
+`DMI_NAME_TYPE_EXACT` for an entry of the value itself, `DMI_NAME_TYPE_RANGE`
+for a range, and `DMI_NAME_TYPE_NONE` if there is no matching entry, or
+`nullptr`.
+
+== Return value
+
+The `dmi_name_lookup`, `dmi_name_lookup_ex`, `dmi_code_lookup` and
+`dmi_code_lookup_ex` functions return the printable name or the code of the
+value, or `nullptr` if `dict` is `nullptr`, if `id` is negative, or if no
+entry matches the value.
+
+The `dmi_code_lookup_rev` function returns the value, or -1 if `dict` or
+`code` is `nullptr`, if the set has no `names` list, or if no entry of the
+list has the code. Since values are never negative, -1 is told apart from
+any of them.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== See also
+
+`dmi_set_locale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,76 @@
+ifdef::backend-manpage[]
+= dmi_locale_init(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_locale_init
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_locale_init - initialize the locale of the program from the environment.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/locale.h>
+
+void dmi_locale_init(void);
+----
+
+== Description
+
+The `dmi_locale_init` function sets up the locale of a program from the
+environment in one call:
+
+* the `LC_CTYPE` and `LC_MESSAGES` categories of the C library are taken from
+  the environment by `setlocale`(3), so that characters are classified and
+  messages of the system are written in the language of the user;
+* the locale of the library is set by `dmi_set_locale`(3) to the default
+  locale of the environment, so that printable names are translated as well,
+  and left in English when there is no translation.
+
+Other categories, `LC_NUMERIC` in particular, are deliberately left in the C
+locale, so that the decimal point of formatted values does not depend on the
+environment, and machine-readable output is the same everywhere.
+
+Programs which handle the locale themselves do not need the function, and
+call `setlocale`(3) and `dmi_set_locale`(3) on their own.
+
+In the kernel, which has no locale environment, only the locale of the
+library is set.
+
+=== Thread safety
+
+Like `dmi_set_locale`(3), the function is not thread-safe. It is meant to be
+called once, at the start of the program, before the library is used.
+
+== Return value
+
+None. A locale which cannot be set leaves printable strings in English.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_set_locale`(3),
+`dmi_get_locale`(3),
+`setlocale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

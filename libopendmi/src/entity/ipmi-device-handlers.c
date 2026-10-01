@@ -43,7 +43,8 @@ bool dmi_ipmi_device_encode_version(
 // Base address means what the interface type says it does: an SMBus target
 // address shifted left by one bit for the SSIF interface, and a memory or an
 // I/O address for the rest, whose least significant bit tells the two apart
-// and is carried by the modifier instead.
+// and is carried by the modifier instead, see
+// dmi_ipmi_device_decode_modifier().
 //
 bool dmi_ipmi_device_decode_address(
         const dmi_field_t      *field,
@@ -52,16 +53,57 @@ bool dmi_ipmi_device_decode_address(
 {
     dmi_unused(field);
 
-    dmi_ipmi_device_t *info  = value;
-    const dmi_byte_t  *bytes = data->binary.data;
+    dmi_ipmi_device_t *info      = value;
+    dmi_qword_t        base_addr = (dmi_qword_t)data->number;
 
-    dmi_qword_t base_addr = 0;
+    if (info->interface_type == DMI_IPMI_INTERFACE_SSIF) {
+        info->base_addr      = (base_addr & 0xFFu) >> 1;
+        info->base_addr_type = DMI_IPMI_ADDR_TYPE_SMBUS;
+    } else {
+        info->base_addr      = base_addr & ~(dmi_qword_t)1u;
+        info->base_addr_type = (base_addr & 1u)
+                             ? DMI_IPMI_ADDR_TYPE_IO
+                             : DMI_IPMI_ADDR_TYPE_MEMORY;
+    }
 
-    for (size_t i = 0; i < sizeof(dmi_qword_t); i++)
-        base_addr |= (dmi_qword_t)bytes[i] << (i * CHAR_BIT);
+    return true;
+}
+
+bool dmi_ipmi_device_encode_address(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data)
+{
+    dmi_unused(field);
+
+    const dmi_ipmi_device_t *info = value;
+
+    if (info->interface_type == DMI_IPMI_INTERFACE_SSIF) {
+        data->number = ((dmi_qword_t)info->base_addr << 1) & 0xFFu;
+    } else {
+        data->number = ((dmi_qword_t)info->base_addr & ~(dmi_qword_t)1u) |
+                       ((info->base_addr_type == DMI_IPMI_ADDR_TYPE_IO) ? 1u : 0u);
+    }
+
+    return true;
+}
+
+//
+// Base address modifier holds the least significant bit of a memory or an
+// I/O address along with the interrupt information. The structure is allowed
+// to end before it, which leaves the bit clear and the rest unspecified.
+//
+bool dmi_ipmi_device_decode_modifier(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value)
+{
+    dmi_unused(field);
+
+    dmi_ipmi_device_t *info = value;
 
     dmi_ipmi_device_details_t details = {
-        .__value = bytes[sizeof(dmi_qword_t)]
+        .__value = (uint8_t)data->number
     };
 
     if (details.is_intr_info_specified) {
@@ -85,20 +127,13 @@ bool dmi_ipmi_device_decode_address(
 
     info->base_addr_lsb = details.base_addr_lsb;
 
-    if (info->interface_type == DMI_IPMI_INTERFACE_SSIF) {
-        info->base_addr      = (base_addr & 0xFFu) >> 1;
-        info->base_addr_type = DMI_IPMI_ADDR_TYPE_SMBUS;
-    } else {
-        info->base_addr      = (base_addr & ~(dmi_qword_t)1u) | info->base_addr_lsb;
-        info->base_addr_type = (base_addr & 1u)
-                             ? DMI_IPMI_ADDR_TYPE_IO
-                             : DMI_IPMI_ADDR_TYPE_MEMORY;
-    }
+    if (info->base_addr_type != DMI_IPMI_ADDR_TYPE_SMBUS)
+        info->base_addr |= info->base_addr_lsb;
 
     return true;
 }
 
-bool dmi_ipmi_device_encode_address(
+bool dmi_ipmi_device_encode_modifier(
         const dmi_field_t *field,
         const void        *value,
         dmi_field_data_t  *data)
@@ -106,15 +141,6 @@ bool dmi_ipmi_device_encode_address(
     dmi_unused(field);
 
     const dmi_ipmi_device_t *info = value;
-
-    dmi_qword_t base_addr;
-
-    if (info->interface_type == DMI_IPMI_INTERFACE_SSIF) {
-        base_addr = ((dmi_qword_t)info->base_addr << 1) & 0xFFu;
-    } else {
-        base_addr = ((dmi_qword_t)info->base_addr & ~(dmi_qword_t)1u) |
-                    ((info->base_addr_type == DMI_IPMI_ADDR_TYPE_IO) ? 1u : 0u);
-    }
 
     dmi_ipmi_device_details_t details = {};
 
@@ -130,15 +156,7 @@ bool dmi_ipmi_device_encode_address(
     default: details.register_spacing = DMI_IPMI_REGISTER_SPACING_RESERVED; break;
     }
 
-    for (size_t i = 0; i < sizeof(dmi_qword_t); i++)
-        data->buffer[i] = (dmi_byte_t)((base_addr >> (i * CHAR_BIT)) & 0xFFu);
-
-    data->buffer[sizeof(dmi_qword_t)] = details.__value;
-
-    data->binary = (dmi_binary_t){
-        .data   = data->buffer,
-        .length = sizeof(dmi_qword_t) + sizeof(dmi_byte_t)
-    };
+    data->number = details.__value;
 
     return true;
 }

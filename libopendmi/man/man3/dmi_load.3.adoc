@@ -66,7 +66,9 @@ Context is open already.
 Dump file cannot be opened.
 
 `DMI_ERROR_INVALID_DUMP`::
-File is not a dump of SMBIOS data.
+File is not a dump of SMBIOS data: it is not a regular file, or it is larger
+than an entry point followed by a table of `DMI_TABLE_MAX_SIZE` bytes, or it
+does not start with an entry point.
 
 `DMI_ERROR_BACKEND_INIT`::
 Dump file cannot be read.

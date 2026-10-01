@@ -171,11 +171,18 @@ static bool dmi_attributes_link_handle(
     if (count == 0)
         return true;
 
+    // Array left over by an attempt to link the structure which has failed
+    // is dropped rather than leaked, since linking starts anew each time
+    dmi_entity_t ***slot = (dmi_entity_t ***)target;
+
+    dmi_free(*slot);
+    *slot = nullptr;
+
     dmi_entity_t **targets = dmi_alloc_array(context, sizeof(*targets), count);
     if (targets == nullptr)
         return false;
 
-    *(dmi_entity_t ***)target = targets;
+    *slot = targets;
 
     bool success = true;
 

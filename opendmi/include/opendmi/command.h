@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <stdio.h>
+
 #include <opendmi/types.h>
 #include <opendmi/option.h>
 #include <opendmi/log.h>
@@ -164,6 +166,32 @@ void dmi_command_message(const char *format, ...);
 void dmi_command_message_ex(const dmi_command_t *command, const char *format, ...);
 
 void dmi_command_trace(dmi_context_t *context);
+
+/**
+ * @brief Flush output stream, and get the reason of its failure.
+ *
+ * Errors of the stream are sticky, so the stream may have failed before the
+ * flush, which leaves no reason in `errno` then.
+ *
+ * @param[in] stream Output stream.
+ *
+ * @return Zero if all the output has been written, or error number of the
+ *         failure otherwise (`EIO` if its reason is unknown).
+ */
+int dmi_command_flush(FILE *stream);
+
+/**
+ * @brief Check if the output of a listing command is raw: fields separated by
+ * tabs, without banner and headers.
+ *
+ * Raw output is the default when the standard output is not a terminal (as
+ * it has been before redirection to the pager).
+ *
+ * @param[in] show_raw Raw output is requested by the user.
+ *
+ * @return `true` if the output is raw, `false` otherwise.
+ */
+bool dmi_command_is_raw(bool show_raw);
 
 int dmi_command_run(
         const dmi_command_t *command,

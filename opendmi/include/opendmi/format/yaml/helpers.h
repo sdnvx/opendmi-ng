@@ -14,6 +14,12 @@
 __BEGIN_DECLS
 
 bool dmi_yaml_emit(dmi_yaml_session_t *session, yaml_event_t *event);
+bool dmi_yaml_flush(dmi_yaml_session_t *session);
+
+/**
+ * @brief Raise an error of the emitter, which has failed.
+ */
+void dmi_yaml_raise(dmi_yaml_session_t *session);
 
 bool dmi_yaml_label(dmi_yaml_session_t *session, const char *value);
 

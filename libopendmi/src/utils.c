@@ -29,6 +29,7 @@
 #endif
 
 #include <opendmi/context.h>
+#include <opendmi/entry.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 
@@ -236,6 +237,14 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
         return false;
     }
 
+    // Length comes from firmware, which is not trusted to map whatever it
+    // likes
+    if (length > DMI_TABLE_MAX_SIZE) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Region of %zu bytes exceeds the limit of %zu bytes",
+                           length, (size_t)DMI_TABLE_MAX_SIZE);
+        return false;
+    }
+
     if (not dmi_buffer_resize(buffer, length))
         return false;
 
@@ -272,6 +281,14 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
         return false;
     }
 
+    // Length comes from firmware, which is not trusted to map whatever it
+    // likes
+    if (length > DMI_TABLE_MAX_SIZE) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "%s: region of %zu bytes exceeds the limit of %zu bytes",
+                           path, length, (size_t)DMI_TABLE_MAX_SIZE);
+        return false;
+    }
+
     bool   success   = false;
     size_t page_size = sysconf(_SC_PAGE_SIZE);
     size_t offset    = base % page_size;
@@ -297,7 +314,10 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
             dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "%s: not a character device", path);
             break;
         }
-        if (S_ISREG(st.st_mode) and (base + length > (size_t)st.st_size)) {
+        // Region is checked without computing its end, which can overflow
+        if (S_ISREG(st.st_mode) and
+            ((length > (uint64_t)st.st_size) or (base > (uint64_t)st.st_size - length)))
+        {
             dmi_error_raise_ex(context, DMI_ERROR_INTERNAL, "%s: unable to map beyond the end of file", path);
             break;
         }
@@ -339,9 +359,13 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
 static void dmi_memory_get_data(dmi_data_t *dst, const dmi_data_t *src, size_t length)
 {
 #   if defined(__aarch64__)
-        // Avoid unaligned memory access on memory device
+        // Avoid unaligned memory access on memory device. Bytes are read
+        // through a volatile pointer, so that the compiler cannot turn the
+        // loop back into memcpy(), which uses wide unaligned accesses.
+        const volatile dmi_data_t *vsrc = src;
+
         for (size_t i = 0; i < length; i++) {
-            *(dst + i) = *(src + i);
+            *(dst + i) = *(vsrc + i);
         }
 #   else
         memcpy(dst, src, length);

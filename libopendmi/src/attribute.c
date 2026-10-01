@@ -419,7 +419,10 @@ static char *dmi_attribute_format_bool(
         str = pretty
             ? dmi_name_lookup(attribute->params.values, flag)
             : dmi_code_lookup(attribute->params.values, flag);
-    } else {
+    }
+
+    // Values the table does not name are named the usual way
+    if (str == nullptr) {
         str = pretty
             ? dmi_bool_name(flag)
             : dmi_bool_code(flag);
@@ -590,9 +593,9 @@ static char *dmi_attribute_format_size(
             size >>= 10;
         }
 
-        rv = dmi_asprintf(&str, "%" PRIu64 " %s", size, dmi_unit_name(units[i]));
+        rv = dmi_asprintf(&str, "%" PRIuMAX " %s", size, dmi_unit_name(units[i]));
     } else {
-        rv = dmi_asprintf(&str, "%" PRIu64, size);
+        rv = dmi_asprintf(&str, "%" PRIuMAX, size);
     }
 
     if (rv < 0) {

@@ -12,8 +12,9 @@
 #include <linux/errno.h>
 
 // The kernel reports errors by return values and has no errno. The library
-// only sets it on invalid arguments, and nothing in the kernel reads it, so
-// one variable shared by all the threads does.
+// sets it on invalid arguments and reads it back only to tell an overflow in
+// strtoul() and strtoull(). Tables are decoded only by the module init, so one
+// variable shared by all the threads does.
 extern int dmi_compat_errno;
 
 #define errno dmi_compat_errno

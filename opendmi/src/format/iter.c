@@ -6,6 +6,7 @@
 //
 #include <limits.h>
 #include <string.h>
+#include <ctype.h>
 #include <assert.h>
 
 #include <opendmi/internal.h>
@@ -199,3 +200,74 @@ char *dmi_format_attribute_value(
     return result;
 }
 
+
+dmi_format_scalar_t dmi_format_scalar_classify(const dmi_attribute_t *attr, const char *text)
+{
+    assert(attr != nullptr);
+    assert(text != nullptr);
+
+    switch (attr->type) {
+    case DMI_ATTRIBUTE_TYPE_BOOL:
+        // Attribute may name its states by codes other than booleans
+        if ((strcmp(text, "true") == 0) or (strcmp(text, "false") == 0))
+            return DMI_FORMAT_SCALAR_BOOL;
+        break;
+
+    case DMI_ATTRIBUTE_TYPE_HANDLE:
+    case DMI_ATTRIBUTE_TYPE_INTEGER:
+    case DMI_ATTRIBUTE_TYPE_DECIMAL:
+    case DMI_ATTRIBUTE_TYPE_SIZE:
+    case DMI_ATTRIBUTE_TYPE_ADDRESS:
+        // Attribute may name its special values by codes
+        if (dmi_format_is_number(text))
+            return DMI_FORMAT_SCALAR_NUMBER;
+        break;
+
+    default:
+        break;
+    }
+
+    return DMI_FORMAT_SCALAR_STRING;
+}
+
+bool dmi_format_is_number(const char *text)
+{
+    assert(text != nullptr);
+
+    const char *ptr = text;
+
+    // Hexadecimal integers
+    if ((ptr[0] == '0') and (ptr[1] == 'x')) {
+        ptr += 2;
+        if (*ptr == '\0')
+            return false;
+
+        while (isxdigit((unsigned char)*ptr))
+            ptr++;
+
+        return *ptr == '\0';
+    }
+
+    // Integers and fixed-point numbers, which may be negative. Leading zeros
+    // are not allowed, since they are invalid in JSON, and make octal numbers
+    // in YAML 1.1.
+    if (*ptr == '-')
+        ptr++;
+
+    const char *digits = ptr;
+
+    while (isdigit((unsigned char)*ptr))
+        ptr++;
+    if ((ptr == digits) or ((digits[0] == '0') and (ptr - digits > 1)))
+        return false;
+
+    if (*ptr == '.') {
+        digits = ++ptr;
+        while (isdigit((unsigned char)*ptr))
+            ptr++;
+        if (ptr == digits)
+            return false;
+    }
+
+    return *ptr == '\0';
+}

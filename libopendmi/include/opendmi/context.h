@@ -404,6 +404,11 @@ __dmi_api bool dmi_load(dmi_context_t *context, const char *path);
  * copy `dmi_anonymize`(3) makes of it, and the context itself is left as it
  * is.
  *
+ * A dump into a regular file is written to a temporary file in the same
+ * directory, which replaces @p path only once it is complete, so that a
+ * failure neither leaves an incomplete dump behind nor destroys the file
+ * being overwritten. Devices, pipes and symbolic links are written directly.
+ *
  * @param[in] context DMI context handle.
  * @param[in] path    Path to dump file.
  * @param[in] flags   Flags of `dmi_save_flags_t`.
@@ -413,9 +418,10 @@ __dmi_api bool dmi_load(dmi_context_t *context, const char *path);
  *        additional information entries applied to them and the table is to
  *        be anonymized
  * @error DMI_ERROR_INVALID_EPS_LENGTH Entry point is longer than a dump holds
- * @error DMI_ERROR_FILE_OPEN File cannot be created, or exists and is not to
- *        be overwritten
- * @error DMI_ERROR_FILE_WRITE File cannot be written
+ * @error DMI_ERROR_FILE_OPEN File or its temporary file cannot be created, or
+ *        the file exists and is not to be overwritten
+ * @error DMI_ERROR_FILE_WRITE File cannot be written, or the temporary file
+ *        cannot be renamed over it
  * @error DMI_ERROR_OUT_OF_MEMORY Memory cannot be allocated
  * @error DMI_ERROR_INTERNAL Table cannot be anonymized
  *

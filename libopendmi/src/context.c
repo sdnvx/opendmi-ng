@@ -20,6 +20,14 @@
 #   include <fcntl.h>
 #endif
 
+// Dumps are moved into place by the system, see dmi_save_commit()
+#if defined(_WIN32)
+#   define WIN32_LEAN_AND_MEAN
+#   define NOMINMAX
+#   include <windows.h>
+#   include <process.h>
+#endif
+
 #include <opendmi/anonymize.h>
 #include <opendmi/context.h>
 #include <opendmi/entry.h>
@@ -31,6 +39,11 @@
 
 #if !defined(__KERNEL__)
 #   include <opendmi/utils/file.h>
+#   include <opendmi/utils/string.h>
+#endif
+
+#if defined(_WIN32)
+#   include <opendmi/utils/win32.h>
 #endif
 
 #include <opendmi/backend/dump.h>
@@ -249,6 +262,43 @@ static bool dmi_types_map_one(
 static void dmi_version_fixup(dmi_context_t *context);
 
 #if !defined(__KERNEL__)
+/**
+ * @internal
+ * @brief Number of names tried for the temporary file of a dump.
+ */
+#define DMI_SAVE_TEMP_ATTEMPTS 100
+
+/**
+ * @internal
+ * @brief Tell the status of the target of a dump, without following it if it
+ * is a symbolic link.
+ */
+static int dmi_save_stat(const char *path, dmi_file_stat_t *st);
+
+/**
+ * @internal
+ * @brief Create the temporary file a dump is written to.
+ *
+ * @details
+ * The file is created next to the target, so that it can be renamed over it,
+ * and is never one which has existed before.
+ *
+ * @return Path to the file, which is to be freed by the caller, or
+ *         @c nullptr on failure.
+ */
+static char *dmi_save_temp_open(dmi_context_t *context, const char *path, int *pfd);
+
+/**
+ * @internal
+ * @brief Move a completely written dump into place.
+ *
+ * @details
+ * Existing file is replaced atomically if @p overwrite is set, and is never
+ * replaced otherwise, even if it has been created while the dump was being
+ * written.
+ */
+static bool dmi_save_commit(dmi_context_t *context, const char *temp, const char *path, bool overwrite);
+
 /**
  * @internal
  * @brief Write dump data completely, raising an error on failures.
@@ -603,7 +653,7 @@ bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
 #else
 bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
 {
-    int fd;
+    int fd = -1;
     bool success;
 
     if (context == nullptr)
@@ -649,23 +699,49 @@ bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
         table = anonymized;
     }
 
-    int mode = O_CREAT | O_WRONLY | O_TRUNC;
-#if defined(O_BINARY)
-    mode |= O_BINARY;
-#endif
-    if (not (flags & DMI_SAVE_FLAG_OVERWRITE))
-        mode |= O_EXCL;
+    bool overwrite = (flags & DMI_SAVE_FLAG_OVERWRITE) != 0;
 
-    fd = open(path, mode, 0666);
-    if (fd < 0) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+    // Regular file is never written in place: the dump goes to a temporary
+    // file, which replaces the target only once it is complete, so that a
+    // failure neither destroys the file being overwritten nor leaves an
+    // incomplete dump behind. Devices, pipes and symbolic links, e.g.
+    // /dev/stdout, cannot be replaced that way, and are written directly.
+    dmi_file_stat_t st;
+    bool exists    = (dmi_save_stat(path, &st) == 0);
+    bool is_direct = exists and not S_ISREG(st.st_mode);
+    char *temp     = nullptr;
+
+    if (exists and not is_direct and not overwrite) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(EEXIST));
         dmi_buffer_destroy(anonymized);
         return false;
     }
 
-    // Only regular files are removed on errors, not devices or pipes
-    dmi_file_stat_t st;
-    bool is_regular = (dmi_file_stat(fd, &st) == 0) and S_ISREG(st.st_mode);
+    if (is_direct) {
+        int mode = O_CREAT | O_WRONLY | O_TRUNC;
+#if defined(O_BINARY)
+        mode |= O_BINARY;
+#endif
+        if (not overwrite)
+            mode |= O_EXCL;
+
+        fd = open(path, mode, 0666);
+        if (fd < 0)
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+    } else {
+        temp = dmi_save_temp_open(context, path, &fd);
+    }
+
+    if (fd < 0) {
+        dmi_buffer_destroy(anonymized);
+        return false;
+    }
+
+#if !defined(_WIN32)
+    // Replaced file keeps its permissions
+    if (exists and (temp != nullptr))
+        (void)fchmod(fd, st.st_mode & 0777);
+#endif
 
     success = false;
     do {
@@ -683,9 +759,16 @@ bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
         success = false;
     }
 
-    // Do not leave incomplete dump behind
-    if ((not success) and is_regular)
-        remove(path);
+    if (temp != nullptr) {
+        if (success)
+            success = dmi_save_commit(context, temp, path, overwrite);
+
+        // Do not leave incomplete dump behind
+        if (not success)
+            remove(temp);
+
+        dmi_free(temp);
+    }
 
     dmi_buffer_destroy(anonymized);
 
@@ -748,8 +831,10 @@ const char *dmi_type_name(dmi_context_t *context, dmi_type_id_t type)
         return dmi_spec_name(spec);
 
     // Types of the modules which are not enabled have no specification of
-    // their own in the context
-    return (type > 0x7F)
+    // their own in the context, and numbers out of range are no type at all
+    bool is_oem = (type >= __DMI_TYPE_ID_OEM_START) and (type <= DMI_TYPE_ID_MAX);
+
+    return is_oem
             ? dmi_value_text("oem-type", "OEM-specific")
             : dmi_value_text("unknown-type", "Unknown");
 }
@@ -1392,6 +1477,107 @@ static void dmi_version_fixup(dmi_context_t *context)
 }
 
 #if !defined(__KERNEL__)
+static int dmi_save_stat(const char *path, dmi_file_stat_t *st)
+{
+#if defined(_WIN32)
+    return _stat(path, st);
+#else
+    return lstat(path, st);
+#endif
+}
+
+static char *dmi_save_temp_open(dmi_context_t *context, const char *path, int *pfd)
+{
+    int mode = O_CREAT | O_EXCL | O_WRONLY;
+#if defined(O_BINARY)
+    mode |= O_BINARY;
+#endif
+
+#if defined(_WIN32)
+    long pid = (long)_getpid();
+#else
+    long pid = (long)getpid();
+#endif
+
+    *pfd = -1;
+
+    // Name is tried again if it is taken, e.g. by another dump of the same
+    // process being saved at the same time
+    for (unsigned attempt = 0; attempt < DMI_SAVE_TEMP_ATTEMPTS; attempt++) {
+        char *temp = nullptr;
+
+        if (dmi_asprintf(&temp, "%s.%ld-%u.tmp", path, pid, attempt) < 0) {
+            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+            return nullptr;
+        }
+
+        int fd = open(temp, mode, 0666);
+        if (fd >= 0) {
+            *pfd = fd;
+            return temp;
+        }
+
+        int error = errno;
+        dmi_free(temp);
+
+        if (error != EEXIST) {
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(error));
+            return nullptr;
+        }
+    }
+
+    dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: Unable to create temporary file", path);
+
+    return nullptr;
+}
+
+static bool dmi_save_commit(dmi_context_t *context, const char *temp, const char *path, bool overwrite)
+{
+#if defined(_WIN32)
+    // Unlike rename(), the system call replaces an existing file on request,
+    // and fails if there is one otherwise
+    if (MoveFileExA(temp, path, overwrite ? MOVEFILE_REPLACE_EXISTING : 0))
+        return true;
+
+    DWORD error = GetLastError();
+    bool  is_existing = (error == ERROR_ALREADY_EXISTS) or (error == ERROR_FILE_EXISTS);
+
+    dmi_error_raise_ex(context, is_existing ? DMI_ERROR_FILE_OPEN : DMI_ERROR_FILE_WRITE,
+                       "%s: %s", path, dmi_win32err_to_string(error));
+
+    return false;
+#else
+    if (not overwrite) {
+        // Hard link is made only if there is no such file yet, unlike a
+        // rename, which would replace a file created in the meantime
+        if (link(temp, path) == 0) {
+            remove(temp);
+            return true;
+        }
+
+        if (errno == EEXIST) {
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+            return false;
+        }
+
+        // File systems with no hard links, e.g. FAT, leave nothing but a
+        // rename, so the target is checked to be missing once again
+        dmi_file_stat_t st;
+        if (dmi_save_stat(path, &st) == 0) {
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(EEXIST));
+            return false;
+        }
+    }
+
+    if (rename(temp, path) < 0) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: %s", path, strerror(errno));
+        return false;
+    }
+
+    return true;
+#endif
+}
+
 static bool dmi_dump_write(
         dmi_context_t    *context,
         int               fd,

@@ -1,0 +1,91 @@
+ifdef::backend-manpage[]
+= dmi_resource_string(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_resource_string
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_resource_string - look up a translated string.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/locale.h>
+
+const char *dmi_resource_string(dmi_resource_t *resource, const char *table, const char *key);
+----
+
+== Description
+
+The `dmi_resource_string` function looks up the string `key` of the table
+`table` of a resource package, in the locale the package is opened with.
+
+Strings of a table are converted to UTF-8 on the first lookup in it, and are
+kept until the locale is changed or the package is closed. Tables which the
+package does not have are remembered as empty ones, so a lookup of a missing
+string is cheap as well.
+
+Strings of a table are taken from a single bundle: a string which the table
+of the locale leaves out is not taken from the same table of a less specific
+locale, nor from the `root` bundle. Callers are expected to fall back to a
+text of their own, usually the untranslated one, when no string is found:
+
+[source, c]
+----
+const char *text = dmi_resource_string(resource, "text", "Handle");
+
+puts(text != nullptr ? text : "Handle");
+----
+
+The string belongs to the package, and must not be freed. It is valid until
+the locale is changed by `dmi_set_locale`(3), or the package is closed by
+`dmi_resource_close`(3).
+
+=== Parameters
+
+`resource`::
+Resource handle, or `nullptr`, in which case no string is found.
+
+`table`::
+Path of the table holding the string: the name of a top-level table, e.g. a
+name set code, or names of nested tables separated by slashes, e.g.
+`processor/attributes`. A path with a name of 64 bytes or longer finds no
+table.
+
+`key`::
+Key of the string within the table.
+
+== Return value
+
+Returns the string in UTF-8, or `nullptr` if there is no such string, if an
+argument is `nullptr`, if memory is exhausted, or if the library is built
+without ICU4C support.
+
+== Errors
+
+None: the function takes no context to raise errors in.
+
+== See also
+
+`dmi_resource_open`(3),
+`dmi_resource_message`(3),
+`dmi_set_locale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -17,6 +17,7 @@
 static void test_utf8_is_valid(void **pstate);
 static void test_utf8_repair(void **pstate);
 static void test_utf8_filter(void **pstate);
+static void test_utf8_escape(void **pstate);
 
 static bool test_utf8_is_printable(uint32_t code);
 
@@ -25,7 +26,8 @@ int main(void)
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_utf8_is_valid),
         cmocka_unit_test(test_utf8_repair),
-        cmocka_unit_test(test_utf8_filter)
+        cmocka_unit_test(test_utf8_filter),
+        cmocka_unit_test(test_utf8_escape)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -76,13 +78,13 @@ static void test_utf8_repair(void **pstate)
         const char *input;
         const char *output;
     } cases[] = {
-        { "",                   ""                                   },
-        { "ASCII \xC2\xA9",     "ASCII \xC2\xA9"                     },
-        { "\xFF",               "\xEF\xBF\xBD"                       },
-        { "A\xFF" "B",          "A\xEF\xBF\xBD" "B"                  },
-        { "\xE2\x82" "A",       "\xEF\xBF\xBD\xEF\xBF\xBD" "A"       },
-        { "\xC0\x80",           "\xEF\xBF\xBD\xEF\xBF\xBD"           },
-        { "\xE2\x82\xAC\xFF",   "\xE2\x82\xAC\xEF\xBF\xBD"           }
+        { "",                       ""                             },
+        { "ASCII \xC2\xA9",         "ASCII \xC2\xA9"               },
+        { "\xFF",                   "\xEF\xBF\xBD"                 },
+        { "A\xFF" "B",              "A\xEF\xBF\xBD" "B"            },
+        { "\xE2\x82" "A",           "\xEF\xBF\xBD\xEF\xBF\xBD" "A" },
+        { "\xC0\x80",               "\xEF\xBF\xBD\xEF\xBF\xBD"     },
+        { "\xE2\x82\xAC\xFF",       "\xE2\x82\xAC\xEF\xBF\xBD"     }
     };
 
     for (size_t i = 0; i < countof(cases); i++) {
@@ -113,11 +115,11 @@ static void test_utf8_filter(void **pstate)
         const char *input;
         const char *output;
     } cases[] = {
-        { "A\x01" "B",          "A\xEF\xBF\xBD" "B"                    },
+        { "A\x01" "B",              "A\xEF\xBF\xBD" "B"        },
         // Rejected multibyte character is replaced as a whole
-        { "A\xC2\x80" "B",      "A\xEF\xBF\xBD" "B"                    },
-        { "\x01\xFF",           "\xEF\xBF\xBD\xEF\xBF\xBD"             },
-        { "\xE2\x82\xAC",       "\xE2\x82\xAC"                          }
+        { "A\xC2\x80" "B",          "A\xEF\xBF\xBD" "B"        },
+        { "\x01\xFF",               "\xEF\xBF\xBD\xEF\xBF\xBD" },
+        { "\xE2\x82\xAC",           "\xE2\x82\xAC"             }
     };
 
     for (size_t i = 0; i < countof(cases); i++) {
@@ -132,6 +134,41 @@ static void test_utf8_filter(void **pstate)
         assert_true(valid);
         assert_int_equal(diff, 0);
     }
+}
+
+static void test_utf8_escape(void **pstate)
+{
+    dmi_unused(pstate);
+
+    static const struct {
+        const char *input;
+        const char *expected;
+    } cases[] = {
+        { "",                       ""                      },
+        { "Plain text",             "Plain text"            },
+        { "C:\\Path",               "C:\\Path"              }, // Backslashes are kept
+        { "\xC2\xA9 \xE2\x82\xAC",  "\xC2\xA9 \xE2\x82\xAC" }, // Printable characters
+        { "A\x1B[2JB",              "A\\x1B[2JB"            }, // ESC
+        { "\tA\r\n",                "\\x09A\\x0D\\x0A"      }, // Tab and line breaks
+        { "A\x7F",                  "A\\x7F"                }, // DEL
+        { "A\xC2\x9B" "1m",         "A\\u009B1m"            }, // C1 CSI
+        { "A\x9B" "1m",             "A\\x9B1m"              }, // Invalid byte
+        { "\xE2\x82",               "\\xE2\\x82"            }  // Truncated sequence
+    };
+
+    for (size_t i = 0; i < countof(cases); i++) {
+        char *escaped = dmi_utf8_escape(nullptr, cases[i].input);
+        assert_non_null(escaped);
+        assert_string_equal(escaped, cases[i].expected);
+        dmi_free(escaped);
+    }
+
+    assert_true(dmi_utf8_is_control(0x00u));
+    assert_true(dmi_utf8_is_control(0x1Fu));
+    assert_true(dmi_utf8_is_control(0x7Fu));
+    assert_true(dmi_utf8_is_control(0x9Fu));
+    assert_false(dmi_utf8_is_control(0x20u));
+    assert_false(dmi_utf8_is_control(0xA0u));
 }
 
 // Reject C0 and C1 control characters

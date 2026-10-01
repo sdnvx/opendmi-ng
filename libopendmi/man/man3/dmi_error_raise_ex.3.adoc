@@ -61,13 +61,12 @@ Format arguments.
 == Return value
 
 Returns `true` on success. Returns `false` if `context` is `nullptr` or if
-memory allocation for the formatted message fails.
+memory allocation for the formatted message fails. In the latter case the
+error is still added to the queue, left without a message.
 
 == Errors
 
-`DMI_ERROR_OUT_OF_MEMORY`::
-Message cannot be formatted. Raised after the error itself, which is
-left without a message.
+None.
 
 == Examples
 

@@ -138,7 +138,8 @@ Command line is invalid.
 Pager the output of the text commands (`show`, `list`, `entry`, `lint`, `types`,
 `explain`, `modules`) is shown through, `less` if it is not set. Set it to an
 empty value to disable the pager. Output which is not a terminal is never
-paged.
+paged. Quitting the pager before the end of the output is not a failure: the
+rest of the output is discarded and the command exits with status 0.
 
 *LESS*::
 Options of `less`, when it is used as the pager. If it is not set, the utility

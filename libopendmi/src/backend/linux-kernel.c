@@ -82,8 +82,17 @@ static bool dmi_linux_kernel_read_table(dmi_context_t *context, dmi_buffer_t *bu
     assert(context != nullptr);
     assert(buffer != nullptr);
 
-    return dmi_memory_load(buffer, nullptr,
-                           context->state.table_area_addr, context->state.table_area_max_size);
+    uint64_t addr = context->state.table_area_addr;
+
+    // Address of SMBIOS 3.0 table is 64-bit, which does not fit the address
+    // space of a 32-bit kernel
+    if ((size_t)addr != addr) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Table address 0x%llx is out of range",
+                           (unsigned long long)addr);
+        return false;
+    }
+
+    return dmi_memory_load(buffer, nullptr, (size_t)addr, context->state.table_area_max_size);
 }
 
 static bool dmi_linux_kernel_close(dmi_context_t *context)

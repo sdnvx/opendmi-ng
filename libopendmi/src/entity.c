@@ -274,14 +274,12 @@ bool dmi_entity_decode(dmi_entity_t *entity)
         return false;
 
     // Structure is read through a decoder of its own, which gives the bytes
-    // to the handler and tells it what they refer to
+    // to the handler and tells it what they refer to. A decoder which cannot
+    // be set up fails the decoding the way the handler would, so that the
+    // descriptor allocated above is released
     dmi_decoder_t decoder;
 
-    if (not dmi_decoder_initialize(&decoder, entity))
-        return false;
-
-    // Execute decoder
-    bool status = decode(&decoder);
+    bool status = dmi_decoder_initialize(&decoder, entity) and decode(&decoder);
 
     // Members which are computed rather than read are filled in once the
     // fields are there, including when the data ended early: whatever has
@@ -836,7 +834,7 @@ static bool dmi_entity_apply_overlays(dmi_entity_t *entity)
     if (not dmi_buffer_assign(entity->overlay,
                               dmi_buffer_at(entity->buffer, entity->offset, entity->body_length),
                               entity->body_length))
-        return false;
+        goto failure;
 
     // Entries have been checked when attached, later ones take precedence
     for (const dmi_entity_overlay_t *node = entity->overlays; node != nullptr; node = node->next) {
@@ -847,9 +845,18 @@ static bool dmi_entity_apply_overlays(dmi_entity_t *entity)
 
         if (not dmi_buffer_write(entity->overlay, entry->value.data,
                                  entry->ref_offset, entry->value.length))
-            return false;
+            goto failure;
     }
 
     return true;
+
+failure:
+    // Copy which has not been made in full is dropped, so that the next
+    // attempt to decode the structure makes it again rather than reads the
+    // structure without the additional information
+    dmi_buffer_destroy(entity->overlay);
+    entity->overlay = nullptr;
+
+    return false;
 }
 

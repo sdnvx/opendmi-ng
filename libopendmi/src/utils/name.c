@@ -31,7 +31,7 @@ const char *dmi_code_lookup_ex(const dmi_name_set_t *dict, int id, dmi_name_type
 
 int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code)
 {
-    if ((dict == nullptr) or (dict->names == nullptr))
+    if ((dict == nullptr) or (dict->names == nullptr) or (code == nullptr))
         return -1;
 
     for (const dmi_name_t *entry = dict->names; entry->code != nullptr; entry++) {

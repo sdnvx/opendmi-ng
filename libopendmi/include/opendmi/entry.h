@@ -42,6 +42,17 @@ typedef struct dmi_entry_v30    dmi_entry_v30_t;
 #define DMI_ENTRY_MAX_SIZE 0x20
 
 /**
+ * @brief Maximum size of SMBIOS structure table accepted by the library.
+ *
+ * @details
+ * The size comes from the entry point, which is supplied by firmware, and is
+ * used to map physical memory and to read files. An SMBIOS 3.0 entry point
+ * allows up to 4 GiB, but no real table comes close to that, so larger ones
+ * are rejected rather than mapped.
+ */
+#define DMI_TABLE_MAX_SIZE (16 * 1024 * 1024)
+
+/**
  * @brief SMBIOS entry point format specification.
  */
 struct dmi_entry_spec

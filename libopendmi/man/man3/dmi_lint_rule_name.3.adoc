@@ -1,0 +1,68 @@
+ifdef::backend-manpage[]
+= dmi_lint_rule_name(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lint_rule_name
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lint_rule_name - get the printable name of a lint rule.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/lint.h>
+
+const char *dmi_lint_rule_name(const dmi_lint_rule_t *rule);
+----
+
+== Description
+
+The `dmi_lint_rule_name` function returns the printable description of what
+a lint rule checks, which tools show next to the code of the rule, e.g.
+`entry.checksum`.
+
+The name is translated to the locale set by `dmi_set_locale`(3), if the
+library has a translation for the rule: the translation is the string keyed
+by the code of the rule in the `lint-rule` table. Otherwise the name is the
+`name` member of the parameters of the rule, as the rule declares it. Codes
+of the rules are never translated.
+
+The name belongs to the rule or to the translation, and must not be freed. An
+untranslated name is static; a translated one is valid until the locale is
+changed by `dmi_set_locale`(3).
+
+=== Parameters
+
+`rule`::
+Rule to name, e.g. one of the rules returned by `dmi_lint_rules`.
+
+== Return value
+
+Returns the printable name of the rule, or `nullptr` if `rule` is `nullptr`.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_set_locale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -576,6 +576,14 @@ __BEGIN_DECLS
  *
  * Returns the type number the structures of the specification are found at,
  * which relocations may make different from the type of the specification.
+ * Only the specifications mapped in the context are found; of several
+ * numbers a specification is mapped to, the lowest one is returned.
+ *
+ * @param[in] context Context descriptor.
+ * @param[in] code    Code of the specification, e.g. `system`.
+ *
+ * @return Type number, or `DMI_TYPE_ID_INVALID` if @p context or @p code is
+ *         @c nullptr, or no specification with the code is mapped.
  */
 __dmi_api dmi_type_id_t dmi_type_find(dmi_context_t *context, const char *code);
 
@@ -588,11 +596,32 @@ __dmi_api dmi_type_id_t dmi_type_find(dmi_context_t *context, const char *code);
  * and the type is represented by the one without a signature, or by the
  * first one with a signature if there is none. The specification a structure
  * is decoded by is the `spec` member of the entity.
+ *
+ * @param[in] context Context descriptor.
+ * @param[in] type    Type number.
+ *
+ * @return Specification, or @c nullptr if @p context is @c nullptr, no
+ *         specification is mapped to the number, or the number is out of
+ *         range.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Type number is out of range.
  */
 __dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_id_t type);
 
 /**
  * @brief Get entity type name.
+ *
+ * Names the type by the specification it is mapped to in the context, see
+ * `dmi_type_spec`(3), and by its range otherwise: `OEM-specific` for the
+ * numbers 128 through 255, and `Unknown` for the others, including the numbers
+ * out of range, which are reported as `DMI_ERROR_INVALID_ARGUMENT`.
+ *
+ * @param[in] context Context descriptor, or @c nullptr.
+ * @param[in] type    Type number.
+ *
+ * @return Printable name, never @c nullptr.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Type number is out of range.
  */
 __dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_id_t type);
 

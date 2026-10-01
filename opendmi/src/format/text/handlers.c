@@ -35,10 +35,8 @@ void *dmi_text_initialize(dmi_context_t *context, FILE *stream, const dmi_format
     dmi_text_session_t *session;
 
     session = dmi_alloc(context, sizeof(*session));
-    if (session == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+    if (session == nullptr)
         return nullptr;
-    }
 
     session->context = context;
     session->stream  = stream;
@@ -196,8 +194,10 @@ bool dmi_text_entity_start(dmi_text_session_t *session, const dmi_entity_t *enti
     // Structure version follows the name in verbose mode
     if (verbose and (entity->level != DMI_VERSION_NONE)) {
         char *level = dmi_version_format(entity->level);
-        if (level == nullptr)
+        if (level == nullptr) {
+            dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
             return false;
+        }
 
         dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, " (%s)", level);
         dmi_free(level);
@@ -365,6 +365,10 @@ void dmi_text_entity_attr_value(
     if ((*text != 0) or (attr->params.unit != DMI_UNIT_NONE))
         fputc(' ', session->stream);
 
+    // Values may hold strings of the data, which are not trusted
+    char *escaped;
+    const char *safe = dmi_text_escape(session, text, &escaped);
+
     // Adjust color of boolean values
     dmi_tty_color_t color = DMI_TTY_COLOR_NONE;
     if (attr->type == DMI_ATTRIBUTE_TYPE_BOOL) {
@@ -375,15 +379,16 @@ void dmi_text_entity_attr_value(
     }
 
     if (attr->params.unit != DMI_UNIT_NONE)
-        dmi_text_printf(session, color, "%s %s", text, dmi_unit_name(attr->params.unit));
+        dmi_text_printf(session, color, "%s %s", safe, dmi_unit_name(attr->params.unit));
     else
-        dmi_text_printf(session, color, "%s", text);
+        dmi_text_printf(session, color, "%s", safe);
 
     if (descr != nullptr)
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, " - %s", descr);
 
     fputc('\n', session->stream);
 
+    dmi_free(escaped);
     dmi_free(text);
 
     // Flags are indented one level deeper than the attribute
@@ -412,6 +417,22 @@ void dmi_text_entity_attr_set(
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s: ", (int)depth, "\t\t\t\t\t\t\t\t", flag->name);
         dmi_text_printf(session, color, "%s\n", dmi_bool_name(flag->value));
     }
+}
+
+//
+// Print a string of the data, which is not trusted, between prefix and suffix.
+//
+static void dmi_text_print_string(
+        dmi_text_session_t *session,
+        const char         *prefix,
+        const char         *str,
+        const char         *suffix)
+{
+    char *escaped;
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s%s%s",
+                    prefix, dmi_text_escape(session, str, &escaped), suffix);
+    dmi_free(escaped);
 }
 
 bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t *entity)
@@ -444,7 +465,7 @@ bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t 
             dmi_text_printf(session, DMI_TTY_COLOR_GREY, " %s\n",
                             dmi_tool_text("value", "unspecified", "<unspecified>"));
         else if (*property->value != 0)
-            dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %s\n", property->value);
+            dmi_text_print_string(session, " ", property->value, "\n");
         else
             dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
     }
@@ -470,7 +491,7 @@ bool dmi_text_entity_overlays(dmi_text_session_t *session, const dmi_entity_t *e
         dmi_free(value);
 
         if (overlay->entry->string != nullptr)
-            dmi_text_printf(session, DMI_TTY_COLOR_NONE, " - \"%s\"", overlay->entry->string);
+            dmi_text_print_string(session, " - \"", overlay->entry->string, "\"");
 
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
     }
@@ -504,8 +525,13 @@ bool dmi_text_entity_strings(dmi_text_session_t *session, const dmi_entity_t *en
 
     dmi_format_string_iter_init(&iter, entity);
 
-    while ((str = dmi_format_string_iter_next(&iter)) != nullptr)
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%zu: \"%s\"\n", iter.index, str);
+    while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
+        char *escaped;
+
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t%zu: \"%s\"\n", iter.index,
+                        dmi_text_escape(session, str, &escaped));
+        dmi_free(escaped);
+    }
 
     return true;
 }

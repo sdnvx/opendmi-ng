@@ -13,6 +13,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/tty.h>
+#include <opendmi/utils/utf8.h>
 #include <opendmi/utils/locale.h>
 #include <opendmi/utils/vector.h>
 
@@ -310,8 +311,14 @@ static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue)
     if (spec != nullptr)
         dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, " (%s)", dmi_spec_name(spec));
 
-    dmi_tty_cprintf(DMI_TTY_COLOR_NONE, ": %s ", issue->message);
+    // Messages may quote strings of the data, which are not trusted, so
+    // control characters are escaped
+    char *message = dmi_utf8_escape(report->context, issue->message);
+
+    dmi_tty_cprintf(DMI_TTY_COLOR_NONE, ": %s ",
+                    (message != nullptr) ? message : dmi_tool_text("value", "error", "<error>"));
     dmi_tty_cprintf(DMI_TTY_COLOR_GREY, "[%s]\n", issue->rule->code);
+    dmi_free(message);
 }
 
 //

@@ -58,8 +58,8 @@ static void dmi_log_file_handler(
         const char      *format,
         va_list          args);
 
-static off_t dmi_log_file_lock(void);
-static void dmi_log_file_unlock(off_t start);
+static bool dmi_log_file_lock(void);
+static void dmi_log_file_unlock(void);
 
 static FILE     *log_file   = nullptr;
 static bool      log_lock   = true;
@@ -246,7 +246,6 @@ static void dmi_log_file_handler(
 {
     time_t now;
     struct tm now_tm;
-    off_t pos;
 
     assert(level >= 0);
     assert(format != nullptr);
@@ -254,7 +253,7 @@ static void dmi_log_file_handler(
     time(&now);
     localtime_r(&now, &now_tm);
 
-    pos = dmi_log_file_lock();
+    bool is_locked = dmi_log_file_lock();
 
     fprintf(log_file, "[%04d-%02d-%02d %02d:%02d:%02d] %s: ",
             now_tm.tm_year + 1900, now_tm.tm_mon + 1, now_tm.tm_mday,
@@ -264,58 +263,51 @@ static void dmi_log_file_handler(
     fprintf(log_file, "\n");
 
     fflush(log_file);
-    dmi_log_file_unlock(pos);
+
+    if (is_locked)
+        dmi_log_file_unlock();
 }
 
-static off_t dmi_log_file_lock(void)
+//
+// Log file is locked as a whole, from its beginning to whatever its end is,
+// since it is opened for appending and grows while locked. Records are
+// written at the end of the file whatever the offset is, so the offset is
+// moved to the beginning to lock and unlock the same range.
+//
+static bool dmi_log_file_lock(void)
 {
     int fd = fileno(log_file);
-    off_t start = -1;
 
     if (not log_lock)
-        return -1;
+        return false;
 
     log_lock = false;
 
-    do {
-        if (not dmi_file_lock(fd, 0)) {
-            dmi_command_message("Unable to lock log file: %s", strerror(errno));
-            break;
-        }
+    if (dmi_file_seek(fd, 0, SEEK_SET) < 0) {
+        dmi_command_message("Unable to lock log file: %s", strerror(errno));
+        return false;
+    }
 
-        start = dmi_file_tell(fd);
-        if (start < 0) {
-            dmi_command_message("Unable to get log position: %s", strerror(errno));
-            break;
-        }
+    if (not dmi_file_lock(fd, 0)) {
+        dmi_command_message("Unable to lock log file: %s", strerror(errno));
+        return false;
+    }
 
-        log_lock = true;
-    } while (false);
+    log_lock = true;
 
-    return start;
+    return true;
 }
 
-static void dmi_log_file_unlock(off_t start)
+static void dmi_log_file_unlock(void)
 {
-    if (not(log_lock) or (start < 0))
-        return;
+    int fd = fileno(log_file);
 
     log_lock = false;
 
-    do {
-        int fd = fileno(log_file);
+    if ((dmi_file_seek(fd, 0, SEEK_SET) < 0) or not dmi_file_unlock(fd, 0)) {
+        dmi_command_message("Unable to unlock log file: %s", strerror(errno));
+        return;
+    }
 
-        off_t end = dmi_file_tell(fd);
-        if (end < 0) {
-            dmi_command_message("Unable to get log position: %s", strerror(errno));
-            break;
-        }
-
-        if (not dmi_file_unlock(fd, start - end)) {
-            dmi_command_message("Unable to unlock log file: %s", strerror(errno));
-            break;
-        }
-
-        log_lock = true;
-    } while (false);
+    log_lock = true;
 }

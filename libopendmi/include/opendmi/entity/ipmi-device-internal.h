@@ -48,11 +48,21 @@ bool dmi_ipmi_device_encode_version(
         const dmi_field_t *field,
         const void        *value,
         dmi_field_data_t  *data);
+
 bool dmi_ipmi_device_decode_address(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
         void                   *value);
 bool dmi_ipmi_device_encode_address(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+
+bool dmi_ipmi_device_decode_modifier(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+bool dmi_ipmi_device_encode_modifier(
         const dmi_field_t *field,
         const void        *value,
         dmi_field_data_t  *data);

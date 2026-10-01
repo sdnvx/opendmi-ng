@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -43,6 +44,53 @@ bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, size_
 }
 
 #if defined(__i386__) or defined(__x86_64__)
+//
+// Tell whether the data found at an anchor is a valid entry point, the way
+// dmidecode does: anchor strings occur in firmware code and data as well, so
+// a match of the anchor alone proves nothing.
+//
+static bool dmi_generic_entry_valid(const dmi_data_t *data, size_t available, const char *anchor)
+{
+    size_t length;
+
+    if (strcmp(anchor, DMI_ANCHOR_V30) == 0) {
+        length = data[offsetof(dmi_entry_v30_t, length)];
+
+        if ((length < sizeof(dmi_entry_v30_t)) or (length > available))
+            return false;
+
+        return dmi_checksum_test(data, length);
+    }
+
+    if (strcmp(anchor, DMI_ANCHOR_V21) == 0) {
+        const dmi_data_t *ieps = data + offsetof(dmi_entry_v21_t, ieps);
+
+        // Length 0x1E is accepted due to a mistake in SMBIOS 2.1
+        length = data[offsetof(dmi_entry_v21_t, length)];
+
+        if ((length < sizeof(dmi_entry_v21_t) - 1) or (length > available))
+            return false;
+        if (not dmi_checksum_test(data, length))
+            return false;
+
+        // Intermediate entry point must be present and valid as well. The
+        // one of an entry point of length 0x1E lacks its last byte, and is
+        // covered by the checksum of the enclosing entry point instead, see
+        // dmi_entry_decode_v21().
+        if (memcmp(ieps, DMI_ANCHOR_LEGACY, strlen(DMI_ANCHOR_LEGACY)) != 0)
+            return false;
+        if (length < sizeof(dmi_entry_v21_t))
+            return true;
+
+        return dmi_checksum_test(ieps, sizeof(dmi_entry_legacy_t));
+    }
+
+    if (sizeof(dmi_entry_legacy_t) > available)
+        return false;
+
+    return dmi_checksum_test(data, sizeof(dmi_entry_legacy_t));
+}
+
 bool dmi_generic_find_entry_addr(
         dmi_context_t *context,
         const char    *device,
@@ -101,11 +149,18 @@ bool dmi_generic_find_anchor(
     dmi_log_debug(context, "Scanning for SMBIOS anchor: '%s'...", anchor);
 
     for (offset = 0; offset <= area_size - DMI_ENTRY_MAX_SIZE; offset += 16) {
-        if (memcmp(buffer + offset, anchor, length) == 0) {
-            *paddr = base_addr + offset;
-            dmi_log_debug(context, "Found SMBIOS address: 0x%zx", *paddr);
-            return true;
+        if (memcmp(buffer + offset, anchor, length) != 0)
+            continue;
+
+        // Scanning goes on past a damaged or false entry point
+        if (not dmi_generic_entry_valid(buffer + offset, area_size - offset, anchor)) {
+            dmi_log_debug(context, "Invalid SMBIOS entry point at 0x%zx, skipping", base_addr + offset);
+            continue;
         }
+
+        *paddr = base_addr + offset;
+        dmi_log_debug(context, "Found SMBIOS address: 0x%zx", *paddr);
+        return true;
     }
 
     dmi_log_debug(context, "No SMBIOS anchor found");

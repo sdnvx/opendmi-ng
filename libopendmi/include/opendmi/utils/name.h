@@ -135,12 +135,14 @@ __dmi_api const char *dmi_code_lookup_ex(const dmi_name_set_t *dict, int id, dmi
  * Searches the `names` entries of @p dict for an entry whose `code` field
  * equals @p code and returns the corresponding integer identifier.
  *
- * @note Range entries are not searched.
+ * @note Range entries are not searched, since their codes are shared by all
+ *       identifiers of the range and tell no identifier of their own.
  *
- * @param dict Dictionary to search; must not be @c nullptr.
- * @param code Code string to look up; must not be @c nullptr.
- * @return The integer identifier for @p code, or @c -1 if @p dict is @c nullptr,
- *         @p dict has no `names` entries, or no matching entry is found.
+ * @param dict Dictionary to search.
+ * @param code Code string to look up.
+ * @return The integer identifier for @p code, or @c -1 if @p dict or @p code
+ *         is @c nullptr, @p dict has no `names` entries, or no matching entry
+ *         is found.
  */
 __dmi_api int dmi_code_lookup_rev(const dmi_name_set_t *dict, const char *code);
 

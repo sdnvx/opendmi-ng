@@ -202,8 +202,8 @@ function(opendmi_cli_test TEST_NAME)
     endif()
 
     if(ENABLE_COVERAGE)
-        set_tests_properties(${TEST_FULL_NAME} PROPERTIES
-            ENVIRONMENT "LLVM_PROFILE_FILE=${CMAKE_CURRENT_BINARY_DIR}/bin/${TEST_TARGET}.profraw"
+        set_property(TEST ${TEST_FULL_NAME} APPEND PROPERTY
+            ENVIRONMENT_MODIFICATION "LLVM_PROFILE_FILE=set:${CMAKE_CURRENT_BINARY_DIR}/bin/${TEST_TARGET}.profraw"
         )
     endif()
 endfunction()

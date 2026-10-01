@@ -8,6 +8,8 @@
 #include <stdbool.h>
 #include <cmocka.h>
 
+#include <opendmi/context.h>
+#include <opendmi/error.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 
@@ -31,6 +33,7 @@ struct test_vector_64
 static void test_checksum(void **pstate);
 static void test_ipow32(void **pstate);
 static void test_ipow64(void **pstate);
+static void test_alloc_array(void **pstate);
 
 static const test_vector_32_t test_data_32[] =
 {
@@ -115,7 +118,8 @@ int main(void)
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_checksum),
         cmocka_unit_test(test_ipow32),
-        cmocka_unit_test(test_ipow64)
+        cmocka_unit_test(test_ipow64),
+        cmocka_unit_test(test_alloc_array)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -168,4 +172,28 @@ static void test_ipow64(void **pstate)
 
         assert_uint_equal(dmi_ipow64(value, factor), result);
     }
+}
+
+static void test_alloc_array(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+
+    void *array = dmi_alloc_array(context, sizeof(uint32_t), 4);
+    assert_non_null(array);
+    dmi_free(array);
+
+    // Size of the array which does not fit in size_t fails rather than wraps
+    // around into a small allocation
+    assert_null(dmi_alloc_array(context, sizeof(uint32_t), (SIZE_MAX / 2) + 1));
+
+    const dmi_error_t *error = dmi_error_peek_last(context);
+    assert_non_null(error);
+    assert_int_equal(error->reason, DMI_ERROR_OUT_OF_MEMORY);
+
+    assert_null(dmi_alloc_array(nullptr, SIZE_MAX, 2));
+
+    dmi_destroy(context);
 }

@@ -57,6 +57,9 @@ __BEGIN_DECLS
  *
  * Programs which handle the locale themselves do not need the helper, and
  * call `setlocale`(3) and `dmi_set_locale`(3) on their own.
+ *
+ * Like `dmi_set_locale`(3), the helper is not thread-safe, and is meant to be
+ * called once, at the start of the program.
  */
 __dmi_api void dmi_locale_init(void);
 
@@ -70,8 +73,19 @@ __dmi_api void dmi_locale_init(void);
  * Translations are available only if the library is built with ICU4C support;
  * otherwise the function does nothing and reports failure.
  *
+ * Strings translated for the previous locale are released, so every pointer
+ * returned before the call by the functions which look up printable strings,
+ * e.g. `dmi_name_lookup`(3), `dmi_spec_name`(3), `dmi_error_message`(3),
+ * `dmi_lint_rule_name`(3), `dmi_resource_string`(3) and `dmi_get_locale`(3),
+ * becomes invalid.
+ *
+ * The locale is meant to be set up once, at the start of the program, before
+ * the library is used: the function is not thread-safe, and must not be
+ * called while other threads may use the library.
+ *
  * @param[in] locale Locale name, e.g. `ru_RU`, or @c nullptr to use the
- *                   locale of the environment.
+ *                   locale of the environment. The name is copied, so the
+ *                   variable it points to need not outlive the call.
  *
  * @return `true` if the locale has been set, `false` otherwise.
  */
@@ -81,7 +95,8 @@ __dmi_api bool dmi_set_locale(const char *locale);
  * @brief Get locale used to translate printable strings.
  *
  * @return Name of the locale the resources are opened with, or @c nullptr if
- *         the library is built without ICU4C support.
+ *         the library is built without ICU4C support. The name is kept until
+ *         the locale is changed by `dmi_set_locale`(3).
  */
 __dmi_api const char *dmi_get_locale(void);
 

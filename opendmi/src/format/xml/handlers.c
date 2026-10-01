@@ -37,10 +37,8 @@ void *dmi_xml_initialize(dmi_context_t *context, FILE *stream, const dmi_format_
     dmi_xml_session_t *session;
 
     session = dmi_alloc(context, sizeof(*session));
-    if (session == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+    if (session == nullptr)
         return nullptr;
-    }
 
     do {
         session->buffer = xmlOutputBufferCreateFile(stream, nullptr);
@@ -107,28 +105,28 @@ bool dmi_xml_dump_start(dmi_xml_session_t *session)
             break;
         }
 
-        if (xmlTextWriterStartDocument(session->writer, "1.0", "UTF-8", NULL) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterStartDocument(session->writer, "1.0", "UTF-8", NULL)))
             break;
 
-        if (xmlTextWriterStartElementNS(
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,
                     dmi_xml_string(DMI_XML_PREFIX),
                     dmi_xml_string("dump"),
-                    dmi_xml_string(DMI_XML_NAMESPACE)) < 0)
+                    dmi_xml_string(DMI_XML_NAMESPACE))))
             break;
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("created-at"),
                     "%04u-%02u-%02uT%02u:%02u:%02uZ",
                     tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
-                    tm.tm_hour, tm.tm_min, tm.tm_sec) < 0)
+                    tm.tm_hour, tm.tm_min, tm.tm_sec)))
             break;
-        if (xmlTextWriterWriteAttributeNS(
+        if (not dmi_xml_check(session, xmlTextWriterWriteAttributeNS(
                     session->writer,
                     dmi_xml_string(DMI_XSI_PREFIX),
                     dmi_xml_string("schemaLocation"),
                     dmi_xml_string(DMI_XSI_NAMESPACE),
-                    dmi_xml_string(DMI_XML_SCHEMA_LOCATION)) < 0)
+                    dmi_xml_string(DMI_XML_SCHEMA_LOCATION))))
             break;
 
         success = true;
@@ -152,30 +150,30 @@ bool dmi_xml_entry(dmi_xml_session_t *session)
             break;
         }
 
-        if (xmlTextWriterStartElementNS(
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,
                     dmi_xml_string(DMI_XML_PREFIX),
                     dmi_xml_string("entry"),
-                    nullptr) < 0)
+                    nullptr)))
             break;
 
-        if (xmlTextWriterWriteAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteAttribute(
                     session->writer,
                     dmi_xml_string("smbios-version"),
-                    dmi_xml_string(smbios_version)) < 0)
+                    dmi_xml_string(smbios_version))))
             break;
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("table-area-address"),
-                    "0x%" PRIx64, context->state.table_area_addr) < 0)
+                    "0x%" PRIx64, context->state.table_area_addr)))
             break;
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("table-area-size"),
-                    "%zu", context->state.table->length) < 0)
+                    "%zu", context->state.table->length)))
             break;
 
-        if (xmlTextWriterEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterEndElement(session->writer)))
             break;
 
         success = true;
@@ -194,31 +192,31 @@ bool dmi_xml_entity_start(dmi_xml_session_t *session, const dmi_entity_t *entity
     bool success = false;
 
     do {
-        if (xmlTextWriterStartElementNS(
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,
                     dmi_xml_string(DMI_XML_PREFIX),
                     dmi_xml_string("entity"),
-                    nullptr) < 0)
+                    nullptr)))
             break;
 
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("handle"),
-                    "0x%04hx", entity->handle) < 0)
+                    "0x%04hx", entity->handle)))
             break;
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("type"),
-                    "%u", entity->type_id) < 0)
+                    "%u", entity->type_id)))
             break;
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("length"),
-                    "%zu", entity->total_length) < 0)
+                    "%zu", entity->total_length)))
             break;
 
         // State flags are written as a space-separated list
-        if (xmlTextWriterStartAttribute(session->writer, dmi_xml_string("state")) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterStartAttribute(session->writer, dmi_xml_string("state"))))
             break;
 
         dmi_format_set_iter_t iter;
@@ -233,7 +231,7 @@ bool dmi_xml_entity_start(dmi_xml_session_t *session, const dmi_entity_t *entity
             if (not flag->value)
                 continue;
 
-            if (xmlTextWriterWriteFormatString(session->writer, "%s%s", separator, flag->code) < 0) {
+            if (not dmi_xml_check(session, xmlTextWriterWriteFormatString(session->writer, "%s%s", separator, flag->code))) {
                 written = false;
                 break;
             }
@@ -243,7 +241,7 @@ bool dmi_xml_entity_start(dmi_xml_session_t *session, const dmi_entity_t *entity
 
         if (not written)
             break;
-        if (xmlTextWriterEndAttribute(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterEndAttribute(session->writer)))
             break;
 
         success = true;
@@ -257,11 +255,11 @@ bool dmi_xml_entity_attrs_start(dmi_xml_session_t *session, const dmi_entity_t *
     assert(session != nullptr);
     assert(entity != nullptr);
 
-    if (xmlTextWriterStartElementNS(
+    if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                 session->writer,
                 dmi_xml_string(DMI_XML_PREFIX),
                 dmi_xml_string(entity->spec->code),
-                nullptr) < 0)
+                nullptr)))
         return false;
 
     return true;
@@ -290,7 +288,7 @@ bool dmi_xml_entity_attr(
     do {
         bool rv;
 
-        if (xmlTextWriterStartElement(session->writer, dmi_xml_string(attr->params.code)) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string(attr->params.code))))
             break;
 
         if (not dmi_attribute_is_array(variant)) {
@@ -304,7 +302,7 @@ bool dmi_xml_entity_attr(
         if (not rv)
             break;
 
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
            break;
 
         success = true;
@@ -330,7 +328,7 @@ bool dmi_xml_entity_attr_array(
     dmi_format_array_iter_init(&iter, attr, info, value);
 
     while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
-        if (xmlTextWriterStartElement(session->writer, dmi_xml_string("item")) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string("item"))))
             return false;
 
         if (attr->type == DMI_ATTRIBUTE_TYPE_STRUCT) {
@@ -341,7 +339,7 @@ bool dmi_xml_entity_attr_array(
                 return false;
         }
 
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
             return false;
     }
 
@@ -367,7 +365,7 @@ bool dmi_xml_entity_attr_struct(
 
         const dmi_data_t *ptr = dmi_member_ptr(value, child->value, dmi_data_t);
 
-        if (xmlTextWriterStartElement(session->writer, dmi_xml_string(child_attr->params.code)) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string(child_attr->params.code))))
             return false;
 
         // Nested structures are written as nested elements, and arrays as
@@ -383,7 +381,7 @@ bool dmi_xml_entity_attr_struct(
         if (not result)
             return false;
 
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
             return false;
     }
 
@@ -408,7 +406,7 @@ bool dmi_xml_entity_attr_value(
 
     // Handle unknown values
     if (dmi_attribute_is_unknown(attr, value)) {
-        if (xmlTextWriterWriteString(session->writer, dmi_xml_string("unknown")) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterWriteString(session->writer, dmi_xml_string("unknown"))))
             return false;
         return true;
     }
@@ -431,10 +429,10 @@ bool dmi_xml_entity_attr_value(
                     ? dmi_unit_name(attr->params.unit)
                     : dmi_unit_code(attr->params.unit);
 
-            if (xmlTextWriterWriteAttribute(
+            if (not dmi_xml_check(session, xmlTextWriterWriteAttribute(
                         session->writer,
                         dmi_xml_string("units"),
-                        dmi_xml_string(unit)) < 0)
+                        dmi_xml_string(unit))))
                 break;
         }
 
@@ -464,22 +462,22 @@ bool dmi_xml_entity_attr_set(
 
     dmi_format_set_iter_init(&iter, attr, value);
 
-    if (xmlTextWriterWriteFormatAttribute(
+    if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                 session->writer,
                 dmi_xml_string("value"),
-                "0x%" PRIxMAX, iter.mask) < 0)
+                "0x%" PRIxMAX, iter.mask)))
         return false;
 
     // Flag codes are not always valid element names (e.g. "5v"), so they are
     // written as attributes
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         bool result =
-            (xmlTextWriterStartElement(session->writer, dmi_xml_string("flag")) >= 0) and
-            (xmlTextWriterWriteAttribute(session->writer, dmi_xml_string("name"),
-                                         dmi_xml_string(flag->code)) >= 0) and
-            (xmlTextWriterWriteString(session->writer,
-                                      dmi_xml_string(flag->value ? "true" : "false")) >= 0) and
-            (xmlTextWriterEndElement(session->writer) >= 0);
+            (dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string("flag")))) and
+            (dmi_xml_check(session, xmlTextWriterWriteAttribute(session->writer, dmi_xml_string("name"),
+                                         dmi_xml_string(flag->code)))) and
+            (dmi_xml_check(session, xmlTextWriterWriteString(session->writer,
+                                      dmi_xml_string(flag->value ? "true" : "false")))) and
+            (dmi_xml_check(session, xmlTextWriterEndElement(session->writer)));
 
         if (not result)
             return false;
@@ -495,7 +493,7 @@ bool dmi_xml_entity_attrs_end(dmi_xml_session_t *session, const dmi_entity_t *en
 
     dmi_unused(entity);
 
-    if (xmlTextWriterFullEndElement(session->writer) < 0)
+    if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
         return false;
 
     return true;
@@ -509,11 +507,11 @@ bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *e
     bool success = false;
 
     do {
-        if (xmlTextWriterStartElementNS(
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,
                     dmi_xml_string(DMI_XML_PREFIX),
                     dmi_xml_string("properties"),
-                    nullptr) < 0)
+                    nullptr)))
             break;
 
         dmi_format_property_iter_t iter;
@@ -524,29 +522,29 @@ bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *e
         while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
             const char *code = dmi_code_lookup(&dmi_property_names, property->ident);
 
-            if (xmlTextWriterStartElementNS(
+            if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                         session->writer,
                         dmi_xml_string(DMI_XML_PREFIX),
                         dmi_xml_string("property"),
-                        nullptr) < 0)
+                        nullptr)))
                 break;
-            if (xmlTextWriterWriteFormatAttribute(
+            if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                         session->writer,
                         dmi_xml_string("id"),
-                        "0x%04x", (unsigned)property->ident) < 0)
+                        "0x%04x", (unsigned)property->ident)))
                 break;
             if ((code != nullptr) and
-                (xmlTextWriterWriteAttribute(
+                (not dmi_xml_check(session, xmlTextWriterWriteAttribute(
                         session->writer,
                         dmi_xml_string("code"),
-                        dmi_xml_string(code)) < 0))
+                        dmi_xml_string(code)))))
                 break;
 
             // Element is left empty if the value is not specified
             if ((property->value != nullptr) and not dmi_xml_text(session, property->value))
                 break;
 
-            if (xmlTextWriterFullEndElement(session->writer) < 0)
+            if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
                 break;
         }
 
@@ -554,7 +552,7 @@ bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *e
         if (property != nullptr)
             break;
 
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
             break;
 
         success = true;
@@ -575,53 +573,53 @@ static bool dmi_xml_entity_overlay(
         return false;
 
     do {
-        if (xmlTextWriterStartElementNS(
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,
                     dmi_xml_string(DMI_XML_PREFIX),
                     dmi_xml_string("overlay"),
-                    nullptr) < 0)
+                    nullptr)))
             break;
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("source"),
-                    "0x%04hx", overlay->source->handle) < 0)
+                    "0x%04hx", overlay->source->handle)))
             break;
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("index"),
-                    "%zu", overlay->index) < 0)
+                    "%zu", overlay->index)))
             break;
-        if (xmlTextWriterWriteFormatAttribute(
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("offset"),
-                    "0x%02x", overlay->entry->ref_offset) < 0)
+                    "0x%02x", overlay->entry->ref_offset)))
             break;
-        if (xmlTextWriterStartElementNS(
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,
                     dmi_xml_string(DMI_XML_PREFIX),
                     dmi_xml_string("value"),
-                    nullptr) < 0)
+                    nullptr)))
             break;
         if (not dmi_xml_text(session, value))
             break;
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
             break;
 
         // Element is omitted if the entry has no string
         if (overlay->entry->string != nullptr) {
-            if (xmlTextWriterStartElementNS(
+            if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                         session->writer,
                         dmi_xml_string(DMI_XML_PREFIX),
                         dmi_xml_string("string"),
-                        nullptr) < 0)
+                        nullptr)))
                 break;
             if (not dmi_xml_text(session, overlay->entry->string))
                 break;
-            if (xmlTextWriterFullEndElement(session->writer) < 0)
+            if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
                 break;
         }
 
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
             break;
 
         success = true;
@@ -637,11 +635,11 @@ bool dmi_xml_entity_overlays(dmi_xml_session_t *session, const dmi_entity_t *ent
     assert(session != nullptr);
     assert(entity != nullptr);
 
-    if (xmlTextWriterStartElementNS(
+    if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                 session->writer,
                 dmi_xml_string(DMI_XML_PREFIX),
                 dmi_xml_string("overlays"),
-                nullptr) < 0)
+                nullptr)))
         return false;
 
     for (const dmi_entity_overlay_t *overlay = entity->overlays; overlay != nullptr; overlay = overlay->next) {
@@ -649,7 +647,7 @@ bool dmi_xml_entity_overlays(dmi_xml_session_t *session, const dmi_entity_t *ent
             return false;
     }
 
-    return xmlTextWriterFullEndElement(session->writer) >= 0;
+    return dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer));
 }
 
 bool dmi_xml_entity_data(dmi_xml_session_t *session, const dmi_entity_t *entity)
@@ -660,17 +658,17 @@ bool dmi_xml_entity_data(dmi_xml_session_t *session, const dmi_entity_t *entity)
     bool success = false;
 
     do {
-        if (xmlTextWriterStartElementNS(
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,
                     dmi_xml_string(DMI_XML_PREFIX),
                     dmi_xml_string("data"),
-                    nullptr) < 0)
+                    nullptr)))
             break;
 
         if (not dmi_xml_data(session, dmi_entity_data(entity, DMI_TYPE_ANY), entity->body_length))
             break;
 
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
             break;
 
         success = true;
@@ -690,11 +688,11 @@ bool dmi_xml_entity_strings(dmi_xml_session_t *session, const dmi_entity_t *enti
         return true;
 
     do {
-        if (xmlTextWriterStartElementNS(
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,
                     dmi_xml_string(DMI_XML_PREFIX),
                     dmi_xml_string("strings"),
-                    nullptr) < 0)
+                    nullptr)))
             break;
 
         dmi_format_string_iter_t iter;
@@ -703,22 +701,22 @@ bool dmi_xml_entity_strings(dmi_xml_session_t *session, const dmi_entity_t *enti
         dmi_format_string_iter_init(&iter, entity);
 
         while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
-            if (xmlTextWriterStartElementNS(
+            if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                         session->writer,
                         dmi_xml_string(DMI_XML_PREFIX),
                         dmi_xml_string("string"),
-                        nullptr) < 0)
+                        nullptr)))
                 break;
-            if (xmlTextWriterWriteFormatAttribute(
+            if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                         session->writer,
                         dmi_xml_string("index"),
-                        "%zu", iter.index) < 0)
+                        "%zu", iter.index)))
                 break;
 
             if (not dmi_xml_text(session, str))
                 break;
 
-            if (xmlTextWriterFullEndElement(session->writer) < 0)
+            if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
                 break;
         }
 
@@ -726,7 +724,7 @@ bool dmi_xml_entity_strings(dmi_xml_session_t *session, const dmi_entity_t *enti
         if (str != nullptr)
             break;
 
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
             break;
 
         success = true;
@@ -745,7 +743,7 @@ bool dmi_xml_entity_end(dmi_xml_session_t *session, const dmi_entity_t *entity)
     bool success = false;
 
     do {
-        if (xmlTextWriterFullEndElement(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
             break;
 
         success = true;
@@ -761,9 +759,9 @@ bool dmi_xml_dump_end(dmi_xml_session_t *session)
     bool success = false;
 
     do {
-        if (xmlTextWriterEndDocument(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterEndDocument(session->writer)))
             break;
-        if (xmlTextWriterFlush(session->writer) < 0)
+        if (not dmi_xml_check(session, xmlTextWriterFlush(session->writer)))
             break;
 
         success = true;

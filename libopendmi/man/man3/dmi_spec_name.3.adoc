@@ -1,0 +1,76 @@
+ifdef::backend-manpage[]
+= dmi_spec_name(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_spec_name
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_spec_name - get the printable name of a structure specification.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity.h>
+
+const char *dmi_spec_name(const dmi_entity_spec_t *spec);
+----
+
+== Description
+
+The `dmi_spec_name` function returns the printable name of the structures a
+specification decodes, e.g. `System information`.
+
+The name is translated to the locale set by `dmi_set_locale`(3), if the
+library has a translation for the specification: the translation is the
+`name` string of the table named by the code of the specification, e.g.
+`system`. Otherwise the name is the `name` member of the specification.
+
+The specification is named whether the module providing it is enabled in a
+context or not, since the caller holds the specification itself. The
+specification a structure has been decoded by is the `spec` member of the
+entity, and the specification a type number is mapped to in a context is
+returned by `dmi_type_spec`(3); `dmi_type_name`(3) names a type number the same
+way, and also the types no enabled specification is mapped to.
+
+The name belongs to the specification or to the translation, and must not be
+freed. An untranslated name is static; a translated one is valid until the
+locale is changed by `dmi_set_locale`(3).
+
+=== Parameters
+
+`spec`::
+Specification to name.
+
+== Return value
+
+Returns the printable name, or `nullptr` if `spec` is `nullptr`.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_type_name`(3),
+`dmi_type_spec`(3),
+`dmi_set_locale`(3),
+`dmi_type`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

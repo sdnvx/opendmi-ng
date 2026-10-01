@@ -15,6 +15,7 @@
 #include <opendmi/module.h>
 #include <opendmi/registry.h>
 #include <opendmi/internal.h>
+#include <opendmi/pager.h>
 
 #include <opendmi/command.h>
 #include <opendmi/command/common.h>
@@ -213,6 +214,12 @@ bool dmi_print_all(
     assert(stream != nullptr);
     assert(format != nullptr);
 
+    // Errors raised while printing are told apart from the earlier ones by
+    // the state of the queue, which only grows or moves forward meanwhile
+    const dmi_error_queue_t *queue = &context->error_queue;
+    size_t queue_first = queue->first;
+    size_t queue_count = queue->count;
+
     session = format->handlers.initialize(context, stream, options);
     if (session == nullptr)
         return false;
@@ -252,10 +259,22 @@ bool dmi_print_all(
     // Finalization flushes buffered output of some formats
     format->handlers.finalize(session);
 
-    if ((fflush(stream) != 0) or ferror(stream)) {
-        if (success)
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s", strerror(errno));
+    int error = dmi_command_flush(stream);
+
+    // Output is not read any further if the pager has been quit, which is not
+    // an error, whatever has failed because of that
+    if ((error != 0) and dmi_pager_has_quit(stream, error))
+        return true;
+
+    // Failures of the stream are reported, unless the handlers have already
+    // reported them, and failures are never left without an error
+    bool has_error = (queue->first != queue_first) or (queue->count != queue_count);
+
+    if ((error != 0) and (success or not has_error)) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s", strerror(error));
         success = false;
+    } else if (not success and not has_error) {
+        dmi_error_raise_ex(context, DMI_ERROR_INTERNAL, "Unable to format output");
     }
 
     return success;

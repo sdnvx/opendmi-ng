@@ -57,6 +57,35 @@ bool dmi_utf8_is_valid_ex(const char *str, dmi_utf8_filter_fn *filter);
  */
 char *dmi_utf8_repair_ex(dmi_context_t *context, const char *str, dmi_utf8_filter_fn *filter);
 
+/**
+ * @brief Check if character is a control one: C0 control character, DEL or
+ * C1 control character.
+ *
+ * @param[in] code Unicode code point.
+ *
+ * @return `true` if @p code is a control character, `false` otherwise.
+ */
+bool dmi_utf8_is_control(uint32_t code);
+
+/**
+ * @brief Make copy of a string, which is safe to be written to a terminal.
+ *
+ * Control characters, which terminals interpret as commands (C0 control
+ * characters including tab and line breaks, DEL and C1 control characters),
+ * are replaced with visible escapes: `\xNN` for C0 control characters and
+ * DEL, and `\u00NN` for C1 control characters. Every invalid byte is
+ * replaced with `\xNN` escape as well, since terminals, which do not decode
+ * UTF-8, may interpret its bytes as C1 control characters. Backslashes are
+ * left as they are.
+ *
+ * @param[in] context DMI context handle.
+ * @param[in] str     NUL-terminated string.
+ *
+ * @return Newly allocated string, which should be freed with `dmi_free()`,
+ *         or @c nullptr if out of memory.
+ */
+char *dmi_utf8_escape(dmi_context_t *context, const char *str);
+
 __END_DECLS
 
 /**

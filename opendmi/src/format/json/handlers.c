@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <string.h>
+#include <errno.h>
 #include <limits.h>
 #include <assert.h>
 
@@ -27,10 +28,8 @@ void *dmi_json_initialize(dmi_context_t *context, FILE *stream, const dmi_format
     dmi_json_session_t *session;
 
     session = dmi_alloc(context, sizeof(*session));
-    if (session == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+    if (session == nullptr)
         return nullptr;
-    }
 
     do {
         session->generator = yajl_gen_alloc(nullptr);
@@ -72,14 +71,9 @@ void *dmi_json_initialize(dmi_context_t *context, FILE *stream, const dmi_format
 
 bool dmi_json_dump_start(dmi_json_session_t *session)
 {
-    bool result;
     assert(session != nullptr);
 
-    result = dmi_json_mapping_start(session);
-    if (not result)
-        dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL, "Unable to start JSON document");
-
-    return result;
+    return dmi_json_mapping_start(session);
 }
 
 bool dmi_json_entry(dmi_json_session_t *session)
@@ -90,8 +84,10 @@ bool dmi_json_entry(dmi_json_session_t *session)
     assert(session != nullptr);
 
     smbios_version = dmi_version_format(session->context->state.smbios_version);
-    if (smbios_version == nullptr)
+    if (smbios_version == nullptr) {
+        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
         return false;
+    }
 
     result =
         dmi_json_label(session, "entry") and
@@ -129,8 +125,10 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
 
     if (entity->level != DMI_VERSION_NONE) {
         entity_level = dmi_version_format(entity->level);
-        if (entity_level == nullptr)
+        if (entity_level == nullptr) {
+            dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
             return false;
+        }
     }
 
     entity_description = dmi_entity_name(entity);
@@ -343,34 +341,28 @@ bool dmi_json_entity_attr_value(
             break;
 
         // Values formatted for a person are text, whatever they hold, and so
-        // are the values of the kinds other than numbers and booleans
-        bool written = false;
+        // are the values, which are not canonical numbers or booleans
+        dmi_format_scalar_t scalar = DMI_FORMAT_SCALAR_STRING;
+        if (not session->options.pretty)
+            scalar = dmi_format_scalar_classify(attr, text);
 
-        if (not session->options.pretty) {
-            switch (attr->type) {
-            case DMI_ATTRIBUTE_TYPE_BOOL:
-                // Attribute may name its states by codes other than booleans
-                if ((strcmp(text, "true") == 0) or (strcmp(text, "false") == 0)) {
-                    if (not dmi_json_scalar_bool(session, strcmp(text, "true") == 0))
-                        break;
-                    written = true;
-                }
-                break;
+        bool result;
 
-            case DMI_ATTRIBUTE_TYPE_HANDLE:
-            case DMI_ATTRIBUTE_TYPE_INTEGER:
-            case DMI_ATTRIBUTE_TYPE_DECIMAL:
-            case DMI_ATTRIBUTE_TYPE_SIZE:
-            case DMI_ATTRIBUTE_TYPE_ADDRESS:
-                written = dmi_json_scalar_number(session, text);
-                break;
+        switch (scalar) {
+        case DMI_FORMAT_SCALAR_BOOL:
+            result = dmi_json_scalar_bool(session, strcmp(text, "true") == 0);
+            break;
 
-            default:
-                break;
-            }
+        case DMI_FORMAT_SCALAR_NUMBER:
+            result = dmi_json_scalar_number(session, text);
+            break;
+
+        default:
+            result = dmi_json_scalar_str(session, text);
+            break;
         }
 
-        if (not written and not dmi_json_scalar(session, text))
+        if (not result)
             break;
 
         success = true;
@@ -511,8 +503,10 @@ bool dmi_json_entity_data(dmi_json_session_t *session, const dmi_entity_t *entit
     char *data;
 
     data = dmi_base64_encode(dmi_entity_data(entity, DMI_TYPE_ANY), entity->body_length, nullptr);
-    if (data == nullptr)
+    if (data == nullptr) {
+        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
         return false;
+    }
 
     result =
         dmi_json_label(session, "data") and
@@ -575,18 +569,18 @@ bool dmi_json_dump_end(dmi_json_session_t *session)
 
     assert(session != nullptr);
 
-    if (not dmi_json_mapping_end(session)) {
-        dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL, "Unable to end JSON document");
+    if (not dmi_json_mapping_end(session))
+        return false;
+
+    if (yajl_gen_get_buf(session->generator, (const unsigned char **)&buffer, &length) != yajl_gen_status_ok) {
+        dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL, "Unable to get JSON document");
         return false;
     }
 
-    yajl_gen_get_buf(session->generator, (const unsigned char **)&buffer, &length);
-    if (fwrite(buffer, length, 1, session->stream) < 1) {
-        dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL, "Unable to write JSON document");
+    if ((fwrite(buffer, 1, length, session->stream) < length) or (fflush(session->stream) != 0)) {
+        dmi_error_raise_ex(session->context, DMI_ERROR_FILE_WRITE, "%s", strerror(errno));
         return false;
     }
-
-    fflush(session->stream);
 
     return true;
 }

@@ -44,9 +44,14 @@ the address of the table the entry point holds is set to its offset within
 the file. A context read on a platform which gives no access to the entry
 point has none, and a 64-bit entry point is made up for it.
 
-An existing file is replaced only with `DMI_SAVE_FLAG_OVERWRITE`. A regular
-file the dump has failed to be written into is removed, so that no
-incomplete dump is left behind.
+An existing file is replaced only with `DMI_SAVE_FLAG_OVERWRITE`. A dump
+into a regular file, existing or not, is written to a temporary file in the
+same directory, which is renamed over `path` only once it is complete: a
+failure neither leaves an incomplete dump behind nor destroys the file being
+replaced, and the replaced file keeps its permissions. Since `path` is
+replaced rather than written to, the directory must be writable, and other
+hard links to the file keep its former contents. Devices, pipes and symbolic
+links, e.g. `/dev/stdout`, are written directly instead.
 
 With `DMI_SAVE_FLAG_ANONYMIZE`, the table written is the copy
 `dmi_anonymize`(3) makes of it, in which the values identifying the system,
@@ -90,11 +95,11 @@ carry additional information entries applied to them.
 Entry point is longer than an entry point can be.
 
 `DMI_ERROR_FILE_OPEN`::
-File cannot be created, or exists and `DMI_SAVE_FLAG_OVERWRITE` is not
-set.
+File or its temporary file cannot be created, or the file exists and
+`DMI_SAVE_FLAG_OVERWRITE` is not set.
 
 `DMI_ERROR_FILE_WRITE`::
-File cannot be written.
+File cannot be written, or the temporary file cannot be renamed over it.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory for the anonymized copy cannot be allocated.

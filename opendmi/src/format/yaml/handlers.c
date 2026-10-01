@@ -27,10 +27,8 @@ void *dmi_yaml_initialize(dmi_context_t *context, FILE *stream, const dmi_format
     dmi_yaml_session_t *session;
 
     session = dmi_alloc(context, sizeof(*session));
-    if (session == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+    if (session == nullptr)
         return nullptr;
-    }
 
     do {
         session->emitter = dmi_alloc(context, sizeof(*session->emitter));
@@ -82,15 +80,15 @@ bool dmi_yaml_dump_start(dmi_yaml_session_t *session)
 
     assert(session != nullptr);
 
-    bool result =
-        yaml_document_start_event_initialize(&event, nullptr, nullptr, nullptr, true) and
-        yaml_emitter_emit(session->emitter, &event) and
+    if (not yaml_document_start_event_initialize(&event, nullptr, nullptr, nullptr, true)) {
+        dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL,
+                           "Unable to initialize YAML document start event");
+        return false;
+    }
+
+    return
+        dmi_yaml_emit(session, &event) and
         dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE);
-
-    if (not result)
-        dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL, "Unable to start YAML document");
-
-    return result;
 }
 
 bool dmi_yaml_entry(dmi_yaml_session_t *session)
@@ -100,8 +98,10 @@ bool dmi_yaml_entry(dmi_yaml_session_t *session)
     assert(session != nullptr);
 
     smbios_version = dmi_version_format(session->context->state.smbios_version);
-    if (smbios_version == nullptr)
+    if (smbios_version == nullptr) {
+        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
         return false;
+    }
 
     bool result =
         dmi_yaml_label(session, "entry") and
@@ -141,8 +141,10 @@ bool dmi_yaml_entity_start(dmi_yaml_session_t *session, const dmi_entity_t *enti
 
     if (entity->level != DMI_VERSION_NONE) {
         entity_level = dmi_version_format(entity->level);
-        if (entity_level == nullptr)
+        if (entity_level == nullptr) {
+            dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
             return false;
+        }
     }
 
     entity_description = dmi_entity_name(entity);
@@ -359,24 +361,16 @@ bool dmi_yaml_entity_attr_value(
             break;
         }
 
-        // Only numbers and booleans are written as plain scalars, since
-        // other values (e.g. dates, versions or enumeration codes) could be
-        // resolved by readers as values of different types
-        switch (attr->type) {
-        case DMI_ATTRIBUTE_TYPE_HANDLE:
-        case DMI_ATTRIBUTE_TYPE_BOOL:
-        case DMI_ATTRIBUTE_TYPE_INTEGER:
-        case DMI_ATTRIBUTE_TYPE_DECIMAL:
-        case DMI_ATTRIBUTE_TYPE_SIZE:
-        case DMI_ATTRIBUTE_TYPE_ADDRESS:
+        // Only canonical numbers and booleans are written as plain scalars,
+        // since other values (e.g. dates, versions, enumeration codes, or
+        // booleans named by codes like "no") could be resolved by readers as
+        // values of different types
+        if (dmi_format_scalar_classify(attr, text) != DMI_FORMAT_SCALAR_STRING) {
             tag   = nullptr;
             style = YAML_PLAIN_SCALAR_STYLE;
-            break;
-
-        default:
+        } else {
             tag   = YAML_STR_TAG;
             style = YAML_DOUBLE_QUOTED_SCALAR_STYLE;
-            break;
         }
 
         if (not dmi_yaml_scalar(session, text, tag, style))
@@ -529,8 +523,10 @@ bool dmi_yaml_entity_data(dmi_yaml_session_t *session, const dmi_entity_t *entit
     char *data;
 
     data = dmi_base64_encode(dmi_entity_data(entity, DMI_TYPE_ANY), entity->body_length, nullptr);
-    if (data == nullptr)
+    if (data == nullptr) {
+        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
         return false;
+    }
 
     result =
         dmi_yaml_label(session, "data") and
@@ -585,21 +581,22 @@ bool dmi_yaml_table_end(dmi_yaml_session_t *session)
 
 bool dmi_yaml_dump_end(dmi_yaml_session_t *session)
 {
-    bool result;
     yaml_event_t event = {};
 
     assert(session != nullptr);
 
-    result =
-        dmi_yaml_mapping_end(session) and
-        yaml_document_end_event_initialize(&event, true) and
-        yaml_emitter_emit(session->emitter, &event) and
-        yaml_emitter_flush(session->emitter);
+    if (not dmi_yaml_mapping_end(session))
+        return false;
 
-    if (not result)
-        dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL, "Unable to end YAML document");
+    if (not yaml_document_end_event_initialize(&event, true)) {
+        dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL,
+                           "Unable to initialize YAML document end event");
+        return false;
+    }
 
-    return result;
+    return
+        dmi_yaml_emit(session, &event) and
+        dmi_yaml_flush(session);
 }
 
 void dmi_yaml_finalize(dmi_yaml_session_t *session)

@@ -9,26 +9,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add LPDDR6 memory device type (SMBIOS 3.10)
-- Add InfiniBand and GPU controller onboard device types (SMBIOS 3.10)
-- Add disabled and unmapped flags of memory devices (SMBIOS 3.10)
+- Add LPDDR6 memory devices, InfiniBand and GPU controller onboard devices, and disabled and unmapped flags of memory devices (SMBIOS 3.10)
 - Add `from` and `before` field parameters for the ranges of bits a version of the specification defines
 - Add `memory-device.attributes` and `memory-device.disabled` lint rules
+- Add manual pages of `<opendmi/locale.h>`, name set lookups, `dmi_spec_name`(3), `dmi_lint_rule_name`(3) and `dmi_type_*`(3) functions
 - Add links to manual pages (website/reference)
 
 ### Changed
 
-- Read the rank of memory devices as five bits in SMBIOS 3.10 tables
-- Describe the OK memory error type as healthy but unmapped memory devices too (SMBIOS 3.10)
-- Rename `dmi_acer_hotkey_t` to `dmi_acer_hotkey_entry_t`
-- Rename `dmi_acer_device_t` to `dmi_acer_device_entry_t`
-- Rename `dmi_dell_device_name_t` to `dmi_dell_device_name_entry_t`
-- Rename `dmi_dell_hotkey_t` to `dmi_dell_hotkey_entry_t`
-- Rename `dmi_dell_memory_id_t` to `dmi_dell_memory_id_entry_t`
+- Read the rank of memory devices as five bits, and describe the OK memory error type as unmapped memory devices too (SMBIOS 3.10)
+- Rename `dmi_acer_hotkey_t`, `dmi_acer_device_t`, `dmi_dell_device_name_t`, `dmi_dell_hotkey_t` and `dmi_dell_memory_id_t` to `*_entry_t`
+- Save dumps through a temporary file, so that a failed `dmi_save()` leaves the target intact
+- Check length and checksum of entry points found by scanning memory, the way dmidecode does
+- Default `list` to raw output when stdout is not a terminal, and drop the banner of `modules -r` and `types -r`
+- Quote YAML values and keys a YAML 1.1 parser would read as booleans, null or numbers
+- Resolve `build.sh -b` relative to the current directory
+- Make `regress.py` and `reindex-data.py` report failures in their exit status
+- Document lifetime of error descriptors and of strings returned before `dmi_set_locale()`
 
 ### Fixed
 
+- Fix SMBIOS 2.1 entry points of 30 bytes, allowed by the SMBIOS 2.1 erratum, rejected
+- Fix IPMI device information, type 38, of 16 bytes rejected as too short
+- Fix additional information, type 40, counting entries which failed to decode, and failing without entries
+- Fix chassis contained elements shorter than three bytes lost when a structure is written back
+- Fix BCD values too large for their field truncated when encoding
+- Fix crashes on a failed registry insertion, on boolean attributes without a name for the value, and on `dmi_code_lookup_rev()` with no code
+- Fix memory leaks and invalid frees on error paths of decoding, linking and error reporting
+- Fix `dmi_alloc_array()` not detecting overflow of the array size
+- Fix `dmi_set_locale()` keeping the caller's pointer to the locale name
+- Fix type numbers out of range named OEM-specific by `dmi_type_name()`
+- Fix undefined behaviour and overflows in printing sizes and the module list, case conversion, copying device memory on AArch64 and mapping files
+- Fix output failures, e.g. `export -o /dev/full`, exiting without an error message, and out-of-memory errors reported twice
+- Fix quitting the pager early reported as "Broken pipe", and signals ignored under `nohup` caught by the pager
+- Fix pager command line handling on POSIX and Windows
+- Fix log file left locked for other processes
+- Fix coverage builds, `build.sh distclean` able to delete the source tree, and the Python module not building
+- Fix number overflow not detected in the kernel module (opendmi-sysfs)
 - Display links to manual pages without section suffix (website/reference)
+
+### Security
+
+- Escape control characters of firmware strings in text output instead of passing them to the terminal
+- Reject SMBIOS tables larger than 16 MiB, dump files which are not regular files or too large, and Windows tables longer than the returned data
 
 ## [0.5.1] - October 1, 2026
 

@@ -1,0 +1,94 @@
+ifdef::backend-manpage[]
+= dmi_resource_message(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_resource_message
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_resource_message - format a translated message.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/locale.h>
+
+char *dmi_resource_message(
+        dmi_resource_t          *resource,
+        const char              *table,
+        const char              *key,
+        const dmi_message_arg_t *args,
+        size_t                   count);
+----
+
+== Description
+
+The `dmi_resource_message` function formats a translated message: it looks up
+the pattern `key` of the table `table` of a resource package by
+`dmi_resource_string`(3), and formats it with the arguments `args` by
+`dmi_message_format`(3), taking the plural forms of words from the same
+package.
+
+When the package has no translation of the message, the function returns
+`nullptr` rather than formatting anything, so that the caller can format the
+untranslated pattern instead:
+
+[source, c]
+----
+char *text = dmi_resource_message(resource, "message", key, args, count);
+
+if (text == nullptr)
+    text = dmi_message_format(resource, fallback, args, count);
+----
+
+The caller is responsible for freeing the returned string.
+
+=== Parameters
+
+`resource`::
+Resource handle, or `nullptr`, in which case no pattern is found.
+
+`table`::
+Path of the table holding the pattern, see `dmi_resource_string`(3).
+
+`key`::
+Key of the pattern within the table.
+
+`args`::
+Arguments of the message, see `dmi_message_format`(3).
+
+`count`::
+Number of the arguments.
+
+== Return value
+
+Returns the formatted message, or `nullptr` if there is no such pattern, or
+if the pattern cannot be formatted, see `dmi_message_format`(3).
+
+== Errors
+
+None: the function takes no context to raise errors in.
+
+== See also
+
+`dmi_message_format`(3),
+`dmi_resource_string`(3),
+`dmi_resource_open`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

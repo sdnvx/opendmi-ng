@@ -19,6 +19,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
+#include <opendmi/utils/string.h>
 #include <opendmi/locale.h>
 
 #ifdef ENABLE_ICU
@@ -77,8 +78,9 @@ struct dmi_resource
 };
 
 // Locale is process-wide, and so is the list of opened packages, which are
-// reopened when the locale changes
-static const char     *dmi_locale_name;
+// reopened when the locale changes. The name is a copy of its own, since the
+// packages are reopened with it long after the call which has set it.
+static char           *dmi_locale_name;
 static dmi_resource_t *dmi_resources;
 
 // Resources of the library itself, opened on the first name lookup
@@ -144,7 +146,8 @@ void dmi_locale_init(void)
 bool dmi_set_locale(const char *locale)
 {
 #ifdef ENABLE_ICU
-    dmi_locale_name = locale;
+    if (not dmi_string_set(nullptr, &dmi_locale_name, locale))
+        return false;
 
     bool success = true;
 

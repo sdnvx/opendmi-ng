@@ -24,6 +24,15 @@
 #define DMI_FIELD_PLAIN_MAX 8
 
 //
+// Size of a member a value is decoded into on the stack to be compared with
+// the one the model holds; larger members, e.g. whole structures a split
+// field decodes into, are copied to the heap.
+//
+enum {
+    DMI_FIELD_PROBE_SIZE = 512
+};
+
+//
 // Value of a plain field kept for the extended one which may replace it,
 // because the member no longer holds it once it has been converted.
 //
@@ -936,7 +945,12 @@ static bool dmi_field_model_data(
         const void               *value,
         dmi_field_data_t         *data);
 
-static bool dmi_field_decodes_into(const dmi_field_t *field, const dmi_field_data_t *data, const void *value);
+static bool dmi_field_decodes_into(
+        const dmi_field_output_t *output,
+        const dmi_field_t        *field,
+        const dmi_field_data_t   *data,
+        const void               *value,
+        bool                     *equal);
 
 static bool dmi_field_source_data(const dmi_field_output_t *output, const dmi_field_t *field, dmi_field_data_t *data);
 
@@ -1175,6 +1189,10 @@ static bool dmi_field_encode_one(
         for (unsigned shift = 0; shift < width * CHAR_BIT; shift += 4, number /= 10)
             digits |= (number % 10) << shift;
 
+        // Digits the field has no room for are not dropped silently
+        if (number != 0)
+            return dmi_field_cannot_encode(output, "value the field cannot carry");
+
         return dmi_field_put_raw(output, width, digits);
     }
 
@@ -1287,10 +1305,10 @@ static bool dmi_field_encode_array(
 
     // Number of the elements the data declares, which is greater than the
     // number of the decoded ones when the source data ends before the last
-    // element does
-    if (field->params.count_length != 0) {
-        uintmax_t count = counter;
+    // element does, or than none when the elements have been stepped over
+    uintmax_t count = counter;
 
+    if (field->params.count_length != 0) {
         if (dmi_member_is_present(field->params.count_member)) {
             count = dmi_field_load_member(field->params.count_member,
                                           info + field->params.count_member.offset);
@@ -1330,12 +1348,16 @@ static bool dmi_field_encode_array(
     }
 
     // Elements too short for the fields they are known to hold have not been
-    // decoded, and are kept as they are
+    // decoded, and are kept as they are. None of them is counted then, so
+    // the bytes they take are the ones of as many elements as the data
+    // declares, lest the fields after them be misplaced
     if ((field->params.stride_minimum != 0) and (stride < field->params.stride_minimum)) {
         size_t remaining = dmi_encoder_remaining(encoder);
-        size_t length    = counter * stride;
+        size_t length    = ((stride != 0) and (count > remaining / stride))
+                         ? remaining
+                         : (size_t)count * stride;
 
-        return dmi_field_put_reserved(output, (length < remaining) ? length : remaining);
+        return dmi_field_put_reserved(output, length);
     }
 
     for (size_t i = 0; i < counter; i++) {
@@ -1549,15 +1571,23 @@ static bool dmi_field_value_data(
     if ((field->params.decode != nullptr) and (field->params.encode == nullptr))
         return dmi_field_cannot_encode(output, "no encoding handler");
 
-    if ((original != nullptr) and dmi_field_decodes_into(field, original, value)) {
-        *data = *original;
-        return true;
+    if (original != nullptr) {
+        bool equal = false;
+
+        if (not dmi_field_decodes_into(output, field, original, value, &equal))
+            return false;
+
+        if (equal) {
+            *data = *original;
+            return true;
+        }
     }
 
     if (not dmi_field_model_data(output, field, value, data))
         return false;
 
-    *exact = dmi_field_decodes_into(field, data, value);
+    if (not dmi_field_decodes_into(output, field, data, value, exact))
+        return false;
 
     // Data wider than the field is not something it can carry
     unsigned bits = (field->type == DMI_FIELD_TYPE_BITS)
@@ -1627,14 +1657,23 @@ static bool dmi_field_model_data(
 //
 // Check whether data decodes into the value a member holds, by decoding it
 // into a copy of the member, or of the whole structure for a split field.
+// The answer is stored into equal, and false is returned only when the copy
+// cannot be made, which is an error rather than a value of another spelling.
 //
-static bool dmi_field_decodes_into(const dmi_field_t *field, const dmi_field_data_t *data, const void *value)
+static bool dmi_field_decodes_into(
+        const dmi_field_output_t *output,
+        const dmi_field_t        *field,
+        const dmi_field_data_t   *data,
+        const void               *value,
+        bool                     *equal)
 {
-    dmi_byte_t  local[512];
+    dmi_byte_t  local[DMI_FIELD_PROBE_SIZE];
     dmi_byte_t *copy = local;
 
+    *equal = false;
+
     if (field->member.size > sizeof(local)) {
-        copy = malloc(field->member.size);
+        copy = dmi_alloc(dmi_entity_context(output->encoder->entity), field->member.size);
         if (copy == nullptr)
             return false;
     }
@@ -1645,13 +1684,13 @@ static bool dmi_field_decodes_into(const dmi_field_t *field, const dmi_field_dat
 
     memcpy(copy, value, field->member.size);
 
-    bool equal = dmi_field_apply(field, &probe, copy) and
-                 (memcmp(copy, value, field->member.size) == 0);
+    *equal = dmi_field_apply(field, &probe, copy) and
+             (memcmp(copy, value, field->member.size) == 0);
 
     if (copy != local)
-        free(copy);
+        dmi_free(copy);
 
-    return equal;
+    return true;
 }
 
 //

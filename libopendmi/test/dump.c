@@ -26,6 +26,8 @@ static int test_dump_teardown(void **pstate);
 static void test_dump_load_valid(void **pstate);
 static void test_dump_load_not_dump(void **pstate);
 static void test_dump_load_too_small(void **pstate);
+static void test_dump_load_too_large(void **pstate);
+static void test_dump_load_not_regular(void **pstate);
 static void test_dump_load_bad_checksum(void **pstate);
 static void test_dump_load_entry_only(void **pstate);
 static void test_dump_load_truncated(void **pstate);
@@ -64,6 +66,8 @@ int main(void)
         cmocka_unit_test(test_dump_load_valid),
         cmocka_unit_test(test_dump_load_not_dump),
         cmocka_unit_test(test_dump_load_too_small),
+        cmocka_unit_test(test_dump_load_too_large),
+        cmocka_unit_test(test_dump_load_not_regular),
         cmocka_unit_test(test_dump_load_bad_checksum),
         cmocka_unit_test(test_dump_load_entry_only),
         cmocka_unit_test(test_dump_load_truncated),
@@ -160,6 +164,42 @@ static void test_dump_load_too_small(void **pstate)
         assert_false(dmi_load(state->context, test_dump_path));
         assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
     }
+}
+
+static void test_dump_load_too_large(void **pstate)
+{
+    test_dump_state_t *state = *pstate;
+
+    // Valid dump padded beyond the size of the largest table accepted
+    test_dump_write(state->source, state->source_size);
+
+    FILE *stream = fopen(test_dump_path, "r+b");
+    if (stream == nullptr) {
+        fail_msg("Unable to open file %s", test_dump_path);
+        return;
+    }
+
+    int sought  = fseek(stream, DMI_ENTRY_MAX_SIZE + DMI_TABLE_MAX_SIZE, SEEK_SET);
+    int written = fputc(0, stream);
+    int rv      = fclose(stream);
+
+    assert_int_equal(sought, 0);
+    assert_int_not_equal(written, EOF);
+    assert_int_equal(rv, 0);
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_load(state->context, test_dump_path));
+    assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
+}
+
+static void test_dump_load_not_regular(void **pstate)
+{
+    test_dump_state_t *state = *pstate;
+
+    // Directory is not read as a dump
+    dmi_error_clear(state->context);
+    assert_false(dmi_load(state->context, OPENDMI_TEST_DATA));
+    assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
 }
 
 static void test_dump_load_bad_checksum(void **pstate)

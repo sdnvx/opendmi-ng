@@ -106,8 +106,7 @@ typedef struct dmi_error_queue
  *
  * @param context DMI context.
  * @param reason  Error reason code.
- * @return @c true on success, @c false if @p context is @c nullptr or memory
- *         allocation fails.
+ * @return @c true on success, @c false if @p context is @c nullptr.
  */
 #define dmi_error_raise(context, reason) \
         __dmi_error_raise(context, __FILE__, __func__, __LINE__, reason, nullptr)
@@ -123,7 +122,8 @@ typedef struct dmi_error_queue
  * @param message  printf-style format string for the additional message.
  * @param ...      Format arguments.
  * @return @c true on success, @c false if @p context is @c nullptr or memory
- *         allocation fails.
+ *         allocation for the message fails. In the latter case the error is
+ *         still added to the queue, without a message.
  */
 #define dmi_error_raise_ex(context, reason, message, ...) \
         __dmi_error_raise(context, __FILE__, __func__, __LINE__, reason, message, ##__VA_ARGS__)
@@ -160,7 +160,8 @@ __dmi_api const char *dmi_error_message(dmi_error_code_t reason);
  *                 @c nullptr if no additional message is needed.
  * @param ...      Format arguments.
  * @return @c true on success, @c false if @p context is @c nullptr or memory
- *         allocation for the message fails.
+ *         allocation for the message fails. In the latter case the error is
+ *         still added to the queue, without a message.
  */
 __dmi_api bool __dmi_error_raise(
         dmi_context_t    *context,
@@ -184,7 +185,8 @@ __dmi_api bool __dmi_error_raise(
  *                 @c nullptr if no additional message is needed.
  * @param args     Format arguments.
  * @return @c true on success, @c false if @p context is @c nullptr or memory
- *         allocation for the message fails.
+ *         allocation for the message fails. In the latter case the error is
+ *         still added to the queue, without a message.
  */
 __dmi_api bool __dmi_error_vraise(
         dmi_context_t    *context,
@@ -227,7 +229,11 @@ __dmi_api dmi_error_t *dmi_error_peek_last(dmi_context_t *context);
  * @note The returned pointer is valid only until the error queue is next
  *       modified by @c dmi_error_raise(), @c dmi_error_raise_ex(),
  *       @c dmi_error_get_first(), @c dmi_error_get_last(), or
- *       @c dmi_error_clear().
+ *       @c dmi_error_clear(). The descriptor is no longer part of the queue,
+ *       so its slot, including the message, is reused by the next error
+ *       raised for @p context, and any library function called with
+ *       @p context may raise one. Copy whatever is needed before calling
+ *       into the library again.
  */
 __dmi_api dmi_error_t *dmi_error_get_first(dmi_context_t *context);
 
@@ -243,7 +249,11 @@ __dmi_api dmi_error_t *dmi_error_get_first(dmi_context_t *context);
  * @note The returned pointer is valid only until the error queue is next
  *       modified by @c dmi_error_raise(), @c dmi_error_raise_ex(),
  *       @c dmi_error_get_first(), @c dmi_error_get_last(), or
- *       @c dmi_error_clear().
+ *       @c dmi_error_clear(). The descriptor is no longer part of the queue,
+ *       so its slot, including the message, is reused by the next error
+ *       raised for @p context, and any library function called with
+ *       @p context may raise one. Copy whatever is needed before calling
+ *       into the library again.
  */
 __dmi_api dmi_error_t *dmi_error_get_last(dmi_context_t *context);
 

@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <stddef.h>
 #include <string.h>
 #include <assert.h>
 
@@ -85,7 +86,7 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
         .name       = "SMBIOS 2.1+ (32-bit)",
         .anchor     = DMI_ANCHOR_V21,
         .version    = DMI_VERSION(2, 1, 0),
-        .min_length = sizeof(dmi_entry_v21_t),
+        .min_length = sizeof(dmi_entry_v21_t) - 1,
         .handler    = dmi_entry_decode_v21,
         .attributes = DMI_ATTRIBUTES({
             DMI_ATTRIBUTE(dmi_context_t, state.entry_length, SIZE, {
@@ -186,20 +187,24 @@ static bool dmi_entry_decode_legacy(dmi_context_t *context,
 {
     assert(context != nullptr);
     assert(data != nullptr);
-    assert(length >= sizeof(dmi_entry_legacy_t));
-
-    dmi_unused(length);
+    assert(length >= sizeof(dmi_entry_legacy_t) - 1);
 
     const dmi_entry_legacy_t *entry = dmi_cast(entry, data);
 
+    // An intermediate entry point of SMBIOS 2.1 entry point with length 0x1E
+    // (see dmi_entry_decode_v21()) can lack the BCD revision byte. Its
+    // checksum then cannot be verified, but the enclosing entry point
+    // checksum covers all the remaining fields.
+    bool complete = length >= sizeof(dmi_entry_legacy_t);
+
     // Verify EPS checksum value
-    if (not dmi_checksum_test(data, sizeof(dmi_entry_legacy_t))) {
+    if (complete and not dmi_checksum_test(data, sizeof(dmi_entry_legacy_t))) {
         dmi_error_raise(context, DMI_ERROR_INVALID_EPS_CHECKSUM);
         return false;
     }
 
     // Decode SMBIOS version
-    dmi_byte_t entry_version = dmi_decode(entry->version);
+    dmi_byte_t entry_version = complete ? dmi_decode(entry->version) : 0;
     if ((entry_version != 0) and (context->state.smbios_version == 0)) {
         uint8_t major = (entry_version & 0xF0) >> 4;
         uint8_t minor = (entry_version & 0x0F);
@@ -226,7 +231,7 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
 {
     assert(context != nullptr);
     assert(data != nullptr);
-    assert(length >= sizeof(dmi_entry_v21_t));
+    assert(length >= sizeof(dmi_entry_v21_t) - 1);
 
     const dmi_entry_v21_t *entry = dmi_cast(entry, data);
     size_t entry_length = dmi_decode(entry->length);
@@ -265,7 +270,13 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
     // Decode structure parameters
     context->state.entity_max_size = dmi_decode(entry->entity_max_size);
 
-    if (not dmi_entry_decode_legacy(context, (const void *)&entry->ieps, sizeof(entry->ieps)))
+    // Intermediate entry point is truncated if the entry point of length
+    // 0x1E is supplied at its exact length
+    size_t ieps_length = length - offsetof(dmi_entry_v21_t, ieps);
+    if (ieps_length > sizeof(entry->ieps))
+        ieps_length = sizeof(entry->ieps);
+
+    if (not dmi_entry_decode_legacy(context, (const void *)&entry->ieps, ieps_length))
         return false;
 
     // Intermediate entry point length is overridden

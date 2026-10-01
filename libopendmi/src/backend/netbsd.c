@@ -12,6 +12,7 @@
 #include <sys/sysctl.h>
 
 #include <string.h>
+#include <inttypes.h>
 #include <errno.h>
 #include <assert.h>
 
@@ -104,6 +105,21 @@ static bool dmi_netbsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
     assert(buffer != nullptr);
 
     dmi_netbsd_session_t *session = dmi_cast(session, context->state.session);
+
+    // Size comes from firmware, which is not trusted to have the library
+    // read whatever it likes
+    if (context->state.table_area_max_size > DMI_TABLE_MAX_SIZE) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_READ, "%s: table of %zu bytes exceeds the limit of %zu bytes",
+                           session->device, context->state.table_area_max_size, (size_t)DMI_TABLE_MAX_SIZE);
+        return false;
+    }
+
+    // Offset of the device is signed
+    if (context->state.table_area_addr > INT64_MAX) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_READ, "%s: table address 0x%" PRIx64 " is out of range",
+                           session->device, context->state.table_area_addr);
+        return false;
+    }
 
     return dmi_file_load(buffer, session->device, (off_t)context->state.table_area_addr,
                          context->state.table_area_max_size);

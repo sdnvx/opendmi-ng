@@ -8,31 +8,17 @@
 set -e
 
 SCRIPT_PATH=`readlink -f "$0"`
-SCRIPT_ROOT=`dirname "$0"`
+SCRIPT_ROOT=`dirname "${SCRIPT_PATH}"`
 SCRIPT_NAME=`basename "$0"`
 
 CONFIG_DIST="${SCRIPT_ROOT}/build.conf.dist"
 CONFIG_LOCAL="${SCRIPT_ROOT}/build.conf"
 
-. ${CONFIG_DIST}
+. "${CONFIG_DIST}"
 
 if [ -f "${CONFIG_LOCAL}" ]; then
-    . ${CONFIG_LOCAL}
+    . "${CONFIG_LOCAL}"
 fi
-
-case "${BUILD_DIR}" in
-    /*)
-        ;;
-    *)
-        BUILD_DIR="${SCRIPT_ROOT}/${BUILD_DIR}"
-        ;;
-esac
-
-if [ ! -d "${BUILD_DIR}" ]; then
-    mkdir -p "${BUILD_DIR}"
-fi
-
-BUILD_DIR=`readlink -f "${BUILD_DIR}"`
 
 OSNAME=`uname -s`
 case "${OSNAME}" in
@@ -261,7 +247,7 @@ _configure() {
     echo "Number of jobs:  ${NPROC}"
     echo
 
-    ${CMAKE} -B ${BUILD_DIR} \
+    ${CMAKE} -B "${BUILD_DIR}" \
         -DCMAKE_C_COMPILER=${COMPILER} \
         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
         -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
@@ -276,7 +262,7 @@ _configure() {
 }
 
 _build() {
-    ${CMAKE} --build ${BUILD_DIR} --parallel ${NPROC}
+    ${CMAKE} --build "${BUILD_DIR}" --parallel ${NPROC}
 }
 
 _test() {
@@ -296,15 +282,15 @@ _test() {
         esac
     done
 
-    ${CTEST} --test-dir ${BUILD_DIR} --parallel ${NPROC} --output-on-failure ${CTEST_ARGS}
+    ${CTEST} --test-dir "${BUILD_DIR}" --parallel ${NPROC} --output-on-failure ${CTEST_ARGS}
 }
 
 _install() {
-    ${CMAKE} --build ${BUILD_DIR} --target install
+    ${CMAKE} --build "${BUILD_DIR}" --target install
 }
 
 _clean() {
-    ${CMAKE} --build ${BUILD_DIR} --target clean
+    ${CMAKE} --build "${BUILD_DIR}" --target clean
 }
 
 _package() {
@@ -317,7 +303,55 @@ _package() {
 
 _distclean()
 {
-    rm -rf ${BUILD_DIR}
+    if [ ! -e "${BUILD_DIR}" ]; then
+        return
+    fi
+
+    # Never delete the source tree, its parents, the root or home directory
+    if [ "${BUILD_DIR}" = "/" ]; then
+        _unsafe_build_dir
+    fi
+
+    case "${SCRIPT_ROOT}/" in
+        "${BUILD_DIR}"/*)
+            _unsafe_build_dir
+            ;;
+    esac
+
+    if [ -n "${HOME}" ] && [ "${BUILD_DIR}" = "`readlink -f "${HOME}"`" ]; then
+        _unsafe_build_dir
+    fi
+
+    rm -rf "${BUILD_DIR}"
+}
+
+_unsafe_build_dir() {
+    echo "Refusing to delete build directory: ${BUILD_DIR}" 1>&2
+    exit 1
+}
+
+# Resolve the build directory to an absolute canonical path. Relative paths
+# from the configuration files are relative to the source tree.
+_resolve_build_dir() {
+    if [ -z "${BUILD_DIR}" ]; then
+        echo "Build directory is not set" 1>&2
+        exit 1
+    fi
+
+    case "${BUILD_DIR}" in
+        /*)
+            ;;
+        *)
+            BUILD_DIR="${SCRIPT_ROOT}/${BUILD_DIR}"
+            ;;
+    esac
+
+    if [ -d "${BUILD_DIR}" ]; then
+        BUILD_DIR=`readlink -f "${BUILD_DIR}"`
+    elif [ -e "${BUILD_DIR}" ]; then
+        echo "Build directory is not a directory: ${BUILD_DIR}" 1>&2
+        exit 1
+    fi
 }
 
 while [ $# -gt 0 ]; do
@@ -331,16 +365,25 @@ while [ $# -gt 0 ]; do
 
     case "${OPTION}" in
         -h|--help)
+            _resolve_build_dir
             _usage
             exit 0
             ;;
         -b|--build)
-            _require_argument ${OPTION} $#
-            BUILD_DIR=$1
+            _require_argument "${OPTION}" $#
+            # Command line paths are relative to the current directory
+            case "$1" in
+                /*)
+                    BUILD_DIR="$1"
+                    ;;
+                *)
+                    BUILD_DIR="`pwd`/$1"
+                    ;;
+            esac
             shift
             ;;
         -j|--jobs)
-            _require_argument ${OPTION} $#
+            _require_argument "${OPTION}" $#
             NPROC=$1
             shift
             ;;
@@ -356,6 +399,15 @@ fi
 
 COMMAND=$1
 shift
+
+_resolve_build_dir
+
+case "${COMMAND}" in
+    configure)
+        mkdir -p "${BUILD_DIR}"
+        BUILD_DIR=`readlink -f "${BUILD_DIR}"`
+        ;;
+esac
 
 cd "${SCRIPT_ROOT}"
 

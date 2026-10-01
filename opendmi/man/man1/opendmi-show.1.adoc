@@ -33,6 +33,13 @@ numbered.
 Structures which cannot be decoded completely are still shown, along with
 whatever has been read from them; *--verbose* tells such structures apart.
 
+Strings come from the firmware as they are, so the control characters they
+hold, which a terminal would take for commands, are shown as escapes: `\xNN`
+for the C0 control characters (tabs and line breaks included) and DEL, `\u00NN`
+for the C1 control characters, and `\xNN` for every byte which is not valid
+UTF-8. Backslashes are shown as they are. `opendmi-export`(1) writes the
+strings as the output format represents them.
+
 Which structures are shown is decided by the filter options, which are common
 to `opendmi-list`(1) and `opendmi-export`(1). By default the standard and the
 OEM-specific structures are shown, and the inactive and the unknown ones are
@@ -111,7 +118,7 @@ Show every structure, including the inactive and the unknown ones.
 Data has been shown.
 
 *1*::
-Data could not be read.
+Data could not be read, or the output could not be written.
 
 *2*::
 Command line is invalid.

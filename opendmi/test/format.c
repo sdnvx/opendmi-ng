@@ -39,6 +39,8 @@ static void test_format_text_quiet(void **pstate);
 static void test_format_properties(void **pstate);
 static void test_format_overlays(void **pstate);
 static void test_format_pretty(void **pstate);
+static void test_format_text_escape(void **pstate);
+static void test_format_write_error(void **pstate);
 
 static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode, bool pretty);
 static bool test_format_has_controls(const char *output);
@@ -102,7 +104,9 @@ int main(void)
         cmocka_unit_test(test_format_text_quiet),
         cmocka_unit_test(test_format_properties),
         cmocka_unit_test(test_format_overlays),
-        cmocka_unit_test(test_format_pretty)
+        cmocka_unit_test(test_format_pretty),
+        cmocka_unit_test(test_format_text_escape),
+        cmocka_unit_test(test_format_write_error)
     };
 
     return cmocka_run_group_tests(tests, test_format_setup, test_format_teardown);
@@ -791,6 +795,110 @@ static void test_format_pretty(void **pstate)
     dmi_buffer_destroy(entity_buffer);
 
     assert_true(same);
+}
+
+static void test_format_text_escape(void **pstate)
+{
+    const test_format_state_t *state = *pstate;
+
+    // Inactive structure with strings containing terminal control sequences:
+    // ESC, carriage return, C1 CSI and its byte alone, which is invalid UTF-8
+    static const dmi_data_t data[] = {
+        126, 5, 0x03, 0x00, 0x00,
+        'A', 0x1B, '[', '2', 'J', 'B', 0,
+        'C', '\r', 'D', 0,
+        'E', 0xC2, 0x9B, 'F', 0x9B, 'G', 0,
+        0
+    };
+
+    static const char *expected[] = {
+        "\t\t1: \"A\\x1B[2JB\"\n",
+        "\t\t2: \"C\\x0DD\"\n",
+        "\t\t3: \"E\\u009BF\\x9BG\"\n"
+    };
+
+    dmi_buffer_t *entity_buffer = dmi_buffer_create(state->context);
+
+    dmi_entity_t *entity = dmi_test_entity_create(entity_buffer, data, sizeof(data));
+    assert_non_null(entity);
+
+    const dmi_format_t *format = dmi_format_get("text");
+    assert_non_null(format);
+
+    char *output = test_format_print(format, entity, true, DMI_FORMAT_MODE_NORMAL, false);
+    dmi_entity_destroy(entity);
+    dmi_buffer_destroy(entity_buffer);
+    assert_non_null(output);
+
+    // Output is plain ASCII, so no control characters except tabs and line
+    // feeds of the layout reach the terminal
+    bool has_controls = false;
+    for (const unsigned char *pos = dmi_cast(pos, output); *pos != 0; pos++) {
+        if (((*pos < 0x20u) and (*pos != '\t') and (*pos != '\n')) or (*pos >= 0x7Fu))
+            has_controls = true;
+    }
+
+    const char *missing = nullptr;
+    for (size_t i = 0; i < countof(expected); i++) {
+        if (strstr(output, expected[i]) == nullptr) {
+            missing = expected[i];
+            break;
+        }
+    }
+
+    free(output);
+
+    if (missing != nullptr)
+        fail_msg("Missing output: %s", missing);
+
+    assert_false(has_controls);
+}
+
+static void test_format_write_error(void **pstate)
+{
+    const test_format_state_t *state = *pstate;
+    dmi_context_t *context = dmi_entity_context(state->entity);
+
+    // Stream opened for reading fails on every write
+    for (const dmi_format_t **pformat = dmi_formats; *pformat != nullptr; pformat++) {
+        const dmi_format_t *format = *pformat;
+
+        FILE *stream = fopen(OPENDMI_TEST_DATA "/00-index.adoc", "r");
+        assert_non_null(stream);
+
+        dmi_error_clear(context);
+
+        const dmi_format_options_t options = { .dump = true };
+        void *session = format->handlers.initialize(context, stream, &options);
+        assert_non_null(session);
+
+        const dmi_format_ops_t *ops = &format->handlers;
+        bool success =
+            ((ops->dump_start == nullptr) or ops->dump_start(session)) and
+            ((ops->table_start == nullptr) or ops->table_start(session)) and
+            dmi_print_entity(format, state->entity, session, &options) and
+            ((ops->table_end == nullptr) or ops->table_end(session)) and
+            ((ops->dump_end == nullptr) or ops->dump_end(session));
+
+        format->handlers.finalize(session);
+
+        bool has_failed = (fflush(stream) != 0) or ferror(stream);
+        fclose(stream);
+
+        // Text is written as it goes, and its failures are checked when the
+        // output is complete, while every failure of the other formats is
+        // raised as it happens
+        const dmi_error_t *error = dmi_error_peek_last(context);
+
+        if (strcmp(format->code, "text") == 0) {
+            if (not success or not has_failed)
+                fail_msg("Format %s: failure is not detected", format->code);
+        } else if (success or (error == nullptr) or (error->reason != DMI_ERROR_FILE_WRITE)) {
+            fail_msg("Format %s: failure is not raised", format->code);
+        }
+    }
+
+    dmi_error_clear(context);
 }
 
 static char *test_format_print(const dmi_format_t *format, const dmi_entity_t *entity, bool dump, dmi_format_mode_t mode, bool pretty)

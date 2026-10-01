@@ -371,7 +371,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
         if (entity == nullptr) {
             const dmi_error_t *error = dmi_error_peek_last(context);
 
-            if (error->reason == DMI_ERROR_ENTITY_TRUNCATED) {
+            if ((error != nullptr) and (error->reason == DMI_ERROR_ENTITY_TRUNCATED)) {
                 dmi_log_warning(context, "Truncated structure, stopping before end-of-table");
                 registry->status |= DMI_REGISTRY_STATUS_TRUNCATED;
                 break;
@@ -380,7 +380,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
             // Next structure cannot be located after a structure with invalid
             // length, so the rest of the table is treated as truncated in
             // relaxed mode
-            if ((error->reason == DMI_ERROR_INVALID_ENTITY_LENGTH) and
+            if ((error != nullptr) and (error->reason == DMI_ERROR_INVALID_ENTITY_LENGTH) and
                 ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0))
             {
                 dmi_log_warning(context, "Invalid structure length, stopping before end-of-table");
@@ -393,9 +393,10 @@ bool dmi_registry_scan(dmi_registry_t *registry)
         }
 
         // Add entity to registry
+        // Structures are not decoded yet, so they are named by the type
         if (not dmi_registry_put(registry, entity)) {
             dmi_error_raise_ex(context, DMI_ERROR_ENTITY_REGISTER,
-                               "0x%04x (%s)", entity->handle, entity->spec->name);
+                               "0x%04x (%s)", entity->handle, dmi_type_name(context, entity->type_id));
             dmi_entity_destroy(entity);
             goto exit;
         }

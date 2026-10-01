@@ -13,6 +13,16 @@
 
 __BEGIN_DECLS
 
+/**
+ * @brief Check result of XML writer call, and raise an error if it has failed.
+ *
+ * @param[in] session XML session.
+ * @param[in] rv      Value returned by XML writer function.
+ *
+ * @return `true` if the call has succeeded, `false` otherwise.
+ */
+bool dmi_xml_check(dmi_xml_session_t *session, int rv);
+
 bool dmi_xml_data(dmi_xml_session_t *session, const dmi_data_t *data, size_t length);
 
 /**

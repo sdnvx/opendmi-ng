@@ -35,7 +35,10 @@ repeatedly until there are no more entries.
 
 The returned pointer remains valid until the error queue is next modified by
 `dmi_error_raise`(3), `dmi_error_raise_ex`(3), `dmi_error_get_first`(3),
-`dmi_error_get_last`(3), or `dmi_error_clear`(3).
+`dmi_error_get_last`(3), or `dmi_error_clear`(3). The descriptor is no longer
+part of the queue, so its slot, including `message`, is reused by the next
+error raised for `context`, and any library function called with `context`
+may raise one. Copy whatever is needed before calling into the library again.
 
 === Parameters
 

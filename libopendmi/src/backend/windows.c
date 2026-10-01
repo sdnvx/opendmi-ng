@@ -24,6 +24,12 @@ enum {
     SystemFirmwareTableInformation = 76,
 };
 
+// Status of a query with a buffer too small for the data, which tells the
+// size needed. It comes from <ntstatus.h>, which clashes with <windows.h>.
+#ifndef STATUS_BUFFER_TOO_SMALL
+#   define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
+#endif
+
 typedef struct _RAW_SMBIOS_DATA
 {
     uint8_t Used20CallingMethod;
@@ -73,7 +79,7 @@ static bool dmi_windows_open(dmi_context_t *context, const char *path)
     };
     ULONG size = 0;
     NTSTATUS status = NtQuerySystemInformation(SystemFirmwareTableInformation, &sfti, sizeof(sfti), &size);
-    if (size == 0) {
+    if ((!NT_SUCCESS(status) && (status != STATUS_BUFFER_TOO_SMALL)) || (size <= sizeof(sfti))) {
         dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Unable to query SMBIOS table size: %s", dmi_ntstatus_to_string(status));
         return false;
     }
@@ -84,6 +90,8 @@ static bool dmi_windows_open(dmi_context_t *context, const char *path)
     }
     *session = sfti;
 
+    const ULONG allocated = size;
+
     status = NtQuerySystemInformation(SystemFirmwareTableInformation, session, size, &size);
     if (!NT_SUCCESS(status))
     {
@@ -93,6 +101,20 @@ static bool dmi_windows_open(dmi_context_t *context, const char *path)
     }
 
     RAW_SMBIOS_DATA *data = dmi_cast(data, session->TableBuffer);
+
+    // Lengths reported by the system and by firmware are checked against the
+    // data actually returned, so that the table is not read beyond it
+    const size_t header = offsetof(SYSTEM_FIRMWARE_TABLE_INFORMATION, TableBuffer);
+    if ((size > allocated) || (size < header) ||
+        (session->TableBufferLength > size - header) ||
+        (session->TableBufferLength < sizeof(RAW_SMBIOS_DATA)) ||
+        (data->Length > session->TableBufferLength - sizeof(RAW_SMBIOS_DATA)))
+    {
+        dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Invalid SMBIOS table length (%lu bytes returned)",
+                           (unsigned long)size);
+        dmi_free(session);
+        return false;
+    }
 
     context->state.smbios_version = dmi_version(data->SMBIOSMajorVersion, data->SMBIOSMinorVersion, data->DmiRevision);
     context->state.session        = session;

@@ -78,33 +78,28 @@ static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[])
     dmi_unused(argc);
     dmi_unused(argv);
 
-    if (dmi_tty_is_stdout()) {
+    bool is_raw = dmi_command_is_raw(dmi_modules_config.show_raw);
+
+    if (not is_raw) {
         dmi_command_banner();
         dmi_tty_header("%s:", dmi_tool_string("Available modules"));
-    } else {
-        dmi_modules_config.show_raw = true;
     }
 
     int rv = EXIT_FAILURE;
-    size_t width = 0;
+    int width = 0;
     size_t count = 0;
     size_t index = 0;
-    char *format = nullptr;
     const dmi_module_t **modules = nullptr;
 
+    // Module codes are short, so their width fits into the field width
     for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
-        size_t name_width = strlen(module->code);
+        int name_width = (int)strlen(module->code);
         if (width < name_width)
             width = name_width;
         count++;
     }
 
     do {
-        if (dmi_asprintf(&format, "%%4s%%-%us", width + 2) < 0) {
-            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-            break;
-        }
-
         modules = dmi_alloc_array(context, sizeof(dmi_module_t *), count);
         if (modules == nullptr)
             break;
@@ -118,15 +113,15 @@ static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[])
         for (index = 0; index < count; index++) {
             const dmi_module_t *module = modules[index];
 
-            if (dmi_modules_config.show_raw) {
+            if (is_raw) {
                 printf("%s\t%s\n", module->code, module->name);
             } else {
-                dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, format, "", module->code);
+                dmi_tty_cprintf(DMI_TTY_COLOR_YELLOW, "%4s%-*s", "", width + 2, module->code);
                 dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s\n", dmi_tool_string(module->name));
             }
         }
 
-        if (not dmi_modules_config.show_raw)
+        if (not is_raw)
             printf("\n");
 
         rv = EXIT_SUCCESS;
@@ -136,7 +131,6 @@ static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[])
         dmi_command_trace(context);
 
     dmi_free(modules);
-    dmi_free(format);
 
     return rv;
 }

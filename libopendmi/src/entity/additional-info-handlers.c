@@ -27,17 +27,23 @@ bool dmi_additional_info_decode(dmi_decoder_t *decoder)
 
     dmi_context_t *context = dmi_entity_context(entity);
 
-    if (not dmi_decoder_get(decoder, dmi_byte_t, &info->entry_count)) {
+    size_t entry_count = 0;
+
+    if (not dmi_decoder_get(decoder, dmi_byte_t, &entry_count)) {
         dmi_log_error(context, "Unable to decode additional information entries count: 0x%04X",
                       dmi_entity_handle(entity));
         return false;
     }
 
-    info->entries = dmi_alloc_array(context, sizeof(dmi_additional_info_entry_t), info->entry_count);
+    if (entry_count == 0)
+        return true;
+
+    info->entries = dmi_alloc_array(context, sizeof(dmi_additional_info_entry_t), entry_count);
     if (info->entries == nullptr)
         return false;
 
-    for (size_t i = 0; i < info->entry_count; i++) {
+    // Entries count is incremented only for completely decoded entries
+    for (size_t i = 0; i < entry_count; i++) {
         dmi_additional_info_entry_t *entry = &info->entries[i];
 
         size_t       entry_length;
@@ -89,6 +95,8 @@ bool dmi_additional_info_decode(dmi_decoder_t *decoder)
                           dmi_entity_handle(entity), i);
             return false;
         }
+
+        info->entry_count++;
     }
 
     return true;

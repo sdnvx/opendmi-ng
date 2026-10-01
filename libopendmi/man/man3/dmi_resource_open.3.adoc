@@ -1,0 +1,103 @@
+ifdef::backend-manpage[]
+= dmi_resource_open(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_resource_open
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_resource_open - open a package of translated strings.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/locale.h>
+
+typedef struct dmi_resource dmi_resource_t;
+
+dmi_resource_t *dmi_resource_open(const char *package, const void *data);
+----
+
+== Description
+
+The `dmi_resource_open` function opens a resource package, a set of ICU4C
+resource bundles holding the strings of a program in every language it is
+translated to, so that the program can look its strings up the way the
+library looks up printable names.
+
+The package is embedded into the program rather than installed as a file.
+Bundles of the package are built from ICU4C resource sources, one
+`<locale>.txt` per locale and `root.txt` with the default strings, and are
+packaged by `pkgdata` into a data object which is linked into the program,
+e.g. by the `add_resources()` function of the OpenDMI build files. The data is
+then reachable as the `<package>_dat` symbol:
+
+[source, c]
+----
+extern const char opendmi_dat[];
+
+dmi_resource_t *resource = dmi_resource_open("opendmi", opendmi_dat);
+----
+
+The package is opened with the locale set by `dmi_set_locale`(3), and is
+reopened with the new one whenever the locale is changed. Locales with no
+bundle of their own fall back to a less specific locale, and to the `root`
+bundle at last.
+
+The package stays open until it is closed by `dmi_resource_close`(3). Strings
+are looked up in it by `dmi_resource_string`(3), and messages are formatted by
+`dmi_resource_message`(3).
+
+=== Thread safety
+
+Open packages are kept in a process-wide list, which the function changes, so
+it must not be called while other threads may use the library.
+
+=== Parameters
+
+`package`::
+Package name, the one passed to `pkgdata --name` when the package is built,
+e.g. `opendmi` for the strings of the command line tool. The data is
+registered with ICU4C under this name, which therefore has to be unique.
+
+`data`::
+Package data, the `<package>_dat` symbol of the data object.
+
+== Return value
+
+Returns a resource handle, or `nullptr` if an argument is `nullptr`, if
+ICU4C cannot be initialized or the data cannot be registered or opened, if
+memory is exhausted, or if the library is built without ICU4C support.
+
+Programs are expected to leave their strings untranslated, rather than fail,
+when no handle is returned: the lookup functions accept a `nullptr` handle,
+and find no strings in it.
+
+== Errors
+
+None: the function takes no context to raise errors in.
+
+== See also
+
+`dmi_resource_close`(3),
+`dmi_resource_string`(3),
+`dmi_resource_message`(3),
+`dmi_set_locale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -73,6 +73,8 @@ static int dmi_list_main(dmi_context_t *context, int argc, char *argv[])
     dmi_unused(argc);
     dmi_unused(argv);
 
+    bool is_raw = dmi_command_is_raw(dmi_list_config.show_raw);
+
     dmi_registry_t *registry = dmi_get_registry(context);
     dmi_registry_iter_init(&iter, registry, &dmi_filter_config.filter);
 
@@ -81,7 +83,7 @@ static int dmi_list_main(dmi_context_t *context, int argc, char *argv[])
         int          type   = dmi_entity_type_id(entity);
         const char  *name   = dmi_entity_name(entity);
 
-        if (dmi_list_config.show_raw) {
+        if (is_raw) {
             printf("0x%04hX\t%d\t%s\n", handle, type, name);
         } else {
             dmi_tty_cprintf(DMI_TTY_COLOR_NAVY, "0x%04hX", handle);

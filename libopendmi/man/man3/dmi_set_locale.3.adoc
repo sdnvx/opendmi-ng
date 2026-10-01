@@ -1,0 +1,102 @@
+ifdef::backend-manpage[]
+= dmi_set_locale(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_set_locale
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_set_locale - set the locale used to translate printable strings.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/locale.h>
+
+bool dmi_set_locale(const char *locale);
+----
+
+== Description
+
+The `dmi_set_locale` function sets the locale in which the library looks up
+printable strings: names of values, structure types and lint rules, error
+messages, and the other strings of the resource packages.
+
+The locale is process-wide rather than a property of a context, since printable
+names are looked up by functions which take no context, e.g.
+`dmi_name_lookup`(3). Resource packages opened before the call are reopened
+with the new locale, and the ones opened after it use it as well.
+
+A locale with no translation of its own is not a failure: ICU4C falls back
+to a less specific locale, e.g. `ru` for `ru_RU`, and strings with no
+translation at all are left in English.
+
+The name is copied, so the variable `locale` points to need not outlive the
+call.
+
+Translations are available only if the library is built with ICU4C support.
+Otherwise the function does nothing, and printable strings are always in
+English.
+
+=== Lifetime of strings
+
+Strings looked up for the previous locale are released by the call, so every
+pointer returned before it by the functions which look up printable strings,
+e.g. `dmi_name_lookup`(3), `dmi_spec_name`(3), `dmi_error_message`(3),
+`dmi_lint_rule_name`(3), `dmi_resource_string`(3) and `dmi_get_locale`(3),
+becomes invalid. Strings which are to be kept across the call must be copied.
+
+=== Thread safety
+
+The function is not thread-safe, and must not be called while other threads
+may use the library. The locale is meant to be set once, at the start of the
+program, before the library is used, e.g. by `dmi_locale_init`(3), which takes
+it from the environment.
+
+=== Parameters
+
+`locale`::
+Locale name, e.g. `ru_RU`, or `nullptr` for the default locale of the
+environment, which ICU4C takes from the `LC_ALL`, `LC_MESSAGES` and `LANG`
+environment variables.
+
+== Return value
+
+Returns `true` if the locale has been set, and `false` if the name cannot be
+copied, if a resource package opened before the call cannot be reopened, or
+if the library is built without ICU4C support.
+
+A package which cannot be reopened gives no translated strings until the
+locale is set again.
+
+== Errors
+
+None: the function takes no context to raise errors in.
+
+== See also
+
+`dmi_get_locale`(3),
+`dmi_locale_init`(3),
+`dmi_name_lookup`(3),
+`dmi_resource_open`(3),
+`dmi_resource_string`(3),
+`dmi_error_message`(3),
+`setlocale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,88 @@
+ifdef::backend-manpage[]
+= dmi_type_name(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_type_name
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_type_name - get the printable name of a structure type number.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity.h>
+
+const char *dmi_type_name(dmi_context_t *context, dmi_type_id_t type);
+----
+
+== Description
+
+The `dmi_type_name` function returns the printable name of the structures
+found at the type number `type` in a context, e.g. `System information` for
+type 1.
+
+The name is the one `dmi_spec_name`(3) gives the specification the number is
+mapped to in the context, see `dmi_type_spec`(3), which depends on the modules
+enabled in it: vendor modules map their specifications to OEM numbers, and may
+relocate them to other numbers than the ones they are declared with. A number
+several specifications told apart by signatures are mapped to is named by the
+one without a signature, or by the first one if they all have signatures, so
+the name of the structure itself is better taken from the specification it has
+been decoded by, the `spec` member of the entity.
+
+A number no specification is mapped to is named by its range: `OEM-specific`
+for the numbers 128 through 255, which are left to OEMs, and `Unknown` for the
+others, including the numbers of the specification which are not assigned
+yet, the numbers of the modules which are not enabled, and the numbers out of
+the range of type numbers. Without a context no specification is mapped, so
+every number is named by its range.
+
+Names are translated to the locale set by `dmi_set_locale`(3), if the library
+has a translation for them. The name belongs to the library, and must not be
+freed. An untranslated name is static; a translated one is valid until the
+locale is changed by `dmi_set_locale`(3).
+
+=== Parameters
+
+`context`::
+Context the type number is looked up in, or `nullptr`.
+
+`type`::
+Type number to name, see `dmi_type_id`(3).
+
+== Return value
+
+Returns the printable name; the function never returns `nullptr`.
+
+== Errors
+
+`DMI_ERROR_INVALID_ARGUMENT`::
+Type number is out of the range of 0 through 255, which is still named
+`Unknown`.
+
+== See also
+
+`dmi_spec_name`(3),
+`dmi_type_spec`(3),
+`dmi_type_id`(3),
+`dmi_type`(3),
+`dmi_set_locale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

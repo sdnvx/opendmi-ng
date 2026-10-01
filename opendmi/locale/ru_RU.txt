@@ -182,7 +182,6 @@ ru_RU {
         "Too many arguments" { "Слишком много аргументов" }
         "Type is out of range: %s" { "Тип вне диапазона: %s" }
         "Unable to enable module: %s" { "Не удалось включить модуль: %s" }
-        "Unable to get log position: %s" { "Не удалось определить позицию в журнале: %s" }
         "Unable to lock log file: %s" { "Не удалось заблокировать файл журнала: %s" }
         "Unable to open log file: %s: %s" { "Не удалось открыть файл журнала: %s: %s" }
         "Unable to unlock log file: %s" { "Не удалось разблокировать файл журнала: %s" }
