@@ -46,6 +46,71 @@ static bool dmi_command_enable_overlay(dmi_context_t *context, const char *value
 static bool dmi_command_disable_sysfs(dmi_context_t *context, const char *value);
 #endif
 
+/**
+ * @internal
+ * @brief Prints usage of the tool: its usage line, the list of commands and
+ * global options.
+ */
+static void dmi_command_usage_tool(void);
+
+/**
+ * @internal
+ * @brief Prints usage line of a command, which names the option sets and the
+ * arguments of the command.
+ *
+ * @param[in] command Command to print the usage line of.
+ */
+static void dmi_command_usage_line(const dmi_command_t *command);
+
+/**
+ * @internal
+ * @brief Prints name of an option set in the usage line, lowercased.
+ *
+ * @param[in] set Option set to print the name of.
+ */
+static void dmi_command_usage_set(const dmi_option_set_t *set);
+
+/**
+ * @internal
+ * @brief Tells whether a command needs no SMBIOS data, either at all or with
+ * the options it has been given.
+ *
+ * @param[in] command Command to check.
+ *
+ * @return `true` if the command needs no SMBIOS data, `false` otherwise.
+ */
+static bool dmi_command_is_detached(const dmi_command_t *command);
+
+/**
+ * @internal
+ * @brief Prepares to run a command: loads SMBIOS data, unless the command
+ * needs none, and starts the pager if the command pages its output.
+ *
+ * @details SMBIOS data is loaded from the input file if one is given, or is
+ * read from the device otherwise.
+ *
+ * @param[in] command Command to prepare for.
+ * @param[in] context Context to load SMBIOS data into.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_command_setup(const dmi_command_t *command, dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Flushes standard output once a command has succeeded, since
+ * commands may write to it directly.
+ *
+ * @details Output is not an error if the pager has been quit before reading
+ * all of it.
+ *
+ * @param[in] command Command, which has written the output.
+ *
+ * @return `EXIT_SUCCESS` if the output has been written, `EXIT_FAILURE`
+ *         otherwise.
+ */
+static int dmi_command_flush_output(const dmi_command_t *command);
+
 dmi_global_config_t dmi_global_config =
 {
     .show_version = false,
@@ -228,57 +293,73 @@ void dmi_command_usage(const dmi_command_t *command)
 {
     dmi_command_banner();
 
-    if (command != nullptr) {
-        dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s\n\n", dmi_tool_string(command->description));
+    if (command == nullptr) {
+        dmi_command_usage_tool();
+        return;
     }
+
+    dmi_tty_cprintf(DMI_TTY_COLOR_WHITE, "%s\n\n", dmi_tool_string(command->description));
 
     dmi_tty_header("%s:", dmi_tool_string("Usage"));
-
-    if (command == nullptr) {
-        // Text of the line is not its own key, since resource keys may have
-        // neither brackets nor escape sequences
-        printf(dmi_tool_text("text", "usage-line",
-                             "    %s [global options] <command> [command options] [--] [command args]"),
-               dmi_process);
-        printf("\n\n");
-        dmi_command_list();
-    } else {
-        printf("    %s [%s] %s", dmi_process,
-               dmi_tool_string("global options"), command->name);
-
-        if (command->options != nullptr) {
-            for (const dmi_option_set_t **set = command->options; *set != nullptr; set++) {
-                size_t name_len = strlen((*set)->name) + 1;
-
-                char name[name_len];
-                memcpy(name, (*set)->name, name_len);
-                dmi_string_tolower(name);
-
-                // Names are translated after they are lowercased, so that the
-                // translation has the case it is printed with
-                printf(" [%s]", dmi_tool_string(name));
-            }
-        }
-
-        if (command->arguments != nullptr) {
-            printf(" [--]");
-            for (const dmi_argument_t *arg = command->arguments; arg->name != nullptr; arg++) {
-                printf(arg->required ? " <%s>" : " [<%s>]", dmi_tool_string(arg->name));
-            }
-        }
-
-        printf("\n\n");
-    }
+    dmi_command_usage_line(command);
 
     dmi_option_list(&dmi_global_options);
 
-    if (command != nullptr) {
+    if (command->options == nullptr)
+        return;
+
+    for (const dmi_option_set_t **set = command->options; *set != nullptr; set++)
+        dmi_option_list(*set);
+}
+
+static void dmi_command_usage_tool(void)
+{
+    dmi_tty_header("%s:", dmi_tool_string("Usage"));
+
+    // Text of the line is not its own key, since resource keys may have
+    // neither brackets nor escape sequences
+    printf(dmi_tool_text("text", "usage-line",
+                         "    %s [global options] <command> [command options] [--] [command args]"),
+           dmi_process);
+    printf("\n\n");
+
+    dmi_command_list();
+    dmi_option_list(&dmi_global_options);
+
+    printf(dmi_tool_string("Use %s <command> --help for more information"), dmi_process);
+    printf("\n\n");
+}
+
+static void dmi_command_usage_line(const dmi_command_t *command)
+{
+    printf("    %s [%s] %s", dmi_process, dmi_tool_string("global options"), command->name);
+
+    if (command->options != nullptr) {
         for (const dmi_option_set_t **set = command->options; *set != nullptr; set++)
-            dmi_option_list(*set);
-    } else {
-        printf(dmi_tool_string("Use %s <command> --help for more information"), dmi_process);
-        printf("\n\n");
+            dmi_command_usage_set(*set);
     }
+
+    if (command->arguments != nullptr) {
+        printf(" [--]");
+        for (const dmi_argument_t *arg = command->arguments; arg->name != nullptr; arg++) {
+            printf(arg->required ? " <%s>" : " [<%s>]", dmi_tool_string(arg->name));
+        }
+    }
+
+    printf("\n\n");
+}
+
+static void dmi_command_usage_set(const dmi_option_set_t *set)
+{
+    size_t name_len = strlen(set->name) + 1;
+
+    char name[name_len];
+    memcpy(name, set->name, name_len);
+    dmi_string_tolower(name);
+
+    // Names are translated after they are lowercased, so that the
+    // translation has the case it is printed with
+    printf(" [%s]", dmi_tool_string(name));
 }
 
 //
@@ -369,18 +450,17 @@ int dmi_command_run(
 
     do {
         // Parse command-specific options
-        if (command->options != nullptr) {
-            int nopts;
-
+        int nopts = 0;
+        if (command->options != nullptr)
             nopts = dmi_option_parse(context, command->options, argc, argv);
-            if (nopts < 0) {
-                rv = EXIT_USAGE;
-                break;
-            }
 
-            argc -= nopts;
-            argv += nopts;
+        if (nopts < 0) {
+            rv = EXIT_USAGE;
+            break;
         }
+
+        argc -= nopts;
+        argv += nopts;
 
         // Print command usage if requested
         if (dmi_command_config.show_usage) {
@@ -397,47 +477,14 @@ int dmi_command_run(
             break;
         }
 
-        // Load SMBIOS data, unless the command needs none, either at all or
-        // with the options it has been given
-        bool detached = command->flags & DMI_COMMAND_FLAG_DETACHED;
-        if (command->handlers.detached != nullptr)
-            detached = detached or command->handlers.detached();
-
-        if (not detached) {
-            bool status;
-
-            if (dmi_global_config.input_path != nullptr)
-                status = dmi_load(context, dmi_global_config.input_path);
-            else
-                status = dmi_open(context, dmi_global_config.device_path);
-
-            if (not status) {
-                dmi_command_trace(context);
-                break;
-            }
-        }
-
-        // Start pager
-        if (dmi_tty_is_stdout() and (command->flags & DMI_COMMAND_FLAG_PAGER)) {
-            if (not dmi_pager_start(context)) {
-                dmi_command_trace(context);
-                break;
-            }
+        if (not dmi_command_setup(command, context)) {
+            dmi_command_trace(context);
+            break;
         }
 
         rv = command->handlers.main(context, argc, argv);
-
-        // Commands may write to standard output directly, so check it here.
-        // Output is not an error if the pager has been quit before reading
-        // all of it.
-        if (rv == EXIT_SUCCESS) {
-            int error = dmi_command_flush(stdout);
-
-            if ((error != 0) and not dmi_pager_has_quit(stdout, error)) {
-                dmi_command_message_ex(command, "Unable to write output: %s", strerror(error));
-                rv = EXIT_FAILURE;
-            }
-        }
+        if (rv == EXIT_SUCCESS)
+            rv = dmi_command_flush_output(command);
     } while (false);
 
     // Cleanup
@@ -445,6 +492,46 @@ int dmi_command_run(
         command->handlers.cleanup(context);
 
     return rv;
+}
+
+static bool dmi_command_is_detached(const dmi_command_t *command)
+{
+    if (command->flags & DMI_COMMAND_FLAG_DETACHED)
+        return true;
+
+    return (command->handlers.detached != nullptr) and command->handlers.detached();
+}
+
+static bool dmi_command_setup(const dmi_command_t *command, dmi_context_t *context)
+{
+    if (not dmi_command_is_detached(command)) {
+        bool status;
+
+        if (dmi_global_config.input_path != nullptr)
+            status = dmi_load(context, dmi_global_config.input_path);
+        else
+            status = dmi_open(context, dmi_global_config.device_path);
+
+        if (not status)
+            return false;
+    }
+
+    if (dmi_tty_is_stdout() and (command->flags & DMI_COMMAND_FLAG_PAGER))
+        return dmi_pager_start(context);
+
+    return true;
+}
+
+static int dmi_command_flush_output(const dmi_command_t *command)
+{
+    int error = dmi_command_flush(stdout);
+
+    if ((error == 0) or dmi_pager_has_quit(stdout, error))
+        return EXIT_SUCCESS;
+
+    dmi_command_message_ex(command, "Unable to write output: %s", strerror(error));
+
+    return EXIT_FAILURE;
 }
 
 static bool dmi_command_set_log_file(dmi_context_t *context, const char *value)
