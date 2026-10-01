@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_apple_processor_bus_speed dmi_apple_processor_bus_speed_t;
+#ifndef DMI_APPLE_PROCESSOR_BUS_SPEED_T
+#   define DMI_APPLE_PROCESSOR_BUS_SPEED_T
+    typedef struct dmi_apple_processor_bus_speed dmi_apple_processor_bus_speed_t;
+#endif // !DMI_APPLE_PROCESSOR_BUS_SPEED_T
 
 /**
  * @brief Apple processor bus speed information structure (type 132).

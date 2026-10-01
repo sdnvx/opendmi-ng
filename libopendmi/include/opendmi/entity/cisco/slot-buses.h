@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_cisco_slot_buses dmi_cisco_slot_buses_t;
+#ifndef DMI_CISCO_SLOT_BUSES_T
+#   define DMI_CISCO_SLOT_BUSES_T
+    typedef struct dmi_cisco_slot_buses dmi_cisco_slot_buses_t;
+#endif // !DMI_CISCO_SLOT_BUSES_T
 
 /**
  * @brief Cisco PCI slot buses (type 201).

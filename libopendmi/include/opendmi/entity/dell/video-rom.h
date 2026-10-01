@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_video_rom dmi_dell_video_rom_t;
+#ifndef DMI_DELL_VIDEO_ROM_T
+#   define DMI_DELL_VIDEO_ROM_T
+    typedef struct dmi_dell_video_rom dmi_dell_video_rom_t;
+#endif // !DMI_DELL_VIDEO_ROM_T
 
 /**
  * @brief Dell video BIOS information structure (type 216).

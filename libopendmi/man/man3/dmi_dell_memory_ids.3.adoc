@@ -27,7 +27,7 @@ endif::[]
 typedef struct dmi_dell_memory_ids {
     uint8_t id_length;
     size_t module_count;
-    dmi_dell_memory_id_t *modules;
+    dmi_dell_memory_id_entry_t *modules;
 } dmi_dell_memory_ids_t;
 ----
 
@@ -64,11 +64,11 @@ Number of elements of `modules`.
 
 `modules`::
 Identifiers of the memory modules, one for each memory device, see
-`dmi_dell_memory_id`(3). May be `nullptr` when `module_count` is 0.
+`dmi_dell_memory_id_entry`(3). May be `nullptr` when `module_count` is 0.
 
 == See also
 
-`dmi_dell_memory_id`(3), `dmi_memory_device`(3), `dmi_entity_info`(3)
+`dmi_dell_memory_id_entry`(3), `dmi_memory_device`(3), `dmi_entity_info`(3)
 
 == Standards
 

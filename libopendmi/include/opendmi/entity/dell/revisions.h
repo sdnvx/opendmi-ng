@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_revisions dmi_dell_revisions_t;
+#ifndef DMI_DELL_REVISIONS_T
+#   define DMI_DELL_REVISIONS_T
+    typedef struct dmi_dell_revisions dmi_dell_revisions_t;
+#endif // !DMI_DELL_REVISIONS_T
 
 /**
  * @brief Dell revisions and IDs structure (type 208).

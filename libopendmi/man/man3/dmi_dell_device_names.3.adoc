@@ -27,7 +27,7 @@ endif::[]
 typedef struct dmi_dell_device_names {
     uint8_t unknown;
     size_t device_count;
-    dmi_dell_device_name_t *devices;
+    dmi_dell_device_name_entry_t *devices;
 } dmi_dell_device_names_t;
 ----
 
@@ -60,12 +60,12 @@ Value whose meaning is not established, `1` in all known data.
 Number of elements of `devices`.
 
 `devices`::
-Names of the devices, see `dmi_dell_device_name`(3). May be `nullptr` when
+Names of the devices, see `dmi_dell_device_name_entry`(3). May be `nullptr` when
 `device_count` is 0.
 
 == See also
 
-`dmi_dell_device_name`(3), `dmi_entity_info`(3)
+`dmi_dell_device_name_entry`(3), `dmi_entity_info`(3)
 
 == Standards
 

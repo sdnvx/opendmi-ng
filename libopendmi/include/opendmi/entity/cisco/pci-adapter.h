@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
-typedef struct dmi_cisco_pci_adapter dmi_cisco_pci_adapter_t;
+#ifndef DMI_CISCO_PCI_ADAPTER_T
+#   define DMI_CISCO_PCI_ADAPTER_T
+    typedef struct dmi_cisco_pci_adapter dmi_cisco_pci_adapter_t;
+#endif // !DMI_CISCO_PCI_ADAPTER_T
 
 /**
  * @brief Cisco PCI adapter information (type 202).

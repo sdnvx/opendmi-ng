@@ -194,7 +194,7 @@ static void test_dell_memory_ids(void **pstate)
     assert_int_equal(ids->module_count, 4);
 
     // Module of Samsung, whose memory device carries no identifiers of its own
-    const dmi_dell_memory_id_t *module = &ids->modules[0];
+    const dmi_dell_memory_id_entry_t *module = &ids->modules[0];
     assert_int_equal(module->handle, 0x1100);
     assert_int_equal(module->manufacturer.length, 8);
     assert_int_equal(module->manufacturer.data[0], 0xCE);

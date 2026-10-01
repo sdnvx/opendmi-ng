@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_device_bay dmi_dell_device_bay_t;
+#ifndef DMI_DELL_DEVICE_BAY_T
+#   define DMI_DELL_DEVICE_BAY_T
+    typedef struct dmi_dell_device_bay dmi_dell_device_bay_t;
+#endif // !DMI_DELL_DEVICE_BAY_T
 
 /**
  * @brief Dell device bay structure (type 219).

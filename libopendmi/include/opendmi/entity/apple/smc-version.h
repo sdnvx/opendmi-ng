@@ -13,7 +13,10 @@
 
 #define DMI_APPLE_SMC_VERSION_SIZE 16
 
-typedef struct dmi_apple_smc_version dmi_apple_smc_version_t;
+#ifndef DMI_APPLE_SMC_VERSION_T
+#   define DMI_APPLE_SMC_VERSION_T
+    typedef struct dmi_apple_smc_version dmi_apple_smc_version_t;
+#endif // !DMI_APPLE_SMC_VERSION_T
 
 /**
  * @brief Apple SMC version information structure (type 134).

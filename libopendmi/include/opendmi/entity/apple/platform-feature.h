@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_apple_platform_feature dmi_apple_platform_feature_t;
+#ifndef DMI_APPLE_PLATFORM_FEATURE_T
+#   define DMI_APPLE_PLATFORM_FEATURE_T
+    typedef struct dmi_apple_platform_feature dmi_apple_platform_feature_t;
+#endif // !DMI_APPLE_PLATFORM_FEATURE_T
 
 /**
  * @brief Features of the platform, which macOS reads.

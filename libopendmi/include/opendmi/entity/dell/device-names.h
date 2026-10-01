@@ -11,13 +11,20 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_device_name  dmi_dell_device_name_t;
-typedef struct dmi_dell_device_names dmi_dell_device_names_t;
+#ifndef DMI_DELL_DEVICE_NAMES_T
+#   define DMI_DELL_DEVICE_NAMES_T
+    typedef struct dmi_dell_device_names dmi_dell_device_names_t;
+#endif // !DMI_DELL_DEVICE_NAMES_T
+
+#ifndef DMI_DELL_DEVICE_NAME_ENTRY_T
+#define DMI_DELL_DEVICE_NAME_ENTRY_T
+    typedef struct dmi_dell_device_name_entry dmi_dell_device_name_entry_t;
+#endif //!DMI_DELL_DEVICE_NAME_ENTRY_T
 
 /**
  * @brief Name of a device, given to the structure describing it.
  */
-struct dmi_dell_device_name
+struct dmi_dell_device_name_entry
 {
     /**
      * @brief Fully qualified device descriptor (FQDD) of the device, by which
@@ -60,7 +67,7 @@ struct dmi_dell_device_names
     /**
      * @brief Names of the devices.
      */
-    dmi_dell_device_name_t *devices;
+    dmi_dell_device_name_entry_t *devices;
 };
 
 /**

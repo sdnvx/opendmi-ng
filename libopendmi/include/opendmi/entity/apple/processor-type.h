@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_apple_processor_type dmi_apple_processor_type_t;
+#ifndef DMI_APPLE_PROCESSOR_TYPE_T
+#   define DMI_APPLE_PROCESSOR_TYPE_T
+    typedef struct dmi_apple_processor_type dmi_apple_processor_type_t;
+#endif // !DMI_APPLE_PROCESSOR_TYPE_T
 
 /**
  * @brief Class of processors, the major type of a processor type.

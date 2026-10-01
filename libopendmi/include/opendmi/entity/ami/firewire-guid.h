@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_ami_firewire_guid dmi_ami_firewire_guid_t;
+#ifndef DMI_AMI_FIREWIRE_GUID_T
+#   define DMI_AMI_FIREWIRE_GUID_T
+    typedef struct dmi_ami_firewire_guid dmi_ami_firewire_guid_t;
+#endif // !DMI_AMI_FIREWIRE_GUID_T
 
 /**
  * @brief AMI FireWire GUID (type 139).

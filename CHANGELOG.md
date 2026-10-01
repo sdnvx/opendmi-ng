@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Rename `dmi_acer_hotkey_t` to `dmi_acer_hotkey_entry_t`
 - Rename `dmi_acer_device_t` to `dmi_acer_device_entry_t`
+- Rename `dmi_dell_device_name_t` to `dmi_dell_device_name_entry_t`
+- Rename `dmi_dell_hotkey_t` to `dmi_dell_hotkey_entry_t`
+- Rename `dmi_dell_memory_id_t` to `dmi_dell_memory_id_entry_t`
 
 ### Fixed
 

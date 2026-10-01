@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_calling_iface       dmi_dell_calling_iface_t;
-typedef struct dmi_dell_calling_iface_token dmi_dell_calling_iface_token_t;
+#ifndef DMI_DELL_CALLING_IFACE_T
+#define DMI_DELL_CALLING_IFACE_T
+    typedef struct dmi_dell_calling_iface dmi_dell_calling_iface_t;
+#endif // !DMI_DELL_CALLING_IFACE_T
+
+#ifndef DMI_DELL_CALLING_IFACE_TOKEN_T
+#   define DMI_DELL_CALLING_IFACE_TOKEN_T
+    typedef struct dmi_dell_calling_iface_token dmi_dell_calling_iface_token_t;
+#endif // !DMI_DELL_CALLING_IFACE_TOKEN_T
 
 /**
  * @brief Token of Dell calling interface structure.

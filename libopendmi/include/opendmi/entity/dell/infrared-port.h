@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/dell/common.h>
 
-typedef struct dmi_dell_infrared_port dmi_dell_infrared_port_t;
+#ifndef DMI_DELL_INFRARED_PORT_T
+#   define DMI_DELL_INFRARED_PORT_T
+    typedef struct dmi_dell_infrared_port dmi_dell_infrared_port_t;
+#endif // !DMI_DELL_INFRARED_PORT_T
 
 /**
  * @brief Dell infrared port protocols.

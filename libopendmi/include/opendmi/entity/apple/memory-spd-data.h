@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_apple_memory_spd_data dmi_apple_memory_spd_data_t;
+#ifndef DMI_APPLE_MEMORY_SPD_DATA_T
+#   define DMI_APPLE_MEMORY_SPD_DATA_T
+    typedef struct dmi_apple_memory_spd_data dmi_apple_memory_spd_data_t;
+#endif // !DMI_APPLE_MEMORY_SPD_DATA_T
 
 /**
  * @brief Apple memory SPD data structure (type 130).

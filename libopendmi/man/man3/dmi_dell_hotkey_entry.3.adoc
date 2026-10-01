@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_dell_hotkey(3)
+= dmi_dell_hotkey_entry(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_dell_hotkey
+= dmi_dell_hotkey_entry
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_dell_hotkey - Dell hotkey mapping structure
+dmi_dell_hotkey_entry - Dell hotkey mapping structure
 
 == Library
 
@@ -24,15 +24,15 @@ endif::[]
 ----
 #include <opendmi/entity/dell/hotkeys.h>
 
-typedef struct dmi_dell_hotkey {
+typedef struct dmi_dell_hotkey_entry {
     uint16_t scancode;
     uint16_t keycode;
-} dmi_dell_hotkey_t;
+} dmi_dell_hotkey_entry_t;
 ----
 
 == Description
 
-The `dmi_dell_hotkey_t` structure describes the mapping of a hotkey, as an
+The `dmi_dell_hotkey_entry_t` structure describes the mapping of a hotkey, as an
 element of the `hotkeys` field of `dmi_dell_hotkeys_t`. Key code `0xFFFF` is
 found for the keys of no known function, which the Dell WMI driver of Linux
 takes for an unknown key, while key code `0x00FF` stands for a function of its

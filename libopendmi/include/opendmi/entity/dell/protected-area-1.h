@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/dell/common.h>
 
-typedef struct dmi_dell_protected_area_1 dmi_dell_protected_area_1_t;
+#ifndef DMI_DELL_PROTECTED_AREA_1_T
+#   define DMI_DELL_PROTECTED_AREA_1_T
+    typedef struct dmi_dell_protected_area_1 dmi_dell_protected_area_1_t;
+#endif // !DMI_DELL_PROTECTED_AREA_1_T
 
 /**
  * @brief Dell protected area type 1 structure (type 213).

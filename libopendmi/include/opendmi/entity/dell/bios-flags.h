@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_bios_flags dmi_dell_bios_flags_t;
+#ifndef DMI_DELL_BIOS_FLAGS_T
+#   define DMI_DELL_BIOS_FLAGS_T
+    typedef struct dmi_dell_bios_flags dmi_dell_bios_flags_t;
+#endif // !DMI_DELL_BIOS_FLAGS_T
 
 /**
  * @brief Dell BIOS flags structure (type 177).

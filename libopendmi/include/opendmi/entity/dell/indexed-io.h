@@ -12,8 +12,15 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/dell/common.h>
 
-typedef struct dmi_dell_indexed_io       dmi_dell_indexed_io_t;
-typedef struct dmi_dell_indexed_io_token dmi_dell_indexed_io_token_t;
+#ifndef DMI_DELL_INDEXED_IO_T
+#   define DMI_DELL_INDEXED_IO_T
+    typedef struct dmi_dell_indexed_io dmi_dell_indexed_io_t;
+#endif // !DMI_DELL_INDEXED_IO_T
+
+#ifndef DMI_DELL_INDEXED_IO_TOKEN_T
+#   define DMI_DELL_INDEXED_IO_TOKEN_T
+    typedef struct dmi_dell_indexed_io_token dmi_dell_indexed_io_token_t;
+#endif // !DMI_DELL_INDEXED_IO_TOKEN_T
 
 /**
  * @brief Token of Dell indexed IO structure.

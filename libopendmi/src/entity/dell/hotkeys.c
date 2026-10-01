@@ -33,8 +33,8 @@ const dmi_entity_spec_t dmi_dell_hotkeys_spec =
         DMI_FIELD_ARRAY(dmi_dell_hotkeys_t, hotkeys, hotkey_count,
             .stride = 4,
             .fields = DMI_FIELDS({
-                DMI_FIELD(dmi_dell_hotkey_t, scancode, dmi_word_t),
-                DMI_FIELD(dmi_dell_hotkey_t, keycode,  dmi_word_t),
+                DMI_FIELD(dmi_dell_hotkey_entry_t, scancode, dmi_word_t),
+                DMI_FIELD(dmi_dell_hotkey_entry_t, keycode,  dmi_word_t),
                 {}
             })),
         {}
@@ -45,12 +45,12 @@ const dmi_entity_spec_t dmi_dell_hotkeys_spec =
             .code  = "hotkeys",
             .name  = "Hotkey mappings",
             .attrs = DMI_ATTRIBUTES({
-                DMI_ATTRIBUTE(dmi_dell_hotkey_t, scancode, INTEGER, {
+                DMI_ATTRIBUTE(dmi_dell_hotkey_entry_t, scancode, INTEGER, {
                     .code  = "scancode",
                     .name  = "Scan code",
                     .flags = DMI_ATTRIBUTE_FLAG_HEX
                 }),
-                DMI_ATTRIBUTE(dmi_dell_hotkey_t, keycode, INTEGER, {
+                DMI_ATTRIBUTE(dmi_dell_hotkey_entry_t, keycode, INTEGER, {
                     .code  = "keycode",
                     .name  = "Key code",
                     .flags = DMI_ATTRIBUTE_FLAG_HEX

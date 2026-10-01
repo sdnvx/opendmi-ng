@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_dell_device_name(3)
+= dmi_dell_device_name_entry(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_dell_device_name
+= dmi_dell_device_name_entry
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_dell_device_name - Name of a device
+dmi_dell_device_name_entry - Name of a device
 
 == Library
 
@@ -24,18 +24,18 @@ endif::[]
 ----
 #include <opendmi/entity/dell/device-names.h>
 
-typedef struct dmi_dell_device_name {
+typedef struct dmi_dell_device_name_entry {
     const char *fqdd;
     dmi_handle_t handle;
     uint8_t unknown;
-} dmi_dell_device_name_t;
+} dmi_dell_device_name_entry_t;
 ----
 
 == Description
 
-The `dmi_dell_device_name_t` structure gives a device the name the management
-controller (iDRAC) knows it by, and is the type of the elements of the
-`devices` array of `dmi_dell_device_names_t`.
+The `dmi_dell_device_name_entry_t` structure gives a device the name the
+management controller (iDRAC) knows it by, and is the type of the elements of
+the `devices` array of `dmi_dell_device_names_t`.
 
 === Fields
 

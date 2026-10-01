@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_dell_memory_id(3)
+= dmi_dell_memory_id_entry(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_dell_memory_id
+= dmi_dell_memory_id_entry
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_dell_memory_id - Identifiers of a memory module
+dmi_dell_memory_id_entry - Identifiers of a memory module
 
 == Library
 
@@ -24,19 +24,19 @@ endif::[]
 ----
 #include <opendmi/entity/dell/memory-ids.h>
 
-typedef struct dmi_dell_memory_id {
+typedef struct dmi_dell_memory_id_entry {
     dmi_handle_t handle;
     dmi_binary_t manufacturer;
     dmi_binary_t serial_number;
-} dmi_dell_memory_id_t;
+} dmi_dell_memory_id_entry_t;
 ----
 
 == Description
 
-The `dmi_dell_memory_id_t` structure holds the identifiers of a memory module,
-as its serial presence detect (SPD) data holds them, and is the type of the
-elements of the `modules` array of `dmi_dell_memory_ids_t`. Sockets which hold
-no module usually carry bytes of `0xFF`, though some firmware repeats the
+The `dmi_dell_memory_id_entry_t` structure holds the identifiers of a memory
+module, as its serial presence detect (SPD) data holds them, and is the type of
+the elements of the `modules` array of `dmi_dell_memory_ids_t`. Sockets which
+hold no module usually carry bytes of `0xFF`, though some firmware repeats the
 identifiers of another module there, e.g. the one of PowerEdge 1300.
 
 The serial number is marked as private, so that `dmi_anonymize`(3) replaces

@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_system_id dmi_dell_system_id_t;
+#ifndef DMI_DELL_SYSTEM_ID_T
+#   define DMI_DELL_SYSTEM_ID_T
+    typedef struct dmi_dell_system_id dmi_dell_system_id_t;
+#endif // !DMI_DELL_SYSTEM_ID_T
 
 /**
  * @brief Dell system ID record structure (type 255).

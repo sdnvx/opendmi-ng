@@ -26,7 +26,7 @@ endif::[]
 
 typedef struct dmi_dell_hotkeys {
     size_t hotkey_count;
-    dmi_dell_hotkey_t *hotkeys;
+    dmi_dell_hotkey_entry_t *hotkeys;
 } dmi_dell_hotkeys_t;
 ----
 
@@ -50,12 +50,13 @@ its own.
 Number of the hotkeys.
 
 `hotkeys`::
-Hotkeys, see `dmi_dell_hotkey`(3). May be `nullptr` when `hotkey_count` is 0.
+Hotkeys, see `dmi_dell_hotkey_entry`(3). May be `nullptr` when `hotkey_count`
+is 0.
 
 == See also
 
 `dmi_entity_info`(3),
-`dmi_dell_hotkey`(3)
+`dmi_dell_hotkey_entry`(3)
 
 == Standards
 

@@ -12,8 +12,15 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/dell/common.h>
 
-typedef struct dmi_dell_parallel_port dmi_dell_parallel_port_t;
-typedef union dmi_dell_parallel_port_caps dmi_dell_parallel_port_caps_t;
+#ifndef DMI_DELL_PARALLEL_PORT_T
+#   define DMI_DELL_PARALLEL_PORT_T
+    typedef struct dmi_dell_parallel_port dmi_dell_parallel_port_t;
+#endif // !DMI_DELL_PARALLEL_PORT_T
+
+#ifndef DMI_DELL_PARALLEL_PORT_CAPS_T
+#   define DMI_DELL_PARALLEL_PORT_CAPS_T
+    typedef union dmi_dell_parallel_port_caps dmi_dell_parallel_port_caps_t;
+#endif // !DMI_DELL_PARALLEL_PORT_CAPS_T
 
 /**
  * @brief Dell parallel port connector types.

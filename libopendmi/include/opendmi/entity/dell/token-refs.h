@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_token_refs_1 dmi_dell_token_refs_1_t;
-typedef struct dmi_dell_token_refs_2 dmi_dell_token_refs_2_t;
+#ifndef DMI_DELL_TOKEN_REFS_1_T
+#   define DMI_DELL_TOKEN_REFS_1_T
+    typedef struct dmi_dell_token_refs_1 dmi_dell_token_refs_1_t;
+#endif // !DMI_DELL_TOKEN_REFS_1_T
+
+#ifndef DMI_DELL_TOKEN_REFS_2_T
+#   define DMI_DELL_TOKEN_REFS_2_T
+    typedef struct dmi_dell_token_refs_2 dmi_dell_token_refs_2_t;
+#endif // !DMI_DELL_TOKEN_REFS_2_T
 
 /**
  * @brief Dell token references structure, type 1 (type 220).

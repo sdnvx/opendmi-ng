@@ -13,8 +13,15 @@
 
 #define DMI_APPLE_FLASH_REGION_COUNT 8
 
-typedef struct dmi_apple_flash_region    dmi_apple_flash_region_t;
-typedef struct dmi_apple_firmware_volume dmi_apple_firmware_volume_t;
+#ifndef DMI_APPLE_FLASH_REGION_T
+#   define DMI_APPLE_FLASH_REGION_T
+    typedef struct dmi_apple_flash_region dmi_apple_flash_region_t;
+#endif // !DMI_APPLE_FLASH_REGION_T
+
+#ifndef DMI_APPLE_FIRMWARE_VOLUME_T
+#   define DMI_APPLE_FIRMWARE_VOLUME_T
+    typedef struct dmi_apple_firmware_volume dmi_apple_firmware_volume_t;
+#endif // !DMI_APPLE_FIRMWARE_VOLUME_T
 
 /**
  * @brief Firmware features, which macOS and its boot loader read.

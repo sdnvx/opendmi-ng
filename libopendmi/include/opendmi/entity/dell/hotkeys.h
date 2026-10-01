@@ -11,13 +11,20 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_hotkeys dmi_dell_hotkeys_t;
-typedef struct dmi_dell_hotkey  dmi_dell_hotkey_t;
+#ifndef DMI_DELL_HOTKEYS_T
+#   define DMI_DELL_HOTKEYS_T
+    typedef struct dmi_dell_hotkeys dmi_dell_hotkeys_t;
+#endif // !DMI_DELL_HOTKEYS_T
+
+#ifndef DMI_DELL_HOTKEY_ENTRY_T
+#   define DMI_DELL_HOTKEY_ENTRY_T
+    typedef struct dmi_dell_hotkey_entry dmi_dell_hotkey_entry_t;
+#endif // !DMI_DELL_HOTKEY_ENTRY_T
 
 /**
  * @brief Mapping of a hotkey.
  */
-struct dmi_dell_hotkey
+struct dmi_dell_hotkey_entry
 {
     /**
      * @brief Scan code of the key, as the firmware reports it in the WMI
@@ -48,7 +55,7 @@ struct dmi_dell_hotkeys
     /**
      * @brief Hotkeys.
      */
-    dmi_dell_hotkey_t *hotkeys;
+    dmi_dell_hotkey_entry_t *hotkeys;
 };
 
 /**

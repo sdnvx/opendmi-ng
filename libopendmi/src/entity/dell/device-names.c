@@ -34,9 +34,9 @@ const dmi_entity_spec_t dmi_dell_device_names_spec =
         DMI_FIELD_ARRAY(dmi_dell_device_names_t, devices, device_count,
             .stride = sizeof(dmi_byte_t) + sizeof(dmi_handle_t) + sizeof(dmi_byte_t),
             .fields = DMI_FIELDS({
-                DMI_FIELD_STRING(dmi_dell_device_name_t, fqdd),
-                DMI_FIELD(dmi_dell_device_name_t, handle,  dmi_word_t),
-                DMI_FIELD(dmi_dell_device_name_t, unknown, dmi_byte_t),
+                DMI_FIELD_STRING(dmi_dell_device_name_entry_t, fqdd),
+                DMI_FIELD(dmi_dell_device_name_entry_t, handle,  dmi_word_t),
+                DMI_FIELD(dmi_dell_device_name_entry_t, unknown, dmi_byte_t),
                 {}
             })),
         {}
@@ -52,16 +52,16 @@ const dmi_entity_spec_t dmi_dell_device_names_spec =
             .code  = "devices",
             .name  = "Devices",
             .attrs = DMI_ATTRIBUTES({
-                DMI_ATTRIBUTE(dmi_dell_device_name_t, fqdd, STRING, {
+                DMI_ATTRIBUTE(dmi_dell_device_name_entry_t, fqdd, STRING, {
                     .code = "fqdd",
                     .name = "Fully qualified device descriptor"
                 }),
-                DMI_ATTRIBUTE(dmi_dell_device_name_t, handle, HANDLE, {
+                DMI_ATTRIBUTE(dmi_dell_device_name_entry_t, handle, HANDLE, {
                     .code    = "handle",
                     .name    = "Handle",
                     .targets = dmi_types(DMI_TYPE(processor), DMI_TYPE(memory_device))
                 }),
-                DMI_ATTRIBUTE(dmi_dell_device_name_t, unknown, INTEGER, {
+                DMI_ATTRIBUTE(dmi_dell_device_name_entry_t, unknown, INTEGER, {
                     .code  = "unknown",
                     .name  = "Unknown",
                     .flags = DMI_ATTRIBUTE_FLAG_HEX

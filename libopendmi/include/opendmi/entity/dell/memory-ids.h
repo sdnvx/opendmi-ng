@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_dell_memory_id  dmi_dell_memory_id_t;
-typedef struct dmi_dell_memory_ids dmi_dell_memory_ids_t;
+#ifndef DMI_DELL_MEMORY_IDS_T
+#   define DMI_DELL_MEMORY_IDS_T
+    typedef struct dmi_dell_memory_ids dmi_dell_memory_ids_t;
+#endif // !DMI_DELL_MEMORY_IDS_T
+
+#ifndef DMI_DELL_MEMORY_ID_ENTRY_T
+#   define DMI_DELL_MEMORY_ID_ENTRY_T
+    typedef struct dmi_dell_memory_id_entry dmi_dell_memory_id_entry_t;
+#endif // !DMI_DELL_MEMORY_ID_ENTRY_T
 
 /**
  * @brief Identifiers of a memory module.
@@ -21,7 +28,7 @@ typedef struct dmi_dell_memory_ids dmi_dell_memory_ids_t;
  * the module. Sockets which hold no module usually carry bytes of `0xFF`,
  * though some firmware repeats the identifiers of another module there.
  */
-struct dmi_dell_memory_id
+struct dmi_dell_memory_id_entry
 {
     /**
      * @brief Handle of the memory device (type 17) of the socket.
@@ -65,7 +72,7 @@ struct dmi_dell_memory_ids
     /**
      * @brief Identifiers of the memory modules.
      */
-    dmi_dell_memory_id_t *modules;
+    dmi_dell_memory_id_entry_t *modules;
 };
 
 /**

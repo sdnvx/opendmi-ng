@@ -41,9 +41,9 @@ const dmi_entity_spec_t dmi_dell_memory_ids_spec =
         DMI_FIELD_ARRAY(dmi_dell_memory_ids_t, modules, module_count,
             .stride = sizeof(dmi_handle_t) + 0x0C,
             .fields = DMI_FIELDS({
-                DMI_FIELD(dmi_dell_memory_id_t, handle, dmi_word_t),
-                DMI_FIELD_BINARY(dmi_dell_memory_id_t, manufacturer, sizeof(dmi_qword_t)),
-                DMI_FIELD_BINARY(dmi_dell_memory_id_t, serial_number, sizeof(dmi_dword_t)),
+                DMI_FIELD(dmi_dell_memory_id_entry_t, handle, dmi_word_t),
+                DMI_FIELD_BINARY(dmi_dell_memory_id_entry_t, manufacturer, sizeof(dmi_qword_t)),
+                DMI_FIELD_BINARY(dmi_dell_memory_id_entry_t, serial_number, sizeof(dmi_dword_t)),
                 {}
             })),
         {}
@@ -59,16 +59,16 @@ const dmi_entity_spec_t dmi_dell_memory_ids_spec =
             .code  = "modules",
             .name  = "Modules",
             .attrs = DMI_ATTRIBUTES({
-                DMI_ATTRIBUTE(dmi_dell_memory_id_t, handle, HANDLE, {
+                DMI_ATTRIBUTE(dmi_dell_memory_id_entry_t, handle, HANDLE, {
                     .code    = "handle",
                     .name    = "Memory device handle",
                     .targets = dmi_types(DMI_TYPE(memory_device))
                 }),
-                DMI_ATTRIBUTE(dmi_dell_memory_id_t, manufacturer, BINARY, {
+                DMI_ATTRIBUTE(dmi_dell_memory_id_entry_t, manufacturer, BINARY, {
                     .code  = "manufacturer",
                     .name  = "Manufacturer JEDEC ID"
                 }),
-                DMI_ATTRIBUTE(dmi_dell_memory_id_t, serial_number, BINARY, {
+                DMI_ATTRIBUTE(dmi_dell_memory_id_entry_t, serial_number, BINARY, {
                     .code  = "serial-number",
                     .name  = "Serial number",
                     .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
