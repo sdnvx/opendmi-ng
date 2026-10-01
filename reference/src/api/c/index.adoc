@@ -10,6 +10,7 @@ include::../../../../libopendmi/man/man3/dmi_member.3.adoc[leveloffset=2]
 
 include::../../../../libopendmi/man/man3/dmi_add_extension.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_close.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_context_is_open.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_create.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_destroy.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_log_level.3.adoc[leveloffset=2]

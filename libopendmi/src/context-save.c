@@ -269,7 +269,7 @@ static bool dmi_save_check(dmi_context_t *context, const char *path)
         dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
         return false;
     }
-    if (context->state.table == nullptr) {
+    if (not dmi_context_is_open(context)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
         return false;
     }

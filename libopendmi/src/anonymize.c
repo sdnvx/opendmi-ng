@@ -114,6 +114,44 @@ typedef struct dmi_anonymizer
     dmi_vector_t saved;
 } dmi_anonymizer_t;
 
+/**
+ * @internal
+ * @brief Check that a table can be anonymized out of a context.
+ *
+ * @param[in] context Context to anonymize the table of.
+ * @param[in] table   Buffer to write the anonymized table into.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Table is `nullptr`
+ * @error DMI_ERROR_INVALID_STATE Context is not open, or its structures carry
+ * additional information entries
+ *
+ * @return `true` if the table can be anonymized, `false` otherwise.
+ */
+static bool dmi_anonymize_check(dmi_context_t *context, const dmi_buffer_t *table);
+
+/**
+ * @internal
+ * @brief Replace private values of every structure, which collects them for
+ * the passes looking for them elsewhere.
+ *
+ * @param[in,out] anon Anonymization state.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_anonymize_entities(dmi_anonymizer_t *anon);
+
+/**
+ * @internal
+ * @brief Replace the collected values wherever the strings and the
+ * formatted areas of the structures hold them, including the structures of
+ * unknown types.
+ *
+ * @param[in,out] anon Anonymization state.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_anonymize_elsewhere(dmi_anonymizer_t *anon);
+
 static bool dmi_anonymize_key(dmi_anonymizer_t *anon);
 static uint64_t dmi_anonymize_hash(const dmi_anonymizer_t *anon, const void *data, size_t length);
 static uint64_t dmi_anonymize_next(uint64_t *state);
@@ -255,7 +293,68 @@ static const dmi_anonymize_saved_t *dmi_anonymize_save(
  */
 static void dmi_anonymize_uuid_keep(const dmi_uuid_t *uuid, dmi_uuid_t *replacement);
 
+/**
+ * @internal
+ * @brief Write the members replaced in a decoded structure into the table,
+ * and add the ones the formatted area holds as they are to the values
+ * replaced elsewhere.
+ *
+ * @param[in,out] anon   Anonymization state.
+ * @param[in]     entity Structure to encode.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_anonymize_encode(dmi_anonymizer_t *anon, dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Encode a structure and write its formatted area over the one of the
+ * table.
+ *
+ * @details Strings are left out, since they are replaced where they are.
+ *
+ * @param[in,out] anon   Anonymization state.
+ * @param[in]     entity Structure to encode.
+ *
+ * @error DMI_ERROR_INTERNAL Structure is not encoded back into its own length
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_anonymize_write(dmi_anonymizer_t *anon, dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Add the saved members, which the formatted area of a structure
+ * holds as they are, to the values replaced elsewhere, along with the
+ * replacements encoding has written.
+ *
+ * @details Short members are left out, since they are likely to be found
+ * where they mean something else.
+ *
+ * @param[in,out] anon   Anonymization state.
+ * @param[in]     entity Structure, which has been written.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_anonymize_collect(dmi_anonymizer_t *anon, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Find where the source holds a saved member as it is and encoding
+ * has replaced it.
+ *
+ * @param[in] source Formatted area of the structure in the source table.
+ * @param[in] result Formatted area of the structure in the anonymized table.
+ * @param[in] length Length of the formatted area.
+ * @param[in] saved  Saved member.
+ *
+ * @return Replacement of the member, or `nullptr` if it is not found.
+ */
+static const dmi_byte_t *dmi_anonymize_find(
+        const dmi_byte_t            *source,
+        const dmi_byte_t            *result,
+        size_t                       length,
+        const dmi_anonymize_saved_t *saved);
 static void dmi_anonymize_restore(dmi_anonymizer_t *anon);
 
 static bool dmi_anonymize_add(
@@ -286,24 +385,8 @@ static void dmi_anonymize_cleanup(dmi_anonymizer_t *anon);
 
 bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table)
 {
-    if (context == nullptr)
+    if (not dmi_anonymize_check(context, table))
         return false;
-
-    if (table == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "table");
-        return false;
-    }
-    if ((context->state.table == nullptr) or (context->state.registry == nullptr)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
-        return false;
-    }
-    // Structures carrying additional information are decoded from copies of
-    // their own, which the table does not hold
-    if (context->flags & DMI_CONTEXT_FLAG_OVERLAY) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
-                           "Structures carry additional information entries");
-        return false;
-    }
 
     dmi_anonymizer_t anon = {
         .context = context,
@@ -324,29 +407,10 @@ bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table)
 
         // Values of the structures are replaced first, which collects them
         // for the passes looking for them elsewhere
-        dmi_registry_iter_t iter;
-        if (not dmi_registry_iter_init(&iter, context->state.registry, nullptr))
+        if (not dmi_anonymize_entities(&anon))
             break;
-
-        bool failed = false;
-        while (dmi_registry_iter_has_next(&iter)) {
-            if (not dmi_anonymize_entity(&anon, dmi_registry_iter_next(&iter))) {
-                failed = true;
-                break;
-            }
-        }
-        if (failed)
+        if (not dmi_anonymize_elsewhere(&anon))
             break;
-
-        // Strings, including the ones of the structures of unknown types
-        if (not dmi_registry_iter_init(&iter, context->state.registry, nullptr))
-            break;
-        while (dmi_registry_iter_has_next(&iter)) {
-            const dmi_entity_t *entity = dmi_registry_iter_next(&iter);
-
-            dmi_anonymize_strings(&anon, entity);
-            dmi_anonymize_body(&anon, entity);
-        }
 
         success = true;
     } while (false);
@@ -357,6 +421,62 @@ bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table)
         dmi_buffer_clear(table);
 
     return success;
+}
+
+static bool dmi_anonymize_check(dmi_context_t *context, const dmi_buffer_t *table)
+{
+    if (context == nullptr)
+        return false;
+
+    if (table == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "table");
+        return false;
+    }
+    if (not dmi_context_is_open(context)) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
+        return false;
+    }
+    // Structures carrying additional information are decoded from copies of
+    // their own, which the table does not hold
+    if (context->flags & DMI_CONTEXT_FLAG_OVERLAY) {
+        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
+                           "Structures carry additional information entries");
+        return false;
+    }
+
+    return true;
+}
+
+static bool dmi_anonymize_entities(dmi_anonymizer_t *anon)
+{
+    dmi_registry_iter_t iter;
+
+    if (not dmi_registry_iter_init(&iter, anon->context->state.registry, nullptr))
+        return false;
+
+    while (dmi_registry_iter_has_next(&iter)) {
+        if (not dmi_anonymize_entity(anon, dmi_registry_iter_next(&iter)))
+            return false;
+    }
+
+    return true;
+}
+
+static bool dmi_anonymize_elsewhere(dmi_anonymizer_t *anon)
+{
+    dmi_registry_iter_t iter;
+
+    if (not dmi_registry_iter_init(&iter, anon->context->state.registry, nullptr))
+        return false;
+
+    while (dmi_registry_iter_has_next(&iter)) {
+        const dmi_entity_t *entity = dmi_registry_iter_next(&iter);
+
+        dmi_anonymize_strings(anon, entity);
+        dmi_anonymize_body(anon, entity);
+    }
+
+    return true;
 }
 
 static bool dmi_anonymize_key(dmi_anonymizer_t *anon)
@@ -677,6 +797,16 @@ static bool dmi_anonymize_encode(dmi_anonymizer_t *anon, dmi_entity_t *entity)
     if (entity->buffer != anon->source)
         return true;
 
+    if (not dmi_anonymize_write(anon, entity))
+        return false;
+
+    // Replaced values are looked for elsewhere too, as the structure holds
+    // them, which is known for the ones it holds as they are
+    return dmi_anonymize_collect(anon, entity);
+}
+
+static bool dmi_anonymize_write(dmi_anonymizer_t *anon, dmi_entity_t *entity)
+{
     dmi_buffer_t *buffer = dmi_buffer_create(anon->context);
     if (buffer == nullptr)
         return false;
@@ -706,40 +836,53 @@ static bool dmi_anonymize_encode(dmi_anonymizer_t *anon, dmi_entity_t *entity)
 
         memcpy(anon->table->data + entity->offset, buffer->data, buffer->length);
 
-        // Replaced values are looked for elsewhere too, as the structure
-        // holds them, which is known for the ones it holds as they are
-        const dmi_byte_t *source = anon->source->data + entity->offset;
-        const dmi_byte_t *result = anon->table->data + entity->offset;
-
         success = true;
-        for (size_t i = 0; i < dmi_vector_length(&anon->saved); i++) {
-            uintptr_t item;
-            dmi_vector_get(&anon->saved, i, &item);
-
-            const dmi_anonymize_saved_t *saved = (const dmi_anonymize_saved_t *)item;
-            if (saved->size < DMI_ANONYMIZE_PATTERN_MIN)
-                continue;
-
-            for (size_t pos = 0; pos + saved->size <= entity->body_length; pos++) {
-                if ((memcmp(source + pos, saved->bytes, saved->size) != 0) or
-                    (memcmp(result + pos, saved->bytes, saved->size) == 0))
-                {
-                    continue;
-                }
-
-                if (not dmi_anonymize_add(anon, saved->bytes, result + pos, saved->size, true))
-                    success = false;
-                break;
-            }
-
-            if (not success)
-                break;
-        }
     } while (false);
 
     dmi_buffer_destroy(buffer);
 
     return success;
+}
+
+static bool dmi_anonymize_collect(dmi_anonymizer_t *anon, const dmi_entity_t *entity)
+{
+    const dmi_byte_t *source = anon->source->data + entity->offset;
+    const dmi_byte_t *result = anon->table->data + entity->offset;
+
+    for (size_t i = 0; i < dmi_vector_length(&anon->saved); i++) {
+        uintptr_t item;
+        dmi_vector_get(&anon->saved, i, &item);
+
+        const dmi_anonymize_saved_t *saved = (const dmi_anonymize_saved_t *)item;
+        if (saved->size < DMI_ANONYMIZE_PATTERN_MIN)
+            continue;
+
+        const dmi_byte_t *replacement = dmi_anonymize_find(source, result, entity->body_length, saved);
+        if (replacement == nullptr)
+            continue;
+
+        if (not dmi_anonymize_add(anon, saved->bytes, replacement, saved->size, true))
+            return false;
+    }
+
+    return true;
+}
+
+static const dmi_byte_t *dmi_anonymize_find(
+        const dmi_byte_t            *source,
+        const dmi_byte_t            *result,
+        size_t                       length,
+        const dmi_anonymize_saved_t *saved)
+{
+    for (size_t pos = 0; pos + saved->size <= length; pos++) {
+        if ((memcmp(source + pos, saved->bytes, saved->size) == 0) and
+            (memcmp(result + pos, saved->bytes, saved->size) != 0))
+        {
+            return result + pos;
+        }
+    }
+
+    return nullptr;
 }
 
 static void dmi_anonymize_restore(dmi_anonymizer_t *anon)

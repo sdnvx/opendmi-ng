@@ -272,6 +272,19 @@ typedef enum dmi_save_flags
     DMI_SAVE_FLAG_ANONYMIZE = (1 << 1)
 } dmi_save_flags_t;
 
+/**
+ * @brief Check whether a context is open.
+ *
+ * @param[in] context Context in question.
+ *
+ * @return `true` if the context holds a structure table and the registry of
+ *         its structures, `false` otherwise.
+ */
+static inline bool dmi_context_is_open(const dmi_context_t *context)
+{
+    return (context->state.table != nullptr) && (context->state.registry != nullptr);
+}
+
 __BEGIN_DECLS
 
 /**

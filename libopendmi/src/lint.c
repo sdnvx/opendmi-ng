@@ -178,7 +178,7 @@ bool dmi_lint(
     if (context == nullptr)
         return false;
 
-    if (context->state.table == nullptr) {
+    if (not dmi_context_is_open(context)) {
         dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
         return false;
     }
