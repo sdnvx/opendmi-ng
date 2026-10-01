@@ -1,0 +1,96 @@
+ifdef::backend-manpage[]
+= DMI_FIELD_EXTENDED(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_FIELD_EXTENDED
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_FIELD_EXTENDED - declare a field carrying a value its plain field is too narrow for.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+DMI_FIELD_EXTENDED(structure, member, wire_type, ...)
+----
+
+== Description
+
+The specification widens a field by leaving the plain one in place and adding
+a wider one to a later version, which the plain one points at by holding a
+value of its own, e.g. `0xFFFF`. Both fields name the same member: the plain
+one, declared with `DMI_FIELD`(3), decodes into it, and the extended one
+replaces the value when the plain one says that the real value is there.
+
+The extended field is read wherever it is declared even when the plain one
+does not point at it, since it occupies its bytes either way. On encoding, the
+plain field takes the value whenever it fits, and points at the extended one
+otherwise; in the preserve mode, the representation of the source data is
+kept as long as the value fits it.
+
+=== Parameters
+
+`structure`, `member`::
+Structure and member the plain field and the extended one decode into.
+
+`wire_type`::
+Type the extended field is written with.
+
+`...`::
+Further parameters, given as the designated initializers of
+`dmi_field_params_t`:
++
+--
+`.when_raw`:::
+Value of the plain field which says that the extended field carries the real
+value.
+
+`.when`:::
+Member whose plain field says so, for a run of extended fields the
+specification keys on one plain field, which are widened together. Left unset
+for the extended fields answering to their own member.
+
+`.decode`, `.encode`:::
+Handlers of the extended field, see `DMI_FIELD`(3).
+--
+
+== Example
+
+Start and end addresses of a memory device mapped address, both widened when
+the start one says so:
+
+[source, c]
+----
+DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
+DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, start_addr, dmi_qword_t,
+                   .when_raw = 0xFFFFFFFFu),
+DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, end_addr, dmi_qword_t,
+                   .when     = dmi_member(dmi_memory_device_addr_t, start_addr),
+                   .when_raw = 0xFFFFFFFFu),
+----
+
+== See also
+
+`DMI_FIELD`(3),
+`DMI_FIELD_GROUP`(3),
+`dmi_fields_encode`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

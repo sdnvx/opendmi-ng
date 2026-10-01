@@ -1,0 +1,137 @@
+ifdef::backend-manpage[]
+= DMI_FIELD_ARRAY(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_FIELD_ARRAY
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_FIELD_ARRAY, DMI_FIELD_VECTOR, DMI_FIELD_ELEMENT - declare the arrays a structure holds.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+DMI_FIELD_ARRAY(structure, member, counter, ...)
+DMI_FIELD_VECTOR(structure, member, ...)
+DMI_FIELD_ELEMENT(structure, member, wire_type, ...)
+----
+
+== Description
+
+The macros declare the elements a structure holds in a row, each described
+by fields of its own, see `DMI_FIELD`(3).
+
+`DMI_FIELD_ARRAY`::
+Array whose number of elements the data gives. The elements are decoded into
+an array of their own, which the library allocates and frees with the decoded
+structure, see `dmi_fields_release`(3): `member` is a pointer to the element
+type, and `counter`, a `size_t` member, holds the number of the elements
+decoded in full. A structure which ends in the middle of an element is short of
+the elements it declares rather than broken, and the counter leaves the cut
+element out.
+
+`DMI_FIELD_VECTOR`::
+Fixed number of elements, decoded in place into the array member `member`,
+whose number of elements is the one of the vector.
+
+`DMI_FIELD_ELEMENT`::
+Element of an array or a vector of plain values, which is the whole element
+rather than a member of one. It is the single field of `.fields` of such an
+array, and names the array itself.
+
+=== Parameters
+
+`structure`::
+Type of the structure holding the array.
+
+`member`::
+Member holding the array: a pointer to the elements for an array, and the
+array of the elements for a vector.
+
+`counter`::
+`size_t` member the number of the decoded elements is stored into.
+
+`wire_type`::
+Type an element of plain values is written with.
+
+`...`::
+Further parameters, given as the designated initializers of
+`dmi_field_params_t`:
++
+--
+`.fields`:::
+Fields of an element, whose `structure` is the element type.
+
+`.count_length`:::
+Width of the number of the elements, which precedes them. Zero means the data
+carries no number, and the array runs to the end of the structure, in elements
+of `.stride` bytes.
+
+`.count_member`:::
+Member keeping the number the data declares, which is greater than `counter`
+when the data ends early.
+
+`.stride_length`, `.stride_member`:::
+Width of the length of an element, which follows the number of them, and the
+member keeping it. Elements may then be longer than their fields, and the
+next one is found by that length.
+
+`.stride_minimum`:::
+Smallest length of an element, below which the elements are of no use: they
+are stepped over rather than decoded, and kept as they are on encoding.
+--
+
+== Example
+
+Peer groups of a system slot, preceded by the number of them:
+
+[source, c]
+----
+DMI_FIELD_ARRAY(dmi_slot_t, peer_groups, peer_group_count,
+    .count_length = sizeof(dmi_byte_t),
+    .fields       = DMI_FIELDS({
+        DMI_FIELD(dmi_slot_peer_group_t, address, dmi_dword_t,
+                  .decode = dmi_pci_addr_decode,
+                  .encode = dmi_pci_addr_encode),
+        DMI_FIELD(dmi_slot_peer_group_t, bus_width, dmi_byte_t),
+        {}
+    })),
+----
+
+Vector of plain values:
+
+[source, c]
+----
+DMI_FIELD_VECTOR(dmi_hpe_system_id_t, platform_id,
+    .fields = DMI_FIELDS({
+        DMI_FIELD_ELEMENT(dmi_hpe_system_id_t, platform_id, dmi_byte_t),
+        {}
+    })),
+----
+
+== See also
+
+`DMI_FIELD`(3),
+`DMI_ATTRIBUTE`(3),
+`dmi_fields_release`(3),
+`dmi_fields_decode`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

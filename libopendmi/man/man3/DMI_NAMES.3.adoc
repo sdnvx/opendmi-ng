@@ -1,0 +1,99 @@
+ifdef::backend-manpage[]
+= DMI_NAMES(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_NAMES
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_NAMES, DMI_NAME_RANGES, DMI_NAME_UNSPEC, DMI_NAME_UNKNOWN, DMI_NAME_OTHER, DMI_NAME_NONE, DMI_NAME_UNSUPPORTED, DMI_NAME_RESERVED - declare the names of the values of an enumeration.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/name.h>
+
+DMI_NAMES({ name, ..., {} })
+DMI_NAME_RANGES({ range, ..., {} })
+
+DMI_NAME_UNSPEC(id)
+DMI_NAME_UNKNOWN(id)
+DMI_NAME_OTHER(id)
+DMI_NAME_NONE(id)
+DMI_NAME_UNSUPPORTED(id)
+DMI_NAME_RESERVED(id)
+----
+
+== Description
+
+A name set, `dmi_name_set_t`, names the values of an enumeration or the bits
+of a set, see `dmi_name_lookup`(3), and is what the `.values` of an attribute
+refers to, see `DMI_ATTRIBUTE`(3).
+
+`DMI_NAMES`::
+List of the names of single values, a compound literal of `dmi_name_t`, each
+of an `.id`, a `.code` and a `.name`, terminated by an empty entry, `{}`,
+which the list itself ends with.
+
+`DMI_NAME_RANGES`::
+List of the names of ranges of values, a compound literal of
+`dmi_name_range_t`, each of a `.start_id` and an `.end_id`, inclusive, a
+`.code` and a `.name`, terminated the same way. A value named on its own is
+named so rather than by its range.
+
+`DMI_NAME_UNSPEC`, `DMI_NAME_UNKNOWN`, `DMI_NAME_OTHER`, `DMI_NAME_NONE`, `DMI_NAME_UNSUPPORTED`, `DMI_NAME_RESERVED`::
+Entries of `DMI_NAMES` for the values the specification names the same way
+everywhere, e.g. `unspecified` and `Unspecified`.
+
+The code of the name set, `.code`, names the table its names are translated
+in, by the codes of the entries, see `dmi_name_lookup`(3).
+
+=== Parameters
+
+`id`::
+Value the entry names.
+
+== Example
+
+[source, c]
+----
+const dmi_name_set_t dmi_chassis_type_names =
+{
+    .code  = "chassis-type",
+    .names = DMI_NAMES({
+        DMI_NAME_UNSPEC(DMI_CHASSIS_TYPE_UNSPEC),
+        DMI_NAME_OTHER(DMI_CHASSIS_TYPE_OTHER),
+        DMI_NAME_UNKNOWN(DMI_CHASSIS_TYPE_UNKNOWN),
+        {
+            .id   = DMI_CHASSIS_TYPE_DESKTOP,
+            .code = "desktop",
+            .name = "Desktop"
+        },
+        ...
+        {}
+    })
+};
+----
+
+== See also
+
+`dmi_name_lookup`(3),
+`DMI_ATTRIBUTE`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

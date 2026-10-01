@@ -1,0 +1,94 @@
+ifdef::backend-manpage[]
+= dmi_member(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_member
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_member, dmi_member_array, DMI_MEMBER_NULL, dmi_member_is_present, dmi_member_size, dmi_member_offset, dmi_element_size, dmi_member_span - refer to a member of a decoded structure.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/defs.h>
+
+typedef struct dmi_member_ref {
+    size_t offset;
+    size_t size;
+} dmi_member_ref_t;
+
+dmi_member_ref_t dmi_member(structure, member);
+dmi_member_ref_t dmi_member_array(structure, member);
+
+#define DMI_MEMBER_NULL ((dmi_member_ref_t){ 0, 0 })
+
+bool dmi_member_is_present(dmi_member_ref_t ref);
+
+size_t dmi_member_size(structure, member);
+size_t dmi_member_offset(structure, member);
+size_t dmi_element_size(structure, member);
+size_t dmi_member_span(structure, first, last);
+----
+
+== Description
+
+Declarations of fields and attributes refer to the members of the decoded
+structure by `dmi_member_ref_t`, the offset and the size of the member, so
+that the library reads and writes them whatever the structure is.
+
+`dmi_member`::
+Reference to `member` of `structure`, of its own size.
+
+`dmi_member_array`::
+Reference to an array member, whose size is the size of an element: the
+member the pointer to the elements of an array is stored in, or the first
+element of a vector.
+
+`DMI_MEMBER_NULL`::
+Reference to no member, which the parameters left unset are, and the fields
+carrying no value have.
+
+`dmi_member_is_present`::
+Tells whether a reference refers to a member, i.e. it is not
+`DMI_MEMBER_NULL`.
+
+`dmi_member_size`, `dmi_member_offset`, `dmi_element_size`::
+Size and offset of a member, and size of an element of an array member or of
+the elements a pointer member points at.
+
+`dmi_member_span`::
+Size of the consecutive members from `first` to `last`, inclusive.
+
+The macros are evaluated at compile time, and are given types and member
+names rather than values.
+
+== Example
+
+[source, c]
+----
+DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_trusted_module_t, has_chip)),
+----
+
+== See also
+
+`DMI_FIELD`(3),
+`DMI_ATTRIBUTE`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

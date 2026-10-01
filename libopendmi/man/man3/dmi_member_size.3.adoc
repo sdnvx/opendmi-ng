@@ -1,0 +1,1 @@
+dmi_member.3.adoc

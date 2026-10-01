@@ -1,0 +1,99 @@
+ifdef::backend-manpage[]
+= DMI_FIELD_BITS(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_FIELD_BITS
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_FIELD_BITS, DMI_FIELD_BITS_SKIP, DMI_FIELD_PAD - declare the ranges of bits several fields share.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+DMI_FIELD_BITS(structure, member, bits, ...)
+DMI_FIELD_BITS_SKIP(bits)
+DMI_FIELD_PAD(unit_type)
+----
+
+== Description
+
+The macros declare the fields which share the bits of a byte, a word or a
+wider unit, e.g. the flags of a structure, see `DMI_FIELD`(3).
+
+`DMI_FIELD_BITS`::
+Range of `bits` bits, read into `member`. Ranges are taken from the least
+significant bit of the unit up, in the order they are declared, and a range is
+allowed to span the bytes of the unit, the way the bit fields of a
+little-endian value do.
+
+`DMI_FIELD_BITS_SKIP`::
+Range of `bits` bits the specification reserves between the ranges, which
+carries no value. On encoding, it holds what the source data had in the
+preserve mode, and zeros in the canonical one.
+
+`DMI_FIELD_PAD`::
+Bits left over at the end of the unit, of the type `unit_type`, e.g.
+`dmi_word_t`, which close it. Every run of ranges ends with one, and no field
+of another kind begins in the middle of a unit.
+
+=== Versions of ranges
+
+A version of the specification may give a meaning to the reserved bits of a
+unit the structure already holds, which says nothing about its length: the
+version the entry point declares decides it. Such a range declares the version
+it is defined from as `.from`, and is left to the padding of the unit in the
+tables of an earlier version. A range the version widens is declared twice, up
+to the version with `.before`, and from it with `.from`, both reading into one
+member.
+
+=== Parameters
+
+`structure`, `member`::
+Structure and member the range is read into.
+
+`bits`::
+Width of the range, in bits.
+
+`unit_type`::
+Type of the unit, whose size gives its width.
+
+`...`::
+Further parameters, given as the designated initializers of
+`dmi_field_params_t`: `.from` and `.before`, and the `.decode` and `.encode`
+handlers, see `DMI_FIELD`(3).
+
+== Example
+
+[source, c]
+----
+DMI_FIELD_BITS(dmi_hpe_trusted_module_t, presence,          2),
+DMI_FIELD_BITS(dmi_hpe_trusted_module_t, is_orom_measuring, 1),
+DMI_FIELD_BITS(dmi_hpe_trusted_module_t, is_hidden,         1),
+DMI_FIELD_PAD(dmi_byte_t),
+----
+
+== See also
+
+`DMI_FIELD`(3),
+`dmi_fields_decode`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,107 @@
+ifdef::backend-manpage[]
+= DMI_ATTRIBUTE_VARIANT(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_ATTRIBUTE_VARIANT
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_ATTRIBUTE_VARIANT, DMI_VARIANT, DMI_VARIANT_DEFAULT, DMI_VARIANTS - declare a value whose description depends on another member.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/attribute.h>
+
+DMI_ATTRIBUTE_VARIANT(structure, selector, { ... })
+DMI_VARIANT(value, structure, member, TYPE, { ... })
+DMI_VARIANT_DEFAULT(structure, member, TYPE, { ... })
+
+DMI_VARIANTS({ variant, ..., {} })
+----
+
+== Description
+
+A variant attribute describes a value differently depending on the member
+`selector`, e.g. a field which means one thing for one kind of device and
+another for another, or which the structure holds only when a flag says so.
+The attribute itself carries the code, the name and the level of the value,
+and each of its variants, the description of the value for one value of the
+selector, see `DMI_ATTRIBUTE`(3).
+
+`DMI_ATTRIBUTE_VARIANT`::
+Variant attribute, whose `.variants` lists the variants.
+
+`DMI_VARIANT`::
+Variant used when the selector equals `value`.
+
+`DMI_VARIANT_DEFAULT`::
+Variant used when no other one matches the selector.
+
+`DMI_VARIANTS`::
+List of the variants, terminated by an empty variant, `{}`, which the list
+itself ends with.
+
+The variant matching the selector describes the value, see
+`dmi_attribute_resolve`, and the code, name and level of the variant itself
+are not used. If no variant matches and there is no default one, the value
+does not exist, and is left out.
+
+=== Parameters
+
+`structure`::
+Type of the structure holding the selector and the value.
+
+`selector`::
+Member the variant is chosen by, e.g. a type, or a `bool` member telling
+whether the structure holds the value, see `DMI_FIELD_GROUP`(3).
+
+`value`::
+Value of the selector the variant is used for.
+
+`member`, `TYPE`, `{ ... }`::
+Member, type and parameters of the attribute the variant describes the value
+as, see `DMI_ATTRIBUTE`(3).
+
+== Example
+
+Disable reason of a trusted module, which is there only when the module is
+disabled:
+
+[source, c]
+----
+DMI_ATTRIBUTE_VARIANT(dmi_hpe_trusted_module_t, presence, {
+    .code     = "disable-reason",
+    .name     = "Disable reason",
+    .variants = DMI_VARIANTS({
+        DMI_VARIANT(DMI_HPE_TM_PRESENCE_DISABLED, dmi_hpe_trusted_module_t, disable_reason, ENUM, {
+            .values = &dmi_hpe_tm_disable_reason_names
+        }),
+        {}
+    })
+}),
+----
+
+== See also
+
+`DMI_ATTRIBUTE`(3),
+`DMI_FIELD_GROUP`(3),
+`dmi_attributes_walk`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

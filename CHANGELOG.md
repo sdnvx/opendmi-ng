@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `dmi_attributes_walk()` and `dmi_attribute_walk()`, which walk the members of a decoded structure with callbacks of a visitor
 - Add `dmi_entity_is_decoded()`, `dmi_entity_is_linked()`, `dmi_entity_is_valid()`, `dmi_entity_is_incomplete()` and `dmi_entity_is_partial()`, which check the state of a structure
 - Add `present` parameter of field groups, which sets a member once the structure holds every field of the group
+- Add manual pages of the declarative macros: `DMI_FIELD`(3), `DMI_FIELD_BITS`(3), `DMI_FIELD_ARRAY`(3), `DMI_FIELD_GROUP`(3), `DMI_FIELD_EXTENDED`(3), `DMI_FIELD_SPLIT`(3), `DMI_ATTRIBUTE`(3), `DMI_ATTRIBUTE_VARIANT`(3), `DMI_NAMES`(3) and `dmi_member`(3)
 - Add links to manual pages (website/reference)
 
 ### Changed

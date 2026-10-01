@@ -1,0 +1,85 @@
+ifdef::backend-manpage[]
+= DMI_FIELD_SPLIT(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_FIELD_SPLIT
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_FIELD_SPLIT, DMI_FIELD_SPLIT_BINARY - declare a field feeding several members at once.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+DMI_FIELD_SPLIT(structure, wire_type, ...)
+DMI_FIELD_SPLIT_BINARY(structure, length, ...)
+----
+
+== Description
+
+Some fields carry the data of several members at once, e.g. a byte whose most
+significant bit tells whether the rest is a structure type or a baseboard
+type. The handlers of such a field are given the whole structure rather than
+one member of it, and decode the data into the members it feeds and encode it
+back from them.
+
+`DMI_FIELD_SPLIT`::
+Integer of the width of `wire_type`.
+
+`DMI_FIELD_SPLIT_BINARY`::
+`length` bytes taken as they are.
+
+The members a handler writes are a function of the data alone, so that encoding
+can tell whether the data it has decodes into the values the structure holds.
+Whatever combines several fields is derived once all of them have been read,
+by the `derive` handler of the specification.
+
+=== Parameters
+
+`structure`::
+Type the handlers are given: the decoded structure for the fields of a
+specification, and the element type for the fields of an array.
+
+`wire_type`::
+Type the field is written with.
+
+`length`::
+Number of the bytes of a binary field.
+
+`...`::
+`.decode` and `.encode` handlers, which are given the structure as the value,
+see `DMI_FIELD`(3).
+
+== Example
+
+[source, c]
+----
+DMI_FIELD_SPLIT(dmi_chassis_element_t, dmi_byte_t,
+                .decode = dmi_chassis_decode_element_type,
+                .encode = dmi_chassis_encode_element_type),
+----
+
+== See also
+
+`DMI_FIELD`(3),
+`dmi_fields_decode`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,160 @@
+ifdef::backend-manpage[]
+= DMI_FIELD(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_FIELD
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_FIELD, DMI_FIELD_STRING, DMI_FIELD_UUID, DMI_FIELD_BCD, DMI_FIELD_BINARY, DMI_FIELD_SKIP, DMI_FIELD_PRESET, DMI_FIELDS - declare the fields a structure is laid out as.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+DMI_FIELD(structure, member, wire_type, ...)
+DMI_FIELD_STRING(structure, member, ...)
+DMI_FIELD_UUID(structure, member, ...)
+DMI_FIELD_BCD(structure, member, wire_type, ...)
+DMI_FIELD_BINARY(structure, member, length, ...)
+DMI_FIELD_SKIP(length)
+DMI_FIELD_PRESET(structure, member, value)
+
+DMI_FIELDS({ field, ..., {} })
+
+#define DMI_FIELD_LENGTH_REST   SIZE_MAX
+#define DMI_FIELD_LENGTH_MEMBER (SIZE_MAX - 1)
+----
+
+== Description
+
+The macros declare the fields of a specification, the `fields` member of
+`dmi_entity_spec_t`, which `dmi_fields_decode`(3) reads a structure by and
+`dmi_fields_encode`(3) writes it back by. Fields are listed in the order the
+structure holds them, starting right after the header, and each one names the
+member of the decoded structure it is read into.
+
+Fields describe the bytes, while the attributes declared with
+`DMI_ATTRIBUTE`(3) describe the values they are read into; the two are joined
+by the member they name.
+
+`DMI_FIELD`::
+Integer of the width of `wire_type`, e.g. `dmi_word_t`, read little-endian
+into `member`, which may be wider than the field: the value standing for
+"unknown" is then read as the largest value of the member, so that it does not
+collide with a value a device may really have.
+
+`DMI_FIELD_STRING`::
+String reference, read into a `const char *` member pointing at the string it
+refers to, or at `nullptr` if it refers to none.
+
+`DMI_FIELD_UUID`::
+Sixteen bytes holding a UUID, read into a `dmi_uuid_t` member with the fields
+put into the order RFC 4122 gives them.
+
+`DMI_FIELD_BCD`::
+Binary-coded decimal of the width of `wire_type`, read into the number its
+digits spell.
+
+`DMI_FIELD_BINARY`::
+`length` bytes taken as they are, read into a `dmi_binary_t` member which
+refers to them in place. `DMI_FIELD_LENGTH_REST` takes the bytes running to
+the end of the structure, and `DMI_FIELD_LENGTH_MEMBER` as many bytes as the
+`length` of the member says, which a field before has set.
+
+`DMI_FIELD_SKIP`::
+`length` bytes the structure holds and nothing reads, which are stepped over
+on decoding and kept as they are on encoding.
+
+`DMI_FIELD_PRESET`::
+Member the data does not carry, set to `value` before any field is read, for
+the members meaning something other than zero until the rest of the table
+gives them a value. It occupies no bytes.
+
+`DMI_FIELDS`::
+List of the fields, a compound literal of `dmi_field_t`. The list is
+terminated by an empty field, `{}`, which the list itself ends with.
+
+Other kinds of fields have pages of their own: ranges of bits,
+`DMI_FIELD_BITS`(3); arrays and vectors, `DMI_FIELD_ARRAY`(3); groups and
+boundaries, `DMI_FIELD_GROUP`(3); fields widened by a later version,
+`DMI_FIELD_EXTENDED`(3); and fields feeding several members,
+`DMI_FIELD_SPLIT`(3).
+
+=== Parameters
+
+`structure`::
+Type of the structure the fields belong to: the decoded structure, or the
+element of an array.
+
+`member`::
+Member of `structure` the field is read into.
+
+`wire_type`::
+Type the field is written with in the data, whose size is the width of the
+field, e.g. `dmi_byte_t`, `dmi_word_t`, `dmi_dword_t` or `dmi_qword_t`.
+
+`...`::
+Further parameters, given as the designated initializers of
+`dmi_field_params_t`, of which the fields take:
++
+--
+`.decode`, `.encode`:::
+Pair of handlers turning the data into the member and back, for the values
+which mean something other than the number the data carries. They are
+required in pairs for the structure to be encoded.
+
+`.unknown_raw`:::
+Value standing for "unknown" in the data, which the member holds as its
+largest value. Zero means the field has none.
+
+`.absent`:::
+Pointer to the value the member holds when the data ends before the field,
+for the members whose zero means something else.
+--
+
+== Example
+
+Fields of a system slot, from the beginning of its version 2.0 part:
+
+[source, c]
+----
+.fields = DMI_FIELDS({
+    DMI_FIELD_STRING(dmi_slot_t, designator),
+    DMI_FIELD(dmi_slot_t, type,      dmi_byte_t),
+    DMI_FIELD(dmi_slot_t, bus_width, dmi_byte_t),
+    ...
+    {}
+})
+----
+
+== See also
+
+`DMI_FIELD_BITS`(3),
+`DMI_FIELD_ARRAY`(3),
+`DMI_FIELD_GROUP`(3),
+`DMI_FIELD_EXTENDED`(3),
+`DMI_FIELD_SPLIT`(3),
+`DMI_ATTRIBUTE`(3),
+`dmi_member`(3),
+`dmi_fields_decode`(3),
+`dmi_fields_encode`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

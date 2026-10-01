@@ -2,6 +2,10 @@
 :sectnums!:
 :sectlinks:
 
+== `<opendmi/defs.h>`
+
+include::../../../../libopendmi/man/man3/dmi_member.3.adoc[leveloffset=2]
+
 == `<opendmi/context.h>`
 
 include::../../../../libopendmi/man/man3/dmi_add_extension.3.adoc[leveloffset=2]
@@ -90,10 +94,18 @@ include::../../../../libopendmi/man/man3/dmi_type_spec.3.adoc[leveloffset=2]
 
 == `<opendmi/attribute.h>`
 
+include::../../../../libopendmi/man/man3/DMI_ATTRIBUTE.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/DMI_ATTRIBUTE_VARIANT.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_attributes_walk.3.adoc[leveloffset=2]
 
 == `<opendmi/field.h>`
 
+include::../../../../libopendmi/man/man3/DMI_FIELD.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/DMI_FIELD_ARRAY.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/DMI_FIELD_BITS.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/DMI_FIELD_EXTENDED.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/DMI_FIELD_GROUP.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/DMI_FIELD_SPLIT.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_fields_decode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_fields_encode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_fields_release.3.adoc[leveloffset=2]
@@ -212,6 +224,7 @@ include::../../../../libopendmi/man/man3/dmi_file_write.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/name.h>`
 
+include::../../../../libopendmi/man/man3/DMI_NAMES.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_name_lookup.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/uuid.h>`

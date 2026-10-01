@@ -246,6 +246,10 @@ struct dmi_attribute_variant
     dmi_attribute_t attribute;
 };
 
+/**
+ * @brief Attribute of the member @p __member, whose type @p __type names by
+ * the suffix of `dmi_attribute_type_t`, e.g. `ENUM`, see `DMI_ATTRIBUTE`(3).
+ */
 #define DMI_ATTRIBUTE(__entity, __member, __type, ...) \
     {                                                  \
         .value   = dmi_member(__entity, __member),     \
@@ -254,6 +258,10 @@ struct dmi_attribute_variant
         .params  = __VA_ARGS__                         \
     }
 
+/**
+ * @brief Attribute of the elements of an array the member @p __member points
+ * at, whose number the member @p __counter holds.
+ */
 #define DMI_ATTRIBUTE_ARRAY(__entity, __member, __counter, __type, ...) \
     {                                                                   \
         .value   = dmi_member_array(__entity, __member),                \
@@ -309,20 +317,20 @@ struct dmi_attribute_variant
     }
 
 /**
- * @brief List of the attributes of a structure or of a nested one, terminated for the code
- * which walks it.
+ * @brief List of the attributes of a structure or of a nested one.
  *
- * The terminator is added by the macro, so that a list which has lost it
- * cannot be written in the first place.
+ * The list ends with an empty entry, `{}`, which the code walking it stops
+ * at. The terminator is written by the list itself rather than added by the
+ * macro, e.g. `DMI_ATTRIBUTES({ ..., {} })`.
  */
 #define DMI_ATTRIBUTES(...) (const dmi_attribute_t[])__VA_ARGS__
 
 /**
- * @brief List of the variants of a variant attribute, terminated for the code
- * which walks it.
+ * @brief List of the variants of a variant attribute.
  *
- * The terminator is added by the macro, so that a list which has lost it
- * cannot be written in the first place.
+ * The list ends with an empty entry, `{}`, which the code walking it stops
+ * at. The terminator is written by the list itself rather than added by the
+ * macro, e.g. `DMI_VARIANTS({ ..., {} })`.
  */
 #define DMI_VARIANTS(...) (const dmi_attribute_variant_t[])__VA_ARGS__
 

@@ -80,20 +80,20 @@ struct dmi_name_set
 #define DMI_NAME_RESERVED(id)    { (id), "reserved",    "Reserved"    }
 
 /**
- * @brief List of the names of a name set, terminated for the code
- * which walks it.
+ * @brief List of the names of a name set.
  *
- * The terminator is added by the macro, so that a list which has lost it
- * cannot be written in the first place.
+ * The list ends with an empty entry, `{}`, which the code walking it stops
+ * at. The terminator is written by the list itself rather than added by the
+ * macro, e.g. `DMI_NAMES({ ..., {} })`.
  */
 #define DMI_NAMES(...) (const dmi_name_t[])__VA_ARGS__
 
 /**
- * @brief List of the ranges of a name set, terminated for the code
- * which walks it.
+ * @brief List of the ranges of a name set.
  *
- * The terminator is added by the macro, so that a list which has lost it
- * cannot be written in the first place.
+ * The list ends with an empty entry, `{}`, which the code walking it stops
+ * at. The terminator is written by the list itself rather than added by the
+ * macro, e.g. `DMI_NAME_RANGES({ ..., {} })`.
  */
 #define DMI_NAME_RANGES(...) (const dmi_name_range_t[])__VA_ARGS__
 

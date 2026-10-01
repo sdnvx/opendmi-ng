@@ -1,0 +1,108 @@
+ifdef::backend-manpage[]
+= DMI_FIELD_GROUP(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_FIELD_GROUP
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_FIELD_GROUP, DMI_FIELD_OFFSET - declare where a structure may end and where its parts begin.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+DMI_FIELD_GROUP(...)
+DMI_FIELD_OFFSET(offset)
+----
+
+== Description
+
+The macros occupy no bytes, and say something about the fields after them,
+see `DMI_FIELD`(3).
+
+`DMI_FIELD_GROUP`::
+Beginning of a group of fields the data may end before. The firmware writes
+the structure of the version of the specification it follows, so a structure
+is allowed to end at the beginning of any group: the fields of that group and
+of the ones after it are left unset, and the structure is marked as partial
+rather than broken. A structure which ends in the middle of a group is decoded
+up to where it ends, and is marked as incomplete. The fields before the first
+group are required.
+
+`DMI_FIELD_OFFSET`::
+Boundary the fields after it begin at, counted from the beginning of the
+structure the way the tables of the specification count it. It says nothing
+about where the data may end, and is checked while the structure is decoded
+and encoded, so that a field left out of the declaration, or declared twice,
+is caught where it happens rather than in the values of everything after it.
+
+=== Parameters
+
+`offset`::
+Offset of the next field, from the beginning of the structure, header
+included.
+
+`...`::
+Parameters of a group, given as the designated initializers of
+`dmi_field_params_t`:
++
+--
+`.since`:::
+Version of the specification the fields of the group appear in, which becomes
+the level of the structure once the data reaches the group. Groups of the
+vendors, whose fields no version brings, leave it unset.
+
+`.present`:::
+`bool` member, see `dmi_member`(3), set once every field of the group has been
+read, and left `false` if the data ends before the group or in the middle of
+it. Attributes tell the fields the structure holds from the ones it is too
+short for by it, and encoding in the canonical mode writes no group the
+structure does not hold.
+--
+
+== Errors
+
+A boundary the fields do not reach exactly fails decoding and encoding with
+`DMI_ERROR_INTERNAL`, which tells a declaration that does not match the data.
+
+== Example
+
+[source, c]
+----
+DMI_FIELD(dmi_cache_t, associativity, dmi_byte_t),
+
+DMI_FIELD_GROUP(.since = DMI_VERSION(3, 1, 0)),
+DMI_FIELD_EXTENDED(dmi_cache_t, maximum_size, dmi_dword_t, ...),
+----
+
+[source, c]
+----
+DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_trusted_module_t, has_chip)),
+DMI_FIELD(dmi_hpe_trusted_module_t, chip, dmi_byte_t),
+----
+
+== See also
+
+`DMI_FIELD`(3),
+`dmi_fields_decode`(3),
+`dmi_entity_is_partial`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,162 @@
+ifdef::backend-manpage[]
+= DMI_ATTRIBUTE(3)
+endif::[]
+ifndef::backend-manpage[]
+= DMI_ATTRIBUTE
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+DMI_ATTRIBUTE, DMI_ATTRIBUTE_ARRAY, DMI_ATTRIBUTE_VECTOR, DMI_ATTRIBUTES - declare the values of a decoded structure.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/attribute.h>
+
+DMI_ATTRIBUTE(structure, member, TYPE, { ... })
+DMI_ATTRIBUTE_ARRAY(structure, member, counter, TYPE, { ... })
+DMI_ATTRIBUTE_VECTOR(structure, member, TYPE, { ... })
+
+DMI_ATTRIBUTES({ attribute, ..., {} })
+----
+
+== Description
+
+The macros declare the attributes of a specification, the `attributes` member
+of `dmi_entity_spec_t`, which describe the values of the decoded structure:
+what they are called, how they are written, what they mean, and what they
+refer to. The output formats of the command line tool, linking, the lint rules
+and anonymization all go by them, see `dmi_attributes_walk`(3).
+
+Attributes describe the values, while the fields declared with `DMI_FIELD`(3)
+describe the bytes they are read from; the two are joined by the member they
+name.
+
+`DMI_ATTRIBUTE`::
+Value of `member`, whose type `TYPE` names, e.g. `ENUM`.
+
+`DMI_ATTRIBUTE_ARRAY`::
+Elements of an array the structure points at, as `DMI_FIELD_ARRAY`(3)
+decodes them, whose number `counter` holds.
+
+`DMI_ATTRIBUTE_VECTOR`::
+Elements of the array member `member`, which the structure holds in place, as
+`DMI_FIELD_VECTOR` decodes them.
+
+`DMI_ATTRIBUTES`::
+List of the attributes, a compound literal of `dmi_attribute_t`, terminated by
+an empty attribute, `{}`, which the list itself ends with.
+
+=== Types
+
+`TYPE` is the suffix of `dmi_attribute_type_t`:
+
+`STRUCT`::: Nested structure, whose attributes `.attrs` lists.
+`HANDLE`::: Handle of another structure.
+`STRING`::: String of the structure.
+`BOOL`::: Boolean, which `.values` may name.
+`INTEGER`::: Integer, signed with `DMI_ATTRIBUTE_FLAG_SIGNED`.
+`DECIMAL`::: Integer with `.scale` digits after the decimal point.
+`SIZE`::: Size in bytes, written in the largest unit it is a whole number of.
+`ADDRESS`::: Address.
+`ENUM`::: Enumeration, whose values `.values` names.
+`SET`::: Set of flags, whose bits `.values` names.
+`VERSION`::: Version number.
+`DATE`::: Date.
+`UUID`::: UUID.
+`BINARY`::: Bytes taken as they are.
+
+Variant attributes, whose description depends on another member, have a page
+of their own, `DMI_ATTRIBUTE_VARIANT`(3).
+
+=== Parameters
+
+`structure`, `member`::
+Structure and member holding the value.
+
+`counter`::
+Member holding the number of the elements of an array.
+
+`{ ... }`::
+Parameters, given as the designated initializers of `dmi_attribute_params_t`:
++
+--
+`.code`:::
+Code name, which the value is serialized by, e.g. `bus-width`.
+
+`.name`:::
+Printable name, e.g. `Data bus width`, which is translated, see
+`dmi_attribute_name`.
+
+`.unit`, `.scale`:::
+Unit of an integer or a decimal, and the number of its decimal digits.
+
+`.unspec`, `.unknown`:::
+Pointers to the values standing for "unspecified" and "unknown", which are
+written as such rather than as values.
+
+`.flags`:::
+Flags of `dmi_attribute_flag_t`, e.g. `DMI_ATTRIBUTE_FLAG_HEX`, or
+`DMI_ATTRIBUTE_FLAG_PRIVATE` for the values identifying the system, which
+anonymization replaces.
+
+`.values`:::
+Names of the values of an enumeration, a set or a boolean, see `DMI_NAMES`(3).
+
+`.targets`:::
+Types a handle may refer to, terminated by `nullptr`.
+
+`.link`:::
+Member the structure a handle refers to is put into once the table is linked,
+see `dmi_member`(3).
+
+`.minimum`, `.maximum`:::
+Pointers to the limits the specification puts on the value, which the lint
+rules check.
+
+`.attrs`:::
+Attributes of a nested structure, or of an element of an array of them.
+
+`.level`:::
+Version of the specification the value appears in, which the output leaves out
+for the structures of an earlier level.
+--
+
+== Example
+
+[source, c]
+----
+DMI_ATTRIBUTE(dmi_slot_t, type, ENUM, {
+    .code    = "type",
+    .name    = "Type",
+    .unspec  = &(const dmi_slot_type_t){ DMI_SLOT_TYPE_UNSPEC },
+    .unknown = &(const dmi_slot_type_t){ DMI_SLOT_TYPE_UNKNOWN },
+    .values  = &dmi_slot_type_names
+}),
+----
+
+== See also
+
+`DMI_ATTRIBUTE_VARIANT`(3),
+`DMI_NAMES`(3),
+`DMI_FIELD`(3),
+`dmi_attributes_walk`(3),
+`dmi_member`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]
