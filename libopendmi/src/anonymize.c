@@ -137,11 +137,124 @@ typedef struct dmi_anonymize_walk
  */
 static bool dmi_anonymize_visit(void *context, const dmi_attribute_node_t *node);
 
+/**
+ * @internal
+ * @brief Replace the value of a private member according to its type.
+ *
+ * @param[in,out] anon    Anonymization state.
+ * @param[in]     attr    Attribute of the member.
+ * @param[in,out] value   Member of the decoded structure.
+ * @param[out]    changed Variable set if the member has been replaced in the
+ *                        decoded structure, so that it is to be encoded.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_anonymize_member(
         dmi_anonymizer_t      *anon,
         const dmi_attribute_t *attr,
         dmi_byte_t            *value,
         bool                  *changed);
+
+/**
+ * @internal
+ * @brief Replace a private string where the table holds it, and add it to
+ * the values replaced elsewhere.
+ *
+ * @details Strings are replaced in the table directly rather than through
+ * the decoded structure, since the structure holds them without the padding
+ * of the firmware.
+ *
+ * @param[in,out] anon Anonymization state.
+ * @param[in]     text String of the decoded structure.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_anonymize_member_string(dmi_anonymizer_t *anon, const char *text);
+
+/**
+ * @internal
+ * @brief Write the replacement of a string over the string of the current
+ * structure it has been read from.
+ *
+ * @param[in,out] anon        Anonymization state.
+ * @param[in]     text        String of the decoded structure.
+ * @param[in]     replacement Replacement of the same length as @p text.
+ * @param[in]     length      Length of the string.
+ */
+static void dmi_anonymize_raw_string(
+        dmi_anonymizer_t *anon,
+        const char       *text,
+        const dmi_byte_t *replacement,
+        size_t            length);
+
+/**
+ * @internal
+ * @brief Replace private binary data where the table holds it, and add it to
+ * the values replaced elsewhere.
+ *
+ * @details Manufacturer part of a MAC address is kept. Data not held by the
+ * table, e.g. the one a handler has allocated, is left as it is.
+ *
+ * @param[in,out] anon   Anonymization state.
+ * @param[in]     attr   Attribute of the member.
+ * @param[in]     binary Binary data of the decoded structure.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_anonymize_member_binary(
+        dmi_anonymizer_t      *anon,
+        const dmi_attribute_t *attr,
+        const dmi_binary_t    *binary);
+
+/**
+ * @internal
+ * @brief Replace a private integer or UUID in the decoded structure, which
+ * is then encoded to put the replacement into the table.
+ *
+ * @details Original value is saved, and is put back by
+ * `dmi_anonymize_restore()` once the structure has been encoded.
+ *
+ * @param[in,out] anon    Anonymization state.
+ * @param[in]     attr    Attribute of the member.
+ * @param[in,out] value   Member of the decoded structure.
+ * @param[out]    changed Variable set if the member has been replaced.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_anonymize_member_scalar(
+        dmi_anonymizer_t      *anon,
+        const dmi_attribute_t *attr,
+        dmi_byte_t            *value,
+        bool                  *changed);
+
+/**
+ * @internal
+ * @brief Save a member of the decoded structure, so that it is put back once
+ * the structure has been encoded.
+ *
+ * @param[in,out] anon  Anonymization state.
+ * @param[in]     value Member of the decoded structure.
+ * @param[in]     size  Size of the member, at most `DMI_ANONYMIZE_MEMBER_MAX`.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Member cannot be saved
+ *
+ * @return Saved member, or `nullptr` on failure.
+ */
+static const dmi_anonymize_saved_t *dmi_anonymize_save(
+        dmi_anonymizer_t *anon,
+        dmi_byte_t       *value,
+        size_t            size);
+
+/**
+ * @internal
+ * @brief Keep the version and the variant of a UUID in its replacement,
+ * since they tell how the UUID has been made rather than identify anything.
+ *
+ * @param[in]     uuid        Original UUID.
+ * @param[in,out] replacement Replacement of the UUID.
+ */
+static void dmi_anonymize_uuid_keep(const dmi_uuid_t *uuid, dmi_uuid_t *replacement);
+
 static bool dmi_anonymize_encode(dmi_anonymizer_t *anon, dmi_entity_t *entity);
 static void dmi_anonymize_restore(dmi_anonymizer_t *anon);
 
@@ -405,120 +518,158 @@ static bool dmi_anonymize_member(
         bool                  *changed)
 {
     switch (attr->type) {
-    case DMI_ATTRIBUTE_TYPE_STRING: {
-        const char *text = dmi_deref(char *, value);
-        if ((text == nullptr) or dmi_string_is_placeholder(text))
-            return true;
+    case DMI_ATTRIBUTE_TYPE_STRING:
+        return dmi_anonymize_member_string(anon, dmi_deref(char *, value));
 
-        size_t length = strlen(text);
-        if ((length == 0) or dmi_anonymize_is_blank(text, length))
-            return true;
-
-        dmi_byte_t *replacement = dmi_alloc(anon->context, length);
-        if (replacement == nullptr)
-            return false;
-
-        dmi_anonymize_text(anon, (const dmi_byte_t *)text, length, replacement);
-
-        // String of the attribute is the one the value has been read from,
-        // which holds it with the spaces the firmware pads it with
-        const dmi_entity_t *entity = anon->entity;
-        for (size_t i = 0; i < entity->string_count; i++) {
-            const char *raw = entity->strings[i].raw;
-            if ((entity->strings[i].pretty != text) or (raw == nullptr))
-                continue;
-
-            const char *found = strstr(raw, text);
-            if (found != nullptr) {
-                size_t offset = (size_t)((const dmi_byte_t *)found - anon->source->data);
-                memcpy(anon->table->data + offset, replacement, length);
-            }
-            break;
-        }
-
-        // Values which do not look like identifiers, e.g. a battery named
-        // "Battery 0" in place of its serial number, are left elsewhere
-        bool success = dmi_anonymize_add(anon, text, replacement, length,
-                                         dmi_anonymize_is_identifier(text));
-        dmi_free(replacement);
-
-        return success;
-    }
-
-    case DMI_ATTRIBUTE_TYPE_BINARY: {
-        const dmi_binary_t *binary = (const dmi_binary_t *)value;
-        const dmi_byte_t   *begin  = anon->source->data;
-
-        if ((binary->data == nullptr) or (binary->length == 0))
-            return true;
-        if (dmi_anonymize_is_blank(binary->data, binary->length))
-            return true;
-        if ((binary->data < begin) or (binary->data + binary->length > begin + anon->source->length))
-            return true;
-
-        // Manufacturer part of a MAC address tells the vendor of the device
-        // rather than the device
-        size_t keep = (attr->params.flags & DMI_ATTRIBUTE_FLAG_MAC) ? 3 : 0;
-        if (keep >= binary->length)
-            keep = 0;
-
-        size_t offset = (size_t)(binary->data - begin);
-        dmi_byte_t *replacement = anon->table->data + offset;
-
-        dmi_anonymize_bytes(anon, binary->data, binary->length, keep, replacement);
-
-        return dmi_anonymize_add(anon, binary->data, replacement, binary->length, true);
-    }
+    case DMI_ATTRIBUTE_TYPE_BINARY:
+        return dmi_anonymize_member_binary(anon, attr, (const dmi_binary_t *)value);
 
     case DMI_ATTRIBUTE_TYPE_UUID:
-    case DMI_ATTRIBUTE_TYPE_INTEGER: {
-        size_t size = attr->value.size;
-        if ((size == 0) or (size > DMI_ANONYMIZE_MEMBER_MAX))
-            return true;
-        if (dmi_anonymize_is_blank(value, size))
-            return true;
-
-        dmi_anonymize_saved_t *saved = dmi_alloc(anon->context, sizeof(*saved));
-        if (saved == nullptr)
-            return false;
-
-        saved->ptr  = value;
-        saved->size = size;
-        memcpy(saved->bytes, value, size);
-
-        if (not dmi_vector_push(&anon->saved, (uintptr_t)saved)) {
-            dmi_free(saved);
-            dmi_error_raise(anon->context, DMI_ERROR_OUT_OF_MEMORY);
-            return false;
-        }
-
-        dmi_byte_t replaced[DMI_ANONYMIZE_MEMBER_MAX];
-        dmi_anonymize_bytes(anon, saved->bytes, size, 0, replaced);
-
-        if (attr->type == DMI_ATTRIBUTE_TYPE_UUID) {
-            // Version and variant tell how the UUID has been made
-            const dmi_uuid_t *uuid = (const dmi_uuid_t *)saved->bytes;
-            dmi_uuid_t *result = (dmi_uuid_t *)replaced;
-
-            result->time_hi_and_version = (uint16_t)((result->time_hi_and_version & 0x0FFF) |
-                                                     (uuid->time_hi_and_version & 0xF000));
-            result->clock_seq_hi_and_reserved = (uint8_t)((result->clock_seq_hi_and_reserved & 0x3F) |
-                                                          (uuid->clock_seq_hi_and_reserved & 0xC0));
-        }
-
-        // Replacement must not stand for "unspecified" itself
-        if (dmi_anonymize_is_blank(replaced, size))
-            replaced[0] ^= 0x01;
-
-        memcpy(value, replaced, size);
-        *changed = true;
-
-        return true;
-    }
+    case DMI_ATTRIBUTE_TYPE_INTEGER:
+        return dmi_anonymize_member_scalar(anon, attr, value, changed);
 
     default:
         return true;
     }
+}
+
+static bool dmi_anonymize_member_string(dmi_anonymizer_t *anon, const char *text)
+{
+    if ((text == nullptr) or dmi_string_is_placeholder(text))
+        return true;
+
+    size_t length = strlen(text);
+    if ((length == 0) or dmi_anonymize_is_blank(text, length))
+        return true;
+
+    dmi_byte_t *replacement = dmi_alloc(anon->context, length);
+    if (replacement == nullptr)
+        return false;
+
+    dmi_anonymize_text(anon, (const dmi_byte_t *)text, length, replacement);
+    dmi_anonymize_raw_string(anon, text, replacement, length);
+
+    // Values which do not look like identifiers, e.g. a battery named
+    // "Battery 0" in place of its serial number, are left elsewhere
+    bool success = dmi_anonymize_add(anon, text, replacement, length,
+                                     dmi_anonymize_is_identifier(text));
+    dmi_free(replacement);
+
+    return success;
+}
+
+static void dmi_anonymize_raw_string(
+        dmi_anonymizer_t *anon,
+        const char       *text,
+        const dmi_byte_t *replacement,
+        size_t            length)
+{
+    const dmi_entity_t *entity = anon->entity;
+
+    // String of the attribute is the one the value has been read from,
+    // which holds it with the spaces the firmware pads it with
+    for (size_t i = 0; i < entity->string_count; i++) {
+        const char *raw = entity->strings[i].raw;
+        if ((entity->strings[i].pretty != text) or (raw == nullptr))
+            continue;
+
+        const char *found = strstr(raw, text);
+        if (found != nullptr) {
+            size_t offset = (size_t)((const dmi_byte_t *)found - anon->source->data);
+            memcpy(anon->table->data + offset, replacement, length);
+        }
+        break;
+    }
+}
+
+static bool dmi_anonymize_member_binary(
+        dmi_anonymizer_t      *anon,
+        const dmi_attribute_t *attr,
+        const dmi_binary_t    *binary)
+{
+    const dmi_byte_t *begin = anon->source->data;
+
+    if ((binary->data == nullptr) or (binary->length == 0))
+        return true;
+    if (dmi_anonymize_is_blank(binary->data, binary->length))
+        return true;
+    if ((binary->data < begin) or (binary->data + binary->length > begin + anon->source->length))
+        return true;
+
+    // Manufacturer part of a MAC address tells the vendor of the device
+    // rather than the device
+    size_t keep = (attr->params.flags & DMI_ATTRIBUTE_FLAG_MAC) ? 3 : 0;
+    if (keep >= binary->length)
+        keep = 0;
+
+    size_t offset = (size_t)(binary->data - begin);
+    dmi_byte_t *replacement = anon->table->data + offset;
+
+    dmi_anonymize_bytes(anon, binary->data, binary->length, keep, replacement);
+
+    return dmi_anonymize_add(anon, binary->data, replacement, binary->length, true);
+}
+
+static bool dmi_anonymize_member_scalar(
+        dmi_anonymizer_t      *anon,
+        const dmi_attribute_t *attr,
+        dmi_byte_t            *value,
+        bool                  *changed)
+{
+    size_t size = attr->value.size;
+    if ((size == 0) or (size > DMI_ANONYMIZE_MEMBER_MAX))
+        return true;
+    if (dmi_anonymize_is_blank(value, size))
+        return true;
+
+    const dmi_anonymize_saved_t *saved = dmi_anonymize_save(anon, value, size);
+    if (saved == nullptr)
+        return false;
+
+    dmi_byte_t replaced[DMI_ANONYMIZE_MEMBER_MAX];
+    dmi_anonymize_bytes(anon, saved->bytes, size, 0, replaced);
+
+    if (attr->type == DMI_ATTRIBUTE_TYPE_UUID)
+        dmi_anonymize_uuid_keep((const dmi_uuid_t *)saved->bytes, (dmi_uuid_t *)replaced);
+
+    // Replacement must not stand for "unspecified" itself
+    if (dmi_anonymize_is_blank(replaced, size))
+        replaced[0] ^= 0x01;
+
+    memcpy(value, replaced, size);
+    *changed = true;
+
+    return true;
+}
+
+static const dmi_anonymize_saved_t *dmi_anonymize_save(
+        dmi_anonymizer_t *anon,
+        dmi_byte_t       *value,
+        size_t            size)
+{
+    dmi_anonymize_saved_t *saved = dmi_alloc(anon->context, sizeof(*saved));
+    if (saved == nullptr)
+        return nullptr;
+
+    saved->ptr  = value;
+    saved->size = size;
+    memcpy(saved->bytes, value, size);
+
+    if (not dmi_vector_push(&anon->saved, (uintptr_t)saved)) {
+        dmi_free(saved);
+        dmi_error_raise(anon->context, DMI_ERROR_OUT_OF_MEMORY);
+        return nullptr;
+    }
+
+    return saved;
+}
+
+static void dmi_anonymize_uuid_keep(const dmi_uuid_t *uuid, dmi_uuid_t *replacement)
+{
+    replacement->time_hi_and_version =
+        (uint16_t)((replacement->time_hi_and_version & 0x0FFF) | (uuid->time_hi_and_version & 0xF000));
+    replacement->clock_seq_hi_and_reserved =
+        (uint8_t)((replacement->clock_seq_hi_and_reserved & 0x3F) | (uuid->clock_seq_hi_and_reserved & 0xC0));
 }
 
 static bool dmi_anonymize_encode(dmi_anonymizer_t *anon, dmi_entity_t *entity)
