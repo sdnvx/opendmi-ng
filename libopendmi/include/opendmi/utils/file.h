@@ -23,6 +23,12 @@ typedef struct stat dmi_file_stat_t;
 #   define S_ISREG(mode) (((mode) & S_IFMT) == S_IFREG)
 #endif
 
+// Status of a file is taken through the symbolic links on the platforms which
+// have no test for them (e.g. Windows), so there is none to tell
+#if !defined(S_ISLNK)
+#   define S_ISLNK(mode) false
+#endif
+
 __BEGIN_DECLS
 
 /**

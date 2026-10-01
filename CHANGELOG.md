@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix quitting the pager early reported as "Broken pipe", and signals ignored under `nohup` caught by the pager
 - Fix pager command line handling on POSIX and Windows
 - Fix log file left locked for other processes
+- Fix dumps written to devices and pipes, e.g. `dump -o /dev/stdout`, refused as existing files unless overwriting
 - Fix XML export reporting write failures as internal errors on NetBSD
 - Fix coverage builds, `build.sh distclean` able to delete the source tree, and the Python module not building
 - Fix number overflow not detected in the kernel module (opendmi-sysfs)

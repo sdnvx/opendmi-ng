@@ -51,7 +51,10 @@ failure neither leaves an incomplete dump behind nor destroys the file being
 replaced, and the replaced file keeps its permissions. Since `path` is
 replaced rather than written to, the directory must be writable, and other
 hard links to the file keep its former contents. Devices, pipes and symbolic
-links, e.g. `/dev/stdout`, are written directly instead.
+links, e.g. `/dev/stdout`, are written directly instead. Devices and pipes,
+and the symbolic links to them, are written whether `DMI_SAVE_FLAG_OVERWRITE`
+is set or not, since there is no file to keep, while a symbolic link to a
+file, or to nothing, is taken as an existing file.
 
 With `DMI_SAVE_FLAG_ANONYMIZE`, the table written is the copy
 `dmi_anonymize`(3) makes of it, in which the values identifying the system,

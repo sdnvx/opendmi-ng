@@ -254,6 +254,9 @@ target_sources(opendmi-object
         src/backend.c
         src/buffer.c
         src/context.c
+        src/context-extension.c
+        src/context-save.c
+        src/context-types.c
         src/decoder.c
         src/writer.c
         src/encoder.c
