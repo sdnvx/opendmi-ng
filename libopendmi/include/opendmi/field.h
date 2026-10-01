@@ -227,6 +227,18 @@ struct dmi_field_params
     dmi_version_t since;
 
     /**
+     * @brief Member of a group of the fields the data may end before, which
+     * is set to `true` once every field of the group has been read, and is
+     * left `false` if the data ends before the group or in the middle of it.
+     *
+     * The member is a `bool`, which tells the fields of the group which hold
+     * a value from the ones the structure is too short for, e.g. for the
+     * variants of the attributes. Encoding in the canonical mode writes the
+     * fields of a group only if it is set.
+     */
+    dmi_member_ref_t present;
+
+    /**
      * @brief Version of the specification a range of bits is defined from,
      * which the tables of an earlier version reserve.
      *
@@ -671,7 +683,14 @@ struct dmi_field
  *
  * The group carries the version of the specification the fields appear in,
  * or `DMI_VERSION_NONE` for the fields which the firmware is known to leave
- * out without the specification saying so.
+ * out without the specification saying so, and the member telling whether
+ * the structure holds the fields of the group, see
+ * `dmi_field_params_t::present`:
+ *
+ * @code
+ * DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_trusted_module_t, has_chip)),
+ * DMI_FIELD(dmi_hpe_trusted_module_t, chip, dmi_byte_t),
+ * @endcode
  */
 #define DMI_FIELD_GROUP(...)            \
     {                                   \

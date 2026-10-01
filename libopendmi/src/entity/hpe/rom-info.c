@@ -40,7 +40,7 @@ const dmi_entity_spec_t dmi_hpe_rom_info_spec =
         DMI_FIELD_GROUP(),
         DMI_FIELD_STRING(dmi_hpe_rom_info_t, oem_rom_filename),
         DMI_FIELD_STRING(dmi_hpe_rom_info_t, oem_rom_date),
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_rom_info_t, has_unknown_string)),
         DMI_FIELD_STRING(dmi_hpe_rom_info_t, unknown_string),
         {}
     }),
@@ -114,8 +114,6 @@ bool dmi_hpe_rom_info_derive(dmi_entity_t *entity)
                          : nullptr;
 
     info->has_oem_rom = (filename != nullptr) and (strncmp(filename, "  ", 2) != 0);
-
-    info->has_unknown_string = (entity->body_length >= 0x0A);
 
     return true;
 }

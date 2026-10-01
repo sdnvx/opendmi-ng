@@ -64,7 +64,7 @@ const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
         DMI_FIELD_GROUP(),
         DMI_FIELD_STRING(dmi_hpe_dimm_location_t, part_number),
 
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_dimm_location_t, has_channel_index)),
         DMI_FIELD(dmi_hpe_dimm_location_t, channel_index, dmi_byte_t,
                   .absent = dmi_value_ptr((uint8_t)UINT8_MAX)),
         {}
@@ -209,7 +209,6 @@ bool dmi_hpe_dimm_location_derive(dmi_entity_t *entity)
 
     info->is_system_board   = (info->board == UINT8_MAX);
     info->has_ie            = (generation < DMI_HPE_GEN12);
-    info->has_channel_index = (entity->body_length >= 0x1C);
 
     return true;
 }

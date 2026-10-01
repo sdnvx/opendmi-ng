@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/system-id-internal.h>
+#include <opendmi/entity/hpe/system-id.h>
 
 const dmi_entity_spec_t dmi_hpe_system_id_spec =
 {
@@ -30,7 +30,7 @@ const dmi_entity_spec_t dmi_hpe_system_id_spec =
     .fields = DMI_FIELDS({
         DMI_FIELD_STRING(dmi_hpe_system_id_t, system_id),
 
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_system_id_t, has_platform_id)),
         DMI_FIELD_VECTOR(dmi_hpe_system_id_t, platform_id,
             .fields = DMI_FIELDS({
                 DMI_FIELD_ELEMENT(dmi_hpe_system_id_t, platform_id, dmi_byte_t),
@@ -69,20 +69,5 @@ const dmi_entity_spec_t dmi_hpe_system_id_spec =
             .flags  = DMI_ATTRIBUTE_FLAG_PRIVATE
         }),
         {}
-    }),
-
-    .handlers = {
-        .derive = dmi_hpe_system_id_derive
-    }
+    })
 };
-
-bool dmi_hpe_system_id_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_system_id_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_system_id));
-    if (info == nullptr)
-        return false;
-
-    info->has_platform_id = (entity->body_length >= 0x07);
-
-    return true;
-}

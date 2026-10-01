@@ -98,6 +98,13 @@ static bool dmi_field_decode_one(
  * @brief Read the elements of a vector, which are held in place, one after
  * another, and are read the way the fields of a nested structure are.
  */
+/**
+ * @internal
+ * @brief Mark the fields of a group as present, once every one of them has
+ * been read, if the group has a member telling so.
+ */
+static bool dmi_field_group_read(const dmi_field_t *group, dmi_data_t *info);
+
 static bool dmi_field_decode_vector(
         dmi_field_state_t *state,
         const dmi_field_t *field,
@@ -291,6 +298,10 @@ static bool dmi_field_decode_list(
     dmi_field_choices_t choices = {};
     dmi_field_choices_collect(fields, &choices);
 
+    // Group whose fields are being read, which is marked as present once the
+    // next one is reached, or the end of the list
+    const dmi_field_t *group = nullptr;
+
     for (const dmi_field_t *field = fields; field->type != DMI_FIELD_TYPE_NONE; field++) {
         if (field->type == DMI_FIELD_TYPE_OFFSET) {
             if (not dmi_field_check_offset(state->entity, dmi_reader_tell(state->reader), field))
@@ -306,8 +317,13 @@ static bool dmi_field_decode_list(
         // Groups carry no data of their own, and tell where the structure is
         // allowed to end
         if (field->type == DMI_FIELD_TYPE_GROUP) {
+            if (not dmi_field_group_read(group, info))
+                return false;
+
             if (dmi_reader_is_done(state->reader))
                 return dmi_decoder_stop(state->decoder);
+
+            group = field;
 
             // Version of the group becomes the level of the structure, while
             // the groups the specification does not version leave it as it is
@@ -338,7 +354,15 @@ static bool dmi_field_decode_list(
             state->defined = field->params.from;
     }
 
-    return true;
+    return dmi_field_group_read(group, info);
+}
+
+static bool dmi_field_group_read(const dmi_field_t *group, dmi_data_t *info)
+{
+    if ((group == nullptr) or not dmi_member_is_present(group->params.present))
+        return true;
+
+    return dmi_field_store_member(group->params.present, info + group->params.present.offset, true);
 }
 
 static bool dmi_field_decode_nested(

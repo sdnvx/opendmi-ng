@@ -30,10 +30,10 @@ const dmi_entity_spec_t dmi_hpe_proliant_info_spec =
     .fields = DMI_FIELDS({
         DMI_FIELD(dmi_hpe_proliant_info_t, power_features, dmi_dword_t),
 
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_proliant_info_t, has_omega_features)),
         DMI_FIELD(dmi_hpe_proliant_info_t, omega_features, dmi_dword_t),
 
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_proliant_info_t, has_misc_features)),
         DMI_FIELD_SKIP(4),
         DMI_FIELD(dmi_hpe_proliant_info_t, misc_features, dmi_dword_t),
         {}
@@ -95,9 +95,6 @@ bool dmi_hpe_proliant_info_derive(dmi_entity_t *entity)
     dmi_hpe_proliant_info_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_proliant_info));
     if (info == nullptr)
         return false;
-
-    info->has_omega_features = (entity->body_length >= 0x0C);
-    info->has_misc_features  = (entity->body_length >= 0x14);
 
     info->is_icru = (info->misc_features & 0x0001) != 0;
     info->is_uefi = (info->misc_features & 0x1400) != 0;

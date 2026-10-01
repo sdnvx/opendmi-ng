@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `dmi_fields_release()` and `dmi_attributes_unlink()`, which free the arrays of decoded and linked structures
 - Add `dmi_attributes_walk()` and `dmi_attribute_walk()`, which walk the members of a decoded structure with callbacks of a visitor
 - Add `dmi_entity_is_decoded()`, `dmi_entity_is_linked()`, `dmi_entity_is_valid()`, `dmi_entity_is_incomplete()` and `dmi_entity_is_partial()`, which check the state of a structure
+- Add `present` parameter of field groups, which sets a member once the structure holds every field of the group
 - Add links to manual pages (website/reference)
 
 ### Changed
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Read the rank of memory devices as five bits, and describe the OK memory error type as unmapped memory devices too (SMBIOS 3.10)
 - Rename `dmi_acer_hotkey_t`, `dmi_acer_device_t`, `dmi_dell_device_name_t`, `dmi_dell_hotkey_t` and `dmi_dell_memory_id_t` to `*_entry_t`
 - Free the arrays of fields and of linked structures in the library, leaving cleanup handlers only what the handlers of a specification allocate
+- Tell the optional fields of HP/HPE, Intel and Dell structures by the groups holding them instead of their lengths, and leave the groups a structure does not hold out of canonical encoding
 - Save dumps through a temporary file, so that a failed `dmi_save()` leaves the target intact
 - Check length and checksum of entry points found by scanning memory, the way dmidecode does
 - Default `list` to raw output when stdout is not a terminal, and drop the banner of `modules -r` and `types -r`

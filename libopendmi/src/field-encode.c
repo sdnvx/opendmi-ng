@@ -54,6 +54,17 @@ typedef struct dmi_field_output
 
 /**
  * @internal
+ * @brief Whether the structure is known not to hold the fields of a group,
+ * which the member of the group telling so says.
+ */
+static inline bool dmi_field_group_is_absent(const dmi_field_t *group, const dmi_data_t *info)
+{
+    return dmi_member_is_present(group->params.present) and
+           (dmi_field_load_member(group->params.present, info + group->params.present.offset) == 0);
+}
+
+/**
+ * @internal
  * @brief Whether the model holds the whole of a field, which is then written
  * from the member alone, with nothing of the source data to keep.
  */
@@ -440,12 +451,14 @@ static bool dmi_field_encode_list(
 
         // Groups are where the structure is allowed to end: where the source
         // data ends in the preserve mode, and at the first group of a later
-        // version than the one written for in the canonical one
+        // version than the one written for, or the first one the structure
+        // does not hold, in the canonical one
         if (field->type == DMI_FIELD_TYPE_GROUP) {
             bool ends = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
                       ? (dmi_encoder_remaining(encoder) == 0)
-                      : ((field->params.since != DMI_VERSION_NONE) and
-                         (field->params.since > encoder->version));
+                      : (((field->params.since != DMI_VERSION_NONE) and
+                          (field->params.since > encoder->version)) or
+                         dmi_field_group_is_absent(field, info));
 
             if (ends)
                 output->stopped = true;

@@ -33,7 +33,7 @@ const dmi_entity_spec_t dmi_hpe_trusted_module_spec =
         DMI_FIELD_BITS(dmi_hpe_trusted_module_t, is_hidden,         1),
         DMI_FIELD_PAD(dmi_byte_t),
 
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_trusted_module_t, has_extended_status)),
         DMI_FIELD_BITS(dmi_hpe_trusted_module_t, disable_reason,  2),
         DMI_FIELD_BITS(dmi_hpe_trusted_module_t, error_condition, 4),
         DMI_FIELD_PAD(dmi_byte_t),
@@ -51,7 +51,7 @@ const dmi_entity_spec_t dmi_hpe_trusted_module_spec =
                   .absent = dmi_value_ptr(DMI_HANDLE_INVALID)),
 
         // Chip is told by the low byte of the identifier word
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_trusted_module_t, has_chip)),
         DMI_FIELD(dmi_hpe_trusted_module_t, chip, dmi_byte_t),
         DMI_FIELD_SKIP(sizeof(dmi_byte_t)),
         {}
@@ -188,24 +188,8 @@ const dmi_entity_spec_t dmi_hpe_trusted_module_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .derive = dmi_hpe_trusted_module_derive
-    }
+    })
 };
-
-bool dmi_hpe_trusted_module_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_trusted_module_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_trusted_module));
-    if (info == nullptr)
-        return false;
-
-    info->has_extended_status = (entity->body_length >= 0x0A);
-    info->has_chip            = (entity->body_length >= 0x0C);
-
-    return true;
-}
 
 const dmi_name_set_t dmi_hpe_tm_presence_names =
 {

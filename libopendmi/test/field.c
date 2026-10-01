@@ -37,6 +37,7 @@
 #define TEST_TYPE_BARE     204
 #define TEST_TYPE_VECTOR   205
 #define TEST_TYPE_DEFINED  206
+#define TEST_TYPE_PRESENT  207
 
 static const dmi_type_t test_type_fields  = { .id = (dmi_type_id_t)TEST_TYPE_FIELDS  };
 static const dmi_type_t test_type_array   = { .id = (dmi_type_id_t)TEST_TYPE_ARRAY   };
@@ -44,6 +45,7 @@ static const dmi_type_t test_type_offset  = { .id = (dmi_type_id_t)TEST_TYPE_OFF
 static const dmi_type_t test_type_bare    = { .id = (dmi_type_id_t)TEST_TYPE_BARE    };
 static const dmi_type_t test_type_vector  = { .id = (dmi_type_id_t)TEST_TYPE_VECTOR  };
 static const dmi_type_t test_type_defined = { .id = (dmi_type_id_t)TEST_TYPE_DEFINED };
+static const dmi_type_t test_type_present = { .id = (dmi_type_id_t)TEST_TYPE_PRESENT };
 
 typedef struct test_state test_state_t;
 
@@ -398,6 +400,52 @@ static const dmi_byte_t test_defined_data[] = {
     0x00, 0x00
 };
 
+//
+// Structure whose optional groups tell whether the data holds them
+//
+
+typedef struct test_present
+{
+    uint16_t first;
+    bool     has_pair;
+    uint16_t pair_low;
+    uint16_t pair_high;
+    bool     has_last;
+    uint16_t last;
+} test_present_t;
+
+static const dmi_entity_spec_t test_present_spec =
+{
+    .type = &test_type_present,
+    .code = "test-present",
+    .name = "Test present",
+
+    .params = {
+        .minimum_length = 0x05,
+        .decoded_length = sizeof(test_present_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD(test_present_t, first, dmi_byte_t),
+
+        DMI_FIELD_GROUP(.present = dmi_member(test_present_t, has_pair)),
+        DMI_FIELD(test_present_t, pair_low,  dmi_byte_t),
+        DMI_FIELD(test_present_t, pair_high, dmi_byte_t),
+
+        DMI_FIELD_GROUP(.present = dmi_member(test_present_t, has_last)),
+        DMI_FIELD(test_present_t, last, dmi_byte_t),
+        {}
+    })
+};
+
+static const dmi_byte_t test_present_data[] = {
+    TEST_TYPE_PRESENT, 0x08, 0x00, 0x30,               // Header
+    0x01,                                              // First
+    0x02, 0x03,                                        // Pair
+    0x04,                                              // Last
+    0, 0
+};
+
 static dmi_module_t test_module =
 {
     .code     = "test-fields",
@@ -409,6 +457,7 @@ static dmi_module_t test_module =
         &test_bare_spec,
         &test_vector_spec,
         &test_defined_spec,
+        &test_present_spec,
         nullptr
     }
 };
@@ -446,6 +495,7 @@ static void test_field_encode_array(void **pstate);
 static void test_field_encode_vector(void **pstate);
 static void test_field_encode_defined(void **pstate);
 static void test_field_encode_bcd_overflow(void **pstate);
+static void test_field_group_present(void **pstate);
 
 static void test_field_kilobytes(void **pstate);
 static void test_field_get_set(void **pstate);
@@ -485,6 +535,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_field_encode_vector, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_defined, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_bcd_overflow, test_field_setup, test_field_teardown),
+        cmocka_unit_test_setup_teardown(test_field_group_present, test_field_setup, test_field_teardown),
 
         cmocka_unit_test(test_field_kilobytes),
         cmocka_unit_test(test_field_get_set)
@@ -1240,4 +1291,46 @@ static void test_field_encode_bcd_overflow(void **pstate)
 
     buffer = test_field_encode(state, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE);
     dmi_buffer_destroy(buffer);
+}
+
+//
+// Group is marked as present once every one of its fields has been read, so
+// a structure ending at its beginning or in the middle of it leaves it
+// absent, and canonical encoding writes no group which is absent.
+//
+static void test_field_group_present(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    const struct {
+        size_t length;
+        bool   has_pair;
+        bool   has_last;
+    } test_cases[] = {
+        { 0x05, false, false },     // Ends at the first group
+        { 0x06, false, false },     // Ends in the middle of the first group
+        { 0x07, true,  false },     // Ends at the second group
+        { 0x08, true,  true  }      // Holds every group
+    };
+
+    for (size_t i = 0; i < countof(test_cases); i++) {
+        const test_present_t *info = test_field_decode(
+                state, test_present_data, sizeof(test_present_data),
+                test_cases[i].length, &test_type_present, true);
+
+        assert_non_null(info);
+        assert_int_equal(info->has_pair, test_cases[i].has_pair);
+        assert_int_equal(info->has_last, test_cases[i].has_last);
+
+        // Groups the structure does not hold are not written, so it keeps
+        // its length, but for the part of a group it ends in the middle of
+        dmi_buffer_t *buffer = test_field_encode(state, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0));
+
+        size_t expected = test_cases[i].has_last ? 0x08 : (test_cases[i].has_pair ? 0x07 : 0x05);
+        assert_int_equal(buffer->data[0x01], expected);
+
+        dmi_buffer_destroy(buffer);
+        dmi_entity_destroy(state->entity);
+        state->entity = nullptr;
+    }
 }

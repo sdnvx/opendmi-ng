@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/device-bay-internal.h>
+#include <opendmi/entity/dell/device-bay.h>
 
 const dmi_entity_spec_t dmi_dell_device_bay_spec =
 {
@@ -39,7 +39,7 @@ const dmi_entity_spec_t dmi_dell_device_bay_spec =
         DMI_FIELD_STRING(dmi_dell_device_bay_t, installed_device),
         DMI_FIELD(dmi_dell_device_bay_t, unknown_2, dmi_byte_t),
 
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_dell_device_bay_t, has_unknown_strings)),
         DMI_FIELD_STRING(dmi_dell_device_bay_t, unknown_string_1),
         DMI_FIELD_STRING(dmi_dell_device_bay_t, unknown_string_2),
         {}
@@ -86,20 +86,5 @@ const dmi_entity_spec_t dmi_dell_device_bay_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .derive = dmi_dell_device_bay_derive
-    }
+    })
 };
-
-bool dmi_dell_device_bay_derive(dmi_entity_t *entity)
-{
-    dmi_dell_device_bay_t *info = dmi_entity_info(entity, DMI_TYPE(dell_device_bay));
-    if (info == nullptr)
-        return false;
-
-    info->has_unknown_strings = (entity->body_length >= 0x0B);
-
-    return true;
-}

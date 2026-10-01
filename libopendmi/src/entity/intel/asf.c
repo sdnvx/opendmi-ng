@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
 
-#include <opendmi/entity/intel/asf-internal.h>
+#include <opendmi/entity/intel/asf.h>
 
 const dmi_entity_spec_t dmi_intel_asf_spec =
 {
@@ -41,7 +41,7 @@ const dmi_entity_spec_t dmi_intel_asf_spec =
         DMI_FIELD_STRING(dmi_intel_asf_t, identifier),
         DMI_FIELD(dmi_intel_asf_t, parameter, dmi_byte_t),
 
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_intel_asf_t, has_extra)),
         DMI_FIELD_VECTOR(dmi_intel_asf_t, extra,
             .fields = DMI_FIELDS({
                 DMI_FIELD_ELEMENT(dmi_intel_asf_t, extra, dmi_byte_t),
@@ -85,20 +85,5 @@ const dmi_entity_spec_t dmi_intel_asf_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .derive = dmi_intel_asf_derive
-    }
+    })
 };
-
-bool dmi_intel_asf_derive(dmi_entity_t *entity)
-{
-    dmi_intel_asf_t *info = dmi_entity_info(entity, DMI_TYPE(intel_asf));
-    if (info == nullptr)
-        return false;
-
-    info->has_extra = (entity->body_length >= 0x10);
-
-    return true;
-}

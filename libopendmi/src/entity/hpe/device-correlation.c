@@ -63,7 +63,7 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
         DMI_FIELD_STRING(dmi_hpe_device_correlation_t, part_number),
         DMI_FIELD_STRING(dmi_hpe_device_correlation_t, serial_number),
 
-        DMI_FIELD_GROUP(),
+        DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_device_correlation_t, has_pci_location)),
         DMI_FIELD(dmi_hpe_device_correlation_t, segment, dmi_word_t),
         DMI_FIELD(dmi_hpe_device_correlation_t, bus,     dmi_byte_t),
         DMI_FIELD(dmi_hpe_device_correlation_t, devfn,   dmi_byte_t),
@@ -239,11 +239,7 @@ const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
             })
         }),
         {}
-    }),
-
-    .handlers = {
-        .derive = dmi_hpe_device_correlation_derive
-    }
+    })
 };
 
 const dmi_name_set_t dmi_hpe_device_type_names =
@@ -465,15 +461,4 @@ const dmi_name_set_t dmi_hpe_device_location_names =
 const char *dmi_hpe_device_location_name(dmi_hpe_device_location_t value)
 {
     return dmi_name_lookup(&dmi_hpe_device_location_names, (int)value);
-}
-
-bool dmi_hpe_device_correlation_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_device_correlation_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_device_correlation));
-    if (info == nullptr)
-        return false;
-
-    info->has_pci_location = (entity->body_length >= 0x28);
-
-    return true;
 }

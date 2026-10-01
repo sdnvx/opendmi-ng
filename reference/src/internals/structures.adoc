@@ -243,6 +243,21 @@ are left zero, or are given the value the field declares as `absent`. A
 structure which ends in the middle of the fields of a version is decoded up
 to where it ends, and is marked as incomplete.
 
+Vendor structures grow the same way without versions, and a group of their
+fields tells whether the structure holds it with `present`, a `bool` member
+the decoder sets once every field of the group has been read:
+
+[source, c]
+----
+DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_trusted_module_t, has_chip)),
+DMI_FIELD(dmi_hpe_trusted_module_t, chip, dmi_byte_t),
+----
+
+The attributes of the fields of the group use the member to tell the values
+from the zeros of the fields the structure is too short for, so no handler
+has to count the length of the structure, and encoding in the canonical mode
+writes no group the structure does not hold.
+
 A version may also give a meaning to the reserved bits of a field the
 structure already holds, which says nothing about its length: the version the
 entry point declares decides it instead. Such ranges of bits declare the

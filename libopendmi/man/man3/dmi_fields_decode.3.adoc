@@ -61,6 +61,13 @@ structure. Ending anywhere else marks the structure as incomplete, except
 within the fields before the first group, which every structure of the type is
 required to carry.
 
+A group may also name a `bool` member with `present`, which the function sets
+once every field of the group has been read, and leaves `false` if the data
+ends before the group or in the middle of it, e.g.
+`DMI_FIELD_GROUP(.present = dmi_member(dmi_hpe_trusted_module_t, has_chip))`.
+This is how the structures of the vendors, whose groups carry no version,
+tell the fields they hold from the ones they are too short for.
+
 === Integers and other values
 
 An integer field names the type it is written with, e.g.
