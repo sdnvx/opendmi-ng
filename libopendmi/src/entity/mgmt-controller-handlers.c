@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include <opendmi/context.h>
+#include <opendmi/field.h>
 #include <opendmi/log.h>
 #include <opendmi/encoder.h>
 #include <opendmi/internal.h>
@@ -18,8 +19,127 @@
 
 #include <opendmi/entity/mgmt-controller-internal.h>
 
+/**
+ * @internal
+ * @brief Number of the bytes of the fields of Redfish over IP protocol record
+ * data before the length of the hostname.
+ */
+#define DMI_MGMT_REDFISH_FIELDS_LENGTH 0x5A
+
+/**
+ * @internal
+ * @brief Fields of the descriptor of a PCI/PCIe network interface.
+ */
+static const dmi_field_t dmi_mgmt_nhi_pci_fields[] = {
+    DMI_FIELD(dmi_mgmt_nhi_pci_t, vendor_id,        dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_t, device_id,        dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_t, subsys_vendor_id, dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_t, subsys_id,        dmi_word_t),
+    {}
+};
+
+/**
+ * @internal
+ * @brief Fields of the v2 descriptor of a USB network interface, after its
+ * length.
+ */
+static const dmi_field_t dmi_mgmt_nhi_usb_v2_fields[] = {
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, vendor_id,  dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, product_id, dmi_word_t),
+    DMI_FIELD_STRING(dmi_mgmt_nhi_usb_v2_t, serial_number),
+    DMI_FIELD_BINARY(dmi_mgmt_nhi_usb_v2_t, mac_address, DMI_MAC_ADDRESS_LENGTH),
+
+    // Device characteristics are present since DSP0270 1.3
+    DMI_FIELD_GROUP(),
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, characteristics, dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, credential_handle, dmi_word_t,
+              .absent = dmi_value_ptr((dmi_handle_t)DMI_HANDLE_INVALID)),
+    {}
+};
+
+/**
+ * @internal
+ * @brief Fields of the v2 descriptor of a PCI/PCIe network interface, after
+ * its length.
+ */
+static const dmi_field_t dmi_mgmt_nhi_pci_v2_fields[] = {
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, vendor_id,        dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, device_id,        dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, subsys_vendor_id, dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, subsys_id,        dmi_word_t),
+    DMI_FIELD_BINARY(dmi_mgmt_nhi_pci_v2_t, mac_address, DMI_MAC_ADDRESS_LENGTH),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, segment_group, dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, bus_number,    dmi_byte_t),
+
+    // Device and function numbers share a byte, the way PCI addresses do
+    DMI_FIELD_BITS(dmi_mgmt_nhi_pci_v2_t, function_number, 3),
+    DMI_FIELD_BITS(dmi_mgmt_nhi_pci_v2_t, device_number,   5),
+    DMI_FIELD_PAD(dmi_byte_t),
+
+    // Device characteristics are present since DSP0270 1.3
+    DMI_FIELD_GROUP(),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, characteristics, dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, credential_handle, dmi_word_t,
+              .absent = dmi_value_ptr((dmi_handle_t)DMI_HANDLE_INVALID)),
+    {}
+};
+
+/**
+ * @internal
+ * @brief Fields of Redfish over IP protocol record data, up to the length of
+ * the hostname.
+ */
+static const dmi_field_t dmi_mgmt_redfish_fields[] = {
+    DMI_FIELD_UUID(dmi_mgmt_redfish_over_ip_t, service_uuid),
+    DMI_FIELD(dmi_mgmt_redfish_over_ip_t, host_ip_assignment, dmi_byte_t),
+    DMI_FIELD(dmi_mgmt_redfish_over_ip_t, host_ip_format,     dmi_byte_t),
+    DMI_FIELD_BINARY(dmi_mgmt_redfish_over_ip_t, host_ip_address, 16),
+    DMI_FIELD_BINARY(dmi_mgmt_redfish_over_ip_t, host_ip_mask,    16),
+    DMI_FIELD(dmi_mgmt_redfish_over_ip_t, service_ip_discovery, dmi_byte_t),
+    DMI_FIELD(dmi_mgmt_redfish_over_ip_t, service_ip_format,    dmi_byte_t),
+    DMI_FIELD_BINARY(dmi_mgmt_redfish_over_ip_t, service_ip_address, 16),
+    DMI_FIELD_BINARY(dmi_mgmt_redfish_over_ip_t, service_ip_mask,    16),
+    DMI_FIELD(dmi_mgmt_redfish_over_ip_t, service_ip_port, dmi_word_t),
+    DMI_FIELD(dmi_mgmt_redfish_over_ip_t, service_vlan_id, dmi_dword_t),
+    {}
+};
+
 static char *dmi_mgmt_utf16_decode(dmi_context_t *context, const dmi_byte_t *data, size_t length);
 static bool dmi_mgmt_nhi_decode(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t length);
+
+/**
+ * @internal
+ * @brief Decode the descriptor of a USB network interface, whose serial
+ * number is a UTF-16 string descriptor following its fields.
+ *
+ * @return `false` on allocation failure, `true` otherwise, the descriptor
+ *         being left in raw format if it cannot be read.
+ */
+static bool dmi_mgmt_nhi_decode_usb(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t size);
+
+/**
+ * @internal
+ * @brief Decode a v2 descriptor of a network interface, whose length, which
+ * counts the device type and itself, follows the device type.
+ *
+ * @return `true` if the descriptor has been decoded, `false` if it is too
+ *         short or longer than the data of the interface.
+ */
+static bool dmi_mgmt_nhi_decode_v2(
+        dmi_decoder_t     *decoder,
+        const dmi_field_t *fields,
+        size_t             size,
+        void              *descriptor);
+
+/**
+ * @internal
+ * @brief Decode the descriptor of an OEM-defined device, whose vendor IANA
+ * code is stored with the most significant byte first.
+ *
+ * @return `true` if the descriptor has been decoded, `false` otherwise.
+ */
+static bool dmi_mgmt_nhi_decode_oem(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t size);
+
 static bool dmi_mgmt_redfish_decode(dmi_decoder_t *decoder, dmi_mgmt_proto_record_t *record);
 
 /**
@@ -89,9 +209,7 @@ static char *dmi_mgmt_utf16_decode(dmi_context_t *context, const dmi_byte_t *dat
 
 static bool dmi_mgmt_nhi_decode(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t length)
 {
-    dmi_entity_t  *entity  = dmi_decoder_entity(decoder);
-    dmi_context_t *context = dmi_entity_context(entity);
-    dmi_reader_t  *reader  = dmi_decoder_reader(decoder);
+    dmi_reader_t *reader = dmi_decoder_reader(decoder);
 
     dmi_byte_t device_type = 0;
 
@@ -101,148 +219,108 @@ static bool dmi_mgmt_nhi_decode(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, siz
     nhi->device_type = dmi_cast(nhi->device_type, device_type);
     nhi->format      = DMI_MGMT_NHI_FORMAT_RAW;
 
-    size_t start = reader->position;
-    size_t size  = length - 1;
+    // Descriptor is kept as a whole, and then read again by its type
+    dmi_reader_mark_t start = dmi_reader_mark(reader);
+    size_t            size  = length - 1;
 
     if (not dmi_decoder_get_binary(decoder, size, &nhi->descriptor))
         return true;
 
-    dmi_reader_seek(reader, start);
-
-    // Length of v2 descriptors includes device type and length fields
-    dmi_byte_t v2_length = 0;
-    bool status = true;
+    dmi_reader_rewind(reader, start);
 
     switch (nhi->device_type) {
-    case DMI_MGMT_NHI_DEVICE_TYPE_USB: {
-        dmi_mgmt_nhi_usb_t *usb = &nhi->usb;
-        dmi_byte_t serial_length = 0;
+    case DMI_MGMT_NHI_DEVICE_TYPE_USB:
+        return dmi_mgmt_nhi_decode_usb(decoder, nhi, size);
 
-        status =
-            (size >= 6) and
-            dmi_decoder_get(decoder, dmi_word_t, &usb->vendor_id) and
-            dmi_decoder_get(decoder, dmi_word_t, &usb->product_id) and
-            dmi_decoder_get(decoder, dmi_byte_t, &serial_length);
-        if (not status)
-            break;
-
-        // Serial number descriptor length includes its length and type
-        if ((serial_length < 2) or (serial_length > size - 4))
-            break;
-
-        // Serial number is a UTF-16 string, that follows the descriptor
-        // length and type
-        if (serial_length > 2) {
-            usb->serial_number = dmi_mgmt_utf16_decode(context, nhi->descriptor.data + 6,
-                                                       serial_length - 2);
-            if (usb->serial_number == nullptr)
-                return false;
-        }
-
-        nhi->format = DMI_MGMT_NHI_FORMAT_USB;
-        break;
-    }
-
-    case DMI_MGMT_NHI_DEVICE_TYPE_PCI: {
-        dmi_mgmt_nhi_pci_t *pci = &nhi->pci;
-
-        status =
-            (size >= 8) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->vendor_id) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->device_id) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->subsys_vendor_id) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->subsys_id);
-        if (status)
+    case DMI_MGMT_NHI_DEVICE_TYPE_PCI:
+        if (dmi_fields_decode_into(decoder, dmi_mgmt_nhi_pci_fields, size, &nhi->pci))
             nhi->format = DMI_MGMT_NHI_FORMAT_PCI;
         break;
-    }
 
-    case DMI_MGMT_NHI_DEVICE_TYPE_USB_V2: {
-        dmi_mgmt_nhi_usb_v2_t *usb    = &nhi->usb_v2;
-        dmi_string_t           number = 0;
+    case DMI_MGMT_NHI_DEVICE_TYPE_USB_V2:
+        if (dmi_mgmt_nhi_decode_v2(decoder, dmi_mgmt_nhi_usb_v2_fields, size, &nhi->usb_v2))
+            nhi->format = DMI_MGMT_NHI_FORMAT_USB_V2;
+        break;
 
-        status =
-            dmi_decoder_get(decoder, dmi_byte_t, &v2_length) and
-            (v2_length >= 0x0D) and
-            (v2_length <= length) and
-            dmi_decoder_get(decoder, dmi_word_t, &usb->vendor_id) and
-            dmi_decoder_get(decoder, dmi_word_t, &usb->product_id) and
-            dmi_decoder_get(decoder, dmi_string_t, &number) and
-            dmi_decoder_get_binary(decoder, DMI_MAC_ADDRESS_LENGTH, &usb->mac_address);
-        if (not status)
-            break;
+    case DMI_MGMT_NHI_DEVICE_TYPE_PCI_V2:
+        if (dmi_mgmt_nhi_decode_v2(decoder, dmi_mgmt_nhi_pci_v2_fields, size, &nhi->pci_v2))
+            nhi->format = DMI_MGMT_NHI_FORMAT_PCI_V2;
+        break;
 
-        usb->serial_number = dmi_entity_string(entity, number);
-
-        // Device characteristics are present since DSP0270 1.3
-        usb->credential_handle = DMI_HANDLE_INVALID;
-        if (v2_length >= 0x11) {
-            status =
-                dmi_decoder_get(decoder, dmi_word_t, &usb->characteristics) and
-                dmi_decoder_get(decoder, dmi_word_t, &usb->credential_handle);
-            if (not status)
-                break;
-        }
-
-        nhi->format = DMI_MGMT_NHI_FORMAT_USB_V2;
+    default:
+        if (dmi_mgmt_nhi_decode_oem(decoder, nhi, size))
+            nhi->format = DMI_MGMT_NHI_FORMAT_OEM;
         break;
     }
 
-    case DMI_MGMT_NHI_DEVICE_TYPE_PCI_V2: {
-        dmi_mgmt_nhi_pci_v2_t *pci = &nhi->pci_v2;
-        dmi_byte_t devfn = 0;
+    return true;
+}
 
-        status =
-            dmi_decoder_get(decoder, dmi_byte_t, &v2_length) and
-            (v2_length >= 0x14) and
-            (v2_length <= length) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->vendor_id) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->device_id) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->subsys_vendor_id) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->subsys_id) and
-            dmi_decoder_get_binary(decoder, DMI_MAC_ADDRESS_LENGTH, &pci->mac_address) and
-            dmi_decoder_get(decoder, dmi_word_t, &pci->segment_group) and
-            dmi_decoder_get(decoder, dmi_byte_t, &pci->bus_number) and
-            dmi_decoder_get(decoder, dmi_byte_t, &devfn);
-        if (not status)
-            break;
+static bool dmi_mgmt_nhi_decode_usb(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t size)
+{
+    dmi_context_t      *context = dmi_entity_context(dmi_decoder_entity(decoder));
+    dmi_mgmt_nhi_usb_t *usb     = &nhi->usb;
+    dmi_byte_t          serial_length = 0;
 
-        pci->device_number   = devfn >> 3;
-        pci->function_number = devfn & 0x07;
+    bool status =
+        (size >= 6) and
+        dmi_decoder_get(decoder, dmi_word_t, &usb->vendor_id) and
+        dmi_decoder_get(decoder, dmi_word_t, &usb->product_id) and
+        dmi_decoder_get(decoder, dmi_byte_t, &serial_length);
+    if (not status)
+        return true;
 
-        // Device characteristics are present since DSP0270 1.3
-        pci->credential_handle = DMI_HANDLE_INVALID;
-        if (v2_length >= 0x18) {
-            status =
-                dmi_decoder_get(decoder, dmi_word_t, &pci->characteristics) and
-                dmi_decoder_get(decoder, dmi_word_t, &pci->credential_handle);
-            if (not status)
-                break;
-        }
+    // Serial number descriptor length includes its length and type
+    if ((serial_length < 2) or (serial_length > size - 4))
+        return true;
 
-        nhi->format = DMI_MGMT_NHI_FORMAT_PCI_V2;
-        break;
+    // Serial number is a UTF-16 string, that follows the descriptor length
+    // and type
+    if (serial_length > 2) {
+        usb->serial_number = dmi_mgmt_utf16_decode(context, nhi->descriptor.data + 6, serial_length - 2);
+        if (usb->serial_number == nullptr)
+            return false;
     }
 
-    default: {
-        if ((nhi->device_type < DMI_MGMT_NHI_DEVICE_TYPE_OEM_START) or (size < 4))
-            break;
+    nhi->format = DMI_MGMT_NHI_FORMAT_USB;
 
-        dmi_mgmt_nhi_oem_t *oem = &nhi->oem;
-        dmi_dword_t vendor_iana = 0;
+    return true;
+}
 
-        // Vendor IANA code is stored with the most significant byte first
-        status =
-            dmi_decoder_get_bytes(decoder, &vendor_iana, sizeof(vendor_iana)) and
-            dmi_decoder_get_binary(decoder, size - 4, &oem->vendor_data);
-        if (not status)
-            break;
+static bool dmi_mgmt_nhi_decode_v2(
+        dmi_decoder_t     *decoder,
+        const dmi_field_t *fields,
+        size_t             size,
+        void              *descriptor)
+{
+    dmi_byte_t v2_length = 0;
 
-        oem->vendor_iana = dmi_ntoh(vendor_iana);
-        nhi->format = DMI_MGMT_NHI_FORMAT_OEM;
-        break;
-    }
-    }
+    if (not dmi_decoder_get(decoder, dmi_byte_t, &v2_length))
+        return false;
+
+    // Length counts the device type, which has been read, and itself, and
+    // the descriptor ends where the data of the interface does at most
+    if ((v2_length < 2) or (v2_length > size + 1))
+        return false;
+
+    return dmi_fields_decode_into(decoder, fields, v2_length - 2, descriptor);
+}
+
+static bool dmi_mgmt_nhi_decode_oem(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t size)
+{
+    if ((nhi->device_type < DMI_MGMT_NHI_DEVICE_TYPE_OEM_START) or (size < 4))
+        return false;
+
+    dmi_mgmt_nhi_oem_t *oem = &nhi->oem;
+    dmi_dword_t vendor_iana = 0;
+
+    bool status =
+        dmi_decoder_get_bytes(decoder, &vendor_iana, sizeof(vendor_iana)) and
+        dmi_decoder_get_binary(decoder, size - 4, &oem->vendor_data);
+    if (not status)
+        return false;
+
+    oem->vendor_iana = dmi_ntoh(vendor_iana);
 
     return true;
 }
@@ -258,38 +336,19 @@ static bool dmi_mgmt_redfish_decode(dmi_decoder_t *decoder, dmi_mgmt_proto_recor
     dmi_entity_t               *entity  = dmi_decoder_entity(decoder);
     dmi_mgmt_redfish_over_ip_t *redfish = &record->redfish;
 
-    dmi_byte_t host_ip_assignment   = 0;
-    dmi_byte_t host_ip_format       = 0;
-    dmi_byte_t service_ip_discovery = 0;
-    dmi_byte_t service_ip_format    = 0;
-    dmi_byte_t hostname_length      = 0;
+    dmi_byte_t hostname_length = 0;
 
-    // Hostname is the only variable-length field
+    // Hostname is the only variable-length field, which follows its length
     size_t length = record->data.length;
-    if (length < 0x5B)
+    if (length < DMI_MGMT_REDFISH_FIELDS_LENGTH + 1)
         return true;
 
     bool status =
-        dmi_decoder_get_uuid(decoder, &redfish->service_uuid) and
-        dmi_decoder_get(decoder, dmi_byte_t, &host_ip_assignment) and
-        dmi_decoder_get(decoder, dmi_byte_t, &host_ip_format) and
-        dmi_decoder_get_binary(decoder, 16, &redfish->host_ip_address) and
-        dmi_decoder_get_binary(decoder, 16, &redfish->host_ip_mask) and
-        dmi_decoder_get(decoder, dmi_byte_t, &service_ip_discovery) and
-        dmi_decoder_get(decoder, dmi_byte_t, &service_ip_format) and
-        dmi_decoder_get_binary(decoder, 16, &redfish->service_ip_address) and
-        dmi_decoder_get_binary(decoder, 16, &redfish->service_ip_mask) and
-        dmi_decoder_get(decoder, dmi_word_t, &redfish->service_ip_port) and
-        dmi_decoder_get(decoder, dmi_dword_t, &redfish->service_vlan_id) and
+        dmi_fields_decode_into(decoder, dmi_mgmt_redfish_fields, DMI_MGMT_REDFISH_FIELDS_LENGTH, redfish) and
         dmi_decoder_get(decoder, dmi_byte_t, &hostname_length) and
-        (hostname_length <= length - 0x5B);
+        (hostname_length <= length - DMI_MGMT_REDFISH_FIELDS_LENGTH - 1);
     if (not status)
         return true;
-
-    redfish->host_ip_assignment   = dmi_cast(redfish->host_ip_assignment, host_ip_assignment);
-    redfish->host_ip_format       = dmi_cast(redfish->host_ip_format, host_ip_format);
-    redfish->service_ip_discovery = dmi_cast(redfish->service_ip_discovery, service_ip_discovery);
-    redfish->service_ip_format    = dmi_cast(redfish->service_ip_format, service_ip_format);
 
     // IPv4 addresses take the first 4 bytes of the fields
     if (redfish->host_ip_format == DMI_MGMT_REDFISH_IP_FORMAT_IPV4) {
@@ -303,7 +362,7 @@ static bool dmi_mgmt_redfish_decode(dmi_decoder_t *decoder, dmi_mgmt_proto_recor
 
     // Hostname is not an SMBIOS string, and may be padded with NULL
     // characters
-    const char *hostname = (const char *)record->data.data + 0x5B;
+    const char *hostname = (const char *)record->data.data + DMI_MGMT_REDFISH_FIELDS_LENGTH + 1;
     size_t hostname_size = strnlen(hostname, hostname_length);
 
     if (hostname_size > 0) {

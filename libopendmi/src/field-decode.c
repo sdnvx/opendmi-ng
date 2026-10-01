@@ -52,7 +52,28 @@ typedef struct dmi_field_state
     // been defined from
     dmi_version_t version;
     dmi_version_t defined;
+
+    // Fields are a part of the structure a decoding handler of its own reads,
+    // whose bytes end where the part does rather than where the structure
+    // does, so the data ending early says nothing about the structure
+    bool is_part;
 } dmi_field_state_t;
+
+/**
+ * @internal
+ * @brief Stop reading the fields where the data ends at the beginning of a
+ * group, which marks the structure as partial, unless the fields are a part
+ * of it.
+ */
+static bool dmi_field_stop(dmi_field_state_t *state);
+
+/**
+ * @internal
+ * @brief Stop reading the fields where the data ends in the middle of them,
+ * which marks the structure as incomplete, unless the fields are a part of
+ * it.
+ */
+static bool dmi_field_incomplete(dmi_field_state_t *state);
 
 /**
  * @internal
@@ -277,6 +298,55 @@ bool dmi_fields_decode(dmi_decoder_t *decoder)
     return status;
 }
 
+bool dmi_fields_decode_into(dmi_decoder_t *decoder, const dmi_field_t *fields, size_t length, void *info)
+{
+    if ((decoder == nullptr) or (fields == nullptr) or (info == nullptr)) {
+        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "%s",
+                           (decoder == nullptr) ? "decoder" : (fields == nullptr) ? "fields" : "info");
+        return false;
+    }
+
+    dmi_entity_t *entity = dmi_decoder_entity(decoder);
+    dmi_reader_t *reader = dmi_decoder_reader(decoder);
+
+    if (not dmi_reader_has(reader, length))
+        return false;
+
+    // Part is read through a window over its bytes, which the reader of the
+    // structure is narrowed to, and which it is moved past once the part has
+    // been read, whatever the fields have left unread
+    size_t start = dmi_reader_tell(reader);
+    size_t end   = reader->length;
+
+    reader->length = start + length;
+
+    dmi_field_state_t state = {
+        .decoder = decoder,
+        .entity  = entity,
+        .reader  = reader,
+        .info    = info,
+        .version = dmi_entity_context(entity)->state.smbios_version,
+        .is_part = true
+    };
+
+    bool status = dmi_field_decode_list(&state, fields, info);
+
+    reader->length   = end;
+    reader->position = start + length;
+
+    return status;
+}
+
+static bool dmi_field_stop(dmi_field_state_t *state)
+{
+    return state->is_part or dmi_decoder_stop(state->decoder);
+}
+
+static bool dmi_field_incomplete(dmi_field_state_t *state)
+{
+    return state->is_part or dmi_decoder_incomplete(state->decoder);
+}
+
 static bool dmi_field_decode_list(
         dmi_field_state_t *state,
         const dmi_field_t *fields,
@@ -321,7 +391,7 @@ static bool dmi_field_decode_list(
                 return false;
 
             if (dmi_reader_is_done(state->reader))
-                return dmi_decoder_stop(state->decoder);
+                return dmi_field_stop(state);
 
             group = field;
 
@@ -346,7 +416,7 @@ static bool dmi_field_decode_list(
             // what it declares leaves the fields after it unread, while
             // ending anywhere else breaks the structure
             return (state->optional or state->incomplete)
-                    ? dmi_decoder_incomplete(state->decoder)
+                    ? dmi_field_incomplete(state)
                     : false;
         }
 
@@ -664,7 +734,7 @@ static bool dmi_field_decode_array(
     *counter = 0;
 
     if (count == 0)
-        return (leftover == 0) or dmi_decoder_incomplete(state->decoder);
+        return (leftover == 0) or dmi_field_incomplete(state);
 
     // Fields after the elements begin where the elements end either way, so
     // elements of no use are stepped over. Elements of a length the structure
@@ -695,7 +765,7 @@ static bool dmi_field_decode_array(
         (*counter)++;
     }
 
-    return (leftover == 0) or dmi_decoder_incomplete(state->decoder);
+    return (leftover == 0) or dmi_field_incomplete(state);
 }
 
 static bool dmi_field_decode_array_header(

@@ -152,6 +152,7 @@ const dmi_entity_spec_t dmi_slot_spec =
 == See also
 
 `dmi_fields_encode`(3),
+`dmi_fields_decode_into`(3),
 `dmi_fields_release`(3),
 `dmi_entity_decode`(3),
 `dmi_decoder_initialize`(3)

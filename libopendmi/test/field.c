@@ -496,6 +496,7 @@ static void test_field_encode_vector(void **pstate);
 static void test_field_encode_defined(void **pstate);
 static void test_field_encode_bcd_overflow(void **pstate);
 static void test_field_group_present(void **pstate);
+static void test_field_decode_into(void **pstate);
 
 static void test_field_kilobytes(void **pstate);
 static void test_field_get_set(void **pstate);
@@ -536,6 +537,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_field_encode_defined, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_bcd_overflow, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_group_present, test_field_setup, test_field_teardown),
+        cmocka_unit_test_setup_teardown(test_field_decode_into, test_field_setup, test_field_teardown),
 
         cmocka_unit_test(test_field_kilobytes),
         cmocka_unit_test(test_field_get_set)
@@ -1333,4 +1335,63 @@ static void test_field_group_present(void **pstate)
         dmi_entity_destroy(state->entity);
         state->entity = nullptr;
     }
+}
+
+//
+// Part of a structure is read from a window of its bytes, which the groups of
+// its fields end at rather than the structure, and the decoder is moved past
+// the window whatever the fields have left unread.
+//
+static void test_field_decode_into(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    // Structure is read by hand, the fields of the test spec being its part
+    state->entity = dmi_test_entity_create(state->buffer, test_present_data, sizeof(test_present_data));
+    assert_non_null(state->entity);
+
+    const struct {
+        size_t length;
+        bool   status;
+        bool   has_pair;
+        bool   has_last;
+    } test_cases[] = {
+        { 0, false, false, false },     // Too short for the required field
+        { 1, true,  false, false },     // Ends at the first group
+        { 2, true,  false, false },     // Ends in the middle of the first group
+        { 3, true,  true,  false },     // Ends at the second group
+        { 4, true,  true,  true  },     // Holds every group
+        { 5, false, false, false }      // Longer than the structure
+    };
+
+    for (size_t i = 0; i < countof(test_cases); i++) {
+        dmi_decoder_t  decoder;
+        test_present_t part = {};
+
+        assert_true(dmi_decoder_initialize(&decoder, state->entity));
+
+        size_t start  = dmi_reader_tell(dmi_decoder_reader(&decoder));
+        bool   status = dmi_fields_decode_into(&decoder, test_present_spec.fields, test_cases[i].length, &part);
+
+        assert_int_equal(status, test_cases[i].status);
+        if (not status)
+            continue;
+
+        assert_int_equal(part.first, 0x01);
+        assert_int_equal(part.has_pair, test_cases[i].has_pair);
+        assert_int_equal(part.has_last, test_cases[i].has_last);
+
+        if (part.has_pair) {
+            assert_int_equal(part.pair_low, 0x02);
+            assert_int_equal(part.pair_high, 0x03);
+        }
+
+        // Decoder is past the window, and the structure is marked neither as
+        // partial nor as incomplete by the part ending early
+        assert_int_equal(dmi_reader_tell(dmi_decoder_reader(&decoder)), start + test_cases[i].length);
+        assert_false(dmi_entity_is_partial(state->entity));
+        assert_false(dmi_entity_is_incomplete(state->entity));
+    }
+
+    assert_false(dmi_fields_decode_into(nullptr, test_present_spec.fields, 1, &(test_present_t){}));
 }

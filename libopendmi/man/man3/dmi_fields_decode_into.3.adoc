@@ -1,0 +1,122 @@
+ifdef::backend-manpage[]
+= dmi_fields_decode_into(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_fields_decode_into
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_fields_decode_into - decode a part of a structure according to a list of fields.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+bool dmi_fields_decode_into(
+        dmi_decoder_t     *decoder,
+        const dmi_field_t *fields,
+        size_t             length,
+        void              *info);
+----
+
+== Description
+
+The `dmi_fields_decode_into` function reads a part of a structure according to
+a list of fields, the way `dmi_fields_decode`(3) reads a whole structure, for
+the decoding handlers which read the rest of the structure themselves: e.g. a
+record or a descriptor whose layout depends on a type the structure gives,
+whose length the structure gives too.
+
+The fields, declared with `DMI_FIELD`(3) and its kin, are read from the next
+`length` bytes of the structure, from the position of `decoder`, into `info`,
+a structure of the type the fields name. The decoder is then moved past the
+`length` bytes, whatever the fields have left unread, so that the bytes a part
+holds beyond the fields it is known to hold are stepped over.
+
+The bytes of the part are the data the groups of the fields may end before,
+see `DMI_FIELD_GROUP`(3). A part which ends at the beginning of a group, or in
+the middle of it, leaves the fields it is too short for unset, along with the
+`present` members of their groups, and the structure is marked neither as
+partial nor as incomplete, since it is the part which is short rather than the
+structure. The fields before the first group are required.
+
+=== Parameters
+
+`decoder`::
+Decoder of the structure, see `dmi_decoder_initialize`(3), positioned at the
+part.
+
+`fields`::
+Fields of the part, terminated by an empty field.
+
+`length`::
+Number of the bytes of the part.
+
+`info`::
+Structure the fields are read into.
+
+== Return value
+
+Returns `true` if the part has been decoded, and `false` if the structure holds
+fewer than `length` bytes from the position of the decoder, if the part is
+too short for the required fields, or on the errors below.
+
+== Errors
+
+`DMI_ERROR_NULL_ARGUMENT`::
+Decoder, fields or structure is `nullptr`.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Elements of an array cannot be allocated.
+
+== Example
+
+The v2 descriptor of a USB network interface, whose length follows the device
+type and counts it along with itself:
+
+[source, c]
+----
+static const dmi_field_t usb_v2_fields[] = {
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, vendor_id,  dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, product_id, dmi_word_t),
+    DMI_FIELD_STRING(dmi_mgmt_nhi_usb_v2_t, serial_number),
+    DMI_FIELD_BINARY(dmi_mgmt_nhi_usb_v2_t, mac_address, 6),
+
+    // Device characteristics are present since DSP0270 1.3
+    DMI_FIELD_GROUP(),
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, characteristics,   dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, credential_handle, dmi_word_t),
+    {}
+};
+
+dmi_byte_t length = 0;
+
+if (dmi_decoder_get(decoder, dmi_byte_t, &length) and (length >= 2))
+    dmi_fields_decode_into(decoder, usb_v2_fields, length - 2, &nhi->usb_v2);
+----
+
+== See also
+
+`dmi_fields_decode`(3),
+`DMI_FIELD`(3),
+`DMI_FIELD_GROUP`(3),
+`dmi_decoder_initialize`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

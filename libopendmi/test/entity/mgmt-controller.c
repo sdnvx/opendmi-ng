@@ -31,6 +31,8 @@ static void test_mgmt_controller_decode_nhi_usb(void **pstate);
 static void test_mgmt_controller_decode_nhi_usb_v2(void **pstate);
 static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate);
 static void test_mgmt_controller_decode_nhi_oem(void **pstate);
+static void test_mgmt_controller_decode_nhi_pci(void **pstate);
+static void test_mgmt_controller_decode_nhi_usb_v2_ex(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -44,7 +46,9 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_mgmt_controller_decode_nhi_usb, test_mgmt_controller_setup, test_mgmt_controller_teardown),
         cmocka_unit_test_setup_teardown(test_mgmt_controller_decode_nhi_usb_v2, test_mgmt_controller_setup, test_mgmt_controller_teardown),
         cmocka_unit_test_setup_teardown(test_mgmt_controller_decode_nhi_pci_v2, test_mgmt_controller_setup, test_mgmt_controller_teardown),
-        cmocka_unit_test_setup_teardown(test_mgmt_controller_decode_nhi_oem, test_mgmt_controller_setup, test_mgmt_controller_teardown)
+        cmocka_unit_test_setup_teardown(test_mgmt_controller_decode_nhi_oem, test_mgmt_controller_setup, test_mgmt_controller_teardown),
+        cmocka_unit_test_setup_teardown(test_mgmt_controller_decode_nhi_pci, test_mgmt_controller_setup, test_mgmt_controller_teardown),
+        cmocka_unit_test_setup_teardown(test_mgmt_controller_decode_nhi_usb_v2_ex, test_mgmt_controller_setup, test_mgmt_controller_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -453,6 +457,90 @@ static void test_mgmt_controller_decode_nhi_oem(void **pstate)
     assert_int_equal(info->proto_records[0].data.length, 3);
     assert_int_equal(info->proto_records[1].type, DMI_MGMT_PROTO_OEM);
     assert_int_equal(info->proto_records[1].data.length, 1);
+
+    dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
+}
+
+static void test_mgmt_controller_decode_nhi_pci(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
+    // PCI network interface, followed by a byte the descriptor does not hold
+    static const uint8_t body[] = {
+        0x40, 0x0A,
+        0x03, 0x86, 0x80, 0x33, 0x15, 0x3C, 0x10, 0x01, 0x00, 0xEE,
+        0x00
+    };
+
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
+    assert_true(dmi_entity_decode(entity));
+
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    assert_non_null(info);
+
+    assert_int_equal(info->nhi.format, DMI_MGMT_NHI_FORMAT_PCI);
+    assert_int_equal(info->nhi.pci.vendor_id, 0x8086);
+    assert_int_equal(info->nhi.pci.device_id, 0x1533);
+    assert_int_equal(info->nhi.pci.subsys_vendor_id, 0x103C);
+    assert_int_equal(info->nhi.pci.subsys_id, 0x0001);
+
+    // Records count after the interface data is read at its place
+    assert_int_equal(info->proto_records_count, 0);
+    assert_false(dmi_entity_is_incomplete(entity));
+
+    dmi_entity_destroy(entity);
+
+    dmi_buffer_destroy(entity_buffer);
+}
+
+static void test_mgmt_controller_decode_nhi_usb_v2_ex(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_buffer_t  *entity_buffer = dmi_buffer_create(context);
+
+    // USB network interface v2, DSP0270 1.3 layout with characteristics
+    static const uint8_t body[] = {
+        0x40, 0x11,
+        0x04, 0x11, 0xBB, 0xAA, 0xDD, 0xCC, 0x00,
+        0x02, 0x11, 0x22, 0x33, 0x44, 0x55,
+        0x01, 0x00, 0x34, 0x12,
+        0x00
+    };
+
+    dmi_entity_t *entity = create_entity(entity_buffer, body, sizeof(body));
+    assert_true(dmi_entity_decode(entity));
+
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    assert_non_null(info);
+
+    assert_int_equal(info->nhi.format, DMI_MGMT_NHI_FORMAT_USB_V2);
+    assert_int_equal(info->nhi.usb_v2.vendor_id, 0xAABB);
+    assert_int_equal(info->nhi.usb_v2.characteristics, 1 << DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING);
+    assert_int_equal(info->nhi.usb_v2.credential_handle, 0x1234);
+
+    // Descriptor shorter than its required fields is left in raw format, and
+    // the structure itself is not broken by it
+    dmi_entity_destroy(entity);
+
+    static const uint8_t short_body[] = {
+        0x40, 0x0C,
+        0x04, 0x0C, 0xBB, 0xAA, 0xDD, 0xCC, 0x00,
+        0x02, 0x11, 0x22, 0x33, 0x44,
+        0x00
+    };
+
+    entity = create_entity(entity_buffer, short_body, sizeof(short_body));
+    assert_true(dmi_entity_decode(entity));
+
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    assert_non_null(info);
+
+    assert_int_equal(info->nhi.format, DMI_MGMT_NHI_FORMAT_RAW);
+    assert_false(dmi_entity_is_incomplete(entity));
+    assert_false(dmi_entity_is_partial(entity));
 
     dmi_entity_destroy(entity);
 

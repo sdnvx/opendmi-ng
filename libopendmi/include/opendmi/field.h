@@ -781,6 +781,36 @@ __dmi_api bool dmi_fields_decode(dmi_decoder_t *decoder);
 __dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
 
 /**
+ * @brief Decode a part of a structure according to a list of fields, for the
+ * decoding handlers which read the rest of the structure themselves.
+ *
+ * The fields are read from the next @p length bytes of the structure into
+ * @p info, the way `dmi_fields_decode()` reads the fields of a specification,
+ * e.g. a record whose layout depends on a type the structure gives, and the
+ * decoder is moved past the bytes whatever the fields have left unread.
+ *
+ * The bytes of the part are the data the groups of the fields may end before,
+ * see `DMI_FIELD_GROUP`(3): fields the part is too short for are left unset,
+ * without marking the structure as partial or incomplete, since it is the
+ * part which is short rather than the structure. Fields before the first
+ * group are required.
+ *
+ * @param[in,out] decoder Decoder of the structure, positioned at the part.
+ * @param[in]     fields  Fields of the part, terminated by an empty field.
+ * @param[in]     length  Number of the bytes of the part.
+ * @param[out]    info    Structure the fields are read into, of the type
+ *                        the fields name.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Decoder, fields or structure is `nullptr`
+ * @error DMI_ERROR_OUT_OF_MEMORY Elements of an array cannot be allocated
+ *
+ * @return `true` if the part has been decoded, `false` if the structure holds
+ *         fewer than @p length bytes from the position of the decoder, or the
+ *         part is too short for the required fields.
+ */
+__dmi_api bool dmi_fields_decode_into(dmi_decoder_t *decoder, const dmi_field_t *fields, size_t length, void *info);
+
+/**
  * @brief Free what decoding a structure according to the fields of its
  * specification has allocated.
  *
