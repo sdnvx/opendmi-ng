@@ -85,8 +85,8 @@ a| `38` | IPMI device information | 1  a| `0x0020`
 a| `41` | Onboard devices extended information | 5  a| `0x001B`, `0x001C`, `0x001D`, `0x001E`, `0x001F`
 a| `42` | Management controller host interface | 1  a| `0x0021`
 a| `127` | End of table | 1  a| `0x0072`
-a| `201` | OEM-specific | 4  a| `0x0063`, `0x0064`, `0x0065`, `0x0066`
-a| `202` | OEM-specific | 4  a| `0x0067`, `0x0068`, `0x0069`, `0x006A`
+a| `201` | Cisco PCI slot buses | 4  a| `0x0063`, `0x0064`, `0x0065`, `0x0066`
+a| `202` | Cisco PCI adapter information | 4  a| `0x0067`, `0x0068`, `0x0069`, `0x006A`
 a| `203` | OEM-specific | 1  a| `0x006B`
 a| `204` | OEM-specific | 1  a| `0x006C`
 |===

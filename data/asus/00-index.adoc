@@ -242,7 +242,7 @@ a| `20` | Memory device mapped address | 4  a| `0x0029`, `0x002B`, `0x002D`, `0x
 a| `32` | System boot information | 1  a| `0x0030`
 a| `41` | Onboard devices extended information | 3  a| `0x0031`, `0x0032`, `0x0033`
 a| `127` | End of table | 1  a| `0x0037`
-a| `139` | OEM-specific | 1  a| `0x0034`
+a| `139` | AMI FireWire GUID | 1  a| `0x0034`
 |===
 == N551JX (n551jx.bin)
 

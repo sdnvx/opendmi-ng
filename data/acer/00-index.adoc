@@ -46,7 +46,7 @@ a| `29` | Electrical current probe | 1  a| `0x001C`
 a| `30` | Out-of-band remote access | 1  a| `0x001D`
 a| `32` | System boot information | 1  a| `0x001E`
 a| `127` | End of table | 1  a| `0x0021`
-a| `129` | OEM-specific | 1  a| `0x001F`
+a| `129` | Intel ASF information | 1  a| `0x001F`
 a| `136` | OEM-specific | 1  a| `0x0020`
 |===
 == Aspire 5720 (aspire-5720.bin)

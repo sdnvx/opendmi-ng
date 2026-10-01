@@ -91,7 +91,7 @@ a| `40` | Additional information | 1  a| `0x0037`
 a| `41` | Onboard devices extended information | 1  a| `0x0038`
 a| `127` | End of table | 1  a| `0x003D`
 a| `128` | OEM-specific | 1  a| `0x0039`
-a| `129` | OEM-specific | 1  a| `0x003A`
+a| `129` | Intel ASF information | 1  a| `0x003A`
 a| `130` | Intel Active Management Technology information | 1  a| `0x003B`
 a| `136` | OEM-specific | 1  a| `0x003C`
 |===
@@ -185,7 +185,7 @@ a| `40` | Additional information | 1  a| `0x003C`
 a| `41` | Onboard devices extended information | 1  a| `0x003D`
 a| `127` | End of table | 1  a| `0x0044`
 a| `128` | OEM-specific | 1  a| `0x003E`
-a| `129` | OEM-specific | 1  a| `0x003F`
+a| `129` | Intel ASF information | 1  a| `0x003F`
 a| `130` | Intel Active Management Technology information | 1  a| `0x0040`
 a| `131` | Intel vPro information | 1  a| `0x0041`
 a| `136` | OEM-specific | 1  a| `0x0042`

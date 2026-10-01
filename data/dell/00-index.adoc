@@ -155,7 +155,7 @@ a| `212` | Dell indexed IO | 1  a| `0x0039`
 a| `216` | Dell video BIOS information | 1  a| `0x003A`
 a| `217` | OEM-specific | 1  a| `0x003B`
 a| `218` | Dell calling interface | 13  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA04`, `0xDA05`, `0xDA06`, `0xDA07`, `0xDA08`, `0xDA09`, `0xDA0A`, `0xDA0B`, `0xDA0C`
-a| `219` | OEM-specific | 1  a| `0xDA0D`
+a| `219` | Dell device bay | 1  a| `0xDA0D`
 a| `220` | Dell token references, type 1 | 1  a| `0xDA0E`
 a| `221` | Dell token references, type 2 | 1  a| `0xDA0F`
 a| `222` | OEM-specific | 1  a| `0xDA10`
@@ -639,7 +639,7 @@ a| `28` | Temperature probe | 1  a| `0x1C00`
 a| `32` | System boot information | 1  a| `0x2000`
 a| `126` | Inactive | 5  a| `0x0808`, `0x0902`, `0x1402`, `0x1602`, `0xDB80`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `129` | OEM-specific | 1  a| `0x8100`
+a| `129` | Intel ASF information | 1  a| `0x8100`
 a| `176` | OEM-specific | 1  a| `0xB000`
 a| `177` | Dell BIOS flags | 1  a| `0xB100`
 a| `208` | Dell revisions and IDs | 1  a| `0xD000`
@@ -704,7 +704,7 @@ a| `39` | System power supply | 1  a| `0x003C`
 a| `41` | Onboard devices extended information | 3  a| `0x003D`, `0x003E`, `0x003F`
 a| `126` | Inactive | 1  a| `0x1601`
 a| `127` | End of table | 1  a| `0xE030`
-a| `129` | OEM-specific | 1  a| `0xE01C`
+a| `129` | Intel ASF information | 1  a| `0xE01C`
 a| `130` | Intel Active Management Technology information | 1  a| `0xE021`
 a| `131` | Intel vPro information | 1  a| `0xE026`
 a| `177` | Dell BIOS flags | 1  a| `0xB100`
@@ -715,7 +715,7 @@ a| `210` | Dell serial port | 1  a| `0xD200`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `217` | OEM-specific | 1  a| `0xD900`
 a| `218` | Dell calling interface | 6  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA04`, `0xDA05`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | Dell device bay | 1  a| `0xDB00`
 a| `220` | Dell token references, type 1 | 3  a| `0xDC00`, `0xDC01`, `0xDC02`
 a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
@@ -770,7 +770,7 @@ a| `39` | System power supply | 1  a| `0x003C`
 a| `41` | Onboard devices extended information | 3  a| `0x003D`, `0x003E`, `0x003F`
 a| `126` | Inactive | 1  a| `0x1601`
 a| `127` | End of table | 1  a| `0xE030`
-a| `129` | OEM-specific | 1  a| `0xE01C`
+a| `129` | Intel ASF information | 1  a| `0xE01C`
 a| `130` | Intel Active Management Technology information | 1  a| `0xE021`
 a| `131` | Intel vPro information | 1  a| `0xE026`
 a| `177` | Dell BIOS flags | 1  a| `0xB100`
@@ -781,7 +781,7 @@ a| `210` | Dell serial port | 1  a| `0xD200`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `217` | OEM-specific | 1  a| `0xD900`
 a| `218` | Dell calling interface | 6  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`, `0xDA04`, `0xDA05`
-a| `219` | OEM-specific | 1  a| `0xDB00`
+a| `219` | Dell device bay | 1  a| `0xDB00`
 a| `220` | Dell token references, type 1 | 3  a| `0xDC00`, `0xDC01`, `0xDC02`
 a| `221` | Dell token references, type 2 | 1  a| `0xDD00`
 a| `222` | OEM-specific | 1  a| `0xDE00`
@@ -835,7 +835,7 @@ a| `36` | Management device threshold data | 3  a| `0x002B`, `0x002D`, `0x002F`
 a| `41` | Onboard devices extended information | 3  a| `0x0035`, `0x0036`, `0x0037`
 a| `126` | Inactive | 1  a| `0x0300`
 a| `127` | End of table | 1  a| `0xF0DA`
-a| `129` | OEM-specific | 1  a| `0xF0C1`
+a| `129` | Intel ASF information | 1  a| `0xF0C1`
 a| `130` | Intel Active Management Technology information | 1  a| `0xF0C6`
 a| `131` | Intel vPro information | 1  a| `0xF0D0`
 a| `136` | OEM-specific | 1  a| `0xF0BC`
@@ -1592,7 +1592,7 @@ a| `31` | Boot Integrity Services (BIS) entry point | 1  a| `0x1F00`
 a| `32` | System boot information | 1  a| `0x2000`
 a| `126` | Inactive | 8  a| `0x0905`, `0x1200`, `0x1404`, `0x1405`, `0x1B01`, `0x1B10`, `0x1B11`, `0xDF01`
 a| `127` | End of table | 1  a| `0x7F00`
-a| `129` | OEM-specific | 1  a| `0x8100`
+a| `129` | Intel ASF information | 1  a| `0x8100`
 a| `208` | Dell revisions and IDs | 1  a| `0xD000`
 a| `209` | Dell parallel port | 1  a| `0xD100`
 a| `210` | Dell serial port | 2  a| `0xD200`, `0xD201`
@@ -2577,7 +2577,7 @@ a| `212` | Dell indexed IO | 1  a| `0x0028`
 a| `216` | Dell video BIOS information | 1  a| `0x0029`
 a| `217` | OEM-specific | 1  a| `0x002A`
 a| `218` | Dell calling interface | 4  a| `0xDA00`, `0xDA01`, `0xDA02`, `0xDA03`
-a| `219` | OEM-specific | 1  a| `0x002B`
+a| `219` | Dell device bay | 1  a| `0x002B`
 a| `220` | Dell token references, type 1 | 1  a| `0x002C`
 a| `221` | Dell token references, type 2 | 1  a| `0x002D`
 a| `222` | OEM-specific | 1  a| `0x002E`
@@ -2624,7 +2624,7 @@ a| `34` | Management device | 1  a| `0x0058`
 a| `41` | Onboard devices extended information | 3  a| `0x005C`, `0x005D`, `0x005E`
 a| `126` | Inactive | 15  a| `0x0009`, `0x000A`, `0x000B`, `0x0038`, `0x003C`, `0x0040`, `0x0044`, `0x0046`, `0x0048`, `0x004A`, `0x004C`, `0x004E`, `0x0050`, `0x0052`, `0x0054`
 a| `127` | End of table | 1  a| `0xDE04`
-a| `129` | OEM-specific | 1  a| `0xDE01`
+a| `129` | Intel ASF information | 1  a| `0xDE01`
 a| `130` | Intel Active Management Technology information | 1  a| `0xDE02`
 a| `131` | Intel vPro information | 1  a| `0xDE03`
 a| `177` | Dell BIOS flags | 1  a| `0xB100`
@@ -2793,7 +2793,7 @@ a| `127` | End of table | 1  a| `0x0032`
 a| `176` | OEM-specific | 1  a| `0xB000`
 a| `177` | Dell BIOS flags | 1  a| `0xB100`
 a| `208` | Dell revisions and IDs | 1  a| `0xD000`
-a| `211` | Dell infrared port | 1  a| `0xD300`
+a| `211` | OEM-specific | 1  a| `0xD300`
 a| `212` | Dell indexed IO | 1  a| `0xD400`
 a| `216` | Dell video BIOS information | 1  a| `0xD800`
 a| `218` | Dell calling interface | 1  a| `0xDA00`

@@ -46,7 +46,7 @@ a| `27` | Cooling device | 1  a| `0x0034`
 a| `32` | System boot information | 1  a| `0x002F`
 a| `39` | System power supply | 1  a| `0x0035`
 a| `127` | End of table | 1  a| `0x003F`
-a| `129` | OEM-specific | 1  a| `0x0009`
+a| `129` | Intel ASF information | 1  a| `0x0009`
 a| `131` | Intel vPro information | 1  a| `0x000A`
 |===
 == N150/N210/N220 (n150-n210-n220.bin)
