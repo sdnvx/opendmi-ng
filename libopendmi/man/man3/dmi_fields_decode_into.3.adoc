@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_fields_decode_into - decode a part of a structure according to a list of fields.
+dmi_fields_decode_into, dmi_fields_encode_from - decode and encode a part of a structure according to a list of fields.
 
 == Library
 
@@ -29,6 +29,12 @@ bool dmi_fields_decode_into(
         const dmi_field_t *fields,
         size_t             length,
         void              *info);
+
+bool dmi_fields_encode_from(
+        dmi_encoder_t     *encoder,
+        const dmi_field_t *fields,
+        size_t             length,
+        const void        *info);
 ----
 
 == Description
@@ -52,10 +58,24 @@ the middle of it, leaves the fields it is too short for unset, along with the
 partial nor as incomplete, since it is the part which is short rather than the
 structure. The fields before the first group are required.
 
+The `dmi_fields_encode_from` function undoes it, for the encoding handlers
+which write the rest of the structure themselves, the way
+`dmi_fields_encode`(3) writes a whole structure: the fields are written from
+`info` into the next `length` bytes of the structure, and the bytes of the
+part the fields do not describe are written the way the encoder writes the
+bytes the model does not hold, i.e. the ones of the source data in the
+preserve mode, and zeros in the canonical one. Writing stops at the first
+group the part does not hold, and, in the preserve mode, where the source data
+of the part ends.
+
 === Parameters
 
 `decoder`::
 Decoder of the structure, see `dmi_decoder_initialize`(3), positioned at the
+part.
+
+`encoder`::
+Encoder of the structure, see `dmi_encoder_initialize`(3), positioned at the
 part.
 
 `fields`::
@@ -65,21 +85,30 @@ Fields of the part, terminated by an empty field.
 Number of the bytes of the part.
 
 `info`::
-Structure the fields are read into.
+Structure the fields are read into, or written from.
 
 == Return value
 
-Returns `true` if the part has been decoded, and `false` if the structure holds
-fewer than `length` bytes from the position of the decoder, if the part is
-too short for the required fields, or on the errors below.
+`dmi_fields_decode_into` returns `true` if the part has been decoded, and
+`false` if the structure holds fewer than `length` bytes from the position of
+the decoder, if the part is too short for the required fields, or on the
+errors below.
+
+`dmi_fields_encode_from` returns `true` if the part has been encoded, and
+`false` on the errors below.
 
 == Errors
 
 `DMI_ERROR_NULL_ARGUMENT`::
-Decoder, fields or structure is `nullptr`.
+Decoder or encoder, fields or structure is `nullptr`.
+
+`DMI_ERROR_INVALID_STATE`::
+A field cannot be written, or the fields are longer than the part
+(`dmi_fields_encode_from`).
 
 `DMI_ERROR_OUT_OF_MEMORY`::
-Elements of an array cannot be allocated.
+Elements of an array cannot be allocated, or buffers of the encoder cannot
+grow.
 
 == Example
 
@@ -110,6 +139,7 @@ if (dmi_decoder_get(decoder, dmi_byte_t, &length) and (length >= 2))
 == See also
 
 `dmi_fields_decode`(3),
+`dmi_fields_encode`(3),
 `DMI_FIELD`(3),
 `DMI_FIELD_GROUP`(3),
 `dmi_decoder_initialize`(3)

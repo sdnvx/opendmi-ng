@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <opendmi/encoder.h>
+#include <opendmi/field.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 #include <opendmi/module/intel-rsd.h>
@@ -25,6 +26,24 @@ typedef struct dmi_intel_rsd_cpuid_input
 } dmi_intel_rsd_cpuid_input_t;
 
 // Leaves of subtype 1, in the order they are stored
+/**
+ * @internal
+ * @brief Fields of a leaf, which holds the registers CPUID returns for it.
+ */
+static const dmi_field_t dmi_intel_rsd_cpuid_leaf_fields[] = {
+    DMI_FIELD(dmi_intel_rsd_cpuid_leaf_t, eax, dmi_dword_t),
+    DMI_FIELD(dmi_intel_rsd_cpuid_leaf_t, ebx, dmi_dword_t),
+    DMI_FIELD(dmi_intel_rsd_cpuid_leaf_t, ecx, dmi_dword_t),
+    DMI_FIELD(dmi_intel_rsd_cpuid_leaf_t, edx, dmi_dword_t),
+    {}
+};
+
+/**
+ * @internal
+ * @brief Number of the bytes of a leaf.
+ */
+#define DMI_INTEL_RSD_CPUID_LEAF_LENGTH (4 * sizeof(dmi_dword_t))
+
 static const dmi_intel_rsd_cpuid_input_t dmi_intel_rsd_cpuid_basic[] = {
     LEAF(0x00), LEAF(0x01), LEAF(0x02), LEAF(0x03), LEAF(0x04), LEAF(0x05),
     LEAF(0x06), LEAF(0x07), LEAF(0x09), LEAF(0x0A), LEAF(0x0B),
@@ -133,12 +152,8 @@ bool dmi_intel_rsd_processor_cpuid_decode(dmi_decoder_t *decoder)
     for (size_t i = 0; i < count; i++) {
         dmi_intel_rsd_cpuid_leaf_t *leaf = &info->leaves[i];
 
-        status =
-            dmi_decoder_get(decoder, dmi_dword_t, &leaf->eax) and
-            dmi_decoder_get(decoder, dmi_dword_t, &leaf->ebx) and
-            dmi_decoder_get(decoder, dmi_dword_t, &leaf->ecx) and
-            dmi_decoder_get(decoder, dmi_dword_t, &leaf->edx);
-        if (not status)
+        if (not dmi_fields_decode_into(decoder, dmi_intel_rsd_cpuid_leaf_fields,
+                                       DMI_INTEL_RSD_CPUID_LEAF_LENGTH, leaf))
             return dmi_decoder_incomplete(decoder);
 
         leaf->leaf        = inputs[i].leaf;
@@ -188,12 +203,8 @@ bool dmi_intel_rsd_processor_cpuid_encode(dmi_encoder_t *encoder)
     for (size_t i = 0; i < info->leaf_count; i++) {
         const dmi_intel_rsd_cpuid_leaf_t *leaf = &info->leaves[i];
 
-        status =
-            dmi_encoder_put(encoder, dmi_dword_t, leaf->eax) and
-            dmi_encoder_put(encoder, dmi_dword_t, leaf->ebx) and
-            dmi_encoder_put(encoder, dmi_dword_t, leaf->ecx) and
-            dmi_encoder_put(encoder, dmi_dword_t, leaf->edx);
-        if (not status)
+        if (not dmi_fields_encode_from(encoder, dmi_intel_rsd_cpuid_leaf_fields,
+                                       DMI_INTEL_RSD_CPUID_LEAF_LENGTH, leaf))
             return false;
     }
 

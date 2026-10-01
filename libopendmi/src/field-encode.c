@@ -419,6 +419,49 @@ bool dmi_fields_encode(dmi_encoder_t *encoder)
     return dmi_encoder_finish(encoder);
 }
 
+bool dmi_fields_encode_from(dmi_encoder_t *encoder, const dmi_field_t *fields, size_t length, const void *info)
+{
+    if ((encoder == nullptr) or (fields == nullptr) or (info == nullptr)) {
+        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "%s",
+                           (encoder == nullptr) ? "encoder" : (fields == nullptr) ? "fields" : "info");
+        return false;
+    }
+
+    const dmi_entity_t *entity = encoder->entity;
+
+    dmi_field_output_t output = {
+        .encoder = encoder,
+        .version = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
+                 ? dmi_entity_context(entity)->state.smbios_version
+                 : encoder->version
+    };
+
+    // Part is written through a window over the bytes of the source it has
+    // been decoded from, which the groups of its fields end at in the preserve
+    // mode rather than the source of the structure
+    dmi_reader_t *source = &encoder->source;
+    size_t        end    = source->length;
+    size_t        start  = dmi_encoder_tell(encoder);
+
+    if ((source->buffer != nullptr) and (dmi_reader_remaining(source) > length))
+        source->length = source->position + length;
+
+    bool status = dmi_field_encode_list(&output, fields, info);
+
+    source->length = end;
+
+    if (not status)
+        return false;
+
+    // Bytes of the part the fields do not describe are kept as they are
+    size_t written = dmi_encoder_tell(encoder) - start;
+
+    if (written > length)
+        return dmi_field_cannot_encode(&output, "fields longer than the part");
+
+    return dmi_field_put_reserved(&output, length - written);
+}
+
 static bool dmi_field_encode_list(
         dmi_field_output_t *output,
         const dmi_field_t  *fields,
@@ -451,14 +494,16 @@ static bool dmi_field_encode_list(
 
         // Groups are where the structure is allowed to end: where the source
         // data ends in the preserve mode, and at the first group of a later
-        // version than the one written for, or the first one the structure
-        // does not hold, in the canonical one
+        // version than the one written for in the canonical one. A group the
+        // structure does not hold ends it in either mode, since the model has
+        // nothing of it to write: its source bytes, if there are any, are kept
+        // as the bytes after the fields
         if (field->type == DMI_FIELD_TYPE_GROUP) {
-            bool ends = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
-                      ? (dmi_encoder_remaining(encoder) == 0)
-                      : (((field->params.since != DMI_VERSION_NONE) and
-                          (field->params.since > encoder->version)) or
-                         dmi_field_group_is_absent(field, info));
+            bool ends = dmi_field_group_is_absent(field, info) or
+                        ((encoder->mode == DMI_ENCODE_MODE_PRESERVE)
+                         ? (dmi_encoder_remaining(encoder) == 0)
+                         : ((field->params.since != DMI_VERSION_NONE) and
+                            (field->params.since > encoder->version)));
 
             if (ends)
                 output->stopped = true;

@@ -10,6 +10,7 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
+#include <opendmi/encoder.h>
 #include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
@@ -26,6 +27,7 @@ static int test_rsd_processor_cpuid_teardown(void **pstate);
 static void test_rsd_processor_cpuid_decode(void **pstate);
 static void test_rsd_processor_cpuid_decode_extended(void **pstate);
 static void test_rsd_processor_cpuid_decode_truncated(void **pstate);
+static void test_rsd_processor_cpuid_encode(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -34,7 +36,8 @@ int main(void)
     const struct CMUnitTest tests[] = {
         cmocka_unit_test_setup_teardown(test_rsd_processor_cpuid_decode, test_rsd_processor_cpuid_setup, test_rsd_processor_cpuid_teardown),
         cmocka_unit_test_setup_teardown(test_rsd_processor_cpuid_decode_extended, test_rsd_processor_cpuid_setup, test_rsd_processor_cpuid_teardown),
-        cmocka_unit_test_setup_teardown(test_rsd_processor_cpuid_decode_truncated, test_rsd_processor_cpuid_setup, test_rsd_processor_cpuid_teardown)
+        cmocka_unit_test_setup_teardown(test_rsd_processor_cpuid_decode_truncated, test_rsd_processor_cpuid_setup, test_rsd_processor_cpuid_teardown),
+        cmocka_unit_test_setup_teardown(test_rsd_processor_cpuid_encode, test_rsd_processor_cpuid_setup, test_rsd_processor_cpuid_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -198,6 +201,41 @@ static void test_rsd_processor_cpuid_decode_truncated(void **pstate)
     assert_true(info->is_raw);
     assert_int_equal(info->leaf_count, 0);
     assert_int_equal(info->data.length, 32);
+
+    dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
+}
+
+//
+// Structure is written back as it has been read, in either mode, since the
+// model holds every byte of the leaves.
+//
+static void test_rsd_processor_cpuid_encode(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    uint8_t data[256];
+    size_t size = create_cpuid(data, sizeof(data), 1, 14);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    dmi_entity_t *entity = dmi_test_entity_create(buffer, data, size);
+    assert_non_null(entity);
+    assert_true(dmi_entity_decode(entity));
+
+    const dmi_encode_mode_t modes[] = { DMI_ENCODE_MODE_PRESERVE, DMI_ENCODE_MODE_CANONICAL };
+
+    for (size_t i = 0; i < countof(modes); i++) {
+        dmi_buffer_t *buffer = dmi_buffer_create(context);
+        dmi_encoder_t encoder;
+
+        assert_true(dmi_encoder_initialize(&encoder, buffer, entity, modes[i], DMI_VERSION(3, 9, 0)));
+        assert_true(dmi_entity_encode(&encoder));
+        assert_int_equal(buffer->length, entity->body_length);
+        assert_memory_equal(buffer->data, data, buffer->length);
+
+        dmi_encoder_finalize(&encoder);
+        dmi_buffer_destroy(buffer);
+    }
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);

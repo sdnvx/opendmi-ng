@@ -233,8 +233,9 @@ struct dmi_field_params
      *
      * The member is a `bool`, which tells the fields of the group which hold
      * a value from the ones the structure is too short for, e.g. for the
-     * variants of the attributes. Encoding in the canonical mode writes the
-     * fields of a group only if it is set.
+     * variants of the attributes. Encoding writes the fields of a group only
+     * if it is set, and keeps the source bytes of the group in the preserve
+     * mode otherwise.
      */
     dmi_member_ref_t present;
 
@@ -809,6 +810,36 @@ __dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
  *         part is too short for the required fields.
  */
 __dmi_api bool dmi_fields_decode_into(dmi_decoder_t *decoder, const dmi_field_t *fields, size_t length, void *info);
+
+/**
+ * @brief Encode a part of a structure according to a list of fields, for the
+ * encoding handlers which write the rest of the structure themselves.
+ *
+ * The fields are written from @p info into the next @p length bytes of the
+ * structure, the way `dmi_fields_encode()` writes the fields of a
+ * specification, which undoes `dmi_fields_decode_into()`. The bytes of the
+ * part the fields do not describe are written the way the encoder writes the
+ * bytes the model does not hold: the ones of the source data in the preserve
+ * mode, and zeros in the canonical one.
+ *
+ * Groups of the fields end where the source data of the part does in the
+ * preserve mode, and at the first group the part does not hold in either
+ * mode, see `DMI_FIELD_GROUP`(3), whose source bytes are kept in the preserve
+ * mode.
+ *
+ * @param[in,out] encoder Encoder of the structure, positioned at the part.
+ * @param[in]     fields  Fields of the part, terminated by an empty field.
+ * @param[in]     length  Number of the bytes of the part.
+ * @param[in]     info    Structure the fields are written from.
+ *
+ * @error DMI_ERROR_NULL_ARGUMENT Encoder, fields or structure is `nullptr`
+ * @error DMI_ERROR_INVALID_STATE A field cannot be written, or the fields are
+ *        longer than the part
+ * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
+ *
+ * @return `true` if the part has been encoded, `false` otherwise.
+ */
+__dmi_api bool dmi_fields_encode_from(dmi_encoder_t *encoder, const dmi_field_t *fields, size_t length, const void *info);
 
 /**
  * @brief Free what decoding a structure according to the fields of its

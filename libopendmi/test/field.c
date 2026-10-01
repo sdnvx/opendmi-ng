@@ -497,6 +497,7 @@ static void test_field_encode_defined(void **pstate);
 static void test_field_encode_bcd_overflow(void **pstate);
 static void test_field_group_present(void **pstate);
 static void test_field_decode_into(void **pstate);
+static void test_field_encode_from(void **pstate);
 
 static void test_field_kilobytes(void **pstate);
 static void test_field_get_set(void **pstate);
@@ -538,6 +539,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_field_encode_bcd_overflow, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_group_present, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_decode_into, test_field_setup, test_field_teardown),
+        cmocka_unit_test_setup_teardown(test_field_encode_from, test_field_setup, test_field_teardown),
 
         cmocka_unit_test(test_field_kilobytes),
         cmocka_unit_test(test_field_get_set)
@@ -1394,4 +1396,75 @@ static void test_field_decode_into(void **pstate)
     }
 
     assert_false(dmi_fields_decode_into(nullptr, test_present_spec.fields, 1, &(test_present_t){}));
+}
+
+//
+// Part of a structure is written into a window of its bytes: the fields the
+// part holds, and the rest of the window as the encoder writes the bytes the
+// model does not hold.
+//
+static void test_field_encode_from(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    state->entity = dmi_test_entity_create(state->buffer, test_present_data, sizeof(test_present_data));
+    assert_non_null(state->entity);
+
+    // Encoder writes a decoded structure, whose specification names it in
+    // the errors
+    assert_true(dmi_entity_decode(state->entity));
+
+    // Part holding the first group only
+    dmi_decoder_t  decoder;
+    test_present_t part = {};
+
+    assert_true(dmi_decoder_initialize(&decoder, state->entity));
+    assert_true(dmi_fields_decode_into(&decoder, test_present_spec.fields, 3, &part));
+    assert_true(part.has_pair);
+    assert_false(part.has_last);
+
+    const struct {
+        dmi_encode_mode_t mode;
+        size_t            length;
+        dmi_byte_t        expected[4];
+    } test_cases[] = {
+        // Source bytes of the window are written back as they are, including
+        // the ones of a group the part does not hold
+        { DMI_ENCODE_MODE_PRESERVE,  3, { 0x01, 0x02, 0x03 } },
+        { DMI_ENCODE_MODE_PRESERVE,  4, { 0x01, 0x02, 0x03, 0x04 } },
+
+        // Group the part does not hold is not written, and the rest of the
+        // window is zeros
+        { DMI_ENCODE_MODE_CANONICAL, 4, { 0x01, 0x02, 0x03, 0x00 } }
+    };
+
+    for (size_t i = 0; i < countof(test_cases); i++) {
+        dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+        dmi_encoder_t encoder;
+
+        assert_true(dmi_encoder_initialize(&encoder, buffer, state->entity, test_cases[i].mode, DMI_VERSION(3, 9, 0)));
+        assert_true(dmi_fields_encode_from(&encoder, test_present_spec.fields, test_cases[i].length, &part));
+
+        assert_int_equal(dmi_encoder_tell(&encoder), sizeof(dmi_header_t) + test_cases[i].length);
+        assert_memory_equal(buffer->data + sizeof(dmi_header_t), test_cases[i].expected, test_cases[i].length);
+
+        dmi_encoder_finalize(&encoder);
+        dmi_buffer_destroy(buffer);
+    }
+
+    // Fields longer than the part are an error rather than bytes of the
+    // fields after the part
+    part.has_last = true;
+
+    dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+    dmi_encoder_t encoder;
+
+    assert_true(dmi_encoder_initialize(&encoder, buffer, state->entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0)));
+    assert_false(dmi_fields_encode_from(&encoder, test_present_spec.fields, 2, &part));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_INVALID_STATE);
+
+    dmi_encoder_finalize(&encoder);
+    dmi_buffer_destroy(buffer);
+
+    assert_false(dmi_fields_encode_from(nullptr, test_present_spec.fields, 1, &part));
 }

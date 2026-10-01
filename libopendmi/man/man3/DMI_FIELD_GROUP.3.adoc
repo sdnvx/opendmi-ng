@@ -69,8 +69,9 @@ vendors, whose fields no version brings, leave it unset.
 `bool` member, see `dmi_member`(3), set once every field of the group has been
 read, and left `false` if the data ends before the group or in the middle of
 it. Attributes tell the fields the structure holds from the ones it is too
-short for by it, and encoding in the canonical mode writes no group the
-structure does not hold.
+short for by it, and encoding writes the fields of no group the structure
+does not hold: the canonical mode ends the structure there, and the preserve
+mode keeps the source bytes of the group as they are.
 --
 
 == Errors

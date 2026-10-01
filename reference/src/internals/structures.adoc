@@ -255,8 +255,9 @@ DMI_FIELD(dmi_hpe_trusted_module_t, chip, dmi_byte_t),
 
 The attributes of the fields of the group use the member to tell the values
 from the zeros of the fields the structure is too short for, so no handler
-has to count the length of the structure, and encoding in the canonical mode
-writes no group the structure does not hold.
+has to count the length of the structure, and encoding writes the fields of no
+group the structure does not hold: the canonical mode ends the structure
+there, and the preserve mode keeps the source bytes of the group.
 
 A version may also give a meaning to the reserved bits of a field the
 structure already holds, which says nothing about its length: the version the
