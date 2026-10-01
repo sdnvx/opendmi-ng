@@ -208,12 +208,12 @@ __END_DECLS
  * @brief Implementation helper for sequential get macros.
  */
 #define __dmi_decoder_get(__decoder, __type, __pvalue, __convert)                  \
-        ({                                                                       \
-            __type __value;                                                      \
+        ({                                                                         \
+            __type __value;                                                        \
             bool rv = dmi_decoder_get_bytes(__decoder, &__value, sizeof(__value)); \
-            if (rv)                                                              \
-                *(__pvalue) = (__dmi_typeof(*(__pvalue)))__convert(__value);     \
-            rv;                                                                  \
+            if (rv)                                                                \
+                *(__pvalue) = (__dmi_typeof(*(__pvalue)))__convert(__value);       \
+            rv;                                                                    \
         })
 
 /**
@@ -269,12 +269,12 @@ __END_DECLS
  * @return `true` on success, `false` if there are not enough bytes remaining.
  */
 #define dmi_decoder_get_uuid(__decoder, __pvalue)                                 \
-        ({                                                                      \
-            dmi_byte_t __value[16];                                             \
+        ({                                                                        \
+            dmi_byte_t __value[16];                                               \
             bool rv = dmi_decoder_get_bytes(__decoder, __value, sizeof(__value)); \
-            if (rv)                                                             \
-                *(__pvalue) = dmi_uuid_decode(__value);                         \
-            rv;                                                                 \
+            if (rv)                                                               \
+                *(__pvalue) = dmi_uuid_decode(__value);                           \
+            rv;                                                                   \
         })
 
 /**
@@ -283,12 +283,12 @@ __END_DECLS
  * @brief Implementation helper for random-access get macros.
  */
 #define __dmi_decoder_get_at(__decoder, __type, __offset, __pvalue, __convert)                  \
-        ({                                                                                    \
-            __type __value;                                                                   \
+        ({                                                                                      \
+            __type __value;                                                                     \
             bool rv = dmi_decoder_get_bytes_at(__decoder, &__value, __offset, sizeof(__value)); \
-            if (rv)                                                                           \
-                *(__pvalue) = (__dmi_typeof(*(__pvalue)))__convert(__value);                  \
-            rv;                                                                               \
+            if (rv)                                                                             \
+                *(__pvalue) = (__dmi_typeof(*(__pvalue)))__convert(__value);                    \
+            rv;                                                                                 \
         })
 
 /**
@@ -350,12 +350,12 @@ __END_DECLS
  *         structure bounds.
  */
 #define dmi_decoder_get_uuid_at(__decoder, __offset, __pvalue)                                 \
-        ({                                                                                   \
-            dmi_byte_t __value[16];                                                          \
+        ({                                                                                     \
+            dmi_byte_t __value[16];                                                            \
             bool rv = dmi_decoder_get_bytes_at(__decoder, __value, __offset, sizeof(__value)); \
-            if (rv)                                                                          \
-                *(__pvalue) = dmi_uuid_decode(__value);                                      \
-            rv;                                                                              \
+            if (rv)                                                                            \
+                *(__pvalue) = dmi_uuid_decode(__value);                                        \
+            rv;                                                                                \
         })
 
 #endif // !OPENDMI_DECODER_H

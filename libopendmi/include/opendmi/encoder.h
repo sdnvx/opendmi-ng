@@ -291,8 +291,8 @@ __END_DECLS
  * @return `true` on success, `false` if the buffer cannot grow.
  */
 #define dmi_encoder_put(__encoder, __type, __value)                       \
-        ({                                                              \
-            __type __encoded = dmi_encode((__type)(__value));           \
+        ({                                                                \
+            __type __encoded = dmi_encode((__type)(__value));             \
             dmi_encoder_put_bytes(__encoder, &__encoded, sizeof(__type)); \
         })
 
@@ -312,8 +312,8 @@ __END_DECLS
  * @return `true` on success, `false` if the buffer cannot grow.
  */
 #define dmi_encoder_put_bcd(__encoder, __type, __value)                   \
-        ({                                                              \
-            __type __encoded = dmi_encode_bcd((__type)(__value));       \
+        ({                                                                \
+            __type __encoded = dmi_encode_bcd((__type)(__value));         \
             dmi_encoder_put_bytes(__encoder, &__encoded, sizeof(__type)); \
         })
 
@@ -331,9 +331,9 @@ __END_DECLS
  * @return `true` on success, `false` if the buffer cannot grow.
  */
 #define dmi_encoder_put_uuid(__encoder, __value)                                \
-        ({                                                                    \
-            dmi_byte_t __encoded[16];                                         \
-            dmi_uuid_encode(__value, __encoded);                              \
+        ({                                                                      \
+            dmi_byte_t __encoded[16];                                           \
+            dmi_uuid_encode(__value, __encoded);                                \
             dmi_encoder_put_bytes(__encoder, __encoded, sizeof(__encoded));     \
         })
 
@@ -354,8 +354,8 @@ __END_DECLS
  * @return `true` on success, `false` if the bytes do not fit into the range.
  */
 #define dmi_encoder_put_at(__encoder, __offset, __type, __value)                       \
-        ({                                                                           \
-            __type __encoded = dmi_encode((__type)(__value));                        \
+        ({                                                                             \
+            __type __encoded = dmi_encode((__type)(__value));                          \
             dmi_encoder_put_bytes_at(__encoder, &__encoded, __offset, sizeof(__type)); \
         })
 
