@@ -31,10 +31,6 @@ dmi_size_t dmi_memory_device_size_ex(uint32_t value)
     return (dmi_size_t)(value & 0x7FFFFFFFu) << 20; // Granularity is 1 Mb
 }
 
-//
-// Conversions the field engine applies, which take the values the way the
-// data carries them.
-//
 bool dmi_memory_device_decode_size(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -51,10 +47,6 @@ bool dmi_memory_device_decode_size_ex(
     return dmi_field_set(field, value, dmi_memory_device_size_ex((uint32_t)data->number));
 }
 
-//
-// Sizes are written in megabytes whenever they fit, and in kilobytes
-// otherwise, the way the most significant bit of the field tells them apart.
-//
 bool dmi_memory_device_encode_size(
         const dmi_field_t *field,
         const void        *value,

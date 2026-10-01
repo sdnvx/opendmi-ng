@@ -1823,9 +1823,6 @@ const dmi_name_set_t dmi_processor_features_names =
     })
 };
 
-//
-// Feature flags of x86 processors, as returned by CPUID leaf 1 in EDX register
-//
 const dmi_name_set_t dmi_processor_x86_feature_names =
 {
     .code  = "processor-x86-feature",

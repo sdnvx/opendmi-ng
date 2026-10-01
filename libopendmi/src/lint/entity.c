@@ -14,14 +14,90 @@
 
 #include <opendmi/lint/entity.h>
 
+/**
+ * @internal
+ * @brief Check that the structure is not shorter than the minimum length of
+ * its type.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_entity_below_minimum(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the length of the structure matches a version of the
+ * specification of its type.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_entity_unknown_length(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the structure has been decoded, if its type has anything
+ * to decode.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_entity_undecoded(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the structure has no fields newer than the version the
+ * entry point declares.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_entity_newer_fields(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the type of the structure is defined by the version the
+ * entry point declares.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_entity_newer_type(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the type of the structure is described by a specification
+ * or an enabled module.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_entity_unknown_type(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the structure is not of a type the specification obsoletes,
+ * see `dmi_lint_obsolete_types`.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_entity_obsolete(dmi_lint_t *lint, const dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Format a version of the specification the way it is printed in the
+ * issues.
+ *
+ * @details Falls back to the number itself if the version cannot be
+ * formatted.
+ *
+ * @param[in]  version Version to format.
+ * @param[out] buffer  Buffer to store the text in.
+ * @param[in]  size    Size of the buffer.
+ *
+ * @return Pointer to `buffer`.
+ */
 static char *dmi_lint_entity_version(dmi_version_t version, char *buffer, size_t size);
 
 const dmi_lint_rule_t dmi_lint_entity_below_minimum_rule =
@@ -110,10 +186,11 @@ const dmi_lint_rule_t dmi_lint_entity_obsolete_rule =
     }
 };
 
-//
-// Types which the specification keeps for backwards compatibility only, and
-// which are not to be used by new firmware.
-//
+/**
+ * @internal
+ * @brief Types which the specification keeps for backwards compatibility
+ * only, and which are not to be used by new firmware.
+ */
 static const dmi_type_id_t dmi_lint_obsolete_types[] =
 {
     DMI_TYPE_ID_MEMORY_CONTROLLER,
@@ -121,10 +198,6 @@ static const dmi_type_id_t dmi_lint_obsolete_types[] =
     DMI_TYPE_ID_ONBOARD_DEVICE
 };
 
-//
-// Version of the specification as it is printed in the issues, which falls
-// back to the number itself if it cannot be formatted.
-//
 static char *dmi_lint_entity_version(dmi_version_t version, char *buffer, size_t size)
 {
     char *text = dmi_version_format(version);

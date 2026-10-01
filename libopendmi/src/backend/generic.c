@@ -17,6 +17,26 @@
 
 #include <opendmi/backend/generic.h>
 
+#if defined(__i386__) or defined(__x86_64__)
+
+/**
+ * @internal
+ * @brief Tell whether the data found at an anchor is a valid entry point.
+ *
+ * @details The check is made the way dmidecode does it: anchor strings occur
+ * in firmware code and data as well, so a match of the anchor alone proves
+ * nothing.
+ *
+ * @param[in] data      Data starting with the anchor.
+ * @param[in] available Number of bytes available at `data`.
+ * @param[in] anchor    Anchor string found at `data`.
+ *
+ * @return `true` if the entry point is valid, `false` otherwise.
+ */
+static bool dmi_generic_entry_valid(const dmi_data_t *data, size_t available, const char *anchor);
+
+#endif
+
 bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, uint64_t *paddr)
 {
     unsigned long long addr;
@@ -44,11 +64,7 @@ bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, uint6
 }
 
 #if defined(__i386__) or defined(__x86_64__)
-//
-// Tell whether the data found at an anchor is a valid entry point, the way
-// dmidecode does: anchor strings occur in firmware code and data as well, so
-// a match of the anchor alone proves nothing.
-//
+
 static bool dmi_generic_entry_valid(const dmi_data_t *data, size_t available, const char *anchor)
 {
     size_t length;

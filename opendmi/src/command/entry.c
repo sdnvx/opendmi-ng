@@ -21,7 +21,25 @@
 #include <opendmi/format/text/handlers.h>
 #include <opendmi/format/text/helpers.h>
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_entry_usage(void);
+
+/**
+ * @internal
+ * @brief Print the SMBIOS entry point data.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments, unused.
+ * @param[in] argv    Arguments of the command, unused.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Versions cannot be formatted
+ * @error DMI_ERROR_FILE_WRITE Output cannot be written
+ *
+ * @return Exit code of the command.
+ */
 static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[]);
 
 static const dmi_option_set_t dmi_entry_options =

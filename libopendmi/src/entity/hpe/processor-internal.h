@@ -15,6 +15,18 @@
 
 #include <opendmi/entity/hpe/processor.h>
 
+/**
+ * @internal
+ * @brief Derive the QDF or S-Spec number from the raw one the structure
+ * holds.
+ *
+ * @details Number is taken only when it is printable, with the spaces padding
+ * it left out.
+ *
+ * @param[in,out] entity Entity of the decoded structure.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_hpe_processor_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_HPE_PROCESSOR_INTERNAL_H

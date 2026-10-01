@@ -77,20 +77,101 @@ struct dmi_resource
     dmi_resource_t       *next;
 };
 
-// Locale is process-wide, and so is the list of opened packages, which are
-// reopened when the locale changes. The name is a copy of its own, since the
-// packages are reopened with it long after the call which has set it.
-static char           *dmi_locale_name;
+/**
+ * @internal
+ * @brief Name of the locale the packages are opened with.
+ *
+ * @details Locale is process-wide, and so is the list of opened packages,
+ * which are reopened when the locale changes. The name is a copy of its own,
+ * since the packages are reopened with it long after the call which has set
+ * it.
+ */
+static char *dmi_locale_name;
+
+/**
+ * @internal
+ * @brief List of opened packages, see `dmi_locale_name`.
+ */
 static dmi_resource_t *dmi_resources;
 
-// Resources of the library itself, opened on the first name lookup
+/**
+ * @internal
+ * @brief Resources of the library itself, opened on the first name lookup.
+ */
 static dmi_resource_t *dmi_library_resource;
-static bool            dmi_library_failed;
 
+/**
+ * @internal
+ * @brief Whether opening the resources of the library has failed, so that
+ * it is not retried on every lookup.
+ */
+static bool dmi_library_failed;
+
+/**
+ * @internal
+ * @brief Open the bundle of the package for the current locale.
+ *
+ * @details Locales with no bundle of their own fall back to the root bundle
+ * of the package.
+ *
+ * @param[in,out] resource Resource to open the bundle of.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_resource_reopen(dmi_resource_t *resource);
+
+/**
+ * @internal
+ * @brief Release the bundle and the strings loaded from it.
+ *
+ * @details The package name is kept, so that the resource can be reopened.
+ *
+ * @param[in,out] resource Resource to release.
+ */
 static void dmi_resource_release(dmi_resource_t *resource);
+
+/**
+ * @internal
+ * @brief Find a loaded table of the package, loading it on the first lookup.
+ *
+ * @details Tables which are not in the package are cached with no strings.
+ *
+ * @param[in,out] resource Resource to look the table up in.
+ * @param[in]     name     Name of the table, which is a path to reach the
+ *                         nested tables, e.g. `processor/attributes`.
+ *
+ * @return Table found, or `nullptr` if the bundle is not open or memory
+ *         cannot be allocated.
+ */
 static const dmi_resource_table_t *dmi_resource_table(dmi_resource_t *resource, const char *name);
+
+/**
+ * @internal
+ * @brief Load the strings of a table from the bundle of the package.
+ *
+ * @details All strings of the table are converted to UTF-8, so that they are
+ * kept as long as the package is open and the locale is not changed.
+ *
+ * @param[in]     resource Resource to load the table from.
+ * @param[in,out] table    Table to load the strings into.
+ *
+ * @return `true` if any strings are loaded, `false` otherwise.
+ */
 static bool dmi_resource_load(const dmi_resource_t *resource, dmi_resource_table_t *table);
+
+/**
+ * @internal
+ * @brief Select the plural form of a word for a number.
+ *
+ * @details The form follows the plural rules of the locale the resources are
+ * opened with.
+ *
+ * @param[in] resource Resource to take the forms from.
+ * @param[in] word     Word to select the form of.
+ * @param[in] number   Number the form is selected for.
+ *
+ * @return Plural form of the word, or `nullptr` if there is none.
+ */
 static const char *dmi_resource_plural(dmi_resource_t *resource, const char *word, intmax_t number);
 #endif // ENABLE_ICU
 
@@ -118,7 +199,35 @@ typedef struct dmi_message_buffer
     size_t  capacity;
 } dmi_message_buffer_t;
 
+/**
+ * @internal
+ * @brief Append text to the message being built.
+ *
+ * @details The buffer is grown by powers of two to keep the number of
+ * reallocations low.
+ *
+ * @param[in,out] buffer Message being built.
+ * @param[in]     text   Text to append.
+ * @param[in]     length Length of the text, in bytes.
+ *
+ * @return `true` on success, `false` if memory cannot be allocated.
+ */
 static bool dmi_message_append(dmi_message_buffer_t *buffer, const char *text, size_t length);
+
+/**
+ * @internal
+ * @brief Append the value of an argument, and the plural form of the word it
+ * selects, if the placeholder names one.
+ *
+ * @param[in,out] buffer      Message being built.
+ * @param[in]     resource    Resource to take the plural forms from.
+ * @param[in]     arg         Argument to substitute.
+ * @param[in]     word        Word to append the plural form of, or `nullptr`.
+ * @param[in]     word_length Length of the word, in bytes.
+ *
+ * @return `true` on success, `false` if the plural form cannot be selected
+ *         or memory cannot be allocated.
+ */
 static bool dmi_message_substitute(
         dmi_message_buffer_t    *buffer,
         dmi_resource_t          *resource,
@@ -396,10 +505,6 @@ char *dmi_resource_message(
     return dmi_message_format(resource, pattern, args, count);
 }
 
-//
-// Append text to the message being built, growing the buffer by powers of two
-// to keep the number of reallocations low.
-//
 static bool dmi_message_append(dmi_message_buffer_t *buffer, const char *text, size_t length)
 {
     if (buffer->length + length > buffer->capacity) {
@@ -427,10 +532,6 @@ static bool dmi_message_append(dmi_message_buffer_t *buffer, const char *text, s
     return true;
 }
 
-//
-// Append the value of an argument, and the plural form of the word it selects,
-// if the placeholder names one.
-//
 static bool dmi_message_substitute(
         dmi_message_buffer_t    *buffer,
         dmi_resource_t          *resource,
@@ -480,10 +581,6 @@ static bool dmi_message_substitute(
 }
 
 #ifdef ENABLE_ICU
-//
-// Open the bundle of the package for the current locale. Locales with no
-// bundle of their own fall back to the root bundle of the package.
-//
 static bool dmi_resource_reopen(dmi_resource_t *resource)
 {
     UErrorCode status = U_ZERO_ERROR;
@@ -497,10 +594,6 @@ static bool dmi_resource_reopen(dmi_resource_t *resource)
     return true;
 }
 
-//
-// Release the bundle and the strings loaded from it, keeping the package
-// name, so that the resource can be reopened.
-//
 static void dmi_resource_release(dmi_resource_t *resource)
 {
     for (size_t i = 0; i < resource->table_count; i++) {
@@ -526,10 +619,6 @@ static void dmi_resource_release(dmi_resource_t *resource)
     }
 }
 
-//
-// Find a loaded table of the package, loading it on the first lookup. Tables
-// which are not in the package are cached with no strings.
-//
 static const dmi_resource_table_t *dmi_resource_table(dmi_resource_t *resource, const char *name)
 {
     if (resource->bundle == nullptr)
@@ -570,10 +659,6 @@ static const dmi_resource_table_t *dmi_resource_table(dmi_resource_t *resource, 
     return table;
 }
 
-//
-// Convert all strings of the table to UTF-8, so that they are kept as long as
-// the package is open and the locale is not changed.
-//
 static bool dmi_resource_load(const dmi_resource_t *resource, dmi_resource_table_t *table)
 {
     UErrorCode status = U_ZERO_ERROR;
@@ -666,10 +751,6 @@ static bool dmi_resource_load(const dmi_resource_t *resource, dmi_resource_table
     return success;
 }
 
-//
-// Select the plural form of a word for a number, following the rules of the
-// locale the resources are opened with.
-//
 static const char *dmi_resource_plural(dmi_resource_t *resource, const char *word, intmax_t number)
 {
     if ((resource == nullptr) or (resource->bundle == nullptr))

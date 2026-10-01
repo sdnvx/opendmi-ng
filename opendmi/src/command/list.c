@@ -19,7 +19,23 @@ typedef struct dmi_list_config {
     bool show_raw;
 } dmi_list_config_t;
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_list_usage(void);
+
+/**
+ * @internal
+ * @brief Print the handle, the type and the name of every structure the
+ * filter selects.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments.
+ * @param[in] argv    Arguments of the command.
+ *
+ * @return Exit code of the command.
+ */
 static int dmi_list_main(dmi_context_t *context, int argc, char *argv[]);
 
 static dmi_list_config_t dmi_list_config =

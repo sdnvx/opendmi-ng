@@ -14,6 +14,14 @@
 
 #include <opendmi/lint/quality.h>
 
+/**
+ * @internal
+ * @brief Check that the strings of a structure hold data rather than the
+ * placeholders of the firmware vendor, such as "To Be Filled By O.E.M.".
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_quality_placeholder(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 const dmi_lint_rule_t dmi_lint_quality_placeholder_rule =

@@ -23,19 +23,81 @@
 
 #include "processor-internal.h"
 
+/**
+ * @internal
+ * @brief Decode the processor identifier according to its format.
+ *
+ * @param[in]     entity Structure being derived.
+ * @param[in,out] info   Processor information to decode the identifier of.
+ */
 static void dmi_processor_decode_id(const dmi_entity_t *entity, dmi_processor_t *info);
+
+/**
+ * @internal
+ * @brief Decode signature (EAX) and feature flags (EDX) of CPUID leaf 1.
+ *
+ * @param[in]     entity Structure being derived, which is used for logging.
+ * @param[in,out] info   Processor information to store the identifier in.
+ * @param[in]     low    Low word of the identifier.
+ * @param[in]     high   High word of the identifier.
+ */
 static void dmi_processor_decode_id_x86(const dmi_entity_t *entity, dmi_processor_t *info,
                                         uint32_t low, uint32_t high);
+
+/**
+ * @internal
+ * @brief Decode Main ID Register (MIDR or MIDR_EL1) of Arm processors.
+ *
+ * @param[in,out] info Processor information to store the identifier in.
+ * @param[in]     low  Low word of the identifier.
+ */
 static void dmi_processor_decode_id_midr(dmi_processor_t *info, uint32_t low);
+
+/**
+ * @internal
+ * @brief Decode SoC ID version and revision, as returned by SMCCC_ARCH_SOC_ID.
+ *
+ * @param[in,out] info Processor information to store the identifier in.
+ * @param[in]     low  Low word of the identifier.
+ * @param[in]     high High word of the identifier.
+ */
 static void dmi_processor_decode_id_soc(dmi_processor_t *info, uint32_t low, uint32_t high);
+
+/**
+ * @internal
+ * @brief Determine the format of the processor identifier by the processor
+ * family, and by the vendor where the family does not tell it.
+ *
+ * @param[in] info Processor information.
+ *
+ * @return Format of the identifier.
+ */
 static dmi_processor_id_format_t dmi_processor_id_format(const dmi_processor_t *info);
+
+/**
+ * @internal
+ * @brief Check if a string names a vendor of x86 processors.
+ *
+ * @param[in] str String to check, or `nullptr`.
+ *
+ * @return `true` if the string names an x86 vendor, `false` otherwise.
+ */
 static bool dmi_processor_is_x86_vendor(const char *str);
+
+/**
+ * @internal
+ * @brief Check if a string contains a word.
+ *
+ * @details Word is matched case-insensitively, and must not be a part of a
+ * longer word.
+ *
+ * @param[in] str  String to search, or `nullptr`.
+ * @param[in] word Word to search for, in lower case.
+ *
+ * @return `true` if the word is found, `false` otherwise.
+ */
 static bool dmi_processor_has_word(const char *str, const char *word);
 
-//
-// One byte carries either the current voltage or the ones the processor
-// supports, which the most significant bit of it tells apart.
-//
 bool dmi_processor_decode_voltage(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -59,10 +121,6 @@ bool dmi_processor_decode_voltage(
     return true;
 }
 
-//
-// Voltage is written as the current one whenever there is one, and as the
-// supported ones otherwise.
-//
 bool dmi_processor_encode_voltage(
         const dmi_field_t *field,
         const void        *value,
@@ -86,10 +144,6 @@ bool dmi_processor_encode_voltage(
     return true;
 }
 
-//
-// Processor identifier is taken as stored, and means what the family and the
-// vendor say it does, so it is read once the fields are there.
-//
 bool dmi_processor_derive(dmi_entity_t *entity)
 {
     dmi_processor_t *info;
@@ -137,10 +191,6 @@ static void dmi_processor_decode_id(const dmi_entity_t *entity, dmi_processor_t 
     }
 }
 
-/**
- * @internal
- * @brief Decode signature (EAX) and feature flags (EDX) of CPUID leaf 1.
- */
 static void dmi_processor_decode_id_x86(const dmi_entity_t *entity, dmi_processor_t *info,
                                         uint32_t low, uint32_t high)
 {
@@ -173,10 +223,6 @@ static void dmi_processor_decode_id_x86(const dmi_entity_t *entity, dmi_processo
     info->x86_id.model = model;
 }
 
-/**
- * @internal
- * @brief Decode Main ID Register (MIDR or MIDR_EL1) of Arm processors.
- */
 static void dmi_processor_decode_id_midr(dmi_processor_t *info, uint32_t low)
 {
     info->arm_id.implementer  = (low >> 24) & 0xFFu;
@@ -186,10 +232,6 @@ static void dmi_processor_decode_id_midr(dmi_processor_t *info, uint32_t low)
     info->arm_id.revision     = low & 0x0Fu;
 }
 
-/**
- * @internal
- * @brief Decode SoC ID version and revision, as returned by SMCCC_ARCH_SOC_ID.
- */
 static void dmi_processor_decode_id_soc(dmi_processor_t *info, uint32_t low, uint32_t high)
 {
     info->soc_id.jep106_bank  = (low >> 24) & 0x7Fu;

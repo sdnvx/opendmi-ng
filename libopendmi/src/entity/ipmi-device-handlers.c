@@ -13,9 +13,6 @@
 
 #include "ipmi-device-internal.h"
 
-//
-// Revision is one nibble of major and one of minor.
-//
 bool dmi_ipmi_device_decode_version(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -39,13 +36,6 @@ bool dmi_ipmi_device_encode_version(
     return true;
 }
 
-//
-// Base address means what the interface type says it does: an SMBus target
-// address shifted left by one bit for the SSIF interface, and a memory or an
-// I/O address for the rest, whose least significant bit tells the two apart
-// and is carried by the modifier instead, see
-// dmi_ipmi_device_decode_modifier().
-//
 bool dmi_ipmi_device_decode_address(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -88,11 +78,6 @@ bool dmi_ipmi_device_encode_address(
     return true;
 }
 
-//
-// Base address modifier holds the least significant bit of a memory or an
-// I/O address along with the interrupt information. The structure is allowed
-// to end before it, which leaves the bit clear and the rest unspecified.
-//
 bool dmi_ipmi_device_decode_modifier(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,

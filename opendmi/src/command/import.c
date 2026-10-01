@@ -10,7 +10,22 @@
 #include <opendmi/internal.h>
 #include <opendmi/command/import.h>
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_import_usage(void);
+
+/**
+ * @internal
+ * @brief Import SMBIOS data, which is not implemented yet.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] argc    Number of the arguments, unused.
+ * @param[in] argv    Arguments of the command, unused.
+ *
+ * @return Always `EXIT_FAILURE`.
+ */
 static int dmi_import_main(dmi_context_t *context, int argc, char *argv[]);
 
 static const dmi_option_set_t dmi_import_options =

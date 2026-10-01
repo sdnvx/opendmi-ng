@@ -36,10 +36,6 @@ dmi_size_t dmi_firmware_rom_size_ex(dmi_word_t value)
     return size;
 }
 
-//
-// Release date is written as a string, and the structures whose string is
-// missing or malformed carry no date at all.
-//
 bool dmi_firmware_decode_date(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -64,9 +60,6 @@ bool dmi_firmware_decode_date(
     return true;
 }
 
-//
-// ROM size is carried as the number of the granules it takes.
-//
 bool dmi_firmware_decode_rom_size(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -83,10 +76,6 @@ bool dmi_firmware_decode_rom_size_ex(
     return dmi_field_set(field, value, dmi_firmware_rom_size_ex((dmi_word_t)data->number));
 }
 
-//
-// Versions are one byte of major and one of minor, and the major number of
-// 0xFF says that the platform carries no version at all.
-//
 bool dmi_firmware_decode_version(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -100,10 +89,6 @@ bool dmi_firmware_decode_version(
     return dmi_field_set(field, value, dmi_version(major, (unsigned int)((data->number >> 8) & 0xFFu), 0));
 }
 
-//
-// Release date is written the way the specification spells it, and no date
-// is written as no string.
-//
 bool dmi_firmware_encode_date(
         const dmi_field_t *field,
         const void        *value,
@@ -136,11 +121,6 @@ bool dmi_firmware_encode_rom_size(
     return true;
 }
 
-//
-// Extended size is written in megabytes whenever it fits, and in gigabytes
-// otherwise, the way the two most significant bits of the field tell them
-// apart.
-//
 bool dmi_firmware_encode_rom_size_ex(
         const dmi_field_t *field,
         const void        *value,
@@ -156,9 +136,6 @@ bool dmi_firmware_encode_rom_size_ex(
     return true;
 }
 
-//
-// Platform which carries no version says so by the major number of 0xFF.
-//
 bool dmi_firmware_encode_version(
         const dmi_field_t *field,
         const void        *value,

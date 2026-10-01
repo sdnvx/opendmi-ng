@@ -152,10 +152,74 @@ static bool dmi_anonymize_entities(dmi_anonymizer_t *anon);
  */
 static bool dmi_anonymize_elsewhere(dmi_anonymizer_t *anon);
 
+/**
+ * @internal
+ * @brief Generate the random key of the replacements.
+ *
+ * @details There is no weaker fallback if the key cannot be generated, since
+ * replacements of a guessable key could be reversed by trying the values a
+ * serial number may take.
+ *
+ * @param[in,out] anon Anonymization state.
+ *
+ * @error DMI_ERROR_INTERNAL Random key cannot be generated
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_anonymize_key(dmi_anonymizer_t *anon);
+
+/**
+ * @internal
+ * @brief Rotate a 64-bit value left.
+ *
+ * @param[in] value Value to rotate.
+ * @param[in] bits  Number of bits to rotate by, from 1 to 63.
+ *
+ * @return Rotated value.
+ */
+static uint64_t dmi_anonymize_rotl(uint64_t value, unsigned bits);
+
+/**
+ * @internal
+ * @brief Compute the keyed hash of data.
+ *
+ * @details SipHash-2-4 is used, a keyed hash whose output tells nothing of
+ * its input without the key, which is what makes the replacements
+ * irreversible.
+ *
+ * @param[in] anon   Anonymization state holding the key.
+ * @param[in] data   Data to hash.
+ * @param[in] length Length of the data.
+ *
+ * @return Hash of the data.
+ */
 static uint64_t dmi_anonymize_hash(const dmi_anonymizer_t *anon, const void *data, size_t length);
+
+/**
+ * @internal
+ * @brief Get the next pseudo-random value of a sequence.
+ *
+ * @details SplitMix64 is used, which stretches the hash of a value into as
+ * many random bytes as its replacement takes.
+ *
+ * @param[in,out] state State of the sequence, seeded with a hash.
+ *
+ * @return Next value of the sequence.
+ */
 static uint64_t dmi_anonymize_next(uint64_t *state);
 
+/**
+ * @internal
+ * @brief Replace the private values of a structure.
+ *
+ * @details Structures which are not decoded, or whose specification has no
+ * attributes, are left as they are.
+ *
+ * @param[in,out] anon   Anonymization state.
+ * @param[in,out] entity Structure to anonymize.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_anonymize_entity(dmi_anonymizer_t *anon, dmi_entity_t *entity);
 
 /**
@@ -172,6 +236,11 @@ typedef struct dmi_anonymize_walk
  * @internal
  * @brief Replace a private value the walk of the attributes reaches, unless
  * it is unspecified or unknown, which identifies nothing.
+ *
+ * @param[in] context Walk state, `dmi_anonymize_walk_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return `true` to continue the walk, `false` on failure.
  */
 static bool dmi_anonymize_visit(void *context, const dmi_attribute_node_t *node);
 
@@ -355,17 +424,97 @@ static const dmi_byte_t *dmi_anonymize_find(
         const dmi_byte_t            *result,
         size_t                       length,
         const dmi_anonymize_saved_t *saved);
+
+/**
+ * @internal
+ * @brief Put the saved members back into the decoded structure, and free
+ * them.
+ *
+ * @details Members are put back in the reverse order, in case one is saved
+ * twice.
+ *
+ * @param[in,out] anon Anonymization state.
+ */
 static void dmi_anonymize_restore(dmi_anonymizer_t *anon);
 
+/**
+ * @internal
+ * @brief Add a value and its replacement to the values replaced elsewhere.
+ *
+ * @details Blank values are left out. A value which has been added already
+ * is not added again, but is propagated if either addition asks for it.
+ *
+ * @param[in,out] anon        Anonymization state.
+ * @param[in]     data        Value to replace.
+ * @param[in]     replacement Replacement of the same length as @p data.
+ * @param[in]     length      Length of the value.
+ * @param[in]     propagate   Value is to be replaced wherever it is found,
+ *                            rather than only where its attribute is.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Value cannot be added
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_anonymize_add(
         dmi_anonymizer_t *anon,
         const void       *data,
         const void       *replacement,
         size_t            length,
         bool              propagate);
+
+/**
+ * @internal
+ * @brief Check whether a string looks like an identifier, such as a serial
+ * number or an asset tag.
+ *
+ * @details Serial numbers and asset tags are single words holding digits,
+ * unlike the names firmware puts in their place, and are made of more than a
+ * couple of distinct characters, unlike counters such as 00000001.
+ *
+ * @param[in] text String to check.
+ *
+ * @return `true` if the string looks like an identifier, `false` otherwise.
+ */
 static bool dmi_anonymize_is_identifier(const char *text);
+
+/**
+ * @internal
+ * @brief Check whether a value is blank, i.e. is one byte repeated.
+ *
+ * @details Values of one byte repeated, e.g. all zeroes, all bits set or all
+ * spaces, stand for no value at all.
+ *
+ * @param[in] data   Value to check.
+ * @param[in] length Length of the value.
+ *
+ * @return `true` if the value is blank, `false` otherwise.
+ */
 static bool dmi_anonymize_is_blank(const void *data, size_t length);
+
+/**
+ * @internal
+ * @brief Make the replacement of a text value.
+ *
+ * @details Letters and digits are replaced with ones of their own kind, so
+ * the value keeps its format, and everything else is kept.
+ *
+ * @param[in]  anon   Anonymization state.
+ * @param[in]  data   Value to replace.
+ * @param[in]  length Length of the value.
+ * @param[out] out    Buffer of @p length bytes to store the replacement in.
+ */
 static void dmi_anonymize_text(const dmi_anonymizer_t *anon, const dmi_byte_t *data, size_t length, dmi_byte_t *out);
+
+/**
+ * @internal
+ * @brief Make the replacement of a binary value.
+ *
+ * @param[in]  anon   Anonymization state.
+ * @param[in]  data   Value to replace.
+ * @param[in]  length Length of the value.
+ * @param[in]  keep   Number of leading bytes kept as they are.
+ * @param[out] out    Buffer of @p length bytes to store the replacement in.
+ */
 static void dmi_anonymize_bytes(
         const dmi_anonymizer_t *anon,
         const dmi_byte_t       *data,
@@ -373,14 +522,55 @@ static void dmi_anonymize_bytes(
         size_t                  keep,
         dmi_byte_t             *out);
 
+/**
+ * @internal
+ * @brief Replace the collected values wherever the strings of a structure
+ * hold them.
+ *
+ * @param[in,out] anon   Anonymization state.
+ * @param[in]     entity Structure of the source table.
+ */
 static void dmi_anonymize_strings(dmi_anonymizer_t *anon, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Replace the collected values wherever the formatted area of a
+ * structure holds them.
+ *
+ * @details Header is left out, since its handle may happen to match.
+ *
+ * @param[in,out] anon   Anonymization state.
+ * @param[in]     entity Structure of the source table.
+ */
 static void dmi_anonymize_body(dmi_anonymizer_t *anon, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Replace the collected values wherever a range of the table holds
+ * them.
+ *
+ * @details Longer values are replaced first, so that a value holding another
+ * one is not replaced in part. Source is searched rather than the copy, whose
+ * bytes are replaced already where a value has been found.
+ *
+ * @param[in,out] anon    Anonymization state.
+ * @param[in]     start   Offset of the range in the table.
+ * @param[in]     end     Offset past the end of the range.
+ * @param[in]     minimum Shortest value to replace.
+ */
 static void dmi_anonymize_replace(
         dmi_anonymizer_t *anon,
         size_t            start,
         size_t            end,
         size_t            minimum);
 
+/**
+ * @internal
+ * @brief Free the resources of an anonymization, putting the saved members
+ * back first.
+ *
+ * @param[in,out] anon Anonymization state.
+ */
 static void dmi_anonymize_cleanup(dmi_anonymizer_t *anon);
 
 bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table)
@@ -520,6 +710,10 @@ static uint64_t dmi_anonymize_rotl(uint64_t value, unsigned bits)
     return (value << bits) | (value >> (64 - bits));
 }
 
+/**
+ * @internal
+ * @brief One round of SipHash over its four state words.
+ */
 #define DMI_SIPROUND(v0, v1, v2, v3)                           \
     do {                                                       \
         v0 += v1; v1 = dmi_anonymize_rotl(v1, 13); v1 ^= v0;   \
@@ -530,10 +724,6 @@ static uint64_t dmi_anonymize_rotl(uint64_t value, unsigned bits)
         v2 = dmi_anonymize_rotl(v2, 32);                       \
     } while (false)
 
-//
-// SipHash-2-4, a keyed hash whose output tells nothing of its input without
-// the key, which is what makes the replacements irreversible
-//
 static uint64_t dmi_anonymize_hash(const dmi_anonymizer_t *anon, const void *data, size_t length)
 {
     const dmi_byte_t *bytes = data;
@@ -575,10 +765,6 @@ static uint64_t dmi_anonymize_hash(const dmi_anonymizer_t *anon, const void *dat
 
 #undef DMI_SIPROUND
 
-//
-// SplitMix64, which stretches the hash of a value into as many random bytes
-// as its replacement takes
-//
 static uint64_t dmi_anonymize_next(uint64_t *state)
 {
     uint64_t z = (*state += UINT64_C(0x9E3779B97F4A7C15));

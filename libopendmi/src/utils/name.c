@@ -9,6 +9,22 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 
+/**
+ * @internal
+ * @brief Find entry for the identifier.
+ *
+ * @details Exact entries take precedence over ranges. Printable names are
+ * translated if the locale has a translation for the entry, while codes are
+ * never translated.
+ *
+ * @param[in]  dict  Dictionary to search.
+ * @param[in]  id    Identifier to look up.
+ * @param[out] pcode Variable to store the code of the entry in, or `nullptr`.
+ * @param[out] pname Variable to store the name of the entry in, or `nullptr`.
+ * @param[out] ptype Variable to store the type of the entry in, or `nullptr`.
+ *
+ * @return `true` if a matching entry is found, `false` otherwise.
+ */
 static bool dmi_name_find(
         const dmi_name_set_t  *dict,
         int                    id,
@@ -55,10 +71,6 @@ const char *dmi_name_lookup_ex(const dmi_name_set_t *dict, int id, dmi_name_type
     return name;
 }
 
-//
-// Find entry for the identifier, exact entries take precedence over ranges.
-// Returns false if there is no matching entry.
-//
 static bool dmi_name_find(
         const dmi_name_set_t  *dict,
         int                    id,

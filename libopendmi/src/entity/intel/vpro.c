@@ -11,7 +11,10 @@
 
 #include "vpro-internal.h"
 
-// Attributes of the versions of the firmware components
+/**
+ * @internal
+ * @brief Attributes of the versions of the firmware components.
+ */
 static const dmi_attribute_t dmi_intel_vpro_version_attrs[] =
 {
     DMI_ATTRIBUTE(dmi_intel_vpro_version_t, major, INTEGER, {
@@ -33,8 +36,11 @@ static const dmi_attribute_t dmi_intel_vpro_version_attrs[] =
     {}
 };
 
-// Bits of the capabilities, named as the Intel AMT implementation guide
-// names them
+/**
+ * @internal
+ * @brief Names of the bits of the capabilities, as the Intel AMT
+ * implementation guide names them.
+ */
 static const dmi_name_set_t dmi_intel_vpro_cpu_caps_names =
 {
     .code  = "intel-vpro-cpu-caps",

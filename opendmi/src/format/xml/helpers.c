@@ -15,6 +15,17 @@
 
 #include <opendmi/format/xml/helpers.h>
 
+/**
+ * @internal
+ * @brief Check if character is allowed in XML 1.0 documents.
+ *
+ * @details Surrogates and code points beyond U+10FFFF are already rejected as
+ * invalid UTF-8.
+ *
+ * @param[in] code Code point of the character.
+ *
+ * @return `true` if the character is allowed, `false` otherwise.
+ */
 static bool dmi_xml_is_char(uint32_t code);
 
 bool dmi_xml_check(dmi_xml_session_t *session, int rv)
@@ -78,10 +89,6 @@ bool dmi_xml_text(dmi_xml_session_t *session, const char *str)
     return dmi_xml_check(session, rv);
 }
 
-//
-// Check if character is allowed in XML 1.0 documents. Surrogates and code
-// points beyond U+10FFFF are already rejected as invalid UTF-8.
-//
 static bool dmi_xml_is_char(uint32_t code)
 {
     if (code < 0x20u)

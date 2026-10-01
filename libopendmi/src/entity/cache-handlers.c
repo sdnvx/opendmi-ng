@@ -39,9 +39,6 @@ dmi_size_t dmi_cache_size_ex(uint32_t value)
     return size;
 }
 
-//
-// Levels are counted from zero in the data and from one everywhere else.
-//
 bool dmi_cache_decode_level(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -50,10 +47,6 @@ bool dmi_cache_decode_level(
     return dmi_field_set(field, value, data->number + 1);
 }
 
-//
-// Sizes are carried in granules, whose width the most significant bit of the
-// field says.
-//
 bool dmi_cache_decode_size(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -82,10 +75,6 @@ bool dmi_cache_encode_level(
     return true;
 }
 
-//
-// Sizes are written in granules of one kibibyte whenever they fit, and of
-// sixty-four kibibytes otherwise.
-//
 bool dmi_cache_encode_size(
         const dmi_field_t *field,
         const void        *value,

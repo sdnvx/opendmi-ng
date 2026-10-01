@@ -16,10 +16,20 @@
 #include <opendmi/entity/dell/revisions.h>
 
 // Operation handlers, see revisions-handlers.c
+
+/**
+ * @internal
+ * @brief Decode the implementation version.
+ *
+ * @details Implementation version is carried as the major and the minor
+ * number, one byte each, which the version number puts in the order it counts
+ * them.
+ */
 bool dmi_dell_revisions_decode_version(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
         void                   *value);
+
 bool dmi_dell_revisions_encode_version(
         const dmi_field_t *field,
         const void        *value,

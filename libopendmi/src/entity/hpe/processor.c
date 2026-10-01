@@ -140,18 +140,3 @@ const dmi_entity_spec_t dmi_hpe_processor_spec =
         .derive = dmi_hpe_processor_derive
     }
 };
-
-//
-// Number is taken only when it is printable, with the spaces padding it
-// left out.
-//
-bool dmi_hpe_processor_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_processor_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_processor));
-    if (info == nullptr)
-        return false;
-
-    info->qdf = dmi_text_from_bytes(info->qdf_raw, sizeof(info->qdf_raw), info->qdf_buffer, true);
-
-    return true;
-}

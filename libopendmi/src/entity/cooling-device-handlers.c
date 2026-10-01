@@ -15,10 +15,6 @@
 
 #include "cooling-device-internal.h"
 
-//
-// Speeds are carried in revolutions per minute, with the most significant bit
-// set aside, and the value of exactly 0x8000 stands for "unknown".
-//
 bool dmi_cooling_device_decode_speed(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,

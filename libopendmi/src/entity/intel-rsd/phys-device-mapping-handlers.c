@@ -10,10 +10,15 @@
 
 #include "phys-device-mapping-internal.h"
 
-// Location numbers are named according to the device type, and the data of
-// unknown device types is shown as stored. Handles refer to the structures of
-// the type the device type names, and the variants carry the code of the
-// attribute along for the rules which check them.
+/**
+ * @internal
+ * @brief Attributes of a device location.
+ *
+ * @details Location numbers are named according to the device type, and the
+ * data of unknown device types is shown as stored. Handles refer to the
+ * structures of the type the device type names, and the variants carry the
+ * code of the attribute along for the rules which check them.
+ */
 const dmi_attribute_t dmi_intel_rsd_phys_device_attrs[] =
 {
     DMI_ATTRIBUTE_VARIANT(dmi_intel_rsd_phys_device_t, type, {
@@ -87,10 +92,6 @@ const dmi_attribute_t dmi_intel_rsd_phys_device_attrs[] =
     {}
 };
 
-//
-// Every device of a structure is of the type the structure declares, and the
-// location data means what that type says it does.
-//
 bool dmi_intel_rsd_phys_device_mapping_derive(dmi_entity_t *entity)
 {
     dmi_intel_rsd_phys_device_mapping_t *info;

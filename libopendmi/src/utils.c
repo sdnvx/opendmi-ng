@@ -40,7 +40,20 @@
 #endif
 
 #ifndef _WIN32
+
+/**
+ * @internal
+ * @brief Copy data from mapped device memory.
+ *
+ * @details On AArch64 the data is copied byte by byte, since device memory
+ * does not allow unaligned access.
+ *
+ * @param[out] dst    Buffer to copy the data to.
+ * @param[in]  src    Mapped memory to copy the data from.
+ * @param[in]  length Number of bytes to copy.
+ */
 static void dmi_memory_get_data(dmi_data_t *dst, const dmi_data_t *src, size_t length);
+
 #endif
 
 void *dmi_alloc(dmi_context_t *context, size_t size)

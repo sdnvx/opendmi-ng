@@ -17,7 +17,22 @@ typedef struct dmi_dump_config
     bool  anonymize;
 } dmi_dump_config_t;
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_dump_usage(void);
+
+/**
+ * @internal
+ * @brief Save the SMBIOS data of the context into a binary dump file.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments, unused.
+ * @param[in] argv    Arguments of the command, unused.
+ *
+ * @return Exit code of the command.
+ */
 static int dmi_dump_main(dmi_context_t *context, int argc, char *argv[]);
 
 static dmi_dump_config_t dmi_dump_config =

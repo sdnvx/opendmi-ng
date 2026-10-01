@@ -13,6 +13,12 @@
 /**
  * @internal
  * @brief Walk the elements of an array or of a vector.
+ *
+ * @param[in] node    Place of the array in the walk.
+ * @param[in] visitor Callbacks of the walk.
+ * @param[in] context Context passed to the callbacks.
+ *
+ * @return `false` if a callback has stopped the walk, `true` otherwise.
  */
 static bool dmi_attribute_walk_array(
         const dmi_attribute_node_t    *node,
@@ -23,6 +29,12 @@ static bool dmi_attribute_walk_array(
  * @internal
  * @brief Walk the members of a nested structure, which is a member itself or
  * an element of an array.
+ *
+ * @param[in] node    Place of the structure in the walk.
+ * @param[in] visitor Callbacks of the walk.
+ * @param[in] context Context passed to the callbacks.
+ *
+ * @return `false` if a callback has stopped the walk, `true` otherwise.
  */
 static bool dmi_attribute_walk_struct(
         const dmi_attribute_node_t    *node,
@@ -33,6 +45,12 @@ static bool dmi_attribute_walk_struct(
  * @internal
  * @brief Walk the value of a member or of an element, which is a structure
  * or a plain value.
+ *
+ * @param[in] node    Place of the value in the walk.
+ * @param[in] visitor Callbacks of the walk.
+ * @param[in] context Context passed to the callbacks.
+ *
+ * @return `false` if a callback has stopped the walk, `true` otherwise.
  */
 static bool dmi_attribute_walk_value(
         const dmi_attribute_node_t    *node,
@@ -43,26 +61,32 @@ static bool dmi_attribute_walk_value(
  * @internal
  * @brief Call an entering callback, which goes on into the value if there is
  * none.
+ *
+ * @param[in] enter   Entering callback, or `nullptr`.
+ * @param[in] context Context passed to the callback.
+ * @param[in] node    Place the walk has reached.
+ *
+ * @return What the walk does next.
  */
 static inline dmi_attribute_walk_t dmi_attribute_enter(
         dmi_attribute_enter_fn     *enter,
         void                       *context,
-        const dmi_attribute_node_t *node)
-{
-    return (enter != nullptr) ? enter(context, node) : DMI_ATTRIBUTE_WALK_CONTINUE;
-}
+        const dmi_attribute_node_t *node);
 
 /**
  * @internal
  * @brief Call a leaving callback, which goes on if there is none.
+ *
+ * @param[in] leave   Leaving callback, or `nullptr`.
+ * @param[in] context Context passed to the callback.
+ * @param[in] node    Place the walk is leaving.
+ *
+ * @return `false` if the callback has stopped the walk, `true` otherwise.
  */
 static inline bool dmi_attribute_leave(
         dmi_attribute_leave_fn     *leave,
         void                       *context,
-        const dmi_attribute_node_t *node)
-{
-    return (leave == nullptr) or leave(context, node);
-}
+        const dmi_attribute_node_t *node);
 
 bool dmi_attributes_walk(
         const dmi_attribute_t         *attrs,
@@ -200,4 +224,20 @@ static bool dmi_attribute_walk_value(
         return dmi_attribute_walk_struct(node, visitor, context);
 
     return (visitor->value == nullptr) or visitor->value(context, node);
+}
+
+static inline dmi_attribute_walk_t dmi_attribute_enter(
+        dmi_attribute_enter_fn     *enter,
+        void                       *context,
+        const dmi_attribute_node_t *node)
+{
+    return (enter != nullptr) ? enter(context, node) : DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static inline bool dmi_attribute_leave(
+        dmi_attribute_leave_fn     *leave,
+        void                       *context,
+        const dmi_attribute_node_t *node)
+{
+    return (leave == nullptr) or leave(context, node);
 }

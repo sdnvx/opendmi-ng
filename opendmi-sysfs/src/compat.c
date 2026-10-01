@@ -12,6 +12,39 @@
 
 int dmi_compat_errno;
 
+/**
+ * @internal
+ * @brief Parse the magnitude of a number as `strtoull()` does, without
+ * applying its sign.
+ *
+ * @param[in]  str      String to parse.
+ * @param[out] end      Variable to store the pointer past the number in, or
+ *                      `nullptr`.
+ * @param[in]  base     Base of the number, or zero to detect it by prefix.
+ * @param[out] negative Variable to store whether the number has a minus sign
+ *                      in.
+ * @param[out] overflow Variable to store whether the magnitude does not fit
+ *                      into `unsigned long long` in.
+ *
+ * @return Magnitude of the number, or zero if the base is invalid.
+ */
+static unsigned long long dmi_compat_strtonum(
+        const char  *str,
+        char       **end,
+        int          base,
+        bool        *negative,
+        bool        *overflow);
+
+/**
+ * @internal
+ * @brief Get the value of a digit of any base up to 36.
+ *
+ * @param[in] c Character to convert.
+ *
+ * @return Value of the digit, or `INT_MAX` if the character is not a digit.
+ */
+static int dmi_compat_digit(int c);
+
 char *strtok_r(char *str, const char *delim, char **saveptr)
 {
     if (str == NULL)
@@ -34,6 +67,34 @@ char *strtok_r(char *str, const char *delim, char **saveptr)
     return str;
 }
 
+unsigned long long strtoull(const char *str, char **end, int base)
+{
+    unsigned long long value;
+    bool negative, overflow;
+
+    value = dmi_compat_strtonum(str, end, base, &negative, &overflow);
+    if (overflow) {
+        errno = ERANGE;
+        return ULLONG_MAX;
+    }
+
+    return negative ? -value : value;
+}
+
+unsigned long strtoul(const char *str, char **end, int base)
+{
+    unsigned long long value;
+    bool negative, overflow;
+
+    value = dmi_compat_strtonum(str, end, base, &negative, &overflow);
+    if (overflow || (value > ULONG_MAX)) {
+        errno = ERANGE;
+        return ULONG_MAX;
+    }
+
+    return negative ? -(unsigned long)value : (unsigned long)value;
+}
+
 static int dmi_compat_digit(int c)
 {
     if (isdigit(c))
@@ -44,7 +105,6 @@ static int dmi_compat_digit(int c)
     return INT_MAX;
 }
 
-// Parse the magnitude of a number as strtoull() does, without its sign
 static unsigned long long dmi_compat_strtonum(
         const char  *str,
         char       **end,
@@ -99,32 +159,4 @@ static unsigned long long dmi_compat_strtonum(
         *end = (char *)(found ? pos : str);
 
     return value;
-}
-
-unsigned long long strtoull(const char *str, char **end, int base)
-{
-    unsigned long long value;
-    bool negative, overflow;
-
-    value = dmi_compat_strtonum(str, end, base, &negative, &overflow);
-    if (overflow) {
-        errno = ERANGE;
-        return ULLONG_MAX;
-    }
-
-    return negative ? -value : value;
-}
-
-unsigned long strtoul(const char *str, char **end, int base)
-{
-    unsigned long long value;
-    bool negative, overflow;
-
-    value = dmi_compat_strtonum(str, end, base, &negative, &overflow);
-    if (overflow || (value > ULONG_MAX)) {
-        errno = ERANGE;
-        return ULONG_MAX;
-    }
-
-    return negative ? -(unsigned long)value : (unsigned long)value;
 }

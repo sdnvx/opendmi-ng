@@ -14,10 +14,6 @@
 
 #include "battery-internal.h"
 
-//
-// SBDS date packs the year counted from 1980, the month and the day into one
-// word, and zero stands for no date.
-//
 bool dmi_battery_decode_sbds_date(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -57,11 +53,6 @@ bool dmi_battery_encode_sbds_date(
     return true;
 }
 
-//
-// Manufacture date is the one the string spells, or the SBDS one when the
-// string spells none, and the capacity is the design one times its
-// multiplier.
-//
 bool dmi_battery_derive(dmi_entity_t *entity)
 {
     dmi_battery_t *info;

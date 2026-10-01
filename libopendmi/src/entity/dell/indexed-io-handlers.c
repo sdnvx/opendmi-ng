@@ -49,6 +49,17 @@ const dmi_attribute_t dmi_dell_indexed_io_token_attrs[] =
     {}
 };
 
+/**
+ * @internal
+ * @brief Write a single token of the structure.
+ *
+ * @param[in,out] encoder Encoder of the structure.
+ * @param[in]     item    Token to write.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_dell_indexed_io_encode_token(dmi_encoder_t *encoder, const void *item);
+
 bool dmi_dell_indexed_io_decode(dmi_decoder_t *decoder)
 {
     dmi_entity_t *entity = dmi_decoder_entity(decoder);
@@ -132,23 +143,6 @@ void dmi_dell_indexed_io_cleanup(dmi_entity_t *entity)
     dmi_free(info->tokens);
 }
 
-static bool dmi_dell_indexed_io_encode_token(
-        dmi_encoder_t                     *encoder,
-        const dmi_dell_indexed_io_token_t *token)
-{
-    // String tokens have no mask, and the value is the string length
-    dmi_byte_t value = token->is_string ? token->string_length : token->or_value;
-
-    return
-        dmi_encoder_put(encoder, dmi_word_t, token->id) and
-        dmi_encoder_put(encoder, dmi_byte_t, token->location) and
-        dmi_encoder_put(encoder, dmi_byte_t, token->and_mask) and
-        dmi_encoder_put(encoder, dmi_byte_t, value);
-}
-
-//
-// Tokens are written in turn, and are terminated by the end-of-table marker.
-//
 bool dmi_dell_indexed_io_encode(dmi_encoder_t *encoder)
 {
     const dmi_dell_indexed_io_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(dell_indexed_io));
@@ -165,43 +159,20 @@ bool dmi_dell_indexed_io_encode(dmi_encoder_t *encoder)
     if (not status)
         return false;
 
-    // Tokens the decoder drops as unused are not in the model, so the records
-    // of the source data are walked in the preserve mode: the unused ones are
-    // kept as they are, and the rest are written from the model in turn
-    size_t next = 0;
+    return dmi_dell_tokens_encode(encoder, info->tokens, sizeof(*info->tokens), info->token_count,
+                                  DMI_DELL_INDEXED_IO_TOKEN_SIZE, dmi_dell_indexed_io_encode_token);
+}
 
-    while ((encoder->mode == DMI_ENCODE_MODE_PRESERVE) and (next < info->token_count)) {
-        dmi_byte_t id[2];
+static bool dmi_dell_indexed_io_encode_token(dmi_encoder_t *encoder, const void *item)
+{
+    const dmi_dell_indexed_io_token_t *token = item;
 
-        if (not dmi_encoder_peek(encoder, id, sizeof(id)))
-            break;
+    // String tokens have no mask, and the value is the string length
+    dmi_byte_t value = token->is_string ? token->string_length : token->or_value;
 
-        dmi_word_t original = (dmi_word_t)(id[0] | (id[1] << 8));
-
-        if ((original == DMI_DELL_TOKEN_EOT) or (dmi_encoder_remaining(encoder) < DMI_DELL_INDEXED_IO_TOKEN_SIZE))
-            break;
-
-        if (original == DMI_DELL_TOKEN_UNUSED) {
-            if (not dmi_encoder_copy(encoder, DMI_DELL_INDEXED_IO_TOKEN_SIZE))
-                return false;
-            continue;
-        }
-
-        if (not dmi_dell_indexed_io_encode_token(encoder, &info->tokens[next++]))
-            return false;
-    }
-
-    // Tokens the source data has no records for, and all of them in the
-    // canonical mode
-    while (next < info->token_count) {
-        if (not dmi_dell_indexed_io_encode_token(encoder, &info->tokens[next++]))
-            return false;
-    }
-
-    // Marker ending the tokens is kept along with whatever follows it in the
-    // preserve mode, and written in the canonical one
-    if (encoder->mode == DMI_ENCODE_MODE_CANONICAL)
-        return dmi_encoder_put(encoder, dmi_word_t, DMI_DELL_TOKEN_EOT);
-
-    return true;
+    return
+        dmi_encoder_put(encoder, dmi_word_t, token->id) and
+        dmi_encoder_put(encoder, dmi_byte_t, token->location) and
+        dmi_encoder_put(encoder, dmi_byte_t, token->and_mask) and
+        dmi_encoder_put(encoder, dmi_byte_t, value);
 }

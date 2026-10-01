@@ -11,11 +11,6 @@
 
 #include "firmware-language-internal.h"
 
-//
-// Languages available are the strings of the structure, so the array points
-// at the ones the structure carries rather than at anything read from the
-// data.
-//
 bool dmi_firmware_language_derive(dmi_entity_t *entity)
 {
     dmi_firmware_language_t *info;

@@ -11,6 +11,38 @@ typedef struct
     PyObject_HEAD
 } Context;
 
+/**
+ * @internal
+ * @brief Free a context object.
+ *
+ * @param[in] self Context object.
+ */
+static void Context_dealloc(Context *self);
+
+/**
+ * @internal
+ * @brief Allocate a context object.
+ *
+ * @param[in] type Type of the object.
+ * @param[in] args Positional arguments, which are not used.
+ * @param[in] kwds Keyword arguments, which are not used.
+ *
+ * @return New object, or `nullptr` on failure.
+ */
+static PyObject *Context_new(PyTypeObject *type, PyObject *Py_UNUSED(args), PyObject *Py_UNUSED(kwds));
+
+/**
+ * @internal
+ * @brief Initialize a context object.
+ *
+ * @param[in] self Context object.
+ * @param[in] args Positional arguments, which are not used.
+ * @param[in] kwds Keyword arguments, which are not used.
+ *
+ * @return Zero on success.
+ */
+static int Context_init(Context *Py_UNUSED(self), PyObject *Py_UNUSED(args), PyObject *Py_UNUSED(kwds));
+
 static void Context_dealloc(Context *self)
 {
     Py_TYPE(self)->tp_free(self);

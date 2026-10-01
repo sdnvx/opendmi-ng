@@ -38,21 +38,20 @@
 #define DMI_MEMORY_DEVICE_ATTRIBUTES_RESERVED_3_10 0x80u
 #define DMI_MEMORY_DEVICE_ATTRIBUTES_DISABLED 0x20u
 
-//
-// Attributes are read the way the version the data is checked against
-// defines them, so they are taken from the data rather than from the members
-// decoded by the version of the entry point.
-//
-static bool dmi_memory_device_lint_get_attributes(const dmi_entity_t *entity, dmi_byte_t *value)
-{
-    dmi_reader_t reader;
-
-    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
-                                  dmi_entity_offset(entity), entity->body_length))
-        return false;
-
-    return dmi_reader_get_bytes_at(&reader, value, DMI_MEMORY_DEVICE_ATTRIBUTES_OFFSET, sizeof(*value));
-}
+/**
+ * @internal
+ * @brief Read the attributes of the device from the data of the structure.
+ *
+ * @details Attributes are read the way the version the data is checked
+ * against defines them, so they are taken from the data rather than from the
+ * members decoded by the version of the entry point.
+ *
+ * @param[in]  entity Structure being checked.
+ * @param[out] value  Variable to store the attributes in.
+ *
+ * @return `true` on success, `false` if the structure does not carry them.
+ */
+static bool dmi_memory_device_lint_get_attributes(const dmi_entity_t *entity, dmi_byte_t *value);
 
 void dmi_memory_device_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
@@ -223,4 +222,15 @@ void dmi_memory_device_lint_disabled(dmi_lint_t *lint, const dmi_entity_t *entit
     dmi_lint_issue(lint, entity, "error-info-handle", dmi_lint_entity_offset(lint, entity),
                    "device is disabled because of an error, while its error "
                    "information at handle 0x%04X reports none", info->error_info_handle);
+}
+
+static bool dmi_memory_device_lint_get_attributes(const dmi_entity_t *entity, dmi_byte_t *value)
+{
+    dmi_reader_t reader;
+
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
+        return false;
+
+    return dmi_reader_get_bytes_at(&reader, value, DMI_MEMORY_DEVICE_ATTRIBUTES_OFFSET, sizeof(*value));
 }

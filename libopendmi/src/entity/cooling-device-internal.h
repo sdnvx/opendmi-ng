@@ -15,14 +15,27 @@
 
 #include <opendmi/entity/cooling-device.h>
 
-// Value names, see cooling-device-names.c
 extern const dmi_name_set_t dmi_cooling_device_type_names;
 
-// Operation handlers, see cooling-device-handlers.c
+/**
+ * @internal
+ * @brief Decode the nominal speed of a cooling device.
+ *
+ * @details Speeds are carried in revolutions per minute, with the most
+ * significant bit set aside, and the value of exactly 0x8000 stands for
+ * "unknown".
+ *
+ * @param[in]  field Field being decoded.
+ * @param[in]  data  Data the field carries.
+ * @param[out] value Variable to store the speed in.
+ *
+ * @return `true` if the data has been decoded, `false` otherwise.
+ */
 bool dmi_cooling_device_decode_speed(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
         void                   *value);
+
 bool dmi_cooling_device_encode_speed(
         const dmi_field_t *field,
         const void        *value,

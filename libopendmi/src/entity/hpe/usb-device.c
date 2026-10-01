@@ -142,17 +142,6 @@ const dmi_entity_spec_t dmi_hpe_usb_device_spec =
     }
 };
 
-bool dmi_hpe_usb_device_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_usb_device_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_usb_device));
-    if (info == nullptr)
-        return false;
-
-    info->capacity = (uint64_t)info->raw_capacity * 1024 * 1024;
-
-    return true;
-}
-
 const dmi_name_set_t dmi_hpe_usb_storage_subclass_names =
 {
     .code  = "hpe-usb-storage-subclass",

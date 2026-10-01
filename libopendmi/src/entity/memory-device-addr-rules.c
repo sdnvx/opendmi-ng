@@ -27,10 +27,6 @@ void dmi_memory_device_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *ent
                    info->start_addr, info->end_addr);
 }
 
-//
-// A device is mapped within the range of the array it belongs to, since the
-// array is what the range of the device is carved out of.
-//
 void dmi_memory_device_addr_lint_bounds(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_memory_device_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device_addr));

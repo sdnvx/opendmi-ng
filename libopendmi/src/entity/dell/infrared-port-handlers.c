@@ -9,9 +9,6 @@
 
 #include "infrared-port-internal.h"
 
-//
-// Speeds are carried in hundreds of bits per second.
-//
 bool dmi_dell_infrared_port_decode_speed(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,

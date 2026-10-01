@@ -113,11 +113,13 @@ bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value)
     return true;
 }
 
-//
-// Strings which firmware leaves in place of the data it has none of. They are
-// valid strings, so they are worth a note rather than an error, but nothing
-// is to be made of them.
-//
+/**
+ * @internal
+ * @brief Strings which firmware leaves in place of the data it has none of.
+ *
+ * @details They are valid strings, so they are worth a note rather than an
+ * error, but nothing is to be made of them.
+ */
 static const char *const dmi_string_placeholders[] =
 {
     "To Be Filled By O.E.M.",

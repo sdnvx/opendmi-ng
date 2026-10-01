@@ -18,10 +18,47 @@
  */
 #define DMI_LINT_HEADER_LENGTH 4
 
+/**
+ * @internal
+ * @brief Check that the entries of an additional information structure refer
+ * to the structures of the table.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_overlay_dangling(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the entries of an additional information structure refer
+ * to the fields of the structures, not to their headers or past their ends.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_overlay_out_of_bounds(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that every entry of an additional information structure
+ * carries either a value or a string.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_overlay_empty(dmi_lint_t *lint, const dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Get the decoded data of an additional information structure.
+ *
+ * @details Decoded data is what the rules of the entries are checked against.
+ *
+ * @param[in] entity Structure to get the data of.
+ *
+ * @return Decoded data, or `nullptr` if the structure is of another type or
+ * has not been decoded.
+ */
 static const dmi_additional_info_t *dmi_lint_overlay_info(const dmi_entity_t *entity);
 
 const dmi_lint_rule_t dmi_lint_overlay_dangling_rule =
@@ -61,10 +98,6 @@ const dmi_lint_rule_t dmi_lint_overlay_empty_rule =
     }
 };
 
-//
-// Decoded data of an additional information structure, which the rules of the
-// entries are checked against.
-//
 static const dmi_additional_info_t *dmi_lint_overlay_info(const dmi_entity_t *entity)
 {
     if (dmi_entity_type(entity) != DMI_TYPE(additional_info))

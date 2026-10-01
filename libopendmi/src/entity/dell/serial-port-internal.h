@@ -21,11 +21,34 @@ extern const dmi_name_set_t dmi_dell_serial_port_caps_names;
 
 // Operation handlers, see serial-port-handlers.c
 
-// Speeds are carried in hundreds of bits per second, see serial-port-handlers.c
+/**
+ * @internal
+ * @brief Decode the speed of a serial port.
+ *
+ * @details Speeds are carried in hundreds of bits per second.
+ *
+ * @param[in]  field Field being decoded.
+ * @param[in]  data  Data the field carries.
+ * @param[out] value Variable to store the speed in.
+ *
+ * @return `true` if the data has been decoded, `false` otherwise.
+ */
 bool dmi_dell_serial_port_decode_speed(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
         void                   *value);
+
+/**
+ * @internal
+ * @brief Encode the speed of a serial port, which undoes
+ * `dmi_dell_serial_port_decode_speed()`.
+ *
+ * @param[in]  field Field being encoded.
+ * @param[in]  value Variable holding the speed.
+ * @param[out] data  Data the field is to carry.
+ *
+ * @return Always `true`.
+ */
 bool dmi_dell_serial_port_encode_speed(
         const dmi_field_t *field,
         const void        *value,

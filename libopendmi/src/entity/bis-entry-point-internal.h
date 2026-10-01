@@ -15,8 +15,18 @@
 
 #include <opendmi/entity/bis-entry-point.h>
 
-// Operation handlers, see bis-entry-point-handlers.c
 extern const dmi_attribute_t dmi_bis_real_mode_address_attrs[];
+
+/**
+ * @internal
+ * @brief Check the checksum of a BIS entry point structure.
+ *
+ * @details Checksum covers the whole structure, as the data holds it.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_bis_entry_point_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_BIS_ENTRY_POINT_INTERNAL_H

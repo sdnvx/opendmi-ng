@@ -15,7 +15,34 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 
+/**
+ * @internal
+ * @brief Add a string to the string set of the structure being written.
+ *
+ * @details Strings written from scratch are shared between the fields
+ * referring to the same text, which is how the specification numbers them.
+ *
+ * @param[in,out] encoder Encoder.
+ * @param[in]     value   String to add, or `nullptr` for a gap.
+ * @param[out]    index   Variable to store the number of the string in.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return `true` on success, `false` on error.
+ */
 static bool dmi_encoder_add_string(dmi_encoder_t *encoder, const char *value, size_t *index);
+
+/**
+ * @internal
+ * @brief Check whether the string set of the structure being written holds
+ * a string by its number.
+ *
+ * @param[in] encoder Encoder.
+ * @param[in] index   Number of the string, starting from one.
+ *
+ * @return `true` if the string is present, `false` if it is out of range or
+ * is a gap.
+ */
 static bool dmi_encoder_has_string(const dmi_encoder_t *encoder, size_t index);
 
 bool dmi_encoder_initialize(
@@ -275,10 +302,6 @@ bool dmi_encoder_finish(dmi_encoder_t *encoder)
     return dmi_writer_put_bytes_at(&encoder->writer, &header, 0, sizeof(header));
 }
 
-//
-// Strings written from scratch are shared between the fields referring to
-// the same text, which is how the specification numbers them.
-//
 static bool dmi_encoder_add_string(dmi_encoder_t *encoder, const char *value, size_t *index)
 {
     if (encoder->mode == DMI_ENCODE_MODE_CANONICAL) {

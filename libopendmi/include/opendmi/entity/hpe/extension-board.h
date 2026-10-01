@@ -141,6 +141,9 @@ struct dmi_hpe_mhs_riser
 /**
  * @brief HP/HPE extension board inventory record entity specification of
  * PCIe risers.
+ *
+ * The board type at offset `0x04` selects the layout of the rest of the
+ * structure, which each specification tells by its signature.
  */
 extern __dmi_api const dmi_entity_spec_t dmi_hpe_riser_spec;
 

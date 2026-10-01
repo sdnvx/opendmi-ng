@@ -30,10 +30,6 @@ void dmi_mgmt_device_threshold_set_component(dmi_entity_t *entity, dmi_type_id_t
     }
 }
 
-//
-// Thresholds of a structure which firmware has left as a template, with the
-// ordinals of the fields in place of the values.
-//
 bool dmi_mgmt_device_threshold_is_template(const dmi_mgmt_device_threshold_t *info)
 {
     const short values[] =

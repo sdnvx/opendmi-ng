@@ -48,6 +48,7 @@ static int test_hpe_teardown(void **pstate);
 
 static void test_hpe_device_correlation(void **pstate);
 static void test_hpe_version(void **pstate);
+static void test_hpe_version_formats(void **pstate);
 static void test_hpe_dimm_attrs(void **pstate);
 static void test_hpe_nic_mac(void **pstate);
 static void test_hpe_backplane(void **pstate);
@@ -74,6 +75,7 @@ int main(void)
     const struct CMUnitTest tests[] = {
         cmocka_unit_test_setup_teardown(test_hpe_device_correlation, test_hpe_setup, test_hpe_teardown),
         cmocka_unit_test_setup_teardown(test_hpe_version, test_hpe_setup, test_hpe_teardown),
+        cmocka_unit_test_setup_teardown(test_hpe_version_formats, test_hpe_setup, test_hpe_teardown),
         cmocka_unit_test_setup_teardown(test_hpe_dimm_attrs, test_hpe_setup, test_hpe_teardown),
         cmocka_unit_test_setup_teardown(test_hpe_nic_mac, test_hpe_setup, test_hpe_teardown),
         cmocka_unit_test_setup_teardown(test_hpe_backplane, test_hpe_setup, test_hpe_teardown),
@@ -277,6 +279,77 @@ static void test_hpe_version(void **pstate)
 
     info = test_hpe_decode(state, reserved, sizeof(reserved), &dmi_hpe_version_spec);
     assert_null(info->version);
+}
+
+static void test_hpe_version_formats(void **pstate)
+{
+    test_state_t *state = *pstate;
+
+    // Words are held low byte first, and the bank of format 1 is told by the
+    // high bit of the first byte
+    static const uint8_t numeric[] = { 0x27, 0x83, 0x05, 0x0D, 0xE6, 0x07, 0x41, 0x92, 0x09, 0x0A, 0x0B, 0x0C };
+    static const uint8_t banked[]  = { 0xA7, 0x03, 0x05, 0x0D, 0xE6, 0x07, 0x41, 0x92, 0x09, 0x0A, 0x0B, 0x0C };
+
+    // Format 16 starts with four printable characters
+    static const uint8_t text[]    = { 'U', '3', '0', 'A', 0x02, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    static const uint8_t control[] = { 'U', 0x01, '0', 'A', 0x02, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+    static const struct
+    {
+        unsigned       generation;
+        uint8_t        format;
+        const uint8_t *data;
+        const char    *version;
+    } cases[] = {
+        { DMI_HPE_GEN10,      0,  numeric, nullptr },
+        { DMI_HPE_GEN10,      1,  numeric, "0x03" },
+        { DMI_HPE_GEN10,      2,  numeric, "2.7" },
+        { DMI_HPE_GEN10,      3,  numeric, nullptr },
+        { DMI_HPE_GEN10,      4,  numeric, "2.7.3" },
+        { DMI_HPE_GEN10,      5,  numeric, "3.13.7.1" },
+        { DMI_HPE_GEN10,      6,  numeric, "131.39" },
+        { DMI_HPE_GEN10,      7,  numeric, "v39.131 (05/13/2022)" },
+        { DMI_HPE_GEN10,      8,  numeric, "2022.33575" },
+        { DMI_HPE_GEN10,      9,  numeric, "39.131.3333" },
+        { DMI_HPE_GEN10,      10, numeric, "39.131.5 Build 13" },
+        { DMI_HPE_GEN10,      11, numeric, "3333.33575 2453735398" },
+        { DMI_HPE_GEN10,      12, numeric, "33575.3333.2022.37441" },
+        { DMI_HPE_GEN10,      13, numeric, "39" },
+        { DMI_HPE_GEN10,      14, numeric, "39.131.5.58893" },
+        { DMI_HPE_GEN10,      15, numeric, "33575.3333.2022.37441 (09/10/3083)" },
+        { DMI_HPE_GEN10,      16, numeric, nullptr },
+        { DMI_HPE_GEN10,      17, numeric, "0D058327" },
+        { DMI_HPE_GEN10,      18, numeric, "39.131" },
+        { DMI_HPE_GEN10,      19, numeric, "0x27.0x83.0x05" },
+        { DMI_HPE_GEN10,      20, numeric, "39.131.5.13" },
+        { DMI_HPE_GEN10,      21, numeric, nullptr },
+        { DMI_HPE_GEN10,      1,  banked,  "0x03 B.0x27" },
+        { DMI_HPE_GEN9,       5,  numeric, "2.7.3" },
+        { DMI_HPE_GEN8,       5,  numeric, nullptr },
+        { DMI_HPE_GEN10_PLUS, 5,  numeric, "3.13.7.1" },
+        { DMI_HPE_GEN10,      16, text,    "U30A.27" },
+        { DMI_HPE_GEN10,      16, control, nullptr },
+    };
+
+    for (size_t i = 0; i < countof(cases); i++) {
+        uint8_t data[] = {
+            216, 0x17, 0x00, 0xD8,
+            0x04, 0x00, 0x00, 0x00, cases[i].format,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00,
+            0x00, 0x00
+        };
+
+        memcpy(data + 9, cases[i].data, 12);
+
+        test_hpe_generation(state, cases[i].generation);
+
+        const dmi_hpe_version_t *info = test_hpe_decode(state, data, sizeof(data), &dmi_hpe_version_spec);
+        if (cases[i].version == nullptr)
+            assert_null(info->version);
+        else
+            assert_string_equal(info->version, cases[i].version);
+    }
 }
 
 static void test_hpe_dimm_attrs(void **pstate)

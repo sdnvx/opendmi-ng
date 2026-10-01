@@ -13,10 +13,6 @@
 
 #include "onboard-device-ex-internal.h"
 
-//
-// Devices of the same type are told apart by their instances, so no two of
-// them share one.
-//
 void dmi_onboard_device_ex_lint_instance(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_onboard_device_ex_t *info = dmi_entity_info(entity, DMI_TYPE(onboard_device_ex));

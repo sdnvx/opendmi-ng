@@ -36,53 +36,47 @@ typedef struct dmi_field_output
 {
     dmi_encoder_t *encoder;
 
-    // Source data ended before the field being written, at the beginning of
-    // a group or in the middle of a field, so nothing more is written
+    /**
+     * Source data ended before the field being written, at the beginning of
+     * a group or in the middle of a field, so nothing more is written.
+     */
     bool stopped;
 
-    // Bits gathered and not written yet, and the bits the ranges have taken
-    // since the run of them started
+    /**
+     * Bits gathered and not written yet, and the bits the ranges have taken
+     * since the run of them started.
+     */
     uintmax_t bits_value;
     unsigned  bits_count;
     unsigned  bits_taken;
 
-    // Version deciding the ranges of bits defined by a version: the one the
-    // source data has been decoded for in the preserve mode, and the one
-    // written for in the canonical one
+    /**
+     * Version deciding the ranges of bits defined by a version: the one the
+     * source data has been decoded for in the preserve mode, and the one
+     * written for in the canonical one.
+     */
     dmi_version_t version;
 } dmi_field_output_t;
 
 /**
  * @internal
- * @brief Whether the structure is known not to hold the fields of a group,
- * which the member of the group telling so says.
+ * @brief Check whether the structure is known not to hold the fields of a
+ * group.
+ *
+ * @details
+ * The member of the group telling so says it.
  */
-static inline bool dmi_field_group_is_absent(const dmi_field_t *group, const dmi_data_t *info)
-{
-    return dmi_member_is_present(group->params.present) and
-           (dmi_field_load_member(group->params.present, info + group->params.present.offset) == 0);
-}
+static inline bool dmi_field_group_is_absent(const dmi_field_t *group, const dmi_data_t *info);
 
 /**
  * @internal
- * @brief Whether the model holds the whole of a field, which is then written
- * from the member alone, with nothing of the source data to keep.
+ * @brief Check whether the model holds the whole of a field.
+ *
+ * @details
+ * Such a field is written from the member alone, with nothing of the source
+ * data to keep.
  */
-static inline bool dmi_field_is_fixed(const dmi_field_t *field)
-{
-    switch (field->type) {
-    case DMI_FIELD_TYPE_UUID:
-    case DMI_FIELD_TYPE_BCD:
-        return true;
-
-    case DMI_FIELD_TYPE_BINARY:
-        return (field->params.length == DMI_FIELD_LENGTH_REST) or
-               (field->params.length == DMI_FIELD_LENGTH_MEMBER);
-
-    default:
-        return false;
-    }
-}
+static inline bool dmi_field_is_fixed(const dmi_field_t *field);
 
 /**
  * @internal
@@ -123,9 +117,12 @@ static bool dmi_field_encode_vector(
 
 /**
  * @internal
- * @brief Write a field the model holds the whole of: a UUID, bytes running to
- * the end of the structure or as many as a field before declares, which are
- * the member's own whichever way it is written, and a binary-coded decimal.
+ * @brief Write a field the model holds the whole of.
+ *
+ * @details
+ * Such fields are a UUID, bytes running to the end of the structure or as
+ * many as a field before declares, which are the member's own whichever way it
+ * is written, and a binary-coded decimal.
  */
 static bool dmi_field_encode_fixed(
         dmi_field_output_t *output,
@@ -150,8 +147,12 @@ static bool dmi_field_encode_bcd(
 /**
  * @internal
  * @brief Write a plain field governing extended ones, which chooses the
- * representation: the one the source data has in the preserve mode, unless the
- * value no longer fits, and the plain field whenever the value fits otherwise.
+ * representation.
+ *
+ * @details
+ * The representation is the one the source data has in the preserve mode,
+ * unless the value no longer fits, and the plain field whenever the value fits
+ * otherwise.
  */
 static bool dmi_field_encode_governing(
         dmi_field_output_t     *output,
@@ -166,8 +167,10 @@ static bool dmi_field_encode_governing(
 /**
  * @internal
  * @brief Check whether every other member the plain field at the offset
- * governs fits its own plain field, since the members of a choice are widened
- * together.
+ * governs fits its own plain field.
+ *
+ * @details
+ * The members of a choice are widened together.
  */
 static bool dmi_field_governed_fit(
         const dmi_field_output_t *output,
@@ -300,7 +303,8 @@ static bool dmi_field_put_reserved(dmi_field_output_t *output, size_t length);
 
 /**
  * @internal
- * @brief Data a field carries for the member it has been decoded into.
+ * @brief Get the data a field carries for the member it has been decoded
+ * into.
  *
  * @details
  * The data the source has is kept whenever it decodes into the value the
@@ -319,9 +323,11 @@ static bool dmi_field_value_data(
 
 /**
  * @internal
- * @brief Data the specification spells the value of a member with, which
- * undoes what the decoder has done: the largest value of the member stands for
- * the value meaning "unknown", and the handler of the field says the rest.
+ * @brief Get the data the specification spells the value of a member with.
+ *
+ * @details
+ * It undoes what the decoder has done: the largest value of the member stands
+ * for the value meaning "unknown", and the handler of the field says the rest.
  */
 static bool dmi_field_model_data(
         const dmi_field_output_t *output,
@@ -347,8 +353,10 @@ static bool dmi_field_decodes_into(
 
 /**
  * @internal
- * @brief Data the source carries at the field being written, which only the
- * preserve mode has.
+ * @brief Get the data the source carries at the field being written.
+ *
+ * @details
+ * Only the preserve mode has the source data.
  */
 static bool dmi_field_source_data(const dmi_field_output_t *output, const dmi_field_t *field, dmi_field_data_t *data);
 
@@ -361,15 +369,19 @@ static bool dmi_field_put_data(dmi_field_output_t *output, const dmi_field_t *fi
 
 /**
  * @internal
- * @brief Number of the bytes a field of a fixed width occupies, and zero for
- * the ones whose width the data decides.
+ * @brief Get the number of the bytes a field of a fixed width occupies.
+ *
+ * @return Width of the field, or zero for the ones whose width the data
+ * decides.
  */
 static size_t dmi_field_width(const dmi_field_t *field);
 
 /**
  * @internal
- * @brief Number of the bytes a list of fields occupies, and zero if the data
- * decides it rather than the fields.
+ * @brief Get the number of the bytes a list of fields occupies.
+ *
+ * @return Size of the fields, or zero if the data decides it rather than the
+ * fields.
  */
 static size_t dmi_fields_size(const dmi_field_t *fields);
 
@@ -1303,4 +1315,26 @@ static bool dmi_field_cannot_encode(const dmi_field_output_t *output, const char
                        dmi_encoder_tell(output->encoder), reason);
 
     return false;
+}
+
+static inline bool dmi_field_group_is_absent(const dmi_field_t *group, const dmi_data_t *info)
+{
+    return dmi_member_is_present(group->params.present) and
+           (dmi_field_load_member(group->params.present, info + group->params.present.offset) == 0);
+}
+
+static inline bool dmi_field_is_fixed(const dmi_field_t *field)
+{
+    switch (field->type) {
+    case DMI_FIELD_TYPE_UUID:
+    case DMI_FIELD_TYPE_BCD:
+        return true;
+
+    case DMI_FIELD_TYPE_BINARY:
+        return (field->params.length == DMI_FIELD_LENGTH_REST) or
+               (field->params.length == DMI_FIELD_LENGTH_MEMBER);
+
+    default:
+        return false;
+    }
 }

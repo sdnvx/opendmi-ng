@@ -13,9 +13,6 @@
 
 #include "memory-controller-internal.h"
 
-//
-// Module size is carried as the power of two it is a number of megabytes of.
-//
 bool dmi_memory_controller_decode_size(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -28,12 +25,6 @@ bool dmi_memory_controller_decode_size(
     return dmi_field_set(field, value, (uintmax_t)1 << (data->number + 20));
 }
 
-//
-// Memory the controller supports is what its slots hold when every one of
-// them carries a module of the largest size. A module size too large for any
-// module, and a total too large for the member, leave the size unknown rather
-// than wrapped around.
-//
 bool dmi_memory_controller_derive(dmi_entity_t *entity)
 {
     dmi_memory_controller_t *info;
@@ -51,12 +42,6 @@ bool dmi_memory_controller_derive(dmi_entity_t *entity)
     return true;
 }
 
-//
-// Modules of a controller are linked by the attributes, and learn the
-// controller they belong to here. The sizes they declare are checked against
-// the largest one the controller supports by the lint rules, since linking
-// leaves the members the data decodes into as they are.
-//
 bool dmi_memory_controller_link(dmi_entity_t *entity)
 {
     dmi_memory_controller_t *info;
@@ -86,10 +71,6 @@ bool dmi_memory_controller_link(dmi_entity_t *entity)
     return true;
 }
 
-//
-// Module size is written as the power of two it is a number of megabytes of,
-// which the widest size the member holds bounds.
-//
 bool dmi_memory_controller_encode_size(
         const dmi_field_t *field,
         const void        *value,

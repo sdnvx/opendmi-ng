@@ -15,8 +15,21 @@
 
 #include <opendmi/entity/oem-strings.h>
 
-// Operation handlers, see oem-strings-handlers.c
+/**
+ * @internal
+ * @brief Derive the array of the OEM strings of a structure.
+ *
+ * @details Strings of the structure are its values, so the array points at
+ * the ones the structure carries rather than at anything read from the data.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Array cannot be allocated
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_oem_strings_derive(dmi_entity_t *entity);
+
 void dmi_oem_strings_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_OEM_STRINGS_INTERNAL_H

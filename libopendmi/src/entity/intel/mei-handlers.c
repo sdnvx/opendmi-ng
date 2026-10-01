@@ -10,9 +10,11 @@
 
 #include "mei-internal.h"
 
-//
-// Registers of an absent PCI function read with all bits set
-//
+/**
+ * @internal
+ * @brief Value the registers of an absent PCI function read with, which has
+ * all bits set.
+ */
 #define DMI_INTEL_MEI_ABSENT UINT32_MAX
 
 bool dmi_intel_mei_derive(dmi_entity_t *entity)

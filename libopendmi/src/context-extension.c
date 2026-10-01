@@ -225,6 +225,11 @@ bool dmi_setup_vendor(dmi_context_t *context)
     return true;
 }
 
+const dmi_platform_t *dmi_context_platform(const dmi_context_t *context)
+{
+    return (context->platform != nullptr) ? context->platform : context->state.platform;
+}
+
 static bool dmi_setup_platform_modules(dmi_context_t *context)
 {
     const dmi_platform_t *platform = dmi_context_platform(context);
@@ -341,9 +346,4 @@ static dmi_vendor_t dmi_platform_vendor(const char *name)
     const dmi_vendor_spec_t *vendor = dmi_vendor_detect(name);
 
     return (vendor != nullptr) ? vendor->id : DMI_VENDOR_OTHER;
-}
-
-const dmi_platform_t *dmi_context_platform(const dmi_context_t *context)
-{
-    return (context->platform != nullptr) ? context->platform : context->state.platform;
 }

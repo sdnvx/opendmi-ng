@@ -11,8 +11,11 @@
 
 #include <opendmi/entity/intel/amt.h>
 
-// Bits of the OEM capabilities, named as the Intel AMT implementation guide
-// names them
+/**
+ * @internal
+ * @brief Names of the bits of the OEM capabilities, as the Intel AMT
+ * implementation guide names them.
+ */
 static const dmi_name_set_t dmi_intel_amt_oem_caps_1_names =
 {
     .code  = "intel-amt-oem-caps-1",

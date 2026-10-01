@@ -12,7 +12,10 @@
 
 #include <opendmi/entity/intel/svt.h>
 
-// Attributes of both layouts, which decode into the same structure
+/**
+ * @internal
+ * @brief Attributes of both layouts, which decode into the same structure.
+ */
 static const dmi_attribute_t dmi_intel_svt_attrs[] =
 {
     DMI_ATTRIBUTE(dmi_intel_svt_t, version, INTEGER, {

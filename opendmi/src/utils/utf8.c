@@ -13,11 +13,43 @@
 #include <opendmi/utils/utf8.h>
 
 /**
- * @brief U+FFFD replacement character
+ * @internal
+ * @brief U+FFFD replacement character.
  */
 static const char dmi_utf8_replacement[] = "\xEF\xBF\xBD";
 
+/**
+ * @internal
+ * @brief Decode a valid UTF-8 sequence at the beginning of a string.
+ *
+ * @details Overlong encodings, surrogates and code points out of range are
+ * not valid. String terminator is never a part of a valid multibyte
+ * sequence, since it is not a continuation byte.
+ *
+ * @param[in]  str  String to decode.
+ * @param[out] code Variable to store the code point in.
+ *
+ * @return Length of the sequence, or zero if the sequence is not valid.
+ */
 static size_t dmi_utf8_decode(const unsigned char *str, uint32_t *code);
+
+/**
+ * @internal
+ * @brief Get the length of a valid and accepted character at the beginning
+ * of a string.
+ *
+ * @details For rejected characters, the number of bytes to replace is
+ * returned via @p skip: the whole sequence for valid characters rejected by
+ * the filter, and a single byte for invalid sequences.
+ *
+ * @param[in]  str    String to check.
+ * @param[in]  filter Filter of the accepted code points, or `nullptr` to
+ *                    accept every valid one.
+ * @param[out] skip   Variable to store the number of bytes to replace in, if
+ *                    the character is rejected.
+ *
+ * @return Length of the character, or zero if it is rejected.
+ */
 static size_t dmi_utf8_accept(const unsigned char *str, dmi_utf8_filter_fn *filter, size_t *skip);
 
 bool dmi_utf8_is_valid_ex(const char *str, dmi_utf8_filter_fn *filter)
@@ -162,15 +194,6 @@ char *dmi_utf8_escape(dmi_context_t *context, const char *str)
     return result;
 }
 
-/**
- * @internal
- * @brief Get length of valid and accepted character at the beginning of the
- * string, or zero otherwise.
- *
- * For rejected characters, the number of bytes to replace is returned via skip:
- * the whole sequence for valid characters rejected by the filter, and a single
- * byte for invalid sequences.
- */
 static size_t dmi_utf8_accept(const unsigned char *str, dmi_utf8_filter_fn *filter, size_t *skip)
 {
     uint32_t code;
@@ -189,12 +212,6 @@ static size_t dmi_utf8_accept(const unsigned char *str, dmi_utf8_filter_fn *filt
     return length;
 }
 
-/**
- * @internal
- * @brief Decode valid UTF-8 sequence at the beginning of the string, and get
- * its length, or zero if the sequence is not valid. String terminator is never
- * a part of valid multibyte sequence, since it is not a continuation byte.
- */
 static size_t dmi_utf8_decode(const unsigned char *str, uint32_t *code)
 {
     size_t length;

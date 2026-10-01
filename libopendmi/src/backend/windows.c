@@ -24,8 +24,13 @@ enum {
     SystemFirmwareTableInformation = 76,
 };
 
-// Status of a query with a buffer too small for the data, which tells the
-// size needed. It comes from <ntstatus.h>, which clashes with <windows.h>.
+/**
+ * @internal
+ * @brief Status of a query with a buffer too small for the data, which tells
+ * the size needed.
+ *
+ * @details It comes from `<ntstatus.h>`, which clashes with `<windows.h>`.
+ */
 #ifndef STATUS_BUFFER_TOO_SMALL
 #   define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
 #endif
@@ -56,8 +61,42 @@ typedef struct _SYSTEM_FIRMWARE_TABLE_INFORMATION
     _Field_size_bytes_(TableBufferLength) UCHAR TableBuffer[];
 } SYSTEM_FIRMWARE_TABLE_INFORMATION, *PSYSTEM_FIRMWARE_TABLE_INFORMATION;
 
+/**
+ * @internal
+ * @brief Query the SMBIOS table from the system and keep it as the session.
+ *
+ * @details The table is queried twice: first to learn its size, then to
+ * read it into a buffer of that size. The lengths reported by the system and
+ * by the firmware are validated against the data actually returned.
+ *
+ * @param[in] context Context being opened.
+ * @param[in] path    Path to the data source, unused.
+ *
+ * @error DMI_ERROR_SYSTEM Table cannot be queried, or its length is invalid
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_windows_open(dmi_context_t *context, const char *path);
+
+/**
+ * @internal
+ * @brief Copy the SMBIOS structure table queried on opening into @p buffer.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the table into.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_windows_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Release the SMBIOS table queried on opening.
+ *
+ * @param[in] context Context being closed.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_windows_close(dmi_context_t *context);
 
 dmi_backend_t dmi_windows_backend =

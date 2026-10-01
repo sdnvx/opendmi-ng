@@ -38,9 +38,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Document lifetime of error descriptors and of strings returned before `dmi_set_locale()`
 - Take physical addresses as `uint64_t` in `dmi_memory_load()`, `dmi_generic_parse_entry_addr()`, `dmi_generic_find_entry_addr()` and `dmi_generic_find_anchor()`, so that addresses above 4 GiB reach 32-bit systems intact and are range-checked by `dmi_memory_load()` instead of by every backend
 - Move internal headers of the library (`*-internal.h`) from `libopendmi/include` next to their sources, so that they are kept apart from the public headers
+- Take the sources and the public headers of the library by directories in CMake, listing only the ones of the backends by name
 
 ### Fixed
 
+- Fix stack frame of `dmi_lint()` exceeding the 2048 bytes the kernel module allows, by keeping the state of the check off the stack
 - Fix SMBIOS 2.1 entry points of 30 bytes, allowed by the SMBIOS 2.1 erratum, rejected
 - Fix IPMI device information, type 38, of 16 bytes rejected as too short
 - Fix additional information, type 40, counting entries which failed to decode, and failing without entries

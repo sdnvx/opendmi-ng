@@ -272,139 +272,6 @@ bool dmi_json_entity_attr(
     return dmi_attribute_walk(attr, entity->info, &dmi_json_attr_visitor, session);
 }
 
-static dmi_attribute_walk_t dmi_json_attr_member(void *context, const dmi_attribute_node_t *node)
-{
-    return dmi_format_walk(dmi_json_label(context, node->member->params.code));
-}
-
-static dmi_attribute_walk_t dmi_json_attr_struct_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_unused(node);
-
-    return dmi_format_walk(dmi_json_mapping_start(context));
-}
-
-static bool dmi_json_attr_struct_end(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_unused(node);
-
-    return dmi_json_mapping_end(context);
-}
-
-static dmi_attribute_walk_t dmi_json_attr_array_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_unused(node);
-
-    return dmi_format_walk(dmi_json_sequence_start(context));
-}
-
-static bool dmi_json_attr_array_end(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_unused(node);
-
-    return dmi_json_sequence_end(context);
-}
-
-static bool dmi_json_attr_value(void *context, const dmi_attribute_node_t *node)
-{
-    return dmi_json_entity_attr_value(context, node->attr, node->value);
-}
-
-static bool dmi_json_entity_attr_value(
-        dmi_json_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value)
-{
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
-
-    bool success = false;
-    char *text = nullptr;
-
-    // Write empty tag if the value is unspecified
-    if (dmi_attribute_is_unspecified(attr, value))
-        return dmi_json_scalar_null(session);
-
-    // Handle unknown values
-    if (dmi_attribute_is_unknown(attr, value))
-        return dmi_json_scalar(session, "unknown");
-
-    // Handle value sets
-    if (attr->type == DMI_ATTRIBUTE_TYPE_SET)
-        return dmi_json_entity_attr_set(session, attr, value);
-
-    do {
-        text = dmi_format_attribute_value(session->context, attr, value,
-                                          session->options.pretty);
-        if (text == nullptr)
-            break;
-
-        // Values formatted for a person are text, whatever they hold, and so
-        // are the values, which are not canonical numbers or booleans
-        dmi_format_scalar_t scalar = DMI_FORMAT_SCALAR_STRING;
-        if (not session->options.pretty)
-            scalar = dmi_format_scalar_classify(attr, text);
-
-        bool result;
-
-        switch (scalar) {
-        case DMI_FORMAT_SCALAR_BOOL:
-            result = dmi_json_scalar_bool(session, strcmp(text, "true") == 0);
-            break;
-
-        case DMI_FORMAT_SCALAR_NUMBER:
-            result = dmi_json_scalar_number(session, text);
-            break;
-
-        default:
-            result = dmi_json_scalar_str(session, text);
-            break;
-        }
-
-        if (not result)
-            break;
-
-        success = true;
-    } while (false);
-
-    dmi_free(text);
-
-    return success;
-}
-
-static bool dmi_json_entity_attr_set(
-        dmi_json_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value)
-{
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
-
-    dmi_format_set_iter_t iter;
-    const dmi_format_flag_t *flag;
-
-    if (not dmi_json_mapping_start(session))
-        return false;
-
-    dmi_format_set_iter_init(&iter, attr, value);
-
-    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
-        bool result =
-            dmi_json_label(session, flag->code) and
-            dmi_json_scalar(session, flag->value);
-
-        if (not result)
-            return false;
-    }
-
-    if (not dmi_json_mapping_end(session))
-        return false;
-
-    return true;
-}
-
 bool dmi_json_entity_attrs_end(dmi_json_session_t *session, const dmi_entity_t *entity)
 {
     assert(session != nullptr);
@@ -591,4 +458,137 @@ void dmi_json_finalize(dmi_json_session_t *session)
 
     yajl_gen_free(session->generator);
     dmi_free(session);
+}
+
+static dmi_attribute_walk_t dmi_json_attr_member(void *context, const dmi_attribute_node_t *node)
+{
+    return dmi_format_walk(dmi_json_label(context, node->member->params.code));
+}
+
+static dmi_attribute_walk_t dmi_json_attr_struct_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_format_walk(dmi_json_mapping_start(context));
+}
+
+static bool dmi_json_attr_struct_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_json_mapping_end(context);
+}
+
+static dmi_attribute_walk_t dmi_json_attr_array_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_format_walk(dmi_json_sequence_start(context));
+}
+
+static bool dmi_json_attr_array_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_json_sequence_end(context);
+}
+
+static bool dmi_json_attr_value(void *context, const dmi_attribute_node_t *node)
+{
+    return dmi_json_entity_attr_value(context, node->attr, node->value);
+}
+
+static bool dmi_json_entity_attr_value(
+        dmi_json_session_t    *session,
+        const dmi_attribute_t *attr,
+        const void            *value)
+{
+    assert(session != nullptr);
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    bool success = false;
+    char *text = nullptr;
+
+    // Write empty tag if the value is unspecified
+    if (dmi_attribute_is_unspecified(attr, value))
+        return dmi_json_scalar_null(session);
+
+    // Handle unknown values
+    if (dmi_attribute_is_unknown(attr, value))
+        return dmi_json_scalar(session, "unknown");
+
+    // Handle value sets
+    if (attr->type == DMI_ATTRIBUTE_TYPE_SET)
+        return dmi_json_entity_attr_set(session, attr, value);
+
+    do {
+        text = dmi_format_attribute_value(session->context, attr, value,
+                                          session->options.pretty);
+        if (text == nullptr)
+            break;
+
+        // Values formatted for a person are text, whatever they hold, and so
+        // are the values, which are not canonical numbers or booleans
+        dmi_format_scalar_t scalar = DMI_FORMAT_SCALAR_STRING;
+        if (not session->options.pretty)
+            scalar = dmi_format_scalar_classify(attr, text);
+
+        bool result;
+
+        switch (scalar) {
+        case DMI_FORMAT_SCALAR_BOOL:
+            result = dmi_json_scalar_bool(session, strcmp(text, "true") == 0);
+            break;
+
+        case DMI_FORMAT_SCALAR_NUMBER:
+            result = dmi_json_scalar_number(session, text);
+            break;
+
+        default:
+            result = dmi_json_scalar_str(session, text);
+            break;
+        }
+
+        if (not result)
+            break;
+
+        success = true;
+    } while (false);
+
+    dmi_free(text);
+
+    return success;
+}
+
+static bool dmi_json_entity_attr_set(
+        dmi_json_session_t    *session,
+        const dmi_attribute_t *attr,
+        const void            *value)
+{
+    assert(session != nullptr);
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
+
+    if (not dmi_json_mapping_start(session))
+        return false;
+
+    dmi_format_set_iter_init(&iter, attr, value);
+
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        bool result =
+            dmi_json_label(session, flag->code) and
+            dmi_json_scalar(session, flag->value);
+
+        if (not result)
+            return false;
+    }
+
+    if (not dmi_json_mapping_end(session))
+        return false;
+
+    return true;
 }

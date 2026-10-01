@@ -15,12 +15,6 @@
 
 #include "tpm-device-internal.h"
 
-//
-// Vendor identifier is four bytes of text, which some firmware stores as a
-// little-endian double word, so that it starts with the terminating zero,
-// e.g. "\0XFI" for "IFX". Only printable characters are kept, and the
-// identifier ends at the first other.
-//
 bool dmi_tpm_device_decode_vendor_id(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -60,9 +54,6 @@ bool dmi_tpm_device_decode_vendor_id(
     return true;
 }
 
-//
-// Specification version is one byte of major and one of minor.
-//
 bool dmi_tpm_device_decode_version(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -71,10 +62,6 @@ bool dmi_tpm_device_decode_version(
     return dmi_field_set(field, value, dmi_version((unsigned int)(data->number & 0xFFu), (unsigned int)((data->number >> 8) & 0xFFu), 0));
 }
 
-//
-// Firmware version is two double words, of which the first one is the more
-// significant half of the number they spell together.
-//
 bool dmi_tpm_device_decode_firmware_version(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -83,10 +70,6 @@ bool dmi_tpm_device_decode_firmware_version(
     return dmi_field_set(field, value, ((data->number & 0xFFFFFFFFu) << 32) | ((data->number >> 32) & 0xFFFFFFFFu));
 }
 
-//
-// Vendor and firmware version mean what the version of the specification says
-// they do, so they are read once the fields are there.
-//
 bool dmi_tpm_device_derive(dmi_entity_t *entity)
 {
     dmi_tpm_device_t *info;

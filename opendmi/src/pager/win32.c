@@ -20,18 +20,17 @@
 #include <opendmi/utils/win32.h>
 #include <opendmi/pager.h>
 
+/**
+ * @internal
+ * @brief Process of the running pager, or `nullptr` if there is none.
+ */
 static HANDLE dmi_pager_process = nullptr;
 
-static void dmi_pager_wait_exit(void)
-{
-    fclose(stdout); // Ensure the pager process receives EOF
-
-    if (dmi_pager_process != nullptr) {
-        WaitForSingleObject(dmi_pager_process, INFINITE);
-        CloseHandle(dmi_pager_process);
-        dmi_pager_process = nullptr;
-    }
-}
+/**
+ * @internal
+ * @brief Close the standard output and wait for the pager at exit.
+ */
+static void dmi_pager_wait_exit(void);
 
 bool dmi_pager_start(dmi_context_t *context)
 {
@@ -159,4 +158,15 @@ bool dmi_pager_has_quit(const FILE *stream, int error)
 
     // Writes to the pipe, which is closed by the pager, fail with EPIPE
     return (dmi_pager_process != nullptr) and (stream == stdout) and (error == EPIPE);
+}
+
+static void dmi_pager_wait_exit(void)
+{
+    fclose(stdout); // Ensure the pager process receives EOF
+
+    if (dmi_pager_process != nullptr) {
+        WaitForSingleObject(dmi_pager_process, INFINITE);
+        CloseHandle(dmi_pager_process);
+        dmi_pager_process = nullptr;
+    }
 }

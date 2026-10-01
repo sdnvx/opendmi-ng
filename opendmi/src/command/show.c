@@ -18,9 +18,46 @@ typedef struct dmi_show_config
     dmi_format_options_t options;
 } dmi_show_config_t;
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_show_usage(void);
+
+/**
+ * @internal
+ * @brief Handle the `--quiet` option, which hides meta-data and handle
+ * references.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] value   Value of the option, unused.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_show_set_quiet(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--verbose` option, which shows structure versions and
+ * states.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] value   Value of the option, unused.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_show_set_verbose(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Print the SMBIOS structures in the text format.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments, unused.
+ * @param[in] argv    Arguments of the command, unused.
+ *
+ * @return Exit code of the command.
+ */
 static int dmi_show_main(dmi_context_t *context, int argc, char *argv[]);
 
 static dmi_show_config_t dmi_show_config =

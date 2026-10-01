@@ -11,10 +11,6 @@
 
 #include "physical-attrs-internal.h"
 
-//
-// Up to G7, the structure holds 16 characters instead of the UUID, e.g.
-// "484184GB894484YN": the product number and the serial number
-//
 const dmi_entity_spec_t dmi_hpe_physical_attrs_legacy_spec =
 {
     .type        = DMI_TYPE(hpe_physical_attrs),
@@ -95,15 +91,3 @@ const dmi_entity_spec_t dmi_hpe_physical_attrs_spec =
         {}
     })
 };
-
-bool dmi_hpe_physical_attrs_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_physical_attrs_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_physical_attrs));
-    if (info == nullptr)
-        return false;
-
-    info->identifier = dmi_text_from_bytes(info->identifier_raw.data, info->identifier_raw.length,
-                                    info->identifier_buffer, false);
-
-    return true;
-}

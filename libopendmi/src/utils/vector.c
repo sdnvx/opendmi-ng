@@ -13,8 +13,21 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/vector.h>
 
+/**
+ * @internal
+ * @brief Change the capacity of a vector, keeping its items.
+ *
+ * @param[in,out] vector   Vector to resize.
+ * @param[in]     capacity New capacity, in items.
+ *
+ * @return `true` on success, `false` if memory cannot be allocated.
+ */
 static bool dmi_vector_resize(dmi_vector_t *vector, size_t capacity);
 
+/**
+ * @internal
+ * @brief Number of items the capacity of a vector grows by when it is full.
+ */
 const size_t dmi_vector_delta_capacity = 16;
 
 bool dmi_vector_init(dmi_vector_t *vector, dmi_vector_match_fn *matcher)

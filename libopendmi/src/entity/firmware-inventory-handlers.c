@@ -14,16 +14,73 @@
 
 #include "firmware-inventory-internal.h"
 
+/**
+ * @internal
+ * @brief Parse a version string according to the format the structure
+ * declares for it.
+ *
+ * @details Strings not conforming to the format are kept as free-form ones.
+ *
+ * @param[in]  str     Version string, or `nullptr` if there is none.
+ * @param[in]  format  Format declared for the version.
+ * @param[out] version Variable to store the parsed version in.
+ */
 static void dmi_firmware_version_parse(
         const char                    *str,
         dmi_firmware_version_format_t  format,
         dmi_firmware_version_t        *version);
+
+/**
+ * @internal
+ * @brief Parse an identifier string according to the format the structure
+ * declares for it.
+ *
+ * @details Only GUIDs are parsed, written in the RFC 4122 format. Other
+ * identifiers, and the strings not conforming to the format, are kept as
+ * free-form ones.
+ *
+ * @param[in]  str    Identifier string, or `nullptr` if there is none.
+ * @param[in]  format Format declared for the identifier.
+ * @param[out] ident  Variable to store the parsed identifier in.
+ */
 static void dmi_firmware_ident_parse(
         const char                  *str,
         dmi_firmware_ident_format_t  format,
         dmi_firmware_ident_t        *ident);
+
+/**
+ * @internal
+ * @brief Parse a decimal number which fits into 32 bits.
+ *
+ * @param[in,out] pstr  Pointer to the string, which is advanced past the
+ *                      digits on success.
+ * @param[out]    value Variable to store the number in.
+ *
+ * @return `true` if at least one digit is read and the number fits,
+ *         `false` otherwise.
+ */
 static bool dmi_firmware_parse_decimal(const char **pstr, uint32_t *value);
+
+/**
+ * @internal
+ * @brief Parse a whole string as a hexadecimal number prefixed with `0x`.
+ *
+ * @param[in]  str        String to parse.
+ * @param[in]  max_digits Maximum number of digits.
+ * @param[out] value      Variable to store the number in.
+ *
+ * @return `true` if the string is a valid number, `false` otherwise.
+ */
 static bool dmi_firmware_parse_hex(const char *str, size_t max_digits, uint64_t *value);
+
+/**
+ * @internal
+ * @brief Get the value of a hexadecimal digit.
+ *
+ * @param[in] c Character to convert.
+ *
+ * @return Value of the digit, or `-1` if the character is not a digit.
+ */
 static int dmi_firmware_hex_digit(char c);
 
 const dmi_attribute_t dmi_firmware_version_number_attrs[] =
@@ -39,10 +96,6 @@ const dmi_attribute_t dmi_firmware_version_number_attrs[] =
     {}
 };
 
-//
-// Versions and identifiers are written as strings, which are read according
-// to the formats the structure declares for them.
-//
 bool dmi_firmware_inventory_derive(dmi_entity_t *entity)
 {
     dmi_firmware_inventory_t *info;

@@ -28,6 +28,19 @@
 #include <opendmi/utils/tty.h>
 
 #ifdef _WIN32
+
+/**
+ * @internal
+ * @brief Convert a time to the local time, as POSIX `localtime_r()` does,
+ * which Windows lacks.
+ *
+ * @param[in]  timep  Time to convert.
+ * @param[out] result Variable to store the local time in.
+ *
+ * @return @p result on success, `nullptr` otherwise.
+ */
+static inline struct tm *localtime_r(const time_t *timep, struct tm *result);
+
 static inline struct tm *localtime_r(const time_t *timep, struct tm *result)
 {
     errno_t err = localtime_s(result, timep);
@@ -37,32 +50,119 @@ static inline struct tm *localtime_r(const time_t *timep, struct tm *result)
 }
 #endif
 
+/**
+ * @internal
+ * @brief Print the version of the tool.
+ */
 static void dmi_show_version(void);
+
+/**
+ * @internal
+ * @brief Print the usage of the tool.
+ */
 static void dmi_show_usage(void);
 
+/**
+ * @internal
+ * @brief Set up logging as the global options say.
+ *
+ * @details Log file is opened before the logger is enabled, so that nothing
+ * is logged to the terminal instead of the file on errors.
+ *
+ * @param[in] context DMI context to set the logger of.
+ *
+ * @return `true` on success, `false` if the log file cannot be opened.
+ */
 static bool dmi_log_init(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Close the log file, if any, on exit.
+ */
 static void dmi_log_close(void);
 
+/**
+ * @internal
+ * @brief Write a log record to the log file if there is one, or to the
+ * terminal otherwise.
+ *
+ * @param[in] target Log target, unused.
+ * @param[in] level  Level of the record.
+ * @param[in] format Format of the message.
+ * @param[in] args   Arguments of the format.
+ */
 static void dmi_log_handler(
         dmi_log_t       *target,
         dmi_log_level_t  level,
         const char      *format,
         va_list          args);
 
+/**
+ * @internal
+ * @brief Write a log record to the terminal, with its level highlighted.
+ *
+ * @param[in] level  Level of the record.
+ * @param[in] format Format of the message.
+ * @param[in] args   Arguments of the format.
+ */
 static void dmi_log_tty_handler(
         dmi_log_level_t  level,
         const char      *format,
         va_list          args);
+
+/**
+ * @internal
+ * @brief Write a log record to the log file, prefixed with a timestamp.
+ *
+ * @details The file is locked for the time of writing, so that the records
+ * of several processes sharing it are not mixed.
+ *
+ * @param[in] level  Level of the record.
+ * @param[in] format Format of the message.
+ * @param[in] args   Arguments of the format.
+ */
 static void dmi_log_file_handler(
         dmi_log_level_t  level,
         const char      *format,
         va_list          args);
 
+/**
+ * @internal
+ * @brief Lock the log file for writing a record.
+ *
+ * @details Log file is locked as a whole, from its beginning to whatever its
+ * end is, since it is opened for appending and grows while locked. Records
+ * are written at the end of the file whatever the offset is, so the offset is
+ * moved to the beginning to lock and unlock the same range. Once locking
+ * fails, the file is no longer locked.
+ *
+ * @return `true` if the file is locked, `false` otherwise.
+ */
 static bool dmi_log_file_lock(void);
+
+/**
+ * @internal
+ * @brief Unlock the log file locked by `dmi_log_file_lock()`.
+ */
 static void dmi_log_file_unlock(void);
 
-static FILE     *log_file   = nullptr;
-static bool      log_lock   = true;
+/**
+ * @internal
+ * @brief Log file, or `nullptr` if records are written to the terminal.
+ */
+static FILE *log_file = nullptr;
+
+/**
+ * @internal
+ * @brief Whether the log file is locked for writing, which is turned off
+ * once locking fails.
+ */
+static bool log_lock = true;
+
+/**
+ * @internal
+ * @brief Logger of the tool.
+ */
 static dmi_log_t log_target = { dmi_log_handler };
 
 int main(int argc, char *argv[])
@@ -268,12 +368,6 @@ static void dmi_log_file_handler(
         dmi_log_file_unlock();
 }
 
-//
-// Log file is locked as a whole, from its beginning to whatever its end is,
-// since it is opened for appending and grows while locked. Records are
-// written at the end of the file whatever the offset is, so the offset is
-// moved to the beginning to lock and unlock the same range.
-//
 static bool dmi_log_file_lock(void)
 {
     int fd = fileno(log_file);

@@ -15,7 +15,17 @@
 
 #include <opendmi/entity/onboard-device-ex.h>
 
-// Checks the lint rules of the specification perform, see onboard-device-ex-rules.c
+/**
+ * @internal
+ * @brief Check that no other device of the same type shares the instance of
+ * the device.
+ *
+ * @details Devices of the same type are told apart by their instances, so no
+ * two of them share one.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_onboard_device_ex_lint_instance(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_ONBOARD_DEVICE_EX_INTERNAL_H

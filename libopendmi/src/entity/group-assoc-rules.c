@@ -18,14 +18,15 @@
  * @internal
  * @brief Find the specification the members of a group are decoded by, among
  * the groups of the enabled modules.
+ *
+ * @param[in] context Context descriptor.
+ * @param[in] name    Name of the group.
+ *
+ * @return Specification of the members, or `nullptr` if the group is not a
+ * well-known one.
  */
 static const dmi_entity_spec_t *dmi_group_assoc_member_spec(dmi_context_t *context, const char *name);
 
-//
-// Members of a group of a well-known name are decoded by the specification the
-// group lists, and the ones which are not are placed by the vendor at a type
-// number the module does not know of, or listed by mistake.
-//
 void dmi_group_assoc_lint_member(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_group_assoc_t *info = dmi_entity_info(entity, DMI_TYPE(group_assoc));

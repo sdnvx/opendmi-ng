@@ -15,12 +15,34 @@
 
 #include <opendmi/entity/memory-device-addr.h>
 
-// Operation handlers, see memory-device-addr-handlers.c
 bool dmi_memory_device_addr_validate(dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Derive the size of the address range of a memory device.
+ *
+ * @details Size of the range is what its bounds say, in whichever order the
+ * data happens to carry them, and both of the bounds belong to the range.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_memory_device_addr_derive(dmi_entity_t *entity);
 
-// Checks the lint rules of the specification perform, see memory-device-addr-rules.c
 void dmi_memory_device_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the address range of a memory device lies within the
+ * range of the memory array it belongs to.
+ *
+ * @details A device is mapped within the range of the array it belongs to,
+ * since the array is what the range of the device is carved out of.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_memory_device_addr_lint_bounds(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_MEMORY_DEVICE_ADDR_INTERNAL_H

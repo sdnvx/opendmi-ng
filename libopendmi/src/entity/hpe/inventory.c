@@ -112,33 +112,3 @@ const dmi_entity_spec_t dmi_hpe_inventory_spec =
         .derive = dmi_hpe_inventory_derive
     }
 };
-
-/**
- * @internal
- * @brief Value of an attribute, which is undefined unless the mask of the
- * defined attributes has it.
- */
-static dmi_hpe_flag_t dmi_hpe_inventory_flag(const dmi_hpe_inventory_t *info, dmi_hpe_inventory_attr_t attr)
-{
-    uint64_t bit = UINT64_C(1) << attr;
-
-    if (not (info->attrs_defined & bit))
-        return DMI_HPE_FLAG_UNSPEC;
-
-    return (info->attrs_set & bit) ? DMI_HPE_FLAG_YES : DMI_HPE_FLAG_NO;
-}
-
-bool dmi_hpe_inventory_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_inventory_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_inventory));
-    if (info == nullptr)
-        return false;
-
-    info->is_updatable      = dmi_hpe_inventory_flag(info, DMI_HPE_INVENTORY_ATTR_UPDATABLE);
-    info->is_reset_required = dmi_hpe_inventory_flag(info, DMI_HPE_INVENTORY_ATTR_RESET);
-    info->is_auth_required  = dmi_hpe_inventory_flag(info, DMI_HPE_INVENTORY_ATTR_AUTHENTICATED);
-    info->is_in_use         = dmi_hpe_inventory_flag(info, DMI_HPE_INVENTORY_ATTR_IN_USE);
-    info->is_uefi_image     = dmi_hpe_inventory_flag(info, DMI_HPE_INVENTORY_ATTR_UEFI_IMAGE);
-
-    return true;
-}

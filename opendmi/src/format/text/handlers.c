@@ -30,6 +30,11 @@
 /**
  * @internal
  * @brief Print the name of a member, unless it is hidden.
+ *
+ * @param[in] context Session, `dmi_text_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return Walk status, which skips the member if it is hidden.
  */
 static dmi_attribute_walk_t dmi_text_attr_member(void *context, const dmi_attribute_node_t *node);
 
@@ -37,6 +42,11 @@ static dmi_attribute_walk_t dmi_text_attr_member(void *context, const dmi_attrib
  * @internal
  * @brief Begin a nested structure, whose members are printed one level
  * deeper.
+ *
+ * @param[in] context Session, `dmi_text_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return Walk status.
  */
 static dmi_attribute_walk_t dmi_text_attr_struct_start(void *context, const dmi_attribute_node_t *node);
 
@@ -44,6 +54,11 @@ static dmi_attribute_walk_t dmi_text_attr_struct_start(void *context, const dmi_
  * @internal
  * @brief Print the number of the elements of an array, which are printed one
  * level deeper.
+ *
+ * @param[in] context Session, `dmi_text_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return Walk status.
  */
 static dmi_attribute_walk_t dmi_text_attr_array_start(void *context, const dmi_attribute_node_t *node);
 
@@ -51,30 +66,131 @@ static dmi_attribute_walk_t dmi_text_attr_array_start(void *context, const dmi_a
  * @internal
  * @brief End a nested structure or an array, going back to the level of
  * indentation of its member.
+ *
+ * @param[in] context Session, `dmi_text_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return Always `true`.
  */
 static bool dmi_text_attr_outdent(void *context, const dmi_attribute_node_t *node);
 
 /**
  * @internal
  * @brief Print the index of an element of an array.
+ *
+ * @param[in] context Session, `dmi_text_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return Walk status.
  */
 static dmi_attribute_walk_t dmi_text_attr_item_start(void *context, const dmi_attribute_node_t *node);
 
 /**
  * @internal
  * @brief Print the value of a member or of an element of an array.
+ *
+ * @details Elements of an array of handles are described by the structures
+ * they refer to.
+ *
+ * @param[in] context Session, `dmi_text_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return Always `true`.
  */
 static bool dmi_text_attr_value(void *context, const dmi_attribute_node_t *node);
 
 /**
  * @internal
  * @brief Print the flags of a set, each on a line of its own.
+ *
+ * @param[in] session Session.
+ * @param[in] attr    Attribute of the set.
+ * @param[in] value   Value of the set.
+ * @param[in] depth   Level of indentation of the flags.
  */
 static void dmi_text_entity_attr_set(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
         const void            *value,
         unsigned int           depth);
+
+/**
+ * @internal
+ * @brief Check whether an attribute is hidden from the output.
+ *
+ * @details Handle references are hidden in quiet mode.
+ *
+ * @param[in] session Session.
+ * @param[in] attr    Attribute to check.
+ *
+ * @return `true` if the attribute is hidden, `false` otherwise.
+ */
+static bool dmi_text_is_hidden(const dmi_text_session_t *session, const dmi_attribute_t *attr);
+
+/**
+ * @internal
+ * @brief Print a message of the tool resources, which is translated to the
+ * locale, and is taken from the fallback pattern if there is no translation.
+ *
+ * @param[in] session  Session.
+ * @param[in] color    Color of the message.
+ * @param[in] table    Resource table of the message.
+ * @param[in] key      Key of the message in the table.
+ * @param[in] fallback Pattern used if there is no translation.
+ * @param[in] args     Arguments of the message.
+ * @param[in] count    Number of the arguments.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Message cannot be formatted
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_text_message_color(
+        dmi_text_session_t      *session,
+        dmi_tty_color_t          color,
+        const char              *table,
+        const char              *key,
+        const char              *fallback,
+        const dmi_message_arg_t *args,
+        size_t                   count);
+
+/**
+ * @internal
+ * @brief Print a message of the tool resources on a line of its own.
+ *
+ * @param[in] session  Session.
+ * @param[in] table    Resource table of the message.
+ * @param[in] key      Key of the message in the table.
+ * @param[in] fallback Pattern used if there is no translation.
+ * @param[in] args     Arguments of the message.
+ * @param[in] count    Number of the arguments.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_text_message(
+        dmi_text_session_t      *session,
+        const char              *table,
+        const char              *key,
+        const char              *fallback,
+        const dmi_message_arg_t *args,
+        size_t                   count);
+
+/**
+ * @internal
+ * @brief Print a string of the data, which is not trusted, between prefix and
+ * suffix.
+ *
+ * @details The string is escaped before it is printed.
+ *
+ * @param[in] session Session.
+ * @param[in] prefix  Text printed before the string.
+ * @param[in] str     String to print.
+ * @param[in] suffix  Text printed after the string.
+ */
+static void dmi_text_print_string(
+        dmi_text_session_t *session,
+        const char         *prefix,
+        const char         *str,
+        const char         *suffix);
 
 /**
  * @internal
@@ -116,56 +232,6 @@ void *dmi_text_initialize(dmi_context_t *context, FILE *stream, const dmi_format
     session->is_tty = dmi_has_tty() and is_terminal;
 
     return session;
-}
-
-// Handle references are hidden in quiet mode
-static bool dmi_text_is_hidden(const dmi_text_session_t *session, const dmi_attribute_t *attr)
-{
-    return (session->options.mode == DMI_FORMAT_MODE_QUIET) and (attr->type == DMI_ATTRIBUTE_TYPE_HANDLE);
-}
-
-//
-// Print a message of the tool resources, which is translated to the locale,
-// and is taken from the fallback pattern if there is no translation.
-//
-static bool dmi_text_message_color(
-        dmi_text_session_t      *session,
-        dmi_tty_color_t          color,
-        const char              *table,
-        const char              *key,
-        const char              *fallback,
-        const dmi_message_arg_t *args,
-        size_t                   count)
-{
-    char *text = dmi_tool_message(table, key, fallback, args, count);
-    if (text == nullptr) {
-        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
-
-    dmi_text_printf(session, color, "%s", text);
-    dmi_free(text);
-
-    return true;
-}
-
-//
-// Print a message of the tool resources on a line of its own.
-//
-static bool dmi_text_message(
-        dmi_text_session_t      *session,
-        const char              *table,
-        const char              *key,
-        const char              *fallback,
-        const dmi_message_arg_t *args,
-        size_t                   count)
-{
-    if (not dmi_text_message_color(session, DMI_TTY_COLOR_NONE, table, key, fallback, args, count))
-        return false;
-
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
-
-    return true;
 }
 
 bool dmi_text_entry(dmi_text_session_t *session)
@@ -293,83 +359,6 @@ bool dmi_text_entity_attr(
     return true;
 }
 
-static dmi_attribute_walk_t dmi_text_attr_member(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_text_session_t *session = context;
-
-    if (dmi_text_is_hidden(session, node->attr))
-        return DMI_ATTRIBUTE_WALK_SKIP;
-
-    // Values are preceded by spaces themselves
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s:", (int)session->depth, "\t\t\t\t\t\t\t\t",
-                    dmi_attribute_name(node->member, session->owner));
-
-    return DMI_ATTRIBUTE_WALK_CONTINUE;
-}
-
-static dmi_attribute_walk_t dmi_text_attr_struct_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_text_session_t *session = context;
-
-    dmi_unused(node);
-
-    // Fields are indented one level deeper than the structure
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
-    session->depth++;
-
-    return DMI_ATTRIBUTE_WALK_CONTINUE;
-}
-
-static dmi_attribute_walk_t dmi_text_attr_array_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_text_session_t *session = context;
-
-    // Elements are indented one level deeper than the array
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %zu items\n", node->count);
-    session->depth++;
-
-    return DMI_ATTRIBUTE_WALK_CONTINUE;
-}
-
-static bool dmi_text_attr_outdent(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_text_session_t *session = context;
-
-    dmi_unused(node);
-
-    session->depth--;
-
-    return true;
-}
-
-static dmi_attribute_walk_t dmi_text_attr_item_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_text_session_t *session = context;
-
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%zu:", (int)session->depth, "\t\t\t\t\t\t\t\t", node->index);
-
-    return DMI_ATTRIBUTE_WALK_CONTINUE;
-}
-
-static bool dmi_text_attr_value(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_text_session_t *session = context;
-    const char *descr = nullptr;
-
-    // Elements of an array of handles are described by the structures they
-    // refer to
-    if ((node->index != SIZE_MAX) and (node->attr->type == DMI_ATTRIBUTE_TYPE_HANDLE)) {
-        dmi_registry_t *registry = dmi_get_registry(session->context);
-        dmi_handle_t    handle   = dmi_deref(dmi_handle_t, node->value);
-
-        descr = dmi_entity_name(dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, true));
-    }
-
-    dmi_text_entity_attr_value(session, node->attr, node->value, descr, session->depth);
-
-    return true;
-}
-
 void dmi_text_entity_attr_value(
         dmi_text_session_t    *session,
         const dmi_attribute_t *attr,
@@ -435,45 +424,6 @@ void dmi_text_entity_attr_value(
     // Flags are indented one level deeper than the attribute
     if (attr->type == DMI_ATTRIBUTE_TYPE_SET)
         dmi_text_entity_attr_set(session, attr, value, depth + 1);
-}
-
-static void dmi_text_entity_attr_set(
-        dmi_text_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value,
-        unsigned int           depth)
-{
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
-
-    dmi_format_set_iter_t iter;
-    const dmi_format_flag_t *flag;
-
-    dmi_format_set_iter_init(&iter, attr, value);
-
-    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
-        dmi_tty_color_t color = flag->value ? DMI_TTY_COLOR_LIME : DMI_TTY_COLOR_RED;
-
-        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s: ", (int)depth, "\t\t\t\t\t\t\t\t", flag->name);
-        dmi_text_printf(session, color, "%s\n", dmi_bool_name(flag->value));
-    }
-}
-
-//
-// Print a string of the data, which is not trusted, between prefix and suffix.
-//
-static void dmi_text_print_string(
-        dmi_text_session_t *session,
-        const char         *prefix,
-        const char         *str,
-        const char         *suffix)
-{
-    char *escaped;
-
-    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s%s%s",
-                    prefix, dmi_text_escape(session, str, &escaped), suffix);
-    dmi_free(escaped);
 }
 
 bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t *entity)
@@ -594,4 +544,159 @@ void dmi_text_finalize(dmi_text_session_t *session)
     assert(session != nullptr);
 
     dmi_free(session);
+}
+
+static bool dmi_text_is_hidden(const dmi_text_session_t *session, const dmi_attribute_t *attr)
+{
+    return (session->options.mode == DMI_FORMAT_MODE_QUIET) and (attr->type == DMI_ATTRIBUTE_TYPE_HANDLE);
+}
+
+static bool dmi_text_message_color(
+        dmi_text_session_t      *session,
+        dmi_tty_color_t          color,
+        const char              *table,
+        const char              *key,
+        const char              *fallback,
+        const dmi_message_arg_t *args,
+        size_t                   count)
+{
+    char *text = dmi_tool_message(table, key, fallback, args, count);
+    if (text == nullptr) {
+        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
+        return false;
+    }
+
+    dmi_text_printf(session, color, "%s", text);
+    dmi_free(text);
+
+    return true;
+}
+
+static bool dmi_text_message(
+        dmi_text_session_t      *session,
+        const char              *table,
+        const char              *key,
+        const char              *fallback,
+        const dmi_message_arg_t *args,
+        size_t                   count)
+{
+    if (not dmi_text_message_color(session, DMI_TTY_COLOR_NONE, table, key, fallback, args, count))
+        return false;
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
+
+    return true;
+}
+
+static dmi_attribute_walk_t dmi_text_attr_member(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+
+    if (dmi_text_is_hidden(session, node->attr))
+        return DMI_ATTRIBUTE_WALK_SKIP;
+
+    // Values are preceded by spaces themselves
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s:", (int)session->depth, "\t\t\t\t\t\t\t\t",
+                    dmi_attribute_name(node->member, session->owner));
+
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static dmi_attribute_walk_t dmi_text_attr_struct_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+
+    dmi_unused(node);
+
+    // Fields are indented one level deeper than the structure
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\n");
+    session->depth++;
+
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static dmi_attribute_walk_t dmi_text_attr_array_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+
+    // Elements are indented one level deeper than the array
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, " %zu items\n", node->count);
+    session->depth++;
+
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static bool dmi_text_attr_outdent(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+
+    dmi_unused(node);
+
+    session->depth--;
+
+    return true;
+}
+
+static dmi_attribute_walk_t dmi_text_attr_item_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%zu:", (int)session->depth, "\t\t\t\t\t\t\t\t", node->index);
+
+    return DMI_ATTRIBUTE_WALK_CONTINUE;
+}
+
+static bool dmi_text_attr_value(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_text_session_t *session = context;
+    const char *descr = nullptr;
+
+    // Elements of an array of handles are described by the structures they
+    // refer to
+    if ((node->index != SIZE_MAX) and (node->attr->type == DMI_ATTRIBUTE_TYPE_HANDLE)) {
+        dmi_registry_t *registry = dmi_get_registry(session->context);
+        dmi_handle_t    handle   = dmi_deref(dmi_handle_t, node->value);
+
+        descr = dmi_entity_name(dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, true));
+    }
+
+    dmi_text_entity_attr_value(session, node->attr, node->value, descr, session->depth);
+
+    return true;
+}
+
+static void dmi_text_entity_attr_set(
+        dmi_text_session_t    *session,
+        const dmi_attribute_t *attr,
+        const void            *value,
+        unsigned int           depth)
+{
+    assert(session != nullptr);
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
+
+    dmi_format_set_iter_init(&iter, attr, value);
+
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        dmi_tty_color_t color = flag->value ? DMI_TTY_COLOR_LIME : DMI_TTY_COLOR_RED;
+
+        dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%.*s%s: ", (int)depth, "\t\t\t\t\t\t\t\t", flag->name);
+        dmi_text_printf(session, color, "%s\n", dmi_bool_name(flag->value));
+    }
+}
+
+static void dmi_text_print_string(
+        dmi_text_session_t *session,
+        const char         *prefix,
+        const char         *str,
+        const char         *suffix)
+{
+    char *escaped;
+
+    dmi_text_printf(session, DMI_TTY_COLOR_NONE, "%s%s%s",
+                    prefix, dmi_text_escape(session, str, &escaped), suffix);
+    dmi_free(escaped);
 }

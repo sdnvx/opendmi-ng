@@ -30,12 +30,77 @@ struct dmi_freebsd_session
     const char *device;
 };
 
+/**
+ * @internal
+ * @brief Create a session reading the SMBIOS data from the physical memory
+ * device.
+ *
+ * @param[in] context Context being opened.
+ * @param[in] path    Path to the data source, unused.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_freebsd_open(dmi_context_t *context, const char *path);
+
+/**
+ * @internal
+ * @brief Read the SMBIOS entry point from physical memory.
+ *
+ * @details Address of the entry point is taken from the kernel environment,
+ * where EFI firmware leaves it. On x86 the legacy BIOS area is scanned for
+ * the entry point if the address is not found there.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the entry point into.
+ *
+ * @error DMI_ERROR_EPS_NOT_FOUND Entry point is not found
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_freebsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Read the SMBIOS structure table from physical memory, at the
+ * address the entry point gives.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the table into.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_freebsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Close the backend and dispose of its session.
+ *
+ * @param[in] context Context being closed.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_freebsd_close(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Free a session.
+ *
+ * @param[in] session Session to free, or `nullptr`.
+ */
 static void dmi_freebsd_session_free(dmi_freebsd_session_t *session);
 
+/**
+ * @internal
+ * @brief Get the address of the SMBIOS entry point from the kernel
+ * environment, where EFI firmware leaves it.
+ *
+ * @param[in]  context Context descriptor.
+ * @param[out] paddr   Variable to store the address in.
+ *
+ * @error DMI_ERROR_SYSTEM Kernel environment cannot be read
+ *
+ * @return `true` if the address is found, `false` otherwise.
+ */
 static bool dmi_freebsd_get_entry_addr(dmi_context_t *context, uint64_t *paddr);
 
 dmi_backend_t dmi_freebsd_backend =

@@ -11,8 +11,35 @@
 
 #include <opendmi/entity/lenovo/records.h>
 
+/**
+ * @internal
+ * @brief Decode the date of a Lenovo date record.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_lenovo_date_derive(dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Decode the vendor name of a Lenovo TPM information record.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_lenovo_tpm_info_derive(dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Convert a byte of two binary-coded decimal digits to a number.
+ *
+ * @param[in] value Byte to convert.
+ *
+ * @return Value of the digits.
+ */
+static unsigned dmi_lenovo_bcd(unsigned value);
 
 const dmi_entity_spec_t dmi_lenovo_date_spec =
 {

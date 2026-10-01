@@ -15,7 +15,15 @@
 
 #include <opendmi/entity/power-controls.h>
 
-// Checks the lint rules of the specification perform, see power-controls-rules.c
+
+/**
+ * @internal
+ * @brief Check that the fields of the next scheduled power-on hold
+ * binary-coded decimals.
+ *
+ * @details Values are decoded into plain numbers, and an invalid pair of
+ * digits is silently turned into one of them, so the raw data is read instead.
+ */
 void dmi_power_controls_lint_bcd(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_POWER_CONTROLS_INTERNAL_H

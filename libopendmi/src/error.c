@@ -13,18 +13,38 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/string.h>
 
+/**
+ * @internal
+ * @brief Take a slot of the error queue for a new error.
+ *
+ * @details If the queue is full, the oldest error is overwritten. The slot is
+ * cleared before it is returned.
+ *
+ * @param[in,out] queue Error queue.
+ *
+ * @return Index of the slot.
+ */
 static size_t dmi_error_slot_get(dmi_error_queue_t *queue);
+
+/**
+ * @internal
+ * @brief Clear a slot of the error queue, freeing its message.
+ *
+ * @param[in,out] queue Error queue.
+ * @param[in]     idx   Index of the slot.
+ */
 static void dmi_error_slot_clear(dmi_error_queue_t *queue, size_t idx);
 
-static inline size_t dmi_error_queue_last_slot(const dmi_error_queue_t *queue)
-{
-    return (queue->first + queue->count - 1) % DMI_ERROR_MAX_DEPTH;
-}
+/**
+ * @internal
+ * @brief Get the index of the slot holding the latest error of the queue.
+ *
+ * @param[in] queue Error queue, which is not empty.
+ *
+ * @return Index of the slot.
+ */
+static inline size_t dmi_error_queue_last_slot(const dmi_error_queue_t *queue);
 
-//
-// Codes of errors are machine-readable, while the messages are printable
-// descriptions, which are translated to the locale.
-//
 const dmi_name_set_t dmi_error_names =
 {
     .code  = "error",
@@ -241,4 +261,9 @@ static void dmi_error_slot_clear(dmi_error_queue_t *queue, size_t idx)
 {
     dmi_free(queue->errors[idx].message);
     queue->errors[idx] = (dmi_error_t){};
+}
+
+static inline size_t dmi_error_queue_last_slot(const dmi_error_queue_t *queue)
+{
+    return (queue->first + queue->count - 1) % DMI_ERROR_MAX_DEPTH;
 }

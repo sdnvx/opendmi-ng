@@ -25,10 +25,6 @@
  */
 #define DMI_INTEL_RSD_CABLED_PCIE_COUNT_MAX 4
 
-//
-// A cable carries a group of four lanes, and the groups start at the lanes of
-// a x16 port which are multiples of four.
-//
 void dmi_intel_rsd_cabled_pcie_lint_start_lane(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_intel_rsd_cabled_pcie_t *info = dmi_entity_info(entity, DMI_TYPE(intel_rsd_cabled_pcie));
@@ -48,10 +44,6 @@ void dmi_intel_rsd_cabled_pcie_lint_start_lane(dmi_lint_t *lint, const dmi_entit
     }
 }
 
-//
-// The number is read as stored, since the decoder keeps only the cable
-// indices the structure holds.
-//
 void dmi_intel_rsd_cabled_pcie_lint_count(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_reader_t reader;

@@ -9,10 +9,6 @@
 
 #include "revisions-internal.h"
 
-//
-// Implementation version is carried as the major and the minor number, one
-// byte each, which the version number puts in the order it counts them.
-//
 bool dmi_dell_revisions_decode_version(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,

@@ -29,33 +29,54 @@ typedef struct dmi_field_state
     dmi_reader_t  *reader;
     dmi_data_t    *info;
 
-    // Fields before the first group are required, so the data ending within
-    // them is a broken structure rather than a short one
+    /**
+     * @brief Fields before the first group are required, so the data ending
+     * within them is a broken structure rather than a short one.
+     */
     bool optional;
 
-    // Data ended where the structure is allowed to carry less than it
-    // declares, such as in the middle of the elements of an array, which
-    // stops the fields after it from being read without breaking it
+    /**
+     * @brief Data ended where the structure is allowed to carry less than it
+     * declares, such as in the middle of the elements of an array, which
+     * stops the fields after it from being read without breaking it.
+     */
     bool incomplete;
 
-    // Bits read from the data and not given to a field yet, which the ranges
-    // of bits sharing a unit are taken from
+    /**
+     * @brief Bits read from the data and not given to a field yet, which the
+     * ranges of bits sharing a unit are taken from.
+     */
     uintmax_t bits_value;
+
+    /**
+     * @brief Number of the bits in `bits_value`.
+     */
     unsigned  bits_count;
 
-    // Bits the ranges have taken since the run of them started, which tells
-    // how much of the unit the padding at its end has to close
+    /**
+     * @brief Bits the ranges have taken since the run of them started, which
+     * tells how much of the unit the padding at its end has to close.
+     */
     unsigned  bits_taken;
 
-    // Version the entry point declares, which decides the ranges of bits
-    // defined by a version, and the latest of the versions those read have
-    // been defined from
+    /**
+     * @brief Version the entry point declares, which decides the ranges of
+     * bits defined by a version.
+     */
     dmi_version_t version;
+
+    /**
+     * @brief Latest of the versions the ranges of bits read have been defined
+     * from.
+     */
     dmi_version_t defined;
 
-    // Fields are a part of the structure a decoding handler of its own reads,
-    // whose bytes end where the part does rather than where the structure
-    // does, so the data ending early says nothing about the structure
+    /**
+     * @brief Fields are a part of the structure a decoding handler of its own
+     * reads, whose bytes end where the part does rather than where the
+     * structure does, so the data ending early says nothing about the
+     * structure.
+     */
     bool is_part;
 } dmi_field_state_t;
 
@@ -64,6 +85,10 @@ typedef struct dmi_field_state
  * @brief Stop reading the fields where the data ends at the beginning of a
  * group, which marks the structure as partial, unless the fields are a part
  * of it.
+ *
+ * @param[in,out] state State of the structure being decoded.
+ *
+ * @return `true` if the fields read so far stand, `false` otherwise.
  */
 static bool dmi_field_stop(dmi_field_state_t *state);
 
@@ -72,6 +97,10 @@ static bool dmi_field_stop(dmi_field_state_t *state);
  * @brief Stop reading the fields where the data ends in the middle of them,
  * which marks the structure as incomplete, unless the fields are a part of
  * it.
+ *
+ * @param[in,out] state State of the structure being decoded.
+ *
+ * @return `true` if the fields read so far stand, `false` otherwise.
  */
 static bool dmi_field_incomplete(dmi_field_state_t *state);
 
@@ -80,6 +109,12 @@ static bool dmi_field_incomplete(dmi_field_state_t *state);
  * @brief Read a list of fields into a structure, which is the decoded
  * structure itself for the fields of its specification, and an element of an
  * array or a nested structure for the fields of one.
+ *
+ * @param[in,out] state  State of the structure being decoded.
+ * @param[in]     fields Fields to read, terminated by an empty entry.
+ * @param[out]    info   Structure to read the fields into.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_list(
         dmi_field_state_t *state,
@@ -88,10 +123,28 @@ static bool dmi_field_decode_list(
 
 /**
  * @internal
+ * @brief Mark the fields of a group as present, once every one of them has
+ * been read, if the group has a member telling so.
+ *
+ * @param[in]  group Group whose fields have been read, or `nullptr`.
+ * @param[out] info  Structure holding the member.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_field_group_read(const dmi_field_t *group, dmi_data_t *info);
+
+/**
+ * @internal
  * @brief Read the fields of an array element or of a nested structure, which
  * the groups of the structure holding them say nothing about: an element is
  * either there in full or not at all, and the field reading it decides what
  * the data ending inside it means.
+ *
+ * @param[in,out] state  State of the structure being decoded.
+ * @param[in]     fields Fields of the element or of the nested structure.
+ * @param[out]    info   Element or nested structure to read the fields into.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_nested(
         dmi_field_state_t *state,
@@ -107,6 +160,14 @@ static bool dmi_field_decode_nested(
  * The plain field an extended one is keyed on keeps the value it has read in
  * the choice of its member, which tells whether the extended field carries the
  * real value.
+ *
+ * @param[in,out] state   State of the structure being decoded.
+ * @param[in]     field   Field to read.
+ * @param[out]    info    Structure holding the member of the field.
+ * @param[in,out] choices Choices of the members the extended fields of the
+ *                        list are keyed on.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_one(
         dmi_field_state_t   *state,
@@ -118,14 +179,13 @@ static bool dmi_field_decode_one(
  * @internal
  * @brief Read the elements of a vector, which are held in place, one after
  * another, and are read the way the fields of a nested structure are.
+ *
+ * @param[in,out] state State of the structure being decoded.
+ * @param[in]     field Field of the vector.
+ * @param[out]    value Member holding the elements.
+ *
+ * @return `true` on success, `false` otherwise.
  */
-/**
- * @internal
- * @brief Mark the fields of a group as present, once every one of them has
- * been read, if the group has a member telling so.
- */
-static bool dmi_field_group_read(const dmi_field_t *group, dmi_data_t *info);
-
 static bool dmi_field_decode_vector(
         dmi_field_state_t *state,
         const dmi_field_t *field,
@@ -136,6 +196,13 @@ static bool dmi_field_decode_vector(
  * @brief Read an extended field, which replaces the value only when the plain
  * field it is keyed on says that the real value is here, and is read past
  * either way.
+ *
+ * @param[in,out] state  State of the structure being decoded.
+ * @param[in]     field  Extended field to read.
+ * @param[out]    value  Member to store the value in.
+ * @param[in]     choice Choice of the member, or `nullptr`.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_extended(
         dmi_field_state_t        *state,
@@ -148,6 +215,13 @@ static bool dmi_field_decode_extended(
  * @brief Read a value of a fixed width into a member of the decoded structure,
  * which may be wider than the field is, so that the values standing for
  * "unknown" do not collide with the ones a device may really have.
+ *
+ * @param[in,out] state State of the structure being decoded.
+ * @param[in]     field Field to read.
+ * @param[out]    value Member to store the value in, or `nullptr`.
+ * @param[out]    raw   Variable to store the raw value in, or `nullptr`.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_value(
         dmi_field_state_t *state,
@@ -163,6 +237,12 @@ static bool dmi_field_decode_value(
  * @details
  * The value standing for "unknown" is no digits, and is taken as the data
  * holds it.
+ *
+ * @param[in,out] state  State of the structure being decoded.
+ * @param[in]     field  Field to read.
+ * @param[out]    number Variable to store the number in.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_read_bcd(dmi_field_state_t *state, const dmi_field_t *field, uintmax_t *number);
 
@@ -170,6 +250,13 @@ static bool dmi_field_read_bcd(dmi_field_state_t *state, const dmi_field_t *fiel
  * @internal
  * @brief Read bytes taken as they are: as many as the field declares, the rest
  * of the structure, or as many as a field before has declared into the member.
+ *
+ * @param[in,out] state  State of the structure being decoded.
+ * @param[in]     field  Field to read.
+ * @param[in,out] value  Member of the field, which holds the declared length.
+ * @param[out]    binary Variable to store the bytes in.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_read_binary(
         dmi_field_state_t *state,
@@ -186,6 +273,12 @@ static bool dmi_field_read_binary(
  * bytes of the unit, which is why the bytes are read one at a time as the
  * ranges need them: the bits of a little-endian value come in the same order
  * either way.
+ *
+ * @param[in,out] state State of the structure being decoded.
+ * @param[in]     field Field of the range of bits.
+ * @param[out]    value Member to store the value in, or `nullptr`.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_bits(
         dmi_field_state_t *state,
@@ -196,6 +289,11 @@ static bool dmi_field_decode_bits(
  * @internal
  * @brief Close a unit the ranges of bits share, stepping over the ones the
  * specification reserves at its end.
+ *
+ * @param[in,out] state State of the structure being decoded.
+ * @param[in]     field Padding field, which gives the width of the unit.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_pad(dmi_field_state_t *state, const dmi_field_t *field);
 
@@ -206,6 +304,12 @@ static bool dmi_field_decode_pad(dmi_field_state_t *state, const dmi_field_t *fi
  * @details
  * Bytes are read as the ranges need them, so that a unit no field reaches the
  * end of is not read past.
+ *
+ * @param[in,out] state State of the structure being decoded.
+ * @param[in]     bits  Number of the bits to take.
+ * @param[out]    value Variable to store the bits in.
+ *
+ * @return `true` on success, `false` if the data ends.
  */
 static bool dmi_field_take_bits(dmi_field_state_t *state, unsigned bits, uintmax_t *value);
 
@@ -213,6 +317,12 @@ static bool dmi_field_take_bits(dmi_field_state_t *state, unsigned bits, uintmax
  * @internal
  * @brief Read an array of the elements described by their own fields, counting
  * the ones the data holds completely.
+ *
+ * @param[in,out] state State of the structure being decoded.
+ * @param[in]     field Field of the array.
+ * @param[out]    info  Structure holding the array and its counter.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_array(
         dmi_field_state_t *state,
@@ -230,6 +340,16 @@ static bool dmi_field_decode_array(
  * The bytes left over by elements running to the end of the structure are a
  * structure which ends in the middle of an element, which is reported once the
  * whole array has been read.
+ *
+ * @param[in,out] state    State of the structure being decoded.
+ * @param[in]     field    Field of the array.
+ * @param[out]    info     Structure holding the array.
+ * @param[out]    count    Variable to store the number of the elements in.
+ * @param[out]    stride   Variable to store the length of an element in.
+ * @param[out]    leftover Variable to store the number of the bytes left over
+ *                         in.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_array_header(
         dmi_field_state_t *state,
@@ -243,6 +363,13 @@ static bool dmi_field_decode_array_header(
  * @internal
  * @brief Read an element of an array, which is there in full or not at all,
  * and step over the bytes of it the fields do not describe.
+ *
+ * @param[in,out] state   State of the structure being decoded.
+ * @param[in]     field   Field of the array.
+ * @param[out]    element Element to read the fields into.
+ * @param[in]     stride  Length of an element, or zero if the fields give it.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_field_decode_element(
         dmi_field_state_t *state,
@@ -253,6 +380,12 @@ static bool dmi_field_decode_element(
 /**
  * @internal
  * @brief Read an unsigned integer of the given width, little-endian.
+ *
+ * @param[in,out] state  State of the structure being decoded.
+ * @param[in]     length Width of the integer in bytes.
+ * @param[out]    number Variable to store the integer in.
+ *
+ * @return `true` on success, `false` if the data ends.
  */
 static bool dmi_field_read_number(
         dmi_field_state_t *state,

@@ -18,9 +18,47 @@
 #include <opendmi/utils/locale.h>
 #include <opendmi/command/explain.h>
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_explain_usage(void);
+
+/**
+ * @internal
+ * @brief Print the explanation of the structure type named by the argument.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments.
+ * @param[in] argv    Arguments of the command.
+ *
+ * @return Exit code of the command.
+ */
 static int dmi_explain_main(dmi_context_t *context, int argc, char *argv[]);
+
+/**
+ * @internal
+ * @brief Find the specification of a structure type.
+ *
+ * @details Types are named either by their code or by their number, the way
+ * the filter options of the other commands take them.
+ *
+ * @param[in] context DMI context.
+ * @param[in] code    Code or number of the type.
+ *
+ * @return Specification of the type, or `nullptr` if there is none.
+ */
 static const dmi_entity_spec_t *dmi_explain_find_entity(dmi_context_t *context, const char *code);
+
+/**
+ * @internal
+ * @brief Look up the explanation of the structure type in the resources of
+ * the tool.
+ *
+ * @param[in] code Code of the type.
+ *
+ * @return Translated explanation, or `nullptr` if there is none.
+ */
 static const char *dmi_explain_text(const char *code);
 
 static const dmi_option_set_t dmi_explain_options =
@@ -104,9 +142,6 @@ static int dmi_explain_main(dmi_context_t *context, int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-//
-// Look up the explanation of the structure type in the resources of the tool.
-//
 static const char *dmi_explain_text(const char *code)
 {
     return dmi_resource_string(dmi_tool_resource(), code, "description");

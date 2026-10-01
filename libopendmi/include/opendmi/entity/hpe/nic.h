@@ -84,6 +84,8 @@ extern __dmi_api const dmi_entity_spec_t dmi_hpe_pxe_nic_spec;
 
 /**
  * @brief HP/HPE BIOS iSCSI NIC PCI and MAC information entity specification.
+ *
+ * Type 221 is given to the iSCSI ports up to G7, and is deprecated later.
  */
 extern __dmi_api const dmi_entity_spec_t dmi_hpe_iscsi_nic_spec;
 

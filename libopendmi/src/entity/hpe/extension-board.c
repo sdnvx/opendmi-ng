@@ -11,10 +11,6 @@
 
 #include "extension-board-internal.h"
 
-//
-// The board type at offset 0x04 selects the layout of the rest of the
-// structure, which each specification tells by its signature
-//
 const dmi_entity_spec_t dmi_hpe_riser_spec =
 {
     .type        = DMI_TYPE(hpe_riser),

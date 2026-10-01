@@ -26,9 +26,6 @@ const dmi_attribute_t dmi_bis_real_mode_address_attrs[] =
     {}
 };
 
-//
-// Checksum covers the whole structure, as the data holds it.
-//
 bool dmi_bis_entry_point_derive(dmi_entity_t *entity)
 {
     dmi_bis_entry_point_t *info;

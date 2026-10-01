@@ -167,7 +167,12 @@ static const dmi_attribute_t dmi_mgmt_nhi_attrs[] =
     {}
 };
 
-// IP addresses are formatted as such only if their format is known
+/**
+ * @internal
+ * @brief Attribute of an IP address of Redfish over IP protocol record data.
+ *
+ * @details IP addresses are formatted as such only if their format is known.
+ */
 #define DMI_MGMT_REDFISH_IP_ATTR(__member, __format, __code, __name)          \
     DMI_ATTRIBUTE_VARIANT(dmi_mgmt_redfish_over_ip_t, __format, {             \
         .code     = __code,                                                   \

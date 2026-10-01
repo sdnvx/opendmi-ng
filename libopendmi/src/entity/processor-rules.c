@@ -141,11 +141,6 @@ void dmi_processor_lint_family(dmi_lint_t *lint, const dmi_entity_t *entity)
                    "family refers to the extended one, which the structure does not carry");
 }
 
-//
-// Firmware of some vendors stores the feature flags before the signature,
-// which the decoder puts back in place. The swap is told by the bits the
-// signature reserves, since a valid signature has none of them set.
-//
 void dmi_processor_lint_id(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_processor_t *info = dmi_entity_info(entity, DMI_TYPE(processor));

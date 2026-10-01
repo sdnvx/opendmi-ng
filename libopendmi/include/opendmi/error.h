@@ -132,6 +132,9 @@ __BEGIN_DECLS
 
 /**
  * @brief Names of error reason codes.
+ *
+ * Codes of errors are machine-readable, while the messages are printable
+ * descriptions, which are translated to the locale.
  */
 extern __dmi_api const dmi_name_set_t dmi_error_names;
 

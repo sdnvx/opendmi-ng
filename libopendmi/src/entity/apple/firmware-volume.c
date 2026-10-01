@@ -105,8 +105,6 @@ const dmi_entity_spec_t dmi_apple_firmware_volume_spec =
     }
 };
 
-// Bits of no known meaning are named after their numbers, the way OpenCore
-// names them, since they are not reserved
 const dmi_name_set_t dmi_apple_firmware_feature_names =
 {
     .code  = "apple-firmware-feature",
@@ -275,8 +273,6 @@ const dmi_name_set_t dmi_apple_firmware_feature_names =
     })
 };
 
-// Bits of no known meaning are named after their numbers, the way OpenCore
-// names them, since they are not reserved
 const dmi_name_set_t dmi_apple_extended_feature_names =
 {
     .code  = "apple-extended-feature",

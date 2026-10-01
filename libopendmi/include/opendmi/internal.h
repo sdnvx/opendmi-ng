@@ -25,36 +25,84 @@
 
 #include <opendmi/defs.h>
 
-// Number of elements in an array
 #ifndef countof
+/**
+ * @internal
+ * @brief Number of elements in an array.
+ */
 #define countof(x) (sizeof(x) / sizeof((x)[0]))
 #endif // !countof
 
-// Type-cast macros
+/**
+ * @internal
+ * @brief Cast an expression to the type of a variable.
+ */
 #define dmi_cast(dst, expr) ((__dmi_typeof(dst))(expr))
+
+/**
+ * @internal
+ * @brief Read a value of a type through a pointer of another type.
+ */
 #define dmi_deref(type, expr) (*(const type *)(expr))
 
-// Value pointer macro
+/**
+ * @internal
+ * @brief Pointer to a copy of a value, held by a compound literal.
+ */
 #define dmi_value_ptr(x) &(__dmi_typeof(x)){ (x) }
 
-// List of structure types, e.g. the ones a handle may refer to, see
-// dmi_attribute_params_t::targets
+/**
+ * @internal
+ * @brief List of structure types, e.g. the ones a handle may refer to, see
+ * `dmi_attribute_params_t::targets`.
+ */
 #define dmi_types(...) \
         (const dmi_type_t *const[]){ __VA_ARGS__, nullptr }
 
-// Look up a string of the library resources, nullptr if there is none
+/**
+ * @internal
+ * @brief Look up a string of the library resources.
+ *
+ * @param[in] table Table of the resources to look in.
+ * @param[in] key   Key of the string.
+ *
+ * @return String, or `nullptr` if there is none.
+ */
 const char *dmi_locale_string(const char *table, const char *key);
 
-// Look up the text of a value which has no text of its own, e.g. an unknown
-// enumeration identifier, falling back to the English one
+/**
+ * @internal
+ * @brief Look up the text of a value which has no text of its own, e.g. of
+ * an unknown enumeration identifier.
+ *
+ * @param[in] key      Key of the text.
+ * @param[in] fallback English text, which is returned if there is no
+ *                     translation.
+ *
+ * @return Text of the value.
+ */
 const char *dmi_value_text(const char *key, const char *fallback);
 
-// Text the bytes of a structure spell, e.g. a signature, copied into a buffer
-// at least one byte longer and terminated, leaving the spaces out if trim is
-// set; nullptr if the bytes are not all printable or leave nothing but spaces
+/**
+ * @internal
+ * @brief Copy the text the bytes of a structure spell, e.g. a signature,
+ * into a buffer.
+ *
+ * @param[in]  data   Bytes of the structure.
+ * @param[in]  length Number of the bytes.
+ * @param[out] buffer Buffer at least one byte longer than the bytes, which
+ *                    the text is copied into and terminated.
+ * @param[in]  trim   Whether the spaces are left out.
+ *
+ * @return Text in the buffer, or `nullptr` if the bytes are not all printable
+ *         or leave nothing but spaces.
+ */
 const char *dmi_text_from_bytes(const uint8_t *data, size_t length, char *buffer, bool trim);
 
-// Cross-platform attribute unused macro
+/**
+ * @internal
+ * @brief Mark a variable or a parameter as deliberately unused.
+ */
 #define dmi_unused(x) (void)(x)
 
 // Cross-compiler thread-local specifier support, thread_local is a

@@ -28,16 +28,111 @@ typedef enum dmi_lint_table_stop
     DMI_LINT_TABLE_STOP_SHORT_LENGTH ///< Header of a length shorter than itself
 } dmi_lint_table_stop_t;
 
+/**
+ * @internal
+ * @brief Find the header which stops the walk of the table before its end.
+ *
+ * @details Structures are located by the lengths of the ones before them, so
+ * a header of an invalid length stops the walk of the table. A header of no
+ * length stands for the end of the table whatever type it names, which
+ * firmware relies on, e.g. by padding the table with zeros, so it is taken
+ * for a broken one only when the bytes past it are not all zero. A header of
+ * a length shorter than itself is found past the last structure read.
+ *
+ * @param[in]  lint    Check in progress.
+ * @param[out] poffset Variable to store the offset of the header in.
+ * @param[out] pheader Variable to store the pointer to the header in.
+ *
+ * @return Kind of the header found, or `DMI_LINT_TABLE_STOP_NONE` if the table
+ *         is walked to its end. The output variables are set only if a header
+ *         is found.
+ */
 static dmi_lint_table_stop_t dmi_lint_table_find_stop(dmi_lint_t *lint, size_t *poffset,
                                                       const dmi_data_t **pheader);
 
+/**
+ * @internal
+ * @brief Check that the table does not end in the middle of a structure.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the table.
+ */
 static void dmi_lint_table_truncated(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that no header of an invalid length stops the walk of the
+ * table, see `dmi_lint_table_find_stop()`.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the table.
+ */
 static void dmi_lint_table_invalid_header(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the table has an end-of-table structure.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the table.
+ */
 static void dmi_lint_table_terminator(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the table has no data past the end-of-table structure.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the table.
+ */
 static void dmi_lint_table_trailing_data(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the table has a structure of every type the version of the
+ * entry point requires.
+ *
+ * @details Which versions require a structure of a type is part of the
+ * specification of that type, so the rule asks the types rather than keeping
+ * a list of its own, which would have to be kept in step with them.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the table.
+ */
 static void dmi_lint_table_required(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the table has a structure of every type the version of the
+ * entry point recommends.
+ *
+ * @details Which versions expect a structure of a type is part of the
+ * specification of that type, the same way the versions which require it
+ * are.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the table.
+ */
 static void dmi_lint_table_recommended(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the table has no more than one structure of every type
+ * which has to be unique.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the table.
+ */
 static void dmi_lint_table_singleton(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the handle of the structure is outside of the range
+ * reserved by the specification.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_table_reserved_handle(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 const dmi_lint_rule_t dmi_lint_table_truncated_rule =
@@ -224,14 +319,6 @@ static void dmi_lint_table_invalid_header(dmi_lint_t *lint, const dmi_entity_t *
     }
 }
 
-//
-// Structures are located by the lengths of the ones before them, so a header
-// of an invalid length stops the walk of the table. A header of no length
-// stands for the end of the table whatever type it names, which firmware
-// relies on, e.g. by padding the table with zeros, so it is taken for a broken
-// one only when the bytes past it are not all zero. A header of a length
-// shorter than itself is found past the last structure read.
-//
 static dmi_lint_table_stop_t dmi_lint_table_find_stop(dmi_lint_t *lint, size_t *poffset,
                                                       const dmi_data_t **pheader)
 {
@@ -288,11 +375,6 @@ static dmi_lint_table_stop_t dmi_lint_table_find_stop(dmi_lint_t *lint, size_t *
     return DMI_LINT_TABLE_STOP_SHORT_LENGTH;
 }
 
-//
-// Which versions require a structure of a type is part of the specification
-// of that type, so the rule asks the types rather than keeping a list of its
-// own, which would have to be kept in step with them.
-//
 static void dmi_lint_table_required(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_unused(entity);
@@ -324,10 +406,6 @@ static void dmi_lint_table_required(dmi_lint_t *lint, const dmi_entity_t *entity
     }
 }
 
-//
-// Which versions expect a structure of a type is part of the specification of
-// that type, the same way the versions which require it are.
-//
 static void dmi_lint_table_recommended(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_unused(entity);

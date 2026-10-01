@@ -13,13 +13,76 @@
 
 #include <opendmi/lint/entry.h>
 
+/**
+ * @internal
+ * @brief Check that the checksum of the entry point, and of the intermediate
+ * anchor of SMBIOS 2.1 one, matches its data.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the entry point.
+ */
 static void dmi_lint_entry_checksum(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the length of the entry point matches its format and the
+ * data available.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the entry point.
+ */
 static void dmi_lint_entry_length(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the entry point declares the address of the table.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the entry point.
+ */
 static void dmi_lint_entry_table_address(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the size of the table matches the size, or fits the
+ * maximum size, declared by the entry point.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the entry point.
+ */
 static void dmi_lint_entry_table_size(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the number of the structures matches the one declared
+ * by the entry point.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the entry point.
+ */
 static void dmi_lint_entry_entity_count(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the structures fit the maximum size declared by the
+ * entry point.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Unused, the rule checks the entry point.
+ */
 static void dmi_lint_entry_entity_max_size(dmi_lint_t *lint, const dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Verify the checksum of a piece of the entry point.
+ *
+ * @details The checksum is valid when the sum of the bytes is zero.
+ *
+ * @param[in] data   Data to verify.
+ * @param[in] length Length of the data, in bytes.
+ *
+ * @return `true` if the checksum is valid, `false` otherwise.
+ */
 static bool dmi_lint_entry_verify(const dmi_data_t *data, size_t length);
 
 const dmi_lint_rule_t dmi_lint_entry_checksum_rule =
@@ -94,9 +157,6 @@ const dmi_lint_rule_t dmi_lint_entry_entity_max_size_rule =
     }
 };
 
-//
-// Sum of the bytes of an entry point, which is zero for a valid checksum.
-//
 static bool dmi_lint_entry_verify(const dmi_data_t *data, size_t length)
 {
     uint8_t sum = 0;

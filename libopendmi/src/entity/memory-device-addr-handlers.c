@@ -62,10 +62,6 @@ bool dmi_memory_device_addr_validate(dmi_entity_t *entity)
     return true;
 }
 
-//
-// Size of the range is what its bounds say, in whichever order the data
-// happens to carry them, and both of the bounds belong to the range.
-//
 bool dmi_memory_device_addr_derive(dmi_entity_t *entity)
 {
     dmi_memory_device_addr_t *info;

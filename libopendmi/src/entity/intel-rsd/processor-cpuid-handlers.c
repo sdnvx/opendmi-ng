@@ -16,6 +16,7 @@
 #define SUBLEAF(__leaf, __subleaf) { .leaf = (__leaf), .has_subleaf = true, .subleaf = (__subleaf) }
 
 /**
+ * @internal
  * @brief Leaf stored in the structure.
  */
 typedef struct dmi_intel_rsd_cpuid_input
@@ -25,7 +26,6 @@ typedef struct dmi_intel_rsd_cpuid_input
     uint32_t subleaf;
 } dmi_intel_rsd_cpuid_input_t;
 
-// Leaves of subtype 1, in the order they are stored
 /**
  * @internal
  * @brief Fields of a leaf, which holds the registers CPUID returns for it.
@@ -44,13 +44,20 @@ static const dmi_field_t dmi_intel_rsd_cpuid_leaf_fields[] = {
  */
 #define DMI_INTEL_RSD_CPUID_LEAF_LENGTH (4 * sizeof(dmi_dword_t))
 
+/**
+ * @internal
+ * @brief Leaves of subtype 1, in the order they are stored.
+ */
 static const dmi_intel_rsd_cpuid_input_t dmi_intel_rsd_cpuid_basic[] = {
     LEAF(0x00), LEAF(0x01), LEAF(0x02), LEAF(0x03), LEAF(0x04), LEAF(0x05),
     LEAF(0x06), LEAF(0x07), LEAF(0x09), LEAF(0x0A), LEAF(0x0B),
     SUBLEAF(0x0D, 0x00), SUBLEAF(0x0F, 0x00), SUBLEAF(0x10, 0x00)
 };
 
-// Leaves of subtype 2, in the order they are stored
+/**
+ * @internal
+ * @brief Leaves of subtype 2, in the order they are stored.
+ */
 static const dmi_intel_rsd_cpuid_input_t dmi_intel_rsd_cpuid_extended[] = {
     SUBLEAF(0x14, 0x00), LEAF(0x15), LEAF(0x16),
     SUBLEAF(0x17, 0x00), SUBLEAF(0x17, 0x01), SUBLEAF(0x17, 0x02), SUBLEAF(0x17, 0x03),
@@ -180,10 +187,6 @@ void dmi_intel_rsd_processor_cpuid_cleanup(dmi_entity_t *entity)
 #undef LEAF
 #undef SUBLEAF
 
-//
-// Leaves of the known subtypes are written in the order the subtype lists
-// them, and the data of the unknown ones as it is stored.
-//
 bool dmi_intel_rsd_processor_cpuid_encode(dmi_encoder_t *encoder)
 {
     const dmi_intel_rsd_processor_cpuid_t *info =

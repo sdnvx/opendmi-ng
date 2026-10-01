@@ -11,10 +11,6 @@
 
 #include "oem-strings-internal.h"
 
-//
-// Strings of the structure are its values, so the array points at the ones
-// the structure carries rather than at anything read from the data.
-//
 bool dmi_oem_strings_derive(dmi_entity_t *entity)
 {
     dmi_oem_strings_t *info;

@@ -15,21 +15,68 @@
 
 #include <opendmi/lint/link.h>
 
+/**
+ * @internal
+ * @brief Function checking a handle a structure references.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure holding the reference.
+ * @param[in] attr   Attribute of the reference.
+ * @param[in] handle Handle the structure references.
+ */
 typedef void dmi_lint_link_fn(
         dmi_lint_t            *lint,
         const dmi_entity_t    *entity,
         const dmi_attribute_t *attr,
         dmi_handle_t           handle);
 
+/**
+ * @internal
+ * @brief Check that the references of a structure point to the structures of
+ * the table.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure to check.
+ */
 static void dmi_lint_link_dangling(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the references of a structure point to the structures of
+ * the types they expect.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure to check.
+ */
 static void dmi_lint_link_wrong_type(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that a structure does not reference itself.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure to check.
+ */
 static void dmi_lint_link_self(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that a structure describing a part of another one is
+ * referenced by the rest of the table.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure to check.
+ */
 static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 /**
  * @internal
  * @brief Walk the references of a structure, descending into the nested
  * structures and the arrays of handles, and give every handle to the handler.
+ *
+ * @param[in] lint    Check in progress.
+ * @param[in] entity  Structure to walk.
+ * @param[in] handler Handler of the check.
  */
 static void dmi_lint_link_walk(dmi_lint_t *lint, const dmi_entity_t *entity, dmi_lint_link_fn *handler);
 
@@ -37,6 +84,11 @@ static void dmi_lint_link_walk(dmi_lint_t *lint, const dmi_entity_t *entity, dmi
  * @internal
  * @brief Give a value the walk of the references reaches to the handler of
  * the check, if it is a handle.
+ *
+ * @param[in] context State of the walk, see `dmi_lint_link_walk_t`.
+ * @param[in] node    Value the walk has reached.
+ *
+ * @return Always `true`, so that the walk goes on.
  */
 static bool dmi_lint_link_visit(void *context, const dmi_attribute_node_t *node);
 
@@ -44,16 +96,87 @@ static bool dmi_lint_link_visit(void *context, const dmi_attribute_node_t *node)
  * @internal
  * @brief Tell whether a structure references a handle, descending into the
  * nested structures and the arrays of handles the same way the walk does.
+ *
+ * @param[in] entity Structure to look into.
+ * @param[in] handle Handle to look for.
+ *
+ * @return `true` if the structure references the handle, `false` otherwise.
  */
 static bool dmi_lint_link_references(const dmi_entity_t *entity, dmi_handle_t handle);
 
 /**
  * @internal
  * @brief Stop the walk of the references at the handle being looked for.
+ *
+ * @param[in] context Handle being looked for.
+ * @param[in] node    Value the walk has reached.
+ *
+ * @return `false` if the value is the handle being looked for, `true`
+ *         otherwise.
  */
 static bool dmi_lint_link_match(void *context, const dmi_attribute_node_t *node);
 
+/**
+ * @internal
+ * @brief Tell whether a handle stands for a structure.
+ *
+ * @details Some handles stand for "no reference" rather than for a structure.
+ *
+ * @param[in] handle Handle to check.
+ *
+ * @return `true` if the handle stands for a structure, `false` otherwise.
+ */
 static bool dmi_lint_link_is_set(dmi_handle_t handle);
+
+/**
+ * @internal
+ * @brief Check that a handle refers to a structure of one of the types the
+ * attribute names.
+ *
+ * @details Attributes which name the types they refer to describe the shape
+ * of the table, so a reference to a structure of another type is a broken
+ * one.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure holding the reference.
+ * @param[in] attr   Attribute of the reference.
+ * @param[in] handle Handle the structure references.
+ */
+static void dmi_lint_link_check_type(
+        dmi_lint_t            *lint,
+        const dmi_entity_t    *entity,
+        const dmi_attribute_t *attr,
+        dmi_handle_t           handle);
+
+/**
+ * @internal
+ * @brief Check that a handle belongs to a structure of the table.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure holding the reference.
+ * @param[in] attr   Attribute of the reference.
+ * @param[in] handle Handle the structure references.
+ */
+static void dmi_lint_link_check_dangling(
+        dmi_lint_t            *lint,
+        const dmi_entity_t    *entity,
+        const dmi_attribute_t *attr,
+        dmi_handle_t           handle);
+
+/**
+ * @internal
+ * @brief Check that a handle is not the one of the structure holding it.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure holding the reference.
+ * @param[in] attr   Attribute of the reference.
+ * @param[in] handle Handle the structure references.
+ */
+static void dmi_lint_link_check_self(
+        dmi_lint_t            *lint,
+        const dmi_entity_t    *entity,
+        const dmi_attribute_t *attr,
+        dmi_handle_t           handle);
 
 /**
  * @internal
@@ -115,11 +238,14 @@ const dmi_lint_rule_t dmi_lint_link_orphan_rule =
     }
 };
 
-//
-// Types which describe a part of another structure, and are meaningless
-// unless something references them. The rest of the types are standalone:
-// a processor or a mapped address is referenced by nothing by design.
-//
+/**
+ * @internal
+ * @brief Types which describe a part of another structure, and are
+ * meaningless unless something references them.
+ *
+ * @details The rest of the types are standalone: a processor or a mapped
+ * address is referenced by nothing by design.
+ */
 static const dmi_type_id_t dmi_lint_referenced_types[] =
 {
     DMI_TYPE_ID_CACHE,
@@ -130,9 +256,6 @@ static const dmi_type_id_t dmi_lint_referenced_types[] =
     DMI_TYPE_ID_MGMT_DEVICE_THRESHOLD
 };
 
-//
-// Handles which stand for "no reference" rather than for a structure.
-//
 static bool dmi_lint_link_is_set(dmi_handle_t handle)
 {
     return (handle != DMI_HANDLE_INVALID) and (handle != DMI_HANDLE_UNSUPPORTED);
@@ -166,10 +289,6 @@ static bool dmi_lint_link_visit(void *context, const dmi_attribute_node_t *node)
     return true;
 }
 
-//
-// Attributes which name the types they refer to describe the shape of the
-// table, so a reference to a structure of another type is a broken one.
-//
 static void dmi_lint_link_check_type(
         dmi_lint_t            *lint,
         const dmi_entity_t    *entity,
@@ -202,10 +321,6 @@ static void dmi_lint_link_wrong_type(dmi_lint_t *lint, const dmi_entity_t *entit
 {
     dmi_lint_link_walk(lint, entity, dmi_lint_link_check_type);
 }
-
-static void dmi_lint_link_dangling(dmi_lint_t *lint, const dmi_entity_t *entity);
-static void dmi_lint_link_self(dmi_lint_t *lint, const dmi_entity_t *entity);
-static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 static void dmi_lint_link_check_dangling(
         dmi_lint_t            *lint,

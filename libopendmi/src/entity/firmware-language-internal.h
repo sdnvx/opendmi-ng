@@ -15,11 +15,22 @@
 
 #include <opendmi/entity/firmware-language.h>
 
-// Value names, see firmware-language-names.c
 extern const dmi_name_set_t dmi_firmware_language_flag_names;
 
-// Operation handlers, see firmware-language-handlers.c
+/**
+ * @internal
+ * @brief Fill in the list of the languages available.
+ *
+ * @details Languages available are the strings of the structure, so the array
+ * points at the ones the structure carries rather than at anything read from
+ * the data.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_firmware_language_derive(dmi_entity_t *entity);
+
 void dmi_firmware_language_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_FIRMWARE_LANGUAGE_INTERNAL_H

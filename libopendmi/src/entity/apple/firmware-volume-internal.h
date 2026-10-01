@@ -14,7 +14,22 @@
 
 #include <opendmi/entity/apple/firmware-volume.h>
 
+/**
+ * @internal
+ * @brief Names of the firmware features.
+ *
+ * @details Bits of no known meaning are named after their numbers, the way
+ * OpenCore names them, since they are not reserved.
+ */
 extern const dmi_name_set_t dmi_apple_firmware_feature_names;
+
+/**
+ * @internal
+ * @brief Names of the extended firmware features.
+ *
+ * @details Bits of no known meaning are named after their numbers, the way
+ * OpenCore names them, since they are not reserved.
+ */
 extern const dmi_name_set_t dmi_apple_extended_feature_names;
 extern const dmi_name_set_t dmi_apple_region_type_names;
 

@@ -13,10 +13,6 @@
 
 #include "ipmi-device-internal.h"
 
-//
-// Revision is decoded into a version, which keeps no trace of the digits it
-// was made of, so the raw data is read instead.
-//
 void dmi_ipmi_device_lint_revision(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_reader_t reader;

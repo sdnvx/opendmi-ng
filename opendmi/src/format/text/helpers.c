@@ -38,6 +38,14 @@
 
 #include <opendmi/format/text/helpers.h>
 
+/**
+ * @internal
+ * @brief Check if character may be written to a terminal as it is.
+ *
+ * @param[in] code Code point of the character.
+ *
+ * @return `true` if the character is not a control one, `false` otherwise.
+ */
 static bool dmi_text_is_char(uint32_t code);
 
 void dmi_text_printf(
@@ -104,9 +112,6 @@ const char *dmi_text_escape(dmi_text_session_t *session, const char *str, char *
     return *copy;
 }
 
-//
-// Check if character may be written to a terminal as it is.
-//
 static bool dmi_text_is_char(uint32_t code)
 {
     return not dmi_utf8_is_control(code);

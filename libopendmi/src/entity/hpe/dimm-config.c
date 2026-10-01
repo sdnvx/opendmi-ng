@@ -105,18 +105,6 @@ const dmi_entity_spec_t dmi_hpe_dimm_config_spec =
     }
 };
 
-bool dmi_hpe_dimm_config_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_dimm_config_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_dimm_config));
-    if (info == nullptr)
-        return false;
-
-    info->size                  = info->raw_size * 1024 * 1024;
-    info->is_passphrase_enabled = (info->passphrase_state != 0);
-
-    return true;
-}
-
 const dmi_name_set_t dmi_hpe_interleave_health_names =
 {
     .code  = "hpe-interleave-health",

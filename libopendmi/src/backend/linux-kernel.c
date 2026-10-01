@@ -20,14 +20,64 @@
 #include <opendmi/backend/generic.h>
 #include <opendmi/backend/linux-kernel.h>
 
+/**
+ * @internal
+ * @brief Open the backend.
+ *
+ * @details Physical memory is mapped directly, so there is neither a device
+ * to open nor a session to keep.
+ *
+ * @param[in] context Context being opened.
+ * @param[in] path    Path to the data source, unused.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_linux_kernel_open(dmi_context_t *context, const char *path);
+
+/**
+ * @internal
+ * @brief Read the SMBIOS entry point from physical memory.
+ *
+ * @details The entry point is located by the EFI configuration tables, and
+ * on x86 systems with legacy firmware, by scanning its memory area.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the entry point into.
+ *
+ * @error DMI_ERROR_EPS_NOT_FOUND Entry point cannot be located
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_linux_kernel_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Read the SMBIOS structure table from physical memory, at the area
+ * given by the entry point.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the table into.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_linux_kernel_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Close the backend, which has nothing to release.
+ *
+ * @param[in] context Context being closed.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_linux_kernel_close(dmi_context_t *context);
 
 /**
  * @internal
  * @brief Get the entry point address from the EFI configuration tables.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] paddr   Variable to store the address in.
  *
  * @return `true` if the address is found, `false` otherwise.
  */

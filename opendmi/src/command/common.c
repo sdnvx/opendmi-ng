@@ -21,19 +21,98 @@
 #include <opendmi/command/common.h>
 #include <opendmi/format/iter.h>
 
+/**
+ * @internal
+ * @brief Handle the `--handle` option: only show the entries of a handle.
+ *
+ * @param[in] context Context, unused.
+ * @param[in] value   Handle, as a string.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_filter_config_add_handle(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--type` option: only show the entries of a type.
+ *
+ * @param[in] context Context to look the value up in.
+ * @param[in] value   Type, as its number or its code.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_filter_config_add_type(dmi_context_t *context, const char *value);
 
+/**
+ * @internal
+ * @brief Handle the `--standard` option: show standard entries.
+ */
 static bool dmi_filter_config_enable_std(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--no-standard` option: hide standard entries.
+ */
 static bool dmi_filter_config_disable_std(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--oem` option: show OEM-specific entries.
+ */
 static bool dmi_filter_config_enable_oem(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--no-oem` option: hide OEM-specific entries.
+ */
 static bool dmi_filter_config_disable_oem(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--inactive` option: show inactive entries.
+ */
 static bool dmi_filter_config_enable_inactive(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--no-inactive` option: hide inactive entries.
+ */
 static bool dmi_filter_config_disable_inactive(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--unknown` option: show unknown entries.
+ */
 static bool dmi_filter_config_enable_unknown(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--no-unknown` option: hide unknown entries.
+ */
 static bool dmi_filter_config_disable_unknown(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--all` option: show all entries.
+ */
 static bool dmi_filter_config_enable_all(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--module` option: show the entries a module provides.
+ *
+ * @param[in] context Context, unused.
+ * @param[in] value   Code of the module.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_filter_config_add_module(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--all-modules` option: show the entries all modules
+ * provide.
+ */
 static bool dmi_filter_config_add_all_modules(dmi_context_t *context, const char *value);
 
 dmi_filter_config_t dmi_filter_config =

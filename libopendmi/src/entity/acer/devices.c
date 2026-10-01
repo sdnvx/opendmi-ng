@@ -11,9 +11,14 @@
 
 #include <opendmi/entity/acer/devices.h>
 
-// Kinds are reverse engineered from the PCI and USB IDs of the devices of the
-// data corpus: the ones given to the devices of a single class are named by
-// it, and the other ones found in it by their values
+/**
+ * @internal
+ * @brief Names of the kinds of the devices.
+ *
+ * @details Kinds are reverse engineered from the PCI and USB IDs of the
+ * devices of the data corpus: the ones given to the devices of a single class
+ * are named by it, and the other ones found in it by their values.
+ */
 static const dmi_name_set_t dmi_acer_device_kind_names =
 {
     .code  = "acer-device-kind",

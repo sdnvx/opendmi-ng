@@ -13,6 +13,63 @@
 
 * Use `#pragma once` in addition to include guargs in header files to avoid duplicated includes.
 
+== Documentation comments
+
+* Document functions with Doxygen comments (`/** ... */`) on their
+declarations rather than on their definitions: on the prototypes in the
+public or internal headers, or on the prototypes at the top of the source
+file for static functions.
+
+* Document macros, types and variables at file scope the same way, with a
+doc comment (marked with `@internal` in source files and internal headers)
+rather than with plain `//` comments:
++
+[source, c]
+----
+/**
+ * @internal
+ * @brief Size the memory of a buffer grows by, which fits the data of most of
+ * the structures at once.
+ */
+#define DMI_BUFFER_CAPACITY_STEP 128
+----
+
+* Keep plain `//` comments for the remarks on the logic of the preprocessor,
+e.g. on why a macro is undefined, on a conditional block or on the order of
+includes: they explain the directives rather than describe what is declared.
+
+* Put a blank line before every doc comment, unless it opens a block, e.g.
+documents the first member of a structure right after its opening brace.
+
+* Do not put any comment right before the definition of a function. A remark
+on the function as a whole, such as why it works the way it does, belongs to
+the `@details` section of its doc comment. A remark on the logic of the
+function belongs inside its body, next to the code it explains.
+
+* Declare every static function with a prototype near the top of its source
+file, and put the doc comment, marked with `@internal`, on the prototype:
++
+[source, c]
+----
+/**
+ * @internal
+ * @brief Read a word of the version data, which is held low byte first.
+ *
+ * @param[in] text  Version data.
+ * @param[in] index Index of the low byte.
+ *
+ * @return Value of the word.
+ */
+static unsigned dmi_hpe_version_word(const dmi_hpe_version_text_t *text, size_t index);
+----
++
+The definitions of static functions follow the functions of the file which
+are not static, and carry no comments of their own.
+
+* List the errors a function raises with `@error` tags, one per error code,
+e.g. `@error DMI_ERROR_OUT_OF_MEMORY Buffer cannot be allocated`, rather than
+in the description.
+
 == Public API
 
 * Mark every function and variable declared in public headers of `libopendmi` with `__dmi_api`, e.g. `__dmi_api bool dmi_open(...);` or `extern __dmi_api const dmi_module_t dmi_intel_module;`. The library is built with hidden symbol visibility, so unmarked symbols are not exported from the shared library.

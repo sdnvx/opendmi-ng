@@ -15,9 +15,11 @@
 
 #include <opendmi/entity/system-event-log.h>
 
-//
-// Access method address of indexed I/O access methods contains I/O ports
-//
+/**
+ * @internal
+ * @brief Variant of the access method address for an indexed I/O access
+ * method, whose address contains I/O ports.
+ */
 #define dmi_system_log_io_ports_variant(__method)                            \
     DMI_VARIANT(__method, dmi_system_event_log_t, access_ports, STRUCT, {    \
         .attrs = dmi_system_log_io_ports_attrs                               \
@@ -42,6 +44,20 @@ extern const dmi_name_set_t dmi_event_log_data_format_names;
 // Operation handlers, see system-event-log-handlers.c
 extern const dmi_attribute_t dmi_system_log_type_descriptor_attrs[];
 extern const dmi_attribute_t dmi_system_log_io_ports_attrs[];
+
+/**
+ * @internal
+ * @brief Derive the I/O ports and the GPNV handle from the access method
+ * address of an event log.
+ *
+ * @details Access method address is interpreted according to the access
+ * method, so every interpretation is derived, and the one matching the
+ * method is shown.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_system_event_log_derive(dmi_entity_t *entity);
 
 // Checks the lint rules of the specification perform, see system-event-log-rules.c

@@ -15,11 +15,14 @@
 
 #include <opendmi/entity/probe.h>
 
-//
-// Voltage, temperature and current probes are described by one structure, so
-// they are laid out the same way and differ only in the units of the values
-// they carry.
-//
+/**
+ * @internal
+ * @brief Fields of a probe structure.
+ *
+ * @details Voltage, temperature and current probes are described by one
+ * structure, so they are laid out the same way and differ only in the units
+ * of the values they carry.
+ */
 #define dmi_probe_fields(__entity)                                  \
     DMI_FIELDS({                                                    \
         DMI_FIELD_STRING(__entity, description),                   \

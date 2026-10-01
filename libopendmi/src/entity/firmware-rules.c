@@ -15,11 +15,6 @@
 
 #include "firmware-internal.h"
 
-//
-// Size of 0xFF means that the actual one is in the extended field, which was
-// added in SMBIOS 3.1, so a structure of an earlier version carries no size
-// at all.
-//
 void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_reader_t reader;
@@ -44,11 +39,6 @@ void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity)
                    "ROM size refers to the extended one, which the structure does not carry");
 }
 
-//
-// Release date is a string, which the specification requires to be written as
-// mm/dd/yyyy since SMBIOS 2.3, while the earlier two-digit year leaves the
-// century to the reader.
-//
 void dmi_firmware_lint_release_date(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_reader_t reader;

@@ -117,9 +117,6 @@ typedef enum dmi_property
 extern __dmi_api const dmi_name_set_t dmi_property_names;
 
 /**
- * @brief Parameters of a structure type.
- */
-/**
  * @brief Content a structure is told by, when structures of different layouts
  * share a type number in the same table.
  *
@@ -174,6 +171,9 @@ struct dmi_signature
  */
 #define DMI_SIGNATURE(...) (&(const dmi_signature_t)__VA_ARGS__)
 
+/**
+ * @brief Parameters of a structure type.
+ */
 struct dmi_entity_params
 {
     /**

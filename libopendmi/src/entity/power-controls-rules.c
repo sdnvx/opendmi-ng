@@ -31,10 +31,6 @@ static const struct
     { 0x08, "poweron-second" }
 };
 
-//
-// Values are decoded into plain numbers, and an invalid pair of digits is
-// silently turned into one of them, so the raw data is read instead.
-//
 void dmi_power_controls_lint_bcd(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_reader_t reader;

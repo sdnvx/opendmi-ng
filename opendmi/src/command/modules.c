@@ -27,8 +27,34 @@ typedef struct dmi_modules_config
     bool show_raw;
 } dmi_modules_config_t;
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_modules_usage(void);
+
+/**
+ * @internal
+ * @brief Print the code and the name of every available module, ordered by
+ * their codes.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments, unused.
+ * @param[in] argv    Arguments of the command, unused.
+ *
+ * @return Exit code of the command.
+ */
 static int dmi_modules_main(dmi_context_t *context, int argc, char *argv[]);
+
+/**
+ * @internal
+ * @brief Compare two modules by their codes, for `qsort()`.
+ *
+ * @param[in] lhs Pointer to the first module.
+ * @param[in] rhs Pointer to the second module.
+ *
+ * @return Negative, zero or positive value, as `strcmp()` returns.
+ */
 static int dmi_modules_comparator(const void *lhs, const void *rhs);
 
 static dmi_modules_config_t dmi_modules_config =

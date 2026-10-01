@@ -42,9 +42,6 @@ const dmi_attribute_t dmi_system_log_io_ports_attrs[] =
     {}
 };
 
-//
-// Access method address is interpreted according to the access method.
-//
 bool dmi_system_event_log_derive(dmi_entity_t *entity)
 {
     dmi_system_event_log_t *info;

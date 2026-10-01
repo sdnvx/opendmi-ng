@@ -23,24 +23,44 @@
  * @internal
  * @brief Begin the element a member is written as, named by the code of its
  * attribute.
+ *
+ * @param[in] context Session, `dmi_xml_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return Walk status, which stops the walk on failure.
  */
 static dmi_attribute_walk_t dmi_xml_attr_member_start(void *context, const dmi_attribute_node_t *node);
 
 /**
  * @internal
  * @brief Begin the `item` element an element of an array is written as.
+ *
+ * @param[in] context Session, `dmi_xml_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return Walk status, which stops the walk on failure.
  */
 static dmi_attribute_walk_t dmi_xml_attr_item_start(void *context, const dmi_attribute_node_t *node);
 
 /**
  * @internal
  * @brief End the element a member or an element of an array is written as.
+ *
+ * @param[in] context Session, `dmi_xml_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_xml_attr_end(void *context, const dmi_attribute_node_t *node);
 
 /**
  * @internal
  * @brief Write the value of a member or of an element of an array.
+ *
+ * @param[in] context Session, `dmi_xml_session_t`.
+ * @param[in] node    Node of the attribute walk.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_xml_attr_value(void *context, const dmi_attribute_node_t *node);
 
@@ -49,6 +69,12 @@ static bool dmi_xml_attr_value(void *context, const dmi_attribute_node_t *node);
  * @brief Write a value as the text of its element: nothing if it is
  * unspecified, the word `unknown` if it is unknown, the flags for a set, and
  * the formatted value otherwise, whose unit is an attribute of the element.
+ *
+ * @param[in] session Session.
+ * @param[in] attr    Attribute of the value.
+ * @param[in] value   Value to write.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_xml_entity_attr_value(
         dmi_xml_session_t     *session,
@@ -59,6 +85,15 @@ static bool dmi_xml_entity_attr_value(
  * @internal
  * @brief Write the flags of a set as `flag` elements, along with the value of
  * the set as an attribute.
+ *
+ * @details Flag codes are not always valid element names (e.g. "5v"), so
+ * they are written as attributes of the `flag` elements.
+ *
+ * @param[in] session Session.
+ * @param[in] attr    Attribute of the set.
+ * @param[in] value   Value of the set.
+ *
+ * @return `true` on success, `false` otherwise.
  */
 static bool dmi_xml_entity_attr_set(
         dmi_xml_session_t     *session,
@@ -81,6 +116,12 @@ static const dmi_attribute_visitor_t dmi_xml_attr_visitor = {
  * @internal
  * @brief Write callback of the XML output buffer, which writes to the output
  * stream of the session and keeps the reason of a failure.
+ *
+ * @param[in] context Session, `dmi_xml_session_t`.
+ * @param[in] buffer  Data to write.
+ * @param[in] length  Length of the data.
+ *
+ * @return Number of the bytes written, or -1 on failure.
  */
 static int dmi_xml_write(void *context, const char *buffer, int length);
 
@@ -88,8 +129,47 @@ static int dmi_xml_write(void *context, const char *buffer, int length);
  * @internal
  * @brief Close callback of the XML output buffer, which flushes the output
  * stream of the session and leaves closing it to the caller, who owns it.
+ *
+ * @param[in] context Session, `dmi_xml_session_t`.
+ *
+ * @return 0 on success, or -1 on failure.
  */
 static int dmi_xml_close(void *context);
+
+/**
+ * @internal
+ * @brief Write an `overlay` element describing an additional information
+ * entry applied to a structure.
+ *
+ * @details The element holds the value the entry gives and, if the entry has
+ * one, its string.
+ *
+ * @param[in] session Session.
+ * @param[in] entity  Structure the entry is applied to.
+ * @param[in] overlay Entry applied to the structure.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_xml_entity_overlay(
+        dmi_xml_session_t          *session,
+        const dmi_entity_t         *entity,
+        const dmi_entity_overlay_t *overlay);
+
+#ifdef _WIN32
+
+/**
+ * @internal
+ * @brief Convert a time to the broken-down UTC time, the way POSIX
+ * `gmtime_r()` does, which Windows provides as `gmtime_s()`.
+ *
+ * @param[in]  timep  Time to convert.
+ * @param[out] result Variable to store the broken-down time in.
+ *
+ * @return @p result on success, or `nullptr` on failure.
+ */
+static inline struct tm *gmtime_r(const time_t *timep, struct tm *result);
+
+#endif
 
 #ifdef _WIN32
 static inline struct tm *gmtime_r(const time_t *timep, struct tm *result)
@@ -356,136 +436,6 @@ bool dmi_xml_entity_attr(
     return dmi_attribute_walk(attr, entity->info, &dmi_xml_attr_visitor, session);
 }
 
-static dmi_attribute_walk_t dmi_xml_attr_member_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_xml_session_t *session = context;
-
-    return dmi_format_walk(dmi_xml_check(session, xmlTextWriterStartElement(
-            session->writer, dmi_xml_string(node->member->params.code))));
-}
-
-static dmi_attribute_walk_t dmi_xml_attr_item_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_xml_session_t *session = context;
-
-    dmi_unused(node);
-
-    return dmi_format_walk(dmi_xml_check(session, xmlTextWriterStartElement(
-            session->writer, dmi_xml_string("item"))));
-}
-
-static bool dmi_xml_attr_end(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_xml_session_t *session = context;
-
-    dmi_unused(node);
-
-    return dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer));
-}
-
-static bool dmi_xml_attr_value(void *context, const dmi_attribute_node_t *node)
-{
-    return dmi_xml_entity_attr_value(context, node->attr, node->value);
-}
-
-static bool dmi_xml_entity_attr_value(
-        dmi_xml_session_t     *session,
-        const dmi_attribute_t *attr,
-        const void            *value)
-{
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
-
-    bool success = false;
-    char *text = nullptr;
-
-    // Write empty tag if the value is unspecified
-    if (dmi_attribute_is_unspecified(attr, value))
-        return true;
-
-    // Handle unknown values
-    if (dmi_attribute_is_unknown(attr, value)) {
-        if (not dmi_xml_check(session, xmlTextWriterWriteString(session->writer, dmi_xml_string("unknown"))))
-            return false;
-        return true;
-    }
-
-    // Handle value sets
-    if (attr->type == DMI_ATTRIBUTE_TYPE_SET)
-        return dmi_xml_entity_attr_set(session, attr, value);
-
-    do {
-        text = dmi_attribute_format(session->context, attr, value, session->options.pretty);
-        if (text == nullptr)
-            break;
-
-        // Units have an attribute of their own here, so they stay out of the
-        // value even when it is formatted for a person. They are serialized
-        // by their code names, which do not change with the locale, unless
-        // the output is meant to be read rather than parsed
-        if (attr->params.unit != DMI_UNIT_NONE) {
-            const char *unit = session->options.pretty
-                    ? dmi_unit_name(attr->params.unit)
-                    : dmi_unit_code(attr->params.unit);
-
-            if (not dmi_xml_check(session, xmlTextWriterWriteAttribute(
-                        session->writer,
-                        dmi_xml_string("units"),
-                        dmi_xml_string(unit))))
-                break;
-        }
-
-        if (not dmi_xml_text(session, text))
-            break;
-
-        success = true;
-    } while (false);
-
-    dmi_free(text);
-
-    return success;
-}
-
-static bool dmi_xml_entity_attr_set(
-        dmi_xml_session_t     *session,
-        const dmi_attribute_t *attr,
-        const void            *value)
-{
-
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
-
-    dmi_format_set_iter_t iter;
-    const dmi_format_flag_t *flag;
-
-    dmi_format_set_iter_init(&iter, attr, value);
-
-    if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
-                session->writer,
-                dmi_xml_string("value"),
-                "0x%" PRIxMAX, iter.mask)))
-        return false;
-
-    // Flag codes are not always valid element names (e.g. "5v"), so they are
-    // written as attributes
-    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
-        bool result =
-            (dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string("flag")))) and
-            (dmi_xml_check(session, xmlTextWriterWriteAttribute(session->writer, dmi_xml_string("name"),
-                                         dmi_xml_string(flag->code)))) and
-            (dmi_xml_check(session, xmlTextWriterWriteString(session->writer,
-                                      dmi_xml_string(flag->value ? "true" : "false")))) and
-            (dmi_xml_check(session, xmlTextWriterEndElement(session->writer)));
-
-        if (not result)
-            return false;
-    }
-
-    return true;
-}
-
 bool dmi_xml_entity_attrs_end(dmi_xml_session_t *session, const dmi_entity_t *entity)
 {
     assert(session != nullptr);
@@ -557,75 +507,6 @@ bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *e
 
         success = true;
     } while (false);
-
-    return success;
-}
-
-static bool dmi_xml_entity_overlay(
-        dmi_xml_session_t          *session,
-        const dmi_entity_t         *entity,
-        const dmi_entity_overlay_t *overlay)
-{
-    bool success = false;
-
-    char *value = dmi_format_overlay_value(entity, overlay, session->options.pretty);
-    if (value == nullptr)
-        return false;
-
-    do {
-        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
-                    session->writer,
-                    dmi_xml_string(DMI_XML_PREFIX),
-                    dmi_xml_string("overlay"),
-                    nullptr)))
-            break;
-        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
-                    session->writer,
-                    dmi_xml_string("source"),
-                    "0x%04hx", overlay->source->handle)))
-            break;
-        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
-                    session->writer,
-                    dmi_xml_string("index"),
-                    "%zu", overlay->index)))
-            break;
-        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
-                    session->writer,
-                    dmi_xml_string("offset"),
-                    "0x%02x", overlay->entry->ref_offset)))
-            break;
-        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
-                    session->writer,
-                    dmi_xml_string(DMI_XML_PREFIX),
-                    dmi_xml_string("value"),
-                    nullptr)))
-            break;
-        if (not dmi_xml_text(session, value))
-            break;
-        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
-            break;
-
-        // Element is omitted if the entry has no string
-        if (overlay->entry->string != nullptr) {
-            if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
-                        session->writer,
-                        dmi_xml_string(DMI_XML_PREFIX),
-                        dmi_xml_string("string"),
-                        nullptr)))
-                break;
-            if (not dmi_xml_text(session, overlay->entry->string))
-                break;
-            if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
-                break;
-        }
-
-        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
-            break;
-
-        success = true;
-    } while (false);
-
-    dmi_free(value);
 
     return success;
 }
@@ -815,4 +696,203 @@ static int dmi_xml_close(void *context)
     }
 
     return 0;
+}
+
+static dmi_attribute_walk_t dmi_xml_attr_member_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_xml_session_t *session = context;
+
+    return dmi_format_walk(dmi_xml_check(session, xmlTextWriterStartElement(
+            session->writer, dmi_xml_string(node->member->params.code))));
+}
+
+static dmi_attribute_walk_t dmi_xml_attr_item_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_xml_session_t *session = context;
+
+    dmi_unused(node);
+
+    return dmi_format_walk(dmi_xml_check(session, xmlTextWriterStartElement(
+            session->writer, dmi_xml_string("item"))));
+}
+
+static bool dmi_xml_attr_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_xml_session_t *session = context;
+
+    dmi_unused(node);
+
+    return dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer));
+}
+
+static bool dmi_xml_attr_value(void *context, const dmi_attribute_node_t *node)
+{
+    return dmi_xml_entity_attr_value(context, node->attr, node->value);
+}
+
+static bool dmi_xml_entity_attr_value(
+        dmi_xml_session_t     *session,
+        const dmi_attribute_t *attr,
+        const void            *value)
+{
+    assert(session != nullptr);
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    bool success = false;
+    char *text = nullptr;
+
+    // Write empty tag if the value is unspecified
+    if (dmi_attribute_is_unspecified(attr, value))
+        return true;
+
+    // Handle unknown values
+    if (dmi_attribute_is_unknown(attr, value)) {
+        if (not dmi_xml_check(session, xmlTextWriterWriteString(session->writer, dmi_xml_string("unknown"))))
+            return false;
+        return true;
+    }
+
+    // Handle value sets
+    if (attr->type == DMI_ATTRIBUTE_TYPE_SET)
+        return dmi_xml_entity_attr_set(session, attr, value);
+
+    do {
+        text = dmi_attribute_format(session->context, attr, value, session->options.pretty);
+        if (text == nullptr)
+            break;
+
+        // Units have an attribute of their own here, so they stay out of the
+        // value even when it is formatted for a person. They are serialized
+        // by their code names, which do not change with the locale, unless
+        // the output is meant to be read rather than parsed
+        if (attr->params.unit != DMI_UNIT_NONE) {
+            const char *unit = session->options.pretty
+                    ? dmi_unit_name(attr->params.unit)
+                    : dmi_unit_code(attr->params.unit);
+
+            if (not dmi_xml_check(session, xmlTextWriterWriteAttribute(
+                        session->writer,
+                        dmi_xml_string("units"),
+                        dmi_xml_string(unit))))
+                break;
+        }
+
+        if (not dmi_xml_text(session, text))
+            break;
+
+        success = true;
+    } while (false);
+
+    dmi_free(text);
+
+    return success;
+}
+
+static bool dmi_xml_entity_attr_set(
+        dmi_xml_session_t     *session,
+        const dmi_attribute_t *attr,
+        const void            *value)
+{
+
+    assert(session != nullptr);
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
+
+    dmi_format_set_iter_init(&iter, attr, value);
+
+    if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
+                session->writer,
+                dmi_xml_string("value"),
+                "0x%" PRIxMAX, iter.mask)))
+        return false;
+
+    // Flag codes are not always valid element names (e.g. "5v"), so they are
+    // written as attributes
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        bool result =
+            (dmi_xml_check(session, xmlTextWriterStartElement(session->writer, dmi_xml_string("flag")))) and
+            (dmi_xml_check(session, xmlTextWriterWriteAttribute(session->writer, dmi_xml_string("name"),
+                                         dmi_xml_string(flag->code)))) and
+            (dmi_xml_check(session, xmlTextWriterWriteString(session->writer,
+                                      dmi_xml_string(flag->value ? "true" : "false")))) and
+            (dmi_xml_check(session, xmlTextWriterEndElement(session->writer)));
+
+        if (not result)
+            return false;
+    }
+
+    return true;
+}
+
+static bool dmi_xml_entity_overlay(
+        dmi_xml_session_t          *session,
+        const dmi_entity_t         *entity,
+        const dmi_entity_overlay_t *overlay)
+{
+    bool success = false;
+
+    char *value = dmi_format_overlay_value(entity, overlay, session->options.pretty);
+    if (value == nullptr)
+        return false;
+
+    do {
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
+                    session->writer,
+                    dmi_xml_string(DMI_XML_PREFIX),
+                    dmi_xml_string("overlay"),
+                    nullptr)))
+            break;
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
+                    session->writer,
+                    dmi_xml_string("source"),
+                    "0x%04hx", overlay->source->handle)))
+            break;
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
+                    session->writer,
+                    dmi_xml_string("index"),
+                    "%zu", overlay->index)))
+            break;
+        if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
+                    session->writer,
+                    dmi_xml_string("offset"),
+                    "0x%02x", overlay->entry->ref_offset)))
+            break;
+        if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
+                    session->writer,
+                    dmi_xml_string(DMI_XML_PREFIX),
+                    dmi_xml_string("value"),
+                    nullptr)))
+            break;
+        if (not dmi_xml_text(session, value))
+            break;
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
+            break;
+
+        // Element is omitted if the entry has no string
+        if (overlay->entry->string != nullptr) {
+            if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
+                        session->writer,
+                        dmi_xml_string(DMI_XML_PREFIX),
+                        dmi_xml_string("string"),
+                        nullptr)))
+                break;
+            if (not dmi_xml_text(session, overlay->entry->string))
+                break;
+            if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
+                break;
+        }
+
+        if (not dmi_xml_check(session, xmlTextWriterFullEndElement(session->writer)))
+            break;
+
+        success = true;
+    } while (false);
+
+    dmi_free(value);
+
+    return success;
 }

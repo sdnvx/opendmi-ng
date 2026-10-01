@@ -8,6 +8,14 @@
 
 #include <opendmi/python/context.h>
 
+/**
+ * @internal
+ * @brief Initialize the module, registering the types it exports.
+ *
+ * @param[in] module Module being initialized.
+ *
+ * @return Zero on success, -1 with a Python exception set on failure.
+ */
 static int dmi_mod_exec(PyObject *module);
 
 static PyMethodDef dmi_methods[] = {
@@ -29,6 +37,11 @@ static struct PyModuleDef dmi_module = {
     .m_slots   = dmi_slots
 };
 
+PyMODINIT_FUNC PyInit_opendmi(void)
+{
+    return PyModuleDef_Init(&dmi_module);
+}
+
 static int dmi_mod_exec(PyObject *module)
 {
     if (PyType_Ready(&Context_type) < 0)
@@ -37,9 +50,4 @@ static int dmi_mod_exec(PyObject *module)
         return -1;
 
     return 0;
-}
-
-PyMODINIT_FUNC PyInit_opendmi(void)
-{
-    return PyModuleDef_Init(&dmi_module);
 }

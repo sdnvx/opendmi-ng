@@ -19,12 +19,53 @@
  */
 #define DMI_LINT_STRING_MAX 64
 
+/**
+ * @internal
+ * @brief Check that the strings of the structure are no longer than the
+ * specification allows.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_string_too_long(dmi_lint_t *lint, const dmi_entity_t *entity);
-static void dmi_lint_string_non_printable(dmi_lint_t *lint, const dmi_entity_t *entity);
-static void dmi_lint_string_blank(dmi_lint_t *lint, const dmi_entity_t *entity);
-static void dmi_lint_string_padded(dmi_lint_t *lint, const dmi_entity_t *entity);
-static void dmi_lint_string_unreferenced(dmi_lint_t *lint, const dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Check that the strings of the structure hold printable text only.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
+static void dmi_lint_string_non_printable(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the strings of the structure do not hold whitespace only.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
+static void dmi_lint_string_blank(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the strings of the structure have no leading or trailing
+ * whitespace.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
+static void dmi_lint_string_padded(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that every string of the structure is referenced by a field of
+ * the structure.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
+static void dmi_lint_string_unreferenced(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 const dmi_lint_rule_t dmi_lint_string_too_long_rule =
 {

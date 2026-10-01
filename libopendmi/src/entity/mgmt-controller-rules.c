@@ -24,9 +24,6 @@
  */
 #define DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET 0x05
 
-// Records follow each other, each one carrying its own length, so they all
-// fit the structure only if the lengths agree with it.
-//
 void dmi_mgmt_controller_lint_records(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_reader_t reader;

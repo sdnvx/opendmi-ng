@@ -47,14 +47,80 @@ typedef struct dmi_lint_value
     size_t index;
 } dmi_lint_value_t;
 
+/**
+ * @internal
+ * @brief Function checking a single value of a structure.
+ *
+ * @param[in] lint  Check in progress.
+ * @param[in] value Value being checked.
+ */
 typedef void dmi_lint_value_fn(dmi_lint_t *lint, const dmi_lint_value_t *value);
 
+/**
+ * @internal
+ * @brief Check that the values of the enumerated fields are defined by the
+ * specification.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_value_invalid_enum(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the fields hold no values reserved by the specification.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_value_reserved(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the bit fields have no bits reserved by the specification
+ * set.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_value_reserved_bits(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the fields encoded as binary-coded decimals hold decimal
+ * digits.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_value_bcd(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the UUIDs are set.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_value_uuid(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the fields hold the values the specification allows them.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_value_range(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the identification codes of JEDEC manufacturers carry
+ * their parity bit.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 static void dmi_lint_value_jep106(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 /**
@@ -72,22 +138,132 @@ typedef struct dmi_lint_value_walk
  * @internal
  * @brief Walk the values of a structure, descending into the nested
  * structures and the arrays, and give every value to the handler.
+ *
+ * @param[in] lint    Check in progress.
+ * @param[in] entity  Structure being checked.
+ * @param[in] handler Function checking a single value.
  */
 static void dmi_lint_value_walk(dmi_lint_t *lint, const dmi_entity_t *entity, dmi_lint_value_fn *handler);
 
 /**
  * @internal
  * @brief Give a value the walk reaches to the handler of the check.
+ *
+ * @param[in] context State of the walk, see `dmi_lint_value_walk_t`.
+ * @param[in] node    Value the walk reaches.
+ *
+ * @return Always `true`, so that the walk goes on.
  */
 static bool dmi_lint_value_visit(void *context, const dmi_attribute_node_t *node);
 
+/**
+ * @internal
+ * @brief Report an issue on a value, naming the attribute it belongs to, and
+ * the index of the element if the value is one of an array.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] value  Value the issue is on.
+ * @param[in] format Format string of the description of the issue.
+ * @param[in] ...    Arguments of the format string.
+ */
 static void dmi_lint_value_report(
         dmi_lint_t             *lint,
         const dmi_lint_value_t *value,
         const char             *format,
         ...);
 
+/**
+ * @internal
+ * @brief Tell whether a value stands for "unknown" or "unspecified".
+ *
+ * @details Such values are valid, whatever the specification says about the
+ * rest of the range.
+ *
+ * @param[in] value Value being checked.
+ *
+ * @return `true` if the value is a special one, `false` otherwise.
+ */
 static bool dmi_lint_value_is_special(const dmi_lint_value_t *value);
+
+/**
+ * @internal
+ * @brief Check that the value of an enumerated field is defined by the
+ * specification.
+ *
+ * @details Enumerations which name some of the values only take the others
+ * too.
+ *
+ * @param[in] lint  Check in progress.
+ * @param[in] value Value being checked.
+ */
+static void dmi_lint_value_check_enum(dmi_lint_t *lint, const dmi_lint_value_t *value);
+
+/**
+ * @internal
+ * @brief Check that the value of an enumerated field is not reserved by the
+ * specification.
+ *
+ * @param[in] lint  Check in progress.
+ * @param[in] value Value being checked.
+ */
+static void dmi_lint_value_check_reserved(dmi_lint_t *lint, const dmi_lint_value_t *value);
+
+/**
+ * @internal
+ * @brief Check that a bit field has no bits reserved by the specification set.
+ *
+ * @param[in] lint  Check in progress.
+ * @param[in] value Value being checked.
+ */
+static void dmi_lint_value_check_bits(dmi_lint_t *lint, const dmi_lint_value_t *value);
+
+/**
+ * @internal
+ * @brief Check that a field encoded as a binary-coded decimal holds decimal
+ * digits.
+ *
+ * @param[in] lint  Check in progress.
+ * @param[in] value Value being checked.
+ */
+static void dmi_lint_value_check_bcd(dmi_lint_t *lint, const dmi_lint_value_t *value);
+
+/**
+ * @internal
+ * @brief Check that a UUID is set and present.
+ *
+ * @param[in] lint  Check in progress.
+ * @param[in] value Value being checked.
+ */
+static void dmi_lint_value_check_uuid(dmi_lint_t *lint, const dmi_lint_value_t *value);
+
+/**
+ * @internal
+ * @brief Check that a value is within the limits the specification sets for
+ * it.
+ *
+ * @details Limits are values of the field itself, so they are read the same way
+ * it is.
+ *
+ * @param[in] lint  Check in progress.
+ * @param[in] value Value being checked.
+ */
+static void dmi_lint_value_check_range(dmi_lint_t *lint, const dmi_lint_value_t *value);
+
+/**
+ * @internal
+ * @brief Check that an identification code of a JEDEC manufacturer is a valid
+ * JEP106 code.
+ *
+ * @details Codes of JEP106 are a number of continuation bytes and the code
+ * itself, whose high bit makes the number of the set bits odd. A code without
+ * it is either taken from the wrong place, or byte-swapped. Codes copied from
+ * the SPD carry a parity bit in the number of continuation bytes as well,
+ * e.g. 0x80 for the first bank, which is not a part of the number.
+ *
+ * @param[in] lint  Check in progress.
+ * @param[in] value Value being checked.
+ */
+static void dmi_lint_value_check_jep106(dmi_lint_t *lint, const dmi_lint_value_t *value);
 
 const dmi_lint_rule_t dmi_lint_value_invalid_enum_rule =
 {
@@ -174,10 +350,6 @@ const dmi_lint_rule_t dmi_lint_value_uuid_rule =
     }
 };
 
-//
-// Report an issue on a value, naming the attribute it belongs to, and the
-// index of the element if the value is one of an array.
-//
 static void dmi_lint_value_report(
         dmi_lint_t             *lint,
         const dmi_lint_value_t *value,
@@ -201,10 +373,6 @@ static void dmi_lint_value_report(
     }
 }
 
-//
-// Values standing for "unknown" and "unspecified" are valid, whatever the
-// specification says about the rest of the range.
-//
 static bool dmi_lint_value_is_special(const dmi_lint_value_t *value)
 {
     return dmi_attribute_is_unknown(value->attr, value->value) or
@@ -369,9 +537,6 @@ static void dmi_lint_value_check_uuid(dmi_lint_t *lint, const dmi_lint_value_t *
     }
 }
 
-//
-// Limits are values of the field itself, so they are read the same way it is.
-//
 static void dmi_lint_value_check_range(dmi_lint_t *lint, const dmi_lint_value_t *value)
 {
     const dmi_attribute_t *attr = value->attr;
@@ -434,13 +599,6 @@ static void dmi_lint_value_range(dmi_lint_t *lint, const dmi_entity_t *entity)
     dmi_lint_value_walk(lint, entity, dmi_lint_value_check_range);
 }
 
-//
-// Codes of JEP106 are a number of continuation bytes and the code itself,
-// whose high bit makes the number of the set bits odd. A code without it is
-// either taken from the wrong place, or byte-swapped. Codes copied from the
-// SPD carry a parity bit in the number of continuation bytes as well, e.g.
-// 0x80 for the first bank, which is not a part of the number.
-//
 static void dmi_lint_value_check_jep106(dmi_lint_t *lint, const dmi_lint_value_t *value)
 {
     const dmi_attribute_t *attr = value->attr;

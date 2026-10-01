@@ -11,9 +11,6 @@
 
 #include "system-boot-internal.h"
 
-//
-// Vendor- and product-specific codes carry data of their own.
-//
 bool dmi_system_boot_derive(dmi_entity_t *entity)
 {
     dmi_system_boot_t *info;

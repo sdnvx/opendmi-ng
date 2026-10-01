@@ -17,7 +17,13 @@
 #include <opendmi/utils/file.h>
 #include <opendmi/utils/string.h>
 
-
+/**
+ * @internal
+ * @brief Close the file of a PID file descriptor and release the descriptor,
+ * leaving the file itself in place.
+ *
+ * @param[in] pidfile PID file descriptor to release.
+ */
 static void dmi_pidfile_destroy(dmi_pidfile_t *pidfile);
 
 pid_t dmi_pidfile_read(const char *path)

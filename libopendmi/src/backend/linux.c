@@ -27,10 +27,58 @@ typedef struct dmi_linux_session
     char *table_path;
 } dmi_linux_session_t;
 
+/**
+ * @internal
+ * @brief Open the SMBIOS tables exported by the kernel through SysFS.
+ *
+ * @details The session holds the paths of the entry point and of the table
+ * files, which are fixed, so @p path is ignored.
+ *
+ * @param[in] context Context being opened.
+ * @param[in] path    Path to the data, unused.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_linux_open(dmi_context_t *context, const char *path);
+
+/**
+ * @internal
+ * @brief Read the SMBIOS entry point from its SysFS file.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the entry point into.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_linux_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Read the SMBIOS structure table from its SysFS file.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the table into.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_linux_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Close the backend and dispose of its session.
+ *
+ * @param[in] context Context being closed.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_linux_close(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Free a session along with the paths it holds.
+ *
+ * @param[in] session Session to free, or `nullptr`.
+ */
 static void dmi_linux_session_free(dmi_linux_session_t *session);
 
 /**
@@ -46,6 +94,7 @@ static const char *dmi_linux_sysfs_path = "/sys/firmware/dmi/tables";
 static const char *dmi_linux_entry_file = "smbios_entry_point";
 
 /**
+ * @internal
  * @brief SMBIOS table file name (SYSFS).
  */
 static const char *dmi_linux_table_file = "DMI";

@@ -34,7 +34,10 @@ const dmi_module_t *const dmi_builtin_modules[] =
     nullptr
 };
 
-// Registered external modules
+/**
+ * @internal
+ * @brief Registered external modules.
+ */
 static dmi_module_t *dmi_registered_modules = nullptr;
 
 bool dmi_module_register(dmi_module_t *module)

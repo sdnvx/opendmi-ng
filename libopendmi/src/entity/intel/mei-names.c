@@ -97,7 +97,6 @@ const dmi_name_set_t dmi_intel_me_mode_names =
     })
 };
 
-// Error codes, named as coreboot names them
 const dmi_name_set_t dmi_intel_me_error_names =
 {
     .code  = "intel-me-error",

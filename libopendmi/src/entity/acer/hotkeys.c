@@ -110,10 +110,6 @@ const dmi_entity_spec_t dmi_acer_hotkeys_spec =
     }
 };
 
-//
-// Structures of 0x0F bytes hold the functions and the number of the key of
-// the communication function only, the way the Acer WMI driver reads them
-//
 const dmi_entity_spec_t dmi_acer_hotkeys_basic_spec =
 {
     .type        = DMI_TYPE(acer_hotkeys),

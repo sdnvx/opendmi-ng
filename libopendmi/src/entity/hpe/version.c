@@ -4,26 +4,12 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <ctype.h>
-#include <stdio.h>
-
-#include <opendmi/context.h>
 #include <opendmi/field.h>
-#include <opendmi/platform.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
 #include "version-internal.h"
-
-/**
- * @internal
- * @brief Format the version data of a version indicator.
- *
- * @return Number of the characters written, or a negative value if the
- *         format is not known.
- */
-static int dmi_hpe_version_format(dmi_hpe_version_t *info, unsigned generation);
 
 const dmi_entity_spec_t dmi_hpe_version_spec =
 {
@@ -328,117 +314,4 @@ const dmi_name_set_t dmi_hpe_firmware_type_names =
 const char *dmi_hpe_firmware_type_name(dmi_hpe_firmware_type_t value)
 {
     return dmi_name_lookup(&dmi_hpe_firmware_type_names, (int)value);
-}
-
-bool dmi_hpe_version_derive(dmi_entity_t *entity)
-{
-    dmi_hpe_version_t *info = dmi_entity_info(entity, DMI_TYPE(hpe_version));
-    if (info == nullptr)
-        return false;
-
-    const dmi_platform_t *platform = dmi_get_platform(dmi_entity_context(entity));
-    unsigned generation = (platform != nullptr) ? platform->generation : 0;
-
-    int length = dmi_hpe_version_format(info, generation);
-    if ((length > 0) and ((size_t)length < sizeof(info->version_buffer)))
-        info->version = info->version_buffer;
-
-    return true;
-}
-
-static int dmi_hpe_version_format(dmi_hpe_version_t *info, unsigned generation)
-{
-    unsigned d[countof(info->version_data)];
-    for (size_t i = 0; i < countof(d); i++)
-        d[i] = info->version_data[i];
-
-    char *buf = info->version_buffer;
-    size_t size = sizeof(info->version_buffer);
-
-    // Words and double words are held low byte first
-    #define W(i)  (d[i] | (d[(i) + 1] << 8))
-    #define DW(i) ((unsigned long)W(i) | ((unsigned long)W((i) + 2) << 16))
-
-    int length = -1;
-
-    switch (info->data_format) {
-    case 1:
-        if (d[0] & 0x80)
-            length = snprintf(buf, size, "0x%02X B.0x%02X", d[1] & 0x7F, d[0] & 0x7F);
-        else
-            length = snprintf(buf, size, "0x%02X", d[1] & 0x7F);
-        break;
-    case 2:
-        length = snprintf(buf, size, "%u.%u", d[0] >> 4, d[0] & 0x0F);
-        break;
-    case 4:
-        length = snprintf(buf, size, "%u.%u.%u", d[0] >> 4, d[0] & 0x0F, d[1] & 0x7F);
-        break;
-    case 5:
-        // The layout of the format has changed with the generations
-        if (generation == DMI_HPE_GEN9)
-            length = snprintf(buf, size, "%u.%u.%u", d[0] >> 4, d[0] & 0x0F, d[1] & 0x7F);
-        else if ((generation == DMI_HPE_GEN10) or (generation == DMI_HPE_GEN10_PLUS))
-            length = snprintf(buf, size, "%u.%u.%u.%u", d[1] & 0x0F, d[3] & 0x0F,
-                              d[5] & 0x0F, d[6] & 0x0F);
-        break;
-    case 6:
-        length = snprintf(buf, size, "%u.%u", d[1], d[0]);
-        break;
-    case 7:
-        length = snprintf(buf, size, "v%u.%02u (%02u/%02u/%u)", d[0], d[1], d[2], d[3], W(4));
-        break;
-    case 8:
-        length = snprintf(buf, size, "%u.%u", W(4), W(0));
-        break;
-    case 9:
-        length = snprintf(buf, size, "%u.%u.%u", d[0], d[1], W(2));
-        break;
-    case 10:
-        length = snprintf(buf, size, "%u.%u.%u Build %u", d[0], d[1], d[2], d[3]);
-        break;
-    case 11:
-        length = snprintf(buf, size, "%u.%u %lu", W(2), W(0), DW(4));
-        break;
-    case 12:
-        length = snprintf(buf, size, "%u.%u.%u.%u", W(0), W(2), W(4), W(6));
-        break;
-    case 13:
-        length = snprintf(buf, size, "%u", d[0]);
-        break;
-    case 14:
-        length = snprintf(buf, size, "%u.%u.%u.%u", d[0], d[1], d[2], W(3));
-        break;
-    case 15:
-        length = snprintf(buf, size, "%u.%u.%u.%u (%02u/%02u/%u)",
-                          W(0), W(2), W(4), W(6), d[8], d[9], W(10));
-        break;
-    case 16:
-        for (size_t i = 0; i < 4; i++) {
-            if (not isprint((int)d[i]))
-                return -1;
-        }
-        length = snprintf(buf, size, "%c%c%c%c.%u%u", (int)d[0], (int)d[1], (int)d[2], (int)d[3], d[4], d[5]);
-        break;
-    case 17:
-        length = snprintf(buf, size, "%08lX", DW(0));
-        break;
-    case 18:
-        length = snprintf(buf, size, "%u.%02u", d[0], d[1]);
-        break;
-    case 19:
-        length = snprintf(buf, size, "0x%02x.0x%02x.0x%02x", d[0], d[1], d[2]);
-        break;
-    case 20:
-        length = snprintf(buf, size, "%u.%u.%u.%u", d[0], d[1], d[2], d[3]);
-        break;
-    default:
-        // Format 0 carries no version data, and format 3 is reserved
-        break;
-    }
-
-    #undef W
-    #undef DW
-
-    return length;
 }

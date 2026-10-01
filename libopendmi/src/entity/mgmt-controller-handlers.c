@@ -104,13 +104,44 @@ static const dmi_field_t dmi_mgmt_redfish_fields[] = {
     {}
 };
 
+/**
+ * @internal
+ * @brief Convert UTF-16LE string to UTF-8.
+ *
+ * @details Unpaired surrogates are replaced with U+FFFD.
+ *
+ * @param[in] context Context to allocate the string in.
+ * @param[in] data    UTF-16LE string.
+ * @param[in] length  Length of the string in bytes.
+ *
+ * @return Allocated string, or `nullptr` if @p length is zero or on
+ *         allocation failure.
+ */
 static char *dmi_mgmt_utf16_decode(dmi_context_t *context, const dmi_byte_t *data, size_t length);
+
+/**
+ * @internal
+ * @brief Decode device descriptor of network host interface.
+ *
+ * @details Descriptors that do not fit into @p length are left in raw format.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[out]    nhi     Decoded network host interface.
+ * @param[in]     length  Length of the interface data, which counts the
+ *                        device type.
+ *
+ * @return `false` on allocation failure, `true` otherwise.
+ */
 static bool dmi_mgmt_nhi_decode(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t length);
 
 /**
  * @internal
  * @brief Decode the descriptor of a USB network interface, whose serial
  * number is a UTF-16 string descriptor following its fields.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[in,out] nhi     Network host interface holding the descriptor.
+ * @param[in]     size    Size of the descriptor.
  *
  * @return `false` on allocation failure, `true` otherwise, the descriptor
  *         being left in raw format if it cannot be read.
@@ -121,6 +152,11 @@ static bool dmi_mgmt_nhi_decode_usb(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi,
  * @internal
  * @brief Decode a v2 descriptor of a network interface, whose length, which
  * counts the device type and itself, follows the device type.
+ *
+ * @param[in,out] decoder    Decoder of the structure.
+ * @param[in]     fields     Fields of the descriptor, after its length.
+ * @param[in]     size       Size of the descriptor data.
+ * @param[out]    descriptor Variable to store the decoded descriptor in.
  *
  * @return `true` if the descriptor has been decoded, `false` if it is too
  *         short or longer than the data of the interface.
@@ -136,20 +172,154 @@ static bool dmi_mgmt_nhi_decode_v2(
  * @brief Decode the descriptor of an OEM-defined device, whose vendor IANA
  * code is stored with the most significant byte first.
  *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[in,out] nhi     Network host interface holding the descriptor.
+ * @param[in]     size    Size of the descriptor.
+ *
  * @return `true` if the descriptor has been decoded, `false` otherwise.
  */
 static bool dmi_mgmt_nhi_decode_oem(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t size);
 
+/**
+ * @internal
+ * @brief Decode Redfish over IP protocol record data.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[in,out] record  Protocol record holding the data.
+ *
+ * @return `false` on allocation failure, `true` otherwise.
+ */
 static bool dmi_mgmt_redfish_decode(dmi_decoder_t *decoder, dmi_mgmt_proto_record_t *record);
 
 /**
- * @brief Convert UTF-16LE string to UTF-8.
+ * @internal
+ * @brief Decode the type and the data of the interface, including the data
+ * of a network host interface.
  *
- * Unpaired surrogates are replaced with U+FFFD.
+ * @details Structure, which does not hold the whole interface data, is
+ * marked incomplete, and is not decoded any further.
  *
- * @return Allocated string, or @c nullptr if @p length is zero or on
- *         allocation failure.
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[out]    info    Decoded structure.
+ *
+ * @return `true` on success, `false` otherwise.
  */
+static bool dmi_mgmt_if_decode(dmi_decoder_t *decoder, dmi_mgmt_controller_t *info);
+
+/**
+ * @internal
+ * @brief Decode the protocol records, which are present since SMBIOS 3.2.
+ *
+ * @details Records are counted only once they are completely decoded, and a
+ * record the structure ends in the middle of marks the structure incomplete.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[out]    info    Decoded structure.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_mgmt_proto_records_decode(dmi_decoder_t *decoder, dmi_mgmt_controller_t *info);
+
+/**
+ * @internal
+ * @brief Decode a single protocol record, including the data of Redfish over
+ * IP.
+ *
+ * @details Record may be longer than the fields it is known to hold, so the
+ * reader is left past the whole record.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[out]    record  Decoded record.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+static bool dmi_mgmt_proto_record_decode(dmi_decoder_t *decoder, dmi_mgmt_proto_record_t *record);
+
+bool dmi_mgmt_controller_decode(dmi_decoder_t *decoder)
+{
+    dmi_entity_t *entity = dmi_decoder_entity(decoder);
+
+    dmi_mgmt_controller_t *info;
+
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    if (info == nullptr)
+        return false;
+
+    if (not dmi_mgmt_if_decode(decoder, info))
+        return false;
+    if (dmi_entity_is_incomplete(entity))
+        return true;
+
+    // Protocol records are present since SMBIOS 3.2
+    if (dmi_reader_is_done(dmi_decoder_reader(decoder)))
+        return dmi_decoder_stop(decoder);
+
+    return dmi_mgmt_proto_records_decode(decoder, info);
+}
+
+void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
+{
+    dmi_mgmt_controller_t *info;
+
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    if (info == nullptr)
+        return;
+
+    dmi_free(info->nhi.usb.serial_number);
+
+    for (size_t i = 0; i < info->proto_records_count; i++)
+        dmi_free(info->proto_records[i].redfish.service_hostname);
+
+    dmi_free(info->proto_records);
+}
+
+bool dmi_mgmt_controller_encode(dmi_encoder_t *encoder)
+{
+    const dmi_mgmt_controller_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(mgmt_controller_host_if));
+    if (info == nullptr)
+        return false;
+
+    if (not dmi_encoder_put(encoder, dmi_byte_t, info->if_type))
+        return false;
+
+    // Interface data longer than the structure is not read at all, and the
+    // length the source data declares for it is kept
+    dmi_byte_t original = 0;
+
+    if ((info->if_data.length == 0) and dmi_encoder_peek(encoder, &original, sizeof(original)) and
+        (original > dmi_encoder_remaining(encoder) - sizeof(original)))
+        return dmi_encoder_put(encoder, dmi_byte_t, original);
+
+    bool status =
+        dmi_encoder_put(encoder, dmi_byte_t, info->if_data.length) and
+        dmi_encoder_put_bytes(encoder, info->if_data.data, info->if_data.length);
+    if (not status)
+        return false;
+
+    bool has_records = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
+                     ? (dmi_encoder_remaining(encoder) > 0)
+                     : (encoder->version >= DMI_VERSION(3, 2, 0));
+
+    if (not has_records)
+        return true;
+
+    if (not dmi_encoder_put(encoder, dmi_byte_t, info->proto_records_count))
+        return false;
+
+    for (size_t i = 0; i < info->proto_records_count; i++) {
+        const dmi_mgmt_proto_record_t *record = &info->proto_records[i];
+
+        status =
+            dmi_encoder_put(encoder, dmi_byte_t, record->type) and
+            dmi_encoder_put(encoder, dmi_byte_t, record->data.length) and
+            dmi_encoder_put_bytes(encoder, record->data.data, record->data.length);
+        if (not status)
+            return false;
+    }
+
+    return true;
+}
+
 static char *dmi_mgmt_utf16_decode(dmi_context_t *context, const dmi_byte_t *data, size_t length)
 {
     size_t count = length / 2;
@@ -198,14 +368,6 @@ static char *dmi_mgmt_utf16_decode(dmi_context_t *context, const dmi_byte_t *dat
 
     return str;
 }
-
-/**
- * @brief Decode device descriptor of network host interface.
- *
- * Descriptors that do not fit into @p length are left in raw format.
- *
- * @return `false` on allocation failure, `true` otherwise.
- */
 
 static bool dmi_mgmt_nhi_decode(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi, size_t length)
 {
@@ -325,12 +487,6 @@ static bool dmi_mgmt_nhi_decode_oem(dmi_decoder_t *decoder, dmi_mgmt_nhi_t *nhi,
     return true;
 }
 
-/**
- * @brief Decode Redfish over IP protocol record data.
- *
- * @return `false` on allocation failure, `true` otherwise.
- */
-
 static bool dmi_mgmt_redfish_decode(dmi_decoder_t *decoder, dmi_mgmt_proto_record_t *record)
 {
     dmi_entity_t               *entity  = dmi_decoder_entity(decoder);
@@ -379,18 +535,9 @@ static bool dmi_mgmt_redfish_decode(dmi_decoder_t *decoder, dmi_mgmt_proto_recor
     return true;
 }
 
-bool dmi_mgmt_controller_decode(dmi_decoder_t *decoder)
+static bool dmi_mgmt_if_decode(dmi_decoder_t *decoder, dmi_mgmt_controller_t *info)
 {
-    dmi_entity_t *entity = dmi_decoder_entity(decoder);
-
-    dmi_mgmt_controller_t *info;
-
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
-    if (info == nullptr)
-        return false;
-
-    dmi_context_t *context = dmi_entity_context(entity);
-    dmi_reader_t  *reader  = dmi_decoder_reader(decoder);
+    dmi_reader_t *reader = dmi_decoder_reader(decoder);
 
     dmi_byte_t if_type        = 0;
     dmi_byte_t if_data_length = 0;
@@ -426,9 +573,12 @@ bool dmi_mgmt_controller_decode(dmi_decoder_t *decoder)
         dmi_reader_skip_ex(reader, if_data_start, if_data_length);
     }
 
-    // Protocol records are present since SMBIOS 3.2
-    if (dmi_reader_is_done(reader))
-        return dmi_decoder_stop(decoder);
+    return true;
+}
+
+static bool dmi_mgmt_proto_records_decode(dmi_decoder_t *decoder, dmi_mgmt_controller_t *info)
+{
+    dmi_entity_t *entity = dmi_decoder_entity(decoder);
 
     dmi_byte_t proto_records_count = 0;
     if (not dmi_decoder_get(decoder, dmi_byte_t, &proto_records_count))
@@ -439,40 +589,17 @@ bool dmi_mgmt_controller_decode(dmi_decoder_t *decoder)
     if (proto_records_count == 0)
         return true;
 
-    info->proto_records = dmi_alloc_array(context, sizeof(*info->proto_records),
+    info->proto_records = dmi_alloc_array(dmi_entity_context(entity), sizeof(*info->proto_records),
                                           proto_records_count);
     if (info->proto_records == nullptr)
         return false;
 
     // Records count is incremented only for completely decoded records
     for (size_t i = 0; i < proto_records_count; i++) {
-        dmi_byte_t type   = 0;
-        dmi_byte_t length = 0;
-
-        status =
-            dmi_decoder_get(decoder, dmi_byte_t, &type) and
-            dmi_decoder_get(decoder, dmi_byte_t, &length) and
-            dmi_reader_has(reader, length);
-        if (not status)
-            return dmi_decoder_incomplete(decoder);
-
-        dmi_mgmt_proto_record_t *record = &info->proto_records[i];
-        dmi_reader_mark_t data_start = dmi_reader_mark(reader);
-
-        record->type = dmi_cast(record->type, type);
-        if (not dmi_decoder_get_binary(decoder, length, &record->data))
+        if (not dmi_mgmt_proto_record_decode(decoder, &info->proto_records[i]))
             return false;
-
-        if (record->type == DMI_MGMT_PROTO_REDFISH_OVER_IP) {
-            dmi_reader_rewind(reader, data_start);
-
-            if (not dmi_mgmt_redfish_decode(decoder, record))
-                return false;
-        }
-
-        // Record may be longer than the fields it is known to hold, so the
-        // next one is found by the length rather than by counting
-        dmi_reader_skip_ex(reader, data_start, length);
+        if (dmi_entity_is_incomplete(entity))
+            return true;
 
         info->proto_records_count++;
     }
@@ -480,70 +607,36 @@ bool dmi_mgmt_controller_decode(dmi_decoder_t *decoder)
     return true;
 }
 
-void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
+static bool dmi_mgmt_proto_record_decode(dmi_decoder_t *decoder, dmi_mgmt_proto_record_t *record)
 {
-    dmi_mgmt_controller_t *info;
+    dmi_reader_t *reader = dmi_decoder_reader(decoder);
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
-    if (info == nullptr)
-        return;
-
-    dmi_free(info->nhi.usb.serial_number);
-
-    for (size_t i = 0; i < info->proto_records_count; i++)
-        dmi_free(info->proto_records[i].redfish.service_hostname);
-
-    dmi_free(info->proto_records);
-}
-
-//
-// Interface data and protocol records are written as the structure holds
-// them, since the ways they are read again by their types are derived from
-// them. Protocol records are present since SMBIOS 3.2.
-//
-bool dmi_mgmt_controller_encode(dmi_encoder_t *encoder)
-{
-    const dmi_mgmt_controller_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(mgmt_controller_host_if));
-    if (info == nullptr)
-        return false;
-
-    if (not dmi_encoder_put(encoder, dmi_byte_t, info->if_type))
-        return false;
-
-    // Interface data longer than the structure is not read at all, and the
-    // length the source data declares for it is kept
-    dmi_byte_t original = 0;
-
-    if ((info->if_data.length == 0) and dmi_encoder_peek(encoder, &original, sizeof(original)) and
-        (original > dmi_encoder_remaining(encoder) - sizeof(original)))
-        return dmi_encoder_put(encoder, dmi_byte_t, original);
+    dmi_byte_t type   = 0;
+    dmi_byte_t length = 0;
 
     bool status =
-        dmi_encoder_put(encoder, dmi_byte_t, info->if_data.length) and
-        dmi_encoder_put_bytes(encoder, info->if_data.data, info->if_data.length);
+        dmi_decoder_get(decoder, dmi_byte_t, &type) and
+        dmi_decoder_get(decoder, dmi_byte_t, &length) and
+        dmi_reader_has(reader, length);
     if (not status)
+        return dmi_decoder_incomplete(decoder);
+
+    dmi_reader_mark_t data_start = dmi_reader_mark(reader);
+
+    record->type = dmi_cast(record->type, type);
+    if (not dmi_decoder_get_binary(decoder, length, &record->data))
         return false;
 
-    bool has_records = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
-                     ? (dmi_encoder_remaining(encoder) > 0)
-                     : (encoder->version >= DMI_VERSION(3, 2, 0));
+    if (record->type == DMI_MGMT_PROTO_REDFISH_OVER_IP) {
+        dmi_reader_rewind(reader, data_start);
 
-    if (not has_records)
-        return true;
-
-    if (not dmi_encoder_put(encoder, dmi_byte_t, info->proto_records_count))
-        return false;
-
-    for (size_t i = 0; i < info->proto_records_count; i++) {
-        const dmi_mgmt_proto_record_t *record = &info->proto_records[i];
-
-        status =
-            dmi_encoder_put(encoder, dmi_byte_t, record->type) and
-            dmi_encoder_put(encoder, dmi_byte_t, record->data.length) and
-            dmi_encoder_put_bytes(encoder, record->data.data, record->data.length);
-        if (not status)
+        if (not dmi_mgmt_redfish_decode(decoder, record))
             return false;
     }
+
+    // Record may be longer than the fields it is known to hold, so the next
+    // one is found by the length rather than by counting
+    dmi_reader_skip_ex(reader, data_start, length);
 
     return true;
 }

@@ -29,8 +29,38 @@ typedef struct dmi_export_config
     bool anonymize;
 } dmi_export_config_t;
 
+/**
+ * @internal
+ * @brief Print the usage of the command, followed by the list of the
+ * supported output formats.
+ */
 static void dmi_export_usage(void);
+
+/**
+ * @internal
+ * @brief Handle the `--format` option, which sets the output format.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] value   Code of the output format.
+ *
+ * @return `true` on success, `false` if there is no such format.
+ */
 static bool dmi_export_set_format(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Export the SMBIOS data of the context to the output file, or to the
+ * standard output if no file is given.
+ *
+ * @details Data is anonymized before the output file is created, if asked
+ * to, so that no file is left behind on failure.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments, unused.
+ * @param[in] argv    Arguments of the command, unused.
+ *
+ * @return Exit code of the command.
+ */
 static int dmi_export_main(dmi_context_t *context, int argc, char *argv[]);
 
 static dmi_export_config_t dmi_export_config =

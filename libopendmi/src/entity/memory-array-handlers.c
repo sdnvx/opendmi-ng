@@ -17,10 +17,6 @@
 
 #include "memory-array-internal.h"
 
-//
-// Sum of the sizes of the devices of an array, along with their number, which
-// both rules of the array are checked against.
-//
 size_t dmi_memory_array_devices(
         dmi_lint_t         *lint,
         const dmi_entity_t *entity,

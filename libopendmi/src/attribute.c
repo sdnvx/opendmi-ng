@@ -28,81 +28,337 @@
  */
 #define DMI_ATTRIBUTE_TABLE "attribute"
 
+/**
+ * @internal
+ * @brief Read an unsigned integer member of any supported width.
+ *
+ * @param[in] ptr  Member to read.
+ * @param[in] size Size of the member in bytes.
+ *
+ * @return Value of the member, or zero if its size is not supported.
+ */
 static uintmax_t dmi_attribute_read_uint(const void *ptr, size_t size);
+
+/**
+ * @internal
+ * @brief Read a signed integer member of any supported width.
+ *
+ * @details Selectors are usually enumerations, which may be signed.
+ *
+ * @param[in] ptr  Member to read.
+ * @param[in] size Size of the member in bytes.
+ *
+ * @return Value of the member, or zero if its size is not supported.
+ */
 static intmax_t dmi_attribute_read_int(const void *ptr, size_t size);
 
+/**
+ * @internal
+ * @brief Format a structure handle as a hexadecimal number.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_handle(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a string, which is copied as it is.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated copy of the string, or `nullptr` if the string is
+ * absent or on error.
+ */
 static char *dmi_attribute_format_string(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a flag by the names of the attribute, or by the usual
+ * names of boolean values if it has none for the value.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_bool(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format an integer as a signed, hexadecimal or unsigned number,
+ * as the flags of the attribute say.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Size of the value is not supported
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_integer(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a fixed-point number scaled by a power of ten.
+ *
+ * @details The trailing zeros of the fraction are dropped, except the first
+ * digit after the point. A value with no scale is formatted as an integer.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Size of the value is not supported
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_decimal(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a size in bytes.
+ *
+ * @details Pretty output gives the size in the largest binary unit it is a
+ * whole number of.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_size(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format an address as a hexadecimal number as wide as the
+ * addresses of the context.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_address(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a value of an enumeration by the names of the attribute.
+ *
+ * @details A value the enumeration does not name is formatted as a
+ * hexadecimal number.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Attribute has no names of the values
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_enum(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a set of flags as a hexadecimal number as wide as the
+ * value.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_set(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a version with as many components as the scale of the
+ * attribute says.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_version(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a date.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_date(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format a UUID in its canonical textual form.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_uuid(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
         bool                   pretty);
 
+/**
+ * @internal
+ * @brief Format an IPv4 address in dotted decimal notation.
+ *
+ * @param[in] context DMI context.
+ * @param[in] binary  Address of four bytes.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Address is not four bytes long
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
+static char *dmi_attribute_format_ipv4(dmi_context_t *context, const dmi_binary_t *binary);
+
+/**
+ * @internal
+ * @brief Format an IPv6 address in its canonical textual form.
+ *
+ * @details The longest run of at least two zero groups is compressed, the
+ * first one if there are several (RFC 5952, section 4.2).
+ *
+ * @param[in] context DMI context.
+ * @param[in] binary  Address of sixteen bytes.
+ *
+ * @error DMI_ERROR_INVALID_ARGUMENT Address is not sixteen bytes long
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
+static char *dmi_attribute_format_ipv6(dmi_context_t *context, const dmi_binary_t *binary);
+
+/**
+ * @internal
+ * @brief Format binary data as hexadecimal digits.
+ *
+ * @details Data flagged as an IP address of four or sixteen bytes is formatted
+ * as one, and data flagged as a MAC address has its colon-separated bytes,
+ * with the trailing zeros past the address dropped.
+ *
+ * @param[in] context   DMI context.
+ * @param[in] attribute Attribute describing the value.
+ * @param[in] value     Value to format.
+ * @param[in] pretty    `true` for human-readable output, `false` for
+ *                      machine-readable output.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
+ *
+ * @return Newly allocated string, or `nullptr` on error.
+ */
 static char *dmi_attribute_format_binary(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,

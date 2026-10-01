@@ -14,10 +14,6 @@
 
 #include "memory-channel-internal.h"
 
-//
-// Devices of a channel are linked by the attributes, and learn the channel
-// they belong to here, since nothing in their own data says so.
-//
 bool dmi_memory_channel_link(dmi_entity_t *entity)
 {
     dmi_memory_channel_t *info;

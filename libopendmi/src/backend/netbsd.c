@@ -31,12 +31,80 @@ struct dmi_netbsd_session
     const char *device;
 };
 
+/**
+ * @internal
+ * @brief Open the backend, creating a session in the state of the context.
+ *
+ * @param[in] context Context descriptor.
+ * @param[in] path    Path to the data source, not used by this backend.
+ *
+ * @return `true` on success, `false` if memory is exhausted.
+ */
 static bool dmi_netbsd_open(dmi_context_t *context, const char *path);
+
+/**
+ * @internal
+ * @brief Read the entry point structure.
+ *
+ * @details The address of the entry point is taken from the kernel, which
+ * gets it from EFI. On x86 the legacy memory area is scanned for it if the
+ * kernel does not know it. The device the entry point is read from is
+ * remembered in the session, so that the table is read from it as well.
+ *
+ * @param[in]  context Context descriptor, holding the open session.
+ * @param[out] buffer  Buffer receiving the entry point.
+ *
+ * @error DMI_ERROR_EPS_NOT_FOUND Entry point cannot be found
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_netbsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Read the structure table from the device the entry point has been
+ * read from.
+ *
+ * @param[in]  context Context descriptor, holding the open session and the
+ *                     decoded entry point.
+ * @param[out] buffer  Buffer receiving the structure table.
+ *
+ * @error DMI_ERROR_FILE_READ Table is too large, or its address is out of
+ *                            range
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_netbsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Close the backend, releasing the session.
+ *
+ * @param[in] context Context descriptor, holding the open session.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_netbsd_close(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief Release a session.
+ *
+ * @param[in] session Session to release.
+ */
 static void dmi_netbsd_session_free(dmi_netbsd_session_t *session);
 
+/**
+ * @internal
+ * @brief Get the address of the entry point the kernel has got from EFI.
+ *
+ * @param[in]  context Context descriptor.
+ * @param[out] paddr   Variable to store the address in.
+ *
+ * @error DMI_ERROR_SYSTEM Kernel cannot be queried for the address
+ *
+ * @return `true` if the address is found, `false` otherwise.
+ */
 static bool dmi_netbsd_get_entry_addr(dmi_context_t *context, uint64_t *paddr);
 
 dmi_backend_t dmi_netbsd_backend =

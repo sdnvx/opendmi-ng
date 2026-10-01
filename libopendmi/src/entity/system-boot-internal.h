@@ -15,10 +15,18 @@
 
 #include <opendmi/entity/system-boot.h>
 
-// Value names, see system-boot-names.c
 extern const dmi_name_set_t dmi_system_boot_status_names;
 
-// Operation handlers, see system-boot-handlers.c
+/**
+ * @internal
+ * @brief Derive the status data of a system boot structure.
+ *
+ * @details Vendor- and product-specific codes carry data of their own.
+ *
+ * @param[in,out] entity Structure being derived.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_system_boot_derive(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_SYSTEM_BOOT_INTERNAL_H

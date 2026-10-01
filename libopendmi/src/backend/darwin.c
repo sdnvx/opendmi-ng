@@ -27,11 +27,68 @@ struct dmi_darwin_session
     io_service_t service;
 };
 
+/**
+ * @internal
+ * @brief Connect to the AppleSMBIOS service and keep it as the session.
+ *
+ * @param[in] context Context being opened.
+ * @param[in] path    Path to the data source, unused.
+ *
+ * @error DMI_ERROR_SERVICE_UNAVAILABLE AppleSMBIOS service is not found
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_darwin_open(dmi_context_t *context, const char *path);
+
+/**
+ * @internal
+ * @brief Read the SMBIOS entry point from the `SMBIOS-EPS` property of the
+ * service.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the entry point into.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_darwin_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Read the SMBIOS structure table from the `SMBIOS` property of the
+ * service.
+ *
+ * @param[in]  context Context being opened.
+ * @param[out] buffer  Buffer to read the table into.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_darwin_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
+
+/**
+ * @internal
+ * @brief Release the service and dispose of the session.
+ *
+ * @param[in] context Context being closed.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_darwin_close(dmi_context_t *context);
 
+/**
+ * @internal
+ * @brief Read a data property of the AppleSMBIOS service.
+ *
+ * @details Data is copied into the buffer, which owns it, so that the service
+ * is of no interest once it has been read.
+ *
+ * @param[in]  context Context descriptor.
+ * @param[in]  key     Name of the property.
+ * @param[out] buffer  Buffer to read the data into.
+ *
+ * @error DMI_ERROR_INTERNAL Property cannot be read
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_darwin_read_data(dmi_context_t *context, CFStringRef key, dmi_buffer_t *buffer);
 
 dmi_backend_t dmi_darwin_backend =

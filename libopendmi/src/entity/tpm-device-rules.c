@@ -32,11 +32,6 @@ void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
                    "device declares TPM %u.%u", major, dmi_version_minor(info->spec_version));
 }
 
-//
-// Firmware of some vendors stores the identifier as a little-endian double
-// word, so that it starts with the terminating zero, e.g. "\0XFI" for "IFX".
-// The decoder puts it back in place, and the raw data still shows it.
-//
 void dmi_tpm_device_lint_vendor(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_reader_t reader;

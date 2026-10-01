@@ -13,12 +13,27 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 
-//
-// Size the memory of a buffer grows by, which fits the data of most of the
-// structures at once.
-//
+/**
+ * @internal
+ * @brief Size the memory of a buffer grows by, which fits the data of most of
+ * the structures at once.
+ */
 #define DMI_BUFFER_CAPACITY_STEP 128
 
+/**
+ * @internal
+ * @brief Make sure the memory of a buffer holds at least the given number of
+ * bytes.
+ *
+ * @details This is the only thing the memory of a buffer is grown by.
+ *
+ * @param[in,out] buffer   Buffer to grow.
+ * @param[in]     capacity Number of bytes to make room for.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory cannot be reallocated
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_buffer_reserve(dmi_buffer_t *buffer, size_t capacity);
 
 dmi_buffer_t *dmi_buffer_create(dmi_context_t *context)
@@ -153,10 +168,6 @@ void dmi_buffer_clear(dmi_buffer_t *buffer)
     buffer->length = 0;
 }
 
-//
-// Make room for the given number of the bytes, which is the only thing the
-// memory of a buffer is grown by.
-//
 static bool dmi_buffer_reserve(dmi_buffer_t *buffer, size_t capacity)
 {
     if (capacity <= buffer->capacity)

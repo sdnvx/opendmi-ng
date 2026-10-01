@@ -16,15 +16,7 @@
 
 #include <opendmi/entity/dell/calling-iface.h>
 
-/**
- * @brief Token identifier of unused tokens.
- */
-#define DMI_DELL_TOKEN_UNUSED 0x0000u
-
-/**
- * @brief Token identifier of the end-of-table marker.
- */
-#define DMI_DELL_TOKEN_EOT 0xFFFFu
+#include "tokens-internal.h"
 
 /**
  * @brief Size of the token in the structure.
@@ -33,8 +25,39 @@
 
 // Operation handlers, see calling-iface-handlers.c
 extern const dmi_attribute_t dmi_dell_calling_iface_token_attrs[];
+
+/**
+ * @internal
+ * @brief Decode the structure along with its tokens.
+ *
+ * @details Tokens are terminated by the end-of-table marker, which may be
+ * truncated itself. Unused tokens are dropped.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_dell_calling_iface_decode(dmi_decoder_t *decoder);
+
+/**
+ * @internal
+ * @brief Encode the structure along with its tokens.
+ *
+ * @details Tokens are written in turn, and are terminated by the end-of-table
+ * marker, see `dmi_dell_tokens_encode()`.
+ *
+ * @param[in,out] encoder Encoder of the structure.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_dell_calling_iface_encode(dmi_encoder_t *encoder);
+
+/**
+ * @internal
+ * @brief Release the tokens of a decoded structure.
+ *
+ * @param[in] entity Entity of the structure.
+ */
 void dmi_dell_calling_iface_cleanup(dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_CALLING_IFACE_INTERNAL_H

@@ -68,10 +68,13 @@ const dmi_name_set_t dmi_lint_severity_names =
     })
 };
 
-//
-// Rules are checked in the order they are registered, so the ones of the
-// entry point come before the ones of the table.
-//
+/**
+ * @internal
+ * @brief Rules of the library.
+ *
+ * @details Rules are checked in the order they are registered, so the ones of
+ * the entry point come before the ones of the table.
+ */
 static const dmi_lint_rule_t *const dmi_lint_rule_list[] =
 {
     &dmi_lint_entry_checksum_rule,
@@ -183,29 +186,34 @@ bool dmi_lint(
         return false;
     }
 
-    dmi_lint_t lint =
-    {
-        .context = context,
-        .handler = handler,
-        .data    = data
-    };
+    // State is kept off the stack, since the totals count the structures of
+    // every type, which is too much for the stack of the kernel
+    dmi_lint_t *lint = dmi_alloc(context, sizeof(*lint));
+    if (lint == nullptr)
+        return false;
+
+    lint->context = context;
+    lint->handler = handler;
+    lint->data    = data;
 
     if (options != nullptr)
-        lint.options = *options;
+        lint->options = *options;
 
     // Data is checked against the version of the entry point, unless the
     // caller asks for another one
-    lint.version = (lint.options.version != DMI_VERSION_NONE)
-            ? lint.options.version
+    lint->version = (lint->options.version != DMI_VERSION_NONE)
+            ? lint->options.version
             : context->state.smbios_version;
 
     // Totals of the table are gathered before anything is checked, since the
     // rules of the entry point are checked against them as well
-    dmi_lint_collect(&lint);
+    dmi_lint_collect(lint);
 
-    dmi_lint_check_scope(&lint, DMI_LINT_SCOPE_ENTRY, nullptr);
-    dmi_lint_check_entities(&lint);
-    dmi_lint_check_scope(&lint, DMI_LINT_SCOPE_TABLE, nullptr);
+    dmi_lint_check_scope(lint, DMI_LINT_SCOPE_ENTRY, nullptr);
+    dmi_lint_check_entities(lint);
+    dmi_lint_check_scope(lint, DMI_LINT_SCOPE_TABLE, nullptr);
+
+    dmi_free(lint);
 
     return true;
 }

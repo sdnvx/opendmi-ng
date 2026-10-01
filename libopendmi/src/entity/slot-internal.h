@@ -15,7 +15,6 @@
 
 #include <opendmi/entity/slot.h>
 
-// Value names, see slot-names.c
 extern const dmi_name_set_t dmi_slot_type_names;
 extern const dmi_name_set_t dmi_slot_width_names;
 extern const dmi_name_set_t dmi_slot_length_names;
@@ -24,7 +23,14 @@ extern const dmi_name_set_t dmi_slot_feature_ex_names;
 extern const dmi_name_set_t dmi_slot_height_names;
 extern const dmi_name_set_t dmi_slot_usage_names;
 
-// Checks the lint rules of the specification perform, see slot-rules.c
+
+/**
+ * @internal
+ * @brief Check that the slot is at least as wide as its bus.
+ *
+ * @details A card of the width of the bus has to fit the slot physically, so
+ * the slot is at least as wide as its bus.
+ */
 void dmi_slot_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_SLOT_INTERNAL_H

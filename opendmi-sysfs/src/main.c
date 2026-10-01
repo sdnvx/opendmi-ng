@@ -27,41 +27,89 @@ MODULE_AUTHOR("The OpenDMI contributors");
 // library is compatible with GPL
 MODULE_LICENSE("Dual BSD/GPL");
 
+/**
+ * @internal
+ * @brief Whether library debug messages and the decoded attributes of all
+ * structures are logged, a parameter of the module.
+ */
 static bool verbose;
 module_param(verbose, bool, 0444);
 MODULE_PARM_DESC(verbose, "Log library debug messages and decoded attributes of all structures");
 
 /**
+ * @internal
  * @brief Context the structures are decoded by, held while the module is
  * loaded.
  */
 static dmi_context_t *dmi_sysfs_context;
 
+/**
+ * @internal
+ * @brief Load the SMBIOS data when the module is loaded.
+ *
+ * @return Zero on success, or a negative error code.
+ */
+static int __init dmi_sysfs_init(void);
+
+/**
+ * @internal
+ * @brief Release the SMBIOS data when the module is unloaded.
+ */
+static void __exit dmi_sysfs_exit(void);
+
+/**
+ * @internal
+ * @brief Pass a message of the library to the kernel log.
+ *
+ * @param[in] target Logger the message is written to.
+ * @param[in] level  Level of the message.
+ * @param[in] format Format string of the message.
+ * @param[in] args   Arguments of the format string.
+ */
 static void dmi_sysfs_log_handler(
         dmi_log_t       *target,
         dmi_log_level_t  level,
         const char      *format,
         va_list          args);
 
+/**
+ * @internal
+ * @brief Logger passing the messages of the library to the kernel log.
+ */
 static dmi_log_t dmi_sysfs_logger =
 {
     .handler = dmi_sysfs_log_handler
 };
 
 /**
+ * @internal
  * @brief Log the errors queued in the context and remove them.
  *
- * @param is_fatal Whether the errors prevented the context from being opened,
- *                 they are warnings otherwise.
+ * @param[in,out] context  DMI context.
+ * @param[in]     is_fatal Whether the errors prevented the context from being
+ *                         opened, they are warnings otherwise.
  */
 static void dmi_sysfs_report_errors(dmi_context_t *context, bool is_fatal);
 
 /**
- * @brief Log the header of a structure and, in verbose mode, its decoded
- * attributes.
+ * @internal
+ * @brief Log the header of a structure and its decoded attributes, in
+ * verbose mode only.
+ *
+ * @param[in] entity Structure to log.
  */
 static void dmi_sysfs_print_entity(const dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Log the formatted value of an attribute of a structure.
+ *
+ * @details Arrays and nested structures are only marked as such, since they
+ * are left for the SysFS tree.
+ *
+ * @param[in] entity Structure the attribute belongs to.
+ * @param[in] attr   Attribute to log.
+ */
 static void dmi_sysfs_print_attr(const dmi_entity_t *entity, const dmi_attribute_t *attr);
 
 static int __init dmi_sysfs_init(void)

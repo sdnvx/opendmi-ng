@@ -15,6 +15,18 @@
 
 #include "memory-controller-internal.h"
 
+/**
+ * @internal
+ * @brief Report a size of a module which is larger than the largest one the
+ * controller supports.
+ *
+ * @param[in] lint    Check in progress.
+ * @param[in] entity  Memory controller being checked.
+ * @param[in] handle  Handle of the module.
+ * @param[in] name    Name of the size, e.g. "installed" or "enabled".
+ * @param[in] size    Size of the module.
+ * @param[in] maximum Largest size of a module the controller supports.
+ */
 static void dmi_memory_controller_lint_size(
         dmi_lint_t                     *lint,
         const dmi_entity_t             *entity,
@@ -23,12 +35,19 @@ static void dmi_memory_controller_lint_size(
         const dmi_memory_module_size_t *size,
         dmi_size_t                      maximum);
 
+/**
+ * @internal
+ * @brief Format a size for a lint message.
+ *
+ * @details Sizes are written in the largest binary unit they are a whole
+ * number of.
+ *
+ * @param[out] buffer Buffer to store the formatted size in.
+ * @param[in]  length Length of the buffer.
+ * @param[in]  size   Size in bytes.
+ */
 static void dmi_memory_controller_format_size(char *buffer, size_t length, dmi_size_t size);
 
-//
-// Modules of a controller are no larger than the largest module the
-// controller supports, whether installed or enabled.
-//
 void dmi_memory_controller_lint_module_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_memory_controller_t *info = dmi_entity_info(entity, DMI_TYPE(memory_controller));
@@ -79,9 +98,6 @@ static void dmi_memory_controller_lint_size(
                    (unsigned)handle, name, actual, largest);
 }
 
-//
-// Sizes are written in the largest binary unit they are a whole number of.
-//
 static void dmi_memory_controller_format_size(char *buffer, size_t length, dmi_size_t size)
 {
     static const char *const units[] = { "bytes", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB" };

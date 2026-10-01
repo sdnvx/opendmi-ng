@@ -58,6 +58,9 @@ struct dmi_hpe_physical_attrs
 /**
  * @brief HP/HPE physical attribute information entity specification, up to
  * G7.
+ *
+ * Up to G7, the structure holds 16 characters instead of the UUID, e.g.
+ * `484184GB894484YN`: the product number and the serial number.
  */
 extern __dmi_api const dmi_entity_spec_t dmi_hpe_physical_attrs_legacy_spec;
 

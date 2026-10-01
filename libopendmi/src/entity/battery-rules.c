@@ -14,10 +14,6 @@
 
 #include "battery-internal.h"
 
-//
-// The specification puts the SBDS values in place of the ones the structure
-// carries itself, so a battery provides either of them, and not both.
-//
 void dmi_battery_lint_sbds(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_battery_t *info = dmi_entity_info(entity, DMI_TYPE(portable_battery));

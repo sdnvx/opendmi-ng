@@ -12,8 +12,18 @@
 #include <linux/types.h>
 #include <linux/limits.h>
 
-// Widest integer types are 64-bit, the same as in the C library
-typedef long long          intmax_t;
+/**
+ * @internal
+ * @brief Widest signed integer type, which is 64-bit, the same as in the C
+ * library.
+ */
+typedef long long intmax_t;
+
+/**
+ * @internal
+ * @brief Widest unsigned integer type, which is 64-bit, the same as in the C
+ * library.
+ */
 typedef unsigned long long uintmax_t;
 
 #ifndef INT8_MAX

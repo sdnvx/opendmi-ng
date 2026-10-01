@@ -15,10 +15,13 @@
 
 #include <opendmi/entity/mgmt-device-threshold.h>
 
-//
-// Threshold values are in units of the component using them, and are shown as
-// they are stored, if the component is unknown
-//
+/**
+ * @internal
+ * @brief Variant of a threshold value for the type of the component using it.
+ *
+ * @details Threshold values are in units of the component using them, and are
+ * shown as they are stored, if the component is unknown.
+ */
 #define dmi_threshold_variant(__type, __member, __attr_type, ...)           \
     DMI_VARIANT(DMI_TYPE_ID(__type), dmi_mgmt_device_threshold_t, __member, \
                 __attr_type, {                                              \
@@ -40,11 +43,42 @@
         {}                                                                                                 \
     })
 
-// Operation handlers, see mgmt-device-threshold-handlers.c
+/**
+ * @internal
+ * @brief Check whether the thresholds of a structure are a template.
+ *
+ * @details Firmware may leave the structure as a template, with the ordinals
+ * of the fields in place of the threshold values.
+ *
+ * @param[in] info Decoded structure.
+ *
+ * @return `true` if the thresholds are a template, `false` otherwise.
+ */
 bool dmi_mgmt_device_threshold_is_template(const dmi_mgmt_device_threshold_t *info);
 
-// Checks the lint rules of the specification perform, see mgmt-device-threshold-rules.c
+/**
+ * @internal
+ * @brief Check that each threshold is not beyond the more severe one.
+ *
+ * @details Thresholds are ordered, since crossing a critical one is worse
+ * than crossing a non-critical one. Templates are left to the rule of their
+ * own, which describes them better than a broken order does.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_mgmt_device_threshold_lint_order(dmi_lint_t *lint, const dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Check that the thresholds of a structure are not a template.
+ *
+ * @details Firmware commonly leaves the template of the structure in place,
+ * with the ordinals of the fields where the thresholds belong.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
 void dmi_mgmt_device_threshold_lint_template(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_MGMT_DEVICE_THRESHOLD_INTERNAL_H

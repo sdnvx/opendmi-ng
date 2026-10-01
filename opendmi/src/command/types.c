@@ -32,21 +32,108 @@ typedef struct dmi_types_config
     dmi_vector_t show_modules;
 } dmi_types_config_t;
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_types_usage(void);
 
+/**
+ * @internal
+ * @brief Handle the `--module` option, which lists the types provided by a
+ * module.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] value   Name of the module.
+ *
+ * @return `true` on success, `false` if the module is unknown or cannot be
+ * added to the list.
+ */
 static bool dmi_types_add_module(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--all-modules` option, which lists the types provided by
+ * all modules.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] value   Value of the option, unused.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_types_add_all_modules(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Add a module to the ones whose types are listed, instead of the
+ * core types.
+ *
+ * @param[in] module Module to add.
+ *
+ * @return `true` on success, `false` if the module cannot be added.
+ */
 static bool dmi_types_show_module_types(const dmi_module_t *module);
+
+/**
+ * @internal
+ * @brief Match a module of the list against a module code.
+ *
+ * @param[in] entry Module of the list, `dmi_module_t`.
+ * @param[in] key   Module code to match.
+ *
+ * @return `true` if the module has the code, `false` otherwise.
+ */
 static bool dmi_types_match_module(uintptr_t entry, uintptr_t key);
+
+/**
+ * @internal
+ * @brief List the structure types the options have selected.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments, unused.
+ * @param[in] argv    Arguments of the command, unused.
+ *
+ * @return Exit code of the command.
+ */
 static int  dmi_types_main(dmi_context_t *context, int argc, char *argv[]);
 
+/**
+ * @internal
+ * @brief List the core structure types, which the specification defines.
+ *
+ * @param[in] context DMI context.
+ */
 static void dmi_types_show_core(dmi_context_t *context);
+
+/**
+ * @internal
+ * @brief List the structure types provided by a module.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] module  Module to list the types of.
+ */
 static void dmi_types_show_module(dmi_context_t *context, const dmi_module_t *module);
+
+/**
+ * @internal
+ * @brief Print a line describing a structure type, either raw or formatted
+ * for the terminal.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] module  Module providing the type, or `nullptr` for a core type.
+ * @param[in] spec    Specification of the type.
+ */
 static void dmi_types_show_type(
         dmi_context_t           *context,
         const dmi_module_t      *module,
         const dmi_entity_spec_t *spec);
 
+/**
+ * @internal
+ * @brief Free the list of the modules whose types are listed.
+ *
+ * @param[in] context DMI context, unused.
+ */
 static void dmi_types_cleanup(dmi_context_t *context);
 
 static dmi_types_config_t dmi_types_config =

@@ -284,141 +284,6 @@ bool dmi_yaml_entity_attr(
     return dmi_attribute_walk(attr, entity->info, &dmi_yaml_attr_visitor, session);
 }
 
-static dmi_attribute_walk_t dmi_yaml_attr_member(void *context, const dmi_attribute_node_t *node)
-{
-    return dmi_format_walk(dmi_yaml_label(context, node->member->params.code));
-}
-
-static dmi_attribute_walk_t dmi_yaml_attr_struct_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_unused(node);
-
-    return dmi_format_walk(dmi_yaml_mapping_start(context, YAML_BLOCK_MAPPING_STYLE));
-}
-
-static bool dmi_yaml_attr_struct_end(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_unused(node);
-
-    return dmi_yaml_mapping_end(context);
-}
-
-static dmi_attribute_walk_t dmi_yaml_attr_array_start(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_unused(node);
-
-    return dmi_format_walk(dmi_yaml_sequence_start(context, YAML_BLOCK_SEQUENCE_STYLE));
-}
-
-static bool dmi_yaml_attr_array_end(void *context, const dmi_attribute_node_t *node)
-{
-    dmi_unused(node);
-
-    return dmi_yaml_sequence_end(context);
-}
-
-static bool dmi_yaml_attr_value(void *context, const dmi_attribute_node_t *node)
-{
-    return dmi_yaml_entity_attr_value(context, node->attr, node->value);
-}
-
-static bool dmi_yaml_entity_attr_value(
-        dmi_yaml_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value)
-{
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
-
-    bool success = false;
-    char *text = nullptr;
-
-    // Write empty tag if the value is unspecified
-    if (dmi_attribute_is_unspecified(attr, value))
-        return dmi_yaml_scalar(session, "null", YAML_NULL_TAG, YAML_PLAIN_SCALAR_STYLE);
-
-    // Handle unknown values
-    if (dmi_attribute_is_unknown(attr, value))
-        return dmi_yaml_scalar(session, "unknown", YAML_STR_TAG, YAML_PLAIN_SCALAR_STYLE);
-
-    // Handle value sets
-    if (attr->type == DMI_ATTRIBUTE_TYPE_SET)
-        return dmi_yaml_entity_attr_set(session, attr, value);
-
-    do {
-        const char *tag;
-        yaml_scalar_style_t style;
-
-        text = dmi_format_attribute_value(session->context, attr, value,
-                                          session->options.pretty);
-        if (text == nullptr)
-            break;
-
-        // Values formatted for a person are text, whatever they hold: a size
-        // carries its unit, and a boolean reads as a word a reader would
-        // resolve as a value of its own type
-        if (session->options.pretty) {
-            if (not dmi_yaml_scalar(session, text, YAML_STR_TAG,
-                                    YAML_DOUBLE_QUOTED_SCALAR_STYLE))
-                break;
-
-            success = true;
-            break;
-        }
-
-        // Only canonical numbers and booleans are written as plain scalars,
-        // since other values (e.g. dates, versions, enumeration codes, or
-        // booleans named by codes like "no") could be resolved by readers as
-        // values of different types
-        if (dmi_format_scalar_classify(attr, text) != DMI_FORMAT_SCALAR_STRING) {
-            tag   = nullptr;
-            style = YAML_PLAIN_SCALAR_STYLE;
-        } else {
-            tag   = YAML_STR_TAG;
-            style = YAML_DOUBLE_QUOTED_SCALAR_STYLE;
-        }
-
-        if (not dmi_yaml_scalar(session, text, tag, style))
-            break;
-
-        success = true;
-    } while (false);
-
-    dmi_free(text);
-
-    return success;
-}
-
-static bool dmi_yaml_entity_attr_set(
-        dmi_yaml_session_t    *session,
-        const dmi_attribute_t *attr,
-        const void            *value)
-{
-    assert(session != nullptr);
-    assert(attr != nullptr);
-    assert(value != nullptr);
-
-    dmi_format_set_iter_t iter;
-    const dmi_format_flag_t *flag;
-
-    if (not dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE))
-        return false;
-
-    dmi_format_set_iter_init(&iter, attr, value);
-
-    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
-        bool result =
-            dmi_yaml_label(session, flag->code) and
-            dmi_yaml_scalar(session, flag->value ? "true" : "false", YAML_BOOL_TAG, YAML_PLAIN_SCALAR_STYLE);
-
-        if (not result)
-            return false;
-    }
-
-    return dmi_yaml_mapping_end(session);
-}
-
 bool dmi_yaml_entity_attrs_end(dmi_yaml_session_t *session, const dmi_entity_t *entity)
 {
     assert(session != nullptr);
@@ -614,4 +479,139 @@ void dmi_yaml_finalize(dmi_yaml_session_t *session)
 
     dmi_free(session->emitter);
     dmi_free(session);
+}
+
+static dmi_attribute_walk_t dmi_yaml_attr_member(void *context, const dmi_attribute_node_t *node)
+{
+    return dmi_format_walk(dmi_yaml_label(context, node->member->params.code));
+}
+
+static dmi_attribute_walk_t dmi_yaml_attr_struct_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_format_walk(dmi_yaml_mapping_start(context, YAML_BLOCK_MAPPING_STYLE));
+}
+
+static bool dmi_yaml_attr_struct_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_yaml_mapping_end(context);
+}
+
+static dmi_attribute_walk_t dmi_yaml_attr_array_start(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_format_walk(dmi_yaml_sequence_start(context, YAML_BLOCK_SEQUENCE_STYLE));
+}
+
+static bool dmi_yaml_attr_array_end(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(node);
+
+    return dmi_yaml_sequence_end(context);
+}
+
+static bool dmi_yaml_attr_value(void *context, const dmi_attribute_node_t *node)
+{
+    return dmi_yaml_entity_attr_value(context, node->attr, node->value);
+}
+
+static bool dmi_yaml_entity_attr_value(
+        dmi_yaml_session_t    *session,
+        const dmi_attribute_t *attr,
+        const void            *value)
+{
+    assert(session != nullptr);
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    bool success = false;
+    char *text = nullptr;
+
+    // Write empty tag if the value is unspecified
+    if (dmi_attribute_is_unspecified(attr, value))
+        return dmi_yaml_scalar(session, "null", YAML_NULL_TAG, YAML_PLAIN_SCALAR_STYLE);
+
+    // Handle unknown values
+    if (dmi_attribute_is_unknown(attr, value))
+        return dmi_yaml_scalar(session, "unknown", YAML_STR_TAG, YAML_PLAIN_SCALAR_STYLE);
+
+    // Handle value sets
+    if (attr->type == DMI_ATTRIBUTE_TYPE_SET)
+        return dmi_yaml_entity_attr_set(session, attr, value);
+
+    do {
+        const char *tag;
+        yaml_scalar_style_t style;
+
+        text = dmi_format_attribute_value(session->context, attr, value,
+                                          session->options.pretty);
+        if (text == nullptr)
+            break;
+
+        // Values formatted for a person are text, whatever they hold: a size
+        // carries its unit, and a boolean reads as a word a reader would
+        // resolve as a value of its own type
+        if (session->options.pretty) {
+            if (not dmi_yaml_scalar(session, text, YAML_STR_TAG,
+                                    YAML_DOUBLE_QUOTED_SCALAR_STYLE))
+                break;
+
+            success = true;
+            break;
+        }
+
+        // Only canonical numbers and booleans are written as plain scalars,
+        // since other values (e.g. dates, versions, enumeration codes, or
+        // booleans named by codes like "no") could be resolved by readers as
+        // values of different types
+        if (dmi_format_scalar_classify(attr, text) != DMI_FORMAT_SCALAR_STRING) {
+            tag   = nullptr;
+            style = YAML_PLAIN_SCALAR_STYLE;
+        } else {
+            tag   = YAML_STR_TAG;
+            style = YAML_DOUBLE_QUOTED_SCALAR_STYLE;
+        }
+
+        if (not dmi_yaml_scalar(session, text, tag, style))
+            break;
+
+        success = true;
+    } while (false);
+
+    dmi_free(text);
+
+    return success;
+}
+
+static bool dmi_yaml_entity_attr_set(
+        dmi_yaml_session_t    *session,
+        const dmi_attribute_t *attr,
+        const void            *value)
+{
+    assert(session != nullptr);
+    assert(attr != nullptr);
+    assert(value != nullptr);
+
+    dmi_format_set_iter_t iter;
+    const dmi_format_flag_t *flag;
+
+    if (not dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE))
+        return false;
+
+    dmi_format_set_iter_init(&iter, attr, value);
+
+    while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
+        bool result =
+            dmi_yaml_label(session, flag->code) and
+            dmi_yaml_scalar(session, flag->value ? "true" : "false", YAML_BOOL_TAG, YAML_PLAIN_SCALAR_STYLE);
+
+        if (not result)
+            return false;
+    }
+
+    return dmi_yaml_mapping_end(session);
 }

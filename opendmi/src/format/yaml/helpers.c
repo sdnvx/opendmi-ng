@@ -38,6 +38,19 @@
 
 #include <opendmi/format/yaml/helpers.h>
 
+/**
+ * @internal
+ * @brief Check if string may be written as a plain scalar.
+ *
+ * @details A plain scalar must be one which YAML 1.1 readers resolve as a
+ * string: empty strings, booleans, nulls, merge and value keys, and anything
+ * looking like a number or a timestamp are resolved as values of other types.
+ *
+ * @param[in] value String to check.
+ *
+ * @return `true` if the string may be written as a plain scalar, `false` if
+ *         it has to be quoted.
+ */
 static bool dmi_yaml_is_plain_string(const char *value);
 
 bool dmi_yaml_emit(dmi_yaml_session_t *session, yaml_event_t *event)
@@ -241,12 +254,6 @@ bool dmi_yaml_mapping_end(dmi_yaml_session_t *session)
     return success;
 }
 
-//
-// Check if string may be written as a plain scalar, which YAML 1.1 readers
-// resolve as a string: empty strings, booleans, nulls, merge and value keys,
-// and anything looking like a number or a timestamp are resolved as values of
-// other types.
-//
 static bool dmi_yaml_is_plain_string(const char *value)
 {
     static const char *const special[] = {

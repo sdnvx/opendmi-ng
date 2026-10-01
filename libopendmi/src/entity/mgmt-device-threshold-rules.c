@@ -14,11 +14,6 @@
 
 #include "mgmt-device-threshold-internal.h"
 
-//
-// Thresholds are ordered, since crossing a critical one is worse than
-// crossing a non-critical one. Templates are left to the rule of their own,
-// which describes them better than a broken order does.
-//
 void dmi_mgmt_device_threshold_lint_order(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_mgmt_device_threshold_t *info =
@@ -57,10 +52,6 @@ void dmi_mgmt_device_threshold_lint_order(dmi_lint_t *lint, const dmi_entity_t *
     }
 }
 
-//
-// Firmware commonly leaves the template of the structure in place, with the
-// ordinals of the fields where the thresholds belong.
-//
 void dmi_mgmt_device_threshold_lint_template(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_mgmt_device_threshold_t *info =

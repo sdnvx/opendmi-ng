@@ -14,10 +14,6 @@
 
 #include "firmware-inventory-internal.h"
 
-//
-// Versions are comparable when they are written the same way, and the one
-// installed is not older than the oldest one the component supports.
-//
 void dmi_firmware_inventory_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_firmware_inventory_t *info =

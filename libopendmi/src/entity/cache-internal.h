@@ -15,22 +15,48 @@
 
 #include <opendmi/entity/cache.h>
 
-// Value names, see cache-names.c
 extern const dmi_name_set_t dmi_cache_type_names;
 extern const dmi_name_set_t dmi_cache_mode_names;
 extern const dmi_name_set_t dmi_cache_assoc_names;
 extern const dmi_name_set_t dmi_cache_location_names;
 extern const dmi_name_set_t dmi_cache_sram_type_names;
 
-// Operation handlers, see cache-handlers.c
+/**
+ * @internal
+ * @brief Decode the level of a cache.
+ *
+ * @details Levels are counted from zero in the data and from one everywhere
+ * else.
+ *
+ * @param[in]  field Field being decoded.
+ * @param[in]  data  Data the field carries.
+ * @param[out] value Variable to store the level in.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_cache_decode_level(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
         void                   *value);
+
+/**
+ * @internal
+ * @brief Decode a cache size carried in a field of two bytes.
+ *
+ * @details Sizes are carried in granules, whose width the most significant
+ * bit of the field says.
+ *
+ * @param[in]  field Field being decoded.
+ * @param[in]  data  Data the field carries.
+ * @param[out] value Variable to store the size in.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_cache_decode_size(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
         void                   *value);
+
 bool dmi_cache_decode_size_ex(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -39,10 +65,25 @@ bool dmi_cache_encode_level(
         const dmi_field_t *field,
         const void        *value,
         dmi_field_data_t  *data);
+
+/**
+ * @internal
+ * @brief Encode a cache size into a field of two bytes.
+ *
+ * @details Sizes are written in granules of one kibibyte whenever they fit,
+ * and of sixty-four kibibytes otherwise.
+ *
+ * @param[in]  field Field being encoded.
+ * @param[in]  value Variable holding the size.
+ * @param[out] data  Data the field is to carry.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 bool dmi_cache_encode_size(
         const dmi_field_t *field,
         const void        *value,
         dmi_field_data_t  *data);
+
 bool dmi_cache_encode_size_ex(
         const dmi_field_t *field,
         const void        *value,

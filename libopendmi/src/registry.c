@@ -583,67 +583,6 @@ bool dmi_registry_link(dmi_registry_t *registry)
     return true;
 }
 
-static bool dmi_registry_put(dmi_registry_t *registry, dmi_entity_t *entity)
-{
-    size_t hash;
-    dmi_registry_entry_t *entry;
-    dmi_registry_entry_t *last;
-
-    assert(registry != nullptr);
-    assert(entity != nullptr);
-
-    // Allocate new entry
-    entry = dmi_alloc(registry->context, sizeof(dmi_registry_entry_t));
-    if (entry == nullptr)
-        return false;
-
-    // Initialize entry
-    memset(entry, 0, sizeof(dmi_registry_entry_t));
-    entry->entity = entity;
-
-    hash = (size_t)entity->handle % registry->capacity;
-    last = registry->index[hash];
-
-    // Add entry to index
-    if (last == nullptr) {
-        registry->index[hash] = entry;
-    } else {
-        while (true) {
-            if ((last->entity->buffer == entity->buffer) and
-                (last->entity->offset == entity->offset))
-            {
-                dmi_free(entry);
-                dmi_error_raise_ex(registry->context, DMI_ERROR_DUPLICATE_ENTRY,
-                                   "0x%04zx (0x%04x)", entity->offset, entity->handle);
-                return false;
-            }
-
-            if (last->entity->handle == entity->handle) {
-                dmi_error_raise_ex(registry->context, DMI_ERROR_DUPLICATE_HANDLE,
-                                   "0x%04x", entity->handle);
-            }
-
-            if (last->next == nullptr)
-                break;
-
-            last = last->next;
-        }
-
-        last->next = entry;
-    }
-
-    entry->seq_prev = registry->tail;
-
-    if (registry->tail != nullptr)
-        registry->tail->seq_next = entry;
-    registry->tail = entry;
-
-    if (registry->head == nullptr)
-        registry->head = entry;
-
-    return true;
-}
-
 bool dmi_registry_iter_init(
         dmi_registry_iter_t *iter,
         dmi_registry_t *registry,
@@ -710,4 +649,65 @@ dmi_entity_t *dmi_registry_iter_next(dmi_registry_iter_t *iter)
     }
 
     return iter->position->entity;
+}
+
+static bool dmi_registry_put(dmi_registry_t *registry, dmi_entity_t *entity)
+{
+    size_t hash;
+    dmi_registry_entry_t *entry;
+    dmi_registry_entry_t *last;
+
+    assert(registry != nullptr);
+    assert(entity != nullptr);
+
+    // Allocate new entry
+    entry = dmi_alloc(registry->context, sizeof(dmi_registry_entry_t));
+    if (entry == nullptr)
+        return false;
+
+    // Initialize entry
+    memset(entry, 0, sizeof(dmi_registry_entry_t));
+    entry->entity = entity;
+
+    hash = (size_t)entity->handle % registry->capacity;
+    last = registry->index[hash];
+
+    // Add entry to index
+    if (last == nullptr) {
+        registry->index[hash] = entry;
+    } else {
+        while (true) {
+            if ((last->entity->buffer == entity->buffer) and
+                (last->entity->offset == entity->offset))
+            {
+                dmi_free(entry);
+                dmi_error_raise_ex(registry->context, DMI_ERROR_DUPLICATE_ENTRY,
+                                   "0x%04zx (0x%04x)", entity->offset, entity->handle);
+                return false;
+            }
+
+            if (last->entity->handle == entity->handle) {
+                dmi_error_raise_ex(registry->context, DMI_ERROR_DUPLICATE_HANDLE,
+                                   "0x%04x", entity->handle);
+            }
+
+            if (last->next == nullptr)
+                break;
+
+            last = last->next;
+        }
+
+        last->next = entry;
+    }
+
+    entry->seq_prev = registry->tail;
+
+    if (registry->tail != nullptr)
+        registry->tail->seq_next = entry;
+    registry->tail = entry;
+
+    if (registry->head == nullptr)
+        registry->head = entry;
+
+    return true;
 }

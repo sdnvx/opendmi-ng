@@ -14,10 +14,6 @@
 
 #include "memory-channel-internal.h"
 
-//
-// Devices of a channel share its capacity, so the load they put on it
-// together fits the maximum it supports.
-//
 void dmi_memory_channel_lint_load(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_memory_channel_t *info = dmi_entity_info(entity, DMI_TYPE(memory_channel));

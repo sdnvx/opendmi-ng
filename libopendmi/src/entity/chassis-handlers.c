@@ -14,10 +14,6 @@
 
 #include "chassis-internal.h"
 
-//
-// An element is named by either an SMBIOS structure type or a baseboard type,
-// which the most significant bit of the field tells apart.
-//
 bool dmi_chassis_decode_element_type(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
@@ -39,10 +35,6 @@ bool dmi_chassis_decode_element_type(
     return true;
 }
 
-//
-// Elements which may be there in any number carry a maximum of zero, which
-// the specification reserves for saying that there is no maximum.
-//
 bool dmi_chassis_decode_maximum_count(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,

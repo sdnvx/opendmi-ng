@@ -217,6 +217,23 @@ void dmi_field_release_list(const dmi_field_t *fields, dmi_data_t *info)
     }
 }
 
+uintmax_t dmi_field_load_member(dmi_member_ref_t member, const void *value)
+{
+    switch (member.size) {
+    case sizeof(uint8_t):
+        return dmi_deref(uint8_t,  value);
+    case sizeof(uint16_t):
+        return dmi_deref(uint16_t, value);
+    case sizeof(uint32_t):
+        return dmi_deref(uint32_t, value);
+    case sizeof(uint64_t):
+        return dmi_deref(uint64_t, value);
+    default:
+        assert(false);
+        return 0;
+    }
+}
+
 static void dmi_field_release_array(const dmi_field_t *field, dmi_data_t *info)
 {
     dmi_data_t **elements = (dmi_data_t **)(info + field->member.offset);
@@ -233,21 +250,4 @@ static void dmi_field_release_array(const dmi_field_t *field, dmi_data_t *info)
 
     *elements = nullptr;
     *counter  = 0;
-}
-
-uintmax_t dmi_field_load_member(dmi_member_ref_t member, const void *value)
-{
-    switch (member.size) {
-    case sizeof(uint8_t):
-        return dmi_deref(uint8_t,  value);
-    case sizeof(uint16_t):
-        return dmi_deref(uint16_t, value);
-    case sizeof(uint32_t):
-        return dmi_deref(uint32_t, value);
-    case sizeof(uint64_t):
-        return dmi_deref(uint64_t, value);
-    default:
-        assert(false);
-        return 0;
-    }
 }

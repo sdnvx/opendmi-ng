@@ -36,14 +36,76 @@
 #include <opendmi/command/import.h>
 #include <opendmi/command/types.h>
 
+/**
+ * @internal
+ * @brief Handles the option enabling logging to a file.
+ *
+ * @param[in] context DMI context.
+ * @param[in] value   Path of the log file.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_command_set_log_file(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handles the option setting the logging level.
+ *
+ * @param[in] context DMI context.
+ * @param[in] value   Name of the logging level.
+ *
+ * @return `true` on success, `false` if the level is unknown.
+ */
 static bool dmi_command_set_log_level(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handles the option enabling a module.
+ *
+ * @param[in] context DMI context.
+ * @param[in] value   Name of the module.
+ *
+ * @return `true` on success, `false` if the module is unknown or cannot
+ * be enabled.
+ */
 static bool dmi_command_add_module(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handles the option disabling the modules enabled automatically.
+ *
+ * @param[in] context DMI context.
+ * @param[in] value   Unused.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_command_disable_auto_modules(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handles the option enabling the overlay of additional information.
+ *
+ * @param[in] context DMI context.
+ * @param[in] value   Unused.
+ *
+ * @return Always `true`.
+ */
 static bool dmi_command_enable_overlay(dmi_context_t *context, const char *value);
 
 #if defined(__linux__)
+
+/**
+ * @internal
+ * @brief Handles the option disabling SysFS, which is not implemented yet.
+ *
+ * @param[in] context DMI context.
+ * @param[in] value   Unused.
+ *
+ * @return Always `false`, since Linux backend supports only SysFS for
+ * now.
+ */
 static bool dmi_command_disable_sysfs(dmi_context_t *context, const char *value);
+
 #endif
 
 /**
@@ -110,6 +172,21 @@ static bool dmi_command_setup(const dmi_command_t *command, dmi_context_t *conte
  *         otherwise.
  */
 static int dmi_command_flush_output(const dmi_command_t *command);
+
+/**
+ * @internal
+ * @brief Translates the format string of a message.
+ *
+ * @details Messages are translated by their text, which is the key of the
+ * translation in the resources of the tool, so that the format arguments stay
+ * the same.
+ *
+ * @param[in] format Format string of the message.
+ *
+ * @return Translated format string, or `format` itself if there is no
+ *         translation.
+ */
+static const char *dmi_command_message_text(const char *format);
 
 dmi_global_config_t dmi_global_config =
 {
@@ -310,67 +387,6 @@ void dmi_command_usage(const dmi_command_t *command)
 
     for (const dmi_option_set_t **set = command->options; *set != nullptr; set++)
         dmi_option_list(*set);
-}
-
-static void dmi_command_usage_tool(void)
-{
-    dmi_tty_header("%s:", dmi_tool_string("Usage"));
-
-    // Text of the line is not its own key, since resource keys may have
-    // neither brackets nor escape sequences
-    printf(dmi_tool_text("text", "usage-line",
-                         "    %s [global options] <command> [command options] [--] [command args]"),
-           dmi_process);
-    printf("\n\n");
-
-    dmi_command_list();
-    dmi_option_list(&dmi_global_options);
-
-    printf(dmi_tool_string("Use %s <command> --help for more information"), dmi_process);
-    printf("\n\n");
-}
-
-static void dmi_command_usage_line(const dmi_command_t *command)
-{
-    printf("    %s [%s] %s", dmi_process, dmi_tool_string("global options"), command->name);
-
-    if (command->options != nullptr) {
-        for (const dmi_option_set_t **set = command->options; *set != nullptr; set++)
-            dmi_command_usage_set(*set);
-    }
-
-    if (command->arguments != nullptr) {
-        printf(" [--]");
-        for (const dmi_argument_t *arg = command->arguments; arg->name != nullptr; arg++) {
-            printf(arg->required ? " <%s>" : " [<%s>]", dmi_tool_string(arg->name));
-        }
-    }
-
-    printf("\n\n");
-}
-
-static void dmi_command_usage_set(const dmi_option_set_t *set)
-{
-    size_t name_len = strlen(set->name) + 1;
-
-    char name[name_len];
-    memcpy(name, set->name, name_len);
-    dmi_string_tolower(name);
-
-    // Names are translated after they are lowercased, so that the
-    // translation has the case it is printed with
-    printf(" [%s]", dmi_tool_string(name));
-}
-
-//
-// Messages are translated by their text, which is the key of the translation
-// in the resources of the tool, so that the format arguments stay the same.
-//
-static const char *dmi_command_message_text(const char *format)
-{
-    const char *text = dmi_resource_string(dmi_tool_resource(), "message", format);
-
-    return (text != nullptr) ? text : format;
 }
 
 void dmi_command_message(const char *format, ...)
@@ -613,3 +629,60 @@ static bool dmi_command_disable_sysfs(dmi_context_t *context, const char *value)
     return false;
 }
 #endif
+
+static void dmi_command_usage_tool(void)
+{
+    dmi_tty_header("%s:", dmi_tool_string("Usage"));
+
+    // Text of the line is not its own key, since resource keys may have
+    // neither brackets nor escape sequences
+    printf(dmi_tool_text("text", "usage-line",
+                         "    %s [global options] <command> [command options] [--] [command args]"),
+           dmi_process);
+    printf("\n\n");
+
+    dmi_command_list();
+    dmi_option_list(&dmi_global_options);
+
+    printf(dmi_tool_string("Use %s <command> --help for more information"), dmi_process);
+    printf("\n\n");
+}
+
+static void dmi_command_usage_line(const dmi_command_t *command)
+{
+    printf("    %s [%s] %s", dmi_process, dmi_tool_string("global options"), command->name);
+
+    if (command->options != nullptr) {
+        for (const dmi_option_set_t **set = command->options; *set != nullptr; set++)
+            dmi_command_usage_set(*set);
+    }
+
+    if (command->arguments != nullptr) {
+        printf(" [--]");
+        for (const dmi_argument_t *arg = command->arguments; arg->name != nullptr; arg++) {
+            printf(arg->required ? " <%s>" : " [<%s>]", dmi_tool_string(arg->name));
+        }
+    }
+
+    printf("\n\n");
+}
+
+static void dmi_command_usage_set(const dmi_option_set_t *set)
+{
+    size_t name_len = strlen(set->name) + 1;
+
+    char name[name_len];
+    memcpy(name, set->name, name_len);
+    dmi_string_tolower(name);
+
+    // Names are translated after they are lowercased, so that the
+    // translation has the case it is printed with
+    printf(" [%s]", dmi_tool_string(name));
+}
+
+static const char *dmi_command_message_text(const char *format)
+{
+    const char *text = dmi_resource_string(dmi_tool_resource(), "message", format);
+
+    return (text != nullptr) ? text : format;
+}

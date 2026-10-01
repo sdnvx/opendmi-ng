@@ -21,12 +21,14 @@
 #include <opendmi/command/lint.h>
 
 /**
+ * @internal
  * @brief Widths of the columns of the rule listing, in characters.
  */
 #define DMI_LINT_CODE_WIDTH     32
 #define DMI_LINT_SEVERITY_WIDTH 16
 
 /**
+ * @internal
  * @brief State of the report being printed.
  */
 typedef struct dmi_lint_report
@@ -37,6 +39,10 @@ typedef struct dmi_lint_report
     size_t counts[DMI_LINT_SEVERITY_ERROR + 1];
 } dmi_lint_report_t;
 
+/**
+ * @internal
+ * @brief Configuration of the command, as given on the command line.
+ */
 typedef struct dmi_lint_config
 {
     bool check_all;
@@ -45,26 +51,158 @@ typedef struct dmi_lint_config
     bool list_rules;
     bool producer;
 
-    // Code names of the rules to enable or to disable, as given on the
-    // command line
+    /**
+     * @brief Code names of the rules to enable, as given on the command line.
+     */
     dmi_vector_t enabled;
+
+    /**
+     * @brief Code names of the rules to disable, as given on the command
+     * line.
+     */
     dmi_vector_t disabled;
 } dmi_lint_config_t;
 
+/**
+ * @internal
+ * @brief Print the usage of the command.
+ */
 static void dmi_lint_usage(void);
+
+/**
+ * @internal
+ * @brief Check the SMBIOS data against the lint rules and report the issues
+ * found, or list the rules.
+ *
+ * @param[in] context DMI context.
+ * @param[in] argc    Number of the arguments.
+ * @param[in] argv    Arguments of the command, unused.
+ *
+ * @return Exit code of the command.
+ */
 static int dmi_lint_main(dmi_context_t *context, int argc, char *argv[]);
+
+/**
+ * @internal
+ * @brief Tell whether the command needs no SMBIOS data.
+ *
+ * @details Listing the rules needs no data, since the rules are the ones of
+ * the library and of the modules which are enabled.
+ *
+ * @return `true` if the rules are to be listed, `false` otherwise.
+ */
 static bool dmi_lint_detached(void);
 
+/**
+ * @internal
+ * @brief Handle the `--enable` option: enable a rule or a group of rules.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] value   Code name of the rule or of the group.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_lint_config_enable(dmi_context_t *context, const char *value);
+
+/**
+ * @internal
+ * @brief Handle the `--disable` option: disable a rule or a group of rules.
+ *
+ * @param[in] context DMI context, unused.
+ * @param[in] value   Code name of the rule or of the group.
+ *
+ * @return `true` on success, `false` otherwise.
+ */
 static bool dmi_lint_config_disable(dmi_context_t *context, const char *value);
 
+/**
+ * @internal
+ * @brief Tell whether a rule is to be checked, according to the rules
+ * enabled and disabled on the command line.
+ *
+ * @param[in] data Configuration of the command.
+ * @param[in] rule Rule to check.
+ *
+ * @return `true` if the rule is to be checked, `false` otherwise.
+ */
 static bool dmi_lint_rule_filter(void *data, const dmi_lint_rule_t *rule);
+
+/**
+ * @internal
+ * @brief Tell whether a rule matches one of the code names given.
+ *
+ * @details Rules are enabled and disabled by their code names, and a name
+ * without a dot stands for the whole group, e.g. "entry" for every "entry.*"
+ * rule.
+ *
+ * @param[in] codes Code names of the rules or of the groups.
+ * @param[in] rule  Rule to match.
+ *
+ * @return `true` if the rule matches one of the names, `false` otherwise.
+ */
 static bool dmi_lint_rule_matches(const dmi_vector_t *codes, const dmi_lint_rule_t *rule);
+
+/**
+ * @internal
+ * @brief Count an issue and print it, unless it is below an error in quiet
+ * mode.
+ *
+ * @details An issue is printed the way a compiler prints a diagnostic, so that
+ * the output is readable by the tools which are used to that format. The data
+ * being checked is not named, since there is only one of it.
+ *
+ * @param[in,out] data  Report being printed.
+ * @param[in]     issue Issue to print.
+ */
 static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue);
+
+/**
+ * @internal
+ * @brief Print the number of the issues of every severity, which is the
+ * summary a build log is grepped for.
+ *
+ * @param[in] report Report being printed.
+ */
 static void dmi_lint_summary(const dmi_lint_report_t *report);
+
+/**
+ * @internal
+ * @brief Pad a string to a width, counting the characters rather than the
+ * bytes, since a translated name holds more bytes than it takes on the screen.
+ *
+ * @param[in] text  String which has been printed.
+ * @param[in] width Width to pad the string to.
+ */
 static void dmi_lint_pad(const char *text, size_t width);
+
+/**
+ * @internal
+ * @brief Print a line of the rule listing: the code name, the severity and
+ * the name of a rule.
+ *
+ * @param[in] rule    Rule to print.
+ * @param[in] profile Profile the severity is given for.
+ */
 static void dmi_lint_rule_print(const dmi_lint_rule_t *rule, dmi_lint_profile_t profile);
+
+/**
+ * @internal
+ * @brief Print the rules of the library, and then the ones of the structure
+ * types.
+ *
+ * @param[in] context DMI context.
+ * @param[in] profile Profile the severities are given for.
+ */
 static void dmi_lint_rules_print(dmi_context_t *context, dmi_lint_profile_t profile);
+
+/**
+ * @internal
+ * @brief Get the color an issue of a severity is printed in.
+ *
+ * @param[in] severity Severity of the issue.
+ *
+ * @return Color of the severity.
+ */
 static dmi_tty_color_t dmi_lint_severity_color(dmi_lint_severity_t severity);
 
 static dmi_lint_config_t dmi_lint_config;
@@ -198,10 +336,6 @@ static int dmi_lint_main(dmi_context_t *context, int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-//
-// Listing the rules needs no data, since the rules are the ones of the library
-// and of the modules which are enabled.
-//
 static bool dmi_lint_detached(void)
 {
     return dmi_lint_config.list_rules;
@@ -221,10 +355,6 @@ static bool dmi_lint_config_disable(dmi_context_t *context, const char *value)
     return dmi_vector_push(&dmi_lint_config.disabled, (uintptr_t)value);
 }
 
-//
-// Rules are enabled and disabled by their code names, and a name without a
-// dot stands for the whole group, e.g. "entry" for every "entry.*" rule.
-//
 static bool dmi_lint_rule_matches(const dmi_vector_t *codes, const dmi_lint_rule_t *rule)
 {
     uintptr_t value;
@@ -258,11 +388,6 @@ static bool dmi_lint_rule_filter(void *data, const dmi_lint_rule_t *rule)
     return true;
 }
 
-//
-// Print an issue the way a compiler prints a diagnostic, so that the output
-// is readable by the tools which are used to that format. The data being
-// checked is not named, since there is only one of it.
-//
 static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue)
 {
     dmi_lint_report_t *report = data;
@@ -321,10 +446,6 @@ static void dmi_lint_issue_print(void *data, const dmi_lint_issue_t *issue)
     dmi_free(message);
 }
 
-//
-// Print the number of the issues of every severity, which is the summary a
-// build log is grepped for.
-//
 static void dmi_lint_summary(const dmi_lint_report_t *report)
 {
     if (report->total == 0) {
@@ -356,10 +477,6 @@ static void dmi_lint_summary(const dmi_lint_report_t *report)
     dmi_free(text);
 }
 
-//
-// Pad a string to a width, counting the characters rather than the bytes,
-// since a translated name holds more bytes than it takes on the screen.
-//
 static void dmi_lint_pad(const char *text, size_t width)
 {
     size_t length = 0;
