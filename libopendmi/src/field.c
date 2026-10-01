@@ -60,6 +60,12 @@ typedef struct dmi_field_state
     // Bits the ranges have taken since the run of them started, which tells
     // how much of the unit the padding at its end has to close
     unsigned  bits_taken;
+
+    // Version the entry point declares, which decides the ranges of bits
+    // defined by a version, and the latest of the versions those read have
+    // been defined from
+    dmi_version_t version;
+    dmi_version_t defined;
 } dmi_field_state_t;
 
 static bool dmi_field_decode_list(
@@ -144,6 +150,22 @@ static inline size_t dmi_field_when_offset(const dmi_field_t *field)
             : field->member.offset;
 }
 
+//
+// Whether a range of bits is defined in a table of the version, which the
+// ranges the specification has given the reserved bits a meaning in, or has
+// widened, are not in the tables of the other versions.
+//
+static inline bool dmi_field_is_defined(const dmi_field_t *field, dmi_version_t version)
+{
+    if ((field->params.from != DMI_VERSION_NONE) and (version < field->params.from))
+        return false;
+
+    if ((field->params.before != DMI_VERSION_NONE) and (version >= field->params.before))
+        return false;
+
+    return true;
+}
+
 uintmax_t dmi_field_get(const dmi_field_t *field, const void *value)
 {
     assert(field != nullptr);
@@ -209,10 +231,18 @@ bool dmi_fields_decode(dmi_decoder_t *decoder)
         .decoder = decoder,
         .entity  = entity,
         .reader  = dmi_decoder_reader(decoder),
-        .info    = info
+        .info    = info,
+        .version = dmi_entity_context(entity)->state.smbios_version
     };
 
-    return dmi_field_decode_list(&state, spec->fields, info);
+    bool status = dmi_field_decode_list(&state, spec->fields, info);
+
+    // Groups set the level as they are reached, so the ranges of bits defined
+    // by a later version than the fields the data holds raise it afterwards
+    if (state.defined > entity->level)
+        entity->level = state.defined;
+
+    return status;
 }
 
 //
@@ -295,6 +325,13 @@ static bool dmi_field_decode_list(
             continue;
         }
 
+        // Ranges of bits the table's version does not define are left to the
+        // padding of their unit, as the bits it reserves
+        if (not dmi_field_is_defined(field, state->version)) {
+            assert(field->type == DMI_FIELD_TYPE_BITS);
+            continue;
+        }
+
         if (not dmi_field_decode_one(state, field, info, plain, plain_count)) {
             // The data ending where the structure is allowed to be short of
             // what it declares leaves the fields after it unread, while
@@ -303,6 +340,9 @@ static bool dmi_field_decode_list(
                     ? dmi_decoder_incomplete(state->decoder)
                     : false;
         }
+
+        if (field->params.from > state->defined)
+            state->defined = field->params.from;
     }
 
     return true;
@@ -827,6 +867,11 @@ typedef struct dmi_field_output
     uintmax_t bits_value;
     unsigned  bits_count;
     unsigned  bits_taken;
+
+    // Version deciding the ranges of bits defined by a version: the one the
+    // source data has been decoded for in the preserve mode, and the one
+    // written for in the canonical one
+    dmi_version_t version;
 } dmi_field_output_t;
 
 //
@@ -924,7 +969,10 @@ bool dmi_fields_encode(dmi_encoder_t *encoder)
     }
 
     dmi_field_output_t output = {
-        .encoder = encoder
+        .encoder = encoder,
+        .version = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
+                 ? dmi_entity_context(entity)->state.smbios_version
+                 : encoder->version
     };
 
     if (not dmi_field_encode_list(&output, spec->fields, entity->info))
@@ -1013,6 +1061,13 @@ static bool dmi_field_encode_list(
             if (ends)
                 output->stopped = true;
 
+            continue;
+        }
+
+        // Ranges of bits the version does not define are written by the
+        // padding of their unit, as the bits it reserves
+        if (not dmi_field_is_defined(field, output->version)) {
+            assert(field->type == DMI_FIELD_TYPE_BITS);
             continue;
         }
 

@@ -227,6 +227,28 @@ struct dmi_field_params
     dmi_version_t since;
 
     /**
+     * @brief Version of the specification a range of bits is defined from,
+     * which the tables of an earlier version reserve.
+     *
+     * Unlike `since`, this says nothing about the length of the structure: it
+     * gives a meaning to the bits a structure of the earlier version already
+     * holds, so it is the version the entry point declares which decides it.
+     * The range is read into its member when the table is of this version or
+     * later, which raises the level of the structure to it, and is left to
+     * the padding of the unit otherwise.
+     */
+    dmi_version_t from;
+
+    /**
+     * @brief Version of the specification a range of bits is replaced in,
+     * which is the counterpart of `from` for the range declared in its place.
+     *
+     * A range whose width grows in a later version is declared twice, once up
+     * to the version and once from it, and the two read into one member.
+     */
+    dmi_version_t before;
+
+    /**
      * @brief Pointer to the value the member holds when the data ends before
      * the field, which is left unset for the members the data leaves zeroed.
      *
@@ -443,6 +465,11 @@ struct dmi_field
  * Ranges are taken from the least significant bit of the unit up, in the
  * order they are declared, and the unit is closed by `DMI_FIELD_PAD`, which
  * every run of the ranges ends with.
+ *
+ * Ranges the specification defines in the reserved bits of a unit declare the
+ * version they are defined from as `from`, e.g.
+ * `DMI_FIELD_BITS(dmi_memory_device_t, disabled, 1, .from = DMI_VERSION(3, 10, 0))`,
+ * and the ones it widens are declared twice, see `dmi_field_params_t::before`.
  */
 #define DMI_FIELD_BITS(__entity, __member, __bits, ...) \
     {                                                   \

@@ -61,7 +61,8 @@ typedef enum dmi_memory_device_type {
     DMI_MEMORY_DEVICE_TYPE_DDR5               = 0x22,
     DMI_MEMORY_DEVICE_TYPE_LPDDR5             = 0x23,
     DMI_MEMORY_DEVICE_TYPE_HBM3               = 0x24,
-    DMI_MEMORY_DEVICE_TYPE_MRDIMM             = 0x25
+    DMI_MEMORY_DEVICE_TYPE_MRDIMM             = 0x25,
+    DMI_MEMORY_DEVICE_TYPE_LPDDR6             = 0x26
 } dmi_memory_device_type_t;
 
 const char *dmi_memory_device_type_name(dmi_memory_device_type_t value);
@@ -193,6 +194,9 @@ HBM3 (High Bandwidth Memory Generation 3).
 
 `DMI_MEMORY_DEVICE_TYPE_MRDIMM`::
 MRDIMM (multiplexed rank DIMM).
+
+`DMI_MEMORY_DEVICE_TYPE_LPDDR6`::
+LPDDR6.
 
 == Return value
 

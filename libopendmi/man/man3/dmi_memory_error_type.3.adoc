@@ -67,7 +67,10 @@ Other error.
 Unknown error.
 
 `DMI_MEMORY_ERROR_TYPE_OK`::
-No error.
+No error. Since SMBIOS 3.10 this value may also describe a memory device
+which is healthy, but has been left out of the memory map; the memory
+device structure flags such a device as unmapped. A device flagged as
+disabled because of an error is not described by this value.
 
 `DMI_MEMORY_ERROR_TYPE_BAD_READ`::
 Bad read.
@@ -115,7 +118,8 @@ None.
 == See also
 
 `dmi_memory_error_32`(3), `dmi_memory_error_64`(3),
-`dmi_memory_error_granularity`(3), `dmi_memory_error_operation`(3)
+`dmi_memory_error_granularity`(3), `dmi_memory_error_operation`(3),
+`dmi_memory_device`(3)
 
 == Standards
 

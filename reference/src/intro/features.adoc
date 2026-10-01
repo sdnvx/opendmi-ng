@@ -7,7 +7,7 @@ as _(planned)_ are scheduled for the 1.0 release.
 
 == SMBIOS support
 
-* All standard structure types of the SMBIOS specification up to version 3.9
+* All standard structure types of the SMBIOS specification up to version 3.10
   are decoded field by field.
 * Entry points of all kinds are read: the legacy DMI one (`+_DMI_+`), the
   32-bit SMBIOS 2.1 one (`+_SM_+`) and the 64-bit SMBIOS 3.0 one (`+_SM3_+`).

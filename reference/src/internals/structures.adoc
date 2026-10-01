@@ -243,6 +243,28 @@ are left zero, or are given the value the field declares as `absent`. A
 structure which ends in the middle of the fields of a version is decoded up
 to where it ends, and is marked as incomplete.
 
+A version may also give a meaning to the reserved bits of a field the
+structure already holds, which says nothing about its length: the version the
+entry point declares decides it instead. Such ranges of bits declare the
+version they are defined from with `from`, and a range the version widens is
+declared twice, up to the version with `before` and from it with `from`. The
+attributes byte of a memory device is read this way, since SMBIOS 3.10 widens
+the rank it holds to five bits and adds two flags next to it:
+
+[source,c]
+----
+DMI_FIELD_BITS(dmi_memory_device_t, rank,        4, .before = DMI_VERSION(3, 10, 0)),
+DMI_FIELD_BITS(dmi_memory_device_t, rank,        5, .from   = DMI_VERSION(3, 10, 0)),
+DMI_FIELD_BITS(dmi_memory_device_t, is_disabled, 1, .from   = DMI_VERSION(3, 10, 0)),
+DMI_FIELD_BITS(dmi_memory_device_t, is_unmapped, 1, .from   = DMI_VERSION(3, 10, 0)),
+DMI_FIELD_PAD(dmi_byte_t),
+----
+
+Ranges of bits the version of the table does not define are left to the
+padding, which keeps the bits the source data has in the preserve mode of the
+encoder, and a range defined from a later version than the fields the data
+holds raises the level of the structure to it.
+
 `DMI_FIELD_OFFSET` states where a part of the structure begins, the way the
 tables of the specification number the offsets. It says nothing about where
 the data may end, and is checked as the structure is decoded, so that a field

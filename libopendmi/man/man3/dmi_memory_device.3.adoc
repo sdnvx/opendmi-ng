@@ -44,6 +44,8 @@ typedef struct dmi_memory_device {
     const char                     *asset_tag;
     const char                     *part_number;
     unsigned short                  rank;
+    bool                            is_disabled;
+    bool                            is_unmapped;
     unsigned long                   configured_speed;
     unsigned short                  minimum_voltage;
     unsigned short                  maximum_voltage;
@@ -158,8 +160,22 @@ Asset tag of the device, or `nullptr`. Present since SMBIOS 2.3.
 Part number of the device, or `nullptr`. Present since SMBIOS 2.3.
 
 `rank`::
-Rank of the device, 1 to 15, 0 if unknown. Present since
-SMBIOS 2.6.
+Physical or package rank of the device, 0 if unknown. Present since
+SMBIOS 2.6. The field is four bits wide in the tables of earlier
+versions than SMBIOS 3.10, which widens it to five bits, so ranks
+above 15 are found only in the tables of SMBIOS 3.10 and later.
+
+`is_disabled`::
+`true` if the device has been disabled because of an error, which a
+32-bit memory error information structure may describe. Present since
+SMBIOS 3.10, and `false` in the tables of earlier versions.
+
+`is_unmapped`::
+`true` if the device is functioning, but has been left out of the
+memory map to prevent a non-standard configuration, which a memory
+error information structure of the `DMI_MEMORY_ERROR_TYPE_OK` kind may
+describe. Present since SMBIOS 3.10, and `false` in the tables of
+earlier versions.
 
 `configured_speed`::
 Speed the device is configured to run at, in megatransfers per

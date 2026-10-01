@@ -46,5 +46,7 @@ void dmi_memory_device_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity);
 void dmi_memory_device_lint_speed(dmi_lint_t *lint, const dmi_entity_t *entity);
 void dmi_memory_device_lint_voltage(dmi_lint_t *lint, const dmi_entity_t *entity);
 void dmi_memory_device_lint_sizes(dmi_lint_t *lint, const dmi_entity_t *entity);
+void dmi_memory_device_lint_attributes(dmi_lint_t *lint, const dmi_entity_t *entity);
+void dmi_memory_device_lint_disabled(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_MEMORY_DEVICE_INTERNAL_H

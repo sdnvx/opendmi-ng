@@ -19,7 +19,7 @@ typedef enum dmi_memory_error_type
     DMI_MEMORY_ERROR_TYPE_UNSPEC               = 0x00, ///< Unspecified
     DMI_MEMORY_ERROR_TYPE_OTHER                = 0x01, ///< Other
     DMI_MEMORY_ERROR_TYPE_UNKNOWN              = 0x02, ///< Unknown
-    DMI_MEMORY_ERROR_TYPE_OK                   = 0x03, ///< OK
+    DMI_MEMORY_ERROR_TYPE_OK                   = 0x03, ///< OK, or healthy but unmapped since SMBIOS 3.10
     DMI_MEMORY_ERROR_TYPE_BAD_READ             = 0x04, ///< Bad read
     DMI_MEMORY_ERROR_TYPE_PARITY               = 0x05, ///< Parity error
     DMI_MEMORY_ERROR_TYPE_SINGLE_BIT           = 0x06, ///< Single-bit error

@@ -25,6 +25,7 @@ static void test_memory_device_size(void **pstate);
 static void test_memory_device_size_ex(void **pstate);
 static void test_memory_device_decode_size(void **pstate);
 static void test_memory_device_decode_rank(void **pstate);
+static void test_memory_device_decode_attributes(void **pstate);
 static void test_memory_device_decode_speed(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
@@ -39,6 +40,7 @@ int main(void)
         cmocka_unit_test(test_memory_device_size_ex),
         cmocka_unit_test(test_memory_device_decode_size),
         cmocka_unit_test(test_memory_device_decode_rank),
+        cmocka_unit_test(test_memory_device_decode_attributes),
         cmocka_unit_test(test_memory_device_decode_speed)
     };
 
@@ -214,6 +216,51 @@ static void test_memory_device_decode_rank(void **pstate)
     // Reserved bits are ignored
     assert_int_equal(decode_memory_device_rank(context, 0xF2), 2);
     assert_int_equal(decode_memory_device_rank(context, 0x18), 8);
+
+    dmi_destroy(context);
+}
+
+static void test_memory_device_decode_attributes(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+    dmi_set_logger(context, &test_logger);
+
+    dmi_memory_device_t info;
+
+    // Bits above the rank are reserved before SMBIOS 3.10
+    context->state.smbios_version = DMI_VERSION(3, 9, 0);
+
+    decode_memory_device(context, 0x4000, 0, 0x74, 0x20, &info);
+    assert_int_equal(info.rank, 4);
+    assert_false(info.is_disabled);
+    assert_false(info.is_unmapped);
+
+    // SMBIOS 3.10 widens the rank to five bits, and defines two flags above it
+    context->state.smbios_version = DMI_VERSION(3, 10, 0);
+
+    decode_memory_device(context, 0x4000, 0, 0x14, 0x20, &info);
+    assert_int_equal(info.rank, 20);
+    assert_false(info.is_disabled);
+    assert_false(info.is_unmapped);
+
+    decode_memory_device(context, 0x4000, 0, 0x22, 0x20, &info);
+    assert_int_equal(info.rank, 2);
+    assert_true(info.is_disabled);
+    assert_false(info.is_unmapped);
+
+    decode_memory_device(context, 0x4000, 0, 0x42, 0x20, &info);
+    assert_int_equal(info.rank, 2);
+    assert_false(info.is_disabled);
+    assert_true(info.is_unmapped);
+
+    // The most significant bit stays reserved
+    decode_memory_device(context, 0x4000, 0, 0x9F, 0x20, &info);
+    assert_int_equal(info.rank, 31);
+    assert_false(info.is_disabled);
+    assert_false(info.is_unmapped);
 
     dmi_destroy(context);
 }

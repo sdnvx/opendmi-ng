@@ -7,7 +7,7 @@
 DMTF DSP0134::
 System Management BIOS (SMBIOS) Reference Specification. Defines the entry
 points, the structures of the standard types and their fields, which OpenDMI
-decodes up to version 3.9.
+decodes up to version 3.10.
 
 DMTF DSP0270::
 Redfish Host Interface Specification. Defines the protocol records of the

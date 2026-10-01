@@ -346,9 +346,11 @@ ru_RU {
         interrupt-polarity { "Полярность прерывания" }
         interrupt-trigger-mode { "Способ срабатывания прерывания" }
         irq-number { "Номер IRQ" }
+        is-disabled { "Отключено из-за ошибки" }
         is-enabled { "Включено" }
         is-lock-present { "Замок" }
         is-populated { "Разъём занят" }
+        is-unmapped { "Исключено из карты памяти" }
         is-valid { "Достоверность" }
         items { "Элементы" }
         jep106-bank { "Банк JEP106" }
@@ -2299,6 +2301,8 @@ ru_RU {
         "memory-device.speed" { "Устройство настроено не быстрее, чем позволяют его возможности" }
         "memory-device.voltage" { "Настроенное напряжение устройства не выходит за его пределы" }
         "memory-device.sizes" { "Энергозависимая и энергонезависимая части умещаются в объём устройства" }
+        "memory-device.attributes" { "В атрибутах устройства не установлены зарезервированные биты" }
+        "memory-device.disabled" { "Устройство, отключённое из-за ошибки, не описано как исправное" }
         "memory-array.device-count" { "Число устройств совпадает с числом структур, ссылающихся на массив" }
         "memory-array.capacity" { "Устройства массива умещаются в его максимальную ёмкость" }
         "cache.size" { "Установленный объём кэша умещается в максимальный" }
@@ -2507,6 +2511,7 @@ ru_RU {
         lpddr5 { "LPDDR5" }
         hbm3 { "HBM3 (High Bandwidth Memory Generation 3)" }
         mrdimm { "MRDIMM" }
+        lpddr6 { "LPDDR6" }
     }
     memory-device-type-detail {
         reserved { "Зарезервирована" }
@@ -2733,6 +2738,8 @@ ru_RU {
         emm-controller { "Контроллер eMMC" }
         nvme-controller { "Контроллер NVMe" }
         ufs-controller { "Контроллер UFS" }
+        infiniband-controller { "Контроллер InfiniBand" }
+        gpu-controller { "Контроллер GPU" }
     }
     oob-connection {
         is-inbound-enabled { "Входящие подключения разрешены" }

@@ -14,6 +14,8 @@
 #include <opendmi/utils/codec.h>
 
 #include <opendmi/entity/memory-device-internal.h>
+#include <opendmi/entity/memory-error-32.h>
+#include <opendmi/entity/memory-error-64.h>
 
 
 /**
@@ -24,6 +26,33 @@
 #define DMI_MEMORY_DEVICE_SIZE_OFFSET 0x0C
 #define DMI_MEMORY_DEVICE_SIZE_OFFSET_EXTENDED 0x7FFF
 #define DMI_MEMORY_DEVICE_SIZE_OFFSET_LENGTH 0x20
+
+/**
+ * @internal
+ * @brief Offset of the attributes, the bits of them which the specification
+ * reserves up to SMBIOS 3.10 and from it, and the flag of a device disabled
+ * because of an error, which SMBIOS 3.10 defines.
+ */
+#define DMI_MEMORY_DEVICE_ATTRIBUTES_OFFSET 0x1B
+#define DMI_MEMORY_DEVICE_ATTRIBUTES_RESERVED 0xF0u
+#define DMI_MEMORY_DEVICE_ATTRIBUTES_RESERVED_3_10 0x80u
+#define DMI_MEMORY_DEVICE_ATTRIBUTES_DISABLED 0x20u
+
+//
+// Attributes are read the way the version the data is checked against
+// defines them, so they are taken from the data rather than from the members
+// decoded by the version of the entry point.
+//
+static bool dmi_memory_device_lint_get_attributes(const dmi_entity_t *entity, dmi_byte_t *value)
+{
+    dmi_reader_t reader;
+
+    if (not dmi_reader_initialize(&reader, dmi_entity_buffer(entity),
+                                  dmi_entity_offset(entity), entity->body_length))
+        return false;
+
+    return dmi_reader_get_bytes_at(&reader, value, DMI_MEMORY_DEVICE_ATTRIBUTES_OFFSET, sizeof(*value));
+}
 
 void dmi_memory_device_lint_width(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
@@ -120,4 +149,78 @@ void dmi_memory_device_lint_extended_size(dmi_lint_t *lint, const dmi_entity_t *
 
     dmi_lint_issue(lint, entity, "size", dmi_lint_entity_offset(lint, entity) + DMI_MEMORY_DEVICE_SIZE_OFFSET,
                    "Size refers to the extended one, which the structure does not carry");
+}
+
+void dmi_memory_device_lint_attributes(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_byte_t value;
+
+    if (not dmi_memory_device_lint_get_attributes(entity, &value))
+        return;
+
+    dmi_byte_t reserved = (dmi_lint_version(lint) >= DMI_VERSION(3, 10, 0))
+            ? DMI_MEMORY_DEVICE_ATTRIBUTES_RESERVED_3_10
+            : DMI_MEMORY_DEVICE_ATTRIBUTES_RESERVED;
+
+    if ((value & reserved) == 0)
+        return;
+
+    dmi_lint_issue(lint, entity, nullptr,
+                   dmi_lint_entity_offset(lint, entity) + DMI_MEMORY_DEVICE_ATTRIBUTES_OFFSET,
+                   "reserved bits 0x%02X of the attributes are set", value & reserved);
+}
+
+void dmi_memory_device_lint_disabled(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_memory_device_t *info = dmi_entity_info(entity, DMI_TYPE(memory_device));
+    dmi_byte_t value;
+
+    if ((info == nullptr) or (dmi_lint_version(lint) < DMI_VERSION(3, 10, 0)))
+        return;
+
+    if (not dmi_memory_device_lint_get_attributes(entity, &value) or
+        not (value & DMI_MEMORY_DEVICE_ATTRIBUTES_DISABLED))
+        return;
+
+    // Error information is optional, while the handle telling that no error
+    // has been detected, or an error of no kind, contradicts the flag
+    if (info->error_info_handle == DMI_HANDLE_INVALID) {
+        dmi_lint_issue(lint, entity, "error-info-handle", dmi_lint_entity_offset(lint, entity),
+                       "device is disabled because of an error, while no error "
+                       "has been detected in it");
+        return;
+    }
+
+    const dmi_entity_t *error = info->error_info;
+    dmi_memory_error_type_t type;
+
+    if (error == nullptr)
+        return;
+
+    if (dmi_entity_type(error) == DMI_TYPE(memory_error_32)) {
+        const dmi_memory_error_32_t *error_info = dmi_entity_info(error, DMI_TYPE(memory_error_32));
+
+        if (error_info == nullptr)
+            return;
+
+        type = error_info->type;
+    } else if (dmi_entity_type(error) == DMI_TYPE(memory_error_64)) {
+        const dmi_memory_error_64_t *error_info = dmi_entity_info(error, DMI_TYPE(memory_error_64));
+
+        if (error_info == nullptr)
+            return;
+
+        type = error_info->type;
+    } else {
+        return;
+    }
+
+    // Error of the OK kind describes a device which is healthy, though it may
+    // have been unmapped, so it is no error a device is disabled because of
+    if (type != DMI_MEMORY_ERROR_TYPE_OK)
+        return;
+
+    dmi_lint_issue(lint, entity, "error-info-handle", dmi_lint_entity_offset(lint, entity),
+                   "device is disabled because of an error, while its error "
+                   "information at handle 0x%04X reports none", info->error_info_handle);
 }

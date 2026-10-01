@@ -26,23 +26,25 @@
  */
 typedef enum dmi_onboard_device_type
 {
-    DMI_ONBOARD_DEVICE_TYPE_UNSPEC          = 0x00, ///< Unspecified
-    DMI_ONBOARD_DEVICE_TYPE_OTHER           = 0x01, ///< Other
-    DMI_ONBOARD_DEVICE_TYPE_UNKNOWN         = 0x02, ///< Unknown
-    DMI_ONBOARD_DEVICE_TYPE_VIDEO           = 0x03, ///< Video
-    DMI_ONBOARD_DEVICE_TYPE_SCSI_CONTROLLER = 0x04, ///< SCSI Controller
-    DMI_ONBOARD_DEVICE_TYPE_ETHERNET        = 0x05, ///< Ethernet
-    DMI_ONBOARD_DEVICE_TYPE_TOKEN_RING      = 0x06, ///< Token Ring
-    DMI_ONBOARD_DEVICE_TYPE_SOUND           = 0x07, ///< Sound
-    DMI_ONBOARD_DEVICE_TYPE_PATA_CONTROLLER = 0x08, ///< PATA Controller
-    DMI_ONBOARD_DEVICE_TYPE_SATA_CONTROLLER = 0x09, ///< SATA Controller
-    DMI_ONBOARD_DEVICE_TYPE_SAS_CONTROLLER  = 0x0A, ///< SAS Controller
-    DMI_ONBOARD_DEVICE_TYPE_WIRELESS_LAN    = 0x0B, ///< Wireless LAN
-    DMI_ONBOARD_DEVICE_TYPE_BLUETOOTH       = 0x0C, ///< Bluetooth
-    DMI_ONBOARD_DEVICE_TYPE_WIRELESS_WAN    = 0x0D, ///< Wireless WAN
-    DMI_ONBOARD_DEVICE_TYPE_EMM_CONTROLLER  = 0x0E, ///< eMMC (Embedded multimedia controller)
-    DMI_ONBOARD_DEVICE_TYPE_NVME_CONTROLLER = 0x0F, ///< NVMe controller
-    DMI_ONBOARD_DEVICE_TYPE_UFS_CONTROLLER  = 0x10, ///< UFS controller
+    DMI_ONBOARD_DEVICE_TYPE_UNSPEC                = 0x00, ///< Unspecified
+    DMI_ONBOARD_DEVICE_TYPE_OTHER                 = 0x01, ///< Other
+    DMI_ONBOARD_DEVICE_TYPE_UNKNOWN               = 0x02, ///< Unknown
+    DMI_ONBOARD_DEVICE_TYPE_VIDEO                 = 0x03, ///< Video
+    DMI_ONBOARD_DEVICE_TYPE_SCSI_CONTROLLER       = 0x04, ///< SCSI Controller
+    DMI_ONBOARD_DEVICE_TYPE_ETHERNET              = 0x05, ///< Ethernet
+    DMI_ONBOARD_DEVICE_TYPE_TOKEN_RING            = 0x06, ///< Token Ring
+    DMI_ONBOARD_DEVICE_TYPE_SOUND                 = 0x07, ///< Sound
+    DMI_ONBOARD_DEVICE_TYPE_PATA_CONTROLLER       = 0x08, ///< PATA Controller
+    DMI_ONBOARD_DEVICE_TYPE_SATA_CONTROLLER       = 0x09, ///< SATA Controller
+    DMI_ONBOARD_DEVICE_TYPE_SAS_CONTROLLER        = 0x0A, ///< SAS Controller
+    DMI_ONBOARD_DEVICE_TYPE_WIRELESS_LAN          = 0x0B, ///< Wireless LAN
+    DMI_ONBOARD_DEVICE_TYPE_BLUETOOTH             = 0x0C, ///< Bluetooth
+    DMI_ONBOARD_DEVICE_TYPE_WIRELESS_WAN          = 0x0D, ///< Wireless WAN
+    DMI_ONBOARD_DEVICE_TYPE_EMM_CONTROLLER        = 0x0E, ///< eMMC (Embedded multimedia controller)
+    DMI_ONBOARD_DEVICE_TYPE_NVME_CONTROLLER       = 0x0F, ///< NVMe controller
+    DMI_ONBOARD_DEVICE_TYPE_UFS_CONTROLLER        = 0x10, ///< UFS controller
+    DMI_ONBOARD_DEVICE_TYPE_INFINIBAND_CONTROLLER = 0x11, ///< InfiniBand controller
+    DMI_ONBOARD_DEVICE_TYPE_GPU_CONTROLLER        = 0x12, ///< GPU controller
     __DMI_ONBOARD_DEVICE_TYPE_COUNT
 } dmi_onboard_device_type_t;
 

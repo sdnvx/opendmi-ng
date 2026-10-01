@@ -176,6 +176,11 @@ const dmi_name_set_t dmi_memory_device_type_names =
             .code = "mrdimm",
             .name = "MRDIMM"
         },
+        {
+            .id   = DMI_MEMORY_DEVICE_TYPE_LPDDR6,
+            .code = "lpddr6",
+            .name = "LPDDR6"
+        },
         {}
     })
 };

@@ -64,6 +64,7 @@ typedef enum dmi_memory_device_type
     DMI_MEMORY_DEVICE_TYPE_LPDDR5      = 0x23, ///< LPDDR5
     DMI_MEMORY_DEVICE_TYPE_HBM3        = 0x24, ///< HBM3 (High Bandwidth Memory Generation 3)
     DMI_MEMORY_DEVICE_TYPE_MRDIMM      = 0x25, ///< MRDIMM
+    DMI_MEMORY_DEVICE_TYPE_LPDDR6      = 0x26, ///< LPDDR6
     __DMI_MEMORY_DEVICE_TYPE_COUNT
 } dmi_memory_device_type_t;
 
@@ -271,11 +272,31 @@ struct dmi_memory_device
     const char *part_number;
 
     /**
-     * @brief Rank of the device, 1 to 15, 0 if unknown.
+     * @brief Physical or package rank of the device, 0 if unknown. Ranks
+     * above 15 are defined since SMBIOS 3.10, which widens the field to five
+     * bits.
      *
      * @since SMBIOS 2.6
      */
     unsigned short rank;
+
+    /**
+     * @brief Whether the device has been disabled because of an error. The
+     * error may be described by a 32-bit memory error information structure.
+     *
+     * @since SMBIOS 3.10
+     */
+    bool is_disabled;
+
+    /**
+     * @brief Whether the device is functioning, but has been left out of the
+     * memory map to prevent a non-standard configuration. The device may be
+     * described by a 32-bit memory error information structure reporting the
+     * OK kind of error.
+     *
+     * @since SMBIOS 3.10
+     */
+    bool is_unmapped;
 
     /**
      * @brief Speed the device is configured to run at, in megatransfers per

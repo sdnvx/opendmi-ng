@@ -58,9 +58,14 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_FIELD_STRING(dmi_memory_device_t, asset_tag),
         DMI_FIELD_STRING(dmi_memory_device_t, part_number),
 
-        // Rank is held by the low bits, and the rest of the byte is reserved
+        // Rank is held by the low bits, and the rest of the byte is reserved.
+        // SMBIOS 3.10 widens the rank by a bit and defines two flags in the
+        // reserved ones, which the tables of earlier versions leave as they are
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 6, 0)),
-        DMI_FIELD_BITS(dmi_memory_device_t, rank, 4),
+        DMI_FIELD_BITS(dmi_memory_device_t, rank,        4, .before = DMI_VERSION(3, 10, 0)),
+        DMI_FIELD_BITS(dmi_memory_device_t, rank,        5, .from   = DMI_VERSION(3, 10, 0)),
+        DMI_FIELD_BITS(dmi_memory_device_t, is_disabled, 1, .from   = DMI_VERSION(3, 10, 0)),
+        DMI_FIELD_BITS(dmi_memory_device_t, is_unmapped, 1, .from   = DMI_VERSION(3, 10, 0)),
         DMI_FIELD_PAD(dmi_byte_t),
 
         // Sizes and speeds which do not fit their plain fields are carried by
@@ -199,9 +204,19 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .code    = "rank",
             .name    = "Rank",
             .minimum = dmi_value_ptr((unsigned short)0),
-            .maximum = dmi_value_ptr((unsigned short)15),
+            .maximum = dmi_value_ptr((unsigned short)31),
             .unknown = dmi_value_ptr((unsigned short)0),
             .level   = DMI_VERSION(2, 6, 0)
+        }),
+        DMI_ATTRIBUTE(dmi_memory_device_t, is_disabled, BOOL, {
+            .code    = "is-disabled",
+            .name    = "Disabled by error",
+            .level   = DMI_VERSION(3, 10, 0)
+        }),
+        DMI_ATTRIBUTE(dmi_memory_device_t, is_unmapped, BOOL, {
+            .code    = "is-unmapped",
+            .name    = "Unmapped",
+            .level   = DMI_VERSION(3, 10, 0)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, configured_speed, INTEGER, {
             .code    = "configured-speed",
@@ -359,6 +374,16 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         }),
         DMI_LINT_RULE("memory-device.sizes", dmi_memory_device_lint_sizes, {
             .name              = "Volatile and non-volatile sizes fit the size of the device",
+            .severity          = DMI_LINT_SEVERITY_WARNING,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        DMI_LINT_RULE("memory-device.attributes", dmi_memory_device_lint_attributes, {
+            .name              = "Attributes have no bits reserved by the specification set",
+            .severity          = DMI_LINT_SEVERITY_NOTE,
+            .producer_severity = DMI_LINT_SEVERITY_ERROR
+        }),
+        DMI_LINT_RULE("memory-device.disabled", dmi_memory_device_lint_disabled, {
+            .name              = "Device disabled because of an error has not been reported error-free",
             .severity          = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR
         }),

@@ -35,6 +35,8 @@ static void test_lint_raw_data(void **pstate);
 static void test_lint_group_member(void **pstate);
 static void test_lint_jep106_parity(void **pstate);
 static void test_lint_open_enum(void **pstate);
+static void test_lint_memory_device_attributes(void **pstate);
+static void test_lint_memory_device_disabled(void **pstate);
 
 static size_t test_lint_count_group_member(const char *path, unsigned flags, const char *module);
 static size_t test_lint_count_module_rule(const char *path, const char *module, const char *code);
@@ -56,6 +58,10 @@ static const char *test_invalid_header_path = OPENDMI_TEST_DATA "/supermicro/h8q
 static const char *test_ipmi_path = OPENDMI_TEST_DATA "/asus/rs100-x7.bin";
 static const char *test_broken_path = "lint-test.bin";
 
+// Dump whose first memory device refers to a 32-bit memory error information
+// structure reporting it OK
+static const char *test_memory_error_ok_path = OPENDMI_TEST_DATA "/asrock/a520m-itx-ac.bin";
+
 // Dump whose memory devices give the codes of JEDEC as the SPD does
 static const char *test_jep106_path = OPENDMI_TEST_DATA "/ixsystems/truenas-m50-ha.bin";
 
@@ -64,6 +70,10 @@ static const size_t test_acer_kind = 0x04;
 
 // Offset of the revision of the IPMI specification within the structure
 static const size_t test_ipmi_revision = 0x05;
+
+// Offset of the attributes of a memory device, which the first memory device
+// of the clean dump has set to the rank of 1, and refer to no error
+static const size_t test_memory_device_attributes = 0x1B;
 
 typedef struct test_lint_report
 {
@@ -93,7 +103,9 @@ int main(void)
         cmocka_unit_test(test_lint_raw_data),
         cmocka_unit_test(test_lint_group_member),
         cmocka_unit_test(test_lint_jep106_parity),
-        cmocka_unit_test(test_lint_open_enum)
+        cmocka_unit_test(test_lint_open_enum),
+        cmocka_unit_test(test_lint_memory_device_attributes),
+        cmocka_unit_test(test_lint_memory_device_disabled)
     };
 
     return cmocka_run_group_tests(tests, test_lint_setup, test_lint_teardown);
@@ -174,11 +186,12 @@ static bool test_lint_accept_only(void *data, const dmi_lint_rule_t *rule)
 // Check a dump against a single rule, and report how many issues it has found
 // and how severe they are.
 //
-static size_t test_lint_count_rule(
+static size_t test_lint_count_rule_at(
         test_lint_state_t   *state,
         const char          *path,
         const char          *code,
         dmi_lint_profile_t   profile,
+        dmi_version_t        version,
         dmi_lint_severity_t *severity)
 {
     test_lint_only_rule = dmi_lint_rule_find(state->context, code);
@@ -188,6 +201,7 @@ static size_t test_lint_count_rule(
     {
         .profile     = profile,
         .all         = true,
+        .version     = version,
         .rule_filter = test_lint_accept_only
     };
 
@@ -199,6 +213,16 @@ static size_t test_lint_count_rule(
         *severity = report.severity;
 
     return report.total;
+}
+
+static size_t test_lint_count_rule(
+        test_lint_state_t   *state,
+        const char          *path,
+        const char          *code,
+        dmi_lint_profile_t   profile,
+        dmi_lint_severity_t *severity)
+{
+    return test_lint_count_rule_at(state, path, code, profile, DMI_VERSION_NONE, severity);
 }
 
 static void test_lint_rules(void **pstate)
@@ -395,6 +419,93 @@ static void test_lint_open_enum(void **pstate)
     remove(test_broken_path);
 
     assert_int_equal(patched, count);
+}
+
+//
+// Bits above the rank of a memory device are reserved up to SMBIOS 3.10,
+// which widens the rank and defines two flags in them, while the most
+// significant bit stays reserved.
+//
+static void test_lint_memory_device_attributes(void **pstate)
+{
+    test_lint_state_t *state = *pstate;
+
+    dmi_lint_severity_t severity = DMI_LINT_SEVERITY_NONE;
+    size_t count = test_lint_count_rule(state, test_clean_path, "memory-device.attributes",
+                                        DMI_LINT_PROFILE_READER, nullptr);
+
+    assert_int_equal(count, 0);
+
+    test_lint_patch(state->context, test_clean_path, DMI_TYPE_ID_MEMORY_DEVICE,
+                    test_memory_device_attributes, 0x31);
+
+    count = test_lint_count_rule(state, test_broken_path, "memory-device.attributes",
+                                 DMI_LINT_PROFILE_READER, &severity);
+
+    assert_int_equal(count, 1);
+    assert_int_equal(severity, DMI_LINT_SEVERITY_NOTE);
+
+    count = test_lint_count_rule_at(state, test_broken_path, "memory-device.attributes",
+                                    DMI_LINT_PROFILE_READER, DMI_VERSION(3, 10, 0), nullptr);
+
+    assert_int_equal(count, 0);
+
+    test_lint_patch(state->context, test_clean_path, DMI_TYPE_ID_MEMORY_DEVICE,
+                    test_memory_device_attributes, 0x81);
+
+    count = test_lint_count_rule_at(state, test_broken_path, "memory-device.attributes",
+                                    DMI_LINT_PROFILE_PRODUCER, DMI_VERSION(3, 10, 0), &severity);
+
+    remove(test_broken_path);
+
+    assert_int_equal(count, 1);
+    assert_int_equal(severity, DMI_LINT_SEVERITY_ERROR);
+}
+
+//
+// Memory device disabled because of an error contradicts the handle telling
+// that no error has been detected in it. The flag is defined since SMBIOS
+// 3.10, so the check against an earlier version finds nothing.
+//
+static void test_lint_memory_device_disabled(void **pstate)
+{
+    test_lint_state_t *state = *pstate;
+
+    test_lint_patch(state->context, test_clean_path, DMI_TYPE_ID_MEMORY_DEVICE,
+                    test_memory_device_attributes, 0x21);
+
+    size_t count = test_lint_count_rule(state, test_broken_path, "memory-device.disabled",
+                                        DMI_LINT_PROFILE_READER, nullptr);
+
+    assert_int_equal(count, 0);
+
+    dmi_lint_severity_t severity = DMI_LINT_SEVERITY_NONE;
+
+    count = test_lint_count_rule_at(state, test_broken_path, "memory-device.disabled",
+                                    DMI_LINT_PROFILE_READER, DMI_VERSION(3, 10, 0), &severity);
+
+    assert_int_equal(count, 1);
+    assert_int_equal(severity, DMI_LINT_SEVERITY_WARNING);
+
+    // Error information reporting the device OK contradicts the flag as well
+    test_lint_patch(state->context, test_memory_error_ok_path, DMI_TYPE_ID_MEMORY_DEVICE,
+                    test_memory_device_attributes, 0x22);
+
+    count = test_lint_count_rule_at(state, test_broken_path, "memory-device.disabled",
+                                    DMI_LINT_PROFILE_READER, DMI_VERSION(3, 10, 0), nullptr);
+
+    assert_int_equal(count, 1);
+
+    // Unmapped device is the one the OK kind of the error is meant for
+    test_lint_patch(state->context, test_memory_error_ok_path, DMI_TYPE_ID_MEMORY_DEVICE,
+                    test_memory_device_attributes, 0x42);
+
+    count = test_lint_count_rule_at(state, test_broken_path, "memory-device.disabled",
+                                    DMI_LINT_PROFILE_READER, DMI_VERSION(3, 10, 0), nullptr);
+
+    remove(test_broken_path);
+
+    assert_int_equal(count, 0);
 }
 
 //

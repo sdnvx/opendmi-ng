@@ -553,6 +553,21 @@ Severity: warning, or error with *--producer*.
 Volatile and non-volatile sizes of the device add up to no more than its
 size.
 
+`memory-device.attributes`::
+Severity: note, or error with *--producer*.
++
+Attributes of the device have none of the bits the specification reserves
+set: bits 7-4 up to SMBIOS 3.10, and bit 7 from it, which widens the rank to
+five bits and defines the flags of a disabled and of an unmapped device.
+
+`memory-device.disabled`::
+Severity: warning, or error with *--producer*.
++
+Device disabled because of an error, as SMBIOS 3.10 and later flag it, is not
+said to have no error: neither by the error information handle of 0xFFFF,
+nor by the memory error information structure it refers to reporting the OK
+kind of error, which is meant for the devices left out of the memory map.
+
 `memory-array-address.range`::
 Severity: error.
 +

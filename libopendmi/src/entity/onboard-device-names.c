@@ -89,6 +89,16 @@ const dmi_name_set_t dmi_onboard_device_type_names =
             .code = "ufs-controller",
             .name = "UFS controller"
         },
+        {
+            .id   = DMI_ONBOARD_DEVICE_TYPE_INFINIBAND_CONTROLLER,
+            .code = "infiniband-controller",
+            .name = "InfiniBand controller"
+        },
+        {
+            .id   = DMI_ONBOARD_DEVICE_TYPE_GPU_CONTROLLER,
+            .code = "gpu-controller",
+            .name = "GPU controller"
+        },
         {}
     })
 };

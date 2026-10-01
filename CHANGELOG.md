@@ -9,10 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add LPDDR6 memory device type (SMBIOS 3.10)
+- Add InfiniBand and GPU controller onboard device types (SMBIOS 3.10)
+- Add disabled and unmapped flags of memory devices (SMBIOS 3.10)
+- Add `from` and `before` field parameters for the ranges of bits a version of the specification defines
+- Add `memory-device.attributes` and `memory-device.disabled` lint rules
 - Add links to manual pages (website/reference)
 
 ### Changed
 
+- Read the rank of memory devices as five bits in SMBIOS 3.10 tables
+- Describe the OK memory error type as healthy but unmapped memory devices too (SMBIOS 3.10)
 - Rename `dmi_acer_hotkey_t` to `dmi_acer_hotkey_entry_t`
 - Rename `dmi_acer_device_t` to `dmi_acer_device_entry_t`
 - Rename `dmi_dell_device_name_t` to `dmi_dell_device_name_entry_t`

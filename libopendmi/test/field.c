@@ -36,12 +36,14 @@
 #define TEST_TYPE_OFFSET   203
 #define TEST_TYPE_BARE     204
 #define TEST_TYPE_VECTOR   205
+#define TEST_TYPE_DEFINED  206
 
-static const dmi_type_t test_type_fields = { .id = (dmi_type_id_t)TEST_TYPE_FIELDS };
-static const dmi_type_t test_type_array  = { .id = (dmi_type_id_t)TEST_TYPE_ARRAY  };
-static const dmi_type_t test_type_offset = { .id = (dmi_type_id_t)TEST_TYPE_OFFSET };
-static const dmi_type_t test_type_bare   = { .id = (dmi_type_id_t)TEST_TYPE_BARE   };
-static const dmi_type_t test_type_vector = { .id = (dmi_type_id_t)TEST_TYPE_VECTOR };
+static const dmi_type_t test_type_fields  = { .id = (dmi_type_id_t)TEST_TYPE_FIELDS  };
+static const dmi_type_t test_type_array   = { .id = (dmi_type_id_t)TEST_TYPE_ARRAY   };
+static const dmi_type_t test_type_offset  = { .id = (dmi_type_id_t)TEST_TYPE_OFFSET  };
+static const dmi_type_t test_type_bare    = { .id = (dmi_type_id_t)TEST_TYPE_BARE    };
+static const dmi_type_t test_type_vector  = { .id = (dmi_type_id_t)TEST_TYPE_VECTOR  };
+static const dmi_type_t test_type_defined = { .id = (dmi_type_id_t)TEST_TYPE_DEFINED };
 
 typedef struct test_state test_state_t;
 
@@ -355,6 +357,47 @@ static const dmi_byte_t test_vector_data[] = {
     0x00, 0x00
 };
 
+//
+// Ranges of bits a later version defines in the reserved bits of a unit, one
+// of which it widens, the way SMBIOS 3.10 does with the rank of a memory device
+//
+
+typedef struct test_defined
+{
+    unsigned int width;
+    bool         flag;
+} test_defined_t;
+
+static const dmi_entity_spec_t test_defined_spec =
+{
+    .type = &test_type_defined,
+    .code = "test-defined",
+    .name = "Test defined ranges",
+
+    .params = {
+        .minimum_version = DMI_VERSION(2, 0, 0),
+        .minimum_length  = 0x05,
+        .decoded_length  = sizeof(test_defined_t)
+    },
+
+    .fields = DMI_FIELDS({
+        DMI_FIELD_BITS(test_defined_t, width, 3, .before = DMI_VERSION(3, 10, 0)),
+        DMI_FIELD_BITS(test_defined_t, width, 4, .from   = DMI_VERSION(3, 10, 0)),
+        DMI_FIELD_BITS(test_defined_t, flag,  1, .from   = DMI_VERSION(3, 10, 0)),
+        DMI_FIELD_PAD(dmi_byte_t),
+        {}
+    })
+};
+
+// 0xDE is 0b11011110: the width is 6 up to SMBIOS 3.10, and 14 with the flag
+// set from it, while the bits left over are reserved either way
+static const dmi_byte_t test_defined_data[] = {
+    TEST_TYPE_DEFINED, 0x05, 0x34, 0x12,
+    0xDE,
+
+    0x00, 0x00
+};
+
 static dmi_module_t test_module =
 {
     .code     = "test-fields",
@@ -365,6 +408,7 @@ static dmi_module_t test_module =
         &test_offset_spec,
         &test_bare_spec,
         &test_vector_spec,
+        &test_defined_spec,
         nullptr
     }
 };
@@ -379,6 +423,7 @@ static void test_field_decode_bits(void **pstate);
 static void test_field_decode_binary(void **pstate);
 static void test_field_decode_preset(void **pstate);
 static void test_field_decode_skip(void **pstate);
+static void test_field_decode_defined(void **pstate);
 
 static void test_field_group_stop(void **pstate);
 static void test_field_group_absent(void **pstate);
@@ -399,6 +444,7 @@ static void test_field_encode_canonical(void **pstate);
 static void test_field_encode_truncated(void **pstate);
 static void test_field_encode_array(void **pstate);
 static void test_field_encode_vector(void **pstate);
+static void test_field_encode_defined(void **pstate);
 
 static void test_field_kilobytes(void **pstate);
 static void test_field_get_set(void **pstate);
@@ -415,6 +461,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_field_decode_binary, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_decode_preset, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_decode_skip, test_field_setup, test_field_teardown),
+        cmocka_unit_test_setup_teardown(test_field_decode_defined, test_field_setup, test_field_teardown),
 
         cmocka_unit_test_setup_teardown(test_field_group_stop, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_group_absent, test_field_setup, test_field_teardown),
@@ -435,6 +482,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_field_encode_truncated, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_array, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_vector, test_field_setup, test_field_teardown),
+        cmocka_unit_test_setup_teardown(test_field_encode_defined, test_field_setup, test_field_teardown),
 
         cmocka_unit_test(test_field_kilobytes),
         cmocka_unit_test(test_field_get_set)
@@ -644,6 +692,51 @@ static void test_field_decode_skip(void **pstate)
 
     // Skipped bytes are not those of the binary field which follows them
     assert_int_equal(info->blob.data[0], 0xDE);
+}
+
+// Decode the structure of the ranges a later version defines from a table of
+// the given version, in place of the one decoded before
+static const test_defined_t *test_field_decode_defined_at(test_state_t *state, dmi_version_t version)
+{
+    dmi_entity_destroy(state->entity);
+    state->entity = nullptr;
+
+    state->context->state.smbios_version = version;
+
+    const test_defined_t *info = test_field_decode(
+            state, test_defined_data, sizeof(test_defined_data),
+            0, &test_type_defined, true);
+
+    assert_non_null(info);
+
+    return info;
+}
+
+//
+// Ranges of bits are read by the version the entry point declares, which the
+// level of the structure is raised to when it defines them.
+//
+static void test_field_decode_defined(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    const test_defined_t *info = test_field_decode_defined_at(state, DMI_VERSION(3, 9, 0));
+
+    assert_int_equal(info->width, 6);
+    assert_false(info->flag);
+    assert_int_equal(state->entity->level, DMI_VERSION(2, 0, 0));
+
+    info = test_field_decode_defined_at(state, DMI_VERSION(3, 10, 0));
+
+    assert_int_equal(info->width, 14);
+    assert_true(info->flag);
+    assert_int_equal(state->entity->level, DMI_VERSION(3, 10, 0));
+
+    // Table of no known version defines nothing later than its fields
+    info = test_field_decode_defined_at(state, DMI_VERSION_NONE);
+
+    assert_int_equal(info->width, 6);
+    assert_false(info->flag);
 }
 
 //
@@ -1018,6 +1111,50 @@ static void test_field_encode_vector(void **pstate)
 
     assert_int_equal(buffer->length, 0x10);
     assert_memory_equal(buffer->data, test_vector_data, 0x10);
+
+    dmi_buffer_destroy(buffer);
+}
+
+//
+// Ranges of bits the version does not define are written by the padding,
+// which keeps the bits of the source data in the preserve mode and clears
+// them in the canonical one.
+//
+static void test_field_encode_defined(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    static const dmi_version_t versions[] = {
+        DMI_VERSION(3, 9, 0),
+        DMI_VERSION(3, 10, 0)
+    };
+
+    for (size_t i = 0; i < sizeof(versions) / sizeof(versions[0]); i++) {
+        test_field_decode_defined_at(state, versions[i]);
+
+        dmi_buffer_t *buffer = test_field_encode(state, DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE);
+
+        assert_int_equal(buffer->length, 0x05);
+        assert_memory_equal(buffer->data, test_defined_data, 0x05);
+
+        dmi_buffer_destroy(buffer);
+    }
+
+    // Structure decoded by SMBIOS 3.9 holds the narrow range alone
+    test_field_decode_defined_at(state, DMI_VERSION(3, 9, 0));
+
+    dmi_buffer_t *buffer = test_field_encode(state, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0));
+
+    assert_int_equal(buffer->data[0x04], 0x06);
+
+    dmi_buffer_destroy(buffer);
+
+    // Structure decoded by SMBIOS 3.10 holds the wide range and the flag
+    test_field_decode_defined_at(state, DMI_VERSION(3, 10, 0));
+
+    buffer = test_field_encode(state, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 10, 0));
+
+    assert_int_equal(buffer->data[0x04], 0x1E);
 
     dmi_buffer_destroy(buffer);
 }

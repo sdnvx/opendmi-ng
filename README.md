@@ -133,7 +133,7 @@ dmi_destroy(context);
 
 ## Features
 
-* All standard structures of SMBIOS 3.9 are decoded field by field.
+* All standard structures of SMBIOS 3.10 are decoded field by field.
 * Values are decoded to their meaning: enumerations, bit sets, units and
   versions, with formats selected by the fields that define them.
 * Text, JSON, XML and YAML output, with filtering by handle, type, module and
