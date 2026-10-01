@@ -143,12 +143,12 @@ __dmi_api bool dmi_file_load(
  *
  * @error DMI_ERROR_NULL_ARGUMENT Path is `nullptr`, or length is zero
  * @error DMI_ERROR_FILE_OPEN Device cannot be opened
- * @error DMI_ERROR_FILE_MAP Region cannot be mapped
+ * @error DMI_ERROR_FILE_MAP Region cannot be mapped, or lies beyond the range the system can address
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer cannot hold the data
  *
  * @return `true` on success, `false` otherwise.
  */
-    __dmi_api bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t length);
+    __dmi_api bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size_t length);
 #endif // !defined(_WIN32)
 
 __END_DECLS

@@ -36,7 +36,7 @@ static bool dmi_freebsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
 static bool dmi_freebsd_close(dmi_context_t *context);
 static void dmi_freebsd_session_free(dmi_freebsd_session_t *session);
 
-static bool dmi_freebsd_get_entry_addr(dmi_context_t *context, size_t *paddr);
+static bool dmi_freebsd_get_entry_addr(dmi_context_t *context, uint64_t *paddr);
 
 dmi_backend_t dmi_freebsd_backend =
 {
@@ -75,8 +75,8 @@ static bool dmi_freebsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer)
 
     dmi_freebsd_session_t *session = dmi_cast(session, context->state.session);
 
-    size_t addr  = 0;
-    bool   found = false;
+    uint64_t addr  = 0;
+    bool     found = false;
 
     found = dmi_freebsd_get_entry_addr(context, &addr);
 #   if defined(__i386__) || defined(__x86_64__)
@@ -99,16 +99,9 @@ static bool dmi_freebsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
     assert(buffer != nullptr);
 
     dmi_freebsd_session_t *session = dmi_cast(session, context->state.session);
-    uint64_t addr = context->state.table_area_addr;
 
-    // Address of SMBIOS 3.0 table is 64-bit, which does not fit the address
-    // space of a 32-bit system
-    if ((size_t)addr != addr) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Table address 0x%" PRIx64 " is out of range", addr);
-        return false;
-    }
-
-    return dmi_memory_load(buffer, session->device, (size_t)addr, context->state.table_area_max_size);
+    return dmi_memory_load(buffer, session->device, context->state.table_area_addr,
+                           context->state.table_area_max_size);
 }
 
 static bool dmi_freebsd_close(dmi_context_t *context)
@@ -126,7 +119,7 @@ static void dmi_freebsd_session_free(dmi_freebsd_session_t *session)
     dmi_free(session);
 }
 
-static bool dmi_freebsd_get_entry_addr(dmi_context_t *context, size_t *paddr)
+static bool dmi_freebsd_get_entry_addr(dmi_context_t *context, uint64_t *paddr)
 {
     char str[KENV_MVALLEN + 1];
 

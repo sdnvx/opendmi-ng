@@ -17,7 +17,7 @@
 
 #include <opendmi/backend/generic.h>
 
-bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, size_t *paddr)
+bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, uint64_t *paddr)
 {
     unsigned long long addr;
     char *ep;
@@ -32,13 +32,13 @@ bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, size_
         dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Invalid SMBIOS address: %s", str);
         return false;
     }
-    if (((errno == ERANGE) and (addr == ULLONG_MAX)) or (addr > SIZE_MAX)) {
+    if ((errno == ERANGE) and (addr == ULLONG_MAX)) {
         dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "SMBIOS address is out of range: %s", str);
         return false;
     }
 
-    *paddr = (size_t)addr;
-    dmi_log_debug(context, "Found SMBIOS address: 0x%zx", *paddr);
+    *paddr = (uint64_t)addr;
+    dmi_log_debug(context, "Found SMBIOS address: 0x%llx", addr);
 
     return true;
 }
@@ -94,9 +94,9 @@ static bool dmi_generic_entry_valid(const dmi_data_t *data, size_t available, co
 bool dmi_generic_find_entry_addr(
         dmi_context_t *context,
         const char    *device,
-        size_t        *paddr)
+        uint64_t      *paddr)
 {
-    const size_t base_addr = 0xF0000;
+    const uint64_t base_addr = 0xF0000;
     const size_t area_size = 0x10000;
 
     bool found = false;
@@ -128,10 +128,10 @@ bool dmi_generic_find_entry_addr(
 bool dmi_generic_find_anchor(
         dmi_context_t *context,
         dmi_data_t    *buffer,
-        size_t         base_addr,
+        uint64_t       base_addr,
         size_t         area_size,
         const char    *anchor,
-        size_t        *paddr)
+        uint64_t      *paddr)
 {
     size_t length;
     size_t offset;
@@ -154,12 +154,13 @@ bool dmi_generic_find_anchor(
 
         // Scanning goes on past a damaged or false entry point
         if (not dmi_generic_entry_valid(buffer + offset, area_size - offset, anchor)) {
-            dmi_log_debug(context, "Invalid SMBIOS entry point at 0x%zx, skipping", base_addr + offset);
+            dmi_log_debug(context, "Invalid SMBIOS entry point at 0x%llx, skipping",
+                          (unsigned long long)(base_addr + offset));
             continue;
         }
 
         *paddr = base_addr + offset;
-        dmi_log_debug(context, "Found SMBIOS address: 0x%zx", *paddr);
+        dmi_log_debug(context, "Found SMBIOS address: 0x%llx", (unsigned long long)*paddr);
         return true;
     }
 

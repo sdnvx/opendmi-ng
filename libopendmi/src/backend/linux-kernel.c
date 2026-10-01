@@ -31,7 +31,7 @@ static bool dmi_linux_kernel_close(dmi_context_t *context);
  *
  * @return `true` if the address is found, `false` otherwise.
  */
-static bool dmi_linux_kernel_get_entry_addr(dmi_context_t *context, size_t *paddr);
+static bool dmi_linux_kernel_get_entry_addr(dmi_context_t *context, uint64_t *paddr);
 
 dmi_backend_t dmi_linux_kernel_backend =
 {
@@ -58,8 +58,8 @@ static bool dmi_linux_kernel_read_entry(dmi_context_t *context, dmi_buffer_t *bu
     assert(context != nullptr);
     assert(buffer != nullptr);
 
-    size_t addr  = 0;
-    bool   found = false;
+    uint64_t addr  = 0;
+    bool     found = false;
 
     found = dmi_linux_kernel_get_entry_addr(context, &addr);
 #   if defined(__i386__) || defined(__x86_64__)
@@ -82,17 +82,8 @@ static bool dmi_linux_kernel_read_table(dmi_context_t *context, dmi_buffer_t *bu
     assert(context != nullptr);
     assert(buffer != nullptr);
 
-    uint64_t addr = context->state.table_area_addr;
-
-    // Address of SMBIOS 3.0 table is 64-bit, which does not fit the address
-    // space of a 32-bit kernel
-    if ((size_t)addr != addr) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Table address 0x%llx is out of range",
-                           (unsigned long long)addr);
-        return false;
-    }
-
-    return dmi_memory_load(buffer, nullptr, (size_t)addr, context->state.table_area_max_size);
+    return dmi_memory_load(buffer, nullptr, context->state.table_area_addr,
+                           context->state.table_area_max_size);
 }
 
 static bool dmi_linux_kernel_close(dmi_context_t *context)
@@ -102,7 +93,7 @@ static bool dmi_linux_kernel_close(dmi_context_t *context)
     return true;
 }
 
-static bool dmi_linux_kernel_get_entry_addr(dmi_context_t *context, size_t *paddr)
+static bool dmi_linux_kernel_get_entry_addr(dmi_context_t *context, uint64_t *paddr)
 {
     assert(context != nullptr);
     assert(paddr   != nullptr);
@@ -125,7 +116,7 @@ static bool dmi_linux_kernel_get_entry_addr(dmi_context_t *context, size_t *padd
         return false;
     }
 
-    dmi_log_debug(context, "Found SMBIOS address: 0x%zx", *paddr);
+    dmi_log_debug(context, "Found SMBIOS address: 0x%llx", (unsigned long long)*paddr);
 
     return true;
 #else

@@ -26,6 +26,7 @@
 #   include <linux/io.h>
 #else
 #   include <fcntl.h>
+#   include <inttypes.h>
 #endif
 
 #include <opendmi/context.h>
@@ -221,7 +222,7 @@ bool dmi_file_load(
 #endif // !defined(__KERNEL__)
 
 #if defined(__KERNEL__)
-bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t length)
+bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size_t length)
 {
     dmi_context_t *context = dmi_buffer_context(buffer);
 
@@ -245,6 +246,14 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
         return false;
     }
 
+    // Physical address of a 32-bit kernel without PAE is 32-bit, and the one
+    // of SMBIOS 3.0 table is 64-bit
+    if ((resource_size_t)base != base) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Address 0x%llx is out of range",
+                           (unsigned long long)base);
+        return false;
+    }
+
     if (not dmi_buffer_resize(buffer, length))
         return false;
 
@@ -252,8 +261,8 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
     // see dmi_remap() of the architectures
     const dmi_data_t *ptr = memremap(base, length, MEMREMAP_WB);
     if (ptr == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Unable to map 0x%zx-0x%zx",
-                           base, base + length - 1);
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Unable to map 0x%llx-0x%llx",
+                           (unsigned long long)base, (unsigned long long)(base + length - 1));
         dmi_buffer_clear(buffer);
         return false;
     }
@@ -264,7 +273,7 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
     return true;
 }
 #elif !defined(_WIN32)
-bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t length)
+bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size_t length)
 {
     dmi_context_t *context = dmi_buffer_context(buffer);
 
@@ -289,9 +298,18 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
         return false;
     }
 
+    // Offset of the device is signed, and is 32-bit on some 32-bit systems,
+    // while the address of SMBIOS 3.0 table is 64-bit
+    const uint64_t offset_max = (sizeof(off_t) < sizeof(int64_t)) ? INT32_MAX : INT64_MAX;
+    if (base > offset_max) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "%s: address 0x%" PRIx64 " is out of range",
+                           path, base);
+        return false;
+    }
+
     bool   success   = false;
     size_t page_size = sysconf(_SC_PAGE_SIZE);
-    size_t offset    = base % page_size;
+    size_t offset    = (size_t)(base % page_size);
     int    fd        = -1;
 
     // cppcheck-suppress constVariablePointer
@@ -327,7 +345,7 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
         if (not dmi_buffer_resize(buffer, length))
             break;
 
-        ptr = mmap(nullptr, offset + length, PROT_READ, MAP_SHARED, fd, base - offset);
+        ptr = mmap(nullptr, offset + length, PROT_READ, MAP_SHARED, fd, (off_t)(base - offset));
         if (ptr == MAP_FAILED) {
             dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "%s: %s", path, strerror(errno));
             break;

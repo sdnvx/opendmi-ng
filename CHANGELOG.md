@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Resolve `build.sh -b` relative to the current directory
 - Make `regress.py` and `reindex-data.py` report failures in their exit status
 - Document lifetime of error descriptors and of strings returned before `dmi_set_locale()`
+- Take physical addresses as `uint64_t` in `dmi_memory_load()`, `dmi_generic_parse_entry_addr()`, `dmi_generic_find_entry_addr()` and `dmi_generic_find_anchor()`, so that addresses above 4 GiB reach 32-bit systems intact and are range-checked by `dmi_memory_load()` instead of by every backend
 
 ### Fixed
 

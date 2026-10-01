@@ -27,7 +27,7 @@ endif::[]
 bool dmi_memory_load(
         dmi_buffer_t *buffer,
         const char   *path,
-        size_t        base,
+        uint64_t      base,
         size_t        length);
 ----
 
@@ -52,7 +52,9 @@ Buffer to read the region into.
 Path to the device or file to read (e.g. `/dev/mem`).
 
 `base`::
-Physical byte offset to start reading from.
+Physical byte offset to start reading from. It is 64-bit on every system, so
+that the address of an SMBIOS 3.0 table is passed as is; the one the system
+cannot address is rejected.
 
 `length`::
 Number of bytes to read; must be greater than zero.
@@ -70,7 +72,7 @@ Path is `nullptr`, or length is zero.
 Device cannot be opened.
 
 `DMI_ERROR_FILE_MAP`::
-Region cannot be mapped.
+Region cannot be mapped, or lies beyond the range the system can address.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Buffer cannot hold the data.

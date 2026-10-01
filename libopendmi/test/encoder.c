@@ -511,7 +511,6 @@ static bool test_fields_equal(
         case DMI_FIELD_TYPE_PRESET:
             continue;
 
-
         case DMI_FIELD_TYPE_STRUCT:
             if (not test_fields_equal(field->params.fields, a + field->member.offset,
                                       b + field->member.offset, where))

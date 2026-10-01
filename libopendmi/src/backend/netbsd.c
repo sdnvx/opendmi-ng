@@ -37,7 +37,7 @@ static bool dmi_netbsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer);
 static bool dmi_netbsd_close(dmi_context_t *context);
 static void dmi_netbsd_session_free(dmi_netbsd_session_t *session);
 
-static bool dmi_netbsd_get_entry_addr(dmi_context_t *context, size_t *paddr);
+static bool dmi_netbsd_get_entry_addr(dmi_context_t *context, uint64_t *paddr);
 
 dmi_backend_t dmi_netbsd_backend =
 {
@@ -75,7 +75,7 @@ static bool dmi_netbsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer)
     dmi_netbsd_session_t *session = dmi_cast(session, context->state.session);
 
     const char *device = DMI_NETBSD_DEV_SMBIOS;
-    size_t      addr   = 0;
+    uint64_t    addr   = 0;
     bool        found  = false;
 
     found = dmi_netbsd_get_entry_addr(context, &addr);
@@ -140,7 +140,7 @@ static void dmi_netbsd_session_free(dmi_netbsd_session_t *session)
     dmi_free(session);
 }
 
-static bool dmi_netbsd_get_entry_addr(dmi_context_t *context, size_t *paddr)
+static bool dmi_netbsd_get_entry_addr(dmi_context_t *context, uint64_t *paddr)
 {
     void *addr;
 
@@ -159,7 +159,7 @@ static bool dmi_netbsd_get_entry_addr(dmi_context_t *context, size_t *paddr)
         return false;
     }
 
-    *paddr = (size_t)addr;
+    *paddr = (uintptr_t)addr;
 
     return true;
 }

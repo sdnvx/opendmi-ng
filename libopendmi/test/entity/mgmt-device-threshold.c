@@ -106,12 +106,9 @@ static void test_mgmt_device_threshold_units(void **pstate)
         assert_true(dmi_attribute_is_unknown(variant, dmi_member_ptr(entity->info, variant->value, dmi_data_t)));
 
         dmi_entity_destroy(entity);
-
-
     }
 
     dmi_buffer_destroy(buffer);
-
     dmi_destroy(context);
 }
 
@@ -146,7 +143,6 @@ static void test_mgmt_device_threshold_ambiguous(void **pstate)
     assert_string_equal(test_format(entity), "850");
 
     dmi_entity_destroy(entity);
-
     dmi_buffer_destroy(buffer);
     dmi_destroy(context);
 }
