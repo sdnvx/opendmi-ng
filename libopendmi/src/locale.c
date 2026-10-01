@@ -7,10 +7,14 @@
 #include <config.h>
 
 #include <string.h>
-#include <locale.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <inttypes.h>
+
+// The kernel has no locale environment
+#if !defined(__KERNEL__)
+#   include <locale.h>
+#endif
 
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
@@ -122,6 +126,7 @@ static bool dmi_message_substitute(
 
 void dmi_locale_init(void)
 {
+#if !defined(__KERNEL__)
     // Messages of the system are taken from the locale of the environment,
     // while numbers are left as they are, so that machine-readable output
     // does not depend on the locale
@@ -129,6 +134,7 @@ void dmi_locale_init(void)
 #ifdef LC_MESSAGES
     setlocale(LC_MESSAGES, "");
 #endif
+#endif // !defined(__KERNEL__)
 
     // Printable names are translated to the locale of the environment, and
     // are left in English if there is no translation for it

@@ -19,14 +19,23 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <fcntl.h>
 #include <errno.h>
 #include <assert.h>
+
+#if defined(__KERNEL__)
+#   include <linux/io.h>
+#else
+#   include <fcntl.h>
+#endif
 
 #include <opendmi/context.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
-#include <opendmi/utils/file.h>
+
+// Files are not accessible from the kernel
+#if !defined(__KERNEL__)
+#   include <opendmi/utils/file.h>
+#endif
 
 #ifndef _WIN32
 static void dmi_memory_get_data(dmi_data_t *dst, const dmi_data_t *src, size_t length);
@@ -112,6 +121,22 @@ uint64_t dmi_ipow64(uint64_t value, unsigned int factor)
     return value * result;
 }
 
+#if defined(__KERNEL__)
+bool dmi_file_load(
+        dmi_buffer_t *buffer,
+        const char   *path,
+        off_t         offset,
+        size_t        length)
+{
+    dmi_unused(offset);
+    dmi_unused(length);
+
+    dmi_error_raise_ex(dmi_buffer_context(buffer), DMI_ERROR_SERVICE_UNAVAILABLE,
+                       "%s: files are not accessible from the kernel", path);
+
+    return false;
+}
+#else
 bool dmi_file_load(
         dmi_buffer_t *buffer,
         const char   *path,
@@ -192,8 +217,44 @@ bool dmi_file_load(
 
     return true;
 }
+#endif // !defined(__KERNEL__)
 
-#if !defined(_WIN32)
+#if defined(__KERNEL__)
+bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t length)
+{
+    dmi_context_t *context = dmi_buffer_context(buffer);
+
+    // Physical memory is mapped directly, there is no device to go through
+    dmi_unused(path);
+
+    if (buffer == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "buffer");
+        return false;
+    }
+    if (length == 0) {
+        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "length");
+        return false;
+    }
+
+    if (not dmi_buffer_resize(buffer, length))
+        return false;
+
+    // Firmware tables are mapped the same way the kernel maps them itself,
+    // see dmi_remap() of the architectures
+    const dmi_data_t *ptr = memremap(base, length, MEMREMAP_WB);
+    if (ptr == nullptr) {
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Unable to map 0x%zx-0x%zx",
+                           base, base + length - 1);
+        dmi_buffer_clear(buffer);
+        return false;
+    }
+
+    dmi_memory_get_data(buffer->data, ptr, length);
+    memunmap((void *)ptr);
+
+    return true;
+}
+#elif !defined(_WIN32)
 bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t length)
 {
     dmi_context_t *context = dmi_buffer_context(buffer);
@@ -272,7 +333,9 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, size_t base, size_t
 
     return true;
 }
+#endif
 
+#if !defined(_WIN32)
 static void dmi_memory_get_data(dmi_data_t *dst, const dmi_data_t *src, size_t length)
 {
 #   if defined(__aarch64__)

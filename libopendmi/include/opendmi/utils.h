@@ -111,6 +111,7 @@ __dmi_api uint64_t dmi_ipow64(uint64_t value, unsigned int factor);
  * @error DMI_ERROR_FILE_STAT Length of the file cannot be told
  * @error DMI_ERROR_FILE_READ File cannot be read
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer cannot hold the data
+ * @error DMI_ERROR_SERVICE_UNAVAILABLE Files are not accessible, as in the Linux kernel
  *
  * @return `true` on success, `false` otherwise.
  */
@@ -131,7 +132,8 @@ __dmi_api bool dmi_file_load(
  *
  * On any failure an error is raised on the context of the buffer.
  *
- * @note Not available on Windows.
+ * @note Not available on Windows. In the Linux kernel @p path is ignored, and
+ *       the region is mapped with `memremap()` instead.
  *
  * @param buffer Buffer to read the region into.
  * @param path   Path to the device or file to read (e.g. `/dev/mem`).

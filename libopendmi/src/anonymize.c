@@ -14,6 +14,10 @@
 #include <ctype.h>
 #include <assert.h>
 
+#if defined(__KERNEL__)
+#   include <linux/random.h>
+#endif
+
 #include <opendmi/anonymize.h>
 #include <opendmi/attribute.h>
 #include <opendmi/buffer.h>
@@ -251,6 +255,9 @@ static bool dmi_anonymize_key(dmi_anonymizer_t *anon)
 
         anon->key[i] = ((uint64_t)high << 32) | low;
     }
+#elif defined(__KERNEL__)
+    get_random_bytes(anon->key, sizeof(anon->key));
+    success = true;
 #else
     FILE *file = fopen("/dev/urandom", "rb");
     if (file != nullptr) {

@@ -7,7 +7,11 @@
 #include <opendmi/backend.h>
 
 #include <opendmi/backend/dump.h>
-#if defined(__linux__)
+// Kernel is checked first, since __linux__ is defined there too
+#if defined(__KERNEL__)
+#   include <opendmi/backend/linux-kernel.h>
+#   define DMI_BACKEND dmi_linux_kernel_backend
+#elif defined(__linux__)
 #   include <opendmi/backend/linux.h>
 #   define DMI_BACKEND dmi_linux_backend
 #elif defined(__APPLE__)

@@ -11,10 +11,14 @@
 #endif
 
 #include <string.h>
-#include <fcntl.h>
 #include <errno.h>
 #include <assert.h>
 #include <stdio.h>
+
+// Files are not accessible from the kernel
+#if !defined(__KERNEL__)
+#   include <fcntl.h>
+#endif
 
 #include <opendmi/anonymize.h>
 #include <opendmi/context.h>
@@ -24,7 +28,10 @@
 #include <opendmi/internal.h>
 
 #include <opendmi/utils.h>
-#include <opendmi/utils/file.h>
+
+#if !defined(__KERNEL__)
+#   include <opendmi/utils/file.h>
+#endif
 
 #include <opendmi/backend/dump.h>
 
@@ -182,6 +189,20 @@ static dmi_type_id_t dmi_spec_relocate(
 
 /**
  * @internal
+ * @brief Allocate a map of `DMI_TYPE_ID_MAX + 1` candidate lists.
+ *
+ * @details
+ * Maps are some kilobytes large, too large for the stack of the Linux kernel,
+ * so the ones built to be checked before they replace the map of the context
+ * are allocated too.
+ *
+ * @return Map to be freed with `dmi_free()`, or @c nullptr if memory is
+ *         exhausted.
+ */
+static dmi_type_candidates_t *dmi_types_create(dmi_context_t *context);
+
+/**
+ * @internal
  * @brief Map specifications to types for the platform of the context.
  *
  * @details
@@ -227,6 +248,7 @@ static bool dmi_types_map_one(
  */
 static void dmi_version_fixup(dmi_context_t *context);
 
+#if !defined(__KERNEL__)
 /**
  * @internal
  * @brief Write dump data completely, raising an error on failures.
@@ -256,6 +278,7 @@ static bool dmi_dump_entry_build(dmi_context_t *context, dmi_byte_t *entry);
  * @brief Generate 64-bit entry point structure for a dump file.
  */
 static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry);
+#endif // !defined(__KERNEL__)
 
 /**
  * @internal
@@ -399,7 +422,7 @@ dmi_context_t *dmi_create(unsigned int flags)
 
     do {
         // Allocate type map
-        context->type_map = dmi_alloc_array(context, sizeof(dmi_type_candidates_t), DMI_TYPE_ID_MAX + 1);
+        context->type_map = dmi_types_create(context);
         if (context->type_map == nullptr)
             break;
 
@@ -459,21 +482,31 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
         return false;
     }
 
-    // Check the module against the enabled ones, before it is enabled
-    dmi_type_candidates_t map[DMI_TYPE_ID_MAX + 1];
-    if (not dmi_types_map(context, module, true, map))
+    dmi_type_candidates_t *map = dmi_types_create(context);
+    if (map == nullptr)
         return false;
 
-    // Register enabled module
-    if (not dmi_vector_push(&context->modules, (uintptr_t)module)) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
+    bool success = false;
+    do {
+        // Check the module against the enabled ones, before it is enabled
+        if (not dmi_types_map(context, module, true, map))
+            break;
 
-    // Update type map
-    memcpy(context->type_map, map, sizeof(map));
+        // Register enabled module
+        if (not dmi_vector_push(&context->modules, (uintptr_t)module)) {
+            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+            break;
+        }
 
-    return true;
+        // Update type map
+        memcpy(context->type_map, map, sizeof(*map) * (DMI_TYPE_ID_MAX + 1));
+
+        success = true;
+    } while (false);
+
+    dmi_free(map);
+
+    return success;
 }
 
 bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module)
@@ -516,18 +549,25 @@ bool dmi_set_platform(dmi_context_t *context, const dmi_platform_t *platform)
         }
     }
 
-    dmi_platform_t *previous = context->platform;
-    context->platform = copy;
-
-    dmi_type_candidates_t map[DMI_TYPE_ID_MAX + 1];
-    if (not dmi_types_map(context, nullptr, true, map)) {
-        context->platform = previous;
+    dmi_type_candidates_t *map = dmi_types_create(context);
+    if (map == nullptr) {
         dmi_platform_destroy(copy);
         return false;
     }
 
-    memcpy(context->type_map, map, sizeof(map));
+    dmi_platform_t *previous = context->platform;
+    context->platform = copy;
+
+    if (not dmi_types_map(context, nullptr, true, map)) {
+        context->platform = previous;
+        dmi_platform_destroy(copy);
+        dmi_free(map);
+        return false;
+    }
+
+    memcpy(context->type_map, map, sizeof(*map) * (DMI_TYPE_ID_MAX + 1));
     dmi_platform_destroy(previous);
+    dmi_free(map);
 
     return true;
 }
@@ -547,6 +587,20 @@ bool dmi_load(dmi_context_t *context, const char *path)
     return dmi_open_ex(context, &dmi_dump_backend, path);
 }
 
+#if defined(__KERNEL__)
+bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
+{
+    dmi_unused(flags);
+
+    if (context == nullptr)
+        return false;
+
+    dmi_error_raise_ex(context, DMI_ERROR_SERVICE_UNAVAILABLE,
+                       "%s: files are not accessible from the kernel", path);
+
+    return false;
+}
+#else
 bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
 {
     int fd;
@@ -637,6 +691,7 @@ bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
 
     return success;
 }
+#endif // !defined(__KERNEL__)
 
 dmi_type_id_t dmi_type_find(dmi_context_t *context, const char *code)
 {
@@ -993,13 +1048,17 @@ static bool dmi_setup_extensions(dmi_context_t *context)
 
     // Modules enabled before the context has been opened are mapped for the
     // platform only now
-    dmi_type_candidates_t map[DMI_TYPE_ID_MAX + 1];
-    if (not dmi_types_map(context, nullptr, true, map))
+    dmi_type_candidates_t *map = dmi_types_create(context);
+    if (map == nullptr)
         return false;
 
-    memcpy(context->type_map, map, sizeof(map));
+    bool success = dmi_types_map(context, nullptr, true, map);
+    if (success)
+        memcpy(context->type_map, map, sizeof(*map) * (DMI_TYPE_ID_MAX + 1));
 
-    return true;
+    dmi_free(map);
+
+    return success;
 }
 
 static bool dmi_setup_vendor(dmi_context_t *context)
@@ -1047,6 +1106,12 @@ static bool dmi_setup_platform_modules(dmi_context_t *context)
 {
     const dmi_platform_t *platform = dmi_context_platform(context);
 
+    // Map is only built to check modules for conflicts
+    dmi_type_candidates_t *map = dmi_types_create(context);
+    if (map == nullptr)
+        return false;
+
+    bool success = true;
     for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
         if ((module->platforms == nullptr) or dmi_has_extension(context, module))
             continue;
@@ -1063,7 +1128,6 @@ static bool dmi_setup_platform_modules(dmi_context_t *context)
             continue;
 
         // Modules enabled explicitly take precedence
-        dmi_type_candidates_t map[DMI_TYPE_ID_MAX + 1];
         if (not dmi_types_map(context, module, false, map)) {
             dmi_log_notice(context, "Extension %s conflicts with enabled extensions, skipping",
                            module->name);
@@ -1072,13 +1136,16 @@ static bool dmi_setup_platform_modules(dmi_context_t *context)
 
         if (not dmi_vector_push(&context->state.modules, (uintptr_t)module)) {
             dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-            return false;
+            success = false;
+            break;
         }
 
         dmi_log_info(context, "Enabling extension for the platform: %s", module->name);
     }
 
-    return true;
+    dmi_free(map);
+
+    return success;
 }
 
 static bool dmi_platform_detect(dmi_context_t *context)
@@ -1205,6 +1272,11 @@ static dmi_type_id_t dmi_spec_relocate(
     return (relocated or (index != 0)) ? DMI_TYPE_ID_INVALID : spec->type->id;
 }
 
+static dmi_type_candidates_t *dmi_types_create(dmi_context_t *context)
+{
+    return dmi_alloc_array(context, sizeof(dmi_type_candidates_t), DMI_TYPE_ID_MAX + 1);
+}
+
 static bool dmi_types_map(
         dmi_context_t         *context,
         const dmi_module_t    *extra,
@@ -1319,6 +1391,7 @@ static void dmi_version_fixup(dmi_context_t *context)
     context->state.smbios_version = dmi_version(major, minor, revision);
 }
 
+#if !defined(__KERNEL__)
 static bool dmi_dump_write(
         dmi_context_t    *context,
         int               fd,
@@ -1422,3 +1495,4 @@ static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry)
 
     return true;
 }
+#endif // !defined(__KERNEL__)
