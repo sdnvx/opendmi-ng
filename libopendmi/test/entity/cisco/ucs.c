@@ -161,7 +161,8 @@ static void test_cisco_other_firmware(void **pstate)
 
 static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec)
 {
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), handle, spec->type, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup(registry, handle, spec->type, false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, spec);
 

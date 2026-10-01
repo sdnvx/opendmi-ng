@@ -75,7 +75,8 @@ static void test_svt_decode(void **pstate)
 
     assert_true(dmi_load(context, test_acer_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_svt), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_svt), false);
     assert_non_null(entity);
 
     const dmi_intel_svt_t *info = dmi_entity_info(entity, DMI_TYPE(intel_svt));
@@ -101,8 +102,7 @@ static void test_svt_dell(void **pstate)
     assert_true(dmi_load(context, test_dell_path));
 
     dmi_registry_t *registry = dmi_get_registry(context);
-
-    dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_svt), false);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_svt), false);
     assert_non_null(entity);
     assert_int_equal(dmi_entity_type_id(entity), 206);
     assert_ptr_equal(entity->spec, &dmi_intel_svt_spec);
@@ -120,7 +120,8 @@ static void test_svt_aligned(void **pstate)
     // bytes, and ends the structure with a byte which makes its length even
     assert_true(dmi_load(context, test_xps_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_svt), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_svt), false);
     assert_non_null(entity);
     assert_int_equal(dmi_entity_type_id(entity), 206);
     assert_ptr_equal(entity->spec, &dmi_intel_svt_aligned_spec);
@@ -141,7 +142,8 @@ static void test_svt_proliant(void **pstate)
     // HP servers give type 222 to a structure of their own
     assert_true(dmi_load(context, test_proliant_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), DMI_TYPE_ID(INTEL_SVT), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first_id(registry, DMI_TYPE_ID(INTEL_SVT), false);
     assert_non_null(entity);
     assert_null(entity->spec);
 }

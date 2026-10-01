@@ -120,8 +120,8 @@ static void test_dell_token_refs(void **pstate)
     assert_int_equal(pairs->tokens[1], 0xF510);
 
     // Tokens are the ones the calling interface defines
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), 0xDA02,
-                                               DMI_TYPE(dell_calling_iface), false);
+    const dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), 0xDA02,
+                                                     DMI_TYPE(dell_calling_iface), false);
     assert_non_null(entity);
 
     const dmi_dell_calling_iface_t *iface = dmi_entity_info(entity, DMI_TYPE(dell_calling_iface));
@@ -146,7 +146,8 @@ static void test_dell_system_id(void **pstate)
     assert_string_equal(info->system_id, "0A64");
     assert_memory_equal(info->identifier, "_SID", 4);
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(dell_revisions), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(dell_revisions), false);
     assert_non_null(entity);
 
     const dmi_dell_revisions_t *revisions = dmi_entity_info(entity, DMI_TYPE(dell_revisions));
@@ -201,8 +202,8 @@ static void test_dell_memory_ids(void **pstate)
     assert_int_equal(module->serial_number.length, 4);
     assert_memory_equal(module->serial_number.data, "\x42\x01\xED\x1F", 4);
 
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), module->handle,
-                                               DMI_TYPE(memory_device), false);
+    const dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), module->handle,
+                                                     DMI_TYPE(memory_device), false);
     assert_non_null(entity);
 
     // Empty socket
@@ -221,8 +222,8 @@ static void test_dell_device_names(void **pstate)
     assert_string_equal(cpus->devices[1].fqdd, "CPU.Socket.2");
     assert_int_equal(cpus->devices[1].handle, 0x0401);
 
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), cpus->devices[1].handle,
-                                               DMI_TYPE(processor), false);
+    const dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), cpus->devices[1].handle,
+                                                     DMI_TYPE(processor), false);
     assert_non_null(entity);
 
     const dmi_dell_device_names_t *dimms = test_info(context, 0xE101, &dmi_dell_device_names_spec);
@@ -259,7 +260,8 @@ static void test_dell_platforms(void **pstate)
     assert_true(dmi_load(context, test_unisys_path));
     assert_true(dmi_has_extension(context, dell));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(dell_revisions), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(dell_revisions), false);
     assert_non_null(entity);
 
     dmi_close(context);
@@ -280,7 +282,8 @@ static void test_dell_relocations(void **pstate)
     // Structures of the Intel reference code 16 types up rather than down
     assert_true(dmi_load(context, test_precision_3620_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_fvi), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_fvi), false);
     assert_non_null(entity);
     assert_int_equal(dmi_entity_type_id(entity), 237);
 
@@ -288,7 +291,7 @@ static void test_dell_relocations(void **pstate)
     assert_non_null(fvi);
     assert_string_equal(fvi->items[0].component, "Reference Code - CPU");
 
-    entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_mei), false);
+    entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_mei), false);
     assert_non_null(entity);
     assert_int_equal(dmi_entity_type_id(entity), 235);
     assert_non_null(dmi_entity_info(entity, DMI_TYPE(intel_mei)));
@@ -316,7 +319,8 @@ static int test_teardown(void **pstate)
 
 static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec)
 {
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), handle, DMI_TYPE_ANY, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, spec);
 
@@ -338,7 +342,6 @@ static void test_dell_intel_native(void **pstate)
     assert_true(dmi_load(context, test_xps_9350_path));
 
     dmi_registry_t *registry = dmi_get_registry(context);
-
     dmi_entity_t *entity = dmi_registry_lookup(registry, 0xF02A, DMI_TYPE_ANY, false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_fvi_spec);
@@ -404,7 +407,8 @@ static void test_dell_infrared_port(void **pstate)
 
     assert_true(dmi_load(context, test_studio_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), 0xD300, DMI_TYPE_ANY, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup(registry, 0xD300, DMI_TYPE_ANY, false);
     assert_non_null(entity);
     assert_int_equal(entity->body_length, 0x11);
     assert_null(entity->spec);

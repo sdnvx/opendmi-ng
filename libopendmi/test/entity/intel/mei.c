@@ -193,7 +193,8 @@ static void test_mei_corporate(void **pstate)
     // Firmware of vPro platforms is of the corporate SKU
     assert_true(dmi_load(context, test_elitebook_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_mei), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_mei), false);
     assert_non_null(entity);
 
     const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(intel_mei));
@@ -210,7 +211,8 @@ static void test_mei_dell(void **pstate)
     // Dell places the structure at type 203
     assert_true(dmi_load(context, test_dell_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_mei), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_mei), false);
     assert_non_null(entity);
     assert_int_equal(dmi_entity_type_id(entity), 203);
     assert_ptr_equal(entity->spec, &dmi_intel_mei_spec);
@@ -228,7 +230,8 @@ static void test_mei_proliant(void **pstate)
     // HP servers give type 219 to a structure of their own
     assert_true(dmi_load(context, test_proliant_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), DMI_TYPE_ID(INTEL_MEI), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first_id(registry, DMI_TYPE_ID(INTEL_MEI), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_hpe_proliant_info_spec);
 }
@@ -243,7 +246,8 @@ static void test_mei_no_sku(void **pstate)
 
     assert_true(dmi_load(context, test_asus_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_mei), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_mei), false);
     assert_non_null(entity);
 
     const dmi_intel_mei_t *info = dmi_entity_info(entity, DMI_TYPE(intel_mei));

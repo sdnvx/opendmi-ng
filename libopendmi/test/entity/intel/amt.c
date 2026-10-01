@@ -70,7 +70,8 @@ static void test_amt_decode(void **pstate)
     // AMT of a platform with the corporate firmware
     assert_true(dmi_load(context, test_nuvo_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_amt), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_amt), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_amt_spec);
 
@@ -114,7 +115,8 @@ static void test_amt_extended(void **pstate)
     // Longer structure of later platforms holds more bytes at the end
     assert_true(dmi_load(context, test_t14_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_amt), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_amt), false);
     assert_non_null(entity);
     assert_int_equal(entity->body_length, 0x18);
 

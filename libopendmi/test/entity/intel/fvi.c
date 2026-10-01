@@ -209,7 +209,9 @@ static void test_fvi_platform(void **pstate)
     assert_true(dmi_load(context, test_asrock_path));
     assert_true(dmi_has_extension(context, &dmi_intel_module));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_fvi), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_fvi), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_fvi_spec);
 
@@ -231,7 +233,7 @@ static void test_fvi_dell(void **pstate)
 
     dmi_registry_t *registry = dmi_get_registry(context);
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_fvi), false);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_fvi), false);
     assert_non_null(entity);
     assert_int_equal(dmi_entity_type_id(entity), 205);
     assert_ptr_equal(entity->spec, &dmi_intel_fvi_spec);
@@ -255,7 +257,9 @@ static void test_fvi_proliant(void **pstate)
     assert_true(dmi_has_extension(context, &dmi_intel_module));
     assert_ptr_equal(dmi_type_spec(context, DMI_TYPE_ID(INTEL_FVI)), &dmi_hpe_iscsi_nic_spec);
 
-    dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), DMI_TYPE_ID(INTEL_FVI), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+
+    const dmi_entity_t *entity = dmi_registry_lookup_first_id(registry, DMI_TYPE_ID(INTEL_FVI), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_hpe_iscsi_nic_spec);
 }

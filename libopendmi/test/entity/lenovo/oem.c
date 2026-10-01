@@ -148,7 +148,8 @@ static void test_lenovo_mtm(void **pstate)
     dmi_close(context);
     assert_true(dmi_load(context, test_l420_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), DMI_TYPE_ID(LENOVO_MTM), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first_id(registry, DMI_TYPE_ID(LENOVO_MTM), false);
     assert_non_null(entity);
     assert_null(entity->spec);
 
@@ -178,7 +179,8 @@ static int test_teardown(void **pstate)
 
 static const void *test_info(dmi_context_t *context, dmi_handle_t handle, const dmi_entity_spec_t *spec)
 {
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), handle, DMI_TYPE_ANY, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, spec);
 

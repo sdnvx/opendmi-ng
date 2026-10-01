@@ -29,7 +29,7 @@ static void test_vpro_legacy(void **pstate);
 static void test_vpro_tpm(void **pstate);
 static void test_vpro_wlan(void **pstate);
 
-static const dmi_intel_vpro_t *test_vpro_info(dmi_context_t *context, const char *path, dmi_entity_t **pentity);
+static const dmi_intel_vpro_t *test_vpro_info(dmi_context_t *context, const char *path, const dmi_entity_t **pentity);
 static bool test_vpro_shown(const dmi_entity_t *entity, const char *code);
 
 static const char *test_asrock_path = OPENDMI_TEST_DATA "/asrock/b460-pro4.bin";
@@ -81,7 +81,8 @@ static void test_vpro_decode(void **pstate)
 
     assert_true(dmi_load(context, test_asrock_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_vpro), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_vpro), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_vpro_spec);
     assert_string_equal(dmi_entity_name(entity), "Intel vPro information");
@@ -234,7 +235,7 @@ static void test_vpro_shared_type(void **pstate)
     size_t vpro  = 0;
     size_t other = 0;
 
-    dmi_entity_t *entity;
+    const dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         if (entity->type_id != DMI_TYPE_ID(INTEL_VPRO))
             continue;
@@ -259,8 +260,8 @@ static void test_vpro_shared_type(void **pstate)
 static void test_vpro_legacy(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_entity_t *entity = nullptr;
 
+    const dmi_entity_t *entity = nullptr;
     const dmi_intel_vpro_t *info = test_vpro_info(context, test_6930p_path, &entity);
 
     // Intel GM45 at 0:0.0, capable of VT-d and TXT
@@ -298,8 +299,8 @@ static void test_vpro_legacy(void **pstate)
 static void test_vpro_tpm(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_entity_t *entity = nullptr;
 
+    const dmi_entity_t *entity = nullptr;
     const dmi_intel_vpro_t *info = test_vpro_info(context, test_w510_path, &entity);
 
     // TPM of version 1.2 of the TCG specification
@@ -316,8 +317,8 @@ static void test_vpro_tpm(void **pstate)
 static void test_vpro_wlan(void **pstate)
 {
     dmi_context_t *context = *pstate;
-    dmi_entity_t *entity = nullptr;
 
+    const dmi_entity_t *entity = nullptr;
     const dmi_intel_vpro_t *info = test_vpro_info(context, test_nec_path, &entity);
 
     // Intel Centrino Advanced-N 6235 at 2:00.0, with no wired network
@@ -330,11 +331,12 @@ static void test_vpro_wlan(void **pstate)
     assert_int_equal(info->gbe_device_id, UINT16_MAX);
 }
 
-static const dmi_intel_vpro_t *test_vpro_info(dmi_context_t *context, const char *path, dmi_entity_t **pentity)
+static const dmi_intel_vpro_t *test_vpro_info(dmi_context_t *context, const char *path, const dmi_entity_t **pentity)
 {
     assert_true(dmi_load(context, path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(intel_vpro), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const  dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(intel_vpro), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_vpro_spec);
 

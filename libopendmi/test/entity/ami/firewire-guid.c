@@ -28,7 +28,7 @@ static void test_firewire_guid_decode(void **pstate);
 static void test_firewire_guid_private(void **pstate);
 static void test_firewire_guid_signature(void **pstate);
 
-static dmi_entity_t *test_entity(dmi_context_t *context);
+static const dmi_entity_t *test_entity(dmi_context_t *context);
 static const dmi_attribute_t *test_attribute(const dmi_entity_t *entity, const char *code);
 
 static const char *test_asus_path = OPENDMI_TEST_DATA "/asus/m5a97-pro.bin";
@@ -74,7 +74,7 @@ static void test_firewire_guid_decode(void **pstate)
     assert_true(dmi_load(context, test_asus_path));
     assert_true(dmi_has_extension(context, &dmi_ami_module));
 
-    dmi_entity_t *entity = test_entity(context);
+    const dmi_entity_t *entity = test_entity(context);
     const dmi_ami_firewire_guid_t *info = dmi_entity_info(entity, DMI_TYPE(ami_firewire_guid));
     assert_non_null(info);
 
@@ -99,7 +99,7 @@ static void test_firewire_guid_private(void **pstate)
 
     assert_true(dmi_load(context, test_asus_path));
 
-    dmi_entity_t *entity = test_entity(context);
+    const dmi_entity_t *entity = test_entity(context);
     const dmi_ami_firewire_guid_t *info = dmi_entity_info(entity, DMI_TYPE(ami_firewire_guid));
     assert_non_null(info);
 
@@ -148,9 +148,10 @@ static void test_firewire_guid_signature(void **pstate)
     dmi_buffer_destroy(buffer);
 }
 
-static dmi_entity_t *test_entity(dmi_context_t *context)
+static const dmi_entity_t *test_entity(dmi_context_t *context)
 {
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(ami_firewire_guid), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(ami_firewire_guid), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_ami_firewire_guid_spec);
 

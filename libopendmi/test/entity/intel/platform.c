@@ -68,7 +68,8 @@ static void test_platform_bay_trail(void **pstate)
 
     assert_true(dmi_load(context, test_ideapad_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), 0x0022, DMI_TYPE(intel_platform), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup(registry, 0x0022, DMI_TYPE(intel_platform), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_platform_spec);
 
@@ -106,7 +107,8 @@ static void test_platform_server(void **pstate)
 
     assert_true(dmi_load(context, test_server_path));
 
-    dmi_entity_t *entity = dmi_registry_lookup_first_id(dmi_get_registry(context), 148, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first_id(registry, 148, false);
     assert_non_null(entity);
     assert_int_equal(entity->body_length, 0x30);
     assert_null(entity->spec);

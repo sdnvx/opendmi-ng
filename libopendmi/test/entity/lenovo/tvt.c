@@ -76,8 +76,8 @@ static void test_tvt_shared_type(void **pstate)
     dmi_registry_iter_t iter;
     dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr);
 
-    dmi_entity_t *tvt_entity  = nullptr;
-    dmi_entity_t *vpro_entity = nullptr;
+    const dmi_entity_t *tvt_entity  = nullptr;
+    const dmi_entity_t *vpro_entity = nullptr;
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
@@ -117,7 +117,7 @@ static void test_tvt_unknown(void **pstate)
     size_t tvt     = 0;
     size_t unknown = 0;
 
-    dmi_entity_t *entity;
+    const dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         if (entity->type_id != 131)
             continue;
@@ -142,7 +142,7 @@ static void test_tvt_diagnostics(void **pstate)
     dmi_registry_iter_t iter;
     dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr);
 
-    dmi_entity_t *entity;
+    const dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         if (entity->spec != &dmi_lenovo_tvt_spec)
             continue;

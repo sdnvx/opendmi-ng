@@ -149,7 +149,8 @@ static const dmi_intel_asf_t *test_asf_info(dmi_context_t *context, const char *
 {
     assert_true(dmi_load(context, path));
 
-    dmi_entity_t *entity = dmi_registry_lookup(dmi_get_registry(context), handle, DMI_TYPE(intel_asf), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup(registry, handle, DMI_TYPE(intel_asf), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_intel_asf_spec);
 

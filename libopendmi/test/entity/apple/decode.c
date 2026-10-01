@@ -76,7 +76,8 @@ static void test_apple_imac(void **pstate)
     // SPD data of the memory modules, which the processor type and the bus
     // speed of the processor follow; the Intel structures of the same types
     // are told apart by their signatures
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), DMI_TYPE(apple_memory_spd_data), false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, DMI_TYPE(apple_memory_spd_data), false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, &dmi_apple_memory_spd_data_spec);
 
@@ -196,7 +197,8 @@ static int test_teardown(void **pstate)
 
 static const void *test_info(dmi_context_t *context, const dmi_type_t *type)
 {
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), type, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, type, false);
     assert_non_null(entity);
 
     const void *info = dmi_entity_info(entity, type);

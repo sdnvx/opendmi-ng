@@ -230,7 +230,7 @@ static void test_hpe_cru_records(void **pstate)
 
     dmi_registry_t *registry = dmi_get_registry(context);
 
-    dmi_entity_t *entity = dmi_registry_lookup(registry, 0xD400, DMI_TYPE(hpe_cru), false);
+    const dmi_entity_t *entity = dmi_registry_lookup(registry, 0xD400, DMI_TYPE(hpe_cru), false);
     assert_non_null(entity);
     const dmi_hpe_cru_t *cru = dmi_entity_info(entity, DMI_TYPE(hpe_cru));
     assert_non_null(cru);
@@ -305,7 +305,8 @@ static void test_hpe_generations(void **pstate)
 
 static const void *test_hpe_info(dmi_context_t *context, const dmi_type_t *type, const dmi_entity_spec_t *spec)
 {
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), type, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, type, false);
     assert_non_null(entity);
     assert_ptr_equal(entity->spec, spec);
 
@@ -317,7 +318,8 @@ static const void *test_hpe_info(dmi_context_t *context, const dmi_type_t *type,
 
 static bool test_hpe_shown(dmi_context_t *context, const dmi_type_t *type, const char *code)
 {
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), type, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, type, false);
     assert_non_null(entity);
 
     for (const dmi_attribute_t *attr = entity->spec->attributes; attr->params.name != nullptr; attr++) {

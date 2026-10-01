@@ -270,7 +270,8 @@ static dmi_context_t *test_anonymized(dmi_context_t *context)
 
 static const void *test_info(dmi_context_t *context, const dmi_type_t *type)
 {
-    dmi_entity_t *entity = dmi_registry_lookup_first(dmi_get_registry(context), type, false);
+    dmi_registry_t *registry = dmi_get_registry(context);
+    const dmi_entity_t *entity = dmi_registry_lookup_first(registry, type, false);
     assert_non_null(entity);
 
     const void *info = dmi_entity_info(entity, type);
