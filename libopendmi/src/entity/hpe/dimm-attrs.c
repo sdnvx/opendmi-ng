@@ -9,8 +9,8 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/common-internal.h>
-#include <opendmi/entity/hpe/dimm-attrs-internal.h>
+#include "common-internal.h"
+#include "dimm-attrs-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_dimm_attrs_spec =
 {

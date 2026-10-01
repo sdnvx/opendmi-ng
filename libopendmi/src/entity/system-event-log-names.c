@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-event-log-internal.h>
+#include "system-event-log-internal.h"
 
 const dmi_name_set_t dmi_system_log_access_method_names =
 {

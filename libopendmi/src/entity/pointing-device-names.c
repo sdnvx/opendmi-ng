@@ -10,7 +10,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/pointing-device-internal.h>
+#include "pointing-device-internal.h"
 
 const dmi_name_set_t dmi_pointing_device_type_names =
 {

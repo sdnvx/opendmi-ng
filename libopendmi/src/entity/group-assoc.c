@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/group-assoc-internal.h>
+#include "group-assoc-internal.h"
 
 const dmi_entity_spec_t dmi_group_assoc_spec =
 {

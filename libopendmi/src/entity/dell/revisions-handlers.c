@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/revisions-internal.h>
+#include "revisions-internal.h"
 
 //
 // Implementation version is carried as the major and the minor number, one

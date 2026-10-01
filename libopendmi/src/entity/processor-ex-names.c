@@ -11,7 +11,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/processor-ex-internal.h>
+#include "processor-ex-internal.h"
 
 const dmi_name_set_t dmi_processor_arch_names =
 {

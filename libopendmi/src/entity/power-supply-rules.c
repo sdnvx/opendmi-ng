@@ -10,7 +10,7 @@
 #include <opendmi/registry.h>
 #include <opendmi/utils.h>
 
-#include <opendmi/entity/power-supply-internal.h>
+#include "power-supply-internal.h"
 
 void dmi_power_supply_lint_probes(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

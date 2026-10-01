@@ -11,7 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/oob-remote-access-internal.h>
+#include "oob-remote-access-internal.h"
 
 const dmi_name_set_t dmi_oob_connection_names =
 {

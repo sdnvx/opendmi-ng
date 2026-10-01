@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/power-supply-internal.h>
+#include "power-supply-internal.h"
 
 const dmi_name_set_t dmi_power_supply_type_names =
 {

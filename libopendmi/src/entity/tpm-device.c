@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/tpm-device-internal.h>
+#include "tpm-device-internal.h"
 
 const dmi_entity_spec_t dmi_tpm_device_spec =
 {

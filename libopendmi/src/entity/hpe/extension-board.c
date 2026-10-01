@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/extension-board-internal.h>
+#include "extension-board-internal.h"
 
 //
 // The board type at offset 0x04 selects the layout of the rest of the

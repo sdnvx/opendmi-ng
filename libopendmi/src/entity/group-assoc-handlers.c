@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/group-assoc-internal.h>
+#include "group-assoc-internal.h"
 
 bool dmi_group_assoc_link(dmi_entity_t *entity)
 {

@@ -16,7 +16,7 @@
 
 #include <opendmi/backend/dump.h>
 
-#include <opendmi/context-internal.h>
+#include "context-internal.h"
 
 /**
  * @internal

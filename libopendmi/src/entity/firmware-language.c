@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/firmware-language-internal.h>
+#include "firmware-language-internal.h"
 
 const dmi_entity_spec_t dmi_firmware_language_spec =
 {

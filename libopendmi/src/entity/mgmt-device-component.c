@@ -11,7 +11,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/entity/mgmt-device-threshold.h>
 
-#include <opendmi/entity/mgmt-device-component-internal.h>
+#include "mgmt-device-component-internal.h"
 
 const dmi_entity_spec_t dmi_mgmt_device_component_spec =
 {

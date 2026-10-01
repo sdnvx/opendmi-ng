@@ -12,7 +12,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 
-#include <opendmi/field-internal.h>
+#include "field-internal.h"
 
 /**
  * @internal

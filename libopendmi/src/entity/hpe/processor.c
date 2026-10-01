@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/processor-internal.h>
+#include "processor-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_processor_spec =
 {

@@ -11,7 +11,7 @@
 #include <opendmi/reader.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/power-controls-internal.h>
+#include "power-controls-internal.h"
 
 /**
  * @internal

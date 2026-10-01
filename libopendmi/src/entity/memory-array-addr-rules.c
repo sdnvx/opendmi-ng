@@ -12,7 +12,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-array-addr-internal.h>
+#include "memory-array-addr-internal.h"
 
 void dmi_memory_array_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

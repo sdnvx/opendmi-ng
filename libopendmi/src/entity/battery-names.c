@@ -12,7 +12,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/battery-internal.h>
+#include "battery-internal.h"
 
 const dmi_name_set_t dmi_battery_chemistry_names =
 {

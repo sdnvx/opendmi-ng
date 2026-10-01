@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/pcie-internal.h>
+#include "pcie-internal.h"
 
 const dmi_entity_spec_t dmi_intel_rsd_pcie_spec =
 {

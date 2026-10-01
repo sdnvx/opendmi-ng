@@ -10,7 +10,8 @@
 #include <opendmi/value.h>
 
 #include <opendmi/entity/common.h>
-#include <opendmi/entity/slot-internal.h>
+
+#include "slot-internal.h"
 
 const dmi_entity_spec_t dmi_slot_spec =
 {

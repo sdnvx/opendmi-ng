@@ -10,7 +10,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/onboard-device-internal.h>
+#include "onboard-device-internal.h"
 
 const dmi_entity_spec_t dmi_onboard_device_spec =
 {

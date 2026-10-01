@@ -11,7 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/ipmi-device-internal.h>
+#include "ipmi-device-internal.h"
 
 //
 // Revision is decoded into a version, which keeps no trace of the digits it

@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
 
-#include <opendmi/entity/intel/mei-internal.h>
+#include "mei-internal.h"
 
 //
 // Registers of an absent PCI function read with all bits set

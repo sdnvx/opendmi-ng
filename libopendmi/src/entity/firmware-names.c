@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/firmware-internal.h>
+#include "firmware-internal.h"
 
 const dmi_name_set_t dmi_firmware_feature_names =
 {

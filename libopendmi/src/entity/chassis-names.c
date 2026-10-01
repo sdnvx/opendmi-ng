@@ -12,7 +12,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/chassis-internal.h>
+#include "chassis-internal.h"
 
 const dmi_name_set_t dmi_chassis_type_names =
 {

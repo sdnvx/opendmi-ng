@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/apple.h>
 
-#include <opendmi/entity/apple/firmware-volume-internal.h>
+#include "firmware-volume-internal.h"
 
 const dmi_entity_spec_t dmi_apple_firmware_volume_spec =
 {

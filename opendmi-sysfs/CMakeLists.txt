@@ -71,6 +71,17 @@ foreach(source IN LISTS OPENDMI_SYSFS_SOURCES)
     string(APPEND OPENDMI_SYSFS_OBJECTS " \\\n    ${object}")
 endforeach()
 
+# Internal headers of the library lie next to its sources, and are included
+# relative to them, so they are linked next to the links of the sources
+file(GLOB_RECURSE LIBOPENDMI_INTERNAL_HEADERS ${LIBOPENDMI_SOURCE_DIR}/src/*-internal.h)
+foreach(header IN LISTS LIBOPENDMI_INTERNAL_HEADERS)
+    file(RELATIVE_PATH path ${CMAKE_SOURCE_DIR} ${header})
+    cmake_path(GET path PARENT_PATH directory)
+
+    file(MAKE_DIRECTORY ${KBUILD_DIR}/${directory})
+    file(CREATE_LINK ${header} ${KBUILD_DIR}/${path} SYMBOLIC)
+endforeach()
+
 configure_file(Kbuild.in ${KBUILD_DIR}/Kbuild @ONLY)
 
 set(KBUILD_ARGS -C ${KERNEL_BUILD_DIR} M=${KBUILD_DIR})

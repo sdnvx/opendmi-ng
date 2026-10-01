@@ -10,7 +10,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/mgmt-device-internal.h>
+#include "mgmt-device-internal.h"
 
 const dmi_name_set_t dmi_mgmt_device_type_names =
 {

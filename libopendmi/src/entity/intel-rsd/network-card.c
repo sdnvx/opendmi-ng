@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/network-card-internal.h>
+#include "network-card-internal.h"
 
 const dmi_entity_spec_t dmi_intel_rsd_network_card_spec =
 {

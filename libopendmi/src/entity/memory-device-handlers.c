@@ -9,7 +9,7 @@
 #include <opendmi/registry.h>
 #include <opendmi/utils.h>
 
-#include <opendmi/entity/memory-device-internal.h>
+#include "memory-device-internal.h"
 
 dmi_size_t dmi_memory_device_size(uint16_t value)
 {

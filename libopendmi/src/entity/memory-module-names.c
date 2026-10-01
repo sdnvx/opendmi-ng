@@ -12,7 +12,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-module-internal.h>
+#include "memory-module-internal.h"
 
 const dmi_name_set_t dmi_memory_module_type_names =
 {

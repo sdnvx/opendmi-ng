@@ -14,7 +14,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/firmware-internal.h>
+#include "firmware-internal.h"
 
 dmi_size_t dmi_firmware_rom_size(dmi_byte_t value)
 {

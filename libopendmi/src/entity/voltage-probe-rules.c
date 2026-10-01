@@ -9,7 +9,7 @@
 #include <opendmi/lint.h>
 #include <opendmi/entity/probe.h>
 
-#include <opendmi/entity/voltage-probe-internal.h>
+#include "voltage-probe-internal.h"
 
 void dmi_voltage_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

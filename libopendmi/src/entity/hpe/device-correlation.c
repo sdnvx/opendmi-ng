@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/device-correlation-internal.h>
+#include "device-correlation-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_device_correlation_spec =
 {

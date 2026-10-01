@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/processor-cpuid-internal.h>
+#include "processor-cpuid-internal.h"
 
 #define LEAF(__leaf)              { .leaf = (__leaf) }
 #define SUBLEAF(__leaf, __subleaf) { .leaf = (__leaf), .has_subleaf = true, .subleaf = (__subleaf) }

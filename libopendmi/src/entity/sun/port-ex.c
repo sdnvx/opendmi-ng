@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/sun.h>
 
-#include <opendmi/entity/sun/port-ex-internal.h>
+#include "port-ex-internal.h"
 
 const dmi_entity_spec_t dmi_sun_port_ex_spec =
 {

@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/lenovo.h>
 
-#include <opendmi/entity/lenovo/tvt-internal.h>
+#include "tvt-internal.h"
 
 const dmi_entity_spec_t dmi_lenovo_tvt_spec =
 {

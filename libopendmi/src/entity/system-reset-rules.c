@@ -14,7 +14,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-reset-internal.h>
+#include "system-reset-internal.h"
 
 void dmi_system_reset_lint_limit(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

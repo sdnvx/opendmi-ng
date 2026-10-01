@@ -8,7 +8,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/calling-iface-internal.h>
+#include "calling-iface-internal.h"
 
 const dmi_entity_spec_t dmi_dell_calling_iface_spec =
 {

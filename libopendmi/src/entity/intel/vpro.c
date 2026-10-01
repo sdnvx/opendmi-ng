@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
 
-#include <opendmi/entity/intel/vpro-internal.h>
+#include "vpro-internal.h"
 
 // Attributes of the versions of the firmware components
 static const dmi_attribute_t dmi_intel_vpro_version_attrs[] =

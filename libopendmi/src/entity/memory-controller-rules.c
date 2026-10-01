@@ -12,7 +12,8 @@
 #include <opendmi/lint.h>
 
 #include <opendmi/entity/memory-module.h>
-#include <opendmi/entity/memory-controller-internal.h>
+
+#include "memory-controller-internal.h"
 
 static void dmi_memory_controller_lint_size(
         dmi_lint_t                     *lint,

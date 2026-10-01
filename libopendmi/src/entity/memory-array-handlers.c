@@ -15,7 +15,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/entity/memory-device.h>
 
-#include <opendmi/entity/memory-array-internal.h>
+#include "memory-array-internal.h"
 
 //
 // Sum of the sizes of the devices of an array, along with their number, which

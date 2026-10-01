@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/fpga-internal.h>
+#include "fpga-internal.h"
 
 const dmi_entity_spec_t dmi_intel_rsd_fpga_spec =
 {

@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/oem-strings-internal.h>
+#include "oem-strings-internal.h"
 
 //
 // Strings of the structure are its values, so the array points at the ones

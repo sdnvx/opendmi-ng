@@ -12,7 +12,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/battery-internal.h>
+#include "battery-internal.h"
 
 //
 // The specification puts the SBDS values in place of the ones the structure

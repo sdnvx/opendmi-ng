@@ -14,7 +14,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/version-internal.h>
+#include "version-internal.h"
 
 /**
  * @internal

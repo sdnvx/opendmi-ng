@@ -12,7 +12,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/value.h>
 
-#include <opendmi/entity/mgmt-device-threshold-internal.h>
+#include "mgmt-device-threshold-internal.h"
 
 void dmi_mgmt_device_threshold_set_component(dmi_entity_t *entity, dmi_type_id_t type)
 {

@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/infrared-port-internal.h>
+#include "infrared-port-internal.h"
 
 const dmi_entity_spec_t dmi_dell_infrared_port_spec =
 {

@@ -16,7 +16,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/uuid.h>
 
-#include <opendmi/field-internal.h>
+#include "field-internal.h"
 
 /**
  * @internal

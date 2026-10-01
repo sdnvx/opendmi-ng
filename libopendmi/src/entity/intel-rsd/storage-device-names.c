@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/storage-device-internal.h>
+#include "storage-device-internal.h"
 
 const dmi_name_set_t dmi_intel_rsd_storage_connector_names =
 {

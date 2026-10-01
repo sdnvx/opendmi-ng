@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/dimm-config-internal.h>
+#include "dimm-config-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_dimm_config_spec =
 {

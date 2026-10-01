@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/trusted-module-internal.h>
+#include "trusted-module-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_trusted_module_spec =
 {

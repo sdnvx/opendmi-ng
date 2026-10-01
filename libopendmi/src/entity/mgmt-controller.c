@@ -15,7 +15,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/utils/endian.h>
 
-#include <opendmi/entity/mgmt-controller-internal.h>
+#include "mgmt-controller-internal.h"
 
 #define DMI_MGMT_NHI_PCI_ATTRS(__type)                                        \
     DMI_ATTRIBUTE(__type, vendor_id, INTEGER, {                               \

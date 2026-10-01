@@ -11,7 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/baseboard-internal.h>
+#include "baseboard-internal.h"
 
 const dmi_entity_spec_t dmi_baseboard_spec =
 {

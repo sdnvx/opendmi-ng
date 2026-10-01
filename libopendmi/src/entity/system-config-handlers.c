@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-config-internal.h>
+#include "system-config-internal.h"
 
 //
 // Strings of the structure are its values, so the array points at the ones

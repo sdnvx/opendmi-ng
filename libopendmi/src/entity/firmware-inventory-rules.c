@@ -12,7 +12,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/firmware-inventory-internal.h>
+#include "firmware-inventory-internal.h"
 
 //
 // Versions are comparable when they are written the same way, and the one

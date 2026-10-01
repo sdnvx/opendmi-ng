@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel.h>
 
-#include <opendmi/entity/intel/mei-internal.h>
+#include "mei-internal.h"
 
 const dmi_entity_spec_t dmi_intel_mei_spec =
 {

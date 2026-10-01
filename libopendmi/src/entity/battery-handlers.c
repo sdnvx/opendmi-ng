@@ -12,7 +12,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/battery-internal.h>
+#include "battery-internal.h"
 
 //
 // SBDS date packs the year counted from 1980, the month and the day into one

@@ -11,7 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-controller-internal.h>
+#include "memory-controller-internal.h"
 
 const dmi_name_set_t dmi_error_detect_method_names =
 {

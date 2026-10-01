@@ -8,7 +8,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/phys-device-mapping-internal.h>
+#include "phys-device-mapping-internal.h"
 
 // Location numbers are named according to the device type, and the data of
 // unknown device types is shown as stored. Handles refer to the structures of

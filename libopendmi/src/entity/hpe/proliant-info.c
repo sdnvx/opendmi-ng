@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/proliant-info-internal.h>
+#include "proliant-info-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_proliant_info_spec =
 {

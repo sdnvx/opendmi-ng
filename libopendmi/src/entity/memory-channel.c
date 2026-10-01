@@ -12,7 +12,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/entity/memory-device.h>
 
-#include <opendmi/entity/memory-channel-internal.h>
+#include "memory-channel-internal.h"
 
 const dmi_entity_spec_t dmi_memory_channel_spec =
 {

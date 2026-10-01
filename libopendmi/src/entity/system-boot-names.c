@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/system-boot-internal.h>
+#include "system-boot-internal.h"
 
 const dmi_name_set_t dmi_system_boot_status_names =
 {

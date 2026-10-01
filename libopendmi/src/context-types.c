@@ -11,7 +11,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
 
-#include <opendmi/context-internal.h>
+#include "context-internal.h"
 
 #include <opendmi/entity/additional-info.h>
 #include <opendmi/entity/baseboard.h>

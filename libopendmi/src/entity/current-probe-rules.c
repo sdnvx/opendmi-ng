@@ -9,7 +9,7 @@
 #include <opendmi/entity/probe.h>
 #include <opendmi/lint.h>
 
-#include <opendmi/entity/current-probe-internal.h>
+#include "current-probe-internal.h"
 
 void dmi_current_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

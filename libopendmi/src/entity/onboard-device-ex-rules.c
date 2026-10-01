@@ -11,7 +11,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/onboard-device-ex-internal.h>
+#include "onboard-device-ex-internal.h"
 
 //
 // Devices of the same type are told apart by their instances, so no two of

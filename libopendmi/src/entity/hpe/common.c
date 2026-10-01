@@ -6,7 +6,7 @@
 //
 #include <opendmi/internal.h>
 
-#include <opendmi/entity/hpe/common-internal.h>
+#include "common-internal.h"
 
 const dmi_name_set_t dmi_hpe_flag_names =
 {

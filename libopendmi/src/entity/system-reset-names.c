@@ -14,7 +14,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-reset-internal.h>
+#include "system-reset-internal.h"
 
 const dmi_name_set_t dmi_boot_option_names =
 {

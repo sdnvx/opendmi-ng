@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/sun.h>
 
-#include <opendmi/entity/sun/memory-array-ex-internal.h>
+#include "memory-array-ex-internal.h"
 
 const dmi_entity_spec_t dmi_sun_memory_array_ex_spec =
 {

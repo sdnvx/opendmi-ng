@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/system-internal.h>
+#include "system-internal.h"
 
 const dmi_name_set_t dmi_system_wakeup_type_names =
 {

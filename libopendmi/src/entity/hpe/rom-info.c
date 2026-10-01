@@ -13,7 +13,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/rom-info-internal.h>
+#include "rom-info-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_rom_info_spec =
 {

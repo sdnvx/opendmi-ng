@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/cache-internal.h>
+#include "cache-internal.h"
 
 void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

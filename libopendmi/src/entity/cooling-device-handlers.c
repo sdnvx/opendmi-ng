@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/cooling-device-internal.h>
+#include "cooling-device-internal.h"
 
 //
 // Speeds are carried in revolutions per minute, with the most significant bit

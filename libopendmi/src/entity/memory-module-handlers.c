@@ -12,7 +12,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-module-internal.h>
+#include "memory-module-internal.h"
 
 static void dmi_memory_module_decode_size(dmi_memory_module_size_t *psize, dmi_byte_t value);
 

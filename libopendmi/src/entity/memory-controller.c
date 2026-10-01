@@ -11,7 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-controller-internal.h>
+#include "memory-controller-internal.h"
 
 const dmi_entity_spec_t dmi_memory_controller_spec =
 {

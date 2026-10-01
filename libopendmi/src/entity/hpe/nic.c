@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/nic-internal.h>
+#include "nic-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_pxe_nic_spec =
 {

@@ -11,7 +11,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/string-property-internal.h>
+#include "string-property-internal.h"
 
 bool dmi_string_property_link(dmi_entity_t *entity)
 {

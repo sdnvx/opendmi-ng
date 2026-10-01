@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/lenovo.h>
 
-#include <opendmi/entity/lenovo/oem-internal.h>
+#include "oem-internal.h"
 
 //
 // Structures of both types begin with a signature, followed by the offset,

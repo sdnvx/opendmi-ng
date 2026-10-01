@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/oem-strings-internal.h>
+#include "oem-strings-internal.h"
 
 const dmi_entity_spec_t dmi_oem_strings_spec =
 {

@@ -12,7 +12,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/firmware-inventory-internal.h>
+#include "firmware-inventory-internal.h"
 
 static void dmi_firmware_version_parse(
         const char                    *str,

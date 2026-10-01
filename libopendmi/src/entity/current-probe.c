@@ -6,10 +6,10 @@
 //
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
-#include <opendmi/entity/probe-internal.h>
 #include <opendmi/lint.h>
 
-#include <opendmi/entity/current-probe-internal.h>
+#include "probe-internal.h"
+#include "current-probe-internal.h"
 
 const dmi_entity_spec_t dmi_current_probe_spec =
 {

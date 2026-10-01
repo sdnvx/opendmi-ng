@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/memory-device-internal.h>
+#include "memory-device-internal.h"
 
 const dmi_name_set_t dmi_memory_device_type_names =
 {

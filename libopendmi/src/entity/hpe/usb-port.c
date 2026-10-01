@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/usb-port-internal.h>
+#include "usb-port-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_usb_port_spec =
 {

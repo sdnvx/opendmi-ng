@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/acer.h>
 
-#include <opendmi/entity/acer/hotkeys-internal.h>
+#include "hotkeys-internal.h"
 
 static const dmi_attribute_t dmi_acer_hotkeys_attrs[] =
 {

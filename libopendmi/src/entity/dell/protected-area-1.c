@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/protected-area-1-internal.h>
+#include "protected-area-1-internal.h"
 
 const dmi_entity_spec_t dmi_dell_protected_area_1_spec =
 {

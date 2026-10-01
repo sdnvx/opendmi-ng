@@ -11,7 +11,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/cru-internal.h>
+#include "cru-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_cru_spec =
 {

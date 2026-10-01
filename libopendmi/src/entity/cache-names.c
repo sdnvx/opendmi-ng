@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/cache-internal.h>
+#include "cache-internal.h"
 
 const dmi_name_set_t dmi_cache_type_names =
 {

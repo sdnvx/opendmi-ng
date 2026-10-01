@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/bios-flags-internal.h>
+#include "bios-flags-internal.h"
 
 const dmi_entity_spec_t dmi_dell_bios_flags_spec =
 {

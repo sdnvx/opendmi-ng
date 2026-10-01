@@ -9,8 +9,8 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/nic-internal.h>
-#include <opendmi/entity/hpe/nic-mac-internal.h>
+#include "nic-internal.h"
+#include "nic-mac-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_nic_mac_spec =
 {

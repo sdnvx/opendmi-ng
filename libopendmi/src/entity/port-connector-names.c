@@ -10,7 +10,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/port-connector-internal.h>
+#include "port-connector-internal.h"
 
 const dmi_name_set_t dmi_connector_type_names =
 {

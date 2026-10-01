@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-error-32-internal.h>
+#include "memory-error-32-internal.h"
 
 const dmi_entity_spec_t dmi_memory_error_32_spec =
 {

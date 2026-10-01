@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/system-internal.h>
+#include "system-internal.h"
 
 const dmi_entity_spec_t dmi_system_spec =
 {

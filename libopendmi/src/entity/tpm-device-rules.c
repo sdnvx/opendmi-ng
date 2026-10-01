@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/tpm-device-internal.h>
+#include "tpm-device-internal.h"
 
 void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

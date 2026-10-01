@@ -9,7 +9,7 @@
 #include <opendmi/lint.h>
 #include <opendmi/utils.h>
 
-#include <opendmi/entity/slot-internal.h>
+#include "slot-internal.h"
 
 //
 // Widths are comparable within a series only: the ones counting bits and the

@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/cache-internal.h>
+#include "cache-internal.h"
 
 dmi_size_t dmi_cache_size(uint16_t value)
 {

@@ -7,10 +7,10 @@
 #include <stdio.h>
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
-#include <opendmi/entity/probe-internal.h>
 #include <opendmi/lint.h>
 
-#include <opendmi/entity/temperature-probe-internal.h>
+#include "probe-internal.h"
+#include "temperature-probe-internal.h"
 
 const dmi_entity_spec_t dmi_temperature_probe_spec =
 {

@@ -11,7 +11,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/string-property-internal.h>
+#include "string-property-internal.h"
 
 const dmi_entity_spec_t dmi_string_property_spec =
 {

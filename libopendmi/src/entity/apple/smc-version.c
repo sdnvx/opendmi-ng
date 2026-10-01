@@ -10,7 +10,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/apple.h>
 
-#include <opendmi/entity/apple/smc-version-internal.h>
+#include "smc-version-internal.h"
 
 const dmi_entity_spec_t dmi_apple_smc_version_spec =
 {

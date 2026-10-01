@@ -11,7 +11,7 @@
 #include <opendmi/encoder.h>
 #include <opendmi/internal.h>
 
-#include <opendmi/entity/additional-info-internal.h>
+#include "additional-info-internal.h"
 
 bool dmi_additional_info_decode(dmi_decoder_t *decoder)
 {

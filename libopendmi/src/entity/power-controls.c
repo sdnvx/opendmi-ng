@@ -12,7 +12,7 @@
 #include <opendmi/reader.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/power-controls-internal.h>
+#include "power-controls-internal.h"
 
 const dmi_entity_spec_t dmi_power_controls_spec =
 {

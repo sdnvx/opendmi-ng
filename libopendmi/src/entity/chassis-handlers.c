@@ -12,7 +12,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/chassis-internal.h>
+#include "chassis-internal.h"
 
 //
 // An element is named by either an SMBIOS structure type or a baseboard type,

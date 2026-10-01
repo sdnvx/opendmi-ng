@@ -19,7 +19,8 @@
 #include <opendmi/utils/codec.h>
 
 #include <opendmi/entity/cache.h>
-#include <opendmi/entity/processor-internal.h>
+
+#include "processor-internal.h"
 
 /**
  * @internal

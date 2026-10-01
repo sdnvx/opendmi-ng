@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-event-log-internal.h>
+#include "system-event-log-internal.h"
 
 void dmi_system_event_log_lint_area(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

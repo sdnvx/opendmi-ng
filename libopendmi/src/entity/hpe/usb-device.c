@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/usb-device-internal.h>
+#include "usb-device-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_usb_device_spec =
 {

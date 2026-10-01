@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/cooling-device-internal.h>
+#include "cooling-device-internal.h"
 
 const dmi_entity_spec_t dmi_cooling_device_spec =
 {

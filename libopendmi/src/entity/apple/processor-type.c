@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/apple.h>
 
-#include <opendmi/entity/apple/processor-type-internal.h>
+#include "processor-type-internal.h"
 
 const dmi_entity_spec_t dmi_apple_processor_type_spec =
 {

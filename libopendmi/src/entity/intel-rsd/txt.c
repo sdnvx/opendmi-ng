@@ -6,7 +6,7 @@
 //
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/txt-internal.h>
+#include "txt-internal.h"
 
 const dmi_entity_spec_t dmi_intel_rsd_txt_spec =
 {

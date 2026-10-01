@@ -10,7 +10,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/cisco.h>
 
-#include <opendmi/entity/cisco/pci-adapter-internal.h>
+#include "pci-adapter-internal.h"
 
 const dmi_entity_spec_t dmi_cisco_pci_adapter_spec =
 {

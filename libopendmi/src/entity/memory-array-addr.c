@@ -12,7 +12,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-array-addr-internal.h>
+#include "memory-array-addr-internal.h"
 
 const dmi_entity_spec_t dmi_memory_array_addr_spec =
 {

@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/tpm-device-internal.h>
+#include "tpm-device-internal.h"
 
 //
 // Vendor identifier is four bytes of text, which some firmware stores as a

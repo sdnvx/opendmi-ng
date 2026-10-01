@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/serial-port-internal.h>
+#include "serial-port-internal.h"
 
 //
 // Speeds are carried in hundreds of bits per second.

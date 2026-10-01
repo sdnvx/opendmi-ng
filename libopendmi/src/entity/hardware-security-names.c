@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/hardware-security-internal.h>
+#include "hardware-security-internal.h"
 
 const dmi_name_set_t dmi_hardware_security_status_names =
 {

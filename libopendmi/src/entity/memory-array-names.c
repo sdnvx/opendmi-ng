@@ -15,7 +15,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/entity/memory-device.h>
 
-#include <opendmi/entity/memory-array-internal.h>
+#include "memory-array-internal.h"
 
 const dmi_name_set_t dmi_memory_array_location_names =
 {

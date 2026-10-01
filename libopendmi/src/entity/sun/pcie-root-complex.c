@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/sun.h>
 
-#include <opendmi/entity/sun/pcie-root-complex-internal.h>
+#include "pcie-root-complex-internal.h"
 
 const dmi_entity_spec_t dmi_sun_pcie_root_complex_spec =
 {

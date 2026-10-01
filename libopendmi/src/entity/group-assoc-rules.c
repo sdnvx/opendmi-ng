@@ -12,7 +12,7 @@
 #include <opendmi/module.h>
 #include <opendmi/utils.h>
 
-#include <opendmi/entity/group-assoc-internal.h>
+#include "group-assoc-internal.h"
 
 /**
  * @internal

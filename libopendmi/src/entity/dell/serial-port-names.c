@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/serial-port-internal.h>
+#include "serial-port-internal.h"
 
 const dmi_name_set_t dmi_dell_serial_port_connector_type_names =
 {

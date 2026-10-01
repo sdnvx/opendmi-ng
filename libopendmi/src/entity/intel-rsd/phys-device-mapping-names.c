@@ -8,7 +8,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/phys-device-mapping-internal.h>
+#include "phys-device-mapping-internal.h"
 
 const dmi_name_set_t dmi_intel_rsd_phys_device_type_names =
 {

@@ -11,7 +11,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/dimm-location-internal.h>
+#include "dimm-location-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_dimm_location_spec =
 {

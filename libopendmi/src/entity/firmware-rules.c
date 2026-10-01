@@ -13,7 +13,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/firmware-internal.h>
+#include "firmware-internal.h"
 
 //
 // Size of 0xFF means that the actual one is in the extended field, which was

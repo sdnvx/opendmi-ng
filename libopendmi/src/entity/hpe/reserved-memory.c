@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/reserved-memory-internal.h>
+#include "reserved-memory-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_reserved_memory_spec =
 {

@@ -15,7 +15,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/entity/memory-device.h>
 
-#include <opendmi/entity/memory-array-internal.h>
+#include "memory-array-internal.h"
 
 void dmi_memory_array_lint_device_count(dmi_lint_t *lint, const dmi_entity_t *entity)
 {

@@ -14,7 +14,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-reset-internal.h>
+#include "system-reset-internal.h"
 
 const dmi_entity_spec_t dmi_system_reset_spec =
 {

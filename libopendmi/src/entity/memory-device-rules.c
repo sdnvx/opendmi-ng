@@ -13,10 +13,10 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-device-internal.h>
 #include <opendmi/entity/memory-error-32.h>
 #include <opendmi/entity/memory-error-64.h>
 
+#include "memory-device-internal.h"
 
 /**
  * @internal

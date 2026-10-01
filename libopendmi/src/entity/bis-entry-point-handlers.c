@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/bis-entry-point-internal.h>
+#include "bis-entry-point-internal.h"
 
 const dmi_attribute_t dmi_bis_real_mode_address_attrs[] =
 {

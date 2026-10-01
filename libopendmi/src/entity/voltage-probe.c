@@ -7,9 +7,9 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
-#include <opendmi/entity/probe-internal.h>
 
-#include <opendmi/entity/voltage-probe-internal.h>
+#include "probe-internal.h"
+#include "voltage-probe-internal.h"
 
 const dmi_entity_spec_t dmi_voltage_probe_spec =
 {

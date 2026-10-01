@@ -9,7 +9,7 @@
 #include <opendmi/lint.h>
 #include <opendmi/value.h>
 
-#include <opendmi/entity/memory-device-internal.h>
+#include "memory-device-internal.h"
 
 const dmi_entity_spec_t dmi_memory_device_spec =
 {

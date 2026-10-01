@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/memory-device-internal.h>
+#include "memory-device-internal.h"
 
 const dmi_name_set_t dmi_intel_rsd_memory_type_names =
 {

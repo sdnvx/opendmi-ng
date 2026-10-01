@@ -15,7 +15,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/utils/endian.h>
 
-#include <opendmi/entity/mgmt-controller-internal.h>
+#include "mgmt-controller-internal.h"
 
 const dmi_name_set_t dmi_mgmt_if_type_names =
 {

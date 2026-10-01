@@ -12,7 +12,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/firmware-inventory-internal.h>
+#include "firmware-inventory-internal.h"
 
 const dmi_name_set_t dmi_firmware_version_format_names =
 {

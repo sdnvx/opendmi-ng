@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-event-log-internal.h>
+#include "system-event-log-internal.h"
 
 const dmi_attribute_t dmi_system_log_type_descriptor_attrs[] =
 {

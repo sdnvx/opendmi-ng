@@ -20,7 +20,8 @@
 #include <opendmi/utils/codec.h>
 
 #include <opendmi/entity/cache.h>
-#include <opendmi/entity/processor-internal.h>
+
+#include "processor-internal.h"
 
 static void dmi_processor_decode_id(const dmi_entity_t *entity, dmi_processor_t *info);
 static void dmi_processor_decode_id_x86(const dmi_entity_t *entity, dmi_processor_t *info,

@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 
-#include <opendmi/entity/additional-info-internal.h>
+#include "additional-info-internal.h"
 
 const dmi_entity_spec_t dmi_additional_info_spec =
 {

@@ -10,7 +10,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/system-config-internal.h>
+#include "system-config-internal.h"
 
 const dmi_entity_spec_t dmi_system_config_opts_spec =
 {

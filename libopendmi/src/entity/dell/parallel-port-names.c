@@ -7,7 +7,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/dell.h>
 
-#include <opendmi/entity/dell/parallel-port-internal.h>
+#include "parallel-port-internal.h"
 
 const dmi_name_set_t dmi_dell_parallel_port_connector_type_names =
 {

@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/bis-entry-point-internal.h>
+#include "bis-entry-point-internal.h"
 
 const dmi_entity_spec_t dmi_bis_entry_point_spec =
 {

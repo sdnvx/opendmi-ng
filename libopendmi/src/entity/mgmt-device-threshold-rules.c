@@ -12,7 +12,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/value.h>
 
-#include <opendmi/entity/mgmt-device-threshold-internal.h>
+#include "mgmt-device-threshold-internal.h"
 
 //
 // Thresholds are ordered, since crossing a critical one is worse than

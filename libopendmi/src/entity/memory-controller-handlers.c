@@ -11,7 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/memory-controller-internal.h>
+#include "memory-controller-internal.h"
 
 //
 // Module size is carried as the power of two it is a number of megabytes of.

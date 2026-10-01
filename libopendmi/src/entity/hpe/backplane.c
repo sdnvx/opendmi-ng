@@ -11,7 +11,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/backplane-internal.h>
+#include "backplane-internal.h"
 
 const dmi_entity_spec_t dmi_hpe_backplane_spec =
 {

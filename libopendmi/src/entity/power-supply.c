@@ -9,7 +9,7 @@
 #include <opendmi/lint.h>
 #include <opendmi/value.h>
 
-#include <opendmi/entity/power-supply-internal.h>
+#include "power-supply-internal.h"
 
 const dmi_entity_spec_t dmi_power_supply_spec =
 {

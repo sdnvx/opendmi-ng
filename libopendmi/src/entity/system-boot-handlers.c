@@ -9,7 +9,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 
-#include <opendmi/entity/system-boot-internal.h>
+#include "system-boot-internal.h"
 
 //
 // Vendor- and product-specific codes carry data of their own.

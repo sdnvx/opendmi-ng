@@ -8,7 +8,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/apple.h>
 
-#include <opendmi/entity/apple/platform-feature-internal.h>
+#include "platform-feature-internal.h"
 
 const dmi_entity_spec_t dmi_apple_platform_feature_spec =
 {

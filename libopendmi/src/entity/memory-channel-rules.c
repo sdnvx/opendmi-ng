@@ -12,7 +12,7 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/entity/memory-device.h>
 
-#include <opendmi/entity/memory-channel-internal.h>
+#include "memory-channel-internal.h"
 
 //
 // Devices of a channel share its capacity, so the load they put on it

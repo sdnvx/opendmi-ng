@@ -11,7 +11,7 @@
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
 
-#include <opendmi/entity/ipmi-device-internal.h>
+#include "ipmi-device-internal.h"
 
 const dmi_name_set_t dmi_ipmi_interface_names =
 {

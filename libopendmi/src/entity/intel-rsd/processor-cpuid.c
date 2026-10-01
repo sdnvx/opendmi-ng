@@ -8,7 +8,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/module/intel-rsd.h>
 
-#include <opendmi/entity/intel-rsd/processor-cpuid-internal.h>
+#include "processor-cpuid-internal.h"
 
 const dmi_entity_spec_t dmi_intel_rsd_processor_cpuid_spec =
 {

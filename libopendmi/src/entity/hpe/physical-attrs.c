@@ -9,7 +9,7 @@
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
 
-#include <opendmi/entity/hpe/physical-attrs-internal.h>
+#include "physical-attrs-internal.h"
 
 //
 // Up to G7, the structure holds 16 characters instead of the UUID, e.g.
