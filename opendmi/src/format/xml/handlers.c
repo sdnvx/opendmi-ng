@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <time.h>
+#include <errno.h>
 #include <inttypes.h>
 #include <limits.h>
 #include <assert.h>
@@ -17,6 +18,20 @@
 #include <opendmi/format/iter.h>
 #include <opendmi/format/xml/handlers.h>
 #include <opendmi/format/xml/helpers.h>
+
+/**
+ * @internal
+ * @brief Write callback of the XML output buffer, which writes to the output
+ * stream of the session and keeps the reason of a failure.
+ */
+static int dmi_xml_write(void *context, const char *buffer, int length);
+
+/**
+ * @internal
+ * @brief Close callback of the XML output buffer, which flushes the output
+ * stream of the session and leaves closing it to the caller, who owns it.
+ */
+static int dmi_xml_close(void *context);
 
 #ifdef _WIN32
 static inline struct tm *gmtime_r(const time_t *timep, struct tm *result)
@@ -40,8 +55,12 @@ void *dmi_xml_initialize(dmi_context_t *context, FILE *stream, const dmi_format_
     if (session == nullptr)
         return nullptr;
 
+    // Output buffer writes through the session, so the stream is set first
+    session->context = context;
+    session->stream  = stream;
+
     do {
-        session->buffer = xmlOutputBufferCreateFile(stream, nullptr);
+        session->buffer = xmlOutputBufferCreateIO(dmi_xml_write, dmi_xml_close, session, nullptr);
         if (session->buffer == nullptr) {
             dmi_error_raise_ex(context, DMI_ERROR_INTERNAL, "Unable to create xmlOutputBuffer");
             break;
@@ -74,9 +93,6 @@ void *dmi_xml_initialize(dmi_context_t *context, FILE *stream, const dmi_format_
         dmi_free(session);
         return nullptr;
     }
-
-    session->context = context;
-    session->stream  = stream;
 
     // Default options are used if not specified
     if (options != nullptr)
@@ -776,4 +792,43 @@ void dmi_xml_finalize(dmi_xml_session_t *session)
 
     xmlFreeTextWriter(session->writer);
     dmi_free(session);
+}
+
+static int dmi_xml_write(void *context, const char *buffer, int length)
+{
+    dmi_xml_session_t *session = context;
+
+    assert(session != nullptr);
+
+    if (length <= 0)
+        return 0;
+
+    errno = 0;
+
+    if (fwrite(buffer, 1, (size_t)length, session->stream) < (size_t)length) {
+        if (session->write_error == 0)
+            session->write_error = (errno != 0) ? errno : EIO;
+
+        return -1;
+    }
+
+    return length;
+}
+
+static int dmi_xml_close(void *context)
+{
+    dmi_xml_session_t *session = context;
+
+    assert(session != nullptr);
+
+    errno = 0;
+
+    if (fflush(session->stream) != 0) {
+        if (session->write_error == 0)
+            session->write_error = (errno != 0) ? errno : EIO;
+
+        return -1;
+    }
+
+    return 0;
 }

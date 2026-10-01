@@ -53,6 +53,14 @@ typedef struct dmi_xml_session
      * @brief XML writer handle.
      */
     xmlTextWriter *writer;
+
+    /**
+     * @brief Error number of the first failed write to the output stream, or
+     * zero. Kept by the session rather than taken from `ferror()`, since some
+     * C libraries, e.g. the one of NetBSD, fail writes to a stream which is
+     * not open for writing without setting its error indicator.
+     */
+    int write_error;
 } dmi_xml_session_t;
 
 #endif // !OPENDMI_FORMAT_XML_TYPES_H

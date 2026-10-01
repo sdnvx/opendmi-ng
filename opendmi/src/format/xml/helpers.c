@@ -24,10 +24,10 @@ bool dmi_xml_check(dmi_xml_session_t *session, int rv)
     if (rv >= 0)
         return true;
 
-    // Writer fails on errors of the stream, which leave the reason in errno,
+    // Writer fails on errors of the stream, whose reason the session keeps,
     // and on errors of its own
-    if (ferror(session->stream))
-        dmi_error_raise_ex(session->context, DMI_ERROR_FILE_WRITE, "%s", strerror(errno));
+    if (session->write_error != 0)
+        dmi_error_raise_ex(session->context, DMI_ERROR_FILE_WRITE, "%s", strerror(session->write_error));
     else
         dmi_error_raise_ex(session->context, DMI_ERROR_INTERNAL, "Unable to write XML document");
 
