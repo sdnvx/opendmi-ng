@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_oem_strings dmi_oem_strings_t;
+#ifndef DMI_OEM_STRINGS_T
+#   define DMI_OEM_STRINGS_T
+    typedef struct dmi_oem_strings dmi_oem_strings_t;
+#endif // !DMI_OEM_STRINGS_T
 
 /**
  * @brief OEM strings structure (type 11).

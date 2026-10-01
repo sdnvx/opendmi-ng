@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_ipmi_device         dmi_ipmi_device_t;
-typedef union  dmi_ipmi_device_details dmi_ipmi_device_details_t;
+#ifndef DMI_IPMI_DEVICE_T
+#   define DMI_IPMI_DEVICE_T
+    typedef struct dmi_ipmi_device dmi_ipmi_device_t;
+#endif // !DMI_IPMI_DEVICE_T
+
+#ifndef DMI_IPMI_DEVICE_DETAILS_T
+#   define DMI_IPMI_DEVICE_DETAILS_T
+    typedef union dmi_ipmi_device_details dmi_ipmi_device_details_t;
+#endif // !DMI_IPMI_DEVICE_DETAILS_T
 
 /**
  * @brief Baseboard management controller (BMC) interface types.

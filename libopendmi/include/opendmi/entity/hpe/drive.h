@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/hpe/common.h>
 
-typedef struct dmi_hpe_drive dmi_hpe_drive_t;
+#ifndef DMI_HPE_DRIVE_T
+#   define DMI_HPE_DRIVE_T
+    typedef struct dmi_hpe_drive dmi_hpe_drive_t;
+#endif // !DMI_HPE_DRIVE_T
 
 /**
  * @brief Type of a drive.

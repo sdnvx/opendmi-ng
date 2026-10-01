@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_super_io dmi_hpe_super_io_t;
+#ifndef DMI_HPE_SUPER_IO_T
+#   define DMI_HPE_SUPER_IO_T
+    typedef struct dmi_hpe_super_io dmi_hpe_super_io_t;
+#endif // !DMI_HPE_SUPER_IO_T
 
 /**
  * @brief HP/HPE Super I/O enable/disable indicator (type 194).

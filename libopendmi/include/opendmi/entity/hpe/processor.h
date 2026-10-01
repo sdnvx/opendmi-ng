@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_processor dmi_hpe_processor_t;
+#ifndef DMI_HPE_PROCESSOR_T
+#   define DMI_HPE_PROCESSOR_T
+    typedef struct dmi_hpe_processor dmi_hpe_processor_t;
+#endif // !DMI_HPE_PROCESSOR_T
 
 /**
  * @brief HP/HPE processor specific information (type 197).

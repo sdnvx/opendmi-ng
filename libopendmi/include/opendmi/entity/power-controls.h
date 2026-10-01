@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_power_controls dmi_power_controls_t;
+#ifndef DMI_POWER_CONTROLS_T
+#   define DMI_POWER_CONTROLS_T
+    typedef struct dmi_power_controls dmi_power_controls_t;
+#endif // !DMI_POWER_CONTROLS_T
 
 /**
  * @brief System power controls structure (type 25).

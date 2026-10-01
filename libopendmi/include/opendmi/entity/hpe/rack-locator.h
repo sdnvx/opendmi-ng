@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_rack_locator dmi_hpe_rack_locator_t;
+#ifndef DMI_HPE_RACK_LOCATOR_T
+#   define DMI_HPE_RACK_LOCATOR_T
+    typedef struct dmi_hpe_rack_locator dmi_hpe_rack_locator_t;
+#endif // !DMI_HPE_RACK_LOCATOR_T
 
 /**
  * @brief HP/HPE system/rack locator (type 204).

@@ -11,10 +11,25 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_system_event_log   dmi_system_event_log_t;
-typedef union  dmi_system_log_status   dmi_system_log_status_t;
-typedef struct dmi_system_log_io_ports dmi_system_log_io_ports_t;
-typedef struct dmi_system_log_type_descriptor dmi_system_log_type_descriptor_t;
+#ifndef DMI_SYSTEM_EVENT_LOG_T
+#   define DMI_SYSTEM_EVENT_LOG_T
+    typedef struct dmi_system_event_log dmi_system_event_log_t;
+#endif // !DMI_SYSTEM_EVENT_LOG_T
+
+#ifndef DMI_SYSTEM_LOG_IO_PORTS_T
+#   define DMI_SYSTEM_LOG_IO_PORTS_T
+    typedef struct dmi_system_log_io_ports dmi_system_log_io_ports_t;
+#endif // !DMI_SYSTEM_LOG_IO_PORTS_T
+
+#ifndef DMI_SYSTEM_LOG_TYPE_DESCRIPTOR_T
+#   define DMI_SYSTEM_LOG_TYPE_DESCRIPTOR_T
+    typedef struct dmi_system_log_type_descriptor dmi_system_log_type_descriptor_t;
+#endif // !DMI_SYSTEM_LOG_TYPE_DESCRIPTOR_T
+
+#ifndef DMI_SYSTEM_LOG_STATUS_T
+#   define DMI_SYSTEM_LOG_STATUS_T
+    typedef union dmi_system_log_status dmi_system_log_status_t;
+#endif // !DMI_SYSTEM_LOG_STATUS_T
 
 /**
  * @brief System event log access methods.

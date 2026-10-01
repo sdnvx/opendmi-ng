@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_mei        dmi_intel_mei_t;
-typedef struct dmi_intel_mei_device dmi_intel_mei_device_t;
+#ifndef DMI_INTEL_MEI_T
+#   define DMI_INTEL_MEI_T
+    typedef struct dmi_intel_mei dmi_intel_mei_t;
+#endif // !DMI_INTEL_MEI_T
+
+#ifndef DMI_INTEL_MEI_DEVICE_T
+#   define DMI_INTEL_MEI_DEVICE_T
+    typedef struct dmi_intel_mei_device dmi_intel_mei_device_t;
+#endif // !DMI_INTEL_MEI_DEVICE_T
 
 /**
  * @brief Working states of the Management Engine firmware, as bits 0 to 3 of

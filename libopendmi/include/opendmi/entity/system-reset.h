@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_system_reset dmi_system_reset_t;
+#ifndef DMI_SYSTEM_RESET_T
+#   define DMI_SYSTEM_RESET_T
+    typedef struct dmi_system_reset dmi_system_reset_t;
+#endif // !DMI_SYSTEM_RESET_T
 
 /**
  * @brief System boot options.

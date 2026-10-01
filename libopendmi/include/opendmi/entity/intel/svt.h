@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_svt           dmi_intel_svt_t;
-typedef struct dmi_intel_svt_milestone dmi_intel_svt_milestone_t;
+#ifndef DMI_INTEL_SVT_T
+#   define DMI_INTEL_SVT_T
+    typedef struct dmi_intel_svt dmi_intel_svt_t;
+#endif // !DMI_INTEL_SVT_T
+
+#ifndef DMI_INTEL_SVT_MILESTONE_T
+#   define DMI_INTEL_SVT_MILESTONE_T
+    typedef struct dmi_intel_svt_milestone dmi_intel_svt_milestone_t;
+#endif // !DMI_INTEL_SVT_MILESTONE_T
 
 /**
  * @brief Milestone of the boot, which Intel Silicon View Technology reports.

@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_dimm_location dmi_hpe_dimm_location_t;
+#ifndef DMI_HPE_DIMM_LOCATION_T
+#   define DMI_HPE_DIMM_LOCATION_T
+    typedef struct dmi_hpe_dimm_location dmi_hpe_dimm_location_t;
+#endif // !DMI_HPE_DIMM_LOCATION_T
 
 /**
  * @brief HP/HPE DIMM location record (type 202).

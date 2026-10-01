@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_nic_info dmi_hpe_nic_info_t;
-typedef struct dmi_hpe_nic_port dmi_hpe_nic_port_t;
+#ifndef DMI_HPE_NIC_INFO_T
+#   define DMI_HPE_NIC_INFO_T
+    typedef struct dmi_hpe_nic_info dmi_hpe_nic_info_t;
+#endif // !DMI_HPE_NIC_INFO_T
+
+#ifndef DMI_HPE_NIC_PORT_T
+#   define DMI_HPE_NIC_PORT_T
+    typedef struct dmi_hpe_nic_port dmi_hpe_nic_port_t;
+#endif // !DMI_HPE_NIC_PORT_T
 
 /**
  * @brief State of a network port.

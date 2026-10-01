@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/hpe/common.h>
 
-typedef struct dmi_hpe_inventory dmi_hpe_inventory_t;
+#ifndef DMI_HPE_INVENTORY_T
+#   define DMI_HPE_INVENTORY_T
+    typedef struct dmi_hpe_inventory dmi_hpe_inventory_t;
+#endif // !DMI_HPE_INVENTORY_T
 
 /**
  * @brief Attribute of a firmware image, as a bit of the attribute masks.

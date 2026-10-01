@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_tcontrol dmi_hpe_tcontrol_t;
+#ifndef DMI_HPE_TCONTROL_T
+#   define DMI_HPE_TCONTROL_T
+    typedef struct dmi_hpe_tcontrol dmi_hpe_tcontrol_t;
+#endif // !DMI_HPE_TCONTROL_T
 
 /**
  * @brief HP/HPE processor TControl information (type 211).

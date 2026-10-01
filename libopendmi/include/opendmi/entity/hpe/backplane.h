@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_backplane dmi_hpe_backplane_t;
+#ifndef DMI_HPE_BACKPLANE_T
+#   define DMI_HPE_BACKPLANE_T
+    typedef struct dmi_hpe_backplane dmi_hpe_backplane_t;
+#endif // !DMI_HPE_BACKPLANE_T
 
 /**
  * @brief HP/HPE HDD backplane FRU information (type 236), up to Gen10 Plus.

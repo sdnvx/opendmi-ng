@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_dimm_vendor dmi_hpe_dimm_vendor_t;
+#ifndef DMI_HPE_DIMM_VENDOR_T
+#   define DMI_HPE_DIMM_VENDOR_T
+    typedef struct dmi_hpe_dimm_vendor dmi_hpe_dimm_vendor_t;
+#endif // !DMI_HPE_DIMM_VENDOR_T
 
 /**
  * @brief HP/HPE DIMM vendor information (type 237), from Gen9 onwards.

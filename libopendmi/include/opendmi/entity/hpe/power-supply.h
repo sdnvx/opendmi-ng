@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_power_supply dmi_hpe_power_supply_t;
+#ifndef DMI_HPE_POWER_SUPPLY_T
+#   define DMI_HPE_POWER_SUPPLY_T
+    typedef struct dmi_hpe_power_supply dmi_hpe_power_supply_t;
+#endif // !DMI_HPE_POWER_SUPPLY_T
 
 /**
  * @brief Method the FRU of a power supply is accessed by.

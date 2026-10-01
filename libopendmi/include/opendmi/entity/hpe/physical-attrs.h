@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/uuid.h>
 
-typedef struct dmi_hpe_physical_attrs dmi_hpe_physical_attrs_t;
+#ifndef DMI_HPE_PHYSICAL_ATTRS_T
+#   define DMI_HPE_PHYSICAL_ATTRS_T
+    typedef struct dmi_hpe_physical_attrs dmi_hpe_physical_attrs_t;
+#endif // !DMI_HPE_PHYSICAL_ATTRS_T
 
 /**
  * @brief HP/HPE physical attribute information (type 226).

@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_pointing_device dmi_pointing_device_t;
+#ifndef DMI_POINTING_DEVICE_T
+#   define DMI_POINTING_DEVICE_T
+    typedef struct dmi_pointing_device dmi_pointing_device_t;
+#endif // !DMI_POINTING_DEVICE_T
 
 /**
  * @brief Pointing device types.

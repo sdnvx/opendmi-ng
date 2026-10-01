@@ -12,8 +12,15 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
-typedef struct dmi_intel_rsd_cabled_pcie dmi_intel_rsd_cabled_pcie_t;
-typedef struct dmi_intel_rsd_cabled_pcie_port dmi_intel_rsd_cabled_pcie_port_t;
+#ifndef DMI_INTEL_RSD_CABLED_PCIE_T
+#   define DMI_INTEL_RSD_CABLED_PCIE_T
+    typedef struct dmi_intel_rsd_cabled_pcie dmi_intel_rsd_cabled_pcie_t;
+#endif // !DMI_INTEL_RSD_CABLED_PCIE_T
+
+#ifndef DMI_INTEL_RSD_CABLED_PCIE_PORT_T
+#   define DMI_INTEL_RSD_CABLED_PCIE_PORT_T
+    typedef struct dmi_intel_rsd_cabled_pcie_port dmi_intel_rsd_cabled_pcie_port_t;
+#endif // !DMI_INTEL_RSD_CABLED_PCIE_PORT_T
 
 /**
  * @brief Intel RSD cabled PCIe port information (type 199).

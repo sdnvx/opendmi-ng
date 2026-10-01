@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_rsd_processor_cpuid dmi_intel_rsd_processor_cpuid_t;
-typedef struct dmi_intel_rsd_cpuid_leaf      dmi_intel_rsd_cpuid_leaf_t;
+#ifndef DMI_INTEL_RSD_PROCESSOR_CPUID_T
+#   define DMI_INTEL_RSD_PROCESSOR_CPUID_T
+    typedef struct dmi_intel_rsd_processor_cpuid dmi_intel_rsd_processor_cpuid_t;
+#endif // !DMI_INTEL_RSD_PROCESSOR_CPUID_T
+
+#ifndef DMI_INTEL_RSD_CPUID_LEAF_T
+#   define DMI_INTEL_RSD_CPUID_LEAF_T
+    typedef struct dmi_intel_rsd_cpuid_leaf dmi_intel_rsd_cpuid_leaf_t;
+#endif // !DMI_INTEL_RSD_CPUID_LEAF_T
 
 /**
  * @brief Intel RSD processor CPUID information subtypes.

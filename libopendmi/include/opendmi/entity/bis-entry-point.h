@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_bis_entry_point       dmi_bis_entry_point_t;
-typedef struct dmi_bis_real_mode_address dmi_bis_real_mode_address_t;
+#ifndef DMI_BIS_ENTRY_POINT_T
+#   define DMI_BIS_ENTRY_POINT_T
+    typedef struct dmi_bis_entry_point dmi_bis_entry_point_t;
+#endif // !DMI_BIS_ENTRY_POINT_T
+
+#ifndef DMI_BIS_REAL_MODE_ADDRESS_T
+#   define DMI_BIS_REAL_MODE_ADDRESS_T
+    typedef struct dmi_bis_real_mode_address dmi_bis_real_mode_address_t;
+#endif // !DMI_BIS_REAL_MODE_ADDRESS_T
 
 /**
  * @brief Real mode (16:16) address.

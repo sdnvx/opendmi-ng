@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_platform dmi_intel_platform_t;
+#ifndef DMI_INTEL_PLATFORM_T
+#   define DMI_INTEL_PLATFORM_T
+    typedef struct dmi_intel_platform dmi_intel_platform_t;
+#endif // !DMI_INTEL_PLATFORM_T
 
 /**
  * @brief Intel platform information (type 148).

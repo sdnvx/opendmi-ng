@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_rom_info dmi_hpe_rom_info_t;
+#ifndef DMI_HPE_ROM_INFO_T
+#   define DMI_HPE_ROM_INFO_T
+    typedef struct dmi_hpe_rom_info dmi_hpe_rom_info_t;
+#endif // !DMI_HPE_ROM_INFO_T
 
 /**
  * @brief HP/HPE other ROM information (type 193).

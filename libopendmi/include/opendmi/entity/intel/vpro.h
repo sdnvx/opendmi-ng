@@ -11,14 +11,40 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_vpro         dmi_intel_vpro_t;
-typedef struct dmi_intel_vpro_version dmi_intel_vpro_version_t;
+#ifndef DMI_INTEL_VPRO_T
+#   define DMI_INTEL_VPRO_T
+    typedef struct dmi_intel_vpro dmi_intel_vpro_t;
+#endif // !DMI_INTEL_VPRO_T
 
-typedef union dmi_intel_vpro_cpu_caps  dmi_intel_vpro_cpu_caps_t;
-typedef union dmi_intel_vpro_mch_caps  dmi_intel_vpro_mch_caps_t;
-typedef union dmi_intel_vpro_me_caps   dmi_intel_vpro_me_caps_t;
-typedef union dmi_intel_vpro_tpm_caps  dmi_intel_vpro_tpm_caps_t;
-typedef union dmi_intel_vpro_bios_caps dmi_intel_vpro_bios_caps_t;
+#ifndef DMI_INTEL_VPRO_VERSION_T
+#   define DMI_INTEL_VPRO_VERSION_T
+    typedef struct dmi_intel_vpro_version dmi_intel_vpro_version_t;
+#endif // !DMI_INTEL_VPRO_VERSION_T
+
+#ifndef DMI_INTEL_VPRO_CPU_CAPS_T
+#   define DMI_INTEL_VPRO_CPU_CAPS_T
+    typedef union dmi_intel_vpro_cpu_caps dmi_intel_vpro_cpu_caps_t;
+#endif // !DMI_INTEL_VPRO_CPU_CAPS_T
+
+#ifndef DMI_INTEL_VPRO_MCH_CAPS_T
+#   define DMI_INTEL_VPRO_MCH_CAPS_T
+    typedef union dmi_intel_vpro_mch_caps dmi_intel_vpro_mch_caps_t;
+#endif // !DMI_INTEL_VPRO_MCH_CAPS_T
+
+#ifndef DMI_INTEL_VPRO_ME_CAPS_T
+#   define DMI_INTEL_VPRO_ME_CAPS_T
+    typedef union dmi_intel_vpro_me_caps dmi_intel_vpro_me_caps_t;
+#endif // !DMI_INTEL_VPRO_ME_CAPS_T
+
+#ifndef DMI_INTEL_VPRO_TPM_CAPS_T
+#   define DMI_INTEL_VPRO_TPM_CAPS_T
+    typedef union dmi_intel_vpro_tpm_caps dmi_intel_vpro_tpm_caps_t;
+#endif // !DMI_INTEL_VPRO_TPM_CAPS_T
+
+#ifndef DMI_INTEL_VPRO_BIOS_CAPS_T
+#   define DMI_INTEL_VPRO_BIOS_CAPS_T
+    typedef union dmi_intel_vpro_bios_caps dmi_intel_vpro_bios_caps_t;
+#endif // !DMI_INTEL_VPRO_BIOS_CAPS_T
 
 /**
  * @brief Version of a firmware component, as Intel vPro information gives it.

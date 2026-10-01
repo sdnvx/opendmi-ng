@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_sun_memory_device_ex dmi_sun_memory_device_ex_t;
+#ifndef DMI_SUN_MEMORY_DEVICE_EX_T
+#   define DMI_SUN_MEMORY_DEVICE_EX_T
+    typedef struct dmi_sun_memory_device_ex dmi_sun_memory_device_ex_t;
+#endif // !DMI_SUN_MEMORY_DEVICE_EX_T
 
 /**
  * @brief Sun memory device extended information (type 145).

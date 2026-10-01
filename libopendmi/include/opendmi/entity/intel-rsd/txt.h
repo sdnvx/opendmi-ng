@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_rsd_txt dmi_intel_rsd_txt_t;
+#ifndef DMI_INTEL_RSD_TXT_T
+#   define DMI_INTEL_RSD_TXT_T
+    typedef struct dmi_intel_rsd_txt dmi_intel_rsd_txt_t;
+#endif // !DMI_INTEL_RSD_TXT_T
 
 /**
  * @brief Intel RSD TXT status values.

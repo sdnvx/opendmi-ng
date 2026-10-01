@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/uuid.h>
 
-typedef struct dmi_system dmi_system_t;
+#ifndef DMI_SYSTEM_T
+#   define DMI_SYSTEM_T
+    typedef struct dmi_system dmi_system_t;
+#endif // !DMI_SYSTEM_T
 
 /**
  * @brief System wake-up types.

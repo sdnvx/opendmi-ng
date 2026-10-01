@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_version dmi_hpe_version_t;
+#ifndef DMI_HPE_VERSION_T
+#   define DMI_HPE_VERSION_T
+    typedef struct dmi_hpe_version dmi_hpe_version_t;
+#endif // !DMI_HPE_VERSION_T
 
 /**
  * @brief Firmware component a version indicator describes.

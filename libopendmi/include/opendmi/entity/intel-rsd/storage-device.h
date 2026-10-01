@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
-typedef struct dmi_intel_rsd_storage_device dmi_intel_rsd_storage_device_t;
+#ifndef DMI_INTEL_RSD_STORAGE_DEVICE_T
+#   define DMI_INTEL_RSD_STORAGE_DEVICE_T
+    typedef struct dmi_intel_rsd_storage_device dmi_intel_rsd_storage_device_t;
+#endif // !DMI_INTEL_RSD_STORAGE_DEVICE_T
 
 /**
  * @brief Intel RSD storage connector types.

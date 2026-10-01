@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_trusted_module dmi_hpe_trusted_module_t;
+#ifndef DMI_HPE_TRUSTED_MODULE_T
+#   define DMI_HPE_TRUSTED_MODULE_T
+    typedef struct dmi_hpe_trusted_module dmi_hpe_trusted_module_t;
+#endif // !DMI_HPE_TRUSTED_MODULE_T
 
 /**
  * @brief Presence of a trusted module.

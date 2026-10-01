@@ -12,6 +12,11 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
+#ifndef DMI_MEMORY_ARRAY_T
+#   define DMI_MEMORY_ARRAY_T
+    typedef struct dmi_memory_array dmi_memory_array_t;
+#endif // !DMI_MEMORY_ARRAY_T
+
 /**
  * @brief Memory array location values.
  */
@@ -108,8 +113,6 @@ struct dmi_memory_array
      */
     unsigned int device_count;
 };
-
-typedef struct dmi_memory_array dmi_memory_array_t;
 
 /**
  * @brief Physical memory array entity specification.

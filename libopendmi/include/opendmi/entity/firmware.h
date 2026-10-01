@@ -59,7 +59,10 @@ dmi_packed_union(dmi_firmware_features)
 
 dmi_static_assert_value_union(dmi_firmware_features);
 
-typedef union dmi_firmware_features dmi_firmware_features_t;
+#ifndef DMI_FIRMWARE_FEATURES_T
+#   define DMI_FIRMWARE_FEATURES_T
+    typedef union dmi_firmware_features dmi_firmware_features_t;
+#endif // !DMI_FIRMWARE_FEATURES_T
 
 /**
  * @brief Platform firmware extended features.
@@ -97,7 +100,10 @@ dmi_packed_union(dmi_firmware_features_ex)
 
 dmi_static_assert_value_union(dmi_firmware_features_ex);
 
-typedef union dmi_firmware_features_ex dmi_firmware_features_ex_t;
+#ifndef DMI_FIRMWARE_FEATURES_EX_T
+#   define DMI_FIRMWARE_FEATURES_EX_T
+    typedef union dmi_firmware_features_ex dmi_firmware_features_ex_t;
+#endif // !DMI_FIRMWARE_FEATURES_EX_T
 
 /**
  * @brief Platform firmware information structure (type 0).
@@ -170,7 +176,10 @@ struct dmi_firmware
     dmi_version_t controller_version;
 };
 
-typedef struct dmi_firmware dmi_firmware_t;
+#ifndef DMI_FIRMWARE_T
+#   define DMI_FIRMWARE_T
+    typedef struct dmi_firmware dmi_firmware_t;
+#endif // !DMI_FIRMWARE_T
 
 /**
  * @brief Platform firmware information entity specification.

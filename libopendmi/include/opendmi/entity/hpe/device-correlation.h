@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_device_correlation dmi_hpe_device_correlation_t;
+#ifndef DMI_HPE_DEVICE_CORRELATION_T
+#   define DMI_HPE_DEVICE_CORRELATION_T
+    typedef struct dmi_hpe_device_correlation dmi_hpe_device_correlation_t;
+#endif // !DMI_HPE_DEVICE_CORRELATION_T
 
 /**
  * @brief Type of a device, as UEFI boot entries name it.

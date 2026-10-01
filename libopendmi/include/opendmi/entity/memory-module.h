@@ -12,10 +12,25 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/name.h>
 
-typedef struct dmi_memory_module       dmi_memory_module_t;
-typedef struct dmi_memory_module_size  dmi_memory_module_size_t;
-typedef union  dmi_memory_module_type  dmi_memory_module_type_t;
-typedef union  dmi_memory_module_error dmi_memory_module_error_t;
+#ifndef DMI_MEMORY_MODULE_T
+#   define DMI_MEMORY_MODULE_T
+    typedef struct dmi_memory_module dmi_memory_module_t;
+#endif // !DMI_MEMORY_MODULE_T
+
+#ifndef DMI_MEMORY_MODULE_SIZE_T
+#   define DMI_MEMORY_MODULE_SIZE_T
+    typedef struct dmi_memory_module_size dmi_memory_module_size_t;
+#endif // !DMI_MEMORY_MODULE_SIZE_T
+
+#ifndef DMI_MEMORY_MODULE_TYPE_T
+#   define DMI_MEMORY_MODULE_TYPE_T
+    typedef union dmi_memory_module_type dmi_memory_module_type_t;
+#endif // !DMI_MEMORY_MODULE_TYPE_T
+
+#ifndef DMI_MEMORY_MODULE_ERROR_T
+#   define DMI_MEMORY_MODULE_ERROR_T
+    typedef union dmi_memory_module_error dmi_memory_module_error_t;
+#endif // !DMI_MEMORY_MODULE_ERROR_T
 
 /**
  * @brief Memory module type details.

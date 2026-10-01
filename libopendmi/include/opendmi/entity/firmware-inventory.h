@@ -12,12 +12,35 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/uuid.h>
 
-typedef struct dmi_firmware_inventory           dmi_firmware_inventory_t;
-typedef union  dmi_firmware_inventory_features  dmi_firmware_inventory_features_t;
-typedef struct dmi_firmware_inventory_component dmi_firmware_inventory_component_t;
-typedef struct dmi_firmware_version_number      dmi_firmware_version_number_t;
-typedef struct dmi_firmware_version             dmi_firmware_version_t;
-typedef struct dmi_firmware_ident               dmi_firmware_ident_t;
+#ifndef DMI_FIRMWARE_INVENTORY_T
+#   define DMI_FIRMWARE_INVENTORY_T
+    typedef struct dmi_firmware_inventory dmi_firmware_inventory_t;
+#endif // !DMI_FIRMWARE_INVENTORY_T
+
+#ifndef DMI_FIRMWARE_INVENTORY_COMPONENT_T
+#   define DMI_FIRMWARE_INVENTORY_COMPONENT_T
+    typedef struct dmi_firmware_inventory_component dmi_firmware_inventory_component_t;
+#endif // !DMI_FIRMWARE_INVENTORY_COMPONENT_T
+
+#ifndef DMI_FIRMWARE_VERSION_NUMBER_T
+#   define DMI_FIRMWARE_VERSION_NUMBER_T
+    typedef struct dmi_firmware_version_number dmi_firmware_version_number_t;
+#endif // !DMI_FIRMWARE_VERSION_NUMBER_T
+
+#ifndef DMI_FIRMWARE_VERSION_T
+#   define DMI_FIRMWARE_VERSION_T
+    typedef struct dmi_firmware_version dmi_firmware_version_t;
+#endif // !DMI_FIRMWARE_VERSION_T
+
+#ifndef DMI_FIRMWARE_IDENT_T
+#   define DMI_FIRMWARE_IDENT_T
+    typedef struct dmi_firmware_ident dmi_firmware_ident_t;
+#endif // !DMI_FIRMWARE_IDENT_T
+
+#ifndef DMI_FIRMWARE_INVENTORY_FEATURES_T
+#   define DMI_FIRMWARE_INVENTORY_FEATURES_T
+    typedef union dmi_firmware_inventory_features dmi_firmware_inventory_features_t;
+#endif // !DMI_FIRMWARE_INVENTORY_FEATURES_T
 
 /**
  * @brief Firmware version formats.

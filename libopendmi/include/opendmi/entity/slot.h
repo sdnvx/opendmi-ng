@@ -10,11 +10,24 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
-typedef struct dmi_slot dmi_slot_t;
+#ifndef DMI_SLOT_T
+#   define DMI_SLOT_T
+    typedef struct dmi_slot dmi_slot_t;
+#endif // !DMI_SLOT_T
 
-typedef union dmi_slot_features dmi_slot_features_t;
-typedef union dmi_slot_features_ex dmi_slot_features_ex_t;
-typedef struct dmi_slot_peer_group dmi_slot_peer_group_t;
+#ifndef DMI_SLOT_FEATURES_T
+#   define DMI_SLOT_FEATURES_T
+    typedef union dmi_slot_features dmi_slot_features_t;
+#endif // !DMI_SLOT_FEATURES_T
+
+#ifndef DMI_SLOT_FEATURES_EX_T
+#   define DMI_SLOT_FEATURES_EX_T
+    typedef union dmi_slot_features_ex dmi_slot_features_ex_t;
+#endif // !DMI_SLOT_FEATURES_EX_T
+#ifndef DMI_SLOT_PEER_GROUP_T
+#   define DMI_SLOT_PEER_GROUP_T
+    typedef struct dmi_slot_peer_group dmi_slot_peer_group_t;
+#endif // !DMI_SLOT_PEER_GROUP_T
 
 /**
  * @brief Slot type identifiers.

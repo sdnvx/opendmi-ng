@@ -12,9 +12,20 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/datetime.h>
 
-typedef struct dmi_lenovo_date dmi_lenovo_date_t;
-typedef struct dmi_lenovo_mtm  dmi_lenovo_mtm_t;
-typedef struct dmi_lenovo_tpm_info dmi_lenovo_tpm_info_t;
+#ifndef DMI_LENOVO_DATE_T
+#   define DMI_LENOVO_DATE_T
+    typedef struct dmi_lenovo_date dmi_lenovo_date_t;
+#endif // !DMI_LENOVO_DATE_T
+
+#ifndef DMI_LENOVO_MTM_T
+#   define DMI_LENOVO_MTM_T
+    typedef struct dmi_lenovo_mtm dmi_lenovo_mtm_t;
+#endif // !DMI_LENOVO_MTM_T
+
+#ifndef DMI_LENOVO_TPM_INFO_T
+#   define DMI_LENOVO_TPM_INFO_T
+    typedef struct dmi_lenovo_tpm_info dmi_lenovo_tpm_info_t;
+#endif // !DMI_LENOVO_TPM_INFO_T
 
 /**
  * @brief Lenovo date record structure (type 134).

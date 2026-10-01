@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/hpe/common.h>
 
-typedef struct dmi_hpe_dimm_attrs dmi_hpe_dimm_attrs_t;
+#ifndef DMI_HPE_DIMM_ATTRS_T
+#   define DMI_HPE_DIMM_ATTRS_T
+    typedef struct dmi_hpe_dimm_attrs dmi_hpe_dimm_attrs_t;
+#endif // !DMI_HPE_DIMM_ATTRS_T
 
 /**
  * @brief HP/HPE DIMM attributes record (type 232), from Gen9 onwards.

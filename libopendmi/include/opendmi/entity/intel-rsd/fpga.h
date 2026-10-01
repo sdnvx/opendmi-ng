@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
-typedef struct dmi_intel_rsd_fpga dmi_intel_rsd_fpga_t;
+#ifndef DMI_INTEL_RSD_FPGA_T
+#   define DMI_INTEL_RSD_FPGA_T
+    typedef struct dmi_intel_rsd_fpga dmi_intel_rsd_fpga_t;
+#endif // !DMI_INTEL_RSD_FPGA_T
 
 /**
  * @brief Intel RSD FPGA types.

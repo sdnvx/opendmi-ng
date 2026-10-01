@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_baseboard          dmi_baseboard_t;
-typedef union  dmi_baseboard_features dmi_baseboard_features_t;
+#ifndef DMI_BASEBOARD_T
+#   define DMI_BASEBOARD_T
+    typedef struct dmi_baseboard dmi_baseboard_t;
+#endif // !DMI_BASEBOARD_T
+
+#ifndef DMI_BASEBOARD_FEATURES_T
+#   define DMI_BASEBOARD_FEATURES_T
+    typedef union dmi_baseboard_features dmi_baseboard_features_t;
+#endif // !DMI_BASEBOARD_FEATURES_T
 
 /**
  * @brief Baseboard type identifiers.

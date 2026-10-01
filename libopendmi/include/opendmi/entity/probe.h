@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
-typedef struct dmi_probe dmi_probe_t;
+#ifndef DMI_PROBE_T
+#   define DMI_PROBE_T
+    typedef struct dmi_probe dmi_probe_t;
+#endif // !DMI_PROBE_T
 
 #define DMI_PROBE_VALUE_UNKNOWN ((dmi_word_t)0x8000U)
 

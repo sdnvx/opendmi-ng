@@ -12,8 +12,15 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/datetime.h>
 
-typedef struct dmi_hpe_microcode       dmi_hpe_microcode_t;
-typedef struct dmi_hpe_microcode_patch dmi_hpe_microcode_patch_t;
+#ifndef DMI_HPE_MICROCODE_T
+#   define DMI_HPE_MICROCODE_T
+    typedef struct dmi_hpe_microcode dmi_hpe_microcode_t;
+#endif // !DMI_HPE_MICROCODE_T
+
+#ifndef DMI_HPE_MICROCODE_PATCH_T
+#   define DMI_HPE_MICROCODE_PATCH_T
+    typedef struct dmi_hpe_microcode_patch dmi_hpe_microcode_patch_t;
+#endif // !DMI_HPE_MICROCODE_PATCH_T
 
 /**
  * @brief CPU microcode patch the firmware carries.

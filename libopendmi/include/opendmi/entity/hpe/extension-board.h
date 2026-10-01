@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_riser     dmi_hpe_riser_t;
-typedef struct dmi_hpe_mhs_riser dmi_hpe_mhs_riser_t;
+#ifndef DMI_HPE_RISER_T
+#   define DMI_HPE_RISER_T
+    typedef struct dmi_hpe_riser dmi_hpe_riser_t;
+#endif // !DMI_HPE_RISER_T
+
+#ifndef DMI_HPE_MHS_RISER_T
+#   define DMI_HPE_MHS_RISER_T
+    typedef struct dmi_hpe_mhs_riser dmi_hpe_mhs_riser_t;
+#endif // !DMI_HPE_MHS_RISER_T
 
 /**
  * @brief Type of an extension board, which selects the layout of the rest of

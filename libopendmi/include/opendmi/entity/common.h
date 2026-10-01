@@ -14,7 +14,10 @@
 #include <opendmi/reader.h>
 #include <opendmi/utils/name.h>
 
-typedef struct dmi_pci_addr dmi_pci_addr_t;
+#ifndef DMI_PCI_ADDR_T
+#   define DMI_PCI_ADDR_T
+    typedef struct dmi_pci_addr dmi_pci_addr_t;
+#endif // !DMI_PCI_ADDR_T
 
 /**
  * @brief Status types.

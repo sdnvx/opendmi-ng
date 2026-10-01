@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_usb_device dmi_hpe_usb_device_t;
+#ifndef DMI_HPE_USB_DEVICE_T
+#   define DMI_HPE_USB_DEVICE_T
+    typedef struct dmi_hpe_usb_device dmi_hpe_usb_device_t;
+#endif // !DMI_HPE_USB_DEVICE_T
 
 /**
  * @brief Subclasses of USB mass storage devices, the command sets they use.

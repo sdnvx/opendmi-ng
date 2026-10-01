@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_memory_channel        dmi_memory_channel_t;
-typedef struct dmi_memory_channel_device dmi_memory_channel_device_t;
+#ifndef DMI_MEMORY_CHANNEL_T
+#   define DMI_MEMORY_CHANNEL_T
+    typedef struct dmi_memory_channel dmi_memory_channel_t;
+#endif // !DMI_MEMORY_CHANNEL_T
+
+#ifndef DMI_MEMORY_CHANNEL_DEVICE_T
+#   define DMI_MEMORY_CHANNEL_DEVICE_T
+    typedef struct dmi_memory_channel_device dmi_memory_channel_device_t;
+#endif // !DMI_MEMORY_CHANNEL_DEVICE_T
 
 /**
  * @brief Memory channel types.

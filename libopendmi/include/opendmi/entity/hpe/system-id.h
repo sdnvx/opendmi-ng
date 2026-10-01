@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/uuid.h>
 
-typedef struct dmi_hpe_system_id dmi_hpe_system_id_t;
+#ifndef DMI_HPE_SYSTEM_ID_T
+#   define DMI_HPE_SYSTEM_ID_T
+    typedef struct dmi_hpe_system_id dmi_hpe_system_id_t;
+#endif // !DMI_HPE_SYSTEM_ID_T
 
 /**
  * @brief HP/HPE server system ID (type 195).

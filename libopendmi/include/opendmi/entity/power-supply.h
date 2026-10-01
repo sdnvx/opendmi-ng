@@ -12,6 +12,11 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
+#ifndef DMI_POWER_SUPPLY_T
+#   define DMI_POWER_SUPPLY_T
+    typedef struct dmi_power_supply dmi_power_supply_t;
+#endif // !DMI_POWER_SUPPLY_T
+
 /**
  * @brief Power supply types.
  */
@@ -167,8 +172,6 @@ struct dmi_power_supply
      */
     dmi_entity_t *current_probe;
 };
-
-typedef struct dmi_power_supply dmi_power_supply_t;
 
 /**
  * @brief System power supply entity specification.

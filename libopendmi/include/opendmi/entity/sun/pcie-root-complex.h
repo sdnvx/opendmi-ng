@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_sun_pcie_root_complex dmi_sun_pcie_root_complex_t;
+#ifndef DMI_SUN_PCIE_ROOT_COMPLEX_T
+#   define DMI_SUN_PCIE_ROOT_COMPLEX_T
+    typedef struct dmi_sun_pcie_root_complex dmi_sun_pcie_root_complex_t;
+#endif // !DMI_SUN_PCIE_ROOT_COMPLEX_T
 
 /**
  * @brief Sun PCI-express root complex information (type 138).

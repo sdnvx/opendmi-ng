@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_rsd_memory_device dmi_intel_rsd_memory_device_t;
+#ifndef DMI_INTEL_RSD_MEMORY_DEVICE_T
+#   define DMI_INTEL_RSD_MEMORY_DEVICE_T
+    typedef struct dmi_intel_rsd_memory_device dmi_intel_rsd_memory_device_t;
+#endif // !DMI_INTEL_RSD_MEMORY_DEVICE_T
 
 /**
  * @brief Intel RSD memory types.

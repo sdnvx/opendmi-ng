@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_mgmt_device_component dmi_mgmt_device_component_t;
+#ifndef DMI_MGMT_DEVICE_COMPONENT_T
+#   define DMI_MGMT_DEVICE_COMPONENT_T
+    typedef struct dmi_mgmt_device_component dmi_mgmt_device_component_t;
+#endif // !DMI_MGMT_DEVICE_COMPONENT_T
 
 /**
  * @brief Management device component structure (type 35).

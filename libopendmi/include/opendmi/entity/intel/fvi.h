@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_fvi      dmi_intel_fvi_t;
-typedef struct dmi_intel_fvi_item dmi_intel_fvi_item_t;
+#ifndef DMI_INTEL_FVI_T
+#   define DMI_INTEL_FVI_T
+    typedef struct dmi_intel_fvi dmi_intel_fvi_t;
+#endif // !DMI_INTEL_FVI_T
+
+#ifndef DMI_INTEL_FVI_ITEM_T
+#   define DMI_INTEL_FVI_ITEM_T
+    typedef struct dmi_intel_fvi_item dmi_intel_fvi_item_t;
+#endif // !DMI_INTEL_FVI_ITEM_T
 
 /**
  * @brief Version of a firmware component, as listed by Intel firmware version

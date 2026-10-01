@@ -15,7 +15,10 @@
  * @brief Temperature probe structure (type 28), decoded into `dmi_probe_t`,
  * which all the probe types share.
  */
-typedef struct dmi_probe dmi_temperature_probe_t;
+#ifndef DMI_TEMPERATURE_PROBE_T
+#   define DMI_TEMPERATURE_PROBE_T
+    typedef struct dmi_probe dmi_temperature_probe_t;
+#endif // !DMI_TEMPERATURE_PROBE_T
 
 /**
  * @brief Temperature probe entity specification.

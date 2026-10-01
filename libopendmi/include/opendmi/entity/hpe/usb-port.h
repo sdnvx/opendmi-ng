@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_usb_port dmi_hpe_usb_port_t;
+#ifndef DMI_HPE_USB_PORT_T
+#   define DMI_HPE_USB_PORT_T
+    typedef struct dmi_hpe_usb_port dmi_hpe_usb_port_t;
+#endif // !DMI_HPE_USB_PORT_T
 
 /**
  * @brief Location of a USB port.

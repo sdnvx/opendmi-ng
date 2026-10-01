@@ -12,7 +12,10 @@
 #include <opendmi/entity/common.h>
 #include <opendmi/entity/onboard-device.h>
 
-typedef struct dmi_onboard_device_ex dmi_onboard_device_ex_t;
+#ifndef DMI_ONBOARD_DEVICE_EX_T
+#   define DMI_ONBOARD_DEVICE_EX_T
+    typedef struct dmi_onboard_device_ex dmi_onboard_device_ex_t;
+#endif // !DMI_ONBOARD_DEVICE_EX_T
 
 /**
  * @brief Onboard devices extended information structure (type 41).

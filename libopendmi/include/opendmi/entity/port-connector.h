@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_port_connector dmi_port_connector_t;
+#ifndef DMI_PORT_CONNECTOR_T
+#   define DMI_PORT_CONNECTOR_T
+    typedef struct dmi_port_connector dmi_port_connector_t;
+#endif // !DMI_PORT_CONNECTOR_T
 
 /**
  * @brief Port connector types.

@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/memory-error.h>
 
-typedef struct dmi_memory_error_64 dmi_memory_error_64_t;
+#ifndef DMI_MEMORY_ERROR_64_T
+#   define DMI_MEMORY_ERROR_64_T
+    typedef struct dmi_memory_error_64 dmi_memory_error_64_t;
+#endif // !DMI_MEMORY_ERROR_64_T
 
 /**
  * @brief 64-Bit memory error information structure (type 33).

@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_memory_device_addr dmi_memory_device_addr_t;
+#ifndef DMI_MEMORY_DEVICE_ADDR_T
+#   define DMI_MEMORY_DEVICE_ADDR_T
+    typedef struct dmi_memory_device_addr dmi_memory_device_addr_t;
+#endif // !DMI_MEMORY_DEVICE_ADDR_T
 
 /**
  * @brief Memory device mapped address structure (type 20).

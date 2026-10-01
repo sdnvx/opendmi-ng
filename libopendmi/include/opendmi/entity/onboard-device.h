@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_onboard_device          dmi_onboard_device_t;
-typedef struct dmi_onboard_device_instance dmi_onboard_device_instance_t;
+#ifndef DMI_ONBOARD_DEVICE_T
+#   define DMI_ONBOARD_DEVICE_T
+    typedef struct dmi_onboard_device dmi_onboard_device_t;
+#endif // !DMI_ONBOARD_DEVICE_T
+
+#ifndef DMI_ONBOARD_DEVICE_INSTANCE_T
+#   define DMI_ONBOARD_DEVICE_INSTANCE_T
+    typedef struct dmi_onboard_device_instance dmi_onboard_device_instance_t;
+#endif // !DMI_ONBOARD_DEVICE_INSTANCE_T
 
 /**
  * @brief Onboard device types.

@@ -17,7 +17,10 @@
  */
 #define DMI_INTEL_RSD_MAC_ADDRESS_LENGTH 32
 
-typedef struct dmi_intel_rsd_network_card dmi_intel_rsd_network_card_t;
+#ifndef DMI_INTEL_RSD_NETWORK_CARD_T
+#   define DMI_INTEL_RSD_NETWORK_CARD_T
+    typedef struct dmi_intel_rsd_network_card dmi_intel_rsd_network_card_t;
+#endif // !DMI_INTEL_RSD_NETWORK_CARD_T
 
 /**
  * @brief Intel RSD Network card information (type 190).

@@ -12,7 +12,7 @@
 #include <opendmi/entity.h>
 
 #ifndef DMI_DELL_CALLING_IFACE_T
-#define DMI_DELL_CALLING_IFACE_T
+#   define DMI_DELL_CALLING_IFACE_T
     typedef struct dmi_dell_calling_iface dmi_dell_calling_iface_t;
 #endif // !DMI_DELL_CALLING_IFACE_T
 

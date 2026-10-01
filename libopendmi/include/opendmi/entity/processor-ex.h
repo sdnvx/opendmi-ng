@@ -11,11 +11,30 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_processor_ex                    dmi_processor_ex_t;
-typedef struct dmi_processor_specific_block        dmi_processor_specific_block_t;
-typedef struct dmi_processor_aarch64_data          dmi_processor_aarch64_data_t;
-typedef union  dmi_processor_revision              dmi_processor_revision_t;
-typedef struct dmi_processor_amd64_attribute       dmi_processor_amd64_attribute_t;
+#ifndef DMI_PROCESSOR_EX_T
+#   define DMI_PROCESSOR_EX_T
+    typedef struct dmi_processor_ex dmi_processor_ex_t;
+#endif // !DMI_PROCESSOR_EX_T
+
+#ifndef DMI_PROCESSOR_SPECIFIC_BLOCK_T
+#   define DMI_PROCESSOR_SPECIFIC_BLOCK_T
+    typedef struct dmi_processor_specific_block dmi_processor_specific_block_t;
+#endif // !DMI_PROCESSOR_SPECIFIC_BLOCK_T
+
+#ifndef DMI_PROCESSOR_AARCH64_DATA_T
+#   define DMI_PROCESSOR_AARCH64_DATA_T
+    typedef struct dmi_processor_aarch64_data dmi_processor_aarch64_data_t;
+#endif // !DMI_PROCESSOR_AARCH64_DATA_T
+
+#ifndef DMI_PROCESSOR_AMD64_ATTRIBUTE_T
+#   define DMI_PROCESSOR_AMD64_ATTRIBUTE_T
+    typedef struct dmi_processor_amd64_attribute dmi_processor_amd64_attribute_t;
+#endif // !DMI_PROCESSOR_AMD64_ATTRIBUTE_T
+
+#ifndef DMI_PROCESSOR_REVISION_T
+#   define DMI_PROCESSOR_REVISION_T
+    typedef union dmi_processor_revision dmi_processor_revision_t;
+#endif // !DMI_PROCESSOR_REVISION_T
 
 /**
  * @brief Processor architecture types.

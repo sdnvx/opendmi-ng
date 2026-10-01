@@ -11,10 +11,25 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_lenovo_oem               dmi_lenovo_oem_t;
-typedef struct dmi_lenovo_device_presence   dmi_lenovo_device_presence_t;
-typedef struct dmi_lenovo_ecp               dmi_lenovo_ecp_t;
-typedef struct dmi_lenovo_bay_io            dmi_lenovo_bay_io_t;
+#ifndef DMI_LENOVO_OEM_T
+#   define DMI_LENOVO_OEM_T
+    typedef struct dmi_lenovo_oem dmi_lenovo_oem_t;
+#endif // !DMI_LENOVO_OEM_T
+
+#ifndef DMI_LENOVO_DEVICE_PRESENCE_T
+#   define DMI_LENOVO_DEVICE_PRESENCE_T
+    typedef struct dmi_lenovo_device_presence dmi_lenovo_device_presence_t;
+#endif // !DMI_LENOVO_DEVICE_PRESENCE_T
+
+#ifndef DMI_LENOVO_ECP_T
+#   define DMI_LENOVO_ECP_T
+    typedef struct dmi_lenovo_ecp dmi_lenovo_ecp_t;
+#endif // !DMI_LENOVO_ECP_T
+
+#ifndef DMI_LENOVO_BAY_IO_T
+#   define DMI_LENOVO_BAY_IO_T
+    typedef struct dmi_lenovo_bay_io dmi_lenovo_bay_io_t;
+#endif // !DMI_LENOVO_BAY_IO_T
 
 /**
  * @brief Lenovo OEM data structure (types 135 and 140) whose layout is not

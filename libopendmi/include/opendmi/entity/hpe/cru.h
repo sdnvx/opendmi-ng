@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_cru dmi_hpe_cru_t;
+#ifndef DMI_HPE_CRU_T
+#   define DMI_HPE_CRU_T
+    typedef struct dmi_hpe_cru dmi_hpe_cru_t;
+#endif // !DMI_HPE_CRU_T
 
 /**
  * @brief HP/HPE 64-bit CRU information (type 212), up to Gen8.

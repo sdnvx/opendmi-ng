@@ -11,7 +11,10 @@
 
 #include <opendmi/entity/memory-array.h>
 
-typedef struct dmi_memory_array_addr dmi_memory_array_addr_t;
+#ifndef DMI_MEMORY_ARRAY_ADDR_T
+#   define DMI_MEMORY_ARRAY_ADDR_T
+    typedef struct dmi_memory_array_addr dmi_memory_array_addr_t;
+#endif // !DMI_MEMORY_ARRAY_ADDR_T
 
 /**
  * @brief Memory array mapped address structure (type 19).

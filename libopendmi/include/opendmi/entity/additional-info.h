@@ -17,7 +17,10 @@
  */
 #define DMI_ADDITIONAL_INFO_ENTRY_HEADER 5
 
-typedef struct dmi_additional_info       dmi_additional_info_t;
+#ifndef DMI_ADDITIONAL_INFO_T
+#   define DMI_ADDITIONAL_INFO_T
+    typedef struct dmi_additional_info dmi_additional_info_t;
+#endif // !DMI_ADDITIONAL_INFO_T
 
 #ifndef DMI_ADDITIONAL_INFO_ENTRY_T
 #   define DMI_ADDITIONAL_INFO_ENTRY_T

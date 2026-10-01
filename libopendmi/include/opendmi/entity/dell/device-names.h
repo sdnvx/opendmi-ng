@@ -17,9 +17,9 @@
 #endif // !DMI_DELL_DEVICE_NAMES_T
 
 #ifndef DMI_DELL_DEVICE_NAME_ENTRY_T
-#define DMI_DELL_DEVICE_NAME_ENTRY_T
+#   define DMI_DELL_DEVICE_NAME_ENTRY_T
     typedef struct dmi_dell_device_name_entry dmi_dell_device_name_entry_t;
-#endif //!DMI_DELL_DEVICE_NAME_ENTRY_T
+#endif // !DMI_DELL_DEVICE_NAME_ENTRY_T
 
 /**
  * @brief Name of a device, given to the structure describing it.

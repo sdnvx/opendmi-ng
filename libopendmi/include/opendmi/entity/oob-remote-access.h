@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_oob_remote_access dmi_oob_remote_access_t;
-typedef union  dmi_oob_connections   dmi_oob_connections_t;
+#ifndef DMI_OOB_REMOTE_ACCESS_T
+#   define DMI_OOB_REMOTE_ACCESS_T
+    typedef struct dmi_oob_remote_access dmi_oob_remote_access_t;
+#endif // !DMI_OOB_REMOTE_ACCESS_T
+
+#ifndef DMI_OOB_CONNECTIONS_T
+#   define DMI_OOB_CONNECTIONS_T
+    typedef union dmi_oob_connections dmi_oob_connections_t;
+#endif // !DMI_OOB_CONNECTIONS_T
 
 /**
  * @brief Out-of-band remote access connections.

@@ -15,7 +15,10 @@
  * @brief Voltage probe structure (type 26), decoded into `dmi_probe_t`,
  * which all the probe types share.
  */
-typedef struct dmi_probe dmi_voltage_probe_t;
+#ifndef DMI_VOLTAGE_PROBE_T
+#   define DMI_VOLTAGE_PROBE_T
+    typedef struct dmi_probe dmi_voltage_probe_t;
+#endif // !DMI_VOLTAGE_PROBE_T
 
 /**
  * @brief Voltage probe entity specification.

@@ -12,15 +12,50 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/uuid.h>
 
-typedef struct dmi_mgmt_controller      dmi_mgmt_controller_t;
-typedef struct dmi_mgmt_nhi             dmi_mgmt_nhi_t;
-typedef struct dmi_mgmt_nhi_usb         dmi_mgmt_nhi_usb_t;
-typedef struct dmi_mgmt_nhi_pci         dmi_mgmt_nhi_pci_t;
-typedef struct dmi_mgmt_nhi_usb_v2      dmi_mgmt_nhi_usb_v2_t;
-typedef struct dmi_mgmt_nhi_pci_v2      dmi_mgmt_nhi_pci_v2_t;
-typedef struct dmi_mgmt_nhi_oem         dmi_mgmt_nhi_oem_t;
-typedef struct dmi_mgmt_proto_record    dmi_mgmt_proto_record_t;
-typedef struct dmi_mgmt_redfish_over_ip dmi_mgmt_redfish_over_ip_t;
+#ifndef DMI_MGMT_CONTROLLER_T
+#   define DMI_MGMT_CONTROLLER_T
+    typedef struct dmi_mgmt_controller dmi_mgmt_controller_t;
+#endif // !DMI_MGMT_CONTROLLER_T
+
+#ifndef DMI_MGMT_NHI_T
+#   define DMI_MGMT_NHI_T
+    typedef struct dmi_mgmt_nhi dmi_mgmt_nhi_t;
+#endif // !DMI_MGMT_NHI_T
+
+#ifndef DMI_MGMT_NHI_USB_T
+#   define DMI_MGMT_NHI_USB_T
+    typedef struct dmi_mgmt_nhi_usb dmi_mgmt_nhi_usb_t;
+#endif // !DMI_MGMT_NHI_USB_T
+
+#ifndef DMI_MGMT_NHI_PCI_T
+#   define DMI_MGMT_NHI_PCI_T
+    typedef struct dmi_mgmt_nhi_pci dmi_mgmt_nhi_pci_t;
+#endif // !DMI_MGMT_NHI_PCI_T
+
+#ifndef DMI_MGMT_NHI_USB_V2_T
+#   define DMI_MGMT_NHI_USB_V2_T
+    typedef struct dmi_mgmt_nhi_usb_v2 dmi_mgmt_nhi_usb_v2_t;
+#endif // !DMI_MGMT_NHI_USB_V2_T
+
+#ifndef DMI_MGMT_NHI_PCI_V2_T
+#   define DMI_MGMT_NHI_PCI_V2_T
+    typedef struct dmi_mgmt_nhi_pci_v2 dmi_mgmt_nhi_pci_v2_t;
+#endif // !DMI_MGMT_NHI_PCI_V2_T
+
+#ifndef DMI_MGMT_NHI_OEM_T
+#   define DMI_MGMT_NHI_OEM_T
+    typedef struct dmi_mgmt_nhi_oem dmi_mgmt_nhi_oem_t;
+#endif // !DMI_MGMT_NHI_OEM_T
+
+#ifndef DMI_MGMT_PROTO_RECORD_T
+#   define DMI_MGMT_PROTO_RECORD_T
+    typedef struct dmi_mgmt_proto_record dmi_mgmt_proto_record_t;
+#endif // !DMI_MGMT_PROTO_RECORD_T
+
+#ifndef DMI_MGMT_REDFISH_OVER_IP_T
+#   define DMI_MGMT_REDFISH_OVER_IP_T
+    typedef struct dmi_mgmt_redfish_over_ip dmi_mgmt_redfish_over_ip_t;
+#endif // !DMI_MGMT_REDFISH_OVER_IP_T
 
 /**
  * @brief Management interface types.

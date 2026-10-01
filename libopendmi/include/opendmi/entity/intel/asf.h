@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_asf dmi_intel_asf_t;
+#ifndef DMI_INTEL_ASF_T
+#   define DMI_INTEL_ASF_T
+    typedef struct dmi_intel_asf dmi_intel_asf_t;
+#endif // !DMI_INTEL_ASF_T
 
 /**
  * @brief Intel Alert Standard Format information (type 129).

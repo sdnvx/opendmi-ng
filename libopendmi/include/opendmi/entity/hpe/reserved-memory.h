@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_reserved_memory       dmi_hpe_reserved_memory_t;
-typedef struct dmi_hpe_reserved_memory_entry dmi_hpe_reserved_memory_entry_t;
+#ifndef DMI_HPE_RESERVED_MEMORY_T
+#   define DMI_HPE_RESERVED_MEMORY_T
+    typedef struct dmi_hpe_reserved_memory dmi_hpe_reserved_memory_t;
+#endif // !DMI_HPE_RESERVED_MEMORY_T
+
+#ifndef DMI_HPE_RESERVED_MEMORY_ENTRY_T
+#   define DMI_HPE_RESERVED_MEMORY_ENTRY_T
+    typedef struct dmi_hpe_reserved_memory_entry dmi_hpe_reserved_memory_entry_t;
+#endif // !DMI_HPE_RESERVED_MEMORY_ENTRY_T
 
 /**
  * @brief Memory region the firmware reserves.

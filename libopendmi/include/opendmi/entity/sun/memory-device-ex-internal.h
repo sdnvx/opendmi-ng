@@ -4,8 +4,8 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#ifndef OPENDMI_ENTITY_MEMORY_DEVICE_EX_INTERNAL_H
-#define OPENDMI_ENTITY_MEMORY_DEVICE_EX_INTERNAL_H
+#ifndef OPENDMI_ENTITY_SUN_MEMORY_DEVICE_EX_INTERNAL_H
+#define OPENDMI_ENTITY_SUN_MEMORY_DEVICE_EX_INTERNAL_H
 
 #pragma once
 
@@ -18,4 +18,4 @@
 // Operation handlers, see memory-device-ex-handlers.c
 void dmi_sun_memory_device_ex_cleanup(dmi_entity_t *entity);
 
-#endif // !OPENDMI_ENTITY_MEMORY_DEVICE_EX_INTERNAL_H
+#endif // !OPENDMI_ENTITY_SUN_MEMORY_DEVICE_EX_INTERNAL_H

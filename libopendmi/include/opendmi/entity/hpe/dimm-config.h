@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_hpe_dimm_config dmi_hpe_dimm_config_t;
+#ifndef DMI_HPE_DIMM_CONFIG_T
+#   define DMI_HPE_DIMM_CONFIG_T
+    typedef struct dmi_hpe_dimm_config dmi_hpe_dimm_config_t;
+#endif // !DMI_HPE_DIMM_CONFIG_T
 
 /**
  * @brief Health of an interleave set.

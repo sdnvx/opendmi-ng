@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_sun_processor_ex dmi_sun_processor_ex_t;
+#ifndef DMI_SUN_PROCESSOR_EX_T
+#   define DMI_SUN_PROCESSOR_EX_T
+    typedef struct dmi_sun_processor_ex dmi_sun_processor_ex_t;
+#endif // !DMI_SUN_PROCESSOR_EX_T
 
 /**
  * @brief Sun processor extended information (type 132).

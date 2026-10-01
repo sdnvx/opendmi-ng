@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_firmware_language       dmi_firmware_language_t;
-typedef union  dmi_firmware_language_flags dmi_firmware_language_flags_t;
+#ifndef DMI_FIRMWARE_LANGUAGE_T
+#   define DMI_FIRMWARE_LANGUAGE_T
+    typedef struct dmi_firmware_language dmi_firmware_language_t;
+#endif // !DMI_FIRMWARE_LANGUAGE_T
+
+#ifndef DMI_FIRMWARE_LANGUAGE_FLAGS_T
+#   define DMI_FIRMWARE_LANGUAGE_FLAGS_T
+    typedef union dmi_firmware_language_flags dmi_firmware_language_flags_t;
+#endif // !DMI_FIRMWARE_LANGUAGE_FLAGS_T
 
 /**
  * @brief Firmware language flags.

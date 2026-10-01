@@ -101,8 +101,8 @@ dmi_packed_union(dmi_cache_sram_type)
 dmi_static_assert_value_union(dmi_cache_sram_type);
 
 #ifndef DMI_CACHE_SRAM_TYPE_T
-#define DMI_CACHE_SRAM_TYPE_T
-typedef union dmi_cache_sram_type dmi_cache_sram_type_t;
+#   define DMI_CACHE_SRAM_TYPE_T
+    typedef union dmi_cache_sram_type dmi_cache_sram_type_t;
 #endif // !DMI_CACHE_SRAM_TYPE_T
 
 /**
@@ -189,8 +189,8 @@ struct dmi_cache
 };
 
 #ifndef DMI_CACHE_T
-#define DMI_CACHE_T
-typedef struct dmi_cache dmi_cache_t;
+#   define DMI_CACHE_T
+    typedef struct dmi_cache dmi_cache_t;
 #endif // !DMI_CACHE_T
 
 /**

@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_lenovo_tvt dmi_lenovo_tvt_t;
+#ifndef DMI_LENOVO_TVT_T
+#   define DMI_LENOVO_TVT_T
+    typedef struct dmi_lenovo_tvt dmi_lenovo_tvt_t;
+#endif // !DMI_LENOVO_TVT_T
 
 /**
  * @brief Lenovo ThinkVantage Technologies enablement (type 131).

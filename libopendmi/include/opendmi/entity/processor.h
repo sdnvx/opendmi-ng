@@ -11,13 +11,40 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_processor              dmi_processor_t;
-typedef union  dmi_processor_features     dmi_processor_features_t;
-typedef union  dmi_processor_voltage_data dmi_processor_voltage_data_t;
-typedef union  dmi_processor_voltages     dmi_processor_voltages_t;
-typedef struct dmi_processor_x86_id       dmi_processor_x86_id_t;
-typedef struct dmi_processor_arm_id       dmi_processor_arm_id_t;
-typedef struct dmi_processor_soc_id       dmi_processor_soc_id_t;
+#ifndef DMI_PROCESSOR_T
+#   define DMI_PROCESSOR_T
+    typedef struct dmi_processor dmi_processor_t;
+#endif // !DMI_PROCESSOR_T
+
+#ifndef DMI_PROCESSOR_X86_ID_T
+#   define DMI_PROCESSOR_X86_ID_T
+    typedef struct dmi_processor_x86_id dmi_processor_x86_id_t;
+#endif // !DMI_PROCESSOR_X86_ID_T
+
+#ifndef DMI_PROCESSOR_ARM_ID_T
+#   define DMI_PROCESSOR_ARM_ID_T
+    typedef struct dmi_processor_arm_id dmi_processor_arm_id_t;
+#endif // !DMI_PROCESSOR_ARM_ID_T
+
+#ifndef DMI_PROCESSOR_SOC_ID_T
+#   define DMI_PROCESSOR_SOC_ID_T
+    typedef struct dmi_processor_soc_id dmi_processor_soc_id_t;
+#endif // !DMI_PROCESSOR_SOC_ID_T
+
+#ifndef DMI_PROCESSOR_FEATURES_T
+#   define DMI_PROCESSOR_FEATURES_T
+    typedef union dmi_processor_features dmi_processor_features_t;
+#endif // !DMI_PROCESSOR_FEATURES_T
+
+#ifndef DMI_PROCESSOR_VOLTAGE_DATA_T
+#   define DMI_PROCESSOR_VOLTAGE_DATA_T
+    typedef union dmi_processor_voltage_data dmi_processor_voltage_data_t;
+#endif // !DMI_PROCESSOR_VOLTAGE_DATA_T
+
+#ifndef DMI_PROCESSOR_VOLTAGES_T
+#   define DMI_PROCESSOR_VOLTAGES_T
+    typedef union dmi_processor_voltages dmi_processor_voltages_t;
+#endif // !DMI_PROCESSOR_VOLTAGES_T
 
 /**
  * @brief Processor ID formats, depending on the processor architecture.

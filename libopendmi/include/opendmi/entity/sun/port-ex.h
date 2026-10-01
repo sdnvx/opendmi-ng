@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_sun_port_ex dmi_sun_port_ex_t;
+#ifndef DMI_SUN_PORT_EX_T
+#   define DMI_SUN_PORT_EX_T
+    typedef struct dmi_sun_port_ex dmi_sun_port_ex_t;
+#endif // !DMI_SUN_PORT_EX_T
 
 /**
  * @brief Sun port extended information (type 136).

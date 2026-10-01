@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/utils/datetime.h>
 
-typedef struct dmi_battery dmi_battery_t;
+#ifndef DMI_BATTERY_T
+#   define DMI_BATTERY_T
+    typedef struct dmi_battery dmi_battery_t;
+#endif // !DMI_BATTERY_T
 
 /**
  * @brief Battery chemistry types.

@@ -11,7 +11,10 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_rsd_tpm dmi_intel_rsd_tpm_t;
+#ifndef DMI_INTEL_RSD_TPM_T
+#   define DMI_INTEL_RSD_TPM_T
+    typedef struct dmi_intel_rsd_tpm dmi_intel_rsd_tpm_t;
+#endif // !DMI_INTEL_RSD_TPM_T
 
 /**
  * @brief Intel RSD TPM status values.

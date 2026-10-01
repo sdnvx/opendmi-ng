@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/hpe/nic.h>
 
-typedef struct dmi_hpe_nic_mac dmi_hpe_nic_mac_t;
+#ifndef DMI_HPE_NIC_MAC_T
+#   define DMI_HPE_NIC_MAC_T
+    typedef struct dmi_hpe_nic_mac dmi_hpe_nic_mac_t;
+#endif // !DMI_HPE_NIC_MAC_T
 
 /**
  * @brief HP/HPE NIC PCI and MAC information (type 233).

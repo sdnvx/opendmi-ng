@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_memory_device             dmi_memory_device_t;
-typedef union  dmi_memory_device_type_detail dmi_memory_device_type_detail_t;
+#ifndef DMI_MEMORY_DEVICE_T
+#   define DMI_MEMORY_DEVICE_T
+    typedef struct dmi_memory_device dmi_memory_device_t;
+#endif // !DMI_MEMORY_DEVICE_T
+
+#ifndef DMI_MEMORY_DEVICE_TYPE_DETAIL_T
+#   define DMI_MEMORY_DEVICE_TYPE_DETAIL_T
+    typedef union dmi_memory_device_type_detail dmi_memory_device_type_detail_t;
+#endif // !DMI_MEMORY_DEVICE_TYPE_DETAIL_T
 
 /**
  * @brief Memory device types.

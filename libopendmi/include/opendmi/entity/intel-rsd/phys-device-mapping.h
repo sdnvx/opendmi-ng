@@ -11,8 +11,15 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_rsd_phys_device_mapping dmi_intel_rsd_phys_device_mapping_t;
-typedef struct dmi_intel_rsd_phys_device         dmi_intel_rsd_phys_device_t;
+#ifndef DMI_INTEL_RSD_PHYS_DEVICE_MAPPING_T
+#   define DMI_INTEL_RSD_PHYS_DEVICE_MAPPING_T
+    typedef struct dmi_intel_rsd_phys_device_mapping dmi_intel_rsd_phys_device_mapping_t;
+#endif // !DMI_INTEL_RSD_PHYS_DEVICE_MAPPING_T
+
+#ifndef DMI_INTEL_RSD_PHYS_DEVICE_T
+#   define DMI_INTEL_RSD_PHYS_DEVICE_T
+    typedef struct dmi_intel_rsd_phys_device dmi_intel_rsd_phys_device_t;
+#endif // !DMI_INTEL_RSD_PHYS_DEVICE_T
 
 /**
  * @brief Intel RSD physical device types.

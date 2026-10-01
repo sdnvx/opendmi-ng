@@ -11,10 +11,25 @@
 
 #include <opendmi/entity/memory-module.h>
 
-typedef struct dmi_memory_controller       dmi_memory_controller_t;
-typedef union  dmi_memory_module_speed     dmi_memory_module_speed_t;
-typedef union  dmi_memory_module_voltage   dmi_memory_module_voltage_t;
-typedef union  dmi_error_correct_caps      dmi_error_correct_caps_t;
+#ifndef DMI_MEMORY_CONTROLLER_T
+#   define DMI_MEMORY_CONTROLLER_T
+    typedef struct dmi_memory_controller dmi_memory_controller_t;
+#endif // !DMI_MEMORY_CONTROLLER_T
+
+#ifndef DMI_MEMORY_MODULE_SPEED_T
+#   define DMI_MEMORY_MODULE_SPEED_T
+    typedef union dmi_memory_module_speed dmi_memory_module_speed_t;
+#endif // !DMI_MEMORY_MODULE_SPEED_T
+
+#ifndef DMI_MEMORY_MODULE_VOLTAGE_T
+#   define DMI_MEMORY_MODULE_VOLTAGE_T
+    typedef union dmi_memory_module_voltage dmi_memory_module_voltage_t;
+#endif // !DMI_MEMORY_MODULE_VOLTAGE_T
+
+#ifndef DMI_ERROR_CORRECT_CAPS_T
+#   define DMI_ERROR_CORRECT_CAPS_T
+    typedef union dmi_error_correct_caps dmi_error_correct_caps_t;
+#endif // !DMI_ERROR_CORRECT_CAPS_T
 
 /**
  * @brief Error detecting methods of a memory controller.

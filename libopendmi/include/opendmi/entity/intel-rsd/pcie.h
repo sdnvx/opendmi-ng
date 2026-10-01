@@ -12,7 +12,10 @@
 #include <opendmi/entity.h>
 #include <opendmi/entity/common.h>
 
-typedef struct dmi_intel_rsd_pcie dmi_intel_rsd_pcie_t;
+#ifndef DMI_INTEL_RSD_PCIE_T
+#   define DMI_INTEL_RSD_PCIE_T
+    typedef struct dmi_intel_rsd_pcie dmi_intel_rsd_pcie_t;
+#endif // !DMI_INTEL_RSD_PCIE_T
 
 /**
  * @brief Intel RSD PCIe information (type 192).

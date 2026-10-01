@@ -11,11 +11,25 @@
 
 #include <opendmi/entity.h>
 
-typedef struct dmi_intel_amt dmi_intel_amt_t;
+#ifndef DMI_INTEL_AMT_T
+#   define DMI_INTEL_AMT_T
+    typedef struct dmi_intel_amt dmi_intel_amt_t;
+#endif // !DMI_INTEL_AMT_T
 
-typedef union dmi_intel_amt_oem_caps_1 dmi_intel_amt_oem_caps_1_t;
-typedef union dmi_intel_amt_oem_caps_3 dmi_intel_amt_oem_caps_3_t;
-typedef union dmi_intel_amt_oem_caps_4 dmi_intel_amt_oem_caps_4_t;
+#ifndef DMI_INTEL_AMT_OEM_CAPS_1_T
+#   define DMI_INTEL_AMT_OEM_CAPS_1_T
+    typedef union dmi_intel_amt_oem_caps_1 dmi_intel_amt_oem_caps_1_t;
+#endif // !DMI_INTEL_AMT_OEM_CAPS_1_T
+
+#ifndef DMI_INTEL_AMT_OEM_CAPS_3_T
+#   define DMI_INTEL_AMT_OEM_CAPS_3_T
+    typedef union dmi_intel_amt_oem_caps_3 dmi_intel_amt_oem_caps_3_t;
+#endif // !DMI_INTEL_AMT_OEM_CAPS_3_T
+
+#ifndef DMI_INTEL_AMT_OEM_CAPS_4_T
+#   define DMI_INTEL_AMT_OEM_CAPS_4_T
+    typedef union dmi_intel_amt_oem_caps_4 dmi_intel_amt_oem_caps_4_t;
+#endif // !DMI_INTEL_AMT_OEM_CAPS_4_T
 
 /**
  * @brief Terminal emulations of Serial over LAN, as the low nibble of the
