@@ -12,6 +12,8 @@
 #include "indexed-io-internal.h"
 #include "tokens-internal.h"
 
+static_assert(sizeof(dmi_dell_indexed_io_token_t) <= DMI_DELL_TOKEN_MAX_SIZE);
+
 const dmi_attribute_t dmi_dell_indexed_io_token_attrs[] =
 {
     DMI_ATTRIBUTE(dmi_dell_indexed_io_token_t, id, INTEGER, {
@@ -52,6 +54,22 @@ const dmi_attribute_t dmi_dell_indexed_io_token_attrs[] =
 
 /**
  * @internal
+ * @brief Read the rest of a token, which follows its identifier.
+ *
+ * @details String tokens have no mask, and their value is the length of the
+ * string.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[in]     id      Identifier of the token.
+ * @param[out]    item    Variable to store the token in.
+ *
+ * @return `true` on success, `false` if the structure ends in the middle of
+ *         the token.
+ */
+static bool dmi_dell_indexed_io_decode_token(dmi_decoder_t *decoder, dmi_word_t id, void *item);
+
+/**
+ * @internal
  * @brief Write a single token of the structure.
  *
  * @param[in,out] encoder Encoder of the structure.
@@ -71,8 +89,6 @@ bool dmi_dell_indexed_io_decode(dmi_decoder_t *decoder)
     if (info == nullptr)
         return false;
 
-    dmi_context_t *context = dmi_entity_context(entity);
-
     dmi_byte_t check_type = 0;
 
     bool status =
@@ -87,50 +103,13 @@ bool dmi_dell_indexed_io_decode(dmi_decoder_t *decoder)
 
     info->check_type = dmi_cast(info->check_type, check_type);
 
-    // Tokens are terminated by the end-of-table marker, which may be
-    // truncated itself
-    size_t capacity = dmi_decoder_remaining(decoder) / DMI_DELL_INDEXED_IO_TOKEN_SIZE;
-    if (capacity > 0) {
-        info->tokens = dmi_alloc_array(context, sizeof(*info->tokens), capacity);
-        if (info->tokens == nullptr)
-            return false;
-    }
+    void *tokens = nullptr;
 
-    while (true) {
-        dmi_word_t id = 0;
+    status = dmi_dell_tokens_decode(decoder, sizeof(*info->tokens), DMI_DELL_INDEXED_IO_TOKEN_SIZE,
+                                    dmi_dell_indexed_io_decode_token, &tokens, &info->token_count);
+    info->tokens = tokens;
 
-        if (not dmi_decoder_get(decoder, dmi_word_t, &id))
-            return dmi_decoder_incomplete(decoder);
-
-        if (id == DMI_DELL_TOKEN_EOT) {
-            dmi_decoder_skip(decoder, dmi_decoder_remaining(decoder));
-            break;
-        }
-
-        dmi_dell_indexed_io_token_t token = { .id = id };
-        dmi_byte_t value = 0;
-
-        status =
-            dmi_decoder_get(decoder, dmi_byte_t, &token.location) and
-            dmi_decoder_get(decoder, dmi_byte_t, &token.and_mask) and
-            dmi_decoder_get(decoder, dmi_byte_t, &value);
-        if (not status)
-            return dmi_decoder_incomplete(decoder);
-
-        if (id == DMI_DELL_TOKEN_UNUSED)
-            continue;
-
-        // String tokens have no mask, and the value is the string length
-        token.is_string = (token.and_mask == 0);
-        if (token.is_string)
-            token.string_length = value;
-        else
-            token.or_value = value;
-
-        info->tokens[info->token_count++] = token;
-    }
-
-    return true;
+    return status;
 }
 
 void dmi_dell_indexed_io_cleanup(dmi_entity_t *entity)
@@ -176,4 +155,27 @@ static bool dmi_dell_indexed_io_encode_token(dmi_encoder_t *encoder, const void 
         dmi_encoder_put(encoder, dmi_byte_t, token->location) and
         dmi_encoder_put(encoder, dmi_byte_t, token->and_mask) and
         dmi_encoder_put(encoder, dmi_byte_t, value);
+}
+
+static bool dmi_dell_indexed_io_decode_token(dmi_decoder_t *decoder, dmi_word_t id, void *item)
+{
+    dmi_dell_indexed_io_token_t *token = item;
+    dmi_byte_t value = 0;
+
+    token->id = id;
+
+    bool status =
+        dmi_decoder_get(decoder, dmi_byte_t, &token->location) and
+        dmi_decoder_get(decoder, dmi_byte_t, &token->and_mask) and
+        dmi_decoder_get(decoder, dmi_byte_t, &value);
+    if (not status)
+        return false;
+
+    token->is_string = (token->and_mask == 0);
+    if (token->is_string)
+        token->string_length = value;
+    else
+        token->or_value = value;
+
+    return true;
 }

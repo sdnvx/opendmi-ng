@@ -4,7 +4,14 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <string.h>
+#include <stddef.h>
+#include <assert.h>
+
+#include <opendmi/decoder.h>
 #include <opendmi/encoder.h>
+#include <opendmi/entity.h>
+#include <opendmi/utils.h>
 #include <opendmi/internal.h>
 
 #include "tokens-internal.h"
@@ -36,6 +43,61 @@ static bool dmi_dell_tokens_preserve(
         size_t                    record_size,
         dmi_dell_token_encode_fn *encode,
         size_t                   *pnext);
+
+bool dmi_dell_tokens_decode(
+        dmi_decoder_t            *decoder,
+        size_t                    token_size,
+        size_t                    record_size,
+        dmi_dell_token_decode_fn *decode,
+        void                    **ptokens,
+        size_t                   *pcount)
+{
+    assert(token_size <= DMI_DELL_TOKEN_MAX_SIZE);
+
+    dmi_byte_t *tokens = nullptr;
+    size_t      count  = 0;
+
+    *ptokens = nullptr;
+    *pcount  = 0;
+
+    // Tokens are terminated by the end-of-table marker, which may be
+    // truncated itself
+    size_t capacity = dmi_decoder_remaining(decoder) / record_size;
+    if (capacity > 0) {
+        tokens = dmi_alloc_array(dmi_entity_context(dmi_decoder_entity(decoder)), token_size, capacity);
+        if (tokens == nullptr)
+            return false;
+
+        *ptokens = tokens;
+    }
+
+    while (true) {
+        dmi_word_t id = 0;
+
+        if (not dmi_decoder_get(decoder, dmi_word_t, &id))
+            return dmi_decoder_incomplete(decoder);
+
+        if (id == DMI_DELL_TOKEN_EOT)
+            break;
+
+        // Token is read aside, since the array has no room for a token the
+        // structure ends in the middle of
+        alignas(max_align_t) dmi_byte_t token[DMI_DELL_TOKEN_MAX_SIZE] = {};
+
+        if (not decode(decoder, id, token))
+            return dmi_decoder_incomplete(decoder);
+
+        if (id == DMI_DELL_TOKEN_UNUSED)
+            continue;
+
+        memcpy(tokens + count * token_size, token, token_size);
+        *pcount = ++count;
+    }
+
+    dmi_decoder_skip(decoder, dmi_decoder_remaining(decoder));
+
+    return true;
+}
 
 bool dmi_dell_tokens_encode(
         dmi_encoder_t            *encoder,

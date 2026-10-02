@@ -95,6 +95,7 @@ static void test_tpm_device_firmware_version(void **pstate)
     assert_int_equal(info->firmware_version, 0x1403020100402E00);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
     dmi_destroy(context);
 }
 
@@ -139,6 +140,7 @@ static void test_tpm_device_vendor(void **pstate)
         dmi_entity_destroy(entity);
     }
 
+    dmi_buffer_destroy(buffer);
     dmi_destroy(context);
 }
 

@@ -619,6 +619,9 @@ static const void *test_field_decode(
         length = body_length + strings;
     }
 
+    // Structure decoded before is replaced
+    dmi_entity_destroy(state->entity);
+
     state->entity = dmi_test_entity_create(state->buffer, copy, length);
     assert_non_null(state->entity);
 
@@ -755,9 +758,6 @@ static void test_field_decode_skip(void **pstate)
 // the given version, in place of the one decoded before
 static const test_defined_t *test_field_decode_defined_at(test_state_t *state, dmi_version_t version)
 {
-    dmi_entity_destroy(state->entity);
-    state->entity = nullptr;
-
     state->context->state.smbios_version = version;
 
     const test_defined_t *info = test_field_decode(
@@ -815,9 +815,6 @@ static void test_field_group_stop(void **pstate)
     assert_int_equal(info->maybe, 0);
     assert_int_equal(info->newest, 0);
 
-    dmi_entity_destroy(state->entity);
-    state->entity = nullptr;
-
     // Group which the data reaches the end of is entered, so its version is
     // the level of the structure
     info = test_field_decode_fields(state, TEST_FIELDS_REQUIRED + 1);
@@ -837,9 +834,6 @@ static void test_field_group_absent(void **pstate)
 
     const test_fields_t *info = test_field_decode_fields(state, TEST_FIELDS_REQUIRED);
     assert_int_equal(info->optional, 7);
-
-    dmi_entity_destroy(state->entity);
-    state->entity = nullptr;
 
     // Field which is there carries its own value
     info = test_field_decode_fields(state, 0);

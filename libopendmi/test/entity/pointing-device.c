@@ -125,19 +125,32 @@ static void test_pointing_device_iface_name(void **pstate)
 
 static int test_pointing_device_initialize(void **pstate)
 {
-    test_state_t *state = nullptr;
-
-    state = calloc(1, sizeof(*state));
+    test_state_t *state = calloc(1, sizeof(*state));
     if (state == nullptr)
         return -1;
 
-    state->context = dmi_create(DMI_CONTEXT_FLAG_RELAXED);
-    if (state->context == nullptr) {
+    bool success = false;
+
+    do {
+        state->context = dmi_create(DMI_CONTEXT_FLAG_RELAXED);
+        if (state->context == nullptr)
+            break;
+
+        dmi_set_logger(state->context, &test_logger);
+
+        // Structures of all the tests are decoded from the same buffer
+        state->buffer = dmi_buffer_create(state->context);
+        if (state->buffer == nullptr)
+            break;
+
+        success = true;
+    } while (false);
+
+    if (not success) {
+        dmi_destroy(state->context);
         free(state);
         return -1;
     }
-
-    dmi_set_logger(state->context, &test_logger);
 
     *pstate = state;
     return 0;
@@ -157,6 +170,7 @@ static int test_pointing_device_finalize(void **pstate)
 {
     test_state_t *state = dmi_cast(state, *pstate);
 
+    dmi_buffer_destroy(state->buffer);
     dmi_destroy(state->context);
     free(state);
 
@@ -177,8 +191,6 @@ static void test_pointing_device_decode_min_length(void **pstate)
         },
         .terminator = 0
     };
-
-    state->buffer = dmi_buffer_create(state->context);
 
     state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
@@ -202,8 +214,6 @@ static void test_pointing_device_decode_empty(void **pstate)
         },
         .terminator = 0
     };
-
-    state->buffer = dmi_buffer_create(state->context);
 
     state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
@@ -244,8 +254,6 @@ static void test_pointing_device_decode_type(void **pstate)
             .terminator = 0
         };
 
-        state->buffer = dmi_buffer_create(state->context);
-
         state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
         assert_non_null(state->entity);
@@ -281,8 +289,6 @@ static void test_pointing_device_decode_interface(void **pstate)
             .terminator = 0
         };
 
-        state->buffer = dmi_buffer_create(state->context);
-
         state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 
         assert_non_null(state->entity);
@@ -313,8 +319,6 @@ static void test_pointing_device_decode_button_count(void **pstate)
             },
             .terminator = 0
         };
-
-        state->buffer = dmi_buffer_create(state->context);
 
         state->entity = dmi_test_entity_create(state->buffer, &envelope, sizeof(envelope));
 

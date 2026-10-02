@@ -118,6 +118,7 @@ static void test_additional_info_decode(void **pstate)
     assert_int_equal(entry->value.data[1], 0x05);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_additional_info_long_value(void **pstate)
@@ -148,6 +149,7 @@ static void test_additional_info_long_value(void **pstate)
                         TEST_LONG_VALUE_LENGTH);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_additional_info_short_entry(void **pstate)
@@ -171,6 +173,8 @@ static void test_additional_info_short_entry(void **pstate)
         if (decoded)
             fail_msg("Entry length %u: decoded", lengths[i]);
     }
+
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_additional_info_truncated_value(void **pstate)
@@ -195,6 +199,7 @@ static void test_additional_info_truncated_value(void **pstate)
     assert_int_equal(info->entries[0].value.data[1], 0xBB);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_additional_info_no_entries(void **pstate)
@@ -219,6 +224,7 @@ static void test_additional_info_no_entries(void **pstate)
     assert_null(info->entries);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_additional_info_broken_entry(void **pstate)
@@ -247,6 +253,7 @@ static void test_additional_info_broken_entry(void **pstate)
     }
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static dmi_entity_t *test_additional_info_create(

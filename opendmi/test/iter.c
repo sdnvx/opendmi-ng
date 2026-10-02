@@ -208,6 +208,7 @@ static void test_iter_strings(void **pstate)
     assert_null(dmi_format_string_iter_next(&iter));
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
     dmi_destroy(context);
 }
 

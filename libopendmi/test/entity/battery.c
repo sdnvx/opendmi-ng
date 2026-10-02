@@ -122,6 +122,7 @@ static void test_battery_decode_v21(void **pstate)
     assert_int_equal(info->oem_defined, 0);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_battery_decode_v22(void **pstate)
@@ -149,6 +150,7 @@ static void test_battery_decode_v22(void **pstate)
     assert_int_equal(info->oem_defined, 0xDEADBEEF);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_battery_decode_short(void **pstate)
@@ -165,6 +167,7 @@ static void test_battery_decode_short(void **pstate)
     assert_false(dmi_entity_decode(entity));
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static void test_battery_decode_incomplete(void **pstate)
@@ -192,6 +195,7 @@ static void test_battery_decode_incomplete(void **pstate)
     assert_int_equal(info->capacity, 100);
 
     dmi_entity_destroy(entity);
+    dmi_buffer_destroy(buffer);
 }
 
 static dmi_entity_t *test_battery_create(dmi_buffer_t *buffer, uint8_t *data, uint8_t length)

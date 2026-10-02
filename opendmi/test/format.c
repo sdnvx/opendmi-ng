@@ -157,6 +157,7 @@ static int test_format_teardown(void **pstate)
 
     if (state != nullptr) {
         dmi_entity_destroy(state->entity);
+        dmi_buffer_destroy(state->buffer);
         dmi_destroy(state->context);
         free(state->data);
         free(state);

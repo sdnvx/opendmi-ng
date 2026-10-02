@@ -12,6 +12,8 @@
 #include "calling-iface-internal.h"
 #include "tokens-internal.h"
 
+static_assert(sizeof(dmi_dell_calling_iface_token_t) <= DMI_DELL_TOKEN_MAX_SIZE);
+
 const dmi_attribute_t dmi_dell_calling_iface_token_attrs[] =
 {
     DMI_ATTRIBUTE(dmi_dell_calling_iface_token_t, id, INTEGER, {
@@ -31,6 +33,19 @@ const dmi_attribute_t dmi_dell_calling_iface_token_attrs[] =
     }),
     {}
 };
+
+/**
+ * @internal
+ * @brief Read the rest of a token, which follows its identifier.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[in]     id      Identifier of the token.
+ * @param[out]    item    Variable to store the token in.
+ *
+ * @return `true` on success, `false` if the structure ends in the middle of
+ *         the token.
+ */
+static bool dmi_dell_calling_iface_decode_token(dmi_decoder_t *decoder, dmi_word_t id, void *item);
 
 /**
  * @internal
@@ -54,8 +69,6 @@ bool dmi_dell_calling_iface_decode(dmi_decoder_t *decoder)
     if (info == nullptr)
         return false;
 
-    dmi_context_t *context = dmi_entity_context(entity);
-
     bool status =
         dmi_decoder_get(decoder, dmi_word_t, &info->cmd_io_address) and
         dmi_decoder_get(decoder, dmi_byte_t, &info->cmd_io_code) and
@@ -63,39 +76,13 @@ bool dmi_dell_calling_iface_decode(dmi_decoder_t *decoder)
     if (not status)
         return false;
 
-    // Tokens are terminated by the end-of-table marker, which may be
-    // truncated itself
-    size_t capacity = dmi_decoder_remaining(decoder) / DMI_DELL_CALLING_IFACE_TOKEN_SIZE;
-    if (capacity > 0) {
-        info->tokens = dmi_alloc_array(context, sizeof(*info->tokens), capacity);
-        if (info->tokens == nullptr)
-            return false;
-    }
+    void *tokens = nullptr;
 
-    while (true) {
-        dmi_word_t id = 0;
+    status = dmi_dell_tokens_decode(decoder, sizeof(*info->tokens), DMI_DELL_CALLING_IFACE_TOKEN_SIZE,
+                                    dmi_dell_calling_iface_decode_token, &tokens, &info->token_count);
+    info->tokens = tokens;
 
-        if (not dmi_decoder_get(decoder, dmi_word_t, &id))
-            return dmi_decoder_incomplete(decoder);
-
-        if (id == DMI_DELL_TOKEN_EOT) {
-            dmi_decoder_skip(decoder, dmi_decoder_remaining(decoder));
-            break;
-        }
-
-        dmi_dell_calling_iface_token_t token = { .id = id };
-
-        status =
-            dmi_decoder_get(decoder, dmi_word_t, &token.location) and
-            dmi_decoder_get(decoder, dmi_word_t, &token.value);
-        if (not status)
-            return dmi_decoder_incomplete(decoder);
-
-        if (id != DMI_DELL_TOKEN_UNUSED)
-            info->tokens[info->token_count++] = token;
-    }
-
-    return true;
+    return status;
 }
 
 void dmi_dell_calling_iface_cleanup(dmi_entity_t *entity)
@@ -134,4 +121,15 @@ static bool dmi_dell_calling_iface_encode_token(dmi_encoder_t *encoder, const vo
         dmi_encoder_put(encoder, dmi_word_t, token->id) and
         dmi_encoder_put(encoder, dmi_word_t, token->location) and
         dmi_encoder_put(encoder, dmi_word_t, token->value);
+}
+
+static bool dmi_dell_calling_iface_decode_token(dmi_decoder_t *decoder, dmi_word_t id, void *item)
+{
+    dmi_dell_calling_iface_token_t *token = item;
+
+    token->id = id;
+
+    return
+        dmi_decoder_get(decoder, dmi_word_t, &token->location) and
+        dmi_decoder_get(decoder, dmi_word_t, &token->value);
 }

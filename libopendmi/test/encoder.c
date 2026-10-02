@@ -190,6 +190,7 @@ static void test_encoder_reserved_bits(void **pstate)
     assert_int_equal(output->data[0x0F], 0x11);
     dmi_encoder_finalize(&encoder);
 
+    dmi_buffer_destroy(output);
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
 }
@@ -236,6 +237,7 @@ static void test_encoder_extended_governed(void **pstate)
     assert_memory_equal(output->data, test_array_addr_ex, 0x1F);
     dmi_encoder_finalize(&encoder);
 
+    dmi_buffer_destroy(output);
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
 }
@@ -291,6 +293,7 @@ static void test_encoder_extended_canonical(void **pstate)
     dmi_entity_destroy(decoded);
 
     dmi_buffer_destroy(decoded_buffer);
+    dmi_buffer_destroy(buffer);
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(entity_buffer);
 }
@@ -373,6 +376,7 @@ static void test_encoder_truncated(void **pstate)
     assert_memory_equal(output->data, data, 0x0D);
     dmi_encoder_finalize(&encoder);
 
+    dmi_buffer_destroy(output);
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
 }
@@ -418,6 +422,7 @@ static void test_encoder_strings(void **pstate)
     assert_string_equal(encoder.strings[1], "B");
     dmi_encoder_finalize(&encoder);
 
+    dmi_buffer_destroy(output);
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
 }
@@ -445,6 +450,7 @@ static void test_encoder_groups(void **pstate)
     assert_int_equal(output->length, 0x08);
     dmi_encoder_finalize(&encoder);
 
+    dmi_buffer_destroy(output);
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
 }
@@ -619,8 +625,8 @@ static bool test_canonical_roundtrip(dmi_context_t *context, const dmi_entity_t 
     *where = "decoding";
 
     dmi_buffer_t *decoded_buffer = dmi_buffer_create(context);
-
     dmi_entity_t *decoded = dmi_test_entity_create(decoded_buffer, data, size);
+
     if ((decoded != nullptr) and dmi_entity_decode(decoded)) {
         const dmi_entity_spec_t *spec = entity->spec;
 
@@ -640,6 +646,7 @@ static bool test_canonical_roundtrip(dmi_context_t *context, const dmi_entity_t 
     }
 
     dmi_entity_destroy(decoded);
+    dmi_buffer_destroy(decoded_buffer);
 
     free(data);
 
@@ -687,6 +694,7 @@ static void test_encode_both_ways(dmi_context_t *context, const uint8_t *data, s
     dmi_entity_destroy(decoded);
     dmi_buffer_destroy(decoded_buffer);
     free(first);
+    dmi_buffer_destroy(buffer);
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(entity_buffer);
 }
@@ -861,7 +869,7 @@ static void test_encoder_corpus(void **pstate)
             dmi_buffer_t *output = dmi_buffer_create(context);
             dmi_encoder_t encoder;
 
-                    assert_true(dmi_encoder_initialize(&encoder, output, entity,
+            assert_true(dmi_encoder_initialize(&encoder, output, entity,
                                                DMI_ENCODE_MODE_PRESERVE, DMI_VERSION_NONE));
 
             if (not dmi_entity_encode(&encoder)) {
@@ -872,6 +880,7 @@ static void test_encoder_corpus(void **pstate)
                             ((error != nullptr) and (error->message != nullptr)) ? error->message : "");
                 failed++;
                 dmi_encoder_finalize(&encoder);
+                dmi_buffer_destroy(output);
                 continue;
             }
 
@@ -888,6 +897,7 @@ static void test_encoder_corpus(void **pstate)
                            (strcmp(encoder.strings[k], entity->strings[k].raw) == 0));
 
             dmi_encoder_finalize(&encoder);
+            dmi_buffer_destroy(output);
 
             if (not matches) {
                 print_error("%s: handle 0x%04X (%s) is encoded into other bytes\n",

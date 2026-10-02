@@ -66,10 +66,7 @@ else()
 
     if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
        "${CMAKE_C_COMPILER_ID}" STREQUAL "AppleClang")
-        # Doc comments are checked against the declarations they are put on,
-        # which only Clang is able to do
         add_compile_options(
-            -Wdocumentation
             -Wno-unused-command-line-argument
             -Wno-gnu-zero-variadic-macro-arguments
             -Wno-keyword-macro
@@ -79,6 +76,14 @@ else()
             -Wno-error=clobbered
         )
     endif()
+
+    # Doc comments are checked against the declarations they are put on,
+    # which only Clang is able to do. C and C++ may be built by different
+    # compilers, so the option is chosen for each language on its own.
+    add_compile_options(
+        $<$<COMPILE_LANG_AND_ID:C,Clang,AppleClang>:-Wdocumentation>
+        $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang>:-Wdocumentation>
+    )
 endif()
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")

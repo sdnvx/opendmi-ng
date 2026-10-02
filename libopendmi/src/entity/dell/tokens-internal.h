@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <opendmi/decoder.h>
 #include <opendmi/encoder.h>
 
 /**
@@ -20,6 +21,60 @@
  * @brief Token identifier of the end-of-table marker.
  */
 #define DMI_DELL_TOKEN_EOT 0xFFFFu
+
+/**
+ * @internal
+ * @brief Largest size of a token of a decoded structure, which a token is
+ * read into before it is stored.
+ */
+#define DMI_DELL_TOKEN_MAX_SIZE 32
+
+/**
+ * @internal
+ * @brief Function reading the rest of a single token of a structure, which
+ * follows its identifier.
+ *
+ * @param[in,out] decoder Decoder of the structure.
+ * @param[in]     id      Identifier of the token, which is already read.
+ * @param[out]    token   Variable to store the token in, which is zeroed.
+ *
+ * @return `true` on success, `false` if the structure ends in the middle of
+ *         the token.
+ */
+typedef bool dmi_dell_token_decode_fn(dmi_decoder_t *decoder, dmi_word_t id, void *token);
+
+/**
+ * @internal
+ * @brief Read the tokens of a structure, which are terminated by the
+ * end-of-table marker.
+ *
+ * @details The array of the tokens is allocated for as many tokens as the
+ * rest of the structure is able to hold. Unused tokens are dropped, and the
+ * tokens are counted only once they are read as a whole. A structure which
+ * ends before the marker, or in the middle of the marker, is marked
+ * incomplete, and keeps the tokens read up to that point. Whatever follows
+ * the marker is skipped.
+ *
+ * @param[in,out] decoder     Decoder of the structure.
+ * @param[in]     token_size  Size of a token of the decoded structure, at
+ *                            most `DMI_DELL_TOKEN_MAX_SIZE`.
+ * @param[in]     record_size Size of a token in the structure.
+ * @param[in]     decode      Function reading a single token.
+ * @param[out]    ptokens     Variable to store the array of the tokens in,
+ *                            which is set even on failure.
+ * @param[out]    pcount      Variable to store the number of the tokens in.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Array of the tokens cannot be allocated
+ *
+ * @return `true` on success, `false` otherwise.
+ */
+bool dmi_dell_tokens_decode(
+        dmi_decoder_t            *decoder,
+        size_t                    token_size,
+        size_t                    record_size,
+        dmi_dell_token_decode_fn *decode,
+        void                    **ptokens,
+        size_t                   *pcount);
 
 /**
  * @internal
