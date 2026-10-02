@@ -7,9 +7,9 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
+#include <opendmi/entity/current-probe.h>
 
 #include "probe-internal.h"
-#include "current-probe-internal.h"
 
 const dmi_entity_spec_t dmi_current_probe_spec =
 {
@@ -103,7 +103,7 @@ const dmi_entity_spec_t dmi_current_probe_spec =
     }),
 
     .lint_rules = DMI_LINT_RULES({
-        DMI_LINT_RULE("current-probe.range", dmi_current_probe_lint_range, {
+        DMI_LINT_RULE("current-probe.range", dmi_probe_lint_range, {
             .name              = "Nominal value of the probe is within its limits",
             .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR

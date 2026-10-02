@@ -8,9 +8,9 @@
 #include <opendmi/value.h>
 #include <opendmi/internal.h>
 #include <opendmi/lint.h>
+#include <opendmi/entity/temperature-probe.h>
 
 #include "probe-internal.h"
-#include "temperature-probe-internal.h"
 
 const dmi_entity_spec_t dmi_temperature_probe_spec =
 {
@@ -107,7 +107,7 @@ const dmi_entity_spec_t dmi_temperature_probe_spec =
     }),
 
     .lint_rules = DMI_LINT_RULES({
-        DMI_LINT_RULE("temperature-probe.range", dmi_temperature_probe_lint_range, {
+        DMI_LINT_RULE("temperature-probe.range", dmi_probe_lint_range, {
             .name              = "Nominal value of the probe is within its limits",
             .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR

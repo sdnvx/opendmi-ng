@@ -4,16 +4,17 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#include <opendmi/value.h>
 #include <opendmi/internal.h>
-#include <opendmi/entity/probe.h>
 #include <opendmi/lint.h>
+#include <opendmi/entity/probe.h>
 
-#include "current-probe-internal.h"
+#include "probe-internal.h"
 
-void dmi_current_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
+void dmi_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    const dmi_probe_t *info = dmi_entity_info(entity, DMI_TYPE(current_probe));
+    // Probes of all the kinds are decoded into the same structure, and the
+    // rule is registered only by their specifications
+    const dmi_probe_t *info = dmi_entity_info(entity, DMI_TYPE_ANY);
     if (info == nullptr)
         return;
 

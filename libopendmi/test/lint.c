@@ -37,6 +37,7 @@ static void test_lint_jep106_parity(void **pstate);
 static void test_lint_open_enum(void **pstate);
 static void test_lint_memory_device_attributes(void **pstate);
 static void test_lint_memory_device_disabled(void **pstate);
+static void test_lint_probe_range(void **pstate);
 
 static size_t test_lint_count_group_member(const char *path, unsigned flags, const char *module);
 static size_t test_lint_count_module_rule(const char *path, const char *module, const char *code);
@@ -63,6 +64,10 @@ static const char *test_broken_path = "lint-test.bin";
 static const char *test_memory_error_ok_path = OPENDMI_TEST_DATA "/asrock/a520m-itx-ac.bin";
 
 // Dump whose memory devices give the codes of JEDEC as the SPD does
+// Dump of the voltage, temperature and current probes with all the values
+// unknown, which the range of the values is broken in
+static const char *test_probe_path = OPENDMI_TEST_DATA "/acer/aspire-3680.bin";
+
 static const char *test_jep106_path = OPENDMI_TEST_DATA "/ixsystems/truenas-m50-ha.bin";
 
 // Offset of the kind of the first device of the Acer device list
@@ -105,7 +110,8 @@ int main(void)
         cmocka_unit_test(test_lint_jep106_parity),
         cmocka_unit_test(test_lint_open_enum),
         cmocka_unit_test(test_lint_memory_device_attributes),
-        cmocka_unit_test(test_lint_memory_device_disabled)
+        cmocka_unit_test(test_lint_memory_device_disabled),
+        cmocka_unit_test(test_lint_probe_range)
     };
 
     return cmocka_run_group_tests(tests, test_lint_setup, test_lint_teardown);
@@ -506,6 +512,45 @@ static void test_lint_memory_device_disabled(void **pstate)
     remove(test_broken_path);
 
     assert_int_equal(count, 0);
+}
+
+//
+// Probes of all the kinds share the rule of the range of their values, which
+// reports a minimum above the maximum under the code of each kind.
+//
+static void test_lint_probe_range(void **pstate)
+{
+    test_lint_state_t *state = *pstate;
+
+    static const struct
+    {
+        dmi_byte_t  type;
+        const char *code;
+    } probes[] = {
+        { DMI_TYPE_ID(VOLTAGE_PROBE),     "voltage-probe.range"     },
+        { DMI_TYPE_ID(TEMPERATURE_PROBE), "temperature-probe.range" },
+        { DMI_TYPE_ID(CURRENT_PROBE),     "current-probe.range"     }
+    };
+
+    for (size_t i = 0; i < countof(probes); i++) {
+        // Unknown values are left out
+        size_t count = test_lint_count_rule(state, test_probe_path, probes[i].code,
+                                            DMI_LINT_PROFILE_READER, nullptr);
+        assert_int_equal(count, 0);
+
+        // Maximum of zero, and minimum of 256
+        test_lint_patch(state->context, test_probe_path, probes[i].type, 0x07, 0x00);
+        test_lint_patch(state->context, test_broken_path, probes[i].type, 0x09, 0x01);
+
+        dmi_lint_severity_t severity = DMI_LINT_SEVERITY_NONE;
+
+        count = test_lint_count_rule(state, test_broken_path, probes[i].code,
+                                     DMI_LINT_PROFILE_READER, &severity);
+        assert_int_equal(count, 1);
+        assert_int_equal(severity, DMI_LINT_SEVERITY_WARNING);
+    }
+
+    remove(test_broken_path);
 }
 
 //

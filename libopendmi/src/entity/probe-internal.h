@@ -12,6 +12,7 @@
 #include <limits.h>
 
 #include <opendmi/field.h>
+#include <opendmi/lint.h>
 
 #include <opendmi/entity/probe.h>
 
@@ -44,5 +45,19 @@
         DMI_FIELD(__entity, nominal_value, dmi_word_t),             \
         {}                                                          \
     })
+
+/**
+ * @internal
+ * @brief Check that the minimum value of a probe is not above the maximum
+ * one, and that the nominal value is within them.
+ *
+ * @details Values which are unknown are left out of the check. The rule is
+ * shared by the voltage, temperature and current probes, which are decoded
+ * into the same structure.
+ *
+ * @param[in] lint   Check in progress.
+ * @param[in] entity Structure being checked.
+ */
+void dmi_probe_lint_range(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 #endif // !OPENDMI_ENTITY_PROBE_INTERNAL_H
