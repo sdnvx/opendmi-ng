@@ -17,28 +17,6 @@
 
 /**
  * @internal
- * @brief Variants of a firmware version attribute.
- *
- * @details Version is shown as parsed according to the version format, or as
- * the original string, if it does not conform to the format.
- *
- * @param __string Member holding the version string.
- * @param __parsed Member holding the parsed version.
- */
-#define dmi_firmware_version_variants(__string, __parsed)                                            \
-    DMI_VARIANTS({                                                                                   \
-        DMI_VARIANT(DMI_FIRMWARE_VERSION_FORMAT_SEMANTIC, dmi_firmware_inventory_t, __parsed.number, \
-                    STRUCT, { .attrs = dmi_firmware_version_number_attrs }),                         \
-        DMI_VARIANT(DMI_FIRMWARE_VERSION_FORMAT_HEX_32, dmi_firmware_inventory_t, __parsed.value,    \
-                    INTEGER, { .flags = DMI_ATTRIBUTE_FLAG_HEX }),                                   \
-        DMI_VARIANT(DMI_FIRMWARE_VERSION_FORMAT_HEX_64, dmi_firmware_inventory_t, __parsed.value,    \
-                    INTEGER, { .flags = DMI_ATTRIBUTE_FLAG_HEX }),                                   \
-        DMI_VARIANT_DEFAULT(dmi_firmware_inventory_t, __string, STRING, {}),                         \
-        {}                                                                                           \
-    })
-
-/**
- * @internal
  * @brief Names of the formats of a firmware version.
  */
 extern const dmi_name_set_t dmi_firmware_version_format_names;

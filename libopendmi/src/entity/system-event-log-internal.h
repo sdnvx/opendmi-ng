@@ -17,18 +17,6 @@
 
 /**
  * @internal
- * @brief Variant of the access method address for an indexed I/O access
- * method, whose address contains I/O ports.
- *
- * @param __method Access method the variant is shown for.
- */
-#define dmi_system_log_io_ports_variant(__method)                            \
-    DMI_VARIANT(__method, dmi_system_event_log_t, access_ports, STRUCT, {    \
-        .attrs = dmi_system_log_io_ports_attrs                               \
-    })
-
-/**
- * @internal
  * @brief Offset of the length of a descriptor of the supported log types,
  * which the specification fixes at two bytes.
  */

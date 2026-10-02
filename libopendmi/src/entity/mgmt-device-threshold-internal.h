@@ -17,45 +17,6 @@
 
 /**
  * @internal
- * @brief Variant of a threshold value for the type of the component using it.
- *
- * @details Threshold values are in units of the component using them, and are
- * shown as they are stored, if the component is unknown.
- *
- * @param __type      Type of the component, as named by `DMI_TYPE_ID()`.
- * @param __member    Member holding the threshold value.
- * @param __attr_type Type of the attribute showing the value.
- * @param ...         Further options of the attribute, e.g. its unit.
- */
-#define dmi_threshold_variant(__type, __member, __attr_type, ...)           \
-    DMI_VARIANT(DMI_TYPE_ID(__type), dmi_mgmt_device_threshold_t, __member, \
-                __attr_type, {                                              \
-                    .unknown = dmi_value_ptr((short)SHRT_MIN),              \
-                    .flags   = DMI_ATTRIBUTE_FLAG_SIGNED,                   \
-                    __VA_ARGS__                                             \
-                })
-
-/**
- * @internal
- * @brief Variants of a threshold value for each type of the component.
- *
- * @details Values of an unknown component are shown as signed integers.
- */
-#define dmi_threshold_variants(__member)                                                                   \
-    DMI_VARIANTS({                                                                                         \
-        dmi_threshold_variant(VOLTAGE_PROBE, __member, INTEGER, .unit = DMI_UNIT_MILLIVOLT),               \
-        dmi_threshold_variant(TEMPERATURE_PROBE, __member, DECIMAL, .scale = 1, .unit = DMI_UNIT_CELSIUS), \
-        dmi_threshold_variant(CURRENT_PROBE, __member, INTEGER, .unit = DMI_UNIT_MILLIAMPERE),             \
-        dmi_threshold_variant(COOLING_DEVICE, __member, INTEGER, .unit = DMI_UNIT_REVOLUTION),             \
-        DMI_VARIANT_DEFAULT(dmi_mgmt_device_threshold_t, __member, INTEGER, {                              \
-            .unknown = dmi_value_ptr((short)SHRT_MIN),                                                     \
-            .flags   = DMI_ATTRIBUTE_FLAG_SIGNED                                                           \
-        }),                                                                                                \
-        {}                                                                                                 \
-    })
-
-/**
- * @internal
  * @brief Check whether the thresholds of a structure are a template.
  *
  * @details Firmware may leave the structure as a template, with the ordinals

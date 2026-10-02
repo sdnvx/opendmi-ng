@@ -29,7 +29,7 @@ const dmi_entity_spec_t dmi_temperature_probe_spec =
         .decoded_length  = sizeof(dmi_temperature_probe_t)
     },
 
-    .fields = dmi_probe_fields(dmi_temperature_probe_t),
+    .fields = dmi_probe_fields,
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_temperature_probe_t, description, STRING, {

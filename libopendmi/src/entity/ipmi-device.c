@@ -13,6 +13,20 @@
 
 #include "ipmi-device-internal.h"
 
+/**
+ * @internal
+ * @brief Variants of a register-related field.
+ *
+ * @details Register-related fields are defined only for interfaces in I/O or
+ * memory space, and are not shown for SSIF interface.
+ */
+#define dmi_ipmi_register_variants(__member, ...)                                                  \
+    DMI_VARIANTS({                                                                                 \
+        DMI_VARIANT(DMI_IPMI_ADDR_TYPE_IO, dmi_ipmi_device_t, __member, INTEGER, __VA_ARGS__),     \
+        DMI_VARIANT(DMI_IPMI_ADDR_TYPE_MEMORY, dmi_ipmi_device_t, __member, INTEGER, __VA_ARGS__), \
+        {}                                                                                         \
+    })
+
 const dmi_entity_spec_t dmi_ipmi_device_spec =
 {
     .code            = "ipmi-device",
