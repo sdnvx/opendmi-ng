@@ -71,7 +71,4 @@ const dmi_name_set_t dmi_cooling_device_type_names =
     })
 };
 
-const char *dmi_cooling_device_type_name(dmi_cooling_device_type_t value)
-{
-    return dmi_name_lookup(&dmi_cooling_device_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_cooling_device_type)

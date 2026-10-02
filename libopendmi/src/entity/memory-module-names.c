@@ -125,7 +125,4 @@ const dmi_name_set_t dmi_memory_module_error_names =
     })
 };
 
-const char *dmi_memory_module_size_status_name(dmi_memory_module_size_status_t value)
-{
-    return dmi_name_lookup(&dmi_memory_module_size_status_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_memory_module_size_status)

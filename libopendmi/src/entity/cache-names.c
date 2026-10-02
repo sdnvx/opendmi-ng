@@ -191,22 +191,7 @@ const dmi_name_set_t dmi_cache_sram_type_names =
     })
 };
 
-const char *dmi_cache_type_name(dmi_cache_type_t value)
-{
-    return dmi_name_lookup(&dmi_cache_type_names, (int)value);
-}
-
-const char *dmi_cache_mode_name(dmi_cache_mode_t value)
-{
-    return dmi_name_lookup(&dmi_cache_mode_names, (int)value);
-}
-
-const char *dmi_cache_assoc_name(dmi_cache_assoc_t value)
-{
-    return dmi_name_lookup(&dmi_cache_assoc_names, (int)value);
-}
-
-const char *dmi_cache_location_name(dmi_cache_location_t value)
-{
-    return dmi_name_lookup(&dmi_cache_location_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_cache_type)
+DMI_NAME_FUNCTION(dmi_cache_mode)
+DMI_NAME_FUNCTION(dmi_cache_assoc)
+DMI_NAME_FUNCTION(dmi_cache_location)

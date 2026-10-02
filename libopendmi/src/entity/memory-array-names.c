@@ -129,12 +129,5 @@ const dmi_name_set_t dmi_memory_array_usage_names =
     })
 };
 
-const char *dmi_memory_array_location_name(dmi_memory_array_location_t value)
-{
-    return dmi_name_lookup(&dmi_memory_array_location_names, (int)value);
-}
-
-const char *dmi_memory_array_usage_name(dmi_memory_array_usage_t value)
-{
-    return dmi_name_lookup(&dmi_memory_array_usage_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_memory_array_location)
+DMI_NAME_FUNCTION(dmi_memory_array_usage)

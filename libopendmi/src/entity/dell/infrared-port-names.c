@@ -35,7 +35,4 @@ const dmi_name_set_t dmi_dell_infrared_proto_names =
     }
 };
 
-const char *dmi_dell_infrared_proto_name(dmi_dell_infrared_proto_t value)
-{
-    return dmi_name_lookup(&dmi_dell_infrared_proto_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_dell_infrared_proto)

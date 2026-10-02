@@ -151,7 +151,4 @@ const dmi_entity_spec_t dmi_acer_devices_spec =
     })
 };
 
-const char *dmi_acer_device_kind_name(dmi_acer_device_kind_t value)
-{
-    return dmi_name_lookup(&dmi_acer_device_kind_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_acer_device_kind)

@@ -179,7 +179,4 @@ const dmi_entity_spec_t dmi_intel_amt_spec =
     })
 };
 
-const char *dmi_intel_amt_terminal_name(dmi_intel_amt_terminal_t value)
-{
-    return dmi_name_lookup(&dmi_intel_amt_terminal_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_intel_amt_terminal)

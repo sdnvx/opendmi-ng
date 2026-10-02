@@ -111,22 +111,7 @@ const dmi_name_set_t dmi_dell_value_format_names =
     })
 };
 
-const char *dmi_dell_enable_state_name(dmi_dell_enable_state_t value)
-{
-    return dmi_name_lookup(&dmi_dell_enable_state_names, (int)value);
-}
-
-const char *dmi_dell_port_security_name(dmi_dell_port_security_t value)
-{
-    return dmi_name_lookup(&dmi_dell_port_security_names, (int)value);
-}
-
-const char *dmi_dell_check_type_name(dmi_dell_check_type_t value)
-{
-    return dmi_name_lookup(&dmi_dell_check_type_names, (int)value);
-}
-
-const char *dmi_dell_value_format_name(dmi_dell_value_format_t value)
-{
-    return dmi_name_lookup(&dmi_dell_value_format_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_dell_enable_state)
+DMI_NAME_FUNCTION(dmi_dell_port_security)
+DMI_NAME_FUNCTION(dmi_dell_check_type)
+DMI_NAME_FUNCTION(dmi_dell_value_format)

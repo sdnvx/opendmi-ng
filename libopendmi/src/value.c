@@ -80,15 +80,8 @@ static const dmi_name_set_t dmi_bool_names =
     })
 };
 
-const char *dmi_unit_code(dmi_unit_t value)
-{
-    return dmi_code_lookup(&dmi_unit_names, (int)value);
-}
-
-const char *dmi_unit_name(dmi_unit_t value)
-{
-    return dmi_name_lookup(&dmi_unit_names, (int)value);
-}
+DMI_CODE_FUNCTION(dmi_unit)
+DMI_NAME_FUNCTION(dmi_unit)
 
 const char *dmi_bool_code(bool value)
 {

@@ -417,12 +417,5 @@ const dmi_name_set_t dmi_port_type_names =
     })
 };
 
-const char *dmi_connector_type_name(dmi_connector_type_t value)
-{
-    return dmi_name_lookup(&dmi_connector_type_names, (int)value);
-}
-
-const char *dmi_port_type_name(dmi_port_type_t value)
-{
-    return dmi_name_lookup(&dmi_port_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_connector_type)
+DMI_NAME_FUNCTION(dmi_port_type)

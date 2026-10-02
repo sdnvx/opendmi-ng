@@ -352,37 +352,10 @@ const dmi_name_set_t dmi_hpe_tm_error_names =
     })
 };
 
-const char *dmi_hpe_tm_presence_name(dmi_hpe_tm_presence_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_tm_presence_names, (int)value);
-}
-
-const char *dmi_hpe_tm_disable_reason_name(dmi_hpe_tm_disable_reason_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_tm_disable_reason_names, (int)value);
-}
-
-const char *dmi_hpe_tm_type_name(dmi_hpe_tm_type_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_tm_type_names, (int)value);
-}
-
-const char *dmi_hpe_tm_mounting_name(dmi_hpe_tm_mounting_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_tm_mounting_names, (int)value);
-}
-
-const char *dmi_hpe_tm_fips_name(dmi_hpe_tm_fips_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_tm_fips_names, (int)value);
-}
-
-const char *dmi_hpe_tm_chip_name(dmi_hpe_tm_chip_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_tm_chip_names, (int)value);
-}
-
-const char *dmi_hpe_tm_error_name(dmi_hpe_tm_error_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_tm_error_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_tm_presence)
+DMI_NAME_FUNCTION(dmi_hpe_tm_disable_reason)
+DMI_NAME_FUNCTION(dmi_hpe_tm_type)
+DMI_NAME_FUNCTION(dmi_hpe_tm_mounting)
+DMI_NAME_FUNCTION(dmi_hpe_tm_fips)
+DMI_NAME_FUNCTION(dmi_hpe_tm_chip)
+DMI_NAME_FUNCTION(dmi_hpe_tm_error)

@@ -124,12 +124,5 @@ const dmi_name_set_t dmi_pointing_device_iface_names =
     })
 };
 
-const char *dmi_pointing_device_type_name(dmi_pointing_device_type_t value)
-{
-    return dmi_name_lookup(&dmi_pointing_device_type_names, (int)value);
-}
-
-const char *dmi_pointing_device_iface_name(dmi_pointing_device_iface_t value)
-{
-    return dmi_name_lookup(&dmi_pointing_device_iface_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_pointing_device_type)
+DMI_NAME_FUNCTION(dmi_pointing_device_iface)

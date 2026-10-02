@@ -339,20 +339,9 @@ const dmi_name_set_t dmi_apple_region_type_names =
     })
 };
 
-const char *dmi_apple_firmware_feature_name(dmi_apple_firmware_feature_t value)
-{
-    return dmi_name_lookup(&dmi_apple_firmware_feature_names, (int)value);
-}
-
-const char *dmi_apple_extended_feature_name(dmi_apple_extended_feature_t value)
-{
-    return dmi_name_lookup(&dmi_apple_extended_feature_names, (int)value);
-}
-
-const char *dmi_apple_region_type_name(dmi_apple_region_type_t value)
-{
-    return dmi_name_lookup(&dmi_apple_region_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_apple_firmware_feature)
+DMI_NAME_FUNCTION(dmi_apple_extended_feature)
+DMI_NAME_FUNCTION(dmi_apple_region_type)
 
 bool dmi_apple_firmware_volume_derive(dmi_entity_t *entity)
 {

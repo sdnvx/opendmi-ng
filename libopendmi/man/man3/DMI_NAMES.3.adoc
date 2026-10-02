@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-DMI_NAMES, DMI_NAME_RANGES, DMI_NAME_UNSPEC, DMI_NAME_UNKNOWN, DMI_NAME_OTHER, DMI_NAME_NONE, DMI_NAME_UNSUPPORTED, DMI_NAME_RESERVED - declare the names of the values of an enumeration.
+DMI_NAMES, DMI_NAME_RANGES, DMI_NAME_UNSPEC, DMI_NAME_UNKNOWN, DMI_NAME_OTHER, DMI_NAME_NONE, DMI_NAME_UNSUPPORTED, DMI_NAME_RESERVED, DMI_NAME_FUNCTION - declare the names of the values of an enumeration.
 
 == Library
 
@@ -33,6 +33,8 @@ DMI_NAME_OTHER(id)
 DMI_NAME_NONE(id)
 DMI_NAME_UNSUPPORTED(id)
 DMI_NAME_RESERVED(id)
+
+DMI_NAME_FUNCTION(prefix)
 ----
 
 == Description
@@ -56,6 +58,12 @@ named so rather than by its range.
 Entries of `DMI_NAMES` for the values the specification names the same way
 everywhere, e.g. `unspecified` and `Unspecified`.
 
+`DMI_NAME_FUNCTION`::
+Definition of the function naming the values of an enumeration, which
+returns the name of a value of `<prefix>_t` in the name set `<prefix>_names`,
+see `dmi_name_lookup`(3). The function, `<prefix>_name`, is declared on its
+own, and the macro is not followed by a semicolon.
+
 The code of the name set, `.code`, names the table its names are translated
 in, by the codes of the entries, see `dmi_name_lookup`(3).
 
@@ -63,6 +71,10 @@ in, by the codes of the entries, see `dmi_name_lookup`(3).
 
 `id`::
 Value the entry names.
+
+`prefix`::
+Prefix of the names of the function, the enumeration type and the name set,
+e.g. `dmi_chassis_type`.
 
 == Example
 
@@ -84,6 +96,8 @@ const dmi_name_set_t dmi_chassis_type_names =
         {}
     })
 };
+
+DMI_NAME_FUNCTION(dmi_chassis_type)
 ----
 
 == See also

@@ -11,7 +11,7 @@
 
 #include "system-boot-internal.h"
 
-const dmi_name_set_t dmi_system_boot_status_names =
+const dmi_name_set_t dmi_boot_status_names =
 {
     .code = "system-boot-status",
     .names = DMI_NAMES({
@@ -85,7 +85,4 @@ const dmi_name_set_t dmi_system_boot_status_names =
     })
 };
 
-const char *dmi_boot_status_name(dmi_boot_status_t value)
-{
-    return dmi_name_lookup(&dmi_system_boot_status_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_boot_status)

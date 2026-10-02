@@ -145,10 +145,7 @@ const dmi_name_set_t dmi_hpe_usb_location_names =
     })
 };
 
-const char *dmi_hpe_usb_location_name(dmi_hpe_usb_location_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_usb_location_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_usb_location)
 
 const dmi_name_set_t dmi_hpe_usb_sharing_names =
 {
@@ -173,10 +170,7 @@ const dmi_name_set_t dmi_hpe_usb_sharing_names =
     })
 };
 
-const char *dmi_hpe_usb_sharing_name(dmi_hpe_usb_sharing_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_usb_sharing_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_usb_sharing)
 
 const dmi_name_set_t dmi_hpe_usb_speed_names =
 {
@@ -201,7 +195,4 @@ const dmi_name_set_t dmi_hpe_usb_speed_names =
     })
 };
 
-const char *dmi_hpe_usb_speed_name(dmi_hpe_usb_speed_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_usb_speed_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_usb_speed)

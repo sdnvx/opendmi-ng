@@ -270,17 +270,6 @@ const dmi_name_set_t dmi_hpe_usb_hub_proto_names =
     })
 };
 
-const char *dmi_hpe_usb_storage_subclass_name(dmi_hpe_usb_storage_subclass_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_usb_storage_subclass_names, (int)value);
-}
-
-const char *dmi_hpe_usb_storage_proto_name(dmi_hpe_usb_storage_proto_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_usb_storage_proto_names, (int)value);
-}
-
-const char *dmi_hpe_usb_hub_proto_name(dmi_hpe_usb_hub_proto_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_usb_hub_proto_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_usb_storage_subclass)
+DMI_NAME_FUNCTION(dmi_hpe_usb_storage_proto)
+DMI_NAME_FUNCTION(dmi_hpe_usb_hub_proto)

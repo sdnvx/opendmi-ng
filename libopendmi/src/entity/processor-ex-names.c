@@ -76,7 +76,4 @@ const dmi_name_set_t dmi_processor_arch_names =
     })
 };
 
-const char *dmi_processor_arch_name(dmi_processor_arch_t value)
-{
-    return dmi_name_lookup(&dmi_processor_arch_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_processor_arch)

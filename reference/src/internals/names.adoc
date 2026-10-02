@@ -96,7 +96,14 @@ int         id   = dmi_code_lookup_rev(&dmi_cache_type_names, "unified");
 
 A program gets the names through the functions most enumerations have, e.g.
 `dmi_cache_type_name`(3), and through the attributes, which refer to the name
-sets.
+sets. The functions are defined with `DMI_NAME_FUNCTION`, see `DMI_NAMES`(3),
+which names the function, the enumeration type and the name set after one
+prefix:
+
+[source,c]
+----
+DMI_NAME_FUNCTION(dmi_cache_type)  // dmi_cache_type_name(), dmi_cache_type_t, dmi_cache_type_names
+----
 
 Name sets are what the attributes of the enumerated values and of the sets of
 bits refer to by `values`, see

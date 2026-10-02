@@ -53,7 +53,4 @@ const dmi_name_set_t dmi_system_wakeup_type_names =
     })
 };
 
-const char *dmi_system_wakeup_type_name(dmi_system_wakeup_type_t value)
-{
-    return dmi_name_lookup(&dmi_system_wakeup_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_system_wakeup_type)

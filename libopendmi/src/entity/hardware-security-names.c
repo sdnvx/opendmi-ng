@@ -35,7 +35,4 @@ const dmi_name_set_t dmi_hardware_security_status_names =
     })
 };
 
-const char *dmi_hardware_security_status_name(dmi_hardware_security_status_t value)
-{
-    return dmi_name_lookup(&dmi_hardware_security_status_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hardware_security_status)

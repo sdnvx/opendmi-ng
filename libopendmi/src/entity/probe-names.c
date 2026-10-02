@@ -90,7 +90,4 @@ const dmi_name_set_t dmi_probe_location_names =
     })
 };
 
-const char *dmi_probe_location_name(dmi_probe_location_t value)
-{
-    return dmi_name_lookup(&dmi_probe_location_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_probe_location)

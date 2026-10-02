@@ -398,17 +398,6 @@ const dmi_name_set_t dmi_memory_device_tech_names =
     })
 };
 
-const char *dmi_memory_device_type_name(dmi_memory_device_type_t value)
-{
-    return dmi_name_lookup(&dmi_memory_device_type_names, (int)value);
-}
-
-const char *dmi_memory_device_form_factor_name(dmi_memory_device_form_factor_t value)
-{
-    return dmi_name_lookup(&dmi_memory_device_form_factor_names, (int)value);
-}
-
-const char *dmi_memory_device_tech_name(dmi_memory_device_tech_t value)
-{
-    return dmi_name_lookup(&dmi_memory_device_tech_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_memory_device_type)
+DMI_NAME_FUNCTION(dmi_memory_device_form_factor)
+DMI_NAME_FUNCTION(dmi_memory_device_tech)

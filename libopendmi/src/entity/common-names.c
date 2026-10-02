@@ -73,12 +73,5 @@ const dmi_name_set_t dmi_error_correct_type_names =
     })
 };
 
-const char *dmi_status_name(dmi_status_t value)
-{
-    return dmi_name_lookup(&dmi_status_names, (int)value);
-}
-
-const char *dmi_error_correct_type_name(dmi_error_correct_type_t value)
-{
-    return dmi_name_lookup(&dmi_error_correct_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_status)
+DMI_NAME_FUNCTION(dmi_error_correct_type)

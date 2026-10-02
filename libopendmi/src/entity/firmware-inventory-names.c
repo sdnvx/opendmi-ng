@@ -149,17 +149,6 @@ const dmi_name_set_t dmi_firmware_inventory_state_names =
     })
 };
 
-const char *dmi_firmware_version_format_name(dmi_firmware_version_format_t value)
-{
-    return dmi_name_lookup(&dmi_firmware_version_format_names, (int)value);
-}
-
-const char *dmi_firmware_ident_format_name(dmi_firmware_ident_format_t value)
-{
-    return dmi_name_lookup(&dmi_firmware_ident_format_names, (int)value);
-}
-
-const char *dmi_firmware_inventory_state_name(dmi_firmware_inventory_state_t value)
-{
-    return dmi_name_lookup(&dmi_firmware_inventory_state_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_firmware_version_format)
+DMI_NAME_FUNCTION(dmi_firmware_ident_format)
+DMI_NAME_FUNCTION(dmi_firmware_inventory_state)

@@ -132,7 +132,4 @@ const dmi_name_set_t dmi_apple_processor_class_names =
     })
 };
 
-const char *dmi_apple_processor_class_name(dmi_apple_processor_class_t value)
-{
-    return dmi_name_lookup(&dmi_apple_processor_class_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_apple_processor_class)

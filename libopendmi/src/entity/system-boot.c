@@ -52,7 +52,7 @@ const dmi_entity_spec_t dmi_system_boot_spec =
         DMI_ATTRIBUTE(dmi_system_boot_t, status, ENUM, {
             .code   = "status",
             .name   = "Boot status",
-            .values = &dmi_system_boot_status_names
+            .values = &dmi_boot_status_names
         }),
         // Additional data is defined only for vendor and product codes
         DMI_ATTRIBUTE_VARIANT(dmi_system_boot_t, has_status_data, {

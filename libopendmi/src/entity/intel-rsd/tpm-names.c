@@ -27,7 +27,4 @@ const dmi_name_set_t dmi_intel_rsd_tpm_status_names =
     })
 };
 
-const char *dmi_intel_rsd_tpm_status_name(dmi_intel_rsd_tpm_status_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_tpm_status_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_intel_rsd_tpm_status)

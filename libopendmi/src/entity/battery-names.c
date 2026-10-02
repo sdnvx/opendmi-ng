@@ -55,7 +55,4 @@ const dmi_name_set_t dmi_battery_chemistry_names =
     })
 };
 
-const char *dmi_battery_chemistry_name(dmi_battery_chemistry_t value)
-{
-    return dmi_name_lookup(&dmi_battery_chemistry_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_battery_chemistry)

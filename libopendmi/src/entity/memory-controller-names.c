@@ -160,12 +160,5 @@ const dmi_name_set_t dmi_memory_module_voltage_names =
     })
 };
 
-const char *dmi_error_detect_method_name(dmi_error_detect_method_t value)
-{
-    return dmi_name_lookup(&dmi_error_detect_method_names, (int)value);
-}
-
-const char *dmi_memory_interleave_name(dmi_memory_interleave_t value)
-{
-    return dmi_name_lookup(&dmi_memory_interleave_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_error_detect_method)
+DMI_NAME_FUNCTION(dmi_memory_interleave)

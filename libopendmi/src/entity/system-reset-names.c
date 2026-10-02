@@ -40,7 +40,4 @@ const dmi_name_set_t dmi_boot_option_names =
     })
 };
 
-const char *dmi_boot_option_name(dmi_boot_option_t value)
-{
-    return dmi_name_lookup(&dmi_boot_option_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_boot_option)

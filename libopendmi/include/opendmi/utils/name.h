@@ -97,6 +97,30 @@ struct dmi_name_set
  */
 #define DMI_NAME_RANGES(...) (const dmi_name_range_t[])__VA_ARGS__
 
+/**
+ * @brief Define the function naming the values of an enumeration.
+ *
+ * The function `<prefix>_name()` takes a value of `<prefix>_t` and looks its
+ * name up in the name set `<prefix>_names`, see `dmi_name_lookup()`, e.g.
+ * `DMI_NAME_FUNCTION(dmi_chassis_type)` defines `dmi_chassis_type_name()`
+ * looking up `dmi_chassis_type_names`. The function is declared on its own,
+ * and the macro is not followed by a semicolon.
+ *
+ * @param prefix Prefix of the names of the function, the enumeration type and
+ *               the name set.
+ */
+#define DMI_NAME_FUNCTION(prefix)                               \
+    const char *prefix##_name(prefix##_t value)                 \
+    {                                                           \
+        return dmi_name_lookup(&prefix##_names, (int)value);    \
+    }
+
+#define DMI_CODE_FUNCTION(prefix)                               \
+    const char *prefix##_code(prefix##_t value)                 \
+    {                                                           \
+        return dmi_code_lookup(&prefix##_names, (int)value);    \
+    }
+
 __BEGIN_DECLS
 
 /**

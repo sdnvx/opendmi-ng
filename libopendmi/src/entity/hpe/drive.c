@@ -197,10 +197,7 @@ const dmi_name_set_t dmi_hpe_drive_type_names =
     })
 };
 
-const char *dmi_hpe_drive_type_name(dmi_hpe_drive_type_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_drive_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_drive_type)
 
 const dmi_name_set_t dmi_hpe_drive_form_names =
 {
@@ -275,10 +272,7 @@ const dmi_name_set_t dmi_hpe_drive_form_names =
     })
 };
 
-const char *dmi_hpe_drive_form_name(dmi_hpe_drive_form_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_drive_form_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_drive_form)
 
 const dmi_name_set_t dmi_hpe_drive_health_names =
 {
@@ -308,7 +302,4 @@ const dmi_name_set_t dmi_hpe_drive_health_names =
     })
 };
 
-const char *dmi_hpe_drive_health_name(dmi_hpe_drive_health_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_drive_health_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_drive_health)

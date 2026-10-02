@@ -150,22 +150,7 @@ const dmi_name_set_t dmi_intel_me_sku_names =
     })
 };
 
-const char *dmi_intel_me_state_name(dmi_intel_me_state_t value)
-{
-    return dmi_name_lookup(&dmi_intel_me_state_names, (int)value);
-}
-
-const char *dmi_intel_me_error_name(dmi_intel_me_error_t value)
-{
-    return dmi_name_lookup(&dmi_intel_me_error_names, (int)value);
-}
-
-const char *dmi_intel_me_mode_name(dmi_intel_me_mode_t value)
-{
-    return dmi_name_lookup(&dmi_intel_me_mode_names, (int)value);
-}
-
-const char *dmi_intel_me_sku_name(dmi_intel_me_sku_t value)
-{
-    return dmi_name_lookup(&dmi_intel_me_sku_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_intel_me_state)
+DMI_NAME_FUNCTION(dmi_intel_me_error)
+DMI_NAME_FUNCTION(dmi_intel_me_mode)
+DMI_NAME_FUNCTION(dmi_intel_me_sku)

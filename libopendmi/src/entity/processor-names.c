@@ -1976,22 +1976,7 @@ const dmi_name_set_t dmi_processor_x86_feature_names =
     })
 };
 
-const char *dmi_processor_type_name(dmi_processor_type_t value)
-{
-    return dmi_name_lookup(&dmi_processor_type_names, (int)value);
-}
-
-const char *dmi_processor_family_name(dmi_processor_family_t value)
-{
-    return dmi_name_lookup(&dmi_processor_family_names, (int)value);
-}
-
-const char *dmi_processor_upgrade_name(dmi_processor_upgrade_t value)
-{
-    return dmi_name_lookup(&dmi_processor_upgrade_names, (int)value);
-}
-
-const char *dmi_processor_status_name(dmi_processor_status_t value)
-{
-    return dmi_name_lookup(&dmi_processor_status_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_processor_type)
+DMI_NAME_FUNCTION(dmi_processor_family)
+DMI_NAME_FUNCTION(dmi_processor_upgrade)
+DMI_NAME_FUNCTION(dmi_processor_status)

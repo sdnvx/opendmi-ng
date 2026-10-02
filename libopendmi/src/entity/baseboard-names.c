@@ -112,7 +112,4 @@ const dmi_name_set_t dmi_baseboard_feature_names =
     })
 };
 
-const char *dmi_baseboard_type_name(dmi_baseboard_type_t value)
-{
-    return dmi_name_lookup(&dmi_baseboard_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_baseboard_type)

@@ -165,14 +165,5 @@ const dmi_name_set_t dmi_dell_parallel_port_caps_names =
     })
 };
 
-const char *dmi_dell_parallel_port_connector_type_name(
-        dmi_dell_parallel_port_connector_type_t value)
-{
-    return dmi_name_lookup(&dmi_dell_parallel_port_connector_type_names, (int)value);
-}
-
-const char *dmi_dell_parallel_port_connector_pinout_name(
-        dmi_dell_parallel_port_connector_pinout_t value)
-{
-    return dmi_name_lookup(&dmi_dell_parallel_port_connector_pinout_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_dell_parallel_port_connector_type)
+DMI_NAME_FUNCTION(dmi_dell_parallel_port_connector_pinout)

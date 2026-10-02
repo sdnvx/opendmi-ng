@@ -646,27 +646,8 @@ const dmi_name_set_t dmi_slot_usage_names =
     })
 };
 
-const char *dmi_slot_type_name(dmi_slot_type_t value)
-{
-    return dmi_name_lookup(&dmi_slot_type_names, (int)value);
-}
-
-const char *dmi_slot_width_name(dmi_slot_width_t value)
-{
-    return dmi_name_lookup(&dmi_slot_width_names, (int)value);
-}
-
-const char *dmi_slot_usage_name(dmi_slot_usage_t value)
-{
-    return dmi_name_lookup(&dmi_slot_usage_names, (int)value);
-}
-
-const char *dmi_slot_length_name(dmi_slot_length_t value)
-{
-    return dmi_name_lookup(&dmi_slot_length_names, (int)value);
-}
-
-const char *dmi_slot_height_name(dmi_slot_height_t value)
-{
-    return dmi_name_lookup(&dmi_slot_height_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_slot_type)
+DMI_NAME_FUNCTION(dmi_slot_width)
+DMI_NAME_FUNCTION(dmi_slot_usage)
+DMI_NAME_FUNCTION(dmi_slot_length)
+DMI_NAME_FUNCTION(dmi_slot_height)

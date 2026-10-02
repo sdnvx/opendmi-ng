@@ -19,7 +19,7 @@
  * @internal
  * @brief Names of the system boot statuses.
  */
-extern const dmi_name_set_t dmi_system_boot_status_names;
+extern const dmi_name_set_t dmi_boot_status_names;
 
 /**
  * @internal

@@ -50,12 +50,5 @@ const dmi_name_set_t dmi_hpe_encryption_names =
     })
 };
 
-const char *dmi_hpe_flag_name(dmi_hpe_flag_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_flag_names, (int)value);
-}
-
-const char *dmi_hpe_encryption_name(dmi_hpe_encryption_t value)
-{
-    return dmi_name_lookup(&dmi_hpe_encryption_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_hpe_flag)
+DMI_NAME_FUNCTION(dmi_hpe_encryption)

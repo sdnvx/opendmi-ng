@@ -104,12 +104,5 @@ const dmi_name_set_t dmi_mgmt_device_addr_type_names =
     })
 };
 
-const char *dmi_mgmt_device_type_name(dmi_mgmt_device_type_t value)
-{
-    return dmi_name_lookup(&dmi_mgmt_device_type_names, (int)value);
-}
-
-const char *dmi_mgmt_device_addr_type_name(dmi_mgmt_device_addr_type_t value)
-{
-    return dmi_name_lookup(&dmi_mgmt_device_addr_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_mgmt_device_type)
+DMI_NAME_FUNCTION(dmi_mgmt_device_addr_type)

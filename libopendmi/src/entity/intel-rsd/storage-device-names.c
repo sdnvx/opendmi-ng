@@ -112,17 +112,6 @@ const dmi_name_set_t dmi_intel_rsd_storage_device_type_names =
     })
 };
 
-const char *dmi_intel_rsd_storage_connector_name(dmi_intel_rsd_storage_connector_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_storage_connector_names, (int)value);
-}
-
-const char *dmi_intel_rsd_storage_proto_name(dmi_intel_rsd_storage_proto_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_storage_proto_names, (int)value);
-}
-
-const char *dmi_intel_rsd_storage_device_type_name(dmi_intel_rsd_storage_device_type_t value)
-{
-    return dmi_name_lookup(&dmi_intel_rsd_storage_device_type_names, (int)value);
-}
+DMI_NAME_FUNCTION(dmi_intel_rsd_storage_connector)
+DMI_NAME_FUNCTION(dmi_intel_rsd_storage_proto)
+DMI_NAME_FUNCTION(dmi_intel_rsd_storage_device_type)
