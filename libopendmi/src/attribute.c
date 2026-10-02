@@ -125,7 +125,7 @@ static char *dmi_attribute_format_bool(
  * @param[in] pretty    `true` for human-readable output, `false` for
  *                      machine-readable output.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Size of the value is not supported
+ * @error DMI_ERROR_ARGUMENT_INVALID Size of the value is not supported
  * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
  *
  * @return Newly allocated string, or `nullptr` on error.
@@ -149,7 +149,7 @@ static char *dmi_attribute_format_integer(
  * @param[in] pretty    `true` for human-readable output, `false` for
  *                      machine-readable output.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Size of the value is not supported
+ * @error DMI_ERROR_ARGUMENT_INVALID Size of the value is not supported
  * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
  *
  * @return Newly allocated string, or `nullptr` on error.
@@ -217,7 +217,7 @@ static char *dmi_attribute_format_address(
  * @param[in] pretty    `true` for human-readable output, `false` for
  *                      machine-readable output.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Attribute has no names of the values
+ * @error DMI_ERROR_ARGUMENT_INVALID Attribute has no names of the values
  * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
  *
  * @return Newly allocated string, or `nullptr` on error.
@@ -317,7 +317,7 @@ static char *dmi_attribute_format_uuid(
  * @param[in] context DMI context.
  * @param[in] binary  Address of four bytes.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Address is not four bytes long
+ * @error DMI_ERROR_ARGUMENT_INVALID Address is not four bytes long
  * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
  *
  * @return Newly allocated string, or `nullptr` on error.
@@ -334,7 +334,7 @@ static char *dmi_attribute_format_ipv4(dmi_context_t *context, const dmi_binary_
  * @param[in] context DMI context.
  * @param[in] binary  Address of sixteen bytes.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Address is not sixteen bytes long
+ * @error DMI_ERROR_ARGUMENT_INVALID Address is not sixteen bytes long
  * @error DMI_ERROR_OUT_OF_MEMORY Memory allocation failed
  *
  * @return Newly allocated string, or `nullptr` on error.
@@ -423,8 +423,10 @@ static const dmi_attribute_ops_t dmi_attribute_type_ops[] =
 
 bool dmi_attribute_is_unspecified(const dmi_attribute_t *attr, const void *value)
 {
-    assert(attr != nullptr);
-    assert(value != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value);
 
     if (attr->params.unspec) {
         if (memcmp(value, attr->params.unspec, attr->value.size) == 0)
@@ -445,8 +447,10 @@ bool dmi_attribute_is_unspecified(const dmi_attribute_t *attr, const void *value
 
 bool dmi_attribute_is_unknown(const dmi_attribute_t *attr, const void *value)
 {
-    assert(attr != nullptr);
-    assert(value != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value);
 
     if (attr->params.unknown) {
         if (memcmp(value, attr->params.unknown, attr->value.size) == 0)
@@ -460,13 +464,18 @@ bool dmi_attribute_get_bool(const dmi_attribute_t *attr, const void *value)
 {
     dmi_unused(attr);
 
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value);
+
     return dmi_deref(bool, value) ? true : false;
 }
 
 intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void *value)
 {
-    assert(attr != nullptr);
-    assert(value != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr, 0);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value, 0);
 
     intmax_t rv;
 
@@ -486,8 +495,10 @@ intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void *value)
 
 uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value)
 {
-    assert(attr != nullptr);
-    assert(value != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr, 0);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value, 0);
 
     uintmax_t rv;
 
@@ -507,8 +518,10 @@ uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value)
 
 size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info)
 {
-    assert(attr != nullptr);
-    assert(info != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr, 0);
+    if (info == nullptr)
+        return dmi_trace_argument_null(nullptr, info, 0);
 
     if (attr->count != 0)
         return attr->count;
@@ -520,15 +533,18 @@ size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info)
 
 bool dmi_attribute_is_array(const dmi_attribute_t *attr)
 {
-    assert(attr != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr);
 
     return dmi_member_is_present(attr->counter) or (attr->count != 0);
 }
 
 const void *dmi_attribute_get_elements(const dmi_attribute_t *attr, const void *value)
 {
-    assert(attr != nullptr);
-    assert(value != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr, nullptr);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value, nullptr);
 
     return (attr->count != 0) ? value : dmi_deref(void *, value);
 }
@@ -536,7 +552,7 @@ const void *dmi_attribute_get_elements(const dmi_attribute_t *attr, const void *
 const char *dmi_attribute_name(const dmi_attribute_t *attr, const char *owner)
 {
     if (attr == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, attr, nullptr);
 
     // Printable names are translated, if the locale has a translation for the
     // attribute, while codes are machine-readable and are never translated
@@ -564,8 +580,10 @@ const char *dmi_attribute_name(const dmi_attribute_t *attr, const char *owner)
 
 const dmi_attribute_t *dmi_attribute_resolve(const dmi_attribute_t *attr, const void *info)
 {
-    assert(attr != nullptr);
-    assert(info != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr, nullptr);
+    if (info == nullptr)
+        return dmi_trace_argument_null(nullptr, info, nullptr);
 
     if (attr->type != DMI_ATTRIBUTE_TYPE_VARIANT)
         return attr;
@@ -592,9 +610,12 @@ char *dmi_attribute_format(
         const void            *value,
         bool                   pretty)
 {
-    assert(context != nullptr);
-    assert(attribute != nullptr);
-    assert(value != nullptr);
+    if (context == nullptr)
+        return dmi_trace_argument_null(nullptr, context, nullptr);
+    if (attribute == nullptr)
+        return dmi_trace_argument_null(context, attribute, nullptr);
+    if (value == nullptr)
+        return dmi_trace_argument_null(context, value, nullptr);
 
     const dmi_attribute_ops_t *ops;
 
@@ -623,10 +644,8 @@ static char *dmi_attribute_format_handle(
 
     char *str = nullptr;
 
-    if (dmi_asprintf(&str, "0x%04" PRIX16, dmi_deref(dmi_handle_t, value)) < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (dmi_asprintf(&str, "0x%04" PRIX16, dmi_deref(dmi_handle_t, value)) < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -651,10 +670,8 @@ static char *dmi_attribute_format_string(
 
     char *result = strdup(str);
 
-    if (result == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (result == nullptr)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return result;
 }
@@ -686,10 +703,8 @@ static char *dmi_attribute_format_bool(
 
     char *result = strdup(str);
 
-    if (result == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (result == nullptr)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return result;
 }
@@ -753,14 +768,12 @@ static char *dmi_attribute_format_integer(
         break;
 
     default:
-        dmi_error_raise(context, DMI_ERROR_INVALID_ARGUMENT);
+        dmi_error_raise(context, DMI_ERROR_ARGUMENT_INVALID);
         return nullptr;
     }
 
-    if (rv < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (rv < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -809,10 +822,8 @@ static char *dmi_attribute_format_decimal(
                       negative ? "-" : "",
                       magnitude / factor, (int)scale, magnitude % factor);
 
-    if (rv < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (rv < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -854,10 +865,8 @@ static char *dmi_attribute_format_size(
         rv = dmi_asprintf(&str, "%" PRIuMAX, size);
     }
 
-    if (rv < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (rv < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -883,10 +892,8 @@ static char *dmi_attribute_format_address(
     else
         rv = dmi_asprintf(&str, "0x%016" PRIXMAX, addr);
 
-    if (rv < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (rv < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -905,7 +912,7 @@ static char *dmi_attribute_format_enum(
     assert(value != nullptr);
 
     if (attribute->params.values == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_INVALID_ARGUMENT);
+        dmi_error_raise(context, DMI_ERROR_ARGUMENT_INVALID);
         return nullptr;
     }
 
@@ -921,10 +928,8 @@ static char *dmi_attribute_format_enum(
     else
         dmi_asprintf(&str, "0x%x", dmi_deref(int, value));
 
-    if (str == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (str == nullptr)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -948,10 +953,8 @@ static char *dmi_attribute_format_set(
     snprintf(fmt, sizeof(fmt), "0x%%0%zu" PRIXMAX, attribute->value.size * 2);
 
     int rv = dmi_asprintf(&str, fmt, src);
-    if (rv < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (rv < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -986,10 +989,8 @@ static char *dmi_attribute_format_version(
     else
         rv = dmi_asprintf(&str, "%u.%u.%u", major, minor, revision);
 
-    if (rv < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (rv < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -1009,10 +1010,8 @@ static char *dmi_attribute_format_date(
 
     char *str = dmi_date_format(dmi_deref(dmi_date_t, value));
 
-    if (str == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (str == nullptr)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -1044,10 +1043,8 @@ static char *dmi_attribute_format_uuid(
                       uuid->node[0], uuid->node[1], uuid->node[2],
                       uuid->node[3], uuid->node[4], uuid->node[5]);
 
-    if (rv < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (rv < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -1057,15 +1054,11 @@ static char *dmi_attribute_format_ipv4(dmi_context_t *context, const dmi_binary_
     const dmi_byte_t *data = binary->data;
     char *str = nullptr;
 
-    if (binary->length != 4) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "length");
-        return nullptr;
-    }
+    if (binary->length != 4)
+        return dmi_trace_argument_invalid(context, binary->length, nullptr);
 
-    if (dmi_asprintf(&str, "%u.%u.%u.%u", data[0], data[1], data[2], data[3]) < 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
-    }
+    if (dmi_asprintf(&str, "%u.%u.%u.%u", data[0], data[1], data[2], data[3]) < 0)
+        return dmi_trace_out_of_memory(context, nullptr);
 
     return str;
 }
@@ -1074,10 +1067,8 @@ static char *dmi_attribute_format_ipv6(dmi_context_t *context, const dmi_binary_
 {
     const dmi_byte_t *data = binary->data;
 
-    if (binary->length != 16) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "length");
-        return nullptr;
-    }
+    if (binary->length != 16)
+        return dmi_trace_argument_invalid(context, binary->length, nullptr);
 
     uint16_t groups[8];
     for (size_t i = 0; i < countof(groups); i++)

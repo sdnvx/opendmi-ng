@@ -94,9 +94,12 @@ bool dmi_attributes_walk(
         const dmi_attribute_visitor_t *visitor,
         void                          *context)
 {
-    assert(visitor != nullptr);
+    if (visitor == nullptr)
+        return dmi_trace_argument_null(nullptr, visitor);
 
-    if ((attrs == nullptr) or (info == nullptr))
+    if (attrs == nullptr)
+        return true;
+    if (info == nullptr)
         return true;
 
     for (const dmi_attribute_t *attr = attrs; attr->type != DMI_ATTRIBUTE_TYPE_NONE; attr++) {
@@ -113,9 +116,12 @@ bool dmi_attribute_walk(
         const dmi_attribute_visitor_t *visitor,
         void                          *context)
 {
-    assert(attr != nullptr);
-    assert(info != nullptr);
-    assert(visitor != nullptr);
+    if (attr == nullptr)
+        return dmi_trace_argument_null(nullptr, attr);
+    if (info == nullptr)
+        return dmi_trace_argument_null(nullptr, info);
+    if (visitor == nullptr)
+        return dmi_trace_argument_null(nullptr, visitor);
 
     // Value of a variant attribute is described by the variant, and there is
     // no value if no variant matches

@@ -15,8 +15,10 @@ bool dmi_pci_addr_decode(
         const dmi_field_data_t *data,
         void                   *value)
 {
-    assert(data != nullptr);
-    assert(value != nullptr);
+    if (data == nullptr)
+        return dmi_trace_argument_null(nullptr, data);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value);
 
     dmi_unused(field);
 
@@ -44,8 +46,10 @@ bool dmi_pci_addr_encode(
         const void        *value,
         dmi_field_data_t  *data)
 {
-    assert(value != nullptr);
-    assert(data != nullptr);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value);
+    if (data == nullptr)
+        return dmi_trace_argument_null(nullptr, data);
 
     dmi_unused(field);
 

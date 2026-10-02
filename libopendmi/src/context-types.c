@@ -222,8 +222,10 @@ static const dmi_entity_spec_t *dmi_entity_specs[] =
 
 dmi_type_id_t dmi_type_find(dmi_context_t *context, const char *code)
 {
-    if ((context == nullptr) or (code == nullptr))
-        return DMI_TYPE_ID_INVALID;
+    if (context == nullptr)
+        return dmi_trace_argument_null(nullptr, context, DMI_TYPE_ID_INVALID);
+    if (code == nullptr)
+        return dmi_trace_argument_null(context, code, DMI_TYPE_ID_INVALID);
 
     // Type number is the one the structures are found at, which relocations
     // may make different from the type of the specification
@@ -242,12 +244,10 @@ dmi_type_id_t dmi_type_find(dmi_context_t *context, const char *code)
 const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_id_t type)
 {
     if (context == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, context, nullptr);
 
-    if ((type <= DMI_TYPE_ID_INVALID) or (type > DMI_TYPE_ID_MAX)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "type");
-        return nullptr;
-    }
+    if ((type <= DMI_TYPE_ID_INVALID) or (type > DMI_TYPE_ID_MAX))
+        return dmi_trace_argument_invalid(context, type, nullptr);
 
     // Types told by signatures only are represented by the first of them
     const dmi_type_candidates_t *candidates = &context->type_map[type];
@@ -258,7 +258,7 @@ const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_id_t typ
 const char *dmi_spec_name(const dmi_entity_spec_t *spec)
 {
     if (spec == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, spec, nullptr);
 
     // Names of structure types are translated, if the locale has a
     // translation for the type

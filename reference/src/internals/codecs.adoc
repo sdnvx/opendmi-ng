@@ -63,7 +63,7 @@ recorded with `dmi_decoder_incomplete`(3) instead, and the lint rule
 `entity.unknown-length` reports it.
 
 A handler which fails leaves the structure undecoded, and
-`DMI_ERROR_ENTITY_DECODE` is raised after the errors telling why.
+`DMI_ERROR_ENTITY_DECODE_FAILED` is raised after the errors telling why.
 
 == Encoders
 

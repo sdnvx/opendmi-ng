@@ -323,7 +323,7 @@ extern __dmi_api const dmi_name_set_t dmi_lint_severity_names;
  *                    @c nullptr to check the data without reporting.
  * @param[in] data    Data passed to the handler.
  *
- * @error DMI_ERROR_INVALID_STATE Context is not open
+ * @error DMI_ERROR_STATE_INVALID Context is not open
  * @error DMI_ERROR_OUT_OF_MEMORY State of the check cannot be allocated
  *
  * @return `true` if the data has been checked, `false` if it cannot be, or if

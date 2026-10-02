@@ -64,16 +64,16 @@ Maximum number of bytes to read, or zero to read the whole file.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Path is `nullptr`.
 
-`DMI_ERROR_FILE_OPEN`::
+`DMI_ERROR_FILE_OPEN_FAILED`::
 File cannot be opened.
 
-`DMI_ERROR_FILE_STAT`::
+`DMI_ERROR_FILE_STAT_FAILED`::
 Length of the file cannot be told.
 
-`DMI_ERROR_FILE_READ`::
+`DMI_ERROR_FILE_READ_FAILED`::
 File cannot be read.
 
 `DMI_ERROR_OUT_OF_MEMORY`::

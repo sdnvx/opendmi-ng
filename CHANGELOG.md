@@ -21,10 +21,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `dmi_fields_decode_into()` and `dmi_fields_encode_from()`, which decode and encode a part of a structure according to a list of fields, for the handlers of their own
 - Add manual pages of the declarative macros: `DMI_FIELD`(3), `DMI_FIELD_BITS`(3), `DMI_FIELD_ARRAY`(3), `DMI_FIELD_GROUP`(3), `DMI_FIELD_EXTENDED`(3), `DMI_FIELD_SPLIT`(3), `DMI_ATTRIBUTE`(3), `DMI_ATTRIBUTE_VARIANT`(3), `DMI_NAMES`(3) and `dmi_member`(3)
 - Add manual pages of `<opendmi/lint.h>`: `dmi_lint`(3), `dmi_lint_rules`(3), `dmi_lint_issue`(3) and `dmi_lint_context`(3), and of `<opendmi/backend/generic.h>`: `dmi_generic_parse_entry_addr`(3) and `dmi_generic_find_entry_addr`(3)
+- Add `<opendmi/trace.h>` with `dmi_trace_argument_null()`, `dmi_trace_argument_invalid()`, `dmi_trace_state_invalid()` and `dmi_trace_out_of_memory()`, which raise a standard error and evaluate to the value the failing function returns, and report a missing argument of the functions of the API with `DMI_ERROR_ARGUMENT_NULL` rather than failing silently
 - Add links to manual pages (website/reference)
 
 ### Changed
 
+- Check the pointer arguments of the functions of the API at run time, raising `DMI_ERROR_ARGUMENT_NULL`, rather than with assertions, which are left out of release builds
+- Rename error codes after a single scheme, `DMI_ERROR_<SUBJECT>[_<DETAIL>]_<CONDITION>`, e.g. `DMI_ERROR_NULL_ARGUMENT` to `DMI_ERROR_ARGUMENT_NULL`, `DMI_ERROR_INVALID_EPS_CHECKSUM` to `DMI_ERROR_ENTRY_CHECKSUM_INVALID` and `DMI_ERROR_FILE_OPEN` to `DMI_ERROR_FILE_OPEN_FAILED`, along with their codes, and move `DMI_ERROR_INTERNAL`, `DMI_ERROR_SYSTEM` and `DMI_ERROR_OUT_OF_MEMORY` right after `DMI_ERROR_NONE`; the numeric values of the codes change
+- Remove the unused `DMI_ERROR_INVALID_ENTITY_ADDR` and `DMI_ERROR_NO_MORE_ENTRIES` error codes
+- Raise `DMI_ERROR_ARGUMENT_INVALID` rather than `DMI_ERROR_NULL_ARGUMENT` on a zero length in `dmi_memory_load()`, and rather than `DMI_ERROR_SYSTEM` on an invalid address in `dmi_generic_parse_entry_addr()`
 - Read the rank of memory devices as five bits, and describe the OK memory error type as unmapped memory devices too (SMBIOS 3.10)
 - Rename `dmi_acer_hotkey_t`, `dmi_acer_device_t`, `dmi_dell_device_name_t`, `dmi_dell_hotkey_t` and `dmi_dell_memory_id_t` to `*_entry_t`
 - Rename `severity` of `dmi_lint_rule_params_t` to `reader_severity`, after the profile it applies to, like `producer_severity`

@@ -56,7 +56,7 @@ Structure to decode.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Decoder or entity is `nullptr`.
 
 == See also

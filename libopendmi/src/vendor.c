@@ -7,6 +7,7 @@
 #include <strings.h>
 #include <string.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/vendor.h>
 #include <opendmi/module/hpe.h>
 #include <opendmi/utils/name.h>
@@ -237,7 +238,7 @@ const dmi_vendor_spec_t *dmi_vendor_detect(const char *name)
     const char **vendor_name;
 
     if (name == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, name, nullptr);
 
     for (vendor = dmi_vendor_specs; vendor->id != DMI_VENDOR_INVALID; vendor++) {
         for (vendor_name = vendor->names; *vendor_name != nullptr; vendor_name++) {

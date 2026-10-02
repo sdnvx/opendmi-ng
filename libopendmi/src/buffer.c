@@ -51,7 +51,7 @@ dmi_buffer_t *dmi_buffer_create(dmi_context_t *context)
 dmi_context_t *dmi_buffer_context(const dmi_buffer_t *buffer)
 {
     if (buffer == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, buffer, nullptr);
 
     return buffer->context;
 }
@@ -75,7 +75,8 @@ bool dmi_buffer_is_empty(const dmi_buffer_t *buffer)
 
 bool dmi_buffer_resize(dmi_buffer_t *buffer, size_t length)
 {
-    assert(buffer != nullptr);
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(nullptr, buffer);
 
     if (length > buffer->length) {
         if (not dmi_buffer_reserve(buffer, length))
@@ -93,8 +94,10 @@ bool dmi_buffer_resize(dmi_buffer_t *buffer, size_t length)
 
 bool dmi_buffer_assign(dmi_buffer_t *buffer, const void *ptr, size_t length)
 {
-    assert(buffer != nullptr);
-    assert((ptr != nullptr) or (length == 0));
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(nullptr, buffer);
+    if ((ptr == nullptr) and (length != 0))
+        return dmi_trace_argument_null(buffer->context, ptr);
 
     if (not dmi_buffer_reserve(buffer, length))
         return false;
@@ -113,8 +116,10 @@ bool dmi_buffer_read(
         size_t              offset,
         size_t              length)
 {
-    assert(buffer != nullptr);
-    assert((ptr != nullptr) or (length == 0));
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(nullptr, buffer);
+    if ((ptr == nullptr) and (length != 0))
+        return dmi_trace_argument_null(buffer->context, ptr);
 
     if ((offset > buffer->length) or (length > buffer->length - offset))
         return false;
@@ -131,8 +136,10 @@ bool dmi_buffer_write(
         size_t        offset,
         size_t        length)
 {
-    assert(buffer != nullptr);
-    assert((ptr != nullptr) or (length == 0));
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(nullptr, buffer);
+    if ((ptr == nullptr) and (length != 0))
+        return dmi_trace_argument_null(buffer->context, ptr);
 
     if (length == 0)
         return true;
@@ -153,7 +160,8 @@ const dmi_data_t *dmi_buffer_at(
         size_t              offset,
         size_t              length)
 {
-    assert(buffer != nullptr);
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(nullptr, buffer, nullptr);
 
     if ((offset > buffer->length) or (length > buffer->length - offset))
         return nullptr;
@@ -163,7 +171,10 @@ const dmi_data_t *dmi_buffer_at(
 
 void dmi_buffer_clear(dmi_buffer_t *buffer)
 {
-    assert(buffer != nullptr);
+    if (buffer == nullptr) {
+        (void)dmi_trace_argument_null(nullptr, buffer);
+        return;
+    }
 
     buffer->length = 0;
 }
@@ -181,10 +192,8 @@ static bool dmi_buffer_reserve(dmi_buffer_t *buffer, size_t capacity)
         reserved += DMI_BUFFER_CAPACITY_STEP;
 
     dmi_byte_t *data = realloc(buffer->data, reserved);
-    if (data == nullptr) {
-        dmi_error_raise(buffer->context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
+    if (data == nullptr)
+        return dmi_trace_out_of_memory(buffer->context);
 
     buffer->data     = data;
     buffer->capacity = reserved;

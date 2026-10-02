@@ -40,7 +40,7 @@ bool dmi_string_property_link(dmi_entity_t *entity)
     }
 
     if (dmi_entity_type(parent) == DMI_TYPE(string_property)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TYPE_INVALID,
                            "String property 0x%04x: parent 0x%04x is a string property",
                            dmi_entity_handle(entity), info->parent_handle);
         return false;

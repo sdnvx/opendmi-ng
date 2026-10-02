@@ -85,7 +85,7 @@ mode.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Encoder, buffer or entity is `nullptr`.
 
 `DMI_ERROR_OUT_OF_MEMORY`::

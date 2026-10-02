@@ -53,7 +53,7 @@ static bool dmi_freebsd_open(dmi_context_t *context, const char *path);
  * @param[in]  context Context being opened.
  * @param[out] buffer  Buffer to read the entry point into.
  *
- * @error DMI_ERROR_EPS_NOT_FOUND Entry point is not found
+ * @error DMI_ERROR_ENTRY_NOT_FOUND Entry point is not found
  *
  * @return `true` on success, `false` otherwise.
  */
@@ -150,7 +150,7 @@ static bool dmi_freebsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer)
 #   endif
 
     if (not found) {
-        dmi_error_raise(context, DMI_ERROR_EPS_NOT_FOUND);
+        dmi_error_raise(context, DMI_ERROR_ENTRY_NOT_FOUND);
         return false;
     }
 

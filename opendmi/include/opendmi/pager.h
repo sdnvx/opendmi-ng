@@ -27,7 +27,7 @@ __BEGIN_DECLS
  *
  * @error DMI_ERROR_SYSTEM Pager command is invalid, or the pager cannot be started
  * @error DMI_ERROR_OUT_OF_MEMORY Pager command cannot be expanded
- * @error DMI_ERROR_FILE_DUP Standard output cannot be redirected
+ * @error DMI_ERROR_FILE_DUP_FAILED Standard output cannot be redirected
  *
  * @return `true` on success or if output is not paged, `false` otherwise.
  */

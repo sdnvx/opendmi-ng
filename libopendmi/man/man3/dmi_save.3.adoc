@@ -87,21 +87,21 @@ Returns `true` if the dump has been written, and `false` otherwise.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Path is `nullptr`.
 
-`DMI_ERROR_INVALID_STATE`::
+`DMI_ERROR_STATE_INVALID`::
 Context is not open, or the table is to be anonymized and its structures
 carry additional information entries applied to them.
 
-`DMI_ERROR_INVALID_EPS_LENGTH`::
+`DMI_ERROR_ENTRY_LENGTH_INVALID`::
 Entry point is longer than an entry point can be.
 
-`DMI_ERROR_FILE_OPEN`::
+`DMI_ERROR_FILE_OPEN_FAILED`::
 File or its temporary file cannot be created, or the file exists and
 `DMI_SAVE_FLAG_OVERWRITE` is not set.
 
-`DMI_ERROR_FILE_WRITE`::
+`DMI_ERROR_FILE_WRITE_FAILED`::
 File cannot be written, or the temporary file cannot be renamed over it.
 
 `DMI_ERROR_OUT_OF_MEMORY`::

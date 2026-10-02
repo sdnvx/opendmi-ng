@@ -56,27 +56,30 @@ Returns `true` if the dump has been loaded, and `false` otherwise.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Path is `nullptr`.
 
-`DMI_ERROR_INVALID_STATE`::
+`DMI_ERROR_STATE_INVALID`::
 Context is open already.
 
-`DMI_ERROR_FILE_OPEN`::
+`DMI_ERROR_FILE_STAT_FAILED`::
+Dump file does not exist, or cannot be examined.
+
+`DMI_ERROR_FILE_OPEN_FAILED`::
 Dump file cannot be opened.
 
-`DMI_ERROR_INVALID_DUMP`::
+`DMI_ERROR_DUMP_INVALID`::
 File is not a dump of SMBIOS data: it is not a regular file, or it is larger
 than an entry point followed by a table of `DMI_TABLE_MAX_SIZE` bytes, or it
 does not start with an entry point.
 
-`DMI_ERROR_BACKEND_INIT`::
+`DMI_ERROR_BACKEND_OPEN_FAILED`::
 Dump file cannot be read.
 
 `DMI_ERROR_ENTITY_TRUNCATED`::
 Table area is empty, or a structure runs past its end.
 
-`DMI_ERROR_MISSING_FIRMWARE_INFO`::
+`DMI_ERROR_FIRMWARE_INFO_NOT_FOUND`::
 Table holds no platform firmware information structure, in the strict mode
 only.
 
@@ -87,7 +90,7 @@ apply to the platform, have the same type.
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory is exhausted.
 
-`DMI_ERROR_CONTEXT_OPEN`::
+`DMI_ERROR_CONTEXT_OPEN_FAILED`::
 Context cannot be opened. Raised last on every failure but the one of a
 context which is open already, after the errors telling why.
 

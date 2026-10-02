@@ -127,6 +127,7 @@ __dmi_api bool dmi_buffer_resize(dmi_buffer_t *buffer, size_t length);
  *                       is zero.
  * @param[in]     length Number of the bytes to copy.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Data is `nullptr`, while the length is not zero
  * @error DMI_ERROR_OUT_OF_MEMORY Memory of the buffer cannot grow
  *
  * @return `true` on success, `false` otherwise.
@@ -140,6 +141,8 @@ __dmi_api bool dmi_buffer_assign(dmi_buffer_t *buffer, const void *ptr, size_t l
  * @param[out] ptr    Buffer that receives the data.
  * @param[in]  offset Byte offset from the beginning of the data.
  * @param[in]  length Number of the bytes to read.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Data is `nullptr`, while the length is not zero
  *
  * @return `true` on success, `false` if the buffer holds fewer bytes than the
  *         requested range.
@@ -162,6 +165,7 @@ __dmi_api bool dmi_buffer_read(
  * @param[in]     offset Byte offset from the beginning of the data.
  * @param[in]     length Number of the bytes to write.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Data is `nullptr`, while the length is not zero
  * @error DMI_ERROR_OUT_OF_MEMORY Memory of the buffer cannot grow
  *
  * @return `true` on success, `false` otherwise.

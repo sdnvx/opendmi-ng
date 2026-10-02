@@ -68,7 +68,7 @@ Returns the printable name; the function never returns `nullptr`.
 
 == Errors
 
-`DMI_ERROR_INVALID_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_INVALID`::
 Type number is out of the range of 0 through 255, which is still named
 `Unknown`.
 

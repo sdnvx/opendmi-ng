@@ -39,9 +39,9 @@ char *dmi_base64_encode(
     char   *output_data;
 
     if (data == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, data, nullptr);
     if (data_length == 0)
-        return nullptr;
+        return dmi_trace_argument_invalid(nullptr, data_length, nullptr);
 
     output_length = 4 * ((data_length + 2) / 3);
     output_data   = dmi_alloc(nullptr, output_length + 1);
@@ -82,9 +82,9 @@ dmi_data_t *dmi_base64_decode(
     dmi_data_t *output_data;
 
     if (data == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, data, nullptr);
     if ((data_length == 0) or (data_length % 4 != 0))
-        return nullptr;
+        return dmi_trace_argument_invalid(nullptr, data_length, nullptr);
 
     output_length = data_length / 4 * 3;
 

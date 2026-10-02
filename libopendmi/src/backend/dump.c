@@ -50,11 +50,11 @@ struct dmi_dump_session
  * @return `true` if the file is loaded, `false` otherwise, with the reason left
  * as the last error in the queue.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT No path is given.
+ * @error DMI_ERROR_ARGUMENT_INVALID No path is given.
  * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
- * @error DMI_ERROR_FILE_OPEN The file cannot be opened or its status cannot be read.
- * @error DMI_ERROR_FILE_READ The file cannot be read.
- * @error DMI_ERROR_INVALID_DUMP The file is not a regular file, is too large or
+ * @error DMI_ERROR_FILE_OPEN_FAILED The file cannot be opened or its status cannot be read.
+ * @error DMI_ERROR_FILE_READ_FAILED The file cannot be read.
+ * @error DMI_ERROR_DUMP_INVALID The file is not a regular file, is too large or
  * too small, or does not begin with an entry point structure.
  */
 static bool dmi_dump_open(dmi_context_t *context, const char *path);
@@ -84,7 +84,7 @@ static bool dmi_dump_load(dmi_context_t *context, const char *path, dmi_buffer_t
  *
  * @return `true` if the data looks like a dump, `false` otherwise.
  *
- * @error DMI_ERROR_INVALID_DUMP The data is too small, or does not begin with
+ * @error DMI_ERROR_DUMP_INVALID The data is too small, or does not begin with
  * an entry point structure.
  */
 static bool dmi_dump_check(dmi_context_t *context, const char *path, const dmi_data_t *data, size_t size);
@@ -146,11 +146,8 @@ static bool dmi_dump_open(dmi_context_t *context, const char *path)
 
     if (context == nullptr)
         return false;
-
-    if (path == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "path");
-        return false;
-    }
+    if (path == nullptr)
+        return dmi_trace_argument_null(context, path);
 
     dmi_dump_session_t *session = dmi_alloc(context, sizeof(dmi_dump_session_t));
     if (session == nullptr)
@@ -198,16 +195,16 @@ static bool dmi_dump_load(dmi_context_t *context, const char *path, dmi_buffer_t
 #else
     if (stat(path, &st) != 0) {
 #endif
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_STAT_FAILED, "%s: %s", path, strerror(errno));
         return false;
     }
 
     if (not S_ISREG(st.st_mode)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_DUMP, "%s: Not a regular file", path);
+        dmi_error_raise_ex(context, DMI_ERROR_DUMP_INVALID, "%s: Not a regular file", path);
         return false;
     }
     if (st.st_size > DMI_DUMP_MAX_SIZE) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_DUMP,
+        dmi_error_raise_ex(context, DMI_ERROR_DUMP_INVALID,
                            "%s: File is too large (%lld bytes, at most %zu expected)",
                            path, (long long)st.st_size, (size_t)DMI_DUMP_MAX_SIZE);
         return false;
@@ -264,7 +261,7 @@ static bool dmi_dump_check(dmi_context_t *context, const char *path, const dmi_d
     };
 
     if (size < DMI_ENTRY_MAX_SIZE + sizeof(dmi_header_t)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_DUMP,
+        dmi_error_raise_ex(context, DMI_ERROR_DUMP_INVALID,
                            "%s: File is too small (%zu bytes)", path, size);
         return false;
     }
@@ -274,7 +271,7 @@ static bool dmi_dump_check(dmi_context_t *context, const char *path, const dmi_d
             return true;
     }
 
-    dmi_error_raise_ex(context, DMI_ERROR_INVALID_DUMP,
+    dmi_error_raise_ex(context, DMI_ERROR_DUMP_INVALID,
                        "%s: No entry point structure found at the beginning of file", path);
 
     return false;

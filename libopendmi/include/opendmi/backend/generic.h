@@ -24,7 +24,8 @@ __BEGIN_DECLS
  * @param[in]  str     Address in text.
  * @param[out] paddr   Variable to store the address in.
  *
- * @error DMI_ERROR_SYSTEM String is not an address, or the address does not
+ * @error DMI_ERROR_ARGUMENT_NULL String or variable is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID String is not an address, or the address does not
  * fit in 64 bits
  *
  * @return `true` on success, `false` otherwise.

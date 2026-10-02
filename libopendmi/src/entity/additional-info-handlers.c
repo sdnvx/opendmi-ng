@@ -111,7 +111,7 @@ bool dmi_additional_info_encode(dmi_encoder_t *encoder)
         }
 
         if (length > UINT8_MAX) {
-            dmi_error_raise_ex(dmi_entity_context(encoder->entity), DMI_ERROR_INVALID_ARGUMENT,
+            dmi_error_raise_ex(dmi_entity_context(encoder->entity), DMI_ERROR_ENTITY_LENGTH_INVALID,
                                "0x%04x: entry %zu of %zu bytes", dmi_entity_handle(encoder->entity),
                                i, length);
             return false;

@@ -75,16 +75,16 @@ Returns `true` if the context has been opened, and `false` otherwise.
 
 == Errors
 
-`DMI_ERROR_INVALID_STATE`::
+`DMI_ERROR_STATE_INVALID`::
 Context is open already.
 
-`DMI_ERROR_BACKEND_INIT`::
+`DMI_ERROR_BACKEND_OPEN_FAILED`::
 Data of the platform cannot be accessed, e.g. for the lack of privileges.
 
 `DMI_ERROR_ENTITY_TRUNCATED`::
 Table area is empty, or a structure runs past its end.
 
-`DMI_ERROR_MISSING_FIRMWARE_INFO`::
+`DMI_ERROR_FIRMWARE_INFO_NOT_FOUND`::
 Table holds no platform firmware information structure, in the strict mode
 only.
 
@@ -95,7 +95,7 @@ apply to the platform, have the same type.
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory is exhausted.
 
-`DMI_ERROR_CONTEXT_OPEN`::
+`DMI_ERROR_CONTEXT_OPEN_FAILED`::
 Context cannot be opened. Raised last on every failure but the one of a
 context which is open already, after the errors telling why.
 

@@ -185,9 +185,9 @@ __dmi_api bool dmi_registry_scan(dmi_registry_t *registry);
  *         or if memory is exhausted.
  *
  * @error DMI_ERROR_ENTITY_NOT_FOUND Referenced structure is not found.
- * @error DMI_ERROR_INVALID_OVERLAY Entry refers to the structure header or
+ * @error DMI_ERROR_OVERLAY_INVALID Entry refers to the structure header or
  *        beyond the structure body.
- * @error DMI_ERROR_ENTITY_DECODE Additional information structure is
+ * @error DMI_ERROR_ENTITY_DECODE_FAILED Additional information structure is
  *        malformed.
  * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
  */

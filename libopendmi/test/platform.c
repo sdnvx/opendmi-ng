@@ -610,7 +610,7 @@ static void test_platform_relocation(void **pstate)
     // Structures of other types at the same type number are told apart
     dmi_error_clear(context);
     assert_null(dmi_entity_info(entity, &test_shared_type));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ENTITY_TYPE);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ENTITY_TYPE_INVALID);
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);

@@ -204,7 +204,7 @@ static void test_anonymize_overlay(void **pstate)
 
     const dmi_error_t *error = dmi_error_peek_last(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 
     assert_false(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE | DMI_SAVE_FLAG_ANONYMIZE));
 

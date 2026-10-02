@@ -55,13 +55,13 @@ handler fails.
 `DMI_ERROR_ENTITY_NOT_FOUND`::
 Structure refers to a handle no structure has.
 
-`DMI_ERROR_INVALID_ENTITY_TYPE`::
+`DMI_ERROR_ENTITY_TYPE_INVALID`::
 Structure refers to a structure of a type it cannot refer to.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory is exhausted.
 
-`DMI_ERROR_ENTITY_LINK`::
+`DMI_ERROR_ENTITY_LINK_FAILED`::
 References of the structure cannot be resolved. Raised last on every
 failure but the one of a structure which has no references, after the
 errors telling why.

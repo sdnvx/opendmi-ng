@@ -582,6 +582,9 @@ __dmi_api const dmi_attribute_t *dmi_attribute_resolve(const dmi_attribute_t *at
  * @param value     Pointer to the value to format; must not be @c nullptr.
  * @param pretty    @c true for human-readable output, @c false for
  *                  machine-readable output.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Attribute or value is `nullptr`
+ *
  * @return A newly allocated null-terminated string, or @c nullptr if the
  *         attribute type has no formatter or memory allocation fails.
  */
@@ -606,10 +609,10 @@ __dmi_api char *dmi_attribute_format(
  *
  * @param[in,out] entity Structure to link.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Entity is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_NULL Entity is `nullptr`
  * @error DMI_ERROR_OUT_OF_MEMORY Structures of an array of handles cannot be allocated
  * @error DMI_ERROR_ENTITY_NOT_FOUND Handle belongs to no structure of the table
- * @error DMI_ERROR_INVALID_ENTITY_TYPE Handle refers to a structure of a type the attribute does not expect
+ * @error DMI_ERROR_ENTITY_TYPE_INVALID Handle refers to a structure of a type the attribute does not expect
  *
  * @return `true` if every reference is resolved or not set, `false` otherwise.
  */

@@ -7,6 +7,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/module.h>
 #include <opendmi/module/acer.h>
 #include <opendmi/module/ami.h>
@@ -42,7 +43,8 @@ static dmi_module_t *dmi_registered_modules = nullptr;
 
 bool dmi_module_register(dmi_module_t *module)
 {
-    assert(module != nullptr);
+    if (module == nullptr)
+        return dmi_trace_argument_null(nullptr, module);
     assert(module->code != nullptr);
 
     if (dmi_module_find(module->code) != nullptr)
@@ -79,7 +81,8 @@ const dmi_module_t *dmi_module_next(const dmi_module_t *module)
 
 const dmi_module_t *dmi_module_find(const char *code)
 {
-    assert(code != nullptr);
+    if (code == nullptr)
+        return dmi_trace_argument_null(nullptr, code, nullptr);
 
     for (const dmi_module_t *module = dmi_module_next(nullptr); module != nullptr; module = dmi_module_next(module)) {
         if (strcmp(module->code, code) == 0)

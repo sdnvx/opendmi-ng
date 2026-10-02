@@ -179,12 +179,10 @@ bool dmi_lint(
         void                     *data)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
-    if (not dmi_context_is_open(context)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
-        return false;
-    }
+    if (not dmi_context_is_open(context))
+        return dmi_trace_state_invalid(context, "Context is not open");
 
     // State is kept off the stack, since the totals count the structures of
     // every type, which is too much for the stack of the kernel
@@ -226,7 +224,10 @@ void dmi_lint_issue(
         const char         *format,
         ...)
 {
-    assert(lint != nullptr);
+    if (lint == nullptr) {
+        (void)dmi_trace_argument_null(nullptr, lint);
+        return;
+    }
     assert(lint->rule != nullptr);
 
     if (lint->handler == nullptr)
@@ -270,8 +271,10 @@ dmi_version_t dmi_lint_version(const dmi_lint_t *lint)
 
 size_t dmi_lint_entity_offset(const dmi_lint_t *lint, const dmi_entity_t *entity)
 {
-    if ((lint == nullptr) or (entity == nullptr))
-        return DMI_LINT_NO_OFFSET;
+    if (lint == nullptr)
+        return dmi_trace_argument_null(nullptr, lint, DMI_LINT_NO_OFFSET);
+    if (entity == nullptr)
+        return dmi_trace_argument_null(nullptr, entity, DMI_LINT_NO_OFFSET);
 
     // Offsets are of the table the context holds, so a structure read from
     // anywhere else has none to report
@@ -308,7 +311,7 @@ const dmi_lint_rule_t *const *dmi_lint_rules(void)
 const char *dmi_lint_rule_name(const dmi_lint_rule_t *rule)
 {
     if (rule == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, rule, nullptr);
 
     // Names of the rules are translated, if the locale has a translation for
     // the rule, while codes are machine-readable and are never translated
@@ -320,7 +323,7 @@ const char *dmi_lint_rule_name(const dmi_lint_rule_t *rule)
 const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *code)
 {
     if (code == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(context, code, nullptr);
 
     for (const dmi_lint_rule_t *const *rule = dmi_lint_rule_list; *rule != nullptr; rule++) {
         if (strcmp((*rule)->code, code) == 0)
@@ -328,7 +331,7 @@ const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *co
     }
 
     if (context == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, context, nullptr);
 
     // Rules of the types are provided by their specifications, and the types
     // the context knows depend on the modules it has enabled
@@ -350,7 +353,7 @@ const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *co
 dmi_lint_severity_t dmi_lint_rule_severity(const dmi_lint_rule_t *rule, dmi_lint_profile_t profile)
 {
     if (rule == nullptr)
-        return DMI_LINT_SEVERITY_NONE;
+        return dmi_trace_argument_null(nullptr, rule, DMI_LINT_SEVERITY_NONE);
 
     return (profile == DMI_LINT_PROFILE_PRODUCER) ? rule->params.producer_severity : rule->params.reader_severity;
 }

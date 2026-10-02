@@ -14,10 +14,12 @@
 
 bool dmi_decoder_initialize(dmi_decoder_t *decoder, dmi_entity_t *entity)
 {
-    if ((decoder == nullptr) or (entity == nullptr)) {
-        dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_NULL_ARGUMENT, "decoder or entity");
-        return false;
-    }
+    dmi_context_t *context = dmi_entity_context(entity);
+
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(context, decoder);
+    if (entity == nullptr)
+        return dmi_trace_argument_null(context, entity);
 
     *decoder = (dmi_decoder_t){
         .entity = entity
@@ -34,7 +36,7 @@ bool dmi_decoder_initialize(dmi_decoder_t *decoder, dmi_entity_t *entity)
 dmi_entity_t *dmi_decoder_entity(const dmi_decoder_t *decoder)
 {
     if (decoder == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, decoder, nullptr);
 
     return decoder->entity;
 }
@@ -42,7 +44,7 @@ dmi_entity_t *dmi_decoder_entity(const dmi_decoder_t *decoder)
 dmi_context_t *dmi_decoder_context(const dmi_decoder_t *decoder)
 {
     if (decoder == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, decoder, nullptr);
 
     return dmi_entity_context(decoder->entity);
 }
@@ -50,15 +52,17 @@ dmi_context_t *dmi_decoder_context(const dmi_decoder_t *decoder)
 dmi_reader_t *dmi_decoder_reader(dmi_decoder_t *decoder)
 {
     if (decoder == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, decoder, nullptr);
 
     return &decoder->reader;
 }
 
 bool dmi_decoder_get_string(dmi_decoder_t *decoder, const char **value)
 {
-    assert(decoder != nullptr);
-    assert(value != nullptr);
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value);
 
     dmi_string_t number = 0;
 
@@ -74,7 +78,8 @@ bool dmi_decoder_get_string(dmi_decoder_t *decoder, const char **value)
 
 bool dmi_decoder_get_bytes(dmi_decoder_t *decoder, void *ptr, size_t length)
 {
-    assert(decoder != nullptr);
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
 
     return dmi_reader_get_bytes(&decoder->reader, ptr, length);
 }
@@ -85,15 +90,18 @@ bool dmi_decoder_get_bytes_at(
         size_t               offset,
         size_t               length)
 {
-    assert(decoder != nullptr);
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
 
     return dmi_reader_get_bytes_at(&decoder->reader, ptr, offset, length);
 }
 
 bool dmi_decoder_get_binary(dmi_decoder_t *decoder, size_t length, dmi_binary_t *value)
 {
-    assert(decoder != nullptr);
-    assert(value != nullptr);
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value);
 
     // Binary data refers to the bytes of the structure in place
     if (not dmi_reader_ref_bytes(&decoder->reader, length, &value->data))
@@ -106,22 +114,24 @@ bool dmi_decoder_get_binary(dmi_decoder_t *decoder, size_t length, dmi_binary_t 
 
 bool dmi_decoder_skip(dmi_decoder_t *decoder, size_t length)
 {
-    assert(decoder != nullptr);
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
 
     return dmi_reader_skip(&decoder->reader, length);
 }
 
 size_t dmi_decoder_remaining(const dmi_decoder_t *decoder)
 {
-    assert(decoder != nullptr);
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder, 0);
 
     return dmi_reader_remaining(&decoder->reader);
 }
 
 bool dmi_decoder_stop(dmi_decoder_t *decoder)
 {
-    assert(decoder != nullptr);
-    assert(dmi_reader_is_done(&decoder->reader));
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
 
     // Structure which ends where it is allowed to carries what it has, and
     // anything else is a structure which ends in the middle of its fields
@@ -135,7 +145,8 @@ bool dmi_decoder_stop(dmi_decoder_t *decoder)
 
 bool dmi_decoder_incomplete(dmi_decoder_t *decoder)
 {
-    assert(decoder != nullptr);
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
 
     dmi_entity_t  *entity  = decoder->entity;
     dmi_context_t *context = dmi_entity_context(entity);

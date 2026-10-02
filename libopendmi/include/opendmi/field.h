@@ -747,8 +747,8 @@ __BEGIN_DECLS
  * @param[in,out] decoder Decoder of the structure, see
  *                        `dmi_decoder_initialize()`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Decoder is `nullptr`
- * @error DMI_ERROR_INVALID_STATE Specification declares no fields
+ * @error DMI_ERROR_ARGUMENT_NULL Decoder is `nullptr`
+ * @error DMI_ERROR_STATE_INVALID Specification declares no fields
  * @error DMI_ERROR_INTERNAL Fields reach another offset than the one declared
  * @error DMI_ERROR_OUT_OF_MEMORY Elements of an array cannot be allocated
  *
@@ -770,8 +770,8 @@ __dmi_api bool dmi_fields_decode(dmi_decoder_t *decoder);
  * @param[in,out] encoder Encoder of the structure, see
  *                        `dmi_encoder_initialize()`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
- * @error DMI_ERROR_INVALID_STATE Structure is not decoded, its specification
+ * @error DMI_ERROR_ARGUMENT_NULL Encoder is `nullptr`
+ * @error DMI_ERROR_STATE_INVALID Structure is not decoded, its specification
  *        declares no fields, or a field it cannot write back, e.g. a
  *        conversion without the one undoing it
  * @error DMI_ERROR_INTERNAL Fields reach another offset than the one declared
@@ -802,7 +802,7 @@ __dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
  * @param[out]    info    Structure the fields are read into, of the type
  *                        the fields name.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Decoder, fields or structure is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_NULL Decoder, fields or structure is `nullptr`
  * @error DMI_ERROR_OUT_OF_MEMORY Elements of an array cannot be allocated
  *
  * @return `true` if the part has been decoded, `false` if the structure holds
@@ -832,8 +832,8 @@ __dmi_api bool dmi_fields_decode_into(dmi_decoder_t *decoder, const dmi_field_t 
  * @param[in]     length  Number of the bytes of the part.
  * @param[in]     info    Structure the fields are written from.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Encoder, fields or structure is `nullptr`
- * @error DMI_ERROR_INVALID_STATE A field cannot be written, or the fields are
+ * @error DMI_ERROR_ARGUMENT_NULL Encoder, fields or structure is `nullptr`
+ * @error DMI_ERROR_STATE_INVALID A field cannot be written, or the fields are
  *        longer than the part
  * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
  *

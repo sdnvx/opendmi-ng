@@ -54,7 +54,7 @@ __BEGIN_DECLS
  * @param[out] decoder Decoder to initialize.
  * @param[in]  entity  Structure to decode.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Decoder or entity is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_NULL Decoder or entity is `nullptr`
  *
  * @return `true` on success, `false` otherwise.
  */

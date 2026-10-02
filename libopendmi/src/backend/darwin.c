@@ -177,7 +177,7 @@ static bool dmi_darwin_read_data(dmi_context_t *context, CFStringRef key, dmi_bu
         ref = (CFDataRef)IORegistryEntryCreateCFProperty(session->service, key,
                                                          kCFAllocatorDefault, kNilOptions);
         if (ref == NULL) {
-            dmi_error_raise(context, DMI_ERROR_INTERNAL);
+            dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "AppleSMBIOS property is not available");
             return false;
         }
 

@@ -26,14 +26,16 @@ static void dmi_field_release_array(const dmi_field_t *field, dmi_data_t *info);
 
 uintmax_t dmi_field_get(const dmi_field_t *field, const void *value)
 {
-    assert(field != nullptr);
+    if (field == nullptr)
+        return dmi_trace_argument_null(nullptr, field, 0);
 
     return dmi_field_load_member(field->member, value);
 }
 
 bool dmi_field_set(const dmi_field_t *field, void *value, uintmax_t number)
 {
-    assert(field != nullptr);
+    if (field == nullptr)
+        return dmi_trace_argument_null(nullptr, field);
 
     return dmi_field_store(field, value, number);
 }

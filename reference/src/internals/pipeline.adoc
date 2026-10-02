@@ -74,7 +74,7 @@ tables the firmware has left in memory or the ones the kernel exposes, while
   into pointers to the structures they refer to.
 
 A step which fails raises the error telling why, e.g.
-`DMI_ERROR_BACKEND_INIT`, and then `DMI_ERROR_CONTEXT_OPEN`, and the context
+`DMI_ERROR_BACKEND_OPEN_FAILED`, and then `DMI_ERROR_CONTEXT_OPEN_FAILED`, and the context
 is closed again. Structures which cannot be decoded or linked do not fail the
 opening unless the context is strict: all of them are reported to the error
 queue, and are left undecoded or unlinked.

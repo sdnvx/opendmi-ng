@@ -36,7 +36,7 @@ bool dmi_additional_info_decode(dmi_decoder_t *decoder);
  *
  * @param[in,out] encoder Encoder of the structure.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Entry is too long for its length byte
+ * @error DMI_ERROR_ARGUMENT_INVALID Entry is too long for its length byte
  *
  * @return `true` on success, `false` otherwise.
  */

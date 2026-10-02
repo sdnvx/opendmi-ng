@@ -53,7 +53,7 @@ String to refer to, or `nullptr`.
 `DMI_ERROR_OUT_OF_MEMORY`::
 Buffers of the encoder cannot grow.
 
-`DMI_ERROR_INVALID_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_INVALID`::
 Structure refers to more strings than a byte can number.
 
 == See also

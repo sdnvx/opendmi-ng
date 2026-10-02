@@ -63,6 +63,9 @@ Number of the bytes to write.
 
 == Errors
 
+`DMI_ERROR_ARGUMENT_NULL`::
+Data is `nullptr`, while the length is not zero.
+
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory of the buffer cannot grow.
 

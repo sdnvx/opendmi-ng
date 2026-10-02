@@ -52,11 +52,14 @@ bool dmi_encoder_initialize(
         dmi_encode_mode_t   mode,
         dmi_version_t       version)
 {
-    if ((encoder == nullptr) or (buffer == nullptr) or (entity == nullptr)) {
-        dmi_error_raise_ex(dmi_buffer_context(buffer), DMI_ERROR_NULL_ARGUMENT,
-                           "encoder, buffer or entity");
-        return false;
-    }
+    dmi_context_t *context = dmi_buffer_context(buffer);
+
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(context, encoder);
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(context, buffer);
+    if (entity == nullptr)
+        return dmi_trace_argument_null(context, entity);
 
     *encoder = (dmi_encoder_t){
         .entity  = entity,
@@ -118,7 +121,7 @@ void dmi_encoder_finalize(dmi_encoder_t *encoder)
 const dmi_entity_t *dmi_encoder_entity(const dmi_encoder_t *encoder)
 {
     if (encoder == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, encoder, nullptr);
 
     return encoder->entity;
 }
@@ -126,14 +129,15 @@ const dmi_entity_t *dmi_encoder_entity(const dmi_encoder_t *encoder)
 dmi_writer_t *dmi_encoder_writer(dmi_encoder_t *encoder)
 {
     if (encoder == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, encoder, nullptr);
 
     return &encoder->writer;
 }
 
 bool dmi_encoder_put_bytes(dmi_encoder_t *encoder, const void *ptr, size_t length)
 {
-    assert(encoder != nullptr);
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
 
     if (length == 0)
         return true;
@@ -157,14 +161,16 @@ bool dmi_encoder_put_bytes_at(
         size_t         offset,
         size_t         length)
 {
-    assert(encoder != nullptr);
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
 
     return dmi_writer_put_bytes_at(&encoder->writer, ptr, offset, length);
 }
 
 bool dmi_encoder_copy(dmi_encoder_t *encoder, size_t length)
 {
-    assert(encoder != nullptr);
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
 
     for (size_t i = 0; i < length; i++) {
         dmi_byte_t data = 0;
@@ -181,7 +187,8 @@ bool dmi_encoder_copy(dmi_encoder_t *encoder, size_t length)
 
 bool dmi_encoder_put_string(dmi_encoder_t *encoder, const char *value)
 {
-    assert(encoder != nullptr);
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
 
     const dmi_entity_t *entity = encoder->entity;
     dmi_byte_t          number = 0;
@@ -224,7 +231,7 @@ bool dmi_encoder_put_string(dmi_encoder_t *encoder, const char *value)
         return false;
 
     if (index > UINT8_MAX) {
-        dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_INVALID_ARGUMENT,
+        dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_ARGUMENT_INVALID,
                            "0x%04x: string %zu cannot be referred to", entity->handle, index);
         return false;
     }
@@ -236,7 +243,8 @@ bool dmi_encoder_put_string(dmi_encoder_t *encoder, const char *value)
 
 bool dmi_encoder_peek(const dmi_encoder_t *encoder, void *ptr, size_t length)
 {
-    assert(encoder != nullptr);
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
 
     if (encoder->source.buffer == nullptr)
         return false;
@@ -246,7 +254,8 @@ bool dmi_encoder_peek(const dmi_encoder_t *encoder, void *ptr, size_t length)
 
 size_t dmi_encoder_remaining(const dmi_encoder_t *encoder)
 {
-    assert(encoder != nullptr);
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder, 0);
 
     if (encoder->source.buffer == nullptr)
         return 0;
@@ -256,21 +265,23 @@ size_t dmi_encoder_remaining(const dmi_encoder_t *encoder)
 
 size_t dmi_encoder_tell(const dmi_encoder_t *encoder)
 {
-    assert(encoder != nullptr);
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder, 0);
 
     return dmi_writer_tell(&encoder->writer);
 }
 
 bool dmi_encoder_finish(dmi_encoder_t *encoder)
 {
-    assert(encoder != nullptr);
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
 
     size_t length = dmi_encoder_tell(encoder);
 
     assert(length >= sizeof(dmi_header_t));
 
     if (length > UINT8_MAX) {
-        dmi_error_raise_ex(dmi_entity_context(encoder->entity), DMI_ERROR_INVALID_ARGUMENT,
+        dmi_error_raise_ex(dmi_entity_context(encoder->entity), DMI_ERROR_ENTITY_LENGTH_INVALID,
                            "0x%04x: formatted area of %zu bytes", encoder->entity->handle, length);
         return false;
     }
@@ -317,10 +328,8 @@ static bool dmi_encoder_add_string(dmi_encoder_t *encoder, const char *value, si
         size_t capacity = (encoder->string_capacity != 0) ? encoder->string_capacity * 2 : 8;
 
         char **strings = realloc(encoder->strings, capacity * sizeof(*strings));
-        if (strings == nullptr) {
-            dmi_error_raise(dmi_entity_context(encoder->entity), DMI_ERROR_OUT_OF_MEMORY);
-            return false;
-        }
+        if (strings == nullptr)
+            return dmi_trace_out_of_memory(dmi_entity_context(encoder->entity));
 
         encoder->strings         = strings;
         encoder->string_capacity = capacity;
@@ -333,10 +342,8 @@ static bool dmi_encoder_add_string(dmi_encoder_t *encoder, const char *value, si
 
     if (value != nullptr) {
         copy = strdup(value);
-        if (copy == nullptr) {
-            dmi_error_raise(dmi_entity_context(encoder->entity), DMI_ERROR_OUT_OF_MEMORY);
-            return false;
-        }
+        if (copy == nullptr)
+            return dmi_trace_out_of_memory(dmi_entity_context(encoder->entity));
     }
 
     encoder->strings[encoder->string_count++] = copy;

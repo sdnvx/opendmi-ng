@@ -872,7 +872,7 @@ static void test_field_required(void **pstate)
 
     const dmi_error_t *error = dmi_error_get_last(state->context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ENTITY_LENGTH);
+    assert_int_equal(error->reason, DMI_ERROR_ENTITY_LENGTH_INVALID);
 }
 
 //
@@ -1024,7 +1024,7 @@ static void test_field_no_fields(void **pstate)
 
     const dmi_error_t *error = dmi_error_get_last(state->context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 }
 
 static void test_field_null_argument(void **pstate)
@@ -1277,7 +1277,7 @@ static void test_field_encode_bcd_overflow(void **pstate)
 
         const dmi_error_t *error = dmi_error_peek_last(state->context);
         assert_non_null(error);
-        assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+        assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 
         dmi_encoder_finalize(&encoder);
     }
@@ -1455,7 +1455,7 @@ static void test_field_encode_from(void **pstate)
 
     assert_true(dmi_encoder_initialize(&encoder, buffer, state->entity, DMI_ENCODE_MODE_CANONICAL, DMI_VERSION(3, 9, 0)));
     assert_false(dmi_fields_encode_from(&encoder, test_present_spec.fields, 2, &part));
-    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_STATE_INVALID);
 
     dmi_encoder_finalize(&encoder);
     dmi_buffer_destroy(buffer);

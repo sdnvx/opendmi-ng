@@ -23,7 +23,7 @@
  *
  * @error DMI_ERROR_ENTITY_NOT_FOUND Parent handle is not specified, or refers
  * to no structure
- * @error DMI_ERROR_INVALID_ENTITY_TYPE Parent is a string property itself
+ * @error DMI_ERROR_ENTITY_TYPE_INVALID Parent is a string property itself
  *
  * @return `true` on success, `false` otherwise.
  */

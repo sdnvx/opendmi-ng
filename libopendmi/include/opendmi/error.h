@@ -19,42 +19,40 @@
  */
 typedef enum dmi_error_code
 {
-    DMI_ERROR_NONE,                  ///< Success
-    DMI_ERROR_NULL_ARGUMENT,         ///< Argument is NULL
-    DMI_ERROR_INVALID_ARGUMENT,      ///< Invalid argument
-    DMI_ERROR_INVALID_STATE,         ///< Invalid state
-    DMI_ERROR_FILE_OPEN,             ///< Unable to open file
-    DMI_ERROR_FILE_STAT,             ///< Unable to stat file
-    DMI_ERROR_FILE_READ,             ///< Unable to read file
-    DMI_ERROR_FILE_WRITE,            ///< Unable to write file
-    DMI_ERROR_FILE_DUP,              ///< Unable to clone file handle
-    DMI_ERROR_FILE_MAP,              ///< Unable to map file
-    DMI_ERROR_EPS_NOT_FOUND,         ///< Entry point structure not found
-    DMI_ERROR_UNKNOWN_EPS_ANCHOR,    ///< Unknown entry point structure anchor
-    DMI_ERROR_INVALID_EPS_LENGTH,    ///< Invalid entry point structure length
-    DMI_ERROR_INVALID_EPS_CHECKSUM,  ///< Invalid entry point structure checksum
-    DMI_ERROR_INVALID_ENTITY_ADDR,   ///< Invalid structure address
-    DMI_ERROR_INVALID_ENTITY_LENGTH, ///< Invalid structure length
-    DMI_ERROR_INVALID_ENTITY_TYPE,   ///< Invalid structure type
-    DMI_ERROR_ENTITY_TRUNCATED,      ///< Truncated entity
-    DMI_ERROR_ENTITY_DECODE,         ///< Unable to decode structure
-    DMI_ERROR_ENTITY_REGISTER,       ///< Unable to register structure
-    DMI_ERROR_ENTITY_LINK,           ///< Unable to link structure
-    DMI_ERROR_ENTITY_NOT_FOUND,      ///< Structure not found
-    DMI_ERROR_STRING_NOT_FOUND,      ///< String not found
-    DMI_ERROR_DUPLICATE_ENTRY,       ///< Duplicate entry
-    DMI_ERROR_DUPLICATE_HANDLE,      ///< Duplicate handle
-    DMI_ERROR_NO_MORE_ENTRIES,       ///< No more entries
-    DMI_ERROR_MISSING_FIRMWARE_INFO, ///< No platform firmware information structure is present
-    DMI_ERROR_MODULE_CONFLICT,       ///< Extension has conflicts
-    DMI_ERROR_OUT_OF_MEMORY,         ///< Out of memory
-    DMI_ERROR_SERVICE_UNAVAILABLE,   ///< Service unavailable
-    DMI_ERROR_SYSTEM,                ///< System error
-    DMI_ERROR_INTERNAL,              ///< Internal error
-    DMI_ERROR_BACKEND_INIT,          ///< Unable to open backend
-    DMI_ERROR_CONTEXT_OPEN,          ///< Unable to open context
-    DMI_ERROR_INVALID_DUMP,          ///< Invalid SMBIOS dump
-    DMI_ERROR_INVALID_OVERLAY,       ///< Invalid additional information entry
+    DMI_ERROR_NONE,                    ///< Success
+    DMI_ERROR_INTERNAL,                ///< Internal error
+    DMI_ERROR_SYSTEM,                  ///< System error
+    DMI_ERROR_OUT_OF_MEMORY,           ///< Out of memory
+    DMI_ERROR_ARGUMENT_NULL,           ///< Argument is NULL
+    DMI_ERROR_ARGUMENT_INVALID,        ///< Invalid argument
+    DMI_ERROR_STATE_INVALID,           ///< Invalid state
+    DMI_ERROR_FILE_OPEN_FAILED,        ///< Unable to open file
+    DMI_ERROR_FILE_STAT_FAILED,        ///< Unable to stat file
+    DMI_ERROR_FILE_READ_FAILED,        ///< Unable to read file
+    DMI_ERROR_FILE_WRITE_FAILED,       ///< Unable to write file
+    DMI_ERROR_FILE_DUP_FAILED,         ///< Unable to clone file handle
+    DMI_ERROR_FILE_MAP_FAILED,         ///< Unable to map file
+    DMI_ERROR_ENTRY_NOT_FOUND,         ///< Entry point structure not found
+    DMI_ERROR_ENTRY_ANCHOR_UNKNOWN,    ///< Unknown entry point structure anchor
+    DMI_ERROR_ENTRY_LENGTH_INVALID,    ///< Invalid entry point structure length
+    DMI_ERROR_ENTRY_CHECKSUM_INVALID,  ///< Invalid entry point structure checksum
+    DMI_ERROR_ENTITY_LENGTH_INVALID,   ///< Invalid structure length
+    DMI_ERROR_ENTITY_TYPE_INVALID,     ///< Invalid structure type
+    DMI_ERROR_ENTITY_TRUNCATED,        ///< Truncated structure
+    DMI_ERROR_ENTITY_DECODE_FAILED,    ///< Unable to decode structure
+    DMI_ERROR_ENTITY_REGISTER_FAILED,  ///< Unable to register structure
+    DMI_ERROR_ENTITY_LINK_FAILED,      ///< Unable to link structure
+    DMI_ERROR_ENTITY_NOT_FOUND,        ///< Structure not found
+    DMI_ERROR_STRING_NOT_FOUND,        ///< String not found
+    DMI_ERROR_ENTITY_DUPLICATE,        ///< Duplicate structure
+    DMI_ERROR_HANDLE_DUPLICATE,        ///< Duplicate handle
+    DMI_ERROR_FIRMWARE_INFO_NOT_FOUND, ///< No platform firmware information structure is present
+    DMI_ERROR_MODULE_CONFLICT,         ///< Module has conflicts
+    DMI_ERROR_SERVICE_UNAVAILABLE,     ///< Service unavailable
+    DMI_ERROR_BACKEND_OPEN_FAILED,     ///< Unable to open backend
+    DMI_ERROR_CONTEXT_OPEN_FAILED,     ///< Unable to open context
+    DMI_ERROR_DUMP_INVALID,            ///< Invalid SMBIOS dump
+    DMI_ERROR_OVERLAY_INVALID,         ///< Invalid additional information entry
     __DMI_ERROR_COUNT
 } dmi_error_code_t;
 

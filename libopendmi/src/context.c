@@ -113,7 +113,7 @@ void dmi_set_flags(dmi_context_t *context, unsigned flags)
 unsigned dmi_get_flags(const dmi_context_t *context)
 {
     if (context == nullptr)
-        return 0;
+        return dmi_trace_argument_null(nullptr, context, 0);
 
     return context->flags;
 }
@@ -121,7 +121,7 @@ unsigned dmi_get_flags(const dmi_context_t *context)
 bool dmi_open(dmi_context_t *context, const char *device)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
     return dmi_open_ex(context, dmi_backend, device);
 }
@@ -129,12 +129,10 @@ bool dmi_open(dmi_context_t *context, const char *device)
 bool dmi_load(dmi_context_t *context, const char *path)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
-    if (path == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
-        return false;
-    }
+    if (path == nullptr)
+        return dmi_trace_argument_null(context, path);
 
     dmi_log_info(context, "Loading DMI dump: %s...", path);
 
@@ -144,7 +142,7 @@ bool dmi_load(dmi_context_t *context, const char *path)
 dmi_log_t *dmi_get_logger(const dmi_context_t *context)
 {
     if (context == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, context, nullptr);
 
     return context->logger;
 }
@@ -162,7 +160,7 @@ bool dmi_set_log_level(dmi_context_t *context, dmi_log_level_t level)
 dmi_log_level_t dmi_get_log_level(const dmi_context_t *context)
 {
     if (context == nullptr)
-        return DMI_LOG_INVALID;
+        return dmi_trace_argument_null(nullptr, context, DMI_LOG_INVALID);
 
     return context->log_level;
 }
@@ -170,7 +168,7 @@ dmi_log_level_t dmi_get_log_level(const dmi_context_t *context)
 bool dmi_log(dmi_context_t *context, dmi_log_level_t level, const char *format, ...)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
     // Context level is checked before the level of the handler
     if (level > context->log_level)
@@ -187,7 +185,7 @@ bool dmi_log(dmi_context_t *context, dmi_log_level_t level, const char *format, 
 bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
     context->logger = logger;
 
@@ -197,7 +195,7 @@ bool dmi_set_logger(dmi_context_t *context, dmi_log_t *logger)
 dmi_registry_t *dmi_get_registry(dmi_context_t *context)
 {
     if (context == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, context, nullptr);
 
     return context->state.registry;
 }
@@ -205,7 +203,7 @@ dmi_registry_t *dmi_get_registry(dmi_context_t *context)
 bool dmi_close(dmi_context_t *context)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
     dmi_registry_destroy(context->state.registry);
 
@@ -253,7 +251,7 @@ void dmi_destroy(dmi_context_t *context)
 bool dmi_anonymize_context(dmi_context_t *context)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
     dmi_buffer_t *table = dmi_buffer_create(context);
     if (table == nullptr)
@@ -306,10 +304,8 @@ static bool dmi_open_ex(
 {
     assert(context != nullptr);
 
-    if ((context->state.backend != nullptr) or (context->state.session != nullptr)) {
-        dmi_error_raise_ex(context,  DMI_ERROR_INVALID_STATE, "Context already initialized");
-        return false;
-    }
+    if ((context->state.backend != nullptr) or (context->state.session != nullptr))
+        return dmi_trace_state_invalid(context, "Context already initialized");
 
     dmi_log_info(context, "Opening DMI context...");
     dmi_log_info(context, "Using backend: %s", backend->name);
@@ -325,7 +321,7 @@ static bool dmi_open_ex(
             break;
 
         if (not context->state.backend->open(context, device)) {
-            dmi_error_raise_ex(context, DMI_ERROR_BACKEND_INIT, "%s", backend->name);
+            dmi_error_raise_ex(context, DMI_ERROR_BACKEND_OPEN_FAILED, "%s", backend->name);
             break;
         }
 
@@ -348,7 +344,7 @@ static bool dmi_open_ex(
     } while (false);
 
     if (not success) {
-        dmi_error_raise(context, DMI_ERROR_CONTEXT_OPEN);
+        dmi_error_raise(context, DMI_ERROR_CONTEXT_OPEN_FAILED);
         dmi_close(context);
     }
 

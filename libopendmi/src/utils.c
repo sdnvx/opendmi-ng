@@ -160,14 +160,10 @@ bool dmi_file_load(
 {
     dmi_context_t *context = dmi_buffer_context(buffer);
 
-    if (buffer == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "buffer");
-        return false;
-    }
-    if (path == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
-        return false;
-    }
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(context, buffer);
+    if (path == nullptr)
+        return dmi_trace_argument_null(context, path);
 
     int     fd    = -1;
     ssize_t nread = 0;
@@ -179,12 +175,12 @@ bool dmi_file_load(
         // Open file
 #if defined(_WIN32)
         if (_sopen_s(&fd, path, _O_RDONLY | _O_BINARY, _SH_DENYNO, _S_IREAD) != 0) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: %s", path, strerror(errno));
             break;
         }
 #else
         if ((fd = open(path, O_RDONLY)) < 0) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: %s", path, strerror(errno));
             break;
         }
 #endif
@@ -192,7 +188,7 @@ bool dmi_file_load(
         // Determine actual number of bytes to read
         if (length == 0) {
             if (dmi_file_stat(fd, &st) < 0) {
-                dmi_error_raise_ex(context, DMI_ERROR_FILE_STAT, "%s: %s", path, strerror(errno));
+                dmi_error_raise_ex(context, DMI_ERROR_FILE_STAT_FAILED, "%s: %s", path, strerror(errno));
                 break;
             }
 
@@ -213,7 +209,7 @@ bool dmi_file_load(
 
         nread = dmi_file_read(fd, buffer->data, offset, length);
         if (nread < 0) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_READ, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_READ_FAILED, "%s: %s", path, strerror(errno));
             break;
         }
 
@@ -242,19 +238,15 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size
     // Physical memory is mapped directly, there is no device to go through
     dmi_unused(path);
 
-    if (buffer == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "buffer");
-        return false;
-    }
-    if (length == 0) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "length");
-        return false;
-    }
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(context, buffer);
+    if (length == 0)
+        return dmi_trace_argument_invalid(context, length);
 
     // Length comes from firmware, which is not trusted to map whatever it
     // likes
     if (length > DMI_TABLE_MAX_SIZE) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Region of %zu bytes exceeds the limit of %zu bytes",
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP_FAILED, "Region of %zu bytes exceeds the limit of %zu bytes",
                            length, (size_t)DMI_TABLE_MAX_SIZE);
         return false;
     }
@@ -262,7 +254,7 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size
     // Physical address of a 32-bit kernel without PAE is 32-bit, and the one
     // of SMBIOS 3.0 table is 64-bit
     if ((resource_size_t)base != base) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Address 0x%llx is out of range",
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP_FAILED, "Address 0x%llx is out of range",
                            (unsigned long long)base);
         return false;
     }
@@ -274,7 +266,7 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size
     // see dmi_remap() of the architectures
     const dmi_data_t *ptr = memremap(base, length, MEMREMAP_WB);
     if (ptr == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "Unable to map 0x%llx-0x%llx",
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP_FAILED, "Unable to map 0x%llx-0x%llx",
                            (unsigned long long)base, (unsigned long long)(base + length - 1));
         dmi_buffer_clear(buffer);
         return false;
@@ -290,23 +282,17 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size
 {
     dmi_context_t *context = dmi_buffer_context(buffer);
 
-    if (buffer == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "buffer");
-        return false;
-    }
-    if (path == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
-        return false;
-    }
-    if (length == 0) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "length");
-        return false;
-    }
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(context, buffer);
+    if (path == nullptr)
+        return dmi_trace_argument_null(context, path);
+    if (length == 0)
+        return dmi_trace_argument_invalid(context, length);
 
     // Length comes from firmware, which is not trusted to map whatever it
     // likes
     if (length > DMI_TABLE_MAX_SIZE) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "%s: region of %zu bytes exceeds the limit of %zu bytes",
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP_FAILED, "%s: region of %zu bytes exceeds the limit of %zu bytes",
                            path, length, (size_t)DMI_TABLE_MAX_SIZE);
         return false;
     }
@@ -315,7 +301,7 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size
     // while the address of SMBIOS 3.0 table is 64-bit
     const uint64_t offset_max = (sizeof(off_t) < sizeof(int64_t)) ? INT32_MAX : INT64_MAX;
     if (base > offset_max) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "%s: address 0x%" PRIx64 " is out of range",
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP_FAILED, "%s: address 0x%" PRIx64 " is out of range",
                            path, base);
         return false;
     }
@@ -331,25 +317,25 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size
     do {
         fd = open(path, O_RDONLY);
         if (fd < 0) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: %s", path, strerror(errno));
             break;
         }
 
         dmi_file_stat_t st;
         if (dmi_file_stat(fd, &st) < 0) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_STAT, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_STAT_FAILED, "%s: %s", path, strerror(errno));
             break;
         }
 
         if ((geteuid() == 0) and (not S_ISCHR(st.st_mode))) {
-            dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "%s: not a character device", path);
+            dmi_error_raise_ex(context, DMI_ERROR_ARGUMENT_INVALID, "%s: not a character device", path);
             break;
         }
         // Region is checked without computing its end, which can overflow
         if (S_ISREG(st.st_mode) and
             ((length > (uint64_t)st.st_size) or (base > (uint64_t)st.st_size - length)))
         {
-            dmi_error_raise_ex(context, DMI_ERROR_INTERNAL, "%s: unable to map beyond the end of file", path);
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP_FAILED, "%s: unable to map beyond the end of file", path);
             break;
         }
 
@@ -360,7 +346,7 @@ bool dmi_memory_load(dmi_buffer_t *buffer, const char *path, uint64_t base, size
 
         ptr = mmap(nullptr, offset + length, PROT_READ, MAP_SHARED, fd, (off_t)(base - offset));
         if (ptr == MAP_FAILED) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_MAP_FAILED, "%s: %s", path, strerror(errno));
             break;
         }
 

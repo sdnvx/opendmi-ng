@@ -1015,7 +1015,7 @@ static void test_encoder_null_arguments(void **pstate)
 
     const dmi_error_t *error = dmi_error_get_last(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_NULL_ARGUMENT);
+    assert_int_equal(error->reason, DMI_ERROR_ARGUMENT_NULL);
 
     assert_false(dmi_encoder_initialize(&encoder, nullptr, nullptr,
                                         DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE));
@@ -1414,7 +1414,7 @@ static void test_encoder_finish_too_long(void **pstate)
 
     const dmi_error_t *error = dmi_error_get_last(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_int_equal(error->reason, DMI_ERROR_ENTITY_LENGTH_INVALID);
 
     test_encoder_close(&fixture);
 }

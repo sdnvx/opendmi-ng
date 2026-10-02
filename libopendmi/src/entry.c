@@ -153,16 +153,12 @@ bool dmi_entry_decode(dmi_context_t *context, const void *data, size_t length)
     const dmi_entry_spec_t *spec;
 
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
-    if (data == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "data");
-        return false;
-    }
-    if (length == 0) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "length");
-        return false;
-    }
+    if (data == nullptr)
+        return dmi_trace_argument_null(context, data);
+    if (length == 0)
+        return dmi_trace_argument_invalid(context, length);
 
     for (spec = dmi_entry_specs; spec->name != nullptr; spec++) {
         if (length < spec->min_length)
@@ -172,7 +168,7 @@ bool dmi_entry_decode(dmi_context_t *context, const void *data, size_t length)
     }
 
     if (spec->name == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_UNKNOWN_EPS_ANCHOR);
+        dmi_error_raise(context, DMI_ERROR_ENTRY_ANCHOR_UNKNOWN);
         return false;
     }
 
@@ -199,7 +195,7 @@ static bool dmi_entry_decode_legacy(dmi_context_t *context,
 
     // Verify EPS checksum value
     if (complete and not dmi_checksum_test(data, sizeof(dmi_entry_legacy_t))) {
-        dmi_error_raise(context, DMI_ERROR_INVALID_EPS_CHECKSUM);
+        dmi_error_raise(context, DMI_ERROR_ENTRY_CHECKSUM_INVALID);
         return false;
     }
 
@@ -239,7 +235,7 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
     // Check maximum entry point length to prevent checksum run beyond
     // the buffer.
     if (entry_length > length) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_EPS_LENGTH, "%zu", entry_length);
+        dmi_error_raise_ex(context, DMI_ERROR_ENTRY_LENGTH_INVALID, "%zu", entry_length);
         return false;
     }
 
@@ -247,13 +243,13 @@ static bool dmi_entry_decode_v21(dmi_context_t *context,
     // bytes, but we also accept value 0x1E due to a mistake in SMBIOS
     // specification version 2.1.
     if (entry_length < sizeof(dmi_entry_v21_t) - 1) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_EPS_LENGTH, "%zu", entry_length);
+        dmi_error_raise_ex(context, DMI_ERROR_ENTRY_LENGTH_INVALID, "%zu", entry_length);
         return false;
     }
 
     // Verify EPS checksum value
     if (not dmi_checksum_test(data, entry_length)) {
-        dmi_error_raise(context, DMI_ERROR_INVALID_EPS_CHECKSUM);
+        dmi_error_raise(context, DMI_ERROR_ENTRY_CHECKSUM_INVALID);
         return false;
     }
 
@@ -298,19 +294,19 @@ static bool dmi_entry_decode_v30(dmi_context_t *context,
     // Check maximum entry point length to prevent checksum run beyond
     // the buffer.
     if (entry_length > length) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_EPS_LENGTH, "%zu", entry_length);
+        dmi_error_raise_ex(context, DMI_ERROR_ENTRY_LENGTH_INVALID, "%zu", entry_length);
         return false;
     }
 
     // Check minimum entry point length.
     if (entry_length < sizeof(dmi_entry_v30_t)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_EPS_LENGTH, "%zu", entry_length);
+        dmi_error_raise_ex(context, DMI_ERROR_ENTRY_LENGTH_INVALID, "%zu", entry_length);
         return false;
     }
 
     // Verify EPS checksum value
     if (not dmi_checksum_test(data, entry_length)) {
-        dmi_error_raise(context, DMI_ERROR_INVALID_EPS_CHECKSUM);
+        dmi_error_raise(context, DMI_ERROR_ENTRY_CHECKSUM_INVALID);
         return false;
     }
 

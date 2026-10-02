@@ -123,7 +123,7 @@ static void test_error_raise_null_context(void **pstate)
 {
     dmi_unused(pstate);
 
-    assert_false(dmi_error_raise(nullptr, DMI_ERROR_INVALID_ARGUMENT));
+    assert_false(dmi_error_raise(nullptr, DMI_ERROR_ARGUMENT_INVALID));
 }
 
 static void test_error_raise(void **pstate)
@@ -134,11 +134,11 @@ static void test_error_raise(void **pstate)
     dmi_error_clear(context);
 
     int line = __LINE__ + 1;
-    assert_true(dmi_error_raise(context, DMI_ERROR_INVALID_ARGUMENT));
+    assert_true(dmi_error_raise(context, DMI_ERROR_ARGUMENT_INVALID));
 
     error = dmi_error_peek_first(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_int_equal(error->reason, DMI_ERROR_ARGUMENT_INVALID);
     assert_non_null(error->file);
     assert_string_equal(error->file, __FILE__);
     assert_non_null(error->function);
@@ -157,11 +157,11 @@ static void test_error_raise_ex(void **pstate)
     dmi_error_clear(context);
 
     int line = __LINE__ + 1;
-    assert_true(dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "path: %s", "/dev/mem"));
+    assert_true(dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "path: %s", "/dev/mem"));
 
     error = dmi_error_peek_first(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_FILE_OPEN);
+    assert_int_equal(error->reason, DMI_ERROR_FILE_OPEN_FAILED);
     assert_non_null(error->file);
     assert_string_equal(error->file, __FILE__);
     assert_non_null(error->function);
@@ -189,12 +189,12 @@ static void test_error_raise_ex_format_failure(void **pstate)
     // Wide character which the C locale cannot represent makes formatting
     // fail. The error is kept without a message, and no other error is
     // raised in its place.
-    assert_false(dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%ls", L"\x1234"));
+    assert_false(dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%ls", L"\x1234"));
 
     error = dmi_error_peek_first(context);
     assert_non_null(error);
     assert_ptr_equal(error, dmi_error_peek_last(context));
-    assert_int_equal(error->reason, DMI_ERROR_FILE_OPEN);
+    assert_int_equal(error->reason, DMI_ERROR_FILE_OPEN_FAILED);
     assert_null(error->message);
 
     dmi_error_clear(context);
@@ -222,17 +222,17 @@ static void test_error_peek_first(void **pstate)
 
     dmi_error_clear(context);
 
-    dmi_error_raise(context, DMI_ERROR_INVALID_ARGUMENT);
-    dmi_error_raise(context, DMI_ERROR_INVALID_STATE);
+    dmi_error_raise(context, DMI_ERROR_ARGUMENT_INVALID);
+    dmi_error_raise(context, DMI_ERROR_STATE_INVALID);
 
     error = dmi_error_peek_first(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_int_equal(error->reason, DMI_ERROR_ARGUMENT_INVALID);
 
     // peek is non-destructive: second call returns the same entry
     error = dmi_error_peek_first(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_int_equal(error->reason, DMI_ERROR_ARGUMENT_INVALID);
 
     dmi_error_clear(context);
 }
@@ -259,17 +259,17 @@ static void test_error_peek_last(void **pstate)
 
     dmi_error_clear(context);
 
-    dmi_error_raise(context, DMI_ERROR_INVALID_ARGUMENT);
-    dmi_error_raise(context, DMI_ERROR_INVALID_STATE);
+    dmi_error_raise(context, DMI_ERROR_ARGUMENT_INVALID);
+    dmi_error_raise(context, DMI_ERROR_STATE_INVALID);
 
     error = dmi_error_peek_last(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 
     // peek is non-destructive: second call returns the same entry
     error = dmi_error_peek_last(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 
     dmi_error_clear(context);
 }
@@ -296,18 +296,18 @@ static void test_error_get_first(void **pstate)
 
     dmi_error_clear(context);
 
-    dmi_error_raise(context, DMI_ERROR_INVALID_ARGUMENT);
-    dmi_error_raise(context, DMI_ERROR_INVALID_STATE);
+    dmi_error_raise(context, DMI_ERROR_ARGUMENT_INVALID);
+    dmi_error_raise(context, DMI_ERROR_STATE_INVALID);
     dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
 
     // Errors are dequeued in FIFO order (oldest first)
     error = dmi_error_get_first(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_int_equal(error->reason, DMI_ERROR_ARGUMENT_INVALID);
 
     error = dmi_error_get_first(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 
     error = dmi_error_get_first(context);
     assert_non_null(error);
@@ -339,8 +339,8 @@ static void test_error_get_last(void **pstate)
 
     dmi_error_clear(context);
 
-    dmi_error_raise(context, DMI_ERROR_INVALID_ARGUMENT);
-    dmi_error_raise(context, DMI_ERROR_INVALID_STATE);
+    dmi_error_raise(context, DMI_ERROR_ARGUMENT_INVALID);
+    dmi_error_raise(context, DMI_ERROR_STATE_INVALID);
     dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
 
     // Errors are dequeued in LIFO order (newest first)
@@ -350,11 +350,11 @@ static void test_error_get_last(void **pstate)
 
     error = dmi_error_get_last(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 
     error = dmi_error_get_last(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_int_equal(error->reason, DMI_ERROR_ARGUMENT_INVALID);
 
     // Queue is now empty
     assert_null(dmi_error_get_last(context));
@@ -459,8 +459,8 @@ static void test_error_clear(void **pstate)
 {
     dmi_context_t *context = dmi_cast(context, *pstate);
 
-    dmi_error_raise(context, DMI_ERROR_INVALID_ARGUMENT);
-    dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "path: %s", "/dev/mem");
+    dmi_error_raise(context, DMI_ERROR_ARGUMENT_INVALID);
+    dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "path: %s", "/dev/mem");
 
     dmi_error_clear(context);
 

@@ -101,10 +101,10 @@ the copy cannot be made.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Table is `nullptr` (`dmi_anonymize` only).
 
-`DMI_ERROR_INVALID_STATE`::
+`DMI_ERROR_STATE_INVALID`::
 Context is not open, or it has been opened with `DMI_CONTEXT_FLAG_OVERLAY`,
 whose structures are decoded from copies carrying additional information
 entries rather than from the table.
@@ -112,9 +112,11 @@ entries rather than from the table.
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory cannot be allocated.
 
+`DMI_ERROR_SYSTEM`::
+Random key cannot be generated.
+
 `DMI_ERROR_INTERNAL`::
-Random key cannot be generated, or a structure is not encoded back into its
-own length.
+Structure is not encoded back into its own length.
 
 == Notes
 

@@ -295,8 +295,10 @@ const char *dmi_get_locale(void)
 dmi_resource_t *dmi_resource_open(const char *package, const void *data)
 {
 #ifdef ENABLE_ICU
-    if ((package == nullptr) or (data == nullptr))
-        return nullptr;
+    if (package == nullptr)
+        return dmi_trace_argument_null(nullptr, package, nullptr);
+    if (data == nullptr)
+        return dmi_trace_argument_null(nullptr, data, nullptr);
 
     UErrorCode status = U_ZERO_ERROR;
 
@@ -346,8 +348,12 @@ dmi_resource_t *dmi_resource_open(const char *package, const void *data)
 const char *dmi_resource_string(dmi_resource_t *resource, const char *table, const char *key)
 {
 #ifdef ENABLE_ICU
-    if ((resource == nullptr) or (table == nullptr) or (key == nullptr))
-        return nullptr;
+    if (resource == nullptr)
+        return dmi_trace_argument_null(nullptr, resource, nullptr);
+    if (table == nullptr)
+        return dmi_trace_argument_null(nullptr, table, nullptr);
+    if (key == nullptr)
+        return dmi_trace_argument_null(nullptr, key, nullptr);
 
     const dmi_resource_table_t *strings = dmi_resource_table(resource, table);
     if (strings == nullptr)
@@ -403,8 +409,10 @@ const char *dmi_value_text(const char *key, const char *fallback)
 const char *dmi_locale_string(const char *table, const char *key)
 {
 #ifdef ENABLE_ICU
-    if ((table == nullptr) or (key == nullptr))
-        return nullptr;
+    if (table == nullptr)
+        return dmi_trace_argument_null(nullptr, table, nullptr);
+    if (key == nullptr)
+        return dmi_trace_argument_null(nullptr, key, nullptr);
 
     // Resources of the library are opened on the first lookup
     if ((dmi_library_resource == nullptr) and not dmi_library_failed) {
@@ -428,7 +436,7 @@ char *dmi_message_format(
         size_t                   count)
 {
     if (pattern == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, pattern, nullptr);
 
     dmi_message_buffer_t buffer = {};
     const char *text = pattern;

@@ -48,10 +48,10 @@ cannot reach it.
 Context to raise errors on.
 
 `str`::
-Address in text, which must not be `nullptr`.
+Address in text.
 
 `paddr`::
-Variable to store the address in, which must not be `nullptr`. It is left as
+Variable to store the address in. It is left as
 it is on failure.
 
 == Return value
@@ -60,7 +60,10 @@ Returns `true` if the address has been parsed, and `false` otherwise.
 
 == Errors
 
-`DMI_ERROR_SYSTEM`::
+`DMI_ERROR_ARGUMENT_NULL`::
+`str` or `paddr` is `nullptr`.
+
+`DMI_ERROR_ARGUMENT_INVALID`::
 String is not an address, or the address does not fit in 64 bits.
 
 == Notes

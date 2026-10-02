@@ -220,7 +220,7 @@ static void test_decoder_initialize_null_decoder(void **pstate)
 
     const dmi_error_t *error = dmi_error_get_last(state->context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_NULL_ARGUMENT);
+    assert_int_equal(error->reason, DMI_ERROR_ARGUMENT_NULL);
 }
 
 static void test_decoder_initialize_null_entity(void **pstate)

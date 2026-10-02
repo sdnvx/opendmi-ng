@@ -198,7 +198,7 @@ static void test_pointing_device_decode_min_length(void **pstate)
     assert_false(dmi_entity_decode(state->entity));
 
     const dmi_error_t *error = dmi_error_get_last(state->context);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ENTITY_LENGTH);
+    assert_int_equal(error->reason, DMI_ERROR_ENTITY_LENGTH_INVALID);
 }
 
 static void test_pointing_device_decode_empty(void **pstate)

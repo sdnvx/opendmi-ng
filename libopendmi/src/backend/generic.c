@@ -42,18 +42,20 @@ bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, uint6
     unsigned long long addr;
     char *ep;
 
-    assert(str != nullptr);
-    assert(paddr != nullptr);
+    if (str == nullptr)
+        return dmi_trace_argument_null(context, str);
+    if (paddr == nullptr)
+        return dmi_trace_argument_null(context, paddr);
 
     errno = 0;
     addr  = strtoull(str, &ep, 0);
 
     if ((ep == str) or (*ep != 0)) {
-        dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Invalid SMBIOS address: %s", str);
+        dmi_error_raise_ex(context, DMI_ERROR_ARGUMENT_INVALID, "Invalid SMBIOS address: %s", str);
         return false;
     }
     if ((errno == ERANGE) and (addr == ULLONG_MAX)) {
-        dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "SMBIOS address is out of range: %s", str);
+        dmi_error_raise_ex(context, DMI_ERROR_ARGUMENT_INVALID, "SMBIOS address is out of range: %s", str);
         return false;
     }
 
@@ -152,12 +154,18 @@ bool dmi_generic_find_anchor(
     size_t length;
     size_t offset;
 
-    assert(context != nullptr);
-    assert(buffer != nullptr);
-    assert(base_addr % 16 == 0);
-    assert((area_size >= 16) and (area_size % 16 == 0));
-    assert(anchor != nullptr);
-    assert(paddr != nullptr);
+    if (context == nullptr)
+        return dmi_trace_argument_null(nullptr, context);
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(context, buffer);
+    if (base_addr % 16 != 0)
+        return dmi_trace_argument_invalid(context, base_addr);
+    if ((area_size < 16) or (area_size % 16 != 0))
+        return dmi_trace_argument_invalid(context, area_size);
+    if (anchor == nullptr)
+        return dmi_trace_argument_null(context, anchor);
+    if (paddr == nullptr)
+        return dmi_trace_argument_null(context, paddr);
 
     length = strlen(anchor);
     assert(length <= 16);

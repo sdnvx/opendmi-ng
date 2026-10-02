@@ -61,7 +61,7 @@ dmi_entity_t *dmi_registry_lookup(
         bool              optional)
 {
     if (registry == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, registry, nullptr);
 
     dmi_context_t *context = registry->context;
     const dmi_registry_entry_t *entry = nullptr;
@@ -97,7 +97,7 @@ dmi_entity_t *dmi_registry_lookup(
         if ((handle == 0x0000u) and (context->flags & DMI_CONTEXT_FLAG_STRICT) == 0)
             return nullptr;
 
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TYPE_INVALID,
                            "0x%04x: %d (expected %d)", handle,
                            entity->type_id, type->id);
         return nullptr;
@@ -116,7 +116,7 @@ dmi_entity_t *dmi_registry_lookup_any(
     dmi_entity_t        *entity  = nullptr;
 
     if (registry == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, registry, nullptr);
 
     context = registry->context;
 
@@ -139,7 +139,7 @@ dmi_entity_t *dmi_registry_lookup_any(
             if ((handle == 0x0000u) and (context->flags & DMI_CONTEXT_FLAG_STRICT) == 0)
                 return nullptr;
 
-            dmi_error_raise_ex(registry->context, DMI_ERROR_INVALID_ENTITY_TYPE,
+            dmi_error_raise_ex(registry->context, DMI_ERROR_ENTITY_TYPE_INVALID,
                                "0x%04x: %d", handle, entity->type_id);
             return nullptr;
         }
@@ -165,12 +165,13 @@ bool dmi_registry_resolve_any(
         const dmi_type_t *const *types,
         dmi_entity_t           **pentity)
 {
-    assert(pentity != nullptr);
+    if (pentity == nullptr)
+        return dmi_trace_argument_null(nullptr, pentity);
 
     *pentity = nullptr;
 
     if (registry == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, registry);
 
     // Reserved handle values mean that the reference is not set
     if ((handle == DMI_HANDLE_INVALID) or (handle == DMI_HANDLE_UNSUPPORTED))
@@ -195,12 +196,12 @@ bool dmi_registry_resolve_any(
                 return true;
 
             if (types[1] == nullptr) {
-                dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+                dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TYPE_INVALID,
                                    "0x%04x: %s instead of %s", handle,
                                    dmi_entity_name(entity),
                                    dmi_type_name(context, types[0]->id));
             } else {
-                dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+                dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TYPE_INVALID,
                                    "0x%04x: unexpected %s", handle,
                                    dmi_type_name(context, entity->type_id));
             }
@@ -219,7 +220,8 @@ bool dmi_registry_resolve_id(
         dmi_type_id_t   type_id,
         dmi_entity_t  **pentity)
 {
-    assert(pentity != nullptr);
+    if (pentity == nullptr)
+        return dmi_trace_argument_null(nullptr, pentity);
 
     if (not dmi_registry_resolve_any(registry, handle, nullptr, pentity))
         return false;
@@ -236,7 +238,7 @@ bool dmi_registry_resolve_id(
     if ((handle == 0x0000u) and (context->flags & DMI_CONTEXT_FLAG_STRICT) == 0)
         return true;
 
-    dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_TYPE,
+    dmi_error_raise_ex(context, DMI_ERROR_ENTITY_TYPE_INVALID,
                        "0x%04x: %s instead of %s", handle,
                        dmi_type_name(context, entity->type_id),
                        dmi_type_name(context, type_id));
@@ -249,14 +251,12 @@ dmi_entity_t *dmi_registry_lookup_first(
         bool              optional)
 {
     if (registry == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, registry, nullptr);
 
     dmi_context_t *context = registry->context;
 
-    if (type == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "type");
-        return nullptr;
-    }
+    if (type == nullptr)
+        return dmi_trace_argument_null(context, type, nullptr);
 
     // Structures of the type may be found at a type number other than its
     // own, and structures of other types at its type number
@@ -277,12 +277,12 @@ dmi_entity_t *dmi_registry_lookup_first_id(
         bool            optional)
 {
     if (registry == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, registry, nullptr);
 
     dmi_context_t *context = registry->context;
 
     if (type_id == DMI_TYPE_ID_INVALID) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "type: %d", type_id);
+        dmi_error_raise_ex(context, DMI_ERROR_ARGUMENT_INVALID, "type: %d", type_id);
         return nullptr;
     }
 
@@ -300,7 +300,7 @@ dmi_entity_t *dmi_registry_lookup_first_id(
 unsigned dmi_registry_status(const dmi_registry_t *registry)
 {
     if (registry == nullptr)
-        return 0;
+        return dmi_trace_argument_null(nullptr, registry, 0);
 
     return registry->status;
 }
@@ -337,7 +337,8 @@ void dmi_registry_destroy(dmi_registry_t *registry)
 
 bool dmi_registry_scan(dmi_registry_t *registry)
 {
-    assert(registry != nullptr);
+    if (registry == nullptr)
+        return dmi_trace_argument_null(nullptr, registry);
 
     if (registry->status & DMI_REGISTRY_STATUS_SCANNED)
         return true;
@@ -380,7 +381,7 @@ bool dmi_registry_scan(dmi_registry_t *registry)
             // Next structure cannot be located after a structure with invalid
             // length, so the rest of the table is treated as truncated in
             // relaxed mode
-            if ((error != nullptr) and (error->reason == DMI_ERROR_INVALID_ENTITY_LENGTH) and
+            if ((error != nullptr) and (error->reason == DMI_ERROR_ENTITY_LENGTH_INVALID) and
                 ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0))
             {
                 dmi_log_warning(context, "Invalid structure length, stopping before end-of-table");
@@ -388,14 +389,14 @@ bool dmi_registry_scan(dmi_registry_t *registry)
                 break;
             }
 
-            dmi_error_raise(context, DMI_ERROR_ENTITY_DECODE);
+            dmi_error_raise(context, DMI_ERROR_ENTITY_DECODE_FAILED);
             goto exit;
         }
 
         // Add entity to registry
         // Structures are not decoded yet, so they are named by the type
         if (not dmi_registry_put(registry, entity)) {
-            dmi_error_raise_ex(context, DMI_ERROR_ENTITY_REGISTER,
+            dmi_error_raise_ex(context, DMI_ERROR_ENTITY_REGISTER_FAILED,
                                "0x%04x (%s)", entity->handle, dmi_type_name(context, entity->type_id));
             dmi_entity_destroy(entity);
             goto exit;
@@ -425,7 +426,8 @@ exit:
 
 bool dmi_registry_overlay(dmi_registry_t *registry)
 {
-    assert(registry != nullptr);
+    if (registry == nullptr)
+        return dmi_trace_argument_null(nullptr, registry);
 
     dmi_context_t *context = registry->context;
     dmi_log_debug(context, "Applying additional information...");
@@ -485,7 +487,8 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
 
 bool dmi_registry_decode(dmi_registry_t *registry)
 {
-    assert(registry != nullptr);
+    if (registry == nullptr)
+        return dmi_trace_argument_null(nullptr, registry);
 
     if (registry->status & DMI_REGISTRY_STATUS_DECODED)
         return true;
@@ -538,7 +541,8 @@ bool dmi_registry_decode(dmi_registry_t *registry)
 
 bool dmi_registry_link(dmi_registry_t *registry)
 {
-    assert(registry != nullptr);
+    if (registry == nullptr)
+        return dmi_trace_argument_null(nullptr, registry);
 
     if (registry->status & DMI_REGISTRY_STATUS_LINKED)
         return true;
@@ -588,11 +592,15 @@ bool dmi_registry_iter_init(
         dmi_registry_t *registry,
         dmi_filter_t *filter)
 {
-    assert(iter != nullptr);
-    assert(registry != nullptr);
+    if (iter == nullptr)
+        return dmi_trace_argument_null(nullptr, iter);
+    if (registry == nullptr)
+        return dmi_trace_argument_null(nullptr, registry);
 
-    if ((iter == nullptr) or (registry == nullptr))
-        return false;
+    if (iter == nullptr)
+        return dmi_trace_argument_null(nullptr, iter);
+    if (registry == nullptr)
+        return dmi_trace_argument_null(nullptr, registry);
 
     iter->registry = registry;
     iter->position = nullptr;
@@ -681,13 +689,13 @@ static bool dmi_registry_put(dmi_registry_t *registry, dmi_entity_t *entity)
                 (last->entity->offset == entity->offset))
             {
                 dmi_free(entry);
-                dmi_error_raise_ex(registry->context, DMI_ERROR_DUPLICATE_ENTRY,
+                dmi_error_raise_ex(registry->context, DMI_ERROR_ENTITY_DUPLICATE,
                                    "0x%04zx (0x%04x)", entity->offset, entity->handle);
                 return false;
             }
 
             if (last->entity->handle == entity->handle) {
-                dmi_error_raise_ex(registry->context, DMI_ERROR_DUPLICATE_HANDLE,
+                dmi_error_raise_ex(registry->context, DMI_ERROR_HANDLE_DUPLICATE,
                                    "0x%04x", entity->handle);
             }
 

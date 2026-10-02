@@ -60,7 +60,8 @@ requested range.
 
 == Errors
 
-None.
+`DMI_ERROR_ARGUMENT_NULL`::
+Data is `nullptr`, while the length is not zero.
 
 == See also
 

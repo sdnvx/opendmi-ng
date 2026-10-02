@@ -215,7 +215,7 @@ bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
     dmi_unused(flags);
 
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
     dmi_error_raise_ex(context, DMI_ERROR_SERVICE_UNAVAILABLE,
                        "%s: files are not accessible from the kernel", path);
@@ -226,7 +226,7 @@ bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
 bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
     if (not dmi_save_check(context, path))
         return false;
@@ -265,21 +265,17 @@ bool dmi_save(dmi_context_t *context, const char *path, unsigned flags)
 
 static bool dmi_save_check(dmi_context_t *context, const char *path)
 {
-    if (path == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "path");
-        return false;
-    }
-    if (not dmi_context_is_open(context)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
-        return false;
-    }
+    if (path == nullptr)
+        return dmi_trace_argument_null(context, path);
+    if (not dmi_context_is_open(context))
+        return dmi_trace_state_invalid(context, "Context is not open");
 
     // Backends which have no access to the entry point leave the context
     // without one, and its data is generated on saving
     if ((context->state.entry != nullptr) and
         (context->state.entry->length > DMI_ENTRY_MAX_SIZE))
     {
-        dmi_error_raise(context, DMI_ERROR_INVALID_EPS_LENGTH);
+        dmi_error_raise(context, DMI_ERROR_ENTRY_LENGTH_INVALID);
         return false;
     }
 
@@ -315,7 +311,7 @@ static bool dmi_save_open(dmi_context_t *context, const char *path, bool overwri
     bool is_stream = is_direct and dmi_save_is_stream(path, &target->st);
 
     if (target->exists and not is_direct and not overwrite) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(EEXIST));
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: %s", path, strerror(EEXIST));
         return false;
     }
 
@@ -329,7 +325,7 @@ static bool dmi_save_open(dmi_context_t *context, const char *path, bool overwri
 
         target->fd = open(path, mode, 0666);
         if (target->fd < 0)
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: %s", path, strerror(errno));
     } else {
         target->temp = dmi_save_temp_open(context, path, &target->fd);
     }
@@ -374,7 +370,7 @@ static bool dmi_save_close(
 {
     if (dmi_file_close(target->fd) < 0) {
         if (success)
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE_FAILED, "%s: %s", path, strerror(errno));
         success = false;
     }
 
@@ -422,10 +418,8 @@ static char *dmi_save_temp_open(dmi_context_t *context, const char *path, int *p
     for (unsigned attempt = 0; attempt < DMI_SAVE_TEMP_ATTEMPTS; attempt++) {
         char *temp = nullptr;
 
-        if (dmi_asprintf(&temp, "%s.%ld-%u.tmp", path, pid, attempt) < 0) {
-            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-            return nullptr;
-        }
+        if (dmi_asprintf(&temp, "%s.%ld-%u.tmp", path, pid, attempt) < 0)
+            return dmi_trace_out_of_memory(context, nullptr);
 
         int fd = open(temp, mode, 0666);
         if (fd >= 0) {
@@ -437,12 +431,12 @@ static char *dmi_save_temp_open(dmi_context_t *context, const char *path, int *p
         dmi_free(temp);
 
         if (error != EEXIST) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(error));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: %s", path, strerror(error));
             return nullptr;
         }
     }
 
-    dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: Unable to create temporary file", path);
+    dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: Unable to create temporary file", path);
 
     return nullptr;
 }
@@ -458,7 +452,7 @@ static bool dmi_save_commit(dmi_context_t *context, const char *temp, const char
     DWORD error = GetLastError();
     bool  is_existing = (error == ERROR_ALREADY_EXISTS) or (error == ERROR_FILE_EXISTS);
 
-    dmi_error_raise_ex(context, is_existing ? DMI_ERROR_FILE_OPEN : DMI_ERROR_FILE_WRITE,
+    dmi_error_raise_ex(context, is_existing ? DMI_ERROR_FILE_OPEN_FAILED : DMI_ERROR_FILE_WRITE_FAILED,
                        "%s: %s", path, dmi_win32err_to_string(error));
 
     return false;
@@ -472,7 +466,7 @@ static bool dmi_save_commit(dmi_context_t *context, const char *temp, const char
         }
 
         if (errno == EEXIST) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: %s", path, strerror(errno));
             return false;
         }
 
@@ -480,13 +474,13 @@ static bool dmi_save_commit(dmi_context_t *context, const char *temp, const char
         // rename, so the target is checked to be missing once again
         dmi_file_stat_t st;
         if (dmi_save_stat(path, &st) == 0) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN, "%s: %s", path, strerror(EEXIST));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED, "%s: %s", path, strerror(EEXIST));
             return false;
         }
     }
 
     if (rename(temp, path) < 0) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: %s", path, strerror(errno));
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE_FAILED, "%s: %s", path, strerror(errno));
         return false;
     }
 
@@ -504,11 +498,11 @@ static bool dmi_dump_write(
     ssize_t nwritten = dmi_file_write(fd, data, size);
 
     if (nwritten < 0) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: %s", path, strerror(errno));
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE_FAILED, "%s: %s", path, strerror(errno));
         return false;
     }
     if ((size_t)nwritten < size) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s: Incomplete write", path);
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE_FAILED, "%s: Incomplete write", path);
         return false;
     }
 
@@ -571,7 +565,7 @@ static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry)
     dmi_version_t version = context->state.smbios_version;
 
     if (context->state.table->length > UINT32_MAX) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
+        dmi_error_raise_ex(context, DMI_ERROR_STATE_INVALID,
                            "SMBIOS table is too large: %zu bytes", context->state.table->length);
         return false;
     }

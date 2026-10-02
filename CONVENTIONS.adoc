@@ -119,6 +119,37 @@ noun is not allowed there: `dmi_registry()` reads as a function of the
 `dmi_get_flags()` and `dmi_set_flags()`. Elsewhere `get` means a lookup and
 should be named accordingly: `dmi_registry_lookup()`, `dmi_name_lookup()`.
 
+=== Error codes
+
+* Name an error code `DMI_ERROR_<SUBJECT>[_<DETAIL>]_<CONDITION>`, where the
+subject is the noun the API uses for what went wrong, e.g. `ARGUMENT`,
+`FILE`, `ENTRY`, `ENTITY`, `MODULE`, and the condition is one of `NULL`,
+`INVALID`, `UNKNOWN`, `NOT_FOUND`, `TRUNCATED`, `DUPLICATE`, `CONFLICT` and
+`UNAVAILABLE`, e.g. `DMI_ERROR_ENTRY_CHECKSUM_INVALID`.
+
+* Name the failure of an operation `DMI_ERROR_<SUBJECT>_<VERB>_FAILED`, e.g.
+`DMI_ERROR_FILE_OPEN_FAILED`, so that a verb is not read as a condition.
+
+* Only the general errors have no subject: `DMI_ERROR_NONE`,
+`DMI_ERROR_INTERNAL`, `DMI_ERROR_SYSTEM` and `DMI_ERROR_OUT_OF_MEMORY`.
+
+* Check the arguments of a function with explicit conditions, and report
+their errors with the macros of `<opendmi/trace.h>`, which raise the error
+and evaluate to the value the function returns:
++
+[source, c]
+----
+if (path == nullptr)
+    return dmi_trace_argument_null(context, path);
+----
++
+Leave a check silent only where `nullptr` is a valid value rather than an
+error, e.g. a missing filter matching everything. The functions of the error
+queue itself check their arguments silently, since they cannot raise errors.
+
+* The code name of an error is its name in lower case with dashes, e.g.
+`entry-checksum-invalid`, which is also the key of its translation.
+
 === Common abbreviations
 
 [horizontal]

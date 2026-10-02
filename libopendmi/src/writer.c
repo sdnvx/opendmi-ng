@@ -29,8 +29,10 @@ bool dmi_writer_initialize(
         size_t        offset,
         ssize_t       length)
 {
-    if ((writer == nullptr) or (buffer == nullptr))
-        return false;
+    if (writer == nullptr)
+        return dmi_trace_argument_null(nullptr, writer);
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(nullptr, buffer);
 
     // Range begins within the data or right at its end, so that the data is
     // written or appended to rather than written past
@@ -48,7 +50,8 @@ bool dmi_writer_initialize(
 
 bool dmi_writer_seek(dmi_writer_t *writer, size_t position)
 {
-    assert(writer != nullptr);
+    if (writer == nullptr)
+        return dmi_trace_argument_null(nullptr, writer);
 
     if (position > dmi_writer_length(writer))
         return false;
@@ -61,7 +64,7 @@ bool dmi_writer_seek(dmi_writer_t *writer, size_t position)
 dmi_writer_mark_t dmi_writer_mark(const dmi_writer_t *writer)
 {
     if (writer == nullptr)
-        return (dmi_writer_mark_t){};
+        return dmi_trace_argument_null(nullptr, writer, (dmi_writer_mark_t){});
 
     return (dmi_writer_mark_t){
         .buffer   = writer->buffer,
@@ -72,7 +75,8 @@ dmi_writer_mark_t dmi_writer_mark(const dmi_writer_t *writer)
 
 bool dmi_writer_rewind(dmi_writer_t *writer, dmi_writer_mark_t mark)
 {
-    assert(writer != nullptr);
+    if (writer == nullptr)
+        return dmi_trace_argument_null(nullptr, writer);
 
     if ((mark.buffer != writer->buffer) or (mark.base != writer->base))
         return false;
@@ -82,7 +86,8 @@ bool dmi_writer_rewind(dmi_writer_t *writer, dmi_writer_mark_t mark)
 
 bool dmi_writer_put_bytes(dmi_writer_t *writer, const void *ptr, size_t length)
 {
-    assert(writer != nullptr);
+    if (writer == nullptr)
+        return dmi_trace_argument_null(nullptr, writer);
 
     if (not dmi_writer_put_bytes_at(writer, ptr, writer->position, length))
         return false;
@@ -98,7 +103,8 @@ bool dmi_writer_put_bytes_at(
         size_t        offset,
         size_t        length)
 {
-    assert(writer != nullptr);
+    if (writer == nullptr)
+        return dmi_trace_argument_null(nullptr, writer);
 
     if (not dmi_writer_fits(writer, offset, length))
         return false;
@@ -108,7 +114,8 @@ bool dmi_writer_put_bytes_at(
 
 bool dmi_writer_skip(dmi_writer_t *writer, size_t length)
 {
-    assert(writer != nullptr);
+    if (writer == nullptr)
+        return dmi_trace_argument_null(nullptr, writer);
 
     if (not dmi_writer_fits(writer, writer->position, length))
         return false;
@@ -131,7 +138,8 @@ bool dmi_writer_skip_ex(
         dmi_writer_mark_t  from,
         size_t             length)
 {
-    assert(writer != nullptr);
+    if (writer == nullptr)
+        return dmi_trace_argument_null(nullptr, writer);
 
     if ((from.buffer != writer->buffer) or (from.base != writer->base))
         return false;
@@ -149,14 +157,17 @@ bool dmi_writer_skip_ex(
 size_t dmi_writer_tell(const dmi_writer_t *writer)
 {
     if (writer == nullptr)
-        return 0;
+        return dmi_trace_argument_null(nullptr, writer, 0);
 
     return writer->position;
 }
 
 void dmi_writer_reset(dmi_writer_t *writer)
 {
-    assert(writer != nullptr);
+    if (writer == nullptr) {
+        (void)dmi_trace_argument_null(nullptr, writer);
+        return;
+    }
 
     writer->position = 0;
 }

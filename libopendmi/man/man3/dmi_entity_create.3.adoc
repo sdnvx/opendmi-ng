@@ -65,10 +65,10 @@ structure length is invalid, or a memory allocation fails).
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Buffer is `nullptr`.
 
-`DMI_ERROR_INVALID_ENTITY_LENGTH`::
+`DMI_ERROR_ENTITY_LENGTH_INVALID`::
 Length of the structure is shorter than its header.
 
 `DMI_ERROR_ENTITY_TRUNCATED`::

@@ -81,7 +81,7 @@ dmi_filter_t *dmi_filter_create(dmi_context_t *context)
 bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle)
 {
     if (filter == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, filter);
 
     return dmi_vector_push(&filter->handles, (uintptr_t)handle);
 }
@@ -89,15 +89,17 @@ bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle)
 bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type)
 {
     if (filter == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, filter);
 
     return dmi_vector_push(&filter->types, (uintptr_t)type);
 }
 
 bool dmi_filter_add_module(dmi_filter_t *filter, const dmi_module_t *module)
 {
-    if ((filter == nullptr) or (module == nullptr))
+    if (filter == nullptr)
         return false;
+    if (module == nullptr)
+        return dmi_trace_argument_null(nullptr, module);
 
     return dmi_vector_push(&filter->modules, (uintptr_t)module);
 }
@@ -115,8 +117,10 @@ bool dmi_filter_is_empty(const dmi_filter_t *filter)
 
 bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity)
 {
-    if ((filter == nullptr) or (entity == nullptr))
+    if (filter == nullptr)
         return false;
+    if (entity == nullptr)
+        return dmi_trace_argument_null(nullptr, entity);
 
     if (not dmi_filter_match_mask(filter, entity))
         return false;

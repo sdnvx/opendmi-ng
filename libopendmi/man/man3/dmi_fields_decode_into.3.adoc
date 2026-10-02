@@ -99,10 +99,10 @@ errors below.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Decoder or encoder, fields or structure is `nullptr`.
 
-`DMI_ERROR_INVALID_STATE`::
+`DMI_ERROR_STATE_INVALID`::
 A field cannot be written, or the fields are longer than the part
 (`dmi_fields_encode_from`).
 

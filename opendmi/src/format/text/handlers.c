@@ -246,10 +246,8 @@ bool dmi_text_entry(dmi_text_session_t *session)
     const dmi_registry_t *registry = dmi_get_registry(context);
 
     char *version = dmi_version_format(context->state.smbios_version);
-    if (version == nullptr) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
+    if (version == nullptr)
+        return dmi_trace_out_of_memory(context);
 
     size_t entity_count = context->state.entity_count;
     if (entity_count == 0)
@@ -323,10 +321,8 @@ bool dmi_text_entity_start(dmi_text_session_t *session, const dmi_entity_t *enti
     // Structure version follows the name in verbose mode
     if (verbose and (entity->level != DMI_VERSION_NONE)) {
         char *level = dmi_version_format(entity->level);
-        if (level == nullptr) {
-            dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
-            return false;
-        }
+        if (level == nullptr)
+            return dmi_trace_out_of_memory(session->context);
 
         dmi_text_printf(session, DMI_TTY_COLOR_YELLOW, " (%s)", level);
         dmi_free(level);
@@ -561,10 +557,8 @@ static bool dmi_text_message_color(
         size_t                   count)
 {
     char *text = dmi_tool_message(table, key, fallback, args, count);
-    if (text == nullptr) {
-        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
+    if (text == nullptr)
+        return dmi_trace_out_of_memory(session->context);
 
     dmi_text_printf(session, color, "%s", text);
     dmi_free(text);

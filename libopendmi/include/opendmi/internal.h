@@ -24,6 +24,7 @@
 #include <stdint.h>
 
 #include <opendmi/defs.h>
+#include <opendmi/trace.h>
 
 #ifndef countof
 /**

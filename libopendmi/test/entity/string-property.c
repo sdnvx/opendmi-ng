@@ -192,7 +192,7 @@ static void test_property_arguments(void **pstate)
 
     dmi_error_clear(context);
     assert_false(dmi_entity_add_property(parent, nullptr));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_NULL_ARGUMENT);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
     assert_int_equal(parent->properties.length, 4);
 
     dmi_destroy(context);
@@ -372,7 +372,7 @@ static void test_check_invalid(dmi_context_t *context)
         dmi_error_code_t  reason;
     } expected[] = {
         { 0x0203, "0x0203: parent 0x0999 not found",        DMI_ERROR_ENTITY_NOT_FOUND    },
-        { 0x0204, "0x0204: parent 0x0200 is a string",      DMI_ERROR_INVALID_ENTITY_TYPE },
+        { 0x0204, "0x0204: parent 0x0200 is a string",      DMI_ERROR_ENTITY_TYPE_INVALID },
         { 0x0206, "0x0206: parent is not specified",        DMI_ERROR_ENTITY_NOT_FOUND    }
     };
 
@@ -388,7 +388,7 @@ static void test_check_invalid(dmi_context_t *context)
 
     const dmi_error_t *error;
     while ((error = dmi_error_get_first(context)) != nullptr) {
-        if (error->reason == DMI_ERROR_ENTITY_LINK) {
+        if (error->reason == DMI_ERROR_ENTITY_LINK_FAILED) {
             link_errors++;
             continue;
         }

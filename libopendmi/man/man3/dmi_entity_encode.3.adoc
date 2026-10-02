@@ -53,10 +53,10 @@ Encoder of the structure, see `dmi_encoder_initialize`(3).
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Encoder is `nullptr`.
 
-`DMI_ERROR_INVALID_STATE`::
+`DMI_ERROR_STATE_INVALID`::
 Structure cannot be encoded: its type has no specification and the mode is
 the canonical one, or its specification decodes it by a handler with no
 encoding one.

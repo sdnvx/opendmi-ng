@@ -54,13 +54,13 @@ type-specific decoder fails).
 
 == Errors
 
-`DMI_ERROR_INVALID_ENTITY_LENGTH`::
+`DMI_ERROR_ENTITY_LENGTH_INVALID`::
 Structure is shorter than its type requires.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory is exhausted.
 
-`DMI_ERROR_ENTITY_DECODE`::
+`DMI_ERROR_ENTITY_DECODE_FAILED`::
 Structure cannot be decoded. Raised last on every failure of the
 decoder but the lack of memory, after the errors the decoder has raised.
 

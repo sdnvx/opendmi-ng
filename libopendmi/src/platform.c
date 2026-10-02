@@ -37,7 +37,7 @@ dmi_platform_t *dmi_platform_create(dmi_context_t *context)
 dmi_platform_t *dmi_platform_clone(const dmi_platform_t *platform)
 {
     if (platform == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, platform, nullptr);
 
     dmi_platform_t *copy = dmi_platform_create(platform->context);
     if (copy == nullptr)
@@ -62,7 +62,7 @@ dmi_platform_t *dmi_platform_clone(const dmi_platform_t *platform)
 bool dmi_platform_set_product(dmi_platform_t *platform, const char *product)
 {
     if (platform == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, platform);
 
     return dmi_string_set(platform->context, &platform->product, product);
 }
@@ -70,7 +70,7 @@ bool dmi_platform_set_product(dmi_platform_t *platform, const char *product)
 bool dmi_platform_set_family(dmi_platform_t *platform, const char *family)
 {
     if (platform == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, platform);
 
     return dmi_string_set(platform->context, &platform->family, family);
 }
@@ -87,8 +87,10 @@ void dmi_platform_destroy(dmi_platform_t *platform)
 
 bool dmi_platform_match(const dmi_platform_t *platform, const dmi_platform_match_t *match)
 {
-    if ((platform == nullptr) or (match == nullptr))
-        return false;
+    if (platform == nullptr)
+        return dmi_trace_argument_null(nullptr, platform);
+    if (match == nullptr)
+        return dmi_trace_argument_null(nullptr, match);
 
     if (not dmi_vendor_match(match->firmware_vendor, platform->firmware_vendor) or
         not dmi_vendor_match(match->system_vendor, platform->system_vendor) or

@@ -990,41 +990,39 @@ ru_RU {
     }
     error {
         none { "Успешно" }
-        null-argument { "Аргумент равен NULL" }
-        invalid-argument { "Недопустимый аргумент" }
-        invalid-state { "Недопустимое состояние" }
-        file-open { "Не удалось открыть файл" }
-        file-stat { "Не удалось получить сведения о файле" }
-        file-read { "Не удалось прочитать файл" }
-        file-write { "Не удалось записать файл" }
-        file-dup { "Не удалось скопировать дескриптор файла" }
-        file-map { "Не удалось отобразить файл в память" }
-        eps-not-found { "Точка входа не найдена" }
-        unknown-eps-anchor { "Неизвестная сигнатура точки входа" }
-        invalid-eps-length { "Недопустимая длина точки входа" }
-        invalid-eps-checksum { "Недопустимая контрольная сумма точки входа" }
-        invalid-entity-addr { "Недопустимый адрес структуры" }
-        invalid-entity-length { "Недопустимая длина структуры" }
-        invalid-entity-type { "Недопустимый тип структуры" }
+        internal { "Внутренняя ошибка" }
+        system { "Системная ошибка" }
+        out-of-memory { "Недостаточно памяти" }
+        argument-null { "Аргумент равен NULL" }
+        argument-invalid { "Недопустимый аргумент" }
+        state-invalid { "Недопустимое состояние" }
+        file-open-failed { "Не удалось открыть файл" }
+        file-stat-failed { "Не удалось получить сведения о файле" }
+        file-read-failed { "Не удалось прочитать файл" }
+        file-write-failed { "Не удалось записать файл" }
+        file-dup-failed { "Не удалось скопировать дескриптор файла" }
+        file-map-failed { "Не удалось отобразить файл в память" }
+        entry-not-found { "Точка входа не найдена" }
+        entry-anchor-unknown { "Неизвестная сигнатура точки входа" }
+        entry-length-invalid { "Недопустимая длина точки входа" }
+        entry-checksum-invalid { "Недопустимая контрольная сумма точки входа" }
+        entity-length-invalid { "Недопустимая длина структуры" }
+        entity-type-invalid { "Недопустимый тип структуры" }
         entity-truncated { "Усечённая структура" }
-        entity-decode { "Не удалось декодировать структуру" }
-        entity-register { "Не удалось зарегистрировать структуру" }
-        entity-link { "Не удалось связать структуру" }
+        entity-decode-failed { "Не удалось декодировать структуру" }
+        entity-register-failed { "Не удалось зарегистрировать структуру" }
+        entity-link-failed { "Не удалось связать структуру" }
         entity-not-found { "Структура не найдена" }
         string-not-found { "Строка не найдена" }
-        duplicate-entry { "Повторяющаяся запись" }
-        duplicate-handle { "Повторяющийся дескриптор" }
-        no-more-entries { "Записей больше нет" }
-        missing-firmware-info { "Отсутствует структура со сведениями о прошивке платформы" }
+        entity-duplicate { "Повторяющаяся структура" }
+        handle-duplicate { "Повторяющийся дескриптор" }
+        firmware-info-not-found { "Отсутствует структура со сведениями о прошивке платформы" }
         module-conflict { "Модуль конфликтует с другими" }
         service-unavailable { "Служба недоступна" }
-        out-of-memory { "Недостаточно памяти" }
-        system { "Системная ошибка" }
-        internal { "Внутренняя ошибка" }
-        backend-init { "Не удалось инициализировать бэкенд" }
-        context-open { "Не удалось открыть контекст" }
-        invalid-dump { "Недопустимый дамп SMBIOS" }
-        invalid-overlay { "Недопустимая запись дополнительных сведений" }
+        backend-open-failed { "Не удалось открыть бэкенд" }
+        context-open-failed { "Не удалось открыть контекст" }
+        dump-invalid { "Недопустимый дамп SMBIOS" }
+        overlay-invalid { "Недопустимая запись дополнительных сведений" }
     }
     error-correct-cap {
         other { "Другая" }

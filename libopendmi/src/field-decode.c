@@ -394,16 +394,14 @@ static bool dmi_field_read_number(
 
 bool dmi_fields_decode(dmi_decoder_t *decoder)
 {
-    if (decoder == nullptr) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "decoder");
-        return false;
-    }
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
 
     dmi_entity_t            *entity = dmi_decoder_entity(decoder);
     const dmi_entity_spec_t *spec   = entity->spec;
 
     if ((spec == nullptr) or (spec->fields == nullptr)) {
-        dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_INVALID_STATE,
+        dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_STATE_INVALID,
                            "Handle 0x%04hx: specification declares no fields",
                            dmi_entity_handle(entity));
         return false;
@@ -433,11 +431,12 @@ bool dmi_fields_decode(dmi_decoder_t *decoder)
 
 bool dmi_fields_decode_into(dmi_decoder_t *decoder, const dmi_field_t *fields, size_t length, void *info)
 {
-    if ((decoder == nullptr) or (fields == nullptr) or (info == nullptr)) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "%s",
-                           (decoder == nullptr) ? "decoder" : (fields == nullptr) ? "fields" : "info");
-        return false;
-    }
+    if (decoder == nullptr)
+        return dmi_trace_argument_null(nullptr, decoder);
+    if (fields == nullptr)
+        return dmi_trace_argument_null(nullptr, fields);
+    if (info == nullptr)
+        return dmi_trace_argument_null(nullptr, info);
 
     dmi_entity_t *entity = dmi_decoder_entity(decoder);
     dmi_reader_t *reader = dmi_decoder_reader(decoder);

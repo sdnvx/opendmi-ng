@@ -677,7 +677,7 @@ static void test_lint_closed_context(void **pstate)
     const dmi_error_t *error = dmi_error_peek_last(state->context);
 
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 
     assert_false(dmi_lint(nullptr, nullptr, nullptr, nullptr));
 }

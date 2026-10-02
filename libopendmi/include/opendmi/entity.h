@@ -671,7 +671,7 @@ __dmi_api dmi_type_id_t dmi_type_find(dmi_context_t *context, const char *code);
  *         specification is mapped to the number, or the number is out of
  *         range.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Type number is out of range.
+ * @error DMI_ERROR_ARGUMENT_INVALID Type number is out of range.
  */
 __dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_type_id_t type);
 
@@ -681,14 +681,14 @@ __dmi_api const dmi_entity_spec_t *dmi_type_spec(dmi_context_t *context, dmi_typ
  * Names the type by the specification it is mapped to in the context, see
  * `dmi_type_spec`(3), and by its range otherwise: `OEM-specific` for the
  * numbers 128 through 255, and `Unknown` for the others, including the numbers
- * out of range, which are reported as `DMI_ERROR_INVALID_ARGUMENT`.
+ * out of range, which are reported as `DMI_ERROR_ARGUMENT_INVALID`.
  *
  * @param[in] context Context descriptor, or @c nullptr.
  * @param[in] type    Type number.
  *
  * @return Printable name, never @c nullptr.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Type number is out of range.
+ * @error DMI_ERROR_ARGUMENT_INVALID Type number is out of range.
  */
 __dmi_api const char *dmi_type_name(dmi_context_t *context, dmi_type_id_t type);
 
@@ -741,10 +741,10 @@ __dmi_api dmi_entity_t *dmi_entity_create(
  *         registered), `false` on failure. The reason is the last error in the
  *         error queue.
  *
- * @error DMI_ERROR_INVALID_ENTITY_LENGTH Structure is shorter than the minimum
+ * @error DMI_ERROR_ENTITY_LENGTH_INVALID Structure is shorter than the minimum
  *        length for its type.
  * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
- * @error DMI_ERROR_ENTITY_DECODE Structure data is malformed.
+ * @error DMI_ERROR_ENTITY_DECODE_FAILED Structure data is malformed.
  */
 __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
 
@@ -761,8 +761,8 @@ __dmi_api bool dmi_entity_decode(dmi_entity_t *entity);
  * @param[in,out] encoder Encoder of the structure, see
  *                         `dmi_encoder_initialize()`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Encoder is `nullptr`
- * @error DMI_ERROR_INVALID_STATE Structure cannot be encoded: its type has no
+ * @error DMI_ERROR_ARGUMENT_NULL Encoder is `nullptr`
+ * @error DMI_ERROR_STATE_INVALID Structure cannot be encoded: its type has no
  *        specification and the mode is the canonical one, or its
  *        specification decodes it by a handler with no encoding one
  * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
@@ -978,10 +978,11 @@ __dmi_api bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_pr
  *
  * @return `true` on success, `false` if the entry cannot be applied.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Source is not a decoded additional
+ * @error DMI_ERROR_ARGUMENT_NULL Source is `nullptr`.
+ * @error DMI_ERROR_ARGUMENT_INVALID Source is not a decoded additional
  *        information structure, or has no entry with such index.
- * @error DMI_ERROR_INVALID_STATE Structure is already decoded.
- * @error DMI_ERROR_INVALID_OVERLAY Entry refers to an additional information
+ * @error DMI_ERROR_STATE_INVALID Structure is already decoded.
+ * @error DMI_ERROR_OVERLAY_INVALID Entry refers to an additional information
  *        structure, to the structure header, or beyond the structure body.
  * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
  */

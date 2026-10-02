@@ -170,7 +170,7 @@ static void test_context_dump_save_after_close(void **pstate)
     // Never opened
     dmi_error_clear(context);
     assert_false(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_STATE_INVALID);
 
     // Opened and then closed
     assert_true(dmi_load(context, test_dump_path));
@@ -178,7 +178,7 @@ static void test_context_dump_save_after_close(void **pstate)
 
     dmi_error_clear(context);
     assert_false(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_STATE);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_STATE_INVALID);
 
     remove(test_save_path);
 }
@@ -208,7 +208,7 @@ static void test_context_dump_save_errors(void **pstate)
 
     dmi_error_clear(context);
     assert_false(dmi_save(context, test_save_path, 0));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN_FAILED);
 
     remove(test_save_path);
 
@@ -221,7 +221,7 @@ static void test_context_dump_save_errors(void **pstate)
 
     dmi_error_clear(context);
     assert_false(dmi_save(context, "/dev/full", DMI_SAVE_FLAG_OVERWRITE));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_WRITE);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_WRITE_FAILED);
 
     device = fopen("/dev/full", "r");
     if (device != nullptr)
@@ -247,7 +247,7 @@ static void test_context_dump_save_overwrite(void **pstate)
     // Existing file is left intact unless it is to be overwritten
     dmi_error_clear(context);
     assert_false(dmi_save(context, test_save_path, 0));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN_FAILED);
 
     struct stat st;
     assert_int_equal(stat(test_save_path, &st), 0);
@@ -272,7 +272,7 @@ static void test_context_dump_save_overwrite(void **pstate)
     dmi_error_clear(context);
     assert_true(dmi_load(context, test_dump_path));
     assert_false(dmi_save(context, "nonexistent-dir/dump.bin", DMI_SAVE_FLAG_OVERWRITE));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_FILE_OPEN_FAILED);
 }
 
 static void test_context_dump_save_relocated(void **pstate)
@@ -449,7 +449,7 @@ static void test_context_type_name(void **pstate)
     // Numbers out of range are no type at all, OEM or not
     dmi_error_clear(context);
     assert_string_equal(dmi_type_name(context, (dmi_type_id_t)300), "Unknown");
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_INVALID);
     assert_string_equal(dmi_type_name(context, DMI_TYPE_ID_INVALID), "Unknown");
 
     // Without a context, no specification is mapped

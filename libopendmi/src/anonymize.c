@@ -121,8 +121,8 @@ typedef struct dmi_anonymizer
  * @param[in] context Context to anonymize the table of.
  * @param[in] table   Buffer to write the anonymized table into.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Table is `nullptr`
- * @error DMI_ERROR_INVALID_STATE Context is not open, or its structures carry
+ * @error DMI_ERROR_ARGUMENT_NULL Table is `nullptr`
+ * @error DMI_ERROR_STATE_INVALID Context is not open, or its structures carry
  * additional information entries
  *
  * @return `true` if the table can be anonymized, `false` otherwise.
@@ -618,21 +618,15 @@ static bool dmi_anonymize_check(dmi_context_t *context, const dmi_buffer_t *tabl
     if (context == nullptr)
         return false;
 
-    if (table == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "table");
-        return false;
-    }
-    if (not dmi_context_is_open(context)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE, "Context is not open");
-        return false;
-    }
+    if (table == nullptr)
+        return dmi_trace_argument_null(context, table);
+    if (not dmi_context_is_open(context))
+        return dmi_trace_state_invalid(context, "Context is not open");
+
     // Structures carrying additional information are decoded from copies of
     // their own, which the table does not hold
-    if (context->flags & DMI_CONTEXT_FLAG_OVERLAY) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
-                           "Structures carry additional information entries");
-        return false;
-    }
+    if (context->flags & DMI_CONTEXT_FLAG_OVERLAY)
+        return dmi_trace_state_invalid(context, "Structures carry additional information entries");
 
     return true;
 }
@@ -700,7 +694,7 @@ static bool dmi_anonymize_key(dmi_anonymizer_t *anon)
     // Replacements of a guessable key could be reversed by trying the values
     // a serial number may take, so there is no weaker fallback
     if (not success)
-        dmi_error_raise_ex(anon->context, DMI_ERROR_INTERNAL, "Random key cannot be generated");
+        dmi_error_raise_ex(anon->context, DMI_ERROR_SYSTEM, "Random key cannot be generated");
 
     return success;
 }
@@ -963,8 +957,7 @@ static const dmi_anonymize_saved_t *dmi_anonymize_save(
 
     if (not dmi_vector_push(&anon->saved, (uintptr_t)saved)) {
         dmi_free(saved);
-        dmi_error_raise(anon->context, DMI_ERROR_OUT_OF_MEMORY);
-        return nullptr;
+        return dmi_trace_out_of_memory(anon->context, nullptr);
     }
 
     return saved;
@@ -1122,8 +1115,7 @@ static bool dmi_anonymize_add(
 
     if (not dmi_vector_push(&anon->values, (uintptr_t)value)) {
         dmi_free(value);
-        dmi_error_raise(anon->context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
+        return dmi_trace_out_of_memory(anon->context);
     }
 
     return true;

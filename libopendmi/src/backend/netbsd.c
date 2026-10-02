@@ -54,7 +54,7 @@ static bool dmi_netbsd_open(dmi_context_t *context, const char *path);
  * @param[in]  context Context descriptor, holding the open session.
  * @param[out] buffer  Buffer receiving the entry point.
  *
- * @error DMI_ERROR_EPS_NOT_FOUND Entry point cannot be found
+ * @error DMI_ERROR_ENTRY_NOT_FOUND Entry point cannot be found
  *
  * @return `true` on success, `false` otherwise.
  */
@@ -69,7 +69,7 @@ static bool dmi_netbsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer);
  *                     decoded entry point.
  * @param[out] buffer  Buffer receiving the structure table.
  *
- * @error DMI_ERROR_FILE_READ Table is too large, or its address is out of
+ * @error DMI_ERROR_FILE_READ_FAILED Table is too large, or its address is out of
  *                            range
  *
  * @return `true` on success, `false` otherwise.
@@ -155,7 +155,7 @@ static bool dmi_netbsd_read_entry(dmi_context_t *context, dmi_buffer_t *buffer)
 #   endif
 
     if (not found) {
-        dmi_error_raise(context, DMI_ERROR_EPS_NOT_FOUND);
+        dmi_error_raise(context, DMI_ERROR_ENTRY_NOT_FOUND);
         return false;
     }
 
@@ -177,14 +177,14 @@ static bool dmi_netbsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
     // Size comes from firmware, which is not trusted to have the library
     // read whatever it likes
     if (context->state.table_area_max_size > DMI_TABLE_MAX_SIZE) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_READ, "%s: table of %zu bytes exceeds the limit of %zu bytes",
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_READ_FAILED, "%s: table of %zu bytes exceeds the limit of %zu bytes",
                            session->device, context->state.table_area_max_size, (size_t)DMI_TABLE_MAX_SIZE);
         return false;
     }
 
     // Offset of the device is signed
     if (context->state.table_area_addr > INT64_MAX) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_READ, "%s: table address 0x%" PRIx64 " is out of range",
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_READ_FAILED, "%s: table address 0x%" PRIx64 " is out of range",
                            session->device, context->state.table_area_addr);
         return false;
     }

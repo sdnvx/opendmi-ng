@@ -65,14 +65,22 @@ Number of bytes to read; must be greater than zero.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
-Path is `nullptr`, or length is zero.
+`DMI_ERROR_ARGUMENT_NULL`::
+Path is `nullptr`.
 
-`DMI_ERROR_FILE_OPEN`::
+`DMI_ERROR_ARGUMENT_INVALID`::
+Length is zero, or the process runs as root and `path` is not a character
+device, so that root is not tricked into mapping a file it is given.
+
+`DMI_ERROR_FILE_OPEN_FAILED`::
 Device cannot be opened.
 
-`DMI_ERROR_FILE_MAP`::
-Region cannot be mapped, or lies beyond the range the system can address.
+`DMI_ERROR_FILE_STAT_FAILED`::
+Device cannot be examined.
+
+`DMI_ERROR_FILE_MAP_FAILED`::
+Region cannot be mapped, lies beyond the end of `path` if it is a regular
+file, or lies beyond the range the system can address.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Buffer cannot hold the data.

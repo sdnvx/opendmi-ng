@@ -350,7 +350,7 @@ bool dmi_print_all(
     bool has_error = (queue->first != queue_first) or (queue->count != queue_count);
 
     if ((error != 0) and (success or not has_error)) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s", strerror(error));
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE_FAILED, "%s", strerror(error));
         success = false;
     } else if (not success and not has_error) {
         dmi_error_raise_ex(context, DMI_ERROR_INTERNAL, "Unable to format output");

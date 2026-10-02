@@ -151,7 +151,7 @@ static bool dmi_pager_spawn(
  * @param[in] pid     Process identifier of the pager.
  * @param[in] fd      Write end of the pipe.
  *
- * @error DMI_ERROR_FILE_DUP Standard output cannot be redirected
+ * @error DMI_ERROR_FILE_DUP_FAILED Standard output cannot be redirected
  *
  * @return `true` on success, `false` otherwise.
  */
@@ -270,8 +270,7 @@ static bool dmi_pager_expand(dmi_context_t *context, const char *pager, wordexp_
     case WRDE_NOSPACE:
         // Words may be partially expanded, so they are to be freed
         wordfree(we);
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
+        return dmi_trace_out_of_memory(context);
 
     default:
         dmi_error_raise_ex(context, DMI_ERROR_SYSTEM, "Unable to expand $PAGER value: '%s'", pager);
@@ -292,10 +291,8 @@ static bool dmi_pager_actions_init(
         posix_spawn_file_actions_t *actions,
         const int                   fds[2])
 {
-    if (posix_spawn_file_actions_init(actions) != 0) {
-        dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
+    if (posix_spawn_file_actions_init(actions) != 0)
+        return dmi_trace_out_of_memory(context);
 
     int rv = posix_spawn_file_actions_adddup2(actions, fds[STDIN_FILENO], STDIN_FILENO);
     if (rv == 0)
@@ -367,7 +364,7 @@ static bool dmi_pager_spawn(
 static bool dmi_pager_attach(dmi_context_t *context, pid_t pid, int fd)
 {
     if (dup2(fd, STDOUT_FILENO) < 0) {
-        dmi_error_raise_ex(context, DMI_ERROR_FILE_DUP, "%s", strerror(errno));
+        dmi_error_raise_ex(context, DMI_ERROR_FILE_DUP_FAILED, "%s", strerror(errno));
         dmi_file_close(fd);
         kill(pid, SIGKILL);
         waitpid(pid, NULL, 0);

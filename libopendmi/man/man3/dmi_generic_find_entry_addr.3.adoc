@@ -96,7 +96,8 @@ Returns `true` if a valid entry point has been found, and `false` otherwise.
 `dmi_generic_find_entry_addr` raises the errors of `dmi_memory_load`(3) if
 the memory area cannot be read. Finding no entry point is not an error.
 
-`dmi_generic_find_anchor` raises no errors.
+`dmi_generic_find_anchor` raises `DMI_ERROR_ARGUMENT_NULL` if `buffer`,
+`anchor` or `paddr` is `nullptr`.
 
 == Notes
 

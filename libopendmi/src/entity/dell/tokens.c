@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <string.h>
-#include <stddef.h>
 #include <assert.h>
 
 #include <opendmi/decoder.h>
@@ -81,16 +80,20 @@ bool dmi_dell_tokens_decode(
             break;
 
         // Token is read aside, since the array has no room for a token the
-        // structure ends in the middle of
-        alignas(max_align_t) dmi_byte_t token[DMI_DELL_TOKEN_MAX_SIZE] = {};
+        // structure ends in the middle of. The union aligns the bytes for
+        // the token structures, which hold nothing wider than 64 bits.
+        union {
+            dmi_byte_t bytes[DMI_DELL_TOKEN_MAX_SIZE];
+            uint64_t   align;
+        } token = {};
 
-        if (not decode(decoder, id, token))
+        if (not decode(decoder, id, token.bytes))
             return dmi_decoder_incomplete(decoder);
 
         if (id == DMI_DELL_TOKEN_UNUSED)
             continue;
 
-        memcpy(tokens + count * token_size, token, token_size);
+        memcpy(tokens + count * token_size, token.bytes, token_size);
         *pcount = ++count;
     }
 

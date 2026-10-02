@@ -254,7 +254,7 @@ static void test_registry_get(void **pstate)
     // Type mismatch
     dmi_error_clear(context);
     assert_null(dmi_registry_lookup(registry, 0x0011, DMI_TYPE(memory_array), false));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ENTITY_TYPE);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ENTITY_TYPE_INVALID);
 }
 
 static void test_registry_get_reserved_handles(void **pstate)
@@ -293,7 +293,7 @@ static void test_registry_get_any(void **pstate)
     assert_null(dmi_error_peek_last(context));
 
     assert_null(dmi_registry_lookup_any(registry, 0x0040, types, false));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ENTITY_TYPE);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ENTITY_TYPE_INVALID);
 }
 
 static void test_registry_get_first(void **pstate)
@@ -314,7 +314,7 @@ static void test_registry_get_first(void **pstate)
 
     dmi_error_clear(context);
     assert_null(dmi_registry_lookup_first(registry, DMI_TYPE_ANY, false));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_NULL_ARGUMENT);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
 
     // Structures no specification describes are looked up by type number
     dmi_error_clear(context);
@@ -323,7 +323,7 @@ static void test_registry_get_first(void **pstate)
     assert_int_equal(dmi_entity_type_id(entity), DMI_TYPE_ID(MEMORY_DEVICE));
 
     assert_null(dmi_registry_lookup_first_id(registry, DMI_TYPE_ID_INVALID, false));
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ARGUMENT);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_INVALID);
 }
 
 static void test_registry_link_unset_handles(void **pstate)
@@ -464,9 +464,9 @@ static void test_registry_decode_all_strict(void **pstate)
     while ((error = dmi_error_get_first(context)) != nullptr) {
         const char *message = (error->message != nullptr) ? error->message : "";
 
-        if ((error->reason == DMI_ERROR_INVALID_ENTITY_LENGTH) and (strstr(message, "0x0011") != nullptr))
+        if ((error->reason == DMI_ERROR_ENTITY_LENGTH_INVALID) and (strstr(message, "0x0011") != nullptr))
             length_found = true;
-        if ((error->reason == DMI_ERROR_ENTITY_DECODE) and (strstr(message, "0x0040") != nullptr))
+        if ((error->reason == DMI_ERROR_ENTITY_DECODE_FAILED) and (strstr(message, "0x0040") != nullptr))
             data_found = true;
     }
 
@@ -515,7 +515,7 @@ static void test_registry_overlay(void **pstate)
 
     const dmi_error_t *error;
     while ((error = dmi_error_get_first(context)) != nullptr) {
-        if (error->reason == DMI_ERROR_INVALID_OVERLAY)
+        if (error->reason == DMI_ERROR_OVERLAY_INVALID)
             invalid++;
         if (error->reason == DMI_ERROR_ENTITY_NOT_FOUND)
             missing++;
@@ -602,7 +602,7 @@ static void test_registry_resolve(void **pstate)
     test_resolve(registry, 0x0000, DMI_TYPE(oem_strings), true, DMI_TYPE_ID(OEM_STRINGS), DMI_ERROR_NONE);
 
     // Broken references
-    test_resolve(registry, 0x0001, DMI_TYPE(cache), false, DMI_TYPE_ID_INVALID, DMI_ERROR_INVALID_ENTITY_TYPE);
+    test_resolve(registry, 0x0001, DMI_TYPE(cache), false, DMI_TYPE_ID_INVALID, DMI_ERROR_ENTITY_TYPE_INVALID);
     test_resolve(registry, 0x0999, DMI_TYPE(memory_array), false, DMI_TYPE_ID_INVALID, DMI_ERROR_ENTITY_NOT_FOUND);
 
     // Handle 0x0000 of unexpected type means unspecified value in relaxed mode
@@ -620,7 +620,7 @@ static void test_registry_resolve(void **pstate)
     dmi_error_clear(context);
     assert_false(dmi_registry_resolve_any(registry, 0x0001, invalid_types, &entity));
     assert_null(entity);
-    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_INVALID_ENTITY_TYPE);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ENTITY_TYPE_INVALID);
     assert_non_null(strstr(dmi_error_peek_last(context)->message, "unexpected"));
 
     // The only expected type is named in the error message
@@ -642,7 +642,7 @@ static void test_registry_resolve_strict(void **pstate)
     // Handle 0x0000 is not treated as unspecified value in strict mode
     dmi_registry_t *registry = dmi_get_registry(context);
     test_resolve(registry, 0x0000, DMI_TYPE(memory_array), false, DMI_TYPE_ID_INVALID,
-                 DMI_ERROR_INVALID_ENTITY_TYPE);
+                 DMI_ERROR_ENTITY_TYPE_INVALID);
 
     dmi_destroy(context);
 }

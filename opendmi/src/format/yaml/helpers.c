@@ -85,7 +85,7 @@ void dmi_yaml_raise(dmi_yaml_session_t *session)
 
     // Writer reports failures of the stream, which leave the reason in errno
     if (emitter->error == YAML_WRITER_ERROR)
-        dmi_error_raise_ex(session->context, DMI_ERROR_FILE_WRITE, "%s", strerror(errno));
+        dmi_error_raise_ex(session->context, DMI_ERROR_FILE_WRITE_FAILED, "%s", strerror(errno));
     else if (emitter->error == YAML_MEMORY_ERROR)
         dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
     else
@@ -119,10 +119,8 @@ bool dmi_yaml_scalar(
             style = YAML_LITERAL_SCALAR_STYLE;
 
             binary = dmi_base64_encode(dmi_data(value), strlen(value), &length);
-            if (binary == nullptr) {
-                dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
-                return false;
-            }
+            if (binary == nullptr)
+                return dmi_trace_out_of_memory(session->context);
 
             value = binary;
         } else {

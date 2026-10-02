@@ -119,7 +119,7 @@ __BEGIN_DECLS
  *                        writes the structure for, ignored in the preserve
  *                        mode.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Encoder, buffer or entity is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_NULL Encoder, buffer or entity is `nullptr`
  * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot be allocated
  *
  * @return `true` on success, `false` otherwise.
@@ -223,7 +223,7 @@ __dmi_api bool dmi_encoder_copy(dmi_encoder_t *encoder, size_t length);
  * @param[in]     value   String to refer to, or @c nullptr.
  *
  * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow
- * @error DMI_ERROR_INVALID_ARGUMENT Structure refers to more strings than a
+ * @error DMI_ERROR_ARGUMENT_INVALID Structure refers to more strings than a
  *        byte can number
  *
  * @return `true` on success, `false` otherwise.
@@ -267,7 +267,7 @@ __dmi_api size_t dmi_encoder_tell(const dmi_encoder_t *encoder);
  *
  * @param[in,out] encoder Encoder to complete.
  *
- * @error DMI_ERROR_INVALID_ARGUMENT Formatted area is longer than a byte can
+ * @error DMI_ERROR_ENTITY_LENGTH_INVALID Formatted area is longer than a byte can
  *        count
  *
  * @return `true` on success, `false` otherwise.

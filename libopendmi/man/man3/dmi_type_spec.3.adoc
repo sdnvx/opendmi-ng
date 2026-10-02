@@ -70,7 +70,7 @@ number is out of range.
 
 == Errors
 
-`DMI_ERROR_INVALID_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_INVALID`::
 Type number is out of the range of 0 through 255.
 
 A number no specification is mapped to is not an error.

@@ -147,7 +147,7 @@ static void test_dump_load_not_dump(void **pstate)
 
     dmi_error_clear(state->context);
     assert_false(dmi_load(state->context, test_dump_path));
-    assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
+    assert_true(test_dump_has_error(state->context, DMI_ERROR_DUMP_INVALID));
 }
 
 static void test_dump_load_too_small(void **pstate)
@@ -162,7 +162,7 @@ static void test_dump_load_too_small(void **pstate)
 
         dmi_error_clear(state->context);
         assert_false(dmi_load(state->context, test_dump_path));
-        assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
+        assert_true(test_dump_has_error(state->context, DMI_ERROR_DUMP_INVALID));
     }
 }
 
@@ -189,7 +189,7 @@ static void test_dump_load_too_large(void **pstate)
 
     dmi_error_clear(state->context);
     assert_false(dmi_load(state->context, test_dump_path));
-    assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
+    assert_true(test_dump_has_error(state->context, DMI_ERROR_DUMP_INVALID));
 }
 
 static void test_dump_load_not_regular(void **pstate)
@@ -199,7 +199,7 @@ static void test_dump_load_not_regular(void **pstate)
     // Directory is not read as a dump
     dmi_error_clear(state->context);
     assert_false(dmi_load(state->context, OPENDMI_TEST_DATA));
-    assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_DUMP));
+    assert_true(test_dump_has_error(state->context, DMI_ERROR_DUMP_INVALID));
 }
 
 static void test_dump_load_bad_checksum(void **pstate)
@@ -217,7 +217,7 @@ static void test_dump_load_bad_checksum(void **pstate)
 
     dmi_error_clear(state->context);
     assert_false(dmi_load(state->context, test_dump_path));
-    assert_true(test_dump_has_error(state->context, DMI_ERROR_INVALID_EPS_CHECKSUM));
+    assert_true(test_dump_has_error(state->context, DMI_ERROR_ENTRY_CHECKSUM_INVALID));
 }
 
 static void test_dump_load_entry_only(void **pstate)
@@ -332,7 +332,7 @@ static void test_dump_load_bad_length_strict(void **pstate)
     dmi_set_log_level(context, DMI_LOG_ERROR);
 
     bool loaded = dmi_load(context, test_dump_path);
-    bool found  = test_dump_has_error(context, DMI_ERROR_INVALID_ENTITY_LENGTH);
+    bool found  = test_dump_has_error(context, DMI_ERROR_ENTITY_LENGTH_INVALID);
 
     dmi_destroy(context);
 

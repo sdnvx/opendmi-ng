@@ -65,7 +65,7 @@ static void test_dell_bios_flags(void **pstate)
 
     const dmi_error_t *error = dmi_error_get_last(context);
     assert_non_null(error);
-    assert_int_equal(error->reason, DMI_ERROR_INVALID_ENTITY_LENGTH);
+    assert_int_equal(error->reason, DMI_ERROR_ENTITY_LENGTH_INVALID);
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);

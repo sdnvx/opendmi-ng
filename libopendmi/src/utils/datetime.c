@@ -16,7 +16,8 @@
 
 dmi_date_t dmi_date_parse(const char *str)
 {
-    assert(str != nullptr);
+    if (str == nullptr)
+        return dmi_trace_argument_null(nullptr, str, DMI_DATE_NONE);
 
     unsigned i = 0;
     char *ep;

@@ -73,7 +73,7 @@ None.
 [source, c]
 ```
 if (fd < 0) {
-    dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN,
+    dmi_error_raise_ex(context, DMI_ERROR_FILE_OPEN_FAILED,
                        "cannot open '%s': %s", path, strerror(errno));
     return false;
 }

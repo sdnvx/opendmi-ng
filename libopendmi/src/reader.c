@@ -31,8 +31,10 @@ bool dmi_reader_initialize(
         size_t              offset,
         size_t              length)
 {
-    if ((reader == nullptr) or (buffer == nullptr))
-        return false;
+    if (reader == nullptr)
+        return dmi_trace_argument_null(nullptr, reader);
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(nullptr, buffer);
 
     // Range is the reader's own view of the data, and what it reads past is
     // of no concern to it, so it is required to be there in the first place
@@ -51,7 +53,8 @@ bool dmi_reader_initialize(
 bool dmi_reader_seek(dmi_reader_t *reader, size_t position)
 {
     if (reader == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, reader);
+
     // End of the range is a position too, which the cursor stands at once
     // everything has been read
     if (position > reader->length)
@@ -65,7 +68,7 @@ bool dmi_reader_seek(dmi_reader_t *reader, size_t position)
 dmi_reader_mark_t dmi_reader_mark(const dmi_reader_t *reader)
 {
     if (reader == nullptr)
-        return (dmi_reader_mark_t){};
+        return dmi_trace_argument_null(nullptr, reader, (dmi_reader_mark_t){});
 
     return (dmi_reader_mark_t){
         .buffer   = reader->buffer,
@@ -77,7 +80,7 @@ dmi_reader_mark_t dmi_reader_mark(const dmi_reader_t *reader)
 bool dmi_reader_rewind(dmi_reader_t *reader, dmi_reader_mark_t mark)
 {
     if (reader == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, reader);
 
     return dmi_reader_skip_ex(reader, mark, 0);
 }
@@ -85,7 +88,7 @@ bool dmi_reader_rewind(dmi_reader_t *reader, dmi_reader_mark_t mark)
 bool dmi_reader_get_bytes(dmi_reader_t *reader, void *ptr, size_t length)
 {
     if (reader == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, reader);
 
     if (not dmi_reader_get_bytes_at(reader, ptr, reader->position, length))
         return false;
@@ -97,8 +100,10 @@ bool dmi_reader_get_bytes(dmi_reader_t *reader, void *ptr, size_t length)
 
 bool dmi_reader_get_bytes_at(const dmi_reader_t *reader, void *ptr, size_t offset, size_t length)
 {
-    if ((reader == nullptr) or (ptr == nullptr))
-        return false;
+    if (reader == nullptr)
+        return dmi_trace_argument_null(nullptr, reader);
+    if (ptr == nullptr)
+        return dmi_trace_argument_null(nullptr, ptr);
 
     // Written so that the sum of the offset and the length cannot overflow
     if ((length > reader->length) or (offset > (reader->length - length)))
@@ -110,7 +115,7 @@ bool dmi_reader_get_bytes_at(const dmi_reader_t *reader, void *ptr, size_t offse
 bool dmi_reader_skip(dmi_reader_t *reader, size_t length)
 {
     if (reader == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, reader);
 
     return dmi_reader_advance(reader, reader->position, length);
 }
@@ -118,7 +123,7 @@ bool dmi_reader_skip(dmi_reader_t *reader, size_t length)
 bool dmi_reader_skip_ex(dmi_reader_t *reader, dmi_reader_mark_t from, size_t length)
 {
     if (reader == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, reader);
 
     if ((from.buffer != reader->buffer) or (from.base != reader->base))
         return false;
@@ -128,8 +133,10 @@ bool dmi_reader_skip_ex(dmi_reader_t *reader, dmi_reader_mark_t from, size_t len
 
 bool dmi_reader_ref_bytes(dmi_reader_t *reader, size_t length, const dmi_data_t **ptr)
 {
-    if ((reader == nullptr) or (ptr == nullptr))
-        return false;
+    if (reader == nullptr)
+        return dmi_trace_argument_null(nullptr, reader);
+    if (ptr == nullptr)
+        return dmi_trace_argument_null(nullptr, ptr);
 
     size_t position = reader->position;
 
@@ -148,7 +155,7 @@ bool dmi_reader_ref_bytes(dmi_reader_t *reader, size_t length, const dmi_data_t 
 size_t dmi_reader_tell(const dmi_reader_t *reader)
 {
     if (reader == nullptr)
-        return 0;
+        return dmi_trace_argument_null(nullptr, reader, 0);
 
     return reader->position;
 }
@@ -156,7 +163,7 @@ size_t dmi_reader_tell(const dmi_reader_t *reader)
 size_t dmi_reader_remaining(const dmi_reader_t *reader)
 {
     if (reader == nullptr)
-        return 0;
+        return dmi_trace_argument_null(nullptr, reader, 0);
 
     return reader->length - reader->position;
 }
@@ -172,15 +179,17 @@ bool dmi_reader_is_done(const dmi_reader_t *reader)
 bool dmi_reader_has(const dmi_reader_t *reader, size_t length)
 {
     if (reader == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, reader);
 
     return dmi_reader_remaining(reader) >= length;
 }
 
 void dmi_reader_reset(dmi_reader_t *reader)
 {
-    if (reader == nullptr)
+    if (reader == nullptr) {
+        (void)dmi_trace_argument_null(nullptr, reader);
         return;
+    }
 
     reader->position = 0;
 }

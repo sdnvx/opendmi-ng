@@ -108,10 +108,10 @@ structures the data ends within, and `false` if it cannot be.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Decoder is `nullptr`.
 
-`DMI_ERROR_INVALID_STATE`::
+`DMI_ERROR_STATE_INVALID`::
 Specification declares no fields.
 
 `DMI_ERROR_INTERNAL`::

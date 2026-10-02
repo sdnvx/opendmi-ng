@@ -249,7 +249,7 @@ static void test_file_get_errors(void **pstate)
     // Missing file
     dmi_error_clear(state->context);
     assert_false(dmi_file_load(buffer, "file-test-missing.bin", -1, 0));
-    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_FILE_OPEN);
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_FILE_OPEN_FAILED);
 
     // Failure leaves the buffer holding nothing
     assert_true(dmi_buffer_is_empty(buffer));
@@ -257,7 +257,7 @@ static void test_file_get_errors(void **pstate)
     // Invalid arguments
     dmi_error_clear(state->context);
     assert_false(dmi_file_load(buffer, nullptr, -1, 0));
-    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_NULL_ARGUMENT);
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
 
     assert_false(dmi_file_load(nullptr, test_path, -1, 0));
 

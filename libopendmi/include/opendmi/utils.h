@@ -107,10 +107,10 @@ __dmi_api uint64_t dmi_ipow64(uint64_t value, unsigned int factor);
  * @param length  Maximum number of bytes to read, or zero to read the whole
  *                file.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Path is `nullptr`
- * @error DMI_ERROR_FILE_OPEN File cannot be opened
- * @error DMI_ERROR_FILE_STAT Length of the file cannot be told
- * @error DMI_ERROR_FILE_READ File cannot be read
+ * @error DMI_ERROR_ARGUMENT_NULL Path is `nullptr`
+ * @error DMI_ERROR_FILE_OPEN_FAILED File cannot be opened
+ * @error DMI_ERROR_FILE_STAT_FAILED Length of the file cannot be told
+ * @error DMI_ERROR_FILE_READ_FAILED File cannot be read
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer cannot hold the data
  * @error DMI_ERROR_SERVICE_UNAVAILABLE Files are not accessible, as in the Linux kernel
  *
@@ -141,9 +141,13 @@ __dmi_api bool dmi_file_load(
  * @param base   Physical byte offset to start reading from.
  * @param length Number of bytes to read; must be greater than zero.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Path is `nullptr`, or length is zero
- * @error DMI_ERROR_FILE_OPEN Device cannot be opened
- * @error DMI_ERROR_FILE_MAP Region cannot be mapped, or lies beyond the range the system can address
+ * @error DMI_ERROR_ARGUMENT_NULL Path is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Length is zero, or the process runs as root and the path is not
+ *        a character device
+ * @error DMI_ERROR_FILE_OPEN_FAILED Device cannot be opened
+ * @error DMI_ERROR_FILE_STAT_FAILED Device cannot be examined
+ * @error DMI_ERROR_FILE_MAP_FAILED Region cannot be mapped, lies beyond the end of a regular file, or
+ *        lies beyond the range the system can address
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer cannot hold the data
  *
  * @return `true` on success, `false` otherwise.

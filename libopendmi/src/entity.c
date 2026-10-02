@@ -155,12 +155,10 @@ dmi_entity_t *dmi_entity_create(
     dmi_entity_t *entity = nullptr;
 
     if (context == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, context, nullptr);
 
-    if (buffer == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "buffer");
-        return nullptr;
-    }
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(context, buffer, nullptr);
 
     // Structure is read to the end of the data, which is where the table ends
     size_t max_length = (offset < buffer->length) ? buffer->length - offset : 0;
@@ -188,7 +186,7 @@ dmi_entity_t *dmi_entity_create(
         type   = DMI_TYPE_ID(END_OF_TABLE);
         length = sizeof(dmi_header_t);
     } else if (length < sizeof(dmi_header_t)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_LENGTH,
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_LENGTH_INVALID,
                            "0x%04hx (%s): %zu bytes",
                            handle, dmi_type_name(context, type), length);
         return nullptr;
@@ -241,7 +239,7 @@ dmi_entity_t *dmi_entity_create(
 bool dmi_entity_decode(dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, entity);
     if (dmi_entity_is_decoded(entity))
         return true;
 
@@ -255,7 +253,7 @@ bool dmi_entity_decode(dmi_entity_t *entity)
 
     // Check minimum length constraint
     if ((spec->params.minimum_length != 0) and (entity->body_length < spec->params.minimum_length)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ENTITY_LENGTH,
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_LENGTH_INVALID,
                            "0x%04x (%s): %zu bytes, at least %zu expected",
                            entity->handle, spec->name, entity->body_length, spec->params.minimum_length);
         return false;
@@ -310,7 +308,7 @@ bool dmi_entity_decode(dmi_entity_t *entity)
         // Out of memory is left as the last error, since it is not caused by
         // structure data
         if ((error == nullptr) or (error->reason != DMI_ERROR_OUT_OF_MEMORY)) {
-            dmi_error_raise_ex(context, DMI_ERROR_ENTITY_DECODE,
+            dmi_error_raise_ex(context, DMI_ERROR_ENTITY_DECODE_FAILED,
                                "0x%04x (%s)", entity->handle, entity->spec->name);
         }
 
@@ -326,10 +324,8 @@ bool dmi_entity_decode(dmi_entity_t *entity)
 
 bool dmi_entity_encode(dmi_encoder_t *encoder)
 {
-    if (encoder == nullptr) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "encoder");
-        return false;
-    }
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
 
     const dmi_entity_t      *entity = dmi_encoder_entity(encoder);
     const dmi_entity_spec_t *spec   = entity->spec;
@@ -342,12 +338,12 @@ bool dmi_entity_encode(dmi_encoder_t *encoder)
         if (not spec->handlers.encode(encoder))
             return false;
     } else if ((spec != nullptr) and (spec->handlers.decode != nullptr)) {
-        dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
+        dmi_error_raise_ex(entity->context, DMI_ERROR_STATE_INVALID,
                            "0x%04x (%s): structure has no encoding handler",
                            entity->handle, spec->code);
         return false;
     } else if ((spec == nullptr) and (encoder->mode == DMI_ENCODE_MODE_CANONICAL)) {
-        dmi_error_raise_ex(entity->context, DMI_ERROR_INVALID_STATE,
+        dmi_error_raise_ex(entity->context, DMI_ERROR_STATE_INVALID,
                            "0x%04x: type %d has no specification to write it by",
                            entity->handle, (int)entity->type_id);
         return false;
@@ -365,7 +361,7 @@ bool dmi_entity_encode(dmi_encoder_t *encoder)
 bool dmi_entity_link(dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, entity);
 
     if (not dmi_entity_is_linkable(entity))
         return false;
@@ -384,7 +380,7 @@ bool dmi_entity_link(dmi_entity_t *entity)
 
     if (not success) {
         dmi_context_t *context = entity->context;
-        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_LINK,
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_LINK_FAILED,
                            "0x%04x (%s)", entity->handle, entity->spec->name);
         return false;
     }
@@ -397,7 +393,7 @@ bool dmi_entity_link(dmi_entity_t *entity)
 dmi_context_t *dmi_entity_context(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, entity, nullptr);
 
     return entity->context;
 }
@@ -405,7 +401,7 @@ dmi_context_t *dmi_entity_context(const dmi_entity_t *entity)
 const dmi_buffer_t *dmi_entity_buffer(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, entity, nullptr);
 
     // Data read is the copy with additional information applied whenever
     // there is one, and the data of the structure itself otherwise
@@ -415,7 +411,7 @@ const dmi_buffer_t *dmi_entity_buffer(const dmi_entity_t *entity)
 size_t dmi_entity_offset(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return 0;
+        return dmi_trace_argument_null(nullptr, entity, 0);
 
     return (entity->overlay != nullptr) ? 0 : entity->offset;
 }
@@ -423,7 +419,7 @@ size_t dmi_entity_offset(const dmi_entity_t *entity)
 dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return DMI_HANDLE_INVALID;
+        return dmi_trace_argument_null(nullptr, entity, DMI_HANDLE_INVALID);
 
     return entity->handle;
 }
@@ -431,7 +427,7 @@ dmi_handle_t dmi_entity_handle(const dmi_entity_t *entity)
 const dmi_type_t *dmi_entity_type(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, entity, nullptr);
 
     return dmi_entity_spec_type(entity);
 }
@@ -439,7 +435,7 @@ const dmi_type_t *dmi_entity_type(const dmi_entity_t *entity)
 dmi_type_id_t dmi_entity_type_id(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return DMI_TYPE_ID_INVALID;
+        return dmi_trace_argument_null(nullptr, entity, DMI_TYPE_ID_INVALID);
 
     return entity->type_id;
 }
@@ -447,7 +443,7 @@ dmi_type_id_t dmi_entity_type_id(const dmi_entity_t *entity)
 const char *dmi_entity_name(const dmi_entity_t *entity)
 {
     if (entity == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, entity, nullptr);
 
     // Specifications of a type may be told apart by the content of the
     // structure, which the type alone does not tell
@@ -466,10 +462,10 @@ const char *dmi_entity_name(const dmi_entity_t *entity)
 const void *dmi_entity_data(const dmi_entity_t *entity, const dmi_type_t *type)
 {
     if (entity == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, entity, nullptr);
 
     if ((type != DMI_TYPE_ANY) and (dmi_entity_spec_type(entity) != type)) {
-        dmi_error_raise(entity->context, DMI_ERROR_INVALID_ENTITY_TYPE);
+        dmi_error_raise(entity->context, DMI_ERROR_ENTITY_TYPE_INVALID);
         return nullptr;
     }
 
@@ -479,10 +475,10 @@ const void *dmi_entity_data(const dmi_entity_t *entity, const dmi_type_t *type)
 void *dmi_entity_info(const dmi_entity_t *entity, const dmi_type_t *type)
 {
     if (entity == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, entity, nullptr);
 
     if ((type != DMI_TYPE_ANY) and (dmi_entity_spec_type(entity) != type)) {
-        dmi_error_raise(entity->context, DMI_ERROR_INVALID_ENTITY_TYPE);
+        dmi_error_raise(entity->context, DMI_ERROR_ENTITY_TYPE_INVALID);
         return nullptr;
     }
 
@@ -517,7 +513,7 @@ const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t num, bool ra
 const char *dmi_entity_property(const dmi_entity_t *entity, dmi_property_t property)
 {
     if (entity == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, entity, nullptr);
 
     for (size_t i = 0; i < entity->properties.length; i++) {
         uintptr_t value;
@@ -537,17 +533,12 @@ const char *dmi_entity_property(const dmi_entity_t *entity, dmi_property_t prope
 bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_property_t *property)
 {
     if (entity == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, entity);
+    if (property == nullptr)
+        return dmi_trace_argument_null(entity->context, property);
 
-    if (property == nullptr) {
-        dmi_error_raise_ex(entity->context, DMI_ERROR_NULL_ARGUMENT, "property");
-        return false;
-    }
-
-    if (not dmi_vector_push(&entity->properties, (uintptr_t)property)) {
-        dmi_error_raise(entity->context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
+    if (not dmi_vector_push(&entity->properties, (uintptr_t)property))
+        return dmi_trace_out_of_memory(entity->context);
 
     return true;
 }
@@ -555,24 +546,22 @@ bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_property_t *
 bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, size_t index)
 {
     if (entity == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, entity);
 
     dmi_context_t *context = entity->context;
 
-    const dmi_additional_info_t *info = nullptr;
-    if (source != nullptr)
-        info = dmi_entity_info(source, DMI_TYPE(additional_info));
+    if (source == nullptr)
+        return dmi_trace_argument_null(context, source);
 
-    if ((info == nullptr) or (index >= info->entry_count)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_ARGUMENT, "source");
-        return false;
-    }
+    const dmi_additional_info_t *info = dmi_entity_info(source, DMI_TYPE(additional_info));
+    if ((info == nullptr) or (index >= info->entry_count))
+        return dmi_trace_argument_invalid(context, source);
 
     const dmi_additional_info_entry_t *entry = &info->entries[index];
 
     // Values are applied on decoding
     if (dmi_entity_is_decoded(entity)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_STATE,
+        dmi_error_raise_ex(context, DMI_ERROR_STATE_INVALID,
                            "Additional information 0x%04x[%zu]: structure 0x%04x is already decoded",
                            source->handle, index, entity->handle);
         return false;
@@ -580,7 +569,7 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
 
     // Additional information itself is decoded before other structures
     if (entity->type_id == DMI_TYPE_ID(ADDITIONAL_INFO)) {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_OVERLAY,
+        dmi_error_raise_ex(context, DMI_ERROR_OVERLAY_INVALID,
                            "Additional information 0x%04x[%zu]: refers to additional information 0x%04x",
                            source->handle, index, entity->handle);
         return false;
@@ -590,7 +579,7 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
     if ((entry->ref_offset < sizeof(dmi_header_t)) or
         (entry->ref_offset + entry->value.length > entity->body_length))
     {
-        dmi_error_raise_ex(context, DMI_ERROR_INVALID_OVERLAY,
+        dmi_error_raise_ex(context, DMI_ERROR_OVERLAY_INVALID,
                            "Additional information 0x%04x[%zu]: %zu bytes at offset 0x%02x "
                            "of structure 0x%04x, which is %zu bytes long",
                            source->handle, index, entry->value.length, entry->ref_offset,

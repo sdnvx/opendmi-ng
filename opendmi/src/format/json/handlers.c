@@ -153,10 +153,8 @@ bool dmi_json_entry(dmi_json_session_t *session)
     assert(session != nullptr);
 
     smbios_version = dmi_version_format(session->context->state.smbios_version);
-    if (smbios_version == nullptr) {
-        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
+    if (smbios_version == nullptr)
+        return dmi_trace_out_of_memory(session->context);
 
     result =
         dmi_json_label(session, "entry") and
@@ -194,10 +192,8 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
 
     if (entity->level != DMI_VERSION_NONE) {
         entity_level = dmi_version_format(entity->level);
-        if (entity_level == nullptr) {
-            dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
-            return false;
-        }
+        if (entity_level == nullptr)
+            return dmi_trace_out_of_memory(session->context);
     }
 
     entity_description = dmi_entity_name(entity);
@@ -370,10 +366,8 @@ bool dmi_json_entity_data(dmi_json_session_t *session, const dmi_entity_t *entit
     char *data;
 
     data = dmi_base64_encode(dmi_entity_data(entity, DMI_TYPE_ANY), entity->body_length, nullptr);
-    if (data == nullptr) {
-        dmi_error_raise(session->context, DMI_ERROR_OUT_OF_MEMORY);
-        return false;
-    }
+    if (data == nullptr)
+        return dmi_trace_out_of_memory(session->context);
 
     result =
         dmi_json_label(session, "data") and
@@ -445,7 +439,7 @@ bool dmi_json_dump_end(dmi_json_session_t *session)
     }
 
     if ((fwrite(buffer, 1, length, session->stream) < length) or (fflush(session->stream) != 0)) {
-        dmi_error_raise_ex(session->context, DMI_ERROR_FILE_WRITE, "%s", strerror(errno));
+        dmi_error_raise_ex(session->context, DMI_ERROR_FILE_WRITE_FAILED, "%s", strerror(errno));
         return false;
     }
 

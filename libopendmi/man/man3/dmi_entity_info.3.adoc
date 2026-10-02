@@ -65,7 +65,7 @@ not match `type`.
 
 == Errors
 
-`DMI_ERROR_INVALID_ENTITY_TYPE`::
+`DMI_ERROR_ENTITY_TYPE_INVALID`::
 Structure is not of type `type`.
 
 == Examples

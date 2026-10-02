@@ -45,12 +45,12 @@ __BEGIN_DECLS
  * @param[in]  context Open DMI context, whose structures are decoded.
  * @param[out] table   Buffer to write the anonymized table into.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Table is `nullptr`
- * @error DMI_ERROR_INVALID_STATE Context is not open, or its structures carry
+ * @error DMI_ERROR_ARGUMENT_NULL Table is `nullptr`
+ * @error DMI_ERROR_STATE_INVALID Context is not open, or its structures carry
  *        additional information entries applied to them
  * @error DMI_ERROR_OUT_OF_MEMORY Memory cannot be allocated
- * @error DMI_ERROR_INTERNAL Random key cannot be generated, or a structure
- *        is not encoded back into its own length
+ * @error DMI_ERROR_SYSTEM Random key cannot be generated
+ * @error DMI_ERROR_INTERNAL Structure is not encoded back into its own length
  *
  * @return `true` on success, `false` otherwise.
  */
@@ -72,11 +72,11 @@ __dmi_api bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table);
  *
  * @param[in] context Open DMI context, whose structures are decoded.
  *
- * @error DMI_ERROR_INVALID_STATE Context is not open, or its structures carry
+ * @error DMI_ERROR_STATE_INVALID Context is not open, or its structures carry
  *        additional information entries applied to them
  * @error DMI_ERROR_OUT_OF_MEMORY Memory cannot be allocated
- * @error DMI_ERROR_INTERNAL Random key cannot be generated, or a structure
- *        is not encoded back into its own length
+ * @error DMI_ERROR_SYSTEM Random key cannot be generated
+ * @error DMI_ERROR_INTERNAL Structure is not encoded back into its own length
  *
  * @return `true` on success, `false` otherwise.
  */

@@ -60,7 +60,7 @@ dmi_log_level_t dmi_log_level_find(const char *code)
     dmi_log_level_t level;
 
     if (code == nullptr)
-        return DMI_LOG_INVALID;
+        return dmi_trace_argument_null(nullptr, code, DMI_LOG_INVALID);
 
     level = dmi_code_lookup_rev(&dmi_log_level_names, code);
     if (level < 0)

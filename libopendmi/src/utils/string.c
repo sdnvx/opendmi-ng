@@ -21,8 +21,10 @@ int dmi_asprintf(char **strp, const char *format, ...)
     int rv;
     va_list args;
 
-    assert(strp != nullptr);
-    assert(format != nullptr);
+    if (strp == nullptr)
+        return dmi_trace_argument_null(nullptr, strp, -1);
+    if (format == nullptr)
+        return dmi_trace_argument_null(nullptr, format, -1);
 
     va_start(args, format);
     rv = dmi_vasprintf(strp, format, args);
@@ -34,6 +36,13 @@ int dmi_asprintf(char **strp, const char *format, ...)
 int dmi_vasprintf(char **strp, const char *format, va_list args)
 {
     int rv;
+
+    if (strp == nullptr)
+        return dmi_trace_argument_null(nullptr, strp, -1);
+    if (format == nullptr) {
+        *strp = nullptr;
+        return dmi_trace_argument_null(nullptr, format, -1);
+    }
 
 #if defined(_WIN32)
     // _vscprintf tells you how big the buffer needs to be
@@ -75,7 +84,10 @@ int dmi_vasprintf(char **strp, const char *format, va_list args)
 
 void dmi_string_tolower(char *str)
 {
-    assert(str != nullptr);
+    if (str == nullptr) {
+        (void)dmi_trace_argument_null(nullptr, str);
+        return;
+    }
 
     while (*str != 0) {
         *str = (char)tolower((unsigned char)*str);
@@ -85,7 +97,10 @@ void dmi_string_tolower(char *str)
 
 void dmi_string_toupper(char *str)
 {
-    assert(str != nullptr);
+    if (str == nullptr) {
+        (void)dmi_trace_argument_null(nullptr, str);
+        return;
+    }
 
     while (*str != 0) {
         *str = (char)toupper((unsigned char)*str);
@@ -95,16 +110,15 @@ void dmi_string_toupper(char *str)
 
 bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value)
 {
-    assert(pstring != nullptr);
+    if (pstring == nullptr)
+        return dmi_trace_argument_null(context, pstring);
 
     char *copy = nullptr;
 
     if (value != nullptr) {
         copy = strdup(value);
-        if (copy == nullptr) {
-            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-            return false;
-        }
+        if (copy == nullptr)
+            return dmi_trace_out_of_memory(context);
     }
 
     dmi_free(*pstring);
@@ -160,7 +174,7 @@ static const char *const dmi_string_placeholders[] =
 bool dmi_string_is_placeholder(const char *text)
 {
     if (text == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, text);
 
     for (const char *const *item = dmi_string_placeholders; *item != nullptr; item++) {
         if (strcasecmp(text, *item) == 0)
@@ -175,7 +189,7 @@ const char *dmi_text_from_bytes(const uint8_t *data, size_t length, char *buffer
     size_t count = 0;
 
     if (data == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, data, nullptr);
 
     for (size_t i = 0; i < length; i++) {
         unsigned char c = data[i];

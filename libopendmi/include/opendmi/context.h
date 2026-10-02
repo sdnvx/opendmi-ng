@@ -327,7 +327,7 @@ __dmi_api unsigned dmi_get_flags(const dmi_context_t *context);
  *
  * @return The function returns `true` on success and `false` otherwise.
  *
- * @error DMI_ERROR_NULL_ARGUMENT The module is `nullptr`.
+ * @error DMI_ERROR_ARGUMENT_NULL The module is `nullptr`.
  * @error DMI_ERROR_MODULE_CONFLICT The module is already enabled, or its
  *        types are mapped to specifications of other modules.
  */
@@ -426,14 +426,14 @@ __dmi_api bool dmi_load(dmi_context_t *context, const char *path);
  * @param[in] path    Path to dump file.
  * @param[in] flags   Flags of `dmi_save_flags_t`.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Path is `nullptr`
- * @error DMI_ERROR_INVALID_STATE Context is not open, or its structures carry
+ * @error DMI_ERROR_ARGUMENT_NULL Path is `nullptr`
+ * @error DMI_ERROR_STATE_INVALID Context is not open, or its structures carry
  *        additional information entries applied to them and the table is to
  *        be anonymized
- * @error DMI_ERROR_INVALID_EPS_LENGTH Entry point is longer than a dump holds
- * @error DMI_ERROR_FILE_OPEN File or its temporary file cannot be created, or
+ * @error DMI_ERROR_ENTRY_LENGTH_INVALID Entry point is longer than a dump holds
+ * @error DMI_ERROR_FILE_OPEN_FAILED File or its temporary file cannot be created, or
  *        the file exists and is not to be overwritten
- * @error DMI_ERROR_FILE_WRITE File cannot be written, or the temporary file
+ * @error DMI_ERROR_FILE_WRITE_FAILED File cannot be written, or the temporary file
  *        cannot be renamed over it
  * @error DMI_ERROR_OUT_OF_MEMORY Memory cannot be allocated
  * @error DMI_ERROR_INTERNAL Table cannot be anonymized

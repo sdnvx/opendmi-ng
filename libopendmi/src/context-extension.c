@@ -56,12 +56,10 @@ static dmi_vendor_t dmi_platform_vendor(const char *name);
 bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
-    if (module == nullptr) {
-        dmi_error_raise_ex(context, DMI_ERROR_NULL_ARGUMENT, "module");
-        return false;
-    }
+    if (module == nullptr)
+        return dmi_trace_argument_null(context, module);
 
     dmi_log_info(context, "Enabling extension: %s", module->name);
 
@@ -98,8 +96,10 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
 
 bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module)
 {
-    if ((context == nullptr) or (module == nullptr))
-        return false;
+    if (context == nullptr)
+        return dmi_trace_argument_null(nullptr, context);
+    if (module == nullptr)
+        return dmi_trace_argument_null(nullptr, module);
 
     for (size_t i = 0; i < context->modules.length; i++) {
         if (context->modules.data[i] == (uintptr_t)module)
@@ -117,7 +117,7 @@ bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module)
 const dmi_platform_t *dmi_get_platform(const dmi_context_t *context)
 {
     if (context == nullptr)
-        return nullptr;
+        return dmi_trace_argument_null(nullptr, context, nullptr);
 
     return dmi_context_platform(context);
 }
@@ -125,15 +125,13 @@ const dmi_platform_t *dmi_get_platform(const dmi_context_t *context)
 bool dmi_set_platform(dmi_context_t *context, const dmi_platform_t *platform)
 {
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
 
     dmi_platform_t *copy = nullptr;
     if (platform != nullptr) {
         copy = dmi_platform_clone(platform);
-        if (copy == nullptr) {
-            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
-            return false;
-        }
+        if (copy == nullptr)
+            return dmi_trace_out_of_memory(context);
     }
 
     // Types are mapped for the new platform, and the previous one is restored
@@ -195,11 +193,11 @@ bool dmi_setup_vendor(dmi_context_t *context)
     entity = dmi_registry_lookup_first(context->state.registry, DMI_TYPE(firmware), true);
     if (entity == nullptr) {
         if ((context->flags & DMI_CONTEXT_FLAG_STRICT) == 0) {
-            dmi_log_notice(context, dmi_error_message(DMI_ERROR_MISSING_FIRMWARE_INFO));
+            dmi_log_notice(context, dmi_error_message(DMI_ERROR_FIRMWARE_INFO_NOT_FOUND));
             return true;
         }
 
-        dmi_error_raise(context, DMI_ERROR_MISSING_FIRMWARE_INFO);
+        dmi_error_raise(context, DMI_ERROR_FIRMWARE_INFO_NOT_FOUND);
         return false;
     }
 

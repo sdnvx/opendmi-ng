@@ -1,0 +1,149 @@
+ifdef::backend-manpage[]
+= dmi_trace_argument_null(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_trace_argument_null
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_trace_argument_null, dmi_trace_argument_invalid, dmi_trace_state_invalid, dmi_trace_out_of_memory - raise a standard error and return the value of the failure.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/trace.h>
+
+#define dmi_trace_argument_null(context, arg, ...)
+#define dmi_trace_argument_invalid(context, arg, ...)
+#define dmi_trace_state_invalid(context, message, ...)
+#define dmi_trace_out_of_memory(context, ...)
+----
+
+== Description
+
+The macros report the standard errors, of the arguments of a function and of
+the state it works on, the way the functions of the library report them, and are meant for the code which
+extends the library, e.g. the handlers of a module built out of its tree.
+
+The `dmi_trace_argument_null` macro raises `DMI_ERROR_ARGUMENT_NULL`, and the
+`dmi_trace_argument_invalid` macro raises `DMI_ERROR_ARGUMENT_INVALID`, on
+`context`, see `dmi_error_raise`(3). The message of the error is the
+expression of `arg`, e.g. `path`, so that the argument is named the way the
+code names it.
+
+The `dmi_trace_state_invalid` macro raises `DMI_ERROR_STATE_INVALID` on
+`context` with `message`, which tells what keeps the function from working,
+e.g. `Context is not open`. The message is taken as it is, rather than as a
+format string; an error which needs the details formatted is raised with
+`dmi_error_raise_ex`(3).
+
+The `dmi_trace_out_of_memory` macro raises `DMI_ERROR_OUT_OF_MEMORY` on
+`context`, once an allocation has failed. The allocation functions of the
+library raise it themselves, so the macro is for the allocations made
+otherwise, e.g. a vector which cannot grow.
+
+Each macro is an expression, which evaluates to the value given last, after
+`arg`, `message` or `context`, or to `false` if none is given, so that the
+check reads as a condition and the failure it leads to:
+
+[source, c]
+----
+bool foo_load(dmi_context_t *context, const char *path, size_t length)
+{
+    if (path == nullptr)
+        return dmi_trace_argument_null(context, path);
+    if (length == 0)
+        return dmi_trace_argument_invalid(context, length);
+    if (!dmi_context_is_open(context))
+        return dmi_trace_state_invalid(context, "Context is not open");
+    ...
+}
+
+const foo_t *foo_find(dmi_context_t *context, const char *code)
+{
+    if (code == nullptr)
+        return dmi_trace_argument_null(context, code, nullptr);
+    ...
+}
+----
+
+A function returning nothing casts the value of the macro to `void`, and
+returns on its own:
+
+[source, c]
+----
+if (reader == nullptr) {
+    (void)dmi_trace_argument_null(nullptr, reader);
+    return;
+}
+----
+
+The value is evaluated after the error is raised, and is returned whether or
+not the error has been recorded, e.g. if `context` is `nullptr`.
+
+The expression of `arg` is checked by the compiler, but is not evaluated, so
+that a name which does not exist any longer is not reported.
+
+=== Parameters
+
+`context`::
+Context to raise the error on, which may be `nullptr`.
+
+`arg`::
+Argument, which is `nullptr` or the value of which is invalid.
+
+`message`::
+Message telling what is wrong with the state.
+
+`...`::
+Value to evaluate to, `false` if none is given. A function returning a
+pointer passes `nullptr`, since the value of the expression is not a null
+pointer constant.
+
+== Return value
+
+The macros evaluate to the value given, or to `false`.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_trace_argument_null`.
+
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised by `dmi_trace_argument_invalid`.
+
+`DMI_ERROR_STATE_INVALID`::
+Raised by `dmi_trace_state_invalid`.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised by `dmi_trace_out_of_memory`.
+
+== Notes
+
+The optional value relies on `+__VA_OPT__+`, which is a part of C23 and of
+C{pp}20, and is supported by GCC and Clang in the earlier modes as well.
+
+== See also
+
+`dmi_error_raise`(3),
+`dmi_error_raise_ex`(3),
+`dmi_error_get_last`(3),
+`dmi_context_is_open`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

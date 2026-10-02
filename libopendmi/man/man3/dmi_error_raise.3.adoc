@@ -60,7 +60,7 @@ None.
 [source, c]
 ```
 if (ptr == nullptr) {
-    dmi_error_raise(context, DMI_ERROR_NULL_ARGUMENT);
+    dmi_error_raise(context, DMI_ERROR_ARGUMENT_NULL);
     return false;
 }
 ```

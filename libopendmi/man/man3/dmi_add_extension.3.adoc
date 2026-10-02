@@ -70,7 +70,7 @@ were.
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Module is `nullptr`.
 
 `DMI_ERROR_MODULE_CONFLICT`::

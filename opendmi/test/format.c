@@ -887,7 +887,7 @@ static void test_format_write_error(void **pstate)
         if (strcmp(format->code, "text") == 0) {
             if (not success or not has_failed)
                 fail_msg("Format %s: failure is not detected", format->code);
-        } else if (success or (error == nullptr) or (error->reason != DMI_ERROR_FILE_WRITE)) {
+        } else if (success or (error == nullptr) or (error->reason != DMI_ERROR_FILE_WRITE_FAILED)) {
             fail_msg("Format %s: failure is not raised", format->code);
         }
     }

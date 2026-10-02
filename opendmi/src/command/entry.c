@@ -36,7 +36,7 @@ static void dmi_entry_usage(void);
  * @param[in] argv    Arguments of the command, unused.
  *
  * @error DMI_ERROR_OUT_OF_MEMORY Versions cannot be formatted
- * @error DMI_ERROR_FILE_WRITE Output cannot be written
+ * @error DMI_ERROR_FILE_WRITE_FAILED Output cannot be written
  *
  * @return Exit code of the command.
  */
@@ -125,7 +125,7 @@ static int dmi_entry_main(dmi_context_t *context, int argc, char *argv[])
         }
 
         if ((fflush(stdout) != 0) or ferror(stdout)) {
-            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE, "%s", strerror(errno));
+            dmi_error_raise_ex(context, DMI_ERROR_FILE_WRITE_FAILED, "%s", strerror(errno));
             break;
         }
 

@@ -43,7 +43,7 @@ Encoder to complete.
 
 == Errors
 
-`DMI_ERROR_INVALID_ARGUMENT`::
+`DMI_ERROR_ENTITY_LENGTH_INVALID`::
 Formatted area is longer than a byte can count.
 
 == See also

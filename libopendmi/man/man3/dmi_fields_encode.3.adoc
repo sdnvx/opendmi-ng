@@ -60,10 +60,10 @@ Encoder of the structure, see `dmi_encoder_initialize`(3).
 
 == Errors
 
-`DMI_ERROR_NULL_ARGUMENT`::
+`DMI_ERROR_ARGUMENT_NULL`::
 Encoder is `nullptr`.
 
-`DMI_ERROR_INVALID_STATE`::
+`DMI_ERROR_STATE_INVALID`::
 Structure is not decoded, its specification declares no fields, or a field it
 cannot write back, e.g. a conversion without the one undoing it.
 

@@ -396,16 +396,14 @@ static bool dmi_field_cannot_encode(const dmi_field_output_t *output, const char
 
 bool dmi_fields_encode(dmi_encoder_t *encoder)
 {
-    if (encoder == nullptr) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "encoder");
-        return false;
-    }
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
 
     const dmi_entity_t      *entity = encoder->entity;
     const dmi_entity_spec_t *spec   = entity->spec;
 
     if ((spec == nullptr) or (spec->fields == nullptr) or (entity->info == nullptr)) {
-        dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_INVALID_STATE,
+        dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_STATE_INVALID,
                            "Handle 0x%04hx: specification declares no fields",
                            dmi_entity_handle(entity));
         return false;
@@ -433,11 +431,12 @@ bool dmi_fields_encode(dmi_encoder_t *encoder)
 
 bool dmi_fields_encode_from(dmi_encoder_t *encoder, const dmi_field_t *fields, size_t length, const void *info)
 {
-    if ((encoder == nullptr) or (fields == nullptr) or (info == nullptr)) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "%s",
-                           (encoder == nullptr) ? "encoder" : (fields == nullptr) ? "fields" : "info");
-        return false;
-    }
+    if (encoder == nullptr)
+        return dmi_trace_argument_null(nullptr, encoder);
+    if (fields == nullptr)
+        return dmi_trace_argument_null(nullptr, fields);
+    if (info == nullptr)
+        return dmi_trace_argument_null(nullptr, info);
 
     const dmi_entity_t *entity = encoder->entity;
 
@@ -1309,7 +1308,7 @@ static bool dmi_field_cannot_encode(const dmi_field_output_t *output, const char
 {
     const dmi_entity_t *entity = output->encoder->entity;
 
-    dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_INVALID_STATE,
+    dmi_error_raise_ex(dmi_entity_context(entity), DMI_ERROR_STATE_INVALID,
                        "0x%04hx (%s): field at offset 0x%02zX cannot be encoded: %s",
                        dmi_entity_handle(entity), entity->spec->code,
                        dmi_encoder_tell(output->encoder), reason);

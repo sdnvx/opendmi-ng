@@ -36,7 +36,8 @@ int dmi_file_stat(int fd, dmi_file_stat_t *st)
     int rv;
 
     assert(fd >= 0);
-    assert(st != nullptr);
+    if (st == nullptr)
+        return dmi_trace_argument_null(nullptr, st, -1);
 
 retry:
     rv = fstat(fd, st);
@@ -102,7 +103,8 @@ ssize_t dmi_file_read(int fd, dmi_data_t *data, off_t offset, size_t size)
     size_t nread = 0;
 
     assert(fd >= 0);
-    assert(data != nullptr);
+    if (data == nullptr)
+        return dmi_trace_argument_null(nullptr, data, -1);
 
     if (offset >= 0) {
         if (dmi_file_seek(fd, offset, SEEK_SET) < 0)
@@ -132,7 +134,8 @@ ssize_t dmi_file_write(int fd, const dmi_data_t *data, size_t size)
     size_t nwritten = 0;
 
     assert(fd >= 0);
-    assert(data != nullptr);
+    if (data == nullptr)
+        return dmi_trace_argument_null(nullptr, data, -1);
 
     while (nwritten < size) {
         ssize_t rv = write(fd, data + nwritten, size - nwritten);

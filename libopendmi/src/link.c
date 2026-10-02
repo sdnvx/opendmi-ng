@@ -84,10 +84,8 @@ static bool dmi_attributes_unlink_handle(
 
 bool dmi_attributes_link(dmi_entity_t *entity)
 {
-    if (entity == nullptr) {
-        dmi_error_raise_ex(nullptr, DMI_ERROR_NULL_ARGUMENT, "entity");
-        return false;
-    }
+    if (entity == nullptr)
+        return dmi_trace_argument_null(nullptr, entity);
 
     const dmi_entity_spec_t *spec = entity->spec;
 
