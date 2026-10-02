@@ -197,7 +197,16 @@ include::../../../../libopendmi/man/man3/dmi_encoder_writer.3.adoc[leveloffset=2
 
 == `<opendmi/lint.h>`
 
+include::../../../../libopendmi/man/man3/dmi_lint.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_lint_context.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_lint_issue.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_lint_rule_name.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_lint_rules.3.adoc[leveloffset=2]
+
+== `<opendmi/backend/generic.h>`
+
+include::../../../../libopendmi/man/man3/dmi_generic_find_entry_addr.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_generic_parse_entry_addr.3.adoc[leveloffset=2]
 
 == `<opendmi/utils.h>`
 

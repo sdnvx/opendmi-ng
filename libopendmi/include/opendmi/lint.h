@@ -312,10 +312,10 @@ extern __dmi_api const dmi_name_set_t dmi_lint_severity_names;
 /**
  * @brief Check the data of an opened context against the rules.
  *
- * Issues are reported to @p handler as they are found, in the order of the
- * structures they belong to, and the ones of the table itself come first.
- * They are counted by the caller, since it has to tell their severities
- * apart anyway.
+ * Issues are reported to @p handler as they are found: the ones of the entry
+ * point first, then the ones of the structures in their order, and the ones
+ * of the table as a whole last. They are counted by the caller, since it has
+ * to tell their severities apart anyway.
  *
  * @param[in] context DMI context, which has to be opened.
  * @param[in] options Options of the check, or @c nullptr for the defaults.
@@ -323,11 +323,11 @@ extern __dmi_api const dmi_name_set_t dmi_lint_severity_names;
  *                    @c nullptr to check the data without reporting.
  * @param[in] data    Data passed to the handler.
  *
- * @error DMI_ERROR_NULL_ARGUMENT Context is `nullptr`
  * @error DMI_ERROR_INVALID_STATE Context is not open
  * @error DMI_ERROR_OUT_OF_MEMORY State of the check cannot be allocated
  *
- * @return `true` if the data has been checked, `false` if it cannot be.
+ * @return `true` if the data has been checked, `false` if it cannot be, or if
+ *         @p context is @c nullptr.
  */
 __dmi_api bool dmi_lint(
         dmi_context_t            *context,
@@ -405,8 +405,8 @@ __dmi_api size_t dmi_lint_string_offset(
 /**
  * @brief Get the totals of the table being checked.
  *
- * The totals are complete for the rules of the table, and are gathered for
- * the rules of the structures, which are checked while the table is read.
+ * The totals are gathered before any rule is checked, so they are complete
+ * for the rules of every scope.
  *
  * @param[in] lint Check in progress.
  *

@@ -1,0 +1,1 @@
+dmi_lint_rules.3.adoc

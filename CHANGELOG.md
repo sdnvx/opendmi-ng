@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `present` parameter of field groups, which sets a member once the structure holds every field of the group
 - Add `dmi_fields_decode_into()` and `dmi_fields_encode_from()`, which decode and encode a part of a structure according to a list of fields, for the handlers of their own
 - Add manual pages of the declarative macros: `DMI_FIELD`(3), `DMI_FIELD_BITS`(3), `DMI_FIELD_ARRAY`(3), `DMI_FIELD_GROUP`(3), `DMI_FIELD_EXTENDED`(3), `DMI_FIELD_SPLIT`(3), `DMI_ATTRIBUTE`(3), `DMI_ATTRIBUTE_VARIANT`(3), `DMI_NAMES`(3) and `dmi_member`(3)
+- Add manual pages of `<opendmi/lint.h>`: `dmi_lint`(3), `dmi_lint_rules`(3), `dmi_lint_issue`(3) and `dmi_lint_context`(3), and of `<opendmi/backend/generic.h>`: `dmi_generic_parse_entry_addr`(3) and `dmi_generic_find_entry_addr`(3)
 - Add links to manual pages (website/reference)
 
 ### Changed

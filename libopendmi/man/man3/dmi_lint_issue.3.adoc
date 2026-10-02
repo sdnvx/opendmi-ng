@@ -1,0 +1,145 @@
+ifdef::backend-manpage[]
+= dmi_lint_issue(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lint_issue
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lint_issue, dmi_lint_entity_offset, dmi_lint_string_offset - report an issue found by a lint rule.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/lint.h>
+
+void dmi_lint_issue(
+        dmi_lint_t         *lint,
+        const dmi_entity_t *entity,
+        const char         *attribute,
+        size_t              offset,
+        const char         *format,
+        ...);
+
+size_t dmi_lint_entity_offset(const dmi_lint_t *lint, const dmi_entity_t *entity);
+
+size_t dmi_lint_string_offset(
+        const dmi_lint_t   *lint,
+        const dmi_entity_t *entity,
+        size_t              num);
+----
+
+== Description
+
+The functions are used by the checks of the lint rules, which the library
+calls while `dmi_lint`(3) is in progress:
+
+[source, c]
+----
+typedef void dmi_lint_check_fn(dmi_lint_t *lint, const dmi_entity_t *entity);
+----
+
+The `dmi_lint_issue` function reports an issue the rule being checked has
+found. The issue is passed to the handler of the check, see `dmi_lint`(3),
+along with the rule, which the check is not to name, and with its severity in
+the profile of the check. The details are formatted the way `printf`(3) does
+it, and are cut to 255 bytes. If the check has no handler, nothing is
+reported.
+
+The `dmi_lint_entity_offset` function returns the offset of a structure from
+the beginning of the table, which issues of the structure as a whole are
+reported at. An issue of a field is reported at the offset of the structure
+plus the offset of the field.
+
+The `dmi_lint_string_offset` function returns the offset of a string of a
+structure from the beginning of the table, which issues of the string are
+reported at.
+
+Offsets are the ones of the table the context holds, so a structure decoded
+from anywhere else, e.g. from a copy carrying additional information entries,
+has none.
+
+=== Parameters
+
+`lint`::
+Check in progress, as passed to the check of the rule.
+
+`entity`::
+Structure the issue belongs to, or `nullptr` if it belongs to the entry point
+or to the table as a whole.
+
+`attribute`::
+Code name of the attribute the issue belongs to, e.g. `serial-number`, or
+`nullptr` if it belongs to the whole structure.
+
+`offset`::
+Offset of the issue from the beginning of the table, or `DMI_LINT_NO_OFFSET`
+if it has no offset of its own.
+
+`format`::
+`printf`(3)-style format string of the details of the issue.
+
+`...`::
+Format arguments.
+
+`num`::
+One-based number of the string.
+
+== Return value
+
+`dmi_lint_issue` returns no value.
+
+`dmi_lint_entity_offset` and `dmi_lint_string_offset` return the offset, or
+`DMI_LINT_NO_OFFSET` if it cannot be told: if `lint` or `entity` is
+`nullptr`, if the structure is not one of the table of the context, or if the
+structure has no string of number `num`.
+
+== Errors
+
+None.
+
+== Notes
+
+`dmi_lint_issue` may be called only by the check of a rule, while the rule is
+being checked.
+
+== Example
+
+Check of a rule of a structure type, which reports a value out of range:
+
+[source, c]
+----
+static void check_speed(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    const dmi_foo_t *info = dmi_entity_info(entity, DMI_TYPE(foo));
+    if ((info == nullptr) || (info->speed <= 100))
+        return;
+
+    dmi_lint_issue(lint, entity, "speed", dmi_lint_entity_offset(lint, entity) + 0x05,
+                   "speed of %u is above the limit of 100", info->speed);
+}
+----
+
+== See also
+
+`dmi_lint`(3),
+`dmi_lint_context`(3),
+`dmi_lint_rules`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

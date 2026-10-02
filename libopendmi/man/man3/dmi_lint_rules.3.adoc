@@ -1,0 +1,136 @@
+ifdef::backend-manpage[]
+= dmi_lint_rules(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lint_rules
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lint_rules, dmi_lint_rule_find, dmi_lint_rule_severity - list and look up the lint rules.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/lint.h>
+
+const dmi_lint_rule_t *const *dmi_lint_rules(void);
+
+const dmi_lint_rule_t *dmi_lint_rule_find(dmi_context_t *context, const char *code);
+
+dmi_lint_severity_t dmi_lint_rule_severity(
+        const dmi_lint_rule_t *rule,
+        dmi_lint_profile_t     profile);
+----
+
+== Description
+
+Rules of the library are of two kinds:
+
+* Rules which apply to any structure, to the entry point or to the table as a
+  whole, e.g. `entry.checksum` or `table.terminator`, which the library holds
+  itself.
+* Rules which apply to the structures of a single type, e.g.
+  `memory-device.attributes`, which the specification of the type declares.
+  The rules of the vendor-specific types are available only once the modules
+  decoding them are enabled.
+
+The `dmi_lint_rules` function returns the rules of the first kind.
+
+The `dmi_lint_rule_find` function finds a rule of either kind by its code
+name. The rules of the library are searched first, and the ones of the types
+known to `context` then, so that the rules of the enabled modules are found
+as well.
+
+The `dmi_lint_rule_severity` function returns the severity of the issues a
+rule reports in a profile, see `dmi_lint`(3).
+
+The `dmi_lint_rule_t` structure holds the following members:
+
+`code`::
+Code name of the rule, e.g. `entry.checksum`, which is never translated.
+
+`scope`::
+Part of the data the rule is checked against: `DMI_LINT_SCOPE_ENTRY`,
+`DMI_LINT_SCOPE_ENTITY` or `DMI_LINT_SCOPE_TABLE`.
+
+`check`::
+Function performing the check.
+
+`params`::
+Parameters of the rule: its printable `name`, see `dmi_lint_rule_name`(3),
+its severities `reader_severity` and `producer_severity`, and whether it is
+`optional`, that is checked only when all the rules are asked for.
+
+Rules are static, and must not be modified or freed.
+
+=== Parameters
+
+`context`::
+Context, the types of which are searched for the rule, or `nullptr` to search
+the rules which apply to any structure only.
+
+`code`::
+Code name of the rule.
+
+`rule`::
+Rule in question.
+
+`profile`::
+Profile the data is checked against: `DMI_LINT_PROFILE_READER` or
+`DMI_LINT_PROFILE_PRODUCER`.
+
+== Return value
+
+`dmi_lint_rules` returns an array of the rules, terminated with `nullptr`.
+
+`dmi_lint_rule_find` returns the rule, or `nullptr` if there is no rule with
+such code name, or if `code` is `nullptr`.
+
+`dmi_lint_rule_severity` returns the severity of the issues the rule reports
+in the profile, or `DMI_LINT_SEVERITY_NONE` if the rule is not checked in the
+profile, or if `rule` is `nullptr`.
+
+== Errors
+
+None.
+
+== Example
+
+List the rules which apply to any structure, along with their severities in
+the producer profile:
+
+[source, c]
+----
+for (const dmi_lint_rule_t *const *rule = dmi_lint_rules(); *rule != nullptr; rule++) {
+    dmi_lint_severity_t severity = dmi_lint_rule_severity(*rule, DMI_LINT_PROFILE_PRODUCER);
+
+    printf("%-32s %-8s %s\n", (*rule)->code,
+           dmi_name_lookup(&dmi_lint_severity_names, severity),
+           dmi_lint_rule_name(*rule));
+}
+----
+
+== See also
+
+`dmi_lint`(3),
+`dmi_lint_rule_name`(3),
+`dmi_name_lookup`(3),
+`opendmi-lint`(1)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -25,7 +25,8 @@ function(add_manpages TARGET_NAME SOURCE_DIR)
         return()
     endif()
 
-    file(GLOB_RECURSE MANPAGE_SOURCES RELATIVE ${SOURCE_DIR} ${SOURCE_DIR}/*.adoc)
+    # Pages are picked up as they are added, without running CMake by hand
+    file(GLOB_RECURSE MANPAGE_SOURCES CONFIGURE_DEPENDS RELATIVE ${SOURCE_DIR} ${SOURCE_DIR}/*.adoc)
 
     set(MANPAGES)
 

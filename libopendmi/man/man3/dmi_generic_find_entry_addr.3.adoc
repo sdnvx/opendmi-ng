@@ -1,0 +1,118 @@
+ifdef::backend-manpage[]
+= dmi_generic_find_entry_addr(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_generic_find_entry_addr
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_generic_find_entry_addr, dmi_generic_find_anchor - find the SMBIOS entry point by scanning memory.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/backend/generic.h>
+
+bool dmi_generic_find_entry_addr(
+        dmi_context_t *context,
+        const char    *device,
+        uint64_t      *paddr);
+
+bool dmi_generic_find_anchor(
+        dmi_context_t *context,
+        dmi_data_t    *buffer,
+        uint64_t       base_addr,
+        size_t         area_size,
+        const char    *anchor,
+        uint64_t      *paddr);
+----
+
+== Description
+
+The functions find the SMBIOS entry point the way legacy firmware lets it be
+found, without the help of the system: by scanning the memory between
+`0xF0000` and `0xFFFFF` for the anchor string of the entry point, on 16-byte
+boundaries. The backends fall back on them when the system does not tell the
+address, e.g. on legacy firmware with no EFI configuration tables.
+
+The `dmi_generic_find_entry_addr` function reads the memory area through
+`device`, see `dmi_memory_load`(3), and looks for the anchors of the entry
+points of SMBIOS 3.0 (`_SM3_`), SMBIOS 2.1 (`_SM_`) and the legacy one
+(`_DMI_`), in this order, so that the newest entry point the firmware
+provides is found.
+
+The `dmi_generic_find_anchor` function looks for a single anchor in a memory
+area which has been read already.
+
+Anchor strings occur in firmware code and data as well, so a match of the
+anchor alone proves nothing. An entry point is taken only if its length is
+valid and fits in the area, and its checksum is valid, the way dmidecode
+checks it. The intermediate entry point of SMBIOS 2.1 must be present and
+valid as well. Entry points which are not are skipped, and the scan goes on
+past them.
+
+=== Parameters
+
+`context`::
+Context to raise errors on, and to log the progress of the scan on.
+
+`device`::
+Path to the memory device to read the area through, e.g. `/dev/mem`, or
+`nullptr` in the kernel, where the memory is mapped directly.
+
+`buffer`::
+Memory area which has been read.
+
+`base_addr`::
+Physical address of the memory area, which is aligned on 16 bytes.
+
+`area_size`::
+Size of the memory area, which is a multiple of 16 bytes.
+
+`anchor`::
+Anchor string of the entry point to look for, e.g. `DMI_ANCHOR_V30`.
+
+`paddr`::
+Variable to store the physical address of the entry point in. It is left as
+it is if no entry point is found.
+
+== Return value
+
+Returns `true` if a valid entry point has been found, and `false` otherwise.
+
+== Errors
+
+`dmi_generic_find_entry_addr` raises the errors of `dmi_memory_load`(3) if
+the memory area cannot be read. Finding no entry point is not an error.
+
+`dmi_generic_find_anchor` raises no errors.
+
+== Notes
+
+The functions are available on x86 only, since other architectures have no
+such memory area, and the header is installed only on the systems whose
+backends use them, which are FreeBSD and NetBSD.
+
+== See also
+
+`dmi_generic_parse_entry_addr`(3),
+`dmi_memory_load`(3),
+`dmi_open`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

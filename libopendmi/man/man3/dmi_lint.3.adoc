@@ -1,0 +1,219 @@
+ifdef::backend-manpage[]
+= dmi_lint(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lint
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lint - check the SMBIOS data of a context against the rules.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/lint.h>
+
+bool dmi_lint(
+        dmi_context_t            *context,
+        const dmi_lint_options_t *options,
+        dmi_lint_issue_fn        *handler,
+        void                     *data);
+----
+
+== Description
+
+The `dmi_lint` function checks the SMBIOS data of an open context against the
+rules of the library, and reports every issue it finds to `handler`. The
+*opendmi lint* command is built on it, see `opendmi-lint`(1).
+
+Rules come in three scopes, which tell what a rule is checked against:
+
+`DMI_LINT_SCOPE_ENTRY`::
+The entry point, which is checked once.
+
+`DMI_LINT_SCOPE_ENTITY`::
+A single structure, which is checked for every structure of the table. Rules
+which apply to any structure come first, and the rules the specification of
+the structure declares follow them.
+
+`DMI_LINT_SCOPE_TABLE`::
+The table as a whole, which is checked once, after every structure.
+
+Issues are reported as they are found: the ones of the entry point first, then
+the ones of the structures in their order in the table, and the ones of the
+table as a whole last. Totals of the table, e.g. the number of the structures
+of every type, are gathered before any rule is checked, so that every rule is
+free to use them, see `dmi_lint_totals`(3).
+
+A rule is checked unless one of the following holds:
+
+* The rule is optional, and `all` of the options is not set. Optional rules
+  are the ones which are expensive, or which are a matter of taste rather than
+  of the specification.
+* The severity of the rule in the profile of the check is
+  `DMI_LINT_SEVERITY_NONE`, see `dmi_lint_rule_severity`(3).
+* The rule filter of the options rejects it.
+
+The profile tells what the data is expected to be:
+
+`DMI_LINT_PROFILE_READER`::
+Data has been read from a platform, and is expected to have the defects of its
+firmware, which nobody is going to fix. Issues are reported with a lower
+severity: requirements of the specification which are not met are mostly
+warnings, and recommendations which are not followed are notes.
+
+`DMI_LINT_PROFILE_PRODUCER`::
+Data is being produced, e.g. by firmware under development or by a generator,
+and is expected to conform to the specification. Requirements which are not
+met are errors, and recommendations which are not followed are warnings.
+
+Each rule declares its severity in both profiles, see
+`dmi_lint_rule_severity`(3).
+
+The data is checked against the version of the specification given in the
+options, or against the version of the entry point if the options give none.
+
+=== Options
+
+The `dmi_lint_options_t` structure holds the following members, all of which
+may be left zero for the defaults:
+
+`profile`::
+Profile the data is checked against, `DMI_LINT_PROFILE_READER` by default.
+
+`all`::
+Whether the optional rules are checked as well.
+
+`version`::
+Version of the specification the data is checked against, or
+`DMI_VERSION_NONE` to take the version from the entry point.
+
+`rule_filter`::
+Function deciding whether a rule is checked, or `nullptr` to check all the
+rules enabled by the profile:
++
+[source, c]
+----
+typedef bool dmi_lint_rule_fn(void *data, const dmi_lint_rule_t *rule);
+----
+
+`rule_filter_data`::
+Data passed to the rule filter.
+
+=== Issues
+
+The handler is called for every issue found:
+
+[source, c]
+----
+typedef void dmi_lint_issue_fn(void *data, const dmi_lint_issue_t *issue);
+----
+
+The `dmi_lint_issue_t` structure holds the following members:
+
+`rule`::
+Rule which has found the issue, see `dmi_lint_rule_name`(3).
+
+`severity`::
+Severity of the issue, which is the severity of the rule in the profile of the
+check: `DMI_LINT_SEVERITY_NOTE`, `DMI_LINT_SEVERITY_WARNING` or
+`DMI_LINT_SEVERITY_ERROR`.
+
+`handle`::
+Handle of the structure the issue belongs to, or `DMI_HANDLE_INVALID` if it
+belongs to the entry point or to the table as a whole.
+
+`type`::
+Type of the structure the issue belongs to.
+
+`attribute`::
+Code name of the attribute the issue belongs to, or `nullptr` if it belongs
+to the whole structure.
+
+`offset`::
+Offset of the issue from the beginning of the table, or `DMI_LINT_NO_OFFSET`
+if the issue has no offset of its own.
+
+`message`::
+Details of the issue, e.g. the expected and the actual value.
+
+The issue and the strings it points to are valid until the handler returns, so
+the handler has to copy whatever it keeps. Issues are not counted by the
+library: the handler counts them, since it has to tell their severities apart
+anyway.
+
+=== Parameters
+
+`context`::
+Open context, the data of which is checked.
+
+`options`::
+Options of the check, or `nullptr` for the defaults.
+
+`handler`::
+Handler called for every issue found, or `nullptr` to check the data without
+reporting.
+
+`data`::
+Data passed to the handler.
+
+== Return value
+
+Returns `true` if the data has been checked, whatever issues have been found,
+and `false` if it cannot be checked. Returns `false` without raising an error
+if `context` is `nullptr`.
+
+== Errors
+
+`DMI_ERROR_INVALID_STATE`::
+Context is not open, see `dmi_context_is_open`(3).
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+State of the check cannot be allocated.
+
+== Example
+
+Count the errors in the data of a dump:
+
+[source, c]
+----
+static void count_errors(void *data, const dmi_lint_issue_t *issue)
+{
+    if (issue->severity == DMI_LINT_SEVERITY_ERROR)
+        (*(size_t *)data)++;
+}
+
+size_t errors = 0;
+
+if (dmi_load(context, "smbios.bin") &&
+    dmi_lint(context, nullptr, count_errors, &errors))
+{
+    printf("%zu errors\n", errors);
+}
+----
+
+== See also
+
+`dmi_lint_rules`(3),
+`dmi_lint_rule_name`(3),
+`dmi_lint_issue`(3),
+`dmi_context_is_open`(3),
+`opendmi-lint`(1)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

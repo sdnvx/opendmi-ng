@@ -1,0 +1,92 @@
+ifdef::backend-manpage[]
+= dmi_lint_context(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_lint_context
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_lint_context, dmi_lint_version, dmi_lint_totals - get the state of a lint check in progress.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/lint.h>
+
+dmi_context_t *dmi_lint_context(dmi_lint_t *lint);
+
+dmi_version_t dmi_lint_version(const dmi_lint_t *lint);
+
+const dmi_lint_totals_t *dmi_lint_totals(const dmi_lint_t *lint);
+----
+
+== Description
+
+The functions give the checks of the lint rules what they need to know of the
+check in progress, see `dmi_lint`(3).
+
+The `dmi_lint_context` function returns the context the data of which is
+being checked, e.g. to look up another structure a structure refers to.
+
+The `dmi_lint_version` function returns the version of the specification the
+data is checked against: the one given in the options of the check, or the
+version of the entry point if the options give none. Rules of the
+requirements a version introduces are checked against it, so that the data of
+an older version is not held to them.
+
+The `dmi_lint_totals` function returns the totals of the table, which are
+gathered before any rule is checked, so that they are complete for the rules
+of every scope. The `dmi_lint_totals_t` structure holds the following
+members:
+
+`entity_count`::
+Number of the structures of the table.
+
+`entity_max_size`::
+Length of the longest structure of the table, with its strings.
+
+`type_counts`::
+Number of the structures of every type, indexed by the type number.
+
+`terminator`::
+First end-of-table structure (type 127), or `nullptr` if the table has none.
+
+The totals belong to the check, and are valid while it is in progress.
+
+=== Parameters
+
+`lint`::
+Check in progress, as passed to the check of the rule.
+
+== Return value
+
+`dmi_lint_context` returns the context, `dmi_lint_version` the version, and
+`dmi_lint_totals` the totals of the table. If `lint` is `nullptr`, they
+return `nullptr`, `DMI_VERSION_NONE` and `nullptr` respectively.
+
+== Errors
+
+None.
+
+== See also
+
+`dmi_lint`(3),
+`dmi_lint_issue`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

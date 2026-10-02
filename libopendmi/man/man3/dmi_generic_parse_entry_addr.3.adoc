@@ -1,0 +1,82 @@
+ifdef::backend-manpage[]
+= dmi_generic_parse_entry_addr(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_generic_parse_entry_addr
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_generic_parse_entry_addr - parse the physical address of the SMBIOS entry point.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/backend/generic.h>
+
+bool dmi_generic_parse_entry_addr(dmi_context_t *context, const char *str, uint64_t *paddr);
+----
+
+== Description
+
+The `dmi_generic_parse_entry_addr` function parses the physical address of the
+SMBIOS entry point, as a system tells it in text, e.g. the `hint.smbios.0.mem`
+kernel environment variable of FreeBSD. The backends of such systems read the
+entry point from that address, see `dmi_memory_load`(3).
+
+The address is read the way `strtoull`(3) reads it with the base of zero: as
+hexadecimal with the `0x` prefix, as octal with the `0` prefix, and as decimal
+otherwise. The whole string must be the address.
+
+The address is 64-bit on every system, so that an address above 4 GiB is
+passed on as it is, and is rejected by `dmi_memory_load`(3) if the system
+cannot reach it.
+
+=== Parameters
+
+`context`::
+Context to raise errors on.
+
+`str`::
+Address in text, which must not be `nullptr`.
+
+`paddr`::
+Variable to store the address in, which must not be `nullptr`. It is left as
+it is on failure.
+
+== Return value
+
+Returns `true` if the address has been parsed, and `false` otherwise.
+
+== Errors
+
+`DMI_ERROR_SYSTEM`::
+String is not an address, or the address does not fit in 64 bits.
+
+== Notes
+
+The header is installed only on the systems whose backends use it, which are
+FreeBSD and NetBSD.
+
+== See also
+
+`dmi_generic_find_entry_addr`(3),
+`dmi_memory_load`(3),
+`dmi_open`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]
