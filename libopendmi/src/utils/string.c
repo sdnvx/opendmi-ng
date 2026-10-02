@@ -23,8 +23,10 @@ int dmi_asprintf(char **strp, const char *format, ...)
 
     if (strp == nullptr)
         return dmi_trace_argument_null(nullptr, strp, -1);
-    if (format == nullptr)
+    if (format == nullptr) {
+        *strp = nullptr;
         return dmi_trace_argument_null(nullptr, format, -1);
+    }
 
     va_start(args, format);
     rv = dmi_vasprintf(strp, format, args);

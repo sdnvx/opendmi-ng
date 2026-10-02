@@ -587,6 +587,8 @@ const dmi_attribute_t *dmi_attribute_resolve(const dmi_attribute_t *attr, const 
 
     if (attr->type != DMI_ATTRIBUTE_TYPE_VARIANT)
         return attr;
+    if (attr->params.variants == nullptr)
+        return dmi_trace_argument_invalid(nullptr, attr, nullptr);
 
     intmax_t selector = dmi_attribute_read_int(dmi_member_ptr(info, attr->value, void), attr->value.size);
     const dmi_attribute_t *fallback = nullptr;

@@ -623,6 +623,14 @@ static void test_registry_resolve(void **pstate)
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ENTITY_TYPE_INVALID);
     assert_non_null(strstr(dmi_error_peek_last(context)->message, "unexpected"));
 
+    // Empty list of expected types is invalid
+    const dmi_type_t *const no_types[] = { nullptr };
+
+    dmi_error_clear(context);
+    assert_false(dmi_registry_resolve_any(registry, 0x0001, no_types, &entity));
+    assert_null(entity);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+
     // The only expected type is named in the error message
     dmi_error_clear(context);
     assert_false(dmi_registry_resolve(registry, 0x0001, DMI_TYPE(cache), &entity));

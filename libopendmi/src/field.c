@@ -28,6 +28,8 @@ uintmax_t dmi_field_get(const dmi_field_t *field, const void *value)
 {
     if (field == nullptr)
         return dmi_trace_argument_null(nullptr, field, 0);
+    if (value == nullptr)
+        return dmi_trace_argument_null(nullptr, value, 0);
 
     return dmi_field_load_member(field->member, value);
 }

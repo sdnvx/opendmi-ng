@@ -595,11 +595,12 @@ __dmi_api const char *dmi_attribute_name(const dmi_attribute_t *attr, const char
  * @param[in] info Decoded structure containing the attribute.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Attribute or structure is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Variant attribute has no variants
  *
  * @return @p attr if it is not a variant attribute, the variant matching the
  *         selector or the default variant otherwise, or @c nullptr if there
  *         is no such variant, and the attribute has no value, or if @p attr
- *         or @p info is @c nullptr.
+ *         or @p info is @c nullptr, or the attribute has no variants.
  */
 __dmi_api const dmi_attribute_t *dmi_attribute_resolve(const dmi_attribute_t *attr, const void *info);
 

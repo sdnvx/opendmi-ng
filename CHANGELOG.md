@@ -44,7 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix additional information, type 40, counting entries which failed to decode, and failing without entries
 - Fix chassis contained elements shorter than three bytes lost when a structure is written back
 - Fix BCD values too large for their field truncated when encoding
-- Fix crashes on a failed registry insertion, on boolean attributes without a name for the value, and on `dmi_code_lookup_rev()` with no code
+- Fix crashes on a failed registry insertion, on boolean attributes without a name for the value, on `dmi_code_lookup_rev()` with no code, on variant attributes without variants in `dmi_attribute_resolve()`, on `dmi_field_get()` with no member, and on `dmi_module_register()` with a module without a code
+- Fix `dmi_registry_resolve_any()` reading past an empty list of types, and `dmi_asprintf()` leaving the result undefined with no format
+- Fix filter example of the registry, which passed a structure type for a type number (reference)
 - Fix memory leaks and invalid frees on error paths of decoding, linking and error reporting
 - Fix `dmi_alloc_array()` not detecting overflow, `dmi_set_locale()` keeping the caller's pointer, and `dmi_type_name()` naming type numbers out of range OEM-specific
 - Fix undefined behaviour and overflows in printing sizes and the module list, case conversion, copying device memory on AArch64 and mapping files

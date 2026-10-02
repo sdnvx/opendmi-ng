@@ -401,6 +401,7 @@ __dmi_api bool dmi_registry_resolve_id(
  * @return `true` if the reference is resolved or not set, `false` otherwise.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Registry or entity pointer is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Array of types is empty
  * @error DMI_ERROR_ENTITY_NOT_FOUND Referenced entity is not found
  * @error DMI_ERROR_ENTITY_TYPE_INVALID Referenced entity has unexpected type
  */

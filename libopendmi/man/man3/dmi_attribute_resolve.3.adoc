@@ -50,8 +50,7 @@ The attribute returned belongs to the specification, and must not be freed.
 === Parameters
 
 `attr`::
-Attribute to resolve. The `.variants` of a variant attribute must not be
-`nullptr`.
+Attribute to resolve.
 
 `info`::
 Decoded structure holding the member, e.g. the `info` member of an entity.
@@ -61,13 +60,18 @@ Decoded structure holding the member, e.g. the `info` member of an entity.
 Returns `attr` if it is not a variant attribute, and the variant matching the
 selector or the default variant otherwise. Returns `nullptr` if no variant
 matches and there is no default one, which means the structure holds no
-value for the attribute, or if `attr` or `info` is `nullptr`.
+value for the attribute, or if `attr` or `info` is `nullptr`, or if `attr`
+is a variant attribute without `.variants`.
 
 == Errors
 
 `DMI_ERROR_ARGUMENT_NULL`::
 Raised if `attr` or `info` is `nullptr`. The function takes no context, so
 the error reaches no error queue.
+
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised if `attr` is a variant attribute whose `.variants` is `nullptr`, and
+reaches no error queue either.
 
 == Example
 

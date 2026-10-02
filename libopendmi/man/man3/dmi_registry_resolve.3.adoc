@@ -84,7 +84,7 @@ type.
 
 `types`::
 Array of the expected structure types, terminated by `nullptr`, or `nullptr`
-to accept a structure of any type.
+to accept a structure of any type. The array must list at least one type.
 
 `type_id`::
 Expected type number, or `DMI_TYPE_ID_INVALID` to accept a structure of any
@@ -97,7 +97,8 @@ the reference is not set or is broken.
 == Return value
 
 The functions return `true` if the reference has been resolved or is not
-set, and `false` if it is broken, or if `registry` or `pentity` is `nullptr`.
+set, and `false` if it is broken, if `registry` or `pentity` is `nullptr`,
+or if `types` lists no type.
 
 == Errors
 
@@ -106,6 +107,9 @@ The errors are raised against the context of the registry.
 `DMI_ERROR_ARGUMENT_NULL`::
 Raised if `registry` or `pentity` is `nullptr`, in which case it is not
 reported, since there is no context to hold it.
+
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised by `dmi_registry_resolve_any` if `types` lists no type.
 
 `DMI_ERROR_ENTITY_NOT_FOUND`::
 Raised if there is no structure of the handle.

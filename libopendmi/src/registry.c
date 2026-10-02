@@ -179,6 +179,9 @@ bool dmi_registry_resolve_any(
 
     dmi_context_t *context = registry->context;
 
+    if ((types != nullptr) and (types[0] == nullptr))
+        return dmi_trace_argument_invalid(context, types);
+
     dmi_entity_t *entity = dmi_registry_lookup(registry, handle, DMI_TYPE_ANY, false);
     if (entity == nullptr)
         return false;

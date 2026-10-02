@@ -67,7 +67,7 @@ dmi_registry_iter_t iter;
 dmi_entity_t       *entity;
 
 if ((filter != nullptr) &&
-    dmi_filter_add_type(filter, DMI_TYPE(memory_device)) &&
+    dmi_filter_add_type(filter, DMI_TYPE_ID(MEMORY_DEVICE)) &&
     dmi_registry_iter_init(&iter, registry, filter)) {
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         dmi_memory_device_t *device =

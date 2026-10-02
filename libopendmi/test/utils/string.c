@@ -86,6 +86,13 @@ static void test_asprintf_failure(void **pstate)
 
     assert_true(dmi_asprintf(&string, "%ls", L"\x1234") < 0);
     assert_null(string);
+
+    // Result is not left undefined without a format either
+    const char *volatile format = nullptr;
+
+    string = (char *)&string;
+    assert_true(dmi_asprintf(&string, format) < 0);
+    assert_null(string);
 }
 
 static void test_string_set(void **pstate)

@@ -777,6 +777,10 @@ static void test_attribute_resolve(void **pstate)
             {}
         })
     });
+    const dmi_attribute_t without_variants = DMI_ATTRIBUTE_VARIANT(test_info_t, selector, {
+        .code = "value",
+        .name = "Value"
+    });
     static const dmi_attribute_t plain = DMI_ATTRIBUTE(test_info_t, number, INTEGER, {
         .code = "number",
         .name = "Number"
@@ -796,6 +800,9 @@ static void test_attribute_resolve(void **pstate)
     // Selectors may be negative, and there may be no matching variant
     assert_ptr_equal(dmi_attribute_resolve(&without_default, &negative), &without_default.params.variants[1].attribute);
     assert_null(dmi_attribute_resolve(&without_default, &string));
+
+    // Variant attribute without variants is invalid
+    assert_null(dmi_attribute_resolve(&without_variants, &number));
 }
 
 // Structure the walk is tested on: a plain member, a nested structure, an

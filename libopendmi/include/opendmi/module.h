@@ -162,14 +162,14 @@ __BEGIN_DECLS
  * is not copied. Registration is not thread-safe, so modules should be
  * registered before they are used.
  *
- * @param module Extension module to register; must not be @c nullptr, and
- *               must have a code.
+ * @param module Extension module to register, which must have a code.
  *
- * @return `true` on success, `false` if @p module is @c nullptr, or if a
- *         module with the same code is already available, which is not
- *         reported.
+ * @return `true` on success, `false` if @p module is @c nullptr or has no
+ *         code, or if a module with the same code is already available,
+ *         which is not reported.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Module is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Module has no code
  */
 __dmi_api bool dmi_module_register(dmi_module_t *module);
 

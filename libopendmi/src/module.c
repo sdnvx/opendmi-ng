@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <string.h>
-#include <assert.h>
 
 #include <opendmi/internal.h>
 #include <opendmi/module.h>
@@ -45,7 +44,8 @@ bool dmi_module_register(dmi_module_t *module)
 {
     if (module == nullptr)
         return dmi_trace_argument_null(nullptr, module);
-    assert(module->code != nullptr);
+    if (module->code == nullptr)
+        return dmi_trace_argument_invalid(nullptr, module);
 
     if (dmi_module_find(module->code) != nullptr)
         return false;

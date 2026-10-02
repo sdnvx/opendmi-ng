@@ -936,12 +936,12 @@ __dmi_api bool dmi_field_encode_kilobytes(
  * or 8 bytes; any other width fails an assertion in debug builds.
  *
  * @param[in] field Field whose member is read.
- * @param[in] value Member of the field, which must not be @c nullptr.
+ * @param[in] value Member of the field.
  *
- * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_NULL Field or member is `nullptr`
  *
- * @return Value of the member, or zero if @p field is @c nullptr or the width
- *         of the member is not supported.
+ * @return Value of the member, or zero if @p field or @p value is @c nullptr,
+ *         or if the width of the member is not supported.
  */
 __dmi_api uintmax_t dmi_field_get(const dmi_field_t *field, const void *value);
 

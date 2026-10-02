@@ -63,7 +63,8 @@ Value to store.
 == Return value
 
 The `dmi_field_get` function returns the value of the member, or zero if
-`field` is `nullptr` or if the width of the member is not supported.
+`field` or `value` is `nullptr`, or if the width of the member is not
+supported.
 
 The `dmi_field_set` function returns `true` if the number has been stored, or
 if `value` is `nullptr`, and `false` if `field` is `nullptr` or if the width
@@ -72,15 +73,14 @@ of the member is not supported.
 == Errors
 
 `DMI_ERROR_ARGUMENT_NULL`::
-Raised if `field` is `nullptr`. The functions take no context, so the error
-reaches no error queue.
+Raised if `field` is `nullptr`, or if `value` of `dmi_field_get` is
+`nullptr`. The functions take no context, so the error reaches no error
+queue.
 
 == Notes
 
 A member whose width is not supported is a mistake of the specification, and
 fails an assertion in debug builds.
-
-The `value` of `dmi_field_get` must not be `nullptr`.
 
 == Example
 

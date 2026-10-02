@@ -73,6 +73,7 @@ static void test_module_register(void **pstate)
     static dmi_module_t external_1 = { .code = "external-1", .name = "External module 1" };
     static dmi_module_t external_2 = { .code = "external-2", .name = "External module 2" };
     static dmi_module_t duplicate  = { .code = "intel",      .name = "Duplicate module"  };
+    static dmi_module_t unnamed    = { .code = nullptr,      .name = "Unnamed module"    };
 
     assert_true(dmi_module_register(&external_1));
     assert_true(dmi_module_register(&external_2));
@@ -80,6 +81,9 @@ static void test_module_register(void **pstate)
     // Modules with duplicate codes are not registered
     assert_false(dmi_module_register(&duplicate));
     assert_false(dmi_module_register(&external_1));
+
+    // Modules without a code are not registered
+    assert_false(dmi_module_register(&unnamed));
 
     assert_ptr_equal(dmi_module_find("external-1"), &external_1);
     assert_ptr_equal(dmi_module_find("external-2"), &external_2);

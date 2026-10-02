@@ -1251,6 +1251,10 @@ static void test_field_get_set(void **pstate)
     // Member is wider than the field, so it holds what the field cannot
     assert_true(dmi_field_set(&field, &info.value_word, UINT32_MAX));
     assert_int_equal(dmi_field_get(&field, &info.value_word), UINT32_MAX);
+
+    // Member to read is required, while a member to write may be omitted
+    assert_int_equal(dmi_field_get(&field, nullptr), 0);
+    assert_true(dmi_field_set(&field, nullptr, 0x1234));
 }
 
 //
