@@ -237,9 +237,17 @@ const dmi_vendor_spec_t *dmi_vendor_detect(const char *name)
     if (name == nullptr)
         return dmi_trace_argument_null(nullptr, name, nullptr);
 
+    // Surrounding whitespace is ignored, the way strings of the structures
+    // are trimmed when decoded
+    name += strspn(name, "\t\n\v\f\r ");
+
+    size_t length = strlen(name);
+    while ((length > 0) and (strchr("\t\n\v\f\r ", name[length - 1]) != nullptr))
+        length--;
+
     for (vendor = dmi_vendor_specs; vendor->id != DMI_VENDOR_INVALID; vendor++) {
         for (vendor_name = vendor->names; *vendor_name != nullptr; vendor_name++) {
-            if (strcasecmp(name, *vendor_name) == 0)
+            if ((strlen(*vendor_name) == length) and (strncasecmp(name, *vendor_name, length) == 0))
                 return vendor;
         }
     }

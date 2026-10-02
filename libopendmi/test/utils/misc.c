@@ -132,7 +132,7 @@ static void test_checksum(void **pstate)
     uint8_t data[] = { 0x5F, 0x44, 0x4D, 0x49, 0x5F, 0x00, 0xFF, 0x01 };
 
     // Checksum makes the sum of all bytes zero
-    data[5] = dmi_checksum_calc(data, sizeof(data));
+    assert_true(dmi_checksum_calc(data, sizeof(data), &data[5]));
     assert_uint_equal(data[5], 0x68);
     assert_true(dmi_checksum_test(data, sizeof(data)));
 
@@ -140,11 +140,17 @@ static void test_checksum(void **pstate)
     assert_false(dmi_checksum_test(data, sizeof(data)));
 
     // Empty data has zero checksum
-    assert_uint_equal(dmi_checksum_calc(data, 0), 0);
+    uint8_t checksum = 0xFF;
+
+    assert_true(dmi_checksum_calc(data, 0, &checksum));
+    assert_uint_equal(checksum, 0);
     assert_true(dmi_checksum_test(data, 0));
 
-    // Null data is rejected
-    assert_uint_equal(dmi_checksum_calc(nullptr, 1), 0);
+    // Null data is rejected, and the checksum is left as it is
+    checksum = 0xFF;
+    assert_false(dmi_checksum_calc(nullptr, 1, &checksum));
+    assert_uint_equal(checksum, 0xFF);
+    assert_false(dmi_checksum_calc(data, sizeof(data), nullptr));
     assert_false(dmi_checksum_test(nullptr, 1));
 }
 

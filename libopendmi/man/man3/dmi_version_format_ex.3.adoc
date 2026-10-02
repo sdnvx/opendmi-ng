@@ -64,7 +64,9 @@ returns `nullptr`.
 
 == Errors
 
-None.
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised if `level` is not a detail level. The function takes no context, so
+the error reaches no error queue.
 
 == Examples
 

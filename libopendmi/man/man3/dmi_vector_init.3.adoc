@@ -31,9 +31,10 @@ typedef struct dmi_vector {
     size_t               capacity;
     size_t               length;
     dmi_vector_match_fn *matcher;
+    dmi_context_t       *context;
 } dmi_vector_t;
 
-bool dmi_vector_init(dmi_vector_t *vector, dmi_vector_match_fn *matcher);
+bool dmi_vector_init(dmi_vector_t *vector, dmi_context_t *context, dmi_vector_match_fn *matcher);
 bool dmi_vector_clear(dmi_vector_t *vector);
 
 bool dmi_vector_push(dmi_vector_t *vector, uintptr_t value);
@@ -59,10 +60,11 @@ array holds, and `capacity` the number it can hold before it is grown. The
 members are read, but are changed only by the functions.
 
 The `dmi_vector_init` function sets the vector up empty, with no memory
-allocated, and with `matcher` as the function `dmi_vector_find` and
-`dmi_vector_exists` compare the values with keys by. The `dmi_vector_clear`
-function removes all values and frees the array, and leaves the vector empty,
-as `dmi_vector_init` does, with the matcher kept. A vector is cleared once it
+allocated, with `context` as the context its errors are raised against, and
+with `matcher` as the function `dmi_vector_find` and `dmi_vector_exists`
+compare the values with keys by. The `dmi_vector_clear` function removes all
+values and frees the array, and leaves the vector empty, as
+`dmi_vector_init` does, with the context and the matcher kept. A vector is cleared once it
 is no longer needed.
 
 The `dmi_vector_push` function appends `value` to the vector, growing the
@@ -82,12 +84,14 @@ The `dmi_vector_length` function returns the number of values in the vector,
 and the `dmi_vector_is_empty` function tells whether there are none. Both
 take a `nullptr` vector as an empty one.
 
-The functions report failures in `errno`, rather than as errors of a context.
-
 === Parameters
 
 `vector`::
 Vector to work on.
+
+`context`::
+Context to raise the errors of the vector against, or `nullptr` if there is
+none, in which case the errors are not recorded.
 
 `matcher`::
 Function to compare the values with keys by, or `nullptr` if the vector is
@@ -109,29 +113,37 @@ Value of the vector the matcher compares with `key`.
 
 == Return value
 
-The `dmi_vector_init`, `dmi_vector_clear`, `dmi_vector_push`,
-`dmi_vector_pop` and `dmi_vector_get` functions return `true` on success,
-and `false` on failure, setting `errno`:
+The `dmi_vector_init`, `dmi_vector_clear`, `dmi_vector_push` and
+`dmi_vector_get` functions return `true` on success, and `false` on failure.
+If `dmi_vector_push` fails, the vector is left as it was.
 
-`EINVAL`::
-`vector` is `nullptr`, or, for `dmi_vector_get`, `value` is `nullptr`.
-
-`ENOENT`::
-The vector is empty, for `dmi_vector_pop`, or `index` is out of range, for
-`dmi_vector_get`.
-
-`ENOMEM`::
-The array cannot be grown, for `dmi_vector_push`; `errno` is set by
-`realloc`(3). The vector is left as it was.
+The `dmi_vector_pop` function returns `true` if a value has been removed, and
+`false` if the vector is empty, which is not an error, so that a vector can
+be emptied by popping its values until there is none, or on failure.
 
 The `dmi_vector_find` and `dmi_vector_exists` functions return `true` if a
-value matches `key`, and `false` otherwise, setting `errno` to `ENOENT`. If
-`vector` is `nullptr`, they return `false`, setting `errno` to `EINVAL`, and
-if the vector has no matcher, to `ENOTSUP`.
+value matches `key`, and `false` if none does, which is not an error either,
+or on failure.
 
 == Errors
 
-None: the functions take no context to raise errors in.
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `vector` is `nullptr`, or, for `dmi_vector_get`, if `value` is
+`nullptr`.
+
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised by `dmi_vector_get` if `index` is out of range.
+
+`DMI_ERROR_STATE_INVALID`::
+Raised by `dmi_vector_find` and `dmi_vector_exists` if the vector has no
+matcher.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised by `dmi_vector_push` if the array cannot be grown.
+
+The errors are raised against the context of the vector, and reach no error
+queue if the vector has none, or if `vector` itself is `nullptr`. The one of
+`dmi_vector_init` is raised against `context`.
 
 == Example
 
@@ -144,7 +156,7 @@ static bool match_name(uintptr_t entry, uintptr_t key)
 
 dmi_vector_t names;
 
-dmi_vector_init(&names, match_name);
+dmi_vector_init(&names, context, match_name);
 
 if (!dmi_vector_push(&names, (uintptr_t)"cpu") ||
     !dmi_vector_push(&names, (uintptr_t)"memory")) {

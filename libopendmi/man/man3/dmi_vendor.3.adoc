@@ -73,8 +73,8 @@ The `dmi_vendor_detect` function tells the vendor from a vendor name the
 SMBIOS structures give, e.g. the vendor of the firmware or of the system.
 Each known vendor has a list of the names it is given by, e.g.
 `Hewlett Packard Enterprise` and `HPE`; `name` matches a vendor if it is
-equal to one of them, case ignored. The name is compared as it is, so
-leading or trailing spaces, or any other spelling, make it match no vendor.
+equal to one of them, case and leading or trailing whitespace ignored, e.g.
+`LENOVO ` matches `Lenovo`. Any other spelling matches no vendor.
 `DMI_VENDOR_OTHER` has no names, and is never matched.
 
 The `dmi_vendor_spec_t` structure describes a known vendor:

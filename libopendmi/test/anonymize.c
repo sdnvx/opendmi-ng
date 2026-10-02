@@ -42,6 +42,7 @@ static bool test_contains(const dmi_buffer_t *buffer, const void *data, size_t l
 static void test_same_format(const char *original, const char *replaced);
 
 static const char *test_dell_path     = OPENDMI_TEST_DATA "/dell/g15-5510.bin";
+static const char *test_overlay_path  = OPENDMI_TEST_DATA "/dell/g15-5515.bin";
 static const char *test_asrock_path   = OPENDMI_TEST_DATA "/asrock/b460-pro4.bin";
 static const char *test_proliant_path = OPENDMI_TEST_DATA "/hp/proliant-dl360-g6-484184-b21.bin";
 
@@ -197,7 +198,7 @@ static void test_anonymize_overlay(void **pstate)
 
     // Structures carrying additional information are decoded from copies of
     // their own, which the table does not hold
-    dmi_context_t *context = test_open(test_dell_path, DMI_CONTEXT_FLAG_OVERLAY);
+    dmi_context_t *context = test_open(test_overlay_path, DMI_CONTEXT_FLAG_OVERLAY);
 
     dmi_buffer_t *table = dmi_buffer_create(context);
     assert_false(dmi_anonymize(context, table));
@@ -207,6 +208,22 @@ static void test_anonymize_overlay(void **pstate)
     assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 
     assert_false(dmi_save(context, test_save_path, DMI_SAVE_FLAG_OVERWRITE | DMI_SAVE_FLAG_ANONYMIZE));
+
+    // The structures are told by how the context has been opened, whatever
+    // its flags are now
+    assert_true(dmi_registry_status(dmi_get_registry(context)) & DMI_REGISTRY_STATUS_OVERLAID);
+
+    dmi_set_flags(context, dmi_get_flags(context) & ~DMI_CONTEXT_FLAG_OVERLAY);
+    assert_false(dmi_anonymize(context, table));
+
+    dmi_buffer_destroy(table);
+    dmi_destroy(context);
+
+    context = test_open(test_overlay_path, DMI_CONTEXT_FLAG_RELAXED);
+    table   = dmi_buffer_create(context);
+
+    dmi_set_flags(context, dmi_get_flags(context) | DMI_CONTEXT_FLAG_OVERLAY);
+    assert_true(dmi_anonymize(context, table));
 
     dmi_buffer_destroy(table);
     dmi_destroy(context);
@@ -240,12 +257,18 @@ static void test_anonymize_context(void **pstate)
     dmi_destroy(context);
 
     // Context whose structures carry additional information is left as it is
-    context = test_open(test_dell_path, DMI_CONTEXT_FLAG_OVERLAY);
+    context = test_open(test_overlay_path, DMI_CONTEXT_FLAG_OVERLAY);
+
+    system = test_info(context, DMI_TYPE(system));
+    char *serial_number = strdup(system->serial_number);
+    assert_non_null(serial_number);
 
     assert_false(dmi_anonymize_context(context));
 
     system = test_info(context, DMI_TYPE(system));
-    assert_string_equal(system->serial_number, "FY59ZK3");
+    assert_string_equal(system->serial_number, serial_number);
+
+    free(serial_number);
 
     dmi_destroy(context);
 }

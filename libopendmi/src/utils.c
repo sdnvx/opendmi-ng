@@ -77,20 +77,20 @@ void dmi_free(void *ptr)
 
 bool dmi_checksum_test(const void *data, size_t length)
 {
-    if (data == nullptr) {
-        errno = EINVAL;
-        return false;
-    }
+    uint8_t checksum;
 
-    return dmi_checksum_calc(data, length) == 0;
+    if (data == nullptr)
+        return dmi_trace_argument_null(nullptr, data);
+
+    return dmi_checksum_calc(data, length, &checksum) and (checksum == 0);
 }
 
-uint8_t dmi_checksum_calc(const void *data, size_t length)
+bool dmi_checksum_calc(const void *data, size_t length, uint8_t *pchecksum)
 {
-    if (data == nullptr) {
-        errno = EINVAL;
-        return 0;
-    }
+    if (data == nullptr)
+        return dmi_trace_argument_null(nullptr, data);
+    if (pchecksum == nullptr)
+        return dmi_trace_argument_null(nullptr, pchecksum);
 
     uint8_t sum   = 0;
     size_t  index = 0;
@@ -99,7 +99,9 @@ uint8_t dmi_checksum_calc(const void *data, size_t length)
         sum += ((const uint8_t *)data)[index++];
     }
 
-    return (uint8_t)-sum;
+    *pchecksum = (uint8_t)-sum;
+
+    return true;
 }
 
 uint32_t dmi_ipow32(uint32_t value, unsigned int factor)

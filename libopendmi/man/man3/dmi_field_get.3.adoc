@@ -77,10 +77,9 @@ Raised if `field` is `nullptr`, or if `value` of `dmi_field_get` is
 `nullptr`. The functions take no context, so the error reaches no error
 queue.
 
-== Notes
-
-A member whose width is not supported is a mistake of the specification, and
-fails an assertion in debug builds.
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised if the width of the member is not supported, which is a mistake of
+the specification, and reaches no error queue either.
 
 == Example
 

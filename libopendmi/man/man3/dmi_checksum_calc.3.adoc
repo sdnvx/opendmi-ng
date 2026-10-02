@@ -24,7 +24,7 @@ endif::[]
 ----
 #include <opendmi/utils.h>
 
-uint8_t dmi_checksum_calc(const void *data, size_t length);
+bool dmi_checksum_calc(const void *data, size_t length, uint8_t *pchecksum);
 bool dmi_checksum_test(const void *data, size_t length);
 ----
 
@@ -33,8 +33,9 @@ bool dmi_checksum_test(const void *data, size_t length);
 SMBIOS protects its entry points with an 8-bit checksum: the bytes of the
 data, the checksum byte included, add up to zero modulo 256.
 
-The `dmi_checksum_calc` function returns the checksum of the `length` bytes
-at `data`, that is the value which brings their sum to zero modulo 256. The
+The `dmi_checksum_calc` function computes the checksum of the `length` bytes
+at `data`, that is the value which brings their sum to zero modulo 256, and
+stores it in the variable `pchecksum` points to. The
 checksum byte within the data is counted as any other byte, so it is set to
 zero before the checksum is computed.
 
@@ -49,18 +50,24 @@ Data to sum.
 `length`::
 Number of bytes to sum.
 
+`pchecksum`::
+Variable to store the checksum in.
+
 == Return value
 
-The `dmi_checksum_calc` function returns the checksum, or 0 if `data` is
-`nullptr`, setting `errno` to `EINVAL`.
+The `dmi_checksum_calc` function returns `true` if the checksum has been
+computed, and `false` if `data` or `pchecksum` is `nullptr`, in which case
+the variable is left as it is. The checksum of zero bytes is zero.
 
 The `dmi_checksum_test` function returns `true` if the bytes add up to zero,
-which they do when `length` is zero, and `false` otherwise. If `data` is
-`nullptr`, it returns `false`, setting `errno` to `EINVAL`.
+which they do when `length` is zero, and `false` otherwise, or if `data` is
+`nullptr`.
 
 == Errors
 
-None: the functions take no context to raise errors in.
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `data` or `pchecksum` is `nullptr`. The functions take no context,
+so the error reaches no error queue.
 
 == Example
 
@@ -69,7 +76,8 @@ None: the functions take no context to raise errors in.
 uint8_t data[16] = { ... };
 
 data[5] = 0;
-data[5] = dmi_checksum_calc(data, sizeof(data));
+if (!dmi_checksum_calc(data, sizeof(data), &data[5]))
+    return false;
 
 assert(dmi_checksum_test(data, sizeof(data)));
 ----

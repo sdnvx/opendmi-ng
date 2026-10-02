@@ -584,8 +584,8 @@ bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table)
         .table   = table
     };
 
-    dmi_vector_init(&anon.values, nullptr);
-    dmi_vector_init(&anon.saved, nullptr);
+    dmi_vector_init(&anon.values, context, nullptr);
+    dmi_vector_init(&anon.saved, context, nullptr);
 
     bool success = false;
     do {
@@ -624,8 +624,10 @@ static bool dmi_anonymize_check(dmi_context_t *context, const dmi_buffer_t *tabl
         return dmi_trace_state_invalid(context, "Context is not open");
 
     // Structures carrying additional information are decoded from copies of
-    // their own, which the table does not hold
-    if (context->flags & DMI_CONTEXT_FLAG_OVERLAY)
+    // their own, which the table does not hold. Whether they do is told by
+    // the registry, since the flag of the context may have changed since the
+    // context was opened
+    if (dmi_registry_status(context->state.registry) & DMI_REGISTRY_STATUS_OVERLAID)
         return dmi_trace_state_invalid(context, "Structures carry additional information entries");
 
     return true;
@@ -957,7 +959,7 @@ static const dmi_anonymize_saved_t *dmi_anonymize_save(
 
     if (not dmi_vector_push(&anon->saved, (uintptr_t)saved)) {
         dmi_free(saved);
-        return dmi_trace_out_of_memory(anon->context, nullptr);
+        return nullptr;
     }
 
     return saved;
@@ -1115,7 +1117,7 @@ static bool dmi_anonymize_add(
 
     if (not dmi_vector_push(&anon->values, (uintptr_t)value)) {
         dmi_free(value);
-        return dmi_trace_out_of_memory(anon->context);
+        return false;
     }
 
     return true;

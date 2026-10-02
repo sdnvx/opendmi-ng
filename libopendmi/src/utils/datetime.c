@@ -33,16 +33,19 @@ dmi_date_t dmi_date_parse(const char *str)
 
     memcpy(date, str, len + 1);
 
+    // Tokens are split by hand rather than by strtok_r(), which skips empty
+    // ones and would accept e.g. `03//07/2025`
     char *pos = date;
-    while (true) {
-        const char *token;
+    while (pos != nullptr) {
+        char *token = pos;
         unsigned long value;
 
-        token = strtok_r(pos, "/", &pos);
-        if (token == nullptr)
-            break;
+        pos = strchr(pos, '/');
+        if (pos != nullptr)
+            *pos++ = 0;
 
-        // Leading spaces and signs are accepted by strtoul(), but not here
+        // Leading spaces and signs are accepted by strtoul(), but not here,
+        // and empty tokens are rejected as well
         if (not isdigit((unsigned char)*token))
             return DMI_DATE_NONE;
 

@@ -79,10 +79,8 @@ bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module)
         if (not dmi_types_map(context, module, true, map))
             break;
 
-        if (not dmi_vector_push(&context->modules, (uintptr_t)module)) {
-            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
+        if (not dmi_vector_push(&context->modules, (uintptr_t)module))
             break;
-        }
 
         memcpy(context->type_map, map, sizeof(*map) * (DMI_TYPE_ID_MAX + 1));
 
@@ -261,7 +259,6 @@ static bool dmi_setup_platform_modules(dmi_context_t *context)
         }
 
         if (not dmi_vector_push(&context->state.modules, (uintptr_t)module)) {
-            dmi_error_raise(context, DMI_ERROR_OUT_OF_MEMORY);
             success = false;
             break;
         }

@@ -202,7 +202,7 @@ dmi_entity_t *dmi_entity_create(
     if (entity == nullptr)
         return nullptr;
 
-    dmi_vector_init(&entity->properties, nullptr);
+    dmi_vector_init(&entity->properties, context, nullptr);
 
     // Decode structure header
     entity->context     = context;
@@ -537,10 +537,7 @@ bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_property_t *
     if (property == nullptr)
         return dmi_trace_argument_null(entity->context, property);
 
-    if (not dmi_vector_push(&entity->properties, (uintptr_t)property))
-        return dmi_trace_out_of_memory(entity->context);
-
-    return true;
+    return dmi_vector_push(&entity->properties, (uintptr_t)property);
 }
 
 bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, size_t index)

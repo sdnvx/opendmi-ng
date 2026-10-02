@@ -102,7 +102,8 @@ __dmi_api const char *dmi_vendor_name(dmi_vendor_t vendor);
 /**
  * @brief Tell the vendor from a vendor name.
  *
- * The name is compared with the names of the known vendors, case ignored.
+ * The name is compared with the names of the known vendors, case and
+ * surrounding whitespace ignored.
  *
  * @param[in] name Vendor name, as an SMBIOS structure gives it.
  *

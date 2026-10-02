@@ -73,12 +73,9 @@ if memory is exhausted.
 
 == Errors
 
-None: the functions take no context to raise errors in.
-
-== Notes
-
-Empty parts are skipped rather than rejected, since the parts are split with
-`strtok_r`(3): `03//07/2025` and `/03/07/2025` are parsed as `03/07/2025`.
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_date_parse` if `str` is `nullptr`. The functions take no
+context, so the error reaches no error queue.
 
 == Example
 

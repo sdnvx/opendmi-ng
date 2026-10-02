@@ -28,7 +28,8 @@ enum dmi_context_status {
     DMI_REGISTRY_STATUS_SCANNED   = (1 << 0),
     DMI_REGISTRY_STATUS_TRUNCATED = (1 << 1),
     DMI_REGISTRY_STATUS_DECODED   = (1 << 2),
-    DMI_REGISTRY_STATUS_LINKED    = (1 << 3)
+    DMI_REGISTRY_STATUS_LINKED    = (1 << 3),
+    DMI_REGISTRY_STATUS_OVERLAID  = (1 << 4)
 };
 
 unsigned dmi_registry_status(const dmi_registry_t *registry);
@@ -61,6 +62,12 @@ The references between the structures have been resolved, which happens if
 the context has `DMI_CONTEXT_FLAG_LINK`, see `dmi_create`(3). Unless the
 context has `DMI_CONTEXT_FLAG_STRICT`, the broken references are left
 unresolved, and the flag is set all the same.
+
+`DMI_REGISTRY_STATUS_OVERLAID`::
+At least one structure carries additional information entries, which happens
+if the context has `DMI_CONTEXT_FLAG_OVERLAY` and the table has entries
+referring to structures of it. Such structures are decoded from copies with
+the entries applied, which the table does not hold.
 
 === Parameters
 

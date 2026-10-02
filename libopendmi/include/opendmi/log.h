@@ -62,7 +62,7 @@ __dmi_api bool dmi_log_message_va(
  * @param[in] value Logging level.
  *
  * @return Name of the level, e.g. `WARNING`, or `UNKNOWN` if @p value is not
- *         a level.
+ *         a level, so that the result can always be printed.
  */
 __dmi_api const char *dmi_log_level_name(dmi_log_level_t value);
 

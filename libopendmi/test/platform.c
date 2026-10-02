@@ -50,6 +50,7 @@ static void test_platform_set(void **pstate);
 static void test_platform_filter_module(void **pstate);
 static void test_platform_signature(void **pstate);
 static void test_platform_signature_slots(void **pstate);
+static void test_platform_vendor_detect(void **pstate);
 
 static dmi_platform_t *test_platform_create(
         dmi_vendor_t  vendor,
@@ -169,7 +170,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_platform_set, test_platform_setup, test_platform_teardown),
         cmocka_unit_test_setup_teardown(test_platform_filter_module, test_platform_setup, test_platform_teardown),
         cmocka_unit_test_setup_teardown(test_platform_signature, test_platform_setup, test_platform_teardown),
-        cmocka_unit_test_setup_teardown(test_platform_signature_slots, test_platform_setup, test_platform_teardown)
+        cmocka_unit_test_setup_teardown(test_platform_signature_slots, test_platform_setup, test_platform_teardown),
+        cmocka_unit_test(test_platform_vendor_detect)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -894,6 +896,31 @@ static void test_platform_signature_slots(void **pstate)
         .name     = "Test rest slot module",
         .entities = (const dmi_entity_spec_t *[]){ &test_rest_spec, nullptr }
     }));
+}
+
+//
+// Vendor is told by any of its names, case and surrounding whitespace
+// ignored, the way strings of the structures are trimmed.
+//
+static void test_platform_vendor_detect(void **pstate)
+{
+    dmi_unused(pstate);
+
+    const char *names[] = { "LENOVO", "lenovo", " LENOVO ", "LENOVO\t" };
+
+    for (size_t i = 0; i < countof(names); i++) {
+        const dmi_vendor_spec_t *vendor = dmi_vendor_detect(names[i]);
+
+        assert_non_null(vendor);
+        assert_int_equal(vendor->id, DMI_VENDOR_LENOVO);
+    }
+
+    // Other spellings match no vendor
+    assert_null(dmi_vendor_detect("LENOVO Group"));
+    assert_null(dmi_vendor_detect("LENOV"));
+    assert_null(dmi_vendor_detect(""));
+    assert_null(dmi_vendor_detect("   "));
+    assert_null(dmi_vendor_detect(nullptr));
 }
 
 static const dmi_entity_spec_t *test_platform_select(dmi_context_t *context, const uint8_t *data, size_t size)

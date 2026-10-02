@@ -22,7 +22,6 @@ static const dmi_name_set_t dmi_log_level_names =
     }
 };
 
-
 bool dmi_log_message(dmi_log_t *target, dmi_log_level_t level, const char *format, ...)
 {
     va_list args;
@@ -46,9 +45,8 @@ bool dmi_log_message_va(dmi_log_t *target, dmi_log_level_t level, const char *fo
 
 const char *dmi_log_level_name(dmi_log_level_t value)
 {
-    const char *name;
+    const char *name = dmi_name_lookup(&dmi_log_level_names, (int)value);
 
-    name = dmi_name_lookup(&dmi_log_level_names, (int)value);
     if (name == nullptr)
         return "UNKNOWN";
 

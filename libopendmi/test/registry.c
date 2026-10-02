@@ -255,6 +255,9 @@ static void test_registry_get(void **pstate)
     dmi_error_clear(context);
     assert_null(dmi_registry_lookup(registry, 0x0011, DMI_TYPE(memory_array), false));
     assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ENTITY_TYPE_INVALID);
+
+    // Registry cannot be created without a context
+    assert_null(dmi_registry_create(nullptr, 0));
 }
 
 static void test_registry_get_reserved_handles(void **pstate)

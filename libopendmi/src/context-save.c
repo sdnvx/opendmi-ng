@@ -203,10 +203,12 @@ static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry);
  * @brief Update checksum of `length` bytes of entry point structure placed
  * in a writable buffer.
  */
-#define dmi_entry_set_checksum(eps, length)                                  \
-    do {                                                                     \
-        dmi_entry_set((eps)->checksum, 0);                                   \
-        dmi_entry_set((eps)->checksum, dmi_checksum_calc((eps), (length))); \
+#define dmi_entry_set_checksum(eps, length)                   \
+    do {                                                      \
+        uint8_t checksum_ = 0;                                \
+        dmi_entry_set((eps)->checksum, 0);                    \
+        (void)dmi_checksum_calc((eps), (length), &checksum_); \
+        dmi_entry_set((eps)->checksum, checksum_);            \
     } while (false)
 
 #if defined(__KERNEL__)

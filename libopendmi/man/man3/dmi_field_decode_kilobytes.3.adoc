@@ -95,6 +95,10 @@ The `dmi_field_encode_kilobytes` function always returns `true`.
 Raised if `field` is `nullptr`. The functions take no context, so the error
 reaches no error queue.
 
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised if the width of the member is not supported, which is a mistake of
+the specification, and reaches no error queue either.
+
 == Notes
 
 `data` must not be `nullptr`, nor may the `value` of

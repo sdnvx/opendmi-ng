@@ -26,6 +26,9 @@ dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity)
     bool success = false;
     dmi_registry_t *registry = nullptr;
 
+    if (context == nullptr)
+        return dmi_trace_argument_null(nullptr, context, nullptr);
+
     dmi_log_debug(context, "Creating registry...");
 
     if (capacity == 0)
@@ -476,7 +479,10 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
                     return false;
 
                 success = false;
+                continue;
             }
+
+            registry->status |= DMI_REGISTRY_STATUS_OVERLAID;
         }
     }
 

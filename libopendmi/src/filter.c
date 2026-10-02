@@ -75,6 +75,10 @@ dmi_filter_t *dmi_filter_create(dmi_context_t *context)
     filter->context = context;
     filter->mask    = DMI_FILTER_MASK_ALL;
 
+    dmi_vector_init(&filter->handles, context, nullptr);
+    dmi_vector_init(&filter->types, context, nullptr);
+    dmi_vector_init(&filter->modules, context, nullptr);
+
     return filter;
 }
 
@@ -97,9 +101,9 @@ bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type)
 bool dmi_filter_add_module(dmi_filter_t *filter, const dmi_module_t *module)
 {
     if (filter == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, filter);
     if (module == nullptr)
-        return dmi_trace_argument_null(nullptr, module);
+        return dmi_trace_argument_null(filter->context, module);
 
     return dmi_vector_push(&filter->modules, (uintptr_t)module);
 }

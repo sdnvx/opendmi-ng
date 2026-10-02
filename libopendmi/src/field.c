@@ -174,8 +174,7 @@ bool dmi_field_store_member(dmi_member_ref_t member, void *value, uintmax_t raw)
         break;
 
     default:
-        assert(false);
-        return false;
+        return dmi_trace_argument_invalid(nullptr, member);
     }
 
     return true;
@@ -233,8 +232,7 @@ uintmax_t dmi_field_load_member(dmi_member_ref_t member, const void *value)
     case sizeof(uint64_t):
         return dmi_deref(uint64_t, value);
     default:
-        assert(false);
-        return 0;
+        return dmi_trace_argument_invalid(nullptr, member, 0);
     }
 }
 

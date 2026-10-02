@@ -76,12 +76,14 @@ it was.
 == Errors
 
 `DMI_ERROR_ARGUMENT_NULL`::
-Raised by `dmi_filter_add_type` and `dmi_filter_add_handle` if `filter` is
-`nullptr`, and by `dmi_filter_add_module` if `module` is `nullptr`, in which
-case it is not reported, since there is no context to hold it.
-`dmi_filter_add_module` takes a `filter` of `nullptr` silently.
+Raised if `filter` is `nullptr`, in which case it is not reported, since
+there is no context to hold it, and by `dmi_filter_add_module` if `module` is
+`nullptr`.
 
-Memory exhaustion is not reported.
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised if memory is exhausted.
+
+The errors are raised against the context the filter has been created with.
 
 == Example
 

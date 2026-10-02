@@ -35,7 +35,10 @@ enum dmi_context_status
     DMI_REGISTRY_STATUS_DECODED   = (1 << 2),
 
     /** Cross-references between entities have been resolved. */
-    DMI_REGISTRY_STATUS_LINKED    = (1 << 3)
+    DMI_REGISTRY_STATUS_LINKED    = (1 << 3),
+
+    /** At least one entity carries additional information entries. */
+    DMI_REGISTRY_STATUS_OVERLAID  = (1 << 4)
 };
 
 /**
@@ -139,12 +142,14 @@ __BEGIN_DECLS
  * Creates an empty registry. A context creates its own registry as it is
  * opened, and the functions which fill a registry are internal.
  *
- * @param[in] context  Context handle, must not be @c nullptr.
+ * @param[in] context  Context handle.
  * @param[in] capacity Registry hash-table capacity. Zero means default value
  *                     of `DMI_REGISTRY_CAPACITY`.
  *
- * @return New registry, or @c nullptr if memory is exhausted.
+ * @return New registry, or @c nullptr if @p context is @c nullptr or memory
+ *         is exhausted.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Context is `nullptr`
  * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
  */
 __dmi_api dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity);

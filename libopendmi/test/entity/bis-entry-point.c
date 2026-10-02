@@ -50,7 +50,7 @@ static void test_bis_entry_point_decode(void **pstate)
         };
 
         // Checksum makes the sum of structure bytes zero
-        data[0x04] = dmi_checksum_calc(data, 0x1C);
+        assert_true(dmi_checksum_calc(data, 0x1C, &data[0x04]));
         if (not valid)
             data[0x04]++;
 

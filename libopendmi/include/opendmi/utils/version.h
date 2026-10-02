@@ -115,6 +115,8 @@ __dmi_api char *dmi_version_format(dmi_version_t version);
  * @param[in] version Version number.
  * @param[in] level   Detail level to include in the formatted string.
  *
+ * @error DMI_ERROR_ARGUMENT_INVALID Level is not a detail level
+ *
  * @return A newly allocated version string, or @c nullptr if @p level is invalid
  *         or on allocation failure.
  */

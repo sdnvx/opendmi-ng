@@ -556,7 +556,7 @@ static void test_dump_write(const char *path, const dmi_data_t *data, size_t siz
 static void test_checksum_fix(dmi_data_t *data, size_t checksum_offset, size_t start, size_t length)
 {
     data[checksum_offset] = 0;
-    data[checksum_offset] = dmi_checksum_calc(data + start, length);
+    assert_true(dmi_checksum_calc(data + start, length, &data[checksum_offset]));
 }
 
 static uint64_t test_address_get(const dmi_data_t *data, size_t size)

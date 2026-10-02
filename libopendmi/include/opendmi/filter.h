@@ -64,9 +64,10 @@ __dmi_api dmi_filter_t *dmi_filter_create(dmi_context_t *context);
  * @param[in]     handle Entity handle to allow.
  *
  * @return `true` on success, `false` if @p filter is @c nullptr or the handle
- *         could not be stored, which is not reported.
+ *         could not be stored.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Filter is `nullptr`
+ * @error DMI_ERROR_OUT_OF_MEMORY Handle could not be stored
  */
 __dmi_api bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
 
@@ -82,9 +83,10 @@ __dmi_api bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
  * @param[in]     type   Type number to allow.
  *
  * @return `true` on success, `false` if @p filter is @c nullptr or the type could
- *         not be stored, which is not reported.
+ *         not be stored.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Filter is `nullptr`
+ * @error DMI_ERROR_OUT_OF_MEMORY Type could not be stored
  */
 __dmi_api bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type);
 
@@ -101,10 +103,10 @@ __dmi_api bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type);
  * @param[in]     module Module to allow.
  *
  * @return `true` on success, `false` if @p filter or @p module is @c nullptr,
- *         or the module could not be stored, which is not reported.
+ *         or the module could not be stored.
  *
- * @error DMI_ERROR_ARGUMENT_NULL Module is `nullptr`; a @c nullptr filter is
- *        taken silently
+ * @error DMI_ERROR_ARGUMENT_NULL Filter or module is `nullptr`
+ * @error DMI_ERROR_OUT_OF_MEMORY Module could not be stored
  */
 __dmi_api bool dmi_filter_add_module(dmi_filter_t *filter, const dmi_module_t *module);
 

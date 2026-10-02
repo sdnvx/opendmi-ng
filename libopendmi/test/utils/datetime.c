@@ -57,7 +57,11 @@ static void test_date_parse(void **pstate)
         { "01/ 1/00",    DMI_DATE_NONE          },
         { "01/01/ 00",   DMI_DATE_NONE          },
         { "01/01/ -12",  DMI_DATE_NONE          },
-        { "01/01/2000 ", DMI_DATE_NONE          }
+        { "01/01/2000 ", DMI_DATE_NONE          },
+        { "01//01/2000", DMI_DATE_NONE          },
+        { "/01/01/2000", DMI_DATE_NONE          },
+        { "01/01/2000/", DMI_DATE_NONE          },
+        { "01/01/",      DMI_DATE_NONE          }
     };
 
     for (size_t i = 0; i < countof(test_data); i++) {

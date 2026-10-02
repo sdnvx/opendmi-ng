@@ -139,7 +139,6 @@ bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value)
 static const char *const dmi_string_placeholders[] =
 {
     "To Be Filled By O.E.M.",
-    "To be filled by O.E.M.",
     "Filled By OEM",
     "Default string",
     "Default",

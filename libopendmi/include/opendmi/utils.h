@@ -46,9 +46,11 @@ __dmi_api void dmi_free(void *ptr);
  *
  * @param data   Pointer to the data block to verify.
  * @param length Number of bytes to sum.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Data is `nullptr`
+ *
  * @return @c true if the checksum is valid (byte sum equals zero), @c false
- *         otherwise. Returns @c false and sets `errno` to @c EINVAL if
- *         @p data is @c nullptr.
+ *         otherwise, or if @p data is @c nullptr.
  */
 __dmi_api bool dmi_checksum_test(const void *data, size_t length);
 
@@ -59,12 +61,17 @@ __dmi_api bool dmi_checksum_test(const void *data, size_t length);
  * @p length bytes, results in zero sum modulo 256. The checksum field within
  * @p data must be set to zero before the computation.
  *
- * @param data   Pointer to the data block to compute checksum of.
- * @param length Number of bytes to sum.
- * @return Checksum value. Returns @c 0 and sets `errno` to @c EINVAL if
- *         @p data is @c nullptr.
+ * @param[in]  data      Pointer to the data block to compute checksum of.
+ * @param[in]  length    Number of bytes to sum.
+ * @param[out] pchecksum Variable to store the checksum in.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Data or checksum pointer is `nullptr`
+ *
+ * @return @c true if the checksum is computed, @c false if @p data or
+ *         @p pchecksum is @c nullptr, in which case the variable is left as
+ *         it is.
  */
-__dmi_api uint8_t dmi_checksum_calc(const void *data, size_t length);
+__dmi_api bool dmi_checksum_calc(const void *data, size_t length, uint8_t *pchecksum);
 
 /**
  * @brief Raises a 32-bit unsigned integer to a non-negative integer power.

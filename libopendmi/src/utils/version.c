@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 #include <stdio.h>
-#include <errno.h>
 
+#include <opendmi/internal.h>
 #include <opendmi/utils/string.h>
 #include <opendmi/utils/version.h>
 
@@ -41,8 +41,7 @@ char *dmi_version_format_ex(dmi_version_t version, dmi_version_level_t level)
         break;
 
     default:
-        errno = EINVAL;
-        return nullptr;
+        return dmi_trace_argument_invalid(nullptr, level, nullptr);
     }
 
     if (rv < 0)

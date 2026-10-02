@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Rename error codes after one scheme, `DMI_ERROR_<SUBJECT>[_<DETAIL>]_<CONDITION>`, e.g. `DMI_ERROR_NULL_ARGUMENT` to `DMI_ERROR_ARGUMENT_NULL` and `DMI_ERROR_FILE_OPEN` to `DMI_ERROR_FILE_OPEN_FAILED`, remove the unused `DMI_ERROR_INVALID_ENTITY_ADDR` and `DMI_ERROR_NO_MORE_ENTRIES`, and move the general errors right after `DMI_ERROR_NONE`; the numeric values of the codes change
+- Report errors of vectors, `dmi_checksum_*()` and `dmi_version_format_ex()` with the error codes of the library rather than in `errno`, take the context of a vector in `dmi_vector_init()`, and return the checksum of `dmi_checksum_calc()` through a pointer, so that its failure is told from a zero checksum
+- Tell whether additional information entries have been applied by `DMI_REGISTRY_STATUS_OVERLAID` of the registry, rather than by the current flags of the context, when anonymizing
 - Check the pointer arguments of the API at run time, raising `DMI_ERROR_ARGUMENT_NULL`, rather than with assertions or silently, and raise `DMI_ERROR_ARGUMENT_INVALID` on a zero length in `dmi_memory_load()` and on an invalid address in `dmi_generic_parse_entry_addr()`
 - Rename `dmi_acer_hotkey_t`, `dmi_acer_device_t`, `dmi_dell_device_name_t`, `dmi_dell_hotkey_t` and `dmi_dell_memory_id_t` to `*_entry_t`, and `severity` of `dmi_lint_rule_params_t` to `reader_severity`
 - Take physical addresses as `uint64_t` in `dmi_memory_load()` and `dmi_generic_*()`, so that addresses above 4 GiB reach 32-bit systems intact
@@ -46,6 +48,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix BCD values too large for their field truncated when encoding
 - Fix crashes on a failed registry insertion, on boolean attributes without a name for the value, on `dmi_code_lookup_rev()` with no code, on variant attributes without variants in `dmi_attribute_resolve()`, on `dmi_field_get()` with no member, and on `dmi_module_register()` with a module without a code
 - Fix `dmi_registry_resolve_any()` reading past an empty list of types, and `dmi_asprintf()` leaving the result undefined with no format
+- Fix filters not reporting exhausted memory, and `dmi_filter_add_module()` taking a filter of `nullptr` silently
+- Fix dates with empty parts, e.g. `03//07/2025`, accepted by `dmi_date_parse()`
+- Fix `dmi_vendor_detect()` not ignoring whitespace around the name, `dmi_registry_create()` not checking its context, and members of unsupported width failing an assertion rather than an argument check
 - Fix filter example of the registry, which passed a structure type for a type number (reference)
 - Fix memory leaks and invalid frees on error paths of decoding, linking and error reporting
 - Fix `dmi_alloc_array()` not detecting overflow, `dmi_set_locale()` keeping the caller's pointer, and `dmi_type_name()` naming type numbers out of range OEM-specific

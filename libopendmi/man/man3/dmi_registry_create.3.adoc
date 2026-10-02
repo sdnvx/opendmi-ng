@@ -54,7 +54,7 @@ that. Passing `nullptr` does nothing.
 
 `context`::
 Context the registry belongs to, whose error queue its errors are raised
-against. It must not be `nullptr`, since the lookups read its flags.
+against, and whose flags the lookups read.
 
 `capacity`::
 Number of cells of the hash table, or zero for `DMI_REGISTRY_CAPACITY`.
@@ -65,9 +65,14 @@ Registry to destroy, or `nullptr`.
 == Return value
 
 On success, `dmi_registry_create` returns the registry. On failure, which
-happens when memory is exhausted only, it returns `nullptr`.
+happens if `context` is `nullptr` or if memory is exhausted, it returns
+`nullptr`.
 
 == Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_registry_create` if `context` is `nullptr`, in which case it
+is not reported, since there is no context to hold it.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Raised by `dmi_registry_create` if memory is exhausted.

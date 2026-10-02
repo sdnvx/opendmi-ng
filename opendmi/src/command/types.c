@@ -13,7 +13,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <errno.h>
 #include <assert.h>
 
 #include <opendmi/context.h>
@@ -243,7 +242,7 @@ static bool dmi_types_show_module_types(const dmi_module_t *module)
         return true;
 
     if (not dmi_vector_push(&dmi_types_config.show_modules, (uintptr_t)module)) {
-        dmi_command_message_ex(&dmi_types_command, "Internal error: %s", strerror(errno));
+        dmi_command_message_ex(&dmi_types_command, "Out of memory");
         return false;
     }
 

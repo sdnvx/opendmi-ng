@@ -872,6 +872,7 @@ __dmi_api void dmi_fields_release(dmi_entity_t *entity);
  * @param[out] value Member the field decodes into, or @c nullptr.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Width of the member is not supported
  *
  * @return `true` if the member has been set, `false` if @p field is
  *         @c nullptr or the width of the member is not supported.
@@ -898,6 +899,7 @@ __dmi_api bool dmi_field_decode_kilobytes(
  * @param[out] value Member the field decodes into, or @c nullptr.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Width of the member is not supported
  *
  * @return `true` if the member has been set, `false` if @p field is
  *         @c nullptr or the width of the member is not supported.
@@ -921,6 +923,7 @@ __dmi_api bool dmi_field_decode_kilobytes_last(
  * @param[out] data  Data the field is to carry, which must not be @c nullptr.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Width of the member is not supported
  *
  * @return Always `true`.
  */
@@ -933,12 +936,13 @@ __dmi_api bool dmi_field_encode_kilobytes(
  * @brief Get the value of the integer member of a field.
  *
  * The width of the member is `field->member.size`, which is one of 1, 2, 4
- * or 8 bytes; any other width fails an assertion in debug builds.
+ * or 8 bytes.
  *
  * @param[in] field Field whose member is read.
  * @param[in] value Member of the field.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Field or member is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Width of the member is not supported
  *
  * @return Value of the member, or zero if @p field or @p value is @c nullptr,
  *         or if the width of the member is not supported.
@@ -950,8 +954,7 @@ __dmi_api uintmax_t dmi_field_get(const dmi_field_t *field, const void *value);
  * than the data the field carries.
  *
  * The number is cut down to the width of the member, `field->member.size`,
- * which is one of 1, 2, 4 or 8 bytes; any other width fails an assertion in
- * debug builds.
+ * which is one of 1, 2, 4 or 8 bytes.
  *
  * @param[in]  field  Field whose member is written.
  * @param[out] value  Member of the field, or @c nullptr, in which case
@@ -959,6 +962,7 @@ __dmi_api uintmax_t dmi_field_get(const dmi_field_t *field, const void *value);
  * @param[in]  number Value to set.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Width of the member is not supported
  *
  * @return `true` on success or if @p value is @c nullptr, `false` if @p field
  *         is @c nullptr or the width of the member is not supported.

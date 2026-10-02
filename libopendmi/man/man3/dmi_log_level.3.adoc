@@ -86,7 +86,9 @@ Code of the level to find.
 == Return value
 
 The `dmi_log_level_name` function returns the name of the level, or
-`UNKNOWN` if the value is not a level, e.g. `DMI_LOG_INVALID`. The string
+`UNKNOWN` if the value is not a level, e.g. `DMI_LOG_INVALID`, so that a log
+record can always be prefixed with it, unlike the other `*_name` functions,
+which return `nullptr` then. The string
 belongs to the library and must not be modified or freed; a translated name
 may become invalid once the locale is changed.
 
