@@ -87,10 +87,12 @@ __dmi_api bool dmi_vector_get(const dmi_vector_t *vector, size_t index, uintptr_
  * @param vector The vector to search. Must not be @c nullptr and must have a
  *               matcher set.
  * @param key    The search key passed to the matcher callback.
- * @param value  Output parameter that receives the matching element value.
- *               Must not be @c nullptr.
+ * @param value  Output parameter that receives the matching element value,
+ *               or @c nullptr if the value is not needed.
  *
- * @return true if a matching element was found, false otherwise or on error.
+ * @return true if a matching element was found, false otherwise or on error,
+ *         with `errno` set to `ENOENT` if no element matches, `EINVAL` if
+ *         @p vector is @c nullptr, or `ENOTSUP` if the vector has no matcher.
  */
 __dmi_api bool dmi_vector_find(const dmi_vector_t *vector, uintptr_t key, uintptr_t *value);
 
@@ -115,26 +117,29 @@ __dmi_api bool dmi_vector_exists(const dmi_vector_t *vector, uintptr_t key);
  * @param vector The vector to append to. Must not be @c nullptr.
  * @param value  The value to append.
  *
- * @return true on success, false if @p vector is @c nullptr or memory allocation fails.
+ * @return true on success, false if @p vector is @c nullptr or memory allocation fails,
+ *         with `errno` set to `EINVAL` or by `realloc()`.
  */
 __dmi_api bool dmi_vector_push(dmi_vector_t *vector, uintptr_t value);
 
 /**
  * @brief Remove and return the last element.
  *
- * @param vector The vector to pop from. Must not be @c nullptr and must not be empty.
- * @param value  Output parameter that receives the removed element value.
- *               Must not be @c nullptr.
+ * The storage is released once the last element is removed.
  *
- * @return true on success, false if @p vector or @p value is @c nullptr or the vector
- * is empty.
+ * @param vector The vector to pop from. Must not be @c nullptr and must not be empty.
+ * @param value  Output parameter that receives the removed element value,
+ *               or @c nullptr if the value is not needed.
+ *
+ * @return true on success, false if @p vector is @c nullptr (`errno` set to
+ *         `EINVAL`) or the vector is empty (`errno` set to `ENOENT`).
  */
 __dmi_api bool dmi_vector_pop(dmi_vector_t *vector, uintptr_t *value);
 
 /**
  * @brief Remove all elements and release allocated memory.
  *
- * After this call the vector is in the same state as after `dmi_vector_init().`
+ * After this call the vector is in the same state as after `dmi_vector_init()`, with the matcher kept.
  *
  * @param vector The vector to clear. Must not be @c nullptr.
  * @return true on success, false if @p vector is @c nullptr.

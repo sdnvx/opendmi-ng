@@ -1,0 +1,67 @@
+ifdef::backend-manpage[]
+= dmi_string_tolower(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_string_tolower
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_string_tolower, dmi_string_toupper - convert a string to lower or upper case in place.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/string.h>
+
+void dmi_string_tolower(char *str);
+void dmi_string_toupper(char *str);
+----
+
+== Description
+
+The `dmi_string_tolower` function converts every character of the
+null-terminated string `str` to lower case with `tolower`(3), and the
+`dmi_string_toupper` function converts it to upper case with `toupper`(3).
+The string is changed in place; no memory is allocated.
+
+The string is converted byte by byte, according to the `LC_CTYPE` category
+of the current locale, so that characters taking more than one byte, e.g.
+the non-ASCII characters of UTF-8, are not converted.
+
+If `str` is `nullptr`, the functions do nothing.
+
+=== Parameters
+
+`str`::
+String to convert.
+
+== Return value
+
+The functions return no value.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== See also
+
+`tolower`(3),
+`toupper`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -53,7 +53,29 @@ __dmi_api bool dmi_log_message_va(
         const char      *format,
         va_list          args);
 
+/**
+ * @brief Get the name of a logging level.
+ *
+ * The name is translated to the current locale, if the locale has a
+ * translation of it.
+ *
+ * @param[in] value Logging level.
+ *
+ * @return Name of the level, e.g. `WARNING`, or `UNKNOWN` if @p value is not
+ *         a level.
+ */
 __dmi_api const char *dmi_log_level_name(dmi_log_level_t value);
+
+/**
+ * @brief Find a logging level by its code.
+ *
+ * Codes are compared exactly, case included.
+ *
+ * @param[in] code Code of the level, e.g. `warning`.
+ *
+ * @return Logging level, or `DMI_LOG_INVALID` if @p code is `nullptr` or no
+ *         level has the code.
+ */
 __dmi_api dmi_log_level_t dmi_log_level_find(const char *code);
 
 __END_DECLS

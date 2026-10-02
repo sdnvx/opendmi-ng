@@ -1,0 +1,144 @@
+ifdef::backend-manpage[]
+= dmi_registry_iter_init(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_registry_iter_init
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_registry_iter_init, dmi_registry_iter_has_next, dmi_registry_iter_next - walk the structures of a registry.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/registry.h>
+
+typedef struct dmi_registry_iter {
+    dmi_registry_t       *registry;
+    dmi_filter_t         *filter;
+    dmi_registry_entry_t *position;
+    bool                  is_done;
+} dmi_registry_iter_t;
+
+bool dmi_registry_iter_init(
+        dmi_registry_iter_t *iter,
+        dmi_registry_t      *registry,
+        dmi_filter_t        *filter);
+
+bool dmi_registry_iter_has_next(dmi_registry_iter_t *iter);
+
+dmi_entity_t *dmi_registry_iter_next(dmi_registry_iter_t *iter);
+----
+
+== Description
+
+An iterator walks the structures of a registry in the order of the table,
+and yields the ones a filter matches, see `dmi_filter_match`(3), or all of
+them if there is no filter.
+
+The `dmi_registry_iter_init` function sets up an iterator to walk
+`registry`, from its first structure. An iterator which has been used
+already is set up again the same way.
+
+The `dmi_registry_iter_next` function moves the iterator to the next
+structure the filter matches, and returns its entity. Once the iterator has
+run past the last structure, it stays there, and the function returns
+`nullptr` for every call that follows.
+
+The `dmi_registry_iter_has_next` function tells whether the next call to
+`dmi_registry_iter_next` would return a structure, without moving the
+iterator.
+
+An iterator is a plain variable, which is not allocated and needs no
+destroying, and several iterators may walk a registry at once. The members
+of the iterator are private to the library. The registry and the filter are
+not copied, and must stay valid while the iterator is used. The entities
+belong to the registry, see `dmi_registry_lookup`(3).
+
+=== Parameters
+
+`iter`::
+Iterator to set up, to move or to query.
+
+`registry`::
+Registry to walk, see `dmi_get_registry`(3).
+
+`filter`::
+Filter which tells the structures to yield, or `nullptr` to yield all of
+them.
+
+== Return value
+
+`dmi_registry_iter_init` returns `true` on success, and `false` if `iter` or
+`registry` is `nullptr`.
+
+`dmi_registry_iter_has_next` returns `true` if a structure is left to yield,
+and `false` otherwise, or if `iter` is `nullptr`.
+
+`dmi_registry_iter_next` returns the entity of the next structure, or
+`nullptr` if no structure is left to yield, or if `iter` is `nullptr`.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_registry_iter_init` if `iter` or `registry` is `nullptr`, in
+which case it is not reported, since there is no context to hold it.
+
+`dmi_registry_iter_has_next` and `dmi_registry_iter_next` raise no errors,
+and take `nullptr` for an iterator with nothing left to yield.
+
+== Example
+
+Print the locators of the memory devices:
+
+[source, c]
+----
+dmi_registry_t     *registry = dmi_get_registry(context);
+dmi_registry_iter_t iter;
+dmi_entity_t       *entity;
+
+if (dmi_registry_iter_init(&iter, registry, nullptr)) {
+    while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
+        if (dmi_entity_type(entity) != DMI_TYPE(memory_device))
+            continue;
+
+        const dmi_memory_device_t *device =
+                dmi_entity_info(entity, DMI_TYPE(memory_device));
+
+        if ((device != nullptr) && (device->device_locator != nullptr))
+            printf("%s\n", device->device_locator);
+    }
+}
+----
+
+The structure type is checked before the information is asked for, since
+`dmi_entity_info`(3) raises an error for a structure of another type. See
+`dmi_filter_create`(3) for an iterator which yields the structures found at
+the given type numbers only.
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_entity_type`(3),
+`dmi_filter_create`(3),
+`dmi_filter_match`(3),
+`dmi_get_registry`(3),
+`dmi_registry_lookup`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

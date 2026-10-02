@@ -1,0 +1,1 @@
+dmi_vector_init.3.adoc

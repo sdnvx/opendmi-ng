@@ -1,0 +1,126 @@
+ifdef::backend-manpage[]
+= dmi_filter_create(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_filter_create
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_filter_create, dmi_filter_destroy - create and destroy a filter of structures.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/filter.h>
+
+typedef enum dmi_filter_mask {
+    DMI_FILTER_MASK_COMMON   = 1 << 0,
+    DMI_FILTER_MASK_OEM      = 1 << 1,
+    DMI_FILTER_MASK_INACTIVE = 1 << 2,
+    DMI_FILTER_MASK_UNKNOWN  = 1 << 3,
+    DMI_FILTER_MASK_DEFAULT  = DMI_FILTER_MASK_COMMON | DMI_FILTER_MASK_OEM,
+    DMI_FILTER_MASK_ALL      = DMI_FILTER_MASK_COMMON | DMI_FILTER_MASK_OEM |
+                               DMI_FILTER_MASK_INACTIVE | DMI_FILTER_MASK_UNKNOWN
+} dmi_filter_mask_t;
+
+typedef struct dmi_filter {
+    dmi_context_t *context;
+    unsigned       mask;
+    dmi_vector_t   handles;
+    dmi_vector_t   types;
+    dmi_vector_t   modules;
+} dmi_filter_t;
+
+dmi_filter_t *dmi_filter_create(dmi_context_t *context);
+void dmi_filter_destroy(dmi_filter_t *filter);
+----
+
+== Description
+
+A filter tells the structures of a registry an iterator yields, see
+`dmi_registry_iter_init`(3), by two conditions, both of which a structure
+must meet, see `dmi_filter_match`(3):
+
+* The `mask` member tells the categories of the structures to match: the
+  ones of the types the SMBIOS specification defines
+  (`DMI_FILTER_MASK_COMMON`), the OEM-specific ones (`DMI_FILTER_MASK_OEM`),
+  the inactive ones (`DMI_FILTER_MASK_INACTIVE`) and the ones of no known
+  type (`DMI_FILTER_MASK_UNKNOWN`). The mask is set by the caller directly,
+  e.g. to `DMI_FILTER_MASK_DEFAULT`, which leaves the inactive structures and
+  the ones of no known type out.
+* The lists of handles, type numbers and modules, which are filled with
+  `dmi_filter_add_handle`(3), `dmi_filter_add_type`(3) and
+  `dmi_filter_add_module`(3), tell the structures to match. Empty lists match
+  every structure.
+
+The `dmi_filter_create` function creates a filter with the mask
+`DMI_FILTER_MASK_ALL` and empty lists, which matches every structure.
+
+The `dmi_filter_destroy` function destroys a filter along with its lists.
+Passing `nullptr` does nothing. A filter must not be destroyed while an
+iterator uses it.
+
+=== Parameters
+
+`context`::
+Context whose error queue the errors of allocation are raised against, or
+`nullptr`, in which case they are not reported.
+
+`filter`::
+Filter to destroy, or `nullptr`.
+
+== Return value
+
+On success, `dmi_filter_create` returns the filter. On failure, which
+happens when memory is exhausted only, it returns `nullptr`.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised by `dmi_filter_create` if memory is exhausted.
+
+== Example
+
+Print the handles of the structures found at the type numbers of memory
+devices:
+
+[source, c]
+----
+dmi_registry_t     *registry = dmi_get_registry(context);
+dmi_filter_t       *filter   = dmi_filter_create(context);
+dmi_registry_iter_t iter;
+dmi_entity_t       *entity;
+
+if ((filter != nullptr) &&
+    dmi_filter_add_type(filter, DMI_TYPE_ID(MEMORY_DEVICE)) &&
+    dmi_registry_iter_init(&iter, registry, filter)) {
+    while ((entity = dmi_registry_iter_next(&iter)) != nullptr)
+        printf("0x%04x\n", dmi_entity_handle(entity));
+}
+
+dmi_filter_destroy(filter);
+----
+
+== See also
+
+`dmi_filter_add_type`(3),
+`dmi_filter_match`(3),
+`dmi_registry_iter_init`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

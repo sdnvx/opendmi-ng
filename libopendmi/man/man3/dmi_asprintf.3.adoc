@@ -1,0 +1,97 @@
+ifdef::backend-manpage[]
+= dmi_asprintf(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_asprintf
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_asprintf, dmi_vasprintf - format a string into newly allocated memory.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/string.h>
+
+int dmi_asprintf(char **strp, const char *format, ...);
+int dmi_vasprintf(char **strp, const char *format, va_list args);
+----
+
+== Description
+
+The `dmi_asprintf` function formats its arguments according to `format`, as
+`sprintf`(3) does, into a string it allocates, and stores the pointer to the
+string in the variable `strp` points to. The `dmi_vasprintf` function does
+the same with the arguments given as `args`.
+
+The functions behave the same on every platform: they wrap `asprintf`(3) and
+`vasprintf`(3) where the C library has them, and implement them on Windows,
+which has none.
+
+The caller is responsible for freeing the string with `free()` or
+`dmi_free`(3).
+
+=== Parameters
+
+`strp`::
+Variable to store the pointer to the string in. On failure, it is set to
+`nullptr`, except as told in the Notes.
+
+`format`::
+Format string, see `printf`(3).
+
+`...`, `args`::
+Arguments of the format string.
+
+== Return value
+
+On success, the functions return the number of bytes written, excluding the
+terminating null byte. On failure, they return a negative value, e.g. if
+`strp` or `format` is `nullptr`, if memory is exhausted, or if the string
+cannot be formatted.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== Notes
+
+If `format` is `nullptr`, `dmi_vasprintf` sets the variable `strp` points to
+to `nullptr`, while `dmi_asprintf` leaves it as it is.
+
+== Example
+
+[source, c]
+----
+char *text = nullptr;
+
+if (dmi_asprintf(&text, "%s, version %u", name, version) < 0)
+    return false;
+
+puts(text);
+free(text);
+----
+
+== See also
+
+`asprintf`(3),
+`printf`(3),
+`dmi_free`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -45,9 +45,11 @@ __BEGIN_DECLS
  * mask is set to `DMI_FILTER_MASK_ALL` and the handle, type and module lists
  * are empty, so the filter matches all entities until constraints are added.
  *
- * @param[in] context Context handle.
+ * @param[in] context Context handle, or @c nullptr not to report errors.
  *
  * @return Pointer to the new filter, or @c nullptr on allocation failure.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
  */
 __dmi_api dmi_filter_t *dmi_filter_create(dmi_context_t *context);
 
@@ -62,22 +64,27 @@ __dmi_api dmi_filter_t *dmi_filter_create(dmi_context_t *context);
  * @param[in]     handle Entity handle to allow.
  *
  * @return `true` on success, `false` if @p filter is @c nullptr or the handle
- *         could not be stored.
+ *         could not be stored, which is not reported.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Filter is `nullptr`
  */
 __dmi_api bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
 
 /**
  * @brief Add a type constraint to the filter.
  *
- * Registers @p type as one of the allowed structure types. Once at least one
- * type has been added, only entities whose type appears in this list (and that
- * pass the category mask) are matched.
+ * Registers @p type as one of the allowed type numbers. Once at least one
+ * type has been added, only entities found at a type number of this list
+ * (and that pass the category mask) are matched, whatever specification they
+ * are decoded by.
  *
  * @param[in,out] filter Filter to update.
- * @param[in]     type   Structure type to allow.
+ * @param[in]     type   Type number to allow.
  *
  * @return `true` on success, `false` if @p filter is @c nullptr or the type could
- *         not be stored.
+ *         not be stored, which is not reported.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Filter is `nullptr`
  */
 __dmi_api bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type);
 
@@ -94,7 +101,10 @@ __dmi_api bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type);
  * @param[in]     module Module to allow.
  *
  * @return `true` on success, `false` if @p filter or @p module is @c nullptr,
- *         or the module could not be stored.
+ *         or the module could not be stored, which is not reported.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Module is `nullptr`; a @c nullptr filter is
+ *        taken silently
  */
 __dmi_api bool dmi_filter_add_module(dmi_filter_t *filter, const dmi_module_t *module);
 
@@ -130,6 +140,9 @@ __dmi_api bool dmi_filter_is_empty(const dmi_filter_t *filter);
  *
  * @return `true` if @p entity satisfies all filter constraints, `false`
  *         otherwise or if either argument is @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Entity is `nullptr`; a @c nullptr filter is
+ *        taken silently
  */
 __dmi_api bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity);
 

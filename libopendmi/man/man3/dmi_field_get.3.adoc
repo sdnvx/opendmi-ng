@@ -1,0 +1,126 @@
+ifdef::backend-manpage[]
+= dmi_field_get(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_field_get
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_field_get, dmi_field_set - get and set the integer member of a field.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+uintmax_t dmi_field_get(const dmi_field_t *field, const void *value);
+bool dmi_field_set(const dmi_field_t *field, void *value, uintmax_t number);
+----
+
+== Description
+
+The functions read and write the member of the decoded structure a field is
+decoded into, whatever the width of the member, which is the size of the
+member the field names, `field->member.size`, and is one of 1, 2, 4 or 8
+bytes. They are meant for the decoding and encoding handlers of the fields,
+the `.decode` and `.encode` parameters of `DMI_FIELD`(3), which are given the
+member rather than the structure, and are shared by members of different
+widths.
+
+The `dmi_field_get` function returns the value of the member `value` points
+to, read as an unsigned integer.
+
+The `dmi_field_set` function stores `number` into the member `value` points
+to. The member may be wider than the data the field carries, e.g. so that the
+value standing for "unknown" is stored as the largest value of the member,
+`UINTMAX_MAX` cut down to its width. A number wider than the member is cut
+down to its width as well, without an error. A `nullptr` member is accepted,
+and nothing is stored, since a field decoded to be compared rather than kept
+has no member to store into.
+
+=== Parameters
+
+`field`::
+Field the member belongs to.
+
+`value`::
+Member of the field, as the handler is given it.
+
+`number`::
+Value to store.
+
+== Return value
+
+The `dmi_field_get` function returns the value of the member, or zero if
+`field` is `nullptr` or if the width of the member is not supported.
+
+The `dmi_field_set` function returns `true` if the number has been stored, or
+if `value` is `nullptr`, and `false` if `field` is `nullptr` or if the width
+of the member is not supported.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `field` is `nullptr`. The functions take no context, so the error
+reaches no error queue.
+
+== Notes
+
+A member whose width is not supported is a mistake of the specification, and
+fails an assertion in debug builds.
+
+The `value` of `dmi_field_get` must not be `nullptr`.
+
+== Example
+
+Pair of handlers decoding a size carried as a power of two of megabytes, and
+encoding it back:
+
+[source, c]
+----
+static bool decode_size(const dmi_field_t *field, const dmi_field_data_t *data, void *value)
+{
+    if (data->number + 20 >= 63)
+        return dmi_field_set(field, value, UINTMAX_MAX);
+
+    return dmi_field_set(field, value, (uintmax_t)1 << (data->number + 20));
+}
+
+static bool encode_size(const dmi_field_t *field, const void *value, dmi_field_data_t *data)
+{
+    uintmax_t size  = dmi_field_get(field, value);
+    unsigned  power = 0;
+
+    while (power + 20 < 63 && ((uintmax_t)1 << (power + 20)) < size)
+        power++;
+
+    data->number = power;
+
+    return true;
+}
+----
+
+== See also
+
+`DMI_FIELD`(3),
+`dmi_field_decode_kilobytes`(3),
+`dmi_fields_decode`(3),
+`dmi_fields_encode`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

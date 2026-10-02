@@ -1,0 +1,144 @@
+ifdef::backend-manpage[]
+= dmi_attributes_link(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_attributes_link
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_attributes_link, dmi_attributes_unlink - resolve the references a structure declares by its attributes, and free what resolving them has allocated.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/attribute.h>
+
+bool dmi_attributes_link(dmi_entity_t *entity);
+void dmi_attributes_unlink(dmi_entity_t *entity);
+----
+
+== Description
+
+A handle names another structure of the table by its number. An attribute of
+a handle may name the member the structure the handle refers to is put into,
+its `.link` parameter, along with the types the structure may be of, its
+`.targets`, see `DMI_ATTRIBUTE`(3). This is the part of linking the
+specifications describe rather than perform.
+
+The `dmi_attributes_link` function resolves every handle of the decoded
+structure of `entity` whose attribute has a `.link`, including the handles of
+nested structures and of the elements of arrays, which are reached by
+`dmi_attributes_walk`(3):
+
+* A single handle is resolved into a `dmi_entity_t *` member, which is set to
+  the structure the handle refers to, and to `nullptr` if it is not resolved.
+* An array of handles is resolved into a `dmi_entity_t **` member, which is
+  set to an array of its own, one pointer per handle, allocated by the
+  function. An array left over by an earlier call is freed first, since
+  linking starts anew each time.
+* A handle which is not set, `DMI_HANDLE_INVALID` or `DMI_HANDLE_UNSUPPORTED`,
+  is resolved into `nullptr` without an error. So is a handle of zero which
+  refers to a structure of an unexpected type, since some firmware writes it
+  for a handle which is not set, unless the context is strict, see
+  `DMI_CONTEXT_FLAG_STRICT`.
+
+Resolving goes on after a handle fails to resolve, so that all the broken
+references of the structure are reported at once.
+
+`dmi_entity_link`(3) calls the function before the link handler of the
+specification, which is left for what the attributes cannot say, so it rarely
+has to be called directly; unlike `dmi_entity_link`(3), it does not mark the
+entity as linked.
+
+The `dmi_attributes_unlink` function frees the arrays `dmi_attributes_link`
+has allocated, which is the only thing it allocates, and resets the members
+holding them to `nullptr`, so that it may be called more than once. Members of
+single handles are left as they are. `dmi_entity_decode`(3) and
+`dmi_entity_destroy`(3) call it before the cleanup handler of the
+specification and `dmi_fields_release`(3), since the arrays of handles may be
+held by the elements of the arrays either of them frees.
+
+Structures with no specification, no attributes or no decoded structure have
+nothing to link or unlink.
+
+=== Parameters
+
+`entity`::
+Structure to link or unlink, whose structures it refers to have been
+registered in its context. `dmi_attributes_unlink` also takes `nullptr`, which
+does nothing.
+
+== Return value
+
+The `dmi_attributes_link` function returns `true` if every handle is resolved
+or not set, and `false` if `entity` is `nullptr`, or if a handle cannot be
+resolved.
+
+The `dmi_attributes_unlink` function returns no value.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_attributes_link` if `entity` is `nullptr`. The error reaches no
+error queue, since there is no context to raise it against.
+
+`DMI_ERROR_ENTITY_NOT_FOUND`::
+Raised if a handle belongs to no structure of the table.
+
+`DMI_ERROR_ENTITY_TYPE_INVALID`::
+Raised if a handle refers to a structure of a type its attribute does not
+list in `.targets`.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised if the array an array of handles is resolved into cannot be allocated.
+
+The `dmi_attributes_unlink` function raises no errors.
+
+== Example
+
+A baseboard refers to the chassis holding it, and to the structures it holds,
+which are put into the `chassis` and `objects` members once the table is
+linked:
+
+[source, c]
+----
+DMI_ATTRIBUTE(dmi_baseboard_t, chassis_handle, HANDLE, {
+    .code    = "chassis-handle",
+    .name    = "Chassis handle",
+    .targets = (const dmi_type_t *const[]){ DMI_TYPE(chassis), nullptr },
+    .link    = dmi_member(dmi_baseboard_t, chassis)
+}),
+DMI_ATTRIBUTE_ARRAY(dmi_baseboard_t, object_handles, object_count, HANDLE, {
+    .code    = "contained-objects",
+    .name    = "Contained objects",
+    .link    = dmi_member(dmi_baseboard_t, objects)
+}),
+----
+
+== See also
+
+`DMI_ATTRIBUTE`(3),
+`dmi_attributes_walk`(3),
+`dmi_entity_decode`(3),
+`dmi_entity_destroy`(3),
+`dmi_entity_link`(3),
+`dmi_fields_release`(3),
+`dmi_member`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -1,0 +1,146 @@
+ifdef::backend-manpage[]
+= dmi_registry_resolve(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_registry_resolve
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_registry_resolve, dmi_registry_resolve_any, dmi_registry_resolve_id - resolve a reference of a structure to another one.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/registry.h>
+
+bool dmi_registry_resolve(
+        dmi_registry_t   *registry,
+        dmi_handle_t      handle,
+        const dmi_type_t *type,
+        dmi_entity_t    **pentity);
+
+bool dmi_registry_resolve_any(
+        dmi_registry_t          *registry,
+        dmi_handle_t             handle,
+        const dmi_type_t *const *types,
+        dmi_entity_t           **pentity);
+
+bool dmi_registry_resolve_id(
+        dmi_registry_t *registry,
+        dmi_handle_t    handle,
+        dmi_type_id_t   type_id,
+        dmi_entity_t  **pentity);
+----
+
+== Description
+
+The functions resolve the handle a structure refers to another one by into
+the entity of that structure, and are meant for the link handlers of the
+structure types, including the ones of a module built out of the tree of the
+library, see `dmi_entity_link`(3).
+
+Unlike `dmi_registry_lookup`(3), they tell a reference which is not set,
+which is not an error, from a broken one, which is: the reference is not set
+if the handle is `DMI_HANDLE_INVALID` (0xFFFF) or `DMI_HANDLE_UNSUPPORTED`
+(0xFFFE), and broken if there is no structure of the handle, or if the
+structure is of another type than the expected one. Some firmware writes the
+handle 0x0000 for a reference which is not set as well, while 0x0000 is a
+handle a structure may have, so a reference of 0x0000 to a structure of
+another type than the expected one is taken as not set, unless the context
+of the registry has `DMI_CONTEXT_FLAG_STRICT`.
+
+The `dmi_registry_resolve` function expects a structure of the structure
+type `type`, which is the type of the specification the structure is decoded
+by, see `dmi_entity_type`(3), and the `dmi_registry_resolve_any` function a
+structure of any of the structure types listed by `types`.
+
+The `dmi_registry_resolve_id` function expects a structure found at the type
+number `type_id`, whatever specification it is decoded by, for the
+references whose type the data gives itself, e.g. the items of a group
+association.
+
+=== Parameters
+
+`registry`::
+Registry to look the structure up in.
+
+`handle`::
+Handle the reference holds.
+
+`type`::
+Expected structure type, or `DMI_TYPE_ANY` to accept a structure of any
+type.
+
+`types`::
+Array of the expected structure types, terminated by `nullptr`, or `nullptr`
+to accept a structure of any type.
+
+`type_id`::
+Expected type number, or `DMI_TYPE_ID_INVALID` to accept a structure of any
+type.
+
+`pentity`::
+Variable to store the entity of the structure in. It is set to `nullptr` if
+the reference is not set or is broken.
+
+== Return value
+
+The functions return `true` if the reference has been resolved or is not
+set, and `false` if it is broken, or if `registry` or `pentity` is `nullptr`.
+
+== Errors
+
+The errors are raised against the context of the registry.
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `registry` or `pentity` is `nullptr`, in which case it is not
+reported, since there is no context to hold it.
+
+`DMI_ERROR_ENTITY_NOT_FOUND`::
+Raised if there is no structure of the handle.
+
+`DMI_ERROR_ENTITY_TYPE_INVALID`::
+Raised if the structure of the handle is of another type than the expected
+one.
+
+== Example
+
+[source, c]
+----
+static bool cooling_device_link(dmi_entity_t *entity)
+{
+    dmi_context_t        *context  = dmi_entity_context(entity);
+    dmi_registry_t       *registry = dmi_get_registry(context);
+    dmi_cooling_device_t *info     = dmi_entity_info(entity,
+                                                     DMI_TYPE(cooling_device));
+
+    return dmi_registry_resolve(registry, info->probe_handle,
+                                DMI_TYPE(temperature_probe), &info->probe);
+}
+----
+
+== See also
+
+`dmi_entity_link`(3),
+`dmi_entity_type`(3),
+`dmi_entity_type_id`(3),
+`dmi_get_registry`(3),
+`dmi_registry_lookup`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

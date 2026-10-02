@@ -1,0 +1,96 @@
+ifdef::backend-manpage[]
+= dmi_module_register(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_module_register
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_module_register - register an extension module of a program.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/module.h>
+
+bool dmi_module_register(dmi_module_t *module);
+----
+
+== Description
+
+The `dmi_module_register` function makes an extension module of a program
+available along with the built-in ones, so that a program brings structure
+types of its own. A registered module is found by `dmi_module_find`(3),
+listed by `dmi_module_next`(3) after the built-in ones, in the order of
+registration, and enabled the same way as they are: with
+`dmi_add_extension`(3), or for the platforms it lists as a context is
+opened, see `dmi_module_find`(3) for the members of a module.
+
+A module is registered once, and stays registered for as long as the
+program runs: there is no way to unregister it. The module is not copied,
+so it must stay valid for as long as the program runs. The library links the
+registered modules through their `next` member, which it sets, so a module
+is not constant.
+
+Registration is not thread-safe, and belongs to the start of the program,
+before the contexts which use the module are created.
+
+=== Parameters
+
+`module`::
+Module to register. Its `code` must not be `nullptr`.
+
+== Return value
+
+Returns `true` if the module has been registered, and `false` if `module` is
+`nullptr`, or if an available module, either a built-in or a registered
+one, has the same code, in which case nothing is registered.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `module` is `nullptr`, in which case it is not reported, since
+there is no context to hold it.
+
+A module whose code is taken is refused silently.
+
+== Example
+
+[source, c]
+----
+static dmi_module_t example_module = {
+    .code     = "example",
+    .name     = "Example extensions",
+    .entities = (const dmi_entity_spec_t *[]){
+        &example_spec,
+        nullptr
+    }
+};
+
+if (!dmi_module_register(&example_module))
+    return 1;
+----
+
+== See also
+
+`dmi_add_extension`(3),
+`dmi_module_find`(3),
+`dmi_module_next`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

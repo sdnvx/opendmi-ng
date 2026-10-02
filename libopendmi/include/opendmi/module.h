@@ -162,10 +162,14 @@ __BEGIN_DECLS
  * is not copied. Registration is not thread-safe, so modules should be
  * registered before they are used.
  *
- * @param module Extension module to register; must not be @c nullptr.
+ * @param module Extension module to register; must not be @c nullptr, and
+ *               must have a code.
  *
- * @return `true` on success, `false` if a module with the same code is
- *         already available.
+ * @return `true` on success, `false` if @p module is @c nullptr, or if a
+ *         module with the same code is already available, which is not
+ *         reported.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Module is `nullptr`
  */
 __dmi_api bool dmi_module_register(dmi_module_t *module);
 
@@ -183,14 +187,16 @@ __dmi_api bool dmi_module_register(dmi_module_t *module);
 __dmi_api const dmi_module_t *dmi_module_next(const dmi_module_t *module);
 
 /**
- * @brief Looks up a registered extension module by its code.
+ * @brief Looks up an available extension module by its code.
  *
  * Searches built-in and registered modules for the module whose `code` field
  * equals @p code.
  *
  * @param code Null-terminated module identifier string; must not be @c nullptr.
  * @return Pointer to the matching module, or @c nullptr if no module with the
- *         given code is registered.
+ *         given code is available, or if @p code is @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Code is `nullptr`
  */
 __dmi_api const dmi_module_t *dmi_module_find(const char *code);
 

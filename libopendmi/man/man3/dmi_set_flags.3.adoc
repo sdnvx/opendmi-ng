@@ -1,0 +1,1 @@
+dmi_get_flags.3.adoc

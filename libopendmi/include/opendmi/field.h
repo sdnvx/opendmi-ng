@@ -863,6 +863,18 @@ __dmi_api void dmi_fields_release(dmi_entity_t *entity);
  * @brief Decode a value carried in kilobytes into the number of the bytes it
  * stands for, which is how the specification writes the sizes and the
  * addresses the fields of a structure are too narrow for.
+ *
+ * Decoding handler of a field, see `dmi_field_decode_fn`. The member is set
+ * by `dmi_field_set()`.
+ *
+ * @param[in]  field Field being decoded.
+ * @param[in]  data  Data the field carries, which must not be @c nullptr.
+ * @param[out] value Member the field decodes into, or @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ *
+ * @return `true` if the member has been set, `false` if @p field is
+ *         @c nullptr or the width of the member is not supported.
  */
 __dmi_api bool dmi_field_decode_kilobytes(
         const dmi_field_t      *field,
@@ -877,6 +889,18 @@ __dmi_api bool dmi_field_decode_kilobytes(
  * Ranges are given by their first and last kilobytes, so that the last
  * kilobyte belongs to the range as a whole; `dmi_field_encode_kilobytes()`
  * undoes the decoding.
+ *
+ * Decoding handler of a field, see `dmi_field_decode_fn`. The member is set
+ * by `dmi_field_set()`.
+ *
+ * @param[in]  field Field being decoded.
+ * @param[in]  data  Data the field carries, which must not be @c nullptr.
+ * @param[out] value Member the field decodes into, or @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ *
+ * @return `true` if the member has been set, `false` if @p field is
+ *         @c nullptr or the width of the member is not supported.
  */
 __dmi_api bool dmi_field_decode_kilobytes_last(
         const dmi_field_t      *field,
@@ -887,6 +911,18 @@ __dmi_api bool dmi_field_decode_kilobytes_last(
  * @brief Encode a number of the bytes into the kilobytes a field carries,
  * which undoes `dmi_field_decode_kilobytes()` and
  * `dmi_field_decode_kilobytes_last()`.
+ *
+ * Encoding handler of a field, see `dmi_field_encode_fn`. The member is read
+ * by `dmi_field_get()` and divided by 1024, rounding down.
+ *
+ * @param[in]  field Field being encoded.
+ * @param[in]  value Member the field has been decoded into, which must not be
+ *                   @c nullptr.
+ * @param[out] data  Data the field is to carry, which must not be @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ *
+ * @return Always `true`.
  */
 __dmi_api bool dmi_field_encode_kilobytes(
         const dmi_field_t *field,
@@ -896,10 +932,16 @@ __dmi_api bool dmi_field_encode_kilobytes(
 /**
  * @brief Get the value of the integer member of a field.
  *
- * @param[in] field Field whose member is read.
- * @param[in] value Member of the field.
+ * The width of the member is `field->member.size`, which is one of 1, 2, 4
+ * or 8 bytes; any other width fails an assertion in debug builds.
  *
- * @return Value of the member.
+ * @param[in] field Field whose member is read.
+ * @param[in] value Member of the field, which must not be @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ *
+ * @return Value of the member, or zero if @p field is @c nullptr or the width
+ *         of the member is not supported.
  */
 __dmi_api uintmax_t dmi_field_get(const dmi_field_t *field, const void *value);
 
@@ -907,11 +949,19 @@ __dmi_api uintmax_t dmi_field_get(const dmi_field_t *field, const void *value);
  * @brief Set the value of the integer member of a field, which may be wider
  * than the data the field carries.
  *
+ * The number is cut down to the width of the member, `field->member.size`,
+ * which is one of 1, 2, 4 or 8 bytes; any other width fails an assertion in
+ * debug builds.
+ *
  * @param[in]  field  Field whose member is written.
- * @param[out] value  Member of the field.
+ * @param[out] value  Member of the field, or @c nullptr, in which case
+ *                    nothing is stored.
  * @param[in]  number Value to set.
  *
- * @return `true` on success, `false` if the member is not an integer.
+ * @error DMI_ERROR_ARGUMENT_NULL Field is `nullptr`
+ *
+ * @return `true` on success or if @p value is @c nullptr, `false` if @p field
+ *         is @c nullptr or the width of the member is not supported.
  */
 __dmi_api bool dmi_field_set(const dmi_field_t *field, void *value, uintmax_t number);
 

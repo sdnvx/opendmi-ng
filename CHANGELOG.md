@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `dmi_fields_release()` and `dmi_attributes_unlink()`, which free the arrays of decoded and linked structures
 - `dmi_entity_is_decoded()`, `dmi_entity_is_linked()`, `dmi_entity_is_valid()`, `dmi_entity_is_incomplete()`, `dmi_entity_is_partial()` and `dmi_context_is_open()`
 - Field parameters `from` and `before` for the bits a version of the specification defines, and `present` of field groups
-- Manual pages of `<opendmi/locale.h>`, `<opendmi/lint.h>`, `<opendmi/trace.h>`, `<opendmi/backend/generic.h>`, name set lookups, `dmi_type_*`(3), `dmi_spec_name`(3) and the declarative macros (`DMI_FIELD`(3), `DMI_ATTRIBUTE`(3), `DMI_NAMES`(3) and others), and links to them on the website and in the reference
+- Manual pages of `<opendmi/locale.h>`, `<opendmi/lint.h>`, `<opendmi/trace.h>`, `<opendmi/registry.h>`, `<opendmi/filter.h>`, `<opendmi/module.h>`, `<opendmi/vendor.h>`, `<opendmi/value.h>`, `<opendmi/backend/generic.h>`, `<opendmi/utils/string.h>`, `<opendmi/utils/vector.h>`, `<opendmi/utils/datetime.h>`, of the attribute and field accessors, name set lookups, `dmi_type_*`(3), `dmi_spec_name`(3) and the declarative macros (`DMI_FIELD`(3), `DMI_ATTRIBUTE`(3), `DMI_NAMES`(3) and others), and links to them on the website and in the reference
 
 ### Changed
 

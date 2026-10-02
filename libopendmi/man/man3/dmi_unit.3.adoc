@@ -1,0 +1,244 @@
+ifdef::backend-manpage[]
+= dmi_unit(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_unit
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_unit, dmi_unit_code, dmi_unit_name - measurement units of attribute
+values.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/value.h>
+
+typedef enum dmi_unit {
+    DMI_UNIT_NONE,
+    DMI_UNIT_HOUR,
+    DMI_UNIT_MINUTE,
+    DMI_UNIT_SECOND,
+    DMI_UNIT_MILLISECOND,
+    DMI_UNIT_MICROSECOND,
+    DMI_UNIT_NANOSECOND,
+    DMI_UNIT_AMPERE,
+    DMI_UNIT_MILLIAMPERE,
+    DMI_UNIT_VOLT,
+    DMI_UNIT_MILLIVOLT,
+    DMI_UNIT_WATT,
+    DMI_UNIT_MILLIWATT,
+    DMI_UNIT_WATT_HOUR,
+    DMI_UNIT_CELSIUS,
+    DMI_UNIT_BIT,
+    DMI_UNIT_BYTE,
+    DMI_UNIT_KILOBYTE,
+    DMI_UNIT_MEGABYTE,
+    DMI_UNIT_GIGABYTE,
+    DMI_UNIT_KIBIBYTE,
+    DMI_UNIT_MEBIBYTE,
+    DMI_UNIT_GIBIBYTE,
+    DMI_UNIT_TEBIBYTE,
+    DMI_UNIT_PEBIBYTE,
+    DMI_UNIT_EXBIBYTE,
+    DMI_UNIT_ZEBIBYTE,
+    DMI_UNIT_YOBIBYTE,
+    DMI_UNIT_ROBIBYTE,
+    DMI_UNIT_QUEBIBYTE,
+    DMI_UNIT_BAUD,
+    DMI_UNIT_MEGAXA_SECOND,
+    DMI_UNIT_KILOBIT_SECOND,
+    DMI_UNIT_MEGABIT_SECOND,
+    DMI_UNIT_GIGABIT_SECOND,
+    DMI_UNIT_PERCENT,
+    DMI_UNIT_REVOLUTION,
+    DMI_UNIT_RACK,
+    DMI_UNIT_MHZ,
+    DMI_UNIT_MILLIMETER
+} dmi_unit_t;
+
+const char *dmi_unit_code(dmi_unit_t value);
+const char *dmi_unit_name(dmi_unit_t value);
+----
+
+== Description
+
+The `dmi_unit_t` enumeration tells the measurement units of an integer or a
+decimal attribute, and is the type of the `.unit` member of an attribute,
+see `DMI_ATTRIBUTE`(3).
+
+The `dmi_unit_code` function returns the code of a unit, a machine-readable
+identifier which is the same in every language, e.g. `millivolt`, as the
+XML output of the command line tool gives it.
+
+The `dmi_unit_name` function returns the symbol of a unit, as the command
+line tool prints it after a value, e.g. `mV`. The name is translated to the
+locale set with `dmi_set_locale`(3) if the library is built with ICU4C
+support and the locale has a translation of it, and is in English otherwise.
+
+Decimal units of size are powers of 1000, and binary ones are powers of
+1024.
+
+=== Values
+
+`DMI_UNIT_NONE`::
+No measurement units, e.g. of a count. The value has neither a code nor a
+name.
+
+`DMI_UNIT_HOUR`::
+Hours, code `hour`, name `h`.
+
+`DMI_UNIT_MINUTE`::
+Minutes, code `minute`, name `m`.
+
+`DMI_UNIT_SECOND`::
+Seconds, code `second`, name `s`.
+
+`DMI_UNIT_MILLISECOND`::
+Milliseconds, code `millisecond`, name `ms`.
+
+`DMI_UNIT_MICROSECOND`::
+Microseconds, code `microsecond`, name `us`.
+
+`DMI_UNIT_NANOSECOND`::
+Nanoseconds, code `nanosecond`, name `ns`.
+
+`DMI_UNIT_AMPERE`::
+Amperes, code `ampere`, name `A`.
+
+`DMI_UNIT_MILLIAMPERE`::
+Milliamperes, code `milliampere`, name `mA`.
+
+`DMI_UNIT_VOLT`::
+Volts, code `volt`, name `V`.
+
+`DMI_UNIT_MILLIVOLT`::
+Millivolts, code `millivolt`, name `mV`.
+
+`DMI_UNIT_WATT`::
+Watts, code `watt`, name `W`.
+
+`DMI_UNIT_MILLIWATT`::
+Milliwatts, code `milliwatt`, name `mW`.
+
+`DMI_UNIT_WATT_HOUR`::
+Watt-hours, code `watt-hour`, name `+W*h+`.
+
+`DMI_UNIT_CELSIUS`::
+Degrees Celsius, code `celsius`, name `°C`.
+
+`DMI_UNIT_BIT`::
+Bits, code `bit`, name `bits`.
+
+`DMI_UNIT_BYTE`::
+Bytes, code `byte`, name `bytes`.
+
+`DMI_UNIT_KILOBYTE`::
+Kilobytes, 1000 bytes, code `kilobyte`, name `KB`.
+
+`DMI_UNIT_MEGABYTE`::
+Megabytes, 1000 kilobytes, code `megabyte`, name `MB`.
+
+`DMI_UNIT_GIGABYTE`::
+Gigabytes, 1000 megabytes, code `gigabyte`, name `GB`.
+
+`DMI_UNIT_KIBIBYTE`::
+Kibibytes, 1024 bytes, code `kibibyte`, name `KiB`.
+
+`DMI_UNIT_MEBIBYTE`::
+Mebibytes, 1024 kibibytes, code `mebibyte`, name `MiB`.
+
+`DMI_UNIT_GIBIBYTE`::
+Gibibytes, 1024 mebibytes, code `gibibyte`, name `GiB`.
+
+`DMI_UNIT_TEBIBYTE`::
+Tebibytes, 1024 gibibytes, code `tebibyte`, name `TiB`.
+
+`DMI_UNIT_PEBIBYTE`::
+Pebibytes, 1024 tebibytes, code `pebibyte`, name `PiB`.
+
+`DMI_UNIT_EXBIBYTE`::
+Exbibytes, 1024 pebibytes, code `exbibyte`, name `EiB`.
+
+`DMI_UNIT_ZEBIBYTE`::
+Zebibytes, 1024 exbibytes, code `zebibyte`, name `ZiB`.
+
+`DMI_UNIT_YOBIBYTE`::
+Yobibytes, 1024 zebibytes, code `yobibyte`, name `YiB`.
+
+`DMI_UNIT_ROBIBYTE`::
+Robibytes, 1024 yobibytes, code `robibyte`, name `RiB`.
+
+`DMI_UNIT_QUEBIBYTE`::
+Quebibytes, 1024 robibytes, code `quebibyte`, name `QiB`.
+
+`DMI_UNIT_BAUD`::
+Symbols per second, code `baud`, name `baud`.
+
+`DMI_UNIT_MEGAXA_SECOND`::
+Megatransfers per second, code `megaxa-second`, name `MT/s`.
+
+`DMI_UNIT_KILOBIT_SECOND`::
+Kilobits per second, code `kilobit-second`, name `Kbps`.
+
+`DMI_UNIT_MEGABIT_SECOND`::
+Megabits per second, code `megabit-second`, name `Mbps`.
+
+`DMI_UNIT_GIGABIT_SECOND`::
+Gigabits per second, code `gigabit-second`, name `Gbps`.
+
+`DMI_UNIT_PERCENT`::
+Percents, code `percent`, name `%`.
+
+`DMI_UNIT_REVOLUTION`::
+Revolutions per minute, code `revolution`, name `rpm`.
+
+`DMI_UNIT_RACK`::
+Rack units, code `rack`, name `U`.
+
+`DMI_UNIT_MHZ`::
+Megahertz, code `mhz`, name `MHz`.
+
+`DMI_UNIT_MILLIMETER`::
+Millimeters, code `millimeter`, name `mm`.
+
+=== Parameters
+
+`value`::
+Unit to get the code or the name of.
+
+== Return value
+
+The functions return the code or the name of the unit, or `nullptr` if the
+unit has none, e.g. `DMI_UNIT_NONE`, or if the value is not a unit. The
+string belongs to the library and must not be modified or freed; a
+translated name may become invalid once the locale is changed.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== See also
+
+`DMI_ATTRIBUTE`(3),
+`dmi_bool_code`(3),
+`dmi_name_lookup`(3),
+`dmi_set_locale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

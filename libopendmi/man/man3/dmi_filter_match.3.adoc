@@ -1,0 +1,93 @@
+ifdef::backend-manpage[]
+= dmi_filter_match(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_filter_match
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_filter_match, dmi_filter_is_empty - check a structure against a filter, and whether a filter has entries.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/filter.h>
+
+bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity);
+bool dmi_filter_is_empty(const dmi_filter_t *filter);
+----
+
+== Description
+
+The `dmi_filter_match` function tells whether a structure meets a filter,
+see `dmi_filter_create`(3), which is the case if it meets both conditions:
+
+. Every category of the structure is in the mask of the filter. A structure
+  found at a type number below 128 is a common one, which requires
+  `DMI_FILTER_MASK_COMMON`, and one found at 128 or above an OEM-specific
+  one, which requires `DMI_FILTER_MASK_OEM`. An inactive structure (type 126)
+  requires `DMI_FILTER_MASK_INACTIVE` as well, and a structure of no known
+  type, which no specification decodes, requires `DMI_FILTER_MASK_UNKNOWN`.
+. The structure matches an entry of any of the lists of the filter: its
+  handle is in the list of handles, its type number in the list of type
+  numbers, or its specification belongs to a module of the list of
+  modules, see `dmi_filter_add_type`(3). A filter whose lists are empty
+  matches every structure which meets its mask.
+
+The `dmi_filter_is_empty` function tells whether the lists of handles, type
+numbers and modules of a filter are all empty. The mask is not taken into
+account.
+
+An iterator checks the structures with `dmi_filter_match`, see
+`dmi_registry_iter_init`(3), and takes no filter for one which matches every
+structure. `dmi_filter_match` itself matches nothing with no filter.
+
+=== Parameters
+
+`filter`::
+Filter to check against, or to query.
+
+`entity`::
+Structure to check.
+
+== Return value
+
+`dmi_filter_match` returns `true` if the structure meets the filter, and
+`false` otherwise, or if `filter` or `entity` is `nullptr`.
+
+`dmi_filter_is_empty` returns `true` if the lists of the filter are empty,
+or if `filter` is `nullptr`, and `false` otherwise.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_filter_match` if `entity` is `nullptr`, in which case it is
+not reported, since there is no context to hold it.
+
+Both functions take a `filter` of `nullptr` silently.
+
+== See also
+
+`dmi_entity_handle`(3),
+`dmi_entity_type_id`(3),
+`dmi_filter_add_type`(3),
+`dmi_filter_create`(3),
+`dmi_registry_iter_init`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

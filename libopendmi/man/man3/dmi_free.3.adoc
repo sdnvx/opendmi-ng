@@ -1,0 +1,1 @@
+dmi_alloc.3.adoc

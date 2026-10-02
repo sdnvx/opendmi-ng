@@ -13,6 +13,7 @@ include::../../../../libopendmi/man/man3/dmi_close.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_context_is_open.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_create.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_destroy.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_get_flags.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_log_level.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_logger.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_platform.3.adoc[leveloffset=2]
@@ -43,6 +44,19 @@ include::../../../../libopendmi/man/man3/dmi_platform_in_generations.3.adoc[leve
 include::../../../../libopendmi/man/man3/dmi_platform_match.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_platform_set_product.3.adoc[leveloffset=2]
 
+== `<opendmi/vendor.h>`
+
+include::../../../../libopendmi/man/man3/dmi_vendor.3.adoc[leveloffset=2]
+
+== `<opendmi/module.h>`
+
+include::../../../../libopendmi/man/man3/dmi_module_find.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_module_register.3.adoc[leveloffset=2]
+
+== `<opendmi/module/hpe.h>`
+
+include::../../../../libopendmi/man/man3/dmi_hpe_platform_detect.3.adoc[leveloffset=2]
+
 == `<opendmi/error.h>`
 
 include::../../../../libopendmi/man/man3/dmi_error_clear.3.adoc[leveloffset=2]
@@ -60,6 +74,7 @@ include::../../../../libopendmi/man/man3/dmi_trace_argument_null.3.adoc[leveloff
 
 == `<opendmi/log.h>`
 
+include::../../../../libopendmi/man/man3/dmi_log_level.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_log_message.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_log_message_va.3.adoc[leveloffset=2]
 
@@ -97,10 +112,30 @@ include::../../../../libopendmi/man/man3/dmi_type_find.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_type_name.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_type_spec.3.adoc[leveloffset=2]
 
+== `<opendmi/registry.h>`
+
+include::../../../../libopendmi/man/man3/dmi_registry_create.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_registry_iter_init.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_registry_lookup.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_registry_resolve.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_registry_status.3.adoc[leveloffset=2]
+
+== `<opendmi/filter.h>`
+
+include::../../../../libopendmi/man/man3/dmi_filter_add_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_filter_create.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_filter_match.3.adoc[leveloffset=2]
+
 == `<opendmi/attribute.h>`
 
 include::../../../../libopendmi/man/man3/DMI_ATTRIBUTE.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/DMI_ATTRIBUTE_VARIANT.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_attribute_format.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_attribute_get_int.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_attribute_is_unspecified.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_attribute_name.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_attribute_resolve.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_attributes_link.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_attributes_walk.3.adoc[leveloffset=2]
 
 == `<opendmi/field.h>`
@@ -111,10 +146,17 @@ include::../../../../libopendmi/man/man3/DMI_FIELD_BITS.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/DMI_FIELD_EXTENDED.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/DMI_FIELD_GROUP.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/DMI_FIELD_SPLIT.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_field_decode_kilobytes.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_field_get.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_fields_decode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_fields_decode_into.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_fields_encode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_fields_release.3.adoc[leveloffset=2]
+
+== `<opendmi/value.h>`
+
+include::../../../../libopendmi/man/man3/dmi_bool_code.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_unit.3.adoc[leveloffset=2]
 
 == `<opendmi/buffer.h>`
 
@@ -214,13 +256,20 @@ include::../../../../libopendmi/man/man3/dmi_generic_parse_entry_addr.3.adoc[lev
 
 == `<opendmi/utils.h>`
 
+include::../../../../libopendmi/man/man3/dmi_alloc.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_checksum_calc.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_file_load.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipow32.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_memory_load.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/base64.h>`
 
 include::../../../../libopendmi/man/man3/dmi_base64_decode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_base64_encode.3.adoc[leveloffset=2]
+
+== `<opendmi/utils/datetime.h>`
+
+include::../../../../libopendmi/man/man3/dmi_date_parse.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/endian.h>`
 
@@ -242,10 +291,21 @@ include::../../../../libopendmi/man/man3/dmi_file_write.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/DMI_NAMES.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_name_lookup.3.adoc[leveloffset=2]
 
+== `<opendmi/utils/string.h>`
+
+include::../../../../libopendmi/man/man3/dmi_asprintf.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_string_is_placeholder.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_string_set.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_string_tolower.3.adoc[leveloffset=2]
+
 == `<opendmi/utils/uuid.h>`
 
 include::../../../../libopendmi/man/man3/dmi_uuid_decode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_uuid_encode.3.adoc[leveloffset=2]
+
+== `<opendmi/utils/vector.h>`
+
+include::../../../../libopendmi/man/man3/dmi_vector_init.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/version.h>`
 

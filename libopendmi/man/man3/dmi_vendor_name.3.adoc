@@ -1,0 +1,1 @@
+dmi_vendor.3.adoc

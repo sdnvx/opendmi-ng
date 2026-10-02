@@ -92,12 +92,12 @@ __BEGIN_DECLS
  * day in the range 1–31; no calendar validation beyond those ranges is
  * performed.
  *
- * Returns `DMI_DATE_NONE` if the string is malformed, contains fewer or more
+ * Returns `DMI_DATE_NONE` if @p str is @c nullptr, if the string is malformed, contains fewer or more
  * than three slash-separated tokens, a token contains non-digit characters or
  * a leading sign, a numeric value is out of the expected range, or the year
  * is neither two nor four digits long.
  *
- * @param[in] str  Null-terminated date string to parse. Must not be @c nullptr.
+ * @param[in] str  Null-terminated date string to parse, or @c nullptr.
  *
  * @return A `dmi_date_t` encoding the parsed date, or `DMI_DATE_NONE` if the
  *         string could not be parsed.

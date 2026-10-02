@@ -1,0 +1,113 @@
+ifdef::backend-manpage[]
+= dmi_log_level(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_log_level
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_log_level, dmi_log_level_name, dmi_log_level_find - logging levels.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/log.h>
+
+typedef enum dmi_log_level {
+    DMI_LOG_INVALID = -1,
+    DMI_LOG_ERROR,
+    DMI_LOG_WARNING,
+    DMI_LOG_NOTICE,
+    DMI_LOG_INFO,
+    DMI_LOG_DEBUG
+} dmi_log_level_t;
+
+const char *dmi_log_level_name(dmi_log_level_t value);
+dmi_log_level_t dmi_log_level_find(const char *code);
+----
+
+== Description
+
+The `dmi_log_level_t` enumeration tells the severity of a log message, see
+`dmi_log`(3), and the least severe level of the messages a context writes to
+its handler, see `dmi_set_log_level`(3). Levels are ordered from the most
+severe one to the least, so that a level is less severe than another one if
+its value is greater.
+
+The `dmi_log_level_name` function returns the name of a level, as the command
+line tool prints it before a message, e.g. `WARNING`. The name is translated
+to the locale set with `dmi_set_locale`(3) if the library is built with ICU4C
+support and the locale has a translation of it, and is in English otherwise.
+
+The `dmi_log_level_find` function returns the level whose code is `code`,
+e.g. to parse a level given on the command line. The codes are the names of
+the levels in lower case: `error`, `warning`, `notice`, `info` and `debug`.
+Codes are compared exactly, case included, and are never translated.
+
+=== Values
+
+`DMI_LOG_INVALID`::
+No level, which the functions return on failure.
+
+`DMI_LOG_ERROR`::
+Error, code `error`.
+
+`DMI_LOG_WARNING`::
+Warning, code `warning`.
+
+`DMI_LOG_NOTICE`::
+Notice, code `notice`.
+
+`DMI_LOG_INFO`::
+Informational message, code `info`.
+
+`DMI_LOG_DEBUG`::
+Debugging message, code `debug`.
+
+=== Parameters
+
+`value`::
+Level to name.
+
+`code`::
+Code of the level to find.
+
+== Return value
+
+The `dmi_log_level_name` function returns the name of the level, or
+`UNKNOWN` if the value is not a level, e.g. `DMI_LOG_INVALID`. The string
+belongs to the library and must not be modified or freed; a translated name
+may become invalid once the locale is changed.
+
+The `dmi_log_level_find` function returns the level, or `DMI_LOG_INVALID` if
+`code` is `nullptr` or no level has the code.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== See also
+
+`dmi_get_log_level`(3),
+`dmi_log`(3),
+`dmi_log_message`(3),
+`dmi_set_locale`(3),
+`dmi_set_log_level`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

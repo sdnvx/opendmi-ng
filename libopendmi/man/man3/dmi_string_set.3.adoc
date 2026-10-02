@@ -1,0 +1,88 @@
+ifdef::backend-manpage[]
+= dmi_string_set(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_string_set
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_string_set - replace an owned string with a copy of another one.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/string.h>
+
+bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value);
+----
+
+== Description
+
+The `dmi_string_set` function copies `value`, frees the string held by the
+variable `pstring` points to, and stores the copy in the variable. If `value`
+is `nullptr`, the string is freed and the variable is set to `nullptr`.
+
+The copy is made before the string is freed, so that `value` may be the
+string itself, and a failure leaves the variable as it was.
+
+The caller is responsible for freeing the string with `free()` or
+`dmi_free`(3) once it is no longer needed.
+
+=== Parameters
+
+`context`::
+Context to raise the error on, or `nullptr` to report none.
+
+`pstring`::
+Variable holding the string, which is either `nullptr` or allocated with
+`malloc()`.
+
+`value`::
+String to copy, or `nullptr`.
+
+== Return value
+
+On success, returns `true`. On failure, returns `false`.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `pstring` is `nullptr`.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised if memory is exhausted.
+
+== Example
+
+[source, c]
+----
+char *vendor = nullptr;
+
+if (!dmi_string_set(context, &vendor, "Acme"))
+    return false;
+...
+dmi_string_set(context, &vendor, nullptr);
+----
+
+== See also
+
+`strdup`(3),
+`dmi_free`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

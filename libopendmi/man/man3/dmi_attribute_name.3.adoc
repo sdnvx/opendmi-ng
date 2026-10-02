@@ -1,0 +1,95 @@
+ifdef::backend-manpage[]
+= dmi_attribute_name(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_attribute_name
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_attribute_name - get the printable name of an attribute.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/attribute.h>
+
+const char *dmi_attribute_name(const dmi_attribute_t *attr, const char *owner);
+----
+
+== Description
+
+The `dmi_attribute_name` function returns the printable name of the attribute
+`attr`, e.g. `Data bus width`, translated to the locale set by
+`dmi_set_locale`(3) if the library has a translation for it, and the `.name`
+the attribute is declared with otherwise, see `DMI_ATTRIBUTE`(3).
+
+Translations are keyed by the code of the attribute, `.code`, and are looked
+up in the `attribute` table of the structure the attribute belongs to, named
+by `owner`, and then in the shared `attribute` table, which holds the names
+common to all structures, e.g. `manufacturer`. The name of the structure takes
+precedence, so that a common name may be overridden where it does not fit. An
+attribute with no code is never translated.
+
+The string belongs to the attribute or to the translation, and must not be
+freed. A translated name is valid until the locale is changed by
+`dmi_set_locale`(3).
+
+=== Parameters
+
+`attr`::
+Attribute to name.
+
+`owner`::
+Code of the structure the attribute belongs to, e.g. the `code` of its
+specification, `dmi_entity_spec_t`, or `nullptr` to look the name up in the
+shared table only.
+
+== Return value
+
+Returns the printable name of the attribute, or `nullptr` if `attr` is
+`nullptr`, or if the attribute has neither a translation nor a `.name`.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `attr` is `nullptr`. The function takes no context, so the error
+reaches no error queue.
+
+== Example
+
+[source, c]
+----
+static dmi_attribute_walk_t print_member(void *context, const dmi_attribute_node_t *node)
+{
+    const dmi_entity_t *entity = context;
+
+    puts(dmi_attribute_name(node->member, entity->spec->code));
+
+    return DMI_ATTRIBUTE_WALK_SKIP;
+}
+----
+
+== See also
+
+`DMI_ATTRIBUTE`(3),
+`dmi_attribute_format`(3),
+`dmi_attributes_walk`(3),
+`dmi_set_locale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

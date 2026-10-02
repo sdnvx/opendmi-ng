@@ -11,7 +11,8 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_add_extension - enable an extension module in an OpenDMI context.
+dmi_add_extension, dmi_has_extension - enable an extension module in an
+OpenDMI context, and check whether it is enabled.
 
 == Library
 
@@ -25,6 +26,7 @@ endif::[]
 #include <opendmi/context.h>
 
 bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *module);
+bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module);
 ----
 
 == Description
@@ -54,24 +56,32 @@ as the context is opened, once the platform is known, see `dmi_open`(3) and
 is opened when it has `DMI_CONTEXT_FLAG_AUTO_MODULES`, see `dmi_create`(3),
 stay enabled only until it is closed.
 
+The `dmi_has_extension` function checks whether a module is enabled in a
+context, either with `dmi_add_extension` or for the platform as the context
+was opened. Modules are compared by address, so `module` is the very
+variable the module is declared as, e.g. `&dmi_hpe_module`.
+
 === Parameters
 
 `context`::
-Context to enable the module in, which may be open or closed.
+Context to enable the module in or to check, which may be open or closed.
 
 `module`::
-Extension module to enable.
+Extension module to enable or to check.
 
 == Return value
 
-Returns `true` if the module has been enabled, and `false` otherwise. On
-failure, the enabled modules and the specifications chosen are left as they
-were.
+The `dmi_add_extension` function returns `true` if the module has been
+enabled, and `false` otherwise. On failure, the enabled modules and the
+specifications chosen are left as they were.
+
+The `dmi_has_extension` function returns `true` if the module is enabled,
+and `false` if it is not, or if `context` or `module` is `nullptr`.
 
 == Errors
 
 `DMI_ERROR_ARGUMENT_NULL`::
-Module is `nullptr`.
+Raised by `dmi_add_extension` if `module` is `nullptr`.
 
 `DMI_ERROR_MODULE_CONFLICT`::
 Module is enabled already, either with `dmi_add_extension` or for the
@@ -80,6 +90,8 @@ numbers as the specifications of the enabled modules.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory is exhausted.
+
+The `dmi_has_extension` function raises no errors.
 
 == Examples
 

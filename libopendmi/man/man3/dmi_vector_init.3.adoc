@@ -1,0 +1,177 @@
+ifdef::backend-manpage[]
+= dmi_vector_init(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_vector_init
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_vector_init, dmi_vector_clear, dmi_vector_push, dmi_vector_pop, dmi_vector_get, dmi_vector_find, dmi_vector_exists - manage a dynamic array of pointer-sized values.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/vector.h>
+
+typedef bool dmi_vector_match_fn(uintptr_t entry, uintptr_t key);
+
+typedef struct dmi_vector {
+    uintptr_t           *data;
+    size_t               capacity;
+    size_t               length;
+    dmi_vector_match_fn *matcher;
+} dmi_vector_t;
+
+bool dmi_vector_init(dmi_vector_t *vector, dmi_vector_match_fn *matcher);
+bool dmi_vector_clear(dmi_vector_t *vector);
+
+bool dmi_vector_push(dmi_vector_t *vector, uintptr_t value);
+bool dmi_vector_pop(dmi_vector_t *vector, uintptr_t *value);
+bool dmi_vector_get(const dmi_vector_t *vector, size_t index, uintptr_t *value);
+
+bool dmi_vector_find(const dmi_vector_t *vector, uintptr_t key, uintptr_t *value);
+bool dmi_vector_exists(const dmi_vector_t *vector, uintptr_t key);
+
+size_t dmi_vector_length(const dmi_vector_t *vector);
+bool dmi_vector_is_empty(const dmi_vector_t *vector);
+----
+
+== Description
+
+A vector, `dmi_vector_t`, is an array of `uintptr_t` values, typically
+pointers cast to `uintptr_t`, which grows as values are appended to it. The
+vector is a variable of the caller, usually a member of a structure; it owns
+the memory of the array, but not whatever the values point to.
+
+The `data` member points to the array, `length` is the number of values the
+array holds, and `capacity` the number it can hold before it is grown. The
+members are read, but are changed only by the functions.
+
+The `dmi_vector_init` function sets the vector up empty, with no memory
+allocated, and with `matcher` as the function `dmi_vector_find` and
+`dmi_vector_exists` compare the values with keys by. The `dmi_vector_clear`
+function removes all values and frees the array, and leaves the vector empty,
+as `dmi_vector_init` does, with the matcher kept. A vector is cleared once it
+is no longer needed.
+
+The `dmi_vector_push` function appends `value` to the vector, growing the
+array by 16 values when it is full. The `dmi_vector_pop` function removes the
+last value and stores it in the variable `value` points to; the array is
+freed once the last value is removed.
+
+The `dmi_vector_get` function stores the value at `index`, counted from zero,
+in the variable `value` points to.
+
+The `dmi_vector_find` function calls the matcher with each value, in order,
+and `key`, and stores the first value it returns `true` for in the variable
+`value` points to. The `dmi_vector_exists` function tells whether there is
+such a value.
+
+The `dmi_vector_length` function returns the number of values in the vector,
+and the `dmi_vector_is_empty` function tells whether there are none. Both
+take a `nullptr` vector as an empty one.
+
+The functions report failures in `errno`, rather than as errors of a context.
+
+=== Parameters
+
+`vector`::
+Vector to work on.
+
+`matcher`::
+Function to compare the values with keys by, or `nullptr` if the vector is
+not searched.
+
+`value`::
+For `dmi_vector_push`, value to append. For `dmi_vector_get`, variable to
+store the value in. For `dmi_vector_pop` and `dmi_vector_find`, variable to
+store the value in, or `nullptr` if the value is not needed.
+
+`index`::
+Index of the value, counted from zero.
+
+`key`::
+Key to pass to the matcher.
+
+`entry`::
+Value of the vector the matcher compares with `key`.
+
+== Return value
+
+The `dmi_vector_init`, `dmi_vector_clear`, `dmi_vector_push`,
+`dmi_vector_pop` and `dmi_vector_get` functions return `true` on success,
+and `false` on failure, setting `errno`:
+
+`EINVAL`::
+`vector` is `nullptr`, or, for `dmi_vector_get`, `value` is `nullptr`.
+
+`ENOENT`::
+The vector is empty, for `dmi_vector_pop`, or `index` is out of range, for
+`dmi_vector_get`.
+
+`ENOMEM`::
+The array cannot be grown, for `dmi_vector_push`; `errno` is set by
+`realloc`(3). The vector is left as it was.
+
+The `dmi_vector_find` and `dmi_vector_exists` functions return `true` if a
+value matches `key`, and `false` otherwise, setting `errno` to `ENOENT`. If
+`vector` is `nullptr`, they return `false`, setting `errno` to `EINVAL`, and
+if the vector has no matcher, to `ENOTSUP`.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== Example
+
+[source, c]
+----
+static bool match_name(uintptr_t entry, uintptr_t key)
+{
+    return strcmp((const char *)entry, (const char *)key) == 0;
+}
+
+dmi_vector_t names;
+
+dmi_vector_init(&names, match_name);
+
+if (!dmi_vector_push(&names, (uintptr_t)"cpu") ||
+    !dmi_vector_push(&names, (uintptr_t)"memory")) {
+    dmi_vector_clear(&names);
+    return false;
+}
+
+if (dmi_vector_exists(&names, (uintptr_t)"memory"))
+    puts("found");
+
+for (size_t i = 0; i < dmi_vector_length(&names); i++) {
+    uintptr_t value;
+
+    if (dmi_vector_get(&names, i, &value))
+        puts((const char *)value);
+}
+
+dmi_vector_clear(&names);
+----
+
+== See also
+
+`realloc`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

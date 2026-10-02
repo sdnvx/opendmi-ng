@@ -1,0 +1,110 @@
+ifdef::backend-manpage[]
+= dmi_date_parse(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_date_parse
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_date_parse, dmi_date_format - parse an SMBIOS date and format a date as ISO 8601.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/datetime.h>
+
+typedef uint32_t dmi_date_t;
+
+#define DMI_DATE(year, month, day) ...
+#define DMI_DATE_NONE DMI_DATE(0, 0, 0)
+
+dmi_date_t dmi_date_parse(const char *str);
+char *dmi_date_format(dmi_date_t date);
+----
+
+== Description
+
+A date, `dmi_date_t`, holds the year in its upper 16 bits, the month in the
+next 8 bits and the day in the lower 8 bits, so that dates compare as
+integers. The `DMI_DATE` macro and the `dmi_date` function make a date of its
+parts, and the `dmi_date_year`, `dmi_date_month` and `dmi_date_day` functions
+take them apart. `DMI_DATE_NONE`, all parts zero, stands for no date.
+
+The `dmi_date_parse` function parses `str` as a date of the form SMBIOS
+gives dates in, e.g. the release date of the firmware: `MM/DD/YY` or
+`MM/DD/YYYY`. The month and the day are numbers of any number of digits,
+within 1 to 12 and 1 to 31; no further check against the calendar is made,
+e.g. `02/31/2020` is accepted. A year of two digits is taken as years since
+1900, so that `05` is 1905, as the SMBIOS specification has it. A string of
+more than 10 characters, a part which holds anything but digits, e.g. a sign
+or a blank, and a year of other than two or four digits are rejected.
+
+The `dmi_date_format` function formats `date` as `YYYY-MM-DD`, the year
+padded with zeros to four digits, and the month and the day to two, e.g.
+`2025-03-07`. `DMI_DATE_NONE` is formatted as `0000-00-00`. The caller is
+responsible for freeing the string with `free()` or `dmi_free`(3).
+
+=== Parameters
+
+`str`::
+String to parse.
+
+`date`::
+Date to format.
+
+== Return value
+
+The `dmi_date_parse` function returns the date, or `DMI_DATE_NONE` if `str`
+is `nullptr` or is not a date of the form.
+
+The `dmi_date_format` function returns a newly allocated string, or `nullptr`
+if memory is exhausted.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== Notes
+
+Empty parts are skipped rather than rejected, since the parts are split with
+`strtok_r`(3): `03//07/2025` and `/03/07/2025` are parsed as `03/07/2025`.
+
+== Example
+
+[source, c]
+----
+dmi_date_t date = dmi_date_parse("03/07/2025");
+
+if (date != DMI_DATE_NONE) {
+    char *text = dmi_date_format(date);
+
+    if (text != nullptr) {
+        puts(text); // "2025-03-07"
+        free(text);
+    }
+}
+----
+
+== See also
+
+`dmi_free`(3),
+`dmi_battery`(3),
+`dmi_firmware`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

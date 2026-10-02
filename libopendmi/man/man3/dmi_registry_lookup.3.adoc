@@ -1,0 +1,168 @@
+ifdef::backend-manpage[]
+= dmi_registry_lookup(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_registry_lookup
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_registry_lookup, dmi_registry_lookup_any, dmi_registry_lookup_first, dmi_registry_lookup_first_id - look up a structure in a registry by its handle or by its type.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/registry.h>
+
+#define DMI_TYPE_ANY ((const dmi_type_t *)nullptr)
+
+dmi_entity_t *dmi_registry_lookup(
+        dmi_registry_t   *registry,
+        dmi_handle_t      handle,
+        const dmi_type_t *type,
+        bool              optional);
+
+dmi_entity_t *dmi_registry_lookup_any(
+        dmi_registry_t          *registry,
+        dmi_handle_t             handle,
+        const dmi_type_t *const *types,
+        bool                     optional);
+
+dmi_entity_t *dmi_registry_lookup_first(
+        dmi_registry_t   *registry,
+        const dmi_type_t *type,
+        bool              optional);
+
+dmi_entity_t *dmi_registry_lookup_first_id(
+        dmi_registry_t *registry,
+        dmi_type_id_t   type_id,
+        bool            optional);
+----
+
+== Description
+
+The `dmi_registry_lookup` function finds the structure of a registry which
+has the handle `handle`. Unless `type` is `DMI_TYPE_ANY`, the structure must
+be of the structure type `type`, which is the type of the specification the
+structure is decoded by, see `dmi_entity_type`(3), whatever type number the
+structure is found at. A structure of no known type has no structure type,
+and only matches `DMI_TYPE_ANY`.
+
+The `dmi_registry_lookup_any` function does the same, but the structure may
+be of any of the structure types listed by `types`.
+
+The handles `DMI_HANDLE_INVALID` (0xFFFF) and `DMI_HANDLE_UNSUPPORTED`
+(0xFFFE) stand for no structure: looking them up gives `nullptr`, and raises
+no error. Some firmware writes the handle 0x0000 for a reference which is
+not set as well, while 0x0000 is a handle a structure may have, so a
+structure of handle 0x0000 of another type than the expected one is taken
+for no structure, and no error is raised, unless the context of the registry
+has `DMI_CONTEXT_FLAG_STRICT`.
+
+The `dmi_registry_lookup_first` function finds the first structure of the
+structure type `type`, in the order of the table, and the
+`dmi_registry_lookup_first_id` function the first structure found at the
+type number `type_id`, whatever specification it is decoded by, which is how
+the structures of no known type are looked up.
+
+A structure which is not found is reported as an error, unless `optional`
+is `true`. A structure which is found, but is of another type than the
+expected one, is always reported.
+
+The entities belong to the registry, and must not be destroyed by the
+caller. They are valid until the registry is destroyed, which for the
+registry of a context happens when the context is closed.
+
+=== Parameters
+
+`registry`::
+Registry to look the structure up in, see `dmi_get_registry`(3).
+
+`handle`::
+Handle of the structure.
+
+`type`::
+Expected structure type, e.g. `DMI_TYPE(system)`. For `dmi_registry_lookup`
+it may be `DMI_TYPE_ANY` to accept a structure of any type, while
+`dmi_registry_lookup_first` requires a type.
+
+`types`::
+Array of the expected structure types, terminated by `nullptr`, or `nullptr`
+to accept a structure of any type.
+
+`type_id`::
+Type number the structure is found at, e.g. `DMI_TYPE_ID(SYSTEM)`.
+
+`optional`::
+Whether a missing structure is not an error.
+
+== Return value
+
+The functions return the entity of the structure, or `nullptr` if
+`registry` is `nullptr`, if `handle` stands for no structure, if no
+structure matches, or if the structure is of another type than the expected
+one. `dmi_registry_lookup_first` returns `nullptr` if `type` is `nullptr`,
+and `dmi_registry_lookup_first_id` if `type_id` is `DMI_TYPE_ID_INVALID`.
+
+== Errors
+
+The errors are raised against the context of the registry.
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `registry` is `nullptr`, in which case it is not reported, since
+there is no context to hold it, and by `dmi_registry_lookup_first` if `type`
+is `nullptr`.
+
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised by `dmi_registry_lookup_first_id` if `type_id` is
+`DMI_TYPE_ID_INVALID`.
+
+`DMI_ERROR_ENTITY_NOT_FOUND`::
+Raised if no structure matches, unless `optional` is `true`.
+
+`DMI_ERROR_ENTITY_TYPE_INVALID`::
+Raised by `dmi_registry_lookup` and `dmi_registry_lookup_any` if the
+structure of the handle is of another type than the expected one, whatever
+`optional` is.
+
+== Example
+
+[source, c]
+----
+dmi_registry_t *registry = dmi_get_registry(context);
+dmi_entity_t   *entity   = dmi_registry_lookup_first(registry,
+                                                     DMI_TYPE(system), true);
+
+if (entity != nullptr) {
+    const dmi_system_t *system = dmi_entity_info(entity, DMI_TYPE(system));
+
+    if ((system != nullptr) && (system->product != nullptr))
+        printf("%s\n", system->product);
+}
+----
+
+== See also
+
+`dmi_entity_info`(3),
+`dmi_entity_type`(3),
+`dmi_entity_type_id`(3),
+`dmi_get_registry`(3),
+`dmi_registry_iter_init`(3),
+`dmi_registry_resolve`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

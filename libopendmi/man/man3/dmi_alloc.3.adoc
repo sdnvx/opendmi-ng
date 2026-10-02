@@ -1,0 +1,80 @@
+ifdef::backend-manpage[]
+= dmi_alloc(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_alloc
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_alloc, dmi_free - allocate and free memory.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils.h>
+
+void *dmi_alloc(dmi_context_t *context, size_t size);
+void dmi_free(void *ptr);
+----
+
+== Description
+
+The `dmi_alloc` function allocates `size` bytes of memory, set to zero, the
+way `calloc(1, size)` does. If the memory cannot be allocated, the failure is
+reported on `context`.
+
+The `dmi_free` function frees the memory `ptr` points to, the way `free()`
+does, and does nothing if `ptr` is `nullptr`.
+
+Memory allocated by `dmi_alloc` is freed with `dmi_free` or `free()`, and so
+is memory the library allocates for the caller, e.g. the strings returned by
+`dmi_asprintf`(3) or `dmi_date_format`(3).
+
+=== Parameters
+
+`context`::
+Context to raise the error on, or `nullptr` to report none.
+
+`size`::
+Number of bytes to allocate.
+
+`ptr`::
+Memory to free, or `nullptr`.
+
+== Return value
+
+The `dmi_alloc` function returns a pointer to the allocated memory, or
+`nullptr` if it cannot be allocated.
+
+The `dmi_free` function returns no value.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised by `dmi_alloc` on `context` if the memory cannot be allocated, unless
+`context` is `nullptr`.
+
+== See also
+
+`calloc`(3),
+`free`(3),
+`dmi_error_get_last`(3),
+`dmi_trace_out_of_memory`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -136,9 +136,16 @@ __BEGIN_DECLS
 /**
  * @brief Create registry.
  *
- * @param[in] context  Context handle.
+ * Creates an empty registry. A context creates its own registry as it is
+ * opened, and the functions which fill a registry are internal.
+ *
+ * @param[in] context  Context handle, must not be @c nullptr.
  * @param[in] capacity Registry hash-table capacity. Zero means default value
  *                     of `DMI_REGISTRY_CAPACITY`.
+ *
+ * @return New registry, or @c nullptr if memory is exhausted.
+ *
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
  */
 __dmi_api dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity);
 
@@ -259,7 +266,18 @@ __dmi_api bool dmi_registry_link(dmi_registry_t *registry);
  *
  * @param[in] optional Set to true if missing entity is not an error.
  *
- * @returns Non-owning pointer to the entity, @c nullptr if not found.
+ * A structure of handle 0x0000 of unexpected type is taken for no structure,
+ * and no error is raised, unless `DMI_CONTEXT_FLAG_STRICT` is set, since some
+ * vendors report 0x0000 for a reference which is not set.
+ *
+ * @returns Non-owning pointer to the entity, @c nullptr if not found, if it
+ *          has unexpected type, or if @p registry is @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Registry is `nullptr`
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Entity is not found, unless @p optional
+ *        is set
+ * @error DMI_ERROR_ENTITY_TYPE_INVALID Entity has unexpected type, whatever
+ *        @p optional is
  */
 __dmi_api dmi_entity_t *dmi_registry_lookup(
         dmi_registry_t   *registry,
@@ -282,7 +300,16 @@ __dmi_api dmi_entity_t *dmi_registry_lookup(
  *
  * @param[in] optional Set to true if missing entity is not an error.
  *
- * @returns Non-owning pointer to the entity, @c nullptr if not found.
+ * Handle 0x0000 is treated as by `dmi_registry_lookup()`.
+ *
+ * @returns Non-owning pointer to the entity, @c nullptr if not found, if it
+ *          has unexpected type, or if @p registry is @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Registry is `nullptr`
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Entity is not found, unless @p optional
+ *        is set
+ * @error DMI_ERROR_ENTITY_TYPE_INVALID Entity has unexpected type, whatever
+ *        @p optional is
  */
 __dmi_api dmi_entity_t *dmi_registry_lookup_any(
         dmi_registry_t          *registry,
@@ -305,9 +332,18 @@ __dmi_api dmi_entity_t *dmi_registry_lookup_any(
  * @param[out] pentity  Resolved entity, or @c nullptr if the reference is not
  *                      set or is broken.
  *
+ * A reference of 0x0000 to a structure of unexpected type is treated as not
+ * set, unless `DMI_CONTEXT_FLAG_STRICT` is set, see
+ * `dmi_registry_resolve_any()`.
+ *
  * @return `true` if the reference is resolved or not set, `false` if the
- *         referenced entity is missing or has unexpected type. The reason is
- *         raised to the error queue.
+ *         referenced entity is missing or has unexpected type, or if
+ *         @p registry or @p pentity is @c nullptr. The reason is raised to
+ *         the error queue.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Registry or entity pointer is `nullptr`
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Referenced entity is not found
+ * @error DMI_ERROR_ENTITY_TYPE_INVALID Referenced entity has unexpected type
  */
 __dmi_api bool dmi_registry_resolve(
         dmi_registry_t   *registry,
@@ -330,7 +366,15 @@ __dmi_api bool dmi_registry_resolve(
  * @param[out] pentity  Resolved entity, or @c nullptr if the reference is not
  *                      set or is broken.
  *
+ * A reference of 0x0000 to a structure of unexpected type number is treated
+ * as not set, unless `DMI_CONTEXT_FLAG_STRICT` is set.
+ *
  * @return `true` if the reference is resolved or not set, `false` otherwise.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Registry or entity pointer is `nullptr`
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Referenced entity is not found
+ * @error DMI_ERROR_ENTITY_TYPE_INVALID Referenced entity has unexpected type
+ *        number
  */
 __dmi_api bool dmi_registry_resolve_id(
         dmi_registry_t *registry,
@@ -355,6 +399,10 @@ __dmi_api bool dmi_registry_resolve_id(
  *                      set or is broken.
  *
  * @return `true` if the reference is resolved or not set, `false` otherwise.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Registry or entity pointer is `nullptr`
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Referenced entity is not found
+ * @error DMI_ERROR_ENTITY_TYPE_INVALID Referenced entity has unexpected type
  */
 __dmi_api bool dmi_registry_resolve_any(
         dmi_registry_t          *registry,
@@ -372,7 +420,12 @@ __dmi_api bool dmi_registry_resolve_any(
  * @param[in] optional Set to true if missing entity is not an error.
  *
  * @returns Non-owning pointer to the first entity of the given type in table
- *          order, @c nullptr if not found.
+ *          order, @c nullptr if not found, or if @p registry or @p type is
+ *          @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Registry or type is `nullptr`
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Entity is not found, unless @p optional
+ *        is set
  */
 __dmi_api dmi_entity_t *dmi_registry_lookup_first(
         dmi_registry_t   *registry,
@@ -391,7 +444,13 @@ __dmi_api dmi_entity_t *dmi_registry_lookup_first(
  * @param[in] optional Set to true if missing entity is not an error.
  *
  * @returns Non-owning pointer to the first entity found at the given type
- *          number in table order, @c nullptr if not found.
+ *          number in table order, @c nullptr if not found, if @p registry is
+ *          @c nullptr, or if @p type_id is `DMI_TYPE_ID_INVALID`.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Registry is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID Type number is `DMI_TYPE_ID_INVALID`
+ * @error DMI_ERROR_ENTITY_NOT_FOUND Entity is not found, unless @p optional
+ *        is set
  */
 __dmi_api dmi_entity_t *dmi_registry_lookup_first_id(
         dmi_registry_t *registry,
@@ -402,12 +461,19 @@ __dmi_api dmi_entity_t *dmi_registry_lookup_first_id(
  * @brief Get registry status flags.
  *
  * @param[in] registry Registry handle.
- * @return Status flags
+ *
+ * @return Status flags, a combination of `DMI_REGISTRY_STATUS_*` values, or
+ *         zero if @p registry is @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Registry is `nullptr`
  */
 __dmi_api unsigned dmi_registry_status(const dmi_registry_t *registry);
 
 /**
  * @brief Destroy registry.
+ *
+ * Destroys the registry along with the entities it holds. Does nothing if
+ * @p registry is @c nullptr.
  *
  * @param[in] registry Registry handle.
  */
@@ -425,6 +491,8 @@ __dmi_api void dmi_registry_destroy(dmi_registry_t *registry);
  * @param[in]  filter   Optional filter; @c nullptr to disable filtering.
  *
  * @return `true` on success, `false` if @p iter or @p registry is @c nullptr.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Iterator or registry is `nullptr`
  */
 __dmi_api bool dmi_registry_iter_init(
         dmi_registry_iter_t *iter,

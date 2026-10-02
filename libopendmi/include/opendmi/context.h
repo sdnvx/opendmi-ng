@@ -295,8 +295,11 @@ __dmi_api dmi_context_t *dmi_create(unsigned int flags);
 /**
  * @brief Set DMI context flags.
  *
+ * Replaces the flags of the context, which take effect the next time the
+ * context is opened. Does nothing if @p context is `nullptr`.
+ *
  * @param[in] context DMI context handle.
- * @param[in] flags Flags
+ * @param[in] flags   Combination of `DMI_CONTEXT_FLAG_*` values.
  */
 __dmi_api void dmi_set_flags(dmi_context_t *context, unsigned flags);
 
@@ -304,7 +307,8 @@ __dmi_api void dmi_set_flags(dmi_context_t *context, unsigned flags);
  * @brief Get DMI context flags.
  *
  * @param[in] context DMI context handle.
- * @return Flags
+ *
+ * @return Flags of the context, or 0 if @p context is `nullptr`.
  */
 __dmi_api unsigned dmi_get_flags(const dmi_context_t *context);
 
@@ -340,7 +344,8 @@ __dmi_api bool dmi_add_extension(dmi_context_t *context, const dmi_module_t *mod
  * @param[in] module  Extension module.
  *
  * @return `true` if @p module has been enabled with `dmi_add_extension()`,
- *         or for the platform as the context was opened; `false` otherwise.
+ *         or for the platform as the context was opened; `false` otherwise,
+ *         or if @p context or @p module is `nullptr`.
  */
 __dmi_api bool dmi_has_extension(const dmi_context_t *context, const dmi_module_t *module);
 

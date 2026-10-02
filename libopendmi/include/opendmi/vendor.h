@@ -86,8 +86,29 @@ struct dmi_vendor_spec
 
 __BEGIN_DECLS
 
+/**
+ * @brief Get the name of a vendor.
+ *
+ * The name is translated to the current locale, if the locale has a
+ * translation of it.
+ *
+ * @param[in] vendor Vendor identifier.
+ *
+ * @return Name of the vendor, e.g. `HPE`, or `nullptr` if @p vendor has no
+ *         name, e.g. `DMI_VENDOR_ANY` or `DMI_VENDOR_INVALID`.
+ */
 __dmi_api const char *dmi_vendor_name(dmi_vendor_t vendor);
 
+/**
+ * @brief Tell the vendor from a vendor name.
+ *
+ * The name is compared with the names of the known vendors, case ignored.
+ *
+ * @param[in] name Vendor name, as an SMBIOS structure gives it.
+ *
+ * @return Static specification of the vendor, or `nullptr` if @p name is
+ *         `nullptr` or matches no vendor.
+ */
 __dmi_api const dmi_vendor_spec_t *dmi_vendor_detect(const char *name);
 
 __END_DECLS

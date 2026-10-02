@@ -1,0 +1,72 @@
+ifdef::backend-manpage[]
+= dmi_bool_code(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_bool_code
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_bool_code, dmi_bool_name - get the code and the name of a boolean value.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/value.h>
+
+const char *dmi_bool_code(bool value);
+const char *dmi_bool_name(bool value);
+----
+
+== Description
+
+The `dmi_bool_code` function returns the code of a boolean value, a
+machine-readable identifier which is the same in every language: `true` or
+`false`.
+
+The `dmi_bool_name` function returns the name of a boolean value, as the
+command line tool prints a flag: `yes` or `no`. The name is translated to the
+locale set with `dmi_set_locale`(3) if the library is built with ICU4C
+support and the locale has a translation of it, and is in English otherwise.
+
+Boolean attributes whose values are not named by the attribute itself are
+formatted with these functions, see `DMI_ATTRIBUTE`(3).
+
+=== Parameters
+
+`value`::
+Value to get the code or the name of.
+
+== Return value
+
+The functions return the code or the name of the value, which is never
+`nullptr`. The string belongs to the library and must not be modified or
+freed; a translated name may become invalid once the locale is changed.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== See also
+
+`DMI_ATTRIBUTE`(3),
+`dmi_name_lookup`(3),
+`dmi_set_locale`(3),
+`dmi_unit`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

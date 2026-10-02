@@ -175,7 +175,9 @@ extern __dmi_api const dmi_module_t dmi_hpe_module;
  * of the product name, `G1` to `G7` or `Gen8` onwards, followed by `Plus` for
  * the generations between. Product names of HPE servers without generation
  * belong to Gen10 Plus or later, since the firmware of earlier generations
- * names HP as its vendor, and are taken for Gen10 Plus.
+ * names HP as its vendor, and are taken for Gen10 Plus; the ones of HP
+ * servers are taken for Gen6, the way dmidecode takes them. Platforms which
+ * are not servers are left as they are.
  *
  * @param[in,out] platform Platform with the vendor of the firmware and the
  *                          product name set.

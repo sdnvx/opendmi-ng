@@ -1,0 +1,155 @@
+ifdef::backend-manpage[]
+= dmi_attribute_get_int(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_attribute_get_int
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_attribute_get_int, dmi_attribute_get_uint, dmi_attribute_get_bool, dmi_attribute_is_array, dmi_attribute_get_count, dmi_attribute_get_elements - read the value of a member an attribute describes.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/attribute.h>
+
+intmax_t dmi_attribute_get_int(const dmi_attribute_t *attr, const void *value);
+uintmax_t dmi_attribute_get_uint(const dmi_attribute_t *attr, const void *value);
+bool dmi_attribute_get_bool(const dmi_attribute_t *attr, const void *value);
+
+bool dmi_attribute_is_array(const dmi_attribute_t *attr);
+size_t dmi_attribute_get_count(const dmi_attribute_t *attr, const void *info);
+const void *dmi_attribute_get_elements(const dmi_attribute_t *attr, const void *value);
+----
+
+== Description
+
+The functions read the members of a decoded structure the way its attributes
+describe them, see `DMI_ATTRIBUTE`(3), so that a value is read without its C
+type being known, e.g. by the callbacks of `dmi_attributes_walk`(3).
+
+The `dmi_attribute_get_int` function reads the integer `value` points to as a
+signed one, and the `dmi_attribute_get_uint` function as an unsigned one. The
+width of the integer is the size of the member the attribute names,
+`attr->value.size`, which is one of 1, 2, 4 or 8 bytes; for an element of an
+array, the size is the one of an element. The value is widened to `intmax_t`
+or `uintmax_t`, with the sign extended by `dmi_attribute_get_int`.
+
+The `dmi_attribute_get_bool` function reads the `bool` `value` points to. The
+attribute is not used, and may be `nullptr`.
+
+The `dmi_attribute_is_array` function tells whether the attribute describes
+several elements rather than one value: an array, declared with
+`DMI_ATTRIBUTE_ARRAY`(3), whose elements are kept apart from the structure,
+or a vector, declared with `DMI_ATTRIBUTE_VECTOR`(3), whose elements the
+structure holds in place. The elements are then read one by one, each as a
+member of its own.
+
+The `dmi_attribute_get_count` function returns the number of the elements of
+an array or of a vector attribute: the fixed number of a vector, or the value
+of the counter member of an array, read from the structure `info` as an
+unsigned integer of the width of the counter. The counter of an array tells
+the number of the elements which have been decoded; the number is not checked
+against the elements, so an array whose elements have not been allocated is
+told by `dmi_attribute_get_elements` returning `nullptr`.
+
+The `dmi_attribute_get_elements` function returns the first element of an
+array or of a vector attribute, given the member of the attribute, `value`.
+The member of an array points to its elements, which are kept apart from the
+structure, while the elements of a vector are the member itself. Elements
+follow each other `attr->value.size` bytes apart.
+
+=== Parameters
+
+`attr`::
+Attribute describing the member.
+
+`value`::
+Member to read, e.g. the `value` of the node a walk of the attributes has
+reached.
+
+`info`::
+Decoded structure holding the counter of an array, e.g. the `info` of that
+node.
+
+== Return value
+
+The `dmi_attribute_get_int` and `dmi_attribute_get_uint` functions return the
+value of the member. They return zero if `attr` or `value` is `nullptr`, and
+`INTMAX_MAX` or `UINTMAX_MAX` if the size of the member is not one of the
+supported widths.
+
+The `dmi_attribute_get_bool` function returns the value of the member, or
+`false` if `value` is `nullptr`.
+
+The `dmi_attribute_is_array` function returns `true` for an array or a
+vector, and `false` otherwise or if `attr` is `nullptr`.
+
+The `dmi_attribute_get_count` function returns the number of the elements. It
+returns zero if `attr` or `info` is `nullptr`, if the attribute is neither an
+array nor a vector, if the width of the counter is not supported, or if the
+counter holds a number which does not fit into `size_t`.
+
+The `dmi_attribute_get_elements` function returns the first element, or
+`nullptr` if `attr` or `value` is `nullptr`, or if the elements of an array
+have not been allocated.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `attr`, `value` or `info` is `nullptr`, except the `attr` of
+`dmi_attribute_get_bool`. The functions take no context, so the error reaches
+no error queue.
+
+== Example
+
+The following callback of `dmi_attributes_walk`(3) sums the unsigned integers
+of the arrays of a structure:
+
+[source, c]
+----
+static dmi_attribute_walk_t sum_array(void *context, const dmi_attribute_node_t *node)
+{
+    const dmi_attribute_t *attr = node->attr;
+    const dmi_data_t *element = dmi_attribute_get_elements(attr, node->value);
+
+    if (attr->type != DMI_ATTRIBUTE_TYPE_INTEGER || element == nullptr)
+        return DMI_ATTRIBUTE_WALK_SKIP;
+
+    for (size_t i = 0; i < node->count; i++, element += attr->value.size)
+        *(uintmax_t *)context += dmi_attribute_get_uint(attr, element);
+
+    return DMI_ATTRIBUTE_WALK_SKIP;
+}
+
+static const dmi_attribute_visitor_t visitor = {
+    .array_start = sum_array
+};
+----
+
+== See also
+
+`DMI_ATTRIBUTE`(3),
+`DMI_ATTRIBUTE_ARRAY`(3),
+`DMI_ATTRIBUTE_VECTOR`(3),
+`dmi_attribute_format`(3),
+`dmi_attribute_is_unspecified`(3),
+`dmi_attributes_walk`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

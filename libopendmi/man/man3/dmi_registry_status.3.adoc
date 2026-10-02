@@ -1,0 +1,101 @@
+ifdef::backend-manpage[]
+= dmi_registry_status(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_registry_status
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_registry_status - get the status flags of a registry.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/registry.h>
+
+enum dmi_context_status {
+    DMI_REGISTRY_STATUS_SCANNED   = (1 << 0),
+    DMI_REGISTRY_STATUS_TRUNCATED = (1 << 1),
+    DMI_REGISTRY_STATUS_DECODED   = (1 << 2),
+    DMI_REGISTRY_STATUS_LINKED    = (1 << 3)
+};
+
+unsigned dmi_registry_status(const dmi_registry_t *registry);
+----
+
+== Description
+
+The `dmi_registry_status` function returns the status flags of a registry,
+which tell how far the structures of the table have got as the context is
+opened:
+
+`DMI_REGISTRY_STATUS_SCANNED`::
+The table has been scanned, and an entity has been created for every
+structure found.
+
+`DMI_REGISTRY_STATUS_TRUNCATED`::
+The table area ends before the end-of-table structure, or a structure runs
+past its end, so the structures which follow are missing. Unless the context
+has `DMI_CONTEXT_FLAG_STRICT`, a structure whose length is shorter than its
+header is taken the same way, since the structures which follow it cannot be
+found.
+
+`DMI_REGISTRY_STATUS_DECODED`::
+The structures have been decoded. Unless the context has
+`DMI_CONTEXT_FLAG_STRICT`, the structures which cannot be decoded are left
+undecoded, and the flag is set all the same.
+
+`DMI_REGISTRY_STATUS_LINKED`::
+The references between the structures have been resolved, which happens if
+the context has `DMI_CONTEXT_FLAG_LINK`, see `dmi_create`(3). Unless the
+context has `DMI_CONTEXT_FLAG_STRICT`, the broken references are left
+unresolved, and the flag is set all the same.
+
+=== Parameters
+
+`registry`::
+Registry to query, see `dmi_get_registry`(3).
+
+== Return value
+
+Returns the status flags of the registry, a combination of the values
+above, or zero if `registry` is `nullptr`.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `registry` is `nullptr`, in which case it is not reported, since
+there is no context to hold it.
+
+== Example
+
+[source, c]
+----
+if (dmi_registry_status(dmi_get_registry(context)) & DMI_REGISTRY_STATUS_TRUNCATED)
+    fprintf(stderr, "SMBIOS table is truncated\n");
+----
+
+== See also
+
+`dmi_create`(3),
+`dmi_get_registry`(3),
+`dmi_lint`(3),
+`dmi_open`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

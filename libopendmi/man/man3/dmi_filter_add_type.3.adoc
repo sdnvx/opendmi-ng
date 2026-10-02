@@ -1,0 +1,118 @@
+ifdef::backend-manpage[]
+= dmi_filter_add_type(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_filter_add_type
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_filter_add_type, dmi_filter_add_handle, dmi_filter_add_module - add a type number, a handle or a module to a filter.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/filter.h>
+
+bool dmi_filter_add_type(dmi_filter_t *filter, dmi_type_id_t type);
+bool dmi_filter_add_handle(dmi_filter_t *filter, dmi_handle_t handle);
+bool dmi_filter_add_module(dmi_filter_t *filter, const dmi_module_t *module);
+----
+
+== Description
+
+The functions add an entry to one of the lists of a filter, see
+`dmi_filter_create`(3). Once any of the lists has an entry, the filter
+matches only the structures which match an entry of any of the lists, and
+meet its mask:
+
+* The `dmi_filter_add_type` function adds a type number, which matches the
+  structures found at it, whatever specification they are decoded by, see
+  `dmi_entity_type_id`(3).
+* The `dmi_filter_add_handle` function adds a handle, which matches the
+  structure of the handle.
+* The `dmi_filter_add_module` function adds an extension module, which
+  matches the structures decoded by its specifications, whatever type
+  numbers the platform places them at. The structures of a module which is
+  not enabled in the context are not decoded by its specifications, and are
+  not matched, see `dmi_add_extension`(3).
+
+The entries are not checked, and an entry added twice is kept twice. The
+module is not copied, and must stay valid while the filter is used; the
+modules of the library and the registered ones stay valid for as long as the
+program runs.
+
+=== Parameters
+
+`filter`::
+Filter to add the entry to.
+
+`type`::
+Type number, e.g. `DMI_TYPE_ID(MEMORY_DEVICE)`.
+
+`handle`::
+Handle of a structure.
+
+`module`::
+Extension module, e.g. `&dmi_hpe_module` or the one found by
+`dmi_module_find`(3).
+
+== Return value
+
+The functions return `true` on success, and `false` if `filter` or `module`
+is `nullptr`, or if memory is exhausted, in which case the filter is left as
+it was.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_filter_add_type` and `dmi_filter_add_handle` if `filter` is
+`nullptr`, and by `dmi_filter_add_module` if `module` is `nullptr`, in which
+case it is not reported, since there is no context to hold it.
+`dmi_filter_add_module` takes a `filter` of `nullptr` silently.
+
+Memory exhaustion is not reported.
+
+== Example
+
+Match the structures of type 17 along with the ones of the HPE module:
+
+[source, c]
+----
+#include <opendmi/module/hpe.h>
+
+dmi_filter_t *filter = dmi_filter_create(context);
+
+if ((filter == nullptr) ||
+    !dmi_filter_add_type(filter, DMI_TYPE_ID(MEMORY_DEVICE)) ||
+    !dmi_filter_add_module(filter, &dmi_hpe_module)) {
+    dmi_filter_destroy(filter);
+    return false;
+}
+----
+
+== See also
+
+`dmi_add_extension`(3),
+`dmi_entity_type_id`(3),
+`dmi_filter_create`(3),
+`dmi_filter_match`(3),
+`dmi_module_find`(3),
+`dmi_registry_iter_init`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

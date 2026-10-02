@@ -1,0 +1,81 @@
+ifdef::backend-manpage[]
+= dmi_string_is_placeholder(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_string_is_placeholder
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_string_is_placeholder - check whether a string is a placeholder of the firmware vendor.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils/string.h>
+
+bool dmi_string_is_placeholder(const char *text);
+----
+
+== Description
+
+Firmware often leaves a string such as `To Be Filled By O.E.M.` or `Default
+string` in place of the data it has none of, e.g. the serial number of a
+board which has not been given one. Such strings are valid, but tell nothing.
+
+The `dmi_string_is_placeholder` function tells whether `text` is one of the
+placeholders the library knows of. The whole string is compared, regardless
+of case; a string which merely contains a placeholder, or has blanks around
+it, is not one.
+
+The placeholders known are:
+
+* `To Be Filled By O.E.M.`, `Filled By OEM`, `Fill By OEM`, `OEM`;
+* `Default string`, `Default`;
+* `System manufacturer`, `System Product Name`, `System Version`,
+  `System Serial Number`, `System SKU Number`;
+* `Chassis Manufacture`, `Chassis Version`, `Chassis Serial Number`;
+* `Not Specified`, `Not Applicable`, `Not Available`, `N/A`, `NA`;
+* `None`, `Unknown`, `TBD`, `Empty`, `[Empty]`, `NULL`, `INVALID`;
+* `No Asset Tag`, `NO DIMM`;
+* `0123456789`, `123456789`, `XXXXXXXX`.
+
+The library uses the function to report placeholders, see `dmi_lint`(3), and
+to keep them when anonymizing the data, see `dmi_anonymize`(3), since they
+identify nothing.
+
+=== Parameters
+
+`text`::
+String to check.
+
+== Return value
+
+Returns `true` if `text` is a placeholder, and `false` otherwise, or if
+`text` is `nullptr`.
+
+== Errors
+
+None: the function takes no context to raise errors in.
+
+== See also
+
+`dmi_anonymize`(3),
+`dmi_lint`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

@@ -69,10 +69,48 @@ typedef enum dmi_unit
 
 __BEGIN_DECLS
 
+/**
+ * @brief Get the code of a measurement unit.
+ *
+ * @param[in] value Measurement unit.
+ *
+ * @return Code of the unit, e.g. `millivolt`, or `nullptr` if the unit has
+ *         no code, e.g. `DMI_UNIT_NONE`.
+ */
 __dmi_api const char *dmi_unit_code(dmi_unit_t value);
+
+/**
+ * @brief Get the name of a measurement unit.
+ *
+ * The name is translated to the current locale, if the locale has a
+ * translation of it.
+ *
+ * @param[in] value Measurement unit.
+ *
+ * @return Name of the unit, e.g. `mV`, or `nullptr` if the unit has no name,
+ *         e.g. `DMI_UNIT_NONE`.
+ */
 __dmi_api const char *dmi_unit_name(dmi_unit_t value);
 
+/**
+ * @brief Get the code of a boolean value.
+ *
+ * @param[in] value Boolean value.
+ *
+ * @return `true` or `false`, never `nullptr`.
+ */
 __dmi_api const char *dmi_bool_code(bool value);
+
+/**
+ * @brief Get the name of a boolean value.
+ *
+ * The name is translated to the current locale, if the locale has a
+ * translation of it.
+ *
+ * @param[in] value Boolean value.
+ *
+ * @return `yes` or `no`, never `nullptr`.
+ */
 __dmi_api const char *dmi_bool_name(bool value);
 
 __END_DECLS

@@ -1,0 +1,182 @@
+ifdef::backend-manpage[]
+= dmi_attribute_format(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_attribute_format
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_attribute_format - format the value of a member an attribute describes.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/attribute.h>
+
+char *dmi_attribute_format(
+        dmi_context_t         *context,
+        const dmi_attribute_t *attribute,
+        const void            *value,
+        bool                   pretty);
+----
+
+== Description
+
+The `dmi_attribute_format` function formats the member `value` points to as a
+newly allocated string, the way the type and the parameters of the attribute
+describe it, see `DMI_ATTRIBUTE`(3). The `pretty` flag chooses between two
+forms of the value: the one meant to be read, e.g. by the text output of the
+command line tool, and the one meant to be parsed, e.g. by its JSON, YAML and
+XML outputs.
+
+The value is formatted according to the type of the attribute:
+
+`DMI_ATTRIBUTE_TYPE_HANDLE`::
+Hexadecimal number of four digits, e.g. `0x0010`.
+
+`DMI_ATTRIBUTE_TYPE_STRING`::
+Copy of the string.
+
+`DMI_ATTRIBUTE_TYPE_BOOL`::
+Name of the value by `.values`, if the attribute has one for it, and `yes` or
+`no` otherwise; the code of the value, e.g. `true` or `false`, if `pretty` is
+`false`.
+
+`DMI_ATTRIBUTE_TYPE_INTEGER`::
+Decimal number, signed with `DMI_ATTRIBUTE_FLAG_SIGNED`, or hexadecimal one
+with `DMI_ATTRIBUTE_FLAG_HEX`, e.g. `0x1F`.
+
+`DMI_ATTRIBUTE_TYPE_DECIMAL`::
+Decimal number with `.scale` digits after the decimal point, of which the
+trailing zeros are dropped, keeping at least one digit, e.g. `1.5` or `2.0`.
+A scale of zero formats the value as an integer.
+
+`DMI_ATTRIBUTE_TYPE_SIZE`::
+Number of the bytes, or, if `pretty` is `true`, the number of the largest
+unit the size is a whole number of, along with the unit, e.g. `16 GiB`.
+
+`DMI_ATTRIBUTE_TYPE_ADDRESS`::
+Hexadecimal number of 8 digits if the table has been read through a 32-bit
+entry point, and of 16 digits otherwise.
+
+`DMI_ATTRIBUTE_TYPE_ENUM`::
+Name of the value by `.values`, or its code if `pretty` is `false`. A value
+the names do not cover is formatted as a hexadecimal number, e.g. `0x7f`, and
+marked as invalid if `pretty` is `true`.
+
+`DMI_ATTRIBUTE_TYPE_SET`::
+Hexadecimal number of as many digits as the member holds.
+
+`DMI_ATTRIBUTE_TYPE_VERSION`::
+Version number, e.g. `3.2.0`, of as many parts as `.scale` says, which are
+three if it is neither 1 nor 2.
+
+`DMI_ATTRIBUTE_TYPE_DATE`::
+Date, see `dmi_date_format`(3).
+
+`DMI_ATTRIBUTE_TYPE_UUID`::
+UUID in the form of RFC 4122, upper-case.
+
+`DMI_ATTRIBUTE_TYPE_BINARY`::
+Bytes in hexadecimal, separated by spaces and upper-case if `pretty` is
+`true`. With `DMI_ATTRIBUTE_FLAG_MAC`, the bytes are separated by colons
+instead, and the trailing zero bytes beyond a MAC-48 address are dropped; with
+`DMI_ATTRIBUTE_FLAG_IP`, 4 bytes are formatted as an IPv4 address and 16 bytes
+as an IPv6 one, in the text form of RFC 5952.
+
+A structure has no value of its own, and is not formatted. Neither is a
+variant attribute, whose member holds the selector: the value is formatted
+with the attribute `dmi_attribute_resolve`(3) returns for it. The values
+standing for "unspecified" and "unknown" are formatted as any other, so they
+are told apart beforehand, see `dmi_attribute_is_unspecified`(3).
+
+Names of the values are translated to the locale set by `dmi_set_locale`(3),
+while codes never are.
+
+The caller is responsible for freeing the string with `free()` or
+`dmi_free`(3).
+
+=== Parameters
+
+`context`::
+DMI context the errors are raised against, whose entry point also tells the
+width of the addresses.
+
+`attribute`::
+Attribute describing the member.
+
+`value`::
+Member to format: the member itself, or an element of an array.
+
+`pretty`::
+`true` to format the value to be read, `false` to format it to be parsed.
+
+== Return value
+
+On success, returns the string. Returns `nullptr` on failure, and also if the
+attribute is a structure, a variant attribute or of a type which has no value,
+or if a string member is `nullptr`, in which case no error is raised.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `attribute` or `value` is `nullptr`. If `context` is `nullptr`, the
+function returns `nullptr` and the error reaches no error queue.
+
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised if an integer member is not 1, 2, 4 or 8 bytes wide, or if an
+enumeration attribute has no `.values`.
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised if the string cannot be allocated.
+
+== Example
+
+[source, c]
+----
+static bool print_value(void *context, const dmi_attribute_node_t *node)
+{
+    char *text = dmi_attribute_format(context, node->attr, node->value, true);
+
+    if (text == nullptr)
+        return true;
+
+    printf("%s: %s\n", dmi_attribute_name(node->member, nullptr), text);
+    dmi_free(text);
+
+    return true;
+}
+
+static const dmi_attribute_visitor_t visitor = {
+    .value = print_value
+};
+
+dmi_attributes_walk(entity->spec->attributes, entity->info, &visitor, context);
+----
+
+== See also
+
+`DMI_ATTRIBUTE`(3),
+`dmi_attribute_is_unspecified`(3),
+`dmi_attribute_name`(3),
+`dmi_attribute_resolve`(3),
+`dmi_attributes_walk`(3),
+`dmi_free`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

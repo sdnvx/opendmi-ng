@@ -1,0 +1,87 @@
+ifdef::backend-manpage[]
+= dmi_registry_create(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_registry_create
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_registry_create, dmi_registry_destroy - create and destroy a registry of structures.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/registry.h>
+
+#define DMI_REGISTRY_CAPACITY 64
+
+dmi_registry_t *dmi_registry_create(dmi_context_t *context, size_t capacity);
+void dmi_registry_destroy(dmi_registry_t *registry);
+----
+
+== Description
+
+A registry holds the structures of a table as entities, in the order the
+table holds them, and indexes them by their handles in a hash table.
+
+The `dmi_registry_create` function creates an empty registry bound to
+`context`, with a hash table of `capacity` cells. The capacity only tells
+how long the chains of the cells grow, and does not limit the number of
+structures the registry holds.
+
+A context creates a registry of its own as it is opened, fills it with the
+structures of its table, and destroys it as it is closed; the program gets
+it with `dmi_get_registry`(3), and neither creates nor destroys it. The
+functions which fill a registry are internal to the library, so a registry
+created by the program stays empty.
+
+The `dmi_registry_destroy` function destroys a registry along with the
+entities it holds, so the entities obtained from it must not be used after
+that. Passing `nullptr` does nothing.
+
+=== Parameters
+
+`context`::
+Context the registry belongs to, whose error queue its errors are raised
+against. It must not be `nullptr`, since the lookups read its flags.
+
+`capacity`::
+Number of cells of the hash table, or zero for `DMI_REGISTRY_CAPACITY`.
+
+`registry`::
+Registry to destroy, or `nullptr`.
+
+== Return value
+
+On success, `dmi_registry_create` returns the registry. On failure, which
+happens when memory is exhausted only, it returns `nullptr`.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Raised by `dmi_registry_create` if memory is exhausted.
+
+== See also
+
+`dmi_get_registry`(3),
+`dmi_registry_iter_init`(3),
+`dmi_registry_lookup`(3),
+`dmi_registry_status`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

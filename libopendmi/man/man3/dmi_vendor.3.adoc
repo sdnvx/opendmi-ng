@@ -1,0 +1,196 @@
+ifdef::backend-manpage[]
+= dmi_vendor(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_vendor
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_vendor, dmi_vendor_name, dmi_vendor_detect - vendors of firmware and
+hardware.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/vendor.h>
+
+typedef enum dmi_vendor {
+    DMI_VENDOR_INVALID = -1,
+    DMI_VENDOR_ANY     = 0,
+    DMI_VENDOR_OTHER,
+    DMI_VENDOR_ACER,
+    DMI_VENDOR_AMD,
+    DMI_VENDOR_AMI,
+    DMI_VENDOR_APPLE,
+    DMI_VENDOR_CISCO,
+    DMI_VENDOR_DELL,
+    DMI_VENDOR_HONOR,
+    DMI_VENDOR_HP,
+    DMI_VENDOR_HPE,
+    DMI_VENDOR_HUAWEI,
+    DMI_VENDOR_IBM,
+    DMI_VENDOR_INTEL,
+    DMI_VENDOR_LENOVO,
+    DMI_VENDOR_UNISYS
+} dmi_vendor_t;
+
+typedef bool dmi_vendor_detect_fn(dmi_platform_t *platform);
+
+typedef struct dmi_vendor_spec {
+    dmi_vendor_t          id;
+    const char           *code;
+    const char          **names;
+    dmi_vendor_detect_fn *detect;
+} dmi_vendor_spec_t;
+
+const char *dmi_vendor_name(dmi_vendor_t vendor);
+const dmi_vendor_spec_t *dmi_vendor_detect(const char *name);
+----
+
+== Description
+
+The `dmi_vendor_t` enumeration tells the vendors the library knows of, which
+the platform of a context is described by, see `dmi_get_platform`(3), and
+the extension modules are enabled for, see `dmi_platform_match`(3).
+
+The `dmi_vendor_name` function returns the name of a vendor, e.g. `HPE`.
+The name is translated to the locale set with `dmi_set_locale`(3) if the
+library is built with ICU4C support and the locale has a translation of it,
+and is in English otherwise.
+
+The `dmi_vendor_detect` function tells the vendor from a vendor name the
+SMBIOS structures give, e.g. the vendor of the firmware or of the system.
+Each known vendor has a list of the names it is given by, e.g.
+`Hewlett Packard Enterprise` and `HPE`; `name` matches a vendor if it is
+equal to one of them, case ignored. The name is compared as it is, so
+leading or trailing spaces, or any other spelling, make it match no vendor.
+`DMI_VENDOR_OTHER` has no names, and is never matched.
+
+The `dmi_vendor_spec_t` structure describes a known vendor:
+
+`id`::
+Vendor identifier.
+
+`code`::
+Machine-readable code of the vendor, e.g. `hpe`.
+
+`names`::
+Names the vendor is given by, terminated by `nullptr`.
+
+`detect`::
+Handler which tells the family and the generation of a platform of the
+vendor from its product name, or `nullptr` if the vendor has no families.
+The handler is called as the context is opened for the vendor of the
+firmware, with the vendors and the product name of the platform set, and
+returns `false` if memory is exhausted, and `true` otherwise.
+
+=== Values
+
+`DMI_VENDOR_INVALID`::
+No vendor, which terminates a list of platform conditions.
+
+`DMI_VENDOR_ANY`::
+Any vendor, in platform conditions only, see `dmi_platform_match`(3).
+
+`DMI_VENDOR_OTHER`::
+Vendor which the library does not know of, or which is not given.
+
+`DMI_VENDOR_ACER`::
+Acer.
+
+`DMI_VENDOR_AMD`::
+AMD.
+
+`DMI_VENDOR_AMI`::
+AMI (American Megatrends).
+
+`DMI_VENDOR_APPLE`::
+Apple.
+
+`DMI_VENDOR_CISCO`::
+Cisco.
+
+`DMI_VENDOR_DELL`::
+Dell.
+
+`DMI_VENDOR_HONOR`::
+Honor.
+
+`DMI_VENDOR_HP`::
+HP.
+
+`DMI_VENDOR_HPE`::
+HPE (Hewlett Packard Enterprise).
+
+`DMI_VENDOR_HUAWEI`::
+Huawei.
+
+`DMI_VENDOR_IBM`::
+IBM.
+
+`DMI_VENDOR_INTEL`::
+Intel.
+
+`DMI_VENDOR_LENOVO`::
+Lenovo.
+
+`DMI_VENDOR_UNISYS`::
+Unisys.
+
+=== Parameters
+
+`vendor`::
+Vendor to name.
+
+`name`::
+Vendor name to tell the vendor from.
+
+== Return value
+
+The `dmi_vendor_name` function returns the name of the vendor, or `nullptr`
+if the value has no name: `DMI_VENDOR_INVALID`, `DMI_VENDOR_ANY`, or a value
+which is not a vendor. The string belongs to the library and must not be
+modified or freed; a translated name may become invalid once the locale is
+changed.
+
+The `dmi_vendor_detect` function returns the specification of the vendor,
+which belongs to the library and is static, or `nullptr` if `name` is
+`nullptr` or matches no vendor.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== Examples
+
+[source, c]
+----
+const dmi_vendor_spec_t *spec = dmi_vendor_detect("Dell Inc.");
+dmi_vendor_t vendor = (spec != nullptr) ? spec->id : DMI_VENDOR_OTHER;
+
+printf("%s\n", dmi_vendor_name(vendor));
+----
+
+== See also
+
+`dmi_get_platform`(3),
+`dmi_platform_match`(3),
+`dmi_set_locale`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

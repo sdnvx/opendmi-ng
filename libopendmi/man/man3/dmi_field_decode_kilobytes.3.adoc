@@ -1,0 +1,137 @@
+ifdef::backend-manpage[]
+= dmi_field_decode_kilobytes(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_field_decode_kilobytes
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_field_decode_kilobytes, dmi_field_decode_kilobytes_last, dmi_field_encode_kilobytes - decode a value carried in kilobytes into bytes, and encode it back.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/field.h>
+
+bool dmi_field_decode_kilobytes(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+
+bool dmi_field_decode_kilobytes_last(
+        const dmi_field_t      *field,
+        const dmi_field_data_t *data,
+        void                   *value);
+
+bool dmi_field_encode_kilobytes(
+        const dmi_field_t *field,
+        const void        *value,
+        dmi_field_data_t  *data);
+----
+
+== Description
+
+The functions are decoding and encoding handlers of the fields, given as the
+`.decode` and `.encode` parameters of `DMI_FIELD`(3), for the sizes and the
+addresses the specification writes in kilobytes, which the decoded structure
+holds in bytes, e.g. the addresses of the memory array mapped addresses
+structure. The member decoded into is usually wider than the field, so that it
+also holds the values of the extended fields which carry the bytes themselves,
+see `DMI_FIELD_EXTENDED`(3).
+
+The `dmi_field_decode_kilobytes` function stores the number of the bytes the
+kilobytes the field carries stand for, `data->number` multiplied by 1024, into
+the member `value` points to.
+
+The `dmi_field_decode_kilobytes_last` function decodes the address of the last
+kilobyte of a range into the address of the last byte of the range, which is
+what the extended field of the address carries: ranges are given by their
+first and last kilobytes, so that the last kilobyte belongs to the range as a
+whole. The address of the kilobyte is multiplied by 1024, and 1023 is added.
+
+The `dmi_field_encode_kilobytes` function undoes either of them: the member is
+divided by 1024, rounding down, into `data->number`.
+
+The value standing for "unknown", the `.unknown_raw` parameter of the field, is
+decoded and encoded by the engine on its own, and never reaches the handlers.
+
+Members are read and written by `dmi_field_get`(3) and `dmi_field_set`(3), so
+a number too wide for the member is cut down to its width, and a `nullptr`
+member is accepted.
+
+=== Parameters
+
+`field`::
+Field being decoded or encoded.
+
+`data`::
+Data the field carries, see `dmi_field_data_t`.
+
+`value`::
+Member the field decodes into.
+
+== Return value
+
+The `dmi_field_decode_kilobytes` and `dmi_field_decode_kilobytes_last`
+functions return `true` if the member has been set, and `false` if `field` is
+`nullptr` or if the width of the member is not supported.
+
+The `dmi_field_encode_kilobytes` function always returns `true`.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `field` is `nullptr`. The functions take no context, so the error
+reaches no error queue.
+
+== Notes
+
+`data` must not be `nullptr`, nor may the `value` of
+`dmi_field_encode_kilobytes`, which are given by the engine.
+
+== Example
+
+The starting and the ending addresses of a range, which the extended fields
+carry in bytes once the plain ones are too narrow:
+
+[source, c]
+----
+DMI_FIELD(dmi_memory_array_addr_t, start_addr, dmi_dword_t,
+          .decode = dmi_field_decode_kilobytes,
+          .encode = dmi_field_encode_kilobytes),
+DMI_FIELD(dmi_memory_array_addr_t, end_addr, dmi_dword_t,
+          .decode = dmi_field_decode_kilobytes_last,
+          .encode = dmi_field_encode_kilobytes),
+...
+DMI_FIELD_EXTENDED(dmi_memory_array_addr_t, start_addr, dmi_qword_t,
+                   .when_raw = 0xFFFFFFFFu),
+DMI_FIELD_EXTENDED(dmi_memory_array_addr_t, end_addr, dmi_qword_t,
+                   .when     = dmi_member(dmi_memory_array_addr_t, start_addr),
+                   .when_raw = 0xFFFFFFFFu),
+----
+
+== See also
+
+`DMI_FIELD`(3),
+`DMI_FIELD_EXTENDED`(3),
+`dmi_field_get`(3),
+`dmi_fields_decode`(3),
+`dmi_fields_encode`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

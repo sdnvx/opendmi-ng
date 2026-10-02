@@ -1,0 +1,1 @@
+dmi_checksum_calc.3.adoc

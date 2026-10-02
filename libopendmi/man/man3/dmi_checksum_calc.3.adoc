@@ -1,0 +1,87 @@
+ifdef::backend-manpage[]
+= dmi_checksum_calc(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_checksum_calc
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_checksum_calc, dmi_checksum_test - compute and verify the 8-bit checksum of SMBIOS data.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/utils.h>
+
+uint8_t dmi_checksum_calc(const void *data, size_t length);
+bool dmi_checksum_test(const void *data, size_t length);
+----
+
+== Description
+
+SMBIOS protects its entry points with an 8-bit checksum: the bytes of the
+data, the checksum byte included, add up to zero modulo 256.
+
+The `dmi_checksum_calc` function returns the checksum of the `length` bytes
+at `data`, that is the value which brings their sum to zero modulo 256. The
+checksum byte within the data is counted as any other byte, so it is set to
+zero before the checksum is computed.
+
+The `dmi_checksum_test` function tells whether the `length` bytes at `data`
+add up to zero modulo 256, i.e. whether the checksum they hold is valid.
+
+=== Parameters
+
+`data`::
+Data to sum.
+
+`length`::
+Number of bytes to sum.
+
+== Return value
+
+The `dmi_checksum_calc` function returns the checksum, or 0 if `data` is
+`nullptr`, setting `errno` to `EINVAL`.
+
+The `dmi_checksum_test` function returns `true` if the bytes add up to zero,
+which they do when `length` is zero, and `false` otherwise. If `data` is
+`nullptr`, it returns `false`, setting `errno` to `EINVAL`.
+
+== Errors
+
+None: the functions take no context to raise errors in.
+
+== Example
+
+[source, c]
+----
+uint8_t data[16] = { ... };
+
+data[5] = 0;
+data[5] = dmi_checksum_calc(data, sizeof(data));
+
+assert(dmi_checksum_test(data, sizeof(data)));
+----
+
+== See also
+
+`dmi_generic_find_anchor`(3),
+`dmi_generic_find_entry_addr`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

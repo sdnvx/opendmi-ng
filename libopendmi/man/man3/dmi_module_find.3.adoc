@@ -1,0 +1,144 @@
+ifdef::backend-manpage[]
+= dmi_module_find(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_module_find
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_module_find, dmi_module_next - find an extension module by its code, and list the extension modules.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/module.h>
+
+typedef struct dmi_module {
+    const char                 *code;
+    const char                 *name;
+    const dmi_entity_spec_t   **entities;
+    unsigned                    flags;
+    const dmi_platform_match_t *platforms;
+    const dmi_relocation_t     *relocations;
+    const dmi_module_group_t   *groups;
+    dmi_module_t               *next;
+} dmi_module_t;
+
+extern const dmi_module_t *const dmi_builtin_modules[];
+
+const dmi_module_t *dmi_module_find(const char *code);
+const dmi_module_t *dmi_module_next(const dmi_module_t *module);
+----
+
+== Description
+
+An extension module brings the specifications of the vendor-specific
+structure types, see `dmi_add_extension`(3). The modules available are the
+built-in ones, listed by the `dmi_builtin_modules` array, which is
+terminated by `nullptr`, followed by the ones the program registers with
+`dmi_module_register`(3), in the order of registration.
+
+The `dmi_module_find` function finds the available module whose code is
+`code`, e.g. `hpe`. Codes are compared exactly, case included.
+
+The `dmi_module_next` function lists the available modules: it returns the
+first one for `nullptr`, and the one which follows `module` otherwise.
+
+The members of a module are the following:
+
+`code`::
+Code of the module, e.g. `hpe`, which is never translated.
+
+`name`::
+Printable name of the module.
+
+`entities`::
+Specifications of the structure types the module brings, terminated by
+`nullptr`.
+
+`flags`::
+Flags of the module: `DMI_MODULE_FLAG_YIELD` makes its specifications give
+way to the ones of the other enabled modules of the same type numbers,
+instead of conflicting with them.
+
+`platforms`::
+Platforms the module is enabled for as a context is opened, if the context
+has `DMI_CONTEXT_FLAG_AUTO_MODULES`, terminated by `DMI_PLATFORM_NULL`, see
+`dmi_platform_match`(3), or `nullptr` for a module which is only enabled
+explicitly.
+
+`relocations`::
+Structures of other modules, which the platforms of the module place at type
+numbers of their own, terminated by an entry with no specification.
+
+`groups`::
+Group associations (type 14) whose members are structures of the module,
+terminated by an entry with no name.
+
+`next`::
+Next registered module, which the library sets as the module is registered.
+
+The modules belong to the library, or to the program which has registered
+them, and must not be modified or freed.
+
+=== Parameters
+
+`code`::
+Code of the module to find.
+
+`module`::
+Module returned by the previous call, or `nullptr` to get the first one. It
+must be an available module.
+
+== Return value
+
+`dmi_module_find` returns the module, or `nullptr` if no available module
+has the code, or if `code` is `nullptr`.
+
+`dmi_module_next` returns the next module, or `nullptr` if `module` is the
+last one.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_module_find` if `code` is `nullptr`, in which case it is not
+reported, since there is no context to hold it.
+
+`dmi_module_next` raises no errors.
+
+== Example
+
+List the available modules:
+
+[source, c]
+----
+for (const dmi_module_t *module = dmi_module_next(nullptr);
+     module != nullptr;
+     module = dmi_module_next(module))
+    printf("%-12s %s\n", module->code, module->name);
+----
+
+== See also
+
+`dmi_add_extension`(3),
+`dmi_filter_add_module`(3),
+`dmi_module_register`(3),
+`dmi_platform_match`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

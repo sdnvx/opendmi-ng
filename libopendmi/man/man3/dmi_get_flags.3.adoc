@@ -1,0 +1,129 @@
+ifdef::backend-manpage[]
+= dmi_get_flags(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_get_flags
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_get_flags, dmi_set_flags - get and set the flags of an OpenDMI context.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/context.h>
+
+typedef enum dmi_context_flags {
+    DMI_CONTEXT_FLAG_RELAXED      = 0,
+    DMI_CONTEXT_FLAG_STRICT       = (1 << 0),
+    DMI_CONTEXT_FLAG_LINK         = (1 << 1),
+    DMI_CONTEXT_FLAG_OVERLAY      = (1 << 2),
+    DMI_CONTEXT_FLAG_AUTO_MODULES = (1 << 3)
+} dmi_context_flags_t;
+
+unsigned dmi_get_flags(const dmi_context_t *context);
+void dmi_set_flags(dmi_context_t *context, unsigned flags);
+----
+
+== Description
+
+The flags of a context choose how the data it is given is decoded. They are
+first given to `dmi_create`(3), and are combined with the bitwise OR.
+
+The `dmi_get_flags` function returns the flags of the context.
+
+The `dmi_set_flags` function replaces the flags of the context with `flags`,
+as they are: the flags are not checked, and the ones the library does not
+know are kept and returned by `dmi_get_flags`. To set or clear a single flag,
+the caller combines it with the flags `dmi_get_flags` returns.
+
+The flags are read as the context is opened with `dmi_open`(3) or
+`dmi_load`(3), and as its structures are read anew by
+`dmi_anonymize_context`(3). The structures of an open context are not
+decoded again when the flags change, so new flags take effect the next time
+the context is opened.
+
+=== Flags
+
+`DMI_CONTEXT_FLAG_RELAXED`::
+Zero, the default mode, in which as much of the table as possible is made
+available: malformed structures are left undecoded, broken references and
+invalid additional information entries are skipped, and the errors are left
+in the error queue. A structure of an invalid length ends the table, and
+missing firmware information leaves the vendor unknown.
+
+`DMI_CONTEXT_FLAG_STRICT`::
+Makes opening fail if the table has any error: a structure of an invalid
+length, missing firmware information, a malformed structure, a broken
+reference or an invalid additional information entry. Decoding and linking
+still go on after the first error, so that all of the errors are reported to
+the error queue.
+
+`DMI_CONTEXT_FLAG_LINK`::
+Resolves the references between the structures once they are decoded, and
+attaches string properties (type 46) to the structures they describe.
+
+`DMI_CONTEXT_FLAG_OVERLAY`::
+Decodes the structures with the values of additional information entries
+(type 40) applied. Entries usually carry annotations with placeholder values
+rather than the values of fields, so this is not done by default.
+
+`DMI_CONTEXT_FLAG_AUTO_MODULES`::
+Enables the extension modules of the platform as the context is opened, in
+addition to the ones enabled with `dmi_add_extension`(3), unless their types
+conflict with the types of the modules enabled before. The modules enabled
+this way stay enabled until the context is closed.
+
+=== Parameters
+
+`context`::
+Context to get or set the flags of.
+
+`flags`::
+New flags of the context, `DMI_CONTEXT_FLAG_RELAXED` or a combination of the
+other `DMI_CONTEXT_FLAG_*` values.
+
+== Return value
+
+The `dmi_get_flags` function returns the flags of the context, or 0 if
+`context` is `nullptr`, which cannot be told apart from
+`DMI_CONTEXT_FLAG_RELAXED`.
+
+The `dmi_set_flags` function returns no value, and does nothing if `context`
+is `nullptr`.
+
+== Errors
+
+None.
+
+== Examples
+
+[source, c]
+----
+dmi_set_flags(context, dmi_get_flags(context) | DMI_CONTEXT_FLAG_LINK);
+----
+
+== See also
+
+`dmi_create`(3),
+`dmi_open`(3),
+`dmi_load`(3),
+`dmi_add_extension`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

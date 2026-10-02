@@ -1,0 +1,126 @@
+ifdef::backend-manpage[]
+= dmi_hpe_platform_detect(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_hpe_platform_detect
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_hpe_platform_detect - tell the family and the generation of an HP or HPE platform.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/module/hpe.h>
+
+#define DMI_HPE_FAMILY_SERVER "server"
+
+typedef enum dmi_hpe_generation {
+    DMI_HPE_GEN1       = 10,
+    DMI_HPE_GEN2       = 20,
+    DMI_HPE_GEN3       = 30,
+    DMI_HPE_GEN4       = 40,
+    DMI_HPE_GEN5       = 50,
+    DMI_HPE_GEN6       = 60,
+    DMI_HPE_GEN7       = 70,
+    DMI_HPE_GEN8       = 80,
+    DMI_HPE_GEN9       = 90,
+    DMI_HPE_GEN10      = 100,
+    DMI_HPE_GEN10_PLUS = 105,
+    DMI_HPE_GEN11      = 110,
+    DMI_HPE_GEN12      = 120
+} dmi_hpe_generation_t;
+
+bool dmi_hpe_platform_detect(dmi_platform_t *platform);
+----
+
+== Description
+
+The `dmi_hpe_platform_detect` function tells the family and the generation
+of an HP or HPE platform from its product name, since the layouts of the
+vendor-specific structures of HP and HPE servers depend on them. A context
+calls it as it is opened, if the firmware is of HP or HPE and the table has
+a product name, see `dmi_get_platform`(3); a program calls it for a platform
+it gives to a context with `dmi_set_platform`(3).
+
+A platform is a server of the family `DMI_HPE_FAMILY_SERVER` if its product
+name holds the name of a product line of HP and HPE servers: `ProLiant`,
+`Apollo`, `Synergy` or `Edgeline`. Names are compared exactly, case
+included. The workstations and the laptops of HP have structures of their
+own, and their platforms are left as they are.
+
+The generation of a server is told by the first word of the product name
+which is `G` or `Gen` followed by a number, e.g. `G7` or `Gen10`: HP names
+the generations up to the seventh `G1` to `G7`, and the ones from the eighth
+onwards `Gen8` and so on. The generation is numbered ten times its number,
+and five more if the word is followed by the word `Plus`, e.g.
+`DMI_HPE_GEN10_PLUS` for `ProLiant DL360 Gen10 Plus`.
+
+A server whose product name tells no generation is taken for the newest
+generation the firmware of its vendor may be of, and for the oldest one HP
+named without generation, the way dmidecode takes them: Gen10 Plus if the
+firmware vendor of the platform is `DMI_VENDOR_HPE`, since the firmware of
+earlier generations names HP as its vendor, and Gen6 otherwise.
+
+The family and the generation the platform had are replaced.
+
+=== Parameters
+
+`platform`::
+Platform with the firmware vendor and the product name set, see
+`dmi_platform_create`(3).
+
+== Return value
+
+Returns `false` if memory is exhausted, in which case the platform is left
+as it was, and `true` otherwise, including the cases when `platform` is
+`nullptr`, when it has no product name, or when it is not a server, in which
+cases it is left as it is.
+
+== Errors
+
+`DMI_ERROR_OUT_OF_MEMORY`::
+Memory is exhausted, reported to the context of `platform`, if it has one.
+
+== Example
+
+[source, c]
+----
+dmi_platform_t *platform = dmi_platform_create(context);
+
+if ((platform != nullptr) &&
+    dmi_platform_set_product(platform, "ProLiant DL380 Gen11")) {
+    platform->firmware_vendor = DMI_VENDOR_HPE;
+
+    if (dmi_hpe_platform_detect(platform))
+        dmi_set_platform(context, platform);
+}
+
+dmi_platform_destroy(platform);
+----
+
+== See also
+
+`dmi_get_platform`(3),
+`dmi_platform_create`(3),
+`dmi_platform_in_generations`(3),
+`dmi_platform_set_family`(3),
+`dmi_set_platform`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

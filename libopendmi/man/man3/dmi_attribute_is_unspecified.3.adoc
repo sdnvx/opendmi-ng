@@ -1,0 +1,111 @@
+ifdef::backend-manpage[]
+= dmi_attribute_is_unspecified(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_attribute_is_unspecified
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_attribute_is_unspecified, dmi_attribute_is_unknown - tell whether the value of a member stands for "unspecified" or "unknown".
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/attribute.h>
+
+bool dmi_attribute_is_unspecified(const dmi_attribute_t *attr, const void *value);
+bool dmi_attribute_is_unknown(const dmi_attribute_t *attr, const void *value);
+----
+
+== Description
+
+The specification reserves values of many fields which stand for no value at
+all: "unspecified", for the ones the firmware gives no value, and "unknown",
+for the ones it does not know. An attribute names them by its `.unspec` and
+`.unknown` parameters, see `DMI_ATTRIBUTE`(3), so that they are written as
+such rather than as values, e.g. by the output formats of the command line
+tool.
+
+The `dmi_attribute_is_unspecified` function tells whether the member `value`
+points to is unspecified:
+
+* if the attribute has an `.unspec` value, the member is compared with it byte
+  by byte, over the size of the member, `attr->value.size`;
+* otherwise, a string is unspecified if its pointer is `nullptr`, a handle if
+  it is `DMI_HANDLE_INVALID`, and binary data if its `length` is zero;
+* a value of any other type is never unspecified without an `.unspec` value.
+
+The `dmi_attribute_is_unknown` function tells whether the member is unknown,
+by comparing it with the `.unknown` value of the attribute byte by byte, over
+the size of the member. A value is never unknown if the attribute has no
+`.unknown` value.
+
+For an element of an array, the size of the member is the one of an element,
+so the element is compared the same way.
+
+=== Parameters
+
+`attr`::
+Attribute describing the member.
+
+`value`::
+Member to check.
+
+== Return value
+
+Returns `true` if the value stands for "unspecified" or "unknown", and `false`
+otherwise or if `attr` or `value` is `nullptr`.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `attr` or `value` is `nullptr`. The functions take no context, so
+the error reaches no error queue.
+
+== Example
+
+[source, c]
+----
+static bool print_value(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_context_t *dmi = context;
+
+    if (dmi_attribute_is_unspecified(node->attr, node->value)) {
+        puts("Not specified");
+    } else if (dmi_attribute_is_unknown(node->attr, node->value)) {
+        puts("Unknown");
+    } else {
+        char *text = dmi_attribute_format(dmi, node->attr, node->value, true);
+
+        puts(text != nullptr ? text : "?");
+        dmi_free(text);
+    }
+
+    return true;
+}
+----
+
+== See also
+
+`DMI_ATTRIBUTE`(3),
+`dmi_attribute_format`(3),
+`dmi_attribute_get_int`(3),
+`dmi_attributes_walk`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

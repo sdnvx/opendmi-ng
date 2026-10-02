@@ -59,9 +59,9 @@ __dmi_api int dmi_vasprintf(char **strp, const char *format, va_list args);
  *
  * Iterates over the null-terminated string @p str and replaces each character
  * with its lowercase equivalent using `tolower()`. The string is modified in
- * place; no new buffer is allocated.
+ * place; no new buffer is allocated. Does nothing if @p str is @c nullptr.
  *
- * @param[in,out] str  Null-terminated string to convert. Must not be @c nullptr.
+ * @param[in,out] str  Null-terminated string to convert, or @c nullptr.
  */
 __dmi_api void dmi_string_tolower(char *str);
 
@@ -70,9 +70,9 @@ __dmi_api void dmi_string_tolower(char *str);
  *
  * Iterates over the null-terminated string @p str and replaces each character
  * with its uppercase equivalent using `toupper()`. The string is modified in
- * place; no new buffer is allocated.
+ * place; no new buffer is allocated. Does nothing if @p str is @c nullptr.
  *
- * @param[in,out] str  Null-terminated string to convert. Must not be @c nullptr.
+ * @param[in,out] str  Null-terminated string to convert, or @c nullptr.
  */
 __dmi_api void dmi_string_toupper(char *str);
 
@@ -86,14 +86,14 @@ __dmi_api void dmi_string_toupper(char *str);
  * @param[in]     context Context whose error queue errors are raised against,
  *                        or @c nullptr to report none.
  * @param[in,out] pstring Pointer to the variable holding the string, which is
- *                        either @c nullptr or allocated with `malloc()`. Must
- *                        not be @c nullptr.
+ *                        either @c nullptr or allocated with `malloc()`.
  * @param[in]     value   String to copy, or @c nullptr to free the string and
  *                        leave the variable holding @c nullptr.
  *
- * @return `true` on success, `false` if memory is exhausted.
+ * @return `true` on success, `false` otherwise.
  *
- * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
+ * @error DMI_ERROR_ARGUMENT_NULL Pointer to the variable is `nullptr`
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted
  */
 __dmi_api bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value);
 
@@ -106,7 +106,8 @@ __dmi_api bool dmi_string_set(dmi_context_t *context, char **pstring, const char
  *
  * @param[in] text String to check, or @c nullptr.
  *
- * @return `true` if @p text is a placeholder, `false` otherwise.
+ * @return `true` if @p text is a placeholder, `false` otherwise, or if @p text
+ *         is @c nullptr.
  */
 __dmi_api bool dmi_string_is_placeholder(const char *text);
 

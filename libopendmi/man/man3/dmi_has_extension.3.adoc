@@ -1,0 +1,1 @@
+dmi_add_extension.3.adoc

@@ -1,0 +1,1 @@
+dmi_registry_lookup.3.adoc
