@@ -14,7 +14,6 @@
 #include <opendmi/writer.h>
 #include <opendmi/decoder.h>
 #include <opendmi/encoder.h>
-#include <opendmi/entity.h>
 #include <opendmi/field.h>
 #include <opendmi/internal.h>
 
@@ -23,6 +22,8 @@
 
 #include <opendmi/entity/string-property.h>
 #include <opendmi/entity/additional-info.h>
+
+#include "entity-internal.h"
 
 const dmi_name_set_t dmi_entity_state_names =
 {

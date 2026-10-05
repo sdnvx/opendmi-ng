@@ -53,4 +53,18 @@ void dmi_mgmt_device_threshold_lint_order(dmi_lint_t *lint, const dmi_entity_t *
  */
 void dmi_mgmt_device_threshold_lint_template(dmi_lint_t *lint, const dmi_entity_t *entity);
 
+
+/**
+ * @internal
+ * @brief Set type of the component using the thresholds.
+ *
+ * Units of threshold values are defined by the component type. If the
+ * thresholds are used by components of different types, the units are
+ * ambiguous, and the values are shown as they are stored.
+ *
+ * @param[in] entity Management device threshold data entity.
+ * @param[in] type   Component type.
+ */
+void dmi_mgmt_device_threshold_set_component(dmi_entity_t *entity, dmi_type_id_t type);
+
 #endif // !OPENDMI_ENTITY_MGMT_DEVICE_THRESHOLD_INTERNAL_H

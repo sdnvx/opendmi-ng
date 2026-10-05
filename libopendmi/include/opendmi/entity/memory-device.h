@@ -472,34 +472,6 @@ __dmi_api const char *dmi_memory_device_type_name(dmi_memory_device_type_t value
 __dmi_api const char *dmi_memory_device_form_factor_name(dmi_memory_device_form_factor_t value);
 __dmi_api const char *dmi_memory_device_tech_name(dmi_memory_device_tech_t value);
 
-/**
- * @internal
- * @brief Convert the size field of a memory device to bytes.
- *
- * Bits 14:0 of the field hold the size, and bit 15 its granularity:
- * kilobytes if it is set, megabytes otherwise. The special values of the
- * field, which tell that the size is unknown or is held by the extended size
- * field, are to be told apart by the caller.
- *
- * @param[in] value Value of the field.
- *
- * @return Size of the device in bytes.
- */
-__dmi_api dmi_size_t dmi_memory_device_size(uint16_t value);
-
-/**
- * @internal
- * @brief Convert the extended size field of a memory device to bytes.
- *
- * Bits 30:0 of the field hold the size in megabytes, and bit 31 is reserved.
- *
- * @param[in] value Value of the field.
- *
- * @return Size of the device in bytes, or `DMI_SIZE_MAX` if the reserved bit
- *         is set.
- */
-__dmi_api dmi_size_t dmi_memory_device_size_ex(uint32_t value);
-
 __END_DECLS
 
 #endif // !OPENDMI_ENTITY_MEMORY_DEVICE_H

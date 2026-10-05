@@ -8,8 +8,6 @@
 #include <assert.h>
 
 #include <opendmi/anonymize.h>
-#include <opendmi/context.h>
-#include <opendmi/entry.h>
 #include <opendmi/entity.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
@@ -17,6 +15,8 @@
 #include <opendmi/backend/dump.h>
 
 #include "context-internal.h"
+#include "entry-internal.h"
+#include "registry-internal.h"
 
 /**
  * @internal

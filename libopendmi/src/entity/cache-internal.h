@@ -171,4 +171,32 @@ void dmi_cache_lint_size(dmi_lint_t *lint, const dmi_entity_t *entity);
  */
 void dmi_cache_lint_sram(dmi_lint_t *lint, const dmi_entity_t *entity);
 
+
+/**
+ * @internal
+ * @brief Decode cache size from a 16-bit SMBIOS value.
+ *
+ * Converts the raw 16-bit cache size field into a size in bytes. Bit 15
+ * determines the granularity: 1 Kb when clear, 64 Kb when set.
+ *
+ * @param[in] value Raw 16-bit cache size value.
+ *
+ * @return Cache size in bytes.
+ */
+dmi_size_t dmi_cache_size(uint16_t value);
+
+/**
+ * @internal
+ * @brief Decode cache size from a 32-bit SMBIOS value.
+ *
+ * Converts the raw 32-bit extended cache size field into a size in bytes.
+ * Bit 31 determines the granularity: 1 Kb when clear, 64 Kb when set.
+ * Used for caches larger than 2047 MiB (SMBIOS 3.1+).
+ *
+ * @param[in] value Raw 32-bit cache size value.
+ *
+ * @return Cache size in bytes.
+ */
+dmi_size_t dmi_cache_size_ex(uint32_t value);
+
 #endif // !OPENDMI_ENTITY_CACHE_INTERNAL_H

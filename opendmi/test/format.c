@@ -13,7 +13,6 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
-#include <opendmi/entity.h>
 #include <opendmi/test/entity.h>
 #include <opendmi/format.h>
 #include <opendmi/entity/string-property.h>
@@ -25,6 +24,8 @@
 #   include <libxml/parser.h>
 #endif
 #include <opendmi/test/helpers.h>
+
+#include "entity-internal.h"
 
 static int test_format_setup(void **pstate);
 static int test_format_teardown(void **pstate);

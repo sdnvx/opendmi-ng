@@ -16,7 +16,8 @@
 #include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
-#include <opendmi/entity/memory-device.h>
+
+#include "entity/memory-device-internal.h"
 
 static void test_memory_device_type_name(void **pstate);
 static void test_memory_device_form_factor_name(void **pstate);

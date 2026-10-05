@@ -34,7 +34,7 @@ jobs:
         # System compiler (clang) is used
         run: |
           set -e
-          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DENABLE_WERROR=ON
           cmake --build build --parallel 2
           cd build
           ctest --output-on-failure

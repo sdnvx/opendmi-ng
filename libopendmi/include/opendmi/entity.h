@@ -249,8 +249,6 @@ struct dmi_entity_params
      * allocation during decoding.
      */
     size_t decoded_length;
-
-
 };
 
 /**
@@ -789,20 +787,6 @@ __dmi_api bool dmi_entity_encode(dmi_encoder_t *encoder);
 __dmi_api bool dmi_entity_link(dmi_entity_t *entity);
 
 /**
- * @internal
- * @brief Check whether an entity has anything to link.
- *
- * An entity is linked when its specification has a link handler, or when any
- * of its attributes declares the member a referenced structure goes into.
- * The rest have no references to resolve, and are left unlinked.
- *
- * @param[in] entity Entity descriptor.
- *
- * @return `true` if the entity has anything to link, `false` otherwise.
- */
-__dmi_api bool dmi_entity_is_linkable(const dmi_entity_t *entity);
-
-/**
  * @brief Get entity handle.
  *
  * @param[in] entity Entity descriptor.
@@ -948,45 +932,12 @@ __dmi_api const char *dmi_entity_string_ex(const dmi_entity_t *entity, size_t nu
  * @param[in] entity   Entity descriptor.
  * @param[in] property String property identifier.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Entity is `nullptr`
+ *
  * @return Property value, or @c nullptr if the structure has no such property,
  *         the property has no value, or structures have not been linked.
  */
 __dmi_api const char *dmi_entity_property(const dmi_entity_t *entity, dmi_property_t property);
-
-/**
- * @internal
- * @brief Attach decoded string property to its parent structure.
- *
- * @param[in] entity   Parent entity descriptor.
- * @param[in] property Decoded string property structure (type 46).
- *
- * @return The function returns `true` on success and `false` otherwise.
- */
-__dmi_api bool dmi_entity_add_property(dmi_entity_t *entity, const dmi_string_property_t *property);
-
-/**
- * @internal
- * @brief Attach additional information entry to the structure it refers to.
- *
- * The entry value is applied to a copy of the structure body when the
- * structure is decoded, so entries must be attached before decoding. Entries
- * are applied in the order they are attached.
- *
- * @param[in] entity Referenced entity descriptor.
- * @param[in] source Decoded additional information structure (type 40).
- * @param[in] index  Zero-based index of the entry in @p source.
- *
- * @return `true` on success, `false` if the entry cannot be applied.
- *
- * @error DMI_ERROR_ARGUMENT_NULL Source is `nullptr`.
- * @error DMI_ERROR_ARGUMENT_INVALID Source is not a decoded additional
- *        information structure, or has no entry with such index.
- * @error DMI_ERROR_STATE_INVALID Structure is already decoded.
- * @error DMI_ERROR_OVERLAY_INVALID Entry refers to an additional information
- *        structure, to the structure header, or beyond the structure body.
- * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
- */
-__dmi_api bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, size_t index);
 
 /**
  * @brief Destroy entity descriptor.

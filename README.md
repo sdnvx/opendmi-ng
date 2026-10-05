@@ -509,6 +509,11 @@ runtime the system has outgrown hangs every program before it starts. Pass
 `--without-asan` to build without it, or `--with-asan` to require it and fail
 to configure instead of falling back.
 
+`build.sh` treats compiler warnings as errors, which `--without-werror` turns
+off. CMake itself does neither unless told to, see `ENABLE_ASAN` and
+`ENABLE_WERROR` below, so that a package is built with the flags its
+packager chooses, and does not fail on the warnings of a newer compiler.
+
 To set the installation prefix:
 
 ```sh

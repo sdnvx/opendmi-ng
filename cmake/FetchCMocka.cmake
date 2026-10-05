@@ -20,3 +20,13 @@ FetchContent_MakeAvailable(cmocka)
 # CMocka is only used for testing, so it is neither built by default nor
 # installed
 set_property(DIRECTORY ${cmocka_SOURCE_DIR} PROPERTY EXCLUDE_FROM_ALL TRUE)
+
+# Warnings of third-party code are not ours to fix, e.g. the flags CMocka
+# picks for itself which the compiler does not use, so they are not errors
+foreach(target cmocka cmocka-static)
+    if(TARGET ${target})
+        set_target_properties(${target} PROPERTIES COMPILE_WARNING_AS_ERROR OFF)
+        target_compile_options(${target} PRIVATE
+            $<$<C_COMPILER_ID:Clang,AppleClang>:-Wno-unused-command-line-argument>)
+    endif()
+endforeach()

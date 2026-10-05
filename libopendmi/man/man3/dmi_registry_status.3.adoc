@@ -24,7 +24,7 @@ endif::[]
 ----
 #include <opendmi/registry.h>
 
-enum dmi_context_status {
+enum dmi_registry_status {
     DMI_REGISTRY_STATUS_SCANNED   = (1 << 0),
     DMI_REGISTRY_STATUS_TRUNCATED = (1 << 1),
     DMI_REGISTRY_STATUS_DECODED   = (1 << 2),

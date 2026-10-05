@@ -1,0 +1,87 @@
+ifdef::backend-manpage[]
+= dmi_entity_property(3)
+endif::[]
+ifndef::backend-manpage[]
+= dmi_entity_property
+endif::[]
+:author: The OpenDMI contributors
+:manmanual: OpenDMI Manual
+:mansource: OpenDMI {release-version}
+
+ifdef::backend-manpage[]
+== Name
+
+dmi_entity_property - get a string property of an entity.
+
+== Library
+
+OpenDMI C library (`libopendmi`, `-lopendmi`)
+endif::[]
+
+== Synopsis
+
+[source, c]
+----
+#include <opendmi/entity.h>
+
+const char *dmi_entity_property(const dmi_entity_t *entity, dmi_property_t property);
+----
+
+== Description
+
+String properties, such as the UEFI device path of a device, are given to a
+structure by the string property structures (type 46) which refer to it, see
+`dmi_string_property`(3). The structures are attached to the structures they
+refer to as the context links them, which it does if it has
+`DMI_CONTEXT_FLAG_LINK`, see `dmi_create`(3).
+
+The `dmi_entity_property` function returns the value of the property
+`property` of `entity`. If several properties of the structure have the
+identifier, the value of the first one in the order of the table is returned.
+
+=== Parameters
+
+`entity`::
+Entity to get the property of.
+
+`property`::
+Identifier of the property, e.g. `DMI_PROPERTY_ID_UEFI_DEVICE_PATH`, or an
+identifier of the range of a vendor or of an OEM.
+
+== Return value
+
+Returns the value of the property, which belongs to the entity and must not
+be modified or freed. Returns `nullptr` if `entity` is `nullptr`, if the
+structure has no such property or the property has no value, or if the
+structures have not been linked.
+
+== Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `entity` is `nullptr`. The function takes no context, so the error
+reaches no error queue.
+
+A property the structure does not have is not an error.
+
+== Example
+
+[source, c]
+----
+const char *path = dmi_entity_property(entity, DMI_PROPERTY_ID_UEFI_DEVICE_PATH);
+
+if (path != nullptr)
+    printf("UEFI device path: %s\n", path);
+----
+
+== See also
+
+`dmi_create`(3),
+`dmi_entity_string_ex`(3),
+`dmi_string_property`(3)
+
+ifdef::backend-manpage[]
+== Copying
+
+Copyright (c) 2025-2026, The OpenDMI contributors. Free use of this software
+is granted under the terms of the BSD 3-Clause License.
+endif::[]

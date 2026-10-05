@@ -226,4 +226,32 @@ void dmi_firmware_lint_rom_size(dmi_lint_t *lint, const dmi_entity_t *entity);
  */
 void dmi_firmware_lint_release_date(dmi_lint_t *lint, const dmi_entity_t *entity);
 
+
+/**
+ * @internal
+ * @brief Convert the ROM size field of the platform firmware information to
+ * bytes.
+ *
+ * The field holds the number of the 64K granules the ROM takes, less one.
+ *
+ * @param[in] value Value of the field.
+ *
+ * @return Size of the ROM in bytes.
+ */
+dmi_size_t dmi_firmware_rom_size(dmi_byte_t value);
+
+/**
+ * @internal
+ * @brief Convert the extended ROM size field of the platform firmware
+ * information to bytes.
+ *
+ * Bits 13:0 of the field hold the size, and bits 15:14 its unit: megabytes
+ * (`00b`) or gigabytes (`01b`). The other units are reserved.
+ *
+ * @param[in] value Value of the field.
+ *
+ * @return Size of the ROM in bytes, or zero if the unit is reserved.
+ */
+dmi_size_t dmi_firmware_rom_size_ex(dmi_word_t value);
+
 #endif // !OPENDMI_ENTITY_FIRMWARE_INTERNAL_H

@@ -10,10 +10,11 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
-#include <opendmi/entry.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
+
+#include "entry-internal.h"
 
 static int test_entry_setup(void **pstate);
 static int test_entry_teardown(void **pstate);

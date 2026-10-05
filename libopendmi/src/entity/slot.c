@@ -11,6 +11,7 @@
 
 #include <opendmi/entity/common.h>
 
+#include "common-internal.h"
 #include "slot-internal.h"
 
 const dmi_entity_spec_t dmi_slot_spec =

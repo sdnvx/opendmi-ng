@@ -186,4 +186,32 @@ void dmi_memory_device_lint_attributes(dmi_lint_t *lint, const dmi_entity_t *ent
  */
 void dmi_memory_device_lint_disabled(dmi_lint_t *lint, const dmi_entity_t *entity);
 
+/**
+ * @internal
+ * @brief Convert the size field of a memory device to bytes.
+ *
+ * Bits 14:0 of the field hold the size, and bit 15 its granularity:
+ * kilobytes if it is set, megabytes otherwise. The special values of the
+ * field, which tell that the size is unknown or is held by the extended size
+ * field, are to be told apart by the caller.
+ *
+ * @param[in] value Value of the field.
+ *
+ * @return Size of the device in bytes.
+ */
+dmi_size_t dmi_memory_device_size(uint16_t value);
+
+/**
+ * @internal
+ * @brief Convert the extended size field of a memory device to bytes.
+ *
+ * Bits 30:0 of the field hold the size in megabytes, and bit 31 is reserved.
+ *
+ * @param[in] value Value of the field.
+ *
+ * @return Size of the device in bytes, or `DMI_SIZE_MAX` if the reserved bit
+ *         is set.
+ */
+dmi_size_t dmi_memory_device_size_ex(uint32_t value);
+
 #endif // !OPENDMI_ENTITY_MEMORY_DEVICE_INTERNAL_H

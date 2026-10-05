@@ -110,6 +110,8 @@ _usage() {
     echo "    Features:"
     echo "        --with-asan        Build with AddressSanitizer (debug builds, default=${ENABLE_ASAN})"
     echo "        --without-asan     Build without AddressSanitizer"
+    echo "        --with-werror      Treat compiler warnings as errors (default=${ENABLE_WERROR})"
+    echo "        --without-werror   Do not treat compiler warnings as errors"
     echo "        --with-icu         Build with ICU4C support (default=${ENABLE_ICU})"
     echo "        --with-curses      Build with Curses support (default=${ENABLE_CURSES})"
     echo "        --with-xml         Build with XML support (default=${ENABLE_XML})"
@@ -188,6 +190,12 @@ _configure() {
             --without-asan)
                 ENABLE_ASAN=OFF
                 ;;
+            --with-werror)
+                ENABLE_WERROR=ON
+                ;;
+            --without-werror)
+                ENABLE_WERROR=OFF
+                ;;
             --with-icu)
                 ENABLE_ICU=ON
                 ;;
@@ -212,10 +220,9 @@ _configure() {
         esac
     done
 
-    FEATURES=""
-    if [ "${ENABLE_ASAN}" != "AUTO" ]; then
-        FEATURES="${FEATURES} -DENABLE_ASAN=${ENABLE_ASAN}"
-    fi
+    # AUTO is passed as well, since CMake builds without the sanitizer unless
+    # told otherwise
+    FEATURES="-DENABLE_ASAN=${ENABLE_ASAN} -DENABLE_WERROR=${ENABLE_WERROR}"
     if [ "${ENABLE_ICU}" != "AUTO" ]; then
         FEATURES="${FEATURES} -DENABLE_ICU=${ENABLE_ICU}"
     fi

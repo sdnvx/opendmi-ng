@@ -107,27 +107,6 @@ __BEGIN_DECLS
 __dmi_api const char *dmi_status_name(dmi_status_t value);
 __dmi_api const char *dmi_error_correct_type_name(dmi_error_correct_type_t value);
 
-/**
- * @internal
- * @brief Decode a PCI address, which a field carries as a double word of the
- * segment group, the bus, and the device and function packed into one byte.
- *
- * Addresses of no bus carry no device and function either.
- */
-__dmi_api bool dmi_pci_addr_decode(
-        const dmi_field_t      *field,
-        const dmi_field_data_t *data,
-        void                   *value);
-
-/**
- * @internal
- * @brief Encode a PCI address, which undoes `dmi_pci_addr_decode()`.
- */
-__dmi_api bool dmi_pci_addr_encode(
-        const dmi_field_t *field,
-        const void        *value,
-        dmi_field_data_t  *data);
-
 __END_DECLS
 
 #endif // !OPENDMI_ENTITY_COMMON_H

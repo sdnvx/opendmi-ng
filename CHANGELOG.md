@@ -35,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Check length and checksum of entry points found by scanning memory, the way dmidecode does
 - Default `list` to raw output when stdout is not a terminal, and drop the banner of `modules -r` and `types -r`
 - Quote YAML values and keys a YAML 1.1 parser would read as booleans, null or numbers
+- Build without `-Werror` and AddressSanitizer unless `ENABLE_WERROR` and `ENABLE_ASAN` are set, as `build.sh` does, and CI sets `ENABLE_WERROR`; take optimization and `NDEBUG` from the flags of the build type, which default to `-O2` for release builds, and drop the warnings suppressed for Clang, using `__VA_OPT__` in the logging and error macros instead of `##__VA_ARGS__`
+- Rename `enum dmi_context_status` of the registry status flags to `enum dmi_registry_status`
+- Remove the internal functions from the public headers: `dmi_registry_scan()`, `dmi_registry_overlay()`, `dmi_registry_decode()`, `dmi_registry_link()`, `dmi_entry_decode()`, `dmi_entity_is_linkable()`, `dmi_pci_addr_decode()`, `dmi_pci_addr_encode()` and the size helpers of caches, firmware and memory devices are no longer exported, and `dmi_entity_add_overlay()` and `dmi_entity_add_property()` are exported for the tests of the command line tool only
 - Keep internal headers next to their sources, take the sources and the public headers by directories in CMake, and resolve `build.sh -b` relative to the current directory
 - Make `regress.py` and `reindex-data.py` report failures in their exit status
 - Document lifetime of error descriptors and of strings returned before `dmi_set_locale()`
@@ -48,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix BCD values too large for their field truncated when encoding
 - Fix crashes on a failed registry insertion, on boolean attributes without a name for the value, on `dmi_code_lookup_rev()` with no code, on variant attributes without variants in `dmi_attribute_resolve()`, on `dmi_field_get()` with no member, and on `dmi_module_register()` with a module without a code
 - Fix `dmi_registry_resolve_any()` reading past an empty list of types, and `dmi_asprintf()` leaving the result undefined with no format
+- Fix numbers of fields wider than 8 bytes, which a specification of a module built out of the tree may declare, overflowing a buffer in release builds rather than failing an argument check
 - Fix filters not reporting exhausted memory, and `dmi_filter_add_module()` taking a filter of `nullptr` silently
 - Fix dates with empty parts, e.g. `03//07/2025`, accepted by `dmi_date_parse()`
 - Fix `dmi_vendor_detect()` not ignoring whitespace around the name, `dmi_registry_create()` not checking its context, and members of unsupported width failing an assertion rather than an argument check

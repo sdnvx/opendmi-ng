@@ -23,6 +23,8 @@
 #include <opendmi/entity/additional-info.h>
 #include <opendmi/entity/pointing-device.h>
 
+#include "entity-internal.h"
+
 typedef struct test_state test_state_t;
 
 struct test_state

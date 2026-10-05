@@ -537,15 +537,15 @@ __END_DECLS
  * @{
  */
 #define dmi_log_error(context, format, ...) \
-        dmi_log(context, DMI_LOG_ERROR, format, ##__VA_ARGS__)
+        dmi_log(context, DMI_LOG_ERROR, format __VA_OPT__(,) __VA_ARGS__)
 #define dmi_log_warning(context, format, ...) \
-        dmi_log(context, DMI_LOG_WARNING, format, ##__VA_ARGS__)
+        dmi_log(context, DMI_LOG_WARNING, format __VA_OPT__(,) __VA_ARGS__)
 #define dmi_log_notice(context, format, ...) \
-        dmi_log(context, DMI_LOG_NOTICE, format, ##__VA_ARGS__)
+        dmi_log(context, DMI_LOG_NOTICE, format __VA_OPT__(,) __VA_ARGS__)
 #define dmi_log_info(context, format, ...) \
-        dmi_log(context, DMI_LOG_INFO, format, ##__VA_ARGS__)
+        dmi_log(context, DMI_LOG_INFO, format __VA_OPT__(,) __VA_ARGS__)
 #define dmi_log_debug(context, format, ...) \
-        dmi_log(context, DMI_LOG_DEBUG, format, ##__VA_ARGS__)
+        dmi_log(context, DMI_LOG_DEBUG, format __VA_OPT__(,) __VA_ARGS__)
 /** @} */
 
 #endif // !OPENDMI_CONTEXT_H

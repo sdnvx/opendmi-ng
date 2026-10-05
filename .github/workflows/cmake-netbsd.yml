@@ -39,7 +39,7 @@ jobs:
         # System compiler does not support C23, so GCC 14 from pkgsrc is used
         run: |
           set -e
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/pkg/gcc14/bin/gcc
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/pkg/gcc14/bin/gcc -DENABLE_WERROR=ON
           cmake --build build --parallel 2
           cd build
           ctest --output-on-failure

@@ -11,6 +11,7 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 
+#include "common-internal.h"
 #include "onboard-device-ex-internal.h"
 
 const dmi_entity_spec_t dmi_onboard_device_ex_spec =

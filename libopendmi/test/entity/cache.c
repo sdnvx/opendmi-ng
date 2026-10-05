@@ -16,7 +16,7 @@
 #include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
-#include <opendmi/entity/cache.h>
+#include "entity/cache-internal.h"
 
 static void test_cache_type_name(void **pstate);
 static void test_cache_assoc_name(void **pstate);

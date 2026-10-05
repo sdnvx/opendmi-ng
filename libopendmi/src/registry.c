@@ -7,14 +7,15 @@
 #include <string.h>
 #include <assert.h>
 
-#include <opendmi/registry.h>
 #include <opendmi/context.h>
-#include <opendmi/entity.h>
 #include <opendmi/log.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
 
 #include <opendmi/entity/additional-info.h>
+
+#include "entity-internal.h"
+#include "registry-internal.h"
 
 /**
  * @internal

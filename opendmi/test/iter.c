@@ -10,13 +10,14 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
-#include <opendmi/entity.h>
 #include <opendmi/test/entity.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/entity/string-property.h>
 #include <opendmi/format/iter.h>
 #include <opendmi/test/helpers.h>
+
+#include "entity-internal.h"
 
 static void test_iter_array(void **pstate);
 static void test_iter_array_empty(void **pstate);

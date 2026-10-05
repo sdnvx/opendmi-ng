@@ -282,6 +282,12 @@ static bool dmi_field_put_raw(dmi_field_output_t *output, size_t width, uintmax_
 
 /**
  * @internal
+ * @brief Context the errors of writing the fields are raised against.
+ */
+static dmi_context_t *dmi_field_output_context(const dmi_field_output_t *output);
+
+/**
+ * @internal
  * @brief Read a value of a fixed width the source data holds at the current
  * position, little-endian.
  */
@@ -968,18 +974,27 @@ static bool dmi_field_put_raw(dmi_field_output_t *output, size_t width, uintmax_
 {
     dmi_byte_t data[sizeof(uintmax_t)];
 
-    assert((width > 0) and (width <= sizeof(data)));
+    // Width comes from the specification, which may be one of a module built
+    // out of the tree, and wider numbers do not fit in the buffer
+    if ((width == 0) or (width > sizeof(data)))
+        return dmi_trace_argument_invalid(dmi_field_output_context(output), width);
 
     dmi_field_le_store(data, width, raw);
 
     return dmi_encoder_put_bytes(output->encoder, data, width);
 }
 
+static dmi_context_t *dmi_field_output_context(const dmi_field_output_t *output)
+{
+    return dmi_entity_context(dmi_encoder_entity(output->encoder));
+}
+
 static bool dmi_field_peek_raw(const dmi_field_output_t *output, size_t width, uintmax_t *raw)
 {
     dmi_byte_t data[sizeof(uintmax_t)];
 
-    assert(width <= sizeof(data));
+    if (width > sizeof(data))
+        return dmi_trace_argument_invalid(dmi_field_output_context(output), width);
 
     if (not dmi_encoder_peek(output->encoder, data, width))
         return false;

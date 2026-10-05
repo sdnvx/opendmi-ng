@@ -186,35 +186,4 @@ struct dmi_firmware
  */
 extern __dmi_api const dmi_entity_spec_t dmi_firmware_spec;
 
-__BEGIN_DECLS
-
-/**
- * @internal
- * @brief Convert the ROM size field of the platform firmware information to
- * bytes.
- *
- * The field holds the number of the 64K granules the ROM takes, less one.
- *
- * @param[in] value Value of the field.
- *
- * @return Size of the ROM in bytes.
- */
-__dmi_api dmi_size_t dmi_firmware_rom_size(dmi_byte_t value);
-
-/**
- * @internal
- * @brief Convert the extended ROM size field of the platform firmware
- * information to bytes.
- *
- * Bits 13:0 of the field hold the size, and bits 15:14 its unit: megabytes
- * (`00b`) or gigabytes (`01b`). The other units are reserved.
- *
- * @param[in] value Value of the field.
- *
- * @return Size of the ROM in bytes, or zero if the unit is reserved.
- */
-__dmi_api dmi_size_t dmi_firmware_rom_size_ex(dmi_word_t value);
-
-__END_DECLS
-
 #endif // !OPENDMI_ENTITY_FIRMWARE_H

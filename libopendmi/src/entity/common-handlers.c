@@ -10,6 +10,8 @@
 #include <opendmi/utils/codec.h>
 #include <opendmi/entity/common.h>
 
+#include "common-internal.h"
+
 bool dmi_pci_addr_decode(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,

@@ -29,6 +29,7 @@ jobs:
         cmake -B build
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DENABLE_WERROR=ON
 
     - name: Build
       run: cmake --build build --config ${{ matrix.build_type }}

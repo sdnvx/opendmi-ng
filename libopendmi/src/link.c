@@ -8,11 +8,12 @@
 
 #include <opendmi/attribute.h>
 #include <opendmi/context.h>
-#include <opendmi/entity.h>
 #include <opendmi/error.h>
 #include <opendmi/registry.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils.h>
+
+#include "entity-internal.h"
 
 /**
  * @internal

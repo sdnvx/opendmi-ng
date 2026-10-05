@@ -6,6 +6,12 @@
 #
 cmake_minimum_required(VERSION 3.25)
 
+# Release builds are optimized with -O2 rather than with -O3 CMake picks by
+# default; the flags are cache entries, which packagers set to their own
+foreach(lang C CXX)
+    set(CMAKE_${lang}_FLAGS_RELEASE "-O2 -DNDEBUG" CACHE STRING "Flags used by the ${lang} compiler during release builds")
+endforeach()
+
 project(opendmi
         VERSION 0.6.0
         DESCRIPTION "Cross-platform DMI/SMBIOS framework"
@@ -38,7 +44,8 @@ set(ENABLE_DBUS OFF CACHE BOOL "Enable D-bus support (opendmi-dbus)")
 set(ENABLE_SYSFS OFF CACHE BOOL "Enable SysFS support (opendmi-sysfs)")
 set(ENABLE_WEBSITE OFF CACHE BOOL "Build project website (website)")
 
-set(ENABLE_ASAN AUTO CACHE BOOL "Build debug binaries with AddressSanitizer")
+set(ENABLE_ASAN OFF CACHE STRING "Build debug binaries with AddressSanitizer (ON, OFF or AUTO)")
+set(ENABLE_WERROR OFF CACHE BOOL "Treat compiler warnings as errors")
 
 set(ENABLE_ICU OFF CACHE BOOL "Build ICU4C support")
 set(ENABLE_CURSES AUTO CACHE BOOL "Build with Curses support")
@@ -55,23 +62,22 @@ set(CMAKE_C_EXTENSIONS ON)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_EXTENSIONS ON)
 
-set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+# Warnings are errors for development and CI only, so that a newer compiler
+# warning about something does not break the builds of packages
+set(CMAKE_COMPILE_WARNING_AS_ERROR ${ENABLE_WERROR})
 
 if(MSVC)
-    # C standard is selected per language, so that it is not applied to C++
+    # MSVC does not support C23, so C is built as C11 on purpose: the C23
+    # features the code relies on are either supported by MSVC in this mode
+    # or emulated by macros of <opendmi/defs.h> and <opendmi/internal.h>,
+    # e.g. nullptr and thread_local. The standard is selected per language,
+    # so that it is not applied to C++.
     add_compile_options($<$<COMPILE_LANGUAGE:C>:/std:c11> /W4)
     add_compile_definitions(_CRT_NONSTDC_NO_DEPRECATE)
 else()
     add_compile_options(-Wall -Wextra)
 
-    if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
-       "${CMAKE_C_COMPILER_ID}" STREQUAL "AppleClang")
-        add_compile_options(
-            -Wno-unused-command-line-argument
-            -Wno-gnu-zero-variadic-macro-arguments
-            -Wno-keyword-macro
-        )
-    elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+    if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
         add_compile_options(
             -Wno-error=clobbered
         )
@@ -86,12 +92,22 @@ else()
     )
 endif()
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-    set(CMAKE_BUILD_TYPE Release)
+# Optimization, debug information and NDEBUG come from the flags of the build
+# type, e.g. CMAKE_C_FLAGS_RELEASE, which packagers set to their own
+get_property(OPENDMI_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(NOT OPENDMI_MULTI_CONFIG AND NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" OR "${CMAKE_BUILD_TYPE}" STREQUAL "Coverage")
-    add_compile_options(-g -fno-omit-frame-pointer)
+    if(NOT MSVC)
+        add_compile_options(-fno-omit-frame-pointer)
+    endif()
+
+    # Coverage is a build type of its own, which has no flags of CMake
+    if("${CMAKE_BUILD_TYPE}" STREQUAL "Coverage" AND NOT MSVC)
+        add_compile_options(-g)
+    endif()
 
     check_sanitizer(ENABLE_ASAN)
 
@@ -99,9 +115,6 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" OR "${CMAKE_BUILD_TYPE}" STREQUAL "Cov
         add_compile_options(-fsanitize=address)
         add_link_options(-fsanitize=address)
     endif()
-else()
-    add_compile_options(-O2)
-    add_compile_definitions(NDEBUG)
 endif()
 
 # Coverage options are used by all subprojects

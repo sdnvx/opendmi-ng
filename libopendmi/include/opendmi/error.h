@@ -124,7 +124,7 @@ typedef struct dmi_error_queue
  *         still added to the queue, without a message.
  */
 #define dmi_error_raise_ex(context, reason, message, ...) \
-        __dmi_error_raise(context, __FILE__, __func__, __LINE__, reason, message, ##__VA_ARGS__)
+        __dmi_error_raise(context, __FILE__, __func__, __LINE__, reason, message __VA_OPT__(,) __VA_ARGS__)
 
 __BEGIN_DECLS
 

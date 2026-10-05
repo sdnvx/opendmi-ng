@@ -8,10 +8,11 @@
 #include <string.h>
 #include <assert.h>
 
-#include <opendmi/entry.h>
 #include <opendmi/utils.h>
 #include <opendmi/utils/codec.h>
 #include <opendmi/internal.h>
+
+#include "entry-internal.h"
 
 /**
  * @internal

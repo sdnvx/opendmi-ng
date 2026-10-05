@@ -725,9 +725,16 @@ static bool dmi_field_decode_value(
 
 static bool dmi_field_read_bcd(dmi_field_state_t *state, const dmi_field_t *field, uintmax_t *number)
 {
-    uintmax_t raw;
+    size_t     length = field->params.length;
+    uintmax_t  raw;
+    dmi_byte_t digits[sizeof(uintmax_t)] = {};
 
-    if (not dmi_field_read_number(state, field->params.length, &raw))
+    // Digits are spelled out of the number read whole, so they fit as long
+    // as the number does
+    if (length > sizeof(digits))
+        return dmi_trace_argument_invalid(dmi_entity_context(state->entity), length);
+
+    if (not dmi_field_read_number(state, length, &raw))
         return false;
 
     if ((field->params.unknown_raw != 0) and (raw == field->params.unknown_raw)) {
@@ -735,10 +742,9 @@ static bool dmi_field_read_bcd(dmi_field_state_t *state, const dmi_field_t *fiel
         return true;
     }
 
-    dmi_byte_t digits[sizeof(uintmax_t)] = {};
-    dmi_field_le_store(digits, field->params.length, raw);
+    dmi_field_le_store(digits, length, raw);
 
-    *number = __dmi_decode_bcd(digits, field->params.length);
+    *number = __dmi_decode_bcd(digits, length);
 
     return true;
 }
@@ -988,7 +994,11 @@ static bool dmi_field_read_number(
 {
     assert(state != nullptr);
     assert(number != nullptr);
-    assert((length > 0) and (length <= sizeof(uintmax_t)));
+
+    // Length comes from the specification, which may be one of a module
+    // built out of the tree, and wider numbers do not fit in the buffer
+    if ((length == 0) or (length > sizeof(uintmax_t)))
+        return dmi_trace_argument_invalid(dmi_entity_context(state->entity), length);
 
     dmi_byte_t data[sizeof(uintmax_t)];
 

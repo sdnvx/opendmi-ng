@@ -157,6 +157,10 @@ function(opendmi_cli_test TEST_NAME)
     target_compile_definitions(${TEST_TARGET} PRIVATE OPENDMI_TEST_DATA="${PROJECT_SOURCE_DIR}/../data")
     target_link_libraries(${TEST_TARGET} PRIVATE cmocka-static)
 
+    # Tests set up structures with internal functions of the library, which
+    # are declared by its internal headers
+    target_include_directories(${TEST_TARGET} PRIVATE ${PROJECT_SOURCE_DIR}/../libopendmi/src)
+
     # Tests which build the tool sources themselves need its resources as well
     if(ICU_FOUND)
         add_dependencies(${TEST_TARGET} opendmi-cli-resources)

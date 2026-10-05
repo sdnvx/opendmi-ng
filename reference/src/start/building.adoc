@@ -124,3 +124,9 @@ $ cmake --install build
 Optional components are enabled by `-DENABLE_<COMPONENT>=ON`, e.g.
 `-DENABLE_DBUS=ON`, and features are required by `-DENABLE_<FEATURE>=ON` or
 turned off by `-DENABLE_<FEATURE>=OFF`, e.g. `-DENABLE_JSON=ON`.
+
+Unlike `build.sh`, CMake builds without AddressSanitizer and does not treat
+warnings as errors unless told to by `-DENABLE_ASAN=ON` (or `AUTO`, to use it
+where it runs) and `-DENABLE_WERROR=ON`. Optimization and debug information
+come from the flags of the build type, e.g. `CMAKE_C_FLAGS_RELEASE`, which is
+`-O2 -DNDEBUG` unless set otherwise.

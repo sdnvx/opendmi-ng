@@ -357,20 +357,4 @@ dmi_packed_struct(dmi_entry_v30)
     const dmi_qword_t table_area_addr;
 };
 
-__BEGIN_DECLS
-
-/**
- * @internal
- * @brief Decode DMI entry point and initialize related context properties.
- *
- * @param[in] context Context handle to initialize.
- * @param[in] data Pointer to entry point data.
- * @param[in] length Entry point data length.
- *
- * @return The function returns `true` on success and `false` otherwise.
- */
-__dmi_api bool dmi_entry_decode(dmi_context_t *context, const void *data, size_t length);
-
-__END_DECLS
-
 #endif // !OPENDMI_ENTRY_H

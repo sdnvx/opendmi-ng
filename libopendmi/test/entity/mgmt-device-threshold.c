@@ -17,7 +17,7 @@
 #include <opendmi/test/entity.h>
 #include <opendmi/test/logger.h>
 
-#include <opendmi/entity/mgmt-device-threshold.h>
+#include "entity/mgmt-device-threshold-internal.h"
 
 static void test_mgmt_device_threshold_units(void **pstate);
 static void test_mgmt_device_threshold_ambiguous(void **pstate);

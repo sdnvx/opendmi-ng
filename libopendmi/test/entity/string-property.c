@@ -19,6 +19,9 @@
 
 #include <opendmi/entity/string-property.h>
 
+#include "entity-internal.h"
+#include "registry-internal.h"
+
 //
 // SMBIOS table built by the test
 //
