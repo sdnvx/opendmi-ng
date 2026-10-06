@@ -46,7 +46,7 @@ int main(void)
 
 static void decode_ipmi_device_ex(
         size_t                length,
-        dmi_ipmi_interface_t  interface_type,
+        dmi_ipmi_iface_type_t iface_type,
         uint64_t              base_addr,
         uint8_t               modifier,
         dmi_ipmi_device_t    *result)
@@ -58,7 +58,7 @@ static void decode_ipmi_device_ex(
     // IPMI device information structure without strings
     uint8_t data[0x12 + 2] = {
         38, (uint8_t)length, 0x00, 0x10,    // Header
-        interface_type, 0x20, 0x20, 0xFF    // Interface, revision, I2C address, NV storage
+        iface_type, 0x20, 0x20, 0xFF    // Interface, revision, I2C address, NV storage
     };
 
     for (size_t i = 0; i < 8; i++)
@@ -98,12 +98,12 @@ static void decode_ipmi_device_ex(
 }
 
 static void decode_ipmi_device(
-        dmi_ipmi_interface_t  interface_type,
+        dmi_ipmi_iface_type_t iface_type,
         uint64_t              base_addr,
         uint8_t               modifier,
         dmi_ipmi_device_t    *result)
 {
-    decode_ipmi_device_ex(0x12, interface_type, base_addr, modifier, result);
+    decode_ipmi_device_ex(0x12, iface_type, base_addr, modifier, result);
 }
 
 static void test_ipmi_addr_type_name(void **pstate)
@@ -122,22 +122,22 @@ static void test_ipmi_device_decode_io(void **pstate)
     dmi_ipmi_device_t info;
 
     // Typical KCS interface at I/O port 0xCA2
-    decode_ipmi_device(DMI_IPMI_INTERFACE_KCS, 0xCA3, 0x00, &info);
-    assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_IO);
-    assert_uint_equal(info.base_addr, 0xCA2);
-    assert_false(info.base_addr_lsb);
+    decode_ipmi_device(DMI_IPMI_IFACE_TYPE_KCS, 0xCA3, 0x00, &info);
+    assert_int_equal(info.base_address_type, DMI_IPMI_ADDR_TYPE_IO);
+    assert_uint_equal(info.base_address, 0xCA2);
+    assert_false(info.base_address_lsb);
     assert_int_equal(info.register_spacing, 1);
 
     // Address LSB is taken from base address modifier, 4-byte register spacing
-    decode_ipmi_device(DMI_IPMI_INTERFACE_KCS, 0xCA9, 0x50, &info);
-    assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_IO);
-    assert_uint_equal(info.base_addr, 0xCA9);
-    assert_true(info.base_addr_lsb);
+    decode_ipmi_device(DMI_IPMI_IFACE_TYPE_KCS, 0xCA9, 0x50, &info);
+    assert_int_equal(info.base_address_type, DMI_IPMI_ADDR_TYPE_IO);
+    assert_uint_equal(info.base_address, 0xCA9);
+    assert_true(info.base_address_lsb);
     assert_int_equal(info.register_spacing, 4);
 
-    decode_ipmi_device(DMI_IPMI_INTERFACE_KCS, 0xCA9, 0x40, &info);
-    assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_IO);
-    assert_uint_equal(info.base_addr, 0xCA8);
+    decode_ipmi_device(DMI_IPMI_IFACE_TYPE_KCS, 0xCA9, 0x40, &info);
+    assert_int_equal(info.base_address_type, DMI_IPMI_ADDR_TYPE_IO);
+    assert_uint_equal(info.base_address, 0xCA8);
 }
 
 static void test_ipmi_device_decode_memory(void **pstate)
@@ -146,14 +146,14 @@ static void test_ipmi_device_decode_memory(void **pstate)
 
     dmi_ipmi_device_t info;
 
-    decode_ipmi_device(DMI_IPMI_INTERFACE_BT, 0xFED40000, 0x00, &info);
-    assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_MEMORY);
-    assert_uint_equal(info.base_addr, 0xFED40000);
+    decode_ipmi_device(DMI_IPMI_IFACE_TYPE_BT, 0xFED40000, 0x00, &info);
+    assert_int_equal(info.base_address_type, DMI_IPMI_ADDR_TYPE_MEMORY);
+    assert_uint_equal(info.base_address, 0xFED40000);
 
     // Bit 63 is a regular address bit
-    decode_ipmi_device(DMI_IPMI_INTERFACE_BT, 0x8000000000001000u, 0x10, &info);
-    assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_MEMORY);
-    assert_uint_equal(info.base_addr, 0x8000000000001001u);
+    decode_ipmi_device(DMI_IPMI_IFACE_TYPE_BT, 0x8000000000001000u, 0x10, &info);
+    assert_int_equal(info.base_address_type, DMI_IPMI_ADDR_TYPE_MEMORY);
+    assert_uint_equal(info.base_address, 0x8000000000001001u);
 }
 
 static void test_ipmi_device_decode_ssif(void **pstate)
@@ -163,9 +163,9 @@ static void test_ipmi_device_decode_ssif(void **pstate)
     dmi_ipmi_device_t info;
 
     // SSIF interface uses SMBus target address, shifted left by one bit
-    decode_ipmi_device(DMI_IPMI_INTERFACE_SSIF, 0x21, 0x00, &info);
-    assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_SMBUS);
-    assert_uint_equal(info.base_addr, 0x10);
+    decode_ipmi_device(DMI_IPMI_IFACE_TYPE_SSIF, 0x21, 0x00, &info);
+    assert_int_equal(info.base_address_type, DMI_IPMI_ADDR_TYPE_SMBUS);
+    assert_uint_equal(info.base_address, 0x10);
 }
 
 static void test_ipmi_device_decode_short(void **pstate)
@@ -176,18 +176,18 @@ static void test_ipmi_device_decode_short(void **pstate)
 
     // Structure of 16 bytes, which IPMI specification allows, carries no
     // base address modifier and no interrupt information
-    decode_ipmi_device_ex(0x10, DMI_IPMI_INTERFACE_KCS, 0xCA3, 0x00, &info);
-    assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_IO);
-    assert_uint_equal(info.base_addr, 0xCA2);
-    assert_false(info.base_addr_lsb);
-    assert_int_equal(info.intr_trigger, DMI_IPMI_INTR_TRIGGER_UNSPEC);
-    assert_int_equal(info.intr_polarity, DMI_IPMI_INTR_POLARITY_UNSPEC);
+    decode_ipmi_device_ex(0x10, DMI_IPMI_IFACE_TYPE_KCS, 0xCA3, 0x00, &info);
+    assert_int_equal(info.base_address_type, DMI_IPMI_ADDR_TYPE_IO);
+    assert_uint_equal(info.base_address, 0xCA2);
+    assert_false(info.base_address_lsb);
+    assert_int_equal(info.interrupt_trigger_mode, DMI_IPMI_INTR_TRIGGER_MODE_UNSPEC);
+    assert_int_equal(info.interrupt_polarity, DMI_IPMI_INTR_POLARITY_UNSPEC);
     assert_int_equal(info.register_spacing, 0);
-    assert_int_equal(info.intr_number, 0);
+    assert_int_equal(info.interrupt_number, 0);
 
-    decode_ipmi_device_ex(0x10, DMI_IPMI_INTERFACE_SSIF, 0x21, 0x00, &info);
-    assert_int_equal(info.base_addr_type, DMI_IPMI_ADDR_TYPE_SMBUS);
-    assert_uint_equal(info.base_addr, 0x10);
+    decode_ipmi_device_ex(0x10, DMI_IPMI_IFACE_TYPE_SSIF, 0x21, 0x00, &info);
+    assert_int_equal(info.base_address_type, DMI_IPMI_ADDR_TYPE_SMBUS);
+    assert_uint_equal(info.base_address, 0x10);
 }
 
 static void test_ipmi_device_variants(void **pstate)
@@ -197,8 +197,8 @@ static void test_ipmi_device_variants(void **pstate)
     dmi_ipmi_device_t kcs;
     dmi_ipmi_device_t ssif;
 
-    decode_ipmi_device(DMI_IPMI_INTERFACE_KCS, 0xCA3, 0x00, &kcs);
-    decode_ipmi_device(DMI_IPMI_INTERFACE_SSIF, 0x21, 0x00, &ssif);
+    decode_ipmi_device(DMI_IPMI_IFACE_TYPE_KCS, 0xCA3, 0x00, &kcs);
+    decode_ipmi_device(DMI_IPMI_IFACE_TYPE_SSIF, 0x21, 0x00, &ssif);
 
     const dmi_attribute_t *base_addr = test_attribute("base-address");
     const dmi_attribute_t *base_addr_lsb = test_attribute("base-address-lsb");

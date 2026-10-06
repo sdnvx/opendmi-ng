@@ -37,7 +37,7 @@ typedef struct dmi_firmware_inventory {
     dmi_firmware_version_t parsed_version;
     dmi_firmware_version_t parsed_lowest_version;
     dmi_firmware_ident_t parsed_ident;
-    dmi_firmware_inventory_features_t features;
+    dmi_firmware_inventory_chars_t characteristics;
     dmi_firmware_inventory_state_t state;
     size_t component_count;
     dmi_firmware_inventory_component_t *components;
@@ -112,8 +112,8 @@ does not conform to the format.
 `parsed_ident`::
 `ident` parsed according to `ident_format`, see `dmi_firmware_ident`(3).
 
-`features`::
-Characteristics of the firmware, see `dmi_firmware_inventory_features`(3).
+`characteristics`::
+Characteristics of the firmware, see `dmi_firmware_inventory_chars`(3).
 
 `state`::
 State of the firmware, see `dmi_firmware_inventory_state`(3).
@@ -154,7 +154,7 @@ if (firmware != nullptr) {
 `dmi_entity_info`(3),
 `dmi_firmware_ident_format`(3),
 `dmi_firmware_inventory_state`(3),
-`dmi_firmware_inventory_features`(3),
+`dmi_firmware_inventory_chars`(3),
 `dmi_firmware_inventory_component`(3),
 `dmi_firmware_version`(3),
 `dmi_firmware_version_format`(3),

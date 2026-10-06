@@ -24,14 +24,14 @@
 /**
  * @brief Baseboard management controller (BMC) interface types.
  */
-typedef enum dmi_ipmi_interface
+typedef enum dmi_ipmi_iface_type
 {
-    DMI_IPMI_INTERFACE_UNKNOWN = 0x00, ///< Unknown
-    DMI_IPMI_INTERFACE_KCS     = 0x01, ///< KCS: Keyboard Controller Style
-    DMI_IPMI_INTERFACE_SMIC    = 0x02, ///< SMIC: Server Management Interface Chip
-    DMI_IPMI_INTERFACE_BT      = 0x03, ///< BT: Block Transfer
-    DMI_IPMI_INTERFACE_SSIF    = 0x04, ///< SSIF: SMBus System Interface
-} dmi_ipmi_interface_t;
+    DMI_IPMI_IFACE_TYPE_UNKNOWN = 0x00, ///< Unknown
+    DMI_IPMI_IFACE_TYPE_KCS     = 0x01, ///< KCS: Keyboard Controller Style
+    DMI_IPMI_IFACE_TYPE_SMIC    = 0x02, ///< SMIC: Server Management Interface Chip
+    DMI_IPMI_IFACE_TYPE_BT      = 0x03, ///< BT: Block Transfer
+    DMI_IPMI_IFACE_TYPE_SSIF    = 0x04, ///< SSIF: SMBus System Interface
+} dmi_ipmi_iface_type_t;
 
 /**
  * @brief Address spaces of the BMC base address.
@@ -46,12 +46,12 @@ typedef enum dmi_ipmi_addr_type
 /**
  * @brief Interrupt trigger modes.
  */
-typedef enum dmi_ipmi_intr_trigger
+typedef enum dmi_ipmi_intr_trigger_mode
 {
-    DMI_IPMI_INTR_TRIGGER_UNSPEC = 0x0, ///< Unspecified
-    DMI_IPMI_INTR_TRIGGER_EDGE   = 0x1, ///< Edge
-    DMI_IPMI_INTR_TRIGGER_LEVEL  = 0x2  ///< Level
-} dmi_ipmi_intr_trigger_t;
+    DMI_IPMI_INTR_TRIGGER_MODE_UNSPEC = 0x0, ///< Unspecified
+    DMI_IPMI_INTR_TRIGGER_MODE_EDGE   = 0x1, ///< Edge
+    DMI_IPMI_INTR_TRIGGER_MODE_LEVEL  = 0x2  ///< Level
+} dmi_ipmi_intr_trigger_mode_t;
 
 /**
  * @brief Interrupt polarities.
@@ -92,7 +92,7 @@ dmi_packed_union(dmi_ipmi_device_details)
         uint8_t is_intr_active_high     : 1; ///< Interrupt is active high, active low if clear
         uint8_t __reserved_1            : 1; ///< Reserved for future use, set to 0.
         uint8_t is_intr_info_specified  : 1; ///< Interrupt trigger mode and polarity are specified
-        uint8_t base_addr_lsb           : 1; ///< Least-significant bit of the base address
+        uint8_t base_address_lsb        : 1; ///< Least-significant bit of the base address
         uint8_t __reserved_2            : 1; ///< Reserved for future use, set to 0.
         uint8_t register_spacing        : 2; ///< Register spacing, see dmi_ipmi_register_spacing_t
     };
@@ -113,23 +113,23 @@ struct dmi_ipmi_device
     /**
      * @brief Baseboard Management Controller (BMC) interface type.
      */
-    dmi_ipmi_interface_t interface_type;
+    dmi_ipmi_iface_type_t interface_type;
 
     /**
      * @brief IPMI specification revision.
      */
-    dmi_version_t spec_version;
+    dmi_version_t specification_version;
 
     /**
      * @brief Target address on the I2C bus of this BMC.
      */
-    dmi_i2c_addr_t i2c_target_addr;
+    dmi_i2c_addr_t i2c_target_address;
 
     /**
      * @brief Bus ID of the NV storage device. If no storage device exists for
      * this BMC, the field is set to `UINT8_MAX`.
      */
-    uint8_t nv_storage_addr;
+    uint8_t nv_storage_address;
 
     /**
      * @brief Base address (either memory-mapped or I/O) of the BMC.
@@ -141,28 +141,28 @@ struct dmi_ipmi_device
      * @ref base_addr_type. For SSIF interface, the field contains SMBus target
      * address of the BMC.
      */
-    dmi_size_t base_addr;
+    dmi_size_t base_address;
 
     /**
      * @brief Base address type.
      */
-    dmi_ipmi_addr_type_t base_addr_type;
+    dmi_ipmi_addr_type_t base_address_type;
 
     /**
      * @brief Least-significant bit of the base address, as specified in the
      * base address modifier.
      */
-    bool base_addr_lsb;
+    bool base_address_lsb;
 
     /**
      * @brief Interrupt trigger mode.
      */
-    dmi_ipmi_intr_trigger_t intr_trigger;
+    dmi_ipmi_intr_trigger_mode_t interrupt_trigger_mode;
 
     /**
      * @brief Interrupt polarity.
      */
-    dmi_ipmi_intr_polarity_t intr_polarity;
+    dmi_ipmi_intr_polarity_t interrupt_polarity;
 
     /**
      * @brief Register spacing in bytes.
@@ -173,7 +173,7 @@ struct dmi_ipmi_device
      * @brief Interrupt number for IPMI System Interface. Zero means that IPMI
      * interrupt is unspecified or unsupported.
      */
-    unsigned short intr_number;
+    unsigned short interrupt_number;
 };
 
 /**
@@ -184,9 +184,9 @@ extern __dmi_api const dmi_entity_spec_t dmi_ipmi_device_spec;
 
 __BEGIN_DECLS
 
-__dmi_api const char *dmi_ipmi_interface_name(dmi_ipmi_interface_t value);
+__dmi_api const char *dmi_ipmi_iface_type_name(dmi_ipmi_iface_type_t value);
 __dmi_api const char *dmi_ipmi_addr_type_name(dmi_ipmi_addr_type_t value);
-__dmi_api const char *dmi_ipmi_intr_trigger_name(dmi_ipmi_intr_trigger_t value);
+__dmi_api const char *dmi_ipmi_intr_trigger_mode_name(dmi_ipmi_intr_trigger_mode_t value);
 __dmi_api const char *dmi_ipmi_intr_polarity_name(dmi_ipmi_intr_polarity_t value);
 
 __END_DECLS

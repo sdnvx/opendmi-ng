@@ -75,7 +75,7 @@ Versions of the firmware components, in the order of the structure, see
 dmi_registry_iter_t iter;
 dmi_entity_t *entity;
 
-dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr);
+dmi_registry_iter_initialize(&iter, dmi_get_registry(context), nullptr);
 
 while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
     if (entity->spec != &dmi_intel_fvi_spec)

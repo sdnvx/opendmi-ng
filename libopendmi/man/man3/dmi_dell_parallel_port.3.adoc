@@ -25,7 +25,7 @@ endif::[]
 #include <opendmi/entity/dell/parallel-port.h>
 
 typedef struct dmi_dell_parallel_port {
-    uint16_t base_addr;
+    uint16_t base_address;
     uint8_t irq_number;
     dmi_dell_parallel_port_connector_type_t connector;
     dmi_dell_parallel_port_connector_pinout_t pinout;
@@ -46,7 +46,7 @@ lives as long as the context it has been decoded in.
 
 === Fields
 
-`base_addr`::
+`base_address`::
 Base I/O address of the port.
 
 `irq_number`::
@@ -75,7 +75,7 @@ dmi_dell_parallel_port_t *port     = dmi_entity_info(entity,
                                          DMI_TYPE(dell_parallel_port));
 
 if (port != nullptr) {
-    printf("Parallel port at 0x%04x, IRQ %u, ECP %s\n", port->base_addr,
+    printf("Parallel port at 0x%04x, IRQ %u, ECP %s\n", port->base_address,
            port->irq_number, port->capabilities.is_ecp ? "yes" : "no");
 }
 ----

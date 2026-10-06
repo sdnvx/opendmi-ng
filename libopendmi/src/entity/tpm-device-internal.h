@@ -25,46 +25,7 @@
  * @internal
  * @brief Names of the TPM device characteristics.
  */
-extern const dmi_name_set_t dmi_tpm_device_feature_names;
-
-/**
- * @internal
- * @brief Decode the vendor identifier.
- *
- * @details Vendor identifier is four bytes of text, which some firmware stores
- * as a little-endian double word, so that it starts with the terminating zero,
- * e.g. `"\0XFI"` for `"IFX"`. Only printable characters are kept, and the
- * identifier ends at the first other.
- *
- * @param[in]  field Field being decoded.
- * @param[in]  data  Data the field carries.
- * @param[out] value Array of five characters to store the identifier in.
- *
- * @return Always `true`.
- */
-bool dmi_tpm_device_decode_vendor_id(
-        const dmi_field_t      *field,
-        const dmi_field_data_t *data,
-        void                   *value);
-
-/**
- * @internal
- * @brief Encode the vendor identifier, which undoes
- * `dmi_tpm_device_decode_vendor_id()`.
- *
- * @details Identifier is written as stored, without undoing the reversal
- * the decoder puts back in place.
- *
- * @param[in]  field Field being encoded.
- * @param[in]  value Variable holding the identifier.
- * @param[out] data  Data the field is to carry.
- *
- * @return Always `true`.
- */
-bool dmi_tpm_device_encode_vendor_id(
-        const dmi_field_t *field,
-        const void        *value,
-        dmi_field_data_t  *data);
+extern const dmi_name_set_t dmi_tpm_device_chars_names;
 
 /**
  * @internal
@@ -139,6 +100,11 @@ bool dmi_tpm_device_encode_firmware_version(
  *
  * @details Vendor and firmware version mean what the version of the
  * specification says they do, so they are read once the fields are there.
+ *
+ * Vendor identifier is four bytes of text, which some firmware stores as a
+ * little-endian double word, so that it starts with the terminating zero,
+ * e.g. `"\0XFI"` for `"IFX"`. Only printable characters are kept, and the
+ * identifier ends at the first other.
  *
  * @param[in,out] entity Structure being derived.
  *

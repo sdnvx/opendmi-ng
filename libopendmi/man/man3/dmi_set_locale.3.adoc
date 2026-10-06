@@ -61,7 +61,7 @@ becomes invalid. Strings which are to be kept across the call must be copied.
 
 The function is not thread-safe, and must not be called while other threads
 may use the library. The locale is meant to be set once, at the start of the
-program, before the library is used, e.g. by `dmi_locale_init`(3), which takes
+program, before the library is used, e.g. by `dmi_locale_setup`(3), which takes
 it from the environment.
 
 === Parameters
@@ -87,7 +87,7 @@ None: the function takes no context to raise errors in.
 == See also
 
 `dmi_get_locale`(3),
-`dmi_locale_init`(3),
+`dmi_locale_setup`(3),
 `dmi_name_lookup`(3),
 `dmi_resource_open`(3),
 `dmi_resource_string`(3),

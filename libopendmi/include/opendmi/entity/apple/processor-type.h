@@ -54,9 +54,11 @@ struct dmi_apple_processor_type
     uint8_t generation;
 
     /**
-     * @brief Class of the processor, the major type.
+     * @brief Class of the processor, the major type, which is exported as
+     * `class`, the member being named otherwise since `class` is a keyword
+     * of C++.
      */
-    dmi_apple_processor_class_t processor_class;
+    dmi_apple_processor_class_t clazz;
 };
 
 /**

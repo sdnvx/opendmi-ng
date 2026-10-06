@@ -27,8 +27,8 @@ endif::[]
 #define DMI_ADDITIONAL_INFO_ENTRY_HEADER 5
 
 typedef struct dmi_additional_info_entry {
-    dmi_handle_t  ref_handle;
-    unsigned      ref_offset;
+    dmi_handle_t  referenced_handle;
+    unsigned      referenced_offset;
     const char   *string;
     dmi_binary_t  value;
 } dmi_additional_info_entry_t;
@@ -47,10 +47,10 @@ referenced offset and the string number.
 
 === Fields
 
-`ref_handle`::
+`referenced_handle`::
 Handle of the structure the entry gives a value for.
 
-`ref_offset`::
+`referenced_offset`::
 Offset of the field within the referenced structure, counted from the first
 byte of its header. The decoder warns when it falls within the header.
 

@@ -31,10 +31,10 @@
  * @brief Fields of the descriptor of a PCI/PCIe network interface.
  */
 static const dmi_field_t dmi_mgmt_nhi_pci_fields[] = {
-    DMI_FIELD(dmi_mgmt_nhi_pci_t, vendor_id,        dmi_word_t),
-    DMI_FIELD(dmi_mgmt_nhi_pci_t, device_id,        dmi_word_t),
-    DMI_FIELD(dmi_mgmt_nhi_pci_t, subsys_vendor_id, dmi_word_t),
-    DMI_FIELD(dmi_mgmt_nhi_pci_t, subsys_id,        dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_t, vendor_id,           dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_t, device_id,           dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_t, subsystem_vendor_id, dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_t, subsystem_id,        dmi_word_t),
     {}
 };
 
@@ -47,12 +47,12 @@ static const dmi_field_t dmi_mgmt_nhi_usb_v2_fields[] = {
     DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, vendor_id,  dmi_word_t),
     DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, product_id, dmi_word_t),
     DMI_FIELD_STRING(dmi_mgmt_nhi_usb_v2_t, serial_number),
-    DMI_FIELD_BINARY(dmi_mgmt_nhi_usb_v2_t, mac_address, DMI_MAC_ADDRESS_LENGTH),
+    DMI_FIELD_BINARY(dmi_mgmt_nhi_usb_v2_t, mac_address, DMI_MAC_ADDR_LENGTH),
 
     // Device characteristics are present since DSP0270 1.3
     DMI_FIELD_GROUP(),
     DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, characteristics, dmi_word_t),
-    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, credential_handle, dmi_word_t,
+    DMI_FIELD(dmi_mgmt_nhi_usb_v2_t, credential_bootstrapping_handle, dmi_word_t,
               .absent = dmi_value_ptr((dmi_handle_t)DMI_HANDLE_INVALID)),
     {}
 };
@@ -63,11 +63,11 @@ static const dmi_field_t dmi_mgmt_nhi_usb_v2_fields[] = {
  * its length.
  */
 static const dmi_field_t dmi_mgmt_nhi_pci_v2_fields[] = {
-    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, vendor_id,        dmi_word_t),
-    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, device_id,        dmi_word_t),
-    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, subsys_vendor_id, dmi_word_t),
-    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, subsys_id,        dmi_word_t),
-    DMI_FIELD_BINARY(dmi_mgmt_nhi_pci_v2_t, mac_address, DMI_MAC_ADDRESS_LENGTH),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, vendor_id,           dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, device_id,           dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, subsystem_vendor_id, dmi_word_t),
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, subsystem_id,        dmi_word_t),
+    DMI_FIELD_BINARY(dmi_mgmt_nhi_pci_v2_t, mac_address, DMI_MAC_ADDR_LENGTH),
     DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, segment_group, dmi_word_t),
     DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, bus_number,    dmi_byte_t),
 
@@ -79,7 +79,7 @@ static const dmi_field_t dmi_mgmt_nhi_pci_v2_fields[] = {
     // Device characteristics are present since DSP0270 1.3
     DMI_FIELD_GROUP(),
     DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, characteristics, dmi_word_t),
-    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, credential_handle, dmi_word_t,
+    DMI_FIELD(dmi_mgmt_nhi_pci_v2_t, credential_bootstrapping_handle, dmi_word_t,
               .absent = dmi_value_ptr((dmi_handle_t)DMI_HANDLE_INVALID)),
     {}
 };
@@ -241,7 +241,7 @@ bool dmi_mgmt_controller_decode(dmi_decoder_t *decoder)
 
     dmi_mgmt_controller_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     if (info == nullptr)
         return false;
 
@@ -261,7 +261,7 @@ void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
 {
     dmi_mgmt_controller_t *info;
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     if (info == nullptr)
         return;
 
@@ -275,24 +275,24 @@ void dmi_mgmt_controller_cleanup(dmi_entity_t *entity)
 
 bool dmi_mgmt_controller_encode(dmi_encoder_t *encoder)
 {
-    const dmi_mgmt_controller_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(encoder->entity, DMI_TYPE(mgmt_controller));
     if (info == nullptr)
         return false;
 
-    if (not dmi_encoder_put(encoder, dmi_byte_t, info->if_type))
+    if (not dmi_encoder_put(encoder, dmi_byte_t, info->interface_type))
         return false;
 
     // Interface data longer than the structure is not read at all, and the
     // length the source data declares for it is kept
     dmi_byte_t original = 0;
 
-    if ((info->if_data.length == 0) and dmi_encoder_peek(encoder, &original, sizeof(original)) and
+    if ((info->interface_data.length == 0) and dmi_encoder_peek(encoder, &original, sizeof(original)) and
         (original > dmi_encoder_remaining(encoder) - sizeof(original)))
         return dmi_encoder_put(encoder, dmi_byte_t, original);
 
     bool status =
-        dmi_encoder_put(encoder, dmi_byte_t, info->if_data.length) and
-        dmi_encoder_put_bytes(encoder, info->if_data.data, info->if_data.length);
+        dmi_encoder_put(encoder, dmi_byte_t, info->interface_data.length) and
+        dmi_encoder_put_bytes(encoder, info->interface_data.data, info->interface_data.length);
     if (not status)
         return false;
 
@@ -539,38 +539,38 @@ static bool dmi_mgmt_if_decode(dmi_decoder_t *decoder, dmi_mgmt_controller_t *in
 {
     dmi_reader_t *reader = dmi_decoder_reader(decoder);
 
-    dmi_byte_t if_type        = 0;
-    dmi_byte_t if_data_length = 0;
+    dmi_byte_t iface_type        = 0;
+    dmi_byte_t iface_data_length = 0;
 
     bool status =
-        dmi_decoder_get(decoder, dmi_byte_t, &if_type) and
-        dmi_decoder_get(decoder, dmi_byte_t, &if_data_length);
+        dmi_decoder_get(decoder, dmi_byte_t, &iface_type) and
+        dmi_decoder_get(decoder, dmi_byte_t, &iface_data_length);
     if (not status)
         return false;
 
-    info->if_type = dmi_cast(info->if_type, if_type);
+    info->interface_type = dmi_cast(info->interface_type, iface_type);
 
     // Some implementations use different structure layout (e.g. the one from
     // SMBIOS versions prior to 3.2), so stop decoding there as dmidecode does
-    if (not dmi_reader_has(reader, if_data_length))
+    if (not dmi_reader_has(reader, iface_data_length))
         return dmi_decoder_incomplete(decoder);
 
     // Interface data is read as a whole, and then read again by its type, so
     // the cursor ends up past it either way
-    dmi_reader_mark_t if_data_start = dmi_reader_mark(reader);
+    dmi_reader_mark_t iface_data_start = dmi_reader_mark(reader);
 
-    if (not dmi_decoder_get_binary(decoder, if_data_length, &info->if_data))
+    if (not dmi_decoder_get_binary(decoder, iface_data_length, &info->interface_data))
         return false;
 
-    if ((info->if_type == DMI_MGMT_IF_TYPE_NETWORK_HOST_IF) and (if_data_length > 0)) {
-        dmi_reader_rewind(reader, if_data_start);
+    if ((info->interface_type == DMI_MGMT_IFACE_TYPE_NETWORK_HOST) and (iface_data_length > 0)) {
+        dmi_reader_rewind(reader, iface_data_start);
 
-        if (not dmi_mgmt_nhi_decode(decoder, &info->nhi, if_data_length))
+        if (not dmi_mgmt_nhi_decode(decoder, &info->nhi, iface_data_length))
             return false;
 
         info->has_nhi = true;
 
-        dmi_reader_skip_ex(reader, if_data_start, if_data_length);
+        dmi_reader_skip_ex(reader, iface_data_start, iface_data_length);
     }
 
     return true;

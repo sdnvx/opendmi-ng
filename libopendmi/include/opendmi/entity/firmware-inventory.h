@@ -37,10 +37,10 @@
     typedef struct dmi_firmware_ident dmi_firmware_ident_t;
 #endif // !DMI_FIRMWARE_IDENT_T
 
-#ifndef DMI_FIRMWARE_INVENTORY_FEATURES_T
-#   define DMI_FIRMWARE_INVENTORY_FEATURES_T
-    typedef union dmi_firmware_inventory_features dmi_firmware_inventory_features_t;
-#endif // !DMI_FIRMWARE_INVENTORY_FEATURES_T
+#ifndef DMI_FIRMWARE_INVENTORY_CHARS_T
+#   define DMI_FIRMWARE_INVENTORY_CHARS_T
+    typedef union dmi_firmware_inventory_chars dmi_firmware_inventory_chars_t;
+#endif // !DMI_FIRMWARE_INVENTORY_CHARS_T
 
 /**
  * @brief Firmware version formats.
@@ -165,7 +165,7 @@ typedef enum dmi_firmware_inventory_state
 /**
  * @brief Firmware characteristics.
  */
-dmi_packed_union(dmi_firmware_inventory_features)
+dmi_packed_union(dmi_firmware_inventory_chars)
 {
     dmi_word_t __value;
 
@@ -188,7 +188,7 @@ dmi_packed_union(dmi_firmware_inventory_features)
     };
 };
 
-dmi_static_assert_value_union(dmi_firmware_inventory_features);
+dmi_static_assert_value_union(dmi_firmware_inventory_chars);
 
 /**
  * @brief Firmware inventory component.
@@ -345,7 +345,7 @@ struct dmi_firmware_inventory
     /**
      * @brief Firmware characteristics information.
      */
-    dmi_firmware_inventory_features_t features;
+    dmi_firmware_inventory_chars_t characteristics;
 
     /**
      * @brief Firmware state information.

@@ -40,7 +40,7 @@ typedef struct dmi_mgmt_nhi {
 
 The `dmi_mgmt_nhi_t` structure holds the data of a management controller host
 interface of the network host interface type
-(`DMI_MGMT_IF_TYPE_NETWORK_HOST_IF`), as the Redfish host interface
+(`DMI_MGMT_IFACE_TYPE_NETWORK_HOST`), as the Redfish host interface
 specification (DSP0270) lays it out: the type of the device through which the
 host reaches the management controller, and the descriptor identifying that
 device. It is the type of the `nhi` field of `dmi_mgmt_controller_t`, which is

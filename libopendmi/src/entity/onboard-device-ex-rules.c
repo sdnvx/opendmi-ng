@@ -23,7 +23,7 @@ void dmi_onboard_device_ex_lint_instance(dmi_lint_t *lint, const dmi_entity_t *e
     dmi_registry_iter_t iter;
     dmi_entity_t *other;
 
-    if (not dmi_registry_iter_init(&iter, registry, nullptr))
+    if (not dmi_registry_iter_initialize(&iter, registry, nullptr))
         return;
 
     while ((other = dmi_registry_iter_next(&iter)) != nullptr) {

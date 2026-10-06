@@ -74,7 +74,7 @@ static void test_tvt_shared_type(void **pstate)
     assert_true(dmi_load(context, test_x280_path));
 
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr);
+    dmi_registry_iter_initialize(&iter, dmi_get_registry(context), nullptr);
 
     const dmi_entity_t *tvt_entity  = nullptr;
     const dmi_entity_t *vpro_entity = nullptr;
@@ -112,7 +112,7 @@ static void test_tvt_unknown(void **pstate)
     assert_true(dmi_load(context, test_t61p_path));
 
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr);
+    dmi_registry_iter_initialize(&iter, dmi_get_registry(context), nullptr);
 
     size_t tvt     = 0;
     size_t unknown = 0;
@@ -140,7 +140,7 @@ static void test_tvt_diagnostics(void **pstate)
     assert_true(dmi_load(context, test_m720q_path));
 
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr);
+    dmi_registry_iter_initialize(&iter, dmi_get_registry(context), nullptr);
 
     const dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {

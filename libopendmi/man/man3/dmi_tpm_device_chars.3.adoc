@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_tpm_device_features(3)
+= dmi_tpm_device_chars(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_tpm_device_features
+= dmi_tpm_device_chars
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_tpm_device_features - TPM device characteristics
+dmi_tpm_device_chars - TPM device characteristics
 
 == Library
 
@@ -24,7 +24,7 @@ endif::[]
 ----
 #include <opendmi/entity/tpm-device.h>
 
-typedef union dmi_tpm_device_features {
+typedef union dmi_tpm_device_chars {
     uint64_t __value;
 
     struct {
@@ -35,13 +35,13 @@ typedef union dmi_tpm_device_features {
         uint64_t is_proprietary_configurable : 1;
         uint64_t reserved_2                  : 58;
     };
-} dmi_tpm_device_features_t;
+} dmi_tpm_device_chars_t;
 ----
 
 == Description
 
-The `dmi_tpm_device_features_t` union holds the characteristics of a TPM
-device, and is the type of the `features` field of `dmi_tpm_device_t`. The
+The `dmi_tpm_device_chars_t` union holds the characteristics of a TPM
+device, and is the type of the `characteristics` field of `dmi_tpm_device_t`. The
 value can be read as a whole through `__value`, or bit by bit through the
 named members. The configurable characteristics tell how the TPM family of
 the device, such as TPM 1.2 or TPM 2.0, can be switched.

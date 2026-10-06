@@ -35,13 +35,11 @@ struct dmi_apple_smc_version
     /**
      * @brief Version of the SMC firmware as text, e.g. `1.59f2`, which the
      * bytes of zero end. @c nullptr if the structure holds no text.
+     *
+     * The string belongs to the structure, and is freed along with it.
      */
-    const char *version;
+    char *version;
 
-    /**
-     * @brief Buffer holding the text of `version`.
-     */
-    char version_buffer[DMI_APPLE_SMC_VERSION_SIZE + 1];
 };
 
 /**

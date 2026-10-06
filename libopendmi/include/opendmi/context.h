@@ -144,7 +144,7 @@ struct dmi_context_state
     /**
      * @brief Address of SMBIOS table area.
      */
-    uint64_t table_area_addr;
+    uint64_t table_area_address;
 
     /**
      * @brief Size of SMBIOS table area, specified in the entry point.
@@ -280,7 +280,7 @@ typedef enum dmi_save_flags
  * @return `true` if the context holds a structure table and the registry of
  *         its structures, `false` otherwise.
  */
-static inline bool dmi_context_is_open(const dmi_context_t *context)
+static inline bool dmi_is_open(const dmi_context_t *context)
 {
     return (context->state.table != nullptr) && (context->state.registry != nullptr);
 }

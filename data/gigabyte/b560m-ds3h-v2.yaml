@@ -1049,7 +1049,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: INTC
+    vendor: INTC
     specification-version: '2.0'
     firmware-version:
       major: 600
@@ -1086,8 +1086,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 51539607551
+    start-address: 0
+    end-address: 51539607551
     range-size: 51539607552
     array-handle: 60
     partition-width: 4
@@ -1332,11 +1332,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     device-handle: 66
-    array-addr-handle: 65
+    array-address-handle: 65
     partition-pos: unknown
     interleave-pos: 1
     interleave-depth: 2
@@ -1349,11 +1349,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 34359738368
-    end-addr: 42949672959
+    start-address: 34359738368
+    end-address: 42949672959
     range-size: 8589934592
     device-handle: 67
-    array-addr-handle: 65
+    array-address-handle: 65
     partition-pos: unknown
     interleave-pos: 1
     interleave-depth: 2
@@ -1366,11 +1366,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 17179869184
-    end-addr: 34359738367
+    start-address: 17179869184
+    end-address: 34359738367
     range-size: 17179869184
     device-handle: 68
-    array-addr-handle: 65
+    array-address-handle: 65
     partition-pos: unknown
     interleave-pos: 2
     interleave-depth: 2
@@ -1383,11 +1383,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 42949672960
-    end-addr: 51539607551
+    start-address: 42949672960
+    end-address: 51539607551
     range-size: 8589934592
     device-handle: 69
-    array-addr-handle: 65
+    array-address-handle: 65
     partition-pos: unknown
     interleave-pos: 2
     interleave-depth: 2

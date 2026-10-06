@@ -869,8 +869,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 38
   type: 6
@@ -918,11 +918,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 1073741823
+    start-address: 0
+    end-address: 1073741823
     range-size: 1073741824
     device-handle: 36
-    array-addr-handle: 45
+    array-address-handle: 45
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0
@@ -981,8 +981,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 42
   type: 6
@@ -1030,11 +1030,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 1073741824
-    end-addr: 3221225471
+    start-address: 1073741824
+    end-address: 3221225471
     range-size: 2147483648
     device-handle: 40
-    array-addr-handle: 45
+    array-address-handle: 45
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0
@@ -1050,8 +1050,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 45
   type: 19
@@ -1063,8 +1063,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 3221225471
+    start-address: 0
+    end-address: 3221225471
     range-size: 3221225472
     array-handle: 35
     partition-width: 2

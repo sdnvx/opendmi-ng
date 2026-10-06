@@ -31,7 +31,7 @@ extern const dmi_name_set_t dmi_firmware_ident_format_names;
  * @internal
  * @brief Names of the characteristics of a firmware component.
  */
-extern const dmi_name_set_t dmi_firmware_inventory_feature_names;
+extern const dmi_name_set_t dmi_firmware_inventory_chars_names;
 
 /**
  * @internal

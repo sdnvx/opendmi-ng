@@ -151,7 +151,7 @@ extern const dmi_command_t *dmi_commands[];
 
 __BEGIN_DECLS
 
-void dmi_command_init(const char *process);
+void dmi_command_setup(const char *process);
 
 void dmi_command_list(void);
 

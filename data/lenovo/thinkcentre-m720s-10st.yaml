@@ -1276,8 +1276,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 25769803775
+    start-address: 0
+    end-address: 25769803775
     range-size: 25769803776
     array-handle: 59
     partition-width: 3
@@ -1745,7 +1745,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: IFX
+    vendor: IFX
     specification-version: '2.0'
     firmware-version:
       major: 7
@@ -1777,11 +1777,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 8589934591
+    start-address: 0
+    end-address: 8589934591
     range-size: 8589934592
     device-handle: 60
-    array-addr-handle: 64
+    array-address-handle: 64
     partition-pos: unknown
     interleave-pos: 0
     interleave-depth: 0
@@ -1794,11 +1794,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 8589934592
-    end-addr: 17179869183
+    start-address: 8589934592
+    end-address: 17179869183
     range-size: 8589934592
     device-handle: 61
-    array-addr-handle: 64
+    array-address-handle: 64
     partition-pos: unknown
     interleave-pos: 1
     interleave-depth: 2
@@ -1811,11 +1811,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 17179869184
-    end-addr: 25769803775
+    start-address: 17179869184
+    end-address: 25769803775
     range-size: 8589934592
     device-handle: 63
-    array-addr-handle: 64
+    array-address-handle: 64
     partition-pos: unknown
     interleave-pos: 2
     interleave-depth: 2

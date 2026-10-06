@@ -233,9 +233,9 @@ static bool dmi_dump_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
 
     // Table always follows the entry point, but dmidecode reads it at the
     // address specified in the entry point
-    if (context->state.table_area_addr != DMI_ENTRY_MAX_SIZE) {
+    if (context->state.table_area_address != DMI_ENTRY_MAX_SIZE) {
         dmi_log_warning(context, "Unexpected table address in dump entry point: 0x%llX",
-                        (unsigned long long)context->state.table_area_addr);
+                        (unsigned long long)context->state.table_area_address);
     }
 
     return dmi_buffer_assign(buffer, session->data->data + DMI_ENTRY_MAX_SIZE,

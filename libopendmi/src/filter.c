@@ -75,9 +75,9 @@ dmi_filter_t *dmi_filter_create(dmi_context_t *context)
     filter->context = context;
     filter->mask    = DMI_FILTER_MASK_ALL;
 
-    dmi_vector_init(&filter->handles, context, nullptr);
-    dmi_vector_init(&filter->types, context, nullptr);
-    dmi_vector_init(&filter->modules, context, nullptr);
+    dmi_vector_initialize(&filter->handles, context, nullptr);
+    dmi_vector_initialize(&filter->types, context, nullptr);
+    dmi_vector_initialize(&filter->modules, context, nullptr);
 
     return filter;
 }

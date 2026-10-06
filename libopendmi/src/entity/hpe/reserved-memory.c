@@ -50,8 +50,9 @@ const dmi_entity_spec_t dmi_hpe_reserved_memory_spec =
             .name  = "Memory locations",
             .attrs = DMI_ATTRIBUTES({
                 DMI_ATTRIBUTE(dmi_hpe_reserved_memory_entry_t, signature, STRING, {
-                    .code = "signature",
-                    .name = "Signature"
+                    .code  = "signature",
+                    .name  = "Signature",
+                    .flags = DMI_ATTRIBUTE_FLAG_OWNED
                 }),
                 DMI_ATTRIBUTE(dmi_hpe_reserved_memory_entry_t, address, ADDRESS, {
                     .code = "address",

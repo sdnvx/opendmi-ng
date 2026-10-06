@@ -28,15 +28,15 @@ const dmi_entity_spec_t dmi_apple_processor_type_spec =
     // Type is a word whose low byte is the generation and whose high byte is
     // the class, and newer firmware follows it with two reserved bytes
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_apple_processor_type_t, generation,      dmi_byte_t),
-        DMI_FIELD(dmi_apple_processor_type_t, processor_class, dmi_byte_t),
+        DMI_FIELD(dmi_apple_processor_type_t, generation, dmi_byte_t),
+        DMI_FIELD(dmi_apple_processor_type_t, clazz,      dmi_byte_t),
         DMI_FIELD_GROUP(),
         DMI_FIELD_SKIP(2 * sizeof(dmi_byte_t)),
         {}
     }),
 
     .attributes = DMI_ATTRIBUTES({
-        DMI_ATTRIBUTE(dmi_apple_processor_type_t, processor_class, ENUM, {
+        DMI_ATTRIBUTE(dmi_apple_processor_type_t, clazz, ENUM, {
             .code   = "class",
             .name   = "Processor class",
             .values = &dmi_apple_processor_class_names

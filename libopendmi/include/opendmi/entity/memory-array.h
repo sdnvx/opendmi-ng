@@ -47,18 +47,18 @@ typedef enum dmi_memory_array_location
 /**
  * @brief Memory array usage values.
  */
-typedef enum dmi_memory_array_usage
+typedef enum dmi_memory_array_use
 {
-    DMI_MEMORY_ARRAY_USAGE_UNSPEC  = 0x00, ///< Unspecified
-    DMI_MEMORY_ARRAY_USAGE_OTHER   = 0x01, ///< Other
-    DMI_MEMORY_ARRAY_USAGE_UNKNOWN = 0x02, ///< Unknown
-    DMI_MEMORY_ARRAY_USAGE_SYSTEM  = 0x03, ///< System memory
-    DMI_MEMORY_ARRAY_USAGE_VIDEO   = 0x04, ///< Video memory
-    DMI_MEMORY_ARRAY_USAGE_FLASH   = 0x05, ///< Flash memory
-    DMI_MEMORY_ARRAY_USAGE_NVRAM   = 0x06, ///< Non-volatile RAM
-    DMI_MEMORY_ARRAY_USAGE_CACHE   = 0x07, ///< Cache memory
+    DMI_MEMORY_ARRAY_USE_UNSPEC  = 0x00, ///< Unspecified
+    DMI_MEMORY_ARRAY_USE_OTHER   = 0x01, ///< Other
+    DMI_MEMORY_ARRAY_USE_UNKNOWN = 0x02, ///< Unknown
+    DMI_MEMORY_ARRAY_USE_SYSTEM  = 0x03, ///< System memory
+    DMI_MEMORY_ARRAY_USE_VIDEO   = 0x04, ///< Video memory
+    DMI_MEMORY_ARRAY_USE_FLASH   = 0x05, ///< Flash memory
+    DMI_MEMORY_ARRAY_USE_NVRAM   = 0x06, ///< Non-volatile RAM
+    DMI_MEMORY_ARRAY_USE_CACHE   = 0x07, ///< Cache memory
     __DMI_MEMORY_ARRAY_USAGE_COUNT
-} dmi_memory_array_usage_t;
+} dmi_memory_array_use_t;
 
 /**
  * @brief Physical memory array structure (type 16).
@@ -74,7 +74,7 @@ struct dmi_memory_array
     /**
      * @brief Function for which the array is used.
      */
-    dmi_memory_array_usage_t usage;
+    dmi_memory_array_use_t use;
 
     /**
      * @brief Primary hardware error correction or detection method supported
@@ -96,7 +96,7 @@ struct dmi_memory_array
      * field contains 0xFFFE. Otherwise, the field contains either 0xFFFF (if
      * no error was detected) or the handle of the error-information structure.
      */
-    dmi_handle_t error_info_handle;
+    dmi_handle_t error_handle;
 
     /**
      * @brief An error that was previously detected for the array.
@@ -122,7 +122,7 @@ extern __dmi_api const dmi_entity_spec_t dmi_memory_array_spec;
 __BEGIN_DECLS
 
 __dmi_api const char *dmi_memory_array_location_name(dmi_memory_array_location_t value);
-__dmi_api const char *dmi_memory_array_usage_name(dmi_memory_array_usage_t value);
+__dmi_api const char *dmi_memory_array_use_name(dmi_memory_array_use_t value);
 
 __END_DECLS
 

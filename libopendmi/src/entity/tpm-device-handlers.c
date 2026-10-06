@@ -4,6 +4,8 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+#include <string.h>
+
 #include <opendmi/context.h>
 #include <opendmi/log.h>
 #include <opendmi/reader.h>
@@ -12,47 +14,9 @@
 #include <opendmi/utils.h>
 #include <opendmi/utils/name.h>
 #include <opendmi/utils/codec.h>
+#include <opendmi/utils/string.h>
 
 #include "tpm-device-internal.h"
-
-bool dmi_tpm_device_decode_vendor_id(
-        const dmi_field_t      *field,
-        const dmi_field_data_t *data,
-        void                   *value)
-{
-    dmi_unused(field);
-
-    char *id = value;
-
-    for (size_t i = 0; i < 4; i++)
-        id[i] = (char)((data->number >> (i * CHAR_BIT)) & 0xFFu);
-
-    id[4] = 0;
-
-    if ((id[0] == 0) and (id[3] != 0)) {
-        if (data->entity != nullptr) {
-            dmi_context_t *context = dmi_entity_context(data->entity);
-
-            dmi_log_notice(context, "Handle 0x%04hx (%s): Vendor ID bytes are reversed",
-                           dmi_entity_handle(data->entity),
-                           dmi_entity_name(data->entity));
-        }
-
-        for (size_t i = 0; i < 2; i++) {
-            char c    = id[i];
-            id[i]     = id[3 - i];
-            id[3 - i] = c;
-        }
-    }
-
-    size_t length = 0;
-    while ((length < 4) and (id[length] >= 0x20) and (id[length] < 0x7F))
-        length++;
-
-    id[length] = 0;
-
-    return true;
-}
 
 bool dmi_tpm_device_decode_version(
         const dmi_field_t      *field,
@@ -78,12 +42,32 @@ bool dmi_tpm_device_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    info->vendor = (info->vendor_id[0] != 0) ? info->vendor_id : nullptr;
+    dmi_byte_t id[4] = {};
+    if (info->vendor_raw.data != nullptr)
+        memcpy(id, info->vendor_raw.data, (info->vendor_raw.length < sizeof(id)) ? info->vendor_raw.length : sizeof(id));
+
+    if ((id[0] == 0) and (id[3] != 0)) {
+        dmi_log_notice(dmi_entity_context(entity), "Handle 0x%04hx (%s): Vendor ID bytes are reversed",
+                       dmi_entity_handle(entity), dmi_entity_name(entity));
+
+        for (size_t i = 0; i < 2; i++) {
+            dmi_byte_t c = id[i];
+            id[i]        = id[3 - i];
+            id[3 - i]    = c;
+        }
+    }
+
+    size_t length = 0;
+    while ((length < sizeof(id)) and (id[length] >= 0x20) and (id[length] < 0x7F))
+        length++;
+
+    if (not dmi_string_set_bytes(dmi_entity_context(entity), &info->vendor, id, length, false))
+        return false;
 
     uint32_t firmware_version_1 = (uint32_t)(info->firmware_version >> 32);
     uint32_t firmware_version_2 = (uint32_t)(info->firmware_version & 0xFFFFFFFFu);
 
-    switch (dmi_version_major(info->spec_version)) {
+    switch (dmi_version_major(info->specification_version)) {
     case 1:
         // TCPA_VERSION structure: major, minor, revMajor and revMinor
         info->firmware_version_format = DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1;
@@ -102,23 +86,6 @@ bool dmi_tpm_device_derive(dmi_entity_t *entity)
         info->firmware_version_format = DMI_TPM_FIRMWARE_VERSION_FORMAT_RAW;
         break;
     }
-
-    return true;
-}
-
-bool dmi_tpm_device_encode_vendor_id(
-        const dmi_field_t *field,
-        const void        *value,
-        dmi_field_data_t  *data)
-{
-    dmi_unused(field);
-
-    const char *vendor_id = value;
-
-    data->number = 0;
-
-    for (size_t i = 0; i < 4; i++)
-        data->number |= (uintmax_t)(dmi_byte_t)vendor_id[i] << (i * CHAR_BIT);
 
     return true;
 }

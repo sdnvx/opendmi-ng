@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_memory_device_type_detail(3)
+= dmi_memory_device_type_details(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_memory_device_type_detail
+= dmi_memory_device_type_details
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_memory_device_type_detail - memory device type details
+dmi_memory_device_type_details - memory device type details
 
 == Library
 
@@ -24,7 +24,7 @@ endif::[]
 ----
 #include <opendmi/entity/memory-device.h>
 
-typedef union dmi_memory_device_type_detail {
+typedef union dmi_memory_device_type_details {
     dmi_word_t __value;
     struct {
         dmi_word_t __reserved    : 1;
@@ -44,14 +44,14 @@ typedef union dmi_memory_device_type_detail {
         dmi_word_t unbuffered    : 1;
         dmi_word_t lrdimm        : 1;
     };
-} dmi_memory_device_type_detail_t;
+} dmi_memory_device_type_details_t;
 ----
 
 == Description
 
-The `dmi_memory_device_type_detail_t` union holds additional details on the
+The `dmi_memory_device_type_details_t` union holds additional details on the
 type of the memory of a memory device, as the memory device structure
-(type 17) of SMBIOS gives them. It is the type of the `memory_type_detail`
+(type 17) of SMBIOS gives them. It is the type of the `memory_type_details`
 field of `dmi_memory_device_t`. Several bits are set when several details
 apply.
 

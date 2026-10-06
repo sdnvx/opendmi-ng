@@ -40,7 +40,7 @@ static int test_command_setup(void **pstate)
 {
     dmi_unused(pstate);
 
-    dmi_command_init("opendmi-command-test");
+    dmi_command_setup("opendmi-command-test");
 
     return 0;
 }

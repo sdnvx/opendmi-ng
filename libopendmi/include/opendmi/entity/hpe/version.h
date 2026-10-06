@@ -102,16 +102,12 @@ struct dmi_hpe_version
     uint8_t version_data[12];
 
     /**
-     * @brief Version of the firmware formatted from `version_data`, which
-     * `version` points to.
-     */
-    char version_buffer[48];
-
-    /**
      * @brief Version of the firmware formatted from `version_data`, or
      * @c nullptr if there is none or its format is not known.
+     *
+     * The string belongs to the structure, and is freed along with it.
      */
-    const char *version;
+    char *version;
 
     /**
      * @brief Unique ID of the firmware flash, zero if none.

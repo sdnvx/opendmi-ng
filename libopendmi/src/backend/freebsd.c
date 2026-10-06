@@ -165,7 +165,7 @@ static bool dmi_freebsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
 
     dmi_freebsd_session_t *session = dmi_cast(session, context->state.session);
 
-    return dmi_memory_load(buffer, session->device, context->state.table_area_addr,
+    return dmi_memory_load(buffer, session->device, context->state.table_area_address,
                            context->state.table_area_max_size);
 }
 

@@ -70,9 +70,9 @@ bool dmi_dell_calling_iface_decode(dmi_decoder_t *decoder)
         return false;
 
     bool status =
-        dmi_decoder_get(decoder, dmi_word_t, &info->cmd_io_address) and
-        dmi_decoder_get(decoder, dmi_byte_t, &info->cmd_io_code) and
-        dmi_decoder_get(decoder, dmi_dword_t, &info->supported_cmds);
+        dmi_decoder_get(decoder, dmi_word_t, &info->command_io_address) and
+        dmi_decoder_get(decoder, dmi_byte_t, &info->command_io_code) and
+        dmi_decoder_get(decoder, dmi_dword_t, &info->supported_commands);
     if (not status)
         return false;
 
@@ -103,9 +103,9 @@ bool dmi_dell_calling_iface_encode(dmi_encoder_t *encoder)
         return false;
 
     bool status =
-        dmi_encoder_put(encoder, dmi_word_t, info->cmd_io_address) and
-        dmi_encoder_put(encoder, dmi_byte_t, info->cmd_io_code) and
-        dmi_encoder_put(encoder, dmi_dword_t, info->supported_cmds);
+        dmi_encoder_put(encoder, dmi_word_t, info->command_io_address) and
+        dmi_encoder_put(encoder, dmi_byte_t, info->command_io_code) and
+        dmi_encoder_put(encoder, dmi_dword_t, info->supported_commands);
     if (not status)
         return false;
 

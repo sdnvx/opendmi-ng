@@ -544,8 +544,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 3355443199
+    start-address: 0
+    end-address: 3355443199
     range-size: 3355443200
     array-handle: 14
     partition-width: 4
@@ -601,11 +601,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 2147483647
+    start-address: 0
+    end-address: 2147483647
     range-size: 2147483648
     device-handle: 16
-    array-addr-handle: 15
+    array-address-handle: 15
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 1
@@ -661,11 +661,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 2147483648
-    end-addr: 4294967295
+    start-address: 2147483648
+    end-address: 4294967295
     range-size: 2147483648
     device-handle: 18
-    array-addr-handle: 15
+    array-address-handle: 15
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 1
@@ -721,11 +721,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 4831838207
+    start-address: 4294967296
+    end-address: 4831838207
     range-size: 536870912
     device-handle: 20
-    array-addr-handle: 15
+    array-address-handle: 15
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 1
@@ -781,11 +781,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 4831838208
-    end-addr: 5368709119
+    start-address: 4831838208
+    end-address: 5368709119
     range-size: 536870912
     device-handle: 22
-    array-addr-handle: 15
+    array-address-handle: 15
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 1

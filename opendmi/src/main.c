@@ -73,7 +73,7 @@ static void dmi_show_usage(void);
  *
  * @return `true` on success, `false` if the log file cannot be opened.
  */
-static bool dmi_log_init(dmi_context_t *context);
+static bool dmi_log_setup(dmi_context_t *context);
 
 /**
  * @internal
@@ -173,8 +173,8 @@ int main(int argc, char *argv[])
     const dmi_command_t *command;
 
     // Initialize command environment
-    dmi_locale_init();
-    dmi_command_init(basename(argv[0]));
+    dmi_locale_setup();
+    dmi_command_setup(basename(argv[0]));
     argc--, argv++;
 
     // Create DMI context
@@ -223,7 +223,7 @@ int main(int argc, char *argv[])
         argc--, argv++;
 
         // Initialize logging
-        if (not dmi_log_init(context))
+        if (not dmi_log_setup(context))
             break;
 
         // Execute command
@@ -246,7 +246,7 @@ static void dmi_show_usage(void)
     dmi_command_usage(nullptr);
 }
 
-static bool dmi_log_init(dmi_context_t *context)
+static bool dmi_log_setup(dmi_context_t *context)
 {
     assert(context != nullptr);
 

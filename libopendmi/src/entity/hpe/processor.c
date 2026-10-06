@@ -130,8 +130,9 @@ const dmi_entity_spec_t dmi_hpe_processor_spec =
             .unspec = dmi_value_ptr((uint16_t)0)
         }),
         DMI_ATTRIBUTE(dmi_hpe_processor_t, qdf, STRING, {
-            .code = "qdf",
-            .name = "QDF/S-Spec"
+            .code  = "qdf",
+            .name  = "QDF/S-Spec",
+            .flags = DMI_ATTRIBUTE_FLAG_OWNED
         }),
         {}
     }),

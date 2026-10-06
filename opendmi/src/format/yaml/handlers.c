@@ -237,8 +237,8 @@ bool dmi_yaml_entity_start(dmi_yaml_session_t *session, const dmi_entity_t *enti
     dmi_format_set_iter_t iter;
     const dmi_format_flag_t *flag;
 
-    dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
-                              sizeof(entity->state) * CHAR_BIT);
+    dmi_format_mask_iter_initialize(&iter, &dmi_entity_state_names, entity->state,
+                                    sizeof(entity->state) * CHAR_BIT);
 
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         if (flag->value and not dmi_yaml_scalar(session, flag->code, YAML_STR_TAG, YAML_PLAIN_SCALAR_STYLE))
@@ -303,7 +303,7 @@ bool dmi_yaml_entity_properties(dmi_yaml_session_t *session, const dmi_entity_t 
     if (not result)
         return false;
 
-    dmi_format_property_iter_init(&iter, entity);
+    dmi_format_property_iter_initialize(&iter, entity);
 
     while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
         char id[8];
@@ -352,7 +352,7 @@ bool dmi_yaml_entity_overlays(dmi_yaml_session_t *session, const dmi_entity_t *e
 
         snprintf(source, sizeof(source), "0x%04hx", overlay->source->handle);
         snprintf(index, sizeof(index), "%zu", overlay->index);
-        snprintf(offset, sizeof(offset), "0x%02x", overlay->entry->ref_offset);
+        snprintf(offset, sizeof(offset), "0x%02x", overlay->entry->referenced_offset);
 
         char *value = dmi_format_overlay_value(entity, overlay, session->options.pretty);
         if (value == nullptr)
@@ -418,7 +418,7 @@ bool dmi_yaml_entity_strings(dmi_yaml_session_t *session, const dmi_entity_t *en
     dmi_format_string_iter_t iter;
     const char *str;
 
-    dmi_format_string_iter_init(&iter, entity);
+    dmi_format_string_iter_initialize(&iter, entity);
 
     while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
         if (not dmi_yaml_scalar(session, str, YAML_STR_TAG, YAML_DOUBLE_QUOTED_SCALAR_STYLE))
@@ -596,7 +596,7 @@ static bool dmi_yaml_entity_attr_set(
     if (not dmi_yaml_mapping_start(session, YAML_BLOCK_MAPPING_STYLE))
         return false;
 
-    dmi_format_set_iter_init(&iter, attr, value);
+    dmi_format_set_iter_initialize(&iter, attr, value);
 
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         bool result =

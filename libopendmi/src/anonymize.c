@@ -584,8 +584,8 @@ bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table)
         .table   = table
     };
 
-    dmi_vector_init(&anon.values, context, nullptr);
-    dmi_vector_init(&anon.saved, context, nullptr);
+    dmi_vector_initialize(&anon.values, context, nullptr);
+    dmi_vector_initialize(&anon.saved, context, nullptr);
 
     bool success = false;
     do {
@@ -620,7 +620,7 @@ static bool dmi_anonymize_check(dmi_context_t *context, const dmi_buffer_t *tabl
 
     if (table == nullptr)
         return dmi_trace_argument_null(context, table);
-    if (not dmi_context_is_open(context))
+    if (not dmi_is_open(context))
         return dmi_trace_state_invalid(context, "Context is not open");
 
     // Structures carrying additional information are decoded from copies of
@@ -637,7 +637,7 @@ static bool dmi_anonymize_entities(dmi_anonymizer_t *anon)
 {
     dmi_registry_iter_t iter;
 
-    if (not dmi_registry_iter_init(&iter, anon->context->state.registry, nullptr))
+    if (not dmi_registry_iter_initialize(&iter, anon->context->state.registry, nullptr))
         return false;
 
     while (dmi_registry_iter_has_next(&iter)) {
@@ -652,7 +652,7 @@ static bool dmi_anonymize_elsewhere(dmi_anonymizer_t *anon)
 {
     dmi_registry_iter_t iter;
 
-    if (not dmi_registry_iter_init(&iter, anon->context->state.registry, nullptr))
+    if (not dmi_registry_iter_initialize(&iter, anon->context->state.registry, nullptr))
         return false;
 
     while (dmi_registry_iter_has_next(&iter)) {

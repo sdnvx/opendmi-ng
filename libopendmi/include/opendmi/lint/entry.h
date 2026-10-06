@@ -26,7 +26,7 @@ extern __dmi_api const dmi_lint_rule_t dmi_lint_entry_length_rule;
 /**
  * @brief Entry point points to the table.
  */
-extern __dmi_api const dmi_lint_rule_t dmi_lint_entry_table_address_rule;
+extern __dmi_api const dmi_lint_rule_t dmi_lint_entry_table_addr_rule;
 
 /**
  * @brief Size of the table matches the one declared by the entry point.

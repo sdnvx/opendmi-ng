@@ -69,10 +69,10 @@ bool dmi_memory_array_addr_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    if (info->end_addr > info->start_addr)
-        info->range_size = info->end_addr - info->start_addr + 1;
+    if (info->end_address > info->start_address)
+        info->range_size = info->end_address - info->start_address + 1;
     else
-        info->range_size = info->start_addr - info->end_addr + 1;
+        info->range_size = info->start_address - info->end_address + 1;
 
     return true;
 }

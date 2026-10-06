@@ -32,15 +32,12 @@ struct dmi_hpe_reserved_memory_entry
     dmi_binary_t signature_raw;
 
     /**
-     * @brief Signature, which `signature` points to.
-     */
-    char signature_buffer[5];
-
-    /**
      * @brief Signature, which tells what the region is for, e.g. `$HDD`, or
      * @c nullptr if it is not printable.
+     *
+     * The string belongs to the structure, and is freed along with it.
      */
-    const char *signature;
+    char *signature;
 
     /**
      * @brief Physical address.

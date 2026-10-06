@@ -68,7 +68,7 @@ None.
 
 == See also
 
-`dmi_ipmi_device`(3), `dmi_ipmi_intr_trigger`(3)
+`dmi_ipmi_device`(3), `dmi_ipmi_intr_trigger_mode`(3)
 
 == Standards
 

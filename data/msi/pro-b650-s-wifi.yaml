@@ -179,7 +179,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: AMD
+    vendor: AMD
     specification-version: '2.0'
     firmware-version:
       major: 6
@@ -429,8 +429,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 16
   type: 16
@@ -456,8 +456,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 34359738367
+    start-address: 0
+    end-address: 34359738367
     range-size: 34359738368
     array-handle: 16
     partition-width: 2
@@ -473,8 +473,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 19
   type: 17
@@ -549,8 +549,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 21
   type: 17
@@ -622,11 +622,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     device-handle: 21
-    array-addr-handle: 17
+    array-address-handle: 17
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -642,8 +642,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 24
   type: 17
@@ -718,8 +718,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 26
   type: 17
@@ -791,11 +791,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 17179869184
-    end-addr: 34359738367
+    start-address: 17179869184
+    end-address: 34359738367
     range-size: 17179869184
     device-handle: 26
-    array-addr-handle: 17
+    array-address-handle: 17
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown

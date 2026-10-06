@@ -109,7 +109,10 @@ written as such rather than as values.
 `.flags`:::
 Flags of `dmi_attribute_flag_t`, e.g. `DMI_ATTRIBUTE_FLAG_HEX`, or
 `DMI_ATTRIBUTE_FLAG_PRIVATE` for the values identifying the system, which
-anonymization replaces.
+anonymization replaces, or `DMI_ATTRIBUTE_FLAG_OWNED` for a string the
+structure owns rather than the table: a handler allocates it, e.g. with
+`dmi_string_set`(3), into a member of `char *`, and the library frees it as
+the structure is released.
 
 `.values`:::
 Names of the values of an enumeration, a set or a boolean, see `DMI_NAMES`(3).

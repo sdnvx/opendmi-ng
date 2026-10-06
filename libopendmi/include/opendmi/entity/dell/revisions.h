@@ -24,7 +24,7 @@ struct dmi_dell_revisions
     /**
      * @brief Implementation version.
      */
-    dmi_version_t impl_version;
+    dmi_version_t implementation_version;
 
     /**
      * @brief System ID.

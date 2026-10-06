@@ -11,62 +11,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - SMBIOS 3.10: LPDDR6 memory devices, InfiniBand and GPU controller onboard devices, disabled and unmapped flags of memory devices
 - Lint rules `memory-device.attributes` and `memory-device.disabled`
-- `DMI_NAME_FUNCTION()`, which defines the function `<prefix>_name()` naming the values of an enumeration by its name set `<prefix>_names`
-- `<opendmi/trace.h>` with `dmi_trace_argument_null()`, `dmi_trace_argument_invalid()`, `dmi_trace_state_invalid()` and `dmi_trace_out_of_memory()`, which raise a standard error and return the value of the failure
-- `dmi_attributes_walk()` and `dmi_attribute_walk()`, which walk a decoded structure with a visitor
-- `dmi_fields_decode_into()` and `dmi_fields_encode_from()`, which decode and encode a part of a structure by a list of fields
-- `dmi_fields_release()` and `dmi_attributes_unlink()`, which free the arrays of decoded and linked structures
-- `dmi_entity_is_decoded()`, `dmi_entity_is_linked()`, `dmi_entity_is_valid()`, `dmi_entity_is_incomplete()`, `dmi_entity_is_partial()` and `dmi_context_is_open()`
+- `<opendmi/trace.h>` with `dmi_trace_*()` macros, which raise a standard error and return the value of the failure
+- `dmi_attributes_walk()`, `dmi_attribute_walk()`, `dmi_fields_decode_into()`, `dmi_fields_encode_from()`, `dmi_fields_release()`, `dmi_attributes_unlink()`, `dmi_entity_is_*()`, `dmi_is_open()`, `dmi_string_set_bytes()`, `dmi_string_from_bytes()`, `DMI_NAME_FUNCTION()` and `DMI_ATTRIBUTE_FLAG_OWNED`
 - Field parameters `from` and `before` for the bits a version of the specification defines, and `present` of field groups
-- Manual pages of `<opendmi/locale.h>`, `<opendmi/lint.h>`, `<opendmi/trace.h>`, `<opendmi/registry.h>`, `<opendmi/filter.h>`, `<opendmi/module.h>`, `<opendmi/vendor.h>`, `<opendmi/value.h>`, `<opendmi/backend/generic.h>`, `<opendmi/utils/string.h>`, `<opendmi/utils/vector.h>`, `<opendmi/utils/datetime.h>`, of the attribute and field accessors, name set lookups, `dmi_type_*`(3), `dmi_spec_name`(3) and the declarative macros (`DMI_FIELD`(3), `DMI_ATTRIBUTE`(3), `DMI_NAMES`(3) and others), and links to them on the website and in the reference
+- Manual pages of the rest of the public API, and links to them on the website and in the reference
 
 ### Changed
 
-- Rename error codes after one scheme, `DMI_ERROR_<SUBJECT>[_<DETAIL>]_<CONDITION>`, e.g. `DMI_ERROR_NULL_ARGUMENT` to `DMI_ERROR_ARGUMENT_NULL` and `DMI_ERROR_FILE_OPEN` to `DMI_ERROR_FILE_OPEN_FAILED`, remove the unused `DMI_ERROR_INVALID_ENTITY_ADDR` and `DMI_ERROR_NO_MORE_ENTRIES`, and move the general errors right after `DMI_ERROR_NONE`; the numeric values of the codes change
-- Report errors of vectors, `dmi_checksum_*()` and `dmi_version_format_ex()` with the error codes of the library rather than in `errno`, take the context of a vector in `dmi_vector_init()`, and return the checksum of `dmi_checksum_calc()` through a pointer, so that its failure is told from a zero checksum
-- Tell whether additional information entries have been applied by `DMI_REGISTRY_STATUS_OVERLAID` of the registry, rather than by the current flags of the context, when anonymizing
-- Check the pointer arguments of the API at run time, raising `DMI_ERROR_ARGUMENT_NULL`, rather than with assertions or silently, and raise `DMI_ERROR_ARGUMENT_INVALID` on a zero length in `dmi_memory_load()` and on an invalid address in `dmi_generic_parse_entry_addr()`
-- Rename `dmi_acer_hotkey_t`, `dmi_acer_device_t`, `dmi_dell_device_name_t`, `dmi_dell_hotkey_t` and `dmi_dell_memory_id_t` to `*_entry_t`, and `severity` of `dmi_lint_rule_params_t` to `reader_severity`
-- Take physical addresses as `uint64_t` in `dmi_memory_load()` and `dmi_generic_*()`, so that addresses above 4 GiB reach 32-bit systems intact
+- Rename error codes after one scheme, `DMI_ERROR_<SUBJECT>[_<DETAIL>]_<CONDITION>`, e.g. `DMI_ERROR_ARGUMENT_NULL` and `DMI_ERROR_FILE_OPEN_FAILED`, remove the unused ones and renumber them
+- Report errors through the error codes everywhere: check the pointer arguments of the API at run time rather than with assertions or silently, and report the errors of vectors, checksums and version formatting rather than in `errno`; `dmi_vector_initialize()` takes a context, and `dmi_checksum_calc()` returns the checksum through a pointer
+- Unify the names of the API:
+  - `dmi_vector_init()` and `dmi_registry_iter_init()` to `*_initialize()`, and `dmi_locale_init()` to `dmi_locale_setup()`
+  - `enum dmi_context_status` to `enum dmi_registry_status`, the Acer and Dell `*_t` of entries to `*_entry_t`, and `severity` of lint rules to `reader_severity`
+  - type 42 after its structure, `dmi_mgmt_controller_t`: `DMI_TYPE_ID_MGMT_CONTROLLER`, `DMI_TYPE(mgmt_controller)`, `dmi_mgmt_controller_spec`, code `mgmt-controller` and lint rule `mgmt-controller.records`
+  - `iface` and `addr` in the names of types, functions and macros, e.g. `dmi_ipmi_iface_type_t`, `dmi_mgmt_iface_type_t`, `dmi_bis_real_mode_addr_t` and `DMI_MAC_ADDR_LENGTH`
+  - the types of members after the members, in the same words: `dmi_ipmi_intr_trigger_mode_t`, `dmi_ipmi_iface_type_t`, `dmi_hpe_drive_form_factor_t`, `dmi_memory_device_type_details_t`, `dmi_memory_array_use_t`, `dmi_tpm_device_chars_t` and `dmi_firmware_inventory_chars_t`, with their values and names
+  - members after the codes they are exported as, in full words, e.g. `interface_type`, `start_address`, `specification_version`, `interrupt_number`, `architecture`, `characteristics` and `use`, which a test checks
+- Export codes in full words: `start-address`, `end-address`, `array-address`, `array-address-handle`, `device-address`, `table-area-address`, `interface-type`, `interface-data` and `processor-class`, and the vendor of TPM devices as `vendor`
+- Allocate the strings which structures spell in their own bytes rather than keeping them in buffers of the structures, so that a structure no longer points into itself; `vendor_id` of TPM devices is replaced by `vendor_raw`
+- Remove the internal functions from the public headers and the shared library
+- Take physical addresses as `uint64_t`, so that addresses above 4 GiB reach 32-bit systems intact
 - SMBIOS 3.10: read the rank of memory devices as five bits, and describe the OK memory error type as unmapped memory devices too
-- Free the arrays of fields and of linked structures in the library, leaving cleanup handlers only what the handlers allocate themselves
-- Tell the optional fields of HP/HPE, Intel and Dell structures by the groups holding them, and leave the groups a structure does not hold out of canonical encoding
-- Save dumps through a temporary file, so that a failed `dmi_save()` leaves the target intact
-- Check length and checksum of entry points found by scanning memory, the way dmidecode does
-- Default `list` to raw output when stdout is not a terminal, and drop the banner of `modules -r` and `types -r`
-- Quote YAML values and keys a YAML 1.1 parser would read as booleans, null or numbers
-- Build without `-Werror` and AddressSanitizer unless `ENABLE_WERROR` and `ENABLE_ASAN` are set, as `build.sh` does, and CI sets `ENABLE_WERROR`; take optimization and `NDEBUG` from the flags of the build type, which default to `-O2` for release builds, and drop the warnings suppressed for Clang, using `__VA_OPT__` in the logging and error macros instead of `##__VA_ARGS__`
-- Rename `enum dmi_context_status` of the registry status flags to `enum dmi_registry_status`
-- Remove the internal functions from the public headers: `dmi_registry_scan()`, `dmi_registry_overlay()`, `dmi_registry_decode()`, `dmi_registry_link()`, `dmi_entry_decode()`, `dmi_entity_is_linkable()`, `dmi_pci_addr_decode()`, `dmi_pci_addr_encode()` and the size helpers of caches, firmware and memory devices are no longer exported, and `dmi_entity_add_overlay()` and `dmi_entity_add_property()` are exported for the tests of the command line tool only
-- Keep internal headers next to their sources, take the sources and the public headers by directories in CMake, and resolve `build.sh -b` relative to the current directory
-- Make `regress.py` and `reindex-data.py` report failures in their exit status
+- Free the arrays of fields and of linked structures in the library, and tell the optional fields of HP/HPE, Intel and Dell structures by their groups, leaving the groups a structure does not hold out of canonical encoding
+- Tell the structures carrying additional information by `DMI_REGISTRY_STATUS_OVERLAID` when anonymizing, save dumps through a temporary file, and check length and checksum of entry points found by scanning memory
+- Default `list` to raw output when stdout is not a terminal, drop the banner of `modules -r` and `types -r`, and quote YAML values and keys a YAML 1.1 parser would misread
+- Build without `-Werror` and AddressSanitizer unless `ENABLE_WERROR` and `ENABLE_ASAN` are set, as `build.sh` and CI do, take optimization from the flags of the build type, `-O2` for release builds, and drop the warnings suppressed for Clang
+- Keep internal headers next to their sources, take the sources by directories in CMake, make `regress.py` and `reindex-data.py` report failures in their exit status, and resolve `build.sh -b` relative to the current directory
 - Document lifetime of error descriptors and of strings returned before `dmi_set_locale()`
 
 ### Fixed
 
-- Fix SMBIOS 2.1 entry points of 30 bytes, allowed by the SMBIOS 2.1 erratum, rejected
-- Fix IPMI device information, type 38, of 16 bytes rejected as too short
-- Fix additional information, type 40, counting entries which failed to decode, and failing without entries
-- Fix chassis contained elements shorter than three bytes lost when a structure is written back
-- Fix BCD values too large for their field truncated when encoding
-- Fix crashes on a failed registry insertion, on boolean attributes without a name for the value, on `dmi_code_lookup_rev()` with no code, on variant attributes without variants in `dmi_attribute_resolve()`, on `dmi_field_get()` with no member, and on `dmi_module_register()` with a module without a code
-- Fix `dmi_registry_resolve_any()` reading past an empty list of types, and `dmi_asprintf()` leaving the result undefined with no format
-- Fix numbers of fields wider than 8 bytes, which a specification of a module built out of the tree may declare, overflowing a buffer in release builds rather than failing an argument check
-- Fix filters not reporting exhausted memory, and `dmi_filter_add_module()` taking a filter of `nullptr` silently
-- Fix dates with empty parts, e.g. `03//07/2025`, accepted by `dmi_date_parse()`
-- Fix `dmi_vendor_detect()` not ignoring whitespace around the name, `dmi_registry_create()` not checking its context, and members of unsupported width failing an assertion rather than an argument check
-- Fix filter example of the registry, which passed a structure type for a type number (reference)
-- Fix memory leaks and invalid frees on error paths of decoding, linking and error reporting
-- Fix `dmi_alloc_array()` not detecting overflow, `dmi_set_locale()` keeping the caller's pointer, and `dmi_type_name()` naming type numbers out of range OEM-specific
-- Fix undefined behaviour and overflows in printing sizes and the module list, case conversion, copying device memory on AArch64 and mapping files
-- Fix output failures, e.g. `export -o /dev/full`, exiting without an error message, and out-of-memory errors reported twice
-- Fix the pager: quitting it early reported as "Broken pipe", signals ignored under `nohup` caught, and its command line handling on POSIX and Windows
-- Fix log file left locked for other processes
-- Fix dumps written to devices and pipes, e.g. `dump -o /dev/stdout`, refused as existing files unless overwriting
-- Fix XML export reporting write failures as internal errors on NetBSD
+- Fix SMBIOS 2.1 entry points of 30 bytes and IPMI device information of 16 bytes rejected, additional information counting entries which failed to decode and failing without entries, chassis contained elements shorter than three bytes lost, and BCD values truncated when encoding
+- Fix crashes and out-of-bounds accesses on a failed registry insertion, boolean attributes without a name for the value, `dmi_code_lookup_rev()` with no code, variant attributes without variants, `dmi_field_get()` with no member, modules without a code, an empty list of types in `dmi_registry_resolve_any()`, and fields wider than 8 bytes
+- Fix missing or wrong errors: filters not reporting exhausted memory, `dmi_registry_create()` and `dmi_filter_add_module()` not checking their arguments, `dmi_asprintf()` leaving the result undefined, `dmi_alloc_array()` not detecting overflow, `dmi_date_parse()` accepting empty parts and `dmi_vendor_detect()` not ignoring surrounding whitespace
+- Fix `dmi_set_locale()` keeping the caller's pointer, and `dmi_type_name()` naming type numbers out of range OEM-specific
+- Fix memory leaks and invalid frees on error paths, and undefined behaviour and overflows in printing sizes and the module list, case conversion, copying device memory on AArch64 and mapping files
+- Fix output failures, e.g. `export -o /dev/full`, exiting without an error message, out-of-memory errors reported twice, the pager mishandling early quits, signals and its command line, the log file left locked, dumps to devices and pipes refused, and XML write failures reported as internal errors on NetBSD
 - Fix the stack frame of `dmi_lint()` too large for the kernel module, and number overflow not detected in it (opendmi-sysfs)
 - Fix coverage builds, `build.sh distclean` able to delete the source tree, and the Python module not building
-- Fix links to manual pages shown with a section suffix (website/reference)
+- Fix links to manual pages shown with a section suffix, and the filter example of the registry (website/reference)
 
 ### Security
 

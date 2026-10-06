@@ -52,7 +52,7 @@ a translation of it.
 
 `DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING`::
 Credential bootstrapping via IPMI commands is supported; the
-`credential_handle` field of the descriptor names the interface to use for it.
+`credential_bootstrapping_handle` field of the descriptor names the interface to use for it.
 
 == Return value
 

@@ -425,7 +425,7 @@ static size_t test_dump_decode_all(dmi_context_t *context)
     size_t decoded = 0;
 
     dmi_registry_t *registry = dmi_get_registry(context);
-    assert_true(dmi_registry_iter_init(&iter, registry, nullptr));
+    assert_true(dmi_registry_iter_initialize(&iter, registry, nullptr));
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         for (size_t i = 1; i <= entity->string_count; i++)

@@ -25,47 +25,47 @@ endif::[]
 #include <opendmi/entity/memory-device.h>
 
 typedef struct dmi_memory_device {
-    dmi_handle_t                    array_handle;
-    dmi_entity_t                   *array;
-    dmi_handle_t                    error_info_handle;
-    dmi_entity_t                   *error_info;
-    unsigned short                  total_width;
-    unsigned short                  data_width;
-    dmi_size_t                      size;
-    dmi_memory_device_form_factor_t form_factor;
-    unsigned short                  device_set;
-    const char                     *device_locator;
-    const char                     *bank_locator;
-    dmi_memory_device_type_t        memory_type;
-    dmi_memory_device_type_detail_t memory_type_detail;
-    unsigned long                   maximum_speed;
-    const char                     *vendor;
-    const char                     *serial_number;
-    const char                     *asset_tag;
-    const char                     *part_number;
-    unsigned short                  rank;
-    bool                            is_disabled;
-    bool                            is_unmapped;
-    unsigned long                   configured_speed;
-    unsigned short                  minimum_voltage;
-    unsigned short                  maximum_voltage;
-    unsigned short                  configured_voltage;
-    dmi_memory_device_tech_t        memory_tech;
-    uint16_t                        memory_mode_caps;
-    const char                     *firmware_version;
-    uint16_t                        module_vendor_id;
-    uint16_t                        module_product_id;
-    uint16_t                        controller_vendor_id;
-    uint16_t                        controller_product_id;
-    dmi_size_t                      non_volatile_size;
-    dmi_size_t                      volatile_size;
-    dmi_size_t                      cache_size;
-    dmi_size_t                      logical_size;
-    uint16_t                        pmic0_vendor_id;
-    uint16_t                        pmic0_revision;
-    uint16_t                        rcd_vendor_id;
-    uint16_t                        rcd_revision;
-    dmi_entity_t                   *channel;
+    dmi_handle_t                     array_handle;
+    dmi_entity_t                    *array;
+    dmi_handle_t                     error_info_handle;
+    dmi_entity_t                    *error_info;
+    unsigned short                   total_width;
+    unsigned short                   data_width;
+    dmi_size_t                       size;
+    dmi_memory_device_form_factor_t  form_factor;
+    unsigned short                   device_set;
+    const char                      *device_locator;
+    const char                      *bank_locator;
+    dmi_memory_device_type_t         memory_type;
+    dmi_memory_device_type_details_t memory_type_details;
+    unsigned long                    maximum_speed;
+    const char                      *vendor;
+    const char                      *serial_number;
+    const char                      *asset_tag;
+    const char                      *part_number;
+    unsigned short                   rank;
+    bool                             is_disabled;
+    bool                             is_unmapped;
+    unsigned long                    configured_speed;
+    unsigned short                   minimum_voltage;
+    unsigned short                   maximum_voltage;
+    unsigned short                   configured_voltage;
+    dmi_memory_device_tech_t         memory_technology;
+    uint16_t                         memory_mode_caps;
+    const char                      *firmware_version;
+    uint16_t                         module_vendor_id;
+    uint16_t                         module_product_id;
+    uint16_t                         controller_vendor_id;
+    uint16_t                         controller_product_id;
+    dmi_size_t                       non_volatile_size;
+    dmi_size_t                       volatile_size;
+    dmi_size_t                       cache_size;
+    dmi_size_t                       logical_size;
+    uint16_t                         pmic0_vendor_id;
+    uint16_t                         pmic0_revision;
+    uint16_t                         rcd_vendor_id;
+    uint16_t                         rcd_revision;
+    dmi_entity_t                    *channel;
 } dmi_memory_device_t;
 ----
 
@@ -136,9 +136,9 @@ Label of the bank holding the device, for example `Bank 0`, or
 Type of memory the device is made of, see
 `dmi_memory_device_type`(3).
 
-`memory_type_detail`::
+`memory_type_details`::
 Additional details on the type of memory, see
-`dmi_memory_device_type_detail`(3).
+`dmi_memory_device_type_details`(3).
 
 `maximum_speed`::
 Highest speed the device is capable of, in megatransfers per second
@@ -195,7 +195,7 @@ unknown. Present since SMBIOS 2.8.
 Voltage the device is configured to run at, in millivolts, 0 if
 unknown. Present since SMBIOS 2.8.
 
-`memory_tech`::
+`memory_technology`::
 Memory technology of the device, see `dmi_memory_device_tech`(3).
 Present since SMBIOS 3.2.
 
@@ -289,7 +289,7 @@ if ((device != nullptr) && (device->size != 0) &&
 == See also
 
 `dmi_entity_info`(3), `dmi_memory_device_type`(3),
-`dmi_memory_device_type_detail`(3), `dmi_memory_device_form_factor`(3),
+`dmi_memory_device_type_details`(3), `dmi_memory_device_form_factor`(3),
 `dmi_memory_device_tech`(3), `dmi_memory_array`(3),
 `dmi_memory_error_32`(3), `dmi_memory_error_64`(3),
 `dmi_memory_channel`(3), `dmi_memory_device_addr`(3)

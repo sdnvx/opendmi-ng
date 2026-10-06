@@ -193,8 +193,8 @@ ru_RU {
         apic-ids { "Начальные идентификаторы APIC" }
         architecture { "Архитектура" }
         area-length { "Длина области" }
-        array-addr { "Адрес относительно массива" }
-        array-addr-handle { "Дескриптор отображённого адреса массива" }
+        array-address { "Адрес относительно массива" }
+        array-address-handle { "Дескриптор отображённого адреса массива" }
         array-handle { "Дескриптор массива памяти" }
         asset-tag { "Инвентарный номер" }
         associativity { "Ассоциативность" }
@@ -261,7 +261,7 @@ ru_RU {
         description { "Описание" }
         descriptors { "Поддерживаемые типы журналов" }
         designator { "Обозначение" }
-        device-addr { "Адрес относительно устройства" }
+        device-address { "Адрес относительно устройства" }
         device-count { "Число устройств" }
         device-descriptor { "Описание устройства" }
         device-handle { "Дескриптор устройства" }
@@ -278,7 +278,7 @@ ru_RU {
         enabled { "Включено" }
         enabled-error-correction { "Включённые возможности коррекции ошибок" }
         enabled-size { "Включённый объём" }
-        end-addr { "Конечный адрес" }
+        end-address { "Конечный адрес" }
         entries { "Записи" }
         entry-point-16 { "16-битная точка входа" }
         entry-point-32 { "32-битная точка входа" }
@@ -324,8 +324,6 @@ ru_RU {
         id { "Идентификатор" }
         ident { "Идентификатор" }
         ident-format { "Формат идентификатора" }
-        if-data { "Данные интерфейса" }
-        if-type { "Тип интерфейса" }
         image-size { "Размер образа" }
         implementation-version { "Версия реализации" }
         implementer { "Разработчик" }
@@ -337,6 +335,7 @@ ru_RU {
         instance-count { "Число экземпляров" }
         instances { "Экземпляры" }
         interface { "Тип интерфейса" }
+        interface-data { "Данные интерфейса" }
         interface-type { "Тип интерфейса" }
         interleave-depth { "Глубина чередования данных" }
         interleave-pos { "Позиция чередования" }
@@ -510,7 +509,7 @@ ru_RU {
         speed { "Быстродействие кэша" }
         speed-limit { "Предел скорости" }
         speed-limit-state { "Состояние ограничения скорости" }
-        start-addr { "Начальный адрес" }
+        start-address { "Начальный адрес" }
         start-lane { "Начальная линия" }
         state { "Состояние" }
         status { "Состояние" }
@@ -1152,7 +1151,7 @@ ru_RU {
     firmware-inventory {
         name { "Состав прошивок" }
     }
-    firmware-inventory-feature {
+    firmware-inventory-characteristic {
         is-updatable { "Обновляемая" }
         is-write-protected { "Защищена от записи" }
     }
@@ -1384,7 +1383,7 @@ ru_RU {
         }
         name { "Запись HP/HPE об инвентаре жёстких дисков" }
     }
-    hpe-drive-form {
+    hpe-drive-form-factor {
         3.5-inch { "3,5 дюйма" }
         2.5-inch { "2,5 дюйма" }
         1.8-inch { "1,8 дюйма" }
@@ -2183,22 +2182,22 @@ ru_RU {
     ipmi-device {
         name { "Устройство IPMI" }
     }
-    ipmi-interface {
+    ipmi-interface-type {
         unknown { "Неизвестный" }
         kcs { "KCS: в стиле контроллера клавиатуры" }
         smic { "SMIC: микросхема интерфейса управления сервером" }
         bt { "BT: блочная передача" }
         ssif { "SSIF: системный интерфейс SMBus" }
     }
+    ipmi-interrupt-trigger-mode {
+        unspecified { "Не указано" }
+        edge { "По фронту" }
+        level { "По уровню" }
+    }
     ipmi-intr-polarity {
         unspecified { "Не указана" }
         active-low { "Активный низкий" }
         active-high { "Активный высокий" }
-    }
-    ipmi-intr-trigger {
-        unspecified { "Не указано" }
-        edge { "По фронту" }
-        level { "По уровню" }
     }
     lenovo-bay-io {
         attribute {
@@ -2279,7 +2278,7 @@ ru_RU {
         "group-assoc.member" { "Члены известных групп являются перечисляемыми ими структурами" }
         "system-event-log.area" { "Заголовок и данные журнала находятся в его области" }
         "system-event-log.descriptors" { "Дескрипторы поддерживаемых типов журналов имеют ожидаемую длину" }
-        "mgmt-controller-host-if.records" { "Записи протоколов умещаются в содержащую их структуру" }
+        "mgmt-controller.records" { "Записи протоколов умещаются в содержащую их структуру" }
         "firmware-inventory.version" { "Версия прошивки не старше минимальной поддерживаемой" }
         "link.wrong-type" { "Ссылки указывают на структуры ожидаемых типов" }
         "value.range" { "Поля содержат значения, допустимые спецификацией" }
@@ -2402,7 +2401,7 @@ ru_RU {
         pc-98-local-bus { "Плата расширения локальной шины PC-98" }
         cxl { "Плата расширения CXL" }
     }
-    memory-array-usage {
+    memory-array-use {
         unspecified { "Не указано" }
         other { "Другое" }
         unknown { "Неизвестное" }
@@ -2621,7 +2620,7 @@ ru_RU {
         "3v3" { "3.3V" }
         "2v9" { "2.9V" }
     }
-    mgmt-controller-host-if {
+    mgmt-controller {
         attribute {
             characteristics { "Характеристики устройства" }
             data { "Данные протокола" }
@@ -2663,7 +2662,7 @@ ru_RU {
         winbond-w83781d { "Winbond W83781D" }
         holtek-ht82h791 { "Holtek HT82H791" }
     }
-    mgmt-if-type {
+    mgmt-interface-type {
         keyboard-controller-style { "В стиле контроллера клавиатуры" }
         "8250-uart" { "Совместимый с регистрами 8250 UART" }
         "16450-uart" { "Совместимый с регистрами 16450 UART" }
@@ -3601,7 +3600,7 @@ ru_RU {
     tpm-device {
         name { "Доверенный платформенный модуль (TPM)" }
     }
-    tpm-device-feature {
+    tpm-device-characteristic {
         is-unsupported { "Характеристики не поддерживаются" }
         is-update-configurable { "Настраивается обновлением прошивки" }
         is-software-configurable { "Настраивается программным обеспечением платформы" }

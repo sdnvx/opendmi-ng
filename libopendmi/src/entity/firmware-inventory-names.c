@@ -90,9 +90,9 @@ const dmi_name_set_t dmi_firmware_ident_format_names =
     })
 };
 
-const dmi_name_set_t dmi_firmware_inventory_feature_names =
+const dmi_name_set_t dmi_firmware_inventory_chars_names =
 {
-    .code  = "firmware-inventory-feature",
+    .code  = "firmware-inventory-characteristic",
     .names = DMI_NAMES({
         {
             .id   = 0,

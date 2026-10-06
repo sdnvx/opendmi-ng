@@ -400,7 +400,7 @@ __dmi_api void dmi_registry_destroy(dmi_registry_t *registry);
  *
  * @error DMI_ERROR_ARGUMENT_NULL Iterator or registry is `nullptr`
  */
-__dmi_api bool dmi_registry_iter_init(
+__dmi_api bool dmi_registry_iter_initialize(
         dmi_registry_iter_t *iter,
         dmi_registry_t *registry,
         dmi_filter_t *filter);

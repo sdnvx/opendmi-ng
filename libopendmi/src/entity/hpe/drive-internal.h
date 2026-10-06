@@ -25,7 +25,7 @@ extern const dmi_name_set_t dmi_hpe_drive_type_names;
  * @internal
  * @brief Names of the drive form factors.
  */
-extern const dmi_name_set_t dmi_hpe_drive_form_names;
+extern const dmi_name_set_t dmi_hpe_drive_form_factor_names;
 
 /**
  * @internal

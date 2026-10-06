@@ -401,7 +401,7 @@ static void dmi_lint_link_orphan(dmi_lint_t *lint, const dmi_entity_t *entity)
     dmi_registry_iter_t iter;
     const dmi_entity_t *other;
 
-    if (not dmi_registry_iter_init(&iter, registry, nullptr))
+    if (not dmi_registry_iter_initialize(&iter, registry, nullptr))
         return;
 
     dmi_handle_t handle = dmi_entity_handle(entity);

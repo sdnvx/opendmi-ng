@@ -157,7 +157,7 @@ if (entity != nullptr) {
 `dmi_entity_type`(3),
 `dmi_entity_type_id`(3),
 `dmi_get_registry`(3),
-`dmi_registry_iter_init`(3),
+`dmi_registry_iter_initialize`(3),
 `dmi_registry_resolve`(3)
 
 ifdef::backend-manpage[]

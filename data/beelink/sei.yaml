@@ -981,8 +981,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     array-handle: 39
     partition-width: 2
@@ -994,7 +994,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: INTC
+    vendor: INTC
     specification-version: '2.0'
     firmware-version:
       major: 600
@@ -1016,11 +1016,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 8589934591
+    start-address: 0
+    end-address: 8589934591
     range-size: 8589934592
     device-handle: 40
-    array-addr-handle: 42
+    array-address-handle: 42
     partition-pos: unknown
     interleave-pos: 1
     interleave-depth: 1
@@ -1033,11 +1033,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 8589934592
-    end-addr: 17179869183
+    start-address: 8589934592
+    end-address: 17179869183
     range-size: 8589934592
     device-handle: 41
-    array-addr-handle: 42
+    array-address-handle: 42
     partition-pos: unknown
     interleave-pos: 2
     interleave-depth: 1

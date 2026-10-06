@@ -39,15 +39,12 @@ struct dmi_hpe_physical_attrs
     dmi_binary_t identifier_raw;
 
     /**
-     * @brief Product number and serial number, which `identifier` points to.
-     */
-    char identifier_buffer[17];
-
-    /**
      * @brief Product number and serial number, e.g. `484184GB894484YN`, or
      * @c nullptr if they are not printable.
+     *
+     * The string belongs to the structure, and is freed along with it.
      */
-    const char *identifier;
+    char *identifier;
 
     /**
      * @brief Physical serial number.

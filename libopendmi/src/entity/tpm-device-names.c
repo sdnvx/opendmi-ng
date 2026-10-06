@@ -15,9 +15,9 @@
 
 #include "tpm-device-internal.h"
 
-const dmi_name_set_t dmi_tpm_device_feature_names =
+const dmi_name_set_t dmi_tpm_device_chars_names =
 {
-    .code  = "tpm-device-feature",
+    .code  = "tpm-device-characteristic",
     .names = DMI_NAMES({
         {
             .id   = 2,

@@ -353,7 +353,7 @@ static dmi_lint_table_stop_t dmi_lint_table_find_stop(dmi_lint_t *lint, size_t *
     dmi_registry_iter_t iter;
     size_t offset = 0;
 
-    if (not dmi_registry_iter_init(&iter, dmi_get_registry((dmi_context_t *)context), nullptr))
+    if (not dmi_registry_iter_initialize(&iter, dmi_get_registry((dmi_context_t *)context), nullptr))
         return DMI_LINT_TABLE_STOP_NONE;
 
     for (dmi_entity_t *entity; (entity = dmi_registry_iter_next(&iter)) != nullptr; ) {

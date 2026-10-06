@@ -30,7 +30,7 @@ struct dmi_memory_array_addr
      * @brief Physical address, in bytes, of a range of memory mapped to the
      * specified physical memory array.
      */
-    uint64_t start_addr;
+    uint64_t start_address;
 
     /**
      * @brief Physical address, in bytes, of the last byte of a range of
@@ -38,7 +38,7 @@ struct dmi_memory_array_addr
      * structure gives the address in kilobytes, this is the last byte of the
      * last kilobyte of the range.
      */
-    uint64_t end_addr;
+    uint64_t end_address;
 
     /**
      * @brief Mapped address range size in bytes, computed from the starting

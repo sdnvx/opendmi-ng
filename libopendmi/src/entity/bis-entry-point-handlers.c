@@ -11,14 +11,14 @@
 
 #include "bis-entry-point-internal.h"
 
-const dmi_attribute_t dmi_bis_real_mode_address_attrs[] =
+const dmi_attribute_t dmi_bis_real_mode_addr_attrs[] =
 {
-    DMI_ATTRIBUTE(dmi_bis_real_mode_address_t, segment, INTEGER, {
+    DMI_ATTRIBUTE(dmi_bis_real_mode_addr_t, segment, INTEGER, {
         .code  = "segment",
         .name  = "Segment",
         .flags = DMI_ATTRIBUTE_FLAG_HEX
     }),
-    DMI_ATTRIBUTE(dmi_bis_real_mode_address_t, offset, INTEGER, {
+    DMI_ATTRIBUTE(dmi_bis_real_mode_addr_t, offset, INTEGER, {
         .code  = "offset",
         .name  = "Offset",
         .flags = DMI_ATTRIBUTE_FLAG_HEX

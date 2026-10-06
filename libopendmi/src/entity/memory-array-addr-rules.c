@@ -18,26 +18,26 @@ void dmi_memory_array_addr_lint_range(dmi_lint_t *lint, const dmi_entity_t *enti
 {
     const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
 
-    if ((info == nullptr) or (info->start_addr <= info->end_addr))
+    if ((info == nullptr) or (info->start_address <= info->end_address))
         return;
 
-    dmi_lint_issue(lint, entity, "start-addr", dmi_lint_entity_offset(lint, entity),
+    dmi_lint_issue(lint, entity, "start-address", dmi_lint_entity_offset(lint, entity),
                    "range starts at 0x%" PRIX64 " and ends at 0x%" PRIX64,
-                   info->start_addr, info->end_addr);
+                   info->start_address, info->end_address);
 }
 
 void dmi_memory_array_addr_lint_overlap(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
 
-    if ((info == nullptr) or (info->start_addr > info->end_addr))
+    if ((info == nullptr) or (info->start_address > info->end_address))
         return;
 
     dmi_registry_t *registry = dmi_get_registry(dmi_lint_context(lint));
     dmi_registry_iter_t iter;
     dmi_entity_t *other;
 
-    if (not dmi_registry_iter_init(&iter, registry, nullptr))
+    if (not dmi_registry_iter_initialize(&iter, registry, nullptr))
         return;
 
     while ((other = dmi_registry_iter_next(&iter)) != nullptr) {
@@ -51,14 +51,14 @@ void dmi_memory_array_addr_lint_overlap(dmi_lint_t *lint, const dmi_entity_t *en
         const dmi_memory_array_addr_t *peer =
                 dmi_entity_info(other, DMI_TYPE(memory_array_addr));
 
-        if ((peer == nullptr) or (peer->start_addr > peer->end_addr))
+        if ((peer == nullptr) or (peer->start_address > peer->end_address))
             continue;
 
-        if ((info->start_addr > peer->end_addr) or (info->end_addr < peer->start_addr))
+        if ((info->start_address > peer->end_address) or (info->end_address < peer->start_address))
             continue;
 
-        dmi_lint_issue(lint, entity, "start-addr", dmi_lint_entity_offset(lint, entity),
+        dmi_lint_issue(lint, entity, "start-address", dmi_lint_entity_offset(lint, entity),
                        "range 0x%" PRIX64 "-0x%" PRIX64 " overlaps the one of handle 0x%04X",
-                       info->start_addr, info->end_addr, (unsigned)dmi_entity_handle(other));
+                       info->start_address, info->end_address, (unsigned)dmi_entity_handle(other));
     }
 }

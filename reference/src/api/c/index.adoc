@@ -10,7 +10,6 @@ include::../../../../libopendmi/man/man3/dmi_member.3.adoc[leveloffset=2]
 
 include::../../../../libopendmi/man/man3/dmi_add_extension.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_close.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_context_is_open.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_create.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_destroy.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_flags.3.adoc[leveloffset=2]
@@ -18,6 +17,7 @@ include::../../../../libopendmi/man/man3/dmi_get_log_level.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_logger.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_platform.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_get_registry.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_is_open.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_load.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_log.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_open.3.adoc[leveloffset=2]
@@ -81,7 +81,7 @@ include::../../../../libopendmi/man/man3/dmi_log_message_va.3.adoc[leveloffset=2
 == `<opendmi/locale.h>`
 
 include::../../../../libopendmi/man/man3/dmi_get_locale.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_locale_init.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_locale_setup.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_message_format.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_resource_close.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_resource_message.3.adoc[leveloffset=2]
@@ -116,7 +116,7 @@ include::../../../../libopendmi/man/man3/dmi_type_spec.3.adoc[leveloffset=2]
 == `<opendmi/registry.h>`
 
 include::../../../../libopendmi/man/man3/dmi_registry_create.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_registry_iter_init.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_registry_iter_initialize.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_registry_lookup.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_registry_resolve.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_registry_status.3.adoc[leveloffset=2]
@@ -306,7 +306,7 @@ include::../../../../libopendmi/man/man3/dmi_uuid_encode.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/vector.h>`
 
-include::../../../../libopendmi/man/man3/dmi_vector_init.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_vector_initialize.3.adoc[leveloffset=2]
 
 == `<opendmi/utils/version.h>`
 
@@ -333,7 +333,7 @@ include::../../../../libopendmi/man/man3/dmi_battery_chemistry.3.adoc[leveloffse
 == `<opendmi/entity/bis-entry-point.h>`
 
 include::../../../../libopendmi/man/man3/dmi_bis_entry_point.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_bis_real_mode_address.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_bis_real_mode_addr.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/cache.h>`
 
@@ -373,7 +373,7 @@ include::../../../../libopendmi/man/man3/dmi_firmware_ident.3.adoc[leveloffset=2
 include::../../../../libopendmi/man/man3/dmi_firmware_ident_format.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_firmware_inventory.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_firmware_inventory_component.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_firmware_inventory_features.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_firmware_inventory_chars.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_firmware_inventory_state.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_firmware_version.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_firmware_version_format.3.adoc[leveloffset=2]
@@ -405,9 +405,9 @@ include::../../../../libopendmi/man/man3/dmi_hardware_security_status.3.adoc[lev
 include::../../../../libopendmi/man/man3/dmi_ipmi_addr_type.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_ipmi_device.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_ipmi_device_details.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_ipmi_interface.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipmi_iface_type.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_ipmi_intr_polarity.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_ipmi_intr_trigger.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_ipmi_intr_trigger_mode.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_ipmi_register_spacing.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/memory-array-addr.h>`
@@ -418,7 +418,7 @@ include::../../../../libopendmi/man/man3/dmi_memory_array_addr.3.adoc[leveloffse
 
 include::../../../../libopendmi/man/man3/dmi_memory_array.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_memory_array_location.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_memory_array_usage.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_array_use.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/memory-channel.h>`
 
@@ -445,7 +445,7 @@ include::../../../../libopendmi/man/man3/dmi_memory_device.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_memory_device_form_factor.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_memory_device_tech.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_memory_device_type.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_memory_device_type_detail.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_memory_device_type_details.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/memory-error-32.h>`
 
@@ -472,7 +472,7 @@ include::../../../../libopendmi/man/man3/dmi_memory_module_type.3.adoc[leveloffs
 == `<opendmi/entity/mgmt-controller.h>`
 
 include::../../../../libopendmi/man/man3/dmi_mgmt_controller.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_mgmt_if_type.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_iface_type.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_mgmt_nhi.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_characteristic.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_device_type.3.adoc[leveloffset=2]
@@ -627,7 +627,7 @@ include::../../../../libopendmi/man/man3/dmi_system_wakeup_type.3.adoc[leveloffs
 == `<opendmi/entity/tpm-device.h>`
 
 include::../../../../libopendmi/man/man3/dmi_tpm_device.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_tpm_device_features.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_tpm_device_chars.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_tpm_firmware_version.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_tpm_firmware_version_format.3.adoc[leveloffset=2]
 
@@ -869,7 +869,7 @@ include::../../../../libopendmi/man/man3/dmi_hpe_dimm_vendor.3.adoc[leveloffset=
 
 include::../../../../libopendmi/man/man3/dmi_hpe_drive.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_hpe_drive_type.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_hpe_drive_form.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_hpe_drive_form_factor.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_hpe_drive_health.3.adoc[leveloffset=2]
 
 == `<opendmi/entity/hpe/extension-board.h>`

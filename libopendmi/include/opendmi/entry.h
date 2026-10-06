@@ -132,7 +132,7 @@ dmi_packed_struct(dmi_entry_legacy)
      * table, which can start at any 32-bit address. This area contains all of
      * the SMBIOS structures fully packed together.
      */
-    const dmi_dword_t table_area_addr;
+    const dmi_dword_t table_area_address;
 
     /**
      * @brief Number of SMBIOS tables.
@@ -354,7 +354,7 @@ dmi_packed_struct(dmi_entry_v30)
      * table, which can start at any 64-bit address. This area contains all of
      * the SMBIOS structures fully packed together.
      */
-    const dmi_qword_t table_area_addr;
+    const dmi_qword_t table_area_address;
 };
 
 #endif // !OPENDMI_ENTRY_H

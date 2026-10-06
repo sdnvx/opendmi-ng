@@ -98,6 +98,49 @@ __dmi_api void dmi_string_toupper(char *str);
 __dmi_api bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value);
 
 /**
+ * @brief Copy the text the bytes of a structure spell, e.g. a signature,
+ * into a buffer.
+ *
+ * @param[in]  data   Bytes of the structure.
+ * @param[in]  length Number of the bytes.
+ * @param[out] buffer Buffer at least one byte longer than the bytes, which
+ *                    the text is copied into and terminated.
+ * @param[in]  trim   Whether the spaces are left out.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Bytes are `nullptr`
+ *
+ * @return Text in the buffer, or `nullptr` if the bytes are not all printable
+ *         or leave nothing but spaces.
+ */
+__dmi_api const char *dmi_string_from_bytes(const uint8_t *data, size_t length, char *buffer, bool trim);
+
+/**
+ * @brief Longest text `dmi_string_set_bytes()` takes from the bytes of a
+ * structure.
+ */
+#define DMI_STRING_BYTES_MAX 64
+
+/**
+ * @brief Set a string a structure owns to the text its bytes spell, see
+ * `dmi_string_from_bytes()` and `DMI_ATTRIBUTE_FLAG_OWNED`.
+ *
+ * @param[in]     context Context whose error queue errors are raised against.
+ * @param[in,out] pstring Variable holding the string, which is either
+ *                        @c nullptr or allocated, and is freed first.
+ * @param[in]     data    Bytes of the structure.
+ * @param[in]     length  Number of the bytes, at most `DMI_STRING_BYTES_MAX`.
+ * @param[in]     trim    Whether the spaces are left out.
+ *
+ * @error DMI_ERROR_ARGUMENT_INVALID Bytes are longer than `DMI_STRING_BYTES_MAX`
+ * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted
+ *
+ * @return `true` on success, the string being set to @c nullptr if the bytes
+ *         are not all printable or leave nothing but spaces, and `false`
+ *         otherwise.
+ */
+__dmi_api bool dmi_string_set_bytes(dmi_context_t *context, char **pstring, const uint8_t *data, size_t length, bool trim);
+
+/**
  * @brief Check whether a string is a placeholder of the firmware vendor.
  *
  * Firmware leaves strings such as `To Be Filled By O.E.M.` or `Default

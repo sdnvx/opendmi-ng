@@ -22,7 +22,7 @@ const dmi_entity_spec_t dmi_dell_serial_port_spec =
     },
 
     .fields = DMI_FIELDS({
-        DMI_FIELD(dmi_dell_serial_port_t, base_addr,     dmi_word_t),
+        DMI_FIELD(dmi_dell_serial_port_t, base_address,  dmi_word_t),
         DMI_FIELD(dmi_dell_serial_port_t, irq_number,    dmi_byte_t),
         DMI_FIELD(dmi_dell_serial_port_t, connector,     dmi_byte_t),
         DMI_FIELD(dmi_dell_serial_port_t, capabilities,  dmi_byte_t),
@@ -34,7 +34,7 @@ const dmi_entity_spec_t dmi_dell_serial_port_spec =
     }),
 
     .attributes = DMI_ATTRIBUTES({
-        DMI_ATTRIBUTE(dmi_dell_serial_port_t, base_addr, ADDRESS, {
+        DMI_ATTRIBUTE(dmi_dell_serial_port_t, base_address, ADDRESS, {
             .code    = "base-address",
             .name    = "Base address",
             .flags   = DMI_ATTRIBUTE_FLAG_HEX

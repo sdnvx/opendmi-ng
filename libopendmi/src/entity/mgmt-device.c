@@ -33,9 +33,9 @@ const dmi_entity_spec_t dmi_mgmt_device_spec =
 
     .fields = DMI_FIELDS({
         DMI_FIELD_STRING(dmi_mgmt_device_t, description),
-        DMI_FIELD(dmi_mgmt_device_t, type,      dmi_byte_t),
-        DMI_FIELD(dmi_mgmt_device_t, addr,      dmi_dword_t),
-        DMI_FIELD(dmi_mgmt_device_t, addr_type, dmi_byte_t),
+        DMI_FIELD(dmi_mgmt_device_t, type,         dmi_byte_t),
+        DMI_FIELD(dmi_mgmt_device_t, address,      dmi_dword_t),
+        DMI_FIELD(dmi_mgmt_device_t, address_type, dmi_byte_t),
         {}
     }),
 
@@ -51,12 +51,12 @@ const dmi_entity_spec_t dmi_mgmt_device_spec =
             .unknown = dmi_value_ptr(DMI_MGMT_DEVICE_TYPE_UNKNOWN),
             .values  = &dmi_mgmt_device_type_names
         }),
-        DMI_ATTRIBUTE(dmi_mgmt_device_t, addr, ADDRESS, {
+        DMI_ATTRIBUTE(dmi_mgmt_device_t, address, ADDRESS, {
             .code    = "address",
             .name    = "Address",
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_mgmt_device_t, addr_type, ENUM, {
+        DMI_ATTRIBUTE(dmi_mgmt_device_t, address_type, ENUM, {
             .code    = "address-type",
             .name    = "Address type",
             .unspec  = dmi_value_ptr(DMI_MGMT_DEVICE_ADDR_TYPE_UNSPEC),

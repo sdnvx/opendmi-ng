@@ -45,8 +45,8 @@ static bool test_dump_relocate(dmi_buffer_t *buffer, const char *path, bool lega
 static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, size_t table_size);
 static void test_dump_write(const char *path, const dmi_data_t *data, size_t size);
 static void test_checksum_fix(dmi_data_t *data, size_t checksum_offset, size_t start, size_t length);
-static uint64_t test_address_get(const dmi_data_t *data, size_t size);
-static void test_address_set(dmi_data_t *data, size_t size, uint64_t address);
+static uint64_t test_addr_get(const dmi_data_t *data, size_t size);
+static void test_addr_set(dmi_data_t *data, size_t size, uint64_t address);
 
 static const char *test_dump_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-t14-g3-21aj.bin";
 
@@ -58,7 +58,7 @@ static const char *test_source_path = "context-test-source.bin";
 static const char *test_dump_v21_path = OPENDMI_TEST_DATA "/lenovo/thinkpad-x220-4290le6.bin";
 
 // Table address as found in firmware
-static const uint64_t test_table_address = 0x7AEB2000;
+static const uint64_t test_table_addr = 0x7AEB2000;
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -300,7 +300,7 @@ static void test_context_dump_save_relocated(void **pstate)
 
         // Table address from the entry point is replaced on save
         assert_true(dmi_load(context, test_source_path));
-        assert_int_equal(context->state.table_area_addr, test_table_address);
+        assert_int_equal(context->state.table_area_address, test_table_addr);
 
         dmi_version_t version = context->state.smbios_version;
         size_t count = dmi_get_registry(context)->count;
@@ -312,7 +312,7 @@ static void test_context_dump_save_relocated(void **pstate)
 
         // Saved dump is loaded the same way as the source one
         assert_true(dmi_load(context, test_save_path));
-        assert_int_equal(context->state.table_area_addr, DMI_ENTRY_MAX_SIZE);
+        assert_int_equal(context->state.table_area_address, DMI_ENTRY_MAX_SIZE);
         assert_int_equal(context->state.smbios_version, version);
         assert_int_equal(dmi_get_registry(context)->count, count);
         assert_true(dmi_close(context));
@@ -470,7 +470,7 @@ static bool test_dump_relocate(dmi_buffer_t *buffer, const char *path, bool lega
     dmi_data_t *data = buffer->data;
 
     if (memcmp(data, DMI_ANCHOR_V30, strlen(DMI_ANCHOR_V30)) == 0) {
-        test_address_set(data + 0x10, 8, test_table_address);
+        test_addr_set(data + 0x10, 8, test_table_addr);
         test_checksum_fix(data, 0x05, 0x00, data[0x06]);
     } else if (legacy) {
         assert_memory_equal(data, DMI_ANCHOR_V21, strlen(DMI_ANCHOR_V21));
@@ -478,12 +478,12 @@ static bool test_dump_relocate(dmi_buffer_t *buffer, const char *path, bool lega
         memmove(data, data + 0x10, 0x0F);
         memset(data + 0x0F, 0, DMI_ENTRY_MAX_SIZE - 0x0F);
 
-        test_address_set(data + 0x08, 4, test_table_address);
+        test_addr_set(data + 0x08, 4, test_table_addr);
         test_checksum_fix(data, 0x05, 0x00, 0x0F);
     } else {
         assert_memory_equal(data, DMI_ANCHOR_V21, strlen(DMI_ANCHOR_V21));
 
-        test_address_set(data + 0x18, 4, test_table_address);
+        test_addr_set(data + 0x18, 4, test_table_addr);
         test_checksum_fix(data, 0x15, 0x10, 0x0F);
         test_checksum_fix(data, 0x04, 0x00, data[0x05]);
     }
@@ -511,17 +511,17 @@ static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, si
     if (memcmp(data, "_SM3_", 5) == 0) {
         length = data[0x06];
         assert_uint_in_range(length, 0x18, DMI_ENTRY_MAX_SIZE);
-        assert_int_equal(test_address_get(data + 0x0C, 4), table_size);
-        address = test_address_get(data + 0x10, 8);
+        assert_int_equal(test_addr_get(data + 0x0C, 4), table_size);
+        address = test_addr_get(data + 0x10, 8);
     } else if (memcmp(data, "_SM_", 4) == 0) {
         length = data[0x05];
         assert_uint_in_range(length, 0x1E, DMI_ENTRY_MAX_SIZE);
         assert_memory_equal(data + 0x10, "_DMI_", 5);
         assert_true(dmi_checksum_test(data + 0x10, 0x0F));
-        address = test_address_get(data + 0x18, 4);
+        address = test_addr_get(data + 0x18, 4);
     } else if (memcmp(data, "_DMI_", 5) == 0) {
         length = 0x0F;
-        address = test_address_get(data + 0x08, 4);
+        address = test_addr_get(data + 0x08, 4);
     } else {
         fail_msg("No entry point found in %s", test_save_path);
     }
@@ -559,7 +559,7 @@ static void test_checksum_fix(dmi_data_t *data, size_t checksum_offset, size_t s
     assert_true(dmi_checksum_calc(data + start, length, &data[checksum_offset]));
 }
 
-static uint64_t test_address_get(const dmi_data_t *data, size_t size)
+static uint64_t test_addr_get(const dmi_data_t *data, size_t size)
 {
     if (size == sizeof(dmi_qword_t)) {
         dmi_qword_t address;
@@ -572,7 +572,7 @@ static uint64_t test_address_get(const dmi_data_t *data, size_t size)
     }
 }
 
-static void test_address_set(dmi_data_t *data, size_t size, uint64_t address)
+static void test_addr_set(dmi_data_t *data, size_t size, uint64_t address)
 {
     if (size == sizeof(dmi_qword_t)) {
         dmi_qword_t value = dmi_encode_qword(address);

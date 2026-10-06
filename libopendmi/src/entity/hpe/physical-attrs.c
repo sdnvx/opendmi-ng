@@ -37,7 +37,7 @@ const dmi_entity_spec_t dmi_hpe_physical_attrs_legacy_spec =
         DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, identifier, STRING, {
             .code  = "identifier",
             .name  = "Product and serial number",
-            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE
+            .flags = DMI_ATTRIBUTE_FLAG_PRIVATE | DMI_ATTRIBUTE_FLAG_OWNED
         }),
         DMI_ATTRIBUTE(dmi_hpe_physical_attrs_t, serial_number, STRING, {
             .code  = "serial-number",

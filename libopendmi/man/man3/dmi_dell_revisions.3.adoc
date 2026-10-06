@@ -25,7 +25,7 @@ endif::[]
 #include <opendmi/entity/dell/revisions.h>
 
 typedef struct dmi_dell_revisions {
-    dmi_version_t impl_version;
+    dmi_version_t implementation_version;
     uint16_t system_id;
     uint8_t hardware_revision;
     const char *manufacture_date;
@@ -46,7 +46,7 @@ long as the context it has been decoded in.
 
 === Fields
 
-`impl_version`::
+`implementation_version`::
 Revision of the Dell implementation, as a version number with the major and the
 minor numbers set and a revision number of 0.
 
@@ -79,8 +79,8 @@ dmi_dell_revisions_t *rev      = dmi_entity_info(entity,
 
 if (rev != nullptr) {
     printf("Dell implementation %u.%u, system ID 0x%04x\n",
-           dmi_version_major(rev->impl_version),
-           dmi_version_minor(rev->impl_version), rev->system_id);
+           dmi_version_major(rev->implementation_version),
+           dmi_version_minor(rev->implementation_version), rev->system_id);
 }
 ----
 

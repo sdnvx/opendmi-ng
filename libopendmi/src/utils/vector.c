@@ -28,7 +28,7 @@ static bool dmi_vector_resize(dmi_vector_t *vector, size_t capacity);
  */
 const size_t dmi_vector_delta_capacity = 16;
 
-bool dmi_vector_init(dmi_vector_t *vector, dmi_context_t *context, dmi_vector_match_fn *matcher)
+bool dmi_vector_initialize(dmi_vector_t *vector, dmi_context_t *context, dmi_vector_match_fn *matcher)
 {
     if (vector == nullptr)
         return dmi_trace_argument_null(context, vector);

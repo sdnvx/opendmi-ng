@@ -50,7 +50,7 @@ numbers and modules of a filter are all empty. The mask is not taken into
 account.
 
 An iterator checks the structures with `dmi_filter_match`, see
-`dmi_registry_iter_init`(3), and takes no filter for one which matches every
+`dmi_registry_iter_initialize`(3), and takes no filter for one which matches every
 structure. `dmi_filter_match` itself matches nothing with no filter.
 
 === Parameters
@@ -83,7 +83,7 @@ Both functions take a `filter` of `nullptr` silently.
 `dmi_entity_type_id`(3),
 `dmi_filter_add_type`(3),
 `dmi_filter_create`(3),
-`dmi_registry_iter_init`(3)
+`dmi_registry_iter_initialize`(3)
 
 ifdef::backend-manpage[]
 == Copying

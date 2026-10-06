@@ -599,7 +599,7 @@ static void test_hpe_drive(void **pstate)
     assert_int_equal(info->legacy_capacity, 1600000);
     assert_int_equal(info->power_on_hours, 1234);
     assert_int_equal(info->power, 25);
-    assert_int_equal(info->form_factor, DMI_HPE_DRIVE_FORM_2_5);
+    assert_int_equal(info->form_factor, DMI_HPE_DRIVE_FORM_FACTOR_2_5);
     assert_int_equal(info->health, DMI_HPE_DRIVE_HEALTH_OK);
     assert_string_equal(info->model_number, "MZXL");
     assert_string_equal(info->location, "Box 3");

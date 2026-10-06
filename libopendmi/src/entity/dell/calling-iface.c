@@ -29,17 +29,17 @@ const dmi_entity_spec_t dmi_dell_calling_iface_spec =
     },
 
     .attributes = DMI_ATTRIBUTES({
-        DMI_ATTRIBUTE(dmi_dell_calling_iface_t, cmd_io_address, INTEGER, {
+        DMI_ATTRIBUTE(dmi_dell_calling_iface_t, command_io_address, INTEGER, {
             .code   = "command-io-address",
             .name   = "Command I/O address",
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_dell_calling_iface_t, cmd_io_code, INTEGER, {
+        DMI_ATTRIBUTE(dmi_dell_calling_iface_t, command_io_code, INTEGER, {
             .code   = "command-io-code",
             .name   = "Command I/O code",
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_dell_calling_iface_t, supported_cmds, INTEGER, {
+        DMI_ATTRIBUTE(dmi_dell_calling_iface_t, supported_commands, INTEGER, {
             .code   = "supported-commands",
             .name   = "Supported commands",
             .flags  = DMI_ATTRIBUTE_FLAG_HEX

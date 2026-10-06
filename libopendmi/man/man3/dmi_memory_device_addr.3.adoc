@@ -25,12 +25,12 @@ endif::[]
 #include <opendmi/entity/memory-device-addr.h>
 
 typedef struct dmi_memory_device_addr {
-    uint64_t start_addr;
-    uint64_t end_addr;
+    uint64_t start_address;
+    uint64_t end_address;
     uint64_t range_size;
     dmi_handle_t device_handle;
     dmi_entity_t *device;
-    dmi_handle_t array_addr_handle;
+    dmi_handle_t array_address_handle;
     dmi_entity_t *array_addr;
     unsigned short partition_pos;
     unsigned short interleave_pos;
@@ -54,19 +54,19 @@ decoded in.
 
 === Fields
 
-`start_addr`::
+`start_address`::
 Physical address of the start of the range, in bytes. The SMBIOS 2.1 field
 counts in kibibytes; ranges it cannot express are carried by an extended
 field in bytes, present since SMBIOS 2.7.
 
-`end_addr`::
+`end_address`::
 Physical address of the last byte of the range. Taken from the SMBIOS 2.1
 field, which counts in kibibytes, it is the last byte of the last kibibyte of
 the range; the extended field (SMBIOS 2.7), which is used when the 2.1 fields
 hold FFFFFFFFh, gives the last byte itself.
 
 `range_size`::
-Size of the range, in bytes, computed from `start_addr` and `end_addr`, both
+Size of the range, in bytes, computed from `start_address` and `end_address`, both
 of which belong to the range.
 
 `device_handle`::
@@ -78,12 +78,12 @@ The memory device structure `device_handle` refers to, resolved while
 linking. `nullptr` if the handle is not set or does not refer to a memory
 device, or before the structures are linked.
 
-`array_addr_handle`::
+`array_address_handle`::
 Handle of the memory array mapped address structure (type 19) the range is a
 part of. Several device ranges can belong to the same array range.
 
-`array_addr`::
-The memory array mapped address structure `array_addr_handle` refers to,
+`array_address`::
+The memory array mapped address structure `array_address_handle` refers to,
 resolved while linking. `nullptr` if the handle is not set or does not refer
 to such a structure, or before the structures are linked.
 
@@ -115,8 +115,8 @@ dmi_memory_device_addr_t *range    = dmi_entity_info(entity,
 
 if (range != nullptr)
     printf("0x%llX-0x%llX: memory device 0x%04X\n",
-           (unsigned long long)range->start_addr,
-           (unsigned long long)range->end_addr,
+           (unsigned long long)range->start_address,
+           (unsigned long long)range->end_address,
            (unsigned)range->device_handle);
 ----
 

@@ -36,13 +36,13 @@ struct dmi_additional_info_entry
      * @brief Handle, or instance number, associated with the structure for
      * which additional information is provided.
      */
-    dmi_handle_t ref_handle;
+    dmi_handle_t referenced_handle;
 
     /**
      * @brief Offset of the field within the structure referenced by the
      * referenced handle for which additional information is provided.
      */
-    unsigned ref_offset;
+    unsigned referenced_offset;
 
     /**
      * @brief Optional string associated with the field referenced by the

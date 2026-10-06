@@ -418,7 +418,7 @@ struct dmi_processor_ex
     /**
      * @brief Processor architecture of the processor-specific block.
      */
-    dmi_processor_arch_t arch;
+    dmi_processor_arch_t architecture;
 
     /**
      * @brief Processor-specific data, as stored. Its format is defined by

@@ -26,10 +26,10 @@ endif::[]
 
 typedef struct dmi_memory_array {
     dmi_memory_array_location_t location;
-    dmi_memory_array_usage_t usage;
+    dmi_memory_array_use_t use;
     dmi_error_correct_type_t error_correction;
     dmi_size_t maximum_capacity;
-    dmi_handle_t error_info_handle;
+    dmi_handle_t error_handle;
     dmi_entity_t *error_info;
     unsigned int device_count;
 } dmi_memory_array_t;
@@ -56,9 +56,9 @@ in.
 Where the array resides: on the motherboard, or on an add-on card of some kind.
 See `dmi_memory_array_location`(3).
 
-`usage`::
+`use`::
 What the array is used for, e.g. system memory, video memory or flash memory.
-See `dmi_memory_array_usage`(3).
+See `dmi_memory_array_use`(3).
 
 `error_correction`::
 Main method of error detection or correction the array supports. See
@@ -71,7 +71,7 @@ arrays of 2 TiB or more; both are converted to bytes. `DMI_SIZE_MAX` if the
 capacity is unknown, which is the case when the structure points to the
 extended field and is too short to hold it.
 
-`error_info_handle`::
+`error_handle`::
 Handle of the memory error information structure (type 18 or 33) describing the
 last error detected in the array. `DMI_HANDLE_INVALID` if no error has been
 detected, and `DMI_HANDLE_UNSUPPORTED` if the system provides no error
@@ -79,7 +79,7 @@ information.
 
 `error_info`::
 Memory error information structure of the array, resolved from
-`error_info_handle` once the table has been linked. `nullptr` if the handle is
+`error_handle` once the table has been linked. `nullptr` if the handle is
 `DMI_HANDLE_INVALID` or `DMI_HANDLE_UNSUPPORTED`, or does not refer to a memory
 error information structure.
 
@@ -106,7 +106,7 @@ if ((array != nullptr) && (array->maximum_capacity != DMI_SIZE_MAX))
 == See also
 
 `dmi_entity_info`(3), `dmi_memory_array_location`(3),
-`dmi_memory_array_usage`(3), `dmi_error_correct_type`(3),
+`dmi_memory_array_use`(3), `dmi_error_correct_type`(3),
 `dmi_memory_device`(3), `dmi_memory_array_addr`(3), `dmi_memory_error_32`(3),
 `dmi_memory_error_64`(3)
 

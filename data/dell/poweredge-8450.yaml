@@ -5554,8 +5554,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 1073741823
+    start-address: 0
+    end-address: 1073741823
     range-size: 1073741824
     array-handle: 124
     partition-width: 1
@@ -5569,8 +5569,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 1073741823
+    start-address: 0
+    end-address: 1073741823
     range-size: 1073741824
     array-handle: 125
     partition-width: 1
@@ -5584,11 +5584,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 536870911
+    start-address: 0
+    end-address: 536870911
     range-size: 536870912
     device-handle: 126
-    array-addr-handle: 158
+    array-address-handle: 158
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0
@@ -5602,11 +5602,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 536870912
-    end-addr: 1073741823
+    start-address: 536870912
+    end-address: 1073741823
     range-size: 536870912
     device-handle: 126
-    array-addr-handle: 158
+    array-address-handle: 158
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0
@@ -5620,11 +5620,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 536870911
+    start-address: 0
+    end-address: 536870911
     range-size: 536870912
     device-handle: 142
-    array-addr-handle: 159
+    array-address-handle: 159
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0
@@ -5638,11 +5638,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 536870912
-    end-addr: 1073741823
+    start-address: 536870912
+    end-address: 1073741823
     range-size: 536870912
     device-handle: 142
-    array-addr-handle: 159
+    array-address-handle: 159
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0

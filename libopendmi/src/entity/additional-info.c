@@ -29,11 +29,11 @@ const dmi_entity_spec_t dmi_additional_info_spec =
             .code  = "entries",
             .name  = "Entries",
             .attrs = DMI_ATTRIBUTES({
-                DMI_ATTRIBUTE(dmi_additional_info_entry_t, ref_handle, HANDLE, {
+                DMI_ATTRIBUTE(dmi_additional_info_entry_t, referenced_handle, HANDLE, {
                     .code  = "referenced-handle",
                     .name  = "Referenced handle"
                 }),
-                DMI_ATTRIBUTE(dmi_additional_info_entry_t, ref_offset, INTEGER, {
+                DMI_ATTRIBUTE(dmi_additional_info_entry_t, referenced_offset, INTEGER, {
                     .code  = "referenced-offset",
                     .name  = "Referenced offset",
                     .flags = DMI_ATTRIBUTE_FLAG_HEX

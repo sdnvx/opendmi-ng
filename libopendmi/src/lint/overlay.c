@@ -117,12 +117,12 @@ static void dmi_lint_overlay_dangling(dmi_lint_t *lint, const dmi_entity_t *enti
     for (size_t i = 0; i < info->entry_count; i++) {
         const dmi_additional_info_entry_t *entry = &info->entries[i];
 
-        if (dmi_registry_lookup(registry, entry->ref_handle, DMI_TYPE_ANY, true) != nullptr)
+        if (dmi_registry_lookup(registry, entry->referenced_handle, DMI_TYPE_ANY, true) != nullptr)
             continue;
 
         dmi_lint_issue(lint, entity, "referenced-handle", dmi_lint_entity_offset(lint, entity),
                        "entry %zu refers to handle 0x%04X, which belongs to no structure",
-                       i + 1, (unsigned)entry->ref_handle);
+                       i + 1, (unsigned)entry->referenced_handle);
     }
 }
 
@@ -138,24 +138,24 @@ static void dmi_lint_overlay_out_of_bounds(dmi_lint_t *lint, const dmi_entity_t 
         const dmi_additional_info_entry_t *entry = &info->entries[i];
 
         const dmi_entity_t *target =
-                dmi_registry_lookup(registry, entry->ref_handle, DMI_TYPE_ANY, true);
+                dmi_registry_lookup(registry, entry->referenced_handle, DMI_TYPE_ANY, true);
         if (target == nullptr)
             continue;
 
         // Entries carry field values, and the header of a structure is not a
         // field of it
-        if (entry->ref_offset < DMI_LINT_HEADER_LENGTH) {
+        if (entry->referenced_offset < DMI_LINT_HEADER_LENGTH) {
             dmi_lint_issue(lint, entity, "referenced-offset", dmi_lint_entity_offset(lint, entity),
                            "entry %zu refers to offset 0x%02X, which belongs to the header of "
-                           "handle 0x%04X", i + 1, entry->ref_offset, (unsigned)entry->ref_handle);
+                           "handle 0x%04X", i + 1, entry->referenced_offset, (unsigned)entry->referenced_handle);
             continue;
         }
 
-        if (entry->ref_offset + entry->value.length > target->body_length) {
+        if (entry->referenced_offset + entry->value.length > target->body_length) {
             dmi_lint_issue(lint, entity, "referenced-offset", dmi_lint_entity_offset(lint, entity),
                            "entry %zu refers to %zu bytes at offset 0x%02X, while handle 0x%04X "
-                           "is %zu bytes long", i + 1, entry->value.length, entry->ref_offset,
-                           (unsigned)entry->ref_handle, target->body_length);
+                           "is %zu bytes long", i + 1, entry->value.length, entry->referenced_offset,
+                           (unsigned)entry->referenced_handle, target->body_length);
         }
     }
 }

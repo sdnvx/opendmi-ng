@@ -42,7 +42,7 @@ const char *dmi_memory_device_tech_name(dmi_memory_device_tech_t value);
 == Description
 
 The `dmi_memory_device_tech_t` enumeration tells the memory technology of a
-memory device, volatile or persistent, and is the type of the `memory_tech`
+memory device, volatile or persistent, and is the type of the `memory_technology`
 field of `dmi_memory_device_t`, present since SMBIOS 3.2.
 
 The `dmi_memory_device_tech_name` function returns the name of a value, as the

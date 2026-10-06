@@ -51,17 +51,17 @@ struct dmi_dell_calling_iface
     /**
      * @brief I/O port, which is written to issue a command.
      */
-    uint16_t cmd_io_address;
+    uint16_t command_io_address;
 
     /**
      * @brief Value, which is written to the command I/O port.
      */
-    uint8_t cmd_io_code;
+    uint8_t command_io_code;
 
     /**
      * @brief Supported commands.
      */
-    uint32_t supported_cmds;
+    uint32_t supported_commands;
 
     /**
      * @brief Number of tokens.

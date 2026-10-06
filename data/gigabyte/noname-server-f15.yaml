@@ -473,8 +473,8 @@ table:
   - decoded
   description: Management controller host interface
   attributes:
-    if-type: keyboard-controller-style
-    if-data: ff000000
+    interface-type: keyboard-controller-style
+    interface-data: ff000000
     protocol-records:
     - type: ipmi
       data: ffffffff
@@ -2587,8 +2587,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 2147483647
+    start-address: 0
+    end-address: 2147483647
     range-size: 2147483648
     array-handle: 50
     partition-width: 1
@@ -2601,8 +2601,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 70866960383
+    start-address: 4294967296
+    end-address: 70866960383
     range-size: 66571993088
     array-handle: 50
     partition-width: 1

@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_mgmt_if_type(3)
+= dmi_mgmt_iface_type(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_mgmt_if_type
+= dmi_mgmt_iface_type
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_mgmt_if_type, dmi_mgmt_if_type_name - management controller host interface
+dmi_mgmt_iface_type, dmi_mgmt_iface_type_name - management controller host interface
 types
 
 == Library
@@ -25,96 +25,96 @@ endif::[]
 ----
 #include <opendmi/entity/mgmt-controller.h>
 
-typedef enum dmi_mgmt_if_type {
-    DMI_MGMT_IF_TYPE_MCTP_KCS        = 0x02,
-    DMI_MGMT_IF_TYPE_MCTP_8250_UART  = 0x03,
-    DMI_MGMT_IF_TYPE_MCTP_16450_UART = 0x04,
-    DMI_MGMT_IF_TYPE_MCTP_16550_UART = 0x05,
-    DMI_MGMT_IF_TYPE_MCTP_16650_UART = 0x06,
-    DMI_MGMT_IF_TYPE_MCTP_16750_UART = 0x07,
-    DMI_MGMT_IF_TYPE_MCTP_16850_UART = 0x08,
-    DMI_MGMT_IF_TYPE_MCTP_I2C_SMBUS  = 0x09,
-    DMI_MGMT_IF_TYPE_MCTP_I3C        = 0x0A,
-    DMI_MGMT_IF_TYPE_MCTP_PCIE_VDM   = 0x0B,
-    DMI_MGMT_IF_TYPE_MCTP_MMBI       = 0x0C,
-    DMI_MGMT_IF_TYPE_MCTP_PCC        = 0x0D,
-    DMI_MGMT_IF_TYPE_MCTP_UCIE       = 0x0E,
-    DMI_MGMT_IF_TYPE_MCTP_USB        = 0x0F,
-    DMI_MGMT_IF_TYPE_NETWORK_HOST_IF = 0x40,
-    DMI_MGMT_IF_TYPE_OEM             = 0xF0
-} dmi_mgmt_if_type_t;
+typedef enum dmi_mgmt_iface_type {
+    DMI_MGMT_IFACE_TYPE_MCTP_KCS        = 0x02,
+    DMI_MGMT_IFACE_TYPE_MCTP_8250_UART  = 0x03,
+    DMI_MGMT_IFACE_TYPE_MCTP_16450_UART = 0x04,
+    DMI_MGMT_IFACE_TYPE_MCTP_16550_UART = 0x05,
+    DMI_MGMT_IFACE_TYPE_MCTP_16650_UART = 0x06,
+    DMI_MGMT_IFACE_TYPE_MCTP_16750_UART = 0x07,
+    DMI_MGMT_IFACE_TYPE_MCTP_16850_UART = 0x08,
+    DMI_MGMT_IFACE_TYPE_MCTP_I2C_SMBUS  = 0x09,
+    DMI_MGMT_IFACE_TYPE_MCTP_I3C        = 0x0A,
+    DMI_MGMT_IFACE_TYPE_MCTP_PCIE_VDM   = 0x0B,
+    DMI_MGMT_IFACE_TYPE_MCTP_MMBI       = 0x0C,
+    DMI_MGMT_IFACE_TYPE_MCTP_PCC        = 0x0D,
+    DMI_MGMT_IFACE_TYPE_MCTP_UCIE       = 0x0E,
+    DMI_MGMT_IFACE_TYPE_MCTP_USB        = 0x0F,
+    DMI_MGMT_IFACE_TYPE_NETWORK_HOST    = 0x40,
+    DMI_MGMT_IFACE_TYPE_OEM             = 0xF0
+} dmi_mgmt_iface_type_t;
 
-const char *dmi_mgmt_if_type_name(dmi_mgmt_if_type_t value);
+const char *dmi_mgmt_iface_type_name(dmi_mgmt_iface_type_t value);
 ----
 
 == Description
 
-The `dmi_mgmt_if_type_t` enumeration tells the type of a management controller
-host interface, and is the type of the `if_type` field of
+The `dmi_mgmt_iface_type_t` enumeration tells the type of a management controller
+host interface, and is the type of the `interface_type` field of
 `dmi_mgmt_controller_t`. The values from 0x00 to 0x3F are MCTP host interface
 types, which the MCTP host interface specification (DSP0239) assigns; the
 enumeration names the ones assigned so far. Every value the enumeration does
 not name is reserved, and the field holds it as the structure carries it.
 
-The `dmi_mgmt_if_type_name` function returns the printable name of a value, as
+The `dmi_mgmt_iface_type_name` function returns the printable name of a value, as
 the command line tool shows it. The name is translated to the locale set with
 `dmi_set_locale`, when the library is built with ICU4C support and has a
 translation of it.
 
 === Values
 
-`DMI_MGMT_IF_TYPE_MCTP_KCS`::
+`DMI_MGMT_IFACE_TYPE_MCTP_KCS`::
 MCTP over a keyboard controller style (KCS) interface.
 
-`DMI_MGMT_IF_TYPE_MCTP_8250_UART`::
+`DMI_MGMT_IFACE_TYPE_MCTP_8250_UART`::
 MCTP over a serial port compatible with the 8250 UART.
 
-`DMI_MGMT_IF_TYPE_MCTP_16450_UART`::
+`DMI_MGMT_IFACE_TYPE_MCTP_16450_UART`::
 MCTP over a serial port compatible with the 16450 UART.
 
-`DMI_MGMT_IF_TYPE_MCTP_16550_UART`::
+`DMI_MGMT_IFACE_TYPE_MCTP_16550_UART`::
 MCTP over a serial port compatible with the 16550 or 16550A UART.
 
-`DMI_MGMT_IF_TYPE_MCTP_16650_UART`::
+`DMI_MGMT_IFACE_TYPE_MCTP_16650_UART`::
 MCTP over a serial port compatible with the 16650 or 16650A UART.
 
-`DMI_MGMT_IF_TYPE_MCTP_16750_UART`::
+`DMI_MGMT_IFACE_TYPE_MCTP_16750_UART`::
 MCTP over a serial port compatible with the 16750 or 16750A UART.
 
-`DMI_MGMT_IF_TYPE_MCTP_16850_UART`::
+`DMI_MGMT_IFACE_TYPE_MCTP_16850_UART`::
 MCTP over a serial port compatible with the 16850 or 16850A UART.
 
-`DMI_MGMT_IF_TYPE_MCTP_I2C_SMBUS`::
+`DMI_MGMT_IFACE_TYPE_MCTP_I2C_SMBUS`::
 MCTP over I2C or SMBus.
 
-`DMI_MGMT_IF_TYPE_MCTP_I3C`::
+`DMI_MGMT_IFACE_TYPE_MCTP_I3C`::
 MCTP over I3C.
 
-`DMI_MGMT_IF_TYPE_MCTP_PCIE_VDM`::
+`DMI_MGMT_IFACE_TYPE_MCTP_PCIE_VDM`::
 MCTP over PCIe vendor-defined messages.
 
-`DMI_MGMT_IF_TYPE_MCTP_MMBI`::
+`DMI_MGMT_IFACE_TYPE_MCTP_MMBI`::
 MCTP over a memory-mapped BMC interface (MMBI).
 
-`DMI_MGMT_IF_TYPE_MCTP_PCC`::
+`DMI_MGMT_IFACE_TYPE_MCTP_PCC`::
 MCTP over an ACPI platform communication channel (PCC).
 
-`DMI_MGMT_IF_TYPE_MCTP_UCIE`::
+`DMI_MGMT_IFACE_TYPE_MCTP_UCIE`::
 MCTP over UCIe.
 
-`DMI_MGMT_IF_TYPE_MCTP_USB`::
+`DMI_MGMT_IFACE_TYPE_MCTP_USB`::
 MCTP over USB.
 
-`DMI_MGMT_IF_TYPE_NETWORK_HOST_IF`::
+`DMI_MGMT_IFACE_TYPE_NETWORK_HOST`::
 Network host interface, defined by the Redfish host interface specification
 (DSP0270). Its data is decoded into `dmi_mgmt_nhi_t`.
 
-`DMI_MGMT_IF_TYPE_OEM`::
+`DMI_MGMT_IFACE_TYPE_OEM`::
 OEM-defined interface.
 
 == Return value
 
-`dmi_mgmt_if_type_name` returns the name of the value, or `nullptr` if the
+`dmi_mgmt_iface_type_name` returns the name of the value, or `nullptr` if the
 value has no name. The name is a static string, which must not be modified or
 freed.
 

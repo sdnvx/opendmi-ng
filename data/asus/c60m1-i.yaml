@@ -570,8 +570,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4831838207
+    start-address: 0
+    end-address: 4831838207
     range-size: 4831838208
     array-handle: 34
     partition-width: 255
@@ -739,11 +739,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 38
-    array-addr-handle: 35
+    array-address-handle: 35
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0

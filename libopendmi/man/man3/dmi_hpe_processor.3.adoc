@@ -37,8 +37,7 @@ typedef struct dmi_hpe_processor {
     uint64_t uuid;
     uint16_t interconnect_speed;
     uint8_t qdf_raw[6];
-    char qdf_buffer[7];
-    const char *qdf;
+    char *qdf;
 } dmi_hpe_processor_t;
 ----
 
@@ -100,12 +99,10 @@ Speed of the interconnect in MT/s, zero if unknown.
 QDF or S-Spec number of Intel processors, six characters padded with spaces,
 as the structure holds them.
 
-`qdf_buffer`::
-QDF or S-Spec number with the spaces left out, which `qdf` points to.
-
 `qdf`::
 QDF or S-Spec number of Intel processors, `nullptr` if the structure holds
-none.
+none. The string belongs to the structure, and is freed along
+with it.
 
 == See also
 

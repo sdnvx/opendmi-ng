@@ -33,22 +33,22 @@ typedef enum dmi_hpe_drive_type
 /**
  * @brief Form factor of a drive.
  */
-typedef enum dmi_hpe_drive_form
+typedef enum dmi_hpe_drive_form_factor
 {
-    DMI_HPE_DRIVE_FORM_3_5         = 0x02, ///< 3.5-inch form factor
-    DMI_HPE_DRIVE_FORM_2_5         = 0x03, ///< 2.5-inch form factor
-    DMI_HPE_DRIVE_FORM_1_8         = 0x04, ///< 1.8-inch form factor
-    DMI_HPE_DRIVE_FORM_SMALLER     = 0x05, ///< Smaller than 1.8-inch form factor
-    DMI_HPE_DRIVE_FORM_MSATA       = 0x06, ///< mSATA
-    DMI_HPE_DRIVE_FORM_M2          = 0x07, ///< M.2
-    DMI_HPE_DRIVE_FORM_MICRO_SSD   = 0x08, ///< MicroSSD
-    DMI_HPE_DRIVE_FORM_CFAST       = 0x09, ///< CFast
-    DMI_HPE_DRIVE_FORM_EDSFF       = 0x20, ///< EDSFF of unknown form factor
-    DMI_HPE_DRIVE_FORM_EDSFF_1U_S  = 0x21, ///< EDSFF 1U short
-    DMI_HPE_DRIVE_FORM_EDSFF_1U_L  = 0x22, ///< EDSFF 1U long
-    DMI_HPE_DRIVE_FORM_EDSFF_E3_S  = 0x23, ///< EDSFF E3 short
-    DMI_HPE_DRIVE_FORM_EDSFF_E3_L  = 0x24  ///< EDSFF E3 long
-} dmi_hpe_drive_form_t;
+    DMI_HPE_DRIVE_FORM_FACTOR_3_5         = 0x02, ///< 3.5-inch form factor
+    DMI_HPE_DRIVE_FORM_FACTOR_2_5         = 0x03, ///< 2.5-inch form factor
+    DMI_HPE_DRIVE_FORM_FACTOR_1_8         = 0x04, ///< 1.8-inch form factor
+    DMI_HPE_DRIVE_FORM_FACTOR_SMALLER     = 0x05, ///< Smaller than 1.8-inch form factor
+    DMI_HPE_DRIVE_FORM_FACTOR_MSATA       = 0x06, ///< mSATA
+    DMI_HPE_DRIVE_FORM_FACTOR_M2          = 0x07, ///< M.2
+    DMI_HPE_DRIVE_FORM_FACTOR_MICRO_SSD   = 0x08, ///< MicroSSD
+    DMI_HPE_DRIVE_FORM_FACTOR_CFAST       = 0x09, ///< CFast
+    DMI_HPE_DRIVE_FORM_FACTOR_EDSFF       = 0x20, ///< EDSFF of unknown form factor
+    DMI_HPE_DRIVE_FORM_FACTOR_EDSFF_1U_S  = 0x21, ///< EDSFF 1U short
+    DMI_HPE_DRIVE_FORM_FACTOR_EDSFF_1U_L  = 0x22, ///< EDSFF 1U long
+    DMI_HPE_DRIVE_FORM_FACTOR_EDSFF_E3_S  = 0x23, ///< EDSFF E3 short
+    DMI_HPE_DRIVE_FORM_FACTOR_EDSFF_E3_L  = 0x24  ///< EDSFF E3 long
+} dmi_hpe_drive_form_factor_t;
 
 /**
  * @brief Health status of a drive.
@@ -104,7 +104,7 @@ struct dmi_hpe_drive
     /**
      * @brief Form factor of the drive.
      */
-    dmi_hpe_drive_form_t form_factor;
+    dmi_hpe_drive_form_factor_t form_factor;
 
     /**
      * @brief Health status of the drive.
@@ -175,7 +175,7 @@ extern __dmi_api const dmi_entity_spec_t dmi_hpe_drive_spec;
 __BEGIN_DECLS
 
 __dmi_api const char *dmi_hpe_drive_type_name(dmi_hpe_drive_type_t value);
-__dmi_api const char *dmi_hpe_drive_form_name(dmi_hpe_drive_form_t value);
+__dmi_api const char *dmi_hpe_drive_form_factor_name(dmi_hpe_drive_form_factor_t value);
 __dmi_api const char *dmi_hpe_drive_health_name(dmi_hpe_drive_health_t value);
 
 __END_DECLS

@@ -185,7 +185,19 @@ bool dmi_string_is_placeholder(const char *text)
     return false;
 }
 
-const char *dmi_text_from_bytes(const uint8_t *data, size_t length, char *buffer, bool trim)
+bool dmi_string_set_bytes(dmi_context_t *context, char **pstring, const uint8_t *data, size_t length, bool trim)
+{
+    char buffer[DMI_STRING_BYTES_MAX + 1];
+
+    if (length > DMI_STRING_BYTES_MAX)
+        return dmi_trace_argument_invalid(context, length);
+
+    const char *text = (length > 0) ? dmi_string_from_bytes(data, length, buffer, trim) : nullptr;
+
+    return dmi_string_set(context, pstring, text);
+}
+
+const char *dmi_string_from_bytes(const uint8_t *data, size_t length, char *buffer, bool trim)
 {
     size_t count = 0;
 

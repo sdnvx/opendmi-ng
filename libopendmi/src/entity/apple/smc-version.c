@@ -8,6 +8,7 @@
 
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
+#include <opendmi/utils/string.h>
 #include <opendmi/module/apple.h>
 
 #include "smc-version-internal.h"
@@ -35,8 +36,9 @@ const dmi_entity_spec_t dmi_apple_smc_version_spec =
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_apple_smc_version_t, version, STRING, {
-            .code = "version",
-            .name = "SMC version"
+            .code  = "version",
+            .name  = "SMC version",
+            .flags = DMI_ATTRIBUTE_FLAG_OWNED
         }),
         DMI_ATTRIBUTE(dmi_apple_smc_version_t, version_raw, BINARY, {
             .code = "version-raw",
@@ -60,7 +62,5 @@ bool dmi_apple_smc_version_derive(dmi_entity_t *entity)
     const uint8_t *end    = memchr(info->version_raw.data, 0, info->version_raw.length);
     size_t         length = (end != nullptr) ? (size_t)(end - info->version_raw.data) : info->version_raw.length;
 
-    info->version = dmi_text_from_bytes(info->version_raw.data, length, info->version_buffer, false);
-
-    return true;
+    return dmi_string_set_bytes(dmi_entity_context(entity), &info->version, info->version_raw.data, length, false);
 }

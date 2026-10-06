@@ -19,7 +19,7 @@
  * @internal
  * @brief Names of the management interface types.
  */
-extern const dmi_name_set_t dmi_mgmt_if_type_names;
+extern const dmi_name_set_t dmi_mgmt_iface_type_names;
 
 /**
  * @internal

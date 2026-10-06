@@ -53,10 +53,10 @@ static void test_memory_array_usage_name(void **pstate)
 {
     dmi_unused(pstate);
 
-    assert_null(dmi_memory_array_usage_name(__DMI_MEMORY_ARRAY_USAGE_COUNT));
+    assert_null(dmi_memory_array_use_name(__DMI_MEMORY_ARRAY_USAGE_COUNT));
 
     for (int i = 0; i < __DMI_MEMORY_ARRAY_USAGE_COUNT; i++) {
-        assert_non_null(dmi_memory_array_usage_name(i));
+        assert_non_null(dmi_memory_array_use_name(i));
     }
 }
 

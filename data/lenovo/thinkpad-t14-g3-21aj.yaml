@@ -498,8 +498,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     array-handle: 1
     partition-width: 1
@@ -511,7 +511,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: IFX
+    vendor: IFX
     specification-version: '2.0'
     firmware-version:
       major: 15
@@ -1728,8 +1728,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 63
   type: 21

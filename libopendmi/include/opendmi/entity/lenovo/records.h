@@ -69,15 +69,12 @@ struct dmi_lenovo_tpm_info
     dmi_binary_t vendor_raw;
 
     /**
-     * @brief TCG vendor ID of the TPM, which `vendor` points to.
-     */
-    char vendor_buffer[5];
-
-    /**
      * @brief TCG vendor ID of the TPM, e.g. `ATML`, or @c nullptr if it is
      * not printable.
+     *
+     * The string belongs to the structure, and is freed along with it.
      */
-    const char *vendor;
+    char *vendor;
 
     /**
      * @brief Values whose meaning is not established, `1` and `1` in all

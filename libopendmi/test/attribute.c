@@ -21,7 +21,7 @@
 static int test_attribute_setup(void **pstate);
 static int test_attribute_teardown(void **pstate);
 
-static void test_attribute_format_address(void **pstate);
+static void test_attribute_format_addr(void **pstate);
 static void test_attribute_format_binary(void **pstate);
 static void test_attribute_format_mac(void **pstate);
 static void test_attribute_format_ip(void **pstate);
@@ -48,7 +48,7 @@ static dmi_context_t *context = nullptr;
 int main(void)
 {
     const struct CMUnitTest tests[] = {
-        cmocka_unit_test_teardown(test_attribute_format_address, free_attribute_value),
+        cmocka_unit_test_teardown(test_attribute_format_addr, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_binary, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_mac, free_attribute_value),
         cmocka_unit_test_teardown(test_attribute_format_ip, free_attribute_value),
@@ -92,7 +92,7 @@ static int test_attribute_teardown(void **pstate)
     return 0;
 }
 
-static void test_attribute_format_address(void **pstate)
+static void test_attribute_format_addr(void **pstate)
 {
     dmi_unused(pstate);
     skip();

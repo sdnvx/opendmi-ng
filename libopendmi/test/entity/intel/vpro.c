@@ -230,7 +230,7 @@ static void test_vpro_shared_type(void **pstate)
     assert_true(dmi_load(context, test_x280_path));
 
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr);
+    dmi_registry_iter_initialize(&iter, dmi_get_registry(context), nullptr);
 
     size_t vpro  = 0;
     size_t other = 0;

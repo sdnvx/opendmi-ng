@@ -49,7 +49,7 @@ const dmi_type_t dmi_type_ipmi_device             = { .id = DMI_TYPE_ID_IPMI_DEV
 const dmi_type_t dmi_type_power_supply            = { .id = DMI_TYPE_ID_POWER_SUPPLY            };
 const dmi_type_t dmi_type_additional_info         = { .id = DMI_TYPE_ID_ADDITIONAL_INFO         };
 const dmi_type_t dmi_type_onboard_device_ex       = { .id = DMI_TYPE_ID_ONBOARD_DEVICE_EX       };
-const dmi_type_t dmi_type_mgmt_controller_host_if = { .id = DMI_TYPE_ID_MGMT_CONTROLLER_HOST_IF };
+const dmi_type_t dmi_type_mgmt_controller         = { .id = DMI_TYPE_ID_MGMT_CONTROLLER         };
 const dmi_type_t dmi_type_tpm_device              = { .id = DMI_TYPE_ID_TPM_DEVICE              };
 const dmi_type_t dmi_type_processor_ex            = { .id = DMI_TYPE_ID_PROCESSOR_EX            };
 const dmi_type_t dmi_type_firmware_inventory      = { .id = DMI_TYPE_ID_FIRMWARE_INVENTORY      };

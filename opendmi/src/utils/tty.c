@@ -42,7 +42,7 @@ static int  dmi_tty_bg_color = DMI_TTY_COLOR_BLACK;
 static int  dmi_tty_fg_color = DMI_TTY_COLOR_WHITE;
 static int  dmi_tty_attrs = 0;
 
-void dmi_tty_init(void)
+void dmi_tty_setup(void)
 {
     // Standard output may be redirected to pager later
     dmi_tty_stdout = isatty(STDOUT_FILENO);

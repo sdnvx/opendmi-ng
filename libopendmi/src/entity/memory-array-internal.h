@@ -44,7 +44,7 @@ extern const dmi_name_set_t dmi_memory_array_location_names;
  * @internal
  * @brief Names of the functions the memory arrays are used for.
  */
-extern const dmi_name_set_t dmi_memory_array_usage_names;
+extern const dmi_name_set_t dmi_memory_array_use_names;
 
 /**
  * @internal

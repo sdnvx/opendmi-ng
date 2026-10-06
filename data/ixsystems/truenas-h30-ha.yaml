@@ -560,7 +560,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: IFX
+    vendor: IFX
     specification-version: '2.0'
     firmware-version:
       major: 13
@@ -1084,8 +1084,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 2147483647
+    start-address: 0
+    end-address: 2147483647
     range-size: 2147483648
     array-handle: 45
     partition-width: 4
@@ -1098,8 +1098,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 277025390591
+    start-address: 4294967296
+    end-address: 277025390591
     range-size: 272730423296
     array-handle: 45
     partition-width: 4
@@ -1112,11 +1112,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 277025390591
+    start-address: 4294967296
+    end-address: 277025390591
     range-size: 272730423296
     device-handle: 46
-    array-addr-handle: 55
+    array-address-handle: 55
     partition-pos: 1
     interleave-pos: 1
     interleave-depth: 2
@@ -1129,11 +1129,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 277025390591
+    start-address: 4294967296
+    end-address: 277025390591
     range-size: 272730423296
     device-handle: 48
-    array-addr-handle: 55
+    array-address-handle: 55
     partition-pos: 1
     interleave-pos: 2
     interleave-depth: 2
@@ -1146,11 +1146,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 277025390591
+    start-address: 4294967296
+    end-address: 277025390591
     range-size: 272730423296
     device-handle: 50
-    array-addr-handle: 55
+    array-address-handle: 55
     partition-pos: 1
     interleave-pos: 1
     interleave-depth: 2
@@ -1163,11 +1163,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 277025390591
+    start-address: 4294967296
+    end-address: 277025390591
     range-size: 272730423296
     device-handle: 52
-    array-addr-handle: 55
+    array-address-handle: 55
     partition-pos: 1
     interleave-pos: 2
     interleave-depth: 2
@@ -1351,8 +1351,8 @@ table:
   - decoded
   description: Management controller host interface
   attributes:
-    if-type: network-host-interface
-    if-data:
+    interface-type: network-host-interface
+    interface-data:
       device-type: usb
       device-descriptor: 1f0bee03000300
     protocol-records:

@@ -1,1 +1,0 @@
-dmi_ipmi_interface.3.adoc

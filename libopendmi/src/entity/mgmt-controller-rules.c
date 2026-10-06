@@ -42,7 +42,7 @@ void dmi_mgmt_controller_lint_records(dmi_lint_t *lint, const dmi_entity_t *enti
     dmi_byte_t count;
 
     if (not dmi_reader_get_bytes_at(&reader, &count, offset, sizeof(count))) {
-        dmi_lint_issue(lint, entity, "if-data", dmi_lint_entity_offset(lint, entity) +
+        dmi_lint_issue(lint, entity, "interface-data", dmi_lint_entity_offset(lint, entity) +
                        DMI_MGMT_CONTROLLER_IF_LENGTH_OFFSET,
                        "interface data of %u bytes leaves no room for the protocol records",
                        (unsigned)length);

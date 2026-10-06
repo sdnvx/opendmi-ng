@@ -92,9 +92,9 @@ static void test_dell_calling_iface_decode(void **pstate)
     const dmi_dell_calling_iface_t *info = dmi_entity_info(entity, DMI_TYPE(dell_calling_iface));
     assert_non_null(info);
 
-    assert_int_equal(info->cmd_io_address, 0xB2);
-    assert_int_equal(info->cmd_io_code, 0x17);
-    assert_int_equal(info->supported_cmds, 0x00380E0B);
+    assert_int_equal(info->command_io_address, 0xB2);
+    assert_int_equal(info->command_io_code, 0x17);
+    assert_int_equal(info->supported_commands, 0x00380E0B);
 
     assert_int_equal(info->token_count, 2);
     assert_int_equal(info->tokens[0].id, 0x8000);

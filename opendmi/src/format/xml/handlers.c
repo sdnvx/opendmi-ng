@@ -319,7 +319,7 @@ bool dmi_xml_entry(dmi_xml_session_t *session)
         if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("table-area-address"),
-                    "0x%" PRIx64, context->state.table_area_addr)))
+                    "0x%" PRIx64, context->state.table_area_address)))
             break;
         if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
@@ -378,8 +378,8 @@ bool dmi_xml_entity_start(dmi_xml_session_t *session, const dmi_entity_t *entity
         const char *separator = "";
         bool written = true;
 
-        dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
-                                  sizeof(entity->state) * CHAR_BIT);
+        dmi_format_mask_iter_initialize(&iter, &dmi_entity_state_names, entity->state,
+                                        sizeof(entity->state) * CHAR_BIT);
 
         while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
             if (not flag->value)
@@ -467,7 +467,7 @@ bool dmi_xml_entity_properties(dmi_xml_session_t *session, const dmi_entity_t *e
         dmi_format_property_iter_t iter;
         const dmi_string_property_t *property;
 
-        dmi_format_property_iter_init(&iter, entity);
+        dmi_format_property_iter_initialize(&iter, entity);
 
         while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
             const char *code = dmi_code_lookup(&dmi_property_names, property->ident);
@@ -579,7 +579,7 @@ bool dmi_xml_entity_strings(dmi_xml_session_t *session, const dmi_entity_t *enti
         dmi_format_string_iter_t iter;
         const char *str;
 
-        dmi_format_string_iter_init(&iter, entity);
+        dmi_format_string_iter_initialize(&iter, entity);
 
         while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
             if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
@@ -802,7 +802,7 @@ static bool dmi_xml_entity_attr_set(
     dmi_format_set_iter_t iter;
     const dmi_format_flag_t *flag;
 
-    dmi_format_set_iter_init(&iter, attr, value);
+    dmi_format_set_iter_initialize(&iter, attr, value);
 
     if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                 session->writer,
@@ -859,7 +859,7 @@ static bool dmi_xml_entity_overlay(
         if (not dmi_xml_check(session, xmlTextWriterWriteFormatAttribute(
                     session->writer,
                     dmi_xml_string("offset"),
-                    "0x%02x", overlay->entry->ref_offset)))
+                    "0x%02x", overlay->entry->referenced_offset)))
             break;
         if (not dmi_xml_check(session, xmlTextWriterStartElementNS(
                     session->writer,

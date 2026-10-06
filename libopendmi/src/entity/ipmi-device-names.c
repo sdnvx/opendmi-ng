@@ -13,28 +13,28 @@
 
 #include "ipmi-device-internal.h"
 
-const dmi_name_set_t dmi_ipmi_interface_names =
+const dmi_name_set_t dmi_ipmi_iface_type_names =
 {
-    .code  = "ipmi-interface",
+    .code  = "ipmi-interface-type",
     .names = DMI_NAMES({
-        DMI_NAME_UNKNOWN(DMI_IPMI_INTERFACE_UNKNOWN),
+        DMI_NAME_UNKNOWN(DMI_IPMI_IFACE_TYPE_UNKNOWN),
         {
-            .id   = DMI_IPMI_INTERFACE_KCS,
+            .id   = DMI_IPMI_IFACE_TYPE_KCS,
             .code = "kcs",
             .name = "KCS: Keyboard Controller Style"
         },
         {
-            .id   = DMI_IPMI_INTERFACE_SMIC,
+            .id   = DMI_IPMI_IFACE_TYPE_SMIC,
             .code = "smic",
             .name = "SMIC: Server Management Interface Chip"
         },
         {
-            .id   = DMI_IPMI_INTERFACE_BT,
+            .id   = DMI_IPMI_IFACE_TYPE_BT,
             .code = "bt",
             .name = "BT: Block Transfer"
         },
         {
-            .id   = DMI_IPMI_INTERFACE_SSIF,
+            .id   = DMI_IPMI_IFACE_TYPE_SSIF,
             .code = "ssif",
             .name = "SSIF: SMBus System Interface"
         },
@@ -66,18 +66,18 @@ const dmi_name_set_t dmi_ipmi_addr_type_names =
     })
 };
 
-const dmi_name_set_t dmi_ipmi_intr_trigger_names =
+const dmi_name_set_t dmi_ipmi_intr_trigger_mode_names =
 {
-    .code  = "ipmi-intr-trigger",
+    .code  = "ipmi-interrupt-trigger-mode",
     .names = DMI_NAMES({
-        DMI_NAME_UNSPEC(DMI_IPMI_INTR_TRIGGER_UNSPEC),
+        DMI_NAME_UNSPEC(DMI_IPMI_INTR_TRIGGER_MODE_UNSPEC),
         {
-            .id   = DMI_IPMI_INTR_TRIGGER_EDGE,
+            .id   = DMI_IPMI_INTR_TRIGGER_MODE_EDGE,
             .code = "edge",
             .name = "Edge"
         },
         {
-            .id   = DMI_IPMI_INTR_TRIGGER_LEVEL,
+            .id   = DMI_IPMI_INTR_TRIGGER_MODE_LEVEL,
             .code = "level",
             .name = "Level"
         },
@@ -104,7 +104,7 @@ const dmi_name_set_t dmi_ipmi_intr_polarity_names =
     })
 };
 
-DMI_NAME_FUNCTION(dmi_ipmi_interface)
+DMI_NAME_FUNCTION(dmi_ipmi_iface_type)
 DMI_NAME_FUNCTION(dmi_ipmi_addr_type)
-DMI_NAME_FUNCTION(dmi_ipmi_intr_trigger)
+DMI_NAME_FUNCTION(dmi_ipmi_intr_trigger_mode)
 DMI_NAME_FUNCTION(dmi_ipmi_intr_polarity)

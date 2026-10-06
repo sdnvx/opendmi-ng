@@ -37,7 +37,7 @@ const char *dmi_ipmi_addr_type_name(dmi_ipmi_addr_type_t value);
 
 The `dmi_ipmi_addr_type_t` enumeration tells in which address space the base
 address of an IPMI baseboard management controller (BMC) lies, and is the
-type of the `base_addr_type` field of `dmi_ipmi_device_t`. The decoder
+type of the `base_address_type` field of `dmi_ipmi_device_t`. The decoder
 derives it from the interface type and from the least-significant bit of the
 stored base address.
 

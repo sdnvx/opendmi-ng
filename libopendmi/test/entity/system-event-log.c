@@ -18,7 +18,7 @@
 
 #include <opendmi/entity/system-event-log.h>
 
-static void test_system_event_log_access_address(void **pstate);
+static void test_system_event_log_access_addr(void **pstate);
 static void test_system_event_log_descriptors(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
@@ -26,14 +26,14 @@ static dmi_log_t test_logger = { dmi_test_log_handler };
 int main(void)
 {
     const struct CMUnitTest tests[] = {
-        cmocka_unit_test(test_system_event_log_access_address),
+        cmocka_unit_test(test_system_event_log_access_addr),
         cmocka_unit_test(test_system_event_log_descriptors)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
 }
 
-static void test_system_event_log_access_address(void **pstate)
+static void test_system_event_log_access_addr(void **pstate)
 {
     dmi_unused(pstate);
 

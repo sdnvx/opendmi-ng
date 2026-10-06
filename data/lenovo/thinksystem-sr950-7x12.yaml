@@ -5852,8 +5852,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 51539607551
+    start-address: 0
+    end-address: 51539607551
     range-size: 51539607552
     array-handle: 32
     partition-width: 4
@@ -5866,8 +5866,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 51539607552
-    end-addr: 103079215103
+    start-address: 51539607552
+    end-address: 103079215103
     range-size: 51539607552
     array-handle: 32
     partition-width: 4
@@ -5880,8 +5880,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 103079215104
-    end-addr: 154618822655
+    start-address: 103079215104
+    end-address: 154618822655
     range-size: 51539607552
     array-handle: 32
     partition-width: 4
@@ -5894,8 +5894,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 154618822656
-    end-addr: 206158430207
+    start-address: 154618822656
+    end-address: 206158430207
     range-size: 51539607552
     array-handle: 32
     partition-width: 4
@@ -5908,8 +5908,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 206158430208
-    end-addr: 257698037759
+    start-address: 206158430208
+    end-address: 257698037759
     range-size: 51539607552
     array-handle: 32
     partition-width: 4
@@ -5922,8 +5922,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 257698037760
-    end-addr: 309237645311
+    start-address: 257698037760
+    end-address: 309237645311
     range-size: 51539607552
     array-handle: 32
     partition-width: 4
@@ -5936,8 +5936,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 309237645312
-    end-addr: 360777252863
+    start-address: 309237645312
+    end-address: 360777252863
     range-size: 51539607552
     array-handle: 32
     partition-width: 4
@@ -5950,8 +5950,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 360777252864
-    end-addr: 412316860415
+    start-address: 360777252864
+    end-address: 412316860415
     range-size: 51539607552
     array-handle: 32
     partition-width: 4
@@ -5991,8 +5991,8 @@ table:
   - decoded
   description: Management controller host interface
   attributes:
-    if-type: network-host-interface
-    if-data:
+    interface-type: network-host-interface
+    interface-data:
       device-type: usb
       device-descriptor: 04b3401000
     protocol-records:

@@ -80,8 +80,8 @@ dmi_context_t *dmi_create(unsigned int flags)
     context->flags        = flags;
     context->log_level    = DMI_LOG_DEBUG;
 
-    dmi_vector_init(&context->modules, context, nullptr);
-    dmi_vector_init(&context->state.modules, context, nullptr);
+    dmi_vector_initialize(&context->modules, context, nullptr);
+    dmi_vector_initialize(&context->state.modules, context, nullptr);
 
     do {
         // Allocate type map
@@ -223,7 +223,7 @@ bool dmi_close(dmi_context_t *context)
 
     memset(&context->state, 0, sizeof(context->state));
     context->state.vendor = DMI_VENDOR_OTHER;
-    dmi_vector_init(&context->state.modules, context, nullptr);
+    dmi_vector_initialize(&context->state.modules, context, nullptr);
 
     // Modules enabled for the platform are gone, and so are specifications
     // of the modules enabled explicitly, which apply to its generations only.

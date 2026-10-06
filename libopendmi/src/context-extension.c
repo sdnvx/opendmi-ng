@@ -296,7 +296,7 @@ static bool dmi_platform_detect(dmi_context_t *context)
 
     // Sockets may be empty, so the first processor of a known vendor is taken
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, registry, nullptr);
+    dmi_registry_iter_initialize(&iter, registry, nullptr);
 
     dmi_entity_t *entity;
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {

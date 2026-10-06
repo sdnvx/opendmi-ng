@@ -132,7 +132,7 @@ static bool dmi_linux_kernel_read_table(dmi_context_t *context, dmi_buffer_t *bu
     assert(context != nullptr);
     assert(buffer != nullptr);
 
-    return dmi_memory_load(buffer, nullptr, context->state.table_area_addr,
+    return dmi_memory_load(buffer, nullptr, context->state.table_area_address,
                            context->state.table_area_max_size);
 }
 

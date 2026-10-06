@@ -44,7 +44,7 @@ typedef enum dmi_tty_attr
 
 __BEGIN_DECLS
 
-void dmi_tty_init(void);
+void dmi_tty_setup(void);
 bool dmi_has_tty(void);
 
 /**

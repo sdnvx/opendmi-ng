@@ -62,7 +62,7 @@ static void test_tpm_device_firmware_version(void **pstate)
     assert_non_null(info);
     assert_int_equal(info->firmware_version_format, DMI_TPM_FIRMWARE_VERSION_FORMAT_TPM_1);
     assert_int_equal(info->firmware_revision, dmi_version(0x03, 0x14, 0));
-    assert_string_equal(info->vendor_id, "IFX");
+    assert_string_equal(info->vendor, "IFX");
 
     dmi_entity_destroy(entity);
 

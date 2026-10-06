@@ -79,7 +79,7 @@ static const dmi_lint_rule_t *const dmi_lint_rule_list[] =
 {
     &dmi_lint_entry_checksum_rule,
     &dmi_lint_entry_length_rule,
-    &dmi_lint_entry_table_address_rule,
+    &dmi_lint_entry_table_addr_rule,
     &dmi_lint_entry_table_size_rule,
     &dmi_lint_entry_entity_count_rule,
     &dmi_lint_entry_entity_max_size_rule,
@@ -181,7 +181,7 @@ bool dmi_lint(
     if (context == nullptr)
         return dmi_trace_argument_null(nullptr, context);
 
-    if (not dmi_context_is_open(context))
+    if (not dmi_is_open(context))
         return dmi_trace_state_invalid(context, "Context is not open");
 
     // State is kept off the stack, since the totals count the structures of
@@ -419,7 +419,7 @@ static void dmi_lint_collect(dmi_lint_t *lint)
     dmi_registry_iter_t iter;
     const dmi_entity_t *entity;
 
-    if (not dmi_registry_iter_init(&iter, registry, nullptr))
+    if (not dmi_registry_iter_initialize(&iter, registry, nullptr))
         return;
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
@@ -445,7 +445,7 @@ static void dmi_lint_check_entities(dmi_lint_t *lint)
     dmi_registry_iter_t iter;
     const dmi_entity_t *entity;
 
-    if (not dmi_registry_iter_init(&iter, registry, nullptr))
+    if (not dmi_registry_iter_initialize(&iter, registry, nullptr))
         return;
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {

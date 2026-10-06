@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_bis_real_mode_address(3)
+= dmi_bis_real_mode_addr(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_bis_real_mode_address
+= dmi_bis_real_mode_addr
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_bis_real_mode_address - real mode address
+dmi_bis_real_mode_addr - real mode address
 
 == Library
 
@@ -24,15 +24,15 @@ endif::[]
 ----
 #include <opendmi/entity/bis-entry-point.h>
 
-typedef struct dmi_bis_real_mode_address {
+typedef struct dmi_bis_real_mode_addr {
     uint16_t segment;
     uint16_t offset;
-} dmi_bis_real_mode_address_t;
+} dmi_bis_real_mode_addr_t;
 ----
 
 == Description
 
-The `dmi_bis_real_mode_address_t` structure holds a real mode (16:16)
+The `dmi_bis_real_mode_addr_t` structure holds a real mode (16:16)
 address, made of a segment and an offset: the linear address is
 `segment` * 16 + `offset`. It is the type of the `entry_point_16` field of
 `dmi_bis_entry_point_t`.

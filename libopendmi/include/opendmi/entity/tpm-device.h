@@ -21,10 +21,10 @@
     typedef struct dmi_tpm_firmware_version dmi_tpm_firmware_version_t;
 #endif // !DMI_TPM_FIRMWARE_VERSION_T
 
-#ifndef DMI_TPM_DEVICE_FEATURES_T
-#   define DMI_TPM_DEVICE_FEATURES_T
-    typedef union dmi_tpm_device_features dmi_tpm_device_features_t;
-#endif // !DMI_TPM_DEVICE_FEATURES_T
+#ifndef DMI_TPM_DEVICE_CHARS_T
+#   define DMI_TPM_DEVICE_CHARS_T
+    typedef union dmi_tpm_device_chars dmi_tpm_device_chars_t;
+#endif // !DMI_TPM_DEVICE_CHARS_T
 
 /**
  * @brief Firmware version formats, depending on the TPM version.
@@ -60,7 +60,7 @@ struct dmi_tpm_firmware_version
 /**
  * @brief TPM device characteristics.
  */
-dmi_packed_union(dmi_tpm_device_features)
+dmi_packed_union(dmi_tpm_device_chars)
 {
     /**
      * @brief Raw value.
@@ -104,7 +104,7 @@ dmi_packed_union(dmi_tpm_device_features)
     };
 };
 
-dmi_static_assert_value_union(dmi_tpm_device_features);
+dmi_static_assert_value_union(dmi_tpm_device_chars);
 
 /**
  * @brief TPM device structure (type 43).
@@ -117,22 +117,25 @@ dmi_static_assert_value_union(dmi_tpm_device_features);
 struct dmi_tpm_device
 {
     /**
-     * @brief Vendor identifier, as defined by TCG Vendor ID (see CAP_VID in
-     * TCG Vendor ID Registry).
+     * @brief Vendor identifier as the structure holds it: four bytes of text,
+     * which are not terminated, and which some firmware stores in reverse
+     * order.
      */
-    char vendor_id[5];
+    dmi_binary_t vendor_raw;
 
     /**
-     * @brief Vendor identifier as a string of printable characters,
-     * @c nullptr if there are none. Points to `vendor_id`, which is
-     * terminated.
+     * @brief Vendor identifier, as defined by TCG Vendor ID (see CAP_VID in
+     * TCG Vendor ID Registry), as a string of printable characters, or
+     * @c nullptr if there are none.
+     *
+     * The string belongs to the structure, and is freed along with it.
      */
-    const char *vendor;
+    char *vendor;
 
     /**
      * @brief TPM version supported by the TPM device.
      */
-    dmi_version_t spec_version;
+    dmi_version_t specification_version;
 
     /**
      * @brief TPM vendor-specific value for firmware version, as stored: the
@@ -166,7 +169,7 @@ struct dmi_tpm_device
     /**
      * @brief TPM device characteristics information.
      */
-    dmi_tpm_device_features_t features;
+    dmi_tpm_device_chars_t characteristics;
 
     /**
      * @brief OEM- or firmware vendor-specific information.

@@ -32,7 +32,7 @@ struct dmi_memory_device_addr
      * @brief Physical address, in bytes, of a range of memory mapped to the
      * referenced memory device.
      */
-    uint64_t start_addr;
+    uint64_t start_address;
 
     /**
      * @brief Physical address, in bytes, of the last byte of a range of
@@ -41,7 +41,7 @@ struct dmi_memory_device_addr
      * When taken from the SMBIOS 2.1 field, which counts in kibibytes, this
      * is the last byte of the last kibibyte of the range.
      */
-    uint64_t end_addr;
+    uint64_t end_address;
 
     /**
      * @brief Address range size in bytes, computed from the starting and the
@@ -69,7 +69,7 @@ struct dmi_memory_device_addr
      * Multiple address ranges can be mapped to a single memory array mapped
      * address.
      */
-    dmi_handle_t array_addr_handle;
+    dmi_handle_t array_address_handle;
 
     /**
      * @brief Reference to the memory array mapped address structure to which
@@ -77,7 +77,7 @@ struct dmi_memory_device_addr
      * refer to one. Multiple address ranges can be mapped to a single memory
      * array mapped address.
      */
-    dmi_entity_t *array_addr;
+    dmi_entity_t *array_address;
 
     /**
      * @brief Position of the referenced memory device in a row of the address

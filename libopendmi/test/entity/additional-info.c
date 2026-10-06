@@ -100,8 +100,8 @@ static void test_additional_info_decode(void **pstate)
     assert_int_equal(info->entry_count, 2);
 
     const dmi_additional_info_entry_t *entry = &info->entries[0];
-    assert_int_equal(entry->ref_handle, 0x001E);
-    assert_int_equal(entry->ref_offset, 0x05);
+    assert_int_equal(entry->referenced_handle, 0x001E);
+    assert_int_equal(entry->referenced_offset, 0x05);
     assert_null(entry->string);
     assert_int_equal(entry->value.length, 1);
     assert_int_equal(entry->value.data[0], 0xAA);
@@ -109,7 +109,7 @@ static void test_additional_info_decode(void **pstate)
     // Value is referenced in the data of the structure, which the buffer of
     // the entity holds
     entry = &info->entries[1];
-    assert_int_equal(entry->ref_handle, 0x0000);
+    assert_int_equal(entry->referenced_handle, 0x0000);
     assert_int_equal(entry->value.length, 2);
     assert_ptr_equal(entry->value.data,
                      dmi_buffer_at(entity->buffer, entity->offset, entity->total_length) +

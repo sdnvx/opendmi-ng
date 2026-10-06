@@ -74,7 +74,10 @@ __BEGIN_DECLS
  *
  * @return true on success, false if @p vector is @c nullptr.
  */
-__dmi_api bool dmi_vector_init(dmi_vector_t *vector, dmi_context_t *context, dmi_vector_match_fn *matcher);
+__dmi_api bool dmi_vector_initialize(
+        dmi_vector_t        *vector,
+        dmi_context_t       *context,
+        dmi_vector_match_fn *matcher);
 
 /**
  * @brief Retrieve an element by index.
@@ -95,7 +98,7 @@ __dmi_api bool dmi_vector_get(const dmi_vector_t *vector, size_t index, uintptr_
  * @brief Find the first element matching a key.
  *
  * Iterates over all elements and calls the matcher callback set during
- * `dmi_vector_init()` to locate the first match.
+ * `dmi_vector_initialize()` to locate the first match.
  *
  * @param vector The vector to search, which must have a matcher set.
  * @param key    The search key passed to the matcher callback.
@@ -160,7 +163,7 @@ __dmi_api bool dmi_vector_pop(dmi_vector_t *vector, uintptr_t *value);
 /**
  * @brief Remove all elements and release allocated memory.
  *
- * After this call the vector is in the same state as after `dmi_vector_init()`,
+ * After this call the vector is in the same state as after `dmi_vector_initialize()`,
  * with the context and the matcher kept.
  *
  * @param vector The vector to clear.

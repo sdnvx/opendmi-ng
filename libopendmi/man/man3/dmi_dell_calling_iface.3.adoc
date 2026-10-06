@@ -25,9 +25,9 @@ endif::[]
 #include <opendmi/entity/dell/calling-iface.h>
 
 typedef struct dmi_dell_calling_iface {
-    uint16_t cmd_io_address;
-    uint8_t cmd_io_code;
-    uint32_t supported_cmds;
+    uint16_t command_io_address;
+    uint8_t command_io_code;
+    uint32_t supported_commands;
     size_t token_count;
     dmi_dell_calling_iface_token_t *tokens;
 } dmi_dell_calling_iface_t;
@@ -46,13 +46,13 @@ lives as long as the context it has been decoded in.
 
 === Fields
 
-`cmd_io_address`::
+`command_io_address`::
 Address of the I/O port written to issue a command to the firmware.
 
-`cmd_io_code`::
+`command_io_code`::
 Value written to the command I/O port to issue a command.
 
-`supported_cmds`::
+`supported_commands`::
 Bit mask of the commands the firmware supports, as the structure carries it.
 The meaning of the bits is not publicly documented.
 

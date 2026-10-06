@@ -76,7 +76,7 @@ static void test_processor_ex_decode(void **pstate)
         const dmi_processor_ex_t *info = dmi_entity_info(entity, DMI_TYPE(processor_ex));
         assert_non_null(info);
         assert_int_equal(info->processor_handle, 0x000D);
-        assert_int_equal(info->arch, test_cases[i].arch);
+        assert_int_equal(info->architecture, test_cases[i].arch);
         assert_int_equal(info->data.length, test_cases[i].data_length);
 
         if (test_cases[i].data_length > 0) {

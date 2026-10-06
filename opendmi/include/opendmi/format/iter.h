@@ -165,7 +165,7 @@ __BEGIN_DECLS
  * @param[in]  info  Decoded entity data, containing the array counter.
  * @param[in]  value Pointer to the array attribute value.
  */
-void dmi_format_array_iter_init(
+void dmi_format_array_iter_initialize(
         dmi_format_array_iter_t *iter,
         const dmi_attribute_t   *attr,
         const dmi_data_t        *info,
@@ -191,7 +191,7 @@ const dmi_data_t *dmi_format_array_iter_next(dmi_format_array_iter_t *iter);
  * @param[in]  attr  Set attribute descriptor.
  * @param[in]  value Pointer to the set attribute value.
  */
-void dmi_format_set_iter_init(
+void dmi_format_set_iter_initialize(
         dmi_format_set_iter_t *iter,
         const dmi_attribute_t *attr,
         const void            *value);
@@ -204,7 +204,7 @@ void dmi_format_set_iter_init(
  * @param[in]  mask   Bit mask.
  * @param[in]  width  Bit mask width in bits.
  */
-void dmi_format_mask_iter_init(
+void dmi_format_mask_iter_initialize(
         dmi_format_set_iter_t *iter,
         const dmi_name_set_t  *values,
         uintmax_t              mask,
@@ -228,7 +228,7 @@ const dmi_format_flag_t *dmi_format_set_iter_next(dmi_format_set_iter_t *iter);
  * @param[out] iter   Iterator.
  * @param[in]  entity Entity descriptor.
  */
-void dmi_format_string_iter_init(dmi_format_string_iter_t *iter, const dmi_entity_t *entity);
+void dmi_format_string_iter_initialize(dmi_format_string_iter_t *iter, const dmi_entity_t *entity);
 
 /**
  * @brief Get the next raw string of an entity.
@@ -241,7 +241,7 @@ void dmi_format_string_iter_init(dmi_format_string_iter_t *iter, const dmi_entit
  */
 const char *dmi_format_string_iter_next(dmi_format_string_iter_t *iter);
 
-void dmi_format_property_iter_init(dmi_format_property_iter_t *iter, const dmi_entity_t *entity);
+void dmi_format_property_iter_initialize(dmi_format_property_iter_t *iter, const dmi_entity_t *entity);
 
 const dmi_string_property_t *dmi_format_property_iter_next(dmi_format_property_iter_t *iter);
 

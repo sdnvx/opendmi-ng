@@ -25,8 +25,8 @@ endif::[]
 #include <opendmi/entity/mgmt-controller.h>
 
 typedef struct dmi_mgmt_controller {
-    dmi_mgmt_if_type_t if_type;
-    dmi_binary_t if_data;
+    dmi_mgmt_iface_type_t interface_type;
+    dmi_binary_t interface_data;
     bool has_nhi;
     dmi_mgmt_nhi_t nhi;
     size_t proto_records_count;
@@ -51,23 +51,23 @@ length they declare, such as the ones written to the older layout, are decoded
 up to the interface type only.
 
 The structure is returned by `dmi_entity_info`(3) for the structures of type
-`DMI_TYPE(mgmt_controller_host_if)`, and lives as long as the context it has
+`DMI_TYPE(mgmt_controller)`, and lives as long as the context it has
 been decoded in.
 
 === Fields
 
-`if_type`::
+`interface_type`::
 Type of the interface: one of the MCTP host interface types, the network host
-interface, or an OEM-defined one. See `dmi_mgmt_if_type`(3).
+interface, or an OEM-defined one. See `dmi_mgmt_iface_type`(3).
 
-`if_data`::
+`interface_data`::
 Data of the interface, as the structure carries it; its layout depends on
-`if_type`. Empty if the structure has none, or if it cannot hold the length it
+`interface_type`. Empty if the structure has none, or if it cannot hold the length it
 declares.
 
 `has_nhi`::
 `true` if the interface is a network host interface
-(`DMI_MGMT_IF_TYPE_NETWORK_HOST_IF`) and its data is not empty, in which case
+(`DMI_MGMT_IFACE_TYPE_NETWORK_HOST`) and its data is not empty, in which case
 `nhi` holds the data decoded.
 
 `nhi`::
@@ -91,10 +91,10 @@ since SMBIOS 3.2.
 ----
 dmi_registry_t        *registry = dmi_get_registry(context);
 dmi_entity_t          *entity   = dmi_registry_lookup_first(registry,
-                                      DMI_TYPE(mgmt_controller_host_if),
+                                      DMI_TYPE(mgmt_controller),
                                       false);
 dmi_mgmt_controller_t *mc       = dmi_entity_info(entity,
-                                      DMI_TYPE(mgmt_controller_host_if));
+                                      DMI_TYPE(mgmt_controller));
 
 for (size_t i = 0; (mc != nullptr) && (i < mc->proto_records_count); i++) {
     const dmi_mgmt_proto_record_t *record = &mc->proto_records[i];
@@ -106,7 +106,7 @@ for (size_t i = 0; (mc != nullptr) && (i < mc->proto_records_count); i++) {
 
 == See also
 
-`dmi_entity_info`(3), `dmi_mgmt_if_type`(3), `dmi_mgmt_nhi`(3),
+`dmi_entity_info`(3), `dmi_mgmt_iface_type`(3), `dmi_mgmt_nhi`(3),
 `dmi_mgmt_proto_record`(3), `dmi_ipmi_device`(3)
 
 == Standards

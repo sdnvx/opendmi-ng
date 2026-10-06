@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_context_is_open(3)
+= dmi_is_open(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_context_is_open
+= dmi_is_open
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_context_is_open - check whether a context is open.
+dmi_is_open - check whether a context is open.
 
 == Library
 
@@ -24,12 +24,12 @@ endif::[]
 ----
 #include <opendmi/context.h>
 
-bool dmi_context_is_open(const dmi_context_t *context);
+bool dmi_is_open(const dmi_context_t *context);
 ----
 
 == Description
 
-The `dmi_context_is_open` function tells whether a context holds SMBIOS
+The `dmi_is_open` function tells whether a context holds SMBIOS
 data: a structure table and the registry of its structures, which
 `dmi_open`(3) and `dmi_load`(3) fill the context with, and `dmi_close`(3)
 frees.

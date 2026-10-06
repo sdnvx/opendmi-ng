@@ -27,15 +27,15 @@ endif::[]
 typedef struct dmi_mgmt_nhi_pci_v2 {
     uint16_t vendor_id;
     uint16_t device_id;
-    uint16_t subsys_vendor_id;
-    uint16_t subsys_id;
+    uint16_t subsystem_vendor_id;
+    uint16_t subsystem_id;
     dmi_binary_t mac_address;
     uint16_t segment_group;
     uint8_t bus_number;
     uint8_t device_number;
     uint8_t function_number;
     uint16_t characteristics;
-    dmi_handle_t credential_handle;
+    dmi_handle_t credential_bootstrapping_handle;
 } dmi_mgmt_nhi_pci_v2_t;
 ----
 
@@ -56,10 +56,10 @@ PCI vendor ID of the device.
 `device_id`::
 PCI device ID of the device.
 
-`subsys_vendor_id`::
+`subsystem_vendor_id`::
 PCI subsystem vendor ID of the device.
 
-`subsys_id`::
+`subsystem_id`::
 PCI subsystem ID of the device.
 
 `mac_address`::
@@ -84,7 +84,7 @@ Device characteristics, a set of the bits `dmi_mgmt_nhi_characteristic`(3)
 numbers. Zero if the descriptor is too short to hold them, as the descriptors
 older than DSP0270 1.3 are.
 
-`credential_handle`::
+`credential_bootstrapping_handle`::
 Handle of the interface to be used for credential bootstrapping via IPMI
 commands. `DMI_HANDLE_INVALID` if bootstrapping is not supported, or if the
 descriptor is too short to hold the handle, as the descriptors older than

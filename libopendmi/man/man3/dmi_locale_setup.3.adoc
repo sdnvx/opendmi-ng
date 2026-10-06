@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_locale_init(3)
+= dmi_locale_setup(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_locale_init
+= dmi_locale_setup
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_locale_init - initialize the locale of the program from the environment.
+dmi_locale_setup - initialize the locale of the program from the environment.
 
 == Library
 
@@ -24,12 +24,12 @@ endif::[]
 ----
 #include <opendmi/locale.h>
 
-void dmi_locale_init(void);
+void dmi_locale_setup(void);
 ----
 
 == Description
 
-The `dmi_locale_init` function sets up the locale of a program from the
+The `dmi_locale_setup` function sets up the locale of a program from the
 environment in one call:
 
 * the `LC_CTYPE` and `LC_MESSAGES` categories of the C library are taken from

@@ -49,7 +49,7 @@ const char *dmi_apple_processor_class_name(dmi_apple_processor_class_t value);
 
 The `dmi_apple_processor_class_t` enumeration tells the class of a processor,
 the major type of an Apple processor type, and is the type of the
-`processor_class` field of `dmi_apple_processor_type_t`. Other values may be
+`clazz` field of `dmi_apple_processor_type_t`. Other values may be
 found in the data, and are kept as they are.
 
 The `dmi_apple_processor_class_name` function returns the name of a value, as the command line

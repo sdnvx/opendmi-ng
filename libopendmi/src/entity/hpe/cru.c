@@ -38,8 +38,9 @@ const dmi_entity_spec_t dmi_hpe_cru_spec =
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_hpe_cru_t, signature, STRING, {
-            .code = "signature",
-            .name = "Signature"
+            .code  = "signature",
+            .name  = "Signature",
+            .flags = DMI_ATTRIBUTE_FLAG_OWNED
         }),
         // Records of other signatures than "$CRU" describe something else,
         // whose layout is not known

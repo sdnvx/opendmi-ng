@@ -29,8 +29,8 @@ typedef struct dmi_memory_error_32 {
     dmi_memory_error_granularity_t granularity;
     dmi_memory_error_operation_t operation;
     uint32_t vendor_syndrome;
-    uint32_t array_addr;
-    uint32_t device_addr;
+    uint32_t array_address;
+    uint32_t device_address;
     uint32_t resolution;
 } dmi_memory_error_32_t;
 ----
@@ -67,11 +67,11 @@ Memory access operation which caused the error.
 `vendor_syndrome`::
 Vendor-specific ECC syndrome or CRC data of the failing access. 0 when unknown.
 
-`array_addr`::
+`array_address`::
 Physical address of the error, as the bus the memory array is connected to sees
 it. `0x80000000` when unknown.
 
-`device_addr`::
+`device_address`::
 Physical address of the error from the start of the failing memory device, in
 bytes. `0x80000000` when unknown.
 
@@ -93,8 +93,8 @@ if (error != nullptr) {
     const char *type = dmi_memory_error_type_name(error->type);
 
     printf("Memory error: %s\n", type != nullptr ? type : "?");
-    if (error->array_addr != 0x80000000)
-        printf("Array address: 0x%08x\n", (unsigned)error->array_addr);
+    if (error->array_address != 0x80000000)
+        printf("Array address: 0x%08x\n", (unsigned)error->array_address);
 }
 ----
 

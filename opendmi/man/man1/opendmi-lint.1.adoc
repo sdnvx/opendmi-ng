@@ -671,7 +671,7 @@ No two onboard devices of the same type share an instance number, which is
 what tells them apart. Every pair is reported once, by the structure of the
 higher handle.
 
-`mgmt-controller-host-if.records`::
+`mgmt-controller.records`::
 Severity: warning, or error with *--producer*.
 +
 Interface-specific data leaves room for the protocol records, and every

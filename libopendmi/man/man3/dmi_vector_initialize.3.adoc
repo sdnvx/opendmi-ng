@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_vector_init(3)
+= dmi_vector_initialize(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_vector_init
+= dmi_vector_initialize
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_vector_init, dmi_vector_clear, dmi_vector_push, dmi_vector_pop, dmi_vector_get, dmi_vector_find, dmi_vector_exists - manage a dynamic array of pointer-sized values.
+dmi_vector_initialize, dmi_vector_clear, dmi_vector_push, dmi_vector_pop, dmi_vector_get, dmi_vector_find, dmi_vector_exists - manage a dynamic array of pointer-sized values.
 
 == Library
 
@@ -34,7 +34,7 @@ typedef struct dmi_vector {
     dmi_context_t       *context;
 } dmi_vector_t;
 
-bool dmi_vector_init(dmi_vector_t *vector, dmi_context_t *context, dmi_vector_match_fn *matcher);
+bool dmi_vector_initialize(dmi_vector_t *vector, dmi_context_t *context, dmi_vector_match_fn *matcher);
 bool dmi_vector_clear(dmi_vector_t *vector);
 
 bool dmi_vector_push(dmi_vector_t *vector, uintptr_t value);
@@ -59,12 +59,12 @@ The `data` member points to the array, `length` is the number of values the
 array holds, and `capacity` the number it can hold before it is grown. The
 members are read, but are changed only by the functions.
 
-The `dmi_vector_init` function sets the vector up empty, with no memory
+The `dmi_vector_initialize` function sets the vector up empty, with no memory
 allocated, with `context` as the context its errors are raised against, and
 with `matcher` as the function `dmi_vector_find` and `dmi_vector_exists`
 compare the values with keys by. The `dmi_vector_clear` function removes all
 values and frees the array, and leaves the vector empty, as
-`dmi_vector_init` does, with the context and the matcher kept. A vector is cleared once it
+`dmi_vector_initialize` does, with the context and the matcher kept. A vector is cleared once it
 is no longer needed.
 
 The `dmi_vector_push` function appends `value` to the vector, growing the
@@ -113,7 +113,7 @@ Value of the vector the matcher compares with `key`.
 
 == Return value
 
-The `dmi_vector_init`, `dmi_vector_clear`, `dmi_vector_push` and
+The `dmi_vector_initialize`, `dmi_vector_clear`, `dmi_vector_push` and
 `dmi_vector_get` functions return `true` on success, and `false` on failure.
 If `dmi_vector_push` fails, the vector is left as it was.
 
@@ -143,7 +143,7 @@ Raised by `dmi_vector_push` if the array cannot be grown.
 
 The errors are raised against the context of the vector, and reach no error
 queue if the vector has none, or if `vector` itself is `nullptr`. The one of
-`dmi_vector_init` is raised against `context`.
+`dmi_vector_initialize` is raised against `context`.
 
 == Example
 
@@ -156,7 +156,7 @@ static bool match_name(uintptr_t entry, uintptr_t key)
 
 dmi_vector_t names;
 
-dmi_vector_init(&names, context, match_name);
+dmi_vector_initialize(&names, context, match_name);
 
 if (!dmi_vector_push(&names, (uintptr_t)"cpu") ||
     !dmi_vector_push(&names, (uintptr_t)"memory")) {

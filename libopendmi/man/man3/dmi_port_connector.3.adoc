@@ -78,7 +78,7 @@ dmi_registry_t      *registry = dmi_get_registry(context);
 dmi_registry_iter_t  iter;
 dmi_entity_t        *entity;
 
-dmi_registry_iter_init(&iter, registry, nullptr);
+dmi_registry_iter_initialize(&iter, registry, nullptr);
 
 while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
     if (dmi_entity_type(entity) != DMI_TYPE(port_connector))

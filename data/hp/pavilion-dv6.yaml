@@ -502,11 +502,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 2147483647
+    start-address: 0
+    end-address: 2147483647
     range-size: 2147483648
     device-handle: 14
-    array-addr-handle: 18
+    array-address-handle: 18
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0
@@ -562,11 +562,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 2147483648
-    end-addr: 4294967295
+    start-address: 2147483648
+    end-address: 4294967295
     range-size: 2147483648
     device-handle: 16
-    array-addr-handle: 18
+    array-address-handle: 18
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0
@@ -580,8 +580,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     array-handle: 13
     partition-width: 2

@@ -26,8 +26,7 @@ endif::[]
 
 typedef struct dmi_apple_smc_version {
     dmi_binary_t version_raw;
-    const char *version;
-    char version_buffer[DMI_APPLE_SMC_VERSION_SIZE + 1];
+    char *version;
 } dmi_apple_smc_version_t;
 ----
 
@@ -52,10 +51,8 @@ Version of the SMC firmware, as the structure holds it, of
 
 `version`::
 Version of the SMC firmware as text, e.g. `2.15f7`, which the bytes of zero
-end. `nullptr` if the structure holds no text.
-
-`version_buffer`::
-Buffer holding the text of `version`.
+end. `nullptr` if the structure holds no text. The string belongs to the structure, and is freed along
+with it.
 
 == See also
 

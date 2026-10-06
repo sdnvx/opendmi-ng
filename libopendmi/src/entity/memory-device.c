@@ -46,8 +46,8 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_FIELD(dmi_memory_device_t, device_set,        dmi_byte_t, .unknown_raw = 0xFF),
         DMI_FIELD_STRING(dmi_memory_device_t, device_locator),
         DMI_FIELD_STRING(dmi_memory_device_t, bank_locator),
-        DMI_FIELD(dmi_memory_device_t, memory_type,        dmi_byte_t),
-        DMI_FIELD(dmi_memory_device_t, memory_type_detail, dmi_word_t),
+        DMI_FIELD(dmi_memory_device_t, memory_type,         dmi_byte_t),
+        DMI_FIELD(dmi_memory_device_t, memory_type_details, dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 3, 0)),
         DMI_FIELD(dmi_memory_device_t, maximum_speed, dmi_word_t),
@@ -85,8 +85,8 @@ const dmi_entity_spec_t dmi_memory_device_spec =
         DMI_FIELD(dmi_memory_device_t, configured_voltage, dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(3, 2, 0)),
-        DMI_FIELD(dmi_memory_device_t, memory_tech,      dmi_byte_t),
-        DMI_FIELD(dmi_memory_device_t, memory_mode_caps, dmi_word_t),
+        DMI_FIELD(dmi_memory_device_t, memory_technology, dmi_byte_t),
+        DMI_FIELD(dmi_memory_device_t, memory_mode_caps,  dmi_word_t),
         DMI_FIELD_STRING(dmi_memory_device_t, firmware_version),
         DMI_FIELD(dmi_memory_device_t, module_vendor_id,      dmi_word_t),
         DMI_FIELD(dmi_memory_device_t, module_product_id,     dmi_word_t),
@@ -166,10 +166,10 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .unknown = dmi_value_ptr(DMI_MEMORY_DEVICE_TYPE_UNKNOWN),
             .values  = &dmi_memory_device_type_names
         }),
-        DMI_ATTRIBUTE(dmi_memory_device_t, memory_type_detail, SET, {
+        DMI_ATTRIBUTE(dmi_memory_device_t, memory_type_details, SET, {
             .code    = "memory-type-details",
             .name    = "Memory type details",
-            .values  = &dmi_memory_device_type_detail_names
+            .values  = &dmi_memory_device_type_details_names
         }),
         DMI_ATTRIBUTE(dmi_memory_device_t, maximum_speed, INTEGER, {
             .code    = "maximum-speed",
@@ -249,7 +249,7 @@ const dmi_entity_spec_t dmi_memory_device_spec =
             .unknown = dmi_value_ptr((unsigned short)0),
             .level   = DMI_VERSION(2, 8, 0)
         }),
-        DMI_ATTRIBUTE(dmi_memory_device_t, memory_tech, ENUM, {
+        DMI_ATTRIBUTE(dmi_memory_device_t, memory_technology, ENUM, {
             .code    = "memory-technology",
             .name    = "Memory technology",
             .unspec  = dmi_value_ptr(DMI_MEMORY_DEVICE_TECH_UNSPEC),

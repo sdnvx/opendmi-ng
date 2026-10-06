@@ -269,7 +269,7 @@ static bool dmi_save_check(dmi_context_t *context, const char *path)
 {
     if (path == nullptr)
         return dmi_trace_argument_null(context, path);
-    if (not dmi_context_is_open(context))
+    if (not dmi_is_open(context))
         return dmi_trace_state_invalid(context, "Context is not open");
 
     // Backends which have no access to the entry point leave the context
@@ -529,7 +529,7 @@ static bool dmi_dump_entry_build(dmi_context_t *context, dmi_byte_t *entry)
 
         length = dmi_decode(eps->length);
 
-        dmi_entry_set(eps->table_area_addr, dmi_encode_qword(DMI_ENTRY_MAX_SIZE));
+        dmi_entry_set(eps->table_area_address, dmi_encode_qword(DMI_ENTRY_MAX_SIZE));
         dmi_entry_set_checksum(eps, length);
     } else if (spec->version >= DMI_VERSION(2, 1, 0)) {
         dmi_entry_v21_t *eps = dmi_cast(eps, entry);
@@ -544,14 +544,14 @@ static bool dmi_dump_entry_build(dmi_context_t *context, dmi_byte_t *entry)
 
         // Intermediate entry point bytes sum to zero before and after the
         // relocation, so the entry point checksum needs no adjustment.
-        dmi_entry_set(ieps->table_area_addr, dmi_encode_dword(DMI_ENTRY_MAX_SIZE));
+        dmi_entry_set(ieps->table_area_address, dmi_encode_dword(DMI_ENTRY_MAX_SIZE));
         dmi_entry_set_checksum(ieps, sizeof(dmi_entry_legacy_t));
     } else {
         dmi_entry_legacy_t *eps = dmi_cast(eps, entry);
 
         length = sizeof(dmi_entry_legacy_t);
 
-        dmi_entry_set(eps->table_area_addr, dmi_encode_dword(DMI_ENTRY_MAX_SIZE));
+        dmi_entry_set(eps->table_area_address, dmi_encode_dword(DMI_ENTRY_MAX_SIZE));
         dmi_entry_set_checksum(eps, length);
     }
 
@@ -581,7 +581,7 @@ static bool dmi_dump_entry_generate(dmi_context_t *context, dmi_byte_t *entry)
         .version_rev         = dmi_encode_byte((uint8_t)dmi_version_revision(version)),
         .revision            = dmi_encode_byte(0x01), // SMBIOS 3.0 entry point
         .table_area_max_size = dmi_encode_dword((uint32_t)context->state.table->length),
-        .table_area_addr     = dmi_encode_qword(DMI_ENTRY_MAX_SIZE)
+        .table_area_address  = dmi_encode_qword(DMI_ENTRY_MAX_SIZE)
     };
 
     memcpy(eps, &data, sizeof(data));

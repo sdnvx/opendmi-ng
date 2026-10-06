@@ -65,7 +65,7 @@ bool foo_load(dmi_context_t *context, const char *path, size_t length)
         return dmi_trace_argument_null(context, path);
     if (length == 0)
         return dmi_trace_argument_invalid(context, length);
-    if (!dmi_context_is_open(context))
+    if (!dmi_is_open(context))
         return dmi_trace_state_invalid(context, "Context is not open");
     ...
 }
@@ -139,7 +139,7 @@ C{pp}20, and is supported by GCC and Clang in the earlier modes as well.
 `dmi_error_raise`(3),
 `dmi_error_raise_ex`(3),
 `dmi_error_get_last`(3),
-`dmi_context_is_open`(3)
+`dmi_is_open`(3)
 
 ifdef::backend-manpage[]
 == Copying

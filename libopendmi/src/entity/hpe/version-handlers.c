@@ -11,6 +11,7 @@
 #include <opendmi/platform.h>
 #include <opendmi/internal.h>
 #include <opendmi/module/hpe.h>
+#include <opendmi/utils/string.h>
 
 #include "version-internal.h"
 
@@ -58,13 +59,15 @@ typedef int dmi_hpe_version_format_fn(const dmi_hpe_version_text_t *text);
  * @internal
  * @brief Format the version data of a version indicator.
  *
- * @param[in,out] info       Version indicator, whose buffer is written.
- * @param[in]     generation Generation of the server.
+ * @param[in]  info       Version indicator.
+ * @param[in]  generation Generation of the server.
+ * @param[out] buf        Buffer to write the version into.
+ * @param[in]  size       Size of the buffer.
  *
  * @return Number of the characters written, or a negative value if the
  *         format is not known.
  */
-static int dmi_hpe_version_format(dmi_hpe_version_t *info, unsigned generation);
+static int dmi_hpe_version_format(const dmi_hpe_version_t *info, unsigned generation, char *buf, size_t size);
 
 /**
  * @internal
@@ -145,14 +148,15 @@ bool dmi_hpe_version_derive(dmi_entity_t *entity)
     const dmi_platform_t *platform = dmi_get_platform(dmi_entity_context(entity));
     unsigned generation = (platform != nullptr) ? platform->generation : 0;
 
-    int length = dmi_hpe_version_format(info, generation);
-    if ((length > 0) and ((size_t)length < sizeof(info->version_buffer)))
-        info->version = info->version_buffer;
+    char version[48];
 
-    return true;
+    int length = dmi_hpe_version_format(info, generation, version, sizeof(version));
+    bool known = (length > 0) and ((size_t)length < sizeof(version));
+
+    return dmi_string_set(dmi_entity_context(entity), &info->version, known ? version : nullptr);
 }
 
-static int dmi_hpe_version_format(dmi_hpe_version_t *info, unsigned generation)
+static int dmi_hpe_version_format(const dmi_hpe_version_t *info, unsigned generation, char *buf, size_t size)
 {
     if (info->data_format >= countof(dmi_hpe_version_formats))
         return -1;
@@ -162,8 +166,8 @@ static int dmi_hpe_version_format(dmi_hpe_version_t *info, unsigned generation)
         return -1;
 
     dmi_hpe_version_text_t text = {
-        .buf        = info->version_buffer,
-        .size       = sizeof(info->version_buffer),
+        .buf        = buf,
+        .size       = size,
         .generation = generation
     };
 

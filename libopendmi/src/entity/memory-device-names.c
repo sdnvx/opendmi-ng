@@ -185,7 +185,7 @@ const dmi_name_set_t dmi_memory_device_type_names =
     })
 };
 
-const dmi_name_set_t dmi_memory_device_type_detail_names =
+const dmi_name_set_t dmi_memory_device_type_details_names =
 {
     .code  = "memory-device-type-detail",
     .names = DMI_NAMES({

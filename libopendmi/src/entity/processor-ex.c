@@ -49,8 +49,8 @@ const dmi_entity_spec_t dmi_processor_ex_spec =
         // Processor-specific block declares a length of its own, and the
         // minimum length of the structure does not include it
         DMI_FIELD_GROUP(),
-        DMI_FIELD(dmi_processor_ex_t, data.length, dmi_byte_t),
-        DMI_FIELD(dmi_processor_ex_t, arch,        dmi_byte_t),
+        DMI_FIELD(dmi_processor_ex_t, data.length,  dmi_byte_t),
+        DMI_FIELD(dmi_processor_ex_t, architecture, dmi_byte_t),
         DMI_FIELD_BINARY(dmi_processor_ex_t, data, DMI_FIELD_LENGTH_MEMBER),
         {}
     }),
@@ -62,7 +62,7 @@ const dmi_entity_spec_t dmi_processor_ex_spec =
             .targets = dmi_types(DMI_TYPE(processor)),
             .link   = dmi_member(dmi_processor_ex_t, processor)
         }),
-        DMI_ATTRIBUTE(dmi_processor_ex_t, arch, ENUM, {
+        DMI_ATTRIBUTE(dmi_processor_ex_t, architecture, ENUM, {
             .code   = "architecture",
             .name   = "Architecture",
             .values = &dmi_processor_arch_names

@@ -440,7 +440,7 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
     dmi_log_debug(context, "Applying additional information...");
 
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, registry, nullptr);
+    dmi_registry_iter_initialize(&iter, registry, nullptr);
 
     bool success = true;
 
@@ -465,11 +465,11 @@ bool dmi_registry_overlay(dmi_registry_t *registry)
         for (size_t i = 0; i < info->entry_count; i++) {
             const dmi_additional_info_entry_t *entry = &info->entries[i];
 
-            dmi_entity_t *target = dmi_registry_lookup(registry, entry->ref_handle, DMI_TYPE_ANY, true);
+            dmi_entity_t *target = dmi_registry_lookup(registry, entry->referenced_handle, DMI_TYPE_ANY, true);
             if (target == nullptr) {
                 dmi_error_raise_ex(context, DMI_ERROR_ENTITY_NOT_FOUND,
                                    "Additional information 0x%04x[%zu]: structure 0x%04x not found",
-                                   entity->handle, i, entry->ref_handle);
+                                   entity->handle, i, entry->referenced_handle);
                 success = false;
                 continue;
             }
@@ -507,7 +507,7 @@ bool dmi_registry_decode(dmi_registry_t *registry)
     dmi_log_debug(context, "Decoding SMBIOS structures...");
 
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, registry, nullptr);
+    dmi_registry_iter_initialize(&iter, registry, nullptr);
 
     bool success = true;
 
@@ -561,7 +561,7 @@ bool dmi_registry_link(dmi_registry_t *registry)
     dmi_log_debug(context, "Linking SMBIOS structures...");
 
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, registry, nullptr);
+    dmi_registry_iter_initialize(&iter, registry, nullptr);
 
     bool success = true;
 
@@ -597,7 +597,7 @@ bool dmi_registry_link(dmi_registry_t *registry)
     return true;
 }
 
-bool dmi_registry_iter_init(
+bool dmi_registry_iter_initialize(
         dmi_registry_iter_t *iter,
         dmi_registry_t *registry,
         dmi_filter_t *filter)

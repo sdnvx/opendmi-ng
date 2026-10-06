@@ -212,7 +212,7 @@ None.
 
 == See also
 
-`dmi_memory_device`(3), `dmi_memory_device_type_detail`(3),
+`dmi_memory_device`(3), `dmi_memory_device_type_details`(3),
 `dmi_memory_device_tech`(3)
 
 == Standards

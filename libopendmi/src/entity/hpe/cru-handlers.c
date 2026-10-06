@@ -8,6 +8,7 @@
 
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
+#include <opendmi/utils/string.h>
 #include <opendmi/module/hpe.h>
 
 #include "cru-internal.h"
@@ -21,8 +22,7 @@ bool dmi_hpe_cru_derive(dmi_entity_t *entity)
     info->entry_point = info->address + info->offset;
     info->is_cru      = (info->signature_raw.length == 4) and
                         (memcmp(info->signature_raw.data, "$CRU", 4) == 0);
-    info->signature   = dmi_text_from_bytes(info->signature_raw.data, info->signature_raw.length,
-                                     info->signature_buffer, false);
 
-    return true;
+    return dmi_string_set_bytes(dmi_entity_context(entity), &info->signature,
+                                info->signature_raw.data, info->signature_raw.length, false);
 }

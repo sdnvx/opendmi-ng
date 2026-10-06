@@ -99,7 +99,7 @@ const dmi_entity_spec_t dmi_hpe_drive_spec =
         DMI_ATTRIBUTE(dmi_hpe_drive_t, form_factor, ENUM, {
             .code   = "form-factor",
             .name   = "Form factor",
-            .values = &dmi_hpe_drive_form_names
+            .values = &dmi_hpe_drive_form_factor_names
         }),
         DMI_ATTRIBUTE(dmi_hpe_drive_t, health, ENUM, {
             .code    = "health",
@@ -199,72 +199,72 @@ const dmi_name_set_t dmi_hpe_drive_type_names =
 
 DMI_NAME_FUNCTION(dmi_hpe_drive_type)
 
-const dmi_name_set_t dmi_hpe_drive_form_names =
+const dmi_name_set_t dmi_hpe_drive_form_factor_names =
 {
-    .code  = "hpe-drive-form",
+    .code  = "hpe-drive-form-factor",
     .names = DMI_NAMES({
         {
-            .id   = DMI_HPE_DRIVE_FORM_3_5,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_3_5,
             .code = "3.5-inch",
             .name = "3.5-inch form factor"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_2_5,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_2_5,
             .code = "2.5-inch",
             .name = "2.5-inch form factor"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_1_8,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_1_8,
             .code = "1.8-inch",
             .name = "1.8-inch form factor"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_SMALLER,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_SMALLER,
             .code = "smaller",
             .name = "Smaller than 1.8-inch form factor"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_MSATA,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_MSATA,
             .code = "msata",
             .name = "mSATA"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_M2,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_M2,
             .code = "m2",
             .name = "M.2"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_MICRO_SSD,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_MICRO_SSD,
             .code = "micro-ssd",
             .name = "MicroSSD"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_CFAST,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_CFAST,
             .code = "cfast",
             .name = "CFast"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_EDSFF,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_EDSFF,
             .code = "edsff",
             .name = "EDSFF of unknown form factor"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_EDSFF_1U_S,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_EDSFF_1U_S,
             .code = "edsff-1u-s",
             .name = "EDSFF 1U short"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_EDSFF_1U_L,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_EDSFF_1U_L,
             .code = "edsff-1u-l",
             .name = "EDSFF 1U long"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_EDSFF_E3_S,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_EDSFF_E3_S,
             .code = "edsff-e3-s",
             .name = "EDSFF E3 short"
         },
         {
-            .id   = DMI_HPE_DRIVE_FORM_EDSFF_E3_L,
+            .id   = DMI_HPE_DRIVE_FORM_FACTOR_EDSFF_E3_L,
             .code = "edsff-e3-l",
             .name = "EDSFF E3 long"
         },
@@ -272,7 +272,7 @@ const dmi_name_set_t dmi_hpe_drive_form_names =
     })
 };
 
-DMI_NAME_FUNCTION(dmi_hpe_drive_form)
+DMI_NAME_FUNCTION(dmi_hpe_drive_form_factor)
 
 const dmi_name_set_t dmi_hpe_drive_health_names =
 {

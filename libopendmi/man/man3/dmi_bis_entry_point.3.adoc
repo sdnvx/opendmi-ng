@@ -26,7 +26,7 @@ endif::[]
 
 typedef struct dmi_bis_entry_point {
     uint8_t                     checksum;
-    dmi_bis_real_mode_address_t entry_point_16;
+    dmi_bis_real_mode_addr_t entry_point_16;
     uint32_t                    entry_point_32;
     bool                        is_valid;
 } dmi_bis_entry_point_t;
@@ -52,7 +52,7 @@ zero.
 
 `entry_point_16`::
 Entry point for the 16-bit real mode, see
-`dmi_bis_real_mode_address`(3).
+`dmi_bis_real_mode_addr`(3).
 
 `entry_point_32`::
 Entry point for the 32-bit protected mode, a physical address.
@@ -79,7 +79,7 @@ if ((bis != nullptr) && bis->is_valid)
 
 == See also
 
-`dmi_entity_info`(3), `dmi_bis_real_mode_address`(3)
+`dmi_entity_info`(3), `dmi_bis_real_mode_addr`(3)
 
 == Standards
 

@@ -26,7 +26,7 @@ endif::[]
 
 typedef struct dmi_apple_processor_type {
     uint8_t generation;
-    dmi_apple_processor_class_t processor_class;
+    dmi_apple_processor_class_t clazz;
 } dmi_apple_processor_type_t;
 ----
 
@@ -54,8 +54,10 @@ which is told apart by its signature.
 `generation`::
 Generation of the processor within its class, the minor type.
 
-`processor_class`::
+`clazz`::
 Class of the processor, the major type, see `dmi_apple_processor_class`(3).
+It is exported as `class`, the member being named otherwise since `class` is
+a keyword of C++.
 
 == See also
 

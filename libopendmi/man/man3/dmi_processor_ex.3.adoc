@@ -27,7 +27,7 @@ endif::[]
 typedef struct dmi_processor_ex {
     dmi_handle_t processor_handle;
     dmi_entity_t *processor;
-    dmi_processor_arch_t arch;
+    dmi_processor_arch_t architecture;
     dmi_binary_t data;
 } dmi_processor_ex_t;
 ----
@@ -59,7 +59,7 @@ Processor structure the information is about, whose information is a
 `dmi_processor_t`. Set when linking; `nullptr` if the handle refers to no
 processor structure.
 
-`arch`::
+`architecture`::
 Processor architecture the data are about.
 
 `data`::
@@ -77,7 +77,7 @@ dmi_entity_t       *entity   =
 dmi_processor_ex_t *info     =
         dmi_entity_info(entity, DMI_TYPE(processor_ex));
 
-if ((info != nullptr) && (info->arch == DMI_PROCESSOR_ARCH_AARCH64) &&
+if ((info != nullptr) && (info->architecture == DMI_PROCESSOR_ARCH_AARCH64) &&
     (info->data.length >= sizeof(dmi_processor_aarch64_data_t))) {
     const dmi_processor_aarch64_data_t *data =
             (const dmi_processor_aarch64_data_t *)info->data.data;

@@ -60,24 +60,24 @@
 /**
  * @brief Management interface types.
  */
-typedef enum dmi_mgmt_if_type {
-    DMI_MGMT_IF_TYPE_MCTP_KCS        = 0x02, ///< Keyboard Controller Style
-    DMI_MGMT_IF_TYPE_MCTP_8250_UART  = 0x03, ///< 8250 UART Register Compatible
-    DMI_MGMT_IF_TYPE_MCTP_16450_UART = 0x04, ///< 16450 UART Register Compatible
-    DMI_MGMT_IF_TYPE_MCTP_16550_UART = 0x05, ///< 16550/16550A UART Register Compatible
-    DMI_MGMT_IF_TYPE_MCTP_16650_UART = 0x06, ///< 16650/16650A UART Register Compatible
-    DMI_MGMT_IF_TYPE_MCTP_16750_UART = 0x07, ///< 16750/16750A UART Register Compatible
-    DMI_MGMT_IF_TYPE_MCTP_16850_UART = 0x08, ///< 16850/16850A UART Register Compatible
-    DMI_MGMT_IF_TYPE_MCTP_I2C_SMBUS  = 0x09, ///< I2C/SMBUS
-    DMI_MGMT_IF_TYPE_MCTP_I3C        = 0x0A, ///< I3C
-    DMI_MGMT_IF_TYPE_MCTP_PCIE_VDM   = 0x0B, ///< PCIe VDM
-    DMI_MGMT_IF_TYPE_MCTP_MMBI       = 0x0C, ///< MMBI
-    DMI_MGMT_IF_TYPE_MCTP_PCC        = 0x0D, ///< PCC
-    DMI_MGMT_IF_TYPE_MCTP_UCIE       = 0x0E, ///< UCIe
-    DMI_MGMT_IF_TYPE_MCTP_USB        = 0x0F, ///< USB
-    DMI_MGMT_IF_TYPE_NETWORK_HOST_IF = 0x40, ///< Network Host Interface (DSP0270)
-    DMI_MGMT_IF_TYPE_OEM             = 0xF0, ///< OEM-defined
-} dmi_mgmt_if_type_t;
+typedef enum dmi_mgmt_iface_type {
+    DMI_MGMT_IFACE_TYPE_MCTP_KCS        = 0x02, ///< Keyboard Controller Style
+    DMI_MGMT_IFACE_TYPE_MCTP_8250_UART  = 0x03, ///< 8250 UART Register Compatible
+    DMI_MGMT_IFACE_TYPE_MCTP_16450_UART = 0x04, ///< 16450 UART Register Compatible
+    DMI_MGMT_IFACE_TYPE_MCTP_16550_UART = 0x05, ///< 16550/16550A UART Register Compatible
+    DMI_MGMT_IFACE_TYPE_MCTP_16650_UART = 0x06, ///< 16650/16650A UART Register Compatible
+    DMI_MGMT_IFACE_TYPE_MCTP_16750_UART = 0x07, ///< 16750/16750A UART Register Compatible
+    DMI_MGMT_IFACE_TYPE_MCTP_16850_UART = 0x08, ///< 16850/16850A UART Register Compatible
+    DMI_MGMT_IFACE_TYPE_MCTP_I2C_SMBUS  = 0x09, ///< I2C/SMBUS
+    DMI_MGMT_IFACE_TYPE_MCTP_I3C        = 0x0A, ///< I3C
+    DMI_MGMT_IFACE_TYPE_MCTP_PCIE_VDM   = 0x0B, ///< PCIe VDM
+    DMI_MGMT_IFACE_TYPE_MCTP_MMBI       = 0x0C, ///< MMBI
+    DMI_MGMT_IFACE_TYPE_MCTP_PCC        = 0x0D, ///< PCC
+    DMI_MGMT_IFACE_TYPE_MCTP_UCIE       = 0x0E, ///< UCIe
+    DMI_MGMT_IFACE_TYPE_MCTP_USB        = 0x0F, ///< USB
+    DMI_MGMT_IFACE_TYPE_NETWORK_HOST    = 0x40, ///< Network Host Interface (DSP0270)
+    DMI_MGMT_IFACE_TYPE_OEM             = 0xF0, ///< OEM-defined
+} dmi_mgmt_iface_type_t;
 
 /**
  * @brief Management protocol types.
@@ -169,10 +169,10 @@ struct dmi_mgmt_nhi_usb
  */
 struct dmi_mgmt_nhi_pci
 {
-    uint16_t vendor_id;        ///< Vendor ID
-    uint16_t device_id;        ///< Device ID
-    uint16_t subsys_vendor_id; ///< Subsystem vendor ID
-    uint16_t subsys_id;        ///< Subsystem ID
+    uint16_t vendor_id;           ///< Vendor ID
+    uint16_t device_id;           ///< Device ID
+    uint16_t subsystem_vendor_id; ///< Subsystem vendor ID
+    uint16_t subsystem_id;        ///< Subsystem ID
 };
 
 /**
@@ -214,7 +214,7 @@ struct dmi_mgmt_nhi_usb_v2
      *
      * @since DSP0270 1.3
      */
-    dmi_handle_t credential_handle;
+    dmi_handle_t credential_bootstrapping_handle;
 };
 
 /**
@@ -224,8 +224,8 @@ struct dmi_mgmt_nhi_pci_v2
 {
     uint16_t vendor_id;        ///< Vendor ID
     uint16_t device_id;        ///< Device ID
-    uint16_t subsys_vendor_id; ///< Subsystem vendor ID
-    uint16_t subsys_id;        ///< Subsystem ID
+    uint16_t subsystem_vendor_id; ///< Subsystem vendor ID
+    uint16_t subsystem_id;        ///< Subsystem ID
 
     /**
      * @brief MAC address of the PCI/PCIe network device.
@@ -254,7 +254,7 @@ struct dmi_mgmt_nhi_pci_v2
      *
      * @since DSP0270 1.3
      */
-    dmi_handle_t credential_handle;
+    dmi_handle_t credential_bootstrapping_handle;
 };
 
 /**
@@ -376,12 +376,12 @@ struct dmi_mgmt_controller
     /**
      * @brief Management controller interface type.
      */
-    dmi_mgmt_if_type_t if_type;
+    dmi_mgmt_iface_type_t interface_type;
 
     /**
      * @brief Interface type-specific data, as stored.
      */
-    dmi_binary_t if_data;
+    dmi_binary_t interface_data;
 
     /**
      * @brief Set if interface-specific data is decoded as network host
@@ -439,7 +439,7 @@ struct dmi_mgmt_proto_record
 /**
  * @brief Management controller host interface entity specification.
  */
-extern __dmi_api const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec;
+extern __dmi_api const dmi_entity_spec_t dmi_mgmt_controller_spec;
 
 __BEGIN_DECLS
 
@@ -454,7 +454,7 @@ __BEGIN_DECLS
  *
  * @return The name of the value, or @c nullptr if @p value has no name.
  */
-__dmi_api const char *dmi_mgmt_if_type_name(dmi_mgmt_if_type_t value);
+__dmi_api const char *dmi_mgmt_iface_type_name(dmi_mgmt_iface_type_t value);
 
 /**
  * @brief Get network host interface device characteristic name.

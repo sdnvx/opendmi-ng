@@ -1135,8 +1135,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     array-handle: 59
     partition-width: 2
@@ -1148,7 +1148,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: CTNI
+    vendor: CTNI
     specification-version: '2.0'
     firmware-version:
       major: 403
@@ -1551,11 +1551,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 8589934591
+    start-address: 0
+    end-address: 8589934591
     range-size: 8589934592
     device-handle: 60
-    array-addr-handle: 62
+    array-address-handle: 62
     partition-pos: unknown
     interleave-pos: 1
     interleave-depth: 1
@@ -1568,11 +1568,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 8589934592
-    end-addr: 17179869183
+    start-address: 8589934592
+    end-address: 17179869183
     range-size: 8589934592
     device-handle: 61
-    array-addr-handle: 62
+    array-address-handle: 62
     partition-pos: unknown
     interleave-pos: 2
     interleave-depth: 1

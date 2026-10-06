@@ -86,22 +86,6 @@ const char *dmi_value_text(const char *key, const char *fallback);
 
 /**
  * @internal
- * @brief Copy the text the bytes of a structure spell, e.g. a signature,
- * into a buffer.
- *
- * @param[in]  data   Bytes of the structure.
- * @param[in]  length Number of the bytes.
- * @param[out] buffer Buffer at least one byte longer than the bytes, which
- *                    the text is copied into and terminated.
- * @param[in]  trim   Whether the spaces are left out.
- *
- * @return Text in the buffer, or `nullptr` if the bytes are not all printable
- *         or leave nothing but spaces.
- */
-const char *dmi_text_from_bytes(const uint8_t *data, size_t length, char *buffer, bool trim);
-
-/**
- * @internal
  * @brief Mark a variable or a parameter as deliberately unused.
  */
 #define dmi_unused(x) (void)(x)

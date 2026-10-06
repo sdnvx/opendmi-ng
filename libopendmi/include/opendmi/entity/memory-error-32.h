@@ -51,14 +51,14 @@ struct dmi_memory_error_32
      * the bus to which the memory array is connected. If the address is
      * unknown, this field contains `0x80000000`.
      */
-    uint32_t array_addr;
+    uint32_t array_address;
 
     /**
      * @brief Physical address of the error relative to the start of
      * the failing memory device, in bytes. If the address is unknown, this
      * field contains `0x80000000`.
      */
-    uint32_t device_addr;
+    uint32_t device_address;
 
     /**
      * @brief Range, in bytes, within which the error can be determined, when

@@ -17,87 +17,87 @@
 
 #include "mgmt-controller-internal.h"
 
-const dmi_name_set_t dmi_mgmt_if_type_names =
+const dmi_name_set_t dmi_mgmt_iface_type_names =
 {
-    .code  = "mgmt-if-type",
+    .code  = "mgmt-interface-type",
     .names = DMI_NAMES({
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_KCS,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_KCS,
             .code = "keyboard-controller-style",
             .name = "Keyboard Controller Style"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_8250_UART,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_8250_UART,
             .code = "8250-uart",
             .name = "8250 UART Register Compatible"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_16450_UART,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_16450_UART,
             .code = "16450-uart",
             .name = "16450 UART Register Compatible"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_16550_UART,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_16550_UART,
             .code = "16550-uart",
             .name = "16550/16550A UART Register Compatible"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_16650_UART,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_16650_UART,
             .code = "16650-uart",
             .name = "16650/16650A UART Register Compatible"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_16750_UART,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_16750_UART,
             .code = "16750-uart",
             .name = "16750/16750A UART Register Compatible"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_16850_UART,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_16850_UART,
             .code = "16850-uart",
             .name = "16850/16850A UART Register Compatible"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_I2C_SMBUS,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_I2C_SMBUS,
             .code = "i2c-smbus",
             .name = "I2C/SMBUS"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_I3C,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_I3C,
             .code = "i3c",
             .name = "I3C"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_PCIE_VDM,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_PCIE_VDM,
             .code = "pcie-vdm",
             .name = "PCIe VDM"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_MMBI,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_MMBI,
             .code = "mmbi",
             .name = "MMBI"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_PCC,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_PCC,
             .code = "pcc",
             .name = "PCC"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_UCIE,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_UCIE,
             .code = "ucie",
             .name = "UCIe"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_MCTP_USB,
+            .id   = DMI_MGMT_IFACE_TYPE_MCTP_USB,
             .code = "usb",
             .name = "USB"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_NETWORK_HOST_IF,
+            .id   = DMI_MGMT_IFACE_TYPE_NETWORK_HOST,
             .code = "network-host-interface",
             .name = "Network Host Interface"
         },
         {
-            .id   = DMI_MGMT_IF_TYPE_OEM,
+            .id   = DMI_MGMT_IFACE_TYPE_OEM,
             .code = "oem-defined",
             .name = "OEM-defined"
         },
@@ -239,7 +239,7 @@ const dmi_name_set_t dmi_mgmt_redfish_ip_format_names =
     })
 };
 
-DMI_NAME_FUNCTION(dmi_mgmt_if_type)
+DMI_NAME_FUNCTION(dmi_mgmt_iface_type)
 DMI_NAME_FUNCTION(dmi_mgmt_nhi_characteristic)
 DMI_NAME_FUNCTION(dmi_mgmt_nhi_device_type)
 DMI_NAME_FUNCTION(dmi_mgmt_proto)

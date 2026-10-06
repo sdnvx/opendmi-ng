@@ -16,7 +16,7 @@
 #include <opendmi/utils/string.h>
 #include <opendmi/format/iter.h>
 
-void dmi_format_array_iter_init(
+void dmi_format_array_iter_initialize(
         dmi_format_array_iter_t *iter,
         const dmi_attribute_t   *attr,
         const dmi_data_t        *info,
@@ -54,7 +54,7 @@ const dmi_data_t *dmi_format_array_iter_next(dmi_format_array_iter_t *iter)
     return element;
 }
 
-void dmi_format_set_iter_init(
+void dmi_format_set_iter_initialize(
         dmi_format_set_iter_t *iter,
         const dmi_attribute_t *attr,
         const void            *value)
@@ -63,12 +63,12 @@ void dmi_format_set_iter_init(
     assert(attr != nullptr);
     assert(value != nullptr);
 
-    dmi_format_mask_iter_init(iter, attr->params.values,
-                              dmi_attribute_get_uint(attr, value),
-                              attr->value.size * CHAR_BIT);
+    dmi_format_mask_iter_initialize(iter, attr->params.values,
+                                    dmi_attribute_get_uint(attr, value),
+                                    attr->value.size * CHAR_BIT);
 }
 
-void dmi_format_mask_iter_init(
+void dmi_format_mask_iter_initialize(
         dmi_format_set_iter_t *iter,
         const dmi_name_set_t  *values,
         uintmax_t              mask,
@@ -111,7 +111,7 @@ const dmi_format_flag_t *dmi_format_set_iter_next(dmi_format_set_iter_t *iter)
     return nullptr;
 }
 
-void dmi_format_string_iter_init(dmi_format_string_iter_t *iter, const dmi_entity_t *entity)
+void dmi_format_string_iter_initialize(dmi_format_string_iter_t *iter, const dmi_entity_t *entity)
 {
     assert(iter != nullptr);
     assert(entity != nullptr);
@@ -131,7 +131,7 @@ const char *dmi_format_string_iter_next(dmi_format_string_iter_t *iter)
     return dmi_entity_string_ex(iter->entity, ++iter->index, true);
 }
 
-void dmi_format_property_iter_init(dmi_format_property_iter_t *iter, const dmi_entity_t *entity)
+void dmi_format_property_iter_initialize(dmi_format_property_iter_t *iter, const dmi_entity_t *entity)
 {
     assert(iter != nullptr);
     assert(entity != nullptr);

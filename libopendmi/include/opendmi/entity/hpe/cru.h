@@ -30,16 +30,13 @@ struct dmi_hpe_cru
     dmi_binary_t signature_raw;
 
     /**
-     * @brief Signature, which `signature` points to.
-     */
-    char signature_buffer[5];
-
-    /**
      * @brief Signature, `$CRU` for the CRU services, or @c nullptr if it is
      * not printable. Some servers carry records of other signatures too, e.g.
      * `$SHF`, whose meaning is not known.
+     *
+     * The string belongs to the structure, and is freed along with it.
      */
-    const char *signature;
+    char *signature;
 
     /**
      * @brief Physical address of the service area.

@@ -140,13 +140,20 @@ static bool dmi_entity_signature_match(const dmi_entity_t *entity, const dmi_sig
  * to the caller.
  *
  * @details
- * The arrays of the linked structures are freed first, while the arrays
- * holding them are all there, whoever has allocated those. The cleanup
- * handler of the specification then frees what its own handlers have
- * allocated, and may still reach the arrays the fields declare, which are
- * freed last.
+ * The arrays of the linked structures and the strings the structure owns,
+ * see `DMI_ATTRIBUTE_FLAG_OWNED`, are freed first, while the arrays holding
+ * them are all there, whoever has allocated those. The cleanup handler of the
+ * specification then frees what its own handlers have allocated, and may
+ * still reach the arrays the fields declare, which are freed last.
  */
 static void dmi_entity_release(dmi_entity_t *entity);
+
+/**
+ * @internal
+ * @brief Free a string the walk of the attributes reaches, if the structure
+ * owns it, see `DMI_ATTRIBUTE_FLAG_OWNED`.
+ */
+static bool dmi_entity_release_string(void *context, const dmi_attribute_node_t *node);
 
 dmi_entity_t *dmi_entity_create(
         dmi_context_t      *context,
@@ -203,7 +210,7 @@ dmi_entity_t *dmi_entity_create(
     if (entity == nullptr)
         return nullptr;
 
-    dmi_vector_init(&entity->properties, context, nullptr);
+    dmi_vector_initialize(&entity->properties, context, nullptr);
 
     // Decode structure header
     entity->context     = context;
@@ -574,13 +581,13 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
     }
 
     // Structure header and strings cannot be changed
-    if ((entry->ref_offset < sizeof(dmi_header_t)) or
-        (entry->ref_offset + entry->value.length > entity->body_length))
+    if ((entry->referenced_offset < sizeof(dmi_header_t)) or
+        (entry->referenced_offset + entry->value.length > entity->body_length))
     {
         dmi_error_raise_ex(context, DMI_ERROR_OVERLAY_INVALID,
                            "Additional information 0x%04x[%zu]: %zu bytes at offset 0x%02x "
                            "of structure 0x%04x, which is %zu bytes long",
-                           source->handle, index, entry->value.length, entry->ref_offset,
+                           source->handle, index, entry->value.length, entry->referenced_offset,
                            entity->handle, entity->body_length);
         return false;
     }
@@ -827,10 +834,34 @@ static void dmi_entity_release(dmi_entity_t *entity)
 
     dmi_attributes_unlink(entity);
 
+    if ((entity->spec->attributes != nullptr) and (entity->info != nullptr)) {
+        static const dmi_attribute_visitor_t visitor = {
+            .value = dmi_entity_release_string
+        };
+
+        dmi_attributes_walk(entity->spec->attributes, entity->info, &visitor, nullptr);
+    }
+
     if (entity->spec->handlers.cleanup != nullptr)
         entity->spec->handlers.cleanup(entity);
 
     dmi_fields_release(entity);
+}
+
+static bool dmi_entity_release_string(void *context, const dmi_attribute_node_t *node)
+{
+    dmi_unused(context);
+
+    const dmi_attribute_t *attr = node->attr;
+
+    if ((attr->type == DMI_ATTRIBUTE_TYPE_STRING) and (attr->params.flags & DMI_ATTRIBUTE_FLAG_OWNED)) {
+        char **pstring = (char **)node->value;
+
+        dmi_free(*pstring);
+        *pstring = nullptr;
+    }
+
+    return true;
 }
 
 static bool dmi_entity_apply_overlays(dmi_entity_t *entity)
@@ -851,10 +882,10 @@ static bool dmi_entity_apply_overlays(dmi_entity_t *entity)
         const dmi_additional_info_entry_t *entry = node->entry;
 
         dmi_log_debug(context, "0x%04x: Applying %zu bytes at offset 0x%02x",
-                      entity->handle, entry->value.length, entry->ref_offset);
+                      entity->handle, entry->value.length, entry->referenced_offset);
 
         if (not dmi_buffer_write(entity->overlay, entry->value.data,
-                                 entry->ref_offset, entry->value.length))
+                                 entry->referenced_offset, entry->value.length))
             goto failure;
     }
 

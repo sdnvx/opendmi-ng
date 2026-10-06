@@ -42,37 +42,37 @@ const dmi_entity_spec_t dmi_memory_device_addr_spec =
         // into four bytes are carried by the extended fields instead. The end
         // is the last kilobyte of the range, and is decoded into its last
         // byte, which is what the extended field carries
-        DMI_FIELD(dmi_memory_device_addr_t, start_addr, dmi_dword_t,
+        DMI_FIELD(dmi_memory_device_addr_t, start_address, dmi_dword_t,
                   .decode = dmi_field_decode_kilobytes,
                   .encode = dmi_field_encode_kilobytes),
-        DMI_FIELD(dmi_memory_device_addr_t, end_addr, dmi_dword_t,
+        DMI_FIELD(dmi_memory_device_addr_t, end_address, dmi_dword_t,
                   .decode = dmi_field_decode_kilobytes_last,
                   .encode = dmi_field_encode_kilobytes),
 
         DMI_FIELD(dmi_memory_device_addr_t, device_handle,     dmi_word_t),
-        DMI_FIELD(dmi_memory_device_addr_t, array_addr_handle, dmi_word_t),
+        DMI_FIELD(dmi_memory_device_addr_t, array_address_handle, dmi_word_t),
 
         DMI_FIELD(dmi_memory_device_addr_t, partition_pos,    dmi_byte_t, .unknown_raw = 0xFFu),
         DMI_FIELD(dmi_memory_device_addr_t, interleave_pos,   dmi_byte_t, .unknown_raw = 0xFFu),
         DMI_FIELD(dmi_memory_device_addr_t, interleave_depth, dmi_byte_t, .unknown_raw = 0xFFu),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
-        DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, start_addr, dmi_qword_t,
+        DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, start_address, dmi_qword_t,
                            .when_raw = 0xFFFFFFFFu),
-        DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, end_addr, dmi_qword_t,
-                           .when     = dmi_member(dmi_memory_device_addr_t, start_addr),
+        DMI_FIELD_EXTENDED(dmi_memory_device_addr_t, end_address, dmi_qword_t,
+                           .when     = dmi_member(dmi_memory_device_addr_t, start_address),
                            .when_raw = 0xFFFFFFFFu),
         {}
     }),
 
     .attributes = DMI_ATTRIBUTES({
-        DMI_ATTRIBUTE(dmi_memory_device_addr_t, start_addr, ADDRESS, {
-            .code    = "start-addr",
+        DMI_ATTRIBUTE(dmi_memory_device_addr_t, start_address, ADDRESS, {
+            .code    = "start-address",
             .name    = "Starting address",
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_memory_device_addr_t, end_addr, ADDRESS, {
-            .code    = "end-addr",
+        DMI_ATTRIBUTE(dmi_memory_device_addr_t, end_address, ADDRESS, {
+            .code    = "end-address",
             .name    = "Ending address",
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
@@ -86,11 +86,11 @@ const dmi_entity_spec_t dmi_memory_device_addr_spec =
             .targets = dmi_types(DMI_TYPE(memory_device)),
             .link    = dmi_member(dmi_memory_device_addr_t, device)
         }),
-        DMI_ATTRIBUTE(dmi_memory_device_addr_t, array_addr_handle, HANDLE, {
-            .code    = "array-addr-handle",
+        DMI_ATTRIBUTE(dmi_memory_device_addr_t, array_address_handle, HANDLE, {
+            .code    = "array-address-handle",
             .name    = "Array mapped address handle",
             .targets = dmi_types(DMI_TYPE(memory_array_addr)),
-            .link    = dmi_member(dmi_memory_device_addr_t, array_addr)
+            .link    = dmi_member(dmi_memory_device_addr_t, array_address)
         }),
         DMI_ATTRIBUTE(dmi_memory_device_addr_t, partition_pos, INTEGER, {
             .code    = "partition-pos",

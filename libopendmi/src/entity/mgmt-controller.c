@@ -28,12 +28,12 @@
         .name  = "Device ID",                                                 \
         .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
     }),                                                                       \
-    DMI_ATTRIBUTE(__type, subsys_vendor_id, INTEGER, {                        \
+    DMI_ATTRIBUTE(__type, subsystem_vendor_id, INTEGER, {                     \
         .code  = "subsystem-vendor-id",                                       \
         .name  = "Subsystem vendor ID",                                       \
         .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
     }),                                                                       \
-    DMI_ATTRIBUTE(__type, subsys_id, INTEGER, {                               \
+    DMI_ATTRIBUTE(__type, subsystem_id, INTEGER, {                            \
         .code  = "subsystem-id",                                              \
         .name  = "Subsystem ID",                                              \
         .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
@@ -62,7 +62,7 @@
         .name   = "Device characteristics",                                   \
         .values = &dmi_mgmt_nhi_characteristic_names                          \
     }),                                                                       \
-    DMI_ATTRIBUTE(__type, credential_handle, HANDLE, {                        \
+    DMI_ATTRIBUTE(__type, credential_bootstrapping_handle, HANDLE, {          \
         .code   = "credential-bootstrapping-handle",                          \
         .name   = "Credential bootstrapping handle"                           \
     })
@@ -259,9 +259,9 @@ static const dmi_attribute_t dmi_mgmt_proto_record_attrs[] =
     {}
 };
 
-const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
+const dmi_entity_spec_t dmi_mgmt_controller_spec =
 {
-    .code            = "mgmt-controller-host-if",
+    .code            = "mgmt-controller",
     .name            = "Management controller host interface",
     .description     = (const char *[]){
         "The information in this structure defines the attributes of a "
@@ -291,7 +291,7 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
         //
         nullptr
     },
-    .type            = DMI_TYPE(mgmt_controller_host_if),
+    .type            = DMI_TYPE(mgmt_controller),
     .params = {
         .minimum_version = DMI_VERSION(2, 7, 0),
         .minimum_length  = 0x06,
@@ -299,19 +299,19 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
     },
 
     .attributes = DMI_ATTRIBUTES({
-        DMI_ATTRIBUTE(dmi_mgmt_controller_t, if_type, ENUM, {
-            .code    = "if-type",
+        DMI_ATTRIBUTE(dmi_mgmt_controller_t, interface_type, ENUM, {
+            .code    = "interface-type",
             .name    = "Interface type",
-            .values  = &dmi_mgmt_if_type_names
+            .values  = &dmi_mgmt_iface_type_names
         }),
         DMI_ATTRIBUTE_VARIANT(dmi_mgmt_controller_t, has_nhi, {
-            .code     = "if-data",
+            .code     = "interface-data",
             .name     = "Interface-specific data",
             .variants = DMI_VARIANTS({
                 DMI_VARIANT(true, dmi_mgmt_controller_t, nhi, STRUCT, {
                     .attrs = dmi_mgmt_nhi_attrs
                 }),
-                DMI_VARIANT_DEFAULT(dmi_mgmt_controller_t, if_data, BINARY, {}),
+                DMI_VARIANT_DEFAULT(dmi_mgmt_controller_t, interface_data, BINARY, {}),
                 {}
             })
         }),
@@ -325,7 +325,7 @@ const dmi_entity_spec_t dmi_mgmt_controller_host_if_spec =
     }),
 
     .lint_rules = DMI_LINT_RULES({
-        DMI_LINT_RULE("mgmt-controller-host-if.records", dmi_mgmt_controller_lint_records, {
+        DMI_LINT_RULE("mgmt-controller.records", dmi_mgmt_controller_lint_records, {
             .name              = "Protocol records fit the structure holding them",
             .reader_severity   = DMI_LINT_SEVERITY_WARNING,
             .producer_severity = DMI_LINT_SEVERITY_ERROR

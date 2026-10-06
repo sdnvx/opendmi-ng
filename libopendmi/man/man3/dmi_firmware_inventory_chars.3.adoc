@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_firmware_inventory_features(3)
+= dmi_firmware_inventory_chars(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_firmware_inventory_features
+= dmi_firmware_inventory_chars
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_firmware_inventory_features - firmware characteristics
+dmi_firmware_inventory_chars - firmware characteristics
 
 == Library
 
@@ -24,7 +24,7 @@ endif::[]
 ----
 #include <opendmi/entity/firmware-inventory.h>
 
-typedef union dmi_firmware_inventory_features {
+typedef union dmi_firmware_inventory_chars {
     dmi_word_t __value;
 
     struct {
@@ -32,14 +32,14 @@ typedef union dmi_firmware_inventory_features {
         dmi_word_t is_write_protected : 1;
         dmi_word_t __reserved         : 14;
     };
-} dmi_firmware_inventory_features_t;
+} dmi_firmware_inventory_chars_t;
 ----
 
 == Description
 
-The `dmi_firmware_inventory_features_t` union holds the characteristics of a
+The `dmi_firmware_inventory_chars_t` union holds the characteristics of a
 firmware component, one bit per characteristic, and is the type of the
-`features` field of `dmi_firmware_inventory_t`. A bit is 1 if the firmware has
+`characteristics` field of `dmi_firmware_inventory_t`. A bit is 1 if the firmware has
 the characteristic. The union gives access to the whole word as well as to the
 single bits.
 

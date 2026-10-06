@@ -92,9 +92,9 @@ static void test_vector_init_args(void **pstate)
 {
     dmi_unused(pstate);
 
-    assert_false(dmi_vector_init(nullptr, nullptr, nullptr));
+    assert_false(dmi_vector_initialize(nullptr, nullptr, nullptr));
 
-    assert_false(dmi_vector_init(nullptr, nullptr, test_vector_matcher));
+    assert_false(dmi_vector_initialize(nullptr, nullptr, test_vector_matcher));
 }
 
 static void test_vector_init(void **pstate)
@@ -103,7 +103,7 @@ static void test_vector_init(void **pstate)
 
     dmi_vector_t vector = {};
 
-    assert_true(dmi_vector_init(&vector, nullptr, nullptr));
+    assert_true(dmi_vector_initialize(&vector, nullptr, nullptr));
 
     assert_null(vector.data);
     assert_int_equal(vector.capacity, 0);
@@ -117,7 +117,7 @@ static void test_vector_init_matcher(void **pstate)
 
     dmi_vector_t vector = {};
 
-    assert_true(dmi_vector_init(&vector, nullptr, test_vector_matcher));
+    assert_true(dmi_vector_initialize(&vector, nullptr, test_vector_matcher));
 
     assert_null(vector.data);
     assert_int_equal(vector.capacity, 0);
@@ -301,7 +301,7 @@ static void test_vector_exists_existing(void **pstate)
 
     *pstate = &vector;
 
-    dmi_vector_init(&vector, nullptr, test_vector_matcher);
+    dmi_vector_initialize(&vector, nullptr, test_vector_matcher);
 
     for (size_t i = 0; i < test_vector_size; i++) {
         assert_true(dmi_vector_push(&vector, i));
@@ -455,7 +455,7 @@ static void test_vector_context(void **pstate)
     dmi_vector_t vector;
     uintptr_t    value = 0;
 
-    assert_true(dmi_vector_init(&vector, context, nullptr));
+    assert_true(dmi_vector_initialize(&vector, context, nullptr));
     assert_ptr_equal(vector.context, context);
 
     assert_false(dmi_vector_get(&vector, 0, &value));

@@ -75,12 +75,12 @@ struct dmi_mgmt_device
     /**
      * @brief Address of the device.
      */
-    uint32_t addr;
+    uint32_t address;
 
     /**
      * @brief Type of addressing used to access the device.
      */
-    dmi_mgmt_device_addr_type_t addr_type;
+    dmi_mgmt_device_addr_type_t address_type;
 };
 
 /**

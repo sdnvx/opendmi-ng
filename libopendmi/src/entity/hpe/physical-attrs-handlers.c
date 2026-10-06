@@ -6,6 +6,7 @@
 //
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
+#include <opendmi/utils/string.h>
 #include <opendmi/module/hpe.h>
 
 #include "physical-attrs-internal.h"
@@ -16,8 +17,6 @@ bool dmi_hpe_physical_attrs_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    info->identifier = dmi_text_from_bytes(info->identifier_raw.data, info->identifier_raw.length,
-                                    info->identifier_buffer, false);
-
-    return true;
+    return dmi_string_set_bytes(dmi_entity_context(entity), &info->identifier,
+                                info->identifier_raw.data, info->identifier_raw.length, false);
 }

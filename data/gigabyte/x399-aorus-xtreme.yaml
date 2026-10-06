@@ -184,8 +184,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 9
   type: 16
@@ -211,8 +211,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 2147483647
+    start-address: 0
+    end-address: 2147483647
     range-size: 2147483648
     array-handle: 9
     partition-width: 8
@@ -225,8 +225,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 139586437119
+    start-address: 4294967296
+    end-address: 139586437119
     range-size: 135291469824
     array-handle: 9
     partition-width: 8
@@ -431,8 +431,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 17
   type: 17
@@ -490,11 +490,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 68719476735
+    start-address: 0
+    end-address: 68719476735
     range-size: 68719476736
     device-handle: 17
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -510,8 +510,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 20
   type: 17
@@ -569,11 +569,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 68719476735
+    start-address: 0
+    end-address: 68719476735
     range-size: 68719476736
     device-handle: 20
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -589,8 +589,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 23
   type: 17
@@ -648,11 +648,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 68719476735
+    start-address: 0
+    end-address: 68719476735
     range-size: 68719476736
     device-handle: 23
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -668,8 +668,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 26
   type: 17
@@ -727,11 +727,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 68719476735
+    start-address: 0
+    end-address: 68719476735
     range-size: 68719476736
     device-handle: 26
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -747,8 +747,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 29
   type: 17
@@ -806,11 +806,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 68719476736
-    end-addr: 137438953471
+    start-address: 68719476736
+    end-address: 137438953471
     range-size: 68719476736
     device-handle: 29
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -826,8 +826,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 32
   type: 17
@@ -885,11 +885,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 68719476736
-    end-addr: 137438953471
+    start-address: 68719476736
+    end-address: 137438953471
     range-size: 68719476736
     device-handle: 32
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -905,8 +905,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 35
   type: 17
@@ -964,11 +964,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 68719476736
-    end-addr: 137438953471
+    start-address: 68719476736
+    end-address: 137438953471
     range-size: 68719476736
     device-handle: 35
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -984,8 +984,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 38
   type: 17
@@ -1043,11 +1043,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 68719476736
-    end-addr: 137438953471
+    start-address: 68719476736
+    end-address: 137438953471
     range-size: 68719476736
     device-handle: 38
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown

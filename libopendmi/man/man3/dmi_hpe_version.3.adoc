@@ -30,8 +30,7 @@ typedef struct dmi_hpe_version {
     const char *version_string;
     uint8_t data_format;
     uint8_t version_data[12];
-    char version_buffer[48];
-    const char *version;
+    char *version;
     uint16_t unique_id;
 } dmi_hpe_version_t;
 ----
@@ -70,13 +69,10 @@ Format of `version_data`, zero if there is none.
 `version_data`::
 Version of the firmware, in the format `data_format` tells.
 
-`version_buffer`::
-Version of the firmware formatted from `version_data`, which `version` points
-to.
-
 `version`::
 Version of the firmware formatted from `version_data`, or `nullptr` if there
-is none or its format is not known.
+is none or its format is not known. The string belongs to the structure, and is freed along
+with it.
 
 `unique_id`::
 Unique ID of the firmware flash, zero if none.

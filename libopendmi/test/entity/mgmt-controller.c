@@ -112,12 +112,12 @@ static void test_mgmt_controller_decode_v30(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
 
-    assert_int_equal(info->if_type, DMI_MGMT_IF_TYPE_NETWORK_HOST_IF);
-    assert_int_equal(info->if_data.length, 3);
-    assert_memory_equal(info->if_data.data, body + 2, 3);
+    assert_int_equal(info->interface_type, DMI_MGMT_IFACE_TYPE_NETWORK_HOST);
+    assert_int_equal(info->interface_data.length, 3);
+    assert_memory_equal(info->interface_data.data, body + 2, 3);
     assert_int_equal(info->proto_records_count, 0);
     assert_null(info->proto_records);
 
@@ -141,11 +141,11 @@ static void test_mgmt_controller_decode_records(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
 
     assert_non_null(info);
-    assert_int_equal(info->if_data.length, 2);
-    assert_memory_equal(info->if_data.data, body + 2, 2);
+    assert_int_equal(info->interface_data.length, 2);
+    assert_memory_equal(info->interface_data.data, body + 2, 2);
     assert_int_equal(info->proto_records_count, 2);
 
     assert_int_equal(info->proto_records[0].type, DMI_MGMT_PROTO_REDFISH_OVER_IP);
@@ -171,11 +171,11 @@ static void test_mgmt_controller_decode_no_records(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
 
     assert_non_null(info);
-    assert_int_equal(info->if_data.length, 0);
-    assert_null(info->if_data.data);
+    assert_int_equal(info->interface_data.length, 0);
+    assert_null(info->interface_data.data);
     assert_int_equal(info->proto_records_count, 0);
 
     dmi_entity_destroy(entity);
@@ -194,11 +194,11 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
-    assert_int_equal(info->if_type, DMI_MGMT_IF_TYPE_MCTP_KCS);
-    assert_int_equal(info->if_data.length, 0);
-    assert_null(info->if_data.data);
+    assert_int_equal(info->interface_type, DMI_MGMT_IFACE_TYPE_MCTP_KCS);
+    assert_int_equal(info->interface_data.length, 0);
+    assert_null(info->interface_data.data);
     assert_int_equal(info->proto_records_count, 0);
 
     dmi_entity_destroy(entity);
@@ -207,7 +207,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     entity = create_entity(buffer, (const uint8_t[]){ 0x40, 0x00, 0xFF, 0x04, 0x00 }, 5);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
     assert_int_equal(info->proto_records_count, 1);
     assert_int_equal(info->proto_records[0].type, DMI_MGMT_PROTO_REDFISH_OVER_IP);
@@ -219,7 +219,7 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     entity = create_entity(buffer, (const uint8_t[]){ 0x40, 0x00, 0x01, 0x04 }, 4);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
     assert_int_equal(info->proto_records_count, 0);
 
@@ -231,9 +231,9 @@ static void test_mgmt_controller_decode_truncated(void **pstate)
     }, 10);
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
-    assert_int_equal(info->if_data.length, 1);
+    assert_int_equal(info->interface_data.length, 1);
     assert_int_equal(info->proto_records_count, 1);
     assert_int_equal(info->proto_records[0].type, DMI_MGMT_PROTO_REDFISH_OVER_IP);
     assert_int_equal(info->proto_records[0].data.length, 1);
@@ -260,7 +260,7 @@ static void test_mgmt_controller_decode_nhi_usb(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
 
     assert_true(info->has_nhi);
@@ -283,7 +283,7 @@ static void test_mgmt_controller_decode_nhi_usb(void **pstate)
     entity = create_entity(buffer, malformed, sizeof(malformed));
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
 
     assert_true(info->has_nhi);
@@ -312,7 +312,7 @@ static void test_mgmt_controller_decode_nhi_usb_v2(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
 
     assert_non_null(info);
     assert_true(info->has_nhi);
@@ -323,7 +323,7 @@ static void test_mgmt_controller_decode_nhi_usb_v2(void **pstate)
     assert_int_equal(info->nhi.usb_v2.mac_address.length, 6);
     assert_memory_equal(info->nhi.usb_v2.mac_address.data, body + 9, 6);
     assert_int_equal(info->nhi.usb_v2.characteristics, 0);
-    assert_int_equal(info->nhi.usb_v2.credential_handle, DMI_HANDLE_INVALID);
+    assert_int_equal(info->nhi.usb_v2.credential_bootstrapping_handle, DMI_HANDLE_INVALID);
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
@@ -371,7 +371,7 @@ static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
 
     assert_true(info->has_nhi);
@@ -381,8 +381,8 @@ static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate)
 
     assert_int_equal(pci->vendor_id, 0x8086);
     assert_int_equal(pci->device_id, 0x153B);
-    assert_int_equal(pci->subsys_vendor_id, 0x15D9);
-    assert_int_equal(pci->subsys_id, 0x1F5B);
+    assert_int_equal(pci->subsystem_vendor_id, 0x15D9);
+    assert_int_equal(pci->subsystem_id, 0x1F5B);
     assert_int_equal(pci->mac_address.length, 6);
     assert_memory_equal(pci->mac_address.data, body + 12, 6);
     assert_int_equal(pci->segment_group, 0);
@@ -390,7 +390,7 @@ static void test_mgmt_controller_decode_nhi_pci_v2(void **pstate)
     assert_int_equal(pci->device_number, 3);
     assert_int_equal(pci->function_number, 1);
     assert_int_equal(pci->characteristics, 1 << DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING);
-    assert_int_equal(pci->credential_handle, 0x1234);
+    assert_int_equal(pci->credential_bootstrapping_handle, 0x1234);
 
     assert_int_equal(info->proto_records_count, 1);
 
@@ -443,7 +443,7 @@ static void test_mgmt_controller_decode_nhi_oem(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
 
     assert_true(info->has_nhi);
@@ -481,14 +481,14 @@ static void test_mgmt_controller_decode_nhi_pci(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
 
     assert_int_equal(info->nhi.format, DMI_MGMT_NHI_FORMAT_PCI);
     assert_int_equal(info->nhi.pci.vendor_id, 0x8086);
     assert_int_equal(info->nhi.pci.device_id, 0x1533);
-    assert_int_equal(info->nhi.pci.subsys_vendor_id, 0x103C);
-    assert_int_equal(info->nhi.pci.subsys_id, 0x0001);
+    assert_int_equal(info->nhi.pci.subsystem_vendor_id, 0x103C);
+    assert_int_equal(info->nhi.pci.subsystem_id, 0x0001);
 
     // Records count after the interface data is read at its place
     assert_int_equal(info->proto_records_count, 0);
@@ -516,13 +516,13 @@ static void test_mgmt_controller_decode_nhi_usb_v2_ex(void **pstate)
 
     assert_true(dmi_entity_decode(entity));
 
-    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    const dmi_mgmt_controller_t *info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
 
     assert_int_equal(info->nhi.format, DMI_MGMT_NHI_FORMAT_USB_V2);
     assert_int_equal(info->nhi.usb_v2.vendor_id, 0xAABB);
     assert_int_equal(info->nhi.usb_v2.characteristics, 1 << DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING);
-    assert_int_equal(info->nhi.usb_v2.credential_handle, 0x1234);
+    assert_int_equal(info->nhi.usb_v2.credential_bootstrapping_handle, 0x1234);
 
     // Descriptor shorter than its required fields is left in raw format, and
     // the structure itself is not broken by it
@@ -538,7 +538,7 @@ static void test_mgmt_controller_decode_nhi_usb_v2_ex(void **pstate)
     entity = create_entity(buffer, short_body, sizeof(short_body));
     assert_true(dmi_entity_decode(entity));
 
-    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller_host_if));
+    info = dmi_entity_info(entity, DMI_TYPE(mgmt_controller));
     assert_non_null(info);
 
     assert_int_equal(info->nhi.format, DMI_MGMT_NHI_FORMAT_RAW);

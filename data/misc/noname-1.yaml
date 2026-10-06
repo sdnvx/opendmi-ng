@@ -180,7 +180,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: AMD
+    vendor: AMD
     specification-version: '2.0'
     firmware-version:
       major: 3
@@ -205,8 +205,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 10
   type: 16
@@ -232,8 +232,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     array-handle: 10
     partition-width: 2
@@ -435,8 +435,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 17
   type: 17
@@ -505,11 +505,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     device-handle: 17
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -525,8 +525,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 20
   type: 17
@@ -595,11 +595,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     device-handle: 20
-    array-addr-handle: 11
+    array-address-handle: 11
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown

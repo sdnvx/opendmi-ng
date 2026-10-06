@@ -1065,8 +1065,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 25769803775
+    start-address: 0
+    end-address: 25769803775
     range-size: 25769803776
     array-handle: 44
     partition-width: 255
@@ -1123,11 +1123,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 25769803775
+    start-address: 0
+    end-address: 25769803775
     range-size: 25769803776
     device-handle: 46
-    array-addr-handle: 45
+    array-address-handle: 45
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1184,11 +1184,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 25769803775
+    start-address: 0
+    end-address: 25769803775
     range-size: 25769803776
     device-handle: 48
-    array-addr-handle: 45
+    array-address-handle: 45
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1245,11 +1245,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 25769803775
+    start-address: 0
+    end-address: 25769803775
     range-size: 25769803776
     device-handle: 50
-    array-addr-handle: 45
+    array-address-handle: 45
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1306,11 +1306,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 25769803775
+    start-address: 0
+    end-address: 25769803775
     range-size: 25769803776
     device-handle: 52
-    array-addr-handle: 45
+    array-address-handle: 45
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown

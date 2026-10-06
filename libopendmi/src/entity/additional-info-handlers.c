@@ -119,8 +119,8 @@ bool dmi_additional_info_encode(dmi_encoder_t *encoder)
 
         bool status =
             dmi_encoder_put(encoder, dmi_byte_t, length) and
-            dmi_encoder_put(encoder, dmi_word_t, entry->ref_handle) and
-            dmi_encoder_put(encoder, dmi_byte_t, entry->ref_offset) and
+            dmi_encoder_put(encoder, dmi_word_t, entry->referenced_handle) and
+            dmi_encoder_put(encoder, dmi_byte_t, entry->referenced_offset) and
             dmi_encoder_put_string(encoder, entry->string) and
             dmi_encoder_put_bytes(encoder, entry->value.data, entry->value.length);
         if (not status)
@@ -143,8 +143,8 @@ static bool dmi_additional_info_entry_decode(
 
     bool status =
         dmi_decoder_get(decoder, dmi_byte_t, &entry_length) and
-        dmi_decoder_get(decoder, dmi_word_t, &entry->ref_handle) and
-        dmi_decoder_get(decoder, dmi_byte_t, &entry->ref_offset) and
+        dmi_decoder_get(decoder, dmi_word_t, &entry->referenced_handle) and
+        dmi_decoder_get(decoder, dmi_byte_t, &entry->referenced_offset) and
         dmi_decoder_get(decoder, dmi_string_t, &number);
     if (not status) {
         dmi_log_error(context,
@@ -166,10 +166,10 @@ static bool dmi_additional_info_entry_decode(
 
     entry->value.length = entry_length - DMI_ADDITIONAL_INFO_ENTRY_HEADER;
 
-    if (entry->ref_offset < sizeof(dmi_header_t)) {
+    if (entry->referenced_offset < sizeof(dmi_header_t)) {
         dmi_log_warning(context,
                         "Invalid additional info entry offset: 0x%04X[%zu]: offset=%u",
-                        dmi_entity_handle(entity), index, entry->ref_offset);
+                        dmi_entity_handle(entity), index, entry->referenced_offset);
     }
 
     size_t remaining = dmi_decoder_remaining(decoder);

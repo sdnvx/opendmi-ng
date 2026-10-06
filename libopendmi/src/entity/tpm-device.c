@@ -30,12 +30,10 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
     .fields = DMI_FIELDS({
         // Vendor identifier is four bytes of text, which the specification
         // does not terminate
-        DMI_FIELD(dmi_tpm_device_t, vendor_id, dmi_dword_t,
-                  .decode = dmi_tpm_device_decode_vendor_id,
-                  .encode = dmi_tpm_device_encode_vendor_id),
+        DMI_FIELD_BINARY(dmi_tpm_device_t, vendor_raw, 4),
 
         // Specification version is one byte of major and one of minor
-        DMI_FIELD(dmi_tpm_device_t, spec_version, dmi_word_t,
+        DMI_FIELD(dmi_tpm_device_t, specification_version, dmi_word_t,
                   .decode = dmi_tpm_device_decode_version,
                   .encode = dmi_tpm_device_encode_version),
 
@@ -46,17 +44,18 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
                   .encode = dmi_tpm_device_encode_firmware_version),
 
         DMI_FIELD_STRING(dmi_tpm_device_t, description),
-        DMI_FIELD(dmi_tpm_device_t, features,    dmi_qword_t),
-        DMI_FIELD(dmi_tpm_device_t, oem_defined, dmi_dword_t),
+        DMI_FIELD(dmi_tpm_device_t, characteristics, dmi_qword_t),
+        DMI_FIELD(dmi_tpm_device_t, oem_defined,     dmi_dword_t),
         {}
     }),
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_tpm_device_t, vendor, STRING, {
-            .code   = "vendor-id",
-            .name   = "Vendor ID"
+            .code  = "vendor",
+            .name  = "Vendor",
+            .flags = DMI_ATTRIBUTE_FLAG_OWNED
         }),
-        DMI_ATTRIBUTE(dmi_tpm_device_t, spec_version, VERSION, {
+        DMI_ATTRIBUTE(dmi_tpm_device_t, specification_version, VERSION, {
             .code   = "specification-version",
             .name   = "Specification version",
             .scale  = 2
@@ -96,10 +95,10 @@ const dmi_entity_spec_t dmi_tpm_device_spec =
             .code   = "description",
             .name   = "Description"
         }),
-        DMI_ATTRIBUTE(dmi_tpm_device_t, features, SET, {
+        DMI_ATTRIBUTE(dmi_tpm_device_t, characteristics, SET, {
             .code   = "characteristics",
             .name   = "Characteristics",
-            .values = &dmi_tpm_device_feature_names
+            .values = &dmi_tpm_device_chars_names
         }),
         DMI_ATTRIBUTE(dmi_tpm_device_t, oem_defined, INTEGER, {
             .code   = "oem-defined",

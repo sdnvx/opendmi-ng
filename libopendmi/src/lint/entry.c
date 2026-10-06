@@ -40,7 +40,7 @@ static void dmi_lint_entry_length(dmi_lint_t *lint, const dmi_entity_t *entity);
  * @param[in] lint   Check in progress.
  * @param[in] entity Unused, the rule checks the entry point.
  */
-static void dmi_lint_entry_table_address(dmi_lint_t *lint, const dmi_entity_t *entity);
+static void dmi_lint_entry_table_addr(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 /**
  * @internal
@@ -109,11 +109,11 @@ const dmi_lint_rule_t dmi_lint_entry_length_rule =
     }
 };
 
-const dmi_lint_rule_t dmi_lint_entry_table_address_rule =
+const dmi_lint_rule_t dmi_lint_entry_table_addr_rule =
 {
     .code   = "entry.table-address",
     .scope  = DMI_LINT_SCOPE_ENTRY,
-    .check  = dmi_lint_entry_table_address,
+    .check  = dmi_lint_entry_table_addr,
     .params = {
         .name              = "Entry point points to the table",
         .reader_severity   = DMI_LINT_SEVERITY_WARNING,
@@ -213,12 +213,12 @@ static void dmi_lint_entry_length(dmi_lint_t *lint, const dmi_entity_t *entity)
     }
 }
 
-static void dmi_lint_entry_table_address(dmi_lint_t *lint, const dmi_entity_t *entity)
+static void dmi_lint_entry_table_addr(dmi_lint_t *lint, const dmi_entity_t *entity)
 {
     dmi_unused(entity);
 
-    if (dmi_lint_context(lint)->state.table_area_addr == 0) {
-        dmi_lint_issue(lint, nullptr, "table-area-addr", 0,
+    if (dmi_lint_context(lint)->state.table_area_address == 0) {
+        dmi_lint_issue(lint, nullptr, "table-area-address", 0,
                        "entry point declares no address of the table");
     }
 }

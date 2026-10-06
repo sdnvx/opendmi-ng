@@ -93,35 +93,35 @@ const dmi_name_set_t dmi_memory_array_location_names =
     })
 };
 
-const dmi_name_set_t dmi_memory_array_usage_names =
+const dmi_name_set_t dmi_memory_array_use_names =
 {
-    .code  = "memory-array-usage",
+    .code  = "memory-array-use",
     .names = DMI_NAMES({
-        DMI_NAME_UNSPEC(DMI_MEMORY_ARRAY_USAGE_UNSPEC),
-        DMI_NAME_OTHER(DMI_MEMORY_ARRAY_USAGE_OTHER),
-        DMI_NAME_UNKNOWN(DMI_MEMORY_ARRAY_USAGE_UNKNOWN),
+        DMI_NAME_UNSPEC(DMI_MEMORY_ARRAY_USE_UNSPEC),
+        DMI_NAME_OTHER(DMI_MEMORY_ARRAY_USE_OTHER),
+        DMI_NAME_UNKNOWN(DMI_MEMORY_ARRAY_USE_UNKNOWN),
         {
-            .id   = DMI_MEMORY_ARRAY_USAGE_SYSTEM,
+            .id   = DMI_MEMORY_ARRAY_USE_SYSTEM,
             .code = "system",
             .name = "System memory"
         },
         {
-            .id   = DMI_MEMORY_ARRAY_USAGE_VIDEO,
+            .id   = DMI_MEMORY_ARRAY_USE_VIDEO,
             .code = "video",
             .name = "Video memory"
         },
         {
-            .id   = DMI_MEMORY_ARRAY_USAGE_FLASH,
+            .id   = DMI_MEMORY_ARRAY_USE_FLASH,
             .code = "flash",
             .name = "Flash memory"
         },
         {
-            .id   = DMI_MEMORY_ARRAY_USAGE_NVRAM,
+            .id   = DMI_MEMORY_ARRAY_USE_NVRAM,
             .code = "nvram",
             .name = "Non-volatile RAM"
         },
         {
-            .id   = DMI_MEMORY_ARRAY_USAGE_CACHE,
+            .id   = DMI_MEMORY_ARRAY_USE_CACHE,
             .code = "cache",
             .name = "Cache memory"
         },
@@ -130,4 +130,4 @@ const dmi_name_set_t dmi_memory_array_usage_names =
 };
 
 DMI_NAME_FUNCTION(dmi_memory_array_location)
-DMI_NAME_FUNCTION(dmi_memory_array_usage)
+DMI_NAME_FUNCTION(dmi_memory_array_use)

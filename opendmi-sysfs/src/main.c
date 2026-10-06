@@ -134,7 +134,7 @@ static int __init dmi_sysfs_init(void)
     dmi_sysfs_report_errors(context, false);
 
     dmi_registry_iter_t iter;
-    dmi_registry_iter_init(&iter, dmi_get_registry(context), NULL);
+    dmi_registry_iter_initialize(&iter, dmi_get_registry(context), NULL);
 
     size_t count = 0;
     const dmi_entity_t *entity;

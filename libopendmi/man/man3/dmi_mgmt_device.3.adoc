@@ -27,8 +27,8 @@ endif::[]
 typedef struct dmi_mgmt_device {
     const char *description;
     dmi_mgmt_device_type_t type;
-    uint32_t addr;
-    dmi_mgmt_device_addr_type_t addr_type;
+    uint32_t address;
+    dmi_mgmt_device_addr_type_t address_type;
 } dmi_mgmt_device_t;
 ----
 
@@ -53,10 +53,10 @@ is none.
 `type`::
 Type of the device.
 
-`addr`::
-Address of the device, to be read according to `addr_type`.
+`address`::
+Address of the device, to be read according to `address_type`.
 
-`addr_type`::
+`address_type`::
 Type of the address the device is accessed at.
 
 == Examples
@@ -72,8 +72,8 @@ dmi_mgmt_device_t *device   =
 if (device != nullptr)
     printf("%s at %s 0x%08" PRIx32 "\n",
            dmi_mgmt_device_type_name(device->type),
-           dmi_mgmt_device_addr_type_name(device->addr_type),
-           device->addr);
+           dmi_mgmt_device_addr_type_name(device->address_type),
+           device->address);
 ----
 
 == See also

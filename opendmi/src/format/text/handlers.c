@@ -256,7 +256,7 @@ bool dmi_text_entry(dmi_text_session_t *session)
     const char *vendor = context->state.vendor_name;
 
     char address[sizeof("0xffffffffffffffff")];
-    snprintf(address, sizeof(address), "0x%" PRIx64, context->state.table_area_addr);
+    snprintf(address, sizeof(address), "0x%" PRIx64, context->state.table_area_address);
 
     bool success =
         dmi_text_message(session, "entry", "version", "SMBIOS {0} present",
@@ -304,8 +304,8 @@ bool dmi_text_entity_start(dmi_text_session_t *session, const dmi_entity_t *enti
             dmi_format_set_iter_t iter;
             const dmi_format_flag_t *flag;
 
-            dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
-                                      sizeof(entity->state) * CHAR_BIT);
+            dmi_format_mask_iter_initialize(&iter, &dmi_entity_state_names, entity->state,
+                                            sizeof(entity->state) * CHAR_BIT);
 
             while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
                 if (flag->value)
@@ -432,7 +432,7 @@ bool dmi_text_entity_properties(dmi_text_session_t *session, const dmi_entity_t 
 
     dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\tProperties:\n");
 
-    dmi_format_property_iter_init(&iter, entity);
+    dmi_format_property_iter_initialize(&iter, entity);
 
     while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
         dmi_name_type_t type;
@@ -473,7 +473,7 @@ bool dmi_text_entity_overlays(dmi_text_session_t *session, const dmi_entity_t *e
             return false;
 
         dmi_text_printf(session, DMI_TTY_COLOR_NONE, "\t\t0x%04hX[%zu]: %s at offset 0x%02X",
-                        overlay->source->handle, overlay->index, value, overlay->entry->ref_offset);
+                        overlay->source->handle, overlay->index, value, overlay->entry->referenced_offset);
 
         dmi_free(value);
 
@@ -510,7 +510,7 @@ bool dmi_text_entity_strings(dmi_text_session_t *session, const dmi_entity_t *en
     dmi_format_string_iter_t iter;
     const char *str;
 
-    dmi_format_string_iter_init(&iter, entity);
+    dmi_format_string_iter_initialize(&iter, entity);
 
     while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
         char *escaped;
@@ -672,7 +672,7 @@ static void dmi_text_entity_attr_set(
     dmi_format_set_iter_t iter;
     const dmi_format_flag_t *flag;
 
-    dmi_format_set_iter_init(&iter, attr, value);
+    dmi_format_set_iter_initialize(&iter, attr, value);
 
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         dmi_tty_color_t color = flag->value ? DMI_TTY_COLOR_LIME : DMI_TTY_COLOR_RED;

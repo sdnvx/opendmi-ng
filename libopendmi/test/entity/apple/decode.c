@@ -92,7 +92,7 @@ static void test_apple_imac(void **pstate)
     assert_non_null(entity);
 
     const dmi_apple_processor_type_t *type = test_info(context, DMI_TYPE(apple_processor_type));
-    assert_int_equal(type->processor_class, DMI_APPLE_PROCESSOR_CLASS_CORE_I7);
+    assert_int_equal(type->clazz, DMI_APPLE_PROCESSOR_CLASS_CORE_I7);
     assert_int_equal(type->generation, 1);
 
     const dmi_apple_processor_bus_speed_t *bus = test_info(context, DMI_TYPE(apple_processor_bus_speed));

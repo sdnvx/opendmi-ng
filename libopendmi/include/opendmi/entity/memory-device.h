@@ -16,10 +16,10 @@
     typedef struct dmi_memory_device dmi_memory_device_t;
 #endif // !DMI_MEMORY_DEVICE_T
 
-#ifndef DMI_MEMORY_DEVICE_TYPE_DETAIL_T
-#   define DMI_MEMORY_DEVICE_TYPE_DETAIL_T
-    typedef union dmi_memory_device_type_detail dmi_memory_device_type_detail_t;
-#endif // !DMI_MEMORY_DEVICE_TYPE_DETAIL_T
+#ifndef DMI_MEMORY_DEVICE_TYPE_DETAILS_T
+#   define DMI_MEMORY_DEVICE_TYPE_DETAILS_T
+    typedef union dmi_memory_device_type_details dmi_memory_device_type_details_t;
+#endif // !DMI_MEMORY_DEVICE_TYPE_DETAILS_T
 
 /**
  * @brief Memory device types.
@@ -116,7 +116,7 @@ typedef enum dmi_memory_device_tech
 /**
  * @brief Memory device type details.
  */
-dmi_packed_union(dmi_memory_device_type_detail)
+dmi_packed_union(dmi_memory_device_type_details)
 {
     dmi_word_t __value;
 
@@ -141,7 +141,7 @@ dmi_packed_union(dmi_memory_device_type_detail)
     };
 };
 
-dmi_static_assert_value_union(dmi_memory_device_type_detail);
+dmi_static_assert_value_union(dmi_memory_device_type_details);
 
 /**
  * @brief Memory device structure (type 17).
@@ -230,7 +230,7 @@ struct dmi_memory_device
     /**
      * @brief Additional details on the memory type.
      */
-    dmi_memory_device_type_detail_t memory_type_detail;
+    dmi_memory_device_type_details_t memory_type_details;
 
     /**
      * @brief Maximum speed the device is capable of, in megatransfers per
@@ -336,7 +336,7 @@ struct dmi_memory_device
      *
      * @since SMBIOS 3.2
      */
-    dmi_memory_device_tech_t memory_tech;
+    dmi_memory_device_tech_t memory_technology;
 
     /**
      * @brief Operating modes the device supports, as stored: bit 1 other,

@@ -899,8 +899,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 34359738367
+    start-address: 0
+    end-address: 34359738367
     range-size: 34359738368
     array-handle: 24
     partition-width: 2
@@ -913,11 +913,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     device-handle: 25
-    array-addr-handle: 27
+    array-address-handle: 27
     partition-pos: unknown
     interleave-pos: 1
     interleave-depth: 1
@@ -930,11 +930,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 17179869183
+    start-address: 0
+    end-address: 17179869183
     range-size: 17179869184
     device-handle: 26
-    array-addr-handle: 27
+    array-address-handle: 27
     partition-pos: unknown
     interleave-pos: 1
     interleave-depth: 1
@@ -1112,7 +1112,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: NTC
+    vendor: NTC
     specification-version: '2.0'
     firmware-version:
       major: 7

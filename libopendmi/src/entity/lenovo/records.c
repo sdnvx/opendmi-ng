@@ -7,6 +7,7 @@
 #include <opendmi/field.h>
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
+#include <opendmi/utils/string.h>
 #include <opendmi/module/lenovo.h>
 
 #include <opendmi/entity/lenovo/records.h>
@@ -118,8 +119,9 @@ const dmi_entity_spec_t dmi_lenovo_tpm_info_spec =
 
     .attributes = DMI_ATTRIBUTES({
         DMI_ATTRIBUTE(dmi_lenovo_tpm_info_t, vendor, STRING, {
-            .code = "vendor",
-            .name = "TPM vendor ID"
+            .code  = "vendor",
+            .name  = "TPM vendor ID",
+            .flags = DMI_ATTRIBUTE_FLAG_OWNED
         }),
         DMI_ATTRIBUTE(dmi_lenovo_tpm_info_t, unknown_1, INTEGER, {
             .code  = "unknown-1",
@@ -227,7 +229,6 @@ static bool dmi_lenovo_tpm_info_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    info->vendor = dmi_text_from_bytes(info->vendor_raw.data, info->vendor_raw.length, info->vendor_buffer, false);
-
-    return true;
+    return dmi_string_set_bytes(dmi_entity_context(entity), &info->vendor,
+                                info->vendor_raw.data, info->vendor_raw.length, false);
 }

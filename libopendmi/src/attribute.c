@@ -198,7 +198,7 @@ static char *dmi_attribute_format_size(
  *
  * @return Newly allocated string, or `nullptr` on error.
  */
-static char *dmi_attribute_format_address(
+static char *dmi_attribute_format_addr(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
@@ -392,7 +392,7 @@ static const dmi_attribute_ops_t dmi_attribute_type_ops[] =
         .parse  = nullptr
     },
     [DMI_ATTRIBUTE_TYPE_ADDRESS] = {
-        .format = dmi_attribute_format_address,
+        .format = dmi_attribute_format_addr,
         .parse  = nullptr
     },
     [DMI_ATTRIBUTE_TYPE_ENUM] = {
@@ -873,7 +873,7 @@ static char *dmi_attribute_format_size(
     return str;
 }
 
-static char *dmi_attribute_format_address(
+static char *dmi_attribute_format_addr(
         dmi_context_t         *context,
         const dmi_attribute_t *attribute,
         const void            *value,
@@ -1149,7 +1149,7 @@ static char *dmi_attribute_format_binary(
         separator = ':';
 
         // MAC address fields may be longer than the address itself
-        while ((length > DMI_MAC_ADDRESS_LENGTH) and (binary->data[length - 1] == 0))
+        while ((length > DMI_MAC_ADDR_LENGTH) and (binary->data[length - 1] == 0))
             length--;
     } else if (pretty) {
         separator = ' ';

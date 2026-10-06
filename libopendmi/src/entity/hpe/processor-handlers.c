@@ -6,6 +6,7 @@
 //
 #include <opendmi/utils.h>
 #include <opendmi/internal.h>
+#include <opendmi/utils/string.h>
 #include <opendmi/module/hpe.h>
 
 #include "processor-internal.h"
@@ -16,7 +17,6 @@ bool dmi_hpe_processor_derive(dmi_entity_t *entity)
     if (info == nullptr)
         return false;
 
-    info->qdf = dmi_text_from_bytes(info->qdf_raw, sizeof(info->qdf_raw), info->qdf_buffer, true);
-
-    return true;
+    return dmi_string_set_bytes(dmi_entity_context(entity), &info->qdf,
+                                info->qdf_raw, sizeof(info->qdf_raw), true);
 }

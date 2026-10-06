@@ -33,8 +33,8 @@ const dmi_entity_spec_t dmi_memory_error_32_spec =
         DMI_FIELD(dmi_memory_error_32_t, granularity,     dmi_byte_t),
         DMI_FIELD(dmi_memory_error_32_t, operation,       dmi_byte_t),
         DMI_FIELD(dmi_memory_error_32_t, vendor_syndrome, dmi_dword_t),
-        DMI_FIELD(dmi_memory_error_32_t, array_addr,      dmi_dword_t),
-        DMI_FIELD(dmi_memory_error_32_t, device_addr,     dmi_dword_t),
+        DMI_FIELD(dmi_memory_error_32_t, array_address,   dmi_dword_t),
+        DMI_FIELD(dmi_memory_error_32_t, device_address,  dmi_dword_t),
         DMI_FIELD(dmi_memory_error_32_t, resolution,      dmi_dword_t),
         {}
     }),
@@ -66,14 +66,14 @@ const dmi_entity_spec_t dmi_memory_error_32_spec =
             .name    = "Vendor syndrome",
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_memory_error_32_t, array_addr, ADDRESS, {
-            .code    = "array-addr",
+        DMI_ATTRIBUTE(dmi_memory_error_32_t, array_address, ADDRESS, {
+            .code    = "array-address",
             .name    = "Array-relative address",
             .unknown = dmi_value_ptr((uint32_t)0x80000000u),
             .flags   = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_memory_error_32_t, device_addr, ADDRESS, {
-            .code    = "device-addr",
+        DMI_ATTRIBUTE(dmi_memory_error_32_t, device_address, ADDRESS, {
+            .code    = "device-address",
             .name    = "Device-relative address",
             .unknown = dmi_value_ptr((uint32_t)0x80000000u),
             .flags   = DMI_ATTRIBUTE_FLAG_HEX

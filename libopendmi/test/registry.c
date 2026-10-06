@@ -373,7 +373,7 @@ static void test_registry_link_unset_handles(void **pstate)
 
     const dmi_memory_device_addr_t *device_addr_info = dmi_entity_info(device_addr, DMI_TYPE(memory_device_addr));
     assert_ptr_equal(device_addr_info->device, device_b);
-    assert_null(device_addr_info->array_addr);
+    assert_null(device_addr_info->array_address);
 }
 
 static void test_registry_decode_malformed(void **pstate)
@@ -501,7 +501,7 @@ static void test_registry_overlay(void **pstate)
     }
 
     // Only valid entries are applied, raw structure data is not changed
-    dmi_memory_array_usage_t usage = info->usage;
+    dmi_memory_array_use_t usage = info->use;
     const dmi_entity_overlay_t *first  = array->overlays;
     const dmi_entity_overlay_t *second = (first != nullptr) ? first->next : nullptr;
     bool applied = (second != nullptr) and (second->next == nullptr);
@@ -549,7 +549,7 @@ static void test_registry_overlay_disabled(void **pstate)
     const dmi_memory_array_t *info = dmi_entity_info(array, DMI_TYPE(memory_array));
 
     bool decoded = (info != nullptr);
-    dmi_memory_array_usage_t usage = decoded ? info->usage : 0;
+    dmi_memory_array_use_t usage = decoded ? info->use : 0;
     bool overlaid = (array != nullptr) and (array->overlay != nullptr);
 
     dmi_destroy(context);
@@ -578,7 +578,7 @@ static void test_registry_overlay_strict(void **pstate)
     const dmi_memory_array_t *info = dmi_entity_info(array, DMI_TYPE(memory_array));
 
     bool decoded = (info != nullptr);
-    dmi_memory_array_usage_t usage = decoded ? info->usage : 0;
+    dmi_memory_array_use_t usage = decoded ? info->use : 0;
 
     dmi_destroy(valid);
 

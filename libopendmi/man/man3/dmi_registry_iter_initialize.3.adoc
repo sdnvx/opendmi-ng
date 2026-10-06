@@ -1,8 +1,8 @@
 ifdef::backend-manpage[]
-= dmi_registry_iter_init(3)
+= dmi_registry_iter_initialize(3)
 endif::[]
 ifndef::backend-manpage[]
-= dmi_registry_iter_init
+= dmi_registry_iter_initialize
 endif::[]
 :author: The OpenDMI contributors
 :manmanual: OpenDMI Manual
@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_registry_iter_init, dmi_registry_iter_has_next, dmi_registry_iter_next - walk the structures of a registry.
+dmi_registry_iter_initialize, dmi_registry_iter_has_next, dmi_registry_iter_next - walk the structures of a registry.
 
 == Library
 
@@ -31,7 +31,7 @@ typedef struct dmi_registry_iter {
     bool                  is_done;
 } dmi_registry_iter_t;
 
-bool dmi_registry_iter_init(
+bool dmi_registry_iter_initialize(
         dmi_registry_iter_t *iter,
         dmi_registry_t      *registry,
         dmi_filter_t        *filter);
@@ -47,7 +47,7 @@ An iterator walks the structures of a registry in the order of the table,
 and yields the ones a filter matches, see `dmi_filter_match`(3), or all of
 them if there is no filter.
 
-The `dmi_registry_iter_init` function sets up an iterator to walk
+The `dmi_registry_iter_initialize` function sets up an iterator to walk
 `registry`, from its first structure. An iterator which has been used
 already is set up again the same way.
 
@@ -80,7 +80,7 @@ them.
 
 == Return value
 
-`dmi_registry_iter_init` returns `true` on success, and `false` if `iter` or
+`dmi_registry_iter_initialize` returns `true` on success, and `false` if `iter` or
 `registry` is `nullptr`.
 
 `dmi_registry_iter_has_next` returns `true` if a structure is left to yield,
@@ -92,7 +92,7 @@ and `false` otherwise, or if `iter` is `nullptr`.
 == Errors
 
 `DMI_ERROR_ARGUMENT_NULL`::
-Raised by `dmi_registry_iter_init` if `iter` or `registry` is `nullptr`, in
+Raised by `dmi_registry_iter_initialize` if `iter` or `registry` is `nullptr`, in
 which case it is not reported, since there is no context to hold it.
 
 `dmi_registry_iter_has_next` and `dmi_registry_iter_next` raise no errors,
@@ -108,7 +108,7 @@ dmi_registry_t     *registry = dmi_get_registry(context);
 dmi_registry_iter_t iter;
 dmi_entity_t       *entity;
 
-if (dmi_registry_iter_init(&iter, registry, nullptr)) {
+if (dmi_registry_iter_initialize(&iter, registry, nullptr)) {
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         if (dmi_entity_type(entity) != DMI_TYPE(memory_device))
             continue;

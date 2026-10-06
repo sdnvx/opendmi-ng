@@ -119,7 +119,7 @@ static void test_entry_decode_legacy(void **pstate)
         assert_int_equal(context->state.entry_length, 0x0F);
         assert_int_equal(context->state.address_size, sizeof(uint32_t));
         assert_int_equal(context->state.table_area_size, 0x1234);
-        assert_int_equal(context->state.table_area_addr, 0x000F0000);
+        assert_int_equal(context->state.table_area_address, 0x000F0000);
         assert_int_equal(context->state.entity_count, 42);
     }
 }
@@ -202,7 +202,7 @@ static void test_entry_decode_v21_short(void **pstate)
     assert_int_equal(context->state.entry_length, 0x1E);
     assert_int_equal(context->state.entity_max_size, 0x100);
     assert_int_equal(context->state.table_area_size, 0x1234);
-    assert_int_equal(context->state.table_area_addr, 0x000F0000);
+    assert_int_equal(context->state.table_area_address, 0x000F0000);
     assert_int_equal(context->state.entity_count, 42);
 
     test_free(data);
@@ -242,7 +242,7 @@ static void test_entry_decode_v30(void **pstate)
     assert_int_equal(context->state.entry_revision, 0x01);
     assert_int_equal(context->state.address_size, sizeof(uint64_t));
     assert_int_equal(context->state.table_area_max_size, 0x1145);
-    assert_int_equal(context->state.table_area_addr, 0x7AEB2000);
+    assert_int_equal(context->state.table_area_address, 0x7AEB2000);
 }
 
 static void test_entry_decode_v30_length(void **pstate)

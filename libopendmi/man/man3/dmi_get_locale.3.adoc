@@ -60,7 +60,7 @@ None: the function takes no context to raise errors in.
 == See also
 
 `dmi_set_locale`(3),
-`dmi_locale_init`(3),
+`dmi_locale_setup`(3),
 `dmi_resource_open`(3)
 
 ifdef::backend-manpage[]

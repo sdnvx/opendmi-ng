@@ -27,8 +27,7 @@ endif::[]
 typedef struct dmi_hpe_physical_attrs {
     dmi_uuid_t uuid;
     dmi_binary_t identifier_raw;
-    char identifier_buffer[17];
-    const char *identifier;
+    char *identifier;
     const char *serial_number;
 } dmi_hpe_physical_attrs_t;
 ----
@@ -61,12 +60,10 @@ Physical UUID, from Gen8 onwards.
 Product number and serial number, 16 characters, up to G7, as the structure
 holds them.
 
-`identifier_buffer`::
-Product number and serial number, which `identifier` points to.
-
 `identifier`::
 Product number and serial number, e.g. `484184GB894484YN`, or `nullptr` if
-they are not printable.
+they are not printable. The string belongs to the structure, and is freed along
+with it.
 
 `serial_number`::
 Physical serial number.

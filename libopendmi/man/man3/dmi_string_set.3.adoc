@@ -11,7 +11,7 @@ endif::[]
 ifdef::backend-manpage[]
 == Name
 
-dmi_string_set - replace an owned string with a copy of another one.
+dmi_string_set, dmi_string_set_bytes, dmi_string_from_bytes - replace an owned string with a copy of another one, or with the text bytes spell.
 
 == Library
 
@@ -24,7 +24,21 @@ endif::[]
 ----
 #include <opendmi/utils/string.h>
 
+#define DMI_STRING_BYTES_MAX 64
+
 bool dmi_string_set(dmi_context_t *context, char **pstring, const char *value);
+bool dmi_string_set_bytes(
+        dmi_context_t *context,
+        char         **pstring,
+        const uint8_t *data,
+        size_t         length,
+        bool           trim);
+
+const char *dmi_string_from_bytes(
+        const uint8_t *data,
+        size_t         length,
+        char          *buffer,
+        bool           trim);
 ----
 
 == Description
@@ -39,6 +53,17 @@ string itself, and a failure leaves the variable as it was.
 The caller is responsible for freeing the string with `free()` or
 `dmi_free`(3) once it is no longer needed.
 
+The `dmi_string_from_bytes` function copies the text the `length` bytes at
+`data` spell, e.g. a signature a structure holds, into `buffer`, and
+terminates it. The text is taken only if all the bytes are printable; with
+`trim`, the spaces are left out.
+
+The `dmi_string_set_bytes` function does the same into a string of its own,
+which it stores the way `dmi_string_set` does. It is meant for the strings a
+structure spells in its own bytes, which the structure owns, see
+`DMI_ATTRIBUTE_FLAG_OWNED` in `DMI_ATTRIBUTE`(3): a handler sets them, and the
+library frees them as the structure is released.
+
 === Parameters
 
 `context`::
@@ -51,14 +76,38 @@ Variable holding the string, which is either `nullptr` or allocated with
 `value`::
 String to copy, or `nullptr`.
 
+`data`::
+Bytes the text is taken from.
+
+`length`::
+Number of the bytes, at most `DMI_STRING_BYTES_MAX` for
+`dmi_string_set_bytes`.
+
+`buffer`::
+Buffer at least one byte longer than the bytes, which the text is copied
+into.
+
+`trim`::
+Whether the spaces are left out.
+
 == Return value
 
-On success, returns `true`. On failure, returns `false`.
+The `dmi_string_set` and `dmi_string_set_bytes` functions return `true` on
+success, and `false` on failure. If the bytes are not all printable, or leave
+nothing but spaces, `dmi_string_set_bytes` sets the string to `nullptr`, which
+is not a failure.
+
+The `dmi_string_from_bytes` function returns the text in `buffer`, or
+`nullptr` if the bytes are not all printable or leave nothing but spaces.
 
 == Errors
 
 `DMI_ERROR_ARGUMENT_NULL`::
-Raised if `pstring` is `nullptr`.
+Raised if `pstring` is `nullptr`, or, by `dmi_string_from_bytes`, if `data`
+is `nullptr`; the latter reaches no error queue.
+
+`DMI_ERROR_ARGUMENT_INVALID`::
+Raised by `dmi_string_set_bytes` if `length` exceeds `DMI_STRING_BYTES_MAX`.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Raised if memory is exhausted.
@@ -78,7 +127,8 @@ dmi_string_set(context, &vendor, nullptr);
 == See also
 
 `strdup`(3),
-`dmi_free`(3)
+`dmi_free`(3),
+`DMI_ATTRIBUTE`(3)
 
 ifdef::backend-manpage[]
 == Copying

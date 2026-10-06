@@ -26,7 +26,7 @@
  * @internal
  * @brief Names of the IPMI interface types.
  */
-extern const dmi_name_set_t dmi_ipmi_interface_names;
+extern const dmi_name_set_t dmi_ipmi_iface_type_names;
 
 /**
  * @internal
@@ -38,7 +38,7 @@ extern const dmi_name_set_t dmi_ipmi_addr_type_names;
  * @internal
  * @brief Names of the trigger modes of the interrupt.
  */
-extern const dmi_name_set_t dmi_ipmi_intr_trigger_names;
+extern const dmi_name_set_t dmi_ipmi_intr_trigger_mode_names;
 
 /**
  * @internal
@@ -95,7 +95,7 @@ bool dmi_ipmi_device_encode_version(
  *
  * @return Always `true`.
  */
-bool dmi_ipmi_device_decode_address(
+bool dmi_ipmi_device_decode_addr(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
         void                   *value);
@@ -103,7 +103,7 @@ bool dmi_ipmi_device_decode_address(
 /**
  * @internal
  * @brief Encode the base address along with its type, which undoes
- * `dmi_ipmi_device_decode_address()`.
+ * `dmi_ipmi_device_decode_addr()`.
  *
  * @param[in]  field Field being encoded.
  * @param[in]  value Decoded structure holding the address.
@@ -111,7 +111,7 @@ bool dmi_ipmi_device_decode_address(
  *
  * @return Always `true`.
  */
-bool dmi_ipmi_device_encode_address(
+bool dmi_ipmi_device_encode_addr(
         const dmi_field_t *field,
         const void        *value,
         dmi_field_data_t  *data);

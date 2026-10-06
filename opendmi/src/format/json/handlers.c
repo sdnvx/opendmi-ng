@@ -221,7 +221,7 @@ bool dmi_json_entity_start(dmi_json_session_t *session, const dmi_entity_t *enti
     dmi_format_set_iter_t iter;
     const dmi_format_flag_t *flag;
 
-    dmi_format_mask_iter_init(&iter, &dmi_entity_state_names, entity->state,
+    dmi_format_mask_iter_initialize(&iter, &dmi_entity_state_names, entity->state,
                               sizeof(entity->state) * CHAR_BIT);
 
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
@@ -291,7 +291,7 @@ bool dmi_json_entity_properties(dmi_json_session_t *session, const dmi_entity_t 
     if (not result)
         return false;
 
-    dmi_format_property_iter_init(&iter, entity);
+    dmi_format_property_iter_initialize(&iter, entity);
 
     while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
         const char *code = dmi_code_lookup(&dmi_property_names, property->ident);
@@ -342,7 +342,7 @@ bool dmi_json_entity_overlays(dmi_json_session_t *session, const dmi_entity_t *e
             dmi_json_label(session, "index") and
             dmi_json_scalar(session, overlay->index) and
             dmi_json_label(session, "offset") and
-            dmi_json_scalar(session, (int)overlay->entry->ref_offset) and
+            dmi_json_scalar(session, (int)overlay->entry->referenced_offset) and
             dmi_json_label(session, "value") and
             dmi_json_scalar(session, value) and
             dmi_json_label(session, "string") and
@@ -394,7 +394,7 @@ bool dmi_json_entity_strings(dmi_json_session_t *session, const dmi_entity_t *en
     dmi_format_string_iter_t iter;
     const char *str;
 
-    dmi_format_string_iter_init(&iter, entity);
+    dmi_format_string_iter_initialize(&iter, entity);
 
     while ((str = dmi_format_string_iter_next(&iter)) != nullptr) {
         if (not dmi_json_scalar(session, str))
@@ -570,7 +570,7 @@ static bool dmi_json_entity_attr_set(
     if (not dmi_json_mapping_start(session))
         return false;
 
-    dmi_format_set_iter_init(&iter, attr, value);
+    dmi_format_set_iter_initialize(&iter, attr, value);
 
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
         bool result =

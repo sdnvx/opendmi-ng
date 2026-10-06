@@ -2460,8 +2460,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 21474836479
+    start-address: 0
+    end-address: 21474836479
     range-size: 21474836480
     array-handle: 51
     partition-width: 4

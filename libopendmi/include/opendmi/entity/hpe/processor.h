@@ -89,16 +89,12 @@ struct dmi_hpe_processor
     uint8_t qdf_raw[6];
 
     /**
-     * @brief QDF or S-Spec number with the spaces left out, which `qdf`
-     * points to.
-     */
-    char qdf_buffer[7];
-
-    /**
      * @brief QDF or S-Spec number of Intel processors, @c nullptr if the
      * structure holds none.
+     *
+     * The string belongs to the structure, and is freed along with it.
      */
-    const char *qdf;
+    char *qdf;
 };
 
 /**

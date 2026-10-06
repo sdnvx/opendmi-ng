@@ -25,15 +25,15 @@ endif::[]
 #include <opendmi/entity/tpm-device.h>
 
 typedef struct dmi_tpm_device {
-    char                              vendor_id[5];
-    const char                       *vendor;
-    dmi_version_t                     spec_version;
+    dmi_binary_t                      vendor_raw;
+    char                             *vendor;
+    dmi_version_t                     specification_version;
     uint64_t                          firmware_version;
     dmi_tpm_firmware_version_format_t firmware_version_format;
     dmi_version_t                     firmware_revision;
     dmi_tpm_firmware_version_t        firmware_version_2;
     const char                       *description;
-    dmi_tpm_device_features_t         features;
+    dmi_tpm_device_chars_t            characteristics;
     uint32_t                          oem_defined;
 } dmi_tpm_device_t;
 ----
@@ -55,17 +55,19 @@ in.
 
 === Fields
 
-`vendor_id`::
-Vendor identifier, as registered by the Trusted Computing Group (TCG): up to
-four characters, terminated by a zero. Some firmware stores the four bytes
-in reverse order; the decoder puts them back in order, and cuts the
-identifier at the first character which is not printable.
+`vendor_raw`::
+Vendor identifier as the structure holds it: four bytes of text, which are
+not terminated, and which some firmware stores in reverse order.
 
 `vendor`::
-Vendor identifier as a string, pointing to `vendor_id`, or `nullptr` if the
-identifier holds no printable character.
+Vendor identifier, as registered by the Trusted Computing Group (TCG): up to
+four characters, or `nullptr` if the identifier holds no printable character.
+Some firmware stores the four bytes in reverse order; the decoder puts them
+back in order, and cuts the identifier at the first character which is not
+printable. The string belongs to the structure, and is freed along
+with it.
 
-`spec_version`::
+`specification_version`::
 Version of the TPM specification the device supports, such as 1.2 or 2.0;
 use `dmi_version_major` and `dmi_version_minor` to read it.
 
@@ -94,8 +96,8 @@ Only meaningful when `firmware_version_format` is
 Descriptive information about the TPM device, `nullptr` if the structure
 has none.
 
-`features`::
-Characteristics of the TPM device, see `dmi_tpm_device_features`(3).
+`characteristics`::
+Characteristics of the TPM device, see `dmi_tpm_device_chars`(3).
 
 `oem_defined`::
 Information specific to the OEM or the firmware vendor.
@@ -110,8 +112,8 @@ dmi_entity_t     *entity   = dmi_registry_lookup_first(registry,
 dmi_tpm_device_t *tpm      = dmi_entity_info(entity, DMI_TYPE(tpm_device));
 
 if (tpm != nullptr) {
-    printf("TPM %u.%u by %s\n", dmi_version_major(tpm->spec_version),
-           dmi_version_minor(tpm->spec_version),
+    printf("TPM %u.%u by %s\n", dmi_version_major(tpm->specification_version),
+           dmi_version_minor(tpm->specification_version),
            tpm->vendor != nullptr ? tpm->vendor : "unknown vendor");
 
     if (tpm->firmware_version_format ==
@@ -124,7 +126,7 @@ if (tpm != nullptr) {
 == See also
 
 `dmi_entity_info`(3), `dmi_tpm_firmware_version_format`(3),
-`dmi_tpm_firmware_version`(3), `dmi_tpm_device_features`(3),
+`dmi_tpm_firmware_version`(3), `dmi_tpm_device_chars`(3),
 `dmi_version_format`(3)
 
 == Standards

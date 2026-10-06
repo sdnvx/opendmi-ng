@@ -1261,8 +1261,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 34359738367
+    start-address: 0
+    end-address: 34359738367
     range-size: 34359738368
     array-handle: 21
     partition-width: 8
@@ -1275,11 +1275,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 22
-    array-addr-handle: 30
+    array-address-handle: 30
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1292,11 +1292,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 23
-    array-addr-handle: 30
+    array-address-handle: 30
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1309,11 +1309,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 24
-    array-addr-handle: 30
+    array-address-handle: 30
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1326,11 +1326,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 25
-    array-addr-handle: 30
+    array-address-handle: 30
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1343,11 +1343,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 26
-    array-addr-handle: 30
+    array-address-handle: 30
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1360,11 +1360,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 27
-    array-addr-handle: 30
+    array-address-handle: 30
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1377,11 +1377,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 28
-    array-addr-handle: 30
+    array-address-handle: 30
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1394,11 +1394,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 4294967295
+    start-address: 0
+    end-address: 4294967295
     range-size: 4294967296
     device-handle: 29
-    array-addr-handle: 30
+    array-address-handle: 30
     partition-pos: unknown
     interleave-pos: unknown
     interleave-depth: unknown
@@ -1442,7 +1442,7 @@ table:
   - decoded
   description: TPM device
   attributes:
-    vendor-id: INTC
+    vendor: INTC
     specification-version: '2.0'
     firmware-version:
       major: 700

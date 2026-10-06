@@ -183,13 +183,13 @@ static bool dmi_netbsd_read_table(dmi_context_t *context, dmi_buffer_t *buffer)
     }
 
     // Offset of the device is signed
-    if (context->state.table_area_addr > INT64_MAX) {
+    if (context->state.table_area_address > INT64_MAX) {
         dmi_error_raise_ex(context, DMI_ERROR_FILE_READ_FAILED, "%s: table address 0x%" PRIx64 " is out of range",
-                           session->device, context->state.table_area_addr);
+                           session->device, context->state.table_area_address);
         return false;
     }
 
-    return dmi_file_load(buffer, session->device, (off_t)context->state.table_area_addr,
+    return dmi_file_load(buffer, session->device, (off_t)context->state.table_area_address,
                          context->state.table_area_max_size);
 }
 

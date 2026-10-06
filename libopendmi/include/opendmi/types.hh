@@ -60,7 +60,7 @@ namespace dmi {
         power_supply            = capi::DMI_TYPE_ID_POWER_SUPPLY,            ///< System power supply
         additional_info         = capi::DMI_TYPE_ID_ADDITIONAL_INFO,         ///< Additional information
         onboard_device_ex       = capi::DMI_TYPE_ID_ONBOARD_DEVICE_EX,       ///< Onboard devices extended information
-        mgmt_controller_host_if = capi::DMI_TYPE_ID_MGMT_CONTROLLER_HOST_IF, ///< Management controller host interface
+        mgmt_controller         = capi::DMI_TYPE_ID_MGMT_CONTROLLER,         ///< Management controller host interface
         tpm_device              = capi::DMI_TYPE_ID_TPM_DEVICE,              ///< TPM device
         processor_ex            = capi::DMI_TYPE_ID_PROCESSOR_EX,            ///< Processor additional information
         firmware_inventory      = capi::DMI_TYPE_ID_FIRMWARE_INVENTORY,      ///< Firmware inventory information

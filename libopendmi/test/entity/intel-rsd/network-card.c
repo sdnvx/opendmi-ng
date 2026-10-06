@@ -30,7 +30,7 @@ static void test_rsd_network_card_decode_short(void **pstate);
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
 // Offset of MAC address field
-#define TEST_MAC_ADDRESS_OFFSET 0x19
+#define TEST_MAC_ADDR_OFFSET 0x19
 
 // Intel RSD network card information structure (0x3A bytes) followed by
 // strings
@@ -114,10 +114,10 @@ static void test_rsd_network_card_decode(void **pstate)
     assert_string_equal(info->firmware_version, "1.2.3");
 
     // MAC address is referenced in the structure data
-    assert_int_equal(info->mac_address.length, DMI_INTEL_RSD_MAC_ADDRESS_LENGTH);
+    assert_int_equal(info->mac_address.length, DMI_INTEL_RSD_MAC_ADDR_LENGTH);
     assert_ptr_equal(info->mac_address.data,
                      dmi_buffer_at(entity->buffer, entity->offset, entity->total_length) +
-                         TEST_MAC_ADDRESS_OFFSET);
+                         TEST_MAC_ADDR_OFFSET);
     assert_int_equal(info->mac_address.data[1], 0x1B);
 
     // MAC address is formatted without padding
@@ -145,11 +145,11 @@ static void test_rsd_network_card_decode_short(void **pstate)
     // minimum length
     uint8_t data[sizeof(test_data)];
     memcpy(data, test_data, sizeof(data));
-    data[1] = TEST_MAC_ADDRESS_OFFSET + 6;
+    data[1] = TEST_MAC_ADDR_OFFSET + 6;
 
     // String set follows the shortened structure
-    data[TEST_MAC_ADDRESS_OFFSET + 6]     = 0;
-    data[TEST_MAC_ADDRESS_OFFSET + 6 + 1] = 0;
+    data[TEST_MAC_ADDR_OFFSET + 6]     = 0;
+    data[TEST_MAC_ADDR_OFFSET + 6 + 1] = 0;
 
     dmi_buffer_t *buffer = dmi_buffer_create(context);
     dmi_entity_t *entity = dmi_test_entity_create(buffer, data, sizeof(data));

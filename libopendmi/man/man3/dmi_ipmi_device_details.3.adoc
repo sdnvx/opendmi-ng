@@ -32,7 +32,7 @@ typedef union dmi_ipmi_device_details {
         uint8_t is_intr_active_high     : 1;
         uint8_t __reserved_1            : 1;
         uint8_t is_intr_info_specified  : 1;
-        uint8_t base_addr_lsb           : 1;
+        uint8_t base_address_lsb           : 1;
         uint8_t __reserved_2            : 1;
         uint8_t register_spacing        : 2;
     };
@@ -70,7 +70,7 @@ Reserved bit, set to 0.
 Set if the byte specifies the trigger mode and the polarity of the
 interrupt.
 
-`base_addr_lsb`::
+`base_address_lsb`::
 Least-significant bit of the base address of the BMC.
 
 `__reserved_2`::

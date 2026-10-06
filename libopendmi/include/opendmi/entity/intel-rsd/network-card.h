@@ -15,7 +15,7 @@
 /**
  * @brief Length of MAC address field in bytes.
  */
-#define DMI_INTEL_RSD_MAC_ADDRESS_LENGTH 32
+#define DMI_INTEL_RSD_MAC_ADDR_LENGTH 32
 
 #ifndef DMI_INTEL_RSD_NETWORK_CARD_T
 #   define DMI_INTEL_RSD_NETWORK_CARD_T
@@ -79,7 +79,7 @@ struct dmi_intel_rsd_network_card
     uint16_t port_index;
 
     /**
-     * @brief Network MAC address, `DMI_INTEL_RSD_MAC_ADDRESS_LENGTH` bytes.
+     * @brief Network MAC address, `DMI_INTEL_RSD_MAC_ADDR_LENGTH` bytes.
      */
     dmi_binary_t mac_address;
 

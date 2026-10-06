@@ -203,7 +203,7 @@ root {
             "attributes."
         }
     }
-    mgmt-controller-host-if {
+    mgmt-controller {
         description {
             "The information in this structure defines the attributes of a Management "
             "Controller Host Interface that is not discoverable by \"Plug and Play\" "

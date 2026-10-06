@@ -2747,8 +2747,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 51539607551
+    start-address: 0
+    end-address: 51539607551
     range-size: 51539607552
     array-handle: 369
     partition-width: 2

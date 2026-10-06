@@ -31,7 +31,7 @@ typedef struct dmi_hpe_drive {
     uint32_t legacy_capacity;
     uint64_t power_on_hours;
     uint8_t power;
-    dmi_hpe_drive_form_t form_factor;
+    dmi_hpe_drive_form_factor_t form_factor;
     dmi_hpe_drive_health_t health;
     const char *serial_number;
     const char *model_number;
@@ -84,7 +84,7 @@ Number of the hours the drive has been powered on for.
 Power of the drive in watts, zero if unknown.
 
 `form_factor`::
-Form factor of the drive, see `dmi_hpe_drive_form`(3).
+Form factor of the drive, see `dmi_hpe_drive_form_factor`(3).
 
 `health`::
 Health status of the drive, see `dmi_hpe_drive_health`(3).
@@ -125,7 +125,7 @@ Fastest speed of the bus the drive is capable of in Gbit/s, zero if unknown.
 
 `dmi_entity_info`(3),
 `dmi_hpe_drive_type`(3),
-`dmi_hpe_drive_form`(3),
+`dmi_hpe_drive_form_factor`(3),
 `dmi_hpe_drive_health`(3),
 `dmi_hpe_encryption`(3),
 `dmi_hpe_device_correlation`(3)

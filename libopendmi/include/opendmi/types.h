@@ -156,7 +156,7 @@ typedef enum dmi_type_id
     DMI_TYPE_ID_POWER_SUPPLY            = 39,  ///< System power supply
     DMI_TYPE_ID_ADDITIONAL_INFO         = 40,  ///< Additional information
     DMI_TYPE_ID_ONBOARD_DEVICE_EX       = 41,  ///< Onboard devices extended information
-    DMI_TYPE_ID_MGMT_CONTROLLER_HOST_IF = 42,  ///< Management controller host interface
+    DMI_TYPE_ID_MGMT_CONTROLLER         = 42,  ///< Management controller host interface
     DMI_TYPE_ID_TPM_DEVICE              = 43,  ///< TPM device
     DMI_TYPE_ID_PROCESSOR_EX            = 44,  ///< Processor additional information
     DMI_TYPE_ID_FIRMWARE_INVENTORY      = 45,  ///< Firmware inventory information
@@ -335,7 +335,7 @@ extern __dmi_api const dmi_type_t dmi_type_additional_info;
 extern __dmi_api const dmi_type_t dmi_type_onboard_device_ex;
 
 /** @brief Management controller host interface */
-extern __dmi_api const dmi_type_t dmi_type_mgmt_controller_host_if;
+extern __dmi_api const dmi_type_t dmi_type_mgmt_controller;
 
 /** @brief TPM device */
 extern __dmi_api const dmi_type_t dmi_type_tpm_device;

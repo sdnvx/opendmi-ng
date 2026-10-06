@@ -318,8 +318,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 3221225471
+    start-address: 0
+    end-address: 3221225471
     range-size: 3221225472
     array-handle: 5
     partition-width: 2
@@ -978,8 +978,8 @@ table:
     granularity: unknown
     operation: unknown
     vendor-syndrome: 0
-    array-addr: unknown
-    device-addr: unknown
+    array-address: unknown
+    device-address: unknown
     resolution: unknown
 - handle: 47
   type: 21

@@ -110,7 +110,7 @@ if ((filter == nullptr) ||
 `dmi_filter_create`(3),
 `dmi_filter_match`(3),
 `dmi_module_find`(3),
-`dmi_registry_iter_init`(3)
+`dmi_registry_iter_initialize`(3)
 
 ifdef::backend-manpage[]
 == Copying

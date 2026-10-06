@@ -829,8 +829,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 1023
+    start-address: 0
+    end-address: 1023
     range-size: 1024
     array-handle: 37
     partition-width: 0
@@ -886,11 +886,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 1023
+    start-address: 0
+    end-address: 1023
     range-size: 1024
     device-handle: 39
-    array-addr-handle: 38
+    array-address-handle: 38
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0
@@ -946,11 +946,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 1023
+    start-address: 0
+    end-address: 1023
     range-size: 1024
     device-handle: 41
-    array-addr-handle: 38
+    array-address-handle: 38
     partition-pos: 1
     interleave-pos: 0
     interleave-depth: 0

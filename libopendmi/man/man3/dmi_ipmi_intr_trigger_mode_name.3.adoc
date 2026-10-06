@@ -1,0 +1,1 @@
+dmi_ipmi_intr_trigger_mode.3.adoc

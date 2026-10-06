@@ -90,7 +90,7 @@ struct dmi_dell_parallel_port
     /**
      * @brief Base address.
      */
-    uint16_t base_addr;
+    uint16_t base_address;
 
     /**
      * @brief IRQ number.

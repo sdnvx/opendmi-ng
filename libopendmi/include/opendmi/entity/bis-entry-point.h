@@ -16,15 +16,15 @@
     typedef struct dmi_bis_entry_point dmi_bis_entry_point_t;
 #endif // !DMI_BIS_ENTRY_POINT_T
 
-#ifndef DMI_BIS_REAL_MODE_ADDRESS_T
-#   define DMI_BIS_REAL_MODE_ADDRESS_T
-    typedef struct dmi_bis_real_mode_address dmi_bis_real_mode_address_t;
-#endif // !DMI_BIS_REAL_MODE_ADDRESS_T
+#ifndef DMI_BIS_REAL_MODE_ADDR_T
+#   define DMI_BIS_REAL_MODE_ADDR_T
+    typedef struct dmi_bis_real_mode_addr dmi_bis_real_mode_addr_t;
+#endif // !DMI_BIS_REAL_MODE_ADDR_T
 
 /**
  * @brief Real mode (16:16) address.
  */
-struct dmi_bis_real_mode_address
+struct dmi_bis_real_mode_addr
 {
     /**
      * @brief Segment.
@@ -54,7 +54,7 @@ struct dmi_bis_entry_point
     /**
      * @brief BIS entry point for 16-bit real mode.
      */
-    dmi_bis_real_mode_address_t entry_point_16;
+    dmi_bis_real_mode_addr_t entry_point_16;
 
     /**
      * @brief BIS entry point for 32-bit protected mode.

@@ -27,8 +27,8 @@ endif::[]
 typedef struct dmi_mgmt_nhi_pci {
     uint16_t vendor_id;
     uint16_t device_id;
-    uint16_t subsys_vendor_id;
-    uint16_t subsys_id;
+    uint16_t subsystem_vendor_id;
+    uint16_t subsystem_id;
 } dmi_mgmt_nhi_pci_t;
 ----
 
@@ -47,10 +47,10 @@ PCI vendor ID of the device.
 `device_id`::
 PCI device ID of the device.
 
-`subsys_vendor_id`::
+`subsystem_vendor_id`::
 PCI subsystem vendor ID of the device.
 
-`subsys_id`::
+`subsystem_id`::
 PCI subsystem ID of the device.
 
 == See also

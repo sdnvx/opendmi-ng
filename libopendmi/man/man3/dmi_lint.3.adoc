@@ -177,7 +177,7 @@ if `context` is `nullptr`.
 == Errors
 
 `DMI_ERROR_STATE_INVALID`::
-Context is not open, see `dmi_context_is_open`(3).
+Context is not open, see `dmi_is_open`(3).
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 State of the check cannot be allocated.
@@ -208,7 +208,7 @@ if (dmi_load(context, "smbios.bin") &&
 `dmi_lint_rules`(3),
 `dmi_lint_rule_name`(3),
 `dmi_lint_issue`(3),
-`dmi_context_is_open`(3),
+`dmi_is_open`(3),
 `opendmi-lint`(1)
 
 ifdef::backend-manpage[]

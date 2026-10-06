@@ -36,7 +36,7 @@ bool dmi_ipmi_device_encode_version(
     return true;
 }
 
-bool dmi_ipmi_device_decode_address(
+bool dmi_ipmi_device_decode_addr(
         const dmi_field_t      *field,
         const dmi_field_data_t *data,
         void                   *value)
@@ -46,20 +46,20 @@ bool dmi_ipmi_device_decode_address(
     dmi_ipmi_device_t *info      = value;
     dmi_qword_t        base_addr = (dmi_qword_t)data->number;
 
-    if (info->interface_type == DMI_IPMI_INTERFACE_SSIF) {
-        info->base_addr      = (base_addr & 0xFFu) >> 1;
-        info->base_addr_type = DMI_IPMI_ADDR_TYPE_SMBUS;
+    if (info->interface_type == DMI_IPMI_IFACE_TYPE_SSIF) {
+        info->base_address      = (base_addr & 0xFFu) >> 1;
+        info->base_address_type = DMI_IPMI_ADDR_TYPE_SMBUS;
     } else {
-        info->base_addr      = base_addr & ~(dmi_qword_t)1u;
-        info->base_addr_type = (base_addr & 1u)
-                             ? DMI_IPMI_ADDR_TYPE_IO
-                             : DMI_IPMI_ADDR_TYPE_MEMORY;
+        info->base_address      = base_addr & ~(dmi_qword_t)1u;
+        info->base_address_type = (base_addr & 1u)
+                                ? DMI_IPMI_ADDR_TYPE_IO
+                                : DMI_IPMI_ADDR_TYPE_MEMORY;
     }
 
     return true;
 }
 
-bool dmi_ipmi_device_encode_address(
+bool dmi_ipmi_device_encode_addr(
         const dmi_field_t *field,
         const void        *value,
         dmi_field_data_t  *data)
@@ -68,11 +68,11 @@ bool dmi_ipmi_device_encode_address(
 
     const dmi_ipmi_device_t *info = value;
 
-    if (info->interface_type == DMI_IPMI_INTERFACE_SSIF) {
-        data->number = ((dmi_qword_t)info->base_addr << 1) & 0xFFu;
+    if (info->interface_type == DMI_IPMI_IFACE_TYPE_SSIF) {
+        data->number = ((dmi_qword_t)info->base_address << 1) & 0xFFu;
     } else {
-        data->number = ((dmi_qword_t)info->base_addr & ~(dmi_qword_t)1u) |
-                       ((info->base_addr_type == DMI_IPMI_ADDR_TYPE_IO) ? 1u : 0u);
+        data->number = ((dmi_qword_t)info->base_address & ~(dmi_qword_t)1u) |
+                       ((info->base_address_type == DMI_IPMI_ADDR_TYPE_IO) ? 1u : 0u);
     }
 
     return true;
@@ -92,15 +92,15 @@ bool dmi_ipmi_device_decode_modifier(
     };
 
     if (details.is_intr_info_specified) {
-        info->intr_trigger  = details.is_intr_level_triggered
-                            ? DMI_IPMI_INTR_TRIGGER_LEVEL
-                            : DMI_IPMI_INTR_TRIGGER_EDGE;
-        info->intr_polarity = details.is_intr_active_high
-                            ? DMI_IPMI_INTR_POLARITY_HIGH
-                            : DMI_IPMI_INTR_POLARITY_LOW;
+        info->interrupt_trigger_mode = details.is_intr_level_triggered
+                                     ? DMI_IPMI_INTR_TRIGGER_MODE_LEVEL
+                                     : DMI_IPMI_INTR_TRIGGER_MODE_EDGE;
+        info->interrupt_polarity = details.is_intr_active_high
+                                 ? DMI_IPMI_INTR_POLARITY_HIGH
+                                 : DMI_IPMI_INTR_POLARITY_LOW;
     } else {
-        info->intr_trigger  = DMI_IPMI_INTR_TRIGGER_UNSPEC;
-        info->intr_polarity = DMI_IPMI_INTR_POLARITY_UNSPEC;
+        info->interrupt_trigger_mode = DMI_IPMI_INTR_TRIGGER_MODE_UNSPEC;
+        info->interrupt_polarity     = DMI_IPMI_INTR_POLARITY_UNSPEC;
     }
 
     switch (details.register_spacing) {
@@ -110,10 +110,10 @@ bool dmi_ipmi_device_decode_modifier(
     default:                           info->register_spacing = 0;  break;
     }
 
-    info->base_addr_lsb = details.base_addr_lsb;
+    info->base_address_lsb = details.base_address_lsb;
 
-    if (info->base_addr_type != DMI_IPMI_ADDR_TYPE_SMBUS)
-        info->base_addr |= info->base_addr_lsb;
+    if (info->base_address_type != DMI_IPMI_ADDR_TYPE_SMBUS)
+        info->base_address |= info->base_address_lsb;
 
     return true;
 }
@@ -129,10 +129,10 @@ bool dmi_ipmi_device_encode_modifier(
 
     dmi_ipmi_device_details_t details = {};
 
-    details.is_intr_info_specified  = (info->intr_trigger != DMI_IPMI_INTR_TRIGGER_UNSPEC);
-    details.is_intr_level_triggered = (info->intr_trigger == DMI_IPMI_INTR_TRIGGER_LEVEL);
-    details.is_intr_active_high     = (info->intr_polarity == DMI_IPMI_INTR_POLARITY_HIGH);
-    details.base_addr_lsb           = info->base_addr_lsb & 1u;
+    details.is_intr_info_specified  = (info->interrupt_trigger_mode != DMI_IPMI_INTR_TRIGGER_MODE_UNSPEC);
+    details.is_intr_level_triggered = (info->interrupt_trigger_mode == DMI_IPMI_INTR_TRIGGER_MODE_LEVEL);
+    details.is_intr_active_high     = (info->interrupt_polarity == DMI_IPMI_INTR_POLARITY_HIGH);
+    details.base_address_lsb           = info->base_address_lsb & 1u;
 
     switch (info->register_spacing) {
     case 1:  details.register_spacing = DMI_IPMI_REGISTER_SPACING_1;        break;

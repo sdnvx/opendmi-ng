@@ -92,7 +92,7 @@ static int dmi_list_main(dmi_context_t *context, int argc, char *argv[])
     bool is_raw = dmi_command_is_raw(dmi_list_config.show_raw);
 
     dmi_registry_t *registry = dmi_get_registry(context);
-    dmi_registry_iter_init(&iter, registry, &dmi_filter_config.filter);
+    dmi_registry_iter_initialize(&iter, registry, &dmi_filter_config.filter);
 
     while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {
         dmi_handle_t handle = dmi_entity_handle(entity);

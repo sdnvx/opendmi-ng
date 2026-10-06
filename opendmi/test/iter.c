@@ -95,7 +95,7 @@ static void test_iter_array(void **pstate)
     const dmi_data_t *ptr;
     size_t count = 0;
 
-    dmi_format_array_iter_init(&iter, attr, dmi_data(&info), value);
+    dmi_format_array_iter_initialize(&iter, attr, dmi_data(&info), value);
     assert_int_equal(iter.count, countof(items));
 
     while ((ptr = dmi_format_array_iter_next(&iter)) != nullptr) {
@@ -121,13 +121,13 @@ static void test_iter_array_empty(void **pstate)
     uint16_t items[1] = { 10 };
     test_iter_info_t info = { .count = 0, .items = items };
 
-    dmi_format_array_iter_init(&iter, attr, dmi_data(&info), dmi_member_ptr(&info, attr->value, dmi_data_t));
+    dmi_format_array_iter_initialize(&iter, attr, dmi_data(&info), dmi_member_ptr(&info, attr->value, dmi_data_t));
     assert_null(dmi_format_array_iter_next(&iter));
 
     // Array is not allocated, but counter is set
     info = (test_iter_info_t){ .count = 5, .items = nullptr };
 
-    dmi_format_array_iter_init(&iter, attr, dmi_data(&info), dmi_member_ptr(&info, attr->value, dmi_data_t));
+    dmi_format_array_iter_initialize(&iter, attr, dmi_data(&info), dmi_member_ptr(&info, attr->value, dmi_data_t));
     assert_int_equal(iter.count, 0);
     assert_null(dmi_format_array_iter_next(&iter));
 }
@@ -157,7 +157,7 @@ static void test_iter_set(void **pstate)
     const dmi_format_flag_t *flag;
     size_t count = 0;
 
-    dmi_format_set_iter_init(&iter, attr, value);
+    dmi_format_set_iter_initialize(&iter, attr, value);
     assert_int_equal(iter.mask, info.flags);
 
     while ((flag = dmi_format_set_iter_next(&iter)) != nullptr) {
@@ -194,7 +194,7 @@ static void test_iter_strings(void **pstate)
     const char *str;
     size_t count = 0;
 
-    dmi_format_string_iter_init(&iter, entity);
+    dmi_format_string_iter_initialize(&iter, entity);
 
     // Raw strings are returned
     static const char *expected[] = { "A", " B " };
@@ -252,7 +252,7 @@ static void test_iter_properties(void **pstate)
     const dmi_string_property_t *property;
 
     // Entity without properties
-    dmi_format_property_iter_init(&iter, parent);
+    dmi_format_property_iter_initialize(&iter, parent);
     assert_null(dmi_format_property_iter_next(&iter));
 
     dmi_entity_t *properties[countof(property_data)];
@@ -272,7 +272,7 @@ static void test_iter_properties(void **pstate)
     // Properties are returned in the order they were added
     size_t count = 0;
 
-    dmi_format_property_iter_init(&iter, parent);
+    dmi_format_property_iter_initialize(&iter, parent);
 
     while ((property = dmi_format_property_iter_next(&iter)) != nullptr) {
         assert_true(count < countof(expected));

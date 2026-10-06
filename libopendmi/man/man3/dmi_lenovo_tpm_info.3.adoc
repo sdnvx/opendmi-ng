@@ -27,8 +27,7 @@ endif::[]
 typedef struct dmi_lenovo_tpm_info {
     uint8_t unknown_1;
     dmi_binary_t vendor_raw;
-    char vendor_buffer[5];
-    const char *vendor;
+    char *vendor;
     uint8_t unknown_2[2];
     uint16_t unknown_3;
     uint8_t unknown_4;
@@ -63,11 +62,9 @@ Value whose meaning is not established, `0` in all known data.
 `vendor_raw`::
 TCG vendor ID of the TPM, as the structure holds it.
 
-`vendor_buffer`::
-TCG vendor ID of the TPM, which `vendor` points to.
-
 `vendor`::
-TCG vendor ID of the TPM, e.g. `ATML`, or `nullptr` if it is not printable.
+TCG vendor ID of the TPM, e.g. `ATML`, or `nullptr` if it is not printable. The string belongs to the structure, and is freed along
+with it.
 
 `unknown_2`::
 Values whose meaning is not established, `1` and `1` in all known data.

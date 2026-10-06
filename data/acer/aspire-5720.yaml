@@ -675,11 +675,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 1073741823
+    start-address: 0
+    end-address: 1073741823
     range-size: 1073741824
     device-handle: 25
-    array-addr-handle: 31
+    array-address-handle: 31
     partition-pos: 1
     interleave-pos: 1
     interleave-depth: 1
@@ -771,11 +771,11 @@ table:
   - partial
   description: Memory device mapped address
   attributes:
-    start-addr: 1073741824
-    end-addr: 2147483647
+    start-address: 1073741824
+    end-address: 2147483647
     range-size: 1073741824
     device-handle: 28
-    array-addr-handle: 31
+    array-address-handle: 31
     partition-pos: 2
     interleave-pos: 2
     interleave-depth: 1
@@ -789,8 +789,8 @@ table:
   - partial
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 2147483647
+    start-address: 0
+    end-address: 2147483647
     range-size: 2147483648
     array-handle: 24
     partition-width: 4

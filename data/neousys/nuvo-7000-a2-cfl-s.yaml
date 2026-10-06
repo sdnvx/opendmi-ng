@@ -893,8 +893,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 68719476735
+    start-address: 0
+    end-address: 68719476735
     range-size: 68719476736
     array-handle: 35
     partition-width: 2
@@ -907,11 +907,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 34359738367
+    start-address: 0
+    end-address: 34359738367
     range-size: 34359738368
     device-handle: 36
-    array-addr-handle: 38
+    array-address-handle: 38
     partition-pos: unknown
     interleave-pos: 1
     interleave-depth: 1
@@ -924,11 +924,11 @@ table:
   - linked
   description: Memory device mapped address
   attributes:
-    start-addr: 0
-    end-addr: 34359738367
+    start-address: 0
+    end-address: 34359738367
     range-size: 34359738368
     device-handle: 37
-    array-addr-handle: 38
+    array-address-handle: 38
     partition-pos: unknown
     interleave-pos: 2
     interleave-depth: 1

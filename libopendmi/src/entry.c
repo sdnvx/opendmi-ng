@@ -75,8 +75,8 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
                 .code  = "table-area-max-size",
                 .name  = "Maximum size of table area"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, state.table_area_addr, ADDRESS, {
-                .code  = "table-area-addr",
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_address, ADDRESS, {
+                .code  = "table-area-address",
                 .name  = "Table area address",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
@@ -103,8 +103,8 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
                 .code  = "table-area-size",
                 .name  = "Table area size"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, state.table_area_addr, ADDRESS, {
-                .code  = "table-area-addr",
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_address, ADDRESS, {
+                .code  = "table-area-address",
                 .name  = "Table area address",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
@@ -134,8 +134,8 @@ static const dmi_entry_spec_t dmi_entry_specs[] =
                 .code  = "table-area-size",
                 .name  = "Table area size"
             }),
-            DMI_ATTRIBUTE(dmi_context_t, state.table_area_addr, ADDRESS, {
-                .code  = "table-area-addr",
+            DMI_ATTRIBUTE(dmi_context_t, state.table_area_address, ADDRESS, {
+                .code  = "table-area-address",
                 .name  = "Table area address",
                 .flags = DMI_ATTRIBUTE_FLAG_HEX
             }),
@@ -216,7 +216,7 @@ static bool dmi_entry_decode_legacy(dmi_context_t *context,
     // Decode table area parameters
     context->state.entry_length        = sizeof(dmi_entry_legacy_t);
     context->state.entity_count        = dmi_decode(entry->entity_count);
-    context->state.table_area_addr     = dmi_decode(entry->table_area_addr);
+    context->state.table_area_address  = dmi_decode(entry->table_area_address);
     context->state.table_area_max_size = dmi_decode(entry->table_area_size);
     context->state.table_area_size     = dmi_decode(entry->table_area_size);
 
@@ -322,7 +322,7 @@ static bool dmi_entry_decode_v30(dmi_context_t *context,
 
     // Decode table parameters
     context->state.entry_length        = entry_length;
-    context->state.table_area_addr     = dmi_decode(entry->table_area_addr);
+    context->state.table_area_address  = dmi_decode(entry->table_area_address);
     context->state.table_area_max_size = dmi_decode(entry->table_area_max_size);
 
     return true;

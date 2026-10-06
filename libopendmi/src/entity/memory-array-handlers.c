@@ -28,7 +28,7 @@ size_t dmi_memory_array_devices(
 
     size_t count = 0;
 
-    if (not dmi_registry_iter_init(&iter, registry, nullptr))
+    if (not dmi_registry_iter_initialize(&iter, registry, nullptr))
         return 0;
 
     while ((device = dmi_registry_iter_next(&iter)) != nullptr) {

@@ -60,7 +60,7 @@ static void test_entity_value_names(void **pstate)
     assert_string_equal(dmi_intel_rsd_fpga_status_name(DMI_INTEL_RSD_FPGA_STATUS_DISABLED), "Disabled");
     assert_string_equal(dmi_intel_rsd_fpga_type_name(DMI_INTEL_RSD_FPGA_TYPE_INTEGRATED), "Integrated");
     assert_string_equal(dmi_intel_rsd_phys_device_type_name(DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID), "Undefined or invalid");
-    assert_string_equal(dmi_mgmt_if_type_name(DMI_MGMT_IF_TYPE_MCTP_KCS), "Keyboard Controller Style");
+    assert_string_equal(dmi_mgmt_iface_type_name(DMI_MGMT_IFACE_TYPE_MCTP_KCS), "Keyboard Controller Style");
     assert_string_equal(dmi_mgmt_nhi_characteristic_name(DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING), "Credential bootstrapping via IPMI commands");
     assert_string_equal(dmi_mgmt_nhi_device_type_name(DMI_MGMT_NHI_DEVICE_TYPE_USB), "USB network interface");
     assert_string_equal(dmi_mgmt_proto_name(DMI_MGMT_PROTO_IPMI), "IPMI");
@@ -87,7 +87,7 @@ static void test_entity_value_names(void **pstate)
     assert_null(dmi_intel_rsd_fpga_status_name((dmi_intel_rsd_fpga_status_t)0x100));
     assert_null(dmi_intel_rsd_fpga_type_name((dmi_intel_rsd_fpga_type_t)0x100));
     assert_null(dmi_intel_rsd_phys_device_type_name((dmi_intel_rsd_phys_device_type_t)0x100));
-    assert_null(dmi_mgmt_if_type_name((dmi_mgmt_if_type_t)0x100));
+    assert_null(dmi_mgmt_iface_type_name((dmi_mgmt_iface_type_t)0x100));
     assert_null(dmi_mgmt_nhi_characteristic_name((dmi_mgmt_nhi_characteristic_t)0x100));
     assert_null(dmi_mgmt_nhi_device_type_name((dmi_mgmt_nhi_device_type_t)0x100));
     assert_null(dmi_mgmt_proto_name((dmi_mgmt_proto_t)0x100));

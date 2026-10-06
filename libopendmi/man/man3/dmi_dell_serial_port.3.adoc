@@ -25,7 +25,7 @@ endif::[]
 #include <opendmi/entity/dell/serial-port.h>
 
 typedef struct dmi_dell_serial_port {
-    uint16_t base_addr;
+    uint16_t base_address;
     uint8_t irq_number;
     dmi_dell_serial_port_connector_type_t connector;
     dmi_dell_serial_port_caps_t capabilities;
@@ -47,7 +47,7 @@ as long as the context it has been decoded in.
 
 === Fields
 
-`base_addr`::
+`base_address`::
 Base I/O address of the port.
 
 `irq_number`::
@@ -79,7 +79,7 @@ dmi_dell_serial_port_t *port     = dmi_entity_info(entity,
 if (port != nullptr) {
     const char *caps = dmi_dell_serial_port_caps_name(port->capabilities);
 
-    printf("Serial port at 0x%04x: %s, up to %u bit/s\n", port->base_addr,
+    printf("Serial port at 0x%04x: %s, up to %u bit/s\n", port->base_address,
            caps != nullptr ? caps : "?", (unsigned)port->maximum_speed);
 }
 ----

@@ -219,8 +219,8 @@ static void test_encoder_extended_governed(void **pstate)
 
     const dmi_memory_array_addr_t *info = dmi_entity_info(entity, DMI_TYPE(memory_array_addr));
     assert_non_null(info);
-    assert_int_equal(info->start_addr, 0x0000010000000000uLL);
-    assert_int_equal(info->end_addr,   0x000007FFFFFFFFFFuLL);
+    assert_int_equal(info->start_address, 0x0000010000000000uLL);
+    assert_int_equal(info->end_address,   0x000007FFFFFFFFFFuLL);
 
     dmi_buffer_t *output = dmi_buffer_create(context);
     dmi_encoder_t encoder;
@@ -287,8 +287,8 @@ static void test_encoder_extended_canonical(void **pstate)
 
     const dmi_memory_array_addr_t *decoded_info = dmi_entity_info(decoded, DMI_TYPE(memory_array_addr));
     assert_non_null(decoded_info);
-    assert_int_equal(decoded_info->start_addr, info->start_addr);
-    assert_int_equal(decoded_info->end_addr,   info->end_addr);
+    assert_int_equal(decoded_info->start_address, info->start_address);
+    assert_int_equal(decoded_info->end_address,   info->end_address);
 
     dmi_entity_destroy(decoded);
 
@@ -850,7 +850,7 @@ static void test_encoder_corpus(void **pstate)
         }
 
         dmi_registry_iter_t iter;
-        assert_true(dmi_registry_iter_init(&iter, dmi_get_registry(context), nullptr));
+        assert_true(dmi_registry_iter_initialize(&iter, dmi_get_registry(context), nullptr));
 
         dmi_entity_t *entity;
         while ((entity = dmi_registry_iter_next(&iter)) != nullptr) {

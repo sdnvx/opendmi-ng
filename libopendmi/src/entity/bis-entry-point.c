@@ -56,7 +56,7 @@ const dmi_entity_spec_t dmi_bis_entry_point_spec =
         DMI_ATTRIBUTE(dmi_bis_entry_point_t, entry_point_16, STRUCT, {
             .code  = "entry-point-16",
             .name  = "16-bit entry point",
-            .attrs = dmi_bis_real_mode_address_attrs
+            .attrs = dmi_bis_real_mode_addr_attrs
         }),
         DMI_ATTRIBUTE(dmi_bis_entry_point_t, entry_point_32, ADDRESS, {
             .code  = "entry-point-32",

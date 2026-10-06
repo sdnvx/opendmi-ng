@@ -37,7 +37,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
 
     .fields = DMI_FIELDS({
         DMI_FIELD(dmi_memory_array_t, location,         dmi_byte_t),
-        DMI_FIELD(dmi_memory_array_t, usage,            dmi_byte_t),
+        DMI_FIELD(dmi_memory_array_t, use,              dmi_byte_t),
         DMI_FIELD(dmi_memory_array_t, error_correction, dmi_byte_t),
 
         // Capacity is carried in kilobytes, and arrays of two tebibytes or
@@ -47,8 +47,8 @@ const dmi_entity_spec_t dmi_memory_array_spec =
                   .decode      = dmi_field_decode_kilobytes,
                   .encode      = dmi_field_encode_kilobytes),
 
-        DMI_FIELD(dmi_memory_array_t, error_info_handle, dmi_word_t),
-        DMI_FIELD(dmi_memory_array_t, device_count,      dmi_word_t),
+        DMI_FIELD(dmi_memory_array_t, error_handle, dmi_word_t),
+        DMI_FIELD(dmi_memory_array_t, device_count, dmi_word_t),
 
         DMI_FIELD_GROUP(.since = DMI_VERSION(2, 7, 0)),
         DMI_FIELD_EXTENDED(dmi_memory_array_t, maximum_capacity, dmi_qword_t,
@@ -64,12 +64,12 @@ const dmi_entity_spec_t dmi_memory_array_spec =
             .unknown = dmi_value_ptr(DMI_MEMORY_ARRAY_LOCATION_UNKNOWN),
             .values  = &dmi_memory_array_location_names
         }),
-        DMI_ATTRIBUTE(dmi_memory_array_t, usage, ENUM, {
+        DMI_ATTRIBUTE(dmi_memory_array_t, use, ENUM, {
             .code    = "use",
             .name    = "Use",
-            .unspec  = dmi_value_ptr(DMI_MEMORY_ARRAY_USAGE_UNSPEC),
-            .unknown = dmi_value_ptr(DMI_MEMORY_ARRAY_USAGE_UNKNOWN),
-            .values  = &dmi_memory_array_usage_names
+            .unspec  = dmi_value_ptr(DMI_MEMORY_ARRAY_USE_UNSPEC),
+            .unknown = dmi_value_ptr(DMI_MEMORY_ARRAY_USE_UNKNOWN),
+            .values  = &dmi_memory_array_use_names
         }),
         DMI_ATTRIBUTE(dmi_memory_array_t, error_correction, ENUM, {
             .code    = "error-correction",
@@ -83,7 +83,7 @@ const dmi_entity_spec_t dmi_memory_array_spec =
             .name    = "Maximum capacity",
             .unknown = dmi_value_ptr(DMI_SIZE_MAX)
         }),
-        DMI_ATTRIBUTE(dmi_memory_array_t, error_info_handle, HANDLE, {
+        DMI_ATTRIBUTE(dmi_memory_array_t, error_handle, HANDLE, {
             .code    = "error-handle",
             .name    = "Memory error information handle",
             .targets = dmi_types(DMI_TYPE(memory_error_32), DMI_TYPE(memory_error_64)),

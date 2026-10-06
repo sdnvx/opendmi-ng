@@ -1,0 +1,1 @@
+dmi_memory_array_use.3.adoc

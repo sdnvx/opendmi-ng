@@ -25,7 +25,7 @@ endif::[]
 #include <opendmi/entity/intel-rsd/network-card.h>
 #include <opendmi/module/intel-rsd.h>
 
-#define DMI_INTEL_RSD_MAC_ADDRESS_LENGTH 32
+#define DMI_INTEL_RSD_MAC_ADDR_LENGTH 32
 
 typedef struct dmi_intel_rsd_network_card {
     dmi_pci_class_t pci_class;
@@ -89,7 +89,7 @@ exposes in the boot flags of the IPMI Get/Set System Boot Options command.
 
 `mac_address`::
 Field holding the MAC address of the port, as stored in the structure:
-`DMI_INTEL_RSD_MAC_ADDRESS_LENGTH` bytes. The data points into the structure
+`DMI_INTEL_RSD_MAC_ADDR_LENGTH` bytes. The data points into the structure
 and lives as long as the context.
 
 `firmware_version`::

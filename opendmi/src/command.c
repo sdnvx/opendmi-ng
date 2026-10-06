@@ -156,7 +156,7 @@ static bool dmi_command_is_detached(const dmi_command_t *command);
  *
  * @return `true` on success, `false` otherwise.
  */
-static bool dmi_command_setup(const dmi_command_t *command, dmi_context_t *context);
+static bool dmi_command_prepare(const dmi_command_t *command, dmi_context_t *context);
 
 /**
  * @internal
@@ -323,11 +323,11 @@ const dmi_command_t *dmi_commands[] =
 
 const char *dmi_process = nullptr;
 
-void dmi_command_init(const char *process)
+void dmi_command_setup(const char *process)
 {
     dmi_process = process;
 
-    dmi_tty_init();
+    dmi_tty_setup();
 }
 
 void dmi_command_list(void)
@@ -493,7 +493,7 @@ int dmi_command_run(
             break;
         }
 
-        if (not dmi_command_setup(command, context)) {
+        if (not dmi_command_prepare(command, context)) {
             dmi_command_trace(context);
             break;
         }
@@ -518,7 +518,7 @@ static bool dmi_command_is_detached(const dmi_command_t *command)
     return (command->handlers.detached != nullptr) and command->handlers.detached();
 }
 
-static bool dmi_command_setup(const dmi_command_t *command, dmi_context_t *context)
+static bool dmi_command_prepare(const dmi_command_t *command, dmi_context_t *context)
 {
     if (not dmi_command_is_detached(command)) {
         bool status;

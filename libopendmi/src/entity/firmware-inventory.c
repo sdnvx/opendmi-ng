@@ -73,8 +73,8 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
         DMI_FIELD_STRING(dmi_firmware_inventory_t, vendor),
         DMI_FIELD_STRING(dmi_firmware_inventory_t, lowest_version),
         DMI_FIELD(dmi_firmware_inventory_t, image_size, dmi_qword_t),
-        DMI_FIELD(dmi_firmware_inventory_t, features,   dmi_word_t),
-        DMI_FIELD(dmi_firmware_inventory_t, state,      dmi_byte_t),
+        DMI_FIELD(dmi_firmware_inventory_t, characteristics, dmi_word_t),
+        DMI_FIELD(dmi_firmware_inventory_t, state, dmi_byte_t),
 
         DMI_FIELD_GROUP(),
         DMI_FIELD_ARRAY(dmi_firmware_inventory_t, components, component_count,
@@ -133,10 +133,10 @@ const dmi_entity_spec_t dmi_firmware_inventory_spec =
             .name    = "Image size",
             .unknown = dmi_value_ptr(DMI_SIZE_MAX)
         }),
-        DMI_ATTRIBUTE(dmi_firmware_inventory_t, features, SET, {
+        DMI_ATTRIBUTE(dmi_firmware_inventory_t, characteristics, SET, {
             .code    = "characteristics",
             .name    = "Characteristics",
-            .values  = &dmi_firmware_inventory_feature_names
+            .values  = &dmi_firmware_inventory_chars_names
         }),
         DMI_ATTRIBUTE(dmi_firmware_inventory_t, state, ENUM, {
             .code    = "state",

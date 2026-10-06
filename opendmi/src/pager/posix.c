@@ -110,7 +110,7 @@ static bool dmi_pager_expand(dmi_context_t *context, const char *pager, wordexp_
  *
  * @return `true` on success, `false` otherwise.
  */
-static bool dmi_pager_actions_init(
+static bool dmi_pager_actions_initialize(
         dmi_context_t              *context,
         posix_spawn_file_actions_t *actions,
         const int                   fds[2]);
@@ -286,7 +286,7 @@ static bool dmi_pager_expand(dmi_context_t *context, const char *pager, wordexp_
     return true;
 }
 
-static bool dmi_pager_actions_init(
+static bool dmi_pager_actions_initialize(
         dmi_context_t              *context,
         posix_spawn_file_actions_t *actions,
         const int                   fds[2])
@@ -324,7 +324,7 @@ static bool dmi_pager_spawn(
         return false;
     }
 
-    if (not dmi_pager_actions_init(context, &actions, fds)) {
+    if (not dmi_pager_actions_initialize(context, &actions, fds)) {
         dmi_file_close(fds[STDIN_FILENO]);
         dmi_file_close(fds[STDOUT_FILENO]);
         return false;

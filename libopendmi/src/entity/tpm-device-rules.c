@@ -21,7 +21,7 @@ void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
     if (info == nullptr)
         return;
 
-    unsigned major = dmi_version_major(info->spec_version);
+    unsigned major = dmi_version_major(info->specification_version);
 
     // The TCG has published the 1.2 and the 2.0 specifications, and the
     // format of the firmware version follows the major one
@@ -29,7 +29,7 @@ void dmi_tpm_device_lint_version(dmi_lint_t *lint, const dmi_entity_t *entity)
         return;
 
     dmi_lint_issue(lint, entity, "specification-version", dmi_lint_entity_offset(lint, entity),
-                   "device declares TPM %u.%u", major, dmi_version_minor(info->spec_version));
+                   "device declares TPM %u.%u", major, dmi_version_minor(info->specification_version));
 }
 
 void dmi_tpm_device_lint_vendor(dmi_lint_t *lint, const dmi_entity_t *entity)
@@ -47,7 +47,7 @@ void dmi_tpm_device_lint_vendor(dmi_lint_t *lint, const dmi_entity_t *entity)
     if ((id[0] != 0) or (id[3] == 0))
         return;
 
-    dmi_lint_issue(lint, entity, "vendor-id", dmi_lint_entity_offset(lint, entity) +
+    dmi_lint_issue(lint, entity, "vendor", dmi_lint_entity_offset(lint, entity) +
                    DMI_TPM_DEVICE_VENDOR_OFFSET,
                    "identifier is stored as a little-endian double word");
 }

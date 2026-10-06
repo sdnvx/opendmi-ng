@@ -1568,8 +1568,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 0
-    end-addr: 3758096383
+    start-address: 0
+    end-address: 3758096383
     range-size: 3758096384
     array-handle: 4096
     partition-width: 1
@@ -1590,8 +1590,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 4294967296
-    end-addr: 52076478463
+    start-address: 4294967296
+    end-address: 52076478463
     range-size: 47781511168
     array-handle: 4096
     partition-width: 1
@@ -1604,8 +1604,8 @@ table:
   - linked
   description: Memory array mapped address
   attributes:
-    start-addr: 52076478464
-    end-addr: 103616086015
+    start-address: 52076478464
+    end-address: 103616086015
     range-size: 51539607552
     array-handle: 4097
     partition-width: 1

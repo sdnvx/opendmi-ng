@@ -235,7 +235,7 @@ static bool dmi_message_substitute(
         const char              *word,
         size_t                   word_length);
 
-void dmi_locale_init(void)
+void dmi_locale_setup(void)
 {
 #if !defined(__KERNEL__)
     // Messages of the system are taken from the locale of the environment,

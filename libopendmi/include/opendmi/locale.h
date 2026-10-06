@@ -61,7 +61,7 @@ __BEGIN_DECLS
  * Like `dmi_set_locale`(3), the helper is not thread-safe, and is meant to be
  * called once, at the start of the program.
  */
-__dmi_api void dmi_locale_init(void);
+__dmi_api void dmi_locale_setup(void);
 
 /**
  * @brief Set locale used to translate printable strings.

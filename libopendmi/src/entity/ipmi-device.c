@@ -51,17 +51,17 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
         DMI_FIELD(dmi_ipmi_device_t, interface_type, dmi_byte_t),
 
         // Revision is one nibble of major and one of minor
-        DMI_FIELD(dmi_ipmi_device_t, spec_version, dmi_byte_t,
+        DMI_FIELD(dmi_ipmi_device_t, specification_version, dmi_byte_t,
                   .decode = dmi_ipmi_device_decode_version,
                   .encode = dmi_ipmi_device_encode_version),
 
-        DMI_FIELD(dmi_ipmi_device_t, i2c_target_addr, dmi_byte_t),
-        DMI_FIELD(dmi_ipmi_device_t, nv_storage_addr, dmi_byte_t),
+        DMI_FIELD(dmi_ipmi_device_t, i2c_target_address, dmi_byte_t),
+        DMI_FIELD(dmi_ipmi_device_t, nv_storage_address, dmi_byte_t),
 
         // Base address means what the interface type says it does
         DMI_FIELD_SPLIT(dmi_ipmi_device_t, dmi_qword_t,
-                        .decode = dmi_ipmi_device_decode_address,
-                        .encode = dmi_ipmi_device_encode_address),
+                        .decode = dmi_ipmi_device_decode_addr,
+                        .encode = dmi_ipmi_device_encode_addr),
 
         // Base address modifier and interrupt information, along with the
         // interrupt number, are optional: IPMI specification allows the
@@ -73,7 +73,7 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
                         .decode = dmi_ipmi_device_decode_modifier,
                         .encode = dmi_ipmi_device_encode_modifier),
 
-        DMI_FIELD(dmi_ipmi_device_t, intr_number, dmi_byte_t),
+        DMI_FIELD(dmi_ipmi_device_t, interrupt_number, dmi_byte_t),
         {}
     }),
 
@@ -81,64 +81,64 @@ const dmi_entity_spec_t dmi_ipmi_device_spec =
         DMI_ATTRIBUTE(dmi_ipmi_device_t, interface_type, ENUM, {
             .code   = "interface-type",
             .name   = "Interface type",
-            .values = &dmi_ipmi_interface_names
+            .values = &dmi_ipmi_iface_type_names
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, spec_version, VERSION, {
+        DMI_ATTRIBUTE(dmi_ipmi_device_t, specification_version, VERSION, {
             .code   = "specification-version",
             .name   = "Specification version",
             .scale  = 2
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, i2c_target_addr, INTEGER, {
+        DMI_ATTRIBUTE(dmi_ipmi_device_t, i2c_target_address, INTEGER, {
             .code   = "i2c-target-address",
             .name   = "I2C target address",
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, nv_storage_addr, INTEGER, {
+        DMI_ATTRIBUTE(dmi_ipmi_device_t, nv_storage_address, INTEGER, {
             .code   = "nv-storage-address",
             .name   = "NV storage address",
             .unspec = dmi_value_ptr((uint8_t)UINT8_MAX),
             .flags  = DMI_ATTRIBUTE_FLAG_HEX
         }),
         // SMBus target address of SSIF interface is shown as a short number
-        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_addr_type, {
+        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_address_type, {
             .code     = "base-address",
             .name     = "Base address",
             .variants = DMI_VARIANTS({
-                DMI_VARIANT(DMI_IPMI_ADDR_TYPE_SMBUS, dmi_ipmi_device_t, base_addr, INTEGER, {
+                DMI_VARIANT(DMI_IPMI_ADDR_TYPE_SMBUS, dmi_ipmi_device_t, base_address, INTEGER, {
                     .flags = DMI_ATTRIBUTE_FLAG_HEX
                 }),
-                DMI_VARIANT_DEFAULT(dmi_ipmi_device_t, base_addr, ADDRESS, {}),
+                DMI_VARIANT_DEFAULT(dmi_ipmi_device_t, base_address, ADDRESS, {}),
                 {}
             })
         }),
-        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_addr_type, {
+        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_address_type, {
             .code     = "base-address-lsb",
             .name     = "Base address LSB",
-            .variants = dmi_ipmi_register_variants(base_addr_lsb, {})
+            .variants = dmi_ipmi_register_variants(base_address_lsb, {})
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, base_addr_type, ENUM, {
+        DMI_ATTRIBUTE(dmi_ipmi_device_t, base_address_type, ENUM, {
             .code   = "base-address-type",
             .name   = "Base address type",
             .values = &dmi_ipmi_addr_type_names
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, intr_trigger, ENUM, {
+        DMI_ATTRIBUTE(dmi_ipmi_device_t, interrupt_trigger_mode, ENUM, {
             .code   = "interrupt-trigger-mode",
             .name   = "Interrupt trigger mode",
-            .unspec = dmi_value_ptr(DMI_IPMI_INTR_TRIGGER_UNSPEC),
-            .values = &dmi_ipmi_intr_trigger_names
+            .unspec = dmi_value_ptr(DMI_IPMI_INTR_TRIGGER_MODE_UNSPEC),
+            .values = &dmi_ipmi_intr_trigger_mode_names
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, intr_polarity, ENUM, {
+        DMI_ATTRIBUTE(dmi_ipmi_device_t, interrupt_polarity, ENUM, {
             .code   = "interrupt-polarity",
             .name   = "Interrupt polarity",
             .unspec = dmi_value_ptr(DMI_IPMI_INTR_POLARITY_UNSPEC),
             .values = &dmi_ipmi_intr_polarity_names
         }),
-        DMI_ATTRIBUTE(dmi_ipmi_device_t, intr_number, INTEGER, {
+        DMI_ATTRIBUTE(dmi_ipmi_device_t, interrupt_number, INTEGER, {
             .code   = "interrupt-number",
             .name   = "Interrupt number",
             .unspec = dmi_value_ptr((unsigned short)0)
         }),
-        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_addr_type, {
+        DMI_ATTRIBUTE_VARIANT(dmi_ipmi_device_t, base_address_type, {
             .code     = "register-spacing",
             .name     = "Register spacing",
             .variants = dmi_ipmi_register_variants(register_spacing, {

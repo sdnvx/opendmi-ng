@@ -66,8 +66,9 @@ const dmi_entity_spec_t dmi_hpe_version_spec =
             .flags = DMI_ATTRIBUTE_FLAG_HEX
         }),
         DMI_ATTRIBUTE(dmi_hpe_version_t, version, STRING, {
-            .code = "version",
-            .name = "Version"
+            .code  = "version",
+            .name  = "Version",
+            .flags = DMI_ATTRIBUTE_FLAG_OWNED
         }),
         DMI_ATTRIBUTE(dmi_hpe_version_t, unique_id, INTEGER, {
             .code   = "unique-id",

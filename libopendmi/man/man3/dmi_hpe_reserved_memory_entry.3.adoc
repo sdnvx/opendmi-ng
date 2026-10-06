@@ -26,8 +26,7 @@ endif::[]
 
 typedef struct dmi_hpe_reserved_memory_entry {
     dmi_binary_t signature_raw;
-    char signature_buffer[5];
-    const char *signature;
+    char *signature;
     uint64_t address;
     uint32_t raw_size;
     bool is_kilobytes;
@@ -46,12 +45,10 @@ firmware reserves, as an element of the `entries` field of
 `signature_raw`::
 Signature, as the structure holds it.
 
-`signature_buffer`::
-Signature, which `signature` points to.
-
 `signature`::
 Signature, which tells what the region is for, e.g. `$HDD`, or `nullptr` if it
-is not printable.
+is not printable. The string belongs to the structure, and is freed along
+with it.
 
 `address`::
 Physical address.

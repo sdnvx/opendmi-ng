@@ -56,7 +56,7 @@ typedef enum dmi_attribute_type
 /**
  * @brief Length of MAC-48 address in bytes.
  */
-#define DMI_MAC_ADDRESS_LENGTH 6
+#define DMI_MAC_ADDR_LENGTH 6
 
 typedef enum dmi_attribute_flag
 {
@@ -98,7 +98,14 @@ typedef enum dmi_attribute_flag
      * reverse engineering, and the others are not errors, see
      * `value.invalid-enum` of `dmi_lint`(3).
      */
-    DMI_ATTRIBUTE_FLAG_OPEN = 0x100
+    DMI_ATTRIBUTE_FLAG_OPEN = 0x100,
+
+    /**
+     * String belongs to the structure rather than to the table: a handler
+     * allocates it, e.g. with `dmi_string_set()`, and it is freed as the
+     * structure is released. The member is a `char *`.
+     */
+    DMI_ATTRIBUTE_FLAG_OWNED = 0x200
 } dmi_attribute_flag_t;
 
 struct dmi_attribute_ops

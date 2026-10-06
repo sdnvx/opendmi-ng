@@ -22,7 +22,7 @@ const dmi_entity_spec_t dmi_dell_revisions_spec =
 
     .fields = DMI_FIELDS({
         // Major and minor numbers are one byte each, in this order
-        DMI_FIELD(dmi_dell_revisions_t, impl_version, dmi_word_t,
+        DMI_FIELD(dmi_dell_revisions_t, implementation_version, dmi_word_t,
                   .decode = dmi_dell_revisions_decode_version,
                   .encode = dmi_dell_revisions_encode_version),
 
@@ -40,7 +40,7 @@ const dmi_entity_spec_t dmi_dell_revisions_spec =
     }),
 
     .attributes = DMI_ATTRIBUTES({
-        DMI_ATTRIBUTE(dmi_dell_revisions_t, impl_version, VERSION, {
+        DMI_ATTRIBUTE(dmi_dell_revisions_t, implementation_version, VERSION, {
             .code  = "implementation-version",
             .name  = "Implementation version",
             .scale = 2
