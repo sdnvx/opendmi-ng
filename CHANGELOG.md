@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Free the arrays of fields and of linked structures in the library, and tell the optional fields of HP/HPE, Intel and Dell structures by their groups, leaving the groups a structure does not hold out of canonical encoding
 - Tell the structures carrying additional information by `DMI_REGISTRY_STATUS_OVERLAID` when anonymizing, save dumps through a temporary file, and check length and checksum of entry points found by scanning memory
 - Default `list` to raw output when stdout is not a terminal, drop the banner of `modules -r` and `types -r`, and quote YAML values and keys a YAML 1.1 parser would misread
-- Build without `-Werror` and AddressSanitizer unless `ENABLE_WERROR` and `ENABLE_ASAN` are set, as `build.sh` and CI do, take optimization from the flags of the build type, `-O2` for release builds, and drop the warnings suppressed for Clang
+- Build without `-Werror` and AddressSanitizer unless `ENABLE_WERROR` and `ENABLE_ASAN` are set, as `build.sh` and CI do, take optimization from the flags of the build type, `-O2` for release builds, drop the warnings suppressed for Clang, and run the tests of the release and debug builds on Linux in CI under AddressSanitizer and LeakSanitizer, which the project itself enables in debug builds only
 - Keep internal headers next to their sources, take the sources by directories in CMake, make `regress.py` and `reindex-data.py` report failures in their exit status, and resolve `build.sh -b` relative to the current directory
 - Document lifetime of error descriptors and of strings returned before `dmi_set_locale()`
 
