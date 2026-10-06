@@ -167,7 +167,7 @@ const dmi_name_set_t dmi_firmware_feature_names =
 
 const dmi_name_set_t dmi_firmware_feature_ex_names =
 {
-    .code  = "firmware-features-ex",
+    .code  = "firmware-feature-ex",
     .names = DMI_NAMES({
         {
             .id   = 0,

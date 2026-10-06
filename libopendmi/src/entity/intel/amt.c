@@ -18,7 +18,7 @@
  */
 static const dmi_name_set_t dmi_intel_amt_oem_caps_1_names =
 {
-    .code  = "intel-amt-oem-caps-1",
+    .code  = "intel-amt-oem-capability-1",
     .names = DMI_NAMES({
         { .id = 0, .code = "storage-redirection", .name = "Storage redirection" },
         { .id = 1, .code = "sol",                 .name = "Serial over LAN" },
@@ -33,7 +33,7 @@ static const dmi_name_set_t dmi_intel_amt_oem_caps_1_names =
 
 static const dmi_name_set_t dmi_intel_amt_oem_caps_3_names =
 {
-    .code  = "intel-amt-oem-caps-3",
+    .code  = "intel-amt-oem-capability-3",
     .names = DMI_NAMES({
         { .id = 6, .code = "secure-erase", .name = "Remote Secure Erase" },
         { .id = 7, .code = "secure-boot",  .name = "BIOS Secure Boot" },
@@ -43,7 +43,7 @@ static const dmi_name_set_t dmi_intel_amt_oem_caps_3_names =
 
 static const dmi_name_set_t dmi_intel_amt_oem_caps_4_names =
 {
-    .code  = "intel-amt-oem-caps-4",
+    .code  = "intel-amt-oem-capability-4",
     .names = DMI_NAMES({
         { .id = 0, .code = "thunderbolt-dock", .name = "Thunderbolt dock" },
         { .id = 1, .code = "https-boot",       .name = "HTTPS boot" },

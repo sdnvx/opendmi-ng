@@ -116,9 +116,9 @@ typedef enum dmi_mgmt_nhi_format {
 /**
  * @brief Network host interface device characteristics (bit numbers).
  */
-typedef enum dmi_mgmt_nhi_characteristic {
+typedef enum dmi_mgmt_nhi_char {
     DMI_MGMT_NHI_CHAR_CREDENTIAL_BOOTSTRAPPING = 0 ///< Credential bootstrapping via IPMI is supported
-} dmi_mgmt_nhi_characteristic_t;
+} dmi_mgmt_nhi_char_t;
 
 /**
  * @brief Redfish host IP address assignment and service IP address
@@ -202,7 +202,7 @@ struct dmi_mgmt_nhi_usb_v2
     dmi_binary_t mac_address;
 
     /**
-     * @brief Device characteristics, see `dmi_mgmt_nhi_characteristic_t`.
+     * @brief Device characteristics, see `dmi_mgmt_nhi_char_t`.
      *
      * @since DSP0270 1.3
      */
@@ -242,7 +242,7 @@ struct dmi_mgmt_nhi_pci_v2
     uint8_t function_number; ///< Function number
 
     /**
-     * @brief Device characteristics, see `dmi_mgmt_nhi_characteristic_t`.
+     * @brief Device characteristics, see `dmi_mgmt_nhi_char_t`.
      *
      * @since DSP0270 1.3
      */
@@ -467,7 +467,7 @@ __dmi_api const char *dmi_mgmt_iface_type_name(dmi_mgmt_iface_type_t value);
  *
  * @return The name of the value, or @c nullptr if @p value has no name.
  */
-__dmi_api const char *dmi_mgmt_nhi_characteristic_name(dmi_mgmt_nhi_characteristic_t value);
+__dmi_api const char *dmi_mgmt_nhi_char_name(dmi_mgmt_nhi_char_t value);
 
 /**
  * @brief Get network host interface device type name.

@@ -474,7 +474,7 @@ include::../../../../libopendmi/man/man3/dmi_memory_module_type.3.adoc[leveloffs
 include::../../../../libopendmi/man/man3/dmi_mgmt_controller.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_mgmt_iface_type.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_mgmt_nhi.3.adoc[leveloffset=2]
-include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_characteristic.3.adoc[leveloffset=2]
+include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_char.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_device_type.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_format.3.adoc[leveloffset=2]
 include::../../../../libopendmi/man/man3/dmi_mgmt_nhi_oem.3.adoc[leveloffset=2]

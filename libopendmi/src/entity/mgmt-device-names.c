@@ -80,7 +80,7 @@ const dmi_name_set_t dmi_mgmt_device_type_names =
 
 const dmi_name_set_t dmi_mgmt_device_addr_type_names =
 {
-    .code  = "mgmt-device-addr-type",
+    .code  = "mgmt-device-address-type",
     .names = DMI_NAMES({
         DMI_NAME_UNSPEC(DMI_MGMT_DEVICE_ADDR_TYPE_UNSPEC),
         DMI_NAME_OTHER(DMI_MGMT_DEVICE_ADDR_TYPE_OTHER),

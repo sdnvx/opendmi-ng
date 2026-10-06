@@ -17,54 +17,54 @@
 
 #include "mgmt-controller-internal.h"
 
-#define DMI_MGMT_NHI_PCI_ATTRS(__type)                                        \
-    DMI_ATTRIBUTE(__type, vendor_id, INTEGER, {                               \
-        .code  = "vendor-id",                                                 \
-        .name  = "Vendor ID",                                                 \
-        .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
-    }),                                                                       \
-    DMI_ATTRIBUTE(__type, device_id, INTEGER, {                               \
-        .code  = "device-id",                                                 \
-        .name  = "Device ID",                                                 \
-        .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
-    }),                                                                       \
-    DMI_ATTRIBUTE(__type, subsystem_vendor_id, INTEGER, {                     \
-        .code  = "subsystem-vendor-id",                                       \
-        .name  = "Subsystem vendor ID",                                       \
-        .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
-    }),                                                                       \
-    DMI_ATTRIBUTE(__type, subsystem_id, INTEGER, {                            \
-        .code  = "subsystem-id",                                              \
-        .name  = "Subsystem ID",                                              \
-        .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
+#define DMI_MGMT_NHI_PCI_ATTRS(__type)                    \
+    DMI_ATTRIBUTE(__type, vendor_id, INTEGER, {           \
+        .code  = "vendor-id",                             \
+        .name  = "Vendor ID",                             \
+        .flags = DMI_ATTRIBUTE_FLAG_HEX                   \
+    }),                                                   \
+    DMI_ATTRIBUTE(__type, device_id, INTEGER, {           \
+        .code  = "device-id",                             \
+        .name  = "Device ID",                             \
+        .flags = DMI_ATTRIBUTE_FLAG_HEX                   \
+    }),                                                   \
+    DMI_ATTRIBUTE(__type, subsystem_vendor_id, INTEGER, { \
+        .code  = "subsystem-vendor-id",                   \
+        .name  = "Subsystem vendor ID",                   \
+        .flags = DMI_ATTRIBUTE_FLAG_HEX                   \
+    }),                                                   \
+    DMI_ATTRIBUTE(__type, subsystem_id, INTEGER, {        \
+        .code  = "subsystem-id",                          \
+        .name  = "Subsystem ID",                          \
+        .flags = DMI_ATTRIBUTE_FLAG_HEX                   \
     })
 
-#define DMI_MGMT_NHI_USB_ATTRS(__type)                                        \
-    DMI_ATTRIBUTE(__type, vendor_id, INTEGER, {                               \
-        .code  = "vendor-id",                                                 \
-        .name  = "Vendor ID",                                                 \
-        .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
-    }),                                                                       \
-    DMI_ATTRIBUTE(__type, product_id, INTEGER, {                              \
-        .code  = "product-id",                                                \
-        .name  = "Product ID",                                                \
-        .flags = DMI_ATTRIBUTE_FLAG_HEX                                       \
-    }),                                                                       \
-    DMI_ATTRIBUTE(__type, serial_number, STRING, {                            \
-        .code  = "serial-number",                                             \
-        .name  = "Serial number",                                             \
-        .flags = DMI_ATTRIBUTE_FLAG_PRIVATE                                   \
+#define DMI_MGMT_NHI_USB_ATTRS(__type)             \
+    DMI_ATTRIBUTE(__type, vendor_id, INTEGER, {    \
+        .code  = "vendor-id",                      \
+        .name  = "Vendor ID",                      \
+        .flags = DMI_ATTRIBUTE_FLAG_HEX            \
+    }),                                            \
+    DMI_ATTRIBUTE(__type, product_id, INTEGER, {   \
+        .code  = "product-id",                     \
+        .name  = "Product ID",                     \
+        .flags = DMI_ATTRIBUTE_FLAG_HEX            \
+    }),                                            \
+    DMI_ATTRIBUTE(__type, serial_number, STRING, { \
+        .code  = "serial-number",                  \
+        .name  = "Serial number",                  \
+        .flags = DMI_ATTRIBUTE_FLAG_PRIVATE        \
     })
 
-#define DMI_MGMT_NHI_V2_ATTRS(__type)                                         \
-    DMI_ATTRIBUTE(__type, characteristics, SET, {                             \
-        .code   = "characteristics",                                          \
-        .name   = "Device characteristics",                                   \
-        .values = &dmi_mgmt_nhi_characteristic_names                          \
-    }),                                                                       \
-    DMI_ATTRIBUTE(__type, credential_bootstrapping_handle, HANDLE, {          \
-        .code   = "credential-bootstrapping-handle",                          \
-        .name   = "Credential bootstrapping handle"                           \
+#define DMI_MGMT_NHI_V2_ATTRS(__type)                                \
+    DMI_ATTRIBUTE(__type, characteristics, SET, {                    \
+        .code   = "characteristics",                                 \
+        .name   = "Device characteristics",                          \
+        .values = &dmi_mgmt_nhi_char_names                           \
+    }),                                                              \
+    DMI_ATTRIBUTE(__type, credential_bootstrapping_handle, HANDLE, { \
+        .code   = "credential-bootstrapping-handle",                 \
+        .name   = "Credential bootstrapping handle"                  \
     })
 
 static const dmi_attribute_t dmi_mgmt_nhi_usb_attrs[] =

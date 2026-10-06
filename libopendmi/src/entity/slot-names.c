@@ -553,7 +553,7 @@ const dmi_name_set_t dmi_slot_feature_names =
 
 const dmi_name_set_t dmi_slot_feature_ex_names =
 {
-    .code  = "slot-features-ex",
+    .code  = "slot-feature-ex",
     .names = DMI_NAMES({
         {
             .id   = 0,

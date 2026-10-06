@@ -170,7 +170,7 @@ const dmi_name_set_t dmi_mgmt_nhi_device_type_names =
     })
 };
 
-const dmi_name_set_t dmi_mgmt_nhi_characteristic_names =
+const dmi_name_set_t dmi_mgmt_nhi_char_names =
 {
     .code  = "mgmt-nhi-characteristic",
     .names = DMI_NAMES({
@@ -240,7 +240,7 @@ const dmi_name_set_t dmi_mgmt_redfish_ip_format_names =
 };
 
 DMI_NAME_FUNCTION(dmi_mgmt_iface_type)
-DMI_NAME_FUNCTION(dmi_mgmt_nhi_characteristic)
+DMI_NAME_FUNCTION(dmi_mgmt_nhi_char)
 DMI_NAME_FUNCTION(dmi_mgmt_nhi_device_type)
 DMI_NAME_FUNCTION(dmi_mgmt_proto)
 DMI_NAME_FUNCTION(dmi_mgmt_redfish_ip_assignment)

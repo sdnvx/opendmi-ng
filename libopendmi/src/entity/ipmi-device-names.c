@@ -44,7 +44,7 @@ const dmi_name_set_t dmi_ipmi_iface_type_names =
 
 const dmi_name_set_t dmi_ipmi_addr_type_names =
 {
-    .code  = "ipmi-addr-type",
+    .code  = "ipmi-address-type",
     .names = DMI_NAMES({
         {
             .id   = DMI_IPMI_ADDR_TYPE_MEMORY,
@@ -87,7 +87,7 @@ const dmi_name_set_t dmi_ipmi_intr_trigger_mode_names =
 
 const dmi_name_set_t dmi_ipmi_intr_polarity_names =
 {
-    .code  = "ipmi-intr-polarity",
+    .code  = "ipmi-interrupt-polarity",
     .names = DMI_NAMES({
         DMI_NAME_UNSPEC(DMI_IPMI_INTR_POLARITY_UNSPEC),
         {

@@ -15,7 +15,7 @@
 
 const dmi_name_set_t dmi_error_detect_method_names =
 {
-    .code  = "error-detect-method",
+    .code  = "error-detection-method",
     .names = DMI_NAMES({
         DMI_NAME_UNSPEC(DMI_ERROR_DETECT_METHOD_UNSPEC),
         DMI_NAME_OTHER(DMI_ERROR_DETECT_METHOD_OTHER),
@@ -52,7 +52,7 @@ const dmi_name_set_t dmi_error_detect_method_names =
 
 const dmi_name_set_t dmi_error_correct_caps_names =
 {
-    .code  = "error-correct-cap",
+    .code  = "error-correction-capability",
     .names = DMI_NAMES({
         DMI_NAME_OTHER(0),
         DMI_NAME_UNKNOWN(1),

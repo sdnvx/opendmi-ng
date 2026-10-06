@@ -59,7 +59,7 @@ MAC address of the device, six bytes referring to the data of the structure in
 place.
 
 `characteristics`::
-Device characteristics, a set of the bits `dmi_mgmt_nhi_characteristic`(3)
+Device characteristics, a set of the bits `dmi_mgmt_nhi_char`(3)
 numbers. Zero if the descriptor is too short to hold them, as the descriptors
 older than DSP0270 1.3 are.
 
@@ -71,7 +71,7 @@ DSP0270 1.3 are.
 
 == See also
 
-`dmi_mgmt_nhi`(3), `dmi_mgmt_nhi_characteristic`(3), `dmi_mgmt_nhi_usb`(3)
+`dmi_mgmt_nhi`(3), `dmi_mgmt_nhi_char`(3), `dmi_mgmt_nhi_usb`(3)
 
 == Standards
 

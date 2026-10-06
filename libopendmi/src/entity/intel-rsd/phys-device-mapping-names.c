@@ -12,7 +12,7 @@
 
 const dmi_name_set_t dmi_intel_rsd_phys_device_type_names =
 {
-    .code  = "intel-rsd-phys-device-type",
+    .code  = "intel-rsd-physical-device-type",
     .names = DMI_NAMES({
         {
             .id   = DMI_INTEL_RSD_PHYS_DEVICE_TYPE_INVALID,

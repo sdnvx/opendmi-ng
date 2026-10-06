@@ -1,0 +1,1 @@
+dmi_mgmt_nhi_char.3.adoc

@@ -67,7 +67,7 @@ const dmi_name_set_t dmi_cache_mode_names =
 
 const dmi_name_set_t dmi_cache_assoc_names =
 {
-    .code  = "cache-assoc",
+    .code  = "cache-associativity",
     .names = DMI_NAMES({
         DMI_NAME_UNSPEC(DMI_CACHE_ASSOC_UNSPEC),
         DMI_NAME_OTHER(DMI_CACHE_ASSOC_OTHER),

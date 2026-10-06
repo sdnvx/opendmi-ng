@@ -119,7 +119,7 @@ const dmi_name_set_t dmi_dell_parallel_port_connector_pinout_names =
 
 const dmi_name_set_t dmi_dell_parallel_port_caps_names =
 {
-    .code  = "dell-parallel-port-cap",
+    .code  = "dell-parallel-port-capability",
     .names = DMI_NAMES({
         {
             .id   = 0,

@@ -37,7 +37,7 @@ extern const dmi_name_set_t dmi_mgmt_nhi_device_type_names;
  * @internal
  * @brief Names of the network host interface device characteristics.
  */
-extern const dmi_name_set_t dmi_mgmt_nhi_characteristic_names;
+extern const dmi_name_set_t dmi_mgmt_nhi_char_names;
 
 /**
  * @internal

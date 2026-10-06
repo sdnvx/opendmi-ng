@@ -59,7 +59,7 @@ const dmi_name_set_t dmi_firmware_version_format_names =
 
 const dmi_name_set_t dmi_firmware_ident_format_names =
 {
-    .code  = "firmware-ident-format",
+    .code  = "firmware-identifier-format",
     .names = DMI_NAMES({
         {
             .id   = DMI_FIRMWARE_IDENT_FORMAT_FREE,

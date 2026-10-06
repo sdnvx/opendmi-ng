@@ -119,6 +119,49 @@ noun is not allowed there: `dmi_registry()` reads as a function of the
 `dmi_get_flags()` and `dmi_set_flags()`. Elsewhere `get` means a lookup and
 should be named accordingly: `dmi_registry_lookup()`, `dmi_name_lookup()`.
 
+* Name a function setting up a variable of the caller `<prefix>_initialize()`,
+and the function releasing what it holds, if any, `<prefix>_finalize()`, e.g.
+`dmi_encoder_initialize()` and `dmi_encoder_finalize()`,
+`dmi_vector_initialize()`, `dmi_registry_iter_initialize()`. Name a function
+setting up the process or a facility of it once `<prefix>_setup()`, e.g.
+`dmi_locale_setup()`, which suggests no counterpart. Allocated objects are
+`<prefix>_create()` and `<prefix>_destroy()`. Do not use `init` and `fini`.
+
+=== Members and types of decoded structures
+
+* Name a member of a decoded structure after the code its attribute is
+exported as, with underscores for dashes: the member `start_address` is
+exported as `start-address`, `interface_type` as `interface-type`. Members
+are spelled in full words, whatever the names of their types abbreviate.
+
+* Name a member whose code is a keyword of C++, in which the headers are
+included as well, otherwise, and say so in its documentation: `clazz` is
+exported as `class`.
+
+* Name the type of a member after the member, in the same words and in the
+same order, which may be abbreviated: `interrupt_trigger_mode` is a
+`dmi_ipmi_intr_trigger_mode_t`, `characteristics` a `dmi_tpm_device_chars_t`.
+A type shared by several members is named after what they have in common,
+e.g. `dmi_status_t`.
+
+* Abbreviate only in the names of types, functions and macros, and in the
+values of enumerations named after their types, see
+<<Common abbreviations>>, e.g. `dmi_memory_device_addr_t`,
+`DMI_TYPE_ID_MEMORY_DEVICE_ADDR`, `dmi_ipmi_iface_type_t`. Names of members
+and codes are never abbreviated. Local variables and parameters may be
+shortened freely.
+
+=== Codes
+
+* Spell the codes of attributes and of the values of enumerations in full
+words, since they are the keys and values of the exports: `interface-type`,
+`specification-version`, `network-host-interface`.
+
+* Spell the code of a name set, which is the key its names are translated
+under, in full words and in the singular, since a name set names one value:
+`ipmi-interface-type`, `firmware-inventory-characteristic`,
+`memory-device-type-detail`.
+
 === Error codes
 
 * Name an error code `DMI_ERROR_<SUBJECT>[_<DETAIL>]_<CONDITION>`, where the
@@ -152,7 +195,34 @@ queue itself check their arguments silently, since they cannot raise errors.
 
 === Common abbreviations
 
+The abbreviations are used in the names of types, functions and macros only,
+see <<Members and types of decoded structures>>.
+
 [horizontal]
 addr:: Address
+arch:: Architecture
+assoc:: Associativity
+caps:: Capabilities
+char:: Characteristic
+chars:: Characteristics
 iface:: Interface
+intr:: Interrupt
+mgmt:: Management
 proto:: Protocol
+tech:: Technology
+
+== Decoded structures
+
+* Keep a string the table holds, e.g. a string of the structure, as a
+`const char *`, which points into the table and is not freed.
+
+* Keep a string a structure spells in its own bytes, e.g. a signature, as a
+`char *` the structure owns: set it in the derive handler with
+`dmi_string_set_bytes()` or `dmi_string_set()`, and mark its attribute with
+`DMI_ATTRIBUTE_FLAG_OWNED`, so that the library frees it as the structure is
+released. Do not keep such strings in buffers of the structure, so that a
+structure never points into itself and can be copied.
+
+* Keep the bytes a string or a value is decoded from in a member of its own,
+`<member>_raw`, when the structure is encoded back from them, e.g.
+`signature_raw` and `signature`.

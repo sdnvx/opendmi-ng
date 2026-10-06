@@ -43,7 +43,7 @@ static const dmi_attribute_t dmi_intel_vpro_version_attrs[] =
  */
 static const dmi_name_set_t dmi_intel_vpro_cpu_caps_names =
 {
-    .code  = "intel-vpro-cpu-caps",
+    .code  = "intel-vpro-cpu-capability",
     .names = DMI_NAMES({
         { .id = 0, .code = "vmx-enabled",  .name = "VMX enabled"  },
         { .id = 1, .code = "smx-enabled",  .name = "SMX enabled"  },
@@ -57,7 +57,7 @@ static const dmi_name_set_t dmi_intel_vpro_cpu_caps_names =
 
 static const dmi_name_set_t dmi_intel_vpro_mch_caps_names =
 {
-    .code  = "intel-vpro-mch-caps",
+    .code  = "intel-vpro-mch-capability",
     .names = DMI_NAMES({
         { .id = 0, .code = "vtd-capable", .name = "VT-d capable" },
         { .id = 1, .code = "vtd-enabled", .name = "VT-d enabled" },
@@ -69,7 +69,7 @@ static const dmi_name_set_t dmi_intel_vpro_mch_caps_names =
 
 static const dmi_name_set_t dmi_intel_vpro_me_caps_names =
 {
-    .code  = "intel-vpro-me-caps",
+    .code  = "intel-vpro-me-capability",
     .names = DMI_NAMES({
         { .id = 0, .code = "me-enabled", .name = "ME enabled" },
         { .id = 1, .code = "qst",        .name = "Quiet System Technology" },
@@ -83,7 +83,7 @@ static const dmi_name_set_t dmi_intel_vpro_me_caps_names =
 
 static const dmi_name_set_t dmi_intel_vpro_tpm_caps_names =
 {
-    .code  = "intel-vpro-tpm-caps",
+    .code  = "intel-vpro-tpm-capability",
     .names = DMI_NAMES({
         { .id = 0, .code = "present", .name = "TPM on board" },
         { .id = 1, .code = "enabled", .name = "TPM enabled"  },
@@ -93,7 +93,7 @@ static const dmi_name_set_t dmi_intel_vpro_tpm_caps_names =
 
 static const dmi_name_set_t dmi_intel_vpro_bios_caps_names =
 {
-    .code  = "intel-vpro-bios-caps",
+    .code  = "intel-vpro-bios-capability",
     .names = DMI_NAMES({
         { .id = 0, .code = "vtx-configurable", .name = "VT-x configurable in setup" },
         { .id = 1, .code = "vtd-configurable", .name = "VT-d configurable in setup" },

@@ -633,7 +633,7 @@ ru_RU {
         }
         name { "Кэш-память" }
     }
-    cache-assoc {
+    cache-associativity {
         unspecified { "Не указана" }
         other { "Другая" }
         unknown { "Неизвестная" }
@@ -853,7 +853,7 @@ ru_RU {
         }
         name { "Параллельный порт Dell" }
     }
-    dell-parallel-port-cap {
+    dell-parallel-port-capability {
         xt-at { "XT/AT" }
         ps2 { "PS/2" }
         ecp { "ECP" }
@@ -1023,7 +1023,7 @@ ru_RU {
         dump-invalid { "Недопустимый дамп SMBIOS" }
         overlay-invalid { "Недопустимая запись дополнительных сведений" }
     }
-    error-correct-cap {
+    error-correction-capability {
         other { "Другая" }
         unknown { "Неизвестная" }
         none { "Нет" }
@@ -1041,7 +1041,7 @@ ru_RU {
         multi-bit { "Многобитовый ECC" }
         crc { "CRC" }
     }
-    error-detect-method {
+    error-detection-method {
         unspecified { "Не указан" }
         other { "Другой" }
         unknown { "Неизвестный" }
@@ -1125,7 +1125,7 @@ ru_RU {
         video-cga-mono-support { "Int 10h: видеослужбы CGA/Mono" }
         nec-pc-98 { "NEC PC-98" }
     }
-    firmware-features-ex {
+    firmware-feature-ex {
         acpi-support { "Поддержка ACPI" }
         usb-legacy-support { "Поддержка USB legacy" }
         agp-support { "Поддержка AGP" }
@@ -1142,7 +1142,7 @@ ru_RU {
         mfg-mode-support { "Поддержка режима производства" }
         mfg-mode-enabled { "Режим производства включён" }
     }
-    firmware-ident-format {
+    firmware-identifier-format {
         free-form { "Произвольный" }
         guid { "GUID" }
         reserved { "Зарезервирован" }
@@ -1848,7 +1848,7 @@ ru_RU {
         }
         name { "Сведения Intel Active Management Technology" }
     }
-    intel-amt-oem-caps-1 {
+    intel-amt-oem-capability-1 {
         storage-redirection { "Перенаправление накопителей" }
         sol { "Serial over LAN" }
         bios-reflash { "Перепрошивка BIOS" }
@@ -1857,11 +1857,11 @@ ru_RU {
         floppy-boot-block { "Запрет загрузки с дискеты" }
         cd-boot-block { "Запрет загрузки с CD" }
     }
-    intel-amt-oem-caps-3 {
+    intel-amt-oem-capability-3 {
         secure-erase { "Remote Secure Erase" }
         secure-boot { "Secure Boot в BIOS" }
     }
-    intel-amt-oem-caps-4 {
+    intel-amt-oem-capability-4 {
         thunderbolt-dock { "Док-станция Thunderbolt" }
         https-boot { "Загрузка по HTTPS" }
         pba-boot { "Загрузка локальной PBA" }
@@ -1967,86 +1967,6 @@ ru_RU {
         }
         name { "Сведения о платформе Intel" }
     }
-    intel-svt {
-        attribute {
-            code { "Код" }
-            milestones { "Контрольные точки" }
-            parameter { "Параметр" }
-        }
-        name { "Контрольные точки Intel Silicon View Technology" }
-    }
-    intel-svt-aligned {
-        attribute {
-            code { "Код" }
-            milestones { "Контрольные точки" }
-            parameter { "Параметр" }
-        }
-        name { "Контрольные точки Intel Silicon View Technology" }
-    }
-    intel-vpro {
-        attribute {
-            bios-capabilities { "Возможности BIOS" }
-            build { "Номер сборки" }
-            cpu-capabilities { "Возможности процессора" }
-            gbe-bus { "Шина проводного сетевого контроллера" }
-            gbe-device-id { "Идентификатор устройства проводного сетевого контроллера" }
-            gbe-devfn { "Устройство и функция проводного сетевого контроллера" }
-            hotfix { "Исправление" }
-            lpc-bus { "Шина моста LPC" }
-            lpc-device-id { "Идентификатор устройства моста LPC" }
-            lpc-devfn { "Устройство и функция моста LPC" }
-            mch-bus { "Шина MCH" }
-            mch-capabilities { "Возможности MCH" }
-            mch-device-id { "Идентификатор устройства MCH" }
-            mch-devfn { "Устройство и функция MCH" }
-            me-capabilities { "Возможности ME" }
-            me-version { "Версия прошивки ME" }
-            mebx-version { "Версия MEBx" }
-            tcg-major { "Старший номер версии спецификации TCG" }
-            tcg-minor { "Младший номер версии спецификации TCG" }
-            tpm-capabilities { "Возможности TPM" }
-            va-version { "Код старшей версии Virtual Appliance" }
-            wlan-bus { "Шина беспроводного сетевого контроллера" }
-            wlan-device-id { "Идентификатор устройства беспроводного сетевого контроллера" }
-            wlan-devfn { "Устройство и функция беспроводного сетевого контроллера" }
-        }
-        name { "Сведения Intel vPro" }
-    }
-    intel-vpro-bios-caps {
-        vtx-configurable { "VT-x настраивается в setup" }
-        vtd-configurable { "VT-d настраивается в setup" }
-        txt-configurable { "TXT настраивается в setup" }
-        tpm-configurable { "TPM настраивается в setup" }
-        me-configurable { "ME настраивается в setup" }
-        va-extensions { "Расширения Virtual Appliance" }
-        spi-data-reserved { "Область данных платформы во флеш-памяти SPI зарезервирована" }
-    }
-    intel-vpro-cpu-caps {
-        vmx-enabled { "VMX включены" }
-        smx-enabled { "SMX включены" }
-        txt-capable { "Поддержка TXT" }
-        txt-enabled { "TXT включена" }
-        vtx-capable { "Поддержка VT-x" }
-        vtx-enabled { "VT-x включена" }
-    }
-    intel-vpro-mch-caps {
-        vtd-capable { "Поддержка VT-d" }
-        vtd-enabled { "VT-d включена" }
-        txt-capable { "Поддержка TXT" }
-        txt-enabled { "TXT включена" }
-    }
-    intel-vpro-me-caps {
-        me-enabled { "ME включён" }
-        qst { "Quiet System Technology" }
-        asf { "Alert Standard Format" }
-        amt { "Active Management Technology" }
-        sbt { "Small Business Technology" }
-        l3 { "Управляемость уровня III" }
-    }
-    intel-vpro-tpm-caps {
-        present { "TPM на плате" }
-        enabled { "TPM включён" }
-    }
     intel-rsd-cabled-pcie {
         name { "Кабельный порт PCIe Intel RSD" }
     }
@@ -2070,12 +1990,12 @@ ru_RU {
         mips64 { "MIPS64" }
         oem { "OEM" }
     }
-    intel-rsd-fpga-hssi-config {
+    intel-rsd-fpga-hssi-configuration {
         networking { "Сетевая" }
         pcie { "PCIe" }
         unavailable { "Сведения недоступны" }
     }
-    intel-rsd-fpga-memory-tech {
+    intel-rsd-fpga-memory-technology {
         none { "Нет" }
         edram { "EDRAM" }
         hbm { "HBM" }
@@ -2117,7 +2037,7 @@ ru_RU {
         }
         name { "Соответствие физических устройств Intel RSD" }
     }
-    intel-rsd-phys-device-type {
+    intel-rsd-physical-device-type {
         invalid { "Не определён или неверен" }
         processor { "Процессор" }
         pcie-slot { "Системный слот PCIe" }
@@ -2174,7 +2094,87 @@ ru_RU {
         disabled { "Отключён" }
         enabled { "Включён" }
     }
-    ipmi-addr-type {
+    intel-svt {
+        attribute {
+            code { "Код" }
+            milestones { "Контрольные точки" }
+            parameter { "Параметр" }
+        }
+        name { "Контрольные точки Intel Silicon View Technology" }
+    }
+    intel-svt-aligned {
+        attribute {
+            code { "Код" }
+            milestones { "Контрольные точки" }
+            parameter { "Параметр" }
+        }
+        name { "Контрольные точки Intel Silicon View Technology" }
+    }
+    intel-vpro {
+        attribute {
+            bios-capabilities { "Возможности BIOS" }
+            build { "Номер сборки" }
+            cpu-capabilities { "Возможности процессора" }
+            gbe-bus { "Шина проводного сетевого контроллера" }
+            gbe-device-id { "Идентификатор устройства проводного сетевого контроллера" }
+            gbe-devfn { "Устройство и функция проводного сетевого контроллера" }
+            hotfix { "Исправление" }
+            lpc-bus { "Шина моста LPC" }
+            lpc-device-id { "Идентификатор устройства моста LPC" }
+            lpc-devfn { "Устройство и функция моста LPC" }
+            mch-bus { "Шина MCH" }
+            mch-capabilities { "Возможности MCH" }
+            mch-device-id { "Идентификатор устройства MCH" }
+            mch-devfn { "Устройство и функция MCH" }
+            me-capabilities { "Возможности ME" }
+            me-version { "Версия прошивки ME" }
+            mebx-version { "Версия MEBx" }
+            tcg-major { "Старший номер версии спецификации TCG" }
+            tcg-minor { "Младший номер версии спецификации TCG" }
+            tpm-capabilities { "Возможности TPM" }
+            va-version { "Код старшей версии Virtual Appliance" }
+            wlan-bus { "Шина беспроводного сетевого контроллера" }
+            wlan-device-id { "Идентификатор устройства беспроводного сетевого контроллера" }
+            wlan-devfn { "Устройство и функция беспроводного сетевого контроллера" }
+        }
+        name { "Сведения Intel vPro" }
+    }
+    intel-vpro-bios-capability {
+        vtx-configurable { "VT-x настраивается в setup" }
+        vtd-configurable { "VT-d настраивается в setup" }
+        txt-configurable { "TXT настраивается в setup" }
+        tpm-configurable { "TPM настраивается в setup" }
+        me-configurable { "ME настраивается в setup" }
+        va-extensions { "Расширения Virtual Appliance" }
+        spi-data-reserved { "Область данных платформы во флеш-памяти SPI зарезервирована" }
+    }
+    intel-vpro-cpu-capability {
+        vmx-enabled { "VMX включены" }
+        smx-enabled { "SMX включены" }
+        txt-capable { "Поддержка TXT" }
+        txt-enabled { "TXT включена" }
+        vtx-capable { "Поддержка VT-x" }
+        vtx-enabled { "VT-x включена" }
+    }
+    intel-vpro-mch-capability {
+        vtd-capable { "Поддержка VT-d" }
+        vtd-enabled { "VT-d включена" }
+        txt-capable { "Поддержка TXT" }
+        txt-enabled { "TXT включена" }
+    }
+    intel-vpro-me-capability {
+        me-enabled { "ME включён" }
+        qst { "Quiet System Technology" }
+        asf { "Alert Standard Format" }
+        amt { "Active Management Technology" }
+        sbt { "Small Business Technology" }
+        l3 { "Управляемость уровня III" }
+    }
+    intel-vpro-tpm-capability {
+        present { "TPM на плате" }
+        enabled { "TPM включён" }
+    }
+    ipmi-address-type {
         memory { "Память" }
         io { "Ввод-вывод" }
         smbus { "SMBus" }
@@ -2189,15 +2189,15 @@ ru_RU {
         bt { "BT: блочная передача" }
         ssif { "SSIF: системный интерфейс SMBus" }
     }
+    ipmi-interrupt-polarity {
+        unspecified { "Не указана" }
+        active-low { "Активный низкий" }
+        active-high { "Активный высокий" }
+    }
     ipmi-interrupt-trigger-mode {
         unspecified { "Не указано" }
         edge { "По фронту" }
         level { "По уровню" }
-    }
-    ipmi-intr-polarity {
-        unspecified { "Не указана" }
-        active-low { "Активный низкий" }
-        active-high { "Активный высокий" }
     }
     lenovo-bay-io {
         attribute {
@@ -2632,7 +2632,7 @@ ru_RU {
     mgmt-device {
         name { "Устройство управления" }
     }
-    mgmt-device-addr-type {
+    mgmt-device-address-type {
         unspecified { "Не указан" }
         other { "Другой" }
         unknown { "Неизвестный" }
@@ -3376,7 +3376,7 @@ ru_RU {
         has-zoom-video-support { "Слот PC Card поддерживает Zoom Video" }
         has-modem-ring-resume-support { "Слот PC Card поддерживает пробуждение по звонку модема" }
     }
-    slot-features-ex {
+    slot-feature-ex {
         has-pme-support { "Слот PCI поддерживает сигнал PME#" }
         has-hotplug-support { "Слот поддерживает горячее подключение" }
         has-smbus-support { "Слот PCI поддерживает сигнал SMBus" }
