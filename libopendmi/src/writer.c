@@ -188,8 +188,10 @@ static size_t dmi_writer_length(const dmi_writer_t *writer)
 
 static bool dmi_writer_fits(const dmi_writer_t *writer, size_t offset, size_t length)
 {
+    // Range of no length of its own is bound by what a size holds, so that
+    // the sum of the base, the offset and the length cannot overflow
     if (writer->length < 0)
-        return true;
+        return (offset <= SIZE_MAX - writer->base) and (length <= SIZE_MAX - writer->base - offset);
 
     size_t limit = (size_t)writer->length;
 

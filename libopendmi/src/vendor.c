@@ -235,7 +235,7 @@ const dmi_vendor_spec_t *dmi_vendor_detect(const char *name)
     const char **vendor_name;
 
     if (name == nullptr)
-        return dmi_trace_argument_null(nullptr, name, nullptr);
+        return nullptr;
 
     // Surrounding whitespace is ignored, the way strings of the structures
     // are trimmed when decoded

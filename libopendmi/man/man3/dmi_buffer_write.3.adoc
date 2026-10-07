@@ -66,6 +66,10 @@ Number of the bytes to write.
 `DMI_ERROR_ARGUMENT_NULL`::
 Data is `nullptr`, while the length is not zero.
 
+`DMI_ERROR_ARGUMENT_INVALID`::
+Data ends past what a size holds, i.e. the sum of the offset and the length
+overflows.
+
 `DMI_ERROR_OUT_OF_MEMORY`::
 Memory of the buffer cannot grow.
 

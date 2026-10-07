@@ -166,6 +166,7 @@ __dmi_api bool dmi_buffer_read(
  * @param[in]     length Number of the bytes to write.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Data is `nullptr`, while the length is not zero
+ * @error DMI_ERROR_ARGUMENT_INVALID Data ends past what a size holds
  * @error DMI_ERROR_OUT_OF_MEMORY Memory of the buffer cannot grow
  *
  * @return `true` on success, `false` otherwise.

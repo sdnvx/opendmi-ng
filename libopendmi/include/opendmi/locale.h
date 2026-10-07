@@ -120,10 +120,13 @@ __dmi_api dmi_resource_t *dmi_resource_open(const char *package, const void *dat
 /**
  * @brief Get a string from a resource package.
  *
- * @param[in] resource Resource handle.
+ * @param[in] resource Resource handle, or @c nullptr, in which case no
+ *                     string is found.
  * @param[in] table    Path of the table holding the string, e.g. a name set
  *                     code, or `processor/attributes` for a nested table.
  * @param[in] key      Key of the string within the table.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Table or key is `nullptr`
  *
  * @return String in UTF-8, which is kept until the locale is changed or the
  *         resource is closed, or @c nullptr if there is no such string.

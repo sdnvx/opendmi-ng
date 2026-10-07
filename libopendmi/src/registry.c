@@ -607,11 +607,6 @@ bool dmi_registry_iter_initialize(
     if (registry == nullptr)
         return dmi_trace_argument_null(nullptr, registry);
 
-    if (iter == nullptr)
-        return dmi_trace_argument_null(nullptr, iter);
-    if (registry == nullptr)
-        return dmi_trace_argument_null(nullptr, registry);
-
     iter->registry = registry;
     iter->position = nullptr;
     iter->filter   = filter;

@@ -75,7 +75,9 @@ without ICU4C support.
 
 == Errors
 
-None: the function takes no context to raise errors in.
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `table` or `key` is `nullptr`. The function takes no context, so
+the error reaches no error queue. A `resource` of `nullptr` is not an error.
 
 == See also
 

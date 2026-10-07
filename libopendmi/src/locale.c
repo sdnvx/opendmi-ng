@@ -348,8 +348,10 @@ dmi_resource_t *dmi_resource_open(const char *package, const void *data)
 const char *dmi_resource_string(dmi_resource_t *resource, const char *table, const char *key)
 {
 #ifdef ENABLE_ICU
+    // No resource holds no strings, e.g. the one of a package which has not
+    // been opened, so it is not an error
     if (resource == nullptr)
-        return dmi_trace_argument_null(nullptr, resource, nullptr);
+        return nullptr;
     if (table == nullptr)
         return dmi_trace_argument_null(nullptr, table, nullptr);
     if (key == nullptr)

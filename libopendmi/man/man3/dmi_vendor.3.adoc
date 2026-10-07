@@ -154,7 +154,8 @@ Unisys.
 Vendor to name.
 
 `name`::
-Vendor name to tell the vendor from.
+Vendor name to tell the vendor from, or `nullptr` if the structure gives
+none, in which case no vendor is told.
 
 == Return value
 

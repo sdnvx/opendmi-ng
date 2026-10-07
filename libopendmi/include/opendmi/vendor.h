@@ -105,7 +105,8 @@ __dmi_api const char *dmi_vendor_name(dmi_vendor_t vendor);
  * The name is compared with the names of the known vendors, case and
  * surrounding whitespace ignored.
  *
- * @param[in] name Vendor name, as an SMBIOS structure gives it.
+ * @param[in] name Vendor name, as an SMBIOS structure gives it, or `nullptr`
+ *                 if it gives none.
  *
  * @return Static specification of the vendor, or `nullptr` if @p name is
  *         `nullptr` or matches no vendor.

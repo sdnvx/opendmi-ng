@@ -143,6 +143,8 @@ bool dmi_buffer_write(
 
     if (length == 0)
         return true;
+    if (length > SIZE_MAX - offset)
+        return dmi_trace_argument_invalid(buffer->context, length);
 
     // Data past the end of the buffer makes it longer, and the bytes between
     // the two are the buffer's own rather than whatever the memory held
@@ -186,10 +188,16 @@ static bool dmi_buffer_reserve(dmi_buffer_t *buffer, size_t capacity)
 
     // Memory grows by whole steps, so that the data written byte by byte does
     // not reallocate at every write
-    size_t reserved = buffer->capacity;
+    size_t steps = capacity / DMI_BUFFER_CAPACITY_STEP;
 
-    while (reserved < capacity)
-        reserved += DMI_BUFFER_CAPACITY_STEP;
+    if (capacity % DMI_BUFFER_CAPACITY_STEP != 0)
+        steps++;
+
+    // Memory whose size does not fit in a size cannot be allocated either
+    if (steps > SIZE_MAX / DMI_BUFFER_CAPACITY_STEP)
+        return dmi_trace_out_of_memory(buffer->context);
+
+    size_t reserved = steps * DMI_BUFFER_CAPACITY_STEP;
 
     dmi_byte_t *data = realloc(buffer->data, reserved);
     if (data == nullptr)
