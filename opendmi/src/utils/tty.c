@@ -38,31 +38,34 @@
 
 static bool dmi_tty = false;
 static bool dmi_tty_stdout = false;
-static int  dmi_tty_bg_color = DMI_TTY_COLOR_BLACK;
-static int  dmi_tty_fg_color = DMI_TTY_COLOR_WHITE;
-static int  dmi_tty_attrs = 0;
+
+#ifdef ENABLE_CURSES
+    static int  dmi_tty_bg_color = DMI_TTY_COLOR_BLACK;
+    static int  dmi_tty_fg_color = DMI_TTY_COLOR_WHITE;
+    static int  dmi_tty_attrs = 0;
+#endif // ENABLE_CURSES
 
 void dmi_tty_setup(void)
 {
     // Standard output may be redirected to pager later
     dmi_tty_stdout = isatty(STDOUT_FILENO);
 
-#ifdef ENABLE_CURSES
-    // Initialize terminal. Unknown terminal type is not an error, colors are
-    // just not used in this case.
-    if (dmi_tty_stdout) {
-        int error;
+#   ifdef ENABLE_CURSES
+        // Initialize terminal. Unknown terminal type is not an error, colors are
+        // just not used in this case.
+        if (dmi_tty_stdout) {
+            int error;
 
-        // Curses screen is not initialized, so has_colors() is not usable
-        // here, and terminal capabilities are checked directly instead
-        if (setupterm(nullptr, STDOUT_FILENO, &error) != ERR) {
-            const char *setaf = tigetstr("setaf");
+            // Curses screen is not initialized, so has_colors() is not usable
+            // here, and terminal capabilities are checked directly instead
+            if (setupterm(nullptr, STDOUT_FILENO, &error) != ERR) {
+                const char *setaf = tigetstr("setaf");
 
-            dmi_tty = (tigetnum("colors") > 0) and
-                      (setaf != nullptr) and (setaf != (char *)-1);
+                dmi_tty = (tigetnum("colors") > 0) and
+                        (setaf != nullptr) and (setaf != (char *)-1);
+            }
         }
-    }
-#endif // ENABLE_CURSES
+#   endif // ENABLE_CURSES
 }
 
 bool dmi_has_tty(void)
@@ -77,66 +80,74 @@ bool dmi_tty_is_stdout(void)
 
 void dmi_tty_attr_on(int attrs)
 {
-    if (not dmi_tty)
-        return;
-
-    dmi_tty_attrs |= attrs;
-
 #   ifdef ENABLE_CURSES
+        if (not dmi_tty)
+            return;
+
+        dmi_tty_attrs |= attrs;
+
         if (attrs & DMI_TTY_ATTR_BOLD)
             tputs(tparm(tigetstr("bold")), 1, putchar);
         if (attrs & DMI_TTY_ATTR_UNDERLINE)
             tputs(tparm(tigetstr("smul")), 1, putchar);
         if (attrs & DMI_TTY_ATTR_BLINK)
             tputs(tparm(tigetstr("blink")), 1, putchar);
+#   else
+        dmi_unused(attrs);
 #   endif
 }
 
 void dmi_tty_attr_off(int attrs)
 {
-    if (not dmi_tty)
-        return;
-
-    dmi_tty_attrs &= ~attrs;
-
 #   ifdef ENABLE_CURSES
+        if (not dmi_tty)
+            return;
+
+        dmi_tty_attrs &= ~attrs;
+
         dmi_tty_exit_attr_mode();
 
         dmi_tty_attr_on(dmi_tty_attrs);
         dmi_tty_set_bg_color((dmi_tty_color_t)dmi_tty_bg_color);
         dmi_tty_set_fg_color((dmi_tty_color_t)dmi_tty_fg_color);
+#   else
+        dmi_unused(attrs);
 #   endif
 }
 
 void dmi_tty_set_fg_color(dmi_tty_color_t color)
 {
-    if (not dmi_tty)
-        return;
-
-    dmi_tty_fg_color = (int)color;
-
-    // Text of no color of its own is left to the terminal, which has no
-    // number to set it to
-    if (color == DMI_TTY_COLOR_NONE)
-        return;
-
 #   ifdef ENABLE_CURSES
+        if (not dmi_tty)
+            return;
+
+        dmi_tty_fg_color = (int)color;
+
+        // Text of no color of its own is left to the terminal, which has no
+        // number to set it to
+        if (color == DMI_TTY_COLOR_NONE)
+            return;
+
         tputs(tparm(tigetstr("setaf"), color), 1, putchar);
+#   else
+        dmi_unused(color);
 #   endif
 }
 
 void dmi_tty_set_bg_color(dmi_tty_color_t color)
 {
-    if (not dmi_tty)
-        return;
-
-    dmi_tty_bg_color = (int)color;
-
-    if (color == DMI_TTY_COLOR_NONE)
-        return;
-
 #   ifdef ENABLE_CURSES
+        if (not dmi_tty)
+            return;
+
+        dmi_tty_bg_color = (int)color;
+
+        if (color == DMI_TTY_COLOR_NONE)
+            return;
+
         tputs(tparm(tigetstr("setab"), color), 1, putchar);
+#   else
+        dmi_unused(color);
 #   endif
 }
 
