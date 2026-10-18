@@ -102,8 +102,8 @@ bool dmi_reader_get_bytes_at(const dmi_reader_t *reader, void *ptr, size_t offse
 {
     if (reader == nullptr)
         return dmi_trace_argument_null(nullptr, reader);
-    if (ptr == nullptr)
-        return dmi_trace_argument_null(nullptr, ptr);
+    if ((ptr == nullptr) and (length != 0))
+        return dmi_trace_argument_null(dmi_buffer_context(reader->buffer), ptr);
 
     // Written so that the sum of the offset and the length cannot overflow
     if ((length > reader->length) or (offset > (reader->length - length)))
@@ -136,7 +136,7 @@ bool dmi_reader_ref_bytes(dmi_reader_t *reader, size_t length, const dmi_data_t 
     if (reader == nullptr)
         return dmi_trace_argument_null(nullptr, reader);
     if (ptr == nullptr)
-        return dmi_trace_argument_null(nullptr, ptr);
+        return dmi_trace_argument_null(dmi_buffer_context(reader->buffer), ptr);
 
     size_t position = reader->position;
 

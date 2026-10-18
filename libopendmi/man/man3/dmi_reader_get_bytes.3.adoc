@@ -49,11 +49,14 @@ Number of bytes to read.
 == Return value
 
 `true` on success, `false` if there are fewer than `length` bytes remaining
-in the reader.
+in the reader, or on error.
 
 == Errors
 
-None.
+The error is raised against the context of the buffer being read.
+
+`DMI_ERROR_ARGUMENT_NULL`::
+`ptr` is `nullptr`, while `length` is not zero.
 
 == See also
 

@@ -111,6 +111,10 @@ structures the data ends within, and `false` if it cannot be.
 `DMI_ERROR_ARGUMENT_NULL`::
 Decoder is `nullptr`.
 
+`DMI_ERROR_ARGUMENT_INVALID`::
+A field declares a number wider than the widest one the engine reads and
+writes, which is eight bytes.
+
 `DMI_ERROR_STATE_INVALID`::
 Specification declares no fields.
 

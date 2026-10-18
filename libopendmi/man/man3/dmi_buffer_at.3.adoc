@@ -56,6 +56,9 @@ Number of the bytes to refer to, which may be zero.
 Pointer to the data, or `nullptr` if the buffer holds fewer bytes than the
 requested range.
 
+A buffer which has never held data has no memory to point into, so `nullptr`
+is returned for the range of no bytes at its beginning as well.
+
 == Errors
 
 None.

@@ -165,6 +165,8 @@ const dmi_data_t *dmi_buffer_at(
     if (buffer == nullptr)
         return dmi_trace_argument_null(nullptr, buffer, nullptr);
 
+    if (buffer->data == nullptr)
+        return nullptr;
     if ((offset > buffer->length) or (length > buffer->length - offset))
         return nullptr;
 

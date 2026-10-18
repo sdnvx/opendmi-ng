@@ -40,6 +40,11 @@ __dmi_api char *dmi_base64_encode(
  * corresponding to the given Base64-encoded string. The caller is responsible
  * for freeing the returned buffer.
  *
+ * The string is required to be what `dmi_base64_encode()` gives: whole groups
+ * of four characters of the alphabet of RFC 4648, the last one padded with
+ * `=` for the bytes it is short of. Anything else is invalid, including white
+ * space and the characters of the variant of the alphabet for file names.
+ *
  * @param[in] data             Pointer to the Base64-encoded string to decode.
  * @param[in] data_length      Length of @p data in bytes, excluding any null
  *                             terminator.

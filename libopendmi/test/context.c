@@ -40,6 +40,7 @@ static void test_context_dump_save_generated(void **pstate);
 static void test_context_add_extension(void **pstate);
 static void test_context_add_extension_duplicate(void **pstate);
 static void test_context_type_name(void **pstate);
+static void test_context_arguments(void **pstate);
 
 static bool test_dump_relocate(dmi_buffer_t *buffer, const char *path, bool legacy);
 static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, size_t table_size);
@@ -76,7 +77,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_context_dump_save_generated, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_add_extension, test_context_setup, test_context_teardown),
         cmocka_unit_test_setup_teardown(test_context_add_extension_duplicate, test_context_setup, test_context_teardown),
-        cmocka_unit_test_setup_teardown(test_context_type_name, test_context_setup, test_context_teardown)
+        cmocka_unit_test_setup_teardown(test_context_type_name, test_context_setup, test_context_teardown),
+        cmocka_unit_test_setup_teardown(test_context_arguments, test_context_setup, test_context_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -455,6 +457,65 @@ static void test_context_type_name(void **pstate)
     // Without a context, no specification is mapped
     assert_string_equal(dmi_type_name(nullptr, DMI_TYPE_ID_SYSTEM), "Unknown");
     assert_string_equal(dmi_type_name(nullptr, (dmi_type_id_t)250), "OEM-specific");
+}
+
+static void test_context_arguments(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    // Without a context, nothing is done, and the error is reported nowhere
+    assert_int_equal(dmi_get_flags(nullptr), 0);
+    assert_false(dmi_open(nullptr, nullptr));
+    assert_false(dmi_load(nullptr, test_dump_path));
+    assert_false(dmi_save(nullptr, test_save_path, DMI_SAVE_FLAG_OVERWRITE));
+    assert_false(dmi_close(nullptr));
+    assert_null(dmi_get_registry(nullptr));
+    assert_false(dmi_add_extension(nullptr, &dmi_intel_rsd_module));
+    assert_int_equal(dmi_type_find(nullptr, "system"), DMI_TYPE_ID_INVALID);
+
+    assert_false(dmi_set_logger(nullptr, &test_logger));
+    assert_null(dmi_get_logger(nullptr));
+    assert_int_equal(dmi_get_log_level(nullptr), DMI_LOG_INVALID);
+    assert_false(dmi_log(nullptr, DMI_LOG_ERROR, "Message"));
+
+    // Functions which take no context report a missing argument nowhere either
+    assert_null(dmi_spec_name(nullptr));
+    assert_int_equal(dmi_log_level_find(nullptr), DMI_LOG_INVALID);
+
+    // Missing arguments are reported on the context, which is left as it was
+    dmi_error_clear(context);
+    assert_false(dmi_load(context, nullptr));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+    assert_false(dmi_is_open(context));
+
+    dmi_error_clear(context);
+    assert_false(dmi_add_extension(context, nullptr));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+    assert_int_equal(context->modules.length, 0);
+
+    dmi_error_clear(context);
+    assert_int_equal(dmi_type_find(context, nullptr), DMI_TYPE_ID_INVALID);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    assert_true(dmi_load(context, test_dump_path));
+
+    dmi_error_clear(context);
+    assert_false(dmi_save(context, nullptr, DMI_SAVE_FLAG_OVERWRITE));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // Context which is open already is refused before anything is read, and
+    // keeps its data
+    const dmi_registry_t *registry = dmi_get_registry(context);
+
+    dmi_error_clear(context);
+    assert_false(dmi_load(context, test_dump_path));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_STATE_INVALID);
+
+    dmi_error_clear(context);
+    assert_false(dmi_open(context, nullptr));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_STATE_INVALID);
+
+    assert_ptr_equal(dmi_get_registry(context), registry);
 }
 
 //

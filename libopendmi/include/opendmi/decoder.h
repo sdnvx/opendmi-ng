@@ -102,10 +102,11 @@ __dmi_api dmi_reader_t *dmi_decoder_reader(dmi_decoder_t *decoder);
  * @param[in,out] decoder Decoder to read from.
  * @param[out]    value   String the reference stands for.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Variable for the string is `nullptr`
  * @error DMI_ERROR_STRING_NOT_FOUND Structure carries no such string
  *
  * @return `true` if the reference has been read, `false` if there are not
- *         enough bytes remaining.
+ *         enough bytes remaining, or on error.
  */
 __dmi_api bool dmi_decoder_get_string(dmi_decoder_t *decoder, const char **value);
 
@@ -116,7 +117,10 @@ __dmi_api bool dmi_decoder_get_string(dmi_decoder_t *decoder, const char **value
  * @param[out]    ptr     Buffer that receives the bytes.
  * @param[in]     length  Number of the bytes to read.
  *
- * @return `true` on success, `false` if there are not enough bytes remaining.
+ * @error DMI_ERROR_ARGUMENT_NULL Destination is `nullptr`, while the length is not zero
+ *
+ * @return `true` on success, `false` if there are not enough bytes remaining,
+ *         or on error.
  */
 __dmi_api bool dmi_decoder_get_bytes(dmi_decoder_t *decoder, void *ptr, size_t length);
 
@@ -128,8 +132,10 @@ __dmi_api bool dmi_decoder_get_bytes(dmi_decoder_t *decoder, void *ptr, size_t l
  * @param[in]  offset  Byte offset from the beginning of the structure.
  * @param[in]  length  Number of the bytes to read.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Destination is `nullptr`, while the length is not zero
+ *
  * @return `true` on success, `false` if the requested range exceeds the
- *         structure bounds.
+ *         structure bounds, or on error.
  */
 __dmi_api bool dmi_decoder_get_bytes_at(
         const dmi_decoder_t *decoder,
@@ -144,7 +150,10 @@ __dmi_api bool dmi_decoder_get_bytes_at(
  * @param[in]     length  Number of the bytes to refer to, may be zero.
  * @param[out]    value   Binary data descriptor.
  *
- * @return `true` on success, `false` if there are not enough bytes remaining.
+ * @error DMI_ERROR_ARGUMENT_NULL Descriptor is `nullptr`
+ *
+ * @return `true` on success, `false` if there are not enough bytes remaining,
+ *         or on error.
  */
 __dmi_api bool dmi_decoder_get_binary(dmi_decoder_t *decoder, size_t length, dmi_binary_t *value);
 
@@ -180,7 +189,8 @@ __dmi_api size_t dmi_decoder_remaining(const dmi_decoder_t *decoder);
  *
  * @param[in,out] decoder Decoder of the structure.
  *
- * @return Always `true`, so that it can be returned by the decoder.
+ * @return `true`, so that it can be returned by the decoder, or `false` if
+ *         @p decoder is @c nullptr.
  */
 __dmi_api bool dmi_decoder_stop(dmi_decoder_t *decoder);
 
@@ -196,7 +206,8 @@ __dmi_api bool dmi_decoder_stop(dmi_decoder_t *decoder);
  *
  * @param[in,out] decoder Decoder of the structure.
  *
- * @return Always `true`, so that it can be returned by the decoder.
+ * @return `true`, so that it can be returned by the decoder, or `false` if
+ *         @p decoder is @c nullptr.
  */
 __dmi_api bool dmi_decoder_incomplete(dmi_decoder_t *decoder);
 

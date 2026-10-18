@@ -169,6 +169,7 @@ __dmi_api dmi_writer_t *dmi_encoder_writer(dmi_encoder_t *encoder);
  * @param[in]     ptr     Bytes to write.
  * @param[in]     length  Number of the bytes.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Bytes are `nullptr`, while the length is not zero
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
  *
  * @return `true` on success, `false` otherwise.
@@ -178,15 +179,17 @@ __dmi_api bool dmi_encoder_put_bytes(dmi_encoder_t *encoder, const void *ptr, si
 /**
  * @brief Write bytes at a given offset without moving the position.
  *
- * Only the bytes written already may be written again, which is how a value
- * the rest of the structure decides, such as a length, is filled in once it
- * is known.
+ * It is meant for the bytes written already, which is how a value the rest of
+ * the structure decides, such as a length, is filled in once it is known. The
+ * bytes past the position are not refused, but are written over by whatever
+ * is written next, since the position does not follow them.
  *
  * @param[in,out] encoder Encoder to write to.
  * @param[in]     ptr     Bytes to write.
  * @param[in]     offset  Byte offset from the beginning of the structure.
  * @param[in]     length  Number of the bytes.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Bytes are `nullptr`, while the length is not zero
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
  *
  * @return `true` on success, `false` otherwise.
@@ -237,8 +240,10 @@ __dmi_api bool dmi_encoder_put_string(dmi_encoder_t *encoder, const char *value)
  * @param[out] ptr     Bytes the source holds at the position.
  * @param[in]  length  Number of the bytes to read.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Destination is `nullptr`, while the length is not zero
+ *
  * @return `true` if the source holds the bytes, `false` if it has none, e.g.
- *         in the canonical mode, or ends before them.
+ *         in the canonical mode, or ends before them, or on error.
  */
 __dmi_api bool dmi_encoder_peek(const dmi_encoder_t *encoder, void *ptr, size_t length);
 
@@ -267,6 +272,7 @@ __dmi_api size_t dmi_encoder_tell(const dmi_encoder_t *encoder);
  *
  * @param[in,out] encoder Encoder to complete.
  *
+ * @error DMI_ERROR_STATE_INVALID Writer has been moved back over the header
  * @error DMI_ERROR_ENTITY_LENGTH_INVALID Formatted area is longer than a byte can
  *        count
  *

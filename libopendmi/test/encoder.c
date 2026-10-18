@@ -54,6 +54,7 @@ static void test_encoder_string_canonical(void **pstate);
 static void test_encoder_string_raw(void **pstate);
 static void test_encoder_finish(void **pstate);
 static void test_encoder_finish_too_long(void **pstate);
+static void test_encoder_finish_no_header(void **pstate);
 static void test_encoder_finish_end_of_table(void **pstate);
 static void test_encoder_finalize(void **pstate);
 
@@ -92,6 +93,7 @@ int main(int argc, char **argv)
         cmocka_unit_test_setup_teardown(test_encoder_string_raw, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_finish, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_finish_too_long, test_encoder_setup, test_encoder_teardown),
+        cmocka_unit_test_setup_teardown(test_encoder_finish_no_header, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_finish_end_of_table, test_encoder_setup, test_encoder_teardown),
         cmocka_unit_test_setup_teardown(test_encoder_finalize, test_encoder_setup, test_encoder_teardown),
 
@@ -1020,8 +1022,32 @@ static void test_encoder_null_arguments(void **pstate)
     assert_false(dmi_encoder_initialize(&encoder, nullptr, nullptr,
                                         DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE));
 
+    // Structure which is not there has no header to write, so the buffer is
+    // left as it was
+    dmi_error_clear(context);
+    assert_false(dmi_encoder_initialize(&encoder, buffer, nullptr,
+                                        DMI_ENCODE_MODE_CANONICAL, DMI_VERSION_NONE));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+    assert_true(dmi_buffer_is_empty(buffer));
+
+    // Encoder which is not there has neither a buffer to write into nor a
+    // context to raise an error on
     assert_null(dmi_encoder_entity(nullptr));
     assert_null(dmi_encoder_writer(nullptr));
+
+    dmi_byte_t value = 0xFF;
+
+    assert_false(dmi_encoder_put_bytes(nullptr, &value, sizeof(value)));
+    assert_false(dmi_encoder_put_bytes_at(nullptr, &value, 0, sizeof(value)));
+    assert_false(dmi_encoder_copy(nullptr, 1));
+    assert_false(dmi_encoder_put_string(nullptr, "One"));
+    assert_false(dmi_encoder_finish(nullptr));
+
+    assert_false(dmi_encoder_peek(nullptr, &value, sizeof(value)));
+    assert_int_equal(value, 0xFF);
+
+    assert_uint_equal(dmi_encoder_remaining(nullptr), 0);
+    assert_uint_equal(dmi_encoder_tell(nullptr), 0);
 
     // Encoder which holds no strings is finished with all the same
     dmi_encoder_finalize(nullptr);
@@ -1415,6 +1441,29 @@ static void test_encoder_finish_too_long(void **pstate)
     const dmi_error_t *error = dmi_error_get_last(context);
     assert_non_null(error);
     assert_int_equal(error->reason, DMI_ERROR_ENTITY_LENGTH_INVALID);
+
+    test_encoder_close(&fixture);
+}
+
+//
+// Formatted area begins with the header, so the writer which has been moved
+// back over it leaves no structure to finish.
+//
+static void test_encoder_finish_no_header(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    test_encoder_fixture_t fixture;
+    test_encoder_open(context, &fixture, test_source, sizeof(test_source),
+                      DMI_ENCODE_MODE_CANONICAL);
+
+    dmi_encoder_t *encoder = &fixture.encoder;
+
+    assert_true(dmi_writer_seek(dmi_encoder_writer(encoder), sizeof(dmi_header_t) - 1));
+
+    dmi_error_clear(context);
+    assert_false(dmi_encoder_finish(encoder));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_STATE_INVALID);
 
     test_encoder_close(&fixture);
 }

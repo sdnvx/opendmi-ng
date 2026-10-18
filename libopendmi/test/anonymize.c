@@ -34,6 +34,7 @@ static void test_anonymize_proliant(void **pstate);
 static void test_anonymize_random_key(void **pstate);
 static void test_anonymize_overlay(void **pstate);
 static void test_anonymize_context(void **pstate);
+static void test_anonymize_arguments(void **pstate);
 
 static dmi_context_t *test_open(const char *path, dmi_context_flags_t flags);
 static dmi_context_t *test_anonymized(dmi_context_t *context);
@@ -60,7 +61,8 @@ int main(void)
         cmocka_unit_test(test_anonymize_proliant),
         cmocka_unit_test(test_anonymize_random_key),
         cmocka_unit_test(test_anonymize_overlay),
-        cmocka_unit_test(test_anonymize_context)
+        cmocka_unit_test(test_anonymize_context),
+        cmocka_unit_test(test_anonymize_arguments)
     };
 
     int rv = cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -270,6 +272,42 @@ static void test_anonymize_context(void **pstate)
 
     free(serial_number);
 
+    dmi_destroy(context);
+}
+
+static void test_anonymize_arguments(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = test_open(test_dell_path, DMI_CONTEXT_FLAG_RELAXED);
+
+    dmi_buffer_t *table = dmi_buffer_create(context);
+    assert_non_null(table);
+
+    // Copy needs a buffer to be written into
+    dmi_error_clear(context);
+    assert_false(dmi_anonymize(context, nullptr));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // Closed context has no table to copy, and nothing is written
+    assert_true(dmi_close(context));
+
+    dmi_error_clear(context);
+    assert_false(dmi_anonymize(context, table));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_STATE_INVALID);
+    assert_int_equal(table->length, 0);
+
+    // ...and is left closed when it is to be anonymized in place
+    dmi_error_clear(context);
+    assert_false(dmi_anonymize_context(context));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_STATE_INVALID);
+    assert_false(dmi_is_open(context));
+
+    // Nothing is copied or anonymized without a context
+    assert_false(dmi_anonymize(nullptr, table));
+    assert_false(dmi_anonymize_context(nullptr));
+
+    dmi_buffer_destroy(table);
     dmi_destroy(context);
 }
 

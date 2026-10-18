@@ -124,7 +124,7 @@ bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity)
     if (filter == nullptr)
         return false;
     if (entity == nullptr)
-        return dmi_trace_argument_null(nullptr, entity);
+        return dmi_trace_argument_null(filter->context, entity);
 
     if (not dmi_filter_match_mask(filter, entity))
         return false;

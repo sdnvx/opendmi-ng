@@ -174,9 +174,11 @@ __dmi_api bool dmi_writer_rewind(dmi_writer_t *writer, dmi_writer_mark_t mark);
  * @param[in]     ptr    Data to write.
  * @param[in]     length Number of bytes to write.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Bytes are `nullptr`, while the length is not zero
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
  *
- * @return `true` on success, `false` if the bytes do not fit into the range.
+ * @return `true` on success, `false` if the bytes do not fit into the range,
+ *         or on error.
  */
 __dmi_api bool dmi_writer_put_bytes(dmi_writer_t *writer, const void *ptr, size_t length);
 
@@ -192,9 +194,11 @@ __dmi_api bool dmi_writer_put_bytes(dmi_writer_t *writer, const void *ptr, size_
  * @param[in]     offset Byte offset from the beginning of the range.
  * @param[in]     length Number of bytes to write.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Bytes are `nullptr`, while the length is not zero
  * @error DMI_ERROR_OUT_OF_MEMORY Buffer of the writer cannot grow
  *
- * @return `true` on success, `false` if the bytes do not fit into the range.
+ * @return `true` on success, `false` if the bytes do not fit into the range,
+ *         or on error.
  */
 __dmi_api bool dmi_writer_put_bytes_at(
         dmi_writer_t *writer,

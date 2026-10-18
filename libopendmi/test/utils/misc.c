@@ -34,6 +34,7 @@ static void test_checksum(void **pstate);
 static void test_ipow32(void **pstate);
 static void test_ipow64(void **pstate);
 static void test_alloc_array(void **pstate);
+static void test_memory_load_arguments(void **pstate);
 
 static const test_vector_32_t test_data_32[] =
 {
@@ -119,7 +120,8 @@ int main(void)
         cmocka_unit_test(test_checksum),
         cmocka_unit_test(test_ipow32),
         cmocka_unit_test(test_ipow64),
-        cmocka_unit_test(test_alloc_array)
+        cmocka_unit_test(test_alloc_array),
+        cmocka_unit_test(test_memory_load_arguments)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -202,4 +204,39 @@ static void test_alloc_array(void **pstate)
     assert_null(dmi_alloc_array(nullptr, SIZE_MAX, 2));
 
     dmi_destroy(context);
+}
+
+static void test_memory_load_arguments(void **pstate)
+{
+    dmi_unused(pstate);
+
+#if defined(_WIN32)
+    // Memory is not read by mapping a device there
+    skip();
+#else
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    assert_non_null(buffer);
+
+    // No such file exists, so that nothing is read even if a check is missing
+    const char *path = "memory-test-missing.bin";
+
+    // There is no context to raise the error on without a buffer
+    assert_false(dmi_memory_load(nullptr, path, 0, 1));
+
+    dmi_error_clear(context);
+    assert_false(dmi_memory_load(buffer, nullptr, 0, 1));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(context);
+    assert_false(dmi_memory_load(buffer, path, 0, 0));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+
+    assert_true(dmi_buffer_is_empty(buffer));
+
+    dmi_buffer_destroy(buffer);
+    dmi_destroy(context);
+#endif
 }

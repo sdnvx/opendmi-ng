@@ -107,7 +107,13 @@ structure has no string of number `num`.
 
 == Errors
 
-None.
+The errors are raised against the context being checked.
+
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised by `dmi_lint_issue` if `lint` or `format` is `nullptr`, and by
+`dmi_lint_entity_offset` and `dmi_lint_string_offset` if `lint` or `entity`
+is `nullptr`. Without a check in progress it is not reported, since there is
+no context to hold it.
 
 == Notes
 

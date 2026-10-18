@@ -41,6 +41,7 @@ static void test_registry_overlay_disabled(void **pstate);
 static void test_registry_overlay_strict(void **pstate);
 static void test_registry_resolve(void **pstate);
 static void test_registry_resolve_strict(void **pstate);
+static void test_registry_arguments(void **pstate);
 
 static void test_resolve(dmi_registry_t *registry, dmi_handle_t handle, const dmi_type_t *type,
                          bool success, dmi_type_id_t found, dmi_error_code_t reason);
@@ -207,7 +208,8 @@ int main(void)
         cmocka_unit_test(test_registry_overlay_disabled),
         cmocka_unit_test(test_registry_overlay_strict),
         cmocka_unit_test(test_registry_resolve),
-        cmocka_unit_test(test_registry_resolve_strict)
+        cmocka_unit_test(test_registry_resolve_strict),
+        cmocka_unit_test(test_registry_arguments)
     };
 
     return cmocka_run_group_tests(tests, test_registry_setup, test_registry_teardown);
@@ -657,6 +659,55 @@ static void test_registry_resolve_strict(void **pstate)
                  DMI_ERROR_ENTITY_TYPE_INVALID);
 
     dmi_destroy(context);
+}
+
+static void test_registry_arguments(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    dmi_registry_t *registry = dmi_get_registry(context);
+
+    const dmi_type_t *const types[] = { DMI_TYPE(memory_device), nullptr };
+
+    // Nothing is looked up without a registry, which has no status either
+    assert_null(dmi_registry_lookup(nullptr, 0x0010, DMI_TYPE(memory_device), false));
+    assert_null(dmi_registry_lookup_any(nullptr, 0x0010, types, false));
+    assert_null(dmi_registry_lookup_first(nullptr, DMI_TYPE(memory_device), false));
+    assert_null(dmi_registry_lookup_first_id(nullptr, DMI_TYPE_ID(MEMORY_DEVICE), false));
+    assert_int_equal(dmi_registry_status(nullptr), 0);
+
+    // Reference is resolved to nothing without a registry
+    dmi_entity_t *entity = (dmi_entity_t *)(uintptr_t)1;
+
+    assert_false(dmi_registry_resolve(nullptr, 0x0010, DMI_TYPE(memory_device), &entity));
+    assert_null(entity);
+    assert_false(dmi_registry_resolve_any(nullptr, 0x0010, types, &entity));
+    assert_false(dmi_registry_resolve_id(nullptr, 0x0010, DMI_TYPE_ID(MEMORY_DEVICE), &entity));
+
+    // ...and is not resolved without a variable to store the entity in
+    dmi_error_clear(context);
+    assert_false(dmi_registry_resolve(registry, 0x0010, DMI_TYPE(memory_device), nullptr));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(context);
+    assert_false(dmi_registry_resolve_any(registry, 0x0010, types, nullptr));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(context);
+    assert_false(dmi_registry_resolve_id(registry, 0x0010, DMI_TYPE_ID(MEMORY_DEVICE), nullptr));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // Table is not read without a registry
+    assert_false(dmi_registry_scan(nullptr));
+    assert_false(dmi_registry_overlay(nullptr));
+    assert_false(dmi_registry_decode(nullptr));
+    assert_false(dmi_registry_link(nullptr));
+
+    // Iterator needs a registry to walk, and is left as it was without one
+    dmi_registry_iter_t iter = { .is_done = true };
+
+    assert_false(dmi_registry_iter_initialize(nullptr, registry, nullptr));
+    assert_false(dmi_registry_iter_initialize(&iter, nullptr, nullptr));
+    assert_true(iter.is_done);
 }
 
 //

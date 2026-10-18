@@ -48,11 +48,13 @@ Number of the bytes to read.
 
 == Return value
 
-`true` on success, `false` if there are not enough bytes remaining.
+`true` on success, `false` if there are not enough bytes remaining, or on
+error.
 
 == Errors
 
-None.
+`DMI_ERROR_ARGUMENT_NULL`::
+`ptr` is `nullptr`, while `length` is not zero.
 
 == See also
 

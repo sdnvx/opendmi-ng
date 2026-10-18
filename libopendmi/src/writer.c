@@ -143,6 +143,8 @@ bool dmi_writer_skip_ex(
 
     if ((from.buffer != writer->buffer) or (from.base != writer->base))
         return false;
+    if (length > SIZE_MAX - from.position)
+        return false;
 
     size_t end = from.position + length;
 

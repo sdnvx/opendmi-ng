@@ -190,7 +190,8 @@ __dmi_api bool dmi_buffer_write(
  * @param[in] length Number of the bytes to refer to, which may be zero.
  *
  * @return Pointer to the data, or @c nullptr if the buffer holds fewer bytes
- *         than the requested range.
+ *         than the requested range, or has never held any, there being no
+ *         memory to point into.
  */
 __dmi_api const dmi_data_t *dmi_buffer_at(
         const dmi_buffer_t *buffer,

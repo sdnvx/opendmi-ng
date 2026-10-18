@@ -50,7 +50,7 @@ struct dmi_dump_session
  * @return `true` if the file is loaded, `false` otherwise, with the reason left
  * as the last error in the queue.
  *
- * @error DMI_ERROR_ARGUMENT_INVALID No path is given.
+ * @error DMI_ERROR_ARGUMENT_NULL No context or no path is given.
  * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted.
  * @error DMI_ERROR_FILE_OPEN_FAILED The file cannot be opened or its status cannot be read.
  * @error DMI_ERROR_FILE_READ_FAILED The file cannot be read.
@@ -145,7 +145,7 @@ static bool dmi_dump_open(dmi_context_t *context, const char *path)
     bool success = false;
 
     if (context == nullptr)
-        return false;
+        return dmi_trace_argument_null(nullptr, context);
     if (path == nullptr)
         return dmi_trace_argument_null(context, path);
 

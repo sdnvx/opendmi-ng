@@ -439,17 +439,19 @@ bool dmi_fields_encode_from(dmi_encoder_t *encoder, const dmi_field_t *fields, s
 {
     if (encoder == nullptr)
         return dmi_trace_argument_null(nullptr, encoder);
-    if (fields == nullptr)
-        return dmi_trace_argument_null(nullptr, fields);
-    if (info == nullptr)
-        return dmi_trace_argument_null(nullptr, info);
 
     const dmi_entity_t *entity = encoder->entity;
+    dmi_context_t *context     = dmi_entity_context(entity);
+
+    if (fields == nullptr)
+        return dmi_trace_argument_null(context, fields);
+    if (info == nullptr)
+        return dmi_trace_argument_null(context, info);
 
     dmi_field_output_t output = {
         .encoder = encoder,
         .version = (encoder->mode == DMI_ENCODE_MODE_PRESERVE)
-                 ? dmi_entity_context(entity)->state.smbios_version
+                 ? context->state.smbios_version
                  : encoder->version
     };
 
@@ -675,6 +677,11 @@ static bool dmi_field_encode_bcd(
 {
     uintmax_t number = dmi_field_load_member(field->member, value);
     uintmax_t digits = 0;
+
+    // Digits are spelled into a number written whole, so they fit as long as
+    // the number does, and are not shifted past it otherwise
+    if (width > sizeof(digits))
+        return dmi_trace_argument_invalid(dmi_field_output_context(output), width);
 
     if ((field->params.unknown_raw != 0) and (number == dmi_field_member_max(field->member)))
         return dmi_field_put_raw(output, width, field->params.unknown_raw);

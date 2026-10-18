@@ -50,11 +50,13 @@ Number of the bytes to read.
 == Return value
 
 `true` if the source holds the bytes, `false` if it has none, e.g. in the
-canonical mode, or ends before them.
+canonical mode, or ends before them, or on error.
 
 == Errors
 
-None.
+`DMI_ERROR_ARGUMENT_NULL`::
+`ptr` is `nullptr`, while `length` is not zero and the encoder has a source to
+look at.
 
 == See also
 

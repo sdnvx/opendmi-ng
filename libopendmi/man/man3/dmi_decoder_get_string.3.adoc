@@ -46,9 +46,12 @@ String the reference stands for.
 == Return value
 
 `true` if the reference has been read, `false` if there are not enough bytes
-remaining.
+remaining, or on error.
 
 == Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+`value` is `nullptr`.
 
 `DMI_ERROR_STRING_NOT_FOUND`::
 Structure carries no such string.

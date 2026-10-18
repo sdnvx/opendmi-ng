@@ -36,9 +36,10 @@ bool dmi_encoder_put_bytes_at(
 The `dmi_encoder_put_bytes_at` function writes `length` bytes at `ptr` at
 `offset` from the beginning of the structure, without moving the position.
 
-Only the bytes written already may be written again, which is how a value
-the rest of the structure decides, such as a length, is filled in once it is
-known.
+The function is meant for the bytes written already, which is how a value the
+rest of the structure decides, such as a length, is filled in once it is
+known. The bytes past the position are not refused, but are written over by
+whatever is written next, since the position does not follow them.
 
 === Parameters
 
@@ -59,6 +60,9 @@ Number of the bytes.
 `true` on success, `false` otherwise.
 
 == Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+`ptr` is `nullptr`, while `length` is not zero.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Buffer of the writer cannot grow.

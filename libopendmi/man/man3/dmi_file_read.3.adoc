@@ -53,9 +53,14 @@ Number of bytes to read.
 Returns the total number of bytes read (may be less than `size` at EOF), or
 `-1` on error with `errno` set accordingly.
 
+A missing argument is not an error of the system: `-1` is returned, and
+`errno` is left as it was.
+
 == Errors
 
-None.
+`DMI_ERROR_ARGUMENT_NULL`::
+`data` is `nullptr`. The error reaches no error queue, since the function
+takes no context to hold it.
 
 == See also
 

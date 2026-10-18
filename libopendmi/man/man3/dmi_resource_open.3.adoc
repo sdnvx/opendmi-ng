@@ -53,7 +53,9 @@ dmi_resource_t *resource = dmi_resource_open("opendmi", opendmi_dat);
 The package is opened with the locale set by `dmi_set_locale`(3), and is
 reopened with the new one whenever the locale is changed. Locales with no
 bundle of their own fall back to a less specific locale, and to the `root`
-bundle at last.
+bundle at last, but never to the bundle of the locale of the environment. A
+package with no `root` bundle is opened only with the locales it has bundles
+for.
 
 The package stays open until it is closed by `dmi_resource_close`(3). Strings
 are looked up in it by `dmi_resource_string`(3), and messages are formatted by

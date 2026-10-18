@@ -557,10 +557,14 @@ bool dmi_entity_add_overlay(dmi_entity_t *entity, const dmi_entity_t *source, si
 
     if (source == nullptr)
         return dmi_trace_argument_null(context, source);
+    if (dmi_entity_spec_type(source) != DMI_TYPE(additional_info))
+        return dmi_trace_argument_invalid(context, source);
 
     const dmi_additional_info_t *info = dmi_entity_info(source, DMI_TYPE(additional_info));
-    if ((info == nullptr) or (index >= info->entry_count))
+    if (info == nullptr)
         return dmi_trace_argument_invalid(context, source);
+    if (index >= info->entry_count)
+        return dmi_trace_argument_invalid(context, index);
 
     const dmi_additional_info_entry_t *entry = &info->entries[index];
 

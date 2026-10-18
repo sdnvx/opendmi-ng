@@ -20,7 +20,10 @@
 # because `pkgdata` appends "_dat" to the entry point name. Bundles are
 # packaged flat, since ICU looks up `<locale>.res` in the root of the package.
 # Locales with no bundle of their own fall back to `root.res`, so the source
-# directory is expected to have `root.txt` with the default translations.
+# directory is expected to have `root.txt` with the default translations. A
+# package without it is opened only with the locales it has bundles for, which
+# suits the one whose default strings are in the code, as those of the library
+# are.
 #
 # Nothing is done if ICU is not found, and <output variable> is left unset.
 #

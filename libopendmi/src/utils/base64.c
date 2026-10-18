@@ -17,18 +17,18 @@ static const char dmi_base64_encode_table[64] = {
     'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
 };
 
-static const dmi_data_t dmi_base64_decode_table[256] = {
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  62, 63, 62, 62, 63,
-    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 0,  0,  0,  0,  0,  0,
-    0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14,
-    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 0,  0,  0,  0,  63,
-    0,  26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
-};
-
 static const int dmi_base64_mod_table[] = {0, 2, 1};
+
+/**
+ * @internal
+ * @brief Get the six bits a character of the alphabet stands for.
+ *
+ * @param[in] c Character of the text.
+ *
+ * @return Value of the character, or a negative value if it is not of the
+ *         alphabet.
+ */
+static int dmi_base64_sextet(char c);
 
 char *dmi_base64_encode(
         const dmi_data_t *data,
@@ -86,41 +86,58 @@ dmi_data_t *dmi_base64_decode(
     if ((data_length == 0) or (data_length % 4 != 0))
         return dmi_trace_argument_invalid(nullptr, data_length, nullptr);
 
-    output_length = data_length / 4 * 3;
+    // Padding stands for the bytes the last group is short of, so it is found
+    // at the end of the text alone
+    size_t padding = 0;
 
     if (data[data_length - 1] == '=')
-        output_length--;
-    if (data[data_length - 2] == '=')
-        output_length--;
+        padding++;
+    if ((padding > 0) and (data[data_length - 2] == '='))
+        padding++;
 
-    output_data = dmi_alloc(nullptr, output_length);
+    output_length = data_length / 4 * 3 - padding;
+    output_data   = dmi_alloc(nullptr, output_length);
+
     if (output_data == nullptr)
         return nullptr;
 
-    for (size_t i = 0, j = 0; i < data_length;) {
-        dmi_data_t *raw_data = dmi_cast(raw_data, data);
+    for (size_t i = 0, j = 0; i < data_length; i += 4) {
+        uint32_t triple = 0;
 
-        uint32_t sextet_a = (raw_data[i] == '=') ? 0 & i++ : dmi_base64_decode_table[raw_data[i++]];
-        uint32_t sextet_b = (raw_data[i] == '=') ? 0 & i++ : dmi_base64_decode_table[raw_data[i++]];
-        uint32_t sextet_c = (raw_data[i] == '=') ? 0 & i++ : dmi_base64_decode_table[raw_data[i++]];
-        uint32_t sextet_d = (raw_data[i] == '=') ? 0 & i++ : dmi_base64_decode_table[raw_data[i++]];
+        for (size_t k = 0; k < 4; k++) {
+            // Characters the padding takes the place of carry no bits
+            int sextet = (i + k < data_length - padding) ? dmi_base64_sextet(data[i + k]) : 0;
 
-        uint32_t triple =
-            (sextet_a << 3 * 6) +
-            (sextet_b << 2 * 6) +
-            (sextet_c << 1 * 6) +
-            (sextet_d << 0 * 6);
+            if (sextet < 0) {
+                dmi_free(output_data);
+                return dmi_trace_argument_invalid(nullptr, data, nullptr);
+            }
 
-        if (j < output_length)
-            output_data[j++] = (triple >> 2 * 8) & 0xFF;
-        if (j < output_length)
-            output_data[j++] = (triple >> 1 * 8) & 0xFF;
-        if (j < output_length)
-            output_data[j++] = (triple >> 0 * 8) & 0xFF;
+            triple = (triple << 6) | (uint32_t)sextet;
+        }
+
+        for (int shift = 2 * 8; (shift >= 0) and (j < output_length); shift -= 8)
+            output_data[j++] = (dmi_data_t)((triple >> shift) & 0xFF);
     }
 
     if (poutput_length != nullptr)
         *poutput_length = output_length;
 
     return output_data;
+}
+
+static int dmi_base64_sextet(char c)
+{
+    if ((c >= 'A') and (c <= 'Z'))
+        return c - 'A';
+    if ((c >= 'a') and (c <= 'z'))
+        return c - 'a' + 26;
+    if ((c >= '0') and (c <= '9'))
+        return c - '0' + 52;
+    if (c == '+')
+        return 62;
+    if (c == '/')
+        return 63;
+
+    return -1;
 }

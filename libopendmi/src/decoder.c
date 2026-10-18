@@ -62,7 +62,7 @@ bool dmi_decoder_get_string(dmi_decoder_t *decoder, const char **value)
     if (decoder == nullptr)
         return dmi_trace_argument_null(nullptr, decoder);
     if (value == nullptr)
-        return dmi_trace_argument_null(nullptr, value);
+        return dmi_trace_argument_null(dmi_entity_context(decoder->entity), value);
 
     dmi_string_t number = 0;
 
@@ -101,7 +101,7 @@ bool dmi_decoder_get_binary(dmi_decoder_t *decoder, size_t length, dmi_binary_t 
     if (decoder == nullptr)
         return dmi_trace_argument_null(nullptr, decoder);
     if (value == nullptr)
-        return dmi_trace_argument_null(nullptr, value);
+        return dmi_trace_argument_null(dmi_entity_context(decoder->entity), value);
 
     // Binary data refers to the bytes of the structure in place
     if (not dmi_reader_ref_bytes(&decoder->reader, length, &value->data))

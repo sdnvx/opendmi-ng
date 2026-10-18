@@ -189,6 +189,10 @@ bool dmi_string_set_bytes(dmi_context_t *context, char **pstring, const uint8_t 
 {
     char buffer[DMI_STRING_BYTES_MAX + 1];
 
+    if (pstring == nullptr)
+        return dmi_trace_argument_null(context, pstring);
+    if ((data == nullptr) and (length != 0))
+        return dmi_trace_argument_null(context, data);
     if (length > DMI_STRING_BYTES_MAX)
         return dmi_trace_argument_invalid(context, length);
 
@@ -203,6 +207,8 @@ const char *dmi_string_from_bytes(const uint8_t *data, size_t length, char *buff
 
     if (data == nullptr)
         return dmi_trace_argument_null(nullptr, data, nullptr);
+    if (buffer == nullptr)
+        return dmi_trace_argument_null(nullptr, buffer, nullptr);
 
     for (size_t i = 0; i < length; i++) {
         unsigned char c = data[i];

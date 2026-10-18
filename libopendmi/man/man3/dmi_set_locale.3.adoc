@@ -40,7 +40,9 @@ with the new locale, and the ones opened after it use it as well.
 
 A locale with no translation of its own is not a failure: ICU4C falls back
 to a less specific locale, e.g. `ru` for `ru_RU`, and strings with no
-translation at all are left in English.
+translation at all are left in English. The locale of the environment is not
+fallen back to, so that the strings are never of a locale which has not been
+asked for.
 
 The name is copied, so the variable `locale` points to need not outlive the
 call.
@@ -79,6 +81,11 @@ if the library is built without ICU4C support.
 
 A package which cannot be reopened gives no translated strings until the
 locale is set again.
+
+The resources of the library itself are the exception: the library has
+translations for some locales only and leaves its strings in English for the
+others, so their absence is not a failure. They are opened by the first
+lookup, and are looked for again once the locale has changed.
 
 == Errors
 

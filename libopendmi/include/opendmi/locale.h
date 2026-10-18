@@ -106,7 +106,8 @@ __dmi_api const char *dmi_get_locale(void);
  * Packages are registered by the code which embeds them, so the name is the
  * one passed to `pkgdata --name` at build time, e.g. `libopendmi` for the
  * resources of the library itself. Strings of locales with no bundle of their
- * own are taken from the `root` bundle of the package.
+ * own are taken from the `root` bundle of the package, and a package which
+ * has none is opened only with the locales it has bundles for.
  *
  * @param[in] package Package name.
  * @param[in] data    Package data, embedded into the program as the

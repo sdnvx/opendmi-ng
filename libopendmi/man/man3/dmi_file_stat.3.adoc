@@ -46,9 +46,14 @@ POSIX systems this is a typedef for `struct stat`; on Windows it is
 
 Returns `0` on success, or `-1` on error with `errno` set accordingly.
 
+A missing argument is not an error of the system: `-1` is returned, and
+`errno` is left as it was.
+
 == Errors
 
-None.
+`DMI_ERROR_ARGUMENT_NULL`::
+`st` is `nullptr`. The error reaches no error queue, since the function
+takes no context to hold it.
 
 == See also
 

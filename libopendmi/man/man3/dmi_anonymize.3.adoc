@@ -91,7 +91,8 @@ Open context, whose structures are decoded.
 
 `table`::
 Buffer to write the copy into. The data it holds is replaced, and dropped if
-the copy cannot be made.
+the copy fails to be made. A call refused for its arguments or for the state
+of the context leaves the buffer as it is.
 
 == Return value
 

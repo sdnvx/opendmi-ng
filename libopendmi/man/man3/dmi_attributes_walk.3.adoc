@@ -154,11 +154,17 @@ Context passed to the callbacks as it is.
 
 == Return value
 
-Returns `false` if a callback has stopped the walk, and `true` otherwise.
+Returns `false` if a callback has stopped the walk or on error, and `true`
+otherwise.
 
 == Errors
 
-None: errors are left to the callbacks.
+`DMI_ERROR_ARGUMENT_NULL`::
+Raised if `visitor` is `nullptr`, and by `dmi_attribute_walk` if `attr` or
+`info` is. It is not reported, since the functions take no context of the
+library to hold it.
+
+Errors of the walk itself are left to the callbacks.
 
 == Example
 

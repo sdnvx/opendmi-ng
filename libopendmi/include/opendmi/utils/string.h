@@ -107,10 +107,11 @@ __dmi_api bool dmi_string_set(dmi_context_t *context, char **pstring, const char
  *                    the text is copied into and terminated.
  * @param[in]  trim   Whether the spaces are left out.
  *
- * @error DMI_ERROR_ARGUMENT_NULL Bytes are `nullptr`
+ * @error DMI_ERROR_ARGUMENT_NULL Bytes or buffer is `nullptr`
  *
  * @return Text in the buffer, or `nullptr` if the bytes are not all printable
- *         or leave nothing but spaces.
+ *         or spell no text: there are none of them, or the spaces left out
+ *         are all of them.
  */
 __dmi_api const char *dmi_string_from_bytes(const uint8_t *data, size_t length, char *buffer, bool trim);
 
@@ -131,12 +132,13 @@ __dmi_api const char *dmi_string_from_bytes(const uint8_t *data, size_t length, 
  * @param[in]     length  Number of the bytes, at most `DMI_STRING_BYTES_MAX`.
  * @param[in]     trim    Whether the spaces are left out.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Variable is `nullptr`, or bytes are, while the
+ *        length is not zero
  * @error DMI_ERROR_ARGUMENT_INVALID Bytes are longer than `DMI_STRING_BYTES_MAX`
  * @error DMI_ERROR_OUT_OF_MEMORY Memory is exhausted
  *
  * @return `true` on success, the string being set to @c nullptr if the bytes
- *         are not all printable or leave nothing but spaces, and `false`
- *         otherwise.
+ *         are not all printable or spell no text, and `false` otherwise.
  */
 __dmi_api bool dmi_string_set_bytes(dmi_context_t *context, char **pstring, const uint8_t *data, size_t length, bool trim);
 

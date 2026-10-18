@@ -75,6 +75,9 @@ static void test_writer_seek_bounded(void **pstate);
 static void test_writer_tell(void **pstate);
 static void test_writer_reset(void **pstate);
 
+static void test_writer_overflow(void **pstate);
+static void test_writer_arguments(void **pstate);
+
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
 int main(void)
@@ -112,7 +115,10 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_writer_seek_bounded, test_writer_setup, test_writer_teardown),
 
         cmocka_unit_test_setup_teardown(test_writer_tell, test_writer_setup, test_writer_teardown),
-        cmocka_unit_test_setup_teardown(test_writer_reset, test_writer_setup, test_writer_teardown)
+        cmocka_unit_test_setup_teardown(test_writer_reset, test_writer_setup, test_writer_teardown),
+
+        cmocka_unit_test_setup_teardown(test_writer_overflow, test_writer_setup, test_writer_teardown),
+        cmocka_unit_test_setup_teardown(test_writer_arguments, test_writer_setup, test_writer_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -624,4 +630,62 @@ static void test_writer_reset(void **pstate)
     assert_memory_equal(state->buffer->data + sizeof(value),
                         test_data + sizeof(value),
                         TEST_DATA_LENGTH - sizeof(value));
+}
+
+//
+// Range of no length of its own is still bound by what a size holds, so the
+// bytes which end past it are refused rather than written wherever the sum of
+// the base, the offset and the length wraps around to.
+//
+static void test_writer_overflow(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    static const dmi_byte_t value[] = { 0xAA, 0xBB };
+
+    dmi_writer_t *writer = test_writer_open(state, 2, TEST_RANGE_FREE);
+
+    assert_true(dmi_writer_skip(writer, 4));
+
+    // Bytes which end past what a size holds, wherever the range begins
+    assert_false(dmi_writer_skip(writer, SIZE_MAX));
+    assert_false(dmi_writer_put_bytes_at(writer, value, SIZE_MAX, sizeof(value)));
+
+    // Base of the range counts as well, so the bytes which end right at what
+    // a size holds within the range end past it within the buffer
+    assert_false(dmi_writer_skip(writer, SIZE_MAX - 4));
+    assert_false(dmi_writer_put_bytes_at(writer, value, SIZE_MAX - sizeof(value), sizeof(value)));
+
+    // Refused bytes move nothing and keep the data as it was
+    assert_uint_equal(dmi_writer_tell(writer), 4);
+    assert_uint_equal(state->buffer->length, TEST_DATA_LENGTH);
+    assert_memory_equal(state->buffer->data, test_data, TEST_DATA_LENGTH);
+
+    // Record is as long as it is told to be from where it begins, so the one
+    // which ends past what a size holds is refused wherever the cursor is,
+    // rather than taken for the one ending where the sum wraps around to
+    dmi_writer_mark_t mark = dmi_writer_mark(writer);
+
+    assert_true(dmi_writer_seek(writer, 2));
+    assert_false(dmi_writer_skip_ex(writer, mark, SIZE_MAX));
+    assert_uint_equal(dmi_writer_tell(writer), 2);
+}
+
+static void test_writer_arguments(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    const dmi_writer_t *writer = test_writer_open(state, 0, TEST_RANGE_FREE);
+
+    // Mark of a writer which is there, so that the writer alone is missing
+    dmi_writer_mark_t mark = dmi_writer_mark(writer);
+
+    assert_false(dmi_writer_seek(nullptr, 0));
+    assert_false(dmi_writer_rewind(nullptr, mark));
+    assert_false(dmi_writer_put_bytes(nullptr, test_data, TEST_DATA_LENGTH));
+    assert_false(dmi_writer_put_bytes_at(nullptr, test_data, 0, TEST_DATA_LENGTH));
+    assert_false(dmi_writer_skip(nullptr, 1));
+    assert_false(dmi_writer_skip_ex(nullptr, mark, 1));
+
+    dmi_writer_reset(nullptr);
 }

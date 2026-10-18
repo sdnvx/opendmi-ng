@@ -616,8 +616,7 @@ bool dmi_anonymize(dmi_context_t *context, dmi_buffer_t *table)
 static bool dmi_anonymize_check(dmi_context_t *context, const dmi_buffer_t *table)
 {
     if (context == nullptr)
-        return false;
-
+        return dmi_trace_argument_null(nullptr, context);
     if (table == nullptr)
         return dmi_trace_argument_null(context, table);
     if (not dmi_is_open(context))

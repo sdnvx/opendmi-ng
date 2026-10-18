@@ -25,6 +25,7 @@ static void test_entry_decode_v21(void **pstate);
 static void test_entry_decode_v21_short(void **pstate);
 static void test_entry_decode_v30(void **pstate);
 static void test_entry_decode_v30_length(void **pstate);
+static void test_entry_arguments(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -36,7 +37,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_entry_decode_v21, test_entry_setup, test_entry_teardown),
         cmocka_unit_test_setup_teardown(test_entry_decode_v21_short, test_entry_setup, test_entry_teardown),
         cmocka_unit_test_setup_teardown(test_entry_decode_v30, test_entry_setup, test_entry_teardown),
-        cmocka_unit_test_setup_teardown(test_entry_decode_v30_length, test_entry_setup, test_entry_teardown)
+        cmocka_unit_test_setup_teardown(test_entry_decode_v30_length, test_entry_setup, test_entry_teardown),
+        cmocka_unit_test_setup_teardown(test_entry_arguments, test_entry_setup, test_entry_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -269,4 +271,28 @@ static void test_entry_decode_v30_length(void **pstate)
     data[0x06] = 0x17;
     set_checksum(data, 0x05, sizeof(data));
     assert_false(dmi_entry_decode(context, data, sizeof(data)));
+}
+
+static void test_entry_arguments(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+    uint8_t data[0x0F];
+
+    fill_legacy_entry(data, 0x21);
+
+    // Entry point is decoded into a context
+    assert_false(dmi_entry_decode(nullptr, data, sizeof(data)));
+
+    // ...from data, which cannot be missing or empty
+    dmi_error_clear(context);
+    assert_false(dmi_entry_decode(context, nullptr, sizeof(data)));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(context);
+    assert_false(dmi_entry_decode(context, data, 0));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+
+    // Context is left without an entry point
+    assert_null(context->state.entry_spec);
+    assert_int_equal(context->state.entry_length, 0);
 }

@@ -14,6 +14,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/attribute.h>
+#include <opendmi/error.h>
 #include <opendmi/internal.h>
 #include <opendmi/utils/uuid.h>
 #include <opendmi/utils/version.h>
@@ -41,6 +42,7 @@ static void test_attribute_get_count(void **pstate);
 static void test_attribute_resolve(void **pstate);
 static void test_attribute_walk(void **pstate);
 static void test_attribute_walk_skip(void **pstate);
+static void test_attribute_arguments(void **pstate);
 static int free_attribute_value(void **pstate);
 
 static dmi_context_t *context = nullptr;
@@ -67,7 +69,8 @@ int main(void)
         cmocka_unit_test(test_attribute_get_count),
         cmocka_unit_test(test_attribute_resolve),
         cmocka_unit_test(test_attribute_walk),
-        cmocka_unit_test(test_attribute_walk_skip)
+        cmocka_unit_test(test_attribute_walk_skip),
+        cmocka_unit_test(test_attribute_arguments)
     };
 
     return cmocka_run_group_tests(tests, test_attribute_setup, test_attribute_teardown);
@@ -1017,4 +1020,73 @@ static void test_attribute_walk_skip(void **pstate)
     };
 
     assert_false(dmi_attributes_walk(test_walk_attrs, (dmi_data_t *)&info, &visitor, nullptr));
+}
+
+static void test_attribute_arguments(void **pstate)
+{
+    dmi_unused(pstate);
+
+    uint8_t bytes[] = { 5 };
+
+    test_walk_t info = {
+        .plain      = 1,
+        .byte_count = countof(bytes),
+        .bytes      = bytes
+    };
+
+    // Value of the member stands for "unknown" and "unspecified" alike, so
+    // that the answer to a missing argument is not the one the value gives
+    const dmi_attribute_t attr = DMI_ATTRIBUTE(test_walk_t, plain, INTEGER, {
+        .code    = "plain",
+        .name    = "Plain",
+        .unspec  = dmi_value_ptr((uint8_t)1),
+        .unknown = dmi_value_ptr((uint8_t)1)
+    });
+    const dmi_attribute_t *array = &test_walk_attrs[3];
+
+    assert_false(dmi_attribute_is_unspecified(nullptr, &info.plain));
+    assert_false(dmi_attribute_is_unspecified(&attr, nullptr));
+    assert_false(dmi_attribute_is_unknown(nullptr, &info.plain));
+    assert_false(dmi_attribute_is_unknown(&attr, nullptr));
+
+    // Flag is read without its attribute, which a number takes its width from
+    assert_false(dmi_attribute_get_bool(&attr, nullptr));
+    assert_int_equal(dmi_attribute_get_int(nullptr, &info.plain), 0);
+    assert_int_equal(dmi_attribute_get_int(&attr, nullptr), 0);
+    assert_int_equal(dmi_attribute_get_uint(nullptr, &info.plain), 0);
+    assert_int_equal(dmi_attribute_get_uint(&attr, nullptr), 0);
+
+    assert_false(dmi_attribute_is_array(nullptr));
+    assert_int_equal(dmi_attribute_get_count(nullptr, &info), 0);
+    assert_int_equal(dmi_attribute_get_count(array, nullptr), 0);
+    assert_null(dmi_attribute_get_elements(nullptr, &info.bytes));
+    assert_null(dmi_attribute_get_elements(array, nullptr));
+
+    assert_null(dmi_attribute_name(nullptr, "test"));
+    assert_null(dmi_attribute_resolve(nullptr, &info));
+    assert_null(dmi_attribute_resolve(&attr, nullptr));
+
+    // Formatting alone is given a context, which the arguments missing after
+    // it are reported on
+    assert_null(dmi_attribute_format(nullptr, &attr, &info.plain, true));
+
+    dmi_error_clear(context);
+    assert_null(dmi_attribute_format(context, nullptr, &info.plain, true));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(context);
+    assert_null(dmi_attribute_format(context, &attr, nullptr, true));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // Walk which cannot begin calls none of its callbacks
+    test_walk_log_t log = {};
+
+    assert_false(dmi_attributes_walk(test_walk_attrs, (dmi_data_t *)&info, nullptr, &log));
+    assert_false(dmi_attribute_walk(nullptr, (dmi_data_t *)&info, &test_walk_visitor, &log));
+    assert_false(dmi_attribute_walk(&attr, nullptr, &test_walk_visitor, &log));
+    assert_false(dmi_attribute_walk(&attr, (dmi_data_t *)&info, nullptr, &log));
+    assert_string_equal(log.text, "");
+
+    // Structure whose references are linked is required
+    assert_false(dmi_attributes_link(nullptr));
 }

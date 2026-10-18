@@ -316,8 +316,12 @@ function(opendmi_test TEST_NAME)
     target_link_libraries(${TEST_TARGET} ${TEST_LIBRARY} cmocka-static)
 
     # Tests of internal functions include the internal headers, which lie next
-    # to the sources, and link the static library, which does not hide them
-    target_include_directories(${TEST_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    # to the sources, and the generated configuration header, and link the
+    # static library, which does not hide them
+    target_include_directories(${TEST_TARGET} PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
 
     if(ENABLE_COVERAGE)
         target_compile_options(${TEST_TARGET} PUBLIC ${COVERAGE_OPTIONS})
@@ -348,12 +352,13 @@ opendmi_test(anonymize SOURCES test/anonymize.c)
 opendmi_test(context SOURCES test/context.c)
 opendmi_test(entity SOURCES test/entity.c)
 opendmi_test(entry SOURCES test/entry.c LIBRARY opendmi-static)
+opendmi_test(filter SOURCES test/filter.c)
 opendmi_test(module SOURCES test/module.c)
 opendmi_test(module/static SOURCES test/module.c LIBRARY opendmi-static)
 opendmi_test(platform SOURCES test/platform.c)
 opendmi_test(registry SOURCES test/registry.c LIBRARY opendmi-static)
 opendmi_test(dump SOURCES test/dump.c)
-opendmi_test(locale SOURCES test/locale.c)
+opendmi_test(locale SOURCES test/locale.c LIBRARY opendmi-static)
 opendmi_test(lint SOURCES test/lint.c)
 opendmi_test(buffer SOURCES test/buffer.c)
 opendmi_test(reader SOURCES test/reader.c)
@@ -368,6 +373,7 @@ list(SORT OPENDMI_TEST_DUMPS)
 
 opendmi_test(encoder SOURCES test/encoder.c ARGS ${OPENDMI_TEST_DUMPS})
 
+opendmi_test(utils/base64 SOURCES test/utils/base64.c)
 opendmi_test(utils/endian SOURCES test/utils/endian.c)
 opendmi_test(utils/codec SOURCES test/utils/codec.c)
 opendmi_test(utils/string SOURCES test/utils/string.c)
@@ -382,7 +388,7 @@ opendmi_test(utils/uuid-cxx SOURCES test/utils/uuid.cc)
 opendmi_test(utils/misc SOURCES test/utils/misc.c)
 opendmi_test(utils/file SOURCES test/utils/file.c)
 
-opendmi_test(entity/common SOURCES test/entity/common.c)
+opendmi_test(entity/common SOURCES test/entity/common.c LIBRARY opendmi-static)
 opendmi_test(entity/baseboard SOURCES test/entity/baseboard.c)
 opendmi_test(entity/chassis SOURCES test/entity/chassis.c)
 opendmi_test(entity/memory-controller SOURCES test/entity/memory-controller.c)

@@ -15,11 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `dmi_attributes_walk()`, `dmi_attribute_walk()`, `dmi_fields_decode_into()`, `dmi_fields_encode_from()`, `dmi_fields_release()`, `dmi_attributes_unlink()`, `dmi_entity_is_*()`, `dmi_is_open()`, `dmi_string_set_bytes()`, `dmi_string_from_bytes()`, `DMI_NAME_FUNCTION()` and `DMI_ATTRIBUTE_FLAG_OWNED`
 - Field parameters `from` and `before` for the bits a version of the specification defines, and `present` of field groups
 - Manual pages of the rest of the public API, and links to them on the website and in the reference
+- Tests of the argument checks of the library, of filters and of Base64 encoding
 
 ### Changed
 
 - Rename error codes after one scheme, `DMI_ERROR_<SUBJECT>[_<DETAIL>]_<CONDITION>`, e.g. `DMI_ERROR_ARGUMENT_NULL` and `DMI_ERROR_FILE_OPEN_FAILED`, remove the unused ones and renumber them
 - Report errors through the error codes everywhere: check the pointer arguments of the API at run time rather than with assertions or silently, and report the errors of vectors, checksums and version formatting rather than in `errno`; `dmi_vector_initialize()` takes a context, and `dmi_checksum_calc()` returns the checksum through a pointer
+- Raise the errors of missing arguments against the context at hand, e.g. the one of a filter, a registry, a check in progress, a decoder, an encoder or the buffer of a reader, rather than nowhere, and take what stands for no value silently: a `nullptr` resource in `dmi_resource_string()`, a `nullptr` name in `dmi_vendor_detect()` and a `nullptr` destination of no bytes in the functions of readers
 - Unify the names of the API:
   - `dmi_vector_init()` and `dmi_registry_iter_init()` to `*_initialize()`, and `dmi_locale_init()` to `dmi_locale_setup()`
   - `enum dmi_context_status` to `enum dmi_registry_status`, the Acer and Dell `*_t` of entries to `*_entry_t`, and `severity` of lint rules to `reader_severity`
@@ -38,14 +40,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default `list` to raw output when stdout is not a terminal, drop the banner of `modules -r` and `types -r`, and quote YAML values and keys a YAML 1.1 parser would misread
 - Build without `-Werror` and AddressSanitizer unless `ENABLE_WERROR` and `ENABLE_ASAN` are set, as `build.sh` and CI do, take optimization from the flags of the build type, `-O2` for release builds, drop the warnings suppressed for Clang, and run the tests of the release and debug builds on Linux in CI under AddressSanitizer and LeakSanitizer, which the project itself enables in debug builds only
 - Keep internal headers next to their sources, take the sources by directories in CMake, make `regress.py` and `reindex-data.py` report failures in their exit status, and resolve `build.sh -b` relative to the current directory
-- Document lifetime of error descriptors and of strings returned before `dmi_set_locale()`
+- Document lifetime of error descriptors and of strings returned before `dmi_set_locale()`, and the errors the manual pages of streams, fields, attribute walks, lint checks and file wrappers left out
 
 ### Fixed
 
 - Fix SMBIOS 2.1 entry points of 30 bytes and IPMI device information of 16 bytes rejected, additional information counting entries which failed to decode and failing without entries, chassis contained elements shorter than three bytes lost, and BCD values truncated when encoding
-- Fix crashes and out-of-bounds accesses on a failed registry insertion, boolean attributes without a name for the value, `dmi_code_lookup_rev()` with no code, variant attributes without variants, `dmi_field_get()` with no member, modules without a code, an empty list of types in `dmi_registry_resolve_any()`, and fields wider than 8 bytes
-- Fix missing or wrong errors: filters not reporting exhausted memory, `dmi_registry_create()` and `dmi_filter_add_module()` not checking their arguments, `dmi_asprintf()` leaving the result undefined, `dmi_alloc_array()` not detecting overflow, `dmi_date_parse()` accepting empty parts and `dmi_vendor_detect()` not ignoring surrounding whitespace
-- Fix `dmi_set_locale()` keeping the caller's pointer, and `dmi_type_name()` naming type numbers out of range OEM-specific
+- Fix crashes and out-of-bounds accesses on a failed registry insertion, boolean attributes without a name for the value, `dmi_code_lookup_rev()` with no code, variant attributes without variants, `dmi_field_get()` with no member, modules without a code, an empty list of types in `dmi_registry_resolve_any()`, fields wider than 8 bytes, `dmi_lint_issue()` without a format, `dmi_string_from_bytes()` without a buffer, and `dmi_buffer_at()` on a buffer which has never held data
+- Fix sizes which overflow: `dmi_buffer_resize()` hanging on a length close to `SIZE_MAX`, and `dmi_buffer_write()`, `dmi_writer_skip_ex()` and the writers of ranges without a length writing wherever the sum of the offset and the length wraps around to
+- Fix missing or wrong errors: filters not reporting exhausted memory, `dmi_registry_create()` and `dmi_filter_add_module()` not checking their arguments, `dmi_asprintf()` leaving the result undefined, `dmi_alloc_array()` not detecting overflow, `dmi_date_parse()` accepting empty parts, `dmi_vendor_detect()` not ignoring surrounding whitespace, `dmi_base64_decode()` accepting characters which are not of the alphabet and padding anywhere but at the end, `dmi_string_set_bytes()` taking missing bytes for no text, and `dmi_encoder_finish()` aborting once the writer has been moved back over the header
+- Fix `dmi_set_locale()` keeping the caller's pointer, failing where the library has no translations for the new locale and not looking for them again where it has, the strings of the locale of the environment used for a locale without translations, and `dmi_type_name()` naming type numbers out of range OEM-specific
 - Fix memory leaks and invalid frees on error paths, and undefined behaviour and overflows in printing sizes and the module list, case conversion, copying device memory on AArch64 and mapping files
 - Fix output failures, e.g. `export -o /dev/full`, exiting without an error message, out-of-memory errors reported twice, the pager mishandling early quits, signals and its command line, the log file left locked, dumps to devices and pipes refused, and XML write failures reported as internal errors on NetBSD
 - Fix the stack frame of `dmi_lint()` too large for the kernel module, and number overflow not detected in it (opendmi-sysfs)

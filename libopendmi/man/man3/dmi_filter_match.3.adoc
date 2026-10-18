@@ -72,8 +72,8 @@ or if `filter` is `nullptr`, and `false` otherwise.
 == Errors
 
 `DMI_ERROR_ARGUMENT_NULL`::
-Raised by `dmi_filter_match` if `entity` is `nullptr`, in which case it is
-not reported, since there is no context to hold it.
+Raised by `dmi_filter_match` against the context of the filter if `entity` is
+`nullptr`.
 
 Both functions take a `filter` of `nullptr` silently.
 

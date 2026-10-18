@@ -294,11 +294,10 @@ typedef struct dmi_lint_totals
 } dmi_lint_totals_t;
 
 /**
- * @brief List of the rules a specification declares, terminated for the code
- * which walks it.
+ * @brief List of the rules a specification declares.
  *
- * The terminator is added by the macro, so that a list which has lost it
- * cannot be written in the first place.
+ * The list is terminated with `{}` for the code which walks it, which is
+ * written as its last element.
  */
 #define DMI_LINT_RULES(...) (const dmi_lint_rule_t[])__VA_ARGS__
 
@@ -347,6 +346,8 @@ __dmi_api bool dmi_lint(
  *                      `DMI_LINT_NO_OFFSET` if it has no offset of its own.
  * @param[in] format    `printf`-style format string of the details.
  * @param[in] ...       Format arguments.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Check in progress or format string is `nullptr`
  */
 __dmi_api void dmi_lint_issue(
         dmi_lint_t         *lint,
@@ -380,6 +381,8 @@ __dmi_api dmi_version_t dmi_lint_version(const dmi_lint_t *lint);
  *
  * @param[in] lint   Check in progress.
  * @param[in] entity Structure in question.
+ *
+ * @error DMI_ERROR_ARGUMENT_NULL Check in progress or structure is `nullptr`
  *
  * @return Offset of the structure, or `DMI_LINT_NO_OFFSET` if it cannot be
  *         told.

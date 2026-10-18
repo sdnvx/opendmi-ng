@@ -105,7 +105,7 @@ or if `types` lists no type.
 The errors are raised against the context of the registry.
 
 `DMI_ERROR_ARGUMENT_NULL`::
-Raised if `registry` or `pentity` is `nullptr`, in which case it is not
+Raised if `registry` or `pentity` is `nullptr`. Without a registry it is not
 reported, since there is no context to hold it.
 
 `DMI_ERROR_ARGUMENT_INVALID`::

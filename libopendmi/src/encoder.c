@@ -6,7 +6,6 @@
 //
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include <opendmi/context.h>
 #include <opendmi/encoder.h>
@@ -276,12 +275,16 @@ bool dmi_encoder_finish(dmi_encoder_t *encoder)
     if (encoder == nullptr)
         return dmi_trace_argument_null(nullptr, encoder);
 
-    size_t length = dmi_encoder_tell(encoder);
+    dmi_context_t *context = dmi_entity_context(encoder->entity);
+    size_t         length  = dmi_encoder_tell(encoder);
 
-    assert(length >= sizeof(dmi_header_t));
+    // Formatted area begins with the header, so the writer which has been
+    // moved back over it leaves no structure to finish
+    if (length < sizeof(dmi_header_t))
+        return dmi_trace_state_invalid(context, "Writer has been moved back over the header");
 
     if (length > UINT8_MAX) {
-        dmi_error_raise_ex(dmi_entity_context(encoder->entity), DMI_ERROR_ENTITY_LENGTH_INVALID,
+        dmi_error_raise_ex(context, DMI_ERROR_ENTITY_LENGTH_INVALID,
                            "0x%04x: formatted area of %zu bytes", encoder->entity->handle, length);
         return false;
     }

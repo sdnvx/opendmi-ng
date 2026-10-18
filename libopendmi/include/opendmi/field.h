@@ -748,6 +748,8 @@ __BEGIN_DECLS
  *                        `dmi_decoder_initialize()`.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Decoder is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID A field declares a number wider than the
+ *        widest one the engine reads and writes
  * @error DMI_ERROR_STATE_INVALID Specification declares no fields
  * @error DMI_ERROR_INTERNAL Fields reach another offset than the one declared
  * @error DMI_ERROR_OUT_OF_MEMORY Elements of an array cannot be allocated
@@ -771,6 +773,8 @@ __dmi_api bool dmi_fields_decode(dmi_decoder_t *decoder);
  *                        `dmi_encoder_initialize()`.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Encoder is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID A field declares a number wider than the
+ *        widest one the engine reads and writes
  * @error DMI_ERROR_STATE_INVALID Structure is not decoded, its specification
  *        declares no fields, or a field it cannot write back, e.g. a
  *        conversion without the one undoing it
@@ -803,6 +807,8 @@ __dmi_api bool dmi_fields_encode(dmi_encoder_t *encoder);
  *                        the fields name.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Decoder, fields or structure is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID A field declares a number wider than the
+ *        widest one the engine reads and writes
  * @error DMI_ERROR_OUT_OF_MEMORY Elements of an array cannot be allocated
  *
  * @return `true` if the part has been decoded, `false` if the structure holds
@@ -833,6 +839,8 @@ __dmi_api bool dmi_fields_decode_into(dmi_decoder_t *decoder, const dmi_field_t 
  * @param[in]     info    Structure the fields are written from.
  *
  * @error DMI_ERROR_ARGUMENT_NULL Encoder, fields or structure is `nullptr`
+ * @error DMI_ERROR_ARGUMENT_INVALID A field declares a number wider than the
+ *        widest one the engine reads and writes
  * @error DMI_ERROR_STATE_INVALID A field cannot be written, or the fields are
  *        longer than the part
  * @error DMI_ERROR_OUT_OF_MEMORY Buffers of the encoder cannot grow

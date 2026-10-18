@@ -40,7 +40,11 @@ __BEGIN_DECLS
  * @param[in]  fd  Open file descriptor to query.
  * @param[out] st  Pointer to a structure that receives the file status.
  *
- * @return `0` on success, or `-1` on error with `errno` set accordingly.
+ * @error DMI_ERROR_ARGUMENT_NULL Structure is `nullptr`
+ *
+ * @return `0` on success, or `-1` on error with `errno` set accordingly. A
+ *         missing argument is not an error of the system, and leaves `errno`
+ *         as it was.
  */
 __dmi_api int dmi_file_stat(int fd, dmi_file_stat_t *st);
 
@@ -116,8 +120,11 @@ __dmi_api bool dmi_file_unlock(int fd, off_t size);
  *                     current position.
  * @param[in]  size    Number of bytes to read.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Buffer is `nullptr`
+ *
  * @return The total number of bytes read (may be less than @p size at EOF),
- *         or `-1` on error with `errno` set accordingly.
+ *         or `-1` on error with `errno` set accordingly. A missing argument
+ *         is not an error of the system, and leaves `errno` as it was.
  */
 __dmi_api ssize_t dmi_file_read(int fd, dmi_data_t *data, off_t offset, size_t size);
 
@@ -134,9 +141,12 @@ __dmi_api ssize_t dmi_file_read(int fd, dmi_data_t *data, off_t offset, size_t s
  *                  @p size bytes.
  * @param[in] size  Number of bytes to write.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Buffer is `nullptr`
+ *
  * @return The total number of bytes written (may be less than @p size if a
  *         zero-length write occurs), or `-1` on error with `errno` set
- *         accordingly.
+ *         accordingly. A missing argument is not an error of the system, and
+ *         leaves `errno` as it was.
  */
 __dmi_api ssize_t dmi_file_write(int fd, const dmi_data_t *data, size_t size);
 

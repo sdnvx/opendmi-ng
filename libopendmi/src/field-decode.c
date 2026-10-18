@@ -433,13 +433,15 @@ bool dmi_fields_decode_into(dmi_decoder_t *decoder, const dmi_field_t *fields, s
 {
     if (decoder == nullptr)
         return dmi_trace_argument_null(nullptr, decoder);
-    if (fields == nullptr)
-        return dmi_trace_argument_null(nullptr, fields);
-    if (info == nullptr)
-        return dmi_trace_argument_null(nullptr, info);
 
-    dmi_entity_t *entity = dmi_decoder_entity(decoder);
-    dmi_reader_t *reader = dmi_decoder_reader(decoder);
+    dmi_entity_t *entity   = dmi_decoder_entity(decoder);
+    dmi_context_t *context = dmi_entity_context(entity);
+    dmi_reader_t *reader   = dmi_decoder_reader(decoder);
+
+    if (fields == nullptr)
+        return dmi_trace_argument_null(context, fields);
+    if (info == nullptr)
+        return dmi_trace_argument_null(context, info);
 
     if (not dmi_reader_has(reader, length))
         return false;

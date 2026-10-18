@@ -164,8 +164,10 @@ __dmi_api bool dmi_reader_rewind(dmi_reader_t *reader, dmi_reader_mark_t mark);
  *                       @p length bytes.
  * @param[in]     length Number of bytes to read.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Destination is `nullptr`, while the length is not zero
+ *
  * @return `true` on success, `false` if there are fewer than @p length bytes
- *         remaining in the reader.
+ *         remaining in the reader, or on error.
  */
 __dmi_api bool dmi_reader_get_bytes(dmi_reader_t *reader, void *ptr, size_t length);
 
@@ -183,8 +185,10 @@ __dmi_api bool dmi_reader_get_bytes(dmi_reader_t *reader, void *ptr, size_t leng
  * @param[in]  offset Byte offset from the beginning of the range.
  * @param[in]  length Number of bytes to read.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Destination is `nullptr`, while the length is not zero
+ *
  * @return `true` on success, `false` if the requested range exceeds the
- *         reader bounds.
+ *         reader bounds, or on error.
  */
 __dmi_api bool dmi_reader_get_bytes_at(const dmi_reader_t *reader, void *ptr, size_t offset, size_t length);
 
@@ -199,8 +203,10 @@ __dmi_api bool dmi_reader_get_bytes_at(const dmi_reader_t *reader, void *ptr, si
  * @param[out]    ptr    Pointer to the bytes, set to @c nullptr if @p length
  *                       is zero.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Variable for the pointer is `nullptr`
+ *
  * @return `true` on success, `false` if there are fewer than @p length bytes
- *         remaining in the range.
+ *         remaining in the range, or on error.
  */
 __dmi_api bool dmi_reader_ref_bytes(dmi_reader_t *reader, size_t length, const dmi_data_t **ptr);
 

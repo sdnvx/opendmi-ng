@@ -49,9 +49,13 @@ Number of bytes to write.
 
 == Return value
 
-`true` on success, `false` if the bytes do not fit into the range.
+`true` on success, `false` if the bytes do not fit into the range, or on
+error.
 
 == Errors
+
+`DMI_ERROR_ARGUMENT_NULL`::
+`ptr` is `nullptr`, while `length` is not zero.
 
 `DMI_ERROR_OUT_OF_MEMORY`::
 Buffer of the writer cannot grow.

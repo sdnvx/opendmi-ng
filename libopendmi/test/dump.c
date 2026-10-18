@@ -10,6 +10,7 @@
 #include <string.h>
 #include <cmocka.h>
 
+#include <opendmi/backend/dump.h>
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
 #include <opendmi/entry.h>
@@ -34,6 +35,7 @@ static void test_dump_load_truncated(void **pstate);
 static void test_dump_load_bad_length(void **pstate);
 static void test_dump_load_bad_length_strict(void **pstate);
 static void test_dump_load_mutated(void **pstate);
+static void test_dump_arguments(void **pstate);
 
 static void test_dump_write(const dmi_data_t *data, size_t size);
 static bool test_dump_has_error(dmi_context_t *context, dmi_error_code_t reason);
@@ -73,7 +75,8 @@ int main(void)
         cmocka_unit_test(test_dump_load_truncated),
         cmocka_unit_test(test_dump_load_bad_length),
         cmocka_unit_test(test_dump_load_bad_length_strict),
-        cmocka_unit_test(test_dump_load_mutated)
+        cmocka_unit_test(test_dump_load_mutated),
+        cmocka_unit_test(test_dump_arguments)
     };
 
     return cmocka_run_group_tests(tests, test_dump_setup, test_dump_teardown);
@@ -385,6 +388,23 @@ static void test_dump_load_mutated(void **pstate)
 
     // Most of the mutated dumps are loaded in relaxed mode
     assert_true(loaded > test_mutation_count / 2);
+}
+
+//
+// Backend is given its arguments by `dmi_load()`, which checks them first, so
+// the checks of its own are reached only when it is opened on its own.
+//
+static void test_dump_arguments(void **pstate)
+{
+    test_dump_state_t *state = *pstate;
+
+    assert_false(dmi_dump_backend.open(nullptr, test_source_path));
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_dump_backend.open(state->context, nullptr));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    assert_false(dmi_is_open(state->context));
 }
 
 static void test_dump_write(const dmi_data_t *data, size_t size)

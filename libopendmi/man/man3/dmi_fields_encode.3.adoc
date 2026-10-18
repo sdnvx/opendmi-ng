@@ -63,6 +63,10 @@ Encoder of the structure, see `dmi_encoder_initialize`(3).
 `DMI_ERROR_ARGUMENT_NULL`::
 Encoder is `nullptr`.
 
+`DMI_ERROR_ARGUMENT_INVALID`::
+A field declares a number wider than the widest one the engine reads and
+writes, which is eight bytes.
+
 `DMI_ERROR_STATE_INVALID`::
 Structure is not decoded, its specification declares no fields, or a field it
 cannot write back, e.g. a conversion without the one undoing it.

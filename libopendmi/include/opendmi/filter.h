@@ -143,8 +143,8 @@ __dmi_api bool dmi_filter_is_empty(const dmi_filter_t *filter);
  * @return `true` if @p entity satisfies all filter constraints, `false`
  *         otherwise or if either argument is @c nullptr.
  *
- * @error DMI_ERROR_ARGUMENT_NULL Entity is `nullptr`; a @c nullptr filter is
- *        taken silently
+ * @error DMI_ERROR_ARGUMENT_NULL Entity is `nullptr`, which is raised against
+ *        the context of the filter; a @c nullptr filter is taken silently
  */
 __dmi_api bool dmi_filter_match(const dmi_filter_t *filter, const dmi_entity_t *entity);
 

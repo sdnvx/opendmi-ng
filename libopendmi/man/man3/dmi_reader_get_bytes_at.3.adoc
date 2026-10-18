@@ -53,11 +53,15 @@ Number of bytes to read.
 
 == Return value
 
-`true` on success, `false` if the requested range exceeds the reader bounds.
+`true` on success, `false` if the requested range exceeds the reader bounds,
+or on error.
 
 == Errors
 
-None.
+The error is raised against the context of the buffer being read.
+
+`DMI_ERROR_ARGUMENT_NULL`::
+`ptr` is `nullptr`, while `length` is not zero.
 
 == See also
 

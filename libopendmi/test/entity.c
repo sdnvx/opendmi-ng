@@ -31,6 +31,7 @@ static void test_entity_create_unterminated_string(void **pstate);
 static void test_entity_create_unterminated_string_set(void **pstate);
 static void test_entity_stop(void **pstate);
 static void test_entity_incomplete(void **pstate);
+static void test_entity_arguments(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -48,7 +49,8 @@ int main(void)
         cmocka_unit_test(test_entity_create_unterminated_string),
         cmocka_unit_test(test_entity_create_unterminated_string_set),
         cmocka_unit_test(test_entity_stop),
-        cmocka_unit_test(test_entity_incomplete)
+        cmocka_unit_test(test_entity_incomplete),
+        cmocka_unit_test(test_entity_arguments)
     };
 
     return cmocka_run_group_tests(tests, test_entity_setup, test_entity_teardown);
@@ -316,4 +318,40 @@ static void test_entity_incomplete(void **pstate)
 
     dmi_entity_destroy(entity);
     dmi_buffer_destroy(buffer);
+}
+
+static void test_entity_arguments(void **pstate)
+{
+    dmi_context_t *context = *pstate;
+
+    static const uint8_t data[] = { 126, 4, 0x01, 0x00, 0, 0 };
+
+    dmi_buffer_t *buffer = dmi_buffer_create(context);
+    assert_non_null(buffer);
+    assert_true(dmi_buffer_assign(buffer, data, sizeof(data)));
+
+    // Structure cannot be created without a context or a buffer
+    assert_null(dmi_entity_create(nullptr, buffer, 0));
+
+    dmi_error_clear(context);
+    assert_null(dmi_entity_create(context, nullptr, 0));
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_buffer_destroy(buffer);
+
+    // Nothing is decoded or linked without a structure, or encoded without
+    // an encoder
+    assert_false(dmi_entity_decode(nullptr));
+    assert_false(dmi_entity_link(nullptr));
+    assert_false(dmi_entity_encode(nullptr));
+
+    // Accessors of a missing structure return the values standing for none
+    assert_null(dmi_entity_buffer(nullptr));
+    assert_int_equal(dmi_entity_offset(nullptr), 0);
+    assert_int_equal(dmi_entity_handle(nullptr), DMI_HANDLE_INVALID);
+    assert_null(dmi_entity_type(nullptr));
+    assert_int_equal(dmi_entity_type_id(nullptr), DMI_TYPE_ID_INVALID);
+    assert_null(dmi_entity_name(nullptr));
+    assert_null(dmi_entity_data(nullptr, DMI_TYPE_ANY));
+    assert_null(dmi_entity_info(nullptr, DMI_TYPE_ANY));
 }

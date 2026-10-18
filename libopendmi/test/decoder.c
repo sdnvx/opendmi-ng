@@ -111,6 +111,9 @@ static void test_decoder_incomplete(void **pstate);
 static void test_decoder_incomplete_at_end(void **pstate);
 
 static void test_decoder_overlay(void **pstate);
+static void test_decoder_overlay_arguments(void **pstate);
+
+static void test_decoder_arguments(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -150,7 +153,10 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_decoder_incomplete, test_decoder_setup, test_decoder_teardown),
         cmocka_unit_test_setup_teardown(test_decoder_incomplete_at_end, test_decoder_setup, test_decoder_teardown),
 
-        cmocka_unit_test_setup_teardown(test_decoder_overlay, test_decoder_setup, test_decoder_teardown)
+        cmocka_unit_test_setup_teardown(test_decoder_overlay, test_decoder_setup, test_decoder_teardown),
+        cmocka_unit_test_setup_teardown(test_decoder_overlay_arguments, test_decoder_setup, test_decoder_teardown),
+
+        cmocka_unit_test_setup_teardown(test_decoder_arguments, test_decoder_setup, test_decoder_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -753,4 +759,104 @@ static void test_decoder_overlay(void **pstate)
 
     dmi_buffer_destroy(target_buffer);
     dmi_buffer_destroy(source_buffer);
+}
+
+//
+// Entry is named by the structure carrying it and by its number there, and is
+// attached only if both are what they are said to be.
+//
+static void test_decoder_overlay_arguments(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    dmi_buffer_t *source_buffer = dmi_buffer_create(state->context);
+    assert_non_null(source_buffer);
+
+    dmi_entity_t *source = test_decoder_create_overlay(source_buffer, DMI_HANDLE_TEST,
+                                                       TEST_OFFSET_BYTE, 0x07);
+
+    // Structure which is not there has no context to raise an error on
+    assert_false(dmi_entity_add_overlay(nullptr, source, 0));
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_entity_add_overlay(state->entity, nullptr, 0));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // Entries are numbered from zero, and there is one of them
+    dmi_error_clear(state->context);
+    assert_false(dmi_entity_add_overlay(state->entity, source, 1));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+
+    // Structure of any other type, such as the one of the fixture, carries no
+    // entries at all, which is the only error raised
+    dmi_error_clear(state->context);
+    assert_false(dmi_entity_add_overlay(state->entity, state->entity, 0));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+    assert_ptr_equal(dmi_error_peek_first(state->context), dmi_error_peek_last(state->context));
+
+    // ...and so does additional information which has not been decoded yet
+    static const dmi_byte_t data[] = {
+        DMI_TYPE_ID_ADDITIONAL_INFO, 0x05, 0x01, 0x40,
+        0x00,
+        0x00, 0x00
+    };
+
+    dmi_buffer_t *raw_buffer = dmi_buffer_create(state->context);
+    assert_non_null(raw_buffer);
+
+    dmi_entity_t *raw = dmi_test_entity_create(raw_buffer, data, sizeof(data));
+    assert_non_null(raw);
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_entity_add_overlay(state->entity, raw, 0));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+    assert_ptr_equal(dmi_error_peek_first(state->context), dmi_error_peek_last(state->context));
+
+    dmi_entity_destroy(raw);
+    dmi_buffer_destroy(raw_buffer);
+
+    // Nothing has been attached to the structure
+    assert_null(state->entity->overlays);
+
+    dmi_entity_destroy(source);
+    dmi_buffer_destroy(source_buffer);
+}
+
+static void test_decoder_arguments(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    dmi_decoder_t *decoder = test_decoder_open(state, TEST_OFFSET_STRINGS);
+
+    const char   *string   = "kept";
+    dmi_binary_t  binary   = {};
+    dmi_byte_t    bytes[4] = {};
+
+    // Decoder which is not there has neither data to read nor a context to
+    // raise an error on
+    assert_false(dmi_decoder_get_string(nullptr, &string));
+    assert_string_equal(string, "kept");
+
+    assert_false(dmi_decoder_get_bytes(nullptr, bytes, sizeof(bytes)));
+    assert_false(dmi_decoder_get_bytes_at(nullptr, bytes, 0, sizeof(bytes)));
+    assert_false(dmi_decoder_get_binary(nullptr, 1, &binary));
+    assert_false(dmi_decoder_skip(nullptr, 1));
+    assert_uint_equal(dmi_decoder_remaining(nullptr), 0);
+
+    // Marking the structure succeeds for every decoder, so this is the only
+    // way it fails
+    assert_false(dmi_decoder_stop(nullptr));
+    assert_false(dmi_decoder_incomplete(nullptr));
+
+    // Value which has nowhere to go is not read, which is told on the context
+    // of the structure, and the cursor stays where it was
+    dmi_error_clear(state->context);
+    assert_false(dmi_decoder_get_string(decoder, nullptr));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_decoder_get_binary(decoder, 1, nullptr));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    assert_uint_equal(dmi_reader_tell(dmi_decoder_reader(decoder)), TEST_OFFSET_STRINGS);
 }

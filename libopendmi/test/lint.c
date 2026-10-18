@@ -38,10 +38,12 @@ static void test_lint_open_enum(void **pstate);
 static void test_lint_memory_device_attributes(void **pstate);
 static void test_lint_memory_device_disabled(void **pstate);
 static void test_lint_probe_range(void **pstate);
+static void test_lint_arguments(void **pstate);
 
 static size_t test_lint_count_group_member(const char *path, unsigned flags, const char *module);
 static size_t test_lint_count_module_rule(const char *path, const char *module, const char *code);
 static void test_lint_patch(dmi_context_t *context, const char *path, dmi_byte_t type, size_t offset, dmi_byte_t value);
+static void test_lint_check_arguments(dmi_lint_t *lint, const dmi_entity_t *entity);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -111,7 +113,8 @@ int main(void)
         cmocka_unit_test(test_lint_open_enum),
         cmocka_unit_test(test_lint_memory_device_attributes),
         cmocka_unit_test(test_lint_memory_device_disabled),
-        cmocka_unit_test(test_lint_probe_range)
+        cmocka_unit_test(test_lint_probe_range),
+        cmocka_unit_test(test_lint_arguments)
     };
 
     return cmocka_run_group_tests(tests, test_lint_setup, test_lint_teardown);
@@ -709,4 +712,91 @@ static size_t test_lint_count_module_rule(const char *path, const char *module, 
     dmi_destroy(context);
 
     return report.total;
+}
+
+//
+// Rule of a structure type is the only code given a check in progress, so the
+// functions which take one are called by a rule of the test module, and the
+// issue it reports tells that it has been checked.
+//
+static void test_lint_check_arguments(dmi_lint_t *lint, const dmi_entity_t *entity)
+{
+    dmi_context_t *context = dmi_lint_context(lint);
+
+    // Offset is told by the check in progress, of a structure of its table
+    assert_true(dmi_lint_entity_offset(lint, entity) != DMI_LINT_NO_OFFSET);
+    assert_uint_equal(dmi_lint_entity_offset(nullptr, entity), DMI_LINT_NO_OFFSET);
+
+    dmi_error_clear(context);
+    assert_uint_equal(dmi_lint_entity_offset(lint, nullptr), DMI_LINT_NO_OFFSET);
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // Issue of no check in progress is reported to nobody, and neither is the
+    // one which has no details to format
+    const char *volatile format = nullptr;
+
+    dmi_lint_issue(nullptr, entity, nullptr, DMI_LINT_NO_OFFSET, "%s", "unreported");
+
+    dmi_error_clear(context);
+    dmi_lint_issue(lint, entity, nullptr, DMI_LINT_NO_OFFSET, format, "unreported");
+    assert_int_equal(dmi_error_peek_last(context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_lint_issue(lint, entity, nullptr, DMI_LINT_NO_OFFSET, "%s", "reported");
+}
+
+// Type of the Acer device list, which the clean dump has a single structure
+// of, and nothing but the module of Acer has a specification for
+static const dmi_type_t test_lint_type = { .id = (dmi_type_id_t)171 };
+
+static const dmi_entity_spec_t test_lint_spec =
+{
+    .type = &test_lint_type,
+    .code = "test-lint",
+    .name = "Test lint",
+
+    .lint_rules = DMI_LINT_RULES({
+        DMI_LINT_RULE("test-lint.arguments", test_lint_check_arguments, {
+            .name            = "Functions of a check in progress check their arguments",
+            .reader_severity = DMI_LINT_SEVERITY_NOTE
+        }),
+        {}
+    })
+};
+
+static dmi_module_t test_lint_module =
+{
+    .code     = "test-lint",
+    .name     = "Lint tests",
+    .entities = (const dmi_entity_spec_t *[]){ &test_lint_spec, nullptr }
+};
+
+static void test_lint_arguments(void **pstate)
+{
+    dmi_unused(pstate);
+
+    dmi_context_t *context = dmi_create(0);
+    assert_non_null(context);
+
+    dmi_set_logger(context, &test_logger);
+    dmi_set_log_level(context, DMI_LOG_ERROR);
+
+    assert_true(dmi_add_extension(context, &test_lint_module));
+    assert_true(dmi_load(context, test_clean_path));
+
+    test_lint_only_rule = dmi_lint_rule_find(context, "test-lint.arguments");
+    assert_non_null(test_lint_only_rule);
+
+    const dmi_lint_options_t options =
+    {
+        .profile     = DMI_LINT_PROFILE_READER,
+        .rule_filter = test_lint_accept_only
+    };
+
+    test_lint_report_t report = {};
+    assert_true(dmi_lint(context, &options, test_lint_handler, &report));
+
+    dmi_destroy(context);
+
+    // Rule has been checked once, and nothing but its own issue is reported
+    assert_int_equal(report.total, 1);
 }

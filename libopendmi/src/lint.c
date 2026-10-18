@@ -228,6 +228,10 @@ void dmi_lint_issue(
         (void)dmi_trace_argument_null(nullptr, lint);
         return;
     }
+    if (format == nullptr) {
+        (void)dmi_trace_argument_null(lint->context, format);
+        return;
+    }
     assert(lint->rule != nullptr);
 
     if (lint->handler == nullptr)
@@ -274,7 +278,7 @@ size_t dmi_lint_entity_offset(const dmi_lint_t *lint, const dmi_entity_t *entity
     if (lint == nullptr)
         return dmi_trace_argument_null(nullptr, lint, DMI_LINT_NO_OFFSET);
     if (entity == nullptr)
-        return dmi_trace_argument_null(nullptr, entity, DMI_LINT_NO_OFFSET);
+        return dmi_trace_argument_null(lint->context, entity, DMI_LINT_NO_OFFSET);
 
     // Offsets are of the table the context holds, so a structure read from
     // anywhere else has none to report

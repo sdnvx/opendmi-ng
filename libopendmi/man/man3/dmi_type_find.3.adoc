@@ -62,7 +62,10 @@ Returns the type number, or `DMI_TYPE_ID_INVALID` if `context` or `code` is
 
 == Errors
 
-None: a code which is not found is not an error.
+`DMI_ERROR_ARGUMENT_NULL`::
+`code` is `nullptr`.
+
+A code which is not found is not an error.
 
 == See also
 

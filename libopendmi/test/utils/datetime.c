@@ -13,11 +13,13 @@
 #include <opendmi/utils/datetime.h>
 
 static void test_date_parse(void **pstate);
+static void test_date_arguments(void **pstate);
 
 int main(void)
 {
     const struct CMUnitTest tests[] = {
-        cmocka_unit_test(test_date_parse)
+        cmocka_unit_test(test_date_parse),
+        cmocka_unit_test(test_date_arguments)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -84,4 +86,12 @@ static void test_date_parse(void **pstate)
     } else {
         fail_msg("Unable to allocate memory");
     }
+}
+
+static void test_date_arguments(void **pstate)
+{
+    dmi_unused(pstate);
+
+    // No string holds no date
+    assert_uint_equal(dmi_date_parse(nullptr), DMI_DATE_NONE);
 }

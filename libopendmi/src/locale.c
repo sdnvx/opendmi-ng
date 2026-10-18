@@ -112,7 +112,8 @@ static bool dmi_library_failed;
  * @brief Open the bundle of the package for the current locale.
  *
  * @details Locales with no bundle of their own fall back to the root bundle
- * of the package.
+ * of the package, and never to the bundle of the default locale, which ICU4C
+ * would take first.
  *
  * @param[in,out] resource Resource to open the bundle of.
  *
@@ -265,9 +266,15 @@ bool dmi_set_locale(const char *locale)
     for (dmi_resource_t *resource = dmi_resources; resource != nullptr; resource = resource->next) {
         dmi_resource_release(resource);
 
-        if (not dmi_resource_reopen(resource))
+        // Library itself has translations for some locales only, and leaves
+        // its strings in English for the others, which is not a failure
+        if (not dmi_resource_reopen(resource) and (resource != dmi_library_resource))
             success = false;
     }
+
+    // Resources of the library which could not be opened with the previous
+    // locale may well be there for the new one, so they are looked for again
+    dmi_library_failed = false;
 
     return success;
 #else
@@ -599,6 +606,27 @@ static bool dmi_resource_reopen(dmi_resource_t *resource)
     if (U_FAILURE(status)) {
         resource->bundle = nullptr;
         return false;
+    }
+
+    // Package which has no bundle for the locale is opened by ICU4C with the
+    // one of the default locale, and with the root one only if that is
+    // missing as well. Strings of a locale nobody has asked for are not what
+    // a missing translation is replaced with, so the root bundle is taken
+    if (status == U_USING_DEFAULT_WARNING) {
+        UErrorCode  ignored = U_ZERO_ERROR;
+        const char *actual  = ures_getLocaleByType(resource->bundle, ULOC_ACTUAL_LOCALE, &ignored);
+
+        if (U_FAILURE(ignored) or (actual == nullptr) or (strcmp(actual, "root") != 0)) {
+            ures_close(resource->bundle);
+
+            status = U_ZERO_ERROR;
+
+            resource->bundle = ures_openDirect(resource->package, "root", &status);
+            if (U_FAILURE(status)) {
+                resource->bundle = nullptr;
+                return false;
+            }
+        }
     }
 
     return true;

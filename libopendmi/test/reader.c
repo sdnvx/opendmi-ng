@@ -11,6 +11,7 @@
 
 #include <opendmi/context.h>
 #include <opendmi/entity.h>
+#include <opendmi/error.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
@@ -91,6 +92,8 @@ static void test_reader_reset(void **pstate);
 
 static void test_reader_has(void **pstate);
 
+static void test_reader_arguments(void **pstate);
+
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 static test_envelope_t test_envelope = {};
@@ -138,6 +141,8 @@ int main(void)
         cmocka_unit_test(test_reader_reset),
 
         cmocka_unit_test(test_reader_has),
+
+        cmocka_unit_test(test_reader_arguments),
 
     };
 
@@ -662,4 +667,53 @@ static void test_reader_skip_ex_out_of_bounds(void **pstate)
 
     // Failure leaves the cursor where it was
     assert_uint_equal(reader.position, 2);
+}
+
+static void test_reader_arguments(void **pstate)
+{
+    dmi_reader_t      reader;
+    const dmi_data_t *ptr = nullptr;
+
+    test_state_t *state = dmi_cast(state, *pstate);
+    dmi_reader_initialize(&reader, state->buffer, 0, TEST_ENTITY_LENGTH);
+
+    dmi_reader_seek(&reader, TEST_BODY_OFFSET);
+
+    dmi_byte_t buf[4] = {0};
+
+    // Reader which is not there has no data to read and no cursor to move
+    assert_false(dmi_reader_seek(nullptr, 0));
+    assert_false(dmi_reader_get_bytes(nullptr, buf, sizeof(buf)));
+    assert_false(dmi_reader_get_bytes_at(nullptr, buf, 0, sizeof(buf)));
+    assert_false(dmi_reader_skip(nullptr, 1));
+    assert_uint_equal(dmi_reader_tell(nullptr), 0);
+
+    assert_false(dmi_reader_ref_bytes(nullptr, 1, &ptr));
+    assert_null(ptr);
+
+    dmi_reader_reset(nullptr);
+
+    // Bytes which have nowhere to be copied to are not read, which is told
+    // on the context of the buffer
+    dmi_error_clear(state->context);
+    assert_false(dmi_reader_get_bytes_at(&reader, nullptr, TEST_BODY_OFFSET, 1));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_reader_get_bytes(&reader, nullptr, 1));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // ...and neither are the ones which have no variable to be referred by
+    dmi_error_clear(state->context);
+    assert_false(dmi_reader_ref_bytes(&reader, 1, nullptr));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // Failed read leaves the cursor where it was
+    assert_uint_equal(reader.position, TEST_BODY_OFFSET);
+
+    // No bytes need nowhere to be copied to, as it is with the buffer itself
+    dmi_error_clear(state->context);
+    assert_true(dmi_reader_get_bytes_at(&reader, nullptr, TEST_BODY_OFFSET, 0));
+    assert_true(dmi_reader_get_bytes(&reader, nullptr, 0));
+    assert_null(dmi_error_peek_last(state->context));
 }

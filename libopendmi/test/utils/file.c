@@ -28,6 +28,7 @@ static void test_file_get(void **pstate);
 static void test_file_get_partial(void **pstate);
 static void test_file_get_empty(void **pstate);
 static void test_file_get_errors(void **pstate);
+static void test_file_arguments(void **pstate);
 
 static void test_file_create(const char *path, const dmi_data_t *data, size_t size);
 
@@ -56,7 +57,8 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_file_get, test_file_setup, test_file_teardown),
         cmocka_unit_test_setup_teardown(test_file_get_partial, test_file_setup, test_file_teardown),
         cmocka_unit_test_setup_teardown(test_file_get_empty, test_file_setup, test_file_teardown),
-        cmocka_unit_test_setup_teardown(test_file_get_errors, test_file_setup, test_file_teardown)
+        cmocka_unit_test_setup_teardown(test_file_get_errors, test_file_setup, test_file_teardown),
+        cmocka_unit_test_setup_teardown(test_file_arguments, test_file_setup, test_file_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -262,6 +264,21 @@ static void test_file_get_errors(void **pstate)
     assert_false(dmi_file_load(nullptr, test_path, -1, 0));
 
     dmi_buffer_destroy(buffer);
+}
+
+static void test_file_arguments(void **pstate)
+{
+    const test_file_state_t *state = *pstate;
+
+    assert_int_equal(dmi_file_write(state->fd, test_data, sizeof(test_data)), sizeof(test_data));
+
+    assert_int_equal(dmi_file_stat(state->fd, nullptr), -1);
+
+    // Nothing is read or written, and the position is left where it was
+    // rather than moved to the offset
+    assert_int_equal(dmi_file_read(state->fd, nullptr, 0, sizeof(test_data)), -1);
+    assert_int_equal(dmi_file_write(state->fd, nullptr, sizeof(test_data)), -1);
+    assert_int_equal(dmi_file_tell(state->fd), sizeof(test_data));
 }
 
 static void test_file_create(const char *path, const dmi_data_t *data, size_t size)

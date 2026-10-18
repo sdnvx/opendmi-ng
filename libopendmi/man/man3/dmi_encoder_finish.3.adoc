@@ -43,6 +43,10 @@ Encoder to complete.
 
 == Errors
 
+`DMI_ERROR_STATE_INVALID`::
+Writer of the encoder has been moved back over the header, so that there is
+no formatted area to complete.
+
 `DMI_ERROR_ENTITY_LENGTH_INVALID`::
 Formatted area is longer than a byte can count.
 

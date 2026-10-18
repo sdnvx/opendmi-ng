@@ -10,6 +10,7 @@
 #include <cmocka.h>
 
 #include <opendmi/context.h>
+#include <opendmi/error.h>
 #include <opendmi/log.h>
 #include <opendmi/internal.h>
 #include <opendmi/test/logger.h>
@@ -47,6 +48,7 @@ static void test_buffer_assign_empty(void **pstate);
 static void test_buffer_resize_grow(void **pstate);
 static void test_buffer_resize_shrink(void **pstate);
 static void test_buffer_resize_regrow(void **pstate);
+static void test_buffer_resize_overflow(void **pstate);
 
 static void test_buffer_read(void **pstate);
 static void test_buffer_read_out_of_bounds(void **pstate);
@@ -55,12 +57,15 @@ static void test_buffer_write(void **pstate);
 static void test_buffer_write_grows(void **pstate);
 static void test_buffer_write_fills_gap(void **pstate);
 static void test_buffer_write_empty(void **pstate);
+static void test_buffer_write_overflow(void **pstate);
 
 static void test_buffer_at(void **pstate);
 static void test_buffer_at_out_of_bounds(void **pstate);
 
 static void test_buffer_clear(void **pstate);
 static void test_buffer_capacity_steps(void **pstate);
+
+static void test_buffer_arguments(void **pstate);
 
 static dmi_log_t test_logger = { dmi_test_log_handler };
 
@@ -81,6 +86,7 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_buffer_resize_grow, test_buffer_setup, test_buffer_teardown),
         cmocka_unit_test_setup_teardown(test_buffer_resize_shrink, test_buffer_setup, test_buffer_teardown),
         cmocka_unit_test_setup_teardown(test_buffer_resize_regrow, test_buffer_setup, test_buffer_teardown),
+        cmocka_unit_test_setup_teardown(test_buffer_resize_overflow, test_buffer_setup, test_buffer_teardown),
 
         cmocka_unit_test_setup_teardown(test_buffer_read, test_buffer_setup, test_buffer_teardown),
         cmocka_unit_test_setup_teardown(test_buffer_read_out_of_bounds, test_buffer_setup, test_buffer_teardown),
@@ -89,12 +95,15 @@ int main(void)
         cmocka_unit_test_setup_teardown(test_buffer_write_grows, test_buffer_setup, test_buffer_teardown),
         cmocka_unit_test_setup_teardown(test_buffer_write_fills_gap, test_buffer_setup, test_buffer_teardown),
         cmocka_unit_test_setup_teardown(test_buffer_write_empty, test_buffer_setup, test_buffer_teardown),
+        cmocka_unit_test_setup_teardown(test_buffer_write_overflow, test_buffer_setup, test_buffer_teardown),
 
         cmocka_unit_test_setup_teardown(test_buffer_at, test_buffer_setup, test_buffer_teardown),
         cmocka_unit_test_setup_teardown(test_buffer_at_out_of_bounds, test_buffer_setup, test_buffer_teardown),
 
         cmocka_unit_test_setup_teardown(test_buffer_clear, test_buffer_setup, test_buffer_teardown),
-        cmocka_unit_test_setup_teardown(test_buffer_capacity_steps, test_buffer_setup, test_buffer_teardown)
+        cmocka_unit_test_setup_teardown(test_buffer_capacity_steps, test_buffer_setup, test_buffer_teardown),
+
+        cmocka_unit_test_setup_teardown(test_buffer_arguments, test_buffer_setup, test_buffer_teardown)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -405,6 +414,10 @@ static void test_buffer_at_out_of_bounds(void **pstate)
 {
     test_state_t *state = dmi_cast(state, *pstate);
 
+    // Buffer which has never held data has no memory to point into, so even
+    // the range of no bytes at its beginning is nowhere
+    assert_null(dmi_buffer_at(state->buffer, 0, 0));
+
     assert_true(dmi_buffer_assign(state->buffer, test_data, TEST_DATA_LENGTH));
 
     assert_null(dmi_buffer_at(state->buffer, TEST_DATA_LENGTH - 2, 4));
@@ -457,4 +470,92 @@ static void test_buffer_capacity_steps(void **pstate)
     // One byte past the memory it has grows the buffer by another step
     assert_true(dmi_buffer_write(state->buffer, test_data, capacity, 1));
     assert_true(state->buffer->capacity > capacity);
+}
+
+//
+// Memory whose size does not fit in a size cannot be there, so a length which
+// needs it is refused without the memory being asked for at all.
+//
+static void test_buffer_resize_overflow(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    assert_true(dmi_buffer_assign(state->buffer, test_data, TEST_DATA_LENGTH));
+
+    const dmi_byte_t *data     = state->buffer->data;
+    size_t            capacity = state->buffer->capacity;
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_buffer_resize(state->buffer, SIZE_MAX));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_OUT_OF_MEMORY);
+
+    // Buffer which cannot grow is left as it was
+    assert_uint_equal(state->buffer->length, TEST_DATA_LENGTH);
+    assert_uint_equal(state->buffer->capacity, capacity);
+    assert_ptr_equal(state->buffer->data, data);
+    assert_memory_equal(state->buffer->data, test_data, TEST_DATA_LENGTH);
+}
+
+//
+// Data which ends past what a size holds cannot be there, so it is refused
+// rather than written wherever the sum of the offset and the length wraps
+// around to.
+//
+static void test_buffer_write_overflow(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    static const dmi_byte_t value[] = { 0xAA, 0xBB };
+
+    assert_true(dmi_buffer_assign(state->buffer, test_data, TEST_DATA_LENGTH));
+
+    // One byte past what a size holds is enough for the data to be refused
+    dmi_error_clear(state->context);
+    assert_false(dmi_buffer_write(state->buffer, value, SIZE_MAX - 1, sizeof(value)));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+
+    // Length which leaves no room for any offset past the beginning
+    dmi_error_clear(state->context);
+    assert_false(dmi_buffer_write(state->buffer, value, 1, SIZE_MAX));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+
+    // Refused write leaves the buffer as it was
+    assert_uint_equal(state->buffer->length, TEST_DATA_LENGTH);
+    assert_memory_equal(state->buffer->data, test_data, TEST_DATA_LENGTH);
+}
+
+static void test_buffer_arguments(void **pstate)
+{
+    test_state_t *state = dmi_cast(state, *pstate);
+
+    dmi_byte_t value[4] = {};
+
+    assert_true(dmi_buffer_assign(state->buffer, test_data, TEST_DATA_LENGTH));
+
+    // Buffer which is not there has no context to raise an error on, so the
+    // failure is told by the return value alone
+    assert_false(dmi_buffer_resize(nullptr, TEST_DATA_LENGTH));
+    assert_false(dmi_buffer_assign(nullptr, test_data, TEST_DATA_LENGTH));
+    assert_false(dmi_buffer_read(nullptr, value, 0, sizeof(value)));
+    assert_false(dmi_buffer_write(nullptr, test_data, 0, TEST_DATA_LENGTH));
+    assert_null(dmi_buffer_at(nullptr, 0, 0));
+
+    dmi_buffer_clear(nullptr);
+
+    // Data which is not there is an error as soon as any of it is asked for
+    dmi_error_clear(state->context);
+    assert_false(dmi_buffer_assign(state->buffer, nullptr, 1));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_buffer_read(state->buffer, nullptr, 0, 1));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_buffer_write(state->buffer, nullptr, TEST_DATA_LENGTH, 1));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    // Refused calls leave the buffer as it was
+    assert_uint_equal(state->buffer->length, TEST_DATA_LENGTH);
+    assert_memory_equal(state->buffer->data, test_data, TEST_DATA_LENGTH);
 }

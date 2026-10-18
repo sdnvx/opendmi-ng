@@ -23,6 +23,7 @@ static void test_module_register(void **pstate);
 static void test_module_unique_types(void **pstate);
 static void test_module_intel_rsd_types(void **pstate);
 static void test_module_unique_attribute_codes(void **pstate);
+static void test_module_arguments(void **pstate);
 
 static void assert_unique_attribute_codes(const char *spec_code, const dmi_attribute_t *attrs);
 static bool test_generations_overlap(const dmi_generations_t *first, const dmi_generations_t *second);
@@ -34,7 +35,8 @@ int main(void)
         cmocka_unit_test(test_module_register),
         cmocka_unit_test(test_module_unique_types),
         cmocka_unit_test(test_module_intel_rsd_types),
-        cmocka_unit_test(test_module_unique_attribute_codes)
+        cmocka_unit_test(test_module_unique_attribute_codes),
+        cmocka_unit_test(test_module_arguments)
     };
 
     return cmocka_run_group_tests(tests, nullptr, nullptr);
@@ -167,6 +169,16 @@ static void test_module_unique_attribute_codes(void **pstate)
         for (const dmi_entity_spec_t **pspec = module->entities; *pspec != nullptr; pspec++)
             assert_unique_attribute_codes((*pspec)->code, (*pspec)->attributes);
     }
+}
+
+static void test_module_arguments(void **pstate)
+{
+    dmi_unused(pstate);
+
+    // Nothing is registered without a module, and nothing is found without
+    // a code
+    assert_false(dmi_module_register(nullptr));
+    assert_null(dmi_module_find(nullptr));
 }
 
 static void assert_unique_attribute_codes(const char *spec_code, const dmi_attribute_t *attrs)

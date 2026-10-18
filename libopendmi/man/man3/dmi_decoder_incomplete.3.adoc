@@ -46,7 +46,8 @@ Decoder of the structure.
 
 == Return value
 
-Always `true`, so that it can be returned by the decoder.
+`true`, so that it can be returned by the decoder, or `false` if `decoder` is
+`nullptr`.
 
 == Errors
 

@@ -528,7 +528,7 @@ int main(void)
 
         cmocka_unit_test_setup_teardown(test_field_offset_mismatch, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_no_fields, test_field_setup, test_field_teardown),
-        cmocka_unit_test(test_field_null_argument),
+        cmocka_unit_test_setup_teardown(test_field_null_argument, test_field_setup, test_field_teardown),
 
         cmocka_unit_test_setup_teardown(test_field_encode_preserve, test_field_setup, test_field_teardown),
         cmocka_unit_test_setup_teardown(test_field_encode_canonical, test_field_setup, test_field_teardown),
@@ -1027,12 +1027,120 @@ static void test_field_no_fields(void **pstate)
     assert_int_equal(error->reason, DMI_ERROR_STATE_INVALID);
 }
 
+//
+// Arguments are checked before anything is read or written, and so are the
+// widths the fields declare for themselves and for their members, which the
+// engine does not take on trust: a specification may be the one of a module
+// built out of the tree.
+//
 static void test_field_null_argument(void **pstate)
 {
-    dmi_unused(pstate);
+    test_state_t *state = dmi_cast(state, *pstate);
 
     assert_false(dmi_fields_decode(nullptr));
     assert_false(dmi_fields_encode(nullptr));
+
+    // Member is read and written by its field, which is required
+    uint32_t number = 0x12345678;
+
+    assert_int_equal(dmi_field_get(nullptr, &number), 0);
+    assert_false(dmi_field_set(nullptr, &number, 0));
+
+    // Member of a width no number has is neither read nor written
+    static const dmi_field_t odd = {
+        .member = { .size = 3 },
+        .type   = DMI_FIELD_TYPE_INTEGER,
+        .params = { .length = sizeof(dmi_byte_t) }
+    };
+
+    assert_int_equal(dmi_field_get(&odd, &number), 0);
+    assert_false(dmi_field_set(&odd, &number, 0));
+    assert_int_equal(number, 0x12345678);
+
+    // Fields a byte wider than the widest number the engine reads and writes:
+    // a plain number, and a binary-coded decimal, which is read on its own
+    typedef dmi_byte_t test_wide_t[sizeof(uintmax_t) + 1];
+
+    static const dmi_field_t wide_number[] = {
+        DMI_FIELD(test_fields_t, value_qword, test_wide_t),
+        {}
+    };
+    static const dmi_field_t wide_bcd[] = {
+        DMI_FIELD_BCD(test_fields_t, value_qword, test_wide_t),
+        {}
+    };
+
+    // Part is the whole body of the structure of the fixture
+    const dmi_field_t *fields = test_fields_spec.fields;
+    size_t             length = TEST_FIELDS_LENGTH - sizeof(dmi_header_t);
+    test_fields_t      part   = {};
+
+    test_field_decode_fields(state, 0);
+
+    dmi_decoder_t decoder;
+
+    assert_true(dmi_decoder_initialize(&decoder, state->entity));
+
+    size_t start = dmi_reader_tell(dmi_decoder_reader(&decoder));
+
+    // Fields and the structure they are read into are required, and the
+    // decoder stays where it was without them
+    dmi_error_clear(state->context);
+    assert_false(dmi_fields_decode_into(&decoder, nullptr, length, &part));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    dmi_error_clear(state->context);
+    assert_false(dmi_fields_decode_into(&decoder, fields, length, nullptr));
+    assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+    assert_int_equal(dmi_reader_tell(dmi_decoder_reader(&decoder)), start);
+
+    const dmi_field_t *const wide[] = { wide_number, wide_bcd };
+
+    for (size_t i = 0; i < countof(wide); i++) {
+        assert_true(dmi_decoder_initialize(&decoder, state->entity));
+
+        dmi_error_clear(state->context);
+        assert_false(dmi_fields_decode_into(&decoder, wide[i], length, &part));
+        assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+        assert_int_equal(part.value_qword, 0);
+    }
+
+    // Canonical mode writes the value alone, while the preserve mode looks at
+    // the source data first, which is a number as wide as the field
+    static const dmi_encode_mode_t modes[] = {
+        DMI_ENCODE_MODE_CANONICAL,
+        DMI_ENCODE_MODE_PRESERVE
+    };
+
+    for (size_t i = 0; i < countof(modes); i++) {
+        dmi_buffer_t *buffer = dmi_buffer_create(state->context);
+        dmi_encoder_t encoder;
+
+        assert_non_null(buffer);
+        assert_true(dmi_encoder_initialize(&encoder, buffer, state->entity, modes[i], DMI_VERSION_NONE));
+
+        // Fields and the structure they are written from are required
+        dmi_error_clear(state->context);
+        assert_false(dmi_fields_encode_from(&encoder, nullptr, length, &part));
+        assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+        dmi_error_clear(state->context);
+        assert_false(dmi_fields_encode_from(&encoder, fields, length, nullptr));
+        assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_NULL);
+
+        for (size_t j = 0; j < countof(wide); j++) {
+            dmi_error_clear(state->context);
+            assert_false(dmi_fields_encode_from(&encoder, wide[j], length, &part));
+            assert_int_equal(dmi_error_peek_last(state->context)->reason, DMI_ERROR_ARGUMENT_INVALID);
+        }
+
+        // Nothing follows the header the encoder has begun with
+        assert_int_equal(dmi_encoder_tell(&encoder), sizeof(dmi_header_t));
+
+        dmi_encoder_finalize(&encoder);
+        dmi_buffer_destroy(buffer);
+    }
 }
 
 // Encode the structure of the fixture back, and give the buffer it is

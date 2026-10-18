@@ -169,19 +169,22 @@ bool dmi_registry_resolve_any(
         const dmi_type_t *const *types,
         dmi_entity_t           **pentity)
 {
-    if (pentity == nullptr)
-        return dmi_trace_argument_null(nullptr, pentity);
-
-    *pentity = nullptr;
+    // Variable is reset before anything else is checked, so that it is never
+    // left as it was by a reference which is not resolved
+    if (pentity != nullptr)
+        *pentity = nullptr;
 
     if (registry == nullptr)
         return dmi_trace_argument_null(nullptr, registry);
 
+    dmi_context_t *context = registry->context;
+
+    if (pentity == nullptr)
+        return dmi_trace_argument_null(context, pentity);
+
     // Reserved handle values mean that the reference is not set
     if ((handle == DMI_HANDLE_INVALID) or (handle == DMI_HANDLE_UNSUPPORTED))
         return true;
-
-    dmi_context_t *context = registry->context;
 
     if ((types != nullptr) and (types[0] == nullptr))
         return dmi_trace_argument_invalid(context, types);
@@ -227,9 +230,7 @@ bool dmi_registry_resolve_id(
         dmi_type_id_t   type_id,
         dmi_entity_t  **pentity)
 {
-    if (pentity == nullptr)
-        return dmi_trace_argument_null(nullptr, pentity);
-
+    // Arguments are checked by the resolution itself
     if (not dmi_registry_resolve_any(registry, handle, nullptr, pentity))
         return false;
 

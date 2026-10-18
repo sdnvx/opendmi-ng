@@ -93,18 +93,23 @@ Whether the spaces are left out.
 == Return value
 
 The `dmi_string_set` and `dmi_string_set_bytes` functions return `true` on
-success, and `false` on failure. If the bytes are not all printable, or leave
-nothing but spaces, `dmi_string_set_bytes` sets the string to `nullptr`, which
-is not a failure.
+success, and `false` on failure. If the bytes are not all printable, or spell
+no text, `dmi_string_set_bytes` sets the string to `nullptr`, which is not a
+failure.
 
 The `dmi_string_from_bytes` function returns the text in `buffer`, or
-`nullptr` if the bytes are not all printable or leave nothing but spaces.
+`nullptr` if the bytes are not all printable or spell no text.
+
+The bytes spell no text if there are none of them, or, with `trim`, if they
+are all spaces.
 
 == Errors
 
 `DMI_ERROR_ARGUMENT_NULL`::
-Raised if `pstring` is `nullptr`, or, by `dmi_string_from_bytes`, if `data`
-is `nullptr`; the latter reaches no error queue.
+Raised if `pstring` is `nullptr`, by `dmi_string_set_bytes` if `data` is
+`nullptr` while `length` is not zero, and by `dmi_string_from_bytes` if `data`
+or `buffer` is `nullptr`. The function takes no context, so its error reaches
+no error queue.
 
 `DMI_ERROR_ARGUMENT_INVALID`::
 Raised by `dmi_string_set_bytes` if `length` exceeds `DMI_STRING_BYTES_MAX`.

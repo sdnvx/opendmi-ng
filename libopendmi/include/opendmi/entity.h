@@ -647,6 +647,8 @@ __BEGIN_DECLS
  * @param[in] context Context descriptor.
  * @param[in] code    Code of the specification, e.g. `system`.
  *
+ * @error DMI_ERROR_ARGUMENT_NULL Context or code is `nullptr`
+ *
  * @return Type number, or `DMI_TYPE_ID_INVALID` if @p context or @p code is
  *         @c nullptr, or no specification with the code is mapped.
  */

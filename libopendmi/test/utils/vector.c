@@ -20,12 +20,12 @@ static void test_vector_init_matcher(void **pstate);
 static void test_vector_push_args(void **pstate);
 static void test_vector_push(void **pstate);
 
-static void test_vector_get_ags(void **pstate);
+static void test_vector_get_args(void **pstate);
 static void test_vector_get_empty(void **pstate);
 static void test_vector_get_existing(void **pstate);
 static void test_vector_get_missing(void **pstate);
 
-static void test_vector_find_ags(void **pstate);
+static void test_vector_find_args(void **pstate);
 static void test_vector_find_empty(void **pstate);
 static void test_vector_find_existing(void **pstate);
 static void test_vector_find_missing(void **pstate);
@@ -60,12 +60,12 @@ int main(void)
         cmocka_unit_test(test_vector_push_args),
         cmocka_unit_test_teardown(test_vector_push, test_vector_teardown),
 
-        cmocka_unit_test(test_vector_get_ags),
+        cmocka_unit_test(test_vector_get_args),
         cmocka_unit_test(test_vector_get_empty),
         cmocka_unit_test_teardown(test_vector_get_existing, test_vector_teardown),
         cmocka_unit_test_teardown(test_vector_get_missing, test_vector_teardown),
 
-        cmocka_unit_test(test_vector_find_ags),
+        cmocka_unit_test(test_vector_find_args),
         cmocka_unit_test(test_vector_find_empty),
         cmocka_unit_test_teardown(test_vector_find_existing, test_vector_teardown),
         cmocka_unit_test_teardown(test_vector_find_missing, test_vector_teardown),
@@ -153,7 +153,7 @@ static void test_vector_push(void **pstate)
     }
 }
 
-static void test_vector_get_ags(void **pstate)
+static void test_vector_get_args(void **pstate)
 {
     dmi_unused(pstate);
 
@@ -210,7 +210,7 @@ static void test_vector_get_missing(void **pstate)
     }
 }
 
-static void test_vector_find_ags(void **pstate)
+static void test_vector_find_args(void **pstate)
 {
     dmi_unused(pstate);
 
@@ -219,6 +219,8 @@ static void test_vector_find_ags(void **pstate)
 
     assert_false(dmi_vector_find(nullptr, 0, &value));
 
+    // Vector without a matcher has nothing to tell its elements by, while the
+    // variable for the element found is optional
     assert_false(dmi_vector_find(&vector, 0, nullptr));
 }
 

@@ -698,7 +698,10 @@ __dmi_api void dmi_attributes_unlink(dmi_entity_t *entity);
  * @param[in] visitor Callbacks of the walk.
  * @param[in] context Context passed to the callbacks.
  *
- * @return `false` if a callback has stopped the walk, `true` otherwise.
+ * @error DMI_ERROR_ARGUMENT_NULL Callbacks are `nullptr`
+ *
+ * @return `false` if a callback has stopped the walk or on error, `true`
+ *         otherwise.
  */
 __dmi_api bool dmi_attributes_walk(
         const dmi_attribute_t         *attrs,
@@ -730,7 +733,10 @@ __dmi_api bool dmi_attributes_walk(
  * @param[in] visitor Callbacks of the walk.
  * @param[in] context Context passed to the callbacks.
  *
- * @return `false` if a callback has stopped the walk, `true` otherwise.
+ * @error DMI_ERROR_ARGUMENT_NULL Attribute, structure or callbacks are `nullptr`
+ *
+ * @return `false` if a callback has stopped the walk or on error, `true`
+ *         otherwise.
  */
 __dmi_api bool dmi_attribute_walk(
         const dmi_attribute_t         *attr,
