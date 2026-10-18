@@ -190,13 +190,14 @@ static const char *dmi_command_message_text(const char *format);
 
 dmi_global_config_t dmi_global_config =
 {
-    .show_version = false,
-    .show_usage   = false,
-    .log_enable   = false,
-    .log_path     = nullptr,
-    .log_level    = DMI_LOG_NOTICE,
-    .device_path  = nullptr,
-    .input_path   = nullptr,
+    .show_version  = false,
+    .show_usage    = false,
+    .log_enable    = false,
+    .log_path      = nullptr,
+    .log_level     = DMI_LOG_NOTICE,
+    .device_path   = nullptr,
+    .input_path    = nullptr,
+    .pager_disable = false
 };
 
 dmi_command_config_t dmi_command_config =
@@ -301,6 +302,12 @@ const dmi_option_set_t dmi_global_options =
             .long_names  = (const char *[]){ "overlay", nullptr },
             .description = "Apply additional information entries (type 40) to structures",
             .handler     = dmi_command_enable_overlay
+        },
+        {
+            .short_names = "P",
+            .long_names  = (const char *[]){ "no-pager", nullptr },
+            .description = "Disable pager",
+            .value       = &dmi_global_config.pager_disable,
         },
         {}
     }
@@ -532,8 +539,10 @@ static bool dmi_command_prepare(const dmi_command_t *command, dmi_context_t *con
             return false;
     }
 
-    if (dmi_tty_is_stdout() and (command->flags & DMI_COMMAND_FLAG_PAGER))
-        return dmi_pager_start(context);
+    if (dmi_tty_is_stdout() and (command->flags & DMI_COMMAND_FLAG_PAGER)) {
+        if (not dmi_global_config.pager_disable)
+            return dmi_pager_start(context);
+    }
 
     return true;
 }

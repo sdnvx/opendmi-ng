@@ -17,7 +17,7 @@
 
 /**
  * @brief Command line usage error.
- * 
+ *
  * @note Status `2` is what command line utilities actually return when
  * called improperly. The `EX_USAGE`status from `<sysexits.h>` doesn't
  * reflect reality and common practice.
@@ -72,6 +72,7 @@ struct dmi_global_config
     dmi_log_level_t log_level;
     const char *device_path;
     const char *input_path;
+    bool pager_disable;
 };
 
 struct dmi_command_config

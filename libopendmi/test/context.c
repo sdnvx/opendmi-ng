@@ -564,7 +564,7 @@ static void test_dump_verify(dmi_context_t *context, const dmi_data_t *table, si
     assert_true(dmi_file_load(buffer, test_save_path, -1, 0));
     assert_int_equal(buffer->length, DMI_ENTRY_MAX_SIZE + table_size);
 
-    dmi_data_t *data = buffer->data;
+    const dmi_data_t *data = buffer->data;
 
     size_t length = 0;
     uint64_t address = 0;

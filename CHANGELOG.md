@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add `--no-pager` option to CLI
 - SMBIOS 3.10: LPDDR6 memory devices, InfiniBand and GPU controller onboard devices, disabled and unmapped flags of memory devices
 - Lint rules `memory-device.attributes` and `memory-device.disabled`
 - `<opendmi/trace.h>` with `dmi_trace_*()` macros, which raise a standard error and return the value of the failure
