@@ -120,6 +120,9 @@ Enable logging to the named file, which is appended to rather than replaced.
 Set the level logging is limited to: `error`, `warning`, `notice`, `info` or
 `debug`. The default is `notice`.
 
+*-P*, *--no-pager*::
+Disable pager.
+
 == Exit status
 
 *0*::

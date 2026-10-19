@@ -113,7 +113,7 @@ as _(planned)_ are scheduled for the 1.0 release.
 * Go bindings _(planned)_.
 * Rust bindings _(planned)_.
 * D-Bus service giving access to the data _(in progress)_.
-* Linux kernel module exposing the data through SysFS _(planned)_.
+* Linux kernel module exposing the data through SysFS _(in progress)_.
 * Packages for the major Linux distributions _(planned)_.
 
 == Quality
