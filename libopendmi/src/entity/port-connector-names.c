@@ -258,17 +258,17 @@ const dmi_name_set_t dmi_port_type_names =
             .name = "Serial XT/AT compatible"
         },
         {
-            .id   = DMI_PORT_TYPE_SERIAL_16450,
+            .id   = DMI_PORT_TYPE_SERIAL_C16450,
             .code = "serial-16450",
             .name = "Serial 16450 compatible"
         },
         {
-            .id   = DMI_PORT_TYPE_SERIAL_16550,
+            .id   = DMI_PORT_TYPE_SERIAL_C16550,
             .code = "serial-16550",
             .name = "Serial 16550 compatible"
         },
         {
-            .id   = DMI_PORT_TYPE_SERIAL_16550A,
+            .id   = DMI_PORT_TYPE_SERIAL_C16550A,
             .code = "serial-16550a",
             .name = "Serial 16550A compatible"
         },
@@ -403,12 +403,12 @@ const dmi_name_set_t dmi_port_type_names =
             .name = "Thunderbolt"
         },
         {
-            .id   = DMI_PORT_TYPE_8251,
+            .id   = DMI_PORT_TYPE_C8251,
             .code = "8251",
             .name = "8251 compatible"
         },
         {
-            .id   = DMI_PORT_TYPE_8251_FIFO,
+            .id   = DMI_PORT_TYPE_C8251_FIFO,
             .code = "8251-fifo",
             .name = "8251 FIFO compatible"
         },

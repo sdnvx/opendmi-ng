@@ -77,9 +77,9 @@ typedef enum dmi_port_type
     DMI_PORT_TYPE_PARALLEL_EPP     = 0x04, ///< Parallel EPP
     DMI_PORT_TYPE_PARALLEL_ECP_EPP = 0x05, ///< Parallel ECP/EPP
     DMI_PORT_TYPE_SERIAL_XT_AT     = 0x06, ///< Serial XT/AT compatible
-    DMI_PORT_TYPE_SERIAL_16450     = 0x07, ///< Serial 16450 compatible
-    DMI_PORT_TYPE_SERIAL_16550     = 0x08, ///< Serial 16550 compatible
-    DMI_PORT_TYPE_SERIAL_16550A    = 0x09, ///< Serial 16550A compatible
+    DMI_PORT_TYPE_SERIAL_C16450    = 0x07, ///< Serial 16450 compatible
+    DMI_PORT_TYPE_SERIAL_C16550    = 0x08, ///< Serial 16550 compatible
+    DMI_PORT_TYPE_SERIAL_C16550A   = 0x09, ///< Serial 16550A compatible
     DMI_PORT_TYPE_SCSI             = 0x0A, ///< SCSI
     DMI_PORT_TYPE_MIDI             = 0x0B, ///< MIDI
     DMI_PORT_TYPE_JOYSTICK         = 0x0C, ///< Joystick
@@ -106,8 +106,8 @@ typedef enum dmi_port_type
     DMI_PORT_TYPE_SAS              = 0x21, ///< SAS
     DMI_PORT_TYPE_MFDP             = 0x22, ///< MFDP (Multi-Function Display Port)
     DMI_PORT_TYPE_THUNDERBOLT      = 0x23, ///< Thunderbolt
-    DMI_PORT_TYPE_8251             = 0xA0, ///< 8251 compatible
-    DMI_PORT_TYPE_8251_FIFO        = 0xA1, ///< 8251 FIFO compatible
+    DMI_PORT_TYPE_C8251             = 0xA0, ///< 8251 compatible
+    DMI_PORT_TYPE_C8251_FIFO        = 0xA1, ///< 8251 FIFO compatible
     DMI_PORT_TYPE_OTHER            = 0xFF, ///< Other
 } dmi_port_type_t;
 

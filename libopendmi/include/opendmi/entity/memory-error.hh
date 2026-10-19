@@ -4,8 +4,8 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-#ifndef OPENDMI_MEMORY_ERROR_HH
-#define OPENDMI_MEMORY_ERROR_HH
+#ifndef OPENDMI_ENTITY_MEMORY_ERROR_HH
+#define OPENDMI_ENTITY_MEMORY_ERROR_HH
 
 #pragma once
 
@@ -20,7 +20,8 @@ namespace dmi {
     using memory_error_granularity_t = capi::dmi_memory_error_granularity_t;
     using memory_error_operation_t   = capi::dmi_memory_error_operation_t;
 
-    enum class memory_error_type : std::underlying_type_t<memory_error_type_t> {
+    enum class memory_error_type : std::underlying_type_t<memory_error_type_t>
+    {
         unspecified          = capi::DMI_MEMORY_ERROR_TYPE_UNSPEC,               ///< Unspecified
         other                = capi::DMI_MEMORY_ERROR_TYPE_OTHER,                ///< Other
         unknown              = capi::DMI_MEMORY_ERROR_TYPE_UNKNOWN,              ///< Unknown
@@ -38,7 +39,8 @@ namespace dmi {
         uncorrectable        = capi::DMI_MEMORY_ERROR_TYPE_UNCORRECTABLE,        ///< Uncorrectable error
     };
 
-    enum class memory_error_granularity : std::underlying_type_t<memory_error_granularity_t> {
+    enum class memory_error_granularity : std::underlying_type_t<memory_error_granularity_t>
+    {
         unspecified = capi::DMI_MEMORY_ERROR_GRANULARITY_UNSPEC,    ///< Unspecified
         other       = capi::DMI_MEMORY_ERROR_GRANULARITY_OTHER,     ///< Other
         unknown     = capi::DMI_MEMORY_ERROR_GRANULARITY_UNKNOWN,   ///< Unknown
@@ -46,7 +48,8 @@ namespace dmi {
         partition   = capi::DMI_MEMORY_ERROR_GRANULARITY_PARTITION, ///< Memory partition level
     };
 
-    enum class memory_error_operation : std::underlying_type_t<memory_error_operation_t> {
+    enum class memory_error_operation : std::underlying_type_t<memory_error_operation_t>
+    {
         unspecified   = capi::DMI_MEMORY_ERROR_OPERATION_UNSPEC,        ///< Unspecified
         other         = capi::DMI_MEMORY_ERROR_OPERATION_OTHER,         ///< Other
         unknown       = capi::DMI_MEMORY_ERROR_OPERATION_UNKNOWN,       ///< Unknown
@@ -56,4 +59,4 @@ namespace dmi {
     };
 }
 
-#endif // !OPENDMI_MEMORY_ERROR_HH
+#endif // !OPENDMI_ENTITY_MEMORY_ERROR_HH
