@@ -201,6 +201,7 @@ $ opendmi [global options] <command> [command options]
 | `-l`, `--log` | Enable logging to the terminal |
 | `--log-file=<path>` | Enable logging to a file |
 | `-L <level>`, `--log-level=<level>` | Set logging level |
+| `-P`, `--no-pager` | Disable pager |
 
 Values of options are specified either as a separate argument (`-i <path>`,
 `--file <path>`) or attached to the option (`-i<path>`, `--file=<path>`).
