@@ -13,7 +13,7 @@ foreach(lang C CXX)
 endforeach()
 
 project(opendmi
-        VERSION 0.6.0
+        VERSION 0.6.1
         DESCRIPTION "Cross-platform DMI/SMBIOS framework"
         HOMEPAGE_URL https://github.com/sdnvx/opendmi
         LANGUAGES C CXX)
