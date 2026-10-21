@@ -19,11 +19,11 @@ namespace dmi {
     class power_controls
     {
     public:
-        const std::optional<short>& poweron_month;
-        const std::optional<short>& poweron_day;
-        const std::optional<short>& poweron_hour;
-        const std::optional<short>& poweron_minute;
-        const std::optional<short>& poweron_second;
+        const std::optional<unsigned short>& poweron_month;
+        const std::optional<unsigned short>& poweron_day;
+        const std::optional<unsigned short>& poweron_hour;
+        const std::optional<unsigned short>& poweron_minute;
+        const std::optional<unsigned short>& poweron_second;
 
         power_controls(const capi::dmi_power_controls_t *info)
             : poweron_month(m_poweron_month)
@@ -45,11 +45,11 @@ namespace dmi {
         }
 
     private:
-        std::optional<short> m_poweron_month;
-        std::optional<short> m_poweron_day;
-        std::optional<short> m_poweron_hour;
-        std::optional<short> m_poweron_minute;
-        std::optional<short> m_poweron_second;
+        std::optional<unsigned short> m_poweron_month;
+        std::optional<unsigned short> m_poweron_day;
+        std::optional<unsigned short> m_poweron_hour;
+        std::optional<unsigned short> m_poweron_minute;
+        std::optional<unsigned short> m_poweron_second;
     };
 }
 
