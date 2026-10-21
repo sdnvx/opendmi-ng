@@ -33,10 +33,6 @@ else()
     set(LIBOPENDMI_COMPATIBILITY SameMajorVersion)
 endif()
 
-if(NOT OPENDMI_RELEASE_DATE)
-    string(TIMESTAMP OPENDMI_RELEASE_DATE "%Y-%m-%d")
-endif()
-
 set(ENABLE_GOLANG OFF CACHE BOOL "Enable Go support (libopendmi-go)")
 set(ENABLE_PYTHON OFF CACHE BOOL "Enable Python support (libopendmi-python)")
 set(ENABLE_RUST OFF CACHE BOOL "Enable Rust support (libopendmi-rust)")
