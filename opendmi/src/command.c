@@ -366,8 +366,7 @@ const dmi_command_t *dmi_command_find(const char *name)
 
 void dmi_command_banner(void)
 {
-    dmi_tty_header(dmi_tool_string("OpenDMI Framework, version %s (%s)"),
-                   OPENDMI_VERSION, OPENDMI_RELEASE_DATE);
+    dmi_tty_header(dmi_tool_string("OpenDMI Framework, version %s"), OPENDMI_VERSION);
 
     dmi_tty_cprintf(DMI_TTY_COLOR_GREY, "Copyright (c) 2025-2026, The OpenDMI contributors\n");
     dmi_tty_cprintf(DMI_TTY_COLOR_GREY, "%s\n\n", dmi_tool_string("Licensed under the BSD 3-Clause License"));
